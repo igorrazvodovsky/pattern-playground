@@ -1,7 +1,7 @@
 ---
 title: Navigation
 added: 2026-03-19
-updated: 2026-07-16
+updated: 2026-09-27
 role: collection
 evidence:
   - literature
@@ -10,17 +10,6 @@ activityLevel: action
 fun: 🗺️ 2/5. Mapping out the basics.
 # body already links every surveyed pattern inline; skip the rendered block
 showRelated: false
-decision-trees:
-  - id: navigation-overview
-    leaves:
-      "Pan and zoom": pan-and-zoom
-      "Step by step": step-by-step
-      "Pyramid": pyramid
-      "Multilevel tree": multilevel-tree
-      "Flat navigation": flat-navigation
-      "Fully connected": fully-connected
-      "Hub and spoke": hub-and-spoke
-      "Overview & Detail": overview-detail
 relationships:
   # surveys is member–collection only; the conceptual neighbourhood rides on related
   related:
@@ -51,78 +40,64 @@ relationships:
       note: hybrids combining multiple navigation models
 ---
 
-The selection of a connective topology that shapes how actors move between destinations, balancing freedom of movement against orientation cost. Each model determines which [navigation behaviours](/patterns/interaction#navigation) are possible and how [agency](/patterns/agency) is distributed. The choice starts one step before topology: the shape of what is being navigated decides whether there is a topology to choose at all.
+A field guide to the models that shape how actors move between destinations, each balancing freedom of movement against orientation cost. Each model determines which [navigation behaviours](/patterns/interaction#navigation) are possible and how [agency](/patterns/agency) is distributed.
 
-## Models
+In practice the model is rarely chosen. The kind of space a region holds is read off its content at a glance, and for three of the four kinds the model follows from the kind. Only heterogeneous sections leave a topology open, and there a working design starts from its genre's default and corrects it under load, one pain at a time. The step that recognises the kind, and the growth steps that correct it, are walked in [structuring the space](/sequences/structuring-the-space).
 
-*One continuous space* — movement is viewport control, not link-following:
+## Kinds of space
 
-- [Pan and zoom](/patterns/pan-and-zoom) — continuous spatial navigation through large single spaces
+*One continuous space* — a map, a canvas, a timeline. Movement is viewport control, not link-following.
 
-*A prescribed sequence* — movement is ordered progression:
+- [Pan and zoom](/patterns/pan-and-zoom). Costs orientation: at any zoom the view carries no evidence of where it sits in the whole.
 
-- [Step by step](/patterns/step-by-step) — prescribed sequences with back/next controls
-- [Pyramid](/patterns/pyramid) — hub lists sequence, actors can navigate sequentially or jump to any item
+*An ordered sequence* — a checkout, a setup, a course. Movement is progression.
 
-*One collection, browsed item by item* — movement collapses into focus propagation between coupled views:
+- [Step by step](/patterns/step-by-step) when later steps depend on earlier ones. Costs the actor who already knows where they need to be.
+- [Pyramid](/patterns/pyramid) when they don't: the hub states the shape and the actor enters anywhere. Costs the hub the job of showing the shape.
 
-- [Overview and detail](/patterns/overview-detail) — collection and current item coupled across two views
+*One collection, browsed item by item* — records, files, messages. Movement collapses into focus moving between two coupled views.
 
-*Heterogeneous sections* — destinations differ in kind:
+- [Overview and detail](/patterns/overview-detail). The topology question dissolves here; the design continues in [composing views](/sequences/composing-views).
 
-- [Hub and spoke](/patterns/hub-and-spoke) — central hub lists all sections, actors return to hub for cross-section navigation
-- [Fully connected](/patterns/fully-connected) — every page links to all others through global navigation
-- [Multilevel tree](/patterns/multilevel-tree) — hierarchical structure with global navigation for main pages, local navigation for subpages
-- [Flat navigation](/patterns/flat-navigation) — minimal navigation, all functions accessible in one place
-- [Hybrid patterns](/patterns/hybrid-patterns) — combinations of multiple models
+A collection can have an order too, and where the order comes from tells the two kinds apart. An authored order, such as a course or a setup, makes an ordered sequence. An order derived from an attribute, such as date, name, or rank, leaves it a collection.
 
-## Decision tree
+*Heterogeneous sections* — destinations that differ in kind. The one kind with a real choice among topologies.
 
-<Diagram source={`
-flowchart TD
-    A[Single continuous space (map, canvas, timeline)?]
-    A -->|Yes| PZ[Pan and zoom]
-    A -->|No| B[Prescribed sequence with dependencies?]
+- [Flat navigation](/patterns/flat-navigation) — everything on one surface. Holds only while the tools fit.
+- [Hub and spoke](/patterns/hub-and-spoke) — a hub lists the sections and every journey returns through it. Costs the journey between two spokes, paid twice on every trip.
+- [Fully connected](/patterns/fully-connected) — every section one move from every other. Costs chrome on every page, and the chrome is a fixed budget content growth eats into.
+- [Multilevel tree](/patterns/multilevel-tree) — sections with subsections behind them. Costs lateral trips back up, and files anything that belongs in two places in one.
+- [Hybrid patterns](/patterns/hybrid-patterns) — more than one of the above, per region. The normal case at scale rather than a fallback.
 
-    B -->|Yes| C[Strict ordering required?]
-    C -->|Yes| SBS[Step by step]
-    C -->|No, flexible| PYR[Pyramid]
+Each genre has a default to start from:
 
-    B -->|No| G[Browsing one collection, item by item?]
-    G -->|Yes, even when each item opens its own page| OD[Overview & Detail]
-    G -->|No| D[Deep hierarchy? (3+ levels, 50+ pages)]
-    D -->|Yes| TREE[Multilevel tree]
-    D -->|No| E[Single workspace with rich toolset?]
+- A desktop tool with tens of sections: a [tree](/patterns/multilevel-tree) under a global menu.
+- A phone app: [fully connected](/patterns/fully-connected) across a tab bar, or a [hub](/patterns/hub-and-spoke) when the app opens on a launch screen of independent spokes.
+- An editor: [one surface](/patterns/flat-navigation).
+- A space with under ten destinations: [fully connected](/patterns/fully-connected).
 
-    E -->|Yes| FLAT[Flat navigation]
-    E -->|No| F[Cross-section workflows common?]
+## Growing past a model
 
-    F -->|Yes| FC[Fully connected]
-    F -->|Rare| HUB[Hub and spoke]
-`} />
+The topologies among sections are weighed against each other when a region hurts, not before. Each pain has a worn path:
 
-### Refining by behaviour
+- The one surface no longer fits its tools → flat splits into [hub and spoke](/patterns/hub-and-spoke).
+- Journeys between spokes have become routine → the hub opens direct paths and becomes [fully connected](/patterns/fully-connected).
+- The global chrome no longer fits its sections → the depth goes into a [tree](/patterns/multilevel-tree).
+- The tree's lateral trips have become the common case → cross-links, or a [command menu](/patterns/command-menu) and [search](/patterns/searching) as the escape hatch, before the shape changes.
 
-- Navigate to known locations → [Fully connected](/patterns/fully-connected), [tree](/patterns/multilevel-tree)
-- Browse and discover → [Pyramid](/patterns/pyramid), [pan and zoom](/patterns/pan-and-zoom)
-- Complete focused tasks → [Step by step](/patterns/step-by-step), [flat](/patterns/flat-navigation)
-- Monitor multiple areas → [Hub and spoke](/patterns/hub-and-spoke) structures the sections; the monitoring view itself is [purpose-keyed view](/patterns/purpose-keyed-view)
+Every address the region ever handed out constrains the move; [deep linking](/patterns/deep-linking) owns that contract.
 
-### Refining by agency
+### Other ways to read the choice
 
-- Maximum control → [Fully connected](/patterns/fully-connected), [pan and zoom](/patterns/pan-and-zoom), [flat](/patterns/flat-navigation)
-- Balanced guidance → [Pyramid](/patterns/pyramid), [tree](/patterns/multilevel-tree)
-- System-guided → [Hub and spoke](/patterns/hub-and-spoke), [step by step](/patterns/step-by-step)
+Lenses for explaining a model already recognised, not steps to walk:
 
-### Refining by scale
-
-- Small (< 10) → [Fully connected](/patterns/fully-connected)
-- Medium (10-50) → [Hub](/patterns/hub-and-spoke) (mobile), [tree](/patterns/multilevel-tree) (desktop), [pyramid](/patterns/pyramid) (sequences)
-- Large (50+) → [Hybrid patterns](/patterns/hybrid-patterns)
+- By what the actor is doing: navigating to known locations suits [fully connected](/patterns/fully-connected) and the [tree](/patterns/multilevel-tree); browsing and discovering suits [pyramid](/patterns/pyramid) and [pan and zoom](/patterns/pan-and-zoom); focused tasks suit [step by step](/patterns/step-by-step) and [flat](/patterns/flat-navigation); monitoring several areas suits [hub and spoke](/patterns/hub-and-spoke), with the monitoring view itself a [purpose-keyed view](/patterns/purpose-keyed-view).
+- By who drives: [fully connected](/patterns/fully-connected), [pan and zoom](/patterns/pan-and-zoom) and [flat](/patterns/flat-navigation) leave the most to the actor; [pyramid](/patterns/pyramid) and the [tree](/patterns/multilevel-tree) guide; [hub and spoke](/patterns/hub-and-spoke) and [step by step](/patterns/step-by-step) lead.
+- By how much there is: under ten destinations, [fully connected](/patterns/fully-connected); tens, a [hub](/patterns/hub-and-spoke) on mobile, a [tree](/patterns/multilevel-tree) on desktop, a [pyramid](/patterns/pyramid) for sequences; past fifty, [hybrids](/patterns/hybrid-patterns).
 
 ### Hybrid combinations
 
-When single models don't fit:
+Pairings that recur:
 
 - Hub + fully connected — hub feels constraining, cross-section workflows frequent
 - Tree + fully connected — large volume with clear sections, cross-section relationships

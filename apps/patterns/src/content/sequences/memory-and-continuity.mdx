@@ -1,0 +1,153 @@
+---
+title: "Memory and continuity"
+added: 2026-08-29
+updated: 2026-09-27
+description: "Decide what the collaboration keeps across sessions, what an actor sees when they come back, and how kept information is removed."
+order: 7
+presupposes: >-
+  There is a policy on what the collaboration may remember: what may be
+  kept, for how long, who may read it, and what the actor has agreed to.
+  The policy is set before this sequence starts; no pattern here sets it.
+enacts: [temporality, privacy]
+sub-sequences:
+  - id: keeping
+    title: "Deciding what is kept"
+    steps:
+      - step: "Keep one record"
+        rule: activity-log
+        constituents:
+          - slug: progressive-disclosure
+            note: "entries expand on demand, so the timeline stays easy to scan and details stay one step away"
+        gloss: >-
+          Collect the accounts that other sequences write (of work, of
+          permissions and approvals, and of reliance) into one record. Give
+          every entry the same fields: who acted, what they did, what it
+          applied to, and when. Make the record filterable from the start,
+          and design it for new and returning actors as well as for audits.
+      - step: "Record who made each change and why"
+        rule: provenance-marking
+        aspect: "recording origin when a change is made"
+        gloss: >-
+          Mark each change in the record with its origin (a person, a named
+          rule, or a model run) when the change is made, because origin
+          cannot be reconstructed later. Record any reason the collaboration
+          wants to keep at the same time. The return steps read this.
+      - step: "Choose what is kept about the actor"
+        rule: selective-memory
+        constituents:
+          - slug: settings
+            note: "where the memory controls usually live"
+        gloss: >-
+          Decide what the system keeps about the actor for next time: facts
+          they stated, standing preferences, and less visible state such as
+          what they have read, where they were, and work they set aside.
+          Choose the default (remember unless asked, or forget unless asked),
+          knowing that most actors never change it. Let the actor see and
+          edit what is kept, and offer a session that keeps nothing.
+    resulting: >-
+      The collaboration keeps only what was chosen. Information the policy
+      excludes is never written, which is cheaper and more reliable than
+      deleting it later.
+  - id: return
+    title: "Supporting the actor's return"
+    initiating: >-
+      An actor comes back after an absence, short or long, to a
+      collaboration that either continued working or waited. Each step here
+      reads what the keeping steps wrote.
+    steps:
+      - step: "Restore the actor's place"
+        constituents:
+          - slug: deep-linking
+            note: "the kept place is an address that the addressing steps already created"
+        gloss: >-
+          Decide whether to restore the actor's place automatically or offer
+          to restore it: the conversation they set aside, the commitment
+          deferred when they last closed, the unfinished change, and what
+          they had already read. As part of resuming, check assumptions that
+          may be out of date. Keep the option to start fresh.
+      - step: "Show what changed while the actor was away"
+        gloss: >-
+          Show the changes made since the actor's last visit, limited to what
+          they have open, without asking them to accept or reject anything:
+          which parts changed, who or what changed them, and why. Include
+          only changes that could wait; anything urgent was sent when it
+          happened. If the summary is generated, mark its evidence.
+      - step: "Let the actor return to named versions"
+        gloss: >-
+          Beyond the current session, where undo no longer applies, let the
+          actor restore named versions, such as a publish, a release, or a
+          version saved on purpose. Decide which moments get names, who
+          names them, and how far back the history goes.
+    resulting: >-
+      The returning actor can see where they were, what changed, and how it
+      changed. Each of these depends on what the keeping steps recorded.
+  - id: forgetting
+    title: "Enforcing the limits on memory"
+    initiating: >-
+      Kept information accumulates unless something removes it. The policy
+      sets limits on what is remembered, and the design has to enforce them,
+      both when the actor asks for something to be forgotten and when
+      records are no longer needed.
+    steps:
+      - cluster: "Apply the limits to both kinds of kept information"
+        gloss: >-
+          Apply the policy to two kinds of kept information that are removed
+          differently, in either order: what is remembered about the actor,
+          and the actor's content with its history.
+        steps:
+          - step: "Let the actor remove what is remembered"
+            rule: selective-memory
+            aspect: "its forgetting controls"
+            gloss: >-
+              Let the actor remove remembered information per fact, per
+              session, or per mode. Make sure a removed fact does not return,
+              including through behaviour the system learned from it.
+          - step: "Decide what removal leaves behind"
+            rule: deletion
+            aspect: "what remains after removal"
+            gloss: >-
+              Decide whether removing an item also removes its history: offer
+              a recovery period, leave a placeholder, or keep an entry for the
+              deletion in the record. Give the actor what the policy
+              promised, and let the record show what was removed.
+    resulting: >-
+      What the collaboration remembers is limited by the design, not by
+      storage, and the actor can see it, correct it, and remove it.
+connections:
+  - kind: hands-off
+    at: keeping/3
+    to: delegating-work
+    via: ai-tuning
+    note: "remembered facts and learned behaviour are parts of the same memory: corrections to behaviour go to that sequence's tuning steps, and the memory controls show which part an edit changes"
+  - kind: hands-off
+    at: return/1
+    to: the-encounter
+    via: user-opening
+    note: "a conversation the actor set aside resumes through an opening that shows its history, which that sequence designs"
+  - kind: calls
+    at: return/2
+    to: calibrating-reliance
+    via: citation
+    note: "a generated summary of changes is AI output, so each claim links to the changes it summarises"
+  - kind: hands-off
+    at: return/2
+    to: attention-and-tempo
+    via: notification
+    note: "what could not wait was sent at the time, as that sequence decides"
+  - kind: hands-off
+    at: return/2
+    to: learning
+    via: onboarding
+    note: "when the system itself has changed, the return works like a smaller first encounter, which that sequence designs"
+  - kind: hands-off
+    at: return/3
+    to: making-changes
+    via: undo
+    note: "restoring a named state is itself a change, graded and reversible like any other in that sequence's safety steps"
+---
+
+Other sequences produce records: committed changes, reviewed runs, granted
+permissions. This sequence keeps those records but does not revisit the
+decisions behind them. It decides once what is kept, designs the actor's
+return after an absence of any length, and enforces the limits on what is
+remembered.

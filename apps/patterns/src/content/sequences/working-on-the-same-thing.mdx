@@ -1,0 +1,208 @@
+---
+title: "Working on the same thing"
+added: 2026-08-29
+updated: 2026-09-27
+description: "Share work with named people, let them see each other working, contribute without interrupting, work apart and merge back, and pass work on with its context."
+order: 3
+presupposes: >-
+  The working relationships are known: who shares what with whom, in which
+  roles, and what each expects about watching and being watched. Even work
+  that looks individual has shared variations, and the mapping covers them.
+  That mapping happens before this sequence, and no pattern here makes it.
+enacts: [privacy, shareability]
+sub-sequences:
+  - id: grant
+    title: "Sharing the work"
+    steps:
+      - step: "Share the work with named people"
+        rule: sharing
+        gloss: >-
+          Make sharing an explicit act, never a side effect: name the people
+          and give each a level of access, such as view, comment, or edit.
+          Access to a container passes down to what it holds, and nobody can
+          grant more than they have. Each level promises later steps: comment
+          access promises the discussion steps, and edit access promises
+          everything an editor can collide with.
+      - step: "Decide how much unfinished work others see"
+        gloss: >-
+          Decide where each kind of work sits between live, where edits
+          appear as they are made, and reviewed, where work reaches others
+          only when published. Decide it per kind of work, not once for
+          the whole system: a tool's issues can be live while its code is
+          reviewed. Live presence applies at the live end, and the parting
+          steps make the reviewed end workable. Weigh the cost: when
+          everything is watched, people explore less.
+  - id: visibility
+    title: "Seeing each other"
+    initiating: >-
+      Several people now work on the same thing on separate screens,
+      each looking at a different part, so nobody sees the others. What a
+      shared desk showed at a glance has to come through the work
+      itself, without anyone having to write it up.
+    steps:
+      - cluster: "Show who is working on what"
+        gloss: >-
+          Two sides of one decision, in no set order: live presence and
+          signed contributions. Show both where the actor already looks, and
+          capture both as a by-product of working. People then arrange
+          themselves around what they can see, and most collisions never
+          happen.
+        steps:
+          - step: "Show live presence"
+            rule: presence
+            gloss: >-
+              Match the marks to how live the work is: an avatar stack
+              for who is here, named cursors and selections for where, and an
+              activity signal for what. Add each only where the pace of work
+              needs it, and fall back to a trail on slower surfaces.
+              Following someone's view, or bringing others to yours, uses the
+              same marks as a channel.
+          - step: "Sign each contribution"
+            rule: provenance-marking
+            aspect: "its person-to-person face"
+            constituents:
+              - slug: activity-log
+                note: "signed contributions add up to the space's history, readable per author"
+            gloss: >-
+              Attach the author to every contribution when it is made: the
+              edit, the comment, the version. The signature lets others reply
+              to the author and read the history later. When a contributor is
+              a machine, the same signature routes its output to the checks
+              on relying on it.
+      - step: "Give everyone the same view"
+        constituents:
+          - slug: deep-linking
+            note: "the view travels as a link, so opening it is one click rather than a rebuilt display"
+        gloss: >-
+          Let the actor hand over a view as one thing, with its filters,
+          arrangement, and focus, so nobody has to describe how to recreate
+          it. Hand it over as a link when people work at different times,
+          and as a followed or spotlighted view, through the presence marks,
+          when they work live. The view must not carry credentials or
+          another person's private state, which the sharing step rules out.
+  - id: contribution
+    title: "Contributing in place"
+    initiating: >-
+      People can see each other, and now someone has something to say.
+      Communication goes through the work itself rather than a separate
+      channel, and a note that waits to be read is preferred over a message
+      that interrupts.
+    steps:
+      - step: "Leave a mark in place"
+        rule: annotation
+        optional: true
+        gloss: >-
+          Let the actor leave a mark where it applies, read when others get
+          there, instead of interrupting them. Skip this where each item is
+          already the unit of discussion, such as an issue, a card, or a
+          message; the thread then attaches to the whole item.
+      - step: "Attach the discussion to its place"
+        rule: commenting
+        gloss: >-
+          Turn the mark into a thread others can answer, kept beside its place
+          in the work rather than inside it. Let threads be
+          resolved, or the discussion only grows. Assigning a thread to
+          someone is the handoff step at the scale of a comment.
+      - step: "Use set forms for recurring reports"
+        rule: status-feedback
+        gloss: >-
+          Give recurring reports, such as an item's state, a session summary,
+          or a review's conclusion, a small shared set of forms, so the
+          sender does not have to write them and the reader does not have to
+          interpret them. Anything a colleague must see now goes out as a
+          notification instead.
+  - id: parting
+    title: "Working apart and returning"
+    initiating: >-
+      Sometimes shared work needs to be private for a while: a rough draft
+      without watchers, a large change tried without disturbing others, or a
+      stretch offline. This is the reviewed end of the earlier decision made
+      workable: people may work apart, and owe a return.
+    steps:
+      - step: "Allow working apart"
+        rule: draft-and-publish
+        gloss: >-
+          Separate the working copy from what others read, with a deliberate
+          act that moves one into the other: for the whole piece, such as a
+          draft or a branch, or per change, such as a suggestion held for
+          review. Each publish is a named version the history can keep.
+          Working apart creates a return, which the next two steps handle.
+      - step: "Review the returning changes"
+        rule: change-review
+        aspect: "its person-to-person face"
+        gloss: >-
+          Show what comes back as changes, what was there and what would
+          replace it, and let the reviewer accept or reject them at the level
+          the parting chose. Record the conclusion in the set report forms.
+      - step: "Resolve conflicting changes"
+        rule: reconciliation
+        gloss: >-
+          Where both sides changed the same thing, merge what can be merged
+          and hold back the rest until a person picks between versions shown
+          side by side. Show this only when deliberate parting returns. On
+          live work, edits merge silently, and a conflict appearing
+          mid-flow means the live-or-reviewed decision was wrong for that
+          kind of work.
+  - id: handoff
+    title: "Passing work on"
+    initiating: >-
+      The work has to continue with someone else, at a set point in a
+      workflow or informally. What passes is responsibility as well as
+      the work itself. This happens at each transfer, whether or not anyone worked
+      apart.
+    steps:
+      - step: "Pass the work on with its context"
+        rule: handoff
+        aspect: "its person-to-person face"
+        optional: true
+        gloss: >-
+          Make the transfer an object, not only a message: a link into the
+          work, a named responsibility such as review, resolve, or
+          complete, and a subscription that keeps the recipient informed
+          until the responsibility is done or explicitly given up. The sender
+          is owed a view of whether it was received, reviewed, and acted on,
+          which the next step provides. Skip this where the organisation
+          already handles the transfer outside the tool.
+      - step: "Answer the handoff openly"
+        rule: status-feedback
+        aspect: "its typed-answer shape"
+        gloss: >-
+          Let the recipient answer in the same set forms the reports use,
+          such as accepted, done, declined, or changes requested, shown where
+          the transfer lives, so neither side has to assume the other is
+          watching.
+    resulting: >-
+      Responsibility moves with its context and is answered openly. Work
+      continues with the next person instead of restarting, and nobody holds
+      work without knowing it.
+connections:
+  - kind: calls
+    at: visibility/1
+    to: calibrating-reliance
+    via: provenance-marking
+    note: "a machine contributor's signed output is an AI surface in shared work, where that sequence's checks apply and mixed authorship makes the signature matter most"
+  - kind: hands-off
+    at: contribution/3
+    to: attention-and-tempo
+    via: notification
+    note: "a mention, a reply, or a change to someone's item is an interruption that sequence grades, and scheduled send is the same decision from the sender's side"
+  - kind: hands-off
+    at: parting/1
+    to: memory-and-continuity
+    note: "each publish is a named version, and the history of working apart feeds that sequence's named states"
+  - kind: hands-off
+    at: parting/3
+    to: making-changes
+    via: undo
+    note: "the version not picked when resolving a conflict is a deletion, and recovering it belongs to that sequence's safety steps"
+  - kind: hands-off
+    at: handoff/1
+    to: attention-and-tempo
+    via: notification
+    note: "an assignment or review request claims a colleague's attention directly"
+---
+
+Several people work on the same thing, each on their own screen and often at
+different times. They cannot see each other working, so the system has to
+show them who has access, who is here, who changed what, and what is waiting
+on whom.

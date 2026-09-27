@@ -35,7 +35,9 @@ The tree ends at "consider redesign/priority" when none of these dimensions yiel
 
 ### Navigation overview — `apps/patterns/src/content/patterns/navigation-overview.mdx`
 
-The richest tree; branches on the *shape of the space being navigated* and then offers refinement axes:
+Dissolved 2026-09-24 (see the relationship-vocabulary changelog). The questions survive in two homes: the first three as the kinds of space the recognition step in the structuring-the-space sequence reads off each context, and the last three as the pains the growth sub-sequence answers per region. Each model page now carries its own initiating situation. The dimensions are kept here as the record of what the tree discriminated on.
+
+The tree branched on the *shape of the space being navigated* and then offered refinement axes:
 
 Primary branches:
 

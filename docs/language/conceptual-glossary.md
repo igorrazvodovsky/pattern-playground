@@ -18,6 +18,18 @@ A fundamental unit of software design defined by structure, behaviour, and purpo
 
 A pattern understood not as a catalogue item but as a transformation that produces centres while preserving existing structure (Alexander). Design happens through sequences of such moves, each acting on what already exists. The relationship vocabulary is written in this register — edges describe how patterns combine, not how options are picked. See [design-theory.md](./design-theory.md) for the two-phase trajectory (Pattern Language → Nature of Order).
 
+## Generative sequence
+
+An authored, named ordering of decision steps for one recurring stretch of design work, in the sense of *The Nature of Order* Book 2 ch. 11: fixed order, variable result, each step acting on what the previous steps produced. In this project a sequence is an authored projection over the graph — steps invoke patterns as rules — stored as its own content collection. The order is validated empirically: a sequence fails when a later step forces an earlier decision to be revoked. See [specs/sequences.md](../specs/sequences.md) and `PARA/Projects/pattern playground/research/sequence-map/`.
+
+## Latent centre
+
+A centre dimly present in a configuration — caused by the structure that exists but not yet developed (Alexander, Book 2 chs. 2, 9). Latent centres are what make a next step non-arbitrary: developing one both respects the existing structure and creates new structure. In sequence terms, an initiating situation states the latency a sub-sequence answers.
+
+## Living process
+
+Any adaptive process that generates living structure step by step through structure-preserving transformations (Alexander, Book 2 ch. 7). Its repeated unit is the fundamental differentiating process; Book 2 lists ten features every living process must have, of which this project imports sequence (4) and patterns-as-generic-rules (6) outright and treats step-by-step adaptation (1) and the-whole-governs (2) as ground assumptions. See [design-theory.md](./design-theory.md) §Living process.
+
 ## Pattern
 
 A named, evidence-seeking interaction move that resolves a recurring human situation by balancing forces in a stated context, abstracting practice at a reusable level, producing a centre or affordance, carrying rationale and consequences, and linking to other patterns. In this project, a pattern is not simply a common UI object or a reusable component. It can begin as a seed, but mature pattern status requires examples, rationale, consequences, and relations. See [pattern-definition.md](./pattern-definition.md) and `PARA/Projects/pattern playground/research/hci-pattern-languages/2026-04-28.md`.
@@ -45,6 +57,10 @@ An experiential dimension along which the effect of a design move can be read �
 ## Semilattice
 
 A mathematical structure where elements participate in multiple overlapping sets simultaneously, unlike a tree where membership is exclusive (Alexander, "A City Is Not a Tree", 1965). The project's pattern space is a semilattice — every pattern belongs to multiple overlapping groupings. The sidebar tree is a useful entry point but not the truth; the graph is the primary navigational surface. See [`docs/language/semilattice.md`](semilattice.md).
+
+## Structure-preserving transformation
+
+A change that extends and intensifies the structure that exists rather than contradicting it (Alexander, Book 2 ch. 2) — conservative and innovative at once: nothing entirely new is injected, yet new structure appears by intensifying what is latent. Relatively few candidate next steps have this character, which is why a found ordering of them is worth keeping. The generative-move reading of patterns and the sequence step both rest on this concept.
 
 ## Suggestion-grade
 

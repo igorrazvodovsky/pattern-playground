@@ -1,0 +1,162 @@
+---
+title: "Learning"
+added: 2026-08-29
+updated: 2026-09-27
+description: "Bring an actor from the first encounter to competent use, give them somewhere to take friction, open optional routes past the interface, and keep the skills that stop being exercised."
+order: 8
+presupposes: >-
+  What competent use looks like is known: which objects matter, what fluent
+  work with them looks like, and where the common ground with colleagues
+  lies. Where the system will act on its own, competent use includes knowing
+  what it will do unasked. That mapping happens before this sequence, and no
+  pattern here makes it.
+enacts: [learnability, temporality]
+sub-sequences:
+  - id: arrival
+    title: "Shaping the first encounter"
+    steps:
+      - step: "Bound the first encounter"
+        rule: onboarding
+        gloss: >-
+          Make the first run a designed, bounded period with low stakes,
+          doing preferred to reading, and safe failure. Decide what it must
+          teach from the picture of competent use: which objects exist and
+          where state lives, what happens when the actor acts, and what the
+          system will do on its own. For an actor joining a system already
+          in use, add what is already here and why, and let them trace how
+          it came to be. Every scaffold put up here has to be cleared later.
+      - step: "Make the emptiness speak"
+        rule: state-empty
+        gloss: >-
+          Use the first run's empty surfaces to teach: each says why there is
+          nothing here and what would put something here. Decide only the
+          first-run empty states here; the ones that come later, for filters
+          and permissions, belong to the pass over every surface at the end.
+      - choice: "Choose what the newcomer occupies"
+        gloss: >-
+          Fill the empty surface with something to occupy where
+          possible, since occupying competent work teaches faster than reading
+          about it. The options combine, and taking neither leaves the empty
+          surface as the start. Generating the starting content from what the
+          actor says they want is delegation, reached from here.
+        alternatives:
+          - step: "Start them inside competent work"
+            rule: template
+            gloss: >-
+              Give the newcomer a shape that already reflects competent work,
+              to adapt rather than invent. Give the set of templates an owner
+              who revisits it as conventions change.
+          - step: "Walk them through dependent setup"
+            rule: wizard
+            gloss: >-
+              Where the first decisions depend on each other and are made
+              once, present one at a time. Only the actor whose arrival
+              includes that setup takes it, usually the first into a
+              workspace; later joiners arrive into a system already
+              configured.
+  - id: channel
+    title: "Meeting friction"
+    initiating: >-
+      Teaching ahead of time always misses something. The actor hits
+      friction the first encounter did not cover, such as where they are,
+      what a term means, or how to do a thing, and the answer is somewhere
+      other than where they are looking.
+    steps:
+      - step: "Meet friction where it happens"
+        rule: help
+        constituents:
+          - slug: annotation
+            note: "attaches an answer to the specific element that raised the question"
+        gloss: >-
+          Keep a channel the actor can come to for the life of the surface.
+          Place each answer at its point of need and pitch it at its subject:
+          how to operate the interface, or why the domain works this way.
+          Keep it true as the system changes. It re-teaches on demand what
+          the first encounter taught ahead of time, and remains once the
+          scaffolding is cleared.
+  - id: expertise
+    title: "Opening routes past the interface"
+    initiating: >-
+      The actor uses the tool daily. The scaffolding that got them started
+      is now in the way, and what limits them is the interface rather than
+      their understanding of the work. Most actors stay comfortable
+      intermediates, so everything opened here has to be optional.
+    steps:
+      - step: "Clear the scaffolding and open optional routes"
+        rule: mastery
+        gloss: >-
+          Clear the first encounter's scaffolding as competence grows. Open
+          optional routes nobody is forced onto: accelerators for speed,
+          depth for understanding, and the tool's movable parts for
+          reshaping it. Keep the main path sufficient for those who never
+          take them.
+      - step: "Name every command"
+        rule: command-menu
+        gloss: >-
+          Make every command reachable by name, so the chrome no longer has
+          to show everything and discovery becomes typing a guess. This is
+          the first optional route most actors take. The menu shows only what
+          applies here, so explaining a command the actor expected but cannot
+          find is left to the pass at the end.
+      - step: "Bind the names to keys"
+        rule: keyboard-shortcuts
+        gloss: >-
+          Bind keys to the named commands the actor uses often enough for
+          motor memory. Show each shortcut where the actor already looks: as
+          a hint on the slower path, and beside each name in the command
+          menu.
+  - id: upkeep
+    title: "Keeping the skill"
+    initiating: >-
+      Some skills stop being exercised: procedures that matter but rarely
+      come up, and work handed over to the system bit by bit. Unused skill
+      fades, and two other sequences assume it has not: taking paused work
+      back from the agent, and answering before the system does.
+    steps:
+      - step: "Choose what stays practised"
+        gloss: >-
+          From the record of what has been handed over, list the skills that
+          must stay alive on the actor's side, graded by what losing them
+          would cost: the work a takeback would return, the judgement that
+          reviewing the system's output depends on, and the rare procedure
+          that matters when it comes.
+      - step: "Re-expose what would fade"
+        rule: mastery
+        aspect: "its retention face"
+        gloss: >-
+          Schedule re-exposure for the skills on that list: a reminder on
+          return, an echo of past decisions when a complex area is re-entered,
+          spaced resurfacing of what was learned once. Place it where the
+          actor already is, such as a review, a takeback, or an answer they
+          are asked to attempt first.
+    resulting: >-
+      The competence the collaboration depends on is kept up deliberately.
+      Practice costs attention, so the list stays short and is revisited as
+      more work is handed over.
+connections:
+  - kind: calls
+    at: arrival/1
+    to: memory-and-continuity
+    via: activity-log
+    note: "an actor joining a system in use learns what is already here by reading the kept record of how it came to be"
+  - kind: calls
+    at: arrival/3
+    to: delegating-work
+    via: prompt
+    note: "a draft generated from what the newcomer says they want is that sequence's output, fetched at first run"
+  - kind: hands-off
+    at: channel/1
+    to: the-encounter
+    via: inquiry-user
+    note: "when the question needs reasoning about the actor's own situation, help becomes a conversation, which that sequence opens"
+  - kind: hands-off
+    at: expertise/2
+    to: finishing-the-whole
+    via: unavailable-actions
+    note: "a menu that shows only what applies leaves the expected but missing command unexplained, which that sequence's pass over every surface handles"
+---
+
+An actor arrives without a working model of the system, and every other
+sequence assumes they end up with one. Every actor goes through this. A
+smaller version repeats whenever the system changes under them, such as a
+new feature, a changed workflow, or the first run of a delegated capability.

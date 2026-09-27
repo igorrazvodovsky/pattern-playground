@@ -1,142 +1,62 @@
-/* Unlayered on purpose: the prose voice in app.css is authored unlayered inside
-   an @scope donut, so a layered rule here could not override its `ul` and
-   `li + li` defaults. These class selectors win on specificity instead. */
+/* Sequence pages are set in the prose defaults; these rules cover only what
+   they don't. Unlayered on purpose: the prose voice in app.css is authored
+   unlayered inside an @scope donut, so a layered rule here could not override
+   its `li + li` default. */
 
-.sequence,
-.sequence-connections {
-  --seq-gap-line: 0.125rem;  /* between lines of one thing */
-  --seq-gap-inner: 0.25rem;  /* head to its own gloss */
-  --seq-gap-part: 0.5rem;    /* gloss to the constituents under it */
-  --seq-gap-sibling: 0.75rem; /* between the members of a cluster */
-  --seq-gap-step: var(--space-l); /* between steps */
-}
-
+/* The library's `details` is a bordered card; here it's an inline fold. */
 details.sequence-initiating {
-  color: var(--c-bodyDimmed);
   border: none;
-  margin-inline: 0;
   padding: 0;
 }
 
-.sequence-initiating__body {
-  font-style: italic;
-  text-wrap: pretty;
+details.sequence-initiating > summary {
+  margin: 0;
 }
 
-.sequence__condition {
-  border-inline-start: 2px solid var(--c-neutral-200);
-  padding-inline-start: var(--space-s);
-  color: var(--c-bodyDimmed);
-  text-wrap: pretty;
+/* Rhythm comes from `--flow-space`, set per level: wide between the
+   sub-sequences and Connections, the prose gap inside one, a wider gap either
+   side of the steps so the walk stands apart from its conditions, and a tight
+   gap between the lines of a single step or connection. Each value is set on
+   the children it spaces, so a nested flow container doesn't also move itself. */
+.sequence {
+  --flow-space: var(--space-2xl);
 }
 
-h2 + .sequence-initiating {
-  margin-block-start: var(--space-s);
+.sequence > section > * {
+  --flow-space: var(--space-m);
 }
 
-.sequence-initiating + .sequence__steps,
-.sequence__steps + .sequence__condition {
-  margin-block-start: var(--space-xl);
+.sequence > section > h2 + details {
+  --flow-space: var(--space-s);
 }
 
-.sequence__condition-label::after,
-.sequence__enacts-label::after {
-  content: ' · ';
+.sequence > section > :is(details + .sequence__steps, .sequence__steps + *) {
+  --flow-space: var(--space-xl);
 }
 
-.sequence__enacts {
-  margin-block-start: var(--space-2xs);
-  color: var(--c-bodyDimmed);
+:is(.sequence__steps, .sequence-connections__list) li {
+  --flow-space: var(--space-2xs);
 }
 
-.sequence__sub {
-  margin-block-start: var(--space-2xl);
+/* The lists aren't flow containers (the prose `li + li` gap would win over
+   one), so the gap between items is set directly. */
+:is(.sequence__steps, .sequence-connections__list) > li + li {
+  margin-block-start: var(--space-m);
 }
 
-.sequence__steps {
-  padding-inline-start: 2.25rem;
+/* A cluster's or choice's steps sit one level down: the list is indented so
+   its markers hang on the parent step's text edge, and their names step down
+   from bold to medium. The lead-in says how to read the list before it starts,
+   with a little more room above it than between the lines of one step. */
+.sequence__steps .sequence__lead-in {
+  --flow-space: var(--space-s);
 }
 
-.sequence__steps > li::marker {
-  color: var(--c-neutral-500);
-}
-
-.sequence__steps > li + li {
-  margin-block-start: var(--seq-gap-step);
-}
-
-.sequence-step__head {
-  margin-block-end: var(--seq-gap-inner);
-  text-wrap: pretty;
-}
-
-.sequence-step__verb {
-  font-weight: 500;
-}
-
-.sequence-step__aspect,
-.sequence-step__tag {
-  color: var(--c-bodyDimmed);
-}
-
-.sequence-step__tag::before {
-  content: ' · ';
-}
-
-.sequence-step__gloss {
-  margin-block: var(--seq-gap-inner) 0;
-  text-wrap: pretty;
-}
-
-.sequence-step__group {
-  margin-block-start: var(--seq-gap-sibling);
-  padding-inline-start: var(--space-m);
-  border-inline-start: 2px dotted var(--c-neutral-200);
-  list-style: none;
-}
-
-.sequence-step__group > li + li {
-  margin-block-start: var(--seq-gap-sibling);
-}
-
-.sequence-step__constituents {
-  margin-block-start: var(--seq-gap-part);
-  font-size: 0.9em;
-  line-height: 1.45;
-  color: var(--c-bodyDimmed);
-}
-
-.sequence-step__constituents ul {
-  margin-block-start: 0;
-  padding-inline-start: 1em;
-}
-
-.sequence-step__constituents li + li {
-  margin-block-start: var(--seq-gap-line);
-}
-
-.sequence-connections__list {
-  list-style: none;
+.sequence__alternatives {
+  margin-inline-start: 1.25em;
   padding-inline-start: 0;
 }
 
-.sequence-connections__list > li + li {
-  margin-block-start: var(--seq-gap-step);
-}
-
-.sequence-connection__head,
-.sequence-connection__where,
-.sequence-connection__note {
-  margin-block: var(--seq-gap-line);
-}
-
-.sequence-connection__where,
-.sequence-connection__note {
-  font-size: 0.9em;
-  line-height: 1.45;
-  color: var(--c-bodyDimmed);
-}
-
-.sequence-connection__note {
-  text-wrap: pretty;
+.sequence__alternatives strong {
+  font-weight: 500;
 }

@@ -1,0 +1,181 @@
+---
+title: "Making sense at scale"
+added: 2026-08-29
+updated: 2026-09-27
+description: "Work through a collection too large for one view: decide how detail and the overview share the screen, let the actor mark items while reading, and save the views that answer recurring questions."
+order: 3
+presupposes: >-
+  A collection has grown too large for one view, such as an archive, a
+  backlog, a library, or a record of runs, and the actor's question is not
+  yet specific enough to write as a query. No pattern here settles this.
+enacts: [density, formality, adaptation]
+sub-sequences:
+  - id: lens
+    title: "Choosing how to show the collection"
+    steps:
+      - choice: "Choose how detail and the overview share the screen"
+        gloss: >-
+          Choose for each surface; the options can be combined. Each keeps
+          the overview available at a different cost: a second view takes
+          space, a scale control takes time, a graded view loses detail at
+          the edges, and a generated summary has to be checked. In every
+          case, open on the overview and show detail on request. Skip this
+          step when the work is discrete items moving through a defined
+          process, where the item and the queue already give enough
+          structure.
+        alternatives:
+          - step: "Split the view"
+            rule: overview-detail
+            gloss: >-
+              Show the overview and the detail as two linked views. The
+              splitting steps of [composing views](/sequences/composing-views)
+              continue from here.
+          - step: "Change the representation with scale"
+            rule: semantic-zoom
+            constituents:
+              - slug: item-view
+                note: "supplies the set of representations the zoom moves between"
+              - slug: attribute-visibility
+                note: "for records, a coarser level shows the same items with fewer attributes"
+            gloss: >-
+              Show one level at a time under a scale control, with a few
+              named levels such as year, month, and day. Decide where the
+              thresholds between levels sit and how the change between them
+              looks.
+          - step: "Show full detail only where the actor is looking"
+            rule: focus-and-context
+            gloss: >-
+              Show one continuous view with full detail at the focus and a
+              reduced outline around it. Decide what produces the outline,
+              and label it if it is generated.
+          - step: "Generate summaries at several levels"
+            rule: text-lense
+            gloss: >-
+              For prose, generate the levels, such as heading, abstract, and
+              full text, instead of writing them in advance. For a whole
+              collection, generate an overview that helps the actor gather
+              items rather than judge them, and link every claim in it to its
+              source.
+      - step: "Show the difference directly"
+        rule: comparing
+        optional: true
+        gloss: >-
+          Give the comparison its own representation, side by side, overlaid,
+          or with the difference drawn, so the actor does not have to keep
+          one view in memory while looking at the other. Build it when the
+          actor asks for it, within whichever option is in use. Skip this
+          step when the questions are about items rather than differences.
+  - id: marking
+    title: "Marking items while reading"
+    initiating: >-
+      The actor reads, scans, and sorts the collection. Each pass produces
+      judgements, and they are lost when the session ends unless the actor
+      can record them. Marking has to take almost no effort, because a mark
+      the actor postpones is usually never made.
+    steps:
+      - cluster: "Let the actor mark items where they are looking"
+        gloss: >-
+          Both kinds of mark, in either order, follow the same rules: made in
+          one action where the actor is looking, private by default, and
+          drawn from a flat vocabulary that grows with use. Do not ask for
+          structure up front.
+        steps:
+          - step: "Annotate in place"
+            rule: annotation
+            gloss: >-
+              Let the actor highlight and add notes to content they cannot
+              edit. Keep the marks from obscuring the content as they
+              accumulate.
+          - step: "Label recurring themes"
+            rule: tag
+            gloss: >-
+              Let the actor apply reusable labels, several per item if
+              needed, and accept near-synonyms while the vocabulary settles.
+              Each label becomes a facet to filter by.
+      - step: "Offer structure once the marks show it"
+        rule: incremental-formalisation
+        gloss: >-
+          When marks have accumulated, offer to add structure: merge
+          near-synonyms, confirm the vocabulary, turn a recurring label into
+          a field, or turn list-like prose into a list. Offer these changes
+          rather than applying them automatically, and make them reversible.
+      - step: "Share selected marks with others"
+        rule: commenting
+        optional: true
+        gloss: >-
+          For the few marks that need a reply, rewrite the note and its
+          anchor so that someone else can find and understand them; making
+          private marks visible as they are is not enough. A shared mark
+          becomes a thread others can reply to. Skip this step when the actor
+          is the only reader.
+  - id: curation
+    title: "Saving useful views"
+    initiating: >-
+      When a view answers a question that comes up again, the actor rebuilds
+      it by hand each time, because it was not saved.
+      [Composing views](/sequences/composing-views) builds the view itself,
+      and the labels provide its facets. The steps here decide what is
+      saved, for whom, and how much of the judgement the system takes over.
+    steps:
+      - step: "Save the view that answered the question"
+        rule: data-view
+        aspect: "its saved-views dimension"
+        gloss: >-
+          Save the view under a name, as a saved search, a smart folder, or a
+          label opened as a view, for one person, for a role, or as the
+          default. Remove saved views when they stop being used.
+      - step: "Give each recurring purpose its own view"
+        rule: purpose-keyed-view
+        gloss: >-
+          Give each recurring purpose behind the saved views, such as a quick
+          check, a review, or a follow-up, its own view, and keep the general
+          view reachable from each. When the system offers a view on its own
+          schedule, treat it as an interruption and show where its contents
+          come from.
+      - step: "Write the judgement down as rules"
+        rule: problem-curated-view
+        optional: true
+        gloss: >-
+          Write the recurring judgement down as detection rules, and show the
+          result as a checklist that says why each item was flagged. Keep
+          false flags rare, let the actor report them, and keep the
+          unfiltered collection one step away. Skip this step when the domain
+          cannot define its problems in advance.
+    resulting: >-
+      Recurring questions have saved answers, which need maintenance: stale
+      views removed, rules corrected, and the general view kept one step
+      away. The marks and saved views are now part of the collection, and
+      the next actor starts from them.
+connections:
+  - kind: hands-off
+    at: lens/1
+    to: composing-views
+    via: overview-detail
+    note: "the split-view option continues in that sequence's splitting steps, which cover how the two views are paired and kept in sync"
+  - kind: calls
+    at: lens/1
+    to: calibrating-reliance
+    via: citation
+    note: "a generated summary, outline, or overview is an AI surface whose claims link back to their sources, which that sequence sets up for each surface"
+  - kind: hands-off
+    at: marking/1
+    to: composing-views
+    via: filtering
+    note: "an applied label is a facet that sequence's framing steps filter by"
+  - kind: hands-off
+    at: marking/3
+    to: working-on-the-same-thing
+    via: status-feedback
+    note: "threads need someone to close them, and that sequence covers the review conversation itself"
+  - kind: hands-off
+    at: curation/1
+    to: working-on-the-same-thing
+    note: "a named view shared with the team passes on how the collection is organised, which often helps the next actor more than the content itself"
+  - kind: hands-off
+    at: curation/2
+    to: attention-and-tempo
+    via: notification
+    note: "a view the system offers on its own, such as a weekly view or a digest of flags, arrives as an event, and that sequence decides how prominently to show it"
+---
+
+An actor is working with a collection too large to take in through one view. They do not yet know exactly what they are looking for, so they cannot simply search or filter for it.

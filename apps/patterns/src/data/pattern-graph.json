@@ -131,7 +131,7 @@
             ]
           },
           {
-            "clause": "understanding is restored and the primary activity resumes at the step it broke on rather than from the beginning, on its way to the receipt that closes the sequence",
+            "clause": "understanding is restored with the activity mid-flight, so completion has to be designed to resume at the step that broke rather than from the beginning — and still end in the receipt that closes the sequence",
             "setsUp": [
               "sequence-completion"
             ]
@@ -238,9 +238,7 @@
           {
             "clause": "once the marks are visible to others the layer stops being a private reading aid: other people read the actor's attention, and a mark becomes something that can be answered rather than only added to",
             "setsUp": [
-              "collaboration",
-              "commenting",
-              "conversation"
+              "commenting"
             ]
           },
           {
@@ -543,23 +541,31 @@
       "path": "/patterns/citation",
       "role": "pattern",
       "situation": {
-        "initiating": "the actor owns output they didn't make, and standing behind it means knowing where it came from — but checking everything costs what the output is long, so unverifiable output gets accepted, not checked",
+        "initiating": "the actor owns output they didn't write — an answer, a summary, a draft — and standing behind it means knowing where it came from; checking everything costs as much as the output is long, so unverifiable output gets accepted rather than checked, and fluent wrong output gets accepted the same way",
         "resulting": [
           {
-            "clause": "claims carry pointers to their sources, so verification collapses from re-research to spot-checking the load-bearing points"
+            "clause": "each claim now has somewhere to look, so checking one claim costs a follow rather than a search — and a checkable claim is what a deliberate pause before acceptance needs in order to land on something",
+            "setsUp": [
+              "cognitive-forcing-functions"
+            ]
           },
           {
-            "clause": "a citation lends authority whether or not anyone follows it: the mark of checkability gets read as the fact of having been checked"
+            "clause": "the mark raises trust whether or not anyone follows it, and most actors don't: the sign of checkability gets read as the fact of having checked, including when the citation is irrelevant or wrong"
           },
           {
-            "clause": "citing constrains generation to the retrievable — what can be said leans toward what can be pointed at"
+            "clause": "the characteristic failure is not a dead link but a real source that doesn't say what the claim says, so a pointer to a document under-specifies the check — the passage is what makes it checkable"
+          },
+          {
+            "clause": "citing narrows what gets said: the system leans toward what it can point at, and stricter citing trades coverage for correctness"
           }
         ]
       },
-      "seed": true,
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "literature"
         }
       ]
     },
@@ -712,6 +718,34 @@
       "evidence": [
         {
           "kind": "observed"
+        }
+      ]
+    },
+    {
+      "id": "comparing",
+      "title": "Comparing",
+      "category": "Actions",
+      "path": "/patterns/comparing",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the actor holds two or more things — versions of one item, instances of a kind, subsets of a collection — and the question is the difference between them; the tool renders each fully, so the comparison happens by eye, back and forth, with the distinction assembled and held in the actor's head",
+        "resulting": [
+          {
+            "clause": "the difference is a representation of its own — shared features recede, distinctions stay salient — so the comparison is read rather than performed"
+          },
+          {
+            "clause": "what is compared is an editorial claim: the bases of comparison someone chose decide which differences can be seen at all, and a basis left out is a difference that cannot surface"
+          },
+          {
+            "clause": "versions of one thing and instances of a kind compare differently — a version diff can assume shared structure and show only the delta, while instances need their common attributes aligned before any difference reads"
+          }
+        ]
+      },
+      "group": "evaluation",
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "literature"
         }
       ]
     },
@@ -941,33 +975,6 @@
       "role": "quality"
     },
     {
-      "id": "detached-artefact",
-      "title": "Detached artefact",
-      "category": "Actions",
-      "path": "/patterns/detached-artefact",
-      "role": "pattern",
-      "situation": {
-        "initiating": "the conversation has produced a thing that now matters more than the talk that made it — a document, code, a diagram — and in the reply stream it scrolls away, unversioned and editable only by asking again",
-        "resulting": [
-          {
-            "clause": "the work-product holds still on its own surface while the conversation continues alongside as the way of steering it — talk and thing stop competing for the same column"
-          },
-          {
-            "clause": "two surfaces now claim the truth: the artefact and the transcript can disagree about what was decided, and edits made directly don't narrate themselves back into the talk"
-          },
-          {
-            "clause": "the artefact outlives the exchange — versionable, exportable, shareable — which is where the conversation's value ends up living"
-          }
-        ]
-      },
-      "seed": true,
-      "evidence": [
-        {
-          "kind": "observed"
-        }
-      ]
-    },
-    {
       "id": "disengage-without-closing",
       "title": "Disengage without closing",
       "category": "Operations",
@@ -977,7 +984,7 @@
         "initiating": "the exchange is mid-activity and one party has to step away — idle, interrupted, a dropped connection — with the goal still unmet; a formal close would misstate where things stand, and dropping it silently loses the work",
         "resulting": [
           {
-            "clause": "the exchange is parked rather than ended: state is saved, the actor can see what persists and for how long, and either side can pick it up again — the agent resuming, or the actor returning on their own initiative",
+            "clause": "the exchange is parked rather than ended: a saved state whose persistence the actor can see — something either opening now has to act on, re-entering with history rather than starting fresh",
             "setsUp": [
               "agent-opening",
               "user-opening"
@@ -1220,6 +1227,40 @@
       "group": "conversation/conversational-activities"
     },
     {
+      "id": "extraction",
+      "title": "Extraction",
+      "category": "Actions",
+      "path": "/patterns/extraction",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the work has produced something that now matters more than the transaction that produced it — a document, a decision, a piece of code — and that transaction is the only place it exists: no name of its own, no address to link to, nothing to reopen, so finding it again means finding the exchange and scrolling",
+        "resulting": [
+          {
+            "clause": "the extracted thing has an identity of its own — nameable, linkable, reopenable — which is what a ladder of representations needs before it can render one thing at several depths",
+            "setsUp": [
+              "item-view"
+            ]
+          },
+          {
+            "clause": "what the host keeps at the point of extraction — the whole thing, a pointer, or nothing — decides whether the exchange still reads afterwards as a record of what happened"
+          },
+          {
+            "clause": "the exchange becomes disposable and the thing does not: value moves out of the transcript, and whatever was never extracted is what gets lost when the exchange is closed"
+          },
+          {
+            "clause": "the offer has to arrive when the thing turns out to matter, which is usually after it was made and rarely when the actor is thinking about where to file it"
+          }
+        ]
+      },
+      "group": "application",
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
+    },
+    {
       "id": "filtering",
       "title": "Filtering",
       "category": "Actions",
@@ -1245,6 +1286,7 @@
       "path": "/patterns/flat-navigation",
       "role": "pattern",
       "situation": {
+        "initiating": "the work has been partitioned into contexts, and this one is a workspace with a rich toolset — an editor, a console — where the tools are heterogeneous but few enough to sit on one surface, and leaving the surface to reach one would break the work",
         "resulting": [
           {
             "clause": "everything is reachable in one place — which holds only while the tools and destinations fit one surface; when the item count outgrows the screen, hub and spoke takes over",
@@ -1321,6 +1363,7 @@
       "path": "/patterns/fully-connected",
       "role": "pattern",
       "situation": {
+        "initiating": "the work has been partitioned into contexts, and this one holds a small set of heterogeneous sections between which the actor moves routinely — few enough that a menu can name them all on every page, and cross-section journeys common enough that a return through a hub would be paid on every trip",
         "resulting": [
           {
             "clause": "every destination is one move from every other, and the shape of the whole is visible from anywhere — bought with screen space on every page, spent whether or not the actor on that page needs it"
@@ -1354,13 +1397,19 @@
         "initiating": "the system has produced something substantial — prose, a draft, a chart, code — and the actor's job has shifted from making it to judging it; accepting it whole costs nothing and checking it costs whatever the thing is long",
         "resulting": [
           {
-            "clause": "the output is material the actor negotiates rather than an artefact they receive: rate it, edit it, regenerate part of it, take the half that works"
+            "clause": "the output is a draft the actor negotiates rather than an artefact they receive: rate it, edit it, regenerate part of it, take the half that works"
           },
           {
             "clause": "the actor owns the result without having made it, so what they can find out about where it came from decides whether they can stand behind it"
           },
           {
             "clause": "verification cost rises with length, and long output is exactly where accepting quietly takes the place of checking"
+          },
+          {
+            "clause": "the output is a transition point the system can read — knowing what just arrived, it can propose what to do with it next",
+            "setsUp": [
+              "next-best-action"
+            ]
           }
         ]
       }
@@ -1476,6 +1525,7 @@
       "path": "/patterns/hub-and-spoke",
       "role": "pattern",
       "situation": {
+        "initiating": "the work has been partitioned into contexts, and this one holds heterogeneous sections the actor rarely needs together — each a job of its own, with little reason to move between them mid-task — or a flat surface whose tools have outgrown the screen",
         "resulting": [
           {
             "clause": "every destination is two moves from every other through a surface that always knows the way, so the actor can't get lost — and can't travel laterally either; a journey between two spokes that turns out to be routine is paid for twice on every trip"
@@ -1535,6 +1585,34 @@
       "path": "/patterns/hybrid-patterns",
       "role": "pattern",
       "group": "navigation",
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
+      "id": "incremental-formalisation",
+      "title": "Incremental formalisation",
+      "category": "Actions",
+      "path": "/patterns/incremental-formalisation",
+      "role": "pattern",
+      "situation": {
+        "initiating": "content entered informally has grown regularities — a label applied again and again, near-synonyms circling one meaning, prose that behaves like a list, a field everyone fills the same way — but demanding the schema up front was rightly refused: the vocabulary was still moving, and structure asked for early is structure guessed",
+        "resulting": [
+          {
+            "clause": "structure arrives after evidence rather than before it, so the schema records what the content turned out to be instead of what someone predicted it would be"
+          },
+          {
+            "clause": "every promotion is offered, not imposed, and stays reversible — a declined offer costs nothing, and a promoted structure can be demoted when it stops fitting"
+          },
+          {
+            "clause": "the offers themselves need a budget: a system that proposes structure at every regularity it spots re-creates the interruption it was meant to avoid"
+          }
+        ]
+      },
+      "group": "sense-making",
+      "seed": true,
       "evidence": [
         {
           "kind": "literature"
@@ -1766,37 +1844,36 @@
       "path": "/patterns/live-presentation",
       "role": "pattern",
       "situation": {
+        "initiating": "generation takes seconds to minutes, and a silent wait reads as failure; the actor can neither judge nor act on the answer until something of it shows",
         "resulting": [
           {
-            "clause": "once the stream completes, a produced artifact sits on the surface — the move shifts from holding the rendering stable to negotiating what arrived",
+            "clause": "the output is legible as it forms, so the actor can skim ahead of the machine, judge early — and stop early, which is what makes interruption meaningful mid-generation",
+            "setsUp": [
+              "abort"
+            ]
+          },
+          {
+            "clause": "reading begins before the whole exists: early text anchors the actor's take even when later text qualifies or contradicts it"
+          },
+          {
+            "clause": "the arrival rhythm is now part of the interface — pace, pauses, and re-layout as content lands are designed properties, not transport details"
+          },
+          {
+            "clause": "once the stream completes, a produced artefact sits on the surface — the move shifts from holding the rendering stable to negotiating what arrived",
             "setsUp": [
               "generated-content"
             ]
           }
         ]
-      }
-    },
-    {
-      "id": "living-document",
-      "title": "Living document",
-      "category": "Activities",
-      "path": "/patterns/living-document",
-      "role": "pattern",
-      "situation": {
-        "initiating": "the artefact was accurate when it was written and its context has since moved; keeping it current by hand is work nobody schedules, so it quietly becomes wrong while still being read as current",
-        "resulting": [
-          {
-            "clause": "the artefact moves with its context, so what a reader finds reflects now rather than whenever it was last touched by a person"
-          },
-          {
-            "clause": "something is doing work on the document without being asked, and that work has a cost that has to stay visible or it runs unbudgeted"
-          },
-          {
-            "clause": "the document no longer has one author: the reader can't tell what was written, what was regenerated, and what changed since they last read it"
-          }
-        ]
       },
-      "seed": true
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "used"
+        }
+      ]
     },
     {
       "id": "localization",
@@ -1828,7 +1905,7 @@
             "clause": "the expert reshapes the tool around their own way of working, which means the tool has to have parts that move"
           },
           {
-            "clause": "a surface tuned for mastery is denser than a beginner can read, so one product has to serve both without splitting into two"
+            "clause": "a surface tuned for mastery is denser than a beginner can read, so one system has to serve both without splitting into two"
           }
         ]
       },
@@ -1852,6 +1929,7 @@
       "path": "/patterns/multilevel-tree",
       "role": "pattern",
       "situation": {
+        "initiating": "the work has been partitioned into contexts, and this one holds heterogeneous sections with subsections behind them — enough pages that a flat surface cannot hold them and a global menu cannot name them, and a categorisation the actor can be expected to learn",
         "resulting": [
           {
             "clause": "content sits at addresses the actor can learn and re-find, and the trail from the root to here is available as orientation without spending extra chrome on it"
@@ -2045,6 +2123,7 @@
       "path": "/patterns/pan-and-zoom",
       "role": "pattern",
       "situation": {
+        "initiating": "the work has been partitioned into contexts, and this one holds a single continuous space — a map, a canvas, a timeline — where what the actor wants to reach is a place in it rather than a page; there is no sequence to walk and no collection to browse, so movement is viewport control",
         "resulting": [
           {
             "clause": "everything keeps its place in one coordinate system, so nothing breaks the spatial sense — and orientation becomes the actor's problem: at any zoom the view carries no evidence of where it sits in the whole, which is what a second, wider viewport kept in step is for",
@@ -2098,6 +2177,37 @@
       ]
     },
     {
+      "id": "presence",
+      "title": "Presence",
+      "category": "Operations",
+      "path": "/patterns/presence",
+      "role": "pattern",
+      "situation": {
+        "initiating": "several people work on the same thing behind separate screens; each can scroll to a different part, so the workspace shows everyone everything except each other, and what a shared desk answered in a glance — who is here, where, doing what — now costs an interruption to ask",
+        "resulting": [
+          {
+            "clause": "who is present, where they are working, and what they are doing reads in passing, at grades matched to the tempo — an avatar stack, a named cursor and selection, an action signal, an after-the-fact trail — and people self-partition around what they can see, so most collisions never happen"
+          },
+          {
+            "clause": "the marks must be by-products of working, never authored reports: an authored report costs its provider and pays someone else, so it goes unfed"
+          },
+          {
+            "clause": "visibility is also being watched: past some point the marks change what people dare explore, and the freedom to make mistakes moves to tools that cannot see"
+          }
+        ]
+      },
+      "group": "coordination",
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "privacy",
       "title": "Privacy",
       "category": "Qualities",
@@ -2130,8 +2240,7 @@
           "kind": "observed"
         },
         {
-          "kind": "literature",
-          "ref": "get-to-the-point"
+          "kind": "literature"
         }
       ]
     },
@@ -2267,8 +2376,7 @@
       "group": "sense-making",
       "evidence": [
         {
-          "kind": "literature",
-          "ref": "get-to-the-point"
+          "kind": "literature"
         }
       ]
     },
@@ -2279,6 +2387,7 @@
       "path": "/patterns/pyramid",
       "role": "pattern",
       "situation": {
+        "initiating": "the work has been partitioned into contexts, and this one is an ordered sequence — a course, a gallery, a series — whose order is worth offering but whose items do not depend on each other, so nothing is lost by letting the actor enter anywhere",
         "resulting": [
           {
             "clause": "the sequence is legible as a whole and enterable at any point, so an actor who wants the order gets it and an actor who wants item nine doesn't have to earn it through the first eight"
@@ -2293,6 +2402,37 @@
       },
       "group": "navigation",
       "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
+      "id": "reconciliation",
+      "title": "Reconciliation",
+      "category": "Actions",
+      "path": "/patterns/reconciliation",
+      "role": "pattern",
+      "situation": {
+        "initiating": "two lines of work were allowed to diverge — a branch, a draft, an offline stretch — and both changed the same thing; merging silently would discard one intent without anyone deciding, and refusing to merge stops the work",
+        "resulting": [
+          {
+            "clause": "the collision is a first-class object: both versions visible and comparable, the choice recorded — never a conflicted copy dropped beside the original with no way to compare"
+          },
+          {
+            "clause": "the surface exists only at the return of deliberate divergence: a live ground merges concurrent edits silently, and a collision surfacing mid-flow says the boundary was drawn wrong, not that this surface is missing"
+          },
+          {
+            "clause": "what the mechanism can show separately is what a person can pick separately: reconciliation's grain is set by the parting's grain"
+          }
+        ]
+      },
+      "group": "coordination",
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
         {
           "kind": "literature"
         }
@@ -2356,6 +2496,36 @@
       ]
     },
     {
+      "id": "rule-composition",
+      "title": "Rule composition",
+      "category": "Actions",
+      "path": "/patterns/rule-composition",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the system acts on the actor's behalf on cases the actor will not be present for, and correcting it case by case has stopped being worth the trouble; what needs changing is the condition under which it acts, and that condition has to be exact enough to run and legible enough to check before anyone commits to it",
+        "resulting": [
+          {
+            "clause": "the condition is an object on the surface — clauses that can be read, added, deleted, and regrouped — so standing behaviour can be inspected and argued with rather than only experienced"
+          },
+          {
+            "clause": "what the condition will do is still not readable from its text: it joins a set of rules already in force, and its behaviour is settled by that set rather than by itself"
+          },
+          {
+            "clause": "the clause vocabulary is the system's, not the actor's, so an intent that no field and operator can express gets approximated — and the approximation is what runs"
+          },
+          {
+            "clause": "rules accumulate: each one is composed against a standing set nobody re-reads, and a set large enough stops being something the actor can hold in mind at all"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "saving",
       "title": "Saving",
       "category": "Actions",
@@ -2400,10 +2570,13 @@
       "situation": {
         "resulting": [
           {
-            "clause": "a search can fail, leaving the actor with intent but no result — browsing the structure (\"browse by category instead\") is the fallback seeking move",
+            "clause": "a result set now exists — ordered by relevance rather than by the collection's own structure — and presenting it is a design problem of its own",
             "setsUp": [
-              "navigation-overview"
+              "data-view"
             ]
+          },
+          {
+            "clause": "a search can fail, leaving the actor with intent but no result — browsing the structure (\"browse by category instead\") is the fallback seeking move"
           }
         ]
       },
@@ -2496,6 +2669,7 @@
         ]
       },
       "group": "evaluation",
+      "seed": true,
       "evidence": [
         {
           "kind": "observed"
@@ -2544,6 +2718,12 @@
           },
           {
             "clause": "a preference set once and honoured indefinitely stops being visible to the actor who set it, so behaviour that follows from it reads later as a fault rather than as their own earlier decision"
+          },
+          {
+            "clause": "in shared configuration, one actor's change alters what others see without their doing anything — something has to carry the change across to them",
+            "setsUp": [
+              "notification"
+            ]
           }
         ]
       },
@@ -2555,6 +2735,43 @@
       "category": "Qualities",
       "path": "/patterns/shareability",
       "role": "quality"
+    },
+    {
+      "id": "sharing",
+      "title": "Sharing",
+      "category": "Actions",
+      "path": "/patterns/sharing",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the work is its maker's alone, and it now needs others inside it; handing copies around forks it, and opening everything to everyone destroys the freedom to work rough — so who can see and touch what has to be decided at the boundary, before any joint mechanism exists",
+        "resulting": [
+          {
+            "clause": "the grant names a capability tier, not just a person — viewer, commenter, editor — and every tier above viewing is a promise: granting comment access promises a commenting surface, granting edit access promises everything an editor collides with"
+          },
+          {
+            "clause": "grants inherit and cap: a container's grant flows down to what it holds, and nobody grants above what they themselves hold — so the sharing model is also the shape of the space"
+          },
+          {
+            "clause": "once anyone besides the maker can see the document, what unfinished work shows stops being an accident: the boundary between working and showing has to be declared, and a boundary declared distinct needs its crossing built",
+            "setsUp": [
+              "draft-and-publish"
+            ]
+          },
+          {
+            "clause": "participants granted into one document behind separate screens can see everything except each other; the grant creates the awareness debt presence pays",
+            "setsUp": [
+              "presence"
+            ]
+          }
+        ]
+      },
+      "group": "coordination",
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
     },
     {
       "id": "sorting",
@@ -2598,7 +2815,7 @@
             "clause": "the gap explains itself and points somewhere: the actor knows why there is nothing here and what would put something here"
           },
           {
-            "clause": "first-run emptiness is the largest uninterrupted surface the product ever gets, and it arrives in front of an actor who has committed nothing yet"
+            "clause": "first-run emptiness is the largest uninterrupted surface the system ever gets, and it arrives in front of an actor who has committed nothing yet"
           },
           {
             "clause": "the empty states multiply — every filter, every permission boundary, every new container has one — and the ones nobody wrote say nothing"
@@ -2623,12 +2840,44 @@
       ]
     },
     {
+      "id": "steering-surface",
+      "title": "Steering surface",
+      "category": "Actions",
+      "path": "/patterns/steering-surface",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the actor acts on their work by instructing rather than by touching it — in language, in commands — and the instructions and the work compete for the same space: held in one stream, the work fragments across the acts that changed it and scrolls away between them",
+        "resulting": [
+          {
+            "clause": "the work holds still on a surface of its own while the acts on it accumulate on another, so the current state is read in one place and the history of how it got there in the other"
+          },
+          {
+            "clause": "two surfaces now claim the truth: the instruction surface records what was asked and agreed, the work itself records what actually happened, and a change made directly on the work does not narrate itself back into the instructions"
+          },
+          {
+            "clause": "the two surfaces overlap on the work rather than rendering it twice, so only what both of them name can be coupled; the rest — talk with no counterpart in the work, changes made with no turn behind them — is a residue the design has to decide what to do with"
+          },
+          {
+            "clause": "the arrangement spends a permanent split of the screen, and the split has a direction: whichever surface is given the room is the one the design says the work happens on"
+          }
+        ]
+      },
+      "group": "application",
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
+    },
+    {
       "id": "step-by-step",
       "title": "Step by step",
       "category": "Actions",
       "path": "/patterns/step-by-step",
       "role": "pattern",
       "situation": {
+        "initiating": "the work has been partitioned into contexts, and this one is an ordered sequence whose later steps depend on what earlier ones settle — a checkout, a setup — so letting the actor enter anywhere would hand them steps they cannot yet answer",
         "resulting": [
           {
             "clause": "one decision is in front of the actor at a time and the order is the system's responsibility rather than theirs — which is the whole benefit, and the reason an actor who already knows where they need to be can't get there"
@@ -2645,36 +2894,6 @@
       "evidence": [
         {
           "kind": "literature"
-        }
-      ]
-    },
-    {
-      "id": "streaming-output",
-      "title": "Streaming output",
-      "category": "Operations",
-      "path": "/patterns/streaming-output",
-      "role": "pattern",
-      "situation": {
-        "initiating": "generation takes seconds to minutes, and a silent wait reads as failure; the actor can neither judge nor act on the answer until something of it shows",
-        "resulting": [
-          {
-            "clause": "the output is legible as it forms, so the actor can skim ahead of the machine, judge early — and stop early, which is what makes interruption meaningful mid-generation",
-            "setsUp": [
-              "abort"
-            ]
-          },
-          {
-            "clause": "reading begins before the whole exists: early text anchors the actor's take even when later text qualifies or contradicts it"
-          },
-          {
-            "clause": "the arrival rhythm is now part of the interface — pace, pauses, and re-layout as content lands are designed properties, not transport details"
-          }
-        ]
-      },
-      "seed": true,
-      "evidence": [
-        {
-          "kind": "observed"
         }
       ]
     },
@@ -2926,7 +3145,7 @@
             ]
           },
           {
-            "clause": "comprehension is restored and the activity resumes from the same step, on its way to the receipt that closes the sequence",
+            "clause": "comprehension is restored with the activity mid-flight, so completion has to be able to resume from the same step — and still end in the receipt that closes the sequence",
             "setsUp": [
               "sequence-completion"
             ]
@@ -3256,7 +3475,14 @@
       "source": "agent",
       "target": "ai-tuning",
       "type": "precedes",
-      "label": "tuning keeps the actor in control while the agent does its thing",
+      "label": "the agent's degree of freedom is a setting rather than a fixed property; tuning is the move that acts on it",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "agent",
+      "target": "onboarding",
+      "type": "precedes",
+      "label": "the agent's capabilities and limits are what a first encounter is designed to introduce",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -3405,6 +3631,13 @@
       "type": "complements",
       "label": "locale as a generation parameter",
       "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "annotation",
+      "target": "collaboration",
+      "type": "enables",
+      "label": "a shared mark is one of the small moves collaborative work is built from",
+      "extractedFrom": "frontmatter:enables"
     },
     {
       "source": "annotation",
@@ -3713,13 +3946,6 @@
       "extractedFrom": "frontmatter:hosted-by"
     },
     {
-      "source": "autofill",
-      "target": "saving",
-      "type": "precedes",
-      "label": "what happens after pre-filled data is accepted",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
       "source": "block-based-editor",
       "target": "selection",
       "type": "enables",
@@ -3842,7 +4068,7 @@
       "source": "generated-content",
       "target": "change-review",
       "type": "precedes",
-      "incomingNote": "the proposed change is generated output aimed at existing material",
+      "incomingNote": "the proposed change is generated output aimed at existing content",
       "extractedFrom": "frontmatter:follows"
     },
     {
@@ -3881,6 +4107,13 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
+      "source": "generated-content",
+      "target": "citation",
+      "type": "precedes",
+      "incomingNote": "the generated output is what a citation attaches pointers to",
+      "extractedFrom": "frontmatter:follows"
+    },
+    {
       "source": "link-preview",
       "target": "citation",
       "type": "enables",
@@ -3898,15 +4131,36 @@
       "source": "citation",
       "target": "explanation",
       "type": "complements",
-      "label": "where it came from versus why the system said it",
+      "label": "where it came from versus why the system said it — and an explanation the actor finds convincing reduces their inclination to open the sources beside it",
       "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "citation",
       "target": "annotation",
-      "type": "instantiates",
-      "label": "machine-authored annotations anchored to the claims they support",
-      "extractedFrom": "frontmatter:instantiates"
+      "type": "related",
+      "label": "a citation is a system-authored mark anchored to the claim it supports, where annotation is the actor's own layer over content they can't change",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "citation",
+      "target": "text-lense",
+      "type": "related",
+      "label": "a summary whose sentences point back into the long document lets the actor go deeper at the relevant passage instead of re-reading",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "citation",
+      "target": "prose",
+      "type": "related",
+      "label": "a citation is the hyperlink in its citation mode — the anchor names its target and the reader may follow it for verification",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "citation",
+      "target": "agency",
+      "type": "enacts",
+      "label": "gives the actor a place to check each claim, so trust can be selective rather than all-or-nothing",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "closing",
@@ -4147,6 +4401,13 @@
       "extractedFrom": "frontmatter:tangential"
     },
     {
+      "source": "comparing",
+      "target": "selection",
+      "type": "complements",
+      "label": "the items compared are first designated; comparing consumes a selection of two or more",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
       "source": "conversation-quality",
       "target": "temporality",
       "type": "related",
@@ -4240,13 +4501,6 @@
       "type": "enables",
       "incomingNote": "the coupling payload is a propagated designation — sometimes a staked selection (acted on as a target), sometimes mere focus (navigated to as a position); which one decides what the coupled views may do with it",
       "extractedFrom": "frontmatter:composed-of"
-    },
-    {
-      "source": "cost-transparency",
-      "target": "living-document",
-      "type": "related",
-      "label": "standing automated work is where unbudgeted cost quietly accrues",
-      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "cost-transparency",
@@ -4514,55 +4768,6 @@
       "extractedFrom": "frontmatter:related"
     },
     {
-      "source": "conversation",
-      "target": "detached-artefact",
-      "type": "hosts",
-      "incomingNote": "born in the exchange and promoted out of it; the chat remains the artefact's control surface",
-      "extractedFrom": "frontmatter:hosted-by"
-    },
-    {
-      "source": "generated-content",
-      "target": "detached-artefact",
-      "type": "precedes",
-      "incomingNote": "the promotion acts on output the generation produced in-stream",
-      "extractedFrom": "frontmatter:follows"
-    },
-    {
-      "source": "detached-artefact",
-      "target": "editing-in-place",
-      "type": "complements",
-      "label": "once detached, the artefact is edited directly rather than re-asked for",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "detached-artefact",
-      "target": "draft-and-publish",
-      "type": "complements",
-      "label": "the detached artefact is the surface draft and published states attach to",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "detached-artefact",
-      "target": "workspace",
-      "type": "related",
-      "label": "a minimal workspace grown out of a chat — one context, two surfaces",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "detached-artefact",
-      "target": "living-document",
-      "type": "related",
-      "label": "a detached artefact that keeps being regenerated shades into a living document",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "detached-artefact",
-      "target": "malleability",
-      "type": "enacts",
-      "label": "gives the output a surface where direct manipulation applies at all",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
       "source": "disengage-without-closing",
       "target": "closing",
       "type": "alternative",
@@ -4719,22 +4924,22 @@
     {
       "source": "embedded-intelligence",
       "target": "filtering",
-      "type": "precedes",
-      "label": "natural language queries translated into structured filters",
-      "extractedFrom": "frontmatter:precedes"
+      "type": "enables",
+      "label": "the constituent that turns a natural-language query into structured filters",
+      "extractedFrom": "frontmatter:enables"
     },
     {
       "source": "embedded-intelligence",
       "target": "focus-and-context",
-      "type": "precedes",
-      "label": "infers what contextual information is most relevant to the actor's current focus",
-      "extractedFrom": "frontmatter:precedes"
+      "type": "enables",
+      "label": "the constituent that infers what contextual information is most relevant to the actor's current focus",
+      "extractedFrom": "frontmatter:enables"
     },
     {
       "source": "embedded-intelligence",
       "target": "suggestion",
       "type": "precedes",
-      "label": "the output is often a suggestion the actor can accept, reject, or modify",
+      "label": "the inference produces an offer — content the suggestion surface presents for the actor to accept, reject, or modify",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -4821,6 +5026,55 @@
       "extractedFrom": "frontmatter:alternative"
     },
     {
+      "source": "conversation",
+      "target": "extraction",
+      "type": "hosts",
+      "incomingNote": "the chat is one possessive host among several, and the one where the move is most visible; the conversation remains the extracted thing's control surface afterwards",
+      "extractedFrom": "frontmatter:hosted-by"
+    },
+    {
+      "source": "generated-content",
+      "target": "extraction",
+      "type": "precedes",
+      "incomingNote": "generated output in a reply stream is the AI route into this move",
+      "extractedFrom": "frontmatter:follows"
+    },
+    {
+      "source": "extraction",
+      "target": "editing-in-place",
+      "type": "complements",
+      "label": "once extracted, the thing is edited directly rather than asked for again",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "extraction",
+      "target": "draft-and-publish",
+      "type": "complements",
+      "label": "the extracted thing is the surface that draft and published states attach to",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "extraction",
+      "target": "steering-surface",
+      "type": "complements",
+      "label": "extraction gives the extracted thing a surface of its own, which is what a separate instruction surface can then act on",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "extraction",
+      "target": "workspace",
+      "type": "related",
+      "label": "a minimal workspace grown out of an exchange — one context, two surfaces",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "extraction",
+      "target": "malleability",
+      "type": "enacts",
+      "label": "gives the output a surface where direct manipulation applies at all",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "filtering",
       "target": "grouping",
       "type": "complements",
@@ -4840,10 +5094,11 @@
       "extractedFrom": "frontmatter:complements"
     },
     {
-      "source": "filtering",
-      "target": "data-view",
+      "source": "data-view",
+      "target": "filtering",
       "type": "precedes",
-      "extractedFrom": "frontmatter:precedes"
+      "incomingNote": "acts on the framed collection the view already holds",
+      "extractedFrom": "frontmatter:follows"
     },
     {
       "source": "flat-navigation",
@@ -5035,18 +5290,11 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
-      "source": "generated-content",
-      "target": "conversation",
-      "type": "precedes",
-      "label": "generated content can become part of ongoing dialogue.",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "generated-content",
-      "target": "suggestion",
-      "type": "precedes",
-      "label": "output can inform subsequent suggestions or recommendations.",
-      "extractedFrom": "frontmatter:precedes"
+      "source": "conversation",
+      "target": "generated-content",
+      "type": "hosts",
+      "incomingNote": "the reply stream is where generated output first appears",
+      "extractedFrom": "frontmatter:hosted-by"
     },
     {
       "source": "generated-content",
@@ -5072,9 +5320,9 @@
     {
       "source": "good-defaults",
       "target": "localization",
-      "type": "precedes",
-      "label": "locale detection and sensible starting configuration",
-      "extractedFrom": "frontmatter:precedes"
+      "type": "complements",
+      "label": "a locale guess is a good default applied to localization's axes",
+      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "good-defaults",
@@ -5112,10 +5360,11 @@
       "extractedFrom": "frontmatter:alternative"
     },
     {
-      "source": "grouping",
-      "target": "data-view",
+      "source": "data-view",
+      "target": "grouping",
       "type": "precedes",
-      "extractedFrom": "frontmatter:precedes"
+      "incomingNote": "acts on the framed collection the view already holds",
+      "extractedFrom": "frontmatter:follows"
     },
     {
       "source": "grouping",
@@ -5313,6 +5562,27 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
+      "source": "incremental-formalisation",
+      "target": "formality",
+      "type": "enacts",
+      "label": "the move enacting the quality: structure gained or shed in place, matched to how mature the actor's understanding has become",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "incremental-formalisation",
+      "target": "tag",
+      "type": "complements",
+      "label": "the grown label vocabulary is the usual promotion candidate — near-synonyms merged, a recurring label blessed into a field",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "incremental-formalisation",
+      "target": "suggestion",
+      "type": "related",
+      "label": "the offer to formalise usually arrives wearing suggestion's contract — proposed, inspectable, declinable",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
       "source": "information-architecture",
       "target": "interaction",
       "type": "related",
@@ -5381,6 +5651,7 @@
       "source": "information-architecture",
       "target": "workspace",
       "type": "precedes",
+      "label": "the structure's partitions are what workspace boundaries take up",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -5713,10 +5984,10 @@
     },
     {
       "source": "live-presentation",
-      "target": "abort",
-      "type": "complements",
-      "label": "the user-side stop depends on the surface having a quiet resting state to land in",
-      "extractedFrom": "frontmatter:complements"
+      "target": "status-feedback",
+      "type": "related",
+      "label": "the partial output is itself the progress signal — no separate indicator is needed while it flows",
+      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "live-presentation",
@@ -5731,47 +6002,6 @@
       "type": "enacts",
       "label": "content arrives as it's produced; the actor watches the work unfold live",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "living-document",
-      "target": "generated-content",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "localization",
-      "target": "conversation",
-      "type": "precedes",
-      "label": "dialogue structure adapted to cultural communication norms",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "localization",
-      "target": "generated-content",
-      "type": "precedes",
-      "label": "locale-aware generation",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "localization",
-      "target": "data-entry",
-      "type": "precedes",
-      "label": "locale-aware input parsing and format tolerance",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "localization",
-      "target": "notification",
-      "type": "precedes",
-      "label": "localised message content, timing conventions",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "localization",
-      "target": "help",
-      "type": "precedes",
-      "label": "localised documentation and support content",
-      "extractedFrom": "frontmatter:precedes"
     },
     {
       "source": "localization",
@@ -5917,7 +6147,7 @@
       "type": "precedes",
       "incomingNote": "initial phase before the actor develops efficiency",
       "extractedFrom": "frontmatter:follows",
-      "label": "building proficiency after initial learning"
+      "label": "onboarding leaves scaffolding and a first working model; mastery acts on both — deepening the model, clearing the scaffolding"
     },
     {
       "source": "mastery",
@@ -6218,13 +6448,6 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
-      "source": "onboarding",
-      "target": "agent",
-      "type": "precedes",
-      "label": "the first steps that help people get to know the agent — what it can and can't do",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
       "source": "wizard",
       "target": "onboarding",
       "type": "enables",
@@ -6433,6 +6656,20 @@
       "type": "enacts",
       "label": "the actor judges the intention rather than the fait accompli",
       "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "presence",
+      "target": "collaboration",
+      "type": "enables",
+      "label": "presence supplies the moment-to-moment awareness sustained co-work runs on",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "presence",
+      "target": "selection",
+      "type": "complements",
+      "label": "the shared selection highlight is selection's collaborative face — the treatment its own page defers",
+      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "privacy",
@@ -6767,13 +7004,6 @@
     },
     {
       "source": "provenance-marking",
-      "target": "living-document",
-      "type": "related",
-      "label": "a document that keeps being regenerated blurs what was written and what was made",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "provenance-marking",
       "target": "collaboration",
       "type": "related",
       "label": "mixed human-machine authorship is where per-contribution origin matters most",
@@ -6850,6 +7080,27 @@
       "extractedFrom": "frontmatter:alternative"
     },
     {
+      "source": "reconciliation",
+      "target": "draft-and-publish",
+      "type": "complements",
+      "label": "the parting whose return reconciliation guards",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "reconciliation",
+      "target": "comparing",
+      "type": "complements",
+      "label": "showing the colliding versions is comparing's version case put to work",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "reconciliation",
+      "target": "undo",
+      "type": "related",
+      "label": "the version not picked is a removal; undo is its recovery",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
       "source": "reference-material",
       "target": "prompt",
       "type": "enables",
@@ -6913,6 +7164,76 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
+      "source": "rule-composition",
+      "target": "workflow",
+      "type": "enables",
+      "label": "a trigger–action rule list is a list of composed rules; the workflow is the procedure, the rule is its unit",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "rule-composition",
+      "target": "filtering",
+      "type": "enables",
+      "label": "a saved filter is a composed condition over a collection — the same move with no action attached",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "rule-composition",
+      "target": "ai-tuning",
+      "type": "enables",
+      "label": "the tuning that survives the session is written as a rule, which is the form the correction takes",
+      "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "bounded-choice",
+      "target": "rule-composition",
+      "type": "enables",
+      "incomingNote": "bounded choice supplies each clause of the rule — the field, the operator, and the value, all picked from sets the actor did not author",
+      "extractedFrom": "frontmatter:composed-of"
+    },
+    {
+      "source": "rule-composition",
+      "target": "bounded-autonomy",
+      "type": "complements",
+      "label": "scope, spend and time bounds are composed the same way — clauses on what the system may do, rather than on when it acts",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "rule-composition",
+      "target": "good-defaults",
+      "type": "complements",
+      "label": "a generated starting rule beats the empty clause list, and most composition is editing rather than authoring",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "rule-composition",
+      "target": "prompt-scaffolding",
+      "type": "related",
+      "label": "both give an unstructured intent a structure to be composed in; the scaffold shapes one request, rule composition shapes behaviour that stands",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "rule-composition",
+      "target": "form",
+      "type": "related",
+      "label": "the clause editor borrows the form's machinery — labelled inputs, constrained values, validation — but the field set is open, and extending it is the actor's move",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "rule-composition",
+      "target": "malleability",
+      "type": "enacts",
+      "label": "standing behaviour becomes an artifact the actor edits, at a scale below the whole procedure",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "rule-composition",
+      "target": "formality",
+      "type": "enacts",
+      "label": "pushes the actor's intent into the fields and operators the system has, and what does not fit is lost at the edge",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "saving",
       "target": "deletion",
       "type": "related",
@@ -6956,10 +7277,10 @@
     },
     {
       "source": "searching",
-      "target": "data-view",
-      "type": "precedes",
-      "label": "displays the result set a search produces",
-      "extractedFrom": "frontmatter:precedes"
+      "target": "navigation-overview",
+      "type": "complements",
+      "label": "the fallback seeking move when a search fails; browse and search co-deploy over the same structure",
+      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "searching",
@@ -7091,7 +7412,7 @@
       "source": "selective-memory",
       "target": "adaptation",
       "type": "enacts",
-      "label": "memory is the raw material the system adapts from",
+      "label": "memory is what the system adapts from",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -7137,29 +7458,22 @@
     {
       "source": "settings",
       "target": "localization",
-      "type": "precedes",
-      "label": "language, timezone, and format preferences",
-      "extractedFrom": "frontmatter:precedes"
+      "type": "hosts",
+      "label": "locale controls live among the preferences",
+      "extractedFrom": "frontmatter:hosts"
     },
     {
       "source": "settings",
       "target": "undo",
       "type": "precedes",
-      "label": "enables reversal of settings changes, particularly valuable for exploratory configuration",
+      "label": "a recorded override is state undo can walk back, which is what makes exploratory configuration safe",
       "extractedFrom": "frontmatter:precedes"
     },
     {
       "source": "settings",
       "target": "status-feedback",
       "type": "precedes",
-      "label": "confirms settings changes and communicates their application",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "settings",
-      "target": "notification",
-      "type": "precedes",
-      "label": "alerts actors to settings-related changes, particularly in shared configuration contexts",
+      "label": "a changed preference is what feedback confirms back to the actor",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -7275,10 +7589,25 @@
       "extractedFrom": "frontmatter:related"
     },
     {
-      "source": "sorting",
-      "target": "data-view",
+      "source": "sharing",
+      "target": "privacy",
+      "type": "enacts",
+      "label": "the grant is the privacy boundary made explicit and graded, rather than implied by where a file happens to live",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "sharing",
+      "target": "workspace",
+      "type": "complements",
+      "label": "the workspace partitions the actor's contexts; sharing decides who else is inside one",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "data-view",
+      "target": "sorting",
       "type": "precedes",
-      "extractedFrom": "frontmatter:precedes"
+      "incomingNote": "acts on the framed collection the view already holds",
+      "extractedFrom": "frontmatter:follows"
     },
     {
       "source": "sorting",
@@ -7350,6 +7679,47 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
+      "source": "steering-surface",
+      "target": "extraction",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "steering-surface",
+      "target": "coordinated-views",
+      "type": "complements",
+      "label": "coupling reaches whatever the two surfaces both name — a turn and the version it produced — but the surfaces overlap on the work rather than rendering it twice, so what falls outside the overlap cannot be propagated and is not stale, it is a record",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "steering-surface",
+      "target": "conversation",
+      "type": "related",
+      "label": "dialogue is the usual instruction surface, though not the only one",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "steering-surface",
+      "target": "editing-in-place",
+      "type": "related",
+      "label": "the direct route onto the work, which is where the two surfaces come apart — a hand edit leaves no trace on the instruction side",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "steering-surface",
+      "target": "change-review",
+      "type": "related",
+      "label": "what the instruction surface can show of a change it caused, when the change landed on content it does not display",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "steering-surface",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor steers from a surface of their own rather than working inside the work's own arrangement",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "step-by-step",
       "target": "form",
       "type": "enables",
@@ -7392,32 +7762,11 @@
       "extractedFrom": "frontmatter:alternative"
     },
     {
-      "source": "streaming-output",
-      "target": "status-feedback",
-      "type": "related",
-      "label": "the partial product is itself the progress signal — no separate indicator needed while it flows",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "streaming-output",
-      "target": "transparent-reasoning",
-      "type": "related",
-      "label": "reasoning traces stream the same way the answer does",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "streaming-output",
-      "target": "temporality",
-      "type": "enacts",
-      "label": "makes generation's duration a legible, interruptible unfolding rather than a wait",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "suggestion",
-      "target": "prompt",
-      "type": "precedes",
-      "label": "can provide an initial prompt",
-      "extractedFrom": "frontmatter:precedes"
+      "source": "prompt",
+      "target": "suggestion",
+      "type": "hosts",
+      "incomingNote": "starter suggestions live in the prompt surface, seeding the request",
+      "extractedFrom": "frontmatter:hosted-by"
     },
     {
       "source": "suggestion",
@@ -7493,7 +7842,7 @@
       "source": "tag",
       "target": "searching",
       "type": "precedes",
-      "label": "tags enable faceted search and filtering",
+      "label": "an applied label is a facet a search can narrow by",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -7581,13 +7930,6 @@
     },
     {
       "source": "transparent-reasoning",
-      "target": "activity-log",
-      "type": "precedes",
-      "label": "provides the detailed reasoning steps that get recorded in the activity log.",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "transparent-reasoning",
       "target": "learnability",
       "type": "enacts",
       "label": "by observing *why* the system made a decision, the actor implicitly learns its logic and capabilities",
@@ -7599,6 +7941,13 @@
       "type": "enacts",
       "label": "visible reasoning is one of the levers for reliance calibration, helping the actor judge when to trust and when to override",
       "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "transparent-reasoning",
+      "target": "activity-log",
+      "type": "complements",
+      "label": "the live reasoning trail and the durable record of the same work",
+      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "transparent-reasoning",
@@ -7784,7 +8133,7 @@
       "source": "workflow",
       "target": "wizard",
       "type": "tangential",
-      "label": "a wizard scripts the actor's own path through one task; a workflow externalises a procedure for the system or for others to run",
+      "label": "a wizard scripts the actor's path through one task; a workflow externalises a procedure for the system or for others to run",
       "extractedFrom": "frontmatter:tangential"
     },
     {
@@ -7832,9 +8181,9 @@
     {
       "source": "workspace",
       "target": "activity-log",
-      "type": "precedes",
-      "label": "shows history within a workspace",
-      "extractedFrom": "frontmatter:precedes"
+      "type": "hosts",
+      "label": "the log surface lives inside the workspace, scoped to its work",
+      "extractedFrom": "frontmatter:hosts"
     },
     {
       "source": "workspace",
@@ -7867,7 +8216,7 @@
       "source": "agent-repair",
       "target": "sequence-completion",
       "type": "precedes",
-      "situation": "understanding is restored and the primary activity resumes at the step it broke on rather than from the beginning, on its way to the receipt that closes the sequence",
+      "situation": "understanding is restored with the activity mid-flight, so completion has to be designed to resume at the step that broke rather than from the beginning — and still end in the receipt that closes the sequence",
       "extractedFrom": "situation:resulting"
     },
     {
@@ -7879,21 +8228,7 @@
     },
     {
       "source": "annotation",
-      "target": "collaboration",
-      "type": "precedes",
-      "situation": "once the marks are visible to others the layer stops being a private reading aid: other people read the actor's attention, and a mark becomes something that can be answered rather than only added to",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "annotation",
       "target": "commenting",
-      "type": "precedes",
-      "situation": "once the marks are visible to others the layer stops being a private reading aid: other people read the actor's attention, and a mark becomes something that can be answered rather than only added to",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "annotation",
-      "target": "conversation",
       "type": "precedes",
       "situation": "once the marks are visible to others the layer stops being a private reading aid: other people read the actor's attention, and a mark becomes something that can be answered rather than only added to",
       "extractedFrom": "situation:resulting"
@@ -7931,6 +8266,13 @@
       "target": "approval-gate",
       "type": "precedes",
       "situation": "the delta is a reviewable object — what was, what would be, side by side or in place — so judgement lands on the change rather than on re-reading the whole, and an approval has something concrete to act on",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "citation",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
+      "situation": "each claim now has somewhere to look, so checking one claim costs a follow rather than a search — and a checkable claim is what a deliberate pause before acceptance needs in order to land on something",
       "extractedFrom": "situation:resulting"
     },
     {
@@ -7979,14 +8321,14 @@
       "source": "disengage-without-closing",
       "target": "agent-opening",
       "type": "precedes",
-      "situation": "the exchange is parked rather than ended: state is saved, the actor can see what persists and for how long, and either side can pick it up again — the agent resuming, or the actor returning on their own initiative",
+      "situation": "the exchange is parked rather than ended: a saved state whose persistence the actor can see — something either opening now has to act on, re-entering with history rather than starting fresh",
       "extractedFrom": "situation:resulting"
     },
     {
       "source": "disengage-without-closing",
       "target": "user-opening",
       "type": "precedes",
-      "situation": "the exchange is parked rather than ended: state is saved, the actor can see what persists and for how long, and either side can pick it up again — the agent resuming, or the actor returning on their own initiative",
+      "situation": "the exchange is parked rather than ended: a saved state whose persistence the actor can see — something either opening now has to act on, re-entering with history rather than starting fresh",
       "extractedFrom": "situation:resulting"
     },
     {
@@ -8011,10 +8353,24 @@
       "extractedFrom": "situation:resulting"
     },
     {
+      "source": "extraction",
+      "target": "item-view",
+      "type": "precedes",
+      "situation": "the extracted thing has an identity of its own — nameable, linkable, reopenable — which is what a ladder of representations needs before it can render one thing at several depths",
+      "extractedFrom": "situation:resulting"
+    },
+    {
       "source": "flat-navigation",
       "target": "hub-and-spoke",
       "type": "precedes",
       "situation": "everything is reachable in one place — which holds only while the tools and destinations fit one surface; when the item count outgrows the screen, hub and spoke takes over",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "generated-content",
+      "target": "next-best-action",
+      "type": "precedes",
+      "situation": "the output is a transition point the system can read — knowing what just arrived, it can propose what to do with it next",
       "extractedFrom": "situation:resulting"
     },
     {
@@ -8047,9 +8403,16 @@
     },
     {
       "source": "live-presentation",
+      "target": "abort",
+      "type": "precedes",
+      "situation": "the output is legible as it forms, so the actor can skim ahead of the machine, judge early — and stop early, which is what makes interruption meaningful mid-generation",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "live-presentation",
       "target": "generated-content",
       "type": "precedes",
-      "situation": "once the stream completes, a produced artifact sits on the surface — the move shifts from holding the rendering stable to negotiating what arrived",
+      "situation": "once the stream completes, a produced artefact sits on the surface — the move shifts from holding the rendering stable to negotiating what arrived",
       "extractedFrom": "situation:resulting"
     },
     {
@@ -8103,9 +8466,9 @@
     },
     {
       "source": "searching",
-      "target": "navigation-overview",
+      "target": "data-view",
       "type": "precedes",
-      "situation": "a search can fail, leaving the actor with intent but no result — browsing the structure (\"browse by category instead\") is the fallback seeking move",
+      "situation": "a result set now exists — ordered by relevance rather than by the collection's own structure — and presenting it is a design problem of its own",
       "extractedFrom": "situation:resulting"
     },
     {
@@ -8116,10 +8479,24 @@
       "extractedFrom": "situation:resulting"
     },
     {
-      "source": "streaming-output",
-      "target": "abort",
+      "source": "settings",
+      "target": "notification",
       "type": "precedes",
-      "situation": "the output is legible as it forms, so the actor can skim ahead of the machine, judge early — and stop early, which is what makes interruption meaningful mid-generation",
+      "situation": "in shared configuration, one actor's change alters what others see without their doing anything — something has to carry the change across to them",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "sharing",
+      "target": "draft-and-publish",
+      "type": "precedes",
+      "situation": "once anyone besides the maker can see the document, what unfinished work shows stops being an accident: the boundary between working and showing has to be declared, and a boundary declared distinct needs its crossing built",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "sharing",
+      "target": "presence",
+      "type": "precedes",
+      "situation": "participants granted into one document behind separate screens can see everything except each other; the grant creates the awareness debt presence pays",
       "extractedFrom": "situation:resulting"
     },
     {
@@ -8182,7 +8559,7 @@
       "source": "user-repair",
       "target": "sequence-completion",
       "type": "precedes",
-      "situation": "comprehension is restored and the activity resumes from the same step, on its way to the receipt that closes the sequence",
+      "situation": "comprehension is restored with the activity mid-flight, so completion has to be able to resume from the same step — and still end in the receipt that closes the sequence",
       "extractedFrom": "situation:resulting"
     },
     {
@@ -8228,178 +8605,6 @@
         {
           "question": "How quickly can it be recreated?",
           "branch": "Minutes"
-        }
-      ]
-    },
-    {
-      "source": "navigation-overview",
-      "target": "pan-and-zoom",
-      "type": "recommends",
-      "extractedFrom": "decision-tree:navigation-overview",
-      "situationalHints": [
-        {
-          "question": "Single continuous space (map, canvas, timeline)?",
-          "branch": "Yes"
-        }
-      ]
-    },
-    {
-      "source": "navigation-overview",
-      "target": "step-by-step",
-      "type": "recommends",
-      "extractedFrom": "decision-tree:navigation-overview",
-      "situationalHints": [
-        {
-          "question": "Single continuous space (map, canvas, timeline)?",
-          "branch": "No"
-        },
-        {
-          "question": "Prescribed sequence with dependencies?",
-          "branch": "Yes"
-        },
-        {
-          "question": "Strict ordering required?",
-          "branch": "Yes"
-        }
-      ]
-    },
-    {
-      "source": "navigation-overview",
-      "target": "pyramid",
-      "type": "recommends",
-      "extractedFrom": "decision-tree:navigation-overview",
-      "situationalHints": [
-        {
-          "question": "Single continuous space (map, canvas, timeline)?",
-          "branch": "No"
-        },
-        {
-          "question": "Prescribed sequence with dependencies?",
-          "branch": "Yes"
-        },
-        {
-          "question": "Strict ordering required?",
-          "branch": "No, flexible"
-        }
-      ]
-    },
-    {
-      "source": "navigation-overview",
-      "target": "overview-detail",
-      "type": "recommends",
-      "extractedFrom": "decision-tree:navigation-overview",
-      "situationalHints": [
-        {
-          "question": "Single continuous space (map, canvas, timeline)?",
-          "branch": "No"
-        },
-        {
-          "question": "Prescribed sequence with dependencies?",
-          "branch": "No"
-        },
-        {
-          "question": "Browsing one collection, item by item?",
-          "branch": "Yes, even when each item opens its own page"
-        }
-      ]
-    },
-    {
-      "source": "navigation-overview",
-      "target": "multilevel-tree",
-      "type": "recommends",
-      "extractedFrom": "decision-tree:navigation-overview",
-      "situationalHints": [
-        {
-          "question": "Single continuous space (map, canvas, timeline)?",
-          "branch": "No"
-        },
-        {
-          "question": "Prescribed sequence with dependencies?",
-          "branch": "No"
-        },
-        {
-          "question": "Browsing one collection, item by item?",
-          "branch": "No"
-        }
-      ]
-    },
-    {
-      "source": "navigation-overview",
-      "target": "flat-navigation",
-      "type": "recommends",
-      "extractedFrom": "decision-tree:navigation-overview",
-      "situationalHints": [
-        {
-          "question": "Single continuous space (map, canvas, timeline)?",
-          "branch": "No"
-        },
-        {
-          "question": "Prescribed sequence with dependencies?",
-          "branch": "No"
-        },
-        {
-          "question": "Browsing one collection, item by item?",
-          "branch": "No"
-        },
-        {
-          "question": "Single workspace with rich toolset?",
-          "branch": "Yes"
-        }
-      ]
-    },
-    {
-      "source": "navigation-overview",
-      "target": "fully-connected",
-      "type": "recommends",
-      "extractedFrom": "decision-tree:navigation-overview",
-      "situationalHints": [
-        {
-          "question": "Single continuous space (map, canvas, timeline)?",
-          "branch": "No"
-        },
-        {
-          "question": "Prescribed sequence with dependencies?",
-          "branch": "No"
-        },
-        {
-          "question": "Browsing one collection, item by item?",
-          "branch": "No"
-        },
-        {
-          "question": "Single workspace with rich toolset?",
-          "branch": "No"
-        },
-        {
-          "question": "Cross-section workflows common?",
-          "branch": "Yes"
-        }
-      ]
-    },
-    {
-      "source": "navigation-overview",
-      "target": "hub-and-spoke",
-      "type": "recommends",
-      "extractedFrom": "decision-tree:navigation-overview",
-      "situationalHints": [
-        {
-          "question": "Single continuous space (map, canvas, timeline)?",
-          "branch": "No"
-        },
-        {
-          "question": "Prescribed sequence with dependencies?",
-          "branch": "No"
-        },
-        {
-          "question": "Browsing one collection, item by item?",
-          "branch": "No"
-        },
-        {
-          "question": "Single workspace with rich toolset?",
-          "branch": "No"
-        },
-        {
-          "question": "Cross-section workflows common?",
-          "branch": "Rare"
         }
       ]
     },

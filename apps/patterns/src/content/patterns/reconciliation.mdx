@@ -1,0 +1,56 @@
+---
+title: Reconciliation
+added: 2026-08-29
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+group: coordination
+activityLevel: action
+mediation: coordination
+description: "When lines of work that were allowed to diverge come back together and both touched the same thing, the collision is shown as both versions and reintegration waits for a person to pick."
+situation:
+  initiating: >-
+    two lines of work were allowed to diverge — a branch, a draft, an offline stretch —
+    and both changed the same thing; merging silently would discard one intent without
+    anyone deciding, and refusing to merge stops the work
+  resulting:
+    - >-
+      the collision is a first-class object: both versions visible and comparable, the
+      choice recorded — never a conflicted copy dropped beside the original with no way
+      to compare
+    - >-
+      the surface exists only at the return of deliberate divergence: a live ground merges
+      concurrent edits silently, and a collision surfacing mid-flow says the boundary was
+      drawn wrong, not that this surface is missing
+    - >-
+      what the mechanism can show separately is what a person can pick separately:
+      reconciliation's grain is set by the parting's grain
+relationships:
+  complements:
+    - to: draft-and-publish
+      note: "the parting whose return reconciliation guards"
+    - to: comparing
+      note: "showing the colliding versions is comparing's version case put to work"
+  related:
+    - to: undo
+      note: "the version not picked is a removal; undo is its recovery"
+disclosure: >-
+  Seeded during the working-on-the-same-thing sequence sitting. Needs its classification sitting; the relation to the
+  merge model beneath (locking, OT, CRDT) stays substrate, not pattern content.
+---
+
+Two lines of work were allowed to diverge — a branch, a draft, an offline stretch — and both changed the same thing. Merging silently would discard one intent without anyone deciding; refusing to merge stops the work. Reconciliation makes the collision a first-class object: both versions shown, comparable, with reintegration blocked until a person picks and the choice recorded.
+
+The pattern is as much about placement as mechanism. Live co-editing surfaces never show conflicts — concurrent edits are absorbed silently, and the industry has spent a decade retiring even paragraph locks in favour of silent merge. The reconciliation surface belongs exactly where divergence was deliberate: the offline return, the branch merge, the pull request. There it blocks: the merge button deactivates, the branch review lists each collision side by side, and a person picks.
+
+The documented failure is surfacing without support: a conflicted copy dropped beside the original, with no way to compare the versions — the collision preserved but the deciding made impossible.
+
+## Resources & references
+
+- Kleppmann, Wiggins, van Hardenberg & McGranaghan (2019) [Local-first software](https://martin.kleppmann.com/papers/local-first.pdf) — the same-property residue a merge cannot resolve, and the Evernote conflicted-copy failure
+- [Semantic conflict model for collaborative data structures](https://arxiv.org/abs/2602.19231) — implicit CRDT resolution as "opaque to users"; the case for explicit, visible conflicts
+- GitHub Docs: [About merge conflicts](https://docs.github.com/en/pull-requests/reference/merge-conflicts); Figma Learn: [branch conflict review](https://help.figma.com/hc/en-us/articles/5665728006423-Get-updates-from-main-files)
+- Burghardt (2009) *Working Through Screens*, B7 "Object ownership and availability rules" — the locking era's form of the same legibility claim

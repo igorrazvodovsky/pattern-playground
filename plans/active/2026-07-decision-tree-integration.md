@@ -15,7 +15,7 @@ Eleven trees plus one filed candidate plus one dead config. Settled machinery th
 | Case | Where | Leaf type | Verdict | Effort |
 |---|---|---|---|---|
 | deletion | pattern page | moves | wired, reference case — verify leaf coverage only | done |
-| navigation-overview | collection page | moves | wired, reference case | done |
+| navigation-overview | collection page | moves | dissolved 2026-09-24 into the structuring-the-space sequence (recognition step + growth pains) and the model pages' initiating situations; the page is a field guide | done |
 | notification | pattern page | components + one move | keep tree; repair leaf map (two dead ids) | S–M |
 | form (dead config) | frontmatter only | — | delete; charts already dissolved into bounded-choice + Form story | S |
 | searching (commented-out) | pattern page | prose list | dissolve into `situation.initiating` (recall vs. recognition) | S |

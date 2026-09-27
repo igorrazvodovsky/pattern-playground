@@ -1,0 +1,191 @@
+---
+title: Rule composition
+added: 2026-08-29
+updated:
+role: pattern
+seed: true
+evidence:
+  - literature
+disclosure: "The end-user-programming literature on automation rules and the interface literature on query and filter builders both exist, are decades old, and do not cite each other. Treating them as one interaction move is this entry's claim, not something either literature attests. Watching whether the two sides really take the same design decisions would settle it."
+activityLevel: action
+lifecycle: application
+mediation: individual
+description: "Composing the condition under which the system will act, as an object the actor can read, edit, and check before it runs."
+situation:
+  initiating: >-
+    the system acts on the actor's behalf on cases the actor will not be present for, and
+    correcting it case by case has stopped being worth the trouble; what needs changing is the
+    condition under which it acts, and that condition has to be exact enough to run and legible
+    enough to check before anyone commits to it
+  resulting:
+    - >-
+      the condition is an object on the surface — clauses that can be read, added, deleted, and
+      regrouped — so standing behaviour can be inspected and argued with rather than only
+      experienced
+    - >-
+      what the condition will do is still not readable from its text: it joins a set of rules
+      already in force, and its behaviour is settled by that set rather than by itself
+    - >-
+      the clause vocabulary is the system's, not the actor's, so an intent that no field and
+      operator can express gets approximated — and the approximation is what runs
+    - >-
+      rules accumulate: each one is composed against a standing set nobody re-reads, and a set
+      large enough stops being something the actor can hold in mind at all
+relationships:
+  enables:
+    - to: workflow
+      note: a trigger–action rule list is a list of composed rules; the workflow is the procedure, the rule is its unit
+    - to: filtering
+      note: a saved filter is a composed condition over a collection — the same move with no action attached
+    - to: ai-tuning
+      note: the tuning that survives the session is written as a rule, which is the form the correction takes
+  composed-of:
+    - to: bounded-choice
+      note: bounded choice supplies each clause of the rule — the field, the operator, and the value, all picked from sets the actor did not author
+  complements:
+    - to: bounded-autonomy
+      note: scope, spend and time bounds are composed the same way — clauses on what the system may do, rather than on when it acts
+    - to: good-defaults
+      note: a generated starting rule beats the empty clause list, and most composition is editing rather than authoring
+  related:
+    - to: prompt-scaffolding
+      note: both give an unstructured intent a structure to be composed in; the scaffold shapes one request, rule composition shapes behaviour that stands
+    - to: form
+      note: the clause editor borrows the form's machinery — labelled inputs, constrained values, validation — but the field set is open, and extending it is the actor's move
+  enacts:
+    - to: malleability
+      note: standing behaviour becomes an artifact the actor edits, at a scale below the whole procedure
+    - to: formality
+      note: pushes the actor's intent into the fields and operators the system has, and what does not fit is lost at the edge
+---
+
+The system will act on cases the actor is not there to see — files it will move, messages it will
+hide, suggestions it will stop making. Correcting each case as it appears works until the same
+correction comes round for the third time, at which point what the actor wants to change is not the
+case but the condition. Rule composition is the move of writing that condition down: assembling
+clauses over fields, operators and values into a statement the system will run, and doing it in a
+surface where the statement can be read back and checked. Practitioners call the surface a rule
+builder, a filter builder, a query builder or a segment builder, after whichever object it composes.
+
+The condition is the hard part. Ur and colleagues surveyed 318 people on what they wanted a smart
+home to do and found 78% of the answers fitted a single trigger paired with a single action — the
+work is not in chaining steps, which is [workflow](/patterns/workflow)'s territory, but in saying
+precisely enough when the one step should happen.
+
+## Forces
+
+- *Combination against legible grouping* — conditions need and, or and not, and the trouble is not
+  the operators but where the grouping sits. Comparing a graphical query builder against SQL over
+  the same tasks, Young and Shneiderman recorded fifty parenthesis errors in SQL against two
+  ordering errors in the graphical equivalent, with composition accuracy more than doubling. A
+  surface that punctuates precedence reproduces the SQL result; one that shows grouping structurally
+  does not.
+- *Exactness against the actor's vocabulary* — the rule must resolve to fields the system holds, and
+  the actor's reason for wanting it usually does not. "Stop suggesting things I have already read"
+  becomes a clause over a read-state flag, which is close but not the same, and the difference only
+  shows up in the cases that fall between.
+- *The rule against the set* — a rule composed in isolation runs among the rules already in force.
+  Actors hold specific wrong models of how it joins them: that two rules with opposite actions
+  cancel out, that rules fire in the order they are listed, that a condition attached to one rule
+  constrains the others. Each of those produced debugging failures in Zhang and colleagues' study.
+- *Foreseeing effect* — the hard part of authoring a rule is not writing it but estimating what it
+  will do to live cases before it runs. Brackenbury and colleagues showed 153 participants
+  pre-written rules, half carrying one of ten bug classes, and found that for most classes the bug
+  made participants worse at predicting what the rule would do. A rule does not tell its reader what
+  it does, so the surface has to.
+
+## Anatomy
+
+The literature that studies automation rules settles on three parts, and the distinction between the
+first two is where actors go wrong:
+
+- *Trigger* — a statement over events, which happen at a moment. "The file is added to the folder."
+- *Condition* — a proposition over states, which hold across an interval. "While the project is
+  archived."
+- *Action* — what the system does when the trigger fires and the conditions hold.
+
+Huang and Cakmak identified the event/state confusion in 2015 and argued it is made by the
+interface: the plain "if this, then that" form gives an instant and an interval the same wording.
+Seven years later Zhang and colleagues found the confusion in 21 of 50 unaided debugging sessions,
+and every one of those sessions ended in failure. Grouping and naming states separately from events,
+and using different conjunctions for each, is an interface fix for a problem that reads like a
+comprehension one.
+
+Two further parts belong to the composed rule where the domain has them: *scope*, which bounds what
+the rule may touch, and *exceptions*, the named cases that override it.
+
+## Showing the effect before committing
+
+Because the text does not carry the behaviour, the surface has to show effects rather than the rule.
+Three forms, in descending order of how well they are evidenced:
+
+- *Replay against the record* — apply the changed rule to what actually happened and show what would
+  have come out differently. Zhang and colleagues built exactly this and it was the component that
+  moved participants' success rates; it is the strongest form because the cases are real and the
+  actor already has opinions about them.
+- *Simulate against the standing set* — step the rule through against the rules already in force, so
+  interactions and loops surface before the rule is saved. This is what Corno and colleagues'
+  EUDebug checks, and it is the only form that addresses the rule-against-the-set force.
+- *Sample the boundary* — show the cases that newly match, the ones that match but only just, and
+  the ones that fail but only just. Noessel proposes this for tuning an agent's triggers, on the
+  grounds that a random sample of results will not contain the cases that decide whether the rule is
+  right. It is a designer's proposal rather than a studied one, and it is the form to reach for when
+  there is no record to replay against.
+
+Where the rule's object is a visible collection, the preview collapses into the composition itself:
+a [filter](/patterns/filtering) that updates its result count as each clause lands is
+effect-preview running continuously, which is the oldest form of the move.
+
+## Entry points
+
+Composition rarely starts from an empty clause list, and should not.
+
+- *From the case that went wrong.* The strongest entry is the misfire itself — the message that was
+  hidden, the suggestion that should not have been made — with the rule opened beside it and the
+  clauses that matched it highlighted. The actor arrives already knowing which part is wrong.
+- *From a generated draft.* The system proposes a rule and the actor edits it, from a stated
+  intention, from the corrections it has been given repeatedly, or from watching what the actor does
+  by hand. Ur and colleagues found more than 100,000 people sharing rules on IFTTT and duplicating
+  each other's freely, which is the same preference expressed socially. Selecting among proposed
+  drafts is its own difficulty: in Zhang and colleagues' study the synthesiser produced the right
+  patch, and only half to three-fifths of participants picked it.
+- *From a scratch space.* Comparing query builders for professional search, Russell-Rose and
+  colleagues found a temporary holding area — somewhere to park a clause that is not yet in the
+  rule — was one of the useful things a canvas gave that a line-by-line form did not.
+
+## Exceptions beside rules
+
+Not every correction should become a rule. "Never show me this one again" settles the case without
+touching the condition, and for a low-stakes domain that is the right cost. The list of exceptions
+then becomes an object in its own right: it needs reviewing, clearing, and starting over, or it
+accumulates until the composed rule no longer describes what the system does. The exception and the rule
+are two rungs of the same escalation, and a surface that offers only the second makes small
+corrections expensive.
+
+## Resources & references
+
+{/* Literature synthesis and full provenance: PARA/Projects/pattern playground/research/rule-composition/2026-08-29.md */}
+
+- Ur, McManus, Pak Yong Ho & Littman (2014) [Practical trigger-action programming in the smart home](https://dl.acm.org/doi/10.1145/2556288.2557420) — 78% of desired behaviours are one trigger and one action
+- Ur et al. (2016) [Trigger-action programming in the wild](https://par.nsf.gov/biblio/10026427) — 224,590 shared rules, and how freely they are copied
+- Huang & Cakmak (2015) [Supporting mental model accuracy in trigger-action programming](https://dl.acm.org/doi/10.1145/2750858.2805830) — events against states, as an interface problem
+- Brackenbury et al. (2019) [How users interpret bugs in trigger-action programming](https://dl.acm.org/doi/10.1145/3290605.3300782) — ten bug classes; a bug makes the rule harder to predict
+- Corno, De Russis & Monge Roffarello (2019) [Empowering end users in debugging trigger-action rules](https://dl.acm.org/doi/10.1145/3290605.3300618) — simulating a rule against the whole standing set
+- Zhang, Zhou, Littman, Ur & Lu (2022) [Helping users debug trigger-action programs](https://dl.acm.org/doi/10.1145/3569506) — the end-to-end debugging study, and replay-against-history as the repair
+- Young & Shneiderman (1993) [A graphical filter/flow representation of Boolean queries](https://asistdl.onlinelibrary.wiley.com/doi/10.1002/(SICI)1097-4571(199307)44:6%3C327::AID-ASI3%3E3.0.CO;2-J) — grouping, not operators, is where composition fails
+- Ahlberg, Williamson & Shneiderman (1992) [Dynamic queries for information exploration](https://dl.acm.org/doi/10.1145/142750.143054) — continuous effect feedback as each condition moves
+- Russell-Rose et al. (2022) [Think outside the search box](https://arxiv.org/abs/2205.04212) — visual against form-based query builders; the scratch space
+- Noessel (2017) *Designing Agentive Technology*, ch. 8 — the constrained natural language builder and boundary-case preview
+
+## To-do
+
+- A demo. The clause-chip surface exists in [filtering](/patterns/filtering)'s demo; what is missing
+  is the standing-rule case with a preview beside it.
+- Named product studies — Gmail filters, Linear and Notion filter builders, smart playlists, Zapier,
+  mail and firewall rules — to test whether the automation-rule and query-builder sides really take
+  the same decisions, which is what the disclosure holds open.
+- Whether this serves the delegation foundation's *tuning tools* station in its own right, or only
+  through [workflow](/patterns/workflow), which already claims it.
+- Natural-language rule editing, where the actor states the change in prose and the clauses follow.
+  Noessel argues the composition stays visual because speech is linear; large language models change
+  the input side of that argument but not obviously the checking side.

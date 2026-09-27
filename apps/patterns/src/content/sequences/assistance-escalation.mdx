@@ -1,0 +1,168 @@
+---
+title: "Assistance escalation"
+added: 2026-08-29
+updated: 2026-09-27
+description: "How much of the work the system takes on, from a default guess to a procedure the actor hands over, raised or lowered one level at a time on the evidence of use."
+order: 4
+presupposes: >-
+  An actor is doing work the system can see, and there is evidence of
+  typical use: what most actors need most of the time, judged from the
+  task's shape, from general data, or from observed use. Every level of help
+  is a bet on that evidence. It is also settled that the actor leads and the
+  system steps in selectively. These judgements happen before this sequence,
+  and no pattern here records them.
+enacts: [agency, adaptation]
+sub-sequences:
+  - id: floor
+    title: "Filling in what is known"
+    steps:
+      - step: "Set the default guess"
+        rule: good-defaults
+        gloss: >-
+          Fill fields with the system's best guess from the task's shape and
+          general data, without asking the actor for anything; the guess also
+          shows the expected kind of answer. Decide which fields get one.
+          Leave out identity, consent, and other sensitive choices, and use a
+          guess only where it is acceptable for it to go through unread.
+      - cluster: "Replace the guess with known values"
+        gloss: >-
+          Two ways a guess gives way to something known, each used where its
+          condition holds. They answer different moments of the same field,
+          in no set order.
+        steps:
+          - step: "Fill from stored values"
+            rule: autofill
+            optional: true
+            gloss: >-
+              Where the system already holds the actor's own value, from a
+              profile, an earlier session, or the browser, fill it in place of
+              the guess. Do this only where confidence is high, since filled
+              fields tend to be submitted unread.
+          - step: "Complete as the actor types"
+            rule: autocomplete
+            optional: true
+            gloss: >-
+              Where the valid answers are many and the actor is still typing,
+              narrow the candidates to match. The candidates are looked up,
+              not produced. Skip this where the answers are few enough to
+              show in full.
+  - id: offer
+    title: "Joining the work"
+    initiating: >-
+      The guessed, stored, and looked-up values are in place, and what is
+      left is work the actor would do themselves. The system can take part
+      of it by producing content, which rests on inferred intent.
+    steps:
+      - step: "Read the intent from context"
+        rule: embedded-intelligence
+        optional: true
+        gloss: >-
+          Infer what the actor is doing from what the system already holds,
+          such as the selection, the last action, or the actor's role, so the
+          actor never has to restate it to get help. The next step turns the
+          inference into offers. Skip this where the actor states the intent,
+          as in a conversation.
+      - step: "Make everything it produces an offer"
+        rule: suggestion
+        gloss: >-
+          Settle once the terms every higher level inherits: the system
+          proposes and the actor decides. Accepting takes one gesture,
+          declining is cheaper than weighing the offer, and each offer shows
+          its confidence. An offer shown before the actor has formed their
+          own idea narrows what they consider next, and checking how far they
+          rely on it is handled elsewhere.
+      - step: "Continue what the actor is writing"
+        rule: ai-completion
+        optional: true
+        gloss: >-
+          Where the actor is composing, propose the continuation at the
+          cursor, lighter than their own text and gone once they type past
+          it. Stay silent when confidence is low. A block generated to be
+          reviewed as a whole belongs with delegated results, not here. Skip
+          this where nothing is being composed.
+  - id: forward
+    title: "Proposing the next move"
+    initiating: >-
+      So far the offers stay inside the step the actor is taking. The system
+      can also see the points where one piece of work ends and another
+      usually follows, and offer the next move.
+    steps:
+      - step: "Propose the next step"
+        rule: next-best-action
+        gloss: >-
+          At a transition point, such as a closed record or a finished
+          output, offer a whole action with the reason for it. These offers
+          arrive uninvited, so spend the channel as carefully as the offers
+          in it. If the system performs the action instead of proposing it,
+          that is delegation, and this sequence ends there.
+      - step: "Guard the accept by what it does"
+        rule: action-consequences
+        gloss: >-
+          Grade each proposed action by its consequences and size the guard
+          to the grade: an easily reversed action keeps its one-gesture
+          accept, and a consequential one needs a confirmation or a look at
+          what it will touch. The grade also caps how far the level can rise
+          later.
+  - id: climb
+    title: "Adjusting the level of help"
+    initiating: >-
+      Every level above the first section is a bet on typical use, and the
+      bets age. Acceptances, dismissals, and corrections build up on each
+      surface, and without a record, whether a level still fits is judged on
+      impressions.
+    steps:
+      - step: "Keep a record of how offers are used"
+        gloss: >-
+          Record what was offered, what was accepted, what was dismissed and
+          how quickly, and what was corrected after accepting, per surface and
+          per level. This record measures how much help fits; the record of
+          reliance measures how closely offers are checked.
+      - step: "Move each surface up or down"
+        rule: assisted-task-completion
+        gloss: >-
+          Raise a surface's level where its offers are routinely accepted and
+          the grade allows it, and lower it where they are routinely
+          dismissed. Decide the lowering too, rather than letting a level
+          fall out of use. A higher level must explain more of itself, and
+          routine acceptance never raises a consequential one past its grade.
+      - step: "Hand the recurring procedure over"
+        rule: workflow
+        constituents:
+          - slug: rule-composition
+            note: "each condition is written as clauses the actor can read, edit, and check before the procedure runs"
+        gloss: >-
+          When the record shows the same proposals accepted whole in the same
+          situations, turn them into a procedure both the actor and the
+          system can read, with steps, conditions, and transitions, and hand
+          it over to run. The actor now inspects and repairs the procedure
+          instead of accepting offers, which leaves this sequence.
+    resulting: >-
+      Each surface sits at the level its record supports, and what recurred
+      whole now runs as a procedure. The cost stays: every level rests on
+      typical use, and it fits worst the actor who is least typical.
+connections:
+  - kind: calls
+    at: offer/2
+    to: calibrating-reliance
+    via: cognitive-forcing-functions
+    note: "an offer shown before the actor has formed their own view narrows it, and that sequence supplies the friction that answers it, at each offer surface's own grade"
+  - kind: calls
+    at: climb/2
+    to: calibrating-reliance
+    via: transparent-reasoning
+    note: "a surface that moves up owes a fuller account of its offers, which that sequence's evidence steps provide"
+  - kind: hands-off
+    at: forward/1
+    to: attention-and-tempo
+    via: notification
+    note: "proposals arrive uninvited at moments the system picks, and what may interrupt whom, and when, is that sequence's decision"
+  - kind: hands-off
+    at: climb/3
+    to: delegating-work/framing/1
+    via: workflow
+    note: "the procedure is handed over as a standing request, one of the two ways into that sequence"
+---
+
+An actor is doing work the system can see, and the system could do part of
+it. Each level of help takes on more of the work, and a surface moves up or
+down over its life rather than settling on a level once.

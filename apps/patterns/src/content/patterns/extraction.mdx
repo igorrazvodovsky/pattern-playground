@@ -1,0 +1,113 @@
+---
+title: Extraction
+added: 2026-08-07
+updated: 2026-09-01
+role: pattern
+seed: true
+group: application
+activityLevel: action
+mediation: individual
+description: >-
+  Lifting something produced inside a host that owns it onto an identity of its
+  own — nameable, linkable, reopenable — so it stops depending on the exchange
+  that made it.
+evidence:
+  - observed
+disclosure: >-
+  Seeded from AI pattern libraries as "detached artefact" and regrounded away
+  from chat in September 2026. The instances list carries the generalisation and
+  has not been checked past the four cases named; the timing force is stated from
+  reasoning rather than from sightings.
+situation:
+  initiating: >-
+    the work has produced something that now matters more than the transaction that
+    produced it — a document, a decision, a piece of code — and that transaction is
+    the only place it exists: no name of its own, no address to link to, nothing to
+    reopen, so finding it again means finding the exchange and scrolling
+  resulting:
+    - clause: >-
+        the extracted thing has an identity of its own — nameable, linkable,
+        reopenable — which is what a ladder of representations needs before it can
+        render one thing at several depths
+      sets-up: [item-view]
+    - >-
+      what the host keeps at the point of extraction — the whole thing, a pointer,
+      or nothing — decides whether the exchange still reads afterwards as a record
+      of what happened
+    - >-
+      the exchange becomes disposable and the thing does not: value moves out of the
+      transcript, and whatever was never extracted is what gets lost when the
+      exchange is closed
+    - >-
+      the offer has to arrive when the thing turns out to matter, which is usually
+      after it was made and rarely when the actor is thinking about where to file it
+relationships:
+  hosted-by:
+    - to: conversation
+      note: >-
+        the chat is one possessive host among several, and the one where the move
+        is most visible; the conversation remains the extracted thing's control
+        surface afterwards
+  follows:
+    - to: generated-content
+      note: generated output in a reply stream is the AI route into this move
+  complements:
+    - to: editing-in-place
+      note: once extracted, the thing is edited directly rather than asked for again
+    - to: draft-and-publish
+      note: the extracted thing is the surface that draft and published states attach to
+    - to: steering-surface
+      note: >-
+        extraction gives the extracted thing a surface of its own, which is what a separate
+        instruction surface can then act on
+  related:
+    - to: workspace
+      note: a minimal workspace grown out of an exchange — one context, two surfaces
+  enacts:
+    - to: malleability
+      note: gives the output a surface where direct manipulation applies at all
+---
+
+The work has produced something that now matters more than the transaction that
+produced it — a document, a decision, a piece of code — and that transaction is the
+only place it exists. It has no name of its own, no address to link to, and nothing to
+reopen; finding it again means finding the exchange it happened in and scrolling.
+
+Extraction gives it an identity. The thing is lifted out of its host and put somewhere
+it can be named, linked, versioned, and returned to. What changes is not where it sits
+on the screen but that it now exists independently of whatever made it.
+
+## Where the move arises
+
+Only where the host is *possessive* — where what it produced has no identity apart from
+it. Most output is born addressed: a document made in a documents application already
+has a name, a place in a list, and a URL, and there is nothing to extract. Conversations,
+comment threads, search sessions, and message streams are possessive in this way. They
+hold what happens inside them as content rather than as things.
+
+The condition is worth stating because it bounds the pattern. A design that keeps
+reaching for this move where the output is already addressed has misread what
+its host does.
+
+## Instances
+
+- a comment turned into an issue
+- a message turned into a task
+- a hand-refined search turned into a saved view
+- an attachment turned into a file in the shared drive
+- generated output turned into its own document — the vivid instance, and the one the
+  move was first noticed in, but not the definition
+
+## Resources & references
+
+- [AI UX Playground — Chat Artifacts](https://www.aiuxplayground.com/pattern/chat-artifact)
+- [AI Interface Layout Library — Prompt + Canvas](https://ai.designdhaval.com/pattern/prompt-canvas), [AI Workspace](https://ai.designdhaval.com/pattern/workspace)
+- [aiuxpatterns.com — Result Rendered Preview](https://www.aiuxpatterns.com)
+
+## To-do
+
+- Check the instances list against real products rather than reasoning: what each host
+  keeps behind after extraction, and whether the offer is made at the moment of
+  production or later.
+- The timing force wants evidence. Products that only offer extraction at the moment of
+  production, and what that costs, would settle it.

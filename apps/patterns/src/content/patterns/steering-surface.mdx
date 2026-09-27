@@ -1,0 +1,124 @@
+---
+title: Steering surface
+added: 2026-09-01
+updated:
+role: pattern
+seed: true
+group: application
+activityLevel: action
+mediation: individual
+description: >-
+  Changing something by instructing rather than touching it, with the
+  instructions accumulating on one surface and the thing itself holding still on
+  another — two surfaces that overlap on the work rather than rendering it twice.
+evidence:
+  - observed
+disclosure: >-
+  Split out of extraction in September 2026, where it had been riding as a second
+  move. The name is provisional. The divergence force is stated from use rather
+  than from literature, and the CSCW work on shared artefacts probably has
+  something to say about it.
+situation:
+  initiating: >-
+    the actor acts on their work by instructing rather than by touching it — in
+    language, in commands — and the instructions and the work compete for the
+    same space: held in one stream, the work fragments across the acts that
+    changed it and scrolls away between them
+  resulting:
+    - >-
+      the work holds still on a surface of its own while the acts on it
+      accumulate on another, so the current state is read in one place and the
+      history of how it got there in the other
+    - >-
+      two surfaces now claim the truth: the instruction surface records what was
+      asked and agreed, the work itself records what actually happened, and a change
+      made directly on the work does not narrate itself back into the
+      instructions
+    - >-
+      the two surfaces overlap on the work rather than rendering it twice, so only
+      what both of them name can be coupled; the rest — talk with no counterpart in
+      the work, changes made with no turn behind them — is a residue the design
+      has to decide what to do with
+    - >-
+      the arrangement spends a permanent split of the screen, and the split has a
+      direction: whichever surface is given the room is the one the design says the
+      work happens on
+relationships:
+  complements:
+    - extraction
+    - to: coordinated-views
+      note: >-
+        coupling reaches whatever the two surfaces both name — a turn and the
+        version it produced — but the surfaces overlap on the work rather than
+        rendering it twice, so what falls outside the overlap cannot be propagated
+        and is not stale, it is a record
+  related:
+    - to: conversation
+      note: dialogue is the usual instruction surface, though not the only one
+    - to: editing-in-place
+      note: >-
+        the direct route onto the work, which is where the two surfaces come
+        apart — a hand edit leaves no trace on the instruction side
+    - to: change-review
+      note: >-
+        what the instruction surface can show of a change it caused, when the change
+        landed on content it does not display
+  enacts:
+    - to: agency
+      note: the actor steers from a surface of their own rather than working inside the work's own arrangement
+---
+
+The actor is working on something and the way to act on it is to instruct rather than
+to touch: in language, in commands, in a request rather than a gesture. Held in one stream, the work fragments
+across the acts that changed it and scrolls away between them, so reading the current
+state means reassembling it from a history.
+
+A steering surface separates the two. The work sits on its own surface and holds
+still. The acts on it accumulate on another surface beside it — a record of what was
+asked, which drives the work rather than displaying it.
+
+## Coupling the two surfaces
+
+[Coordinated views](/patterns/coordinated-views) applies here, and applying it is worth
+doing: a turn linked to the version it produced, a command linked to the change it made,
+designating one and having the other mark itself. Nothing about the surfaces being
+different kinds prevents this — a map and a table are different kinds too.
+
+What it cannot reach is the part that does not correspond. The two surfaces are not two
+renderings of one model; they overlap on the work. Much of the instruction surface has no
+counterpart in the work — questions, rejected options, talk about something else —
+and changes arrive that were never discussed. Coupling can only join the overlap.
+
+The residue also behaves the opposite way to a stale view. Coordinated views treats
+divergence as a defect, fixed by propagating faster or by greying the view out until it
+catches up. Here past instructions should *not* update when the work changes: they
+record what was asked at the time, not what exists now. A change made by hand correctly
+leaves no trace on the instruction side.
+
+So the decision this pattern owns is what happens at the gap — whether the instruction
+surface is told about changes it did not cause, and which surface an actor is meant to
+read as the truth.
+
+## Instances
+
+- a chat pane beside a document or canvas the conversation is writing
+- a chat pane beside a file tree, acting on the files
+- a REPL beside the editor whose buffer it evaluates
+- a terminal beside the file it operates on
+- a properties panel or inspector beside the canvas it configures
+- a formula bar beside the sheet
+
+The last three are the older cases and they show the move is not conversational by
+nature. What conversation adds is that the instruction surface is also a record of
+intent, which is what makes the divergence matter.
+
+## To-do
+
+- The name is provisional. It names the instruction half; a name for the arrangement
+  rather than one of its halves might be better.
+- The divergence force needs grounding. CSCW work on shared artefacts as coordination
+  media is the place to look, and whether either surface should be treated as
+  authoritative is an open design question rather than a settled one.
+- Which surface owns the truth after a direct edit, and whether the instruction surface
+  should be told about it, is the decision this page names but does not yet answer.
+  Products differ and the trade-off has not been worked out.

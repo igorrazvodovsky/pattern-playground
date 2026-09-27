@@ -39,7 +39,7 @@ relationships:
       note: "a workflow builder is a tuning tool: editing the procedure is one of the ways an agent's behaviour gets progressively shaped"
   tangential:
     - to: wizard
-      note: "a wizard scripts the actor's own path through one task; a workflow externalises a procedure for the system or for others to run"
+      note: "a wizard scripts the actor's path through one task; a workflow externalises a procedure for the system or for others to run"
   enacts:
     - to: malleability
       note: "the system's standing behaviour becomes an artifact the actor can reshape without programming"
@@ -49,12 +49,12 @@ relationships:
 
 The actor keeps doing the same thing — triaging the same requests, moving records through the same stages, chaining the same steps — and wants to hand the procedure over: to an agent, to a rule engine, to the rest of the team.
 
-A workflow makes the procedure an *artifact*: steps, conditions, and transitions in a representation that the actor and the system can both read and act on. The system executes it or enforces it (the A cannot B until the rule C is satisfied); the actor inspects it, rehearses it, and repairs it. The representation may be a node graph, a trigger–action rule list, a pipeline definition — the pattern is indifferent to the notation, and the notation slides along the [formality](/patterns/formality) spectrum from natural-language instruction to executable code.
+A workflow makes the procedure an *artifact*: steps, conditions, and transitions in a representation that the actor and the system can both read and act on. The system executes it or enforces it (the A cannot B until the rule C is satisfied); the actor inspects it, rehearses it, and repairs it. The representation may be a node graph, a trigger–action rule list, a pipeline definition — the pattern is indifferent to the notation, and the notation slides along the [formality](/patterns/formality) spectrum from natural-language instruction to executable code. Where the notation is a rule list, each entry is composed by its own move: see [rule composition](/patterns/rule-composition) for the unit, which also appears with no procedure around it at all.
 
 ## Forces
 
 - *Legibility against expressiveness* — the representation novices can read caps what it can express; the one that expresses everything reads as code
-- *Foreseeing effect* — the hardest part of authoring a rule is not writing it but estimating what it will do to live cases before it runs
+- *Foreseeing effect* — the hardest part of authoring a rule is not writing it but estimating what it will do to live cases before it runs. The force belongs to the unit rather than the procedure, and the evidence for it is about single rules; [rule composition](/patterns/rule-composition) carries it
 - *Map against script* — how far the procedure's interdependencies can be modelled in advance decides how strongly the artifact may bind its executors
 - *Whose account is it* — the representation renders work legible to an audience beyond its executors, and that audience's view is the one that gets enshrined
 - *The blank canvas* — authoring from nothing is the costliest entry point, and increasingly the avoidable one
@@ -78,7 +78,7 @@ Whether the artifact merely orients its executors or genuinely binds them is set
 
 Procedures fail after deployment, and the run-time affordances decide whether the pattern holds:
 
-- *Effect preview* — rehearse the rule against real or historical cases before committing authority to it; this is [delegation](/patterns/delegation)'s *test drive* touchpoint, and for rule edits it is the difference between tuning and gambling
+- *Effect preview* — rehearse the rule against real or historical cases before committing authority to it; this is [delegation](/patterns/delegation)'s *test drive* touchpoint, and for rule edits it is the difference between tuning and gambling. [Rule composition](/patterns/rule-composition) holds the forms this takes and what is known about each
 - *Step-level attribution* — when a run goes wrong, the actor needs the failure pinned to a step or an agent, at the representation, not in a log dump
 - *The prescription–account gap* — what ran never quite matches what was drawn; keep the [activity log](/patterns/activity-log) readable against the workflow rather than pretending the two are one
 
@@ -97,8 +97,7 @@ The instruction genre is continuous: the same note-shaped procedure can address 
 - Route [AI tuning](/patterns/ai-tuning)'s skeletal Workflow section and [agent](/patterns/agent)'s workflow-automation mode here instead of restating
 - The organisational face deserves its own worked treatment
 - Canvas as a broader thing?
-- Trigger–action rule lists and pipeline configurations as examples at other points of the formality spectrum
-- Connection to constrained natural language builder
+- Pipeline configurations as an example at another point of the formality spectrum. Trigger–action rule lists and the constrained natural language builder belong to [rule composition](/patterns/rule-composition); what this page still needs is a worked rule-list example read as a *procedure*
 - ...
 
 ## Resources & references

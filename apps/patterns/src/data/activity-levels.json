@@ -156,6 +156,11 @@
       "lifecycle-stage": "coordination",
       "mediation": "coordination"
     },
+    "comparing": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "conversation-quality": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
@@ -216,11 +221,6 @@
       "lifecycle-stage": null,
       "mediation": null
     },
-    "detached-artefact": {
-      "activity-level": "action",
-      "lifecycle-stage": null,
-      "mediation": null
-    },
     "disengage-without-closing": {
       "activity-level": "operation",
       "lifecycle-stage": null,
@@ -265,6 +265,11 @@
       "activity-level": "operation",
       "lifecycle-stage": null,
       "mediation": "coordination"
+    },
+    "extraction": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
     },
     "filtering": {
       "activity-level": "action",
@@ -336,6 +341,11 @@
       "lifecycle-stage": "seeking",
       "mediation": "individual"
     },
+    "incremental-formalisation": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "information-architecture": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
@@ -395,11 +405,6 @@
       "activity-level": "activity",
       "lifecycle-stage": null,
       "mediation": "individual"
-    },
-    "living-document": {
-      "activity-level": "activity",
-      "lifecycle-stage": null,
-      "mediation": "networking"
     },
     "localization": {
       "activity-level": "cross-cutting",
@@ -471,6 +476,11 @@
       "lifecycle-stage": null,
       "mediation": null
     },
+    "presence": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "mediation": "coordination"
+    },
     "privacy": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
@@ -516,6 +526,11 @@
       "lifecycle-stage": "seeking",
       "mediation": "individual"
     },
+    "reconciliation": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "coordination"
+    },
     "reference-material": {
       "activity-level": "operation",
       "lifecycle-stage": null,
@@ -525,6 +540,11 @@
       "activity-level": "action",
       "lifecycle-stage": null,
       "mediation": null
+    },
+    "rule-composition": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
+      "mediation": "individual"
     },
     "saving": {
       "activity-level": "action",
@@ -571,6 +591,11 @@
       "lifecycle-stage": null,
       "mediation": null
     },
+    "sharing": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "coordination"
+    },
     "sorting": {
       "activity-level": "action",
       "lifecycle-stage": "seeking",
@@ -591,15 +616,15 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
+    "steering-surface": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "step-by-step": {
       "activity-level": "action",
       "lifecycle-stage": "application",
       "mediation": "individual"
-    },
-    "streaming-output": {
-      "activity-level": "operation",
-      "lifecycle-stage": null,
-      "mediation": null
     },
     "suggestion": {
       "activity-level": "action",

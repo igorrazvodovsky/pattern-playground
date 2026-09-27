@@ -33,7 +33,7 @@ export function constituentsOf(step: Step): Constituent[] {
 // numbering has to stay the numbering the renderer prints.
 export const positionAnchor = (subId: string, index: number) => `${subId}-${index + 1}`;
 
-// `acting-on-material/form/2` → head `acting-on-material`, rest [`form`, `2`].
+// `making-changes/form/2` → head `making-changes`, rest [`form`, `2`].
 export function splitRef(ref: string): { head: string; rest: string[] } {
   const [head, ...rest] = ref.split('/').filter(Boolean);
   return { head, rest };

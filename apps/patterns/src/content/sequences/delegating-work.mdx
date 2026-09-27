@@ -1,0 +1,224 @@
+---
+title: "Delegating work"
+added: 2026-08-28
+updated: 2026-09-27
+description: "Write a request grounded in the actor's own sources, keep the work visible while it runs out of sight, send what arrives to the right place, and turn corrections that keep recurring into standing rules."
+order: 5
+presupposes: >-
+  The actor has work that an agent could do and has judged that handing it
+  over is worth more than doing it themselves. That judgement happens before
+  this sequence, and no pattern here makes it. The sources the agent should
+  work from exist, and the actor can point to it. Setting permissions and
+  trying the agent out first are settled elsewhere, if at all.
+enacts: [agency, temporality, malleability]
+sub-sequences:
+  - id: framing
+    title: "Handing the work over"
+    steps:
+      - step: "Write the request"
+        rule: prompt
+        gloss: >-
+          Help the actor turn what they want into a request the agent can act
+          on, in their own words and without special syntax. Ask only for
+          what this run is missing, and leave standing preferences until
+          early use gives the agent a reason to ask. Keep the request so the
+          actor can edit it, reuse it, or make it a template.
+        constituents:
+          - slug: prompt-scaffolding
+            note: "slots and feedback on the request, for an actor who does not yet know what a complete request contains"
+          - slug: good-defaults
+            note: "the agent works acceptably when the actor leaves things unspecified, and a pre-filled preference is a first draft the actor corrects"
+      - step: "Attach the sources to work from"
+        rule: reference-material
+        gloss: >-
+          Let the actor attach files, mentions, and connected sources inside
+          the request, so the agent works from their sources rather than
+          from general knowledge. Show what is attached and let the actor
+          remove it. Citations later point back to these sources.
+      - step: "Hand the goal to an agent"
+        rule: agent
+        gloss: >-
+          The actor can state the goal but not the procedure, so an agent
+          decides how to reach it. Decide whether the agent works in a
+          focused view, inline, or in the background, and keep how much it
+          may do on its own easy to find. The work now happens while the
+          actor is not watching, so the agent owes an account of it, which
+          the next steps provide.
+  - id: watch
+    title: "Following work out of sight"
+    initiating: >-
+      The run has started and the actor is elsewhere, nearby for a few
+      minutes or away until morning. The agent owes the account promised
+      when it took the work on.
+    steps:
+      - step: "Show the work as it happens"
+        rule: live-presentation
+        optional: true
+        gloss: >-
+          Show the output as it forms, so the actor can read ahead, judge
+          early, and stop the run. Skip this for a run nobody watches by
+          design, such as an overnight agent; the status and the record
+          cover it.
+      - step: "Keep the run's status visible at a glance"
+        gloss: >-
+          Show whether the run is still on task, what it has produced so
+          far, when it acts next, and which way its measures are moving. A
+          run waiting for its next trigger still shows that it is live, with
+          a countdown or a current reading. When a measure moves in a
+          worrying direction, the status becomes an interruption.
+        constituents:
+          - slug: status-feedback
+            note: "sets how the status is delivered: shown on the surface itself, escalating to an interruption only as urgency requires"
+      - step: "Show the reasoning"
+        rule: transparent-reasoning
+        gloss: >-
+          Show how the agent is working, in the form that fits who is
+          watching: a running account beside the live output when the actor
+          watches, and explanations attached to the record when nobody did.
+      - step: "Keep a lasting record"
+        rule: activity-log
+        gloss: >-
+          Record each event with who acted, what they did, what it applied
+          to, and when, and let the actor narrow the record down. This is
+          the account the agent owed when it took the work on.
+  - id: receive
+    title: "Receiving the result"
+    initiating: >-
+      The run has finished and something substantial has arrived: text, a
+      draft, or a set of changes. The actor's job is now to judge rather
+      than make. Accepting all of it takes no effort, while checking it
+      takes time in proportion to its length.
+    steps:
+      - step: "Present the result for judgement"
+        rule: generated-content
+        gloss: >-
+          Let the actor rate the result, take parts of it, and trace each
+          part to the source it came from, so they can stand behind a
+          result they did not make.
+      - choice: "Decide where the result goes"
+        gloss: >-
+          Decide for each result. A short answer that is read once stays in
+          the reply and needs neither.
+        alternatives:
+          - step: "Show the result as a set of changes"
+            rule: change-review
+            gloss: >-
+              When the result changes something that already exists and
+              matters, show what was there and what would replace it, and
+              let the actor accept it in parts. Show enough of what
+              surrounds it to judge the change, since the actor did
+              not write it and did not watch the work.
+          - step: "Move the result out of the conversation"
+            rule: extraction
+            gloss: >-
+              When the result matters more than the conversation that
+              produced it, give it its own name, link, and versions, so it
+              no longer depends on the conversation. Decide what the
+              conversation keeps, so it still reads afterwards as a record
+              of what happened.
+            constituents:
+              - slug: steering-surface
+                note: "the conversation continues beside the result and controls it, and the two can come to disagree about what was decided"
+  - id: iterate
+    title: "Correcting the result"
+    initiating: >-
+      The result is not right: close but wrong in a way the actor can name,
+      or wrong in a way they can only reject. Each correction works on the
+      result wherever the previous step put it.
+    steps:
+      - choice: "Choose how to correct it"
+        gloss: >-
+          Choose for each problem, not once for the whole system, since
+          all of these are needed. A third option, making the change directly,
+          leads out of this sequence.
+        alternatives:
+          - step: "Say what to change"
+            rule: instructed-revision
+            gloss: >-
+              Let the actor say what is wrong, such as shorter, warmer, or
+              only this part, so the result changes without being remade or
+              the request rewritten. Let the actor limit a change to one
+              part, so the parts that were already right stay as they are.
+          - step: "Ask for another attempt"
+            rule: regeneration
+            gloss: >-
+              Let the actor ask for another answer to the same request: the
+              whole, a part, or several versions side by side to compare. A
+              new attempt replaces the previous one, and keeping a way back
+              to it is handled elsewhere.
+      - step: "Turn a repeated correction into a standing rule"
+        rule: ai-tuning
+        gloss: >-
+          When the actor gives the same correction for the third time, offer
+          to make it a rule for every session. Either side can notice the
+          repetition: the actor promotes the correction, or the agent counts
+          the repeats and proposes the rule.
+        constituents:
+          - slug: rule-composition
+            note: "the rule is written as conditions the actor can read, edit, and check against the record before it takes effect"
+    resulting: >-
+      The actor corrects results by judging rather than writing, and
+      corrections that recur have become standing rules. The actor has
+      shaped a result they never wrote, so it is unclear who authored it
+      and who answers for its details.
+connections:
+  - kind: hands-off
+    at: framing/2
+    to: calibrating-reliance
+    via: citation
+    note: "the attached sources are what citations point back to, and showing evidence with the result is that sequence's work"
+  - kind: hands-off
+    at: framing/3
+    to: governing-autonomy
+    via: bounded-autonomy
+    note: "how much the agent may do on its own needs clear limits, which that sequence sets first"
+  - kind: hands-off
+    at: framing/3
+    to: learning
+    via: onboarding
+    note: "the agent's first run introduces what it can and cannot do, and helping the actor learn to use it is that sequence's work"
+  - kind: hands-off
+    at: watch/1
+    to: the-encounter/trouble/2
+    via: abort
+    note: "watching the work live is what makes stopping it possible, and the stop is handled as that sequence's abort"
+  - kind: hands-off
+    at: watch/2
+    to: attention-and-tempo
+    note: "a worrying status, and an unwatched run finishing or failing, reach the actor as interruptions, which that sequence decides about"
+  - kind: calls
+    at: watch/3
+    to: calibrating-reliance
+    via: cognitive-forcing-functions
+    note: "reasoning that looks thorough invites the actor to stop reading it, and that sequence adds the friction that keeps them judging"
+  - kind: hands-off
+    at: watch/4
+    to: memory-and-continuity
+    note: "the record is part of what the collaboration remembers across sessions"
+  - kind: hands-off
+    at: receive/2
+    to: governing-autonomy
+    via: approval-gate
+    note: "a set of changes gives an approval something concrete to act on, and approving is that sequence's step"
+  - kind: hands-off
+    at: iterate/1
+    to: making-changes/routing/2
+    via: editing-in-place
+    note: "making the change directly leaves delegation for direct work, and that sequence decides which surface it happens on"
+  - kind: hands-off
+    at: iterate/1
+    to: making-changes/safety/3
+    via: undo
+    note: "a new attempt replaces the old one, and the way back to it is built in that sequence"
+  - kind: calls
+    at: iterate/2
+    to: making-changes/surface
+    via: form
+    note: "the rule editor uses the same form parts as that sequence, though its set of fields stays open"
+---
+
+The actor has work worth handing to an agent, and the sources it should work from are at hand. The run can happen both while the actor watches or they don't, and several steps differ between the two.
+
+Two other sequences lead here: [the encounter](/sequences/the-encounter), where an open request becomes
+the prompt, and [assistance escalation](/sequences/assistance-escalation), where a procedure that keeps recurring
+whole is handed over to run.

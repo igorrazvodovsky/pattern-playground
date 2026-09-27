@@ -10,6 +10,20 @@ The project's theoretical orientation draws on two phases of Christopher Alexand
 
 Getting from Pattern Language to Nature of Order means discovering interaction-design analogues of Alexander's structural properties — configurations that reliably produce certain experiential effects across diverse users and contexts.
 
+## Living process — the bridge between the phases
+
+Between the two phases sits *The Nature of Order* Book 2's account of *living process*: any adaptive process that generates living structure step by step through structure-preserving transformations. Its unit is the *fundamental differentiating process* — attend to the whole as it is, find where it is weakest, find the latent centres, choose one, transform it, check that life increased, repeat. A *generative sequence* (Book 2 ch. 11) is a found ordering of such steps for a recurring type of work: fixed order, variable result, each step acting on what the previous steps produced. Since 2026-08 the project organises its language as a system of such sequences ([sequence map](../../plans/active/2026-08-sequence-map.md); representation in [specs/sequences.md](../specs/sequences.md)).
+
+Alexander's late method fuses three things this project keeps as separate strata with named seams:
+
+- *Patterns* are the generic rules — each "a rule for making a certain kind of center" (Book 2 ch. 13). The corpus's pattern pages.
+- *Sequences* store the order of invoking them — the knowledge no edge can carry. The sequences collection.
+- The *form language* is the combinatory stock of schemata a maker actually builds with (Book 2 ch. 16) — in this project, the component catalogue and the foundations. Alexander records that patterns applied without a supporting form language produce incoherence (ch. 16 note 1); the sequence layer touches this stratum through constituents and the foundations-are-material rule.
+
+The per-step verdict — Alexander's *feeling* — is not imported; in this corpus it stays with the actor's judgement under the suggestion-grade stance.
+
+Book 2 names ten features every living process must have (ch. 7 §13). The project imports them selectively: sequence (feature 4) and patterns-as-generic-rules (feature 6) are built; step-by-step adaptation (feature 1) and the-whole-governs (feature 2) are ground assumptions the sequence spec's authoring bar encodes; feeling (7), the aperiodic grid (8), and the simplicity transformation (10) are unimported. A feature is imported when a sequence sitting runs into its absence, not wholesale. The chapter-by-chapter grounding is in `PARA/Projects/pattern playground/research/sequence-map/2026-08-28-living-process.md` and `2026-08-28-sources.md`.
+
 ## Centres in this project's medium
 
 In architecture, centres are geometric — a window, a courtyard, an alcove. In interaction design, centres are *psychosemiotic*: meaning-carrying differentiations in the field of behaviour and attention. A confirmation dialog is a centre not because of its visual rectangle but because it differentiates deliberate action from accidental. A wizard is a centre because it differentiates "inside a guided sequence" from "open space." Centres in this medium are identified by the distinction they introduce, regardless of modality (visual, temporal, conversational).

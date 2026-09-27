@@ -73,7 +73,7 @@ hold promoted commitments that govern the process.
   decision-tree discriminators as situational hints
 - [Conceptual glossary](language/conceptual-glossary.md) — working vocabulary
 - [Design theory](language/design-theory.md) — Alexander, centres, qualities,
-  and the theoretical arc
+  living process and sequences, and the theoretical arc
 - [Semilattice](language/semilattice.md) — why the pattern space is a
   semilattice, not a tree; the argument behind multiple projections
 - [The fifteen properties](language/properties/index.md) — each property as a

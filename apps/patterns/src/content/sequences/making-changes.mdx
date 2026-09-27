@@ -1,0 +1,208 @@
+---
+title: "Making changes"
+added: 2026-08-28
+updated: 2026-09-27
+description: "Decide how the actor selects what to change, where each kind of change is made, when a change is saved, and how it can be undone, with safeguards matched to how costly each change is."
+order: 3
+presupposes: >-
+  A collection is in front of the actor:
+  [composing views](/sequences/composing-views) has run, so selecting items is
+  easy, and there is a place where changes can be shown. The operations are
+  named: what can be created, changed, and removed, and what each is called.
+  That naming happens before this sequence, and no pattern here does it.
+enacts: [malleability, formality, temporality]
+sub-sequences:
+  - id: routing
+    title: "Selecting what to change and where to change it"
+    steps:
+      - step: "Decide how the actor selects what to act on"
+        rule: selection
+        gloss: >-
+          Decide once how the actor selects what an action applies to: one
+          item, a set, or a range; whole items, parts of items, or content
+          inside them; whether the selection is kept through sorting,
+          filtering, and paging; and whether the selection control is always
+          visible, shown on hover or focus, or available only in a separate
+          mode. Later steps rely on this selection model. Creating a new item
+          selects nothing, so it skips this step.
+      - choice: "Decide where each kind of change is made"
+        gloss: >-
+          Decide this for each kind of change, not once for the whole system.
+          The same system can handle a title edit and a record import in
+          different places.
+        alternatives:
+          - step: "Let the actor change the item where it is shown"
+            rule: editing-in-place
+            gloss: >-
+              Let the actor edit the item in the same place it is displayed.
+              Each change is saved as it is made, so there is nothing pending
+              to cancel, and undoing a change is handled by the undo step.
+            constituents:
+              - slug: block-based-editor
+                note: "the same blocks are used for reading and editing, with no separate mode for either"
+          - step: "Collect the change in a separate form"
+            rule: form
+            gloss: >-
+              Use a separate form when the fields only make sense together,
+              the input needs more space than the display has, the change
+              applies to a set rather than the item being viewed, or the actor
+              needs to review everything before submitting. The next
+              sub-sequence shapes this form.
+          - step: "Split the change into dependent steps"
+            rule: wizard
+            gloss: >-
+              Use a wizard only when earlier answers decide which options are
+              available later, and the task is done too rarely for the actor to
+              remember its structure. Make Back return to earlier steps without
+              losing what was entered; the undo step provides this. If the
+              steps do not depend on each other, use a form with sections
+              instead.
+  - id: surface
+    title: "Designing the form"
+    initiating: >-
+      Some changes are now made in a form, either on one page or across the
+      steps of a wizard. In both cases the form is made of fields, and each
+      field asks the actor for one piece of information.
+    steps:
+      - step: "Ask only for what is needed"
+        gloss: >-
+          Include a field only if the system needs the value and cannot work
+          it out itself. Each extra field adds effort and makes it more likely
+          that the actor abandons the form.
+      - step: "Choose the input format for each field"
+        rule: data-entry
+        gloss: >-
+          Accept free-form input where people write the value in different
+          ways and the system can interpret it, and show the interpreted value
+          before it is accepted. Use a structured input where a misreading
+          would cause harm or the format is strict.
+      - cluster: "Help the actor answer"
+        gloss: >-
+          Two ways of helping the actor fill in the fields. They can be applied
+          in either order, and most designs use both.
+        steps:
+          - step: "Offer a list where the value must come from a fixed set"
+            rule: bounded-choice
+            gloss: >-
+              Where the value must come from a set the actor did not define,
+              let them choose from it, and pick a control that suits the size
+              of the set. For a set too large to browse, use search.
+          - step: "Pre-fill values the system can guess"
+            rule: good-defaults
+            gloss: >-
+              Fill in fields with the system's best guess before the actor
+              reaches them. Where the system already knows the value, or takes
+              part in the work itself, the assistance escalation sequence
+              covers the design.
+      - step: "Divide a long form into sections"
+        rule: sections
+        optional: true
+        gloss: >-
+          Split a long form into a small number of named sections that stay the
+          same each time the form is used. Skip this step for a short form.
+      - step: "Respond to invalid input"
+        rule: validation
+        gloss: >-
+          Show the message next to the field, say what is wrong and how to fix
+          it, and keep the message visible until the input is corrected.
+          Confirm valid input as soon as possible and report errors only when
+          the actor leaves the field, but once a field has failed, recheck it
+          as the actor types.
+  - id: committing
+    title: "Saving the work"
+    initiating: >-
+      Changes are now made in place or through forms, and nothing is kept
+      until the system stores it. Some of this is already decided: changes
+      made in place are saved one at a time, and a form keeps its values until
+      it is submitted.
+    steps:
+      - step: "Separate saving from the other actions on the Save button"
+        rule: saving
+        gloss: >-
+          Separate storing the work from other actions that are often attached
+          to the Save button, such as creating a version, discarding a draft,
+          or marking work as done, and give each action its own control.
+      - step: "Choose between automatic and manual saving"
+        rule: saving
+        aspect: "its arrangements"
+        gloss: >-
+          Save automatically for open-ended work. Use manual saving where a
+          real constraint or transaction requires a pending state that the
+          actor can review or cancel. Where both are used, show which applies
+          where. In both cases, show the save status: what has been stored and
+          what has not.
+      - step: "Separate publishing from saving"
+        rule: draft-and-publish
+        optional: true
+        gloss: >-
+          When work is saved continuously and other people can see it, keep a
+          working copy and add a separate publish action. Publishing marks the
+          point where work is ready for others, and where review, versioning,
+          and notifications can apply. Skip this step if no one else sees the
+          work.
+  - id: safety
+    title: "Making changes safe"
+    initiating: >-
+      The earlier steps have created actions that change, remove, and publish
+      items, and these actions carry different risks. This sub-sequence
+      covers all of them, not only deletion.
+    steps:
+      - step: "Assess the consequences of each action"
+        rule: action-consequences
+        gloss: >-
+          Rate each action by how long recovery takes, how much it affects,
+          and whether it triggers further changes, taking into account
+          safeguards already in place, such as pending states and drafts. Call
+          the result the action's risk rating. Publishing to people outside
+          the team is often riskier than deleting.
+      - step: "Match the deletion safeguard to the risk rating"
+        rule: deletion
+        gloss: >-
+          Choose the safeguard from the risk rating, using the decision tree
+          on the deletion page: undo alone for items that are easy to
+          recreate, an inline confirmation, a dialog that explains the
+          consequences, or a typed confirmation for deletions that cannot be
+          undone. What a deletion covers is set by the selection model.
+      - step: "Provide undo"
+        rule: undo
+        gloss: >-
+          Provide undo for completed deletions, for changes made in place, and
+          for Back in a wizard. An action that can be undone needs less
+          confirmation, so update its risk rating once. Decide how many steps
+          undo can go back and whether undo history is kept after the session
+          ends.
+connections:
+  - kind: hands-off
+    at: routing/2
+    to: the-encounter
+    via: conversation
+    note: "fields can also be asked and answered one at a time in a conversation; that sequence covers this while the questions are still changing, and the conversation becomes a form once they are fixed"
+  - kind: calls
+    at: surface/3
+    to: composing-views/search
+    via: searching
+    note: "a set too large to browse needs search, which that sequence designs"
+  - kind: hands-off
+    at: surface/3
+    to: assistance-escalation
+    via: good-defaults
+    note: "a pre-filled guess is the first level of help, and that sequence takes over where the system already knows the value or takes part in the work"
+  - kind: interleaves
+    at: committing/2
+    to: working-on-the-same-thing
+    note: "two actors editing the same item find out about each other when they save, so resolving conflicts alternates with this sequence's saving steps"
+  - kind: hands-off
+    at: committing/3
+    to: attention-and-tempo
+    via: notification
+    note: "publishing gives notifications a point to attach to, and that sequence decides who is notified and when"
+  - kind: hands-off
+    at: safety/3
+    to: memory-and-continuity
+    via: activity-log
+    note: "undo history ends with the session, and longer-term history, such as named versions, is covered in that sequence"
+---
+
+A collection is in front of the actor, and the operations on it are named.
+Some later choices follow from earlier ones: if the actor changes items where
+they are shown, that also decides how those changes are saved and undone.

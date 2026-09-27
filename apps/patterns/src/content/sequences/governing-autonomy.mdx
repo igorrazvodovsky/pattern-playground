@@ -1,0 +1,184 @@
+---
+title: "Governing autonomy"
+added: 2026-08-29
+updated: 2026-09-27
+description: "Set clear limits on what an agent may do on its own, add checkpoints where mistakes would be costly, hand work back and forth without losing context, and keep a record so the next set of limits is based on evidence."
+order: 7
+presupposes: >-
+  The actor has already delegated work to an agent, and
+  the open question is how much it may do without asking. The actor has also
+  judged the risks: which actions are cheap to redo, what it costs if the
+  agent keeps going unchecked, and which effects cannot be reversed. That
+  judgement happens before this sequence, and no pattern here makes it.
+enacts: [agency, temporality]
+sub-sequences:
+  - id: grant
+    title: "Setting the limits"
+    steps:
+      - step: "Set limits on what the agent may do"
+        rule: bounded-autonomy
+        gloss: >-
+          Set limits on scope, spend, time, and risk for each capability,
+          rather than one blanket permission. Show the actor the limits in
+          plain terms before they take effect. Commit to returning the work
+          to the actor whenever a limit is reached; the handoff steps below
+          carry this out.
+        constituents:
+          - slug: rule-composition
+            note: "beyond the simplest case, the limits are several rules combined, and the actor reviews them together"
+          - slug: settings
+            note: "where the limits are kept between runs, so the actor can check what the agent is currently allowed to do"
+      - step: "Show spending against each limit"
+        rule: cost-transparency
+        gloss: >-
+          Show how much has been spent against each limit: an estimate before
+          the run, a running total during it, and the remaining allowance.
+          Track only the limits that matter to the actor. The estimate also
+          appears in the preview shown before approval.
+  - id: gate
+    title: "Checking costly actions"
+    initiating: >-
+      Even within its limits, the agent reaches actions that matter: work
+      that costs a lot, and effects that are hard to reverse. Checkpoints go
+      where the consequences justify them, and routine actions go ahead
+      without one.
+    steps:
+      - step: "Rate each action by its consequences"
+        rule: action-consequences
+        gloss: >-
+          Rate each action by how long it takes to recover from, how much it
+          affects, and whether it sets off further changes, using the risk
+          judgement made before the sequence began. The rating decides which
+          actions get a preview, which need approval, and which go ahead
+          without either.
+      - step: "Preview the work before it runs"
+        rule: plan-preview
+        optional: true
+        gloss: >-
+          Before the agent spends anything, show the steps, what they will
+          touch, the expected results, and the cost estimate, so the actor
+          knows what they are approving. Preview only work rated high
+          enough. A continuous run skips this step, because its rules serve
+          as its plan and the actor reviewed them when setting the limits.
+      - step: "Ask for approval"
+        rule: approval-gate
+        gloss: >-
+          Nothing rated as consequential goes ahead without the actor's
+          approval, given per action, per batch, or per set of changes.
+          Approval requests come from three places: a previewed plan, a
+          review of changes from delegated work, and a limit that has been
+          reached. Approving makes the actor responsible for the outcome,
+          which is why the record later needs to show what each approval
+          covered.
+      - step: "Keep the run within what was approved"
+        gloss: >-
+          If the agent starts doing something the approval did not cover,
+          treat it the same as reaching a limit: pause the run and decide
+          what happens next.
+  - id: transfer
+    title: "Handing work over"
+    initiating: >-
+      The run has paused before finishing. A limit was reached, the agent's
+      confidence dropped too low, a decision came up that needs a person, or
+      the actor stepped in. This is the handback the actor was promised when
+      setting the limits. Each pause needs its own decision about who
+      continues the work and with what permissions.
+    steps:
+      - choice: "Decide what happens to the paused run"
+        gloss: >-
+          Decide for each pause. Two other outcomes lead out of this
+          sequence: the actor takes over the work directly, or gives up on
+          the goal.
+        alternatives:
+          - step: "Extend the limit and continue"
+            rule: approval-gate
+            gloss: >-
+              Turn the reached limit into an approval request: show what has
+              been spent and what more is needed, then either extend the
+              limit for this run or stop. If the same extension is asked for
+              again and again, note it for the review of limits later on.
+          - step: "Hand the work to someone else"
+            rule: handoff
+            gloss: >-
+              Pass the work on with its context: what has been done, what is
+              left, and why it was handed over. The person taking over may
+              be the actor, or someone with permissions or knowledge the
+              agent lacked. Make clear who is responsible for keeping watch
+              after the handover.
+      - step: "Hand the work back to the agent"
+        rule: handoff
+        aspect: "its takeback direction"
+        gloss: >-
+          Treat giving the work back to the agent as a separate step. Confirm
+          that whatever caused the pause has been dealt with, agree on what
+          the agent resumes and under which limits, and for a while give it
+          narrower limits and have it show more of its work.
+  - id: account
+    title: "Adjusting the limits over time"
+    initiating: >-
+      Many limits, approvals, and handovers have built up across runs. The
+      actor is responsible for outcomes they only reviewed briefly, and
+      without a proper record, the next set of limits will be based on
+      impressions.
+    steps:
+      - step: "Keep a record of every decision"
+        rule: activity-log
+        gloss: >-
+          Record every limit set, approval given, handover, and limit
+          reached, with who acted, what they did, what it applied to, and
+          when. The record should show exactly what each approval covered.
+      - step: "Adjust the limits based on the record"
+        rule: bounded-autonomy
+        aspect: "its incremental regrant"
+        gloss: >-
+          Widen the limits after a history of runs without problems, and
+          narrow them when the risk goes up. Make each change explicit and
+          show it to the actor. Start with the extensions that keep being
+          requested: a limit that has to be extended on every run is set in
+          the wrong place.
+    resulting: >-
+      The actor decides how much the agent may do based on evidence. They
+      are still responsible for work they only saw at its checkpoints, and
+      that remains the cost of delegating.
+connections:
+  - kind: calls
+    at: gate/3
+    to: calibrating-reliance
+    via: cognitive-forcing-functions
+    note: "after many approvals, saying yes becomes a habit; that sequence adds friction so each approval stays a real decision, applied where the record shows approvals being given without review"
+  - kind: hands-off
+    at: transfer/1
+    to: making-changes/routing/2
+    via: editing-in-place
+    note: "when the actor takes over the paused work directly, they move from supervising to doing the work, and that sequence covers where they do it"
+  - kind: hands-off
+    at: transfer/1
+    to: the-encounter/trouble/2
+    via: abort
+    note: "giving up on the goal mid-run ends the work rather than handing it on; the work stops where it is, and the changes made so far are listed"
+  - kind: hands-off
+    at: transfer/1
+    to: working-on-the-same-thing
+    note: "the person taking over can be someone else, while handoff covers only handovers between a person and an agent"
+  - kind: hands-off
+    at: transfer/1
+    to: attention-and-tempo
+    via: notification
+    note: "when work is handed back to an actor who is not watching, it reaches them as an interruption, and that sequence decides how urgent it should be"
+  - kind: calls
+    at: transfer/2
+    to: learning
+    via: mastery
+    note: "taking work back only helps if the actor still has the skills to do it after delegating, and that sequence keeps those skills in use"
+  - kind: hands-off
+    at: account/1
+    to: memory-and-continuity
+    note: "the record of limits and approvals is part of what the collaboration keeps across sessions"
+---
+
+The actor has handed work to an agent and now has to decide how much the
+agent may do without asking.
+
+{/* A continuous run, such as an agent that sorts incoming requests overnight, works under rules set in advance, and those rules are its plan, so it skips the preview. A one-off run, such as a single research request, is previewed before it starts spending. */}
+
+{/* The sequence does not end after one pass. When a run reaches a limit, the actor decides whether to extend it. Over many runs, the record shows which limits are set too tight or too loose, and the actor adjusts them. */}

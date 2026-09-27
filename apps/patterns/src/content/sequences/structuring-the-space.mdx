@@ -1,0 +1,219 @@
+---
+title: "Structuring the space"
+added: 2026-08-28
+updated: 2026-09-27
+description: "Turning a settled information architecture into a space that is partitioned, navigable, and addressable."
+order: 1
+presupposes: >-
+  The actor's objects, activities, and labels have names, and the design is
+  tool-shaped: a spatial surface is its primary frame. The structure those
+  names sit in is not presupposed; the hierarchy, where there is one, is
+  decided inside this sequence and checked against the actor's own
+  categories there. If the objects and labels cannot yet be named, the
+  design is not ready for this sequence.
+enacts: [privacy, agency, shareability]
+sub-sequences:
+  - id: layout
+    title: "Laying out the space"
+    steps:
+      - step: "Partition the work into contexts"
+        rule: workspace
+        optional: true
+        gloss: >-
+          Draw the boundaries where attention and responsibility divide. A
+          context also decides who can see what it holds, so usually
+          the permission lines come first and the attention lines follow.
+          Decide the switcher between contexts here too. Where the work
+          forms one context, say so and move on.
+        constituents:
+          - slug: hub-and-spoke
+            note: "the switcher over the contexts: the workspace list is the hub and each context a spoke"
+      - choice: "Recognise what kind of space each context is"
+        exclusive: true
+        gloss: >-
+          Read the kind from what each context holds and how the actor moves
+          through it: one continuous space, an ordered sequence, one
+          collection, or sections that differ in kind. Take one arm per
+          region, where a region begins wherever the movement rule changes: a
+          file browser and the open file are two regions of one workspace.
+          Recognise again per platform, since the same space is often a hub
+          on a phone and a tree on a desktop. For sections, start from the
+          genre's default in [navigation](/patterns/navigation-overview) and
+          let the growth steps correct it. A surface whose only navigation is
+          done or cancel is a corridor, decided in the routing choice of
+          [making changes](/sequences/making-changes).
+        alternatives:
+          - step: "Navigate by viewport"
+            rule: pan-and-zoom
+            gloss: >-
+              One continuous space. Make position and scale nameable, so the
+              addressing steps can give them addresses.
+          - step: "Prescribe the order"
+            rule: step-by-step
+            gloss: >-
+              An ordered sequence whose later steps depend on earlier ones.
+              What has been entered has to survive a stop: the addressing
+              steps give each step an address, and keeping the entered state
+              is handed to [memory and continuity](/sequences/memory-and-continuity).
+          - step: "Offer the sequence, allow jumps"
+            rule: pyramid
+            gloss: >-
+              An ordered sequence without dependencies. The actor expects
+              their progress remembered, which is handed to
+              [memory and continuity](/sequences/memory-and-continuity).
+          - step: "Dissolve into the collection"
+            rule: overview-detail
+            gloss: >-
+              One collection browsed item by item. There is no topology to
+              choose, and the design continues in
+              [composing views](/sequences/composing-views).
+          - step: "File into a hierarchy"
+            rule: multilevel-tree
+            gloss: >-
+              Sections that differ in kind, with subsections behind them and a
+              categorisation the actor can learn. Check the hierarchy against
+              how actors categorise, and prefer broad and shallow to deep and
+              narrow.
+          - step: "Keep one surface"
+            rule: flat-navigation
+            gloss: >-
+              Tools that differ in kind but fit on one surface.
+          - step: "Connect everything to everything"
+            rule: fully-connected
+            gloss: >-
+              Sections that differ in kind, with routine journeys between
+              them.
+          - step: "Route through a hub"
+            rule: hub-and-spoke
+            gloss: >-
+              Sections that differ in kind and rarely need each other. What
+              the hub reports across the spokes is handed to
+              [making sense at scale](/sequences/making-sense-at-scale).
+  - id: addressing
+    title: "Making the space addressable"
+    initiating: >-
+      The layout has produced states worth returning to: a context entered,
+      an item open, a step reached, a position in a space. The only record of
+      how to get back is in the actor's head.
+    steps:
+      - step: "Give every state worth returning to an address"
+        rule: deep-linking
+        gloss: >-
+          Address each of those states, including the step reached and the
+          position and scale named by the layout arms. Decide which job each
+          value in the address does: identify the thing, narrow the view, or
+          point inside it. Leave out what the actor set once for themselves.
+          Every address issued has to keep resolving, which the growth steps
+          have to honour.
+      - step: "Decide which changes deserve a Back step"
+        rule: deep-linking
+        aspect: "its history dimension"
+        gloss: >-
+          Decide over the moves the layout produces: switching context,
+          opening an item, moving within a space. Moves a view makes on its
+          own, such as a filter changed or a panel opened, belong to
+          [composing views](/sequences/composing-views).
+      - step: "Expose the link"
+        rule: deep-linking
+        aspect: "its sharing surface"
+        gloss: >-
+          Add a copy-link control wherever the layout produced a surface with
+          no address bar of its own.
+  - id: growth
+    title: "Growing past the model"
+    initiating: >-
+      A region has outgrown its model, and the strain shows as one pain at a
+      time. Read the pain from evidence, not guesses: actors bouncing in and
+      out of items to answer a scanning question, search launched from inside
+      a section, Back pressed in runs, and support asked where something
+      lives. The topologies are weighed against each other here, for the
+      region that hurts.
+    steps:
+      - choice: "Step up within the family"
+        exclusive: true
+        gloss: >-
+          Take one arm per pain, re-running the recognition over that region
+          alone. Count the actors' relearning as part of the cost, since every
+          arm changes a model they have learned.
+        alternatives:
+          - step: "Split the surface into a hub and spokes"
+            rule: hub-and-spoke
+            gloss: >-
+              A flat surface whose tools outgrow the screen.
+          - step: "Open direct paths between spokes"
+            rule: fully-connected
+            gloss: >-
+              A hub whose cross-spoke journeys have turned routine, so the
+              return through the hub is paid on every trip.
+          - step: "Push the depth into a tree"
+            rule: multilevel-tree
+            gloss: >-
+              Global chrome that no longer fits its sections. On a phone the
+              same pain usually takes the previous arm's shape instead: the
+              tab bar keeps its first few sections and the rest go behind a
+              More tab, a small hub.
+          - step: "Add sideways paths before changing shape"
+            gloss: >-
+              A tree whose sideways trips have turned routine. Add links
+              between the related sections first, then a command menu and
+              search that bypass the hierarchy, and change the shape only
+              after those.
+            constituents:
+              - slug: command-menu
+                note: "the escape hatch for the actor who knows the destination's name"
+              - slug: searching
+                note: "the escape hatch for the actor who knows the item rather than the place"
+      - step: "Re-partition the regions"
+        rule: hybrid-patterns
+        gloss: >-
+          When a pain is confined to one part of a region, split the region
+          and give that part its own model, instead of changing the model for
+          the whole.
+      - step: "Keep named states resolving"
+        rule: deep-linking
+        aspect: "its contract"
+        gloss: >-
+          Make the reorganised space answer at every address it ever issued.
+connections:
+  - kind: hands-off
+    at: layout
+    to: composing-views
+    via: workspace
+    note: "the layout gives composing views a surface to host its views"
+  - kind: hands-off
+    at: layout/1
+    to: attention-and-tempo
+    via: notification
+    note: "partitioned work is somewhere the actor is not looking, so changes there have to reach across the boundary"
+  - kind: hands-off
+    at: layout/2
+    to: composing-views/splitting
+    via: overview-detail
+    note: "the collection arm has no topology to choose, and the design continues in that sequence's splitting steps"
+  - kind: hands-off
+    at: layout/2
+    to: composing-views/splitting/4
+    via: pan-and-zoom
+    note: "a continuous space needs a second, wider viewport kept in step, which that sequence's coupling step provides"
+  - kind: hands-off
+    at: layout/2
+    to: making-sense-at-scale
+    via: purpose-keyed-view
+    note: "the hub is the natural place to report across the spokes, and what to show there is decided in that sequence"
+  - kind: hands-off
+    at: layout/2
+    to: memory-and-continuity/return/1
+    via: step-by-step
+    note: "the ordered arms leave a step reached and progress made, which that sequence keeps across a stop"
+  - kind: hands-off
+    at: addressing/1
+    to: composing-views/cross-references
+    via: link-preview
+    note: "a link can be previewed in place only when its target has an address that resolves"
+---
+
+The actor's objects, activities, and labels have names, and the space they
+sit in needs a layout. This is usually the first sequence walked. It gives
+[composing views](/sequences/composing-views) the surface its views sit on,
+and it is walked again, one region at a time, whenever part of the space
+outgrows its model.

@@ -78,15 +78,16 @@ const resolvedConnections = connections.map((c) => {
           <li class="flow" id={positionAnchor(sub.id, i)}>
             {isCluster(position) ? (
               <Fragment>
-                <p><strong>{position.cluster}</strong>{' · '}<em>unordered</em></p>
+                <p><strong>{position.cluster}</strong></p>
                 {position.gloss && <p><Label text={position.gloss} /></p>}
-                <ul>
+                <p class="sequence__lead-in"><em>In any order:</em></p>
+                <ul class="sequence__alternatives">
                   {position.steps.map((step) => <li class="flow"><SequenceStep step={step} titles={patternTitles} /></li>)}
                 </ul>
               </Fragment>
             ) : isChoice(position) ? (
               <Fragment>
-                <p><strong>{position.choice}</strong>{' · '}<em>{position.exclusive ? 'pick one' : 'combine any'}</em></p>
+                <p><strong>{position.choice}</strong></p>
                 {position.gloss && <p><Label text={position.gloss} /></p>}
                 {position.tree && (() => {
                   const tree = pattern(position.tree);
@@ -97,7 +98,8 @@ const resolvedConnections = connections.map((c) => {
                     </p>
                   );
                 })()}
-                <ul>
+                <p class="sequence__lead-in"><em>{position.exclusive ? 'Pick one:' : 'Combine any of:'}</em></p>
+                <ul class="sequence__alternatives">
                   {position.alternatives.map((step) => <li class="flow"><SequenceStep step={step} titles={patternTitles} /></li>)}
                 </ul>
               </Fragment>

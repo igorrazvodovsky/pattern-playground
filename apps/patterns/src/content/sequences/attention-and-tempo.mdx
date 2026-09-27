@@ -1,0 +1,158 @@
+---
+title: "Attention and tempo"
+added: 2026-08-29
+updated: 2026-09-27
+description: "Decide when the system may interrupt the actor: grade each kind of event once, give events that can wait a place where the actor can check them, and time each notification so the actor can get back to their work."
+order: 7
+presupposes: >-
+  It is known who may be interrupted, by what, and when: the priorities and
+  workloads involved are settled before any notification is designed. That
+  judgement is made before this sequence, and no pattern here makes it.
+enacts: [temporality, agency]
+sub-sequences:
+  - id: budget
+    title: "Setting the attention budget"
+    steps:
+      - step: "Grade each kind of event by urgency"
+        rule: status-feedback
+        gloss: >-
+          Take every kind of event the other sequences hand over, such as a
+          publish, a hand-back, an unrequested proposal, or a background run
+          finishing or failing, and give it one of a few fixed grades: the
+          actor must act, must know now, or only needs to find it later.
+          Grade each kind of event once, not each event. Keep the top grade
+          rare, because it is the only one allowed to interrupt focused time.
+      - step: "Route each grade to a channel"
+        rule: notification
+        gloss: >-
+          Send each grade to one of three channels: interrupt the actor,
+          announce without interrupting, or add silently to what is waiting.
+          Below the top grade, let the notification say that something needs
+          attention and let the actor decide when to look. Handle an event that
+          needs a decision from the actor as the start of an exchange, not as a
+          notification.
+      - step: "Protect focused time"
+        gloss: >-
+          Decide which protections exist, such as a focus block, working
+          hours, or a quiet day, which ones are scheduled and which are
+          switched on in the moment, and what each channel does with events
+          that arrive meanwhile: hold them, collect them, or discard them.
+      - step: "Decide what may get through"
+        gloss: >-
+          For each protection, decide who and what may get through it, and
+          how often. Use exceptions for named senders with a rate limit, such
+          as once a day per sender, with a short window to try again for
+          anything truly urgent.
+      - step: "Let the actor change every setting"
+        rule: settings
+        gloss: >-
+          The grades, channels, protections, and exceptions together make up
+          the attention budget. Make all of it a default the actor can change
+          per source, grade, and time of day. The actor's choice always wins:
+          the system may lower a grade but never raise it back. Set the
+          defaults as if nobody will ever open the settings, and treat a kind
+          of event the actor keeps muting as wrongly graded.
+  - id: glance
+    title: "Showing what is waiting"
+    initiating: >-
+      Most events now arrive without interrupting. If the actor cannot see at
+      a glance what is waiting, they will keep checking, and the checking
+      costs more than the interruptions it replaced.
+    steps:
+      - cluster: "Give waiting events a place to be seen"
+        gloss: >-
+          Show waiting events in two places, in no set order: indicators on
+          the screens the actor already uses, and a feed that collects the
+          rest. When nothing has changed, both should say so clearly.
+        steps:
+          - step: "Show status where the actor already looks"
+            rule: status-feedback
+            aspect: "its indication shape"
+            gloss: >-
+              Grade indicators the same way as events: nothing, a dot, or a
+              count. Reserve the count for messages addressed to the actor, so
+              a number always means someone is waiting on them.
+          - step: "Collect non-interrupting events in a feed"
+            rule: activity-feed
+            gloss: >-
+              Collect everything below the interrupting channel in one feed.
+              Decide its order and what the actor subscribes to, and design it
+              to be checked quickly and left, not read to the end.
+      - step: "Let the actor choose when to deal with things"
+        gloss: >-
+          Let the actor snooze a notification, ask to be reminded later, or
+          schedule a message they send. Offer presets that point to the start
+          of the next working block.
+  - id: arrival
+    title: "Timing each notification"
+    initiating: >-
+      Events happen at moments nobody chose, often in the middle of work the
+      budget knows nothing about. These steps are taken for each event, using
+      the grades, channels, indicators, and feed already set up.
+    steps:
+      - step: "Choose when to deliver"
+        gloss: >-
+          Delay delivery by seconds or minutes, until the actor reaches a
+          natural break in their task; anything that can wait for hours
+          belongs in the feed. Move a notification to the interrupting channel
+          only if the quiet one went unnoticed. Batch notifications only on a
+          schedule the actor chose.
+      - step: "Summarise batches of events, and say so"
+        optional: true
+        gloss: >-
+          Where events arrive in large numbers, offer a summary as an opt-in
+          feature. Mark it as a summary rather than the original, and link
+          each point in it to the event it came from. Skip this step when
+          events are few enough to show one at a time.
+      - step: "Show brief messages that dismiss themselves"
+        rule: transient-feedback
+        gloss: >-
+          For events that only need to be noticed, show a short message that
+          disappears on its own and never makes the actor stop. Decide how
+          long it stays and whether it offers one action, usually undo.
+          Anything important shown this way also goes to the feed.
+      - step: "Help the actor return to their work"
+        constituents:
+          - slug: deep-linking
+            note: "the interrupted place has an address, so returning means following a link rather than remembering where the actor was"
+        gloss: >-
+          At every grade, keep what the actor needs to resume: their place,
+          their unsaved draft, and enough context that they do not have to
+          work out again where they were. Do this for delayed notifications
+          too.
+    resulting: >-
+      Each event arrives at a suitable moment, in a form that matches its
+      grade, with any summary clearly marked, and with a way back to the work.
+      Each notification also makes the actor a little more likely to switch
+      notifications off.
+connections:
+  - kind: hands-off
+    at: budget/2
+    to: the-encounter
+    via: agent-opening
+    note: "an event that needs a decision rather than a look starts an exchange, and the budget's top grades decide when the agent may start one"
+  - kind: hands-off
+    at: glance/2
+    to: working-on-the-same-thing
+    note: "scheduled send and working hours decide when the actor's own message reaches a colleague, which is the same budget seen from the sender's side"
+  - kind: hands-off
+    at: arrival/1
+    to: memory-and-continuity
+    note: "events kept out of the interrupting channels entirely wait for the catch-up when the actor returns"
+  - kind: calls
+    at: arrival/2
+    to: calibrating-reliance
+    via: provenance-marking
+    note: "a generated summary is AI output, so it is marked as such and its points link back to the events they summarise"
+  - kind: hands-off
+    at: arrival/3
+    to: making-changes
+    via: undo
+    note: "the time before a brief message disappears is also the time to undo, and the undo it offers is built in that sequence"
+  - kind: hands-off
+    at: arrival/4
+    to: memory-and-continuity
+    note: "when an interruption lasts beyond the session, that sequence restores the actor's place"
+---
+
+This sequence decides which events may interrupt the actor, when, and in what form. The events come from the other sequences: a document is published, a run finishes or fails, a limit is reached, a proposal arrives, a colleague makes an edit. Events that can wait until the actor comes back are covered by [memory and continuity](/sequences/memory-and-continuity).

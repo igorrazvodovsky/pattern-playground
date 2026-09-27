@@ -1,0 +1,196 @@
+---
+title: "Composing views"
+added: 2026-08-28
+updated: 2026-09-27
+description: "Present a collection the actor can frame, search, follow links through, and split into coordinated views."
+order: 2
+presupposes: >-
+  The space is structured, and there is a surface to host the views. The
+  actor's objects and activities are named, and the collection exists as a
+  named thing with settled attributes and labels. That naming happens before
+  this sequence, and no pattern here makes it.
+enacts: [malleability, density]
+sub-sequences:
+  - id: framing
+    title: "Framing the collection"
+    steps:
+      - step: "Build the item's ladder"
+        rule: item-view
+        gloss: >-
+          Decide how an item looks at each level of detail, from a glyph or a
+          reference through a summary to the full item, and what keeps it
+          recognisable at every level.
+        constituents:
+          - slug: progressive-disclosure
+            note: "movement down the ladder is staged disclosure"
+      - step: "Frame the collection as a named view"
+        rule: data-view
+        gloss: >-
+          Choose the query (which items), the representation (which compact
+          level of the ladder they show at, such as a row, a card, or a pin),
+          and the arrangement. Set the defaults the actor meets before
+          changing anything.
+        constituents:
+          - slug: good-defaults
+            note: "the framing owns its defaults"
+      - step: "Decide the labelling layer"
+        rule: tag
+        optional: true
+        gloss: >-
+          Where items belong to several categories at once, or the words for
+          them are still changing, let items carry labels instead of a single
+          filed place. Skip this where each item has one settled category.
+      - step: "Decide what each view carries"
+        rule: attribute-visibility
+        gloss: >-
+          Choose which attributes each view shows, including the labels, as a
+          starting set, and let the actor change it.
+        constituents:
+          - slug: drag-and-drop
+            note: "the strongest surfacing control"
+      - cluster: "Open the arrangement and the query"
+        gloss: >-
+          Three steps in no set order, and most designs take all three. They
+          come after the attribute step because an attribute has to be
+          visible before it can be sorted by, grouped along, or filtered on.
+        steps:
+          - step: "Hand the actor the order"
+            rule: sorting
+            gloss: "Let the actor choose the order, and keep their choice."
+            constituents:
+              - slug: drag-and-drop
+                note: "manual order"
+          - step: "Give the collection visible structure"
+            rule: grouping
+            gloss: "Group items along an attribute the actor chooses."
+            constituents:
+              - slug: drag-and-drop
+                note: "moving between groups is the write path"
+          - step: "Narrow to items matching criteria"
+            rule: filtering
+            gloss: "Keep the active criteria visible on the surface."
+            constituents:
+              - slug: bounded-choice
+                note: "each condition"
+              - slug: embedded-intelligence
+                note: "natural language into structured filters"
+      - step: "Decide which edits pass through the view"
+        rule: data-view
+        aspect: "its writable dimension"
+        gloss: >-
+          Decide which representations accept edits, what each edit changes in
+          the underlying items, and a way to make every drag-based edit
+          without dragging. Editing inside the view follows
+          [making changes](/sequences/making-changes).
+        constituents:
+          - slug: drag-and-drop
+            note: "a card dropped in a lane writes the grouping attribute"
+    resulting: >-
+      The actor meets the collection framed, and can see and change the
+      framing. Framings pile up, and naming, sharing, and pruning them is
+      decided in [making sense at scale](/sequences/making-sense-at-scale).
+  - id: search
+    title: "Adding search"
+    initiating: >-
+      Narrowing is no longer enough: filtering leaves the actor at a dead
+      end, their criteria are not ones the attributes can express, or they
+      know the item's name rather than its properties. The information
+      architecture is settled, and any labels are facets the search can
+      narrow by.
+    steps:
+      - step: "Give intent an entry"
+        rule: searching
+        gloss: >-
+          Decide between keyword and natural-language queries, global or local
+          scope, and how the actor's words are translated into the system's
+          vocabulary.
+        constituents: [autocomplete, suggestion]
+      - step: "Frame the result set"
+        gloss: >-
+          Treat the results, ordered by relevance rather than by the
+          collection's own structure, as a named view, and take the framing
+          steps again over them.
+      - step: "Keep the search reversible"
+        rule: searching
+        aspect: "its stability obligation"
+        gloss: >-
+          Keep the context the search was launched from, so returning finds
+          the actor's scroll position and framing intact.
+  - id: cross-references
+    title: "Cross-references in place"
+    initiating: >-
+      The collection's items are documents with many links between them. A
+      collection of records with few links skips these steps.
+    steps:
+      - step: "Let links be sampled in place"
+        rule: link-preview
+        gloss: >-
+          Preview links on hover or focus, with increasing commitment: peek,
+          open alongside, open fully. Use the item ladder's summary level as
+          the preview.
+        constituents:
+          - slug: progressive-disclosure
+            note: "the lightest tier"
+      - step: "Surface the unauthored connections"
+        rule: dynamic-hyperlinks
+        gloss: >-
+          When the collection outgrows what anyone linked by hand, show
+          inferred connections as ranked suggestions, never as authored
+          structure, and give them previews, since nobody chose them.
+  - id: splitting
+    title: "Splitting and coupling"
+    initiating: >-
+      One view no longer serves both scanning many items and checking one,
+      or several views have each earned a place by showing a different
+      aspect.
+    steps:
+      - step: "Split the view"
+        rule: overview-detail
+        gloss: >-
+          Show the collection as two linked views: an overview with every item
+          at the same compact level, and a detail view of the current item in
+          full. Use the named view as the overview and the item ladder for
+          both sides.
+      - step: "Decide the content dimension per view"
+        rule: attribute-visibility
+        gloss: >-
+          Decide which attributes appear in which view. The overview's set
+          decides what can be compared, sorted, and filtered, so let the actor
+          change it.
+      - step: "Decide layout and composition"
+        gloss: >-
+          Place the views side by side, in place, in a popover, or on a new
+          page, and decide how many there are and how they nest.
+      - step: "Couple the views"
+        rule: coordinated-views
+        gloss: >-
+          Once there are more than two views, carry the actor's selection or
+          focus between them, so relationships across views can be seen.
+          Couple views only where it clearly helps; two views linked by a
+          current item do not need it.
+connections:
+  - kind: hands-off
+    at: framing
+    to: making-changes
+    via: selection
+    note: "a framed collection makes picking items cheap, and picking is where that sequence starts"
+  - kind: calls
+    at: framing/6
+    to: making-changes
+    via: editing-in-place
+    note: "editing inside the view follows that sequence's in-place arm"
+  - kind: hands-off
+    at: cross-references/1
+    to: calibrating-reliance
+    via: citation
+    note: "the link preview is also how a citation shows its source"
+  - kind: calls
+    at: splitting/4
+    to: making-changes
+    via: selection
+    note: "what coupling carries between views is sometimes a selection, which that sequence defines"
+---
+
+The space is structured and a surface is waiting for views. Every collection
+needs the framing steps. Search, links between items, and a second view come
+later, when the collection calls for them.
