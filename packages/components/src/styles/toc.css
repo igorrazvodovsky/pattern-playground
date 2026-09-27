@@ -1,6 +1,6 @@
 @layer components {
   pp-toc {
-    --font: 'Alegreya', georgia, serif;
+    --font: 'Alegreya Sans', system-ui, sans-serif;
 
     display: block;
   }
@@ -35,6 +35,8 @@
   pp-toc .toc-link {
     color: var(--c-bodyDimmed);
     text-decoration: none;
+    font-variant-caps: small-caps;
+    letter-spacing: 0.04em;
   }
 
   /* Scroll-spy: highlight the link whose section is currently in view. Pure CSS
