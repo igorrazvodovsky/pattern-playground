@@ -169,11 +169,13 @@ authoritative home.
 
 ## Rendering
 
-A sequence is served at `/sequences/<id>` and hosts the stacked-notes stack as
-pane 0, so following a step opens the pattern beside the sequence, which stays
-on screen ([pattern-site.md](pattern-site.md) §Stacked-notes navigation).
-Pane 0 is the only pane that can be something other than a pattern; the store
-carries its path for that reason, and panes 1+ stay pattern-only. Sequences
+A sequence is served at `/sequences/<id>` and takes part in the stacked-notes
+stack like a pattern ([pattern-site.md](pattern-site.md) §Stacked-notes
+navigation). On a direct visit it is pane 0, and following a step opens the
+pattern beside it. Followed from a link inside a pane, it opens to the right of
+that pane, and a link to a sequence that is already open goes to its pane. The
+pane partial is `/sequences/<id>/pane/`, rendered by the same `SequenceArticle`
+as the page. Sequences
 reach the nav as their own group, outside the projections: a projection is a
 grouping function over the pattern corpus, and a sequence is a walk over those
 entries rather than one of them. The group sits between the shared role groups

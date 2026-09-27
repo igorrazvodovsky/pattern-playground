@@ -12,15 +12,18 @@ import Label from './Label.astro';
 
 interface Props {
   entry: CollectionEntry<'sequences'>;
+  // The pane fragment (sequences/[id]/pane.astro) renders the same article;
+  // dropping the pagefind attributes keeps it out of the search index.
+  pagefind?: boolean;
 }
 
-const { entry } = Astro.props;
+const { entry, pagefind = true } = Astro.props;
 const { Content } = await render(entry);
 ---
 <article
   class="flow"
-  data-pagefind-body
-  data-pagefind-meta={`title:${entry.data.title}`}
+  data-pagefind-body={pagefind ? '' : undefined}
+  data-pagefind-meta={pagefind ? `title:${entry.data.title}` : undefined}
 >
   <header>
     <div class="meta">

@@ -132,6 +132,21 @@
     }
   }
 
+  /* A link to a page already open in the stack moves the view to it rather
+     than opening something. It takes a subtle background tint, and the pane
+     it goes to takes the same tint while the link is hovered or focused. The
+     link's shared description (StackManager, OPEN_DESC_ID) says "Already open"
+     to assistive technology. */
+  .pane a[data-in-stack] {
+    border-radius: 2px;
+    background-color: color-mix(in oklch, var(--c-accent-500) 22%, transparent);
+  }
+
+  .pane[data-link-target],
+  .pane[data-link-target] .pane-spine {
+    background-color: color-mix(in oklch, var(--c-accent-500) 10%, var(--c-background));
+  }
+
   /* Loading / error states */
   .pane-loading,
   .pane-error {

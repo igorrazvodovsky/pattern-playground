@@ -1,103 +1,142 @@
 import { create } from 'zustand';
 import { getPaneContent } from './pane-content';
+import { buildURL, decodePaneParam, panePath, parsePanePath } from './pane-path';
 
 export type Pane = {
-  slug: string;
+  // `/patterns/<slug>` or `/sequences/<id>`: the pane's identity (pane-path.ts).
+  path: string;
   title: string;
   html: string;
   status: 'loading' | 'ready' | 'error';
   hash?: string;
-  // Only pane 0 ever carries one: nothing pushes a sequence, so panes 1+ are
-  // always patterns and take the `/patterns/<slug>` default.
-  path?: string;
 };
+
+// A request for StackManager to bring an open pane into view. `n` changes on
+// every request, so going to the same pane twice still scrolls.
+export type Reveal = { index: number; hash?: string; n: number };
 
 type StackState = {
   panes: Pane[];
   activeIndex: number;
-  push: (slug: string, fromIndex: number, hash?: string) => Promise<void>;
-  syncFromURL: (slug0: string, title0: string, path0?: string) => Promise<void>;
+  reveal: Reveal | null;
+  push: (path: string, fromIndex: number, hash?: string) => Promise<void>;
+  goTo: (index: number, hash?: string) => void;
+  follow: (path: string, fromIndex: number, hash?: string) => void;
+  syncFromURL: (path0: string, title0: string) => Promise<void>;
 };
 
-export function buildURL(panes: Pane[]): string {
-  if (panes.length === 0) return '/';
-  const [first, ...rest] = panes;
-  const base = first.path ?? `/patterns/${first.slug}`;
-  if (rest.length === 0) return base;
-  const params = new URLSearchParams();
-  // A pane's section anchor is part of its address: encode it into the param
-  // ('#' is percent-encoded by URLSearchParams) so a shared or reloaded stack
-  // restores anchor positions, not just panes.
-  for (const pane of rest) params.append('stackedNotes', pane.hash ? pane.slug + pane.hash : pane.slug);
-  return `${base}?${params.toString()}`;
+// The open pane a link from `fromIndex` should go to: the nearest pane with
+// that path to the left of the link (its own pane included), then the nearest
+// to the right. -1 when the page is not open.
+export function findOpenPane(panes: Pane[], path: string, fromIndex: number): number {
+  for (let i = Math.min(fromIndex, panes.length - 1); i >= 0; i--) {
+    if (panes[i].path === path) return i;
+  }
+  for (let i = fromIndex + 1; i < panes.length; i++) {
+    if (panes[i].path === path) return i;
+  }
+  return -1;
 }
 
-// Replace the first loading-status pane with the given slug by a new value.
-function replaceLoadingPane(panes: Pane[], slug: string, next: Pane): Pane[] {
-  const idx = panes.findIndex(p => p.slug === slug && p.status === 'loading');
+// Until its content arrives, a pane is titled by its slug or id.
+function placeholderTitle(path: string): string {
+  return parsePanePath(path)?.id ?? path;
+}
+
+// Replace the first loading-status pane with the given path by a new value.
+function replaceLoadingPane(panes: Pane[], path: string, next: (pane: Pane) => Pane): Pane[] {
+  const idx = panes.findIndex(p => p.path === path && p.status === 'loading');
   if (idx === -1) return panes;
   const updated = [...panes];
-  updated[idx] = next;
+  updated[idx] = next(updated[idx]);
   return updated;
 }
 
 export const useStackStore = create<StackState>()((set, get) => ({
   panes: [],
   activeIndex: 0,
+  reveal: null,
 
-  push: async (slug, fromIndex, hash) => {
+  push: async (path, fromIndex, hash) => {
     const { panes } = get();
     const truncated = panes.slice(0, fromIndex + 1);
-    const placeholder: Pane = { slug, title: slug, html: '', status: 'loading', hash };
+    const placeholder: Pane = { path, title: placeholderTitle(path), html: '', status: 'loading', hash };
     const newPanes = [...truncated, placeholder];
     set({ panes: newPanes, activeIndex: fromIndex + 1 });
     history.pushState({}, '', buildURL(newPanes));
 
     try {
-      const content = await getPaneContent(slug);
-      set(state => ({ panes: replaceLoadingPane(state.panes, slug, { ...content, status: 'ready', hash }) }));
+      const content = await getPaneContent(path);
+      // The pane's current hash, not the one it was pushed with: a link to
+      // this pane may have named an anchor while it was loading (goTo).
+      set(state => ({ panes: replaceLoadingPane(state.panes, path, pane => ({ ...content, status: 'ready', hash: pane.hash })) }));
     } catch {
-      set(state => {
-        const idx = state.panes.findIndex(p => p.slug === slug && p.status === 'loading');
-        if (idx === -1) return state;
-        const updated = [...state.panes];
-        updated[idx] = { ...updated[idx], status: 'error' };
-        return { panes: updated };
-      });
+      set(state => ({ panes: replaceLoadingPane(state.panes, path, pane => ({ ...pane, status: 'error' })) }));
     }
   },
 
-  syncFromURL: async (slug0, title0, path0) => {
+  // Going to an open pane closes nothing: the panes to its right stay where
+  // they are, and the actor can scroll back to them. The anchor becomes part
+  // of the pane's address, replacing rather than adding a history entry.
+  goTo: (index, hash) => {
+    const { panes, reveal } = get();
+    if (!panes[index]) return;
+    let next = panes;
+    if (hash && panes[index].hash !== hash) {
+      next = [...panes];
+      next[index] = { ...panes[index], hash };
+      history.replaceState(history.state, '', buildURL(next));
+    }
+    set({ panes: next, activeIndex: index, reveal: { index, hash, n: (reveal?.n ?? 0) + 1 } });
+  },
+
+  // What following a link from pane `fromIndex` does: go to the page if it is
+  // already open, open it to the right otherwise.
+  follow: (path, fromIndex, hash) => {
+    const { panes, goTo, push } = get();
+    const openIndex = findOpenPane(panes, path, fromIndex);
+    if (openIndex === -1) push(path, fromIndex, hash);
+    else goTo(openIndex, hash);
+  },
+
+  syncFromURL: async (path0, title0) => {
     const stacked = new URLSearchParams(window.location.search).getAll('stackedNotes');
-    const pane0: Pane = { slug: slug0, title: title0, html: '', status: 'ready', path: path0 };
+    // Pane 0's anchor is the page's own fragment.
+    const pane0: Pane = { path: path0, title: title0, html: '', status: 'ready', hash: location.hash || undefined };
 
     if (stacked.length === 0) {
       set({ panes: [pane0], activeIndex: 0 });
       return;
     }
 
-    // Param values may carry a section anchor ('slug#fragment', see buildURL).
-    const entries = stacked.map(s => {
-      const i = s.indexOf('#');
-      return i === -1
-        ? { slug: s, hash: undefined as string | undefined }
-        : { slug: s.slice(0, i), hash: s.slice(i) };
-    });
-
-    const placeholders: Pane[] = entries.map(e => ({ slug: e.slug, title: e.slug, html: '', status: 'loading', hash: e.hash }));
+    const entries = stacked.map(decodePaneParam);
+    const placeholders: Pane[] = entries.map(e => ({ path: e.path, title: placeholderTitle(e.path), html: '', status: 'loading', hash: e.hash }));
     set({ panes: [pane0, ...placeholders], activeIndex: entries.length });
 
-    const results = await Promise.allSettled(entries.map(e => getPaneContent(e.slug)));
+    const results = await Promise.allSettled(entries.map(e => getPaneContent(e.path)));
 
     const fetched = results.map((r, i): Pane =>
       r.status === 'fulfilled'
         ? { ...r.value, status: 'ready', hash: entries[i].hash }
-        : { slug: entries[i].slug, title: entries[i].slug, html: '', status: 'error' }
+        : { path: entries[i].path, title: placeholderTitle(entries[i].path), html: '', status: 'error' }
     );
 
-    set({ panes: [pane0, ...fetched] });
+    // Keep any anchor a goTo recorded while the panes were loading.
+    set(state => ({
+      panes: [pane0, ...fetched.map((pane, i) => {
+        const current = state.panes[i + 1];
+        return current?.path === pane.path ? { ...pane, hash: current.hash } : pane;
+      })],
+    }));
   },
 }));
+
+// The single-pane layout (stack.css, same breakpoint). There the site behaves
+// like ordinary pages, as notes.andymatuschak.org does on a phone: a link is a
+// plain navigation with its own history entry, Back walks the pages read, and
+// nothing is marked as open.
+export const singlePaneQuery =
+  typeof window === 'undefined' ? null : matchMedia('(width <= 768px)');
 
 // Build-time-resolved set of valid pattern slugs from the content directory.
 // The filename stem is the slug (matches entry.id via generateId in
@@ -111,9 +150,28 @@ export const validSlugs = new Set(
   )
 );
 
-// Module-level: intercept in-pane pattern link clicks in the capture phase, before
-// ClientRouter's bubble-phase listener runs. ClientRouter checks ev.defaultPrevented
-// before calling navigate(), so a capture-phase preventDefault() stops soft navigation.
+// The same for sequence ids. The sequences loader also accepts `.md`.
+const sequenceFiles = import.meta.glob('/src/content/sequences/**/*.{md,mdx}');
+export const validSequenceIds = new Set(
+  Object.keys(sequenceFiles).map(p =>
+    p.split('/').pop()!.replace(/\.mdx?$/, '')
+  )
+);
+
+// The pane path a URL points at, if it names a page that exists and can be
+// stacked; null otherwise.
+export function stackablePath(url: URL): string | null {
+  if (url.origin !== location.origin) return null;
+  const parsed = parsePanePath(url.pathname);
+  if (!parsed) return null;
+  const valid = parsed.kind === 'sequence' ? validSequenceIds : validSlugs;
+  return valid.has(parsed.id) ? panePath(parsed.kind, parsed.id) : null;
+}
+
+// Module-level: intercept in-pane pattern and sequence link clicks in the
+// capture phase, before ClientRouter's bubble-phase listener runs. ClientRouter
+// checks ev.defaultPrevented before calling navigate(), so a capture-phase
+// preventDefault() stops soft navigation.
 if (typeof document !== 'undefined') {
   document.addEventListener(
     'click',
@@ -125,27 +183,34 @@ if (typeof document !== 'undefined') {
       const anchor = target.closest('a[href]') as HTMLAnchorElement | null;
       if (!anchor) return;
 
-      // In-page anchors (e.g. table-of-contents links) are same-document
-      // navigation, not a jump to another pattern — let them scroll.
-      if (anchor.getAttribute('href')?.startsWith('#')) return;
-
       const paneEl = anchor.closest('[data-pane-index]') as HTMLElement | null;
       if (!paneEl) return;
+
+      // In-pane section links (the table of contents, footnotes) go to that
+      // section of the pane they sit in. The document fragment belongs to
+      // pane 0, so these must not reach the browser or pp-toc, which would
+      // write their anchor there. A demo's `href="#"` stays its own business.
+      const rawHref = anchor.getAttribute('href') ?? '';
+      if (rawHref.startsWith('#')) {
+        if (rawHref.length < 2 || anchor.closest('.demo-block')) return;
+        event.preventDefault();
+        event.stopPropagation();
+        useStackStore.getState().goTo(parseInt(paneEl.dataset.paneIndex ?? '0', 10), rawHref);
+        return;
+      }
 
       const href = anchor.href;
       if (!href) return;
       const url = new URL(href, location.href);
-      if (url.origin !== location.origin) return;
-      if (!url.pathname.startsWith('/patterns/')) return;
-
-      const targetSlug = url.pathname.replace(/^\/patterns\//, '').replace(/\/$/, '');
-      if (!validSlugs.has(targetSlug)) return; // fall through to normal navigation / Astro 404
+      const targetPath = stackablePath(url);
+      if (!targetPath) return; // fall through to normal navigation / Astro 404
+      if (singlePaneQuery?.matches) return; // a plain navigation, see singlePaneQuery
 
       event.preventDefault(); // Stops ClientRouter from navigating (it checks defaultPrevented)
 
       const fromIndex = parseInt(paneEl.dataset.paneIndex ?? '0', 10);
       const hash = url.hash || undefined;
-      useStackStore.getState().push(targetSlug, fromIndex, hash);
+      useStackStore.getState().follow(targetPath, fromIndex, hash);
     },
     { capture: true }, // capture phase fires before ClientRouter's bubble-phase listener
   );

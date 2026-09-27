@@ -140,9 +140,15 @@ for dissolution (see [relationship-vocabulary.md](../language/relationship-vocab
 
 ## Stacked-notes navigation
 
-Following a pattern link does not replace the page — it pushes the target into a horizontal stack of panes.
+Following a pattern or sequence link inside a pane does not replace the page — it pushes the target into a horizontal stack of panes, to the right of the pane the link sits in. Sidebar links still replace the stack.
 As the stack grows wider than the viewport, panes collapse into thin vertical _spines_ on both rails: earlier panes tuck under the left edge as you scroll right, later panes stay pinned at the right edge until you scroll back to them.
-No pane leaves the viewport entirely: every pane stays reachable as a spine on one rail or the other. State lives in the URL via `stackedNotes` query params — including a pane's section anchor (`slug#fragment`, percent-encoded) — so a stacked view is shareable and survives reload down to anchor positions. The section anchor is part of the pane's address.
+No pane leaves the viewport entirely: every pane stays reachable as a spine on one rail or the other. State lives in the URL via `stackedNotes` query params — including a pane's section anchor (`slug#fragment`, percent-encoded) — so a stacked view is shareable and survives reload down to anchor positions. The section anchor is part of the pane's address. Pattern panes are encoded by bare slug and sequence panes by a `seq:` prefix (`stackedNotes=seq:<id>`), so the two cannot collide. Pane 0 is the page itself, so its anchor is the URL's own fragment; in-pane section links (the table of contents, footnotes) are routed through the stack so they record the anchor on their own pane rather than on that fragment. A pane's identity is its path (`/patterns/<slug>` or `/sequences/<id>`); the helpers live in `apps/patterns/src/lib/pane-path.ts`.
+
+A link to a page that is already open does not open a copy. It scrolls the stack to that pane, scrolls the pane to the link's anchor if it has one, and moves focus there; the panes to its right stay open, and the actor reaches them again by scrolling. If the page is open twice, the nearest pane to the left of the link wins, then the nearest to the right. Going to an open pane adds no history entry; when the link names an anchor, it rewrites the current entry's URL to record it.
+
+Links inside panes whose page is already open are marked with `data-in-stack` (`left` or `right`, toward the open pane), which gives the link a subtle background tint. Each carries `aria-describedby` pointing at one shared "Already open" description. Hovering or focusing a marked link gives the pane it goes to the same tint, and the link preview is suppressed for it. Links to their own pane, table-of-contents links, and links inside demos are never marked.
+
+In the single-pane layout (≤768px) nothing stacks, as on notes.andymatuschak.org on a phone: a link inside a pane is a plain navigation with its own history entry, Back walks the pages read, and no link is marked. A stacked URL opened at that width shows its last pane.
 
 The _geometry_ is mostly CSS `position: sticky`. A
 small rAF-throttled scroll handler in `StackManager.tsx` only reflects what is already painted onto two cosmetic state attributes which marks a note when it overlays another:

@@ -1,0 +1,21 @@
+---
+// Prerendered pane fragment: just the sequence's article, no layout. Fetched
+// when a sequence is opened as a stacked pane (lib/pane-content.ts). Rendered
+// through the same SequenceArticle component as the full page, so the two
+// cannot drift.
+import { getCollection } from 'astro:content';
+import SequenceArticle from '../../../components/SequenceArticle.astro';
+
+export const partial = true;
+
+export async function getStaticPaths() {
+  const entries = await getCollection('sequences');
+  return entries.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+---
+<SequenceArticle entry={entry} pagefind={false} />

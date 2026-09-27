@@ -1,5 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import { useStackStore } from '../lib/stack-store';
+import React, { memo, useEffect, useRef } from 'react';
+import { findOpenPane, singlePaneQuery, stackablePath, useStackStore, type Pane } from '../lib/stack-store';
+import { addDescribedBy, removeDescribedBy } from '../lib/describedby';
+import { panePath, paneKindOf } from '../lib/pane-path';
 import { mountDemos } from '../lib/demo-registry';
 
 interface StackManagerProps {
@@ -62,6 +64,70 @@ function scrollToPane(stackEl: HTMLElement, paneIndex: number) {
   stackEl.scrollTo({ left: Math.max(0, Math.min(max, target)), behavior: 'smooth' });
 }
 
+// The element a pane's `#fragment` names. The fragment comes from the URL, so
+// it may be percent-encoded, start with a digit, or be malformed.
+function findAnchor(paneEl: HTMLElement | null | undefined, hash: string): HTMLElement | null {
+  try {
+    return paneEl?.querySelector<HTMLElement>(`#${CSS.escape(decodeURIComponent(hash.slice(1)))}`) ?? null;
+  } catch {
+    return null;
+  }
+}
+
+// Not scrollIntoView: it also scrolls .stack horizontally and fights the
+// smooth scroll from scrollToPane. The target's scroll-margin is honoured as
+// scrollIntoView would.
+function scrollBodyTo(paneBody: HTMLElement, target: HTMLElement, behavior: ScrollBehavior) {
+  const margin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+  const top = target.getBoundingClientRect().top - paneBody.getBoundingClientRect().top + paneBody.scrollTop - margin;
+  paneBody.scrollTo({ top, behavior });
+}
+
+// One description shared by every marked link (see markOpenLinks).
+const OPEN_DESC_ID = 'stack-open-desc';
+
+// The open pane a link in pane `own` would go to, or -1 when following it
+// would open something new. A link to its own pane is not counted: it stays
+// where it is.
+function openTargetIndex(anchor: HTMLAnchorElement, panes: Pane[], own: number): number {
+  if (anchor.getAttribute('href')?.startsWith('#')) return -1;
+  if (anchor.closest('.demo-block, pp-toc')) return -1;
+  const path = stackablePath(new URL(anchor.href, location.href));
+  if (!path) return -1;
+  const index = findOpenPane(panes, path, own);
+  return index === own ? -1 : index;
+}
+
+// Mark links whose page is already open, so the actor can tell before
+// clicking that the link moves the view rather than opens something.
+// data-in-stack carries the direction; data-in-stack-pane the target, for the
+// hover highlight. In the single-pane layout every link is a plain
+// navigation, so nothing is marked.
+function markOpenLinks(stackEl: HTMLElement, panes: Pane[]) {
+  const singlePane = singlePaneQuery?.matches ?? false;
+  for (const anchor of stackEl.querySelectorAll<HTMLAnchorElement>('[data-pane-index] a[href]')) {
+    const own = parseInt(anchor.closest<HTMLElement>('[data-pane-index]')?.dataset.paneIndex ?? '0', 10);
+    const target = singlePane ? -1 : openTargetIndex(anchor, panes, own);
+    if (target === -1) {
+      if (!anchor.hasAttribute('data-in-stack')) continue;
+      anchor.removeAttribute('data-in-stack');
+      anchor.removeAttribute('data-in-stack-pane');
+      removeDescribedBy(anchor, OPEN_DESC_ID);
+    } else {
+      anchor.dataset.inStack = target < own ? 'left' : 'right';
+      anchor.dataset.inStackPane = String(target);
+      addDescribedBy(anchor, OPEN_DESC_ID);
+    }
+  }
+}
+
+// React 19 compares the dangerouslySetInnerHTML object by identity, so an
+// unmemoised article would have its HTML rewritten on every StackManager
+// render, wiping mounted demos, link marks, and anything else scripts added.
+const PaneArticle = memo(function PaneArticle({ html }: { html: string }) {
+  return <article className="pane-article" dangerouslySetInnerHTML={{ __html: html }} />;
+});
+
 // Markup twin of the static pane-0 spine in Base.astro. No click handler: every
 // spine is served by the one delegated listener on the stack below.
 function PaneSpine({ paneTitle }: { paneTitle: string }) {
@@ -77,21 +143,27 @@ function PaneSpine({ paneTitle }: { paneTitle: string }) {
 // take part in the stack's flex geometry directly). Pane 0's stack-dependent
 // state is reflected onto the static DOM by attribute.
 export function StackManager({ slug, title, path }: StackManagerProps) {
-  const { panes, activeIndex, syncFromURL } = useStackStore();
+  const { panes, activeIndex, reveal, syncFromURL } = useStackStore();
   const anchorRef = useRef<HTMLSpanElement>(null);
   const prevPanesRef = useRef<typeof panes>([]);
+  // The store outlives a soft navigation, so the first render after one still
+  // holds the previous page's panes and its last reveal. Effects that act on
+  // them skip until they belong to this page.
+  const initialRevealRef = useRef(useStackStore.getState().reveal);
 
   // The hidden anchor (display:none, so inert to flex) is the island's stable
   // handle back to the .stack it lives in.
   const getStack = () =>
     anchorRef.current?.closest<HTMLElement>('.stack') ?? null;
 
+  const path0 = path ?? panePath('pattern', slug);
+
   useEffect(() => {
-    syncFromURL(slug, title, path);
-    const handlePopstate = () => syncFromURL(slug, title, path);
+    syncFromURL(path0, title);
+    const handlePopstate = () => syncFromURL(path0, title);
     window.addEventListener('popstate', handlePopstate);
     return () => window.removeEventListener('popstate', handlePopstate);
-  }, [slug, title, path, syncFromURL]);
+  }, [path0, title, syncFromURL]);
 
   useEffect(() => {
     const stackEl = getStack();
@@ -124,6 +196,69 @@ export function StackManager({ slug, title, path }: StackManagerProps) {
     if (!stackEl || panes.length <= 1) return;
     scrollToPane(stackEl, panes.length - 1);
   }, [panes.length]);
+
+  // Going to an open pane: bring it into view, then its anchor if the link
+  // named one. Runs after the render that made it active, so in the
+  // single-pane layout the pane is already displayed when its body scrolls.
+  // Focus follows, as it does for a pushed pane: the link that was clicked
+  // may now sit under another pane, or be hidden in the single-pane layout.
+  useEffect(() => {
+    const stackEl = getStack();
+    if (!stackEl || !reveal || reveal === initialRevealRef.current) return;
+    scrollToPane(stackEl, reveal.index);
+    const paneEl = stackEl.querySelector<HTMLElement>(`[data-pane-index="${reveal.index}"]`);
+    const paneBody = paneEl?.querySelector<HTMLElement>('.pane-body');
+    const target = reveal.hash ? findAnchor(paneEl, reveal.hash) : null;
+    if (paneBody && target) scrollBodyTo(paneBody, target, 'smooth');
+    const focusEl = target ?? paneEl?.querySelector<HTMLElement>('h1');
+    if (!focusEl) return;
+    if (!focusEl.matches('a[href], button, input, select, textarea, [tabindex]')) focusEl.tabIndex = -1;
+    // preventScroll: a focus scroll would cancel the smooth scrolls above.
+    focusEl.focus({ preventScroll: true });
+  }, [reveal]);
+
+  useEffect(() => {
+    const stackEl = getStack();
+    if (stackEl) markOpenLinks(stackEl, panes);
+  }, [panes]);
+
+  // Crossing the single-pane breakpoint turns the marks on or off.
+  useEffect(() => {
+    const onChange = () => {
+      const stackEl = getStack();
+      if (stackEl) markOpenLinks(stackEl, useStackStore.getState().panes);
+    };
+    singlePaneQuery?.addEventListener('change', onChange);
+    return () => singlePaneQuery?.removeEventListener('change', onChange);
+  }, []);
+
+  // Hovering or focusing a marked link points out the pane it goes to.
+  useEffect(() => {
+    const stackEl = getStack();
+    if (!stackEl) return;
+    const clear = () => {
+      for (const el of stackEl.querySelectorAll('[data-link-target]')) el.removeAttribute('data-link-target');
+    };
+    const onEnter = (event: Event) => {
+      const anchor = (event.target as Element).closest?.<HTMLAnchorElement>('a[data-in-stack]');
+      if (!anchor) return;
+      clear();
+      stackEl.querySelector(`[data-pane-index="${anchor.dataset.inStackPane}"]`)?.setAttribute('data-link-target', '');
+    };
+    const onLeave = (event: Event) => {
+      if ((event.target as Element).closest?.('a[data-in-stack]')) clear();
+    };
+    stackEl.addEventListener('mouseover', onEnter);
+    stackEl.addEventListener('focusin', onEnter);
+    stackEl.addEventListener('mouseout', onLeave);
+    stackEl.addEventListener('focusout', onLeave);
+    return () => {
+      stackEl.removeEventListener('mouseover', onEnter);
+      stackEl.removeEventListener('focusin', onEnter);
+      stackEl.removeEventListener('mouseout', onLeave);
+      stackEl.removeEventListener('focusout', onLeave);
+    };
+  }, []);
 
   // Focus the pushed pane's h1 on its ready transition, not on pane count: at
   // push time the pane is a loading placeholder with no h1.
@@ -181,35 +316,39 @@ export function StackManager({ slug, title, path }: StackManagerProps) {
 
   useEffect(() => {
     const stackEl = getStack();
-    panes.slice(1).forEach((pane, i) => {
+    if (panes[0]?.path !== path0) return;
+    // Pane 0 included: the browser's own fragment scroll does not survive a
+    // reload once other panes are stacked beside it.
+    panes.forEach((pane, i) => {
       if (!pane.hash || pane.status !== 'ready') return;
-      if (prevPanesRef.current[i + 1]?.status === 'ready') return;
-      const paneEl = stackEl?.querySelector<HTMLElement>(`[data-pane-index="${i + 1}"]`);
+      if (prevPanesRef.current[i]?.status === 'ready') return;
+      const paneEl = stackEl?.querySelector<HTMLElement>(`[data-pane-index="${i}"]`);
       const paneBody = paneEl?.querySelector<HTMLElement>('.pane-body');
-      const target = paneEl?.querySelector<HTMLElement>(pane.hash);
+      const target = findAnchor(paneEl, pane.hash);
       if (!paneBody || !target) return;
-      // Not scrollIntoView: it also scrolls .stack horizontally and fights the
-      // smooth scroll from scrollToPane; 'instant' avoids competing with it.
-      const top = target.getBoundingClientRect().top - paneBody.getBoundingClientRect().top + paneBody.scrollTop;
-      paneBody.scrollTo({ top, behavior: 'instant' });
+      // 'instant' avoids competing with the smooth scroll from scrollToPane.
+      scrollBodyTo(paneBody, target, 'instant');
     });
     prevPanesRef.current = panes;
-  }, [panes]);
+  }, [panes, path0]);
 
   return (
     <>
       <span ref={anchorRef} hidden data-stack-anchor=""></span>
+      <span id={OPEN_DESC_ID} hidden>Already open</span>
       {panes.slice(1).map((pane, i) => {
         const paneIndex = i + 1;
         const isActive = paneIndex === activeIndex;
+        const kind = paneKindOf(pane.path) === 'sequence' ? 'Sequence' : 'Pattern';
         return (
           <section
-            key={pane.slug}
+            // Index as well as path: a shared URL can list the same page twice.
+            key={`${paneIndex}:${pane.path}`}
             className={`pane${isActive ? ' pane--active' : ''}`}
             data-pane-index={paneIndex}
             style={{ '--pane-i': paneIndex } as React.CSSProperties}
             role="region"
-            aria-label={`Pattern: ${pane.title}`}
+            aria-label={`${kind}: ${pane.title}`}
             aria-current={isActive ? 'true' : undefined}
           >
             <PaneSpine paneTitle={pane.title} />
@@ -221,11 +360,11 @@ export function StackManager({ slug, title, path }: StackManagerProps) {
               )}
               {pane.status === 'error' && (
                 <article className="pane-error">
-                  <p>Failed to load pattern.</p>
+                  <p>Failed to load {kind.toLowerCase()}.</p>
                 </article>
               )}
               {pane.status === 'ready' && (
-                <article className="pane-article" dangerouslySetInnerHTML={{ __html: pane.html }} />
+                <PaneArticle html={pane.html} />
               )}
             </div>
           </section>

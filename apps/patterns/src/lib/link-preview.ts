@@ -1,6 +1,7 @@
 import { computePosition, flip, offset, shift, size } from '@floating-ui/dom';
-import { useStackStore, validSlugs } from './stack-store';
+import { stackablePath, useStackStore } from './stack-store';
 import { getPaneContent } from './pane-content';
+import { addDescribedBy, removeDescribedBy } from './describedby';
 
 const SHOW_DELAY = 350;
 const HIDE_DELAY = 250;
@@ -31,7 +32,7 @@ function getPreviewEl(): HTMLElement {
   return previewEl;
 }
 
-function resolveSlug(anchor: HTMLAnchorElement): string | null {
+function resolvePath(anchor: HTMLAnchorElement): string | null {
   // Skip table-of-contents in-page links.
   if (anchor.closest('pp-toc')) return null;
   // Skip search result links so previews don't overlap the results panel.
@@ -41,11 +42,10 @@ function resolveSlug(anchor: HTMLAnchorElement): string | null {
   // the demo is embedded in, so without this a reader hovering a demo gets a
   // preview of the page they are already reading.
   if (anchor.closest('.demo-block')) return null;
-  const url = new URL(anchor.href, location.href);
-  if (url.origin !== location.origin) return null;
-  if (!url.pathname.startsWith('/patterns/')) return null;
-  const slug = url.pathname.replace(/^\/patterns\//, '').replace(/\/$/, '');
-  return validSlugs.has(slug) ? slug : null;
+  // A link to a page already open in the stack moves the view to it; the page
+  // is on screen, so there is nothing to preview.
+  if (anchor.hasAttribute('data-in-stack')) return null;
+  return stackablePath(new URL(anchor.href, location.href));
 }
 
 function extractContent(html: string, title: string): string {
@@ -69,20 +69,20 @@ function extractContent(html: string, title: string): string {
   return `<strong class="link-preview__title">${heading}</strong><div class="link-preview__body">${wrapper.innerHTML}</div>`;
 }
 
-async function fetchContent(slug: string): Promise<string> {
+async function fetchContent(path: string): Promise<string> {
   try {
-    const { title, html } = await getPaneContent(slug);
+    const { title, html } = await getPaneContent(path);
     return extractContent(html, title);
   } catch {
     return '';
   }
 }
 
-function prefetch(slug: string): Promise<string> {
-  let pending = prefetchCache.get(slug);
+function prefetch(path: string): Promise<string> {
+  let pending = prefetchCache.get(path);
   if (!pending) {
-    pending = fetchContent(slug);
-    prefetchCache.set(slug, pending);
+    pending = fetchContent(path);
+    prefetchCache.set(path, pending);
   }
   return pending;
 }
@@ -121,17 +121,17 @@ function watchScroll(anchor: HTMLAnchorElement) {
 }
 
 async function show(anchor: HTMLAnchorElement, gen: number) {
-  const slug = resolveSlug(anchor);
-  if (!slug) return;
+  const path = resolvePath(anchor);
+  if (!path) return;
 
-  const content = await prefetch(slug);
+  const content = await prefetch(path);
   if (gen !== showGeneration) return;
   if (!content) return;
 
   pendingAnchor = null;
   // Swapping straight from one anchor to another: the old one is no longer
   // described by the popover.
-  if (currentAnchor && currentAnchor !== anchor) currentAnchor.removeAttribute('aria-describedby');
+  if (currentAnchor && currentAnchor !== anchor) removeDescribedBy(currentAnchor, 'lp-popover');
   currentAnchor = anchor;
   const preview = getPreviewEl();
   preview.innerHTML = content;
@@ -143,7 +143,7 @@ async function show(anchor: HTMLAnchorElement, gen: number) {
   // regardless would put the dying popover back on screen for its fade-out.
   if (gen !== showGeneration) return;
   preview.style.visibility = '';
-  anchor.setAttribute('aria-describedby', 'lp-popover');
+  addDescribedBy(anchor, 'lp-popover');
   watchScroll(anchor);
 }
 
@@ -155,7 +155,7 @@ function hide() {
   scrollCleanup = null;
 
   pendingAnchor = null;
-  currentAnchor?.removeAttribute('aria-describedby');
+  if (currentAnchor) removeDescribedBy(currentAnchor, 'lp-popover');
   currentAnchor = null;
 
   const el = getPreviewEl();
@@ -187,13 +187,13 @@ function scheduleHide() {
 
 function scheduleShow(anchor: HTMLAnchorElement) {
   cancelHide();
-  // Two anchors on a page can share a slug, so the open preview does not mean
+  // Two anchors on a page can share a target, so the open preview does not mean
   // a queued one for a different element is stale-free — drop it.
   if (pendingAnchor && pendingAnchor !== anchor) cancelPendingShow();
   if (currentAnchor === anchor || pendingAnchor === anchor) return;
   clearTimeout(showTimer);
-  const slug = resolveSlug(anchor);
-  if (slug) prefetch(slug);
+  const path = resolvePath(anchor);
+  if (path) prefetch(path);
   pendingAnchor = anchor;
   const gen = ++showGeneration;
   showTimer = window.setTimeout(() => show(anchor, gen), SHOW_DELAY);
@@ -204,8 +204,8 @@ function handlePreviewClick(e: Event) {
   const anchor = target.closest?.('a[href]') as HTMLAnchorElement | null;
   if (!anchor) return;
 
-  const slug = resolveSlug(anchor);
-  if (!slug) return;
+  const path = resolvePath(anchor);
+  if (!path) return;
 
   e.preventDefault();
   e.stopPropagation();
@@ -216,28 +216,28 @@ function handlePreviewClick(e: Event) {
   hide();
 
   const hash = new URL(anchor.href, location.href).hash || undefined;
-  useStackStore.getState().push(slug, fromIndex, hash);
+  useStackStore.getState().follow(path, fromIndex, hash);
 }
 
 function preloadPageLinks() {
   const seen = new Set<string>();
-  const slugs: string[] = [];
+  const paths: string[] = [];
   for (const a of document.querySelectorAll<HTMLAnchorElement>('a[href]')) {
     if (a.closest('[data-sidebar]')) continue;
-    const slug = resolveSlug(a);
-    if (slug && !seen.has(slug)) {
-      seen.add(slug);
-      slugs.push(slug);
+    const path = resolvePath(a);
+    if (path && !seen.has(path)) {
+      seen.add(path);
+      paths.push(path);
     }
   }
   const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 100));
   let i = 0;
   function pump() {
     const start = performance.now();
-    while (i < slugs.length && performance.now() - start < 5) {
-      prefetch(slugs[i++]);
+    while (i < paths.length && performance.now() - start < 5) {
+      prefetch(paths[i++]);
     }
-    if (i < slugs.length) idle(pump);
+    if (i < paths.length) idle(pump);
   }
   idle(pump);
 }
@@ -250,7 +250,7 @@ if (typeof document !== 'undefined') {
     const target = e.target as Element;
     const anchor = target.closest?.('a[href]') as HTMLAnchorElement | null;
 
-    if (!anchor || !resolveSlug(anchor) || anchor.closest?.('[data-sidebar]')) {
+    if (!anchor || !resolvePath(anchor) || anchor.closest?.('[data-sidebar]')) {
       if ((currentAnchor || pendingAnchor) && !target.closest?.('.link-preview')) {
         scheduleHide();
       }
@@ -264,7 +264,7 @@ if (typeof document !== 'undefined') {
     const target = e.target as Element;
     if (
       target.tagName === 'A' &&
-      resolveSlug(target as HTMLAnchorElement) &&
+      resolvePath(target as HTMLAnchorElement) &&
       !target.closest?.('[data-sidebar]')
     ) {
       scheduleShow(target as HTMLAnchorElement);
