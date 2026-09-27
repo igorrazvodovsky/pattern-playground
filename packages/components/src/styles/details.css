@@ -14,7 +14,6 @@
 
 @layer components {
   details {
-    --_details-padding: var(--space-m);
 
     /* The marker's own metrics, named because layouts outside this file
        position against them — see `--_marker-push` below. */
@@ -32,7 +31,6 @@
 
   summary {
     margin: calc(var(--space-m) * -1) calc(var(--space-m) * -1) 0;
-    padding: var(--_details-padding);
     display: flex;
     gap: var(--_marker-gap);
     align-items: center;

@@ -4,7 +4,7 @@ A design research project first, code repository second. A "garden" for cultivat
 
 ## Voice
 
-Plain, design-practitioner language in everything written here — pattern content, docs, plans. Ordinary words and direct statements; no dramatic staging, compressed aphorisms, or literary borrowings. "Actor", not "user" or "reader".
+Plain, design-practitioner language in everything written here — pattern content, docs, plans. Ordinary words and direct statements; no dramatic staging, compressed aphorisms, or literary borrowings. "Actor", not "user" or "reader". "System", "design", or "interface", not "product": the work is not assumed to live inside one app.
 
 - Banned phrases: "load-bearing", "worth stating plainly", "full stop",
   "carry the argument", "the trap", "isn't just X — it's Y".
