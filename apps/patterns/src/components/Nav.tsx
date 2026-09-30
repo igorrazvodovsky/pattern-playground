@@ -186,7 +186,7 @@ function HeaderTip({
 }: {
   hydrated: boolean;
   content: string;
-  placement: 'left' | 'right';
+  placement: 'right';
   children: React.ReactElement;
 }) {
   if (!hydrated) return children;
@@ -204,16 +204,6 @@ function SiteHeader({ hydrated }: { hydrated: boolean }) {
     <header className="site-header" ref={ref}>
       <HeaderTip hydrated={hydrated} content="Toggle sidebar (⌘/)" placement="right">
         <SidebarTrigger className="site-header-toggle" />
-      </HeaderTip>
-      <HeaderTip hydrated={hydrated} content="Search (⌘K)" placement="left">
-        <button
-          type="button"
-          onClick={openSearch}
-          className="button button--plain site-header-search"
-        >
-          {React.createElement('iconify-icon', { icon: 'ph:magnifying-glass', className: 'icon' })}
-          <span className="visually-hidden">Search</span>
-        </button>
       </HeaderTip>
     </header>
   );
@@ -247,6 +237,18 @@ export function Nav({ shared, patterns, sequences, storybookUrl }: NavProps) {
           </SidebarGroup>
           <SidebarGroup>
             <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  render={<button type="button" onClick={openSearch} />}
+                  tooltip="Search"
+                >
+                  <iconify-icon className="icon" icon="ph:magnifying-glass" />
+                  Search
+                  <span className="muted" aria-hidden="true">
+                    <kbd>⌘</kbd><kbd>K</kbd>
+                  </span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
                   render={<a href="/" />}

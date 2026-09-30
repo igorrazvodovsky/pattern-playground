@@ -57,8 +57,7 @@
     opacity: 0.6;
   }
 
-  .sidebar kbd,
-  .site-header kbd {
+  .sidebar kbd {
     width: 1em;
     border: none !important;
     padding: 0 0.25em;
@@ -95,8 +94,7 @@
     }
   }
 
-  .site-header-toggle,
-  .site-header-search {
+  .site-header-toggle {
     pointer-events: auto;
   }
 
