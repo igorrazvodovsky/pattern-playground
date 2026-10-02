@@ -71,8 +71,7 @@ Full list and conventions: [docs/quality/testing-strategy.md](docs/quality/testi
 
 ## Research inputs (read on demand, not eagerly)
 
-- Research lives in the PARA vault, not in this repo: `$PARA/Projects/pattern playground/` (`research/` for gate runs, `sources/` for overlays). Repo docs cite it as `PARA/...`.
-- [docs/research/references.md](docs/research/references.md) — one-line map of the source overlays; what the project takes from each source is in its overlay in the vault
+- Research lives in the PARA vault, not in this repo: `$PARA/Areas/IxD patterns/`.
 
 ## Quality gates
 
