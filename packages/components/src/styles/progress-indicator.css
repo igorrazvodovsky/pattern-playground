@@ -129,3 +129,42 @@
   border: none;
   padding: 0;
 }
+
+/* An entry that expands uses its rail dot as the disclosure control, so the
+   row carries one marker rather than a dot and a triangle side by side. The
+   item's own dot keeps its place in the row but is hidden; the summary's
+   marker is drawn over the same spot, so a click on the dot toggles the entry.
+   Closed, the dot is filled darker than a plain record's; open, it settles to
+   the plain colour, since the contents below now say what the entry holds. */
+.stepper__item:has(> .stepper__content > details)::before {
+  visibility: hidden;
+}
+
+.stepper__item > .stepper__content > details > summary {
+  position: relative;
+}
+
+.stepper__item > .stepper__content > details > summary::before {
+  position: absolute;
+  inset-inline-start: calc((var(--_circle-size) + 1rem) * -1);
+  inset-block-start: 0.5em;
+  inline-size: var(--_circle-size);
+  block-size: var(--_circle-size);
+  margin: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--c-bodyDimmed);
+  rotate: none;
+  transition:
+    background-color var(--transition-fast),
+    scale var(--transition-fast);
+}
+
+.stepper__item > .stepper__content > details[open] > summary::before {
+  background-color: var(--c-neutral-200);
+}
+
+.stepper__item > .stepper__content > details > summary:hover::before {
+  background-color: var(--c-body);
+  scale: 1.25;
+}

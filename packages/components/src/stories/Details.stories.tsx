@@ -10,7 +10,7 @@ const meta = {
     docs: {
       description: {
         component:
-          '`<details>`/`<summary>` disclosure widget for progressive reveal of supplementary content. A triangle marker states open or closed. It sits at the start of the summary by default; `.marker-end` moves it to the far end with the label pushed away from it, and `.marker-hanging` moves it out into the gutter, for a list where only some rows expand. Both go on the `<details>`, or on a wrapper around several.',
+          '`<details>`/`<summary>` disclosure widget for progressive reveal of supplementary content. A triangle marker states open or closed. It sits at the start of the summary by default; `.marker-end` moves it to the far end with the label pushed away from it, and `.marker-hanging` moves it out into the gutter, for a list where only some rows expand. In a stepper the rail dot of each row becomes the marker instead. The modifiers go on the `<details>`, or on a wrapper around several.',
       },
     },
   },
@@ -71,30 +71,20 @@ export const WithBadge: Story = {
 
 /** The marker hung outside the text column. In a list where only some rows
  *  expand, the rows that don't carry no marker at all, so an in-flow triangle
- *  would step its own row's text sideways from theirs. */
+ *  would step its own row's text sideways from theirs. A stepper is the
+ *  exception: its rows already have a rail dot, which becomes the marker (see
+ *  Timeline › Expandable entries). */
 export const MarkerHanging: Story = {
   name: "Marker hanging",
   render: () => (
-    <ol className="stepper">
-      <li className="stepper__item">
-        <div className="stepper__content">
-          <details className="marker-hanging">
-            <summary>An entry that expands into its own reasoning.</summary>
-            <p>Why it happened, and what triggered it.</p>
-          </details>
-        </div>
-      </li>
-      <li className="stepper__item">
-        <div className="stepper__content">
-          <p>An entry that is only a record.</p>
-        </div>
-      </li>
-      <li className="stepper__item">
-        <div className="stepper__content">
-          <p>Another entry that is only a record.</p>
-        </div>
-      </li>
-    </ol>
+    <div className="flow marker-hanging">
+      <details>
+        <summary>An entry that expands into its own reasoning.</summary>
+        <p>Why it happened, and what triggered it.</p>
+      </details>
+      <p>An entry that is only a record.</p>
+      <p>Another entry that is only a record.</p>
+    </div>
   ),
 };
 

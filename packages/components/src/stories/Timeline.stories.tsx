@@ -112,3 +112,35 @@ export const Nested = {
     </ol>
   ),
 } satisfies Story;
+
+/** Entries that carry more than a record expand in place. The rail dot is the
+ *  disclosure control: darker while the entry is closed, the plain colour once
+ *  it is open. */
+export const ExpandableEntries = {
+  name: "Expandable entries",
+  render: () => (
+    <ol className="stepper">
+      <li className="stepper__item">
+        <div className="stepper__content">
+          <details>
+            <summary>An entry that expands into its own reasoning.</summary>
+            <p>Why it happened, and what triggered it.</p>
+          </details>
+        </div>
+      </li>
+      <li className="stepper__item">
+        <div className="stepper__content">
+          <p>An entry that is only a record.</p>
+        </div>
+      </li>
+      <li className="stepper__item">
+        <div className="stepper__content">
+          <details open>
+            <summary>An entry already open.</summary>
+            <p>Its contents sit under the summary, on the same text line as the records.</p>
+          </details>
+        </div>
+      </li>
+    </ol>
+  ),
+} satisfies Story;

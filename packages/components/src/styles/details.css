@@ -14,7 +14,6 @@
 
 @layer components {
   details {
-
     /* The marker's own metrics, named because layouts outside this file
        position against them — see `--_marker-push` below. */
     --_marker-size: 0.4em;
@@ -22,15 +21,17 @@
 
     border: var(--border);
     border-radius: var(--radius-m);
-    padding: var(--space-m) var(--space-m) 0;
+    padding: var(--space-m);
+  }
 
-    &[open] {
-      padding-block: var(--space-m);
-    }
+  /* The summary carries no padding of its own and sits inside the box's, so a
+     layout that strips the box padding (a stepper row, an inline fold) gets a
+     summary flush with its text column without also resetting the summary. */
+  details[open] > summary {
+    margin-block-end: var(--space-s);
   }
 
   summary {
-    margin: calc(var(--space-m) * -1) calc(var(--space-m) * -1) 0;
     display: flex;
     gap: var(--_marker-gap);
     align-items: center;
@@ -93,6 +94,16 @@
   .marker-hanging summary::before {
     margin-inline-start: calc((var(--_marker-size) + var(--_marker-gap)) * -1);
   }
+
+  /* The card frame would step the text just as an in-flow triangle does, so a
+     hanging disclosure sits bare in the column alongside its plain rows. */
+  :is(.marker-hanging details, details.marker-hanging) {
+    border: none;
+    padding: 0;
+  }
+
+  /* A stepper is the one list that already has a marker per row: it turns the
+     rail dot into the disclosure control instead (progress-indicator.css). */
 
   details + details {
     margin-block-start: 0 !important;
