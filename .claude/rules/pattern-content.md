@@ -66,6 +66,14 @@ Use `<Demo>` for a framed demo sandbox (no import needed):
       <pp-button>Undo</pp-button>
     </Demo>
 
+A demo from `packages/components/src/demos/` mounts by registry name; a
+switchable demo (a spec in `demos/specs/`) mounts by spec slug and gets a
+library switch in its frame (`registry=` sets the starting library, `pp` by
+default):
+
+    <Demo name="toast" label="Toast" />
+    <Demo spec="inline-confirmation" label="Inline confirmation" />
+
 Use `<ComponentRef>` for inline prose references to Storybook component pages
 (no import needed):
 

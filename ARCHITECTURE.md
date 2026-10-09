@@ -4,8 +4,9 @@
 
 ### Frontend
 - *TypeScript* with *Vite* build system
-- *Lit* (Web Components) — primary component architecture, `pp-` prefix, Light DOM preferred
-- *React* — Storybook stories and complex compositions
+- *Elena* (Web Components) — primary component architecture: light-DOM custom elements, `pp-` prefix
+- *React* — Storybook stories, demos, and the component families whose library owns the interaction model (Tiptap, cmdk)
+- *json-render* — switchable demos: demos described as JSON specs against a component catalog, rendered through this library or shadcn/ui
 - *Storybook* — component documentation and development (port 6006)
 - *Astro* — pattern language site (port 4321); MDX, content collections, islands
 - *Tiptap* — rich text editing
@@ -20,12 +21,15 @@
 
 ```
 packages/
-└── components/             Component library — Lit + React, Storybook (:6006)
+└── components/             Component library — Elena + React, Storybook (:6006)
     ├── src/
-    │   ├── components/         Web Components (Lit). Organised by composition.
+    │   ├── components/         Web Components (Elena) and React families. Organised by composition.
     │   │   ├── register-all.ts     Central registration for all custom elements.
     │   │   ├── component-registry.ts
     │   │   └── PatternGraph.tsx    Force-directed graph (React).
+    │   ├── demos/              Shared demos, used by Storybook and pattern pages
+    │   │   └── specs/              Switchable demos: JSON spec + module per slug
+    │   ├── catalog/            Component catalog, registries (pp, shadcn), SpecDemo
     │   ├── stories/            Storybook documentation. AT-level projection for component stories.
     │   │   ├── operations/         Automatic/infrastructural components
     │   │   ├── actions/            Conscious/goal-directed components
@@ -69,8 +73,7 @@ docs/                       Agent-facing knowledge base (workspace-level)
 ├── specs/                  Settled specifications
 ├── project/                Project framing and Storybook taxonomy
 ├── language/               Pattern definition, graph vocabulary, theory
-├── quality/                Testing, review, commenting
-└── research/               References index
+└── quality/                Testing, review, commenting
 .claude/rules/              Path-activated coding rules
 ```
 
@@ -88,6 +91,6 @@ Workspace boundary specification: [docs/specs/workspace-layout.md](docs/specs/wo
 
 - *Progressive enhancement* — CSS-only baselines, JavaScript enhancement layered on top
 - *Centralised registration* — all `customElements.define()` calls go through `register-all.ts`
-- *Framework-agnostic services* — business logic in pure TypeScript, consumed by both Lit and React
+- *Framework-agnostic services* — business logic in pure TypeScript, consumed by both custom elements and React
 - *Plugin architecture* — editors and integrations consume services rather than owning them
 - *Pointer-based abstractions* — make any entity commentable/referenceable without tight coupling

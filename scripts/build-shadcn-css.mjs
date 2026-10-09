@@ -1,0 +1,137 @@
+import { readFileSync, writeFileSync } from 'node:fs';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { compile, optimize } from '@tailwindcss/node';
+import { Scanner } from '@tailwindcss/oxide';
+
+// Compiles the shadcn registry's stylesheet and contains it. Tailwind emits
+// global CSS: theme variables on :root, a preflight reset on html and *,
+// utilities whose class names (.border, .flex, .hidden) the component library
+// also uses, and keyframes with common names. Any of these would reach the site
+// once a shadcn demo loads. The output is rewritten so that:
+//
+//   - every rule applies only inside `[data-registry="shadcn"]` (@scope), with
+//     :root / html / :host selectors pointing at the scope root;
+//   - keyframes carry a `shadcn-` prefix;
+//   - the whole sheet sits in the `shadcn` cascade layer, which lib.css and
+//     Base.astro register right after `lib`.
+//
+// Run after changing catalog/shadcn.css or the shadcn registry:
+//   npm run build:shadcn-css
+// scripts/check-style-boundary.mjs fails when the output is stale or uncontained.
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const root = resolve(__dirname, '..');
+const catalogDir = resolve(root, 'packages/components/src/catalog');
+const INPUT = resolve(catalogDir, 'shadcn.css');
+export const OUTPUT = resolve(catalogDir, 'shadcn.generated.css');
+export const SCOPE = '[data-registry="shadcn"]';
+export const LAYER = 'shadcn';
+
+// Split CSS text into top-level statements: `{ prelude, body }` for blocks,
+// `{ prelude }` for `;`-terminated at-rules. Comments are dropped first.
+function split(css) {
+  css = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  const out = [];
+  let i = 0;
+  while (i < css.length) {
+    const brace = css.indexOf('{', i);
+    const semi = css.indexOf(';', i);
+    if (brace === -1 && semi === -1) break;
+    if (semi !== -1 && (brace === -1 || semi < brace)) {
+      const prelude = css.slice(i, semi).trim();
+      if (prelude) out.push({ prelude });
+      i = semi + 1;
+      continue;
+    }
+    let depth = 1;
+    let j = brace + 1;
+    for (; j < css.length && depth > 0; j++) {
+      if (css[j] === '{') depth++;
+      else if (css[j] === '}') depth--;
+    }
+    out.push({ prelude: css.slice(i, brace).trim(), body: css.slice(brace + 1, j - 1) });
+    i = j;
+  }
+  return out;
+}
+
+const ROOTISH = /^(?::root|html|:host|body)$/;
+
+// Point document-level selectors at the scope root. Inside @scope, `:scope` is
+// the [data-registry] element; `*` already matches the root and its subtree.
+function splitSelectorList(prelude) {
+  const parts = [];
+  let depth = 0;
+  let start = 0;
+  for (let i = 0; i < prelude.length; i++) {
+    const c = prelude[i];
+    if (c === '\\') i++; // escaped character inside a class name, e.g. `\,`
+    else if (c === '(' || c === '[') depth++;
+    else if (c === ')' || c === ']') depth--;
+    else if (c === ',' && depth === 0) {
+      parts.push(prelude.slice(start, i));
+      start = i + 1;
+    }
+  }
+  parts.push(prelude.slice(start));
+  return parts.map(s => s.trim());
+}
+
+function rescopeSelectors(prelude) {
+  const parts = splitSelectorList(prelude);
+  const mapped = parts.map(s => (ROOTISH.test(s) ? ':scope' : s.replace(/^(?::root|html|:host)\b/, ':scope')));
+  return [...new Set(mapped)].join(', ');
+}
+
+function rescopeRules(css) {
+  return split(css)
+    .map(({ prelude, body }) => {
+      if (body === undefined) return `${prelude};`;
+      if (prelude.startsWith('@')) return `${prelude} {${rescopeRules(body)}}`;
+      return `${rescopeSelectors(prelude)} {${body}}`;
+    })
+    .join('\n');
+}
+
+function contain(css) {
+  const keyframes = new Set();
+  const statements = split(css).map(({ prelude, body }) => {
+    if (body === undefined) return `${prelude};`;
+    const kf = prelude.match(/^@keyframes\s+([\w-]+)/);
+    if (kf) {
+      keyframes.add(kf[1]);
+      return `@keyframes shadcn-${kf[1]} {${body}}`;
+    }
+    // @property cannot sit inside @scope; registered --tw-* properties are
+    // inert outside elements that set them.
+    if (prelude.startsWith('@property')) return `${prelude} {${body}}`;
+    if (prelude.startsWith('@layer')) return `${prelude} {\n@scope (${SCOPE}) {\n${rescopeRules(body)}\n}\n}`;
+    return `@scope (${SCOPE}) {\n${rescopeRules(`${prelude} {${body}}`)}\n}`;
+  });
+  let out = statements.join('\n');
+  for (const name of keyframes) {
+    out = out.replace(
+      new RegExp(`((?:animation(?:-name)?|--animate-[\\w-]+)\\s*:[^;}]*?)(?<![\\w-])${name}(?![\\w-])`, 'g'),
+      `$1shadcn-${name}`,
+    );
+  }
+  return out;
+}
+
+export async function buildShadcnCss() {
+  const input = readFileSync(INPUT, 'utf8');
+  const compiler = await compile(input, { base: catalogDir, onDependency: () => {} });
+  const scanner = new Scanner({ sources: compiler.sources });
+  const candidates = scanner.scan();
+  const compiled = optimize(compiler.build(candidates), { minify: false }).code;
+  const header =
+    '/* Generated by scripts/build-shadcn-css.mjs from catalog/shadcn.css. Do not edit. */\n';
+  return `${header}@layer ${LAYER} {\n${contain(compiled)}\n}\n`;
+}
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const css = await buildShadcnCss();
+  writeFileSync(OUTPUT, css);
+  console.log(`Wrote ${OUTPUT} (${(css.length / 1024).toFixed(1)} KB)`);
+}

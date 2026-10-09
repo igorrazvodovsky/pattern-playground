@@ -50,6 +50,30 @@ Five families remain React because the library they wrap owns the interaction mo
 
 A new `.tsx` family needs the same kind of reason written at its head.
 
+## Catalog membership
+
+Switchable demos are written against a component catalog
+(`packages/components/src/catalog/catalog.ts`), and each component library
+renders the catalog through a registry. A component joins the catalog when a
+spec needs it and it can be described as data:
+
+- *JSON-shaped props.* Everything the component needs arrives as plain
+  values. Callbacks, refs and React nodes are not props in the catalog.
+- *Named events.* The component reports what happened by event name
+  (`press`, `change`). Events carry no payload; a value that goes with an
+  event is written to a bound state path first (`$bindState`), then the event
+  is emitted.
+- *No imperative API in the contract.* Open and closed, selected and
+  armed are state the spec binds, not methods a caller invokes. A registry
+  may drive an imperative element internally (`pp-modal`'s `open()`), but the
+  catalog type never exposes it.
+- *Named at component altitude.* `Button`, `Drawer`, not `ConfirmButton`.
+  What the component means in a pattern belongs to the spec.
+
+A composite (`RuleSentence`) can be a catalog type when its input is already
+data. Every registry then has to supply the whole component; the catalog
+cannot assemble it from smaller types.
+
 ## Where the rest lives
 
 - Operational per-file rules (event binding, registration, lifecycle):

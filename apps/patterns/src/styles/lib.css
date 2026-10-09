@@ -9,10 +9,15 @@
    this file in prod, unwrapped from `lib` — Base.astro repeats this exact
    statement in an `is:inline` <head> tag as a backstop against that. Keep the
    two in sync.
+   `shadcn` is the second component library, used only by switchable demos
+   (packages/components/src/catalog). Its sheet loads lazily, scoped to
+   [data-registry="shadcn"], and is registered here so it lands above `lib`
+   (its utilities beat lib's element styles inside its own demos) and below
+   every site layer, instead of at the end of the order when it arrives.
    Tokens still cross freely — they are custom properties, defined inside lib but
    inherited everywhere. This file is imported first in Base.astro. */
 
-@layer lib, reset, theme, global, layout, components, utilities, states;
+@layer lib, shadcn, reset, theme, global, layout, components, utilities, states;
 
 @import url('@styles/tokens.css') layer(lib);
 @import url('@styles/base.css') layer(lib);

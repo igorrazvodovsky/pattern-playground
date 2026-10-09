@@ -1,9 +1,11 @@
 // Verifies the demo-registry contract between pattern content and
 // apps/patterns/src/lib/demo-registry.ts:
 //   1. no client:only remains in pattern content (demos mount via the registry);
-//   2. every demo name used in MDX (<Demo name="…">) resolves to a registry
-//      entry. <Diagram> is not one of them — it renders <pp-diagram>,
-//      a custom element that registers with the rest of the library;
+//   2. every demo name used in MDX (<Demo name="…">) resolves to an entry in
+//      the registry's `demos` map, and every switchable demo (<Demo spec="…">)
+//      to an entry in its `specs` map. <Diagram> is not one of them — it
+//      renders <pp-diagram>, a custom element that registers with the rest of
+//      the library;
 //   3. per-page demo-mount count matches the client:only count at the given
 //      git ref (default HEAD) — pass --against <ref>, or --no-baseline to skip
 //      once the migration commit is in history;
@@ -21,11 +23,15 @@ const args = process.argv.slice(2);
 const baseline = args.includes('--no-baseline') ? null : (args[args.indexOf('--against') + 1] && args.includes('--against') ? args[args.indexOf('--against') + 1] : 'HEAD');
 
 const registrySource = readFileSync(registryFile, 'utf8');
-const registryNames = new Set(
-  [...registrySource.matchAll(/^\s*'([a-z0-9-]+)':\s*\(\)\s*=>/gm)].map((m) => m[1]),
-);
-if (registryNames.size === 0) {
-  console.error('Could not parse any registry names from demo-registry.ts');
+// Entry names of one `const <name> … = { … };` map in the registry.
+const mapNames = (name) => {
+  const block = registrySource.match(new RegExp(`const ${name}\\b[^\\n]*= \\{\\n([\\s\\S]*?)\\n\\};`))?.[1] ?? '';
+  return new Set([...block.matchAll(/^\s*'([a-z0-9-]+)':\s*\(\)\s*=>/gm)].map((m) => m[1]));
+};
+const registryNames = mapNames('demos');
+const specNames = mapNames('specs');
+if (registryNames.size === 0 || specNames.size === 0) {
+  console.error('Could not parse the demos and specs maps from demo-registry.ts');
   process.exit(1);
 }
 
@@ -54,7 +60,16 @@ for (const file of readdirSync(contentDir).filter((f) => f.endsWith('.mdx')).sor
     }
   }
 
-  const mountCount = names.length;
+  const specs = [...text.matchAll(/<Demo\s[^>]*?spec="([a-z0-9-]+)"/gs)].map((m) => m[1]);
+  for (const spec of specs) {
+    usedNames.add(`spec:${spec}`);
+    if (!specNames.has(spec)) {
+      console.error(`FAIL ${rel}: demo spec "${spec}" not in registry`);
+      failures++;
+    }
+  }
+
+  const mountCount = names.length + specs.length;
   if (mountCount > 0) demoPages.push({ slug: file.replace(/\.mdx$/, ''), mountCount });
 
   if (baseline) {
@@ -74,7 +89,10 @@ for (const file of readdirSync(contentDir).filter((f) => f.endsWith('.mdx')).sor
   }
 }
 
-const unused = [...registryNames].filter((n) => !usedNames.has(n));
+const unused = [
+  ...[...registryNames].filter((n) => !usedNames.has(n)),
+  ...[...specNames].filter((n) => !usedNames.has(`spec:${n}`)).map((n) => `spec:${n}`),
+];
 if (unused.length) console.log(`note: registry entries unused by content: ${unused.join(', ')}`);
 
 console.log(`\nDemo-carrying pages (${demoPages.length}) for click-through:`);
