@@ -1,4 +1,4 @@
-import { Children, Suspense, lazy, useEffect, useId, useRef, type CSSProperties } from 'react';
+import { Children, useEffect, useId, useRef, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import clsx from 'clsx';
@@ -7,9 +7,6 @@ import '../../jsx-types';
 
 // The catalog rendered with the project's own library: pp-* elements and the
 // CSS layer's classes, the same markup the hand-written demos use.
-
-// Tiptap stays out of this chunk until a spec actually renders a rule.
-const RuleSentence = lazy(() => import('../../components/rule-sentence').then(m => ({ default: m.RuleSentence })));
 
 type PpModal = HTMLElement & { open: () => void; close: () => void };
 
@@ -161,25 +158,13 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    RuleSentence: ({ props, bindings, emit }) => {
-      const [, setEdit] = useBoundProp(props.edit, bindings?.edit);
-      // Events carry no payload: the edit goes to state first, then the event.
-      const send = (kind: 'change' | 'add' | 'remove', slotId: string, value: unknown) => {
-        setEdit({ kind, slotId, value });
-        emit(kind);
-      };
-      return (
-        <Suspense>
-          <RuleSentence
-            label={props.label}
-            parts={props.parts as Parameters<typeof RuleSentence>[0]['parts']}
-            onChange={(slotId, value) => send('change', slotId, value)}
-            onAdd={(slotId, value) => send('add', slotId, value)}
-            onRemove={slotId => send('remove', slotId, null)}
-          />
-        </Suspense>
-      );
-    },
+    // The library has no grouped rule form, so the demo says so rather than
+    // rendering a different thing.
+    RuleBuilder: () => (
+      <p className="spec-demo__unsupported" role="note">
+        This library has no rule builder with groups.
+      </p>
+    ),
   },
   actions: actionsSuppliedBySpecs,
 });

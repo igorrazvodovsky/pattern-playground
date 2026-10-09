@@ -68,11 +68,13 @@ Use `<Demo>` for a framed demo sandbox (no import needed):
 
 A demo from `packages/components/src/demos/` mounts by registry name; a
 switchable demo (a spec in `demos/specs/`) mounts by spec slug and gets a
-library switch in its frame (`registry=` sets the starting library, `pp` by
-default):
+library switch in its frame. `registries=` names the libraries on offer and
+`registry=` the starting one; a spec built for one library lists only that one
+and gets no switch:
 
     <Demo name="toast" label="Toast" />
     <Demo spec="inline-confirmation" label="Inline confirmation" />
+    <Demo spec="rule-composition" registries={["shadcn"]} label="Rule builder" />
 
 Use `<ComponentRef>` for inline prose references to Storybook component pages
 (no import needed):

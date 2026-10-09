@@ -70,9 +70,10 @@ spec needs it and it can be described as data:
 - *Named at component altitude.* `Button`, `Drawer`, not `ConfirmButton`.
   What the component means in a pattern belongs to the spec.
 
-A composite (`RuleSentence`) can be a catalog type when its input is already
-data. Every registry then has to supply the whole component; the catalog
-cannot assemble it from smaller types.
+A composite (`RuleBuilder`) can be a catalog type when its input is already
+data. Every registry then has to supply the whole component, or leave it
+unmapped and let the demo say so; the catalog cannot assemble it from smaller
+types.
 
 ## Where the rest lives
 

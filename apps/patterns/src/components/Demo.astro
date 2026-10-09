@@ -4,6 +4,8 @@
 // pane. The widen button lives in the footer, not over the demo: a corner button
 // collides with a demo's own chrome (a canvas's tool panels), and a demo
 // captures pointer events on its own root.
+type Library = 'pp' | 'shadcn';
+
 interface Props {
   // Registry name of a client-mounted demo (lib/demo-registry.ts). When given,
   // the frame renders a <div data-demo> mount point instead of slot children;
@@ -16,8 +18,11 @@ interface Props {
   // The frame renders a <div data-demo-spec> mount point and a footer control
   // for switching the component library the spec renders through.
   spec?: string;
-  // The library the spec renders through first (catalog/registries/).
-  registry?: 'pp' | 'shadcn';
+  // The libraries the spec can render through (catalog/registries/). With one
+  // entry the frame renders no switch. Defaults to every library.
+  registries?: Library[];
+  // The library the spec renders through first; the first of `registries` by default.
+  registry?: Library;
   label?: string;
   surface?: 'gray' | 'white' | 'border';
   // Both features drive one width axis (--demo-w) shared through lib/demo-expander.ts:
@@ -28,12 +33,18 @@ interface Props {
   resizable?: boolean;
 }
 
-const { name, props, spec, registry = 'pp', label, surface = 'border', expandable, resizable } = Astro.props;
+const libraryLabels: Record<Library, string> = {
+  pp: "playground's own",
+  shadcn: "shadcn",
+};
 
-const registries = [
-  { name: 'pp', label: 'Playground' },
-  { name: 'shadcn', label: 'shadcn/ui' },
-] as const;
+const {
+  name, props, spec, label, surface = 'border', expandable, resizable,
+  registries = Object.keys(libraryLabels) as Library[],
+  registry: requestedRegistry,
+} = Astro.props;
+// A starting library the switch does not offer would strand the demo there.
+const registry = requestedRegistry && registries.includes(requestedRegistry) ? requestedRegistry : registries[0];
 
 const surfaceClass = {
   gray: 'layer gray',
@@ -68,15 +79,15 @@ const surfaceClass = {
   {(label || expandable || spec) && (
     <div class="demo-block__footer">
       {label && <span class="demo-block__label">{label}</span>}
-      {spec && (
+      {spec && registries.length > 1 && (
         <div class="demo-registry-switch" role="group" aria-label="Component library">
           {registries.map(r => (
             <button
               type="button"
-              data-demo-registry-option={r.name}
-              aria-pressed={r.name === registry ? 'true' : 'false'}
+              data-demo-registry-option={r}
+              aria-pressed={r === registry ? 'true' : 'false'}
             >
-              {r.label}
+              {libraryLabels[r]}
             </button>
           ))}
         </div>

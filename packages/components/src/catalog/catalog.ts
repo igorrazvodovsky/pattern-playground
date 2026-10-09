@@ -102,16 +102,20 @@ export const catalog = defineCatalog(schema, {
         'A panel at the side of the screen that does not block the page behind it. Bind `open` with $bindState; closing the drawer writes false back.',
     },
     // A composite: the library has to supply the whole thing. Its input is
-    // already data (the sentence as parts), so it can be named here, but a
+    // already data (a tree of sentence parts), so it can be named here, but a
     // catalog cannot build it out of the types above.
-    RuleSentence: {
+    RuleBuilder: {
       props: z.object({
         label: z.string(),
-        parts: z.array(z.unknown()),
+        tree: z.object({
+          lead: z.array(z.unknown()),
+          where: z.unknown(),
+          tail: z.array(z.unknown()).nullable(),
+        }),
         edit: z.unknown().nullable(),
       }),
       description:
-        'A rule shown as one sentence: `parts` are fixed words (strings) and slots ({ id, kind: choice | add | remove, name, label, options, value, multiple }). Each slot opens a list of what can go there. Bind `edit` with $bindState: before emitting `change`, `add` or `remove`, the component writes { kind, slotId, value } there.',
+        'A rule shown as one statement whose condition may hold groups. `lead` (the words before the condition) and `tail` (what follows it, if anything) are sentence parts: fixed words (strings) and slots ({ id, kind: choice | add | remove, name, label, options, value, multiple }). `where` is a group ({ id, head, items, addCondition, addGroup, remove }): `head` is a choice slot between all and any, `items` are lines ({ id, parts, remove }) or nested groups, `addCondition` is an add slot over fields and `addGroup` an add slot with one option. A flat group of all reads inline, without its head, so switching it to any goes through adding a group; any other group breaks into indented lines under its head. Bind `edit` with $bindState: before emitting `change`, `add` or `remove`, the component writes { kind, slotId, value } there.',
     },
   },
   actions: {
@@ -122,11 +126,7 @@ export const catalog = defineCatalog(schema, {
     },
     editRule: {
       params: z.object({ edit: z.unknown() }),
-      description: 'Apply an edit written by a RuleSentence ({ kind, slotId, value }) to the draft rule.',
-    },
-    updatePreview: {
-      params: z.object({}),
-      description: 'Recompute the preview of a draft rule against past events. Bind it to a watch on the rule.',
+      description: 'Apply an edit written by a RuleBuilder ({ kind, slotId, value }) to the draft rule.',
     },
   },
 });
@@ -139,5 +139,4 @@ export type Catalog = typeof catalog;
 export const actionsSuppliedBySpecs = {
   arm: async () => {},
   editRule: async () => {},
-  updatePreview: async () => {},
 };

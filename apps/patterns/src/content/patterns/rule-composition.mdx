@@ -10,25 +10,27 @@ evidence:
 activityLevel: action
 lifecycle: application
 mediation: individual
-description: "Writing a rule for the system to follow as a plain sentence the actor can read, change, and test before saving it."
+description: "Composing a condition from the parts the system offers, as a statement the actor can read and change, whether it narrows what is shown now or stands as a rule the system acts on later."
 situation:
   initiating: >-
-    the actor has decided that a rule the system follows on its own should change, or that a new
-    one is needed; the rule has to be exact enough for the system to run and clear enough for the
-    actor to check
+    the actor wants the system to pick out cases by criteria of their own, either to narrow what
+    is shown now or to stand as a rule the system acts on while they are away; the criteria have
+    to be exact enough for the system to apply and clear enough for the actor to check
   resulting:
     - >-
-      the rule is visible as a sentence whose parts can be read, changed, added and removed, so
-      the actor can inspect what the system does instead of only noticing it
-    - >-
-      reading the rule still does not tell the actor what it will do: it runs alongside the rules
-      already in place, and together they decide the outcome
+      the condition is visible as a statement whose parts can be read, changed, added and removed,
+      so the actor can inspect what the system matches instead of only noticing it
+    - clause: >-
+        reading the statement does not tell the actor what it matches or does; a selecting rule
+        shows its result on the collection at once, an acting rule shows nothing until it fires
+      sets-up: [dry-run]
     - >-
       the words on offer are the system's, not the actor's, so a wish the parts cannot express
       gets approximated, and the approximation is what runs
     - >-
-      rules pile up: each new one is written against a list nobody re-reads, and past a certain
-      size the actor can no longer keep the list in mind
+      when the rule acts, it runs alongside the rules already in place and together they decide
+      the outcome; rules pile up, and past a certain size the actor can no longer keep the list in
+      mind
 relationships:
   enables:
     - to: workflow
@@ -43,51 +45,92 @@ relationships:
       note: scope, spend and time bounds are composed the same way — clauses on what the system may do, rather than on when it acts
     - to: good-defaults
       note: a generated starting rule beats the empty statement, and most composition is editing rather than authoring
-  related:
     - to: filtering
-      note: a saved filter is a composed condition over a visible collection with no action attached; the live result count is the preview, so the composition and the check collapse into one surface
+      note: a filter is the selecting rule over a visible collection, where the result updates as each part changes and checking the rule needs no separate step
+  related:
     - to: prompt-scaffolding
-      note: both give an unstructured intent a structure to be composed in; the scaffold shapes one request, rule composition shapes behaviour that stands
+      note: both give an unstructured intent a structure to be composed in; the scaffold shapes one request, rule composition shapes a condition that stands
     - to: form
       note: the statement borrows the form's machinery — constrained values, validation — but reads as a sentence rather than a field list, and the set of parts is open to the actor
   enacts:
     - to: malleability
-      note: standing behaviour becomes an artifact the actor edits, at a scale below the whole procedure
+      note: what the system matches or does becomes an artifact the actor edits, at a scale below the whole procedure
     - to: formality
       note: pushes the actor's intent into the elements the system offers, and what does not fit is lost at the edge
 ---
 
-The system does some things by rule while the actor is away: moves files, hides messages, skips songs, stops making certain suggestions. Rule composition is how the actor writes or changes one of those rules. It starts once the actor has decided what should change and has the rule in front of them. The rule is shown as one sentence in plain language, and the actor edits it in place.
+The actor wants the system to pick out cases by criteria of their own. Sometimes the criteria narrow what is shown right now: a smart playlist, a saved search, a segment of customers, an issue list filtered three ways. Sometimes they stand as a rule the system acts on while the actor is away: a mail rule that files messages, an automation that turns the heating down, an agent's standing instruction about what not to touch. Rule composition is how the actor writes or changes the condition in either case. The condition is shown as one statement in plain language, built from parts the system offers, and the actor edits it in place.
 
-> **When** an email arrives **and** it contains the phrase *"Canadian Pharmacy"* **and** it is not
-> from *someone in my contacts*, label it *"likely spam"* and move it to *the trash*.
+> Songs **where** genre *is* "country" **and** rating *is at least* *4 stars* **and** last played
+> *is not in the last* *2 weeks*.
 
-The same control works for a mail rule, a playlist, a thermostat schedule, or an agent's trigger.
-What differs between them is the set of parts on offer, not the surface.
+> **When** an email arrives **and** it is not from *someone in my contacts* **and** it contains
+> the phrase *"Canadian Pharmacy"*, label it *"likely spam"* and move it to *the trash*.
 
+The first narrows a library the actor can see. The second does the same work over mail that has not
+arrived yet, with an action attached. The composing surface is the same in both; what differs is the
+set of parts on offer and what the actor has to do to check the result.
+
+## Selecting and acting
+
+The test that separates the two kinds is whether the actor can see the matched set right now.
+
+- *A selecting rule* narrows a collection that is in front of the actor. The result updates as parts
+  are changed, so a wrong condition shows itself at once and costs nothing to fix. The rule may be
+  saved and re-run, and because the collection changes, the result changes with it. Query builders,
+  segment builders, smart folders and saved searches are all this kind.
+- *An acting rule* attaches an action to the condition and runs it on cases that have not arrived.
+  The actor is not there when it fires, the mistake happens to real things, and the rule runs alongside
+  the other rules already in place. Mail rules, home automations, trigger–action recipes and an agent's
+  standing limits are this kind.
+
+Many surfaces carry both halves. A mail filter is a search with "do this" attached, and the search
+link in the filter dialog is the selecting half used to check the acting half. Compose the condition
+the same way in both kinds, and treat the action clause as the thing that turns a selection into a
+rule. What changes between them is the checking, which is a move of its own:
+[dry run](/patterns/dry-run).
 
 ## Forces
 
-- *Reading vs. structure* — a rule needs and, or and not, but a sentence reads in one line. Flat
+- *Reading vs. structure* — a condition needs and, or and not, but a sentence reads in one line. Flat
   lists of conditions read fine. Nested groups do not, and grouping is where people make mistakes.
-- *Exactness vs. the actor's words* — the rule has to use fields the system has, and the actor's
+- *Everyday words vs. logic* — the sentence form borrows "and", "or" and "not" from English, where
+  they do not mean what the logic needs. "The blue ones and the green ones" is a union to most
+  people, and how far a "not" reaches depends on what follows it. The words that make the
+  statement readable are the words people misread.
+- *Exactness vs. the actor's words* — the condition has to use fields the system has, and the actor's
   reason for wanting it usually does not map onto them.
-- *One rule vs. the list* — a rule is written on its own but runs alongside the others. People hold
-  specific wrong beliefs about how rules combine: that two rules with opposite actions cancel out,
-  that rules run in the order listed, that a condition on one rule limits the others.
+- *One rule vs. the list* — an acting rule is written on its own but runs alongside the others. People
+  hold specific wrong beliefs about how rules combine: that two rules with opposite actions cancel
+  out, that rules run in the order listed, that a condition on one rule limits the others. A
+  selecting rule has no list to run against.
 
 ## Solution
 
-Show the whole rule as one plain sentence, with the trigger and the action together. Splitting them
-hides what the rule does. Then let the actor edit the sentence in place.
+Show the whole condition as one plain statement and let the actor edit it in place: each field,
+operator and value is a part that can be changed, and parts can be added and removed from the
+sentence. When the rule acts, keep the action in the same sentence as the condition. Splitting them
+hides what the rule does.
 
-When a rule needs grouping that one line cannot hold, break the sentence into lines, one per group,
-indented, with the connective between lines. A tree of conditions or a row of chips can show the
-same thing, but reads worse for the common flat case, and most cases are flat.
+A flat run of restrictions on one thing can join with "and", as the examples above do, and people
+read that as intended. The moment a group holds alternatives, or mixes the two, stop letting the
+bare word carry the logic. Name how the parts combine once, at the head of the group: "all of the
+following" or "any of the following". Attach "not" to the single part it negates, as an operator
+on that part ("is not", "does not contain"), never as a word in front of a group. The one place a
+join word is safe inside a line is a list of values under an operator that names the quantifier:
+"status is any of Done or Cancelled", "label includes all of Audit and Design". People read a list
+of values as a list, and the operator carries the logic.
 
-<Demo spec="rule-composition" surface="white" label="Editing a comment notification rule" expandable />
+When a condition needs grouping that one line cannot hold, break the sentence into lines, one per
+group, indented, with the head word of each group on its own line. A tree of conditions or a row
+of chips can show the same thing, but reads worse for the common flat case, and most cases are
+flat.
+
+<Demo spec="rule-composition" registries={["shadcn"]} surface="white" label="Composing a saved task search" expandable />
 
 ## Events and states
+
+Acting rules bring a distinction selecting rules never need:
 
 - *Trigger* — something that happens at a moment. "When a file is added to the folder."
 - *Condition* — something that is true for a while. "While the project is archived."
@@ -95,56 +138,50 @@ same thing, but reads worse for the common flat case, and most cases are flat.
 
 > People confuse events with states, and the interface causes much of it: "if this, then that" uses the same wording for a moment and for a period. A sentence can keep the two apart with different words: "when" for the event, "while" or "and it is" for the state, then the action. Giving the two kinds of clause different words is an interface fix for what looks like a comprehension problem.
 
-## Showing the effect before saving
-
-The sentence does not say what it will do, so it would be best to show it:
-
-- *Replay the past.* Apply the changed rule to what already happened and show what would have come
-  out differently. This is the form that has been shown to improve people's success. It works
-  because the cases are real and the actor already has opinions about them.
-- *Run it against the other rules.* Step the new rule through alongside the rules already in place,
-  so conflicts and loops show up before saving. This is the only form that addresses the
-  one-rule-vs.-the-list force.
-- *Show the edge cases.* Show the cases that now match for the first time, the cases that match but
-  only just, and the cases that miss but only just. A random sample will not include the cases
-  that decide whether the rule is right: a country-music rule previewed against a library that is
-  mostly not country shows no country at all. This is the form to use when there is no history to
-  replay.
-
->When the rule applies to a visible collection, the preview and the editing become one thing: a [filter](/patterns/filtering) whose result count updates as each condition is added is a preview that runs all the time.
-
 ## Research on this pattern
 
-- [Most rules people want are one trigger and one action](https://dl.acm.org/doi/10.1145/2556288.2557420),
-  and [shared rules are copied freely](https://par.nsf.gov/biblio/10026427) — the basis for the
-  flat sentence and for starting from a draft rather than an empty statement.
 - [Grouping is where composition fails, not operators](https://asistdl.onlinelibrary.wiley.com/doi/10.1002/(SICI)1097-4571(199307)44:6%3C327::AID-ASI3%3E3.0.CO;2-J):
   on the same tasks a graphical query builder produced two ordering errors against fifty
-  parenthesis errors in SQL.
+  parenthesis errors in SQL. This is a selecting-rule study, and it is the basis for the flat
+  sentence in both kinds.
+- [The same "and" reads as a conjunction or a union depending on the sentence around it](https://john.pane.net/pdf/PaneMyersTabularTextual.pdf):
+  85% of people read "blue and circle" as both, but only 36% read "blue and the objects that
+  match circle" that way, and 55% read it as either. This is the source of the common error of
+  writing "and" where "or" is meant, and the basis for heading a group with "all of" or "any of"
+  rather than joining parts with the bare word.
+- [How far "not" reaches depends on the operator next to it, and brackets do not fix it](https://john.pane.net/pdf/PaneMyersTabularTextual.pdf):
+  64% bound "not" tighter than "and", 67% bound it looser than "or", and people ignored the
+  brackets that would have overridden them more often than they followed them. The basis for
+  attaching negation to one part.
+- [A table that avoids the words "and" and "or" beat textual Boolean queries for writing, and tied
+  for reading](https://john.pane.net/pdf/PaneMyersTabularTextual.pdf): one row per alternative, one slot per
+  term, every slot on a row required. The sentence form has not been tested against it.
+- [Most acting rules people want are one trigger and one action](https://dl.acm.org/doi/10.1145/2556288.2557420),
+  and [shared rules are copied freely](https://par.nsf.gov/biblio/10026427) — the basis for
+  starting from a draft rather than an empty statement.
 - [People confuse events with states, and the wording of "if this, then that" causes it](https://dl.acm.org/doi/10.1145/2750858.2805830);
   seven years later the confusion [appeared in 21 of 50 unaided debugging sessions, and every one
   of them failed](https://dl.acm.org/doi/10.1145/3569506).
-- [A bug makes a rule harder to predict](https://dl.acm.org/doi/10.1145/3290605.3300782): shown
+- [A bug makes an acting rule harder to predict](https://dl.acm.org/doi/10.1145/3290605.3300782): shown
   rules with one of ten kinds of bug, people got worse at predicting the rule's behaviour for most
   kinds.
-- [People hold wrong beliefs about how rules combine](https://dl.acm.org/doi/10.1145/3569506) —
-  opposite actions cancelling, rules running in listed order — and
-  [replaying the changed rule against past cases was the repair that raised success](https://dl.acm.org/doi/10.1145/3569506).
-  [Simulating a rule against the whole standing set](https://dl.acm.org/doi/10.1145/3290605.3300618)
-  is the one tested form that reaches conflicts between rules.
-- [Offered the system's correct fix among alternatives, only half to three-fifths of people chose it](https://dl.acm.org/doi/10.1145/3569506).
-- Untested: the edge-case preview, and whether the sentence form beats a chip row or a tree on the
-  common flat case.
+- [People hold wrong beliefs about how acting rules combine](https://dl.acm.org/doi/10.1145/3569506) —
+  opposite actions cancelling, rules running in listed order. The repairs that were tested belong
+  to [dry run](/patterns/dry-run).
+- Untested: whether the sentence form with "all of" and "any of" group heads beats a match
+  table, a chip row or a tree on the common flat case, and whether people make the same
+  composition errors on selecting and acting rules.
 
 ## Resources & references
 
+- [UI-Patterns — Rule builder](https://ui-patterns.com/patterns/rule-builder) — the selecting kind, with any/all switches, per-rule mini-forms and add/remove placement; binding a rule to an action is listed there as a variation
+- Pane & Myers (2000) [Tabular and textual methods for selecting objects from a group](https://john.pane.net/pdf/PaneMyersTabularTextual.pdf) — "and" read as a union when the sentence lists groups, "not" with no stable reach, and match forms beating text for writing queries
+- Young & Shneiderman (1993) [A graphical filter/flow representation of Boolean queries](https://asistdl.onlinelibrary.wiley.com/doi/10.1002/(SICI)1097-4571(199307)44:6%3C327::AID-ASI3%3E3.0.CO;2-J) — grouping, not operators, is where composition fails
 - Ur, McManus, Pak Yong Ho & Littman (2014) [Practical trigger-action programming in the smart home](https://dl.acm.org/doi/10.1145/2556288.2557420) — 78% of desired behaviours are one trigger and one action
 - Ur et al. (2016) [Trigger-action programming in the wild](https://par.nsf.gov/biblio/10026427) — 224,590 shared rules, and how freely they are copied
 - Huang & Cakmak (2015) [Supporting mental model accuracy in trigger-action programming](https://dl.acm.org/doi/10.1145/2750858.2805830) — events against states, as an interface problem
 - Brackenbury et al. (2019) [How users interpret bugs in trigger-action programming](https://dl.acm.org/doi/10.1145/3290605.3300782) — ten bug classes; a bug makes the rule harder to predict
-- Corno, De Russis & Monge Roffarello (2019) [Empowering end users in debugging trigger-action rules](https://dl.acm.org/doi/10.1145/3290605.3300618) — simulating a rule against the whole standing set
-- Zhang, Zhou, Littman, Ur & Lu (2022) [Helping users debug trigger-action programs](https://dl.acm.org/doi/10.1145/3569506) — the end-to-end debugging study, and replay-against-history as the repair
-- Young & Shneiderman (1993) [A graphical filter/flow representation of Boolean queries](https://asistdl.onlinelibrary.wiley.com/doi/10.1002/(SICI)1097-4571(199307)44:6%3C327::AID-ASI3%3E3.0.CO;2-J) — grouping, not operators, is where composition fails
+- Zhang, Zhou, Littman, Ur & Lu (2022) [Helping users debug trigger-action programs](https://dl.acm.org/doi/10.1145/3569506) — the wrong beliefs about how rules combine
 
 ## To-do
 
@@ -152,13 +189,12 @@ The sentence does not say what it will do, so it would be best to show it:
   including cases where nothing happened and there is no action to trace back from. Decide whether
   that is a larger pattern composed of this one, possibly [AI tuning](/patterns/ai-tuning) widened
   beyond agents, or a sequence of moves.
-- Look at shipping examples of the sentence form (Gmail filters, Apple Mail rules, iTunes smart
-  playlists, Shortcuts automations, Zapier's trigger sentence) to see which parts of the solution
-  they keep and which they drop.
+- Look at shipping examples of both kinds to see which parts of the solution they keep and which
+  they drop: selecting (Finder smart folders, iTunes smart playlists, Notion and Linear filters,
+  HubSpot segments) and acting (Gmail filters, Apple Mail rules, Shortcuts automations, Zapier's
+  trigger sentence).
 - Whether this serves the delegation foundation's *tuning tools* station in its own right, or only
   through [workflow](/patterns/workflow), which already claims it.
 - Editing rules by talking: the actor says what should change and the sentence updates. Speech is
   linear, which argues for keeping the editing visual. Language models change the input side of
   that argument, but not obviously the checking side.
-- Query and segment builders as a neighbouring form: do they make the same design decisions as the
-  sentence, or only share the logic underneath?

@@ -17,6 +17,8 @@
    registry wrappers; nothing else in the repository is scanned. */
 @source '../../../../node_modules/@json-render/shadcn/dist/index.mjs';
 @source './registries/shadcn.tsx';
+@source './registries/shadcn-parts.tsx';
+@source './registries/shadcn-rule-builder.tsx';
 
 /* shadcn's semantic colours, defined on the scope root rather than :root: the
    library already owns --accent and --border. light-dark() follows the site's
