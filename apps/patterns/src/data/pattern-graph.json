@@ -2502,19 +2502,19 @@
       "path": "/patterns/rule-composition",
       "role": "pattern",
       "situation": {
-        "initiating": "the system acts on the actor's behalf on cases the actor will not be present for, and correcting it case by case has stopped being worth the trouble; what needs changing is the condition under which it acts, and that condition has to be exact enough to run and legible enough to check before anyone commits to it",
+        "initiating": "the system handles cases on its own while the actor is away; fixing each case by hand has become tiresome, so the actor wants to change the rule itself, and the rule has to be exact enough for the system to run and clear enough for the actor to check",
         "resulting": [
           {
-            "clause": "the condition is an object on the surface — clauses that can be read, added, deleted, and regrouped — so standing behaviour can be inspected and argued with rather than only experienced"
+            "clause": "the rule is visible as a sentence whose parts can be read, changed, added and removed, so the actor can inspect what the system does instead of only noticing it"
           },
           {
-            "clause": "what the condition will do is still not readable from its text: it joins a set of rules already in force, and its behaviour is settled by that set rather than by itself"
+            "clause": "reading the rule still does not tell the actor what it will do: it runs alongside the rules already in place, and together they decide the outcome"
           },
           {
-            "clause": "the clause vocabulary is the system's, not the actor's, so an intent that no field and operator can express gets approximated — and the approximation is what runs"
+            "clause": "the words on offer are the system's, not the actor's, so a wish the parts cannot express gets approximated, and the approximation is what runs"
           },
           {
-            "clause": "rules accumulate: each one is composed against a standing set nobody re-reads, and a set large enough stops being something the actor can hold in mind at all"
+            "clause": "rules pile up: each new one is written against a list nobody re-reads, and past a certain size the actor can no longer keep the list in mind"
           }
         ]
       },
@@ -4110,7 +4110,7 @@
       "source": "generated-content",
       "target": "citation",
       "type": "precedes",
-      "incomingNote": "the generated output is what a citation attaches pointers to",
+      "incomingNote": "the generated output is the material a citation attaches pointers to",
       "extractedFrom": "frontmatter:follows"
     },
     {
@@ -7172,13 +7172,6 @@
     },
     {
       "source": "rule-composition",
-      "target": "filtering",
-      "type": "enables",
-      "label": "a saved filter is a composed condition over a collection — the same move with no action attached",
-      "extractedFrom": "frontmatter:enables"
-    },
-    {
-      "source": "rule-composition",
       "target": "ai-tuning",
       "type": "enables",
       "label": "the tuning that survives the session is written as a rule, which is the form the correction takes",
@@ -7188,7 +7181,7 @@
       "source": "bounded-choice",
       "target": "rule-composition",
       "type": "enables",
-      "incomingNote": "bounded choice supplies each clause of the rule — the field, the operator, and the value, all picked from sets the actor did not author",
+      "incomingNote": "bounded choice supplies each adjustable part of the statement — the field, the operator, and the value, all picked from sets the actor did not author",
       "extractedFrom": "frontmatter:composed-of"
     },
     {
@@ -7202,8 +7195,15 @@
       "source": "rule-composition",
       "target": "good-defaults",
       "type": "complements",
-      "label": "a generated starting rule beats the empty clause list, and most composition is editing rather than authoring",
+      "label": "a generated starting rule beats the empty statement, and most composition is editing rather than authoring",
       "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "rule-composition",
+      "target": "filtering",
+      "type": "related",
+      "label": "a saved filter is a composed condition over a visible collection with no action attached; the live result count is the preview, so the composition and the check collapse into one surface",
+      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "rule-composition",
@@ -7216,7 +7216,7 @@
       "source": "rule-composition",
       "target": "form",
       "type": "related",
-      "label": "the clause editor borrows the form's machinery — labelled inputs, constrained values, validation — but the field set is open, and extending it is the actor's move",
+      "label": "the statement borrows the form's machinery — constrained values, validation — but reads as a sentence rather than a field list, and the set of parts is open to the actor",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -7230,7 +7230,7 @@
       "source": "rule-composition",
       "target": "formality",
       "type": "enacts",
-      "label": "pushes the actor's intent into the fields and operators the system has, and what does not fit is lost at the edge",
+      "label": "pushes the actor's intent into the elements the system offers, and what does not fit is lost at the edge",
       "extractedFrom": "frontmatter:enacts"
     },
     {

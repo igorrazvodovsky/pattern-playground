@@ -5,7 +5,7 @@ kind: "research-gate"
 created: "2026-05"
 last_reviewed: "2026-05-02"
 area: "language"
-promoted_to: ""
+promoted_to: "docs/specs/pattern-role-model.md (the role split holds without a role:control; executed through 2026-05-role-metadata.md)"
 superseded_by: ""
 ---
 # Role survey

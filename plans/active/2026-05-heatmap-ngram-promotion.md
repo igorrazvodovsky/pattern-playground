@@ -44,7 +44,7 @@ the substrate stays put until a trigger arrives, and this plan records _where_ i
 goes so the intent survives.
 
 This is a sibling of the `DataViewRenderer` lift in
-[2026-05-collection-move-demos](../completed/2026-05-collection-move-demos.md) Phase B.
+the 2026-05 collection-move-demos plan, Phase B (plan since deleted; see git history).
 That lift resolved the same question the other way in execution: with only
 demo-surface consumers, the substrate landed in the shared `demos/` tree rather
 than minting component-package API — the precedent this plan's wait-for-a-trigger

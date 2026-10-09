@@ -5,7 +5,7 @@ kind: "research-note"
 created: "2026-07-07"
 last_reviewed: "2026-07-07"
 area: "architecture, pattern-site, storybook"
-promoted_to: ""
+promoted_to: "docs/specs/graph-relationship-model.md (Storybook index.json as the ComponentRef source instead of a custom-elements manifest)"
 superseded_by: ""
 depends_on: "plans/completed/2026-07-workspace-split-closure.md (workstream 2 gate; informs open questions 1 and 5 and workstream 4 step 2)"
 ---

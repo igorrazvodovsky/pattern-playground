@@ -116,10 +116,3 @@ link that means "alternative", "embeds in", "sets up", "blocks", or "enables"
 is more useful than a generic related link because it helps a designer decide
 what can be combined, substituted, or sequenced.
 
-## Research grounding
-
-This definition is grounded in
-`PARA/Projects/pattern playground/research/hci-pattern-languages/2026-04-28.md`.
-That note summarises the HCI pattern-language literature behind the project's
-distinction between patterns, catalogues, pattern languages, transformation
-rules, and pattern-development lifecycles.

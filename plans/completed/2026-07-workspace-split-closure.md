@@ -32,7 +32,7 @@ The [workspace-split plan](2026-05-workspace-split.md) is executed in substance:
 ## Workstream 1 — Bookkeeping (immediate, one sitting)
 
 - Move [2026-05-workspace-split.md](../completed/2026-05-workspace-split.md) to `plans/completed/`, status `completed`, with a tail note pointing residue ownership here. Its "Decomposition: worked examples and learnings" section stays with it; promotion of the stabilised rules into `pattern-role-model.md` waits for a third worked example (open question 3).
-- Move [2026-06-typed-relationships.md](../completed/2026-06-typed-relationships.md) to `plans/completed/` (phases A–E shipped; repair pass done 2026-06-30).
+- Move 2026-06-typed-relationships.md to `plans/completed/` (phases A–E shipped; repair pass done 2026-06-30).
 - Fix [graph-relationship-model.md](../../docs/specs/graph-relationship-model.md) "Current graph data": the graph is language-only; component references resolve outside it (manifest signposted, workstream 2).
 - Repair the demos plan's `depends_on`; its stale-assumptions preamble is folded into workstream 3's verdict step.
 - Delete `apps/patterns/src/data/pattern-graph.baseline.json`.
@@ -55,7 +55,7 @@ Revised deliverable:
 
 For each territory below, one pass with this definition of done:
 
-1. *Demo verdicts.* Every `.stories.tsx` in the territory gets a verdict using the demos plan's classes — Storybook-native / A (pure markup) / B (thin shell) / C (gap island) / host-composition ([collection-move plan](../completed/2026-05-collection-move-demos.md)) / retire — reconciled to the realised component-keyed `demos/` tree (demos are keyed by the component they wire, shared across pages; not one file per pattern×story). Verdict scope includes *borrowed embeds*: pages reusing other pages' stories is the norm in this corpus, not an exception, so sweep both directions — stories the territory's pages import from elsewhere, and the territory's stories embedded by pages outside it. A borrowed embed judged "not central to the split" is exactly how parity drops happen (item-view lost the Reference @mention this way, repeatedly).
+1. *Demo verdicts.* Every `.stories.tsx` in the territory gets a verdict using the demos plan's classes — Storybook-native / A (pure markup) / B (thin shell) / C (gap island) / host-composition (the collection-move plan) / retire — reconciled to the realised component-keyed `demos/` tree (demos are keyed by the component they wire, shared across pages; not one file per pattern×story). Verdict scope includes *borrowed embeds*: pages reusing other pages' stories is the norm in this corpus, not an exception, so sweep both directions — stories the territory's pages import from elsewhere, and the territory's stories embedded by pages outside it. A borrowed embed judged "not central to the split" is exactly how parity drops happen (item-view lost the Reference @mention this way, repeatedly).
 2. *Demos moved or kept* per verdict; gap registry updated.
 3. *Inbound links rewritten.* Every Storybook `path=/docs/...` link into the territory's pattern pages becomes a `PatternRef`.
 4. *Duplicates deleted.* The territory's migrated `.mdx` twins removed from `packages/components/src/stories/`; stories files kept only where a verdict keeps them.
@@ -64,7 +64,7 @@ For each territory below, one pass with this definition of done:
 Territories, in proposed order:
 
 - *T1 Navigation* (10 pages: flat-navigation, fully-connected, hub-and-spoke, hybrid-patterns, multilevel-tree, navigation-overview, overview-detail, pan-and-zoom, pyramid, step-by-step). Mostly prose and diagrams, few or no stories — the cheap warm-up that proves the batch mechanics.
-- *T2 Collection moves / DataView* (Filtering, Sorting, Grouping, ItemView, DataView, View, Dashboard). Executes [2026-05-collection-move-demos.md](../completed/2026-05-collection-move-demos.md): lift `DataViewRenderer` into package source, implement grouping/filtering/sorting there, author slices, then close the pages. The heaviest territory, and the one with its own exec-spec.
+- *T2 Collection moves / DataView* (Filtering, Sorting, Grouping, ItemView, DataView, View, Dashboard). Executes 2026-05-collection-move-demos.md: lift `DataViewRenderer` into package source, implement grouping/filtering/sorting there, author slices, then close the pages. The heaviest territory, and the one with its own exec-spec.
 - *T3 Activities* (AITuning, Conversation, EmbeddedIntelligence, GeneratedContent, LivePresentation, LivingDocument, Onboarding, Prompt, Workspace).
 - *T4 Coordination + evaluation* (Commenting, Notification, Selection, FocusAndContext) — plus authoring the missing *Semantic zoom* site entry (stories-only today). Known borrowed embeds (2026-07-08 audit): Storybook Notification.mdx embeds three borrowed stories (Toast Default, Callout, Dialog's DisruptiveNotification) that the site page renders as bare ComponentRefs — lift into the Type section, don't drop. Commenting's BubbleMenu borrow is already preserved site-side (`demos/bubble-menu` CommentingDemo).
 - *T5 Operations* (Autofill, MorphingControls, StateDisabled, StateEmpty) — plus the two settled-but-unexecuted migrations: Toast → `transient-feedback.mdx` and the stories-only *Inline confirmation*.
@@ -201,7 +201,7 @@ Inputs recorded, deliberately not acted on:
 
 ### 2026-07-07 — T2 Collection moves / DataView closed
 
-Seven entries: five with stories (DataView, Filtering, Sorting, Grouping, ItemView) and two prose-only twins (View, Needs-based view — the `dashboard` slug). This territory executed [2026-05-collection-move-demos.md](../completed/2026-05-collection-move-demos.md), now completed and moved to `plans/completed/` with two departures recorded in its tail note. Steps against the definition of done:
+Seven entries: five with stories (DataView, Filtering, Sorting, Grouping, ItemView) and two prose-only twins (View, Needs-based view — the `dashboard` slug). This territory executed 2026-05-collection-move-demos.md (since deleted; two departures were recorded in its tail note, visible in git history). Steps against the definition of done:
 
 1. *Verdicts* — the host-composition class got its first genuine exercise, and held exactly where predicted:
    - `Grouping.stories.tsx` (*Cards*): *host-composition*, as the exec spec called it. Grouping is now a real feature of the substrate (group-by partition rendered as `<details>` sections with count badges, the retired story's shape); the pattern page embeds a grouping-foregrounded slice.

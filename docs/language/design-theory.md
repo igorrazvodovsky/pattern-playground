@@ -22,7 +22,7 @@ Alexander's late method fuses three things this project keeps as separate strata
 
 The per-step verdict — Alexander's *feeling* — is not imported; in this corpus it stays with the actor's judgement under the suggestion-grade stance.
 
-Book 2 names ten features every living process must have (ch. 7 §13). The project imports them selectively: sequence (feature 4) and patterns-as-generic-rules (feature 6) are built; step-by-step adaptation (feature 1) and the-whole-governs (feature 2) are ground assumptions the sequence spec's authoring bar encodes; feeling (7), the aperiodic grid (8), and the simplicity transformation (10) are unimported. A feature is imported when a sequence sitting runs into its absence, not wholesale. The chapter-by-chapter grounding is in `PARA/Projects/pattern playground/research/sequence-map/2026-08-28-living-process.md` and `2026-08-28-sources.md`.
+NoO Book 2 names ten features every living process must have (ch. 7 §13). The project imports them selectively: sequence and patterns-as-generic-rules are built; step-by-step adaptation and the-whole-governs are ground assumptions; feeling, the aperiodic grid, and the simplicity transformation are not imported. A feature is imported when a sequence sitting runs into its absence, not wholesale.
 
 ## Centres in this project's medium
 

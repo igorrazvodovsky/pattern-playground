@@ -12,7 +12,7 @@ A coherent differentiation that can be noticed, pointed at, and acted on (Alexan
 
 ## Concept
 
-A fundamental unit of software design defined by structure, behaviour, and purpose (Jackson, *The Essence of Software*). Concepts are functional building blocks that survive the journey from UX to engineering — more abstract than components, more concrete than principles. `concepts/` lists some of the concepts the project might need in future. See `PARA/Projects/pattern playground/sources/Concept design.md`.
+A fundamental unit of software design defined by structure, behaviour, and purpose (Jackson, *The Essence of Software*). Concepts are functional building blocks that survive the journey from UX to engineering — more abstract than components, more concrete than principles. `concepts/` lists some of the concepts the project might need in future. Jackson's book is read in `PARA/Resources/The Essence of Software/`.
 
 ## Generative move
 
@@ -20,7 +20,7 @@ A pattern understood not as a catalogue item but as a transformation that produc
 
 ## Generative sequence
 
-An authored, named ordering of decision steps for one recurring stretch of design work, in the sense of *The Nature of Order* Book 2 ch. 11: fixed order, variable result, each step acting on what the previous steps produced. In this project a sequence is an authored projection over the graph — steps invoke patterns as rules — stored as its own content collection. The order is validated empirically: a sequence fails when a later step forces an earlier decision to be revoked. See [specs/sequences.md](../specs/sequences.md) and `PARA/Projects/pattern playground/research/sequence-map/`.
+An authored, named ordering of decision steps for one recurring stretch of design work, in the sense of *The Nature of Order* Book 2 ch. 11: fixed order, variable result, each step acting on what the previous steps produced. In this project a sequence is an authored projection over the graph — steps invoke patterns as rules — stored as its own content collection. The order is validated empirically: a sequence fails when a later step forces an earlier decision to be revoked. See [specs/sequences.md](../specs/sequences.md) and `PARA/Areas/IxD patterns/research/sequence-map/`.
 
 ## Latent centre
 
@@ -32,7 +32,7 @@ Any adaptive process that generates living structure step by step through struct
 
 ## Pattern
 
-A named, evidence-seeking interaction move that resolves a recurring human situation by balancing forces in a stated context, abstracting practice at a reusable level, producing a centre or affordance, carrying rationale and consequences, and linking to other patterns. In this project, a pattern is not simply a common UI object or a reusable component. It can begin as a seed, but mature pattern status requires examples, rationale, consequences, and relations. See [pattern-definition.md](./pattern-definition.md) and `PARA/Projects/pattern playground/research/hci-pattern-languages/2026-04-28.md`.
+A named, evidence-seeking interaction move that resolves a recurring human situation by balancing forces in a stated context, abstracting practice at a reusable level, producing a centre or affordance, carrying rationale and consequences, and linking to other patterns. In this project, a pattern is not simply a common UI object or a reusable component. It can begin as a seed, but mature pattern status requires examples, rationale, consequences, and relations. See [pattern-definition.md](./pattern-definition.md) and `PARA/Areas/IxD patterns/research/hci-pattern-languages/2026-04-28.md`.
 
 ## Pattern language
 

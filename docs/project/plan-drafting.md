@@ -32,9 +32,10 @@ When a plan's intended outcome includes a rule — new vocabulary, a schema
 field, a naming clause, an ownership convention — in an area a settled spec or
 rules file already covers, draft that rule as the proposed edit to the covering
 document, inside the plan, before implementing. The plan's job is then to make
-that edit true; at close the delta is applied and the plan stays behind as the
-execution trace. This keeps the spec the iterated artifact and the plan
-disposable, instead of the rule living only in the plan that invented it.
+that edit true; at close the delta is applied and the plan is deleted unless it
+carries rationale ([`plans/README.md`](../../plans/README.md) §Closing a plan).
+This keeps the spec the iterated artifact and the plan disposable, instead of
+the rule living only in the plan that invented it.
 
 Most plans owe no delta: content, demos, and refactors are their own residue
 (the residue kinds are in [`plans/README.md`](../../plans/README.md)

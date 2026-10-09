@@ -13,6 +13,12 @@
     height: 100%;
     align-items: stretch;
     position: relative;
+
+    background-image: repeating-linear-gradient(
+      -45deg,
+      color-mix(in oklch, var(--c-border) 60%, transparent) 0 1px,
+      transparent 1px 8px
+    );
   }
 
   .pane {

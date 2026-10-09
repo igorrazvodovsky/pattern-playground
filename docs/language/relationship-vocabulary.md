@@ -568,7 +568,7 @@ What was lost: the author's freedom to place Consequences mid-page (the render s
 
 ### 2026-07-25 — Situation backfill: `consequences` absorbed, two skip arms added, open question 1 answered
 
-The corpus filled in one pass: 91 of 94 `role: pattern` entries now carry a situation block, the other three carrying recorded skip verdicts (plans/completed/2026-07-situation-backfill.md holds the per-page roster). `precedes` 68 → 79, `related` −2, `complements` −4, `tangential` −1; related share 22.4% → 22.0%.
+The corpus filled in one pass: 91 of 94 `role: pattern` entries now carry a situation block, the other three carrying recorded skip verdicts (the per-page roster is in the git history of the 2026-07 situation-backfill plan). `precedes` 68 → 79, `related` −2, `complements` −4, `tangential` −1; related share 22.4% → 22.0%.
 
 *Guard gap, recorded not fixed*: the extractor's duplicate-pair warning covers only `precedes` declared in `relationships:` alongside a `sets-up` emission. Converting a judgement out of `complements`/`related`/`tangential` is unguarded, and two pairs slipped through the whole pass — both with the surviving duplicate on the *target* page, where the converting author isn't looking. A cross-type advisory is the follow-up (advisory register, not warning: `recommends` and `surveys` co-presence on a `sets-up` pair are both legitimate — see the plan's close-out for the two that are).
 

@@ -1,11 +1,11 @@
 ---
 title: "Research organisation after the move to the vault"
-status: "archived"
+status: "completed"
 kind: "exec-spec"
 created: "2026-09"
 last_reviewed: "2026-09-23"
 area: "project"
-promoted_to: "docs/project/plan-drafting.md (§Research checkpoint: digest contract, instrument); .claude/rules/pattern-content.md (public links in rendered text); docs/research/references.md; scripts/check-vault-links.mjs; vault: research-gate skill, Resources/Papers/_pipeline/README.md §Shared findings"
+promoted_to: "docs/project/plan-drafting.md (§Research checkpoint: digest contract, instrument); .claude/rules/pattern-content.md (public links in rendered text); scripts/check-vault-links.mjs (vault side: research-gate skill, Resources/Papers/_pipeline/README.md §Shared findings)"
 superseded_by: ""
 ---
 # Research organisation after the move to the vault

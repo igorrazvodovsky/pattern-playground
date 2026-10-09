@@ -39,6 +39,17 @@ a component needs named regions, children carry `data-slot="…"` attributes.
   needed one.
 - No customised built-ins (`is="…"`): WebKit doesn't implement them.
 
+## What stays React
+
+Five families remain React because the library they wrap owns the interaction model, and the ladder has no platform rung for them:
+
+- *editor, editor-plugins, commenting UI, template-field, Reference* — tiptap-react coupled (`useEditor`, `ReactRenderer`, `ReactNodeViewRenderer` NodeViews).
+- *combobox, command-menu* — cmdk owns the list, filtering and keyboard model; the command-menu hooks are state machines on top of it.
+- *item-view* — the custom-component registry holds React component types by design; its shape is provisional.
+- *ModalErrorBoundary* — React error boundaries have no platform equivalent; it exists so `modal-service` can wrap React content.
+
+A new `.tsx` family needs the same kind of reason written at its head.
+
 ## Where the rest lives
 
 - Operational per-file rules (event binding, registration, lifecycle):
