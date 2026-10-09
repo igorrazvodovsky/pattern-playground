@@ -15,6 +15,13 @@ import { fileURLToPath } from 'node:url';
 //      author styles, which beat every layer and silently reopen the war the
 //      split closed (this is exactly the 20-file leak the split fixed).
 //
+//   3. The second library stays in its demos. Switchable demos can render
+//      through shadcn/ui, whose Tailwind sheet is global by nature. The build
+//      (scripts/build-shadcn-css.mjs) scopes and layers it; this check fails
+//      when the generated sheet is stale or anything in it escapes the
+//      `shadcn` layer or the [data-registry="shadcn"] scope, and when the two
+//      master layer statements (lib.css, Base.astro) disagree or drop `shadcn`.
+//
 //   2. Prose stays in the donut. The site's prose voice (list markers, link
 //      underlines, blockquote voice) is authored inside `@scope (…) to
 //      (.demo-block, pp-toc)` so it structurally cannot reach a demo. A prose
@@ -121,6 +128,48 @@ for (const sheet of PROSE_SHEETS) {
         );
       }
     }
+  }
+}
+
+// --- Invariant 3: the shadcn sheet is fresh, layered, and scoped --------------
+{
+  const order = (text) => text.match(/@layer\s+lib\s*,[^;{]*;/)?.[0].replace(/\s+/g, ' ');
+  const libOrder = order(readFileSync(LIB_CSS, 'utf8'));
+  const baseOrder = order(readFileSync(resolve(root, 'apps/patterns/src/layouts/Base.astro'), 'utf8'));
+  if (!libOrder || libOrder !== baseOrder) {
+    problems.push(`The master layer statements in lib.css and Base.astro differ (${libOrder} vs ${baseOrder}); keep them identical.`);
+  } else if (!/^@layer lib, shadcn,/.test(libOrder)) {
+    problems.push('The master layer statement must register `shadcn` right after `lib`, or a lazily loaded shadcn sheet lands above every site layer.');
+  }
+
+  const { buildShadcnCss, OUTPUT, SCOPE, LAYER } = await import('./build-shadcn-css.mjs');
+  let current = '';
+  try {
+    current = readFileSync(OUTPUT, 'utf8');
+  } catch {
+    problems.push('catalog/shadcn.generated.css is missing; run `npm run build:shadcn-css`.');
+  }
+  if (current && current !== (await buildShadcnCss())) {
+    problems.push('catalog/shadcn.generated.css is stale; run `npm run build:shadcn-css`.');
+  }
+  const body = stripComments(current).trim();
+  if (current && !(body.startsWith(`@layer ${LAYER} {`) && body.endsWith('}'))) {
+    problems.push(`catalog/shadcn.generated.css is not wrapped in \`@layer ${LAYER}\`.`);
+  }
+  if (/(^|[\s,{}])(?::root|html|body)\b[^{;]*\{/m.test(body)) {
+    problems.push('catalog/shadcn.generated.css has a :root/html/body selector; the build should have rewritten it to :scope.');
+  }
+  for (const [, name] of body.matchAll(/@keyframes\s+([\w-]+)/g)) {
+    if (!name.startsWith('shadcn-')) problems.push(`catalog/shadcn.generated.css declares @keyframes ${name} without the shadcn- prefix.`);
+  }
+  // Every style rule must sit inside an @scope block: strip @scope blocks and
+  // @property / @keyframes, then nothing with a selector should remain.
+  const outside = stripScopeBlocks(body.slice(body.indexOf('{') + 1, -1))
+    .replace(/@property[^{]*\{[^}]*\}/g, '')
+    .replace(/@keyframes[^{]*\{(?:[^{}]*\{[^}]*\})*[^}]*\}/g, '');
+  const stray = outside.match(/(?:^|[{};])\s*([^@{};\s][^{};]*)\{/);
+  if (stray) {
+    problems.push(`catalog/shadcn.generated.css has a rule outside @scope (${SCOPE}): \`${stray[1].trim()}\``);
   }
 }
 

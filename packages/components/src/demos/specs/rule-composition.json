@@ -1,0 +1,119 @@
+{
+  "root": "rule-editor",
+  "elements": {
+    "rule-editor": {
+      "type": "Stack",
+      "props": { "gap": "l" },
+      "watch": {
+        "/draft": { "action": "updatePreview", "params": {} },
+        "/saved": { "action": "updatePreview", "params": {} }
+      },
+      "children": ["rule", "rule-actions", "effect"]
+    },
+
+    "rule": {
+      "type": "RuleSentence",
+      "props": {
+        "label": "Comment notification rule",
+        "parts": { "$computed": "ruleSentence", "args": { "rule": { "$state": "/draft" } } },
+        "edit": { "$bindState": "/edit" }
+      },
+      "on": {
+        "change": { "action": "editRule", "params": { "edit": { "$state": "/edit" } } },
+        "add": { "action": "editRule", "params": { "edit": { "$state": "/edit" } } },
+        "remove": { "action": "editRule", "params": { "edit": { "$state": "/edit" } } }
+      }
+    },
+
+    "rule-actions": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "children": ["save", "discard", "show-effect"]
+    },
+    "save": {
+      "type": "Button",
+      "props": {
+        "label": "Save rule",
+        "variant": "primary",
+        "disabled": { "$computed": "sameRule", "args": { "a": { "$state": "/draft" }, "b": { "$state": "/saved" } } }
+      },
+      "on": { "press": { "action": "setState", "params": { "statePath": "/saved", "value": { "$state": "/draft" } } } }
+    },
+    "discard": {
+      "type": "Button",
+      "props": {
+        "label": "Discard changes",
+        "variant": "plain",
+        "disabled": { "$computed": "sameRule", "args": { "a": { "$state": "/draft" }, "b": { "$state": "/saved" } } }
+      },
+      "on": { "press": { "action": "setState", "params": { "statePath": "/draft", "value": { "$state": "/saved" } } } }
+    },
+    "show-effect": {
+      "type": "Button",
+      "props": { "label": "Show the effect", "icon": "history", "expanded": { "$state": "/previewOpen" } },
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": {
+            "statePath": "/previewOpen",
+            "value": { "$cond": { "$state": "/previewOpen" }, "$then": false, "$else": true }
+          }
+        }
+      }
+    },
+
+    "effect": {
+      "type": "Drawer",
+      "props": { "title": "Effect on past comments", "open": { "$bindState": "/previewOpen" } },
+      "children": ["effect-summary", "effect-groups"]
+    },
+    "effect-summary": {
+      "type": "Text",
+      "props": { "text": { "$state": "/preview/summary" } }
+    },
+    "effect-groups": {
+      "type": "Stack",
+      "props": { "gap": "l" },
+      "repeat": { "statePath": "/preview/groups", "key": "id" },
+      "children": ["group"]
+    },
+    "group": {
+      "type": "Stack",
+      "props": { "gap": "s" },
+      "children": ["group-title", "group-cases", "group-empty"]
+    },
+    "group-title": {
+      "type": "Text",
+      "props": { "text": { "$item": "title" } },
+      "children": ["group-count"]
+    },
+    "group-count": {
+      "type": "Badge",
+      "props": { "text": { "$item": "count" }, "pill": true }
+    },
+    "group-cases": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$item": "hasCases" },
+      "children": ["case-list"]
+    },
+    "case-list": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "repeat": { "statePath": { "$item": "cases" }, "key": "id" },
+      "children": ["case"]
+    },
+    "case": {
+      "type": "Stack",
+      "props": { "gap": "none" },
+      "children": ["case-description", "case-detail"]
+    },
+    "case-description": { "type": "Text", "props": { "text": { "$item": "description" } } },
+    "case-detail": { "type": "Text", "props": { "text": { "$item": "detail" }, "size": "small", "muted": true } },
+    "group-empty": {
+      "type": "Text",
+      "props": { "text": { "$item": "empty" }, "muted": true },
+      "visible": { "$item": "hasCases", "not": true }
+    }
+  }
+}

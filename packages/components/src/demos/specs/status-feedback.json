@@ -1,0 +1,35 @@
+{
+  "root": "indicators",
+  "elements": {
+    "indicators": {
+      "type": "Grid",
+      "props": { "minColumnWidth": "m" },
+      "children": ["investment-summary", "strategies"]
+    },
+
+    "investment-summary": {
+      "type": "Card",
+      "props": { "title": null },
+      "children": ["initial-label", "initial-value", "final-label", "final-value"]
+    },
+    "initial-label": { "type": "Text", "props": { "text": "Initial investment", "size": "small", "muted": true } },
+    "initial-value": { "type": "Text", "props": { "text": "$10,000.00", "size": "large" } },
+    "final-label": { "type": "Text", "props": { "text": "Final value", "size": "small", "muted": true } },
+    "final-value": { "type": "Text", "props": { "text": "$12,163.54", "size": "large", "highlight": true } },
+
+    "strategies": {
+      "type": "List",
+      "props": {},
+      "children": ["paired-switching", "tactical-allocation", "high-reward", "last-one"]
+    },
+    "paired-switching": { "type": "ListItem", "props": { "label": "Paired switching", "checkbox": true, "checked": true } },
+    "tactical-allocation": { "type": "ListItem", "props": { "label": "Tactical asset allocation" } },
+    "high-reward": {
+      "type": "ListItem",
+      "props": { "label": "High reward" },
+      "slots": { "suffix": ["unread-count"] }
+    },
+    "unread-count": { "type": "Badge", "props": { "text": "2", "tone": "danger", "pill": true, "pulse": true } },
+    "last-one": { "type": "ListItem", "props": { "label": "Last one" } }
+  }
+}

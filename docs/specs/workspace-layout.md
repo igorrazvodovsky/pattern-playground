@@ -114,6 +114,22 @@ this be reused" but "does anything other than the demo depend on it today."
 Building a public API for a single demo consumer is speculative generality;
 promotion is trigger-gated.
 
+### Switchable demos (`demos/specs/`)
+
+A demo can also be a spec: `demos/specs/<slug>.json` describes the demo as
+data against the component catalog, and `demos/specs/<slug>.ts` beside it
+supplies what JSON cannot carry: initial state (fixtures enter here, never
+through the spec), action handlers, and `$computed` functions. A spec reads
+state only. Ownership is the same as for `demos/<slug>.tsx`: the pattern that
+names the move owns the spec, and other pages borrow it by slug.
+
+The catalog, the registries that render it (`registries/pp.tsx` for this
+library, `registries/shadcn.tsx` for shadcn/ui), `SpecDemo.tsx`, and the
+shadcn stylesheet build live in `packages/components/src/catalog/`. The site
+mounts specs through the `specs` map in `apps/patterns/src/lib/demo-registry.ts`;
+MDX writes `<Demo spec="<slug>">`, and the demo frame offers a switch between
+registries.
+
 ### Promotion register
 
 Known un-promoted substrate is recorded so the intent is not lost when the
@@ -136,8 +152,9 @@ one would be inert, so it enforces nothing (workspace-split closure,
 workstream 4 step 2). The observed public surface, recorded when an honest
 `exports` field could be written if enforcement is ever wanted:
 `@components/register-all.ts` (side-effect registration),
-`@components/sidebar`, `@styles/*` (stylesheet entries), and `@pkg/demos/*`
-(dynamic, through the demo registry). The site also imports
+`@components/sidebar`, `@styles/*` (stylesheet entries), `@pkg/demos/*`
+(dynamic, through the demo registry), and `@pkg/catalog/*` (the registries,
+dynamic through the demo registry; `SpecDemo` and its types). The site also imports
 `@components/charts/network-graph` and `@components/charts/base/chart-types`
 for typing only — erased at build, so they are a source-level coupling rather
 than part of the runtime surface.

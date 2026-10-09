@@ -5,3 +5,7 @@
 **/storybook-static/**
 **/.astro/**
 **/public/storybook/**
+# Tailwind input (@theme, @apply) and its generated, contained output; see
+# scripts/build-shadcn-css.mjs.
+packages/components/src/catalog/shadcn.css
+packages/components/src/catalog/shadcn.generated.css

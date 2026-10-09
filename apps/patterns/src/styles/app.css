@@ -207,6 +207,49 @@
     font-size: smaller;
     color: var(--c-bodyDimmed);
   }
+
+  /* Switchable demos: which component library the spec renders through. */
+  .demo-registry-switch {
+    flex-shrink: 0;
+    display: inline-flex;
+    margin-inline-start: auto;
+    padding: 2px;
+    background: var(--c-neutral-50);
+    border-radius: var(--radius-m);
+  }
+
+  .demo-registry-switch + .demo-expand {
+    margin-inline-start: 0;
+  }
+
+  .demo-registry-switch button {
+    padding: 0.125rem 0.5rem;
+    font-size: smaller;
+    color: var(--c-neutral-600);
+    cursor: pointer;
+    background: none;
+    border-radius: calc(var(--radius-m) - 2px);
+  }
+
+  .demo-registry-switch button:hover {
+    color: var(--c-neutral-900);
+  }
+
+  .demo-registry-switch button[aria-pressed='true'] {
+    color: var(--c-neutral-900);
+    background: var(--c-neutral-0);
+    box-shadow: 0 0 0 1px var(--c-neutral-200);
+  }
+
+  .demo-registry-switch button:focus-visible {
+    outline: 2px solid var(--c-accent-500);
+    outline-offset: 2px;
+  }
+
+  .spec-demo__unsupported {
+    color: var(--c-bodyDimmed);
+    font-style: italic;
+  }
 }
 
 /* Prose voice, authored inside a donut scope. The scope limit (.demo-block,

@@ -13,9 +13,9 @@ mediation: individual
 description: "Writing a rule for the system to follow as a plain sentence the actor can read, change, and test before saving it."
 situation:
   initiating: >-
-    the system handles cases on its own while the actor is away; fixing each case by hand has
-    become tiresome, so the actor wants to change the rule itself, and the rule has to be exact
-    enough for the system to run and clear enough for the actor to check
+    the actor has decided that a rule the system follows on its own should change, or that a new
+    one is needed; the rule has to be exact enough for the system to run and clear enough for the
+    actor to check
   resulting:
     - >-
       the rule is visible as a sentence whose parts can be read, changed, added and removed, so
@@ -57,7 +57,7 @@ relationships:
       note: pushes the actor's intent into the elements the system offers, and what does not fit is lost at the edge
 ---
 
-The system does things while the actor is away: moves files, hides messages, skips songs, stops making certain suggestions. When it gets a case wrong, the actor fixes that case. After the third fix of the same kind, fixing cases is no longer the answer. The actor wants to change the rule. Rule composition is how the actor writes that rule. The rule is shown as one sentence in plain language.
+The system does some things by rule while the actor is away: moves files, hides messages, skips songs, stops making certain suggestions. Rule composition is how the actor writes or changes one of those rules. It starts once the actor has decided what should change and has the rule in front of them. The rule is shown as one sentence in plain language, and the actor edits it in place.
 
 > **When** an email arrives **and** it contains the phrase *"Canadian Pharmacy"* **and** it is not
 > from *someone in my contacts*, label it *"likely spam"* and move it to *the trash*.
@@ -79,26 +79,13 @@ What differs between them is the set of parts on offer, not the surface.
 ## Solution
 
 Show the whole rule as one plain sentence, with the trigger and the action together. Splitting them
-hides what the rule does. Then let the actor edit the sentence in place:
-
-- *Highlight the parts that can change.* Fields, operators and values look different from the fixed
-  words around them. The actor edits by touching a part, not by filling in a form.
-- *Offer the options for each part.* Opening a part shows what can go there: the fields the system
-  has, the operators that fit that field, the values that make sense. People edit rules rarely, so
-  the surface should not expect them to remember the vocabulary. Each pick is an act of
-  [bounded choice](/patterns/bounded-choice).
-- *Use plain words for operators.* "Contains", "is not from", "recorded before", not symbols. The
-  sentence should still read as a sentence after every edit.
-- *Make values hard to get wrong.* A date picker for a date, a contact picker for a sender, a range
-  for a number. The control follows the field's type.
-- *Add and remove whole conditions.* Each condition has a visible remove, and there is one obvious
-  way to add another at the end.
-- *Show the effect next to the sentence.* The preview is the only way the actor can tell whether
-  the sentence says what they meant. The forms it can take are below.
+hides what the rule does. Then let the actor edit the sentence in place.
 
 When a rule needs grouping that one line cannot hold, break the sentence into lines, one per group,
 indented, with the connective between lines. A tree of conditions or a row of chips can show the
 same thing, but reads worse for the common flat case, and most cases are flat.
+
+<Demo spec="rule-composition" surface="white" label="Editing a comment notification rule" expandable />
 
 ## Events and states
 
@@ -110,8 +97,7 @@ same thing, but reads worse for the common flat case, and most cases are flat.
 
 ## Showing the effect before saving
 
-The sentence does not say what it will do, so the surface has to show it. Three ways, from best
-evidenced to least:
+The sentence does not say what it will do, so it would be best to show it:
 
 - *Replay the past.* Apply the changed rule to what already happened and show what would have come
   out differently. This is the form that has been shown to improve people's success. It works
@@ -125,9 +111,7 @@ evidenced to least:
   mostly not country shows no country at all. This is the form to use when there is no history to
   replay.
 
-When the rule applies to a visible collection, the preview and the editing become one thing: a
-[filter](/patterns/filtering) whose result count updates as each condition is added is a preview
-that runs all the time.
+>When the rule applies to a visible collection, the preview and the editing become one thing: a [filter](/patterns/filtering) whose result count updates as each condition is added is a preview that runs all the time.
 
 ## Research on this pattern
 
@@ -164,9 +148,10 @@ that runs all the time.
 
 ## To-do
 
-- A demo: one rule as an editable sentence, opened from a mistake, with the edge-case preview
-  next to it. The chip row in [filtering](/patterns/filtering)'s demo is the other form and should
-  not be reused here.
+- The move before this one: going from a case the system got wrong to the rule behind it,
+  including cases where nothing happened and there is no action to trace back from. Decide whether
+  that is a larger pattern composed of this one, possibly [AI tuning](/patterns/ai-tuning) widened
+  beyond agents, or a sequence of moves.
 - Look at shipping examples of the sentence form (Gmail filters, Apple Mail rules, iTunes smart
   playlists, Shortcuts automations, Zapier's trigger sentence) to see which parts of the solution
   they keep and which they drop.

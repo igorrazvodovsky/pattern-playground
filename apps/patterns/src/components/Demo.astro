@@ -12,6 +12,12 @@ interface Props {
   // Props forwarded to the mounted component, serialised as JSON in a data
   // attribute and parsed by the registry.
   props?: Record<string, unknown>;
+  // A switchable demo: the slug of a spec in packages/components/src/demos/specs/.
+  // The frame renders a <div data-demo-spec> mount point and a footer control
+  // for switching the component library the spec renders through.
+  spec?: string;
+  // The library the spec renders through first (catalog/registries/).
+  registry?: 'pp' | 'shadcn';
   label?: string;
   surface?: 'gray' | 'white' | 'border';
   // Both features drive one width axis (--demo-w) shared through lib/demo-expander.ts:
@@ -22,7 +28,12 @@ interface Props {
   resizable?: boolean;
 }
 
-const { name, props, label, surface = 'border', expandable, resizable } = Astro.props;
+const { name, props, spec, registry = 'pp', label, surface = 'border', expandable, resizable } = Astro.props;
+
+const registries = [
+  { name: 'pp', label: 'Playground' },
+  { name: 'shadcn', label: 'shadcn/ui' },
+] as const;
 
 const surfaceClass = {
   gray: 'layer gray',
@@ -35,7 +46,9 @@ const surfaceClass = {
     class={`demo-block__content ${surfaceClass[surface]}`}
     data-resizable={resizable || undefined}
   >
-    {name ? (
+    {spec ? (
+      <div data-demo-spec={spec} data-demo-registry={registry}></div>
+    ) : name ? (
       <div data-demo={name} data-demo-props={props ? JSON.stringify(props) : undefined}></div>
     ) : (
       <slot />
@@ -52,9 +65,22 @@ const surfaceClass = {
       ></div>
     )}
   </div>
-  {(label || expandable) && (
+  {(label || expandable || spec) && (
     <div class="demo-block__footer">
       {label && <span class="demo-block__label">{label}</span>}
+      {spec && (
+        <div class="demo-registry-switch" role="group" aria-label="Component library">
+          {registries.map(r => (
+            <button
+              type="button"
+              data-demo-registry-option={r.name}
+              aria-pressed={r.name === registry ? 'true' : 'false'}
+            >
+              {r.label}
+            </button>
+          ))}
+        </div>
+      )}
       {expandable && (
         <button
           type="button"

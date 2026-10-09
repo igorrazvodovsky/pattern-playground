@@ -66,6 +66,7 @@
 @import url("network-graph.css");
 @import url("dynamic-hyperlinks.css");
 @import url("form.css");
+@import url("rule-sentence.css") layer(components);
 
 /* Grab-bag relocated from main.css so the site (which imports the three entries,
    not main.css) still receives them. Each placed in the layer matching intent. */

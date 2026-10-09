@@ -6,7 +6,10 @@
 // injected panes need no island revival and demo modules stay out of the
 // prerender graph entirely.
 import { createElement, type ComponentType } from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot, type Root } from 'react-dom/client';
+import type { Spec } from '@json-render/core';
+import type { ComponentRegistry } from '@json-render/react';
+import type { SpecSetup } from '@pkg/catalog/SpecDemo';
 
 type DemoComponent = ComponentType<Record<string, unknown>>;
 type Loader = () => Promise<DemoComponent>;
@@ -37,7 +40,6 @@ const demos: Record<string, Loader> = {
   'contextual-navigation': () => import('@pkg/demos/focus-and-context').then(m => m.ContextualNavigationDemo),
   'fisheye-timeline': () => import('@pkg/demos/focus-and-context').then(m => m.FisheyeTimelineDemo),
   'form': () => import('@pkg/demos/form').then(m => m.FormDemo),
-  'inline-confirmation': () => import('@pkg/demos/inline-confirmation').then(m => m.InlineConfirmationDemo),
   'item-view-full': () => import('@pkg/demos/item-view').then(m => m.ItemViewFullDemo),
   'item-view-row': () => import('@pkg/demos/item-view').then(m => m.ItemViewRowDemo),
   'item-view-glyph': () => import('@pkg/demos/item-view').then(m => m.ItemViewGlyphDemo),
@@ -59,13 +61,30 @@ const demos: Record<string, Loader> = {
   'semantic-zoom': () => import('@pkg/demos/semantic-zoom').then(m => m.SemanticZoomDemo),
   'semantic-zoom-timeline': () => import('@pkg/demos/semantic-zoom').then(m => m.SemanticZoomTimelineDemo),
   'population-rung': () => import('@pkg/demos/semantic-zoom').then(m => m.PopulationRungDemo),
-  'indicators': () => import('@pkg/demos/status-feedback').then(m => m.IndicatorsDemo),
   'toast': () => import('@pkg/demos/transient-feedback').then(m => m.ToastDemo),
   'toast-with-undo': () => import('@pkg/demos/transient-feedback').then(m => m.ToastWithUndoDemo),
 };
 
+// Switchable demos (<Demo spec="…">): a JSON spec plus the module beside it,
+// rendered through one of the catalog's registries. Each registry is its own
+// chunk, and shadcn's carries its stylesheet, so a page loads a library only
+// when a demo renders through it.
+type SpecModule = { spec: Spec; setup: SpecSetup };
+
+const specs: Record<string, () => Promise<{ default: SpecModule }>> = {
+  'inline-confirmation': () => import('@pkg/demos/specs/inline-confirmation'),
+  'rule-composition': () => import('@pkg/demos/specs/rule-composition'),
+  'status-feedback': () => import('@pkg/demos/specs/status-feedback'),
+};
+
+const registries: Record<string, () => Promise<ComponentRegistry>> = {
+  pp: () => import('@pkg/catalog/registries/pp').then(m => m.registry),
+  shadcn: () => import('@pkg/catalog/registries/shadcn').then(async m => (await m.stylesheet, m.registry)),
+};
+
 // Names the verification script checks MDX content against.
 export const demoNames: ReadonlySet<string> = new Set(Object.keys(demos));
+export const specNames: ReadonlySet<string> = new Set(Object.keys(specs));
 
 // Mount every unmounted [data-demo] under root. Mounting is marked on the live
 // element (data-demo-mounted), so re-runs — layout load, astro:page-load, a
@@ -96,5 +115,63 @@ export function mountDemos(root: ParentNode): void {
         console.error(`[demo-registry] failed to load demo "${name}"`, err);
       },
     );
+  }
+  mountSpecDemos(root);
+}
+
+// Mount every unmounted [data-demo-spec] under root, and wire the frame's
+// library switch. The state store is created once per mount and handed to each
+// render, so switching libraries keeps the demo where the actor left it.
+export function mountSpecDemos(root: ParentNode): void {
+  for (const el of root.querySelectorAll<HTMLElement>('[data-demo-spec]:not([data-demo-mounted])')) {
+    const slug = el.dataset.demoSpec ?? '';
+    const loadSpec = specs[slug];
+    if (!loadSpec) {
+      console.warn(`[demo-registry] no spec "${slug}"`);
+      continue;
+    }
+    el.setAttribute('data-demo-mounted', '');
+    const options = el.closest('.demo-block')?.querySelectorAll<HTMLButtonElement>('[data-demo-registry-option]') ?? [];
+
+    let reactRoot: Root | null = null;
+    let render: ((registryName: string) => Promise<void>) | null = null;
+
+    const ready = Promise.all([loadSpec(), import('@pkg/catalog/SpecDemo'), import('@json-render/core')]).then(
+      ([{ default: { spec, setup } }, { SpecDemo }, { createStateStore }]) => {
+        if (!el.isConnected) {
+          el.removeAttribute('data-demo-mounted');
+          return;
+        }
+        const store = createStateStore(setup.initialState ?? {});
+        const handlers = setup.handlers?.(store);
+        reactRoot = createRoot(el);
+        render = async (registryName) => {
+          const loadRegistry = registries[registryName];
+          if (!loadRegistry) return console.warn(`[demo-registry] no registry "${registryName}"`);
+          const registry = await loadRegistry();
+          if (!el.isConnected) return;
+          el.dataset.demoRegistry = registryName;
+          for (const option of options) {
+            option.setAttribute('aria-pressed', String(option.dataset.demoRegistryOption === registryName));
+          }
+          reactRoot?.render(
+            createElement(SpecDemo, { spec, registry, registryName, store, handlers, functions: setup.functions }),
+          );
+        };
+        return render(el.dataset.demoRegistry ?? 'pp');
+      },
+    );
+
+    ready.catch((err) => {
+      el.removeAttribute('data-demo-mounted');
+      console.error(`[demo-registry] failed to load spec "${slug}"`, err);
+    });
+
+    for (const option of options) {
+      option.addEventListener('click', () => {
+        const next = option.dataset.demoRegistryOption;
+        if (next && next !== el.dataset.demoRegistry) void ready.then(() => render?.(next));
+      });
+    }
   }
 }
