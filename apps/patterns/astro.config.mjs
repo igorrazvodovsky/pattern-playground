@@ -33,6 +33,14 @@ export default defineConfig({
     processor: unified({ remarkPlugins: [remarkRelStrip, remarkConsequences] }),
   },
   vite: {
+    environments: {
+      // Astro bundles its runtime into dist/.prerender, but the runtime's own
+      // deps stay bare imports there and resolve from this app, not from
+      // Astro's folder. Astro needs cookie@2; Express (apps/server) hoists
+      // cookie@0.7 to the workspace root, which lacks `parseCookie`. Bundling
+      // cookie keeps Astro on its own copy whatever the hoisting.
+      prerender: { resolve: { noExternal: ['cookie'] } },
+    },
     // Dev-only watchdog that reports when the optimizeDeps registry configured
     // below collapses mid-session — the failure mode the comment there describes.
     // Dev-only: force SSR invalidation of MDX renders, which Astro stops doing

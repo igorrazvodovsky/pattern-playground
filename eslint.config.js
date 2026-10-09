@@ -5,7 +5,6 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
-import react from 'eslint-plugin-react'
 
 // Figures render through `@shared/format`, never at the call site.
 // Two faults it catches — a pinned locale overriding the reader, and a bare
@@ -44,7 +43,11 @@ export default [
     },
     languageOptions: { globals: globals.browser },
     rules: {
-      ...reactHooks.configs.recommended.rules,
+      // The two classic hooks rules. The plugin's v7 `recommended` set also
+      // carries the React Compiler rules (refs, set-state-in-effect, purity…),
+      // which are not adopted here.
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },
@@ -69,20 +72,6 @@ export default [
     },
   },
   {
-    files: ["**/src/**/*.tsx"],
-    plugins: {
-      react,
-    },
-    rules: {
-      'react/forbid-component-props': ['error', {
-        forbid: [{
-          propName: 'style',
-          message: 'Use CSS classes, not inline styles. See .claude/rules/styling.md',
-        }],
-      }],
-    },
-  },
-  {
     files: ["**/src/components/**/*.ts"],
     ignores: ["**/src/components/register-all.ts", "**/src/components/component-registry.ts"],
     rules: {
@@ -98,6 +87,12 @@ export default [
       'no-restricted-syntax': ['error', {
         selector: "CallExpression[callee.property.name=/^(querySelector|querySelectorAll|closest|matches)$/] > Literal[value=/^\\[(role|aria-)/]",
         message: 'Use data-* attributes as JS hooks, not role/aria-*. See .claude/rules/web-components.md',
+      },
+      // No `style` prop on React components (`Foo`, `Foo.Bar`); lowercase
+      // names such as `div` or `motion.div` count as DOM elements.
+      {
+        selector: "JSXOpeningElement:matches([name.name=/^[A-Z]/], [name.object.name=/^[A-Z]/]) > JSXAttribute[name.name='style']",
+        message: 'Use CSS classes, not inline styles. See .claude/rules/styling.md',
       },
       ...figuresRules],
     },

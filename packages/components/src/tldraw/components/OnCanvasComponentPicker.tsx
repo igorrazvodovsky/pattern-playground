@@ -128,7 +128,7 @@ function OnCanvasComponentPickerDialog({
 				<Dialog.Popup
 					ref={setContainer}
 					className={`OnCanvasComponentPicker OnCanvasComponentPicker_${location}`}
-					// eslint-disable-next-line react/forbid-component-props -- dynamic layout value, see plans/tech-debt-tracker.md
+					// eslint-disable-next-line no-restricted-syntax -- dynamic layout value, see plans/tech-debt-tracker.md
 					style={{ width: NODE_WIDTH_PX }}
 				>
 					<div className="OnCanvasComponentPicker-content">

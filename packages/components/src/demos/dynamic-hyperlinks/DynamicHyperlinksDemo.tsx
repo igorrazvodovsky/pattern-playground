@@ -105,6 +105,7 @@ export function DynamicHyperlinksDemo() {
     editorProps: {
       attributes: {
         class: 'dynamic-hyperlinks__tiptap',
+        'aria-label': 'Document editor',
       },
     },
     onUpdate: ({ editor: e }) => {

@@ -11,16 +11,17 @@
 // machinery for little benefit here.
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    // https://lit.dev/docs/components/decorators/#decorators-typescript
+    "target": "ES2024",
+    // Elena components declare prop defaults as class fields; switching to
+    // define semantics changes how those fields and the native properties
+    // they shadow behave at runtime.
     "useDefineForClassFields": false,
     "module": "ESNext",
-    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "lib": ["ES2024", "DOM", "DOM.Iterable"],
+    // TS 6 loads no @types packages unless listed here.
+    "types": ["node"],
     "skipLibCheck": true,
     "jsx": "react-jsx",
-    "downlevelIteration": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",

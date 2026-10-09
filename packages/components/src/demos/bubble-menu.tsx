@@ -114,6 +114,7 @@ export const CommentingDemo: React.FC = () => {
     editorProps: {
       attributes: {
         class: 'rich-editor',
+        'aria-label': 'Document editor',
       }
     },
     immediatelyRender: false,
@@ -177,6 +178,7 @@ export const DynamicExplanationDemo: React.FC = () => {
     editorProps: {
       attributes: {
         class: 'rich-editor',
+        'aria-label': 'Document editor',
       }
     },
     immediatelyRender: false,

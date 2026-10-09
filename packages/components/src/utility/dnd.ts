@@ -5,11 +5,11 @@
  * instead, where only the browser ever runs it.
  */
 
-export type ElementAdapter = typeof import('@atlaskit/pragmatic-drag-and-drop/element/adapter');
+export type ElementAdapter = typeof import('@atlaskit/pragmatic-drag-and-drop/adapter/element-adapter');
 
 let adapterPromise: Promise<ElementAdapter> | undefined;
 
 export function loadElementAdapter(): Promise<ElementAdapter> {
-  adapterPromise ??= import('@atlaskit/pragmatic-drag-and-drop/element/adapter');
+  adapterPromise ??= import('@atlaskit/pragmatic-drag-and-drop/adapter/element-adapter');
   return adapterPromise;
 }

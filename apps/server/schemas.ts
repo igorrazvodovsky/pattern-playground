@@ -207,7 +207,7 @@ const explanationRequestSchema = z.object({
     id: z.string(),
     label: z.string(),
     type: z.enum(['user', 'document', 'project', 'task', 'file', 'link', 'quote', 'material', 'component', 'product', 'service']),
-    metadata: z.record(z.unknown()).optional()
+    metadata: z.record(z.string(), z.unknown()).optional()
   })).optional(),
   context: z.string().optional()
 });

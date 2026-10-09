@@ -80,7 +80,7 @@
 }
 
 .toast-body {
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   display: flex;
   align-items: center;
   gap: 1ch;

@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 
 // Load environment variables from .env file if present
-dotenv.config();
+dotenv.config({ quiet: true });
 
 // Environment variable validation
 const requiredEnvVars = ['OPENAI_API_KEY'];

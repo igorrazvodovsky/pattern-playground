@@ -9,6 +9,5 @@
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-xs);
-    row-gap: var(--space-xs);
   }
 }

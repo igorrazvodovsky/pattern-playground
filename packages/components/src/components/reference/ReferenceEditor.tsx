@@ -7,6 +7,8 @@ export interface ReferenceEditorProps {
   data: ReferenceCategory[];
   content?: string | Record<string, unknown>;
   placeholder?: string;
+  /** Accessible name for the editable region. */
+  label?: string;
   className?: string;
   onChange?: (content: string) => void;
   onReferenceSelect?: (reference: SelectedReference) => void;
@@ -16,6 +18,7 @@ export function ReferenceEditor({
   data,
   content = '',
   placeholder = 'Type @ to reference...',
+  label = 'Text editor',
   className = '',
   onChange,
   onReferenceSelect,
@@ -36,6 +39,7 @@ export function ReferenceEditor({
       attributes: {
         class: `tiptap-editor-basic reference-editor ${className}`,
         'data-placeholder': placeholder,
+        'aria-label': label,
       },
     },
     onUpdate: ({ editor }) => {

@@ -14,7 +14,7 @@ export const errorHandler = (err: Error | AppError | ZodError, _req: Request, re
 
   // Handle Zod validation errors
   if (err instanceof ZodError) {
-    const validationErrors = err.errors.map(error => ({
+    const validationErrors = err.issues.map(error => ({
       field: error.path.join('.'),
       message: error.message,
       code: error.code
