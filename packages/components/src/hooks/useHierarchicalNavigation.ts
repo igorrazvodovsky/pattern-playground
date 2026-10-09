@@ -1,21 +1,8 @@
 import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 
-// Generic interfaces for hierarchical navigation
-export interface SearchableParent {
-  id: string;
-  name: string;
-  icon?: string;
-  searchableText?: string;
-  children?: SearchableItem[];
-}
+import type { SearchableParent, SearchableItem } from '../utility/hierarchical-search';
 
-export interface SearchableItem {
-  id: string;
-  name: string;
-  icon?: string;
-  searchableText?: string;
-  [key: string]: unknown; // Allow additional properties for specific implementations
-}
+export type { SearchableParent, SearchableItem };
 
 export interface HierarchicalSearchResults<TParent extends SearchableParent, TChild extends SearchableItem> {
   parents: TParent[];

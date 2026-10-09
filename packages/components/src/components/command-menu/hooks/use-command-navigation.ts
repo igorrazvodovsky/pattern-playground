@@ -12,10 +12,7 @@ interface CommandOption extends SearchableParent {
   children?: CommandChildOption[];
 }
 
-interface CommandChildOption extends Omit<SearchableItem, 'icon'> {
-  // Command child-specific properties
-  icon?: string;
-}
+type CommandChildOption = SearchableItem;
 
 export interface UseCommandNavigationOptions {
   data: CommandData[];
@@ -73,7 +70,7 @@ export function useCommandNavigation({
       setSelectedCommand(commandId);
       setSearchInput("");
       inputRef.current?.focus();
-    } else {
+    } else if (command) {
       onSelect?.(command);
       setSelectedCommand(null);
       setSearchInput("");
@@ -82,6 +79,7 @@ export function useCommandNavigation({
 
   const handleChildSelect = (childId: string) => {
     const child = selectedCommandData?.children?.find(c => c.id === childId);
+    if (!child) return;
     onSelect?.(child);
     setSelectedCommand(null);
     setSearchInput("");
@@ -89,6 +87,7 @@ export function useCommandNavigation({
 
   const handleRecentSelect = (recentId: string) => {
     const recentItem = recentItems.find(item => item.id === recentId);
+    if (!recentItem) return;
     onSelect?.(recentItem);
     setSelectedCommand(null);
     setSearchInput("");

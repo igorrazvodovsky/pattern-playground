@@ -21,7 +21,10 @@ export const generateProductFilterSuggestions = async (
       if (value.toLowerCase().includes(lowercasePrompt) ||
           label.toLowerCase().includes(lowercasePrompt)) {
         suggestions.push({
+          // Paths and values can both contain hyphens; encode the pair so ids stay unique.
+          id: JSON.stringify([path, value]),
           label: `${label}: ${value}`,
+          value,
           metadata: {
             path,
             operator: 'is',
@@ -32,9 +35,9 @@ export const generateProductFilterSuggestions = async (
     });
   });
 
+  // Keyword matches are exact substrings, so they carry full confidence.
   return {
-    prompt,
     suggestedItems: suggestions.slice(0, 5), // Limit to 5 suggestions
-    reasoning: `Found ${suggestions.length} filter suggestions based on "${prompt}"`
+    confidence: 100
   };
 };

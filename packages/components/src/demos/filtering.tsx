@@ -41,6 +41,8 @@ import '../components/dropdown/dropdown.ts';
 import 'iconify-icon';
 import '../jsx-types';
 
+type TaskFilterValue = (typeof taskFilterCategories)[number]['children'][number];
+
 const DROPDOWN_CLOSE_DELAY = 200;
 const MIN_AI_TRIGGER_LENGTH = 3;
 
@@ -124,7 +126,7 @@ export function FilteringDemo({
         minMatchCharLength: 2,
         includeChildrenOnParentMatch: false
       }),
-      (values, query) => sortByRelevance(values, query, {
+      (values: TaskFilterValue[], query) => sortByRelevance(values, query, {
         threshold: 0.05,
         minMatchCharLength: 2,
         includeChildrenOnParentMatch: false
@@ -135,7 +137,7 @@ export function FilteringDemo({
         includeChildrenOnParentMatch: false
       }
     ),
-    onSelectChild: (filterValue: { path: string; value: string }) => {
+    onSelectChild: (filterValue: TaskFilterValue) => {
       addFilter(filterValue.path, filterValue.value);
       hideDropdownWithDelay();
     },
@@ -180,7 +182,7 @@ export function FilteringDemo({
     });
 
     setFilters(prev => [...prev, ...newFilters]);
-    handleApplyAIResult(result);
+    handleApplyAIResult();
     hideDropdownWithDelay();
   }, [handleApplyAIResult, hideDropdownWithDelay, setFilters]);
 

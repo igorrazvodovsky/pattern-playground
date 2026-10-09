@@ -1,6 +1,6 @@
 import { Node, mergeAttributes, nodeInputRule } from '@tiptap/core'
 import { ReactNodeViewRenderer, NodeViewWrapper } from '@tiptap/react'
-import type { Editor } from '@tiptap/react'
+import type { NodeViewProps } from '@tiptap/react'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 export interface TemplateFieldOptions {
@@ -31,16 +31,6 @@ declare module '@tiptap/core' {
   }
 }
 
-interface TemplateFieldComponentProps {
-  node: {
-    attrs: TemplateFieldAttributes
-  }
-  updateAttributes: (attrs: Partial<TemplateFieldAttributes>) => void
-  selected: boolean
-  editor: Editor
-  getPos: () => number | undefined
-}
-
 // Custom hook for optimized input sizing (replacing canvas measurement)
 const useInputSizing = (text: string, isEditing: boolean) => {
   const measureRef = useRef<HTMLSpanElement>(null);
@@ -64,8 +54,8 @@ const TemplateFieldComponent = ({
   selected,
   editor,
   getPos
-}: TemplateFieldComponentProps) => {
-  const { label, placeholder, filled, type, required, value } = node.attrs;
+}: NodeViewProps) => {
+  const { label, placeholder, filled, type, required, value } = node.attrs as TemplateFieldAttributes;
 
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(value || placeholder || '');

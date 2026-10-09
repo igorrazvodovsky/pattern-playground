@@ -93,8 +93,8 @@ function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
     return results.parents.length > 0 || results.children.length > 0 || filteredRecentItems.length > 0;
   }, [state.mode, results, filteredRecentItems]);
 
-  const handleApplyAICommands = useCallback((result: AICommandResult) => {
-    handleApplyAIResult(result);
+  const handleApplyAICommands = useCallback(() => {
+    handleApplyAIResult();
     actions.resetState();
     onClose?.();
   }, [handleApplyAIResult, actions, onClose]);

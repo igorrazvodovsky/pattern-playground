@@ -21,7 +21,7 @@ import {
   sortByRelevance
 } from '../../utility/hierarchical-search';
 import type { AttributeFilter, FilterOperator } from '@shared/data/bindings';
-import type { FilterCategory } from './FilterCategories';
+import type { FilterCategory, FilterValue } from './FilterCategories';
 import { useFilterState } from './hooks/useFilterState';
 import { useDropdownState } from './hooks/useDropdownState';
 import { generateProductFilterSuggestions } from './aiFilterAdapter';
@@ -57,7 +57,7 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
         minMatchCharLength: 2,
         includeChildrenOnParentMatch: false
       }),
-      (values, query) => sortByRelevance(values, query, {
+      (values: FilterValue[], query) => sortByRelevance(values, query, {
         threshold: 0.05,
         minMatchCharLength: 2,
         includeChildrenOnParentMatch: false
@@ -68,7 +68,7 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
         includeChildrenOnParentMatch: false
       }
     ),
-    onSelectChild: (filterValue: { path: string; value: string }) => {
+    onSelectChild: (filterValue: FilterValue) => {
       addFilter(filterValue.path, filterValue.value);
       hideDropdownWithDelay();
     },
@@ -110,7 +110,7 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
     });
 
     setFilters(prev => [...prev, ...newFilters]);
-    handleApplyAIResult(result);
+    handleApplyAIResult();
     hideDropdownWithDelay();
   }, [handleApplyAIResult, hideDropdownWithDelay, setFilters]);
 

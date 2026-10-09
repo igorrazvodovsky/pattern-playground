@@ -87,7 +87,7 @@ export class PpList extends Elena(HTMLElement) {
   private handleClick = (event: MouseEvent) => {
     const listItemTypes = ['menuitem', 'menuitemcheckbox', 'menuitemradio'];
 
-    const target = event.composedPath().find((el: Element) => listItemTypes.includes(el?.getAttribute?.('role') || ''));
+    const target = event.composedPath().find((el): el is Element => el instanceof Element && listItemTypes.includes(el.getAttribute('role') || ''));
 
     if (!target) return;
 

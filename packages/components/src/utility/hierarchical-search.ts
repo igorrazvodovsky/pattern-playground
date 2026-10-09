@@ -1,13 +1,10 @@
-import type { ReactNode } from 'react';
 import Fuse from 'fuse.js';
 
 export interface SearchableItem {
   id: string;
   name: string;
-  icon?: ReactNode | string;
+  icon?: string;
   searchableText?: string;
-  // Allow additional properties - keeping core properties typed
-  [key: string]: unknown;
 }
 
 export interface SearchableParent extends SearchableItem {

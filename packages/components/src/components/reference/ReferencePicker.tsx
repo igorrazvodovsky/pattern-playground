@@ -6,9 +6,11 @@ import {
   ComboboxList,
   ComboboxEmpty
 } from '../combobox';
-import { useHierarchicalNavigation, type SearchableParent, type SearchableItem } from '../../hooks/useHierarchicalNavigation';
+import { useHierarchicalNavigation } from '../../hooks/useHierarchicalNavigation';
 import { createSortedSearchFunction, sortByRelevance } from '../../utility/hierarchical-search';
 import type {
+  ReferenceCategory,
+  ReferenceItem,
   SelectedReference,
   ReferencePickerProps
 } from './types';
@@ -27,19 +29,17 @@ export const ReferencePicker = ({
   onBack
 }: ReferencePickerProps) => {
 
-  const hierarchicalData = data as SearchableParent[];
-
   const { state, actions, results } = useHierarchicalNavigation({
-    data: hierarchicalData,
+    data,
     searchFunction: createSortedSearchFunction(
-      (categories, query) => sortByRelevance(categories, query),
-      (items, query) => sortByRelevance(items, query)
+      (categories: ReferenceCategory[], query) => sortByRelevance(categories, query),
+      (items: ReferenceItem[], query) => sortByRelevance(items, query)
     ),
-    onSelectChild: (item: SearchableItem) => {
+    onSelectChild: (item: ReferenceItem) => {
       const selectedReference: SelectedReference = {
         id: item.id,
-        label: item.name, // SearchableItem uses 'name', not 'label'
-        type: (item as SearchableItem & { type: string }).type,
+        label: item.name, // ReferenceItem uses 'name', not 'label'
+        type: item.type,
         metadata: item.metadata ? structuredClone(item.metadata) : undefined
       };
       onSelect(selectedReference);
@@ -55,9 +55,9 @@ export const ReferencePicker = ({
     }
   }, [query, state.searchInput, actions]);
   
-  const handleCategorySelect = useCallback((category: SearchableParent) => {
+  const handleCategorySelect = useCallback((category: ReferenceCategory) => {
     actions.selectContext(category);
-    onCategorySelect?.(category as SearchableParent);
+    onCategorySelect?.(category);
   }, [actions, onCategorySelect]);
 
   const handleEscape = useCallback(() => {
@@ -94,7 +94,7 @@ export const ReferencePicker = ({
                       onSelect={() => actions.selectChild(item)}
                     >
                       <iconify-icon
-                        icon={item.icon as string}
+                        icon={item.icon}
                         slot="prefix"
                       />
                       {item.name}
@@ -115,7 +115,7 @@ export const ReferencePicker = ({
                       onSelect={() => handleCategorySelect(category)}
                     >
                       <iconify-icon
-                        icon={category.icon as string}
+                        icon={category.icon}
                         slot="prefix"
                       />
                       {category.name}
@@ -136,7 +136,7 @@ export const ReferencePicker = ({
                       onSelect={() => actions.selectChild(child)}
                     >
                       <iconify-icon
-                        icon={child.icon as string}
+                        icon={child.icon}
                         slot="prefix"
                       />
                       {child.name}

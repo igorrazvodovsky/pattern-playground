@@ -9,10 +9,7 @@ import {
 } from '../combobox';
 import { AIFallbackHandler } from './ai-fallback-handler';
 import { useCommandComposition } from './hooks/use-command-composition';
-import type {
-  CommandMenuProps,
-  AICommandResult,
-} from './command-menu-types';
+import type { CommandMenuProps } from './command-menu-types';
 import 'iconify-icon';
 
 export function CommandMenu({
@@ -57,8 +54,8 @@ export function CommandMenu({
     composition.ai
   ]);
 
-  const handleApplyAIResult = (result: AICommandResult) => {
-    composition.ai?.handleApplyAIResult?.(result);
+  const handleApplyAIResult = () => {
+    composition.ai?.handleApplyAIResult?.();
     composition.navigation.resetState();
     onClose?.();
   };

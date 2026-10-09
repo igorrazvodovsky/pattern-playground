@@ -78,10 +78,7 @@ export class ReferencesPlugin extends BasePlugin {
       slots.register('toolbar', {
         pluginId: this.id,
         render: () => (
-          <ReferencesToolbar 
-            data={this.options.data}
-            onReferenceSelect={this.options.onReferenceSelect}
-          />
+          <ReferencesToolbar />
         ),
       }, {
         priority: 60,
