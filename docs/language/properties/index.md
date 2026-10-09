@@ -24,8 +24,7 @@ lively in the medium and ask how centres strengthen each other there. Whether
 the roster of fifteen transfers is an open question per substrate: Alexander
 derived a different set (eleven) for colour, and the strongest prior
 translation to a non-spatial medium re-derived twenty-four properties for
-human activity rather than reusing the fifteen (research gate:
-`PARA/Projects/pattern playground/research/fifteen-properties/2026-08-07.md`).
+human activity rather than reusing the fifteen.
 The fifteen are the starting roster, not a commitment; if a substrate's
 translations stop fitting their names, the vocabulary forks per substrate —
 parallel sets, linked — rather than forcing every substrate through the

@@ -46,10 +46,10 @@ the research gate — after this strawman, before implementation. Framed as
   without a grouping mechanism, or does the partition turn out to be
   structural rather than organisational?
 
-Findings land in `PARA/Projects/pattern playground/research/world-regrounding/`; surprises get folded back into
-this plan before territory 1 starts.
+Surprises from the research gate get folded back into this plan before
+territory 1 starts.
 
-Run 2026-08-15 (`PARA/Projects/pattern playground/research/world-regrounding/2026-08-15.md`): the strawman
+Run 2026-08-15: the strawman
 survived with three corrections, applied below — the concepts deferral is a
 divergence from the source model, not a subset (position 8); cardinality and
 retraction must be declared per relation and enforced by replay (position 9);
@@ -69,8 +69,7 @@ A new `shared/world/` directory becomes the authoritative substrate:
   User)` …) and cardinality; `action-types.json` — a registry of action types
   with the relations each may add and remove. What counts as an individual, a
   value, an action, a fact is settled in
-  [docs/specs/world-ontology.md](../../docs/specs/world-ontology.md), grounded
-  in `PARA/Projects/pattern playground/sources/Making software meaningful.md`.
+  [docs/specs/world-ontology.md](../../docs/specs/world-ontology.md).
 - `individuals.json` — bare identities: `{id, kind}` and nothing else. Kinds:
   user, project, task, document, comment, quote, material, component, product,
   service, and `item` for a tracked physical unit (territory 4). Names, roles,
@@ -227,8 +226,7 @@ All three landed in territory 6.
 - 2026-08-15 — strawman drafted. Prior slice (typed `actions.json` +
   `describeAction`, demos rewired) already on disk and absorbed as the seed of
   territory 1.
-- 2026-08-15 — research gate run (`PARA/Projects/pattern playground/research/world-regrounding/2026-08-15.md`
-  + practice note). Strawman upheld with three corrections, folded in as
+- 2026-08-15 — research gate run (literature and practice notes). Strawman upheld with three corrections, folded in as
   positions 8–10 and the sharpened concepts revisit trigger. Lineage pending
   an S2 refresh.
 - 2026-08-15 — full read of the Onward! '25 paper (note addendum). Schema
@@ -300,8 +298,8 @@ All three landed in territory 6.
   contradictions surfaced.
 - 2026-08-19 — *the ontology became a settled spec.* `shared/world/ontology.md`
   is replaced by [docs/specs/world-ontology.md](../../docs/specs/world-ontology.md),
-  with the source paper written up as `PARA/Projects/pattern playground/sources/Making software
-  meaningful.md` and indexed in `docs/research/references.md`. The move
+  with the source paper written up as a source note and indexed in
+  `docs/research/references.md`. The move
   followed from a comment review: code comments were citing this plan and its
   strawman positions for their rationale, which makes the code depend on a
   historical record. Rationale that code needs in order to be read belongs in

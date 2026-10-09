@@ -10,8 +10,6 @@ superseded_by: ""
 ---
 # Platform variance: floor-then-variance on nine pages, as a falsification pilot
 
-Research gate: `PARA/Projects/pattern playground/research/platform-variance/` (2026-08-06).
-
 ## Context
 
 There is no shared vocabulary for platform variance. Device and input concerns

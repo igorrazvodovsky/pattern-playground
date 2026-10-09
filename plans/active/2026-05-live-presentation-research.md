@@ -52,21 +52,21 @@ Initial seeds, not exhaustive.
 
 ## Approach
 
-Use the `research` skill to scaffold `PARA/Areas/IxD patterns/research/live-presentation/`:
+Use the `research-gate` skill to scaffold a live-presentation research folder:
 
 1. Run `/research-gate live-presentation`. The skill creates the folder with `query.yml` and a dated synthesis note.
 2. Curate `query.yml` keywords around the five goals. Expected cluster: "streaming UI", "incremental rendering", "live region accessibility", "real-time captioning", "scroll restoration", "auto-scroll behaviour", "rendering rhythm", "perceived stability".
 3. Run the synthesis. Review and edit the draft note in repertoire voice.
-4. If a load-bearing reference emerges, distil into `PARA/Areas/IxD patterns/sources/<filename>.md` with a project takeaway. Promotion is a deliberate act, not automatic.
+4. If a load-bearing reference emerges, distil it into a source note with a project takeaway. Promotion is a deliberate act, not automatic.
 
 ## Expected outputs
 
-- `PARA/Areas/IxD patterns/research/live-presentation/query.yml` — persistent query specification
-- `PARA/Areas/IxD patterns/research/live-presentation/2026-05-XX.md` — initial synthesis note
+- `query.yml` — persistent query specification
+- A dated initial synthesis note
 - One or more of, depending on findings:
   - Enrichment to `LivePresentation.mdx` (broader forces; named domain variants; stronger evidence section)
   - Narrowing of `LivePresentation.mdx` if the cross-domain claim fails (drop or qualify the "Beyond chat" section)
-  - New `PARA/Areas/IxD patterns/sources/*.md` files for canon-worthy sources
+  - New source notes for canon-worthy sources
   - New typed edges to patterns or qualities the research surfaces (e.g. to a real-time captioning pattern if warranted; to qualities like Density or Adaptation if rhythm research connects there)
 
 ## Risks and trade-offs
@@ -86,10 +86,10 @@ Use the `research` skill to scaffold `PARA/Areas/IxD patterns/research/live-pres
 | Phase | Action | File |
 |-------|--------|------|
 | 1 | Run | `/research-gate live-presentation` (creates the folder) |
-| 1 | Author | `PARA/Areas/IxD patterns/research/live-presentation/query.yml` |
-| 2 | Author | `PARA/Areas/IxD patterns/research/live-presentation/2026-05-XX.md` (synthesis) |
+| 1 | Author | `query.yml` in the run folder |
+| 2 | Author | Dated synthesis note in the run folder |
 | 3 | Maybe modify | `src/stories/activities/LivePresentation.mdx` |
-| 3 | Maybe create | `PARA/Areas/IxD patterns/sources/<filename>.md` (one or more) |
+| 3 | Maybe create | Source notes (one or more) |
 
 ## Open questions
 

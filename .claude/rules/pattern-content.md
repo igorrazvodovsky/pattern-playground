@@ -151,10 +151,7 @@ disclosure: "Written from one screenshot and a hunch; two more sightings would s
 - `evidence` is valid on `role: pattern` and `role: collection` only. The
   sources behind a `literature` entry are named in prose under
   `## Research on this pattern` or `## Resources & references`, not in frontmatter.
-- Rendered text cites a source by its public link (DOI, arXiv, or URL). Vault
-  paths (`PARA/...`) are machine-local and never appear in rendered text; when
-  a page wants to record which vault note it drew on, put the path in an MDX
-  comment (`{/* ... */}`).
+- Rendered text cites a source by its public link (DOI, arXiv, or URL).
 - `built` is *not* authorable: it is entailed from `realised_by`. Populate
   `realised_by` and the extractor adds it.
 - `disclosure` is never parsed. Write the reason confidence is low and what

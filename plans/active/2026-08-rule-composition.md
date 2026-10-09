@@ -102,8 +102,7 @@ clause tree), and collides with no existing head noun.
 
 ## Research gate
 
-`PARA/Projects/pattern playground/research/rule-composition/2026-08-29.md` — run after the strawman above, before the edges
-were locked. Nine papers, seven of them reached by named canon read rather than by
+Run 2026-08-29, after the strawman above and before the edges were locked. Nine papers, seven of them reached by named canon read rather than by
 retrieval: this literature sits in CHI, UbiComp/IMWUT and JASIS and barely touches arxiv.
 Semantic Scholar was rate-limited throughout, so lineage is owed on a refresh.
 

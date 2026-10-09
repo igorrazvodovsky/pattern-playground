@@ -24,7 +24,7 @@ The trigger is the *shape of the problem*, not the size of the change. Apply whe
 
 Skip for: pure feature work with a clear target, bug fixes, refactors with a known destination, mechanical follow-ups to an already-researched plan.
 
-The instrument is the `/research-gate` skill. It lives in the PARA vault, runs from a repo session as well as a vault one, and writes its run folder to `PARA/Projects/pattern playground/research/<slug>/`, so the session that drafts the plan can run the gate itself. The run folder holds the full evidence. The plan that asked the question holds a digest in the project's own words: the claims the decision relies on, what was deliberately not adopted, and the run folder's path as provenance. An actor without the vault should be able to follow the decision from the digest alone.
+The instrument is the `/research-gate` skill. It lives in the PARA vault, runs from a repo session as well as a vault one, and writes its run folder to `PARA/Areas/IxD patterns/research/<slug>/`, so the session that drafts the plan can run the gate itself. The run folder holds the full evidence. The plan that asked the question holds a digest in the project's own words: the claims the decision relies on, what was deliberately not adopted, and the run folder's path as provenance. An actor without the vault should be able to follow the decision from the digest alone.
 
 ## Rule residue is drafted as a spec delta
 

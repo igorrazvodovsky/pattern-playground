@@ -319,7 +319,6 @@ The move/mechanism boundary ([docs/language/pattern-and-form.md](../../docs/lang
 Before committing Phase B, two focused reads:
 
 - *Astro content collections with Lit islands.* Astro's documentation on the Lit integration and on `client:*` hydration directives, focused on whether the registry pattern in [register-all.ts](../../src/components/register-all.ts) survives island boundaries. The Phase A prototype is the empirical answer; the documentation read is the prior.
-- *Pattern-language tooling in adjacent communities.* A brief read of how other pattern libraries handle the catalogue-vs-language distinction structurally (Carbon, Material, OpenUI, plus academic HCI pattern-language tooling per `PARA/Projects/pattern playground/research/hci-pattern-languages/2026-04-28.md`). The question: are there structural moves these communities made that pre-figure this split, and what did they learn?
 
 The research happens between Phase A and Phase B, per the project's "research before locking in" stance.
 

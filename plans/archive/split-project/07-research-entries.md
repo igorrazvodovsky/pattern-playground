@@ -18,7 +18,7 @@ Every move needs a written verdict before this review counts as done.
 
 ## Move 1: Workflow: research arc → first-stab entry
 
-*The move.* Three research commits (arxiv run adf24f7; CSCW-canon addendum 6168ead; Schmidt full-read upgrade 367a5a5) produce `PARA/Projects/pattern playground/research/workflow/2026-07-10.md` with nine clusters, then 957009a mints `workflow.mdx`: `role: pattern`, `activityLevel: activity`, `mediation: coordination`, five forces, six typed edges, eight direct citations, and an eight-item To-do.
+*The move.* Three research commits then 957009a mints `workflow.mdx`: `role: pattern`, `activityLevel: activity`, `mediation: coordination`, five forces, six typed edges, eight direct citations, and an eight-item To-do.
 
 *Answers to.* Answers to nothing on record as a plan. The research note supplies its own warrant: "Three existing pages circle the concept without naming it: delegation's *tuning tools* touchpoint, bot's workflow-automation mode, ai-tuning's skeletal Workflow section" — a gap the corpus names, but no plan file does.
 
@@ -30,7 +30,7 @@ Every move needs a written verdict before this review counts as done.
 
 ## Move 2: Semantic-zoom entry authored from research
 
-*The move.* 57fabf3 (inside T4 closure work) adds `PARA/Projects/pattern playground/research/semantic-zoom/2026-07-08.md` and `semantic-zoom.mdx`: an `alternative` edge to focus-and-context with a reciprocal note, a `complements` edge dividing ownership with item-view, a 🚧-labelled demo, and a "Boundary with focus and context" section held in an MDX comment (lines 50–53), unrendered.
+*The move.* 57fabf3 (inside T4 closure work) adds `semantic-zoom.mdx`: an `alternative` edge to focus-and-context with a reciprocal note, a `complements` edge dividing ownership with item-view, a 🚧-labelled demo, and a "Boundary with focus and context" section held in an MDX comment (lines 50–53), unrendered.
 
 *Answers to.* The workspace-split closure plan's T4 — the research note states "Precedes authoring the pattern-site entry (T4 of the workspace-split closure plan)". Within an unplanned episode, this move alone has a plan hook.
 
@@ -42,7 +42,7 @@ Every move needs a written verdict before this review counts as done.
 
 ## Move 3: Keyboard-shortcuts: research run and entry in one commit
 
-*The move.* 28ad72c lands `PARA/Projects/pattern playground/research/keyboard-shortcuts/2026-06-30.md` and `keyboard-shortcuts.mdx` together: forces, a novice-to-expert section built on the satisficing and social-transmission findings, an i18n section with implementation specifics (`ß`.toUpperCase() → `SS`, localStorage remapping, "Test on at least one non-Latin QWERTY layout"), WCAG 2.1.4 treatment, edges to command-menu, agency, learnability, and facets `group: coordination`, `mediation: individual`.
+*The move.* 28ad72c lands `keyboard-shortcuts.mdx`: forces, a novice-to-expert section built on the satisficing and social-transmission findings, an i18n section with implementation specifics (`ß`.toUpperCase() → `SS`, localStorage remapping, "Test on at least one non-Latin QWERTY layout"), WCAG 2.1.4 treatment, edges to command-menu, agency, learnability, and facets `group: coordination`, `mediation: individual`.
 
 *Answers to.* Answers to nothing on record — no plan, and unlike workflow, no research-note statement of which existing pages circle the gap.
 
@@ -63,15 +63,3 @@ Every move needs a written verdict before this review counts as done.
 *Question.* After 2b, what is the skill's honest self-description — retrieval-with-occasional-deep-reads, or does "not a replacement for deep reading" still name a real boundary, and if so where does it now sit?
 
 *Verdict:* fix — the author's ruling: reading full papers *is* part of the skill. The "not a replacement for deep reading" and "not a full-text extractor" lines (the halves that contradicted §2b) are deleted outright; the author trimmed a proposed "not a systematic reviewer" replacement, leaving the section's remaining boundaries (not a canon editor, not a classifier) to carry it. Step 2b itself stands as codified.
-
-## Move 5: Block-based-editing research run, entry deferred
-
-*The move.* 53dd58c commits `PARA/Projects/pattern playground/research/block-based-editing/` alone: four clusters concluding that incremental formalisation is a nameable move, the workspace-as-document paradigm is a *foundation* (substrate), transclusion is a seed pending Nelson's full text, and "block-based" is a term owned by a 152-paper visual-programming corpus. No entry, rename, or reclassification lands in the episode.
-
-*Answers to.* Answers to nothing on record as a plan; its warrant is the existing entry's thinness ("The block-based-editor entry is a thin composite pattern (2 graph edges)" — the note's Context).
-
-*Backtalk.* This is the holding-area contract exercised as written: the run's two strongest outputs are corrections to the strawman that motivated it (foundation, not activity pattern; occupied name), exactly the skill's "a run whose strongest finding is a correction to the source story has done its job" — and the human declined to mint, which the other three moves make visible as a genuine choice rather than the default. The cost side: the findings that demand action (rename the language-side node, author the substrate foundation) now live only as unchecked promotion candidates and a to-do update (32fb357), with no plan file to own them — in a repository whose registries convention puts carried work in `plans/`.
-
-*Question.* The run concluded the current entry's name collides and its role is wrong — at what point does *not* acting on a committed correction become the language asserting something it knows to be false?
-
-*Verdict:* fix — the carried work now has an owner: `plans/active/2026-07-block-editing-followups.md` (thin outline, marked for iteration) holds the substrate foundation, the incremental-formalisation placement decision, the Nelson-gated transclusion seed, and the two canon-promotion candidates. One finding adjudicated *against* the research in the sitting: the entry keeps the name "block-based editor" — it is the industry's term, and the visual-programming corpus that owns "block-based" in the literature lives in a different enough community of practice that no practical collision arises; the plan's decision log records this so the note's rename candidate reads as answered, not pending. The declining-to-mint itself stands as the holding-area contract working.

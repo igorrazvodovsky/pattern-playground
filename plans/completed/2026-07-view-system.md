@@ -5,15 +5,14 @@ kind: "exec-spec"
 created: "2026-07"
 last_reviewed: "2026-07-23"
 area: "language, graph"
-promoted_to: "none — content is the residue (the reshaped view-family pages; PARA/Projects/pattern playground/research/view-system/ and PARA/Projects/pattern playground/research/problem-curated-view/ are the citation trace)"
+promoted_to: "none — content is the residue (the reshaped view-family pages"
 superseded_by: ""
 ---
 # View system: retire the hub, reframe the family
 
 ## Context
 
-The view-system research project (Dropbox, now archived at `PARA/Archives/projects/view system/`;
-2026-07-12) maps the pattern family in which one underlying model is given
+The view-system research project maps the pattern family in which one underlying model is given
 many coexisting projections. Its unit definition: a view is a named
 projection of a model — query + representation + arrangement — and the
 family boundary is the shared model, not the shared screen. Three
@@ -69,8 +68,7 @@ space, time, and attention.
    "on by default, selectively disabled".
 3. _Skim the `Points of View` canonical note_ (vault) before weaving the
    unit definition into data-view's opening (Phase 3).
-4. _Research gate `PARA/Projects/pattern playground/research/view-system/`_ (query.yml + dated findings),
-   framed "what would I be wrong about?":
+4. _Research gate_ framed "what would I be wrong about?":
    - The overview-detail carving knowingly disagrees with Tidwell, whom
      navigation-overview cites: she splits Two-Panel Selector /
      One-Window Drilldown / Alternative Views into separate patterns.
@@ -80,10 +78,6 @@ space, time, and attention.
      against the CMV community's "coordinated multiple views".
    - Writable-views prior art on the UI side (does any language name
      editing-through-a-projection?).
-
-   Canonical notes suffice for the remaining sources (Get To The Point,
-   Baldonado, Sarikaya, DaaS, The Eyes Have It; Cockburn was absorbed via
-   `PARA/Projects/pattern playground/research/semantic-zoom/`).
 
 ## Phase 1 — Needs-based view
 
@@ -325,8 +319,7 @@ Untouched rows proceed independently.
   needs an inbound edge (kin to next-best-action; the perceiving
   station). Done 2026-07-16, ahead of that trigger — the purpose-keyed
   restructure exposed that the section cuts across the page's own
-  variant carving. Gated on a research pass first
-  (`PARA/Projects/pattern playground/research/problem-curated-view/`), which found an independent
+  variant carving. Gated on a research pass first, which found an independent
   second lineage (Tricorder / static-analysis actionability) and
   corrected the annotation-asymmetry commitment to "annotate the
   judgement moment". Node minted as `problem-curated-view.mdx`
