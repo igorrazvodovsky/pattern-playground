@@ -8,6 +8,9 @@
    sheet sits in the `shadcn` cascade layer, which lib.css registers right after
    `lib`. See plans/completed/2026-10-switchable-demos.md, phase 0. */
 
+/* `isolate` comes first so every Tailwind layer overrides it. */
+@layer isolate, theme, base, components, utilities;
+
 @import 'tailwindcss' source(none);
 
 /* Classes come from the shadcn kit's compiled components and from our own
@@ -63,6 +66,19 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+}
+
+/* The project library styles bare elements and class names Tailwind also uses
+   (.flex, .grid, .border, .hidden), and it sits in a lower layer that this sheet
+   only partly overrides: Tailwind's .flex sets no align-items, so the library's
+   align-items: center would remain. Reverting the author origin inside the scope
+   leaves only what this sheet declares. Inherited properties fall back to
+   inheritance from the demo frame. SVG is left alone: its presentation
+   attributes (stroke, fill, width) count as author styles and would revert too. */
+@layer isolate {
+  :not(svg, svg *) {
+    all: revert;
+  }
 }
 
 @layer base {

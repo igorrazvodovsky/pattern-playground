@@ -51,6 +51,13 @@
     }}
 }
 }
+@layer isolate {
+@scope ([data-registry="shadcn"]) {
+:not(svg, svg *) {
+    all: revert;
+  }
+}
+}
 @layer theme {
 @scope ([data-registry="shadcn"]) {
 :scope {

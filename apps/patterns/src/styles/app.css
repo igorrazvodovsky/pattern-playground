@@ -9,7 +9,7 @@
 }
 
 @layer theme {
-  :is(.content-inset, .pane article) {
+  :is(.content-inset, .pane article:not(.demo-block *)) {
     --font: 'Alegreya Sans', system-ui, sans-serif;
 
     /* The prose face by a fixed name, for blocks that switch --font to
@@ -100,13 +100,15 @@
 
   .demo-block {
     /* Inheritance crosses the @scope prose limit below, so the demo re-asserts
-       neutral type here — system font, base size, normal line-height. Without
+       neutral type here — system font, base size, the library's line-height. Without
        this guard, prose --font / line-height / measure would bleed into a
-       demo even though the prose *selectors* can't reach into it. */
+       demo even though the prose *selectors* can't reach into it. The line
+       height is the library's own (--globalLineHeight, 150%), unitless so
+       larger text inside a demo scales its line box with it. */
     --font: system-ui, sans-serif;
     --_baseTextSize: 16px;
 
-    line-height: normal;
+    line-height: 1.5;
     font-size: var(--_baseTextSize);
   }
 
@@ -223,8 +225,13 @@
   }
 
   .demo-registry-switch button {
-    padding: 0.125rem 0.5rem;
+    /* Trim the line box to cap height and baseline so the label sits
+       optically centred in the pill; padding replaces the trimmed space.
+       Block, not the library's flex: text-box trims only block containers. */
+    display: block;
+    padding: 0.4em 0.5rem;
     font-size: smaller;
+    text-box: trim-both cap alphabetic;
     color: var(--c-neutral-600);
     cursor: pointer;
     background: none;
@@ -256,7 +263,7 @@
    pp-toc) means these selectors structurally cannot reach a demo or a table of
    contents nested in prose. Unlayered, so it wins by layer order over the library, never by
    scope proximity. */
-@scope (.content-inset, .pane article) to (.demo-block, pp-toc) {
+@scope (.content-inset, .pane article:not(.demo-block *)) to (.demo-block, pp-toc) {
   ul {
     /* A thin space after the ordinary one; ::marker takes no padding, so the
        gap between dash and text is set in the string itself. */
@@ -328,7 +335,7 @@
   max-width: 70ch;
 }
 
-.pane[data-demo-expanded] .pane-body article {
+.pane[data-demo-expanded] .pane-body article:not(.demo-block *) {
   max-width: var(--pane-max-w);
 }
 

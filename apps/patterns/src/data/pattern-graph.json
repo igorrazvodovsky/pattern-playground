@@ -2502,7 +2502,7 @@
       "path": "/patterns/rule-composition",
       "role": "pattern",
       "situation": {
-        "initiating": "the system handles cases on its own while the actor is away; fixing each case by hand has become tiresome, so the actor wants to change the rule itself, and the rule has to be exact enough for the system to run and clear enough for the actor to check",
+        "initiating": "the actor has decided that a rule the system follows on its own should change, or that a new one is needed; the rule has to be exact enough for the system to run and clear enough for the actor to check",
         "resulting": [
           {
             "clause": "the rule is visible as a sentence whose parts can be read, changed, added and removed, so the actor can inspect what the system does instead of only noticing it"
@@ -2520,6 +2520,9 @@
       },
       "seed": true,
       "evidence": [
+        {
+          "kind": "used"
+        },
         {
           "kind": "literature"
         }

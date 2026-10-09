@@ -88,7 +88,7 @@
   /* A single-inset padding utility: markup asks for the inset where it wants
      one. Pair with `.flow` for vertical rhythm. */
   .pad {
-    padding: var(--space-s);
+    padding: var(--space-s) var(--space-m);
   }
 
   /* Line-clamped body copy — the card's description, but usable anywhere prose
