@@ -187,10 +187,14 @@ export class ModalService {
   private cleanupReactModal(modalId: string): void {
     const reactModal = this.reactModals.get(modalId);
     if (reactModal) {
-      reactModal.root.unmount();
-      reactModal.headerRoot?.unmount();
       reactModal.ppModal.remove();
       this.reactModals.delete(modalId);
+      // Callers often close from a React effect cleanup, and a root can't be
+      // unmounted synchronously while another root is rendering.
+      queueMicrotask(() => {
+        reactModal.root.unmount();
+        reactModal.headerRoot?.unmount();
+      });
     }
   }
 

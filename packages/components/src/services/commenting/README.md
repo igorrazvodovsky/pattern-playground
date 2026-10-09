@@ -16,12 +16,14 @@ Framework-agnostic TypeScript implementation:
 ### 2. React Integration (`/hooks`)
 React hooks connecting the core system to UI:
 - **useCommenting**: Universal hook for commenting on any pointer
-- **useEditorCommenting**: Enhanced hook for editor-specific features (quote creation)
+- **useEditorCommenting**: Tracks the quote being commented on in an editor, using the editor plugin's event bus
 
-### 3. UI Components (`/components`)
+### 3. UI Components (`components/commenting/`)
 React components for rendering comments:
-- **TaskComments**: Example of commenting on non-editor entities
-- **EditorWithQuoteComments**: Example of quote creation and commenting in editor
+- **CommentThread**: Comment list and composer for any entity; used by the quote popover, ItemView, and the quote drawer
+- **QuoteCommentPopover**: Thread shown next to a new quote while the actor writes the first comment
+
+The editor side lives in `components/editor-plugins/commenting/`: the commenting plugin turns a selection into a quote, and `CommentingIntegration` shows the popover.
 
 ## Key Concepts
 
@@ -32,8 +34,8 @@ The foundation of universal commenting. Any object can be made commentable by cr
 // Make a task commentable
 const taskPointer = new EntityPointer('task', taskId);
 
-// Make a quote commentable
-const quotePointer = new QuotePointer(quoteId, quoteObject);
+// Make a quote commentable (all quote comments are stored under this pointer)
+const quotePointer = new EntityPointer('quote', quoteId);
 
 // Custom pointer for any object type
 class CustomPointer extends BaseCommentPointer {
@@ -65,24 +67,22 @@ function ProjectComments({ project }) {
 ```
 
 ### Editor Quote Commenting
-```tsx
-function Editor({ documentId }) {
-  const {
-    createQuoteFromSelection,
-    activePointer,
-    comments
-  } = useEditorCommenting(editor, { documentId });
+Register the commenting plugin and wrap the editor in `CommentingIntegration`. Both must sit inside `EditorProvider`:
 
-  return (
-    <>
-      <button onClick={createQuoteFromSelection}>
-        Comment on Selection
-      </button>
-      {activePointer && <CommentPopover comments={comments} />}
-    </>
-  );
-}
+```tsx
+const plugins = useMemo(() => [
+  commentingPlugin({ documentId, currentUser, bubbleMenu: true }),
+], [documentId, currentUser]);
+
+<EditorProvider editor={editor} plugins={plugins}>
+  <CommentingIntegration config={{ documentId, currentUser }}>
+    <EditorContent />
+    <EditorBubbleMenu />
+  </CommentingIntegration>
+</EditorProvider>
 ```
+
+The bubble menu's comment button asks the plugin, over the event bus, to quote the selection. The plugin announces the quote with `quote:created`, carrying the quote and its `EntityPointer`. The popover's `CommentThread` stores the comment, and the first comment replaces the selected text with a quote reference.
 
 ## Adding New Commentable Types
 
@@ -120,19 +120,6 @@ function IssueComments({ issue }) {
   return <CommentInterface comments={comments} onSubmit={createComment} />;
 }
 ```
-
-## Migration from Old System
-
-### What Changed
-- **Removed**: CommentSystemProvider, use-comment-ui, pointer adapter registry
-- **Replaced**: Context-based state → Singleton service with hooks
-- **Simplified**: Complex pointer adapters → Simple pointer classes
-
-### Migration Steps
-1. Replace `CommentSystemProvider` with direct hook usage
-2. Convert entity-specific adapters to pointer classes
-3. Update UI components to use `useCommenting` hook
-4. Remove old context dependencies
 
 ## API Reference
 
@@ -186,13 +173,12 @@ function useCommenting(pointer?, options?) {
 
 #### useEditorCommenting
 ```typescript
-function useEditorCommenting(editor, options) {
+// eventBus comes from useEditorContext()
+function useEditorCommenting(eventBus) {
   return {
-    // Quote-specific
-    createQuoteFromSelection(): { quote, pointer }
-    createQuoteWithComment(content): Promise<{ quote, pointer, comment }>
-
-    // Plus all useCommenting returns...
+    activeQuote: QuoteObject | null   // set by the plugin's quote:created event
+    createQuoteComment(): void        // asks the plugin to quote the selection
+    clearActiveQuote(): void
   }
 }
 ```

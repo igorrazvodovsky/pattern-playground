@@ -5,7 +5,7 @@ import type { User } from '@shared/data';
 
 interface QuoteDrawerContentProps {
   quote: QuoteObject;
-  currentUser: User;
+  currentUser: Pick<User, 'id'>;
   onClose?: () => void;
 }
 

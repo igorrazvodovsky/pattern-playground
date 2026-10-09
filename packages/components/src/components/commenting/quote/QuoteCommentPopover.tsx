@@ -1,105 +1,70 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { CommentThread } from '../core/CommentThread';
-import type { QuoteObject } from '../../../services/commenting/core/quote-pointer';
+import type { QuoteObject } from '../../../services/commenting/quote-service';
+import type { VirtualElement } from '../../popup/popup';
 import { getUserById } from '@shared/data';
+import '../../../jsx-types';
 
 interface QuoteCommentPopoverProps {
   quote: QuoteObject;
-  isOpen: boolean;
-  triggerElement: HTMLElement | null;
+  /** The quoted text: its reference once inserted, or the selection before. */
+  anchor: Element | VirtualElement | null;
   currentUser: string;
   onClose: () => void;
+  /** Runs after `onClose` when the actor leaves with Escape. */
+  onEscape?: () => void;
   onCommentAdded?: (content: string) => void;
 }
 
+// The thread for a quote being commented on, floated beside the quoted text.
+// `light-dismiss` hands outside-click and Escape to the platform; the owner
+// follows through `pp-hide`.
 export const QuoteCommentPopover: React.FC<QuoteCommentPopoverProps> = ({
   quote,
-  isOpen,
-  triggerElement,
+  anchor,
   currentUser,
   onClose,
+  onEscape,
   onCommentAdded
 }) => {
   const user = getUserById(currentUser);
-  const popoverRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ top: 0, left: 0 });
-
-  const handleCommentAdded = (content: string) => {
-    onCommentAdded?.(content);
-    // Don't close immediately - let user see the comment was added
-  };
+  const popupRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (!isOpen || !triggerElement) {
-      return;
-    }
+    const popup = popupRef.current;
+    if (!popup) return;
+    popup.addEventListener('pp-hide', onClose);
+    return () => popup.removeEventListener('pp-hide', onClose);
+  }, [onClose]);
 
-    const updatePosition = () => {
-      const rect = triggerElement.getBoundingClientRect();
-      setPosition({
-        top: rect.bottom + 8,
-        left: rect.left
-      });
-    };
-
-    updatePosition();
-
-    window.addEventListener('resize', updatePosition);
-    window.addEventListener('scroll', updatePosition);
-
-    return () => {
-      window.removeEventListener('resize', updatePosition);
-      window.removeEventListener('scroll', updatePosition);
-    };
-  }, [isOpen, triggerElement]);
-
-  useEffect(() => {
-    if (!isOpen || !onClose) return;
-
-    const handleDocumentClick = (e: MouseEvent) => {
-      const target = e.target as Node;
-
-      if (popoverRef.current && popoverRef.current.contains(target)) {
-        return;
-      }
-
-      if (triggerElement && triggerElement.contains(target)) {
-        return;
-      }
-
-      onClose();
-    };
-
-    const handleEscapeKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    // Add event listeners with a small delay to avoid immediate closing
-    const timeoutId = setTimeout(() => {
-      document.addEventListener('mousedown', handleDocumentClick);
-      document.addEventListener('keydown', handleEscapeKey);
-    }, 100);
-
-    return () => {
-      clearTimeout(timeoutId);
-      document.removeEventListener('mousedown', handleDocumentClick);
-      document.removeEventListener('keydown', handleEscapeKey);
-    };
-  }, [isOpen, onClose, triggerElement]);
-
-  if (!isOpen || !triggerElement) {
+  if (!user || !anchor) {
     return null;
   }
 
-  if (!user) {
-    return null;
-  }
-
-  const popoverContent = (
-    <div className="popover">
-      <div className="quote-comment-popover__content">
+  return (
+    <pp-popup
+      ref={popupRef}
+      anchor={anchor}
+      active={true}
+      placement="bottom-start"
+      distance={8}
+      flip
+      shift
+      top-layer={true}
+      light-dismiss={true}
+    >
+      {/* ProseMirror marks Escape as handled, so the platform never sees it
+          while the composer has focus; catch it on the way out instead. */}
+      <div
+        className="popover"
+        role="dialog"
+        aria-label="Comment on quote"
+        onKeyDown={(event) => {
+          if (event.key !== 'Escape') return;
+          onClose();
+          onEscape?.();
+        }}
+      >
         <CommentThread
           entityType="quote"
           entityId={quote.id}
@@ -107,26 +72,9 @@ export const QuoteCommentPopover: React.FC<QuoteCommentPopoverProps> = ({
           showHeader={false}
           allowNewComments={true}
           maxHeight="300px"
-          onCommentAdded={handleCommentAdded}
+          onCommentAdded={onCommentAdded}
         />
       </div>
-    </div>
-  );
-
-  return (
-    <div
-      ref={popoverRef}
-      className="quote-comment-popover-container"
-      style={{
-        position: 'fixed',
-        zIndex: 1000,
-        top: position.top,
-        left: position.left,
-        minWidth: '320px',
-        maxWidth: '480px'
-      }}
-    >
-      {popoverContent}
-    </div>
+    </pp-popup>
   );
 };

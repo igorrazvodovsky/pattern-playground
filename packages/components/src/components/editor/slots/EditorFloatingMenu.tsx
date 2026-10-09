@@ -1,4 +1,4 @@
-import { FloatingMenu } from '@tiptap/react';
+import { FloatingMenu } from '@tiptap/react/menus';
 import { useEditorContext } from '../EditorProvider';
 import type { SlotComponent } from '../types';
 

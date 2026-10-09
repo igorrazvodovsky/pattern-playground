@@ -13,6 +13,9 @@ interface ContentMark {
   attrs?: Record<string, unknown>;
 }
 
+const isContentNode = (value: unknown): value is ContentNode =>
+  typeof value === 'object' && value !== null && 'type' in value && typeof value.type === 'string';
+
 interface CommentRendererProps {
   content: RichContent | string;
   author: string;
@@ -106,7 +109,7 @@ export const CommentRenderer: React.FC<CommentRendererProps> = ({
       });
     };
 
-    return renderContentNodes(content.content);
+    return renderContentNodes(content.content.filter(isContentNode));
   };
 
   return (

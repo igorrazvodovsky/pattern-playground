@@ -1,24 +1,7 @@
 import { BaseCommentPointer, type PointerContext } from './comment-pointer';
+import type { QuoteObject } from '../quote-service';
 
-export interface QuoteObject {
-  id: string;
-  content: {
-    plainText: string;
-    html: string;
-  };
-  metadata: {
-    sourceDocument: string;
-    authorId: string;
-    createdAt: string;
-    [key: string]: unknown;
-  };
-  actions: {
-    annotate: { enabled: boolean };
-    cite: { enabled: boolean };
-    challenge: { enabled: boolean };
-    pin: { enabled: boolean };
-  };
-}
+export type { QuoteObject };
 
 export class QuotePointer extends BaseCommentPointer {
   readonly type = 'quote';
@@ -39,7 +22,7 @@ export class QuotePointer extends BaseCommentPointer {
       title: 'Quote',
       excerpt: this.quote.content.plainText,
       location: this.quote.metadata.sourceDocument,
-      metadata: this.quote.metadata
+      metadata: { ...this.quote.metadata }
     };
   }
   
@@ -52,18 +35,19 @@ export class QuotePointer extends BaseCommentPointer {
       // For now, returning a placeholder
       const placeholderQuote: QuoteObject = {
         id: parsed.id,
-        content: { plainText: '', html: '' },
+        name: '',
+        type: 'quote',
+        icon: 'ph:quotes',
+        description: '',
+        searchableText: '',
         metadata: {
           sourceDocument: '',
-          authorId: '',
-          createdAt: new Date().toISOString()
+          sourceRange: { from: 0, to: 0 },
+          createdAt: new Date().toISOString(),
+          createdBy: '',
+          selectedText: ''
         },
-        actions: {
-          annotate: { enabled: true },
-          cite: { enabled: true },
-          challenge: { enabled: false },
-          pin: { enabled: true }
-        }
+        content: { plainText: '', richContent: { type: 'doc', content: [] } }
       };
       
       return new QuotePointer(parsed.id, placeholderQuote);

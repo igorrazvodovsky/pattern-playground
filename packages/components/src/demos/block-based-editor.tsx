@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Highlight from '@tiptap/extension-highlight';
@@ -14,6 +15,7 @@ import '../jsx-types';
 // (BlockBasedEditor.stories.tsx) and the pattern site (via @pkg/demos/block-based-editor).
 
 export const BlockBasedEditorDemo = () => {
+  const plugins = useMemo(() => [formattingPlugin()], []);
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -44,7 +46,7 @@ export const BlockBasedEditorDemo = () => {
 
   return (
     <div>
-      <EditorProvider editor={editor} plugins={[formattingPlugin()]}>
+      <EditorProvider editor={editor} plugins={plugins}>
         <EditorLayout>
           <div className="editor-content-wrapper">
             <EditorContent />

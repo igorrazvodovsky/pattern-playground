@@ -22,13 +22,13 @@ export interface RichContent {
 /**
  * Quote object metadata structure
  */
-export interface QuoteMetadata {
+export type QuoteMetadata = {
   sourceDocument: string;
   sourceRange: { from: number; to: number };
   createdAt: string;
   createdBy: string;
   selectedText: string;
-}
+};
 
 /**
  * Complete quote object structure

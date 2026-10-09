@@ -55,6 +55,12 @@
   padding-block: 0;
 }
 
+/* A popover sizes to its content, which would collapse the composer */
+.popover .messages {
+  inline-size: 40ch;
+  max-inline-size: 100%;
+}
+
 .message--inbound .message__body {
   border-bottom-left-radius: var(--radius-m);
   margin-inline-end: var(--space-2xl);

@@ -166,16 +166,19 @@ export const ItemInteraction = ({
 
   // Hover/focus opens the summary after an intent delay — but only from the
   // bare trigger; if a drawer or dialog is already up, hovering does nothing.
+  // A click both enters and focuses the trigger, so two calls can arrive
+  // back to back: clear the pending timer first so the click can cancel it.
   const openSummarySoon = useCallback(() => {
     if (!enableEscalation) return;
     if (activeScopeRef.current === 'mid' || activeScopeRef.current === 'maxi') return;
-    if (closeTimer.current) {
-      clearTimeout(closeTimer.current);
-      closeTimer.current = null;
-    }
+    clearTimers();
     const delay = scopeConfig.mini?.delay ?? HOVER_OPEN_DELAY;
-    openTimer.current = window.setTimeout(() => changeScope('mini'), delay);
-  }, [enableEscalation, scopeConfig, changeScope]);
+    openTimer.current = window.setTimeout(() => {
+      openTimer.current = null;
+      if (activeScopeRef.current === 'mid' || activeScopeRef.current === 'maxi') return;
+      changeScope('mini');
+    }, delay);
+  }, [enableEscalation, scopeConfig, changeScope, clearTimers]);
 
   // Leaving the trigger or the popover schedules a close that re-entering the
   // other cancels. Only the summary closes this way; an open drawer stays put.

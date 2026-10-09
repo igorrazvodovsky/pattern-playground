@@ -7,7 +7,7 @@ import CommentingBubbleMenu from './components/CommentingBubbleMenu';
 import CommentingToolbar from './components/CommentingToolbar';
 import type { ReferenceCategory } from '../../reference/types.js';
 import { getCommentService } from '../../../services/commenting/core/index';
-import { QuotePointer } from '../../../services/commenting/core/quote-pointer';
+import { EntityPointer } from '../../../services/commenting/core/entity-pointer';
 import { getQuoteService } from '../../../services/commenting/quote-service';
 
 export interface CommentingPluginConfig {
@@ -64,29 +64,10 @@ export class EditorCommentingPlugin extends BasePlugin {
 
   onActivate(context: EditorContext): void {
     super.onActivate(context);
-    
-    if (context.editor && context.editor.storage) {
-      if (!context.editor.storage.plugins) {
-        context.editor.storage.plugins = new Map();
-      }
-      context.editor.storage.plugins.set('editor-commenting', this);
-    }
-
-    this.addEditorCommands(context);
 
     this.initializeQuoteCommenting();
 
     this.setupQuoteReferenceHandlers();
-  }
-
-  private addEditorCommands(context: EditorContext): void {
-    if (!context.editor) return;
-
-    (context.editor.commands as unknown as { createQuoteFromSelection: () => boolean }).createQuoteFromSelection = () => {
-      this.handleCreateQuoteComment();
-      return true;
-    };
-    
   }
 
   private initializeQuoteCommenting(): void {
@@ -120,7 +101,6 @@ export class EditorCommentingPlugin extends BasePlugin {
       slots.register('bubble-menu', {
         pluginId: this.id,
         render: () => React.createElement(CommentingBubbleMenu, {
-          editor: this.context?.editor,
           config: this.config,
         }),
       }, {
@@ -136,7 +116,6 @@ export class EditorCommentingPlugin extends BasePlugin {
       slots.register('toolbar', {
         pluginId: this.id,
         render: () => React.createElement(CommentingToolbar, {
-          editor: this.context?.editor,
           config: this.config,
         }),
       }, {
@@ -190,12 +169,18 @@ export class EditorCommentingPlugin extends BasePlugin {
       text: selectedText
     });
 
-    const pointer = new QuotePointer(quote.id, quote);
+    // The pointer every quote comment is stored under: the thread UI, ItemView,
+    // and the quote drawer all read quote comments through it.
+    const pointer = new EntityPointer('quote', quote.id);
 
     this.emit('quote:created', { quote, pointer });
   }
 
   private pendingQuotes = new Map<string, { from: number; to: number; text: string }>();
+
+  discardPendingQuote(quoteId: string): void {
+    this.pendingQuotes.delete(quoteId);
+  }
 
   finalizeQuoteCreation(quoteId: string): void {
     if (!this.context?.editor) return;

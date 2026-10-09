@@ -6,21 +6,12 @@ import { EntityPointer } from '../../../services/commenting/core/entity-pointer'
 import { isoDateTime } from '@shared/format';
 import '../../../jsx-types';
 import { getUserById } from '@shared/data';
-import type { User } from '@shared/data';
-
-// RichContent interface to match the shared data structure
-export interface RichContent {
-  plainText: string;
-  richContent: {
-    type: 'doc';
-    content: unknown[];
-  };
-}
+import type { RichContent, User } from '@shared/data';
 
 interface CommentThreadProps {
   entityType: string;
   entityId: string;
-  currentUser: User;
+  currentUser: Pick<User, 'id'>;
   className?: string;
   showHeader?: boolean;
   allowNewComments?: boolean;
@@ -82,12 +73,12 @@ export const CommentThread: React.FC<CommentThreadProps> = ({
                 <CommentRenderer
                   content={comment.content}
                   author={comment.authorId}
-                  timestamp={comment.timestamp}
+                  timestamp={comment.createdAt}
                 />
               </div>
               <small className="message__timestamp">
-                <pp-timestamp value={isoDateTime(comment.timestamp)}></pp-timestamp>
-                {comment.status === 'resolved' && ' • Resolved'}
+                <pp-timestamp value={isoDateTime(comment.createdAt)}></pp-timestamp>
+                {comment.resolved && ' • Resolved'}
               </small>
             </div>
           </div>

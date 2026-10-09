@@ -1,7 +1,9 @@
 import type { Editor, Extensions } from '@tiptap/core';
 import type { ReactNode } from 'react';
 import type { Transaction } from '@tiptap/pm/state';
-import type { Quote } from '@shared/data';
+import type { ReferenceCategory } from '../reference/types';
+import type { QuoteObject } from '../../services/commenting/quote-service';
+import type { CommentPointer } from '../../services/commenting/core/comment-pointer';
 
 // Type definitions for better event payload typing
 export interface PointerData {
@@ -103,9 +105,9 @@ export interface EventPayload {
   'commenting:create-quote-comment': { params?: unknown };
   'commenting:show-comments': { quoteId?: string };
   'commenting:selection-change': { from: number; to: number; content: string };
-  'quote:created': { quote: Quote; pointer: PointerData };
+  'quote:created': { quote: QuoteObject; pointer: CommentPointer };
   'references:selection-changed': { hasSelection: boolean; selectedText: string; range: { from: number; to: number } };
-  'references:data-updated': { data: Record<string, unknown> };
+  'references:data-updated': { data: ReferenceCategory[] };
   'references:reference-inserted': { reference: Record<string, unknown> };
   'ai-assistant:selection-changed': { hasSelection: boolean; selectedText: string; range: { from: number; to: number } };
   'ai-assistant:chunk-received': { action: string; content: string; range: { from: number; to: number } };
@@ -153,12 +155,11 @@ export interface EventBus {
   getListenerCount(event?: string): number;
 }
 
-// The plugin system parks its context and plugin map on the editor so slot
-// components can reach them without prop drilling.
+// The plugin system parks its context on the editor so slot components can
+// reach it without prop drilling.
 declare module '@tiptap/core' {
   interface Storage {
     editorContext?: EditorContext;
-    plugins?: Map<string, Plugin>;
   }
 }
 

@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useEditorContext } from './EditorProvider';
-import type { Plugin } from './types';
+import type { EventPayload, Plugin } from './types';
 
 interface PerformanceMetrics {
   pluginLoadTime: Map<string, number>;
@@ -47,33 +47,33 @@ export function PerformanceMonitor({
     const originalOn = context.eventBus.on.bind(context.eventBus);
 
     // Monitor event emissions
-    context.eventBus.emit = function(event: string, payload: unknown) {
+    context.eventBus.emit = function<T extends keyof EventPayload>(
+      event: T,
+      payload: EventPayload[T],
+      options?: Parameters<typeof originalEmit>[2]
+    ) {
       eventCounter.current++;
 
       if (eventCounter.current % sampleRate === 0) {
         const startTime = performance.now();
-        const result = originalEmit(event, payload);
+        const result = originalEmit(event, payload, options);
         const endTime = performance.now();
 
+        const totalEvents = eventCounter.current;
         setMetrics(prev => {
-          const newMetrics = { ...prev };
-          const times = newMetrics.eventProcessingTime.get(event) || [];
-          times.push(endTime - startTime);
-
+          const previousTimes = prev.eventProcessingTime.get(String(event)) ?? [];
           // Keep only recent history
-          if (times.length > maxEventHistory) {
-            times.shift();
-          }
+          const times = [...previousTimes, endTime - startTime].slice(-maxEventHistory);
 
-          newMetrics.eventProcessingTime.set(event, times);
-          newMetrics.totalEvents = eventCounter.current;
-          return newMetrics;
+          const eventProcessingTime = new Map(prev.eventProcessingTime);
+          eventProcessingTime.set(String(event), times);
+          return { ...prev, eventProcessingTime, totalEvents };
         });
 
         return result;
       }
 
-      return originalEmit(event, payload);
+      return originalEmit(event, payload, options);
     };
 
     // Monitor plugin registration
@@ -85,11 +85,11 @@ export function PerformanceMonitor({
         const result = await originalRegister(plugin);
         const loadTime = performance.now() - startTime;
 
+        const activePlugins = context.registry.getAll().length;
         setMetrics(prev => {
-          const newMetrics = { ...prev };
-          newMetrics.pluginLoadTime.set(plugin.id, loadTime);
-          newMetrics.activePlugins = context.registry.getAll().length;
-          return newMetrics;
+          const pluginLoadTime = new Map(prev.pluginLoadTime);
+          pluginLoadTime.set(plugin.id, loadTime);
+          return { ...prev, pluginLoadTime, activePlugins };
         });
 
         return result;

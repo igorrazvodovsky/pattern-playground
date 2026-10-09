@@ -21,6 +21,7 @@ import { getDocumentContentText, getDocumentContentRich, referenceCategories } f
 
 export const BasicDemo: React.FC = () => {
   const content = getDocumentContentText('doc-climate-change', 'ecological-timing');
+  const plugins = React.useMemo(() => [formattingPlugin()], []);
 
   const editor = useEditor({
     extensions: [StarterKit, Highlight],
@@ -39,7 +40,7 @@ export const BasicDemo: React.FC = () => {
 
   return (
     <div className="layer">
-      <EditorProvider editor={editor} plugins={[formattingPlugin()]}>
+      <EditorProvider editor={editor} plugins={plugins}>
         <EditorLayout>
           <div className="editor-content-wrapper">
             <PluginEditorContent />
@@ -53,6 +54,17 @@ export const BasicDemo: React.FC = () => {
 
 export const TextLensDemo: React.FC = () => {
   const content = getDocumentContentText('doc-climate-change', 'habitat-displacement');
+  const plugins = React.useMemo(() => [
+    formattingPlugin(),
+    aiAssistantPlugin({
+      enableExplain: false,
+      enableSummarize: false,
+      enableZoomIn: true,
+      enableZoomOut: true,
+      streamingEnabled: false,
+      zoomIntensity: 30,
+    })
+  ], []);
 
   const editor = useEditor({
     extensions: [StarterKit, Highlight],
@@ -71,17 +83,7 @@ export const TextLensDemo: React.FC = () => {
 
   return (
     <div className="layer">
-      <EditorProvider editor={editor} plugins={[
-        formattingPlugin(),
-        aiAssistantPlugin({
-          enableExplain: false,
-          enableSummarize: false,
-          enableZoomIn: true,
-          enableZoomOut: true,
-          streamingEnabled: false,
-          zoomIntensity: 30,
-        })
-      ]}>
+      <EditorProvider editor={editor} plugins={plugins}>
         <EditorLayout>
           <div className="editor-content-wrapper">
             <PluginEditorContent />
@@ -95,6 +97,16 @@ export const TextLensDemo: React.FC = () => {
 
 export const CommentingDemo: React.FC = () => {
   const richContent = getDocumentContentRich('doc-climate-change');
+  const plugins = React.useMemo(() => [
+    formattingPlugin(),
+    commentingPlugin({
+      documentId: 'doc-climate-change',
+      currentUser: 'user-1',
+      bubbleMenu: true,
+      toolbar: false,
+      enableQuoteComments: true,
+    })
+  ], []);
 
   React.useEffect(() => {
     import('../services/commenting/mock-data/initialize-mock-comments.ts').then(({ initializeMockComments }) => {
@@ -131,21 +143,8 @@ export const CommentingDemo: React.FC = () => {
   }
 
   return (
-    <EditorProvider
-      editor={editor}
-      plugins={[
-        formattingPlugin(),
-        commentingPlugin({
-          documentId: 'doc-climate-change',
-          currentUser: 'user-1',
-          bubbleMenu: true,
-          toolbar: false,
-          enableQuoteComments: true,
-        })
-      ]}
-    >
+    <EditorProvider editor={editor} plugins={plugins}>
       <CommentingIntegration
-        editor={editor}
         config={{
           documentId: 'doc-climate-change',
           currentUser: 'user-1',
@@ -165,6 +164,13 @@ export const CommentingDemo: React.FC = () => {
 
 export const DynamicExplanationDemo: React.FC = () => {
   const richContent = getDocumentContentRich('doc-climate-change');
+  const plugins = React.useMemo(() => [
+    explanationPlugin({
+      enableExplain: true,
+      streamingEnabled: true,
+      includeReferences: true,
+    })
+  ], []);
 
   const editor = useEditor({
     extensions: [
@@ -195,16 +201,7 @@ export const DynamicExplanationDemo: React.FC = () => {
   }
 
   return (
-    <EditorProvider
-      editor={editor}
-      plugins={[
-        explanationPlugin({
-          enableExplain: true,
-          streamingEnabled: true,
-          includeReferences: true,
-        })
-      ]}
-    >
+    <EditorProvider editor={editor} plugins={plugins}>
       <EditorLayout>
         <div className="rich-editor-container">
           <PluginEditorContent />

@@ -75,14 +75,14 @@ export const CommentMark = Mark.create({
       setComment: (threadId: string, from?: number, to?: number) => ({ commands }) => {
         if (from !== undefined && to !== undefined) {
           return commands.setTextSelection({ from, to })
-            .setMark(this.name, { commentId: threadId });
+            && commands.setMark(this.name, { commentId: threadId });
         }
         return commands.setMark(this.name, { commentId: threadId });
       },
       unsetComment: (from?: number, to?: number) => ({ commands }) => {
         if (from !== undefined && to !== undefined) {
           return commands.setTextSelection({ from, to })
-            .unsetMark(this.name);
+            && commands.unsetMark(this.name);
         }
         return commands.unsetMark(this.name);
       },

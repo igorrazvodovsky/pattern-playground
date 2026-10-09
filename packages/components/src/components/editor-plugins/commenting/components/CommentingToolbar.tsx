@@ -1,31 +1,26 @@
 import React from 'react';
-import type { Editor } from '@tiptap/react';
 import type { CommentingPluginConfig } from '../CommentingPlugin';
+import { useEditorContext } from '../../../editor/EditorProvider';
 
 interface CommentingToolbarProps {
-  editor?: Editor;
   config: CommentingPluginConfig;
 }
 
-const CommentingToolbar: React.FC<CommentingToolbarProps> = ({ editor }) => {
-  if (!editor) return null;
+const CommentingToolbar: React.FC<CommentingToolbarProps> = () => {
+  const { editor, eventBus } = useEditorContext();
 
   const handleCreateComment = () => {
-    if (editor?.storage?.editorContext?.eventBus) {
-      editor.storage.editorContext.eventBus.emit('command:execute', {
-        command: 'commenting:create-quote-comment',
-        params: {},
-      });
-    }
+    eventBus.emit('command:execute', {
+      command: 'commenting:create-quote-comment',
+      params: {},
+    });
   };
 
   const handleShowComments = () => {
-    if (editor?.storage?.editorContext?.eventBus) {
-      editor.storage.editorContext.eventBus.emit('command:execute', {
-        command: 'commenting:show-comments',
-        params: {},
-      });
-    }
+    eventBus.emit('command:execute', {
+      command: 'commenting:show-comments',
+      params: {},
+    });
   };
 
   const canCreateComment = () => {

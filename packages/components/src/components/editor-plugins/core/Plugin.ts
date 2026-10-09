@@ -40,6 +40,11 @@ export abstract class BasePlugin implements IPlugin {
   }
 
   async onInstall(context: EditorContext): Promise<void> {
+    // EditorProvider re-registers the same instance after a teardown, so a
+    // destroyed plugin needs a live signal again.
+    if (this.abortController.signal.aborted) {
+      this.abortController = new AbortController();
+    }
     this.context = context;
     this.state = 'loading';
     

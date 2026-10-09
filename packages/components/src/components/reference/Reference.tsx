@@ -10,11 +10,11 @@ import { ReferencePicker } from './ReferencePicker';
 import { ItemInteraction } from '../item-view';
 import type { BoundEntity } from '../item-view';
 import type { ReferenceCategory, SelectedReference, ReferenceType } from './types';
+import { getQuoteService } from '../../services/commenting/quote-service';
 import {
   resolveReferenceData,
   getProductById,
   getProjectById,
-  getQuoteById,
   getUserById,
 } from '@shared/data';
 
@@ -339,8 +339,14 @@ export const Reference = Mention.extend({
       // Types without a binding of their own (document, material, service…)
       // fall back to the generic reference shape.
       const dedicated = ((): { contentType: string; item: BoundEntity } | null => {
-        if (!resolvedData) return null;
         const id = node.attrs.id as string;
+        // A quote made by commenting during this session exists only in the
+        // quote service, which also falls back to the fixture quotes.
+        if (node.attrs.type === 'quote') {
+          const quote = getQuoteService().getQuoteById(id);
+          return quote ? { contentType: 'quote', item: quote } : null;
+        }
+        if (!resolvedData) return null;
         switch (node.attrs.type) {
           case 'product': {
             const product = getProductById(id);
@@ -349,10 +355,6 @@ export const Reference = Mention.extend({
           case 'project': {
             const project = getProjectById(id);
             return project ? { contentType: 'project', item: project } : null;
-          }
-          case 'quote': {
-            const quote = getQuoteById(id);
-            return quote ? { contentType: 'quote', item: quote } : null;
           }
           case 'user': {
             const user = getUserById(id);

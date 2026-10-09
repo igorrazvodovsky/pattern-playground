@@ -1,58 +1,36 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { Editor } from '@tiptap/react';
-import type { CommentPointer } from '../core/comment-pointer';
-import type { QuoteObject } from '../core/quote-pointer';
-import { useCommenting } from './use-commenting';
-import type { EditorCommentingPlugin } from '../../../components/editor-plugins/commenting/CommentingPlugin';
+import type { EventBus } from '../../../components/editor/types';
+import type { QuoteObject } from '../quote-service';
 
-interface UseEditorCommentingOptions {
-  documentId: string;
-  currentUser: string;
-  enableQuoteComments?: boolean;
-}
+// Takes the editor's plugin event bus (from `useEditorContext()`), where the
+// commenting plugin announces new quotes and listens for commands. Tracks the
+// quote being commented on; the thread UI owns writing the comments.
+export function useEditorCommenting(eventBus: EventBus | null) {
+  const [activeQuote, setActiveQuote] = useState<QuoteObject | null>(null);
 
-export function useEditorCommenting(editor: Editor | null, options: UseEditorCommentingOptions) {
-  const [activePointer, setActivePointer] = useState<CommentPointer | null>(null);
-  const [, setSelectedQuote] = useState<QuoteObject | null>(null);
-
-  // Use the universal commenting hook with the active pointer
-  const commenting = useCommenting(activePointer || undefined, {
-    currentUser: options.currentUser,
-  });
-
-  // Get the plugin instance which handles quote creation via QuoteService
-  const plugin = editor?.storage?.plugins?.get('editor-commenting') as EditorCommentingPlugin | null;
-
-  // Listen for quote creation events from the editor plugin
   useEffect(() => {
-    if (!plugin) return;
+    if (!eventBus) return;
 
-    const unsubscribe = plugin.on('quote:created', ({ quote, pointer }: { quote: QuoteObject; pointer: CommentPointer }) => {
-      setSelectedQuote(quote);
-      setActivePointer(pointer);
+    return eventBus.on('quote:created', ({ quote }) => {
+      setActiveQuote(quote);
     });
+  }, [eventBus]);
 
-    return unsubscribe;
-  }, [plugin]);
-
-  // Trigger quote creation via the editor command (handled by the plugin's QuoteService)
+  // Ask the commenting plugin to quote the current selection
   const createQuoteComment = useCallback(() => {
-    if (!editor) return;
-    (editor.commands as { createQuoteFromSelection?: () => void }).createQuoteFromSelection?.();
-  }, [editor]);
+    eventBus?.emit('command:execute', {
+      command: 'commenting:create-quote-comment',
+      params: {},
+    });
+  }, [eventBus]);
 
-
-
-  const clearActivePointer = useCallback(() => {
-    setActivePointer(null);
-    setSelectedQuote(null);
+  const clearActiveQuote = useCallback(() => {
+    setActiveQuote(null);
   }, []);
 
   return {
-    comments: commenting.comments,
-    createComment: commenting.createComment,
     createQuoteComment,
-    activePointer,
-    clearActivePointer,
+    activeQuote,
+    clearActiveQuote,
   };
 }
