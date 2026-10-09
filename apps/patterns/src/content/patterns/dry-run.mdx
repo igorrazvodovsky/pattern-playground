@@ -1,0 +1,88 @@
+---
+title: Dry run
+added: 2026-10-09
+role: pattern
+seed: true
+evidence:
+  - literature
+activityLevel: action
+lifecycle: evaluation
+mediation: individual
+description: "Running something the actor has written against real or sample cases to show what it would do, before it is allowed to do it."
+situation:
+  initiating: >-
+    the actor has written something the system will apply to many cases: a rule, a replace-all, a
+    bulk edit, a formula, a template; reading it does not tell them what it will do, and the cases
+    it will meet are either out of view or have not arrived yet
+  resulting:
+    - >-
+      the actor judges what they wrote by its effect on cases they recognise, rather than by
+      reading it
+    - >-
+      the cases shown decide what the actor learns, so a sample that misses the edge is a false
+      reassurance
+    - >-
+      the run is a rehearsal, and cases that were not in the sample, or arrive later, can still go
+      differently
+    - clause: >-
+        the run produces a before-and-after over cases, which the actor may want to accept or
+        reject one at a time rather than as a whole
+      sets-up: [change-review]
+relationships:
+  complements:
+    - to: filtering
+      note: a filter over a visible collection is a dry run that never stops; the result updates with each part and the check needs no separate step
+    - to: plan-preview
+      note: plan preview shows the system's own plan before a one-off job, dry run shows what the actor's own artifact would do; the direction of authorship is reversed
+  related:
+    - to: action-consequences
+      note: the severity framework that says when a many-case action warrants a rehearsal before it commits
+---
+
+The actor has written something the system will apply to many cases: a mail rule, a find-and-replace across a project, a rename over a folder of files, a formula in a column, a template that will be merged with a list. Reading it does not say what it will do. The cases it will meet are either out of view or have not arrived yet, and a mistake lands on all of them at once. A dry run applies the thing the actor wrote to real or sample cases and shows what would happen, without letting it happen.
+
+Replace-all with a preview of every occurrence, a batch rename that lists old and new names side by side, a mail-merge preview, a regex tester, an automation's "test this step", and replaying a mail rule against the inbox are all this move.
+
+## Forces
+
+- *Representative vs. cheap* — the cases that decide whether the rule is right are the ones near
+  its edge, and a random or first-N sample rarely holds them. A country-music rule previewed
+  against a library that is mostly not country shows no country at all.
+- *Rehearsal vs. the real run* — what the run shows is true of the cases it ran on. The rule meets
+  other cases later, and the actor's confidence from the rehearsal carries over to them.
+
+## Forms
+
+- *Replay the past.* Apply the thing written to what already happened and show what would have
+  come out differently. This is the form shown to improve people's success. It works because the
+  cases are real and the actor already has opinions about them.
+- *Run against the standing set.* Step a new rule through alongside the rules already in place, so
+  conflicts and loops show up before saving. This is the only form that reaches the interaction
+  between one rule and the list it joins.
+- *Show the edge cases.* Show the cases that now match for the first time, the cases that match but
+  only just, and the cases that miss but only just. This is the form to use when there is no
+  history to replay.
+- *Live result.* When the thing written applies to a visible collection, the result updates as each
+  part changes and the dry run never stops. [Filtering](/patterns/filtering) is this form.
+
+## Research on this pattern
+
+- [Replaying a changed rule against past cases was the repair that raised success](https://dl.acm.org/doi/10.1145/3569506)
+  in end-to-end debugging of trigger–action rules.
+- [Simulating a rule against the whole standing set](https://dl.acm.org/doi/10.1145/3290605.3300618)
+  is the one tested form that reaches conflicts between rules.
+- [Offered the system's correct fix among alternatives, only half to three-fifths of people chose it](https://dl.acm.org/doi/10.1145/3569506):
+  seeing the effect does not by itself tell the actor which change repairs it.
+- Untested: the edge-case preview, and every form outside rules.
+
+## Resources & references
+
+- Zhang, Zhou, Littman, Ur & Lu (2022) [Helping users debug trigger-action programs](https://dl.acm.org/doi/10.1145/3569506) — replay-against-history as the repair
+- Corno, De Russis & Monge Roffarello (2019) [Empowering end users in debugging trigger-action rules](https://dl.acm.org/doi/10.1145/3290605.3300618) — simulating a rule against the whole standing set
+
+## To-do
+
+- Shipping examples outside rules: replace-all previews in editors, Finder and Bulk Rename
+  Utility, mail merge, regex testers, Zapier and Make test steps, spreadsheet formula fill.
+- What binds the real run to the rehearsal, the sibling of plan preview's plan-drift force.
+- Whether the live-result form means filtering should declare the edge from its side as well.
