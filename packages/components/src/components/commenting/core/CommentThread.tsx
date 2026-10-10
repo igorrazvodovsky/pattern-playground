@@ -3,33 +3,44 @@ import { CommentComposer } from './CommentComposer';
 import { CommentRenderer } from './CommentRenderer';
 import { useCommenting } from '../../../services/commenting/hooks/use-commenting';
 import { EntityPointer } from '../../../services/commenting/core/entity-pointer';
+import type { CommentPointer } from '../../../services/commenting/core/comment-pointer';
 import { isoDateTime } from '@shared/format';
 import '../../../jsx-types';
 import { getUserById } from '@shared/data';
 import type { RichContent, User } from '@shared/data';
 
-interface CommentThreadProps {
-  entityType: string;
-  entityId: string;
+// A thread is addressed either by a pointer, for anything a surface defines,
+// or by an entity's type and id.
+type CommentThreadTarget =
+  | { pointer: CommentPointer; entityType?: never; entityId?: never }
+  | { pointer?: never; entityType: string; entityId: string };
+
+type CommentThreadProps = CommentThreadTarget & {
   currentUser: Pick<User, 'id'>;
   className?: string;
   showHeader?: boolean;
   allowNewComments?: boolean;
   maxHeight?: string;
+  placeholder?: string;
   onCommentAdded?: (content: string) => void;
-}
+};
 
 export const CommentThread: React.FC<CommentThreadProps> = ({
+  pointer: givenPointer,
   entityType,
   entityId,
   currentUser,
   className = '',
   allowNewComments = true,
+  placeholder,
   onCommentAdded
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const pointer = useMemo(() => new EntityPointer(entityType, entityId), [entityType, entityId]);
+  const pointer = useMemo(
+    () => givenPointer ?? new EntityPointer(entityType ?? '', entityId ?? ''),
+    [givenPointer, entityType, entityId]
+  );
 
   const {
     comments,
@@ -91,7 +102,7 @@ export const CommentThread: React.FC<CommentThreadProps> = ({
           onSubmit={handleAddComment}
           onCancel={() => {}}
           isSubmitting={isSubmitting}
-          placeholder={`Comment on this ${entityType}...`}
+          placeholder={placeholder ?? `Comment on this ${entityType ?? 'passage'}...`}
         />
       )}
     </div>

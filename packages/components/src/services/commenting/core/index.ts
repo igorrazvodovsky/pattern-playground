@@ -1,6 +1,6 @@
 export type { CommentPointer, PointerContext } from './comment-pointer';
 export { BaseCommentPointer } from './comment-pointer';
-export { QuotePointer } from './quote-pointer';
+export { TextRangePointer } from './text-range-pointer';
 export { EntityPointer } from './entity-pointer';
 
 export type { Comment, CommentThread } from './comment-service';

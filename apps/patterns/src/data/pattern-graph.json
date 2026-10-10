@@ -711,6 +711,12 @@
           },
           {
             "clause": "the thread beside the content is a second place where decisions get made, and whatever was settled there is invisible to anyone reading only the content"
+          },
+          {
+            "clause": "some commented passages start being referred to, not only discussed, and a highlight with a thread is too weak an object for that; the passage needs an identity of its own, without leaving its place in the text or losing its thread",
+            "setsUp": [
+              "incremental-formalisation"
+            ]
           }
         ]
       },
@@ -1045,6 +1051,39 @@
           }
         ]
       },
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
+      "id": "dry-run",
+      "title": "Dry run",
+      "category": "Actions",
+      "path": "/patterns/dry-run",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the actor has written something the system will apply to many cases: a rule, a replace-all, a bulk edit, a formula, a template; reading it does not tell them what it will do, and the cases it will meet are either out of view or have not arrived yet",
+        "resulting": [
+          {
+            "clause": "the actor judges what they wrote by its effect on cases they recognise, rather than by reading it"
+          },
+          {
+            "clause": "the cases shown decide what the actor learns, so a sample that misses the edge is a false reassurance"
+          },
+          {
+            "clause": "the run is a rehearsal, and cases that were not in the sample, or arrive later, can still go differently"
+          },
+          {
+            "clause": "the run produces a before-and-after over cases, which the actor may want to accept or reject one at a time rather than as a whole",
+            "setsUp": [
+              "change-review"
+            ]
+          }
+        ]
+      },
+      "seed": true,
       "evidence": [
         {
           "kind": "literature"
@@ -1598,16 +1637,16 @@
       "path": "/patterns/incremental-formalisation",
       "role": "pattern",
       "situation": {
-        "initiating": "content entered informally has grown regularities — a label applied again and again, near-synonyms circling one meaning, prose that behaves like a list, a field everyone fills the same way — but demanding the schema up front was rightly refused: the vocabulary was still moving, and structure asked for early is structure guessed",
+        "initiating": "content entered informally has grown regularities — a label applied again and again, near-synonyms circling one meaning, prose that behaves like a list, a field everyone fills the same way — or a single informal piece has started to be relied on beyond the note it was written as; demanding the schema up front was rightly refused: the vocabulary was still moving, and structure asked for early is structure guessed",
         "resulting": [
           {
             "clause": "structure arrives after evidence rather than before it, so the schema records what the content turned out to be instead of what someone predicted it would be"
           },
           {
-            "clause": "every promotion is offered, not imposed, and stays reversible — a declined offer costs nothing, and a promoted structure can be demoted when it stops fitting"
+            "clause": "every promotion is chosen or offered, never imposed, and stays reversible — a declined offer costs nothing, and a promoted structure can be demoted when it stops fitting"
           },
           {
-            "clause": "the offers themselves need a budget: a system that proposes structure at every regularity it spots re-creates the interruption it was meant to avoid"
+            "clause": "the system's offers need a budget: a system that proposes structure at every regularity it spots re-creates the interruption it was meant to avoid"
           }
         ]
       },
@@ -2502,19 +2541,22 @@
       "path": "/patterns/rule-composition",
       "role": "pattern",
       "situation": {
-        "initiating": "the actor has decided that a rule the system follows on its own should change, or that a new one is needed; the rule has to be exact enough for the system to run and clear enough for the actor to check",
+        "initiating": "the actor wants the system to pick out cases by criteria of their own, either to narrow what is shown now or to stand as a rule the system acts on while they are away; the criteria have to be exact enough for the system to apply and clear enough for the actor to check",
         "resulting": [
           {
-            "clause": "the rule is visible as a sentence whose parts can be read, changed, added and removed, so the actor can inspect what the system does instead of only noticing it"
+            "clause": "the condition is visible as a statement whose parts can be read, changed, added and removed, so the actor can inspect what the system matches instead of only noticing it"
           },
           {
-            "clause": "reading the rule still does not tell the actor what it will do: it runs alongside the rules already in place, and together they decide the outcome"
+            "clause": "reading the statement does not tell the actor what it matches or does; a selecting rule shows its result on the collection at once, an acting rule shows nothing until it fires",
+            "setsUp": [
+              "dry-run"
+            ]
           },
           {
             "clause": "the words on offer are the system's, not the actor's, so a wish the parts cannot express gets approximated, and the approximation is what runs"
           },
           {
-            "clause": "rules pile up: each new one is written against a list nobody re-reads, and past a certain size the actor can no longer keep the list in mind"
+            "clause": "when the rule acts, it runs alongside the rules already in place and together they decide the outcome; rules pile up, and past a certain size the actor can no longer keep the list in mind"
           }
         ]
       },
@@ -3318,6 +3360,13 @@
       "target": "inline-confirmation",
       "type": "related",
       "label": "the mid-ladder rung: enough friction to interrupt autopilot without breaking context",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "action-consequences",
+      "target": "dry-run",
+      "type": "related",
+      "label": "a severity reducer for many-case actions: the review step before a rule, replace-all or bulk edit commits across its whole scope",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -4825,6 +4874,27 @@
       "type": "enacts",
       "label": "the operation is performed on the thing itself, where it sits — intent expressed by acting on the object rather than by asking a control elsewhere to act on it",
       "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "dry-run",
+      "target": "filtering",
+      "type": "complements",
+      "label": "a filter over a visible collection is a dry run that never stops; the result updates with each part and the check needs no separate step",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "dry-run",
+      "target": "plan-preview",
+      "type": "complements",
+      "label": "plan preview shows the system's own plan before a one-off job, dry run shows what the actor's own artifact would do; the direction of authorship is reversed",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "dry-run",
+      "target": "action-consequences",
+      "type": "related",
+      "label": "the severity framework that says when a many-case action warrants a rehearsal before it commits",
+      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "dynamic-hyperlinks",
@@ -7204,15 +7274,15 @@
     {
       "source": "rule-composition",
       "target": "filtering",
-      "type": "related",
-      "label": "a saved filter is a composed condition over a visible collection with no action attached; the live result count is the preview, so the composition and the check collapse into one surface",
-      "extractedFrom": "frontmatter:related"
+      "type": "complements",
+      "label": "a filter is the selecting rule over a visible collection, where the result updates as each part changes and checking the rule needs no separate step",
+      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "rule-composition",
       "target": "prompt-scaffolding",
       "type": "related",
-      "label": "both give an unstructured intent a structure to be composed in; the scaffold shapes one request, rule composition shapes behaviour that stands",
+      "label": "both give an unstructured intent a structure to be composed in; the scaffold shapes one request, rule composition shapes a condition that stands",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -7226,7 +7296,7 @@
       "source": "rule-composition",
       "target": "malleability",
       "type": "enacts",
-      "label": "standing behaviour becomes an artifact the actor edits, at a scale below the whole procedure",
+      "label": "what the system matches or does becomes an artifact the actor edits, at a scale below the whole procedure",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -8300,6 +8370,13 @@
       "extractedFrom": "situation:resulting"
     },
     {
+      "source": "commenting",
+      "target": "incremental-formalisation",
+      "type": "precedes",
+      "situation": "some commented passages start being referred to, not only discussed, and a highlight with a thread is too weak an object for that; the passage needs an identity of its own, without leaving its place in the text or losing its thread",
+      "extractedFrom": "situation:resulting"
+    },
+    {
       "source": "data-entry",
       "target": "status-feedback",
       "type": "precedes",
@@ -8332,6 +8409,13 @@
       "target": "user-opening",
       "type": "precedes",
       "situation": "the exchange is parked rather than ended: a saved state whose persistence the actor can see — something either opening now has to act on, re-entering with history rather than starting fresh",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "dry-run",
+      "target": "change-review",
+      "type": "precedes",
+      "situation": "the run produces a before-and-after over cases, which the actor may want to accept or reject one at a time rather than as a whole",
       "extractedFrom": "situation:resulting"
     },
     {
@@ -8458,6 +8542,13 @@
       "target": "citation",
       "type": "precedes",
       "situation": "the output is anchored in named material, and can point back to it — the attachment that went in is what a citation can later point out",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "rule-composition",
+      "target": "dry-run",
+      "type": "precedes",
+      "situation": "reading the statement does not tell the actor what it matches or does; a selecting rule shows its result on the collection at once, an acting rule shows nothing until it fires",
       "extractedFrom": "situation:resulting"
     },
     {

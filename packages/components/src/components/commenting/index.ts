@@ -1,1 +1,2 @@
-export { CommentThread } from './core/index';
+export * from './core/index';
+export * from './tiptap/index';

@@ -7,6 +7,8 @@ import { EditorProvider } from '../components/editor/EditorProvider.tsx';
 import { EditorLayout } from '../components/editor/EditorLayout.tsx';
 import { EditorContent as PluginEditorContent } from '../components/editor/slots/EditorContent.tsx';
 import { EditorBubbleMenu } from '../components/editor/slots/EditorBubbleMenu.tsx';
+import { EditorToolbar } from '../components/editor/slots/EditorToolbar.tsx';
+import { Commenting } from '../components/commenting/tiptap/comment-mark.ts';
 import { formattingPlugin } from '../components/editor-plugins/formatting/FormattingPlugin.ts';
 import { commentingPlugin } from '../components/editor-plugins/commenting/CommentingPlugin.ts';
 import { CommentingIntegration } from '../components/editor-plugins/commenting/components/CommentingIntegration.tsx';
@@ -98,13 +100,13 @@ export const TextLensDemo: React.FC = () => {
 export const CommentingDemo: React.FC = () => {
   const richContent = getDocumentContentRich('doc-climate-change');
   const plugins = React.useMemo(() => [
-    formattingPlugin(),
+    // The toolbar row carries only the commenting control.
+    formattingPlugin({ toolbar: false }),
     commentingPlugin({
       documentId: 'doc-climate-change',
       currentUser: 'user-1',
       bubbleMenu: true,
-      toolbar: false,
-      enableQuoteComments: true,
+      toolbar: true,
     })
   ], []);
 
@@ -120,7 +122,8 @@ export const CommentingDemo: React.FC = () => {
       Highlight,
       Reference.configure({
         suggestion: createReferenceSuggestion(referenceCategories),
-      })
+      }),
+      Commenting,
     ],
     content: richContent || '',
     editorProps: {
@@ -132,26 +135,15 @@ export const CommentingDemo: React.FC = () => {
     immediatelyRender: false,
   });
 
-  React.useEffect(() => {
-    if (editor && richContent && !editor.getHTML().includes('Marine ecosystems')) {
-      editor.commands.setContent(richContent);
-    }
-  }, [editor, richContent]);
-
   if (!editor) {
     return <div>Loading editor...</div>;
   }
 
   return (
     <EditorProvider editor={editor} plugins={plugins}>
-      <CommentingIntegration
-        config={{
-          documentId: 'doc-climate-change',
-          currentUser: 'user-1',
-          enableQuoteComments: true,
-        }}
-      >
+      <CommentingIntegration config={{ currentUser: 'user-1' }}>
         <EditorLayout>
+          <EditorToolbar className="toolbar" />
           <div className="rich-editor-container">
             <PluginEditorContent />
             <EditorBubbleMenu />
@@ -189,12 +181,6 @@ export const DynamicExplanationDemo: React.FC = () => {
     },
     immediatelyRender: false,
   });
-
-  React.useEffect(() => {
-    if (editor && richContent && !editor.getHTML().includes('Marine ecosystems')) {
-      editor.commands.setContent(richContent);
-    }
-  }, [editor, richContent]);
 
   if (!editor) {
     return <div>Loading editor...</div>;

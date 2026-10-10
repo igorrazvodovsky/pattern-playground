@@ -14,16 +14,20 @@ Framework-agnostic TypeScript implementation:
 - **EventEmitter**: Pub/sub system for real-time updates
 
 ### 2. React Integration (`/hooks`)
-React hooks connecting the core system to UI:
 - **useCommenting**: Universal hook for commenting on any pointer
-- **useEditorCommenting**: Tracks the quote being commented on in an editor, using the editor plugin's event bus
 
 ### 3. UI Components (`components/commenting/`)
-React components for rendering comments:
-- **CommentThread**: Comment list and composer for any entity; used by the quote popover, ItemView, and the quote drawer
-- **QuoteCommentPopover**: Thread shown next to a new quote while the actor writes the first comment
+The generic parts every commentable surface shares:
+- **CommentThread**: Comment list and composer for any pointer; used by the comment popover, the thread list, ItemView, and the quote drawer
+- **CommentPopover**: A thread floated beside what it is about
+- **ThreadList**: Every thread on a surface, from entries the surface reports; selecting one asks the surface to bring it into view
 
-The editor side lives in `components/editor-plugins/commenting/`: the commenting plugin turns a selection into a quote, and `CommentingIntegration` shows the popover.
+### 4. Surface integrations
+Each surface supplies only what is specific to it, following the Ink & Switch universal-comments model: the pointers it holds, the current selection, highlighting, and bringing a pointer into view.
+
+The text editor's side lives in two places:
+- `components/commenting/tiptap/comment-mark.ts`: the `Commenting` extension, which adds the comment and quote marks and the Mod-Shift-M shortcut. The comment mark highlights a commented passage without changing its text, and comments may overlap. The quote mark links a passage to the quote made from it.
+- `components/editor-plugins/commenting/`: the commenting plugin, which starts threads on the selection, marks a passage once its thread has a comment, reports the document's threads, and scrolls a passage into view. `CommentingIntegration` shows the popover and opens the thread list in a drawer.
 
 ## Key Concepts
 
@@ -37,6 +41,9 @@ const taskPointer = new EntityPointer('task', taskId);
 // Make a quote commentable (all quote comments are stored under this pointer)
 const quotePointer = new EntityPointer('quote', quoteId);
 
+// A commented passage in a document, found through its comment mark
+const passagePointer = new TextRangePointer(documentId, threadId);
+
 // Custom pointer for any object type
 class CustomPointer extends BaseCommentPointer {
   // Implementation...
@@ -46,7 +53,7 @@ class CustomPointer extends BaseCommentPointer {
 ### Clean Separation of Concerns
 
 1. **Comment System doesn't know about editors**: The core system works with pointers, not specific UI contexts
-2. **Editor Plugin doesn't own comments**: It provides quote creation capabilities but delegates to the comment service
+2. **Editor Plugin doesn't own comments**: It marks passages and reports them, and delegates everything else to the comment service
 3. **UI connects everything**: React components use hooks to bridge the core system with user interactions
 
 ## Usage Examples
@@ -66,23 +73,27 @@ function ProjectComments({ project }) {
 }
 ```
 
-### Editor Quote Commenting
-Register the commenting plugin and wrap the editor in `CommentingIntegration`. Both must sit inside `EditorProvider`:
+### Editor Commenting
+Add the `Commenting` extension to the editor, register the commenting plugin, and wrap the editor in `CommentingIntegration`. The plugin and the integration must sit inside `EditorProvider`. Plugin `getExtensions` is not installed by the editor host, so the extension goes in the editor's own list:
 
 ```tsx
+const editor = useEditor({ extensions: [StarterKit, Commenting] });
 const plugins = useMemo(() => [
-  commentingPlugin({ documentId, currentUser, bubbleMenu: true }),
+  commentingPlugin({ documentId, currentUser, bubbleMenu: true, toolbar: true }),
 ], [documentId, currentUser]);
 
 <EditorProvider editor={editor} plugins={plugins}>
-  <CommentingIntegration config={{ documentId, currentUser }}>
+  <CommentingIntegration config={{ currentUser }}>
+    <EditorToolbar />
     <EditorContent />
     <EditorBubbleMenu />
   </CommentingIntegration>
 </EditorProvider>
 ```
 
-The bubble menu's comment button asks the plugin, over the event bus, to quote the selection. The plugin announces the quote with `quote:created`, carrying the quote and its `EntityPointer`. The popover's `CommentThread` stores the comment, and the first comment replaces the selected text with a quote reference.
+The bubble menu's comment button and Mod-Shift-M both send `commenting:create-comment` over the event bus. The plugin opens a pending thread on the selection, under a `TextRangePointer`, and announces it with `commenting:thread-opened`. The document does not change until the first comment, which marks the passage. Closing the popover without commenting leaves the document as it was. If the passage is deleted, or moves somewhere a comment mark cannot go, before the first comment, the plugin announces `commenting:thread-closed` and the popover closes. Clicking a marked passage reopens its thread. The toolbar's Comments button sends `commenting:show-threads`, which opens the thread list in a non-modal drawer.
+
+Quoting is a separate, deliberate step. An open passage thread offers "Turn into quote", which creates a quote object from the passage. The quote is a standalone object other places can refer to. The words stay in the document: the comment highlight becomes a quote marker (`mark[data-quote-id]`), and `CommentService.reanchor` moves the thread to `EntityPointer('quote', id)`. Comment and quote marks stay out of undo history, so undoing a comment or a quote never removes a mark while its thread lives on. Undoing the edit that typed a passage does remove the passage and its mark; redo brings both back. The quote holds only the passage's own words: text later typed or pasted between its pieces is left out. If the thread fails to move, the passage goes back to its comment mark and the quote is deleted. The quote's stored content leaves comment and quote marks behind. Clicking a quoted passage opens the quote's thread.
 
 ## Adding New Commentable Types
 
@@ -134,6 +145,7 @@ class CommentService {
   deleteComment(id): Promise<boolean>
   getThread(pointer): Promise<CommentThread>
   resolveThread(pointer): Promise<boolean>
+  reanchor(from, to): Promise<Comment[]>   // move a whole thread to another pointer
 }
 ```
 
@@ -171,17 +183,6 @@ function useCommenting(pointer?, options?) {
 }
 ```
 
-#### useEditorCommenting
-```typescript
-// eventBus comes from useEditorContext()
-function useEditorCommenting(eventBus) {
-  return {
-    activeQuote: QuoteObject | null   // set by the plugin's quote:created event
-    createQuoteComment(): void        // asks the plugin to quote the selection
-    clearActiveQuote(): void
-  }
-}
-```
 
 ## Benefits of New Architecture
 

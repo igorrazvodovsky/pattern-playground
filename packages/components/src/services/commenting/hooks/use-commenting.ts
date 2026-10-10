@@ -87,7 +87,20 @@ export function useCommenting(pointer?: CommentPointer, options?: UseCommentingO
       }
     };
     
+    const handleThreadReanchored = ({ from, to }: { from: CommentPointer; to: CommentPointer }) => {
+      if (pointer.equals(from) || pointer.equals(to)) {
+        Promise.all([
+          commentService.getComments(pointer),
+          commentService.getThread(pointer)
+        ]).then(([loadedComments, loadedThread]) => {
+          setComments(loadedComments);
+          setThread(loadedThread);
+        });
+      }
+    };
+
     const unsubscribers = [
+      commentService.on('thread:reanchored', handleThreadReanchored),
       commentService.on('comment:created', handleCommentCreated),
       commentService.on('comment:updated', handleCommentUpdated),
       commentService.on('comment:deleted', handleCommentDeleted),

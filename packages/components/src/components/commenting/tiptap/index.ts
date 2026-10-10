@@ -1,3 +1,19 @@
-// TipTap editor integration exports
-export { useTipTapQuoteCommenting } from './use-tiptap-quote-commenting';
-export { useTipTapQuoteIntegration, useQuoteReferenceHandler } from './use-tiptap-quote-integration';
+export {
+  Commenting,
+  CommentMark,
+  QuoteMark,
+  COMMENT_MARK_NAME,
+  QUOTE_MARK_NAME,
+  addCommentMark,
+  canComment,
+  removeCommentMark,
+  findCommentRanges,
+  findQuoteRanges,
+  quoteCommentedPassage,
+  unquotePassage,
+  commentedSlice,
+  touchesAnchors,
+  type CommentRange,
+  type QuoteRange,
+  type CommentingOptions,
+} from './comment-mark';

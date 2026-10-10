@@ -3,15 +3,11 @@
 // Core universal system
 export * from './core/index';
 
-// React hooks - the only two hooks needed
+// React hook for any pointer
 export { useCommenting } from './hooks/use-commenting';
-export { useEditorCommenting } from './hooks/use-editor-commenting';
 
 // Quote service (still needed for quote creation)
 export { getQuoteService, type QuoteObject } from './quote-service';
-
-// State management
-export { useCommentStore } from './state/comment-store';
 
 // Utilities
 export * from './utils/error-handling';

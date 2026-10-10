@@ -1,4 +1,5 @@
 import { Editor } from '@tiptap/core';
+import type { Slice } from '@tiptap/pm/model';
 import { quotes, getQuoteById, getQuotesByDocument } from '@shared/data';
 
 /**
@@ -44,6 +45,25 @@ export interface QuoteObject {
   content: RichContent;
 }
 
+// Comment and quote marks annotate the source document. A quote's own content
+// leaves them behind: their threads stay with the source, and a renderer
+// without those marks in its schema would reject them.
+const ANNOTATION_MARKS = new Set(['comment', 'quote']);
+
+type JSONNode = { marks?: Array<{ type: string }>; content?: JSONNode[] } & Record<string, unknown>;
+
+function stripAnnotationMarks<T extends JSONNode>(nodes: T[]): T[] {
+  return nodes.map(node => {
+    const { marks, content, ...rest } = node;
+    const kept = marks?.filter(mark => !ANNOTATION_MARKS.has(mark.type));
+    return {
+      ...rest,
+      ...(kept && kept.length > 0 ? { marks: kept } : {}),
+      ...(content ? { content: stripAnnotationMarks(content) } : {}),
+    } as T;
+  });
+}
+
 /**
  * Service for managing quote object lifecycle
  */
@@ -56,24 +76,38 @@ export class QuoteService {
   }
 
   /**
-   * Create a quote object from TipTap editor selection
+   * Create a quote object from a passage of a TipTap document.
    */
-  createFromTipTapSelection(
+  createFromRange(
     editor: Editor,
+    from: number,
+    to: number,
     userId: string,
     documentId: string
   ): QuoteObject {
-    const { from, to } = editor.state.selection;
-
-    if (from === to) {
-      throw new Error('Cannot create quote from empty selection');
+    if (from >= to) {
+      throw new Error('Cannot create quote from an empty passage');
     }
+    return this.createFromSlice(editor.state.doc.slice(from, to), { from, to }, userId, documentId);
+  }
 
-    const selectedText = editor.state.doc.textBetween(from, to, ' ');
-    const richContent = this.extractRichContent(editor, from, to);
+  /**
+   * Create a quote object from content taken out of a TipTap document, such
+   * as a commented passage without what was later typed between its pieces.
+   */
+  createFromSlice(
+    slice: Slice,
+    sourceRange: { from: number; to: number },
+    userId: string,
+    documentId: string
+  ): QuoteObject {
+    if (slice.content.size === 0) {
+      throw new Error('Cannot create quote from an empty passage');
+    }
+    const selectedText = slice.content.textBetween(0, slice.content.size, ' ');
 
     const quote: QuoteObject = {
-      id: `quote-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      id: `quote-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`,
       name: this.generateName(selectedText),
       type: 'quote',
       icon: 'ph:quotes',
@@ -81,14 +115,17 @@ export class QuoteService {
       searchableText: this.generateSearchableText(selectedText, documentId),
       metadata: {
         sourceDocument: documentId,
-        sourceRange: { from, to },
+        sourceRange,
         createdAt: new Date().toISOString(),
         createdBy: userId,
         selectedText
       },
       content: {
         plainText: selectedText,
-        richContent
+        richContent: {
+          type: 'doc',
+          content: stripAnnotationMarks(slice.toJSON()?.content ?? [])
+        }
       }
     };
 
@@ -96,19 +133,6 @@ export class QuoteService {
     this.quotes.set(quote.id, quote);
 
     return quote;
-  }
-
-  /**
-   * Extract rich content from TipTap selection
-   */
-  private extractRichContent(editor: Editor, from: number, to: number): RichContent['richContent'] {
-    const slice = editor.state.doc.slice(from, to);
-    const content = slice.toJSON();
-
-    return {
-      type: 'doc',
-      content: content.content || []
-    };
   }
 
   /**

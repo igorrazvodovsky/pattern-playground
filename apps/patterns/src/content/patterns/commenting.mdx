@@ -1,7 +1,7 @@
 ---
 title: Commenting
 added: 2025-08-06
-updated:
+updated: 2026-10-10
 role: pattern
 evidence:
   - observed
@@ -26,6 +26,11 @@ situation:
     - >-
       the thread beside the content is a second place where decisions get made, and whatever
       was settled there is invisible to anyone reading only the content
+    - clause: >-
+        some commented passages start being referred to, not only discussed, and a highlight
+        with a thread is too weak an object for that; the passage needs an identity of its
+        own, without leaving its place in the text or losing its thread
+      sets-up: [incremental-formalisation]
 relationships:
   complements:
     - to: collaboration
@@ -91,6 +96,8 @@ Commenting can be integrated into any interface or content type, including:
 
 <Demo name="commenting" surface="white" label="Commenting via bubble menu" />
 
+A comment marks its passage without changing the text, and overlapping comments keep separate threads. Later the actor can turn a commented passage into a quote. The words stay where they are, the thread moves to the quote, and other documents can refer to the quote by its identity. This is [incremental formalisation](/patterns/incremental-formalisation) applied to one passage: the passage gains structure when it starts to matter, not when the first comment is written. The demo cannot yet turn a quote back into a plain comment.
+
 ### Domain entities
 
 ...
@@ -100,7 +107,7 @@ Precursors:
 - [Annotation](/patterns/annotation) – establishes content marking concepts
 Follow-ups:
 - Review workflow – structures commenting into formal processes
-- Knowledge capture – transforms discussions into documentation
+- Knowledge capture – transforms discussions into documentation (turning a passage into a quote is now the incremental-formalisation edge)
 */}
 
 ## Resources & references

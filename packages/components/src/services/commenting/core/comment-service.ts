@@ -130,6 +130,19 @@ export class CommentService extends EventEmitter {
     return true;
   }
 
+  /**
+   * Moves a whole thread to another pointer, for when the thing commented on
+   * changes form, such as a commented passage turned into a quote.
+   */
+  async reanchor(from: CommentPointer, to: CommentPointer): Promise<Comment[]> {
+    const moved = (await this.getComments(from)).map(comment => ({ ...comment, pointer: to }));
+    if (moved.length > 0) {
+      await this.storage.saveMany(moved);
+      this.emit('thread:reanchored', { from, to, comments: moved });
+    }
+    return moved;
+  }
+
   async reply(parentId: string, content: string, authorId: string): Promise<Comment | null> {
     const parent = await this.storage.findById(parentId);
     if (!parent) return null;

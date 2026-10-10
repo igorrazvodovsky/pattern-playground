@@ -27,16 +27,3 @@ export abstract class BaseCommentPointer implements CommentPointer {
     return other.type === this.type && other.id === this.id;
   }
 }
-
-export interface TiptapTextRangePointer {
-  type: 'tiptap-text-range';
-  text?: string;
-}
-
-export interface ItemViewSectionPointer {
-  type: 'item-view-section';
-  sectionPath?: string;
-  viewScope?: string;
-}
-
-export type SpecificPointer = TiptapTextRangePointer | ItemViewSectionPointer;

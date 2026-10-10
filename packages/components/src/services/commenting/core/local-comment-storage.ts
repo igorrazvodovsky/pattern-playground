@@ -2,6 +2,18 @@ import type { CommentStorage } from './comment-storage';
 import type { Comment } from './comment-service';
 import type { CommentPointer } from './comment-pointer';
 
+// JSON keeps a pointer's fields but not its methods. A restored pointer
+// serialises to the key it was stored under, so it can be found, moved and
+// deleted like one made in this session.
+function restorePointer(key: string, stored: CommentPointer): CommentPointer {
+  return {
+    ...stored,
+    serialize: () => key,
+    equals: (other) => other.type === stored.type && other.id === stored.id,
+    getContext: async () => ({ title: stored.type }),
+  };
+}
+
 export class LocalCommentStorage implements CommentStorage {
   private comments: Map<string, Comment> = new Map();
   private pointerIndex: Map<string, Set<string>> = new Map();
@@ -12,9 +24,30 @@ export class LocalCommentStorage implements CommentStorage {
   }
   
   async save(comment: Comment): Promise<void> {
+    this.index(comment);
+    this.persistToLocalStorage();
+  }
+
+  async saveMany(comments: Comment[]): Promise<void> {
+    for (const comment of comments) this.index(comment);
+    this.persistToLocalStorage();
+  }
+
+  // A comment saved under a new pointer leaves its old pointer's index.
+  private index(comment: Comment): void {
+    const previous = this.comments.get(comment.id);
+    const pointerKey = comment.pointer.serialize();
+    if (previous) {
+      const previousKey = previous.pointer.serialize();
+      if (previousKey !== pointerKey) {
+        const ids = this.pointerIndex.get(previousKey);
+        ids?.delete(comment.id);
+        if (ids?.size === 0) this.pointerIndex.delete(previousKey);
+      }
+    }
+
     this.comments.set(comment.id, comment);
 
-    const pointerKey = comment.pointer.serialize();
     if (!this.pointerIndex.has(pointerKey)) {
       this.pointerIndex.set(pointerKey, new Set());
     }
@@ -24,10 +57,8 @@ export class LocalCommentStorage implements CommentStorage {
       this.authorIndex.set(comment.authorId, new Set());
     }
     this.authorIndex.get(comment.authorId)!.add(comment.id);
-    
-    this.persistToLocalStorage();
   }
-  
+
   async findById(id: string): Promise<Comment | null> {
     return this.comments.get(id) || null;
   }
@@ -141,6 +172,10 @@ export class LocalCommentStorage implements CommentStorage {
       if (data.pointerIndex) {
         for (const [key, ids] of Object.entries(data.pointerIndex)) {
           this.pointerIndex.set(key, new Set(ids as string[]));
+          for (const id of ids as string[]) {
+            const comment = this.comments.get(id);
+            if (comment) comment.pointer = restorePointer(key, comment.pointer);
+          }
         }
       }
 

@@ -1,17 +1,14 @@
 import React from 'react';
-import type { CommentingPluginConfig } from '../CommentingPlugin';
 import { useEditorContext } from '../../../editor/EditorProvider';
 
-interface CommentingBubbleMenuProps {
-  config: CommentingPluginConfig;
-}
-
-const CommentingBubbleMenu: React.FC<CommentingBubbleMenuProps> = () => {
+const CommentingBubbleMenu: React.FC = () => {
   const { eventBus } = useEditorContext();
+  // The shortcut comes from the Commenting extension: Mod-Shift-M.
+  const shortcut = /Mac|iPhone|iPad/.test(navigator.userAgent) ? '⌘⇧M' : 'Ctrl+Shift+M';
 
   const handleCreateComment = () => {
     eventBus.emit('command:execute', {
-      command: 'commenting:create-quote-comment',
+      command: 'commenting:create-comment',
       params: {},
     });
   };
@@ -20,7 +17,7 @@ const CommentingBubbleMenu: React.FC<CommentingBubbleMenuProps> = () => {
     <button
       className="button button--small button--plain"
       onClick={handleCreateComment}
-      title="Add comment"
+      title={`Comment (${shortcut})`}
     >
       <iconify-icon className="icon" icon="ph:chat-circle"></iconify-icon>
       <span className="visually-hidden">Comment</span>

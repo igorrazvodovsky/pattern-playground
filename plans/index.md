@@ -5,6 +5,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Active
 
+- [Commenting: open questions](active/2026-10-commenting-open-questions.md) — outline, needs iteration: decisions left after the mark-first commenting work (quote styling, reaching and undoing a quote, whether a quote follows its passage, threads whose passage was deleted) and three small pieces of work (resolution, marks across reloads, thread ids in copied text)
 - [Digesting the agency scoping review](active/2026-09-agency-review-digestion.md) — outline, needs iteration: Zhang, Wang & Yi's co-creation review was pasted near-verbatim into `agency.mdx` and `collaboration.mdx` before the AI-cluster sequences existed; work through it section by section, concordance and source triage first (workflow candidates), then serial sittings ending in take / already-held / decline verdicts, then the corpus edits
 - [A system of sequences over the language](active/2026-08-sequence-map.md) — research-gated and past its pilot: organise the language as a system of small, calling sequences (Book 2 chs. 11 and 20). Ten sequences latent in the post-sweep `precedes` graph, two still missing (working together, finishing the whole), grounding held out as head presuppositions rather than a sequence. Representation decided 2026-08-28 — sequence files as a second content collection (docs/specs/sequences.md), the pilot recast as its proof; head presuppositions stated for every entry the same day. Remaining phase: author the remaining sequences (eleven authored so far) and sit on the recorded corpus changes; within-sub-sequence `precedes`-order validation is deferred tooling
 - [Composing views — the pilot sequence](active/2026-08-composing-views-sequence.md) — the first authored sequence, living at `apps/patterns/src/content/sequences/composing-views.mdx`: four sub-sequences (framing trunk, search escalation, cross-reference pair, splitting/coupling tail), read-aloud test passed, two test walks with one backtrack each, and eight recorded corpus changes awaiting their own sittings — a spine reorder, item-view promoted to step, pan-and-zoom relocated, candidate edges and a candidate saved-views split
@@ -49,6 +50,7 @@ Closed plans that only recorded how something was built were deleted; their
 pages and code are the record, and `git log --diff-filter=D -- plans/` lists
 them.
 
+- [Commenting: mark first, quote later](completed/2026-10-commenting.md) — executed 2026-10-09 to 2026-10-10: a comment marks its passage and leaves the text alone, following the Ink & Switch universal-comments model; quoting is a later, deliberate step that keeps the words under a quote mark and moves the thread to the quote. Chosen over quotes as the anchor and over marks alone. A risk check of mark anchors found what copying, pasting and deleting do to a thread whose only anchor is its mark, and most of it is fixed. Replaced the six 2025 commenting plans
 - [Switchable demos: one spec, two component libraries](completed/2026-10-switchable-demos.md) — executed 2026-10-09: status-feedback, inline-confirmation and rule-composition are json-render specs against a project-owned catalog, rendered through a `pp-*` registry and a shadcn/ui registry with a switch on the demo frame. Composition and stateful demos survive the switch; only time (the confirmation window) and domain models leave the spec. A composite can be a catalog type but each library supplies its own. Tailwind contained by a scoped, layered build, verified by computed-style diffs
 - [Research organisation after the move to the vault](completed/2026-09-research-organisation.md) — research-gated: the contract between the vault (papers, reading, gate runs, overlays) and the repo (questions, decisions). Settled: one session reaches both stores, decisions carry a digest, public text cites by public link, takeaways live in the overlays, `AI patterns/patterns/` is a nursery, findings stay per project until a second project reuses them, vault evidence stays unversioned
 - [Precedes register sweep and the make-time projection](completed/2026-08-precedes-register-sweep.md) — executed 2026-08-27: all 94 `precedes` edges audited against one test (does B's design take A's result as its material?); 19 held only as session order, 6 were mistyped, 12 ran backwards. No use-time edge minted — conversation-family edges stay `precedes` under the protocol-family coincidence; the make-time nav projection prototyped on the swept edge set was reverted the same day and continues in the sequence-map plan
@@ -82,19 +84,13 @@ them.
 - [Behaviour](paused/2025-behaviour.md)
 - [Charts](paused/2025-charts.md)
 - [Collaboration MDX enhancements](paused/2025-collaboration-mdx-enhancements.md)
-- [Commenting next steps](paused/2025-commenting-next-steps.md)
-- [Commenting system refactor](paused/2025-commenting-system-refactor.md)
-- [Commenting task merge impact](paused/2025-commenting-task-merge-impact.md)
-- [Commenting](paused/2025-commenting.md)
 - [Conversational design patterns](paused/2025-conversational-design-patterns.md)
-- [Custom editor for commenting](paused/2025-custom-editor-for-commenting.md)
 - [Document control patterns](paused/2025-document-control-patterns.md)
 - [Dress shop concepts](paused/2025-dress_shop_concepts.md)
 - [Dropdown improvements](paused/2025-dropdown-improvements.md)
 - [ESLint warnings resolution](paused/2025-eslint-warnings-resolution-plan.md)
 - [Fuse.js search implementation](paused/2025-fuse-js-search-implementation.md)
 - [Hyperlink maximalism](paused/2025-hyperlink-maximalism.md)
-- [Refactor commenting](paused/2025-refactor-commenting.md)
 - [Reference system unification](paused/2025-reference-system-unification-plan.md)
 - [Research workflow](paused/2025-research-workflow.md)
 - [Task/ItemView merge](paused/2025-task-itemview-merge.md)

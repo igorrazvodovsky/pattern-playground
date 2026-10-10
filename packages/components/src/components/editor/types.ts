@@ -2,8 +2,6 @@ import type { Editor, Extensions } from '@tiptap/core';
 import type { ReactNode } from 'react';
 import type { Transaction } from '@tiptap/pm/state';
 import type { ReferenceCategory } from '../reference/types';
-import type { QuoteObject } from '../../services/commenting/quote-service';
-import type { CommentPointer } from '../../services/commenting/core/comment-pointer';
 
 // Type definitions for better event payload typing
 export interface PointerData {
@@ -100,12 +98,6 @@ export interface EventPayload {
   'plugin:deactivate': { pluginId: string };
   'command:execute': { command: string; params?: unknown };
   'ui:slot-update': { slotId: string; pluginId: string };
-  'commenting:initialized': { documentId: string; currentUser: string };
-  'commenting:quote-reference-click': { quoteId: string };
-  'commenting:create-quote-comment': { params?: unknown };
-  'commenting:show-comments': { quoteId?: string };
-  'commenting:selection-change': { from: number; to: number; content: string };
-  'quote:created': { quote: QuoteObject; pointer: CommentPointer };
   'references:selection-changed': { hasSelection: boolean; selectedText: string; range: { from: number; to: number } };
   'references:data-updated': { data: ReferenceCategory[] };
   'references:reference-inserted': { reference: Record<string, unknown> };

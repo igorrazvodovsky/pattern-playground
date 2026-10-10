@@ -1,28 +1,35 @@
 import React, { useEffect, useRef } from 'react';
-import { CommentThread } from '../core/CommentThread';
-import type { QuoteObject } from '../../../services/commenting/quote-service';
+import { CommentThread } from './CommentThread';
+import type { CommentPointer } from '../../../services/commenting/core/comment-pointer';
 import type { VirtualElement } from '../../popup/popup';
 import { getUserById } from '@shared/data';
 import '../../../jsx-types';
 
-interface QuoteCommentPopoverProps {
-  quote: QuoteObject;
-  /** The quoted text: its reference once inserted, or the selection before. */
+interface CommentPopoverProps {
+  pointer: CommentPointer;
+  /** What is being commented on, for the dialog's accessible name. */
+  label: string;
+  /** The commented content, or the selection before the first comment. */
   anchor: Element | VirtualElement | null;
   currentUser: string;
+  placeholder?: string;
+  /** Commands about the commented thing, shown below the thread. */
+  actions?: React.ReactNode;
   onClose: () => void;
   /** Runs after `onClose` when the actor leaves with Escape. */
   onEscape?: () => void;
   onCommentAdded?: (content: string) => void;
 }
 
-// The thread for a quote being commented on, floated beside the quoted text.
-// `light-dismiss` hands outside-click and Escape to the platform; the owner
-// follows through `pp-hide`.
-export const QuoteCommentPopover: React.FC<QuoteCommentPopoverProps> = ({
-  quote,
+// A thread floated beside what it is about. `light-dismiss` hands
+// outside-click and Escape to the platform; the owner follows through `pp-hide`.
+export const CommentPopover: React.FC<CommentPopoverProps> = ({
+  pointer,
+  label,
   anchor,
   currentUser,
+  placeholder,
+  actions,
   onClose,
   onEscape,
   onCommentAdded
@@ -58,22 +65,26 @@ export const QuoteCommentPopover: React.FC<QuoteCommentPopoverProps> = ({
       <div
         className="popover"
         role="dialog"
-        aria-label="Comment on quote"
+        aria-label={label}
         onKeyDown={(event) => {
           if (event.key !== 'Escape') return;
+          // Escape closes the innermost layer only. Drawers listen for it on
+          // the document, and the thread list may be open in one.
+          event.stopPropagation();
           onClose();
           onEscape?.();
         }}
       >
         <CommentThread
-          entityType="quote"
-          entityId={quote.id}
+          pointer={pointer}
           currentUser={user}
           showHeader={false}
           allowNewComments={true}
           maxHeight="300px"
+          placeholder={placeholder}
           onCommentAdded={onCommentAdded}
         />
+        {actions && <div className="toolbar">{actions}</div>}
       </div>
     </pp-popup>
   );
