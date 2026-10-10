@@ -6,7 +6,7 @@
 
   .stack {
     --pane-spine-w: 1.75rem;
-    --pane-max-w: 36rem;
+    --pane-max-w: 40rem;
 
     display: flex;
     overflow-x: auto;
@@ -130,7 +130,7 @@
 
   /* TODO: cleaner rule */
   .pane .pane-body > astro-slot > article, .pane .pane-body > article {
-    margin: 0 var(--space-xl) var(--space-xl) var(--space-xl);
+    margin: 0 var(--space-2xl) var(--space-2xl) var(--space-2xl);
 
     & > * + * {
       margin-block-start: var(--flow-space, 1em);
