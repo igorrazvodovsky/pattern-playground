@@ -52,7 +52,7 @@ Explicit channels (any MDX file):
 3. *`<PatternRef>` component props* — `<PatternRef slug="…" rel="enables">`. `<ComponentRef>` carries no rel: prose mentions are citations, and the realisation claim's home is frontmatter `realised_by` — cross-dataset node metadata against Storybook's `index.json`, not an edge; the extractor warns if a rel is authored (see the vocabulary doc §Component realisation).
 
 Judgement homes that emit their edges:
-1. *Frontmatter `situation.resulting` clauses with `sets-up:`* → one `precedes` edge per named pattern, carrying the clause as derived `situation` text.
+1. *Frontmatter situation prose* → no new edges, but each edge the page authors takes the sentence that links its target as derived `situation` text. On pages not yet shaped, `situation.resulting` clauses with `sets-up:` still emit one `precedes` edge per named pattern, carrying the clause.
 2. *Mermaid decision trees* (flowchart + frontmatter `decision-trees:` leaf map) → `recommends` edges carrying `situationalHints`.
 
 Direction is fixed by the relation name. Authoring aliases (`follows`, `composed-of`, `instances`, `variants`) normalise to canonical types with inverted direction where needed — see `docs/language/relationship-vocabulary.md` for the full alias table.

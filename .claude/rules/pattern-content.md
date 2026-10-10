@@ -172,30 +172,21 @@ What each kind means, and why they are kinds rather than a maturity ladder:
 
 ## Situations and conditional edges
 
-A pattern may carry its two situations in frontmatter — the design situation it
-applies in, and the one it leaves behind:
+A pattern's two situations are the points where its connections meet, told as prose in frontmatter: where the pattern continues from, and where it leads on to. Both speak to whoever is making, in one voice; there is no separate designer's version:
 
 ```yaml
 situation:
   initiating: >-
-    prose — the situation this pattern applies in, told as the history of steps
-    already applied (or ruled out)
-  resulting:
-    - a bare prose clause about what holds after the pattern is applied
-    - clause: >-
-        a clause that sets up a next pattern; voice it to name its subject —
-        it renders on both endpoints' pages
-      sets-up: [next-pattern]
+    prose — what already exists when this pattern applies: the structure in place, what the actor is doing in it, the alternatives ruled out, the sequences and larger patterns it helps complete; renders as the opening paragraph
+  resulting: >-
+    prose — what holds after the pattern is applied and what it leads on to: the patterns that act on its product, the problems it opens, the look-alikes it is not; renders as the connections passage
 ```
 
-A `sets-up` clause *emits* a `precedes` edge carrying the clause as derived
-condition text. Never author condition text in an edge note ("takes over
-when…", "fallback if…") — that judgement's home is the source pattern's
-resulting clause (or a decision tree). Don't also declare the same pair under
-`relationships: precedes`; the extractor warns on the duplicate.
+Links in both are Markdown links with no `rel=`; `relationships:` remains the home of every edge. For each edge the page authors, the sentence of the resulting situation (or, failing that, the initiating one) that links the target becomes the edge's gloss, shown on the other endpoint's page. Never author condition text in an edge note ("takes over when…", "fallback if…"): that judgement's home is the source pattern's resulting situation, with the `precedes` edge authored beside it.
 
-Decision trees are authored as a Mermaid flowchart in a `## Decision tree`
-section plus a frontmatter leaf map:
+The earlier form — `resulting` as a list of clauses, a clause with `sets-up:` emitting `precedes` — is still honoured on pages not yet shaped. Converge on edit.
+
+Decision trees are authored as a Mermaid flowchart in a `## Decision tree` section plus a frontmatter leaf map:
 
 ```yaml
 decision-trees:
@@ -214,63 +205,41 @@ page. Two ways it is skipped:
 
 - `role: quality` — never rendered. A quality is a diagnostic lens, not a
   catalogue; the bridge to patterns lives on the pattern side via `enacts`.
-- `showRelated: false` in frontmatter — opt out per page when the body already
+- `showRelated: false` in frontmatter — on a shaped page this folds away only the typed index; the passage still renders. On a page not yet shaped it skips the list: opt out per page when the body already
   narrates every relationship inline (e.g. a `collection` whose prose links each
   member). The edges still feed the graph; only the redundant on-page list is
   skipped.
 
 ## Document structure
 
-Every file: YAML frontmatter → lead prose → body sections → `## Resources &
-references` last. No `# Title` in the body — the layout renders the title from
-frontmatter. The page order is composed at build time
-(`integrations/remark-consequences.ts`): "Consequences" (from
-`situation.resulting`) is inserted just before `## Resources & references`;
-sequence appearances and "Related patterns" (from frontmatter edges) follow
-the body as the page foot; an authored `## To-do` is lifted from wherever it
-sits and shown last, in the code face, as authoring residue.
+Every file: YAML frontmatter → body → `## Resources & references` last. The page is composed at build time (`integrations/remark-consequences.ts`): the opening paragraph, the section marks, the connections passage and its folded index are rendered from what is described below; an authored `## To-do` is lifted from wherever it sits and shown last, in the code face, as authoring residue.
 
-### Standard shape for `role: pattern`
+### Shape of a `role: pattern` page
 
-Canonical for new patterns. Existing files converge when edited for other
-reasons (same policy as link formats) — no mass rewrite.
+0. *Opening demo* — optional, at most one, before the opening paragraph: an instance of the pattern above the fold, for recognition before reading.
+1. *Opening paragraph* — the initiating situation, `situation.initiating` in frontmatter, rendered before the first mark with the book's leading ellipsis, so it begins lowercase and reads as a continuation. It says what already exists when the pattern is worth reaching for: the structure in place, what the actor is doing in it, the alternatives ruled out, and the larger things this pattern helps complete — the sequences it appears in, named by link, and the larger patterns. Prose only: blank lines separate paragraphs; plain Markdown links and emphasis. It is addressed to whoever is making, in one voice.
+2. *Problem* — directly after the first `* * *`: the recurring situation the pattern resolves.
+2.1. *Forces* — optional; only when real tensions make the problem hard.
+3. *Before Therefore* — what decides whether to reach for the pattern: when it serves and when it constrains, what it costs, what is known about it and how far that is trusted (the evidence, including evidence against it, stated as part of the account rather than argued). For an established pattern this is short. What the pattern costs is said here or in the caution after the instruction.
+4. *Therefore* (a.k.a. solution) — `Therefore,` on a line of its own, then the instruction. A caution may follow in plain prose (what overdoing the pattern costs, where the limit lies); permitted, not required.
+5. *After Therefore* — how the instruction takes shape: demos, variants, states, components, constraints. 
+6. *Connections passage* — the resulting situation, `situation.resulting` in frontmatter, rendered after its own mark before the first tail section: what the pattern leaves behind and leads on to, told as prose with a sentence for what each linked pattern does for this one, the problems it opens, and the distinctions from look-alikes; it ends with trailing ellipsis. The typed index of the same edges and the sequence appearances fold beneath it (the "All connections" disclosure), and no Consequences or Related patterns block is generated. Every edge the page authors must be linked in the page's prose. The body itself does not end in a `* * *`: the passage brings its own mark.
 
-1. *Lead* — unlabelled paragraph(s) telling the situation the pattern applies in
-   and the problem it resolves, from the human situation inward. This narrates
-   `situation.initiating`; the frontmatter stays the machine-readable truth,
-   the lead retells it in prose rather than copying it.
-2. `## Forces` — optional; only when real tensions make the problem hard.
-   Short *X vs. Y* items with a clause on why they pull against each other.
-3. `## Solution` — the move itself, stated once. A short pattern whose lead
-   already carries the solution may skip the heading.
-4. *Concretisation sections* — how the pattern takes shape: `## Variants`,
-   `## States`, or headings named after the pattern's own dimensions. This is
-   where each pattern's idiosyncratic content lives; heading names here are
-   free.
-5. `## Research on this pattern` — optional; a short bridge from the page's claims to the evidence behind them. Finding-level sentences with the claim as the link text, so detail lives in the linked source; end with what remains untested. A `research-gate` pass is the recommended way to build it, but not required. `citation.mdx` is the reference example.
-6. *Consequences* — rendered from `situation.resulting` and inserted here,
-   before `## Resources & references` (or `## To-do` if that comes first);
-   never authored as a body section (same rule as the Related patterns block).
-   Write what holds after the move — gains and costs together — as resulting
-   clauses.
-7. `## Resources & references`
-8. `## To-do` — authoring residue; rendered after the page foot wherever it
-   is authored
+The instruction is the hinge: what decides reaching for the pattern comes before it, how it is realised comes after it, and the passage closes the page. The two bold paragraphs are the skim path.
 
-There is no `## Problem` section: the problem statement is the lead's job, and
-prose analysing why the obvious answers fail is `## Forces` material.
+Then some optional sections
+- `## Related components` 
+- `## Research on this pattern`
+- `## Resources & references`
+- `## To-do`
 
-`coordinated-views.mdx` and `purpose-keyed-view.mdx` are reference examples of
-the shape.
+### Pages not yet shaped
 
-Family templates converge onto the same slots: the conversation family's
-`## Metrics` content belongs in `situation.resulting` clauses; the navigation family's
-`## Behavioural position` splits between the lead (context) and `## Forces`.
-Converge on edit, as above.
-
-Existing `## Related components` sections stay as they are for now; whether
-the section survives `realised_by` + `<ComponentRef>` + typed edges is an open
-question tracked separately — don't migrate or remove them under this rule.
+A page whose `situation.resulting` is still a clause list, or absent, keeps the earlier renders: `situation.initiating` does not render and the lead narrates it; the clauses render as a generated "Consequences" section before
+`## Resources & references`; the edges render as a generated "Related
+patterns" list and the sequence appearances as "Appears in" at the foot.
+These renders are a fallback for pages not yet converged, with no retirement
+date (relationship-vocabulary.md §Retirement).
 
 ### Other roles
 

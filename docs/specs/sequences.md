@@ -123,7 +123,7 @@ descends from:
   not to further steps. A step that would decide more than its rule covers is
   two steps; a step that would decide less than its rule covers is a
   dimension, not a step.
-- *A step is an instruction to the designer.* The step line is a verb phrase
+- *A step is an instruction to the maker.* The step line is a verb phrase
   that still makes sense read alone. The gloss is written in the imperative,
   and most glosses need one or two sentences; a gloss past three sentences is
   usually carrying pattern content.

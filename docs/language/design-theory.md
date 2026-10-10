@@ -14,13 +14,17 @@ Getting from Pattern Language to Nature of Order means discovering interaction-d
 
 Between the two phases sits *The Nature of Order* Book 2's account of *living process*: any adaptive process that generates living structure step by step through structure-preserving transformations. Its unit is the *fundamental differentiating process* — attend to the whole as it is, find where it is weakest, find the latent centres, choose one, transform it, check that life increased, repeat. A *generative sequence* (Book 2 ch. 11) is a found ordering of such steps for a recurring type of work: fixed order, variable result, each step acting on what the previous steps produced. Since 2026-08 the project organises its language as a system of such sequences ([sequence map](../../plans/active/2026-08-sequence-map.md); representation in [specs/sequences.md](../specs/sequences.md)).
 
-Alexander's late method fuses three things this project keeps as separate strata with named seams:
+Patterns are not superseded by the later method; they are its feature, "generic patterns playing the role of genes", and the pattern pages remain the stock of moves the process draws on. Alexander's late method fuses three things this project keeps as separate strata with named seams:
 
 - *Patterns* are the generic rules — each "a rule for making a certain kind of center" (Book 2 ch. 13). The corpus's pattern pages.
 - *Sequences* store the order of invoking them — the knowledge no edge can carry. The sequences collection.
 - The *form language* is the combinatory stock of schemata a maker actually builds with (Book 2 ch. 16) — in this project, the component catalogue and the foundations. Alexander records that patterns applied without a supporting form language produce incoherence (ch. 16 note 1); the sequence layer touches this stratum through constituents and the foundations-are-material rule.
 
 The per-step verdict — Alexander's *feeling* — is not imported; in this corpus it stays with the actor's judgement under the suggestion-grade stance.
+
+## Making and use
+
+Both phases assume that the people who use a place take part in making it: *A Pattern Language* is written to "you", and says "if you are the user, all the better"; Book 2's living process puts feedback and rejection inside every increment, so making continues in use. This project keeps that assumption. A pattern page is addressed to whoever is making — a designer ahead of use, the actor reshaping the interface while using it, or an agent composing on the actor's behalf — and does not divide its content into a make-time register and a use-time register. Malleable and generated interfaces are the case where the division would fail outright, since there the actor and the maker are the same party or the same moment. Sequences still order decisions, because feature 4 says the order of making matters; that order is a property of the work, whoever does it, and it is claimed through dependency (a later step acts on what an earlier one produced), not through a distinction between the designer's time and the actor's.
 
 NoO Book 2 names ten features every living process must have (ch. 7 §13). The project imports them selectively: sequence and patterns-as-generic-rules are built; step-by-step adaptation and the-whole-governs are ground assumptions; feeling, the aperiodic grid, and the simplicity transformation are not imported. A feature is imported when a sequence sitting runs into its absence, not wholesale.
 

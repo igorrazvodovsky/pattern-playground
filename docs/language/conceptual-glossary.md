@@ -30,6 +30,10 @@ A centre dimly present in a configuration — caused by the structure that exist
 
 Any adaptive process that generates living structure step by step through structure-preserving transformations (Alexander, Book 2 ch. 7). Its repeated unit is the fundamental differentiating process; Book 2 lists ten features every living process must have, of which this project imports sequence (4) and patterns-as-generic-rules (6) outright and treats step-by-step adaptation (1) and the-whole-governs (2) as ground assumptions. See [design-theory.md](./design-theory.md) §Living process.
 
+## Maker
+
+Whoever applies a pattern: a designer working ahead of use, the actor reshaping an interface while using it, or an agent composing one on the actor's behalf. Pattern pages are addressed to the maker in one voice; the project does not keep separate design-time and use-time registers (Alexander's "if you are the user, all the better"). See [design-theory.md](./design-theory.md) §Making and use and [core-beliefs.md](../project/core-beliefs.md).
+
 ## Pattern
 
 A named, evidence-seeking interaction move that resolves a recurring human situation by balancing forces in a stated context, abstracting practice at a reusable level, producing a centre or affordance, carrying rationale and consequences, and linking to other patterns. In this project, a pattern is not simply a common UI object or a reusable component. It can begin as a seed, but mature pattern status requires examples, rationale, consequences, and relations. See [pattern-definition.md](./pattern-definition.md).
@@ -57,6 +61,10 @@ An experiential dimension along which the effect of a design move can be read �
 ## Semilattice
 
 A mathematical structure where elements participate in multiple overlapping sets simultaneously, unlike a tree where membership is exclusive (Alexander, "A City Is Not a Tree", 1965). The project's pattern space is a semilattice — every pattern belongs to multiple overlapping groupings. The sidebar tree is a useful entry point but not the truth; the graph is the primary navigational surface. See [`docs/language/semilattice.md`](semilattice.md).
+
+## Situation
+
+One of the two points where a pattern's connections meet: the initiating situation, where the pattern continues from (what already exists when it is worth reaching for), and the resulting situation, where it leads on to (what holds after it is applied and which patterns act on that). Both are authored as prose in the pattern's frontmatter and render as its opening paragraph and its connections passage. The typed edges are the part of a situation the vocabulary can carry; the prose says the rest. See [relationship-vocabulary.md](./relationship-vocabulary.md) §Situations.
 
 ## Structure-preserving transformation
 

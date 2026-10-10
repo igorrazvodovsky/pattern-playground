@@ -67,10 +67,12 @@ library currently discriminates on, and what it does not yet know how to
 discriminate. See [decision-dimensions.md](./decision-dimensions.md).
 
 Situations are still an early sketch of pattern-as-move semantics. The construct
-is deliberately small — an initiating situation and resulting-context clauses,
-with `sets-up:` emitting conditional `precedes` edges — and populated for only a
-small starting set. These fields are concrete enough for extraction, but not yet
-the full pattern record imagined in the vision.
+is deliberately small — two prose fields, the point where the pattern's
+connections meet at each end, rendered as a page's opening paragraph and its
+connections passage, with edge glosses derived from the sentences — and only
+two pages carry it in that form; the rest still hold the earlier clause list.
+These fields are concrete enough for extraction, but not yet the full pattern
+record imagined in the vision.
 
 The Nature of Order register is not yet reached. [levels-of-scale.md](../levels-of-scale.md)
 is the first worked translation of a structural property into software; the rest
