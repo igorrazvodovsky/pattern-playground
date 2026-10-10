@@ -1,7 +1,7 @@
 ---
 title: Wizard
 added: 2025-11-21
-updated:
+updated: 2026-10-10
 role: pattern
 evidence:
   - literature
@@ -11,122 +11,73 @@ mediation: individual
 fun: 😐 2/5. Necessary infrastructure.
 situation:
   initiating: >-
-    the task is one atomic goal made of genuinely dependent steps — what's entered early
-    determines what's available later — and the actor does it rarely enough not to hold its
-    structure; a single surface would have to show options that don't apply yet
-  resulting:
-    - >-
-      one commitment sits in front of the actor at a time, each step gated on the last, and
-      because the branching prunes as it goes the path they walk is shorter than the whole
-    - clause: >-
-        the corridor removes peripheral vision: the actor can't compare across steps or jump
-        to the one they know they need, so a change of mind partway has to be able to walk
-        backwards without discarding the sequence
-      sets-up: [undo]
-    - >-
-      the steps are the system's model of the task, and an expert who already holds that model
-      experiences the guidance as compliance
+    a [form](/patterns/form) gathers the inputs for one goal on one surface, and [progressive disclosure](/patterns/progressive-disclosure) hides the parts of it that do not apply yet. For most goals that is the end of the matter. There is one kind of goal, though, for which the form itself is the obstacle: what the actor enters at the start decides which questions exist later, the goal is not done until the last step is, and the actor does it so rarely that the shape of the whole never settles in memory. This pattern gives that kind of goal a different shape. It is how [onboarding](/patterns/onboarding) usually does its first setup, and how [settings](/patterns/settings) are often gathered the first time, before the actor knows what any of them mean. When the sequence is also the way the actor moves through the space, [step by step](/patterns/step-by-step) is the navigation model that carries it; this pattern is about the task's shape.
+  resulting: >-
+    The corridor removes peripheral vision, so a change of mind partway must be able to walk
+    backwards without losing the sequence; that is [undo](/patterns/undo) applied step by
+    step, and the one thing the pattern cannot do without. [Status
+    feedback](/patterns/status-feedback) carries progress and validation through the walk.
+    Where different actors need different orders, [next best
+    action](/patterns/next-best-action) adapts the sequence instead of fixing it, and an
+    [agent](/patterns/agent) can walk the same dependencies in conversation, with room to
+    ask about step two while on step four, which a wizard cannot allow. Where the inputs
+    want a conversation's give and take, embed them in a conversational form instead. The
+    same corridor serves other ends: a [template](/patterns/template) assembled through
+    step-by-step choices is a wizard whose product is a template, and a paginated [prompt
+    scaffold](/patterns/prompt-scaffolding) is the wizard applied to prompting. Do not
+    confuse it with a [workflow](/patterns/workflow), which externalises a procedure for the
+    system or for others to run; a wizard only scripts one actor's path through one task
 relationships:
-  alternative:
-    - to: next-best-action
-      note: the wizard prescribes the sequence; next-best action is the adaptive, context-aware alternative
-    - to: form
-      note: the single-page structure that wizards fragment across steps
-    - to: agent
-      note: can guide through complex processes with conversational flexibility wizards lack
+  precedes:
+    - undo
   complements:
-    - to: status-feedback
-      note: communicates progress and validation state throughout the wizard
-    - to: undo
-      note: mitigates the high commitment level by allowing reversal of completed steps
+    - status-feedback
+    - undo
+  alternative:
+    - next-best-action
+    - form
+    - agent
   enacts:
     - to: temporality
       note: paces a task into an ordered sequence of steps, one commitment at a time
 ---
-Sequential task structure that enforces progression through dependent steps. Wizards transform complex processes into linear corridors—for good or bad.
 
-Wizards sit at the intersection of [progressive disclosure](/patterns/progressive-disclosure) and [form](/patterns/form) patterns, adding temporal sequencing and enforced dependencies. Where progressive disclosure reveals complexity gradually within a single context, wizards fragment the journey across multiple discrete steps, each gating access to the next.
+* * *
 
-The pattern trades spatial freedom for temporal clarity. Like a corridor in architecture, it provides clear direction but removes peripheral vision—you cannot easily compare information across steps or jump to known destinations. This makes wizards effective for novices navigating unfamiliar territory but frustrating for experts who've internalised the structure.
+**Wizards are built far more often than the evidence supports. The case they serve is narrow: an unfamiliar goal whose later steps genuinely depend on earlier answers.**
 
-Critically, wizards aren't multi-page forms. The defining characteristic is *dynamic branching*—subsequent steps depend on information entered previously. Without this conditionality, you simply have a long form with pagination.
+The practitioner literature is nearly unanimous in their favour. Nielsen Norman Group recommends them for infrequent, complex tasks where the actor lacks a model of the work; the Windows guidelines, which gave the pattern its name, give page-level rules for building them; the design systems that ship one describe when to prefer it to a progressive form. Installers, setup assistants, tax interviews, checkout flows, and the create-a-resource pages of cloud consoles are all built this way, and people who would never finish the equivalent paper form do finish the interview.
 
-Wizards handle multi-step tasks that form a single atomic operation. The entire sequence represents one conceptual goal. This distinguishes wizards from navigation menus or tabbed interfaces masquerading as guided flows.
+The research below points the other way, and it is worth reading before building one. It does not say the pattern is wrong. It says the pattern is right in a smaller region than it is used in, and it helps to say where that region begins. In our experience it begins at two conditions together. The first is dependency: a later step genuinely cannot be asked until an earlier one is answered, because the answer decides which questions exist. A multi-page form without this is a long form with pagination, and it gives up the form's overview and buys nothing back. The second is unfamiliarity: the actor does the task rarely enough that they do not hold its structure, so showing one decision at a time is a relief rather than a confinement. Remove either condition and the single page is better. Add repetition, and even a wizard that was right the first time becomes the thing people complain about by name, which is why the cloud consoles that provision through five gated pages also offer a one-page form and a command line to anyone who has done it before.
 
-## Behavioural position
+Therefore,
 
-Within the [intent & interaction](/patterns/interaction) framework, wizards operate primarily in the **instructions for action** category, providing structured guidance that bridges actor uncertainty to task completion.
+**When one goal is made of dependent steps and the actor does not hold its structure, lay the task out as a corridor: one step at a time, each gated on the last and each addressing a single purpose, with the branching pruning what follows so the path walked is shorter than the whole. Show the position and the remaining length, validate at each step, keep what was entered through back and forward, and show the whole before the final commitment. Do not build one where the actor could see everything at once instead, and build a way around it for anyone who has walked it before.**
 
-### From foggy finding to structured action
+## Components
 
-Wizards work best when actors face tasks that would otherwise trigger [uncovering or hunting behaviours](/patterns/interaction#foggy-finding)—they know what outcome they want but lack the structure to achieve it efficiently. By imposing a predetermined path, wizards convert potentially frustrating exploration into confident forward motion.
+- Step indicator: shows the current position, the steps completed, and how much remains. Not knowing the length of the corridor is what makes people leave it.
+- Step validation: inline feedback that confirms a step's input before the next step opens, so an early error does not cascade.
+- Navigation controls: a primary action advances ("Continue", "Next"), a secondary action retreats ("Back"), a tertiary one abandons ("Cancel"). "Back" undoes the previous "Next" rather than merely browsing, so what was entered survives the round trip.
+- State persistence: entered data is kept across steps and, where it can be, across sessions.
+- Review step: everything collected is shown before the final commitment.
+- Branching logic: later steps change according to earlier answers. This is the defining component; without it the wizard is a paginated form.
 
-However, this same structure creates problems for actors in [navigating or browsing modes](/patterns/interaction#motivated-movement) who possess sufficient context to move purposefully. Forcing navigation-capable actors through sequential steps transforms their fluent behaviour into tedious compliance.
+## Constraints
 
-### Action completion characteristics
-
-Wizards establish strong **prerequisite checking** (validating readiness at each step), provide clear **instructions** (one focused task per step), communicate **consequences** incrementally, and enforce high **commitment levels** through limited reversibility.
-
-The pattern assumes actors need encouragement through visible progress indicators and cannot self-direct through the full task complexity. This assumption holds for infrequent, complex tasks but fails for repeated execution or expert users.
-
-## When sequencing serves
-
-- Task novelty dominates: First-time setup, configuration, or complex workflows where actors lack mental models
-- Dependencies create complexity: Information from step 1 genuinely determines options in step 3, and exposing everything simultaneously would overwhelm
-- Error prevention matters: Validation gates between steps catch problems early, reducing costly failures
-- Infrequent execution: The task happens rarely enough that learning the full structure isn't worthwhile
-- Guided decision-making: Branching logic helps actors navigate choice complexity they couldn't evaluate simultaneously
-
-## When sequencing constrains
-
-Wizards become anti-patterns when:
-
-- Repeated execution: What felt helpful on first use becomes tedious overhead by the fifth iteration
-- Expert users: Actors who know exactly what they need resent being marched through unnecessary steps
-- Cross-step comparison needed: Actors must compare information across steps to make informed decisions
-- Non-linear workflows: The task doesn't naturally follow a single sequence; different actors need different paths
-- Simple tasks: The wizard's structural overhead exceeds the complexity it's meant to manage
-
-The interaction cost of repeated clicking through steps compounds quickly. If users perform the task frequently, the pattern actively works against efficiency.
-
-## Design constraints
-
-- Step integrity: each step must address a single conceptual purpose. Mixing unrelated inputs on one page—what Microsoft guide calls "burrito wizards"—undermines the pattern's clarity. If a page requires tabs or accordion sections to manage complexity, the wizard's chunking has failed.
-- Complexity: Branching should remain bounded. Normally no more than two decision points causing branching in the entire wizard, and no more than one nested branch within a single branch. Excessive branching creates a maze rather than a corridor.
-
-## Structural components
-
-- Step indicator: Labelled progress visualisation showing current position, completed steps, and remaining journey. Critical for managing expectations about task length.
-- Step validation: Inline feedback confirming input correctness before allowing progression. Prevents cascading errors.
-- Navigation controls: Primary action advances ("Continue", "Next"), secondary action retreats ("Back"), tertiary abandons ("Cancel"). Crucially, "Back" undoes the previous "Next" action rather than merely browsing—selections must persist through navigation cycles.
-- State persistence: Maintains entered data across steps and, ideally, across sessions.
-- Summary/review step: Before final commitment, display collected data for verification.
-- Branching logic: Conditional paths that adapt subsequent steps based on prior input—the defining characteristic.
-
-## Anti-conversational structure
-
-Unlike [conversation](/patterns/conversation) patterns that adapt flexibly to actor intent, wizards impose monologic flow. The system dictates the sequence; actors follow.
-This makes wizards fundamentally **instruction-based dialogue** with minimal room for question-driven or suggestion-based exchanges.
-
-Where conversations support natural turn-taking and allow actors to redirect focus mid-flow, wizards trap actors in predetermined sequences. Attempting to clarify something from step 2 whilst on step 4 requires backtracking—breaking conversational continuity.
-
-This rigidity can be appropriate when the system genuinely knows the optimal path (e.g., legal compliance workflows), but feels authoritarian when actor knowledge exceeds system assumptions.
-
-{/* ## Critique */}
-{/* The pattern's prevalence exceeds its empirical support. Academic usability research contradicts practitioner advocacy, whilst theoretical HCI challenges the planning model wizards embody. */}
-
-{/* ### Usability evidence favours single-page forms */}
-{/* Healthcare usability study (Schnall et al. 2021) found single-page forms outperformed multipage equivalents across metrics: higher usability scores (SUS 76 vs 67), faster task completion, fewer errors (31% vs 69% medium-severity), and stronger user preference. Participants valued seeing "all information at once" rather than fragmented views. */}
-{/* Neuroimaging research (Pušnik et al. 2016) demonstrated that dividing forms into subforms *increased* mental workload, contrary to wizard advocates' cognitive load reduction claims. */}
-
-{/* ### Situated action critique */}
-{/* Suchman's work on situated action (1987, 2007) challenges the planning model that wizards assume. Her research demonstrated that human action emerges from contextual contingencies, not pre-planned sequential execution. "Action is organized not simply by rule following but by the contingencies and improvisations of applying rules." */}
-{/* She specifically critiqued rigid workflow systems for failing to accommodate the "ad hoc practices and contingent operations" characteristic of actual work. Wizards presume tasks follow predictable sequences, but situated action reveals that flexibility and responsiveness to context matter more than predetermined paths. */}
-{/* Wizards privilege the system's understanding of task structure over actors' situated knowledge—precisely the design stance Suchman challenged. */}
+- Step integrity: each step addresses a single purpose. A step that needs tabs or an accordion to manage its own content, what the Windows guidelines call a burrito wizard, has failed to chunk.
+- Bounded branching: roughly two decision points in the whole wizard and at most one nested branch within any of them. More than that and the corridor becomes a maze.
 
 ## Related components
 
 - [Conversational form](/patterns/form#forms-and-conversation): Embeds form inputs within <ComponentRef id="components-messaging--docs">messaging</ComponentRef> interface, allowing flexible dialogue whilst collecting structured data. Better for actors who benefit from clarifying questions.
+
+## Research on this pattern
+
+- [The same health-care form as a single page beat its multi-page version on every measure](https://doi.org/10.2196/25787): a usability score of 76 against 67, faster completion, medium-severity errors in 31 per cent of single-page sessions against 69 per cent of multi-page ones, and a stronger preference, with participants saying they valued seeing all the information at once.
+- [Dividing a form into sub-forms raised mental workload rather than lowering it](https://doi.org/10.1145/2858036.2858236), measured with near-infrared imaging while people filled the forms in.
+- Suchman's account of situated action supplies the theoretical objection: "action is organized not simply by rule following but by the contingencies and improvisations of applying rules". A wizard fixes one sequence in advance and assumes the system knows it. Where the actor knows the task better than the system does, the sequence privileges the wrong party's model, and the actor experiences it as being marched.
+- What remains untested: both studies compared paginations of one fixed form, not sequences where later steps depend on earlier answers, so they measure the pagination case rather than the one the pattern is reserved for.
 
 ## Resources & references
 
