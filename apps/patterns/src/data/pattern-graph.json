@@ -3214,13 +3214,19 @@
       "path": "/patterns/wizard",
       "role": "pattern",
       "situation": {
-        "initiating": "a [form](/patterns/form) gathers the inputs for one goal on one surface, and [progressive disclosure](/patterns/progressive-disclosure) hides the parts of it that do not apply yet. For most goals that is the end of the matter. There is one kind of goal, though, for which the form itself is the obstacle: what the actor enters at the start decides which questions exist later, the goal is not done until the last step is, and the actor does it so rarely that the shape of the whole never settles in memory. This pattern gives that kind of goal a different shape. It is how [onboarding](/patterns/onboarding) usually does its first setup, and how [settings](/patterns/settings) are often gathered the first time, before the actor knows what any of them mean. When the sequence is also the way the actor moves through the space, [step by step](/patterns/step-by-step) is the navigation model that carries it; this pattern is about the task's shape.",
-        "resulting": "The corridor removes peripheral vision, so a change of mind partway must be able to walk backwards without losing the sequence; that is [undo](/patterns/undo) applied step by step, and the one thing the pattern cannot do without. [Status feedback](/patterns/status-feedback) carries progress and validation through the walk. Where different actors need different orders, [next best action](/patterns/next-best-action) adapts the sequence instead of fixing it, and an [agent](/patterns/agent) can walk the same dependencies in conversation, with room to ask about step two while on step four, which a wizard cannot allow. Where the inputs want a conversation's give and take, embed them in a conversational form instead. The same corridor serves other ends: a [template](/patterns/template) assembled through step-by-step choices is a wizard whose product is a template, and a paginated [prompt scaffold](/patterns/prompt-scaffolding) is the wizard applied to prompting. Do not confuse it with a [workflow](/patterns/workflow), which externalises a procedure for the system or for others to run; a wizard only scripts one actor's path through one task"
+        "initiating": "a standard [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed. This works well for most tasks, but falls short when a complex, unfamiliar workflow has strict dependencies—where early decisions dictate which questions exist later, and the task must be completed from start to finish before anything can take effect. When users encounter a process so rarely that they have no existing mental model, presenting every field at once causes cognitive overload. A wizard shapes this kind of task into a guided, step-by-step sequence. It is the standard approach for initial [onboarding](/patterns/onboarding) setup and first-time [settings](/patterns/settings) configuration where users need to make choices before fully understanding what each control means. When this sequence also defines how users navigate through the interface, [step by step](/patterns/step-by-step) provides the navigational backbone; this pattern defines the structure and pacing of the task itself.",
+        "resulting": "Because a wizard isolates focus to one step at a time and hides the rest of the interface, users must be able to change earlier decisions without losing entered progress; non-destructive [undo](/patterns/undo) and safe backward navigation are fundamental requirements. Throughout the flow, continuous [status feedback](/patterns/status-feedback) keeps users oriented with clear progress indicators, inline field validation, and confirmation states. When users have varying goals and do not benefit from a rigid sequence, [next best action](/patterns/next-best-action) recommends optimal steps dynamically instead of locking users into a fixed path, while an interactive [agent](/patterns/agent) can handle complex dependencies through conversation, allowing users to ask clarifying questions about earlier decisions at any time. Similar sequential structures appear in other contexts: configuring a reusable [template](/patterns/template) through guided prompts, or paginating through a structured [prompt scaffold](/patterns/prompt-scaffolding). Unlike an enterprise [workflow](/patterns/workflow), which coordinates asynchronous tasks and business processes across multiple people and systems, a wizard guides a single user through an isolated, synchronous task."
       },
       "group": "application",
       "evidence": [
         {
+          "kind": "observed"
+        },
+        {
           "kind": "literature"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -6519,7 +6525,7 @@
       "type": "enables",
       "incomingNote": "often employs wizards for initial setup and configuration",
       "extractedFrom": "frontmatter:composed-of",
-      "situation": "It is how [onboarding](/patterns/onboarding) usually does its first setup, and how [settings](/patterns/settings) are often gathered the first time, before the actor knows what any of them mean.",
+      "situation": "It is the standard approach for initial [onboarding](/patterns/onboarding) setup and first-time [settings](/patterns/settings) configuration where users need to make choices before fully understanding what each control means.",
       "glossFrom": "source:initiating"
     },
     {
@@ -6796,7 +6802,7 @@
       "type": "instantiates",
       "incomingNote": "the wizard applies disclosure across discrete gated steps, revealing complexity gradually",
       "extractedFrom": "frontmatter:instances",
-      "situation": "a [form](/patterns/form) gathers the inputs for one goal on one surface, and [progressive disclosure](/patterns/progressive-disclosure) hides the parts of it that do not apply yet.",
+      "situation": "a standard [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed.",
       "glossFrom": "source:initiating"
     },
     {
@@ -6896,7 +6902,7 @@
       "type": "related",
       "label": "paginated scaffolds are the wizard applied to prompting",
       "extractedFrom": "frontmatter:related",
-      "situation": "The same corridor serves other ends: a [template](/patterns/template) assembled through step-by-step choices is a wizard whose product is a template, and a paginated [prompt scaffold](/patterns/prompt-scaffolding) is the wizard applied to prompting.",
+      "situation": "Similar sequential structures appear in other contexts: configuring a reusable [template](/patterns/template) through guided prompts, or paginating through a structured [prompt scaffold](/patterns/prompt-scaffolding).",
       "glossFrom": "target:resulting"
     },
     {
@@ -7593,7 +7599,7 @@
       "type": "complements",
       "label": "may guide actors through initial settings configuration during setup",
       "extractedFrom": "frontmatter:complements",
-      "situation": "It is how [onboarding](/patterns/onboarding) usually does its first setup, and how [settings](/patterns/settings) are often gathered the first time, before the actor knows what any of them mean.",
+      "situation": "It is the standard approach for initial [onboarding](/patterns/onboarding) setup and first-time [settings](/patterns/settings) configuration where users need to make choices before fully understanding what each control means.",
       "glossFrom": "target:initiating"
     },
     {
@@ -7810,7 +7816,7 @@
       "type": "instantiates",
       "incomingNote": "Wizard is the canonical instantiation of step-by-step navigation",
       "extractedFrom": "frontmatter:instances",
-      "situation": "When the sequence is also the way the actor moves through the space, [step by step](/patterns/step-by-step) is the navigation model that carries it; this pattern is about the task's shape.",
+      "situation": "When this sequence also defines how users navigate through the interface, [step by step](/patterns/step-by-step) provides the navigational backbone; this pattern defines the structure and pacing of the task itself.",
       "glossFrom": "source:initiating"
     },
     {
@@ -7944,7 +7950,7 @@
       "type": "complements",
       "label": "when templates are generated through step-by-step choices",
       "extractedFrom": "frontmatter:complements",
-      "situation": "The same corridor serves other ends: a [template](/patterns/template) assembled through step-by-step choices is a wizard whose product is a template, and a paginated [prompt scaffold](/patterns/prompt-scaffolding) is the wizard applied to prompting.",
+      "situation": "Similar sequential structures appear in other contexts: configuring a reusable [template](/patterns/template) through guided prompts, or paginating through a structured [prompt scaffold](/patterns/prompt-scaffolding).",
       "glossFrom": "target:resulting"
     },
     {
@@ -8146,7 +8152,7 @@
       "target": "undo",
       "type": "precedes",
       "extractedFrom": "frontmatter:precedes",
-      "situation": "The corridor removes peripheral vision, so a change of mind partway must be able to walk backwards without losing the sequence; that is [undo](/patterns/undo) applied step by step, and the one thing the pattern cannot do without.",
+      "situation": "Because a wizard isolates focus to one step at a time and hides the rest of the interface, users must be able to change earlier decisions without losing entered progress; non-destructive [undo](/patterns/undo) and safe backward navigation are fundamental requirements.",
       "glossFrom": "source:resulting"
     },
     {
@@ -8154,7 +8160,7 @@
       "target": "status-feedback",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "[Status feedback](/patterns/status-feedback) carries progress and validation through the walk.",
+      "situation": "Throughout the flow, continuous [status feedback](/patterns/status-feedback) keeps users oriented with clear progress indicators, inline field validation, and confirmation states.",
       "glossFrom": "source:resulting"
     },
     {
@@ -8162,7 +8168,7 @@
       "target": "undo",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "The corridor removes peripheral vision, so a change of mind partway must be able to walk backwards without losing the sequence; that is [undo](/patterns/undo) applied step by step, and the one thing the pattern cannot do without.",
+      "situation": "Because a wizard isolates focus to one step at a time and hides the rest of the interface, users must be able to change earlier decisions without losing entered progress; non-destructive [undo](/patterns/undo) and safe backward navigation are fundamental requirements.",
       "glossFrom": "source:resulting"
     },
     {
@@ -8170,7 +8176,7 @@
       "target": "next-best-action",
       "type": "alternative",
       "extractedFrom": "frontmatter:alternative",
-      "situation": "Where different actors need different orders, [next best action](/patterns/next-best-action) adapts the sequence instead of fixing it, and an [agent](/patterns/agent) can walk the same dependencies in conversation, with room to ask about step two while on step four, which a wizard cannot allow.",
+      "situation": "When users have varying goals and do not benefit from a rigid sequence, [next best action](/patterns/next-best-action) recommends optimal steps dynamically instead of locking users into a fixed path, while an interactive [agent](/patterns/agent) can handle complex dependencies through conversation, allowing users to ask clarifying questions about earlier decisions at any time.",
       "glossFrom": "source:resulting"
     },
     {
@@ -8178,7 +8184,7 @@
       "target": "form",
       "type": "alternative",
       "extractedFrom": "frontmatter:alternative",
-      "situation": "a [form](/patterns/form) gathers the inputs for one goal on one surface, and [progressive disclosure](/patterns/progressive-disclosure) hides the parts of it that do not apply yet.",
+      "situation": "a standard [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed.",
       "glossFrom": "source:initiating"
     },
     {
@@ -8186,7 +8192,7 @@
       "target": "agent",
       "type": "alternative",
       "extractedFrom": "frontmatter:alternative",
-      "situation": "Where different actors need different orders, [next best action](/patterns/next-best-action) adapts the sequence instead of fixing it, and an [agent](/patterns/agent) can walk the same dependencies in conversation, with room to ask about step two while on step four, which a wizard cannot allow.",
+      "situation": "When users have varying goals and do not benefit from a rigid sequence, [next best action](/patterns/next-best-action) recommends optimal steps dynamically instead of locking users into a fixed path, while an interactive [agent](/patterns/agent) can handle complex dependencies through conversation, allowing users to ask clarifying questions about earlier decisions at any time.",
       "glossFrom": "source:resulting"
     },
     {
@@ -8230,7 +8236,7 @@
       "type": "tangential",
       "label": "a wizard scripts the actor's path through one task; a workflow externalises a procedure for the system or for others to run",
       "extractedFrom": "frontmatter:tangential",
-      "situation": "Do not confuse it with a [workflow](/patterns/workflow), which externalises a procedure for the system or for others to run; a wizard only scripts one actor's path through one task",
+      "situation": "Unlike an enterprise [workflow](/patterns/workflow), which coordinates asynchronous tasks and business processes across multiple people and systems, a wizard guides a single user through an isolated, synchronous task.",
       "glossFrom": "target:resulting"
     },
     {
