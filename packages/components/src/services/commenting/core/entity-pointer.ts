@@ -1,45 +1,39 @@
-import { BaseCommentPointer, type CommentPointer, type PointerContext } from './comment-pointer';
+import { BaseCommentPointer, type PointerContext } from './comment-pointer';
 
+// A whole object that takes comments, such as a task, a project or a quote.
 export class EntityPointer extends BaseCommentPointer {
   readonly type = 'entity';
   readonly id: string;
-  
+
   constructor(
-    private entityType: string,
-    private entityId: string
+    readonly entityType: string,
+    readonly entityId: string
   ) {
     super();
     this.id = `${entityType}-${entityId}`;
   }
-  
+
   serialize(): string {
-    return JSON.stringify({ 
-      type: this.type, 
-      entityType: this.entityType, 
-      entityId: this.entityId 
+    return JSON.stringify({
+      type: this.type,
+      entityType: this.entityType,
+      entityId: this.entityId
     });
   }
-  
-  equals(other: CommentPointer): boolean {
-    if (other.type !== this.type) return false;
-    const otherEntity = other as EntityPointer;
-    return otherEntity.entityType === this.entityType && 
-           otherEntity.entityId === this.entityId;
-  }
-  
+
   async getContext(): Promise<PointerContext> {
-    // In production, would fetch entity details from appropriate service
-    // For now, returning a generic context
     return {
       title: `${this.entityType}: ${this.entityId}`,
       excerpt: `${this.entityType} entity`,
-      metadata: { 
+      metadata: {
         entityType: this.entityType,
         entityId: this.entityId
       }
     };
   }
-  
+
+  // Rebuilds a pointer from its serialised key, such as one read back from
+  // storage, so its context and its place in a surface can be found again.
   static deserialize(data: string): EntityPointer | null {
     try {
       const parsed = JSON.parse(data);
@@ -50,13 +44,5 @@ export class EntityPointer extends BaseCommentPointer {
     } catch {
       return null;
     }
-  }
-  
-  getEntityType(): string {
-    return this.entityType;
-  }
-  
-  getEntityId(): string {
-    return this.entityId;
   }
 }

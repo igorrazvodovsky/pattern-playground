@@ -23,7 +23,9 @@ export abstract class BaseCommentPointer implements CommentPointer {
   abstract serialize(): string;
   abstract getContext(): Promise<PointerContext>;
 
+  // Storage keys comments by `serialize()`, so two pointers are equal when
+  // they would be stored under the same key.
   equals(other: CommentPointer): boolean {
-    return other.type === this.type && other.id === this.id;
+    return other.serialize() === this.serialize();
   }
 }

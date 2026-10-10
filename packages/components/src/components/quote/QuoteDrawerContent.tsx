@@ -25,9 +25,7 @@ export const QuoteDrawerContent: React.FC<QuoteDrawerContentProps> = ({
           entityId={quote.id}
           currentUser={currentUser}
           className="quote-comments-drawer"
-          showHeader={false}
           allowNewComments={true}
-          maxHeight="300px"
         />
       </section>
     </div>

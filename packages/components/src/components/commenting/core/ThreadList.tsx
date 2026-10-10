@@ -73,7 +73,7 @@ export const ThreadList: React.FC<ThreadListProps> = ({ entries, currentUser, on
   );
 };
 
-// Comment counts per entry, kept current as comments are added, removed or moved.
+// Comment counts per entry, kept current as comments change.
 function useCommentCounts(entries: ThreadListEntry[]): Map<string, number> {
   const [counts, setCounts] = useState<Map<string, number>>(new Map());
 
@@ -82,19 +82,19 @@ function useCommentCounts(entries: ThreadListEntry[]): Map<string, number> {
     let cancelled = false;
 
     const load = async () => {
-      const next = new Map<string, number>();
-      for (const entry of entries) {
-        next.set(entry.key, (await service.getComments(entry.pointer)).length);
-      }
-      if (!cancelled) setCounts(next);
+      const byPointer = await service.getCommentsByPointers(entries.map(entry => entry.pointer));
+      if (cancelled) return;
+      setCounts(new Map(entries.map(entry => [
+        entry.key,
+        byPointer.get(entry.pointer.serialize())?.length ?? 0,
+      ])));
     };
 
     load();
-    const events = ['comment:created', 'comment:deleted', 'thread:reanchored'];
-    const unsubscribers = events.map(event => service.on(event, load));
+    const unsubscribe = service.onChange(load);
     return () => {
       cancelled = true;
-      unsubscribers.forEach(unsubscribe => unsubscribe());
+      unsubscribe();
     };
   }, [entries]);
 

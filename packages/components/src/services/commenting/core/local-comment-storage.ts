@@ -9,7 +9,7 @@ function restorePointer(key: string, stored: CommentPointer): CommentPointer {
   return {
     ...stored,
     serialize: () => key,
-    equals: (other) => other.type === stored.type && other.id === stored.id,
+    equals: (other) => other.serialize() === key,
     getContext: async () => ({ title: stored.type }),
   };
 }
@@ -17,12 +17,11 @@ function restorePointer(key: string, stored: CommentPointer): CommentPointer {
 export class LocalCommentStorage implements CommentStorage {
   private comments: Map<string, Comment> = new Map();
   private pointerIndex: Map<string, Set<string>> = new Map();
-  private authorIndex: Map<string, Set<string>> = new Map();
-  
+
   constructor(private readonly storageKey: string = 'universal-comments') {
     this.loadFromLocalStorage();
   }
-  
+
   async save(comment: Comment): Promise<void> {
     this.index(comment);
     this.persistToLocalStorage();
@@ -37,14 +36,7 @@ export class LocalCommentStorage implements CommentStorage {
   private index(comment: Comment): void {
     const previous = this.comments.get(comment.id);
     const pointerKey = comment.pointer.serialize();
-    if (previous) {
-      const previousKey = previous.pointer.serialize();
-      if (previousKey !== pointerKey) {
-        const ids = this.pointerIndex.get(previousKey);
-        ids?.delete(comment.id);
-        if (ids?.size === 0) this.pointerIndex.delete(previousKey);
-      }
-    }
+    if (previous) this.unindexPointer(previous.pointer.serialize(), comment.id);
 
     this.comments.set(comment.id, comment);
 
@@ -52,110 +44,60 @@ export class LocalCommentStorage implements CommentStorage {
       this.pointerIndex.set(pointerKey, new Set());
     }
     this.pointerIndex.get(pointerKey)!.add(comment.id);
+  }
 
-    if (!this.authorIndex.has(comment.authorId)) {
-      this.authorIndex.set(comment.authorId, new Set());
-    }
-    this.authorIndex.get(comment.authorId)!.add(comment.id);
+  private unindexPointer(pointerKey: string, id: string): void {
+    const ids = this.pointerIndex.get(pointerKey);
+    ids?.delete(id);
+    if (ids?.size === 0) this.pointerIndex.delete(pointerKey);
+  }
+
+  // Removes a comment from memory without writing; callers persist once.
+  private remove(id: string): boolean {
+    const comment = this.comments.get(id);
+    if (!comment) return false;
+    this.comments.delete(id);
+    this.unindexPointer(comment.pointer.serialize(), id);
+    return true;
   }
 
   async findById(id: string): Promise<Comment | null> {
     return this.comments.get(id) || null;
   }
-  
+
   async findByPointer(pointer: CommentPointer): Promise<Comment[]> {
-    const pointerKey = pointer.serialize();
-    const commentIds = this.pointerIndex.get(pointerKey);
-    
-    if (!commentIds) return [];
-    
-    const comments: Comment[] = [];
-    for (const id of commentIds) {
-      const comment = this.comments.get(id);
-      if (comment) {
-        comments.push(comment);
-      }
-    }
-    
-    return comments;
+    const commentIds = this.pointerIndex.get(pointer.serialize()) ?? [];
+    return [...commentIds].flatMap(id => this.comments.get(id) ?? []);
   }
-  
-  async findByAuthor(authorId: string): Promise<Comment[]> {
-    const commentIds = this.authorIndex.get(authorId);
-    
-    if (!commentIds) return [];
-    
-    const comments: Comment[] = [];
-    for (const id of commentIds) {
-      const comment = this.comments.get(id);
-      if (comment) {
-        comments.push(comment);
-      }
-    }
-    
-    return comments;
-  }
-  
+
   async delete(id: string): Promise<boolean> {
-    const comment = this.comments.get(id);
-    if (!comment) return false;
-
-    this.comments.delete(id);
-
-    const pointerKey = comment.pointer.serialize();
-    const pointerIds = this.pointerIndex.get(pointerKey);
-    if (pointerIds) {
-      pointerIds.delete(id);
-      if (pointerIds.size === 0) {
-        this.pointerIndex.delete(pointerKey);
-      }
-    }
-
-    const authorIds = this.authorIndex.get(comment.authorId);
-    if (authorIds) {
-      authorIds.delete(id);
-      if (authorIds.size === 0) {
-        this.authorIndex.delete(comment.authorId);
-      }
-    }
-    
+    if (!this.remove(id)) return false;
     this.persistToLocalStorage();
     return true;
   }
-  
-  async search(query: string): Promise<Comment[]> {
-    const lowerQuery = query.toLowerCase();
-    const results: Comment[] = [];
-    
-    for (const comment of this.comments.values()) {
-      if (comment.content.toLowerCase().includes(lowerQuery)) {
-        results.push(comment);
-      }
-    }
-    
-    return results;
-  }
-  
-  async getRecent(limit: number): Promise<Comment[]> {
-    const allComments = Array.from(this.comments.values());
 
-    allComments.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-    
-    return allComments.slice(0, limit);
+  async deleteMany(ids: string[]): Promise<void> {
+    for (const id of ids) this.remove(id);
+    this.persistToLocalStorage();
   }
-  
+
+  async getRecent(limit: number): Promise<Comment[]> {
+    return [...this.comments.values()]
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+      .slice(0, limit);
+  }
+
   async clear(): Promise<void> {
     this.comments.clear();
     this.pointerIndex.clear();
-    this.authorIndex.clear();
     this.persistToLocalStorage();
   }
-  
+
   private loadFromLocalStorage(): void {
     try {
       const stored = localStorage.getItem(this.storageKey);
       if (!stored) return;
-      
+
       const data = JSON.parse(stored);
 
       if (data.comments) {
@@ -178,17 +120,11 @@ export class LocalCommentStorage implements CommentStorage {
           }
         }
       }
-
-      if (data.authorIndex) {
-        for (const [key, ids] of Object.entries(data.authorIndex)) {
-          this.authorIndex.set(key, new Set(ids as string[]));
-        }
-      }
     } catch (error) {
       console.error('Failed to load comments from localStorage:', error);
     }
   }
-  
+
   private persistToLocalStorage(): void {
     try {
       const data = {
@@ -196,11 +132,8 @@ export class LocalCommentStorage implements CommentStorage {
         pointerIndex: Object.fromEntries(
           Array.from(this.pointerIndex.entries()).map(([key, ids]) => [key, Array.from(ids)])
         ),
-        authorIndex: Object.fromEntries(
-          Array.from(this.authorIndex.entries()).map(([key, ids]) => [key, Array.from(ids)])
-        )
       };
-      
+
       localStorage.setItem(this.storageKey, JSON.stringify(data));
     } catch (error) {
       console.error('Failed to persist comments to localStorage:', error);

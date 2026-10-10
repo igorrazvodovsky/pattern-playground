@@ -78,9 +78,7 @@ export const CommentPopover: React.FC<CommentPopoverProps> = ({
         <CommentThread
           pointer={pointer}
           currentUser={user}
-          showHeader={false}
           allowNewComments={true}
-          maxHeight="300px"
           placeholder={placeholder}
           onCommentAdded={onCommentAdded}
         />

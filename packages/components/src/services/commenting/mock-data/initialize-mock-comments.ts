@@ -1,9 +1,11 @@
 import { getCommentService } from '../core/comment-service-instance';
 import { EntityPointer } from '../core/entity-pointer';
 
-const MOCK_QUOTE_COMMENTS = [
+// Seed threads on quotes, documents and tasks.
+const MOCK_THREADS = [
   {
-    quoteId: 'quote-reshaping-ecosystems',
+    entityType: 'quote',
+    entityId: 'quote-reshaping-ecosystems',
     comments: [
       {
         content: 'This quote perfectly captures the urgency of climate action. The pace of change is unprecedented.',
@@ -18,7 +20,8 @@ const MOCK_QUOTE_COMMENTS = [
     ]
   },
   {
-    quoteId: 'quote-habitat-displacement',
+    entityType: 'quote',
+    entityId: 'quote-habitat-displacement',
     comments: [
       {
         content: 'The Arctic species migration patterns are particularly concerning. We\'re seeing unprecedented northward movement.',
@@ -28,7 +31,8 @@ const MOCK_QUOTE_COMMENTS = [
     ]
   },
   {
-    quoteId: 'quote-coral-reef-crisis',
+    entityType: 'quote',
+    entityId: 'quote-coral-reef-crisis',
     comments: [
       {
         content: 'The Great Barrier Reef has already lost 50% of its coral cover. This needs immediate attention in our marine conservation strategy.',
@@ -41,13 +45,10 @@ const MOCK_QUOTE_COMMENTS = [
         timestamp: '2024-01-18T15:45:00Z'
       }
     ]
-  }
-];
-
-// Mock comments for documents
-const MOCK_DOCUMENT_COMMENTS = [
+  },
   {
-    documentId: 'doc-climate-change',
+    entityType: 'document',
+    entityId: 'doc-climate-change',
     comments: [
       {
         content: 'This document needs to incorporate the latest IPCC findings from 2024.',
@@ -55,13 +56,10 @@ const MOCK_DOCUMENT_COMMENTS = [
         timestamp: '2024-01-15T08:00:00Z'
       }
     ]
-  }
-];
-
-// Mock comments for tasks
-const MOCK_TASK_COMMENTS = [
+  },
   {
-    taskId: 'task-1',
+    entityType: 'task',
+    entityId: 'task-1',
     comments: [
       {
         content: 'Let\'s prioritize the carbon emissions data collection first.',
@@ -86,45 +84,13 @@ export async function initializeMockComments(): Promise<void> {
   }
   
   try {
-    // Initialize quote comments
-    for (const quoteData of MOCK_QUOTE_COMMENTS) {
-      const pointer = new EntityPointer('quote', quoteData.quoteId);
-      
-      for (const commentData of quoteData.comments) {
-        await commentService.createComment(
-          pointer,
-          commentData.content,
-          commentData.authorId
-        );
+    for (const thread of MOCK_THREADS) {
+      const pointer = new EntityPointer(thread.entityType, thread.entityId);
+      for (const comment of thread.comments) {
+        await commentService.createComment(pointer, comment.content, comment.authorId);
       }
     }
-    
-    // Initialize document comments
-    for (const docData of MOCK_DOCUMENT_COMMENTS) {
-      const pointer = new EntityPointer('document', docData.documentId);
-      
-      for (const commentData of docData.comments) {
-        await commentService.createComment(
-          pointer,
-          commentData.content,
-          commentData.authorId
-        );
-      }
-    }
-    
-    // Initialize task comments
-    for (const taskData of MOCK_TASK_COMMENTS) {
-      const pointer = new EntityPointer('task', taskData.taskId);
-      
-      for (const commentData of taskData.comments) {
-        await commentService.createComment(
-          pointer,
-          commentData.content,
-          commentData.authorId
-        );
-      }
-    }
-    
+
     // Mark as initialized
     localStorage.setItem(storageKey, 'true');
   } catch (error) {
@@ -140,5 +106,4 @@ export function clearMockComments(): void {
   const commentService = getCommentService();
   commentService.clearAll();
   localStorage.removeItem('mock-comments-initialized');
-  localStorage.removeItem('universal-comments'); // Clear the actual comment storage
 }

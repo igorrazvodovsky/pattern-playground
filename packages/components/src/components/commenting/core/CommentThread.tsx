@@ -18,9 +18,7 @@ type CommentThreadTarget =
 type CommentThreadProps = CommentThreadTarget & {
   currentUser: Pick<User, 'id'>;
   className?: string;
-  showHeader?: boolean;
   allowNewComments?: boolean;
-  maxHeight?: string;
   placeholder?: string;
   onCommentAdded?: (content: string) => void;
 };

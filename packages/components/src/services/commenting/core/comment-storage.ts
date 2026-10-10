@@ -1,5 +1,5 @@
-import type { Comment } from './comment-service.js';
-import type { CommentPointer } from './comment-pointer.js';
+import type { Comment } from './comment-service';
+import type { CommentPointer } from './comment-pointer';
 
 export interface CommentStorage {
   save(comment: Comment): Promise<void>;
@@ -7,9 +7,9 @@ export interface CommentStorage {
   saveMany(comments: Comment[]): Promise<void>;
   findById(id: string): Promise<Comment | null>;
   findByPointer(pointer: CommentPointer): Promise<Comment[]>;
-  findByAuthor(authorId: string): Promise<Comment[]>;
   delete(id: string): Promise<boolean>;
-  search(query: string): Promise<Comment[]>;
+  /** Deletes several comments as one write, such as a whole thread. */
+  deleteMany(ids: string[]): Promise<void>;
   getRecent(limit: number): Promise<Comment[]>;
   clear(): Promise<void>;
 }

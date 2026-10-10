@@ -140,14 +140,24 @@ function IssueComments({ issue }) {
 ```typescript
 class CommentService {
   createComment(pointer, content, authorId, parentId?): Promise<Comment>
-  getComments(pointer): Promise<Comment[]>
-  updateComment(id, content): Promise<Comment>
+  reply(parentId, content, authorId): Promise<Comment | null>
+  getComments(pointer): Promise<Comment[]>        // oldest first
+  getThread(pointer): Promise<CommentThread | null>
+  updateComment(id, content): Promise<Comment | null>
   deleteComment(id): Promise<boolean>
-  getThread(pointer): Promise<CommentThread>
-  resolveThread(pointer): Promise<boolean>
-  reanchor(from, to): Promise<Comment[]>   // move a whole thread to another pointer
+  deleteThread(pointer): Promise<string[]>        // one storage write
+  resolveThread(pointer) / unresolveThread(pointer): Promise<boolean>
+  reanchor(from, to): Promise<Comment[]>          // move a whole thread to another pointer
+  getCommentsByPointers(pointers): Promise<Map<string, Comment[]>>  // keyed by pointer.serialize()
+  getRecentComments(limit?): Promise<Comment[]>   // across every pointer, newest first
+  on(event, handler): () => void                  // typed by CommentEvents
+  onChange(handler, pointer?): () => void         // changes to one pointer's comments, or to any
 }
 ```
+
+Pointers are equal when they serialise to the same key, because storage keys comments by `pointer.serialize()`. A pointer restored from localStorage therefore equals a new pointer for the same thing.
+
+Some of this API has no caller yet. It stays because the shared layer needs it under the Patchwork model: `reply` and `parentId` for replies, which the shared layer handles; `getRecentComments`, `getContext()` and `EntityPointer.deserialize` for a single inbox of comments across surfaces; and resolving, for the open item on resolution. Pointers read back from storage are stand-ins that keep only their key, so an inbox must first rebuild each one by its type, as `EntityPointer.deserialize` does, before it can show the pointer's context or bring it into view. Check that model before removing any of it.
 
 #### CommentPointer Interface
 ```typescript
@@ -166,23 +176,15 @@ interface CommentPointer {
 ```typescript
 function useCommenting(pointer?, options?) {
   return {
-    // State
-    comments: Comment[]
     thread: CommentThread | null
-    loading: boolean
-    error: string | null
-
-    // Actions
+    comments: Comment[]                      // oldest first
     createComment(content, parentId?): Promise<Comment>
-    updateComment(id, content): Promise<Comment>
-    deleteComment(id): Promise<boolean>
-    reply(parentId, content): Promise<Comment>
-    resolveThread(): Promise<boolean>
-    unresolveThread(): Promise<boolean>
+    reply(parentId, content): Promise<Comment | null>
   }
 }
 ```
 
+The hook reloads the thread when the comment service reports a change to its pointer.
 
 ## Benefits of New Architecture
 

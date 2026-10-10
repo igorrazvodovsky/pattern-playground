@@ -62,9 +62,7 @@ const EntityComments: React.FC<CustomAttributeProps> = ({ item, entityType, scop
         entityType={entityType}
         entityId={item.id}
         currentUser={currentUser}
-        showHeader={false}
         allowNewComments={true}
-        maxHeight={scope === 'maxi' ? '400px' : '300px'}
       />
     </section>
   );

@@ -1,24 +1,6 @@
-import { Editor } from '@tiptap/core';
 import type { Slice } from '@tiptap/pm/model';
-import { quotes, getQuoteById, getQuotesByDocument } from '@shared/data';
-
-/**
- * Rich content structure matching TipTap JSON format
- */
-export interface RichContent {
-  plainText: string;
-  richContent: {
-    type: 'doc';
-    content: Array<{
-      type: string;
-      content?: Array<{
-        type: string;
-        text?: string;
-        marks?: Array<{ type: string; [key: string]: unknown }>;
-      }>;
-    }>;
-  };
-}
+import { quotes, getQuoteById, getDocumentById } from '@shared/data';
+import type { RichContent } from '@shared/data';
 
 /**
  * Quote object metadata structure
@@ -42,7 +24,7 @@ export interface QuoteObject {
   description: string;
   searchableText: string;
   metadata: QuoteMetadata;
-  content: RichContent;
+  content: Required<RichContent>;
 }
 
 // Comment and quote marks annotate the source document. A quote's own content
@@ -76,22 +58,6 @@ export class QuoteService {
   }
 
   /**
-   * Create a quote object from a passage of a TipTap document.
-   */
-  createFromRange(
-    editor: Editor,
-    from: number,
-    to: number,
-    userId: string,
-    documentId: string
-  ): QuoteObject {
-    if (from >= to) {
-      throw new Error('Cannot create quote from an empty passage');
-    }
-    return this.createFromSlice(editor.state.doc.slice(from, to), { from, to }, userId, documentId);
-  }
-
-  /**
    * Create a quote object from content taken out of a TipTap document, such
    * as a commented passage without what was later typed between its pieces.
    */
@@ -107,7 +73,7 @@ export class QuoteService {
     const selectedText = slice.content.textBetween(0, slice.content.size, ' ');
 
     const quote: QuoteObject = {
-      id: `quote-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`,
+      id: `quote-${crypto.randomUUID()}`,
       name: this.generateName(selectedText),
       type: 'quote',
       icon: 'ph:quotes',
@@ -153,36 +119,8 @@ export class QuoteService {
     return `${baseText} quote excerpt selection${contextText}`;
   }
 
-  /**
-   * Get document name for context
-   */
   private getDocumentName(documentId: string): string | null {
-    // This would typically come from shared data
-    // For now, return a simple mapping
-    const docNames: Record<string, string> = {
-      'doc-climate-change': 'Climate Change Impact Report',
-      'doc-1': 'Material Flow Analysis Report',
-      'doc-2': 'Life Cycle Assessment (LCA)',
-      'doc-3': 'Circular Business Model Canvas',
-      'doc-5': 'Waste Reduction Guidelines',
-      'doc-6': 'Eco-Design Principles',
-      'doc-8': 'Consumer Behavior Study'
-    };
-    return docNames[documentId] || null;
-  }
-
-  /**
-   * Validate that quote's source still exists and is valid
-   */
-  validateSourceIntegrity(quote: QuoteObject): boolean {
-    // Check if source document still exists
-    if (!this.getDocumentName(quote.metadata.sourceDocument)) {
-      return false;
-    }
-
-    // Check if range is still valid (basic check)
-    const { from, to } = quote.metadata.sourceRange;
-    return from >= 0 && to > from;
+    return getDocumentById(documentId)?.name ?? null;
   }
 
   /**
@@ -190,44 +128,6 @@ export class QuoteService {
    */
   getQuoteById(id: string): QuoteObject | undefined {
     return this.quotes.get(id) || getQuoteById(id) as QuoteObject;
-  }
-
-  /**
-   * Get all quotes for a document
-   */
-  getQuotesByDocument(documentId: string): QuoteObject[] {
-    const localQuotes = Array.from(this.quotes.values()).filter(
-      quote => quote.metadata.sourceDocument === documentId
-    );
-    const sharedQuotes = getQuotesByDocument(documentId) as QuoteObject[];
-
-    // Merge and deduplicate
-    const allQuotes = new Map<string, QuoteObject>();
-    [...sharedQuotes, ...localQuotes].forEach(quote => {
-      allQuotes.set(quote.id, quote);
-    });
-
-    return Array.from(allQuotes.values());
-  }
-
-  /**
-   * Get all quotes by a user
-   */
-  getQuotesByUser(userId: string): QuoteObject[] {
-    return Array.from(this.quotes.values()).filter(
-      quote => quote.metadata.createdBy === userId
-    );
-  }
-
-  /**
-   * Update quote content (for editing scenarios)
-   */
-  updateQuote(id: string, updates: Partial<Pick<QuoteObject, 'name' | 'description' | 'searchableText'>>): boolean {
-    const quote = this.quotes.get(id);
-    if (!quote) return false;
-
-    Object.assign(quote, updates);
-    return true;
   }
 
   /**
@@ -242,50 +142,6 @@ export class QuoteService {
    */
   getAllQuotes(): QuoteObject[] {
     return Array.from(this.quotes.values());
-  }
-
-  /**
-   * Search quotes by text content
-   */
-  searchQuotes(searchText: string): QuoteObject[] {
-    const lowerSearch = searchText.toLowerCase();
-    return Array.from(this.quotes.values()).filter(quote =>
-      quote.searchableText.includes(lowerSearch) ||
-      quote.content.plainText.toLowerCase().includes(lowerSearch) ||
-      quote.description.toLowerCase().includes(lowerSearch)
-    );
-  }
-
-  /**
-   * Clean up orphaned quotes (quotes whose source documents no longer exist)
-   */
-  cleanupOrphanedQuotes(): string[] {
-    const orphanedIds: string[] = [];
-
-    for (const [id, quote] of this.quotes.entries()) {
-      if (!this.validateSourceIntegrity(quote)) {
-        this.quotes.delete(id);
-        orphanedIds.push(id);
-      }
-    }
-
-    return orphanedIds;
-  }
-
-  /**
-   * Export quotes for persistence (if needed)
-   */
-  exportQuotes(): QuoteObject[] {
-    return this.getAllQuotes();
-  }
-
-  /**
-   * Import quotes from external source
-   */
-  importQuotes(quotesToImport: QuoteObject[]): void {
-    quotesToImport.forEach(quote => {
-      this.quotes.set(quote.id, quote);
-    });
   }
 }
 
@@ -302,9 +158,3 @@ export function getQuoteService(): QuoteService {
   return quoteServiceInstance;
 }
 
-/**
- * Create a new quote service instance (for testing or isolated use)
- */
-export function createQuoteService(): QuoteService {
-  return new QuoteService();
-}

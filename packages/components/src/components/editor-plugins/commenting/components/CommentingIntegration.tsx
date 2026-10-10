@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useEditorContext } from '../../../editor/EditorProvider';
 import { CommentPopover } from '../../../commenting/core/CommentPopover';
-import { EditorCommentingPlugin, type CommentingPluginConfig, type OpenThread } from '../CommentingPlugin';
+import { COMMENTING_PLUGIN_ID, EditorCommentingPlugin, type CommentingPluginConfig, type OpenThread } from '../CommentingPlugin';
 import { CommentsPanel } from './CommentsPanel';
 import { modalService } from '../../../../services/modal-service';
 import { getCommentService } from '../../../../services/commenting/core/comment-service-instance';
@@ -22,7 +22,7 @@ export const CommentingIntegration: React.FC<CommentingIntegrationProps> = ({
 }) => {
   const { editor, eventBus, getPlugin } = useEditorContext();
   const getCommentingPlugin = useCallback(() => {
-    const plugin = getPlugin('editor-commenting');
+    const plugin = getPlugin(COMMENTING_PLUGIN_ID);
     return plugin instanceof EditorCommentingPlugin ? plugin : null;
   }, [getPlugin]);
 
@@ -139,10 +139,7 @@ export const CommentingIntegration: React.FC<CommentingIntegrationProps> = ({
       return;
     }
     setOpenThread(null);
-    const service = getCommentService();
-    for (const comment of await service.getComments(openThread.pointer)) {
-      await service.deleteComment(comment.id);
-    }
+    await getCommentService().deleteThread(openThread.pointer);
   };
 
   // Formalising a remark: the passage becomes a quote other places can

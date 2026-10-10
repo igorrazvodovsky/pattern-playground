@@ -5,7 +5,7 @@ import { undoDepth } from '@tiptap/pm/history';
 import type { Slice } from '@tiptap/pm/model';
 import type { EditorView } from '@tiptap/pm/view';
 import { COMMENT_MARK_NAME, QUOTE_MARK_NAME, findCommentRanges, findQuoteRanges, removeCommentMark } from '../components/commenting/tiptap/comment-mark';
-import type { EditorCommentingPlugin } from '../components/editor-plugins/commenting/CommentingPlugin';
+import { COMMENTING_PLUGIN_ID, type EditorCommentingPlugin } from '../components/editor-plugins/commenting/CommentingPlugin';
 import { getCommentService } from '../services/commenting/core/comment-service-instance';
 import { getQuoteService } from '../services/commenting/quote-service';
 import {
@@ -89,7 +89,7 @@ export const CommentingMarksPassages: Story = {
     const dom = await canvas.findByRole('textbox', { name: 'Document editor' });
     const editor = (dom as HTMLElement & { editor: Editor }).editor;
     await waitFor(() => expect(editor.getText()).toContain('polar bears'));
-    await waitFor(() => expect(editor.storage.editorContext?.getPlugin('editor-commenting')).toBeDefined());
+    await waitFor(() => expect(editor.storage.editorContext?.getPlugin(COMMENTING_PLUGIN_ID)).toBeDefined());
     const originalText = editor.getText();
 
     const comment = (range: { from: number; to: number }, text: string) => commentOn(editor, range, text);
@@ -185,7 +185,7 @@ export const CommentingKeepsAnchorsUnique: Story = {
     const dom = await within(canvasElement).findByRole('textbox', { name: 'Document editor' });
     const editor = (dom as HTMLElement & { editor: Editor }).editor;
     await waitFor(() => expect(editor.getText()).toContain('polar bears'));
-    await waitFor(() => expect(editor.storage.editorContext?.getPlugin('editor-commenting')).toBeDefined());
+    await waitFor(() => expect(editor.storage.editorContext?.getPlugin(COMMENTING_PLUGIN_ID)).toBeDefined());
     // Loading the document is not an edit, so undo cannot reload it over the marks.
     expect(undoDepth(editor.state)).toBe(0);
 
@@ -274,8 +274,8 @@ export const CommentingSurvivesEdits: Story = {
     const dom = await within(canvasElement).findByRole('textbox', { name: 'Document editor' });
     const editor = (dom as HTMLElement & { editor: Editor }).editor;
     await waitFor(() => expect(editor.getText()).toContain('polar bears'));
-    await waitFor(() => expect(editor.storage.editorContext?.getPlugin('editor-commenting')).toBeDefined());
-    const plugin = editor.storage.editorContext!.getPlugin('editor-commenting') as EditorCommentingPlugin;
+    await waitFor(() => expect(editor.storage.editorContext?.getPlugin(COMMENTING_PLUGIN_ID)).toBeDefined());
+    const plugin = editor.storage.editorContext!.getPlugin(COMMENTING_PLUGIN_ID) as EditorCommentingPlugin;
     const comments = getCommentService();
 
     // A draft whose passage is deleted closes, and nothing is marked.

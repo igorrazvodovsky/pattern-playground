@@ -9,31 +9,56 @@ import { AddMarkStep, ReplaceAroundStep, ReplaceStep } from '@tiptap/pm/transfor
 export const COMMENT_MARK_NAME = 'comment';
 export const QUOTE_MARK_NAME = 'quote';
 
-// Highlights a commented passage without changing its text. The mark carries
-// the thread id; the thread itself lives in the comment service under a
-// TextRangePointer for that id.
+// The id attribute each anchor mark holds. A comment or quote mark is the
+// only anchor its thread has.
+const ANCHOR_IDS: Record<string, string> = { [COMMENT_MARK_NAME]: 'commentId', [QUOTE_MARK_NAME]: 'quoteId' };
+
+// A mark that anchors a thread to a passage without changing its text. It
+// renders as `mark` with its id in `dataAttr`.
 //
-// Comments may overlap, so the mark does not exclude itself, and every edit
+// Anchors may overlap, so the mark does not exclude itself, and every edit
 // goes through the transaction with the one thread's mark: Tiptap's setMark
 // merges attributes into a mark of the same type already in the range, and
 // unsetMark removes all of them.
-export const CommentMark = Mark.create({
-  name: COMMENT_MARK_NAME,
+function anchorMark(name: string, dataAttr: string) {
+  const idAttr = ANCHOR_IDS[name];
+  return Mark.create({
+    name,
 
-  excludes: '',
+    excludes: '',
 
-  // Text typed at the edge of a commented passage is not part of it.
-  inclusive: false,
+    // Text typed at the edge of an anchored passage is not part of it.
+    inclusive: false,
 
+    addAttributes() {
+      return {
+        [idAttr]: {
+          default: null,
+          parseHTML: (element: HTMLElement) => element.getAttribute(dataAttr),
+          renderHTML: (attributes: Record<string, unknown>) => attributes[idAttr]
+            ? { [dataAttr]: attributes[idAttr] }
+            : {},
+        },
+      };
+    },
+
+    parseHTML() {
+      // Ahead of Highlight, which also parses `mark`.
+      return [{ tag: `mark[${dataAttr}]`, priority: 60 }];
+    },
+
+    renderHTML({ HTMLAttributes }) {
+      return ['mark', mergeAttributes(HTMLAttributes), 0];
+    },
+  });
+}
+
+// Highlights a commented passage. The mark carries the thread id; the thread
+// itself lives in the comment service under a TextRangePointer for that id.
+export const CommentMark = anchorMark(COMMENT_MARK_NAME, 'data-comment-id').extend({
   addAttributes() {
     return {
-      commentId: {
-        default: null,
-        parseHTML: element => element.getAttribute('data-comment-id'),
-        renderHTML: attributes => attributes.commentId
-          ? { 'data-comment-id': attributes.commentId }
-          : {},
-      },
+      ...this.parent?.(),
       resolved: {
         default: false,
         parseHTML: element => element.getAttribute('data-resolved') === 'true',
@@ -45,48 +70,14 @@ export const CommentMark = Mark.create({
   },
 
   parseHTML() {
-    return [
-      // Ahead of Highlight, which also parses `mark`.
-      { tag: 'mark[data-comment-id]', priority: 60 },
-      { tag: 'span[data-comment-id]' },
-    ];
-  },
-
-  renderHTML({ HTMLAttributes }) {
-    return ['mark', mergeAttributes(HTMLAttributes), 0];
+    return [...(this.parent?.() ?? []), { tag: 'span[data-comment-id]' }];
   },
 });
 
 // Marks a passage that was turned into a quote: a standalone object other
 // documents can refer to. The words stay where they are; the mark links them
 // to the quote, whose thread carries on the passage's comments.
-export const QuoteMark = Mark.create({
-  name: QUOTE_MARK_NAME,
-
-  excludes: '',
-
-  inclusive: false,
-
-  addAttributes() {
-    return {
-      quoteId: {
-        default: null,
-        parseHTML: element => element.getAttribute('data-quote-id'),
-        renderHTML: attributes => attributes.quoteId
-          ? { 'data-quote-id': attributes.quoteId }
-          : {},
-      },
-    };
-  },
-
-  parseHTML() {
-    return [{ tag: 'mark[data-quote-id]', priority: 60 }];
-  },
-
-  renderHTML({ HTMLAttributes }) {
-    return ['mark', mergeAttributes(HTMLAttributes), 0];
-  },
-});
+export const QuoteMark = anchorMark(QUOTE_MARK_NAME, 'data-quote-id');
 
 function commentMarkType(editor: Editor): MarkType | null {
   return editor.schema.marks[COMMENT_MARK_NAME] ?? null;
@@ -108,10 +99,8 @@ export function canComment(state: EditorState, from: number, to: number): boolea
   return applies;
 }
 
-// A comment or quote mark is the only anchor its thread has, so pasting must
-// not give one thread a second passage, nor bring in threads from elsewhere.
-const ANCHOR_IDS: Record<string, string> = { [COMMENT_MARK_NAME]: 'commentId', [QUOTE_MARK_NAME]: 'quoteId' };
-
+// Pasting must not give one thread a second passage, nor bring in threads
+// from elsewhere.
 function anchorKey(mark: ProseMirrorMark): string | null {
   const attr = ANCHOR_IDS[mark.type.name];
   const id = attr ? mark.attrs[attr] : null;
@@ -240,12 +229,12 @@ interface MarkedPassage {
 // rebuilds after edits.
 const passageCache = new WeakMap<ProseMirrorNode, Map<string, readonly MarkedPassage[]>>();
 
-// Every passage carrying a mark of `markName`, grouped by the id in `idAttr`,
-// in document order. Inline nodes other than text, such as references, take
+// Every passage carrying an anchor mark of `markName`, grouped by its id, in
+// document order. Inline nodes other than text, such as references, take
 // marks too, and count as part of the passage.
-function findMarkedPassages(doc: ProseMirrorNode, markName: string, idAttr: string): readonly MarkedPassage[] {
-  const cacheKey = `${markName}:${idAttr}`;
-  const cached = passageCache.get(doc)?.get(cacheKey);
+function findMarkedPassages(doc: ProseMirrorNode, markName: string): readonly MarkedPassage[] {
+  const idAttr = ANCHOR_IDS[markName];
+  const cached = passageCache.get(doc)?.get(markName);
   if (cached) return cached;
 
   const passages = new Map<string, MarkedPassage>();
@@ -275,7 +264,7 @@ function findMarkedPassages(doc: ProseMirrorNode, markName: string, idAttr: stri
 
   const found = [...passages.values()];
   if (!passageCache.has(doc)) passageCache.set(doc, new Map());
-  passageCache.get(doc)!.set(cacheKey, found);
+  passageCache.get(doc)!.set(markName, found);
   return found;
 }
 
@@ -291,7 +280,7 @@ export interface CommentRange {
 
 /** Every commented passage in the document, in document order. */
 export function findCommentRanges(doc: ProseMirrorNode): CommentRange[] {
-  return findMarkedPassages(doc, COMMENT_MARK_NAME, 'commentId').map(passage => ({
+  return findMarkedPassages(doc, COMMENT_MARK_NAME).map(passage => ({
     threadId: passage.id,
     from: passage.from,
     to: passage.to,
@@ -309,7 +298,7 @@ export interface QuoteRange {
 
 /** Every passage turned into a quote, in document order. */
 export function findQuoteRanges(doc: ProseMirrorNode): QuoteRange[] {
-  return findMarkedPassages(doc, QUOTE_MARK_NAME, 'quoteId').map(passage => ({
+  return findMarkedPassages(doc, QUOTE_MARK_NAME).map(passage => ({
     quoteId: passage.id,
     from: passage.from,
     to: passage.to,
@@ -337,7 +326,7 @@ function keepMarked(fragment: Fragment, mark: ProseMirrorMark): Fragment {
  * its pieces, for turning the passage into a quote.
  */
 export function commentedSlice(doc: ProseMirrorNode, threadId: string): { slice: Slice; from: number; to: number } | null {
-  const passage = findMarkedPassages(doc, COMMENT_MARK_NAME, 'commentId').find(p => p.id === threadId);
+  const passage = findMarkedPassages(doc, COMMENT_MARK_NAME).find(p => p.id === threadId);
   const type = doc.type.schema.marks[COMMENT_MARK_NAME];
   if (!passage || !type) return null;
   const slice = doc.slice(passage.from, passage.to);
@@ -346,9 +335,9 @@ export function commentedSlice(doc: ProseMirrorNode, threadId: string): { slice:
 }
 
 // Swaps one passage's anchor mark for another over the same words.
-function swapAnchorMark(editor: Editor, markName: string, idAttr: string, id: string, replacement: ProseMirrorMark): boolean {
+function swapAnchorMark(editor: Editor, markName: string, id: string, replacement: ProseMirrorMark): boolean {
   const type = editor.schema.marks[markName];
-  const passage = type && findMarkedPassages(editor.state.doc, markName, idAttr).find(p => p.id === id);
+  const passage = type && findMarkedPassages(editor.state.doc, markName).find(p => p.id === id);
   if (!passage) return false;
 
   const { tr } = editor.state;
@@ -368,14 +357,14 @@ function swapAnchorMark(editor: Editor, markName: string, idAttr: string, id: st
 export function quoteCommentedPassage(editor: Editor, threadId: string, quoteId: string): boolean {
   const quoteType = editor.schema.marks[QUOTE_MARK_NAME];
   if (!quoteType) return false;
-  return swapAnchorMark(editor, COMMENT_MARK_NAME, 'commentId', threadId, quoteType.create({ quoteId }));
+  return swapAnchorMark(editor, COMMENT_MARK_NAME, threadId, quoteType.create({ quoteId }));
 }
 
 /** Turns a quoted passage back into a commented one, for when quoting fails part-way. */
 export function unquotePassage(editor: Editor, quoteId: string, threadId: string): boolean {
   const commentType = commentMarkType(editor);
   if (!commentType) return false;
-  return swapAnchorMark(editor, QUOTE_MARK_NAME, 'quoteId', quoteId, commentType.create({ commentId: threadId }));
+  return swapAnchorMark(editor, QUOTE_MARK_NAME, quoteId, commentType.create({ commentId: threadId }));
 }
 
 /**

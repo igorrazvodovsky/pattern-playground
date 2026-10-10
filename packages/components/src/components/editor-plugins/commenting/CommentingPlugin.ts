@@ -1,6 +1,7 @@
 import { BasePlugin } from '../core/Plugin';
 import type { EditorContext, SlotRegistry, EventBus } from '../../editor/types';
 import type { Extension } from '@tiptap/core';
+import type { Node as ProseMirrorNode } from '@tiptap/pm/model';
 import type { Transaction } from '@tiptap/pm/state';
 import { Reference, createReferenceSuggestion } from '../../reference/index.js';
 import React from 'react';
@@ -23,6 +24,12 @@ import {
   unquotePassage,
 } from '../../commenting/tiptap/comment-mark';
 import type { ThreadListEntry } from '../../commenting/core/ThreadList';
+
+export const COMMENTING_PLUGIN_ID = 'editor-commenting';
+
+function isReference(node: ProseMirrorNode): boolean {
+  return node.type.name === 'reference';
+}
 
 export interface CommentingPluginConfig {
   documentId: string;
@@ -59,7 +66,7 @@ declare module '../../editor/types' {
 // The comment mark itself, and the Mod-Shift-M shortcut, come from the
 // `Commenting` extension, which the host adds to the editor.
 export class EditorCommentingPlugin extends BasePlugin {
-  id = 'editor-commenting';
+  id = COMMENTING_PLUGIN_ID;
   name = 'Editor Commenting Plugin';
   version = '3.0.0';
 
@@ -103,15 +110,18 @@ export class EditorCommentingPlugin extends BasePlugin {
   }
 
   onDeactivate(): void {
-    this.context?.editor.off('transaction', this.mapPending);
-    this.pending = null;
+    this.detach();
     super.onDeactivate();
   }
 
   onDestroy(): void {
+    this.detach();
+    super.onDestroy();
+  }
+
+  private detach(): void {
     this.context?.editor.off('transaction', this.mapPending);
     this.pending = null;
-    super.onDestroy();
   }
 
   // A pending passage that is deleted, or moved somewhere a comment mark
@@ -176,7 +186,7 @@ export class EditorCommentingPlugin extends BasePlugin {
     const { from, to, empty } = editor.state.selection;
     if (empty || !canComment(editor.state, from, to)) return;
 
-    const threadId = `thread-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+    const threadId = `thread-${crypto.randomUUID()}`;
     this.pending = { threadId, from, to };
     this.emit('commenting:thread-opened', {
       thread: { id: threadId, kind: 'passage', pointer: this.pointerFor(threadId), pending: true },
@@ -270,7 +280,7 @@ export class EditorCommentingPlugin extends BasePlugin {
 
   /** Whether a transaction may have changed what `getThreadEntries` reports. */
   affectsThreadEntries(transaction: Transaction): boolean {
-    return transaction.docChanged && touchesAnchors(transaction, node => node.type.name === 'reference');
+    return transaction.docChanged && touchesAnchors(transaction, isReference);
   }
 
   /** Everything in the document that can carry a thread, in document order. */
@@ -301,7 +311,7 @@ export class EditorCommentingPlugin extends BasePlugin {
     }
 
     doc.descendants((node, pos) => {
-      if (node.type.name !== 'reference') return true;
+      if (!isReference(node)) return true;
       if (node.attrs.type === 'quote' && node.attrs.id) {
         const quote = getQuoteService().getQuoteById(node.attrs.id);
         positioned.push({
@@ -332,8 +342,8 @@ export class EditorCommentingPlugin extends BasePlugin {
     let target: Element | null = null;
     if (pointer instanceof TextRangePointer) {
       target = dom.querySelector(`mark[data-comment-id="${CSS.escape(pointer.threadId)}"]`);
-    } else if (pointer instanceof EntityPointer && pointer.getEntityType() === 'quote') {
-      const id = CSS.escape(pointer.getEntityId());
+    } else if (pointer instanceof EntityPointer && pointer.entityType === 'quote') {
+      const id = CSS.escape(pointer.entityId);
       target = dom.querySelector(`mark[data-quote-id="${id}"], [data-reference-id="${id}"]`);
     }
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
