@@ -309,6 +309,14 @@
     color: var(--c-bodyDimmed);
     font-size: 16px;
   }
+
+  /* Alexander's section mark: splits the upward context paragraph from the
+     problem, and the solution from the downward paragraph. */
+  .dinkus {
+    text-align: center;
+    color: var(--c-bodyDimmed);
+    user-select: none;
+  }
 }
 
 /* Content (non-stack) prose measure — also a donut so a future demo on a
@@ -421,6 +429,25 @@ main.shell__main:has(> .content-inset) {
 
 .disclosure {
   font-style: italic;
+}
+
+/* The library's `details` is a bordered card; here it's an inline fold, as on
+   sequence pages. */
+.connections__formal {
+  margin-block-start: var(--space-l);
+  border: none;
+  padding: 0;
+  color: var(--c-bodyDimmed);
+}
+
+.connections__formal summary {
+  margin: 0;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.connections__index {
+  margin-block-start: var(--space-s);
 }
 
 .residue {

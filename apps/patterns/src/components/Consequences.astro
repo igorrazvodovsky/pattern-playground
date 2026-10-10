@@ -8,13 +8,15 @@
  * field observation that a prose Consequences section used to carry live in
  * body sections instead.
  *
- * Placement is the remark plugin's job (integrations/remark-consequences.ts):
- * it injects this component into the MDX body before Resources & references,
- * passing the clauses as `resulting`, so the section sits where the authoring
- * contract's section order puts it rather than after the whole body.
+ * This is the fallback for pages not yet shaped, whose `situation.resulting`
+ * is still a clause list; on a shaped page the resulting situation is prose
+ * and renders as the connections passage instead (Situation.astro inside
+ * RelatedPatterns.astro). Placement is the remark plugin's job
+ * (integrations/remark-consequences.ts): it injects this component into the
+ * MDX body before Resources & references, passing the clauses as `resulting`.
  *
- * `situation.initiating` deliberately does not render — the lead narrates it.
- * A clause with `sets-up` also shows as the note on its derived `precedes`
+ * `situation.initiating` does not render on such a page — the lead narrates
+ * it. A clause with `sets-up` also shows as the note on its derived `precedes`
  * edge below; that is the same judgement rendered for a different job
  * (statement here, link context there), not a second home.
  */

@@ -28,12 +28,18 @@ const patterns = defineCollection({
       z.object({ to: z.string(), note: z.string().optional() }),
     ]))).optional(),
     realised_by: z.array(z.string()).optional(),
+    // Both situations are prose (relationship-vocabulary.md §Situations). The
+    // clause-list form of `resulting` is the earlier representation, kept
+    // until every page is migrated; it renders as the Consequences fallback.
     situation: z.object({
       initiating: z.string().optional(),
-      resulting: z.array(z.union([
+      resulting: z.union([
         z.string(),
-        z.object({ clause: z.string(), 'sets-up': z.array(z.string()).optional() }),
-      ])).optional(),
+        z.array(z.union([
+          z.string(),
+          z.object({ clause: z.string(), 'sets-up': z.array(z.string()).optional() }),
+        ])),
+      ]).optional(),
     }).optional(),
     'decision-trees': z.array(z.object({
       id: z.string(),

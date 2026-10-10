@@ -236,6 +236,11 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
+    "dry-run": {
+      "activity-level": "action",
+      "lifecycle-stage": "evaluation",
+      "mediation": "individual"
+    },
     "dynamic-hyperlinks": {
       "activity-level": "action",
       "lifecycle-stage": "seeking",

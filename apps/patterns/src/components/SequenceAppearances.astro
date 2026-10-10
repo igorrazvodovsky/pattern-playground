@@ -5,9 +5,13 @@ import { appearancesBySlug, type AppearanceKind } from '../lib/sequence';
 
 interface Props {
   slug: string;
+  /** Render as list items for the folded "All connections" index on a page
+   * with a connections passage, where the opening paragraph has already named
+   * the sequences in prose. */
+  compact?: boolean;
 }
 
-const { slug } = Astro.props;
+const { slug, compact = false } = Astro.props;
 
 // Same order the nav lists sequences in.
 const sequences = (await getCollection('sequences')).sort((a, b) =>
@@ -28,7 +32,20 @@ const KIND_PREFIX: Record<AppearanceKind, string> = {
 };
 ---
 
-{appearances.length > 0 && (
+{appearances.length > 0 && compact && (
+  <ul class="connections__index" aria-label="Appears in">
+    {[...bySequence].map(([id, group]) => (
+      <li>
+        Appears in <a href={`/sequences/${id}`}>{group.title}</a>
+        {group.entries.map((a, i) => (
+          <>{i === 0 ? ': ' : '; '}<a href={`/sequences/${id}#${a.anchor}`}>{a.subTitle}, step {a.stepNumber}</a></>
+        ))}
+      </li>
+    ))}
+  </ul>
+)}
+
+{appearances.length > 0 && !compact && (
   <section class="flow" aria-label="Appears in">
     <h2>Appears in</h2>
     {[...bySequence].map(([id, group]) => (

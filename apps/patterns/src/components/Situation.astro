@@ -1,0 +1,46 @@
+---
+/**
+ * Renders one of a pattern's two situations — `situation.initiating` or
+ * `situation.resulting` from frontmatter — as prose. The initiating situation
+ * is the page's opening paragraph(s) and the resulting situation is its
+ * connections passage; the same field is what the graph carries and what the
+ * page shows. Blank lines in the block scalar separate paragraphs; the text is
+ * the inline-markdown subset Label renders (links, emphasis, code). The
+ * opening begins with the book's ellipsis, since it continues from the larger
+ * patterns rather than starting cold, and the passage ends with one, since it
+ * leads on to the smaller ones.
+ *
+ * Placement is the remark plugin's job (integrations/remark-consequences.ts):
+ * the opening before the body's first node, the passage inside RelatedPatterns.
+ */
+import Label from './Label.astro';
+
+interface Props {
+  text?: string;
+  end: 'initiating' | 'resulting';
+}
+
+const { text = '', end } = Astro.props;
+const paragraphs = text.split(/\n\s*\n/).map((p) => p.replace(/\s+/g, ' ').trim()).filter(Boolean);
+const last = paragraphs.length - 1;
+const ELLIPSIS = '…';
+
+// The ellipses are the renderer's, so an authored one is absorbed rather than
+// doubled. At the close, a full stop (and any closing emphasis or bracket after
+// it) gives way to the ellipsis; a question or exclamation keeps its mark and
+// the ellipsis follows.
+const openWith = (p: string) => `${ELLIPSIS} ${p.replace(/^(?:…|\.\.\.)\s*/, '')}`;
+const closeWith = (p: string) => {
+  const m = p.match(/^(.*?)([.…]|\.\.\.)?([)\]*_"']*)\s*$/s);
+  if (!m) return `${p}${ELLIPSIS}`;
+  const [, body, stop, closers] = m;
+  if (!stop && /[?!]$/.test(body)) return `${body}${closers} ${ELLIPSIS}`;
+  return `${body}${ELLIPSIS}${closers}`;
+};
+---
+
+{paragraphs.map((p, i) => (
+  <p>
+    <Label text={end === 'initiating' && i === 0 ? openWith(p) : end === 'resulting' && i === last ? closeWith(p) : p} />
+  </p>
+))}

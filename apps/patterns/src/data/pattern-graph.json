@@ -1564,21 +1564,8 @@
       "path": "/patterns/hub-and-spoke",
       "role": "pattern",
       "situation": {
-        "initiating": "the work has been partitioned into contexts, and this one holds heterogeneous sections the actor rarely needs together — each a job of its own, with little reason to move between them mid-task — or a flat surface whose tools have outgrown the screen",
-        "resulting": [
-          {
-            "clause": "every destination is two moves from every other through a surface that always knows the way, so the actor can't get lost — and can't travel laterally either; a journey between two spokes that turns out to be routine is paid for twice on every trip"
-          },
-          {
-            "clause": "the hub is the one surface every journey passes through, which makes it the natural place to report across all the spokes — what changed, what needs attention; what to show there is its own design problem, not something the topology settles",
-            "setsUp": [
-              "purpose-keyed-view"
-            ]
-          },
-          {
-            "clause": "a spoke has little room for navigation of its own, so anything that has to be reachable from inside one competes for space with the spoke's actual work"
-          }
-        ]
+        "initiating": "the work has been divided into contexts in [structuring the space](/sequences/structuring-the-space), and this context has been recognised as one that holds sections differing in kind. Or the context began as one [flat surface](/patterns/flat-navigation) and its tools have outgrown the screen. The switcher over a set of [workspaces](/patterns/workspace) is usually built this way too, the list of workspaces being the hub and each workspace a spoke. Within such a context the question is how the sections are reached from one another, and the first thing to settle is whether they need to be.",
+        "resulting": "What the hub reports across the spokes is a [purpose-keyed view](/patterns/purpose-keyed-view) in its own right, designed for the actor's recurring question and not inherited from the topology. For actors who know their destination, a [command menu](/patterns/command-menu) and [searching](/patterns/searching) reach a spoke without the hub, and [deep linking](/patterns/deep-linking) reaches it from outside the structure altogether. When cross-spoke traffic becomes general, give up the pattern rather than patch it: [fully connected](/patterns/fully-connected) puts every section one move from every other, at the cost of chrome on every page, and a persistent tab bar is already that [hybrid](/patterns/hybrid-patterns), a hub that never leaves the screen. When the sections nest rather than sit beside each other, a [multilevel tree](/patterns/multilevel-tree) holds the depth. Two neighbours share the look but not the ground: [overview and detail](/patterns/overview-detail) shows one collection at two levels of detail, where a hub routes between sections with no model in common, and a [pyramid](/patterns/pyramid) is the hub for items that form a sequence"
       },
       "group": "navigation",
       "evidence": [
@@ -3227,21 +3214,8 @@
       "path": "/patterns/wizard",
       "role": "pattern",
       "situation": {
-        "initiating": "the task is one atomic goal made of genuinely dependent steps — what's entered early determines what's available later — and the actor does it rarely enough not to hold its structure; a single surface would have to show options that don't apply yet",
-        "resulting": [
-          {
-            "clause": "one commitment sits in front of the actor at a time, each step gated on the last, and because the branching prunes as it goes the path they walk is shorter than the whole"
-          },
-          {
-            "clause": "the corridor removes peripheral vision: the actor can't compare across steps or jump to the one they know they need, so a change of mind partway has to be able to walk backwards without discarding the sequence",
-            "setsUp": [
-              "undo"
-            ]
-          },
-          {
-            "clause": "the steps are the system's model of the task, and an expert who already holds that model experiences the guidance as compliance"
-          }
-        ]
+        "initiating": "a [form](/patterns/form) gathers the inputs for one goal on one surface, and [progressive disclosure](/patterns/progressive-disclosure) hides the parts of it that do not apply yet. For most goals that is the end of the matter. There is one kind of goal, though, for which the form itself is the obstacle: what the actor enters at the start decides which questions exist later, the goal is not done until the last step is, and the actor does it so rarely that the shape of the whole never settles in memory. This pattern gives that kind of goal a different shape. It is how [onboarding](/patterns/onboarding) usually does its first setup, and how [settings](/patterns/settings) are often gathered the first time, before the actor knows what any of them mean. When the sequence is also the way the actor moves through the space, [step by step](/patterns/step-by-step) is the navigation model that carries it; this pattern is about the task's shape.",
+        "resulting": "The corridor removes peripheral vision, so a change of mind partway must be able to walk backwards without losing the sequence; that is [undo](/patterns/undo) applied step by step, and the one thing the pattern cannot do without. [Status feedback](/patterns/status-feedback) carries progress and validation through the walk. Where different actors need different orders, [next best action](/patterns/next-best-action) adapts the sequence instead of fixing it, and an [agent](/patterns/agent) can walk the same dependencies in conversation, with room to ask about step two while on step four, which a wizard cannot allow. Where the inputs want a conversation's give and take, embed them in a conversational form instead. The same corridor serves other ends: a [template](/patterns/template) assembled through step-by-step choices is a wizard whose product is a template, and a paginated [prompt scaffold](/patterns/prompt-scaffolding) is the wizard applied to prompting. Do not confuse it with a [workflow](/patterns/workflow), which externalises a procedure for the system or for others to run; a wizard only scripts one actor's path through one task"
       },
       "group": "application",
       "evidence": [
@@ -5339,7 +5313,9 @@
       "target": "hub-and-spoke",
       "type": "alternative",
       "label": "for mobile or simpler structures",
-      "extractedFrom": "frontmatter:alternative"
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "When cross-spoke traffic becomes general, give up the pattern rather than patch it: [fully connected](/patterns/fully-connected) puts every section one move from every other, at the cost of chrome on every page, and a persistent tab bar is already that [hybrid](/patterns/hybrid-patterns), a hub that never leaves the screen.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "fully-connected",
@@ -5551,53 +5527,68 @@
     },
     {
       "source": "hub-and-spoke",
+      "target": "purpose-keyed-view",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "What the hub reports across the spokes is a [purpose-keyed view](/patterns/purpose-keyed-view) in its own right, designed for the actor's recurring question and not inherited from the topology.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "hub-and-spoke",
       "target": "command-menu",
       "type": "complements",
-      "label": "provides escape hatch for quick navigation without hub return",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "For actors who know their destination, a [command menu](/patterns/command-menu) and [searching](/patterns/searching) reach a spoke without the hub, and [deep linking](/patterns/deep-linking) reaches it from outside the structure altogether.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "hub-and-spoke",
       "target": "deep-linking",
       "type": "complements",
-      "label": "enables direct spoke access from external sources",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "For actors who know their destination, a [command menu](/patterns/command-menu) and [searching](/patterns/searching) reach a spoke without the hub, and [deep linking](/patterns/deep-linking) reaches it from outside the structure altogether.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "hub-and-spoke",
       "target": "searching",
       "type": "complements",
-      "label": "alternative to hub browsing for known destinations",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "For actors who know their destination, a [command menu](/patterns/command-menu) and [searching](/patterns/searching) reach a spoke without the hub, and [deep linking](/patterns/deep-linking) reaches it from outside the structure altogether.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "hub-and-spoke",
       "target": "workspace",
       "type": "enables",
-      "label": "organisational containers often use hub and spoke",
       "extractedFrom": "frontmatter:enables",
-      "incomingNote": "Workspaces often implement hub and spoke navigation, where a workspace switcher or dashboard (hub) provides access to individual workspaces (spokes). See [Information Architecture foundation](/patterns/information-architecture) for the structural pattern behind it."
+      "incomingNote": "Workspaces often implement hub and spoke navigation, where a workspace switcher or dashboard (hub) provides access to individual workspaces (spokes). See [Information Architecture foundation](/patterns/information-architecture) for the structural pattern behind it.",
+      "situation": "The switcher over a set of [workspaces](/patterns/workspace) is usually built this way too, the list of workspaces being the hub and each workspace a spoke.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "hub-and-spoke",
       "target": "fully-connected",
       "type": "alternative",
-      "label": "for frequent cross-section movement",
-      "extractedFrom": "frontmatter:alternative"
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "When cross-spoke traffic becomes general, give up the pattern rather than patch it: [fully connected](/patterns/fully-connected) puts every section one move from every other, at the cost of chrome on every page, and a persistent tab bar is already that [hybrid](/patterns/hybrid-patterns), a hub that never leaves the screen.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "hub-and-spoke",
       "target": "multilevel-tree",
       "type": "alternative",
-      "label": "for hierarchical relationships",
-      "extractedFrom": "frontmatter:alternative"
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "When the sections nest rather than sit beside each other, a [multilevel tree](/patterns/multilevel-tree) holds the depth.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "hub-and-spoke",
       "target": "hybrid-patterns",
       "type": "alternative",
-      "label": "to add cross-spoke navigation",
-      "extractedFrom": "frontmatter:alternative"
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "When cross-spoke traffic becomes general, give up the pattern rather than patch it: [fully connected](/patterns/fully-connected) puts every section one move from every other, at the cost of chrome on every page, and a persistent tab bar is already that [hybrid](/patterns/hybrid-patterns), a hub that never leaves the screen.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "human-goes-first",
@@ -6323,7 +6314,9 @@
       "source": "multilevel-tree",
       "target": "hub-and-spoke",
       "type": "alternative",
-      "extractedFrom": "frontmatter:alternative"
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "When the sections nest rather than sit beside each other, a [multilevel tree](/patterns/multilevel-tree) holds the depth.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "multilevel-tree",
@@ -6525,7 +6518,9 @@
       "target": "onboarding",
       "type": "enables",
       "incomingNote": "often employs wizards for initial setup and configuration",
-      "extractedFrom": "frontmatter:composed-of"
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "It is how [onboarding](/patterns/onboarding) usually does its first setup, and how [settings](/patterns/settings) are often gathered the first time, before the actor knows what any of them mean.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "template",
@@ -6637,7 +6632,9 @@
       "target": "hub-and-spoke",
       "type": "alternative",
       "label": "the boundary is what sits beneath: overview-detail shows one collection at two levels of detail; hub-and-spoke routes between sections that share no underlying model",
-      "extractedFrom": "frontmatter:alternative"
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Two neighbours share the look but not the ground: [overview and detail](/patterns/overview-detail) shows one collection at two levels of detail, where a hub routes between sections with no model in common, and a [pyramid](/patterns/pyramid) is the hub for items that form a sequence",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "overview-detail",
@@ -6798,7 +6795,9 @@
       "target": "progressive-disclosure",
       "type": "instantiates",
       "incomingNote": "the wizard applies disclosure across discrete gated steps, revealing complexity gradually",
-      "extractedFrom": "frontmatter:instances"
+      "extractedFrom": "frontmatter:instances",
+      "situation": "a [form](/patterns/form) gathers the inputs for one goal on one surface, and [progressive disclosure](/patterns/progressive-disclosure) hides the parts of it that do not apply yet.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "progressive-disclosure",
@@ -6896,7 +6895,9 @@
       "target": "wizard",
       "type": "related",
       "label": "paginated scaffolds are the wizard applied to prompting",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "The same corridor serves other ends: a [template](/patterns/template) assembled through step-by-step choices is a wizard whose product is a template, and a paginated [prompt scaffold](/patterns/prompt-scaffolding) is the wizard applied to prompting.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "prompt-scaffolding",
@@ -7150,7 +7151,9 @@
       "target": "hub-and-spoke",
       "type": "alternative",
       "label": "when items don't form sequences",
-      "extractedFrom": "frontmatter:alternative"
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Two neighbours share the look but not the ground: [overview and detail](/patterns/overview-detail) shows one collection at two levels of detail, where a hub routes between sections with no model in common, and a [pyramid](/patterns/pyramid) is the hub for items that form a sequence",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "reconciliation",
@@ -7589,7 +7592,9 @@
       "target": "wizard",
       "type": "complements",
       "label": "may guide actors through initial settings configuration during setup",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "It is how [onboarding](/patterns/onboarding) usually does its first setup, and how [settings](/patterns/settings) are often gathered the first time, before the actor knows what any of them mean.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "settings",
@@ -7804,7 +7809,9 @@
       "target": "step-by-step",
       "type": "instantiates",
       "incomingNote": "Wizard is the canonical instantiation of step-by-step navigation",
-      "extractedFrom": "frontmatter:instances"
+      "extractedFrom": "frontmatter:instances",
+      "situation": "When the sequence is also the way the actor moves through the space, [step by step](/patterns/step-by-step) is the navigation model that carries it; this pattern is about the task's shape.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "step-by-step",
@@ -7936,7 +7943,9 @@
       "target": "wizard",
       "type": "complements",
       "label": "when templates are generated through step-by-step choices",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The same corridor serves other ends: a [template](/patterns/template) assembled through step-by-step choices is a wizard whose product is a template, and a paginated [prompt scaffold](/patterns/prompt-scaffolding) is the wizard applied to prompting.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "template",
@@ -8134,38 +8143,51 @@
     },
     {
       "source": "wizard",
-      "target": "next-best-action",
-      "type": "alternative",
-      "label": "the wizard prescribes the sequence; next-best action is the adaptive, context-aware alternative",
-      "extractedFrom": "frontmatter:alternative"
-    },
-    {
-      "source": "wizard",
-      "target": "form",
-      "type": "alternative",
-      "label": "the single-page structure that wizards fragment across steps",
-      "extractedFrom": "frontmatter:alternative"
-    },
-    {
-      "source": "wizard",
-      "target": "agent",
-      "type": "alternative",
-      "label": "can guide through complex processes with conversational flexibility wizards lack",
-      "extractedFrom": "frontmatter:alternative"
+      "target": "undo",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "The corridor removes peripheral vision, so a change of mind partway must be able to walk backwards without losing the sequence; that is [undo](/patterns/undo) applied step by step, and the one thing the pattern cannot do without.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "wizard",
       "target": "status-feedback",
       "type": "complements",
-      "label": "communicates progress and validation state throughout the wizard",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Status feedback](/patterns/status-feedback) carries progress and validation through the walk.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "wizard",
       "target": "undo",
       "type": "complements",
-      "label": "mitigates the high commitment level by allowing reversal of completed steps",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The corridor removes peripheral vision, so a change of mind partway must be able to walk backwards without losing the sequence; that is [undo](/patterns/undo) applied step by step, and the one thing the pattern cannot do without.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "wizard",
+      "target": "next-best-action",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where different actors need different orders, [next best action](/patterns/next-best-action) adapts the sequence instead of fixing it, and an [agent](/patterns/agent) can walk the same dependencies in conversation, with room to ask about step two while on step four, which a wizard cannot allow.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "wizard",
+      "target": "form",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "a [form](/patterns/form) gathers the inputs for one goal on one surface, and [progressive disclosure](/patterns/progressive-disclosure) hides the parts of it that do not apply yet.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "wizard",
+      "target": "agent",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where different actors need different orders, [next best action](/patterns/next-best-action) adapts the sequence instead of fixing it, and an [agent](/patterns/agent) can walk the same dependencies in conversation, with room to ask about step two while on step four, which a wizard cannot allow.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "wizard",
@@ -8207,7 +8229,9 @@
       "target": "wizard",
       "type": "tangential",
       "label": "a wizard scripts the actor's path through one task; a workflow externalises a procedure for the system or for others to run",
-      "extractedFrom": "frontmatter:tangential"
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "Do not confuse it with a [workflow](/patterns/workflow), which externalises a procedure for the system or for others to run; a wizard only scripts one actor's path through one task",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "workflow",
@@ -8482,13 +8506,6 @@
       "extractedFrom": "situation:resulting"
     },
     {
-      "source": "hub-and-spoke",
-      "target": "purpose-keyed-view",
-      "type": "precedes",
-      "situation": "the hub is the one surface every journey passes through, which makes it the natural place to report across all the spokes — what changed, what needs attention; what to show there is its own design problem, not something the topology settles",
-      "extractedFrom": "situation:resulting"
-    },
-    {
       "source": "live-presentation",
       "target": "abort",
       "type": "precedes",
@@ -8654,13 +8671,6 @@
       "target": "sequence-completion",
       "type": "precedes",
       "situation": "comprehension is restored with the activity mid-flight, so completion has to be able to resume from the same step — and still end in the receipt that closes the sequence",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "wizard",
-      "target": "undo",
-      "type": "precedes",
-      "situation": "the corridor removes peripheral vision: the actor can't compare across steps or jump to the one they know they need, so a change of mind partway has to be able to walk backwards without discarding the sequence",
       "extractedFrom": "situation:resulting"
     },
     {

@@ -52,7 +52,9 @@ interface SituationClause {
 
 interface NodeSituation {
   initiating?: string;
-  resulting?: SituationClause[];
+  /** Prose (the connections passage), or the earlier clause-list form on
+   * pages not yet migrated. */
+  resulting?: string | SituationClause[];
 }
 
 type EdgeType =
@@ -85,11 +87,15 @@ interface Edge {
    * reverse; the renderer shows it on the target page. */
   incomingNote?: string;
   extractedFrom?: string;
-  /** Derived, never authored edge-side: the source node's resulting-context
-   * clause this edge renders (extractedFrom 'situation:resulting'). Rendered as
-   * prose for judgement, never matched on — graph-relationship-model.md
-   * §Epistemic stance. */
+  /** Derived, never authored edge-side: the sentence of an endpoint's
+   * situation prose that links the other endpoint (`glossFrom` says which
+   * end and which situation), or on unmigrated pages the resulting clause
+   * whose `sets-up` emitted the edge. Rendered as prose for judgement, never
+   * matched on — relationship-vocabulary.md §Epistemic stance. */
   situation?: string;
+  /** Where a derived `situation` came from. `extractedFrom` stays the edge's
+   * own provenance (the authoring channel); this is the gloss's. */
+  glossFrom?: 'source:resulting' | 'source:initiating' | 'target:resulting' | 'target:initiating';
   situationalHints?: SituationalHint[];
 }
 
@@ -186,8 +192,9 @@ function parseEvidence(fm: Record<string, unknown>, filePath: string, realisedBy
   return entries;
 }
 
-/** Parse the frontmatter `situation:` block. Resulting entries are bare prose
- * strings or `{clause, sets-up: [slugs]}` objects; both normalise to clauses. */
+/** Parse the frontmatter `situation:` block. `resulting` is prose; on pages
+ * not yet migrated it is a list of bare strings or `{clause, sets-up: [slugs]}`
+ * objects, which normalise to clauses. */
 function parseSituation(fm: Record<string, unknown>, sourcePath: string): NodeSituation | undefined {
   const raw = fm.situation;
   if (!raw) return undefined;
@@ -199,9 +206,11 @@ function parseSituation(fm: Record<string, unknown>, sourcePath: string): NodeSi
   if (typeof raw.initiating === 'string' && raw.initiating.trim()) {
     situation.initiating = raw.initiating.trim();
   }
-  if (raw.resulting !== undefined) {
+  if (typeof raw.resulting === 'string') {
+    if (raw.resulting.trim()) situation.resulting = raw.resulting.trim();
+  } else if (raw.resulting !== undefined) {
     if (!Array.isArray(raw.resulting)) {
-      console.warn(`Situation warning: ${sourcePath}: situation.resulting must be an array — ignored`);
+      console.warn(`Situation warning: ${sourcePath}: situation.resulting must be prose or a list — ignored`);
     } else {
       const clauses: SituationClause[] = [];
       for (const entry of raw.resulting) {
@@ -256,6 +265,61 @@ function categoryOf(role: string | undefined, activityLevel: string | null, doma
 
 function stripComments(content: string): string {
   return content.replace(/\{\/\*[\s\S]*?\*\/\}/g, '');
+}
+
+
+// --- Situation prose: glosses and the unspoken-edge advisory ---
+//
+// A situation is the point where a pattern's connections meet, told as prose
+// (relationship-vocabulary.md §Situations). The typed edges in `relationships`
+// are the part of it the vocabulary can carry, so each edge's gloss is derived
+// from the sentence of the prose that links its target: the resulting
+// situation first (what this pattern leads on to), then the initiating one
+// (what it continues from). A shaped page (`resulting` is prose) renders no
+// generated Consequences or Related list, so every edge the page authors has
+// to be linked in its prose; the advisory names the ones that are not.
+// Frontmatter stays the edge home; the prose link is plain and carries no
+// `rel=`.
+const SENTENCE_BREAK = /(?<=[.!?…])\s+(?=[A-Z"'(\[*_])/;
+
+function linksTarget(text: string, slug: string): boolean {
+  return new RegExp(`\\]\\(/patterns/${slug}(?:[#?)])`).test(text);
+}
+
+/** The sentence of `prose` that links `/patterns/<slug>`, or undefined. */
+function sentenceLinking(prose: string, slug: string): string | undefined {
+  const flat = prose.replace(/\s+/g, ' ').trim();
+  return flat.split(SENTENCE_BREAK).find((sentence) => linksTarget(sentence, slug));
+}
+
+function isShaped(situation: NodeSituation | undefined): situation is NodeSituation & { resulting: string } {
+  return typeof situation?.resulting === 'string';
+}
+
+function linkedSlugs(body: string): Set<string> {
+  const out = new Set<string>();
+  for (const m of body.matchAll(/\]\(\/patterns\/([\w-]+)(?:[#?)])/g)) out.add(m[1]);
+  for (const m of body.matchAll(/<PatternRef\s[^>]*slug="([\w-]+)"/g)) out.add(m[1]);
+  return out;
+}
+
+const unspokenFindings: string[] = [];
+
+function checkUnspokenEdges(id: string, rawContent: string, typed: TypedLink[], situation: NodeSituation | undefined): void {
+  if (!isShaped(situation)) return;
+  const linked = linkedSlugs([stripComments(rawContent), situation.initiating ?? '', situation.resulting].join('\n'));
+  const owed = new Map<string, string>();
+  for (const link of typed) {
+    // Edges this page authors from its own side; an inverting alias claims
+    // the other page as subject, but the mention is still owed here. Quality
+    // edges are exempt: a quality is a reading lens, not a pattern the
+    // passage leads on to, and quality pages render no list either way.
+    if (link.type === 'enacts') continue;
+    owed.set(link.target, link.type);
+  }
+  for (const [target, type] of owed) {
+    if (!linked.has(target)) unspokenFindings.push(`${id}: ${type} → ${target} is not linked anywhere in the body`);
+  }
 }
 
 // --- Relationship extraction ---
@@ -781,6 +845,7 @@ for (const filePath of patternMdxFiles) {
   });
 
   const typed = extractRelationships(fm, content, filePath);
+  checkUnspokenEdges(id, content, typed, situation);
   if (typed.length > 0) fileLinks.set(id, typed);
 
   extractDecisionTreeEdges(id, content, treeConfigs, recommendsCollection);
@@ -804,10 +869,7 @@ function addEdge(edge: Edge) {
     // Fill an empty note slot; never overwrite an authored one.
     if (edge.label !== undefined && existing.label === undefined) existing.label = edge.label;
     if (edge.incomingNote !== undefined && existing.incomingNote === undefined) existing.incomingNote = edge.incomingNote;
-    if (edge.situation !== undefined && existing.situation === undefined) {
-      existing.situation = edge.situation;
-      existing.extractedFrom = edge.extractedFrom;
-    }
+    if (edge.situation !== undefined && existing.situation === undefined) existing.situation = edge.situation;
     return;
   }
   edgeMap.set(key, edge);
@@ -838,14 +900,54 @@ for (const [sourceId, links] of fileLinks.entries()) {
   }
 }
 
-// --- Emit `precedes` edges from resulting-context clauses ---
+// --- Derive edge glosses from situation prose ---
 //
-// A judgement home emits its edges (like decision trees emit `recommends`): a
-// `situation.resulting` clause with `sets-up` emits one `precedes` edge per named
-// pattern, carrying the clause as the edge's derived `situation` text. The clause
-// is the only authorable home of the condition; the edge field is its rendering.
+// On a shaped page the sentence that links a neighbour is the gloss of the
+// edge between them, rendered on the far endpoint's page (and on this page's
+// own list until it is shaped). The source's prose is read first; when the
+// edge was authored from the target side (an inverting alias such as
+// `follows`), or the source is not yet shaped, the target's prose is read
+// instead. Notes in `relationships` are still honoured where authored; the
+// derived gloss fills the slot where none is.
+const edgesByEndpoint = new Map<string, Edge[]>();
+for (const edge of edgeMap.values()) {
+  for (const id of [edge.source, edge.target]) {
+    const list = edgesByEndpoint.get(id) ?? [];
+    list.push(edge);
+    edgesByEndpoint.set(id, list);
+  }
+}
+function glossFromProse(situation: NodeSituation & { resulting: string }, other: string): { sentence: string; field: 'resulting' | 'initiating' } | undefined {
+  const fromResulting = sentenceLinking(situation.resulting, other);
+  if (fromResulting !== undefined) return { sentence: fromResulting, field: 'resulting' };
+  const fromInitiating = situation.initiating ? sentenceLinking(situation.initiating, other) : undefined;
+  return fromInitiating !== undefined ? { sentence: fromInitiating, field: 'initiating' } : undefined;
+}
+for (const end of ['source', 'target'] as const) {
+  for (const node of nodeMap.values()) {
+    const situation = node.situation;
+    if (!isShaped(situation)) continue;
+    for (const edge of edgesByEndpoint.get(node.id) ?? []) {
+      if (edge[end] !== node.id || edge.situation !== undefined) continue;
+      const other = end === 'source' ? edge.target : edge.source;
+      const gloss = glossFromProse(situation, other);
+      if (gloss === undefined) continue;
+      edge.situation = gloss.sentence;
+      edge.glossFrom = `${end}:${gloss.field}`;
+    }
+  }
+}
+
+// --- Emit `precedes` edges from resulting-context clauses (unmigrated pages) ---
+//
+// On a page still carrying the clause list, a clause with `sets-up` emits one
+// `precedes` edge per named pattern, carrying the clause as the edge's derived
+// `situation` text. A shaped page authors `precedes` in `relationships` like
+// every other edge and the gloss derives from its prose, above.
 for (const node of nodeMap.values()) {
-  for (const clause of node.situation?.resulting ?? []) {
+  const resulting = node.situation?.resulting;
+  if (!Array.isArray(resulting)) continue;
+  for (const clause of resulting) {
     for (const target of clause.setsUp ?? []) {
       if (!nodeMap.has(target)) {
         console.warn(`Situation warning: ${node.id}: sets-up "${target}" names no known pattern — no edge emitted`);
@@ -1113,5 +1215,7 @@ console.log(`  single-noted directed edges naming neither endpoint: ${voicingFin
 for (const finding of voicingFindings) console.log(`    ${finding}`);
 console.log(`  note phrasings contradicting the stored type: ${noteTellFindings.length}`);
 for (const finding of noteTellFindings) console.log(`    ${finding}`);
+console.log(`  edges unspoken on shaped pages (situation.resulting as prose): ${unspokenFindings.length}`);
+for (const finding of unspokenFindings) console.log(`    ${finding}`);
 console.log(`Output: ${outputPath}`);
 console.log(`Activity levels: ${activityLevelsPath}`);

@@ -11,12 +11,22 @@
 
 import graphData from '../data/pattern-graph.json';
 import Label from './Label.astro';
+import SequenceAppearances from './SequenceAppearances.astro';
+import Situation from './Situation.astro';
+import { getCollection } from 'astro:content';
+import { appearancesBySlug } from '../lib/sequence';
 
 interface Props {
   slug: string;
+  /** `situation.resulting` as prose: the connections passage. Its presence
+   * selects the narrated render. */
+  resulting?: string;
+  /** False hides the typed index under the passage (`showRelated: false`);
+   * the passage itself still renders. */
+  index?: boolean;
 }
 
-const { slug } = Astro.props;
+const { slug, resulting, index = true } = Astro.props;
 
 interface Edge {
   source: string;
@@ -24,8 +34,9 @@ interface Edge {
   type: string;
   label?: string;
   incomingNote?: string;
-  /** Derived rendering of the source node's resulting-context clause — prose
-   * for judgement, never matched on (relationship-vocabulary.md §Situations). */
+  /** Derived, never authored: the sentence of the source's situation prose
+   * that links the target, or a resulting clause with `sets-up` — prose for
+   * judgement, never matched on (relationship-vocabulary.md §Situations). */
   situation?: string;
 }
 
@@ -62,9 +73,9 @@ const OUTGOING_LABELS: Record<string, string> = {
   hosts:        'Hosts',
   serves:       'Serves',
   complements:  'Complements',
-  tangential:   'Tangentially related',
+  tangential:   'Tangential to',
   alternative:  'Alternatives',
-  related:      'Related',
+  related:      'Related to',
 };
 
 const INCOMING_LABELS: Record<string, string> = {
@@ -88,15 +99,17 @@ const seenSymmetric = new Set<string>(); // `targetId|type` to deduplicate symme
 // viewed — so the link reads in the local pattern's voice (as cross-references do in
 // a pattern language). Falls back to the other side's note when only one is authored.
 // Both maps are built up front so label selection is independent of edge iteration
-// order: near = authored by this page, far = authored by the other endpoint.
+// order: near = authored by this page, far = authored by the other endpoint. A
+// gloss derived from the source's situation prose stands in where no note is.
 const nearSymLabel = new Map<string, string>();
 const farSymLabel = new Map<string, string>();
 for (const edge of edges) {
-  if (!SYMMETRIC.has(edge.type) || !edge.label) continue;
+  const gloss = edge.label ?? edge.situation;
+  if (!SYMMETRIC.has(edge.type) || !gloss) continue;
   if (edge.source === slug) {
-    nearSymLabel.set([slug, edge.target].sort().join('|') + '|' + edge.type, edge.label);
+    nearSymLabel.set([slug, edge.target].sort().join('|') + '|' + edge.type, gloss);
   } else if (edge.target === slug) {
-    farSymLabel.set([slug, edge.source].sort().join('|') + '|' + edge.type, edge.label);
+    farSymLabel.set([slug, edge.source].sort().join('|') + '|' + edge.type, gloss);
   }
 }
 
@@ -154,10 +167,51 @@ for (const type of DIRECTED_IN_ORDER) {
   }
 }
 
-const hasRelated = !isQuality && sections.length > 0;
+// The connections passage is the resulting situation (`situation.resulting`
+// as prose, passed in by integrations/remark-consequences.ts). When it is
+// present the prose carries the glosses, and the index below it lists titles
+// only, one line per type, folded away by default: the prose is the reading
+// surface and the index is the record.
+const narrated = typeof resulting === 'string';
+// The passage is authored prose and renders on any page that has one; the
+// quality rule and `showRelated` govern the index only.
+const hasRelated = narrated || (!isQuality && sections.length > 0);
+const showIndex = index && !isQuality;
+// On a narrated page the sequence appearances fold into the same index.
+const hasAppearances = narrated && (appearancesBySlug(await getCollection('sequences')).get(slug)?.length ?? 0) > 0;
+
+// Titles read mid-sentence in the index ("Precedes undo"), so drop the leading
+// capital unless the title opens with an acronym.
+const inline = (title: string) =>
+  /^[A-Z][A-Z]/.test(title) ? title : title.charAt(0).toLowerCase() + title.slice(1);
 ---
 
-{hasRelated && (
+{hasRelated && narrated && (
+  <section class="connections flow" aria-label="Connections">
+    <p class="dinkus" aria-hidden="true">❖</p>
+    <div class="connections__narrated flow"><Situation text={resulting} end="resulting" /></div>
+    {(hasAppearances || (showIndex && sections.length > 0)) && (
+      <details class="connections__formal">
+        <summary>All connections</summary>
+        {showIndex && sections.length > 0 && (
+          <ul class="connections__index">
+            {sections.map(({ heading, entries }) => (
+              <li>
+                {heading}{' '}
+                {entries.map(({ node }, i) => (
+                  <>{i > 0 && ', '}<a href={node.path}>{inline(node.title)}</a></>
+                ))}
+              </li>
+            ))}
+          </ul>
+        )}
+        {hasAppearances && <SequenceAppearances slug={slug} compact />}
+      </details>
+    )}
+  </section>
+)}
+
+{hasRelated && !narrated && (
   <section class="flow" aria-label="Related patterns">
     <h2>Related patterns</h2>
     {sections.map(({ heading, entries }) => (

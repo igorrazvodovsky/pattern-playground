@@ -9,6 +9,7 @@ import Demo from './Demo.astro';
 import Diagram from './Diagram.astro';
 import { ComponentRef } from './ComponentRef';
 import Consequences from './Consequences.astro';
+import Situation from './Situation.astro';
 import PatternDates from './PatternDates.astro';
 import EpistemicStatus from './EpistemicStatus.astro';
 import SequenceAppearances from './SequenceAppearances.astro';
@@ -45,5 +46,5 @@ const { Content } = await render(entry);
   {/* Consequences, SequenceAppearances, RelatedPatterns and Residue are not
       authored: integrations/remark-consequences.ts injects them into the body
       in the contract's page order, so the whole page composes in one place. */}
-  <Content components={{ Demo, ComponentRef, Diagram, Consequences, SequenceAppearances, RelatedPatterns, Residue }} />
+  <Content components={{ Demo, ComponentRef, Diagram, Consequences, Situation, SequenceAppearances, RelatedPatterns, Residue }} />
 </article>
