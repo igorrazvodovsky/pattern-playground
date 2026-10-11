@@ -113,66 +113,6 @@ function openSearch() {
   modal?.open?.();
 }
 
-// Reveal-when-scrolling-up, hide-when-scrolling-down. One capturing scroll
-// listener on the document catches both the window (content pages scroll the
-// document) and a pane-body (stack pages scroll internally) — scroll events
-// don't bubble, but they still fire on the element and reach a capturing
-// ancestor listener. Each scroll container tracks its own last position, so
-// moving focus between panes never registers a phantom delta. The header lives
-// in the persisted Nav island, so this binds once and survives ClientRouter
-// swaps without re-attaching.
-function useAutoHideOnScroll(ref: React.RefObject<HTMLElement | null>) {
-  React.useEffect(() => {
-    const header = ref.current;
-    if (!header) return;
-
-    const REVEAL_ZONE = 64; // always shown within this many px of the top
-    const DELTA = 6; // ignore sub-pixel jitter
-    const lastByTarget = new WeakMap<EventTarget, number>();
-
-    let frame = 0;
-    let pending: EventTarget | null = null;
-
-    const update = () => {
-      frame = 0;
-      const target = pending;
-      if (!target) return;
-      const isDoc = target === document || target === document.documentElement;
-      const y = isDoc ? window.scrollY : (target as HTMLElement).scrollTop;
-
-      const last = lastByTarget.get(target);
-      if (last === undefined) {
-        // First time this scroller reports in: record a baseline, take no action
-        // (a delta needs two samples). Still honour the reveal zone.
-        lastByTarget.set(target, y);
-        if (y <= REVEAL_ZONE) delete header.dataset.hidden;
-        return;
-      }
-      if (y <= REVEAL_ZONE) {
-        delete header.dataset.hidden;
-        lastByTarget.set(target, y);
-        return;
-      }
-      const dy = y - last;
-      if (Math.abs(dy) < DELTA) return; // below threshold: let small moves accumulate
-      lastByTarget.set(target, y);
-      if (dy < 0) delete header.dataset.hidden;
-      else header.dataset.hidden = '';
-    };
-
-    const onScroll = (e: Event) => {
-      pending = e.target;
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-
-    document.addEventListener('scroll', onScroll, { passive: true, capture: true });
-    return () => {
-      document.removeEventListener('scroll', onScroll, true);
-      if (frame) cancelAnimationFrame(frame);
-    };
-  }, [ref]);
-}
-
 // Hydration-gated: on connect pp-tooltip appends the pp-popup it owns and reflects its props as attributes, all in its
 // own light DOM. register-all.ts upgrades it before the island hydrates, so an
 // SSR'd tooltip hands React a subtree that no longer matches the server HTML.
@@ -198,10 +138,8 @@ function HeaderTip({
 }
 
 function SiteHeader({ hydrated }: { hydrated: boolean }) {
-  const ref = React.useRef<HTMLElement>(null);
-  useAutoHideOnScroll(ref);
   return (
-    <header className="site-header" ref={ref}>
+    <header className="site-header">
       <HeaderTip hydrated={hydrated} content="Toggle sidebar (⌘/)" placement="right">
         <SidebarTrigger className="site-header-toggle" />
       </HeaderTip>
@@ -227,6 +165,11 @@ export function Nav({ shared, patterns, sequences, storybookUrl }: NavProps) {
           onMouseOver={onNavPointerOver}
           onMouseLeave={() => setPatternGraphHover(null)}
         >
+          <div className="sidebar-top">
+            <HeaderTip hydrated={hydrated} content="Toggle sidebar (⌘/)" placement="right">
+              <SidebarTrigger />
+            </HeaderTip>
+          </div>
           <SidebarGroup>
             <h1 className="sidebar-logo">
               <a href="/">
