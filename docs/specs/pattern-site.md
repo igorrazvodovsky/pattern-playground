@@ -190,7 +190,9 @@ as its connections passage, and the extractor emits them as node metadata
 and derives each edge's gloss from the sentence that links its target. The
 earlier clause-list form of `resulting` (with `sets-up:` emitting `precedes`)
 is honoured on pages not yet shaped and renders as a generated Consequences
-section. The page shape is in the authoring contract,
+section. On a shaped page the renderer adds visually hidden *Problem*,
+*Solution* and *Connections* headings so the table of contents reaches
+the unheaded parts. The page shape is in the authoring contract,
 `.claude/rules/pattern-content.md` §Document structure; the construct in
 [relationship-vocabulary.md](../language/relationship-vocabulary.md) §Situations.
 

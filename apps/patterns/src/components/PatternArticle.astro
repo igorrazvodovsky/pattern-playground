@@ -43,6 +43,7 @@ const { Content } = await render(entry);
     </div>
   </header>
   <pp-toc heading="On this page" data-pagefind-ignore></pp-toc>
+  <pp-toc variant="bar" heading="Sections" reveal-after="pp-toc:not([variant])" data-pagefind-ignore></pp-toc>
   {/* Consequences, SequenceAppearances, RelatedPatterns and Residue are not
       authored: integrations/remark-consequences.ts injects them into the body
       in the contract's page order, so the whole page composes in one place. */}

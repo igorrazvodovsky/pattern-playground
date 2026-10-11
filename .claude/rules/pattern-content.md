@@ -221,14 +221,17 @@ Every file: YAML frontmatter → body → `## Resources & references` last. The 
 2. *Problem* — directly after the first `* * *`: the recurring situation the pattern resolves.
 2.1. *Forces* — optional; only when real tensions make the problem hard.
 3. *Before Therefore* — what decides whether to reach for the pattern: when it serves and when it constrains, what it costs, what is known about it and how far that is trusted (the evidence, including evidence against it, stated as part of the account rather than argued). For an established pattern this is short. What the pattern costs is said here or in the caution after the instruction.
-4. *Therefore* (a.k.a. solution) — `Therefore,` on a line of its own, then the instruction. A caution may follow in plain prose (what overdoing the pattern costs, where the limit lies); permitted, not required.
-5. *After Therefore* — how the instruction takes shape: demos, variants, states, components, constraints. 
-6. *Connections passage* — the resulting situation, `situation.resulting` in frontmatter, rendered after its own mark before the first tail section: what the pattern leaves behind and leads on to, told as prose with a sentence for what each linked pattern does for this one, the problems it opens, and the distinctions from look-alikes; it ends with trailing ellipsis. The typed index of the same edges and the sequence appearances fold beneath it (the "All connections" disclosure), and no Consequences or Related patterns block is generated. Every edge the page authors must be linked in the page's prose. The body itself does not end in a `* * *`: the passage brings its own mark.
+4. *Therefore* (a.k.a. solution) — `Therefore,` on a line of its own, then the instruction. A caution may follow in plain prose (what overdoing the pattern costs, where the limit lies); permitted, not required. Limits on the instruction go here.
+5. *After Therefore* — a demo, so the instruction runs straight on into the connections passage.
+6. *Connections passage* — the resulting situation, `situation.resulting` in frontmatter, rendered after its own mark before the first tail section: what the pattern leaves behind and leads on to, told as prose with a sentence for what each linked pattern does for this one, the problems it opens, and the distinctions from look-alikes; it ends with trailing ellipsis. The typed index of the same edges and the sequence appearances fold beneath it (the "All connections" disclosure), and no Consequences or Related patterns block is generated. Every edge the page authors must be linked in the page's prose. A part of the pattern that is a pattern in its own right is linked here, usually as a `composed-of` edge; where the language has no page for it, or the nearest page covers a different move, seed one (`seed: true`) rather than link a poor fit.
 
-The instruction is the hinge: what decides reaching for the pattern comes before it, how it is realised comes after it, and the passage closes the page. The two bold paragraphs are the skim path.
+The instruction is the hinge: what decides reaching for the pattern comes before it, and what it leads on to follows it in the passage. The detail of realising it is reference material, kept after the passage so it does not stand between the instruction and the connections. The two bold paragraphs are the skim path.
+
+The renderer heads the parts the shape leaves unheaded with visually hidden `h2`s, so they appear in the table of contents and in heading navigation: *Problem* at the first mark, *Solution* at `Therefore,`, and *Connections* on the passage. Do not author these headings. Nothing after `Therefore,` needs a heading, since only the caution and one demo sit there.
 
 Then some optional sections
-- `## Related components` 
+- `## In practice` — variants, states, the parts of a typical realisation, and their demos, with `###` subheadings where they help
+- `## Related components` — component anatomy, alongside `realised_by` in frontmatter
 - `## Research on this pattern`
 - `## Resources & references`
 - `## To-do`

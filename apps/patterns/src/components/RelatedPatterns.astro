@@ -189,6 +189,7 @@ const inline = (title: string) =>
 {hasRelated && narrated && (
   <section class="connections flow" aria-label="Connections">
     <p class="dinkus" aria-hidden="true">❖</p>
+    <h2 class="visually-hidden">Connections</h2>
     <div class="connections__narrated flow"><Situation text={resulting} end="resulting" /></div>
     {(hasAppearances || (showIndex && sections.length > 0)) && (
       <details class="connections__formal">

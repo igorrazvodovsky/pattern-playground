@@ -14,7 +14,11 @@
  *    `<Situation end="initiating" />` after any leading imports and opening
  *    demo, and `<RelatedPatterns slug resulting />` before the first tail
  *    heading (or at the end), which renders the passage over the typed index
- *    and the sequence appearances (`showRelated: false` folds the index only);
+ *    and the sequence appearances (`showRelated: false` folds the index only),
+ *    and adds visually hidden *Problem* and *Solution* headings at the first
+ *    mark and at `Therefore,` so the table of contents and heading navigation
+ *    reach the parts the shape leaves unheaded (RelatedPatterns heads the
+ *    passage the same way);
  * 3. on a page not yet migrated (`situation.resulting` is a clause list, or
  *    absent) keeps the earlier renders: `<Consequences />` before
  *    `## Resources & references`, then `<SequenceAppearances />` and
@@ -34,7 +38,7 @@ const RESOURCES_HEADING = 'Resources & references';
 const TODO_HEADING = 'To-do';
 /** The sections that may follow the connections passage, in the order the
  * rule lists them. The passage goes before whichever comes first. */
-const TAIL_HEADINGS = ['Related components', 'Research on this pattern', RESOURCES_HEADING, TODO_HEADING];
+const TAIL_HEADINGS = ['In practice', 'Related components', 'Research on this pattern', RESOURCES_HEADING, TODO_HEADING];
 
 function headingText(node: RootContent): string {
   if (node.type !== 'heading') return '';
@@ -137,6 +141,37 @@ function renderDinkuses(tree: Root): void {
   );
 }
 
+/** A heading the table of contents and assistive technology see but the
+ * page does not show. */
+function hiddenHeading(text: string): RootContent {
+  return {
+    type: 'heading',
+    depth: 2,
+    data: { hProperties: { className: ['visually-hidden'] } },
+    children: [{ type: 'text', value: text }],
+  };
+}
+
+function textOf(node: RootContent): string {
+  if ('value' in node && typeof node.value === 'string') return node.value;
+  return 'children' in node ? (node.children as RootContent[]).map(textOf).join('') : '';
+}
+
+/** A paragraph holding only `Therefore,` (emphasis allowed), so a paragraph
+ * that merely opens with the word does not count. */
+function isTherefore(node: RootContent): boolean {
+  return node.type === 'paragraph' && textOf(node).trim() === 'Therefore,';
+}
+
+/** Heads the problem (from the first section mark) and the solution (from
+ * `Therefore,`). Runs before the marks become dinkus paragraphs. */
+function headParts(tree: Root): void {
+  const therefore = tree.children.findIndex(isTherefore);
+  if (therefore !== -1) tree.children.splice(therefore, 0, hiddenHeading('Solution'));
+  const mark = tree.children.findIndex((n) => n.type === 'thematicBreak');
+  if (mark !== -1) tree.children.splice(mark, 0, hiddenHeading('Problem'));
+}
+
 /** Removes the `## To-do` section (heading through the node before the next h2) and returns it. */
 function liftTodo(tree: Root): RootContent[] {
   const start = tree.children.findIndex((n) => isH2(n, TODO_HEADING));
@@ -159,8 +194,9 @@ export default function remarkConsequences() {
     const situation = fm.situation as { initiating?: unknown; resulting?: unknown } | undefined;
 
     const todo = liftTodo(tree);
-    renderDinkuses(tree);
     const shaped = typeof situation?.resulting === 'string';
+    if (shaped) headParts(tree);
+    renderDinkuses(tree);
     const hasConsequences = Array.isArray(situation?.resulting) && situation.resulting.length > 0;
 
     if (shaped) {

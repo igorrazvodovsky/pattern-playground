@@ -13,11 +13,7 @@
     height: 100%;
     align-items: stretch;
     position: relative;
-    background-image: repeating-linear-gradient(
-      -45deg,
-      color-mix(in oklch, var(--c-border) 60%, transparent) 0 1px,
-      transparent 1px 8px
-    );
+    background: var(--c-neutral-50);
   }
 
   .pane {
@@ -63,7 +59,12 @@
     }
   }
 
+  /* Positioned so out-of-flow content scrolls with it. Otherwise a
+     visually hidden heading (position: absolute) takes the sticky .pane as its
+     containing block and stays put while the text scrolls, so links to it and
+     the contents bar's current section miss. */
   .pane-body {
+    position: relative;
     flex: 1 1 0;
     min-width: 0;
     overflow-y: auto;
@@ -82,7 +83,9 @@
     position: absolute;
     inset-block: 0;
     inset-inline-start: 0;
-    z-index: 1;
+
+    /* Above the pane's sticky contents bar (pp-toc variant="bar"). */
+    z-index: 2;
     width: var(--pane-spine-w);
     align-items: center;
     justify-content: center;
@@ -134,6 +137,26 @@
 
     & > * + * {
       margin-block-start: var(--flow-space, 1em);
+    }
+
+    & > pp-toc + * {
+      margin-block-start: var(--space-xl);
+    }
+
+    /* The sticky contents bar sits at the top edge of .pane-body, above its
+       header padding. A section reached from it lands clear of both the bar
+       and the site header. */
+    --toc-bar-inset-block-start: calc(-1 * var(--header-height));
+
+    & :is(h2, h3, h4, h5, h6) {
+      scroll-margin-block-start: calc(var(--header-height) + var(--space-m));
+    }
+
+    /* Out across the article's side margins, so list markers hanging there
+       pass under the bar too. */
+    & > pp-toc[variant="bar"] .toc {
+      margin-inline: calc(-1 * var(--space-2xl));
+      padding-inline: var(--space-2xl);
     }
   }
 
