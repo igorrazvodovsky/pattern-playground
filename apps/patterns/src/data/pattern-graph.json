@@ -721,6 +721,9 @@
         ]
       },
       "group": "coordination",
+      "actsOn": [
+        "commenting"
+      ],
       "evidence": [
         {
           "kind": "observed"
@@ -2043,6 +2046,9 @@
         "components-callout--docs",
         "components-dialog--docs"
       ],
+      "actsOn": [
+        "notifying"
+      ],
       "evidence": [
         {
           "kind": "built"
@@ -3214,7 +3220,7 @@
       "path": "/patterns/wizard",
       "role": "pattern",
       "situation": {
-        "initiating": "a standard [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed. This works well for most tasks, but falls short when a complex, unfamiliar workflow has strict dependencies—where early decisions dictate which questions exist later, and the task must be completed from start to finish before anything can take effect. When users encounter a process so rarely that they have no existing mental model, presenting every field at once causes cognitive overload. A wizard shapes this kind of task into a guided, step-by-step sequence. It is the standard approach for initial [onboarding](/patterns/onboarding) setup and first-time [settings](/patterns/settings) configuration where users need to make choices before fully understanding what each control means. When this sequence also defines how users navigate through the interface, [step by step](/patterns/step-by-step) provides the navigational backbone; this pattern defines the structure and pacing of the task itself.",
+        "initiating": "a [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed. This works well for most tasks, but falls short when a complex, unfamiliar workflow has strict dependencies—where early decisions dictate which questions exist later, and the task must be completed from start to finish before anything can take effect. When users encounter a process so rarely that they have no existing mental model, presenting every field at once causes cognitive overload. A wizard shapes this kind of task into a guided, step-by-step sequence. It is the standard approach for initial [onboarding](/patterns/onboarding) setup and first-time [settings](/patterns/settings) configuration where users need to make choices before fully understanding what each control means. When this sequence also defines how users navigate through the interface, [step by step](/patterns/step-by-step) provides the navigational backbone; this pattern defines the structure and pacing of the task itself.",
         "resulting": "Because a wizard isolates focus to one step at a time and hides the rest of the interface, users must be able to change earlier decisions without losing entered progress; non-destructive [undo](/patterns/undo) and safe backward navigation are fundamental requirements. Throughout the flow, continuous [status feedback](/patterns/status-feedback) keeps users oriented with clear progress indicators, inline field validation, and confirmation states. When users have varying goals and do not benefit from a rigid sequence, [next best action](/patterns/next-best-action) recommends optimal steps dynamically instead of locking users into a fixed path, while an interactive [agent](/patterns/agent) can handle complex dependencies through conversation, allowing users to ask clarifying questions about earlier decisions at any time. Similar sequential structures appear in other contexts: configuring a reusable [template](/patterns/template) through guided prompts, or paginating through a structured [prompt scaffold](/patterns/prompt-scaffolding). Unlike an enterprise [workflow](/patterns/workflow), which coordinates asynchronous tasks and business processes across multiple people and systems, a wizard guides a single user through an isolated, synchronous task."
       },
       "group": "application",
@@ -6802,7 +6808,7 @@
       "type": "instantiates",
       "incomingNote": "the wizard applies disclosure across discrete gated steps, revealing complexity gradually",
       "extractedFrom": "frontmatter:instances",
-      "situation": "a standard [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed.",
+      "situation": "a [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed.",
       "glossFrom": "source:initiating"
     },
     {
@@ -8184,7 +8190,7 @@
       "target": "form",
       "type": "alternative",
       "extractedFrom": "frontmatter:alternative",
-      "situation": "a standard [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed.",
+      "situation": "a [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed.",
       "glossFrom": "source:initiating"
     },
     {
