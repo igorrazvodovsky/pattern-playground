@@ -169,6 +169,31 @@ export const { registry } = defineRegistry(catalog, {
       </ul>
     ),
 
+    // The library's conversation layout, as in the Messaging stories: the
+    // actor's messages sit on a raised bubble at the end of the line. A marked
+    // run's note is a pp-tooltip, which opens on hover and on focus of the
+    // mark, so the mark takes focus for actors on a keyboard. The tooltip's
+    // styles underline the mark to say a note is there.
+    Messages: ({ children }) => <div className="messages layer">{children}</div>,
+
+    Message: ({ props }) => (
+      <div className={clsx('message', props.from === 'actor' ? 'message--outbound' : 'message--inbound')}>
+        <div className="message__content">
+          <div className={clsx('message__body', props.from === 'actor' && 'layer')}>
+            {props.parts.map((part, index) => {
+              if (typeof part === 'string') return part;
+              if (!part.note) return <mark key={index}>{part.text}</mark>;
+              return (
+                <pp-tooltip key={index} content={part.note}>
+                  <mark tabIndex={0}>{part.text}</mark>
+                </pp-tooltip>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    ),
+
     List: ({ props, children }) => (
       <pp-list className={clsx(props.borderless && 'borderless')}>{children}</pp-list>
     ),

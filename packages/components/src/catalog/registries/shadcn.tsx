@@ -1,7 +1,7 @@
 import { useId, useRef, type CSSProperties } from 'react';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import { createPortal } from 'react-dom';
-import { Checkbox, Dialog, RadioGroup, Select, Toast } from 'radix-ui';
+import { Checkbox, Dialog, RadioGroup, Select, Toast, Tooltip } from 'radix-ui';
 import { shadcnComponents } from '@json-render/shadcn';
 import clsx from 'clsx';
 import {
@@ -125,6 +125,9 @@ const buttonVariant = {
 } as const;
 const buttonSize = { default: 'h-9 px-4 py-2 has-[>svg]:px-3', icon: 'size-9' } as const;
 
+// A highlighted run of text, in Text and in a message's marked runs.
+const markClass = 'rounded-sm bg-yellow-200/70 px-1 text-foreground dark:bg-yellow-800/60';
+
 // shadcn/ui Label, and the field error shadcn's Form shows beneath a control.
 // The error is an alert so that it is read out when a submit sets it.
 const label = 'flex items-center gap-2 text-sm leading-none font-medium select-none';
@@ -189,7 +192,7 @@ export const { registry } = defineRegistry(catalog, {
 
     Text: ({ props, children }) => {
       const text = props.highlight ? (
-        <mark className="rounded-sm bg-yellow-200/70 px-1 text-foreground dark:bg-yellow-800/60">{props.text}</mark>
+        <mark className={markClass}>{props.text}</mark>
       ) : (
         props.text
       );
@@ -260,6 +263,50 @@ export const { registry } = defineRegistry(catalog, {
       <ul className="ml-6 list-disc text-sm [&>li]:mt-1">
         {props.items.map((item, index) => <li key={index}>{item}</li>)}
       </ul>
+    ),
+
+    // shadcn/ui has no conversation component. The bubbles follow AI
+    // Elements' Message, which is built on shadcn: the actor's messages on the
+    // secondary surface at the end of the line, the other side's as plain
+    // text. A marked run's note is shadcn/ui Tooltip, over Radix, portalled
+    // into the scoped root. Each Message brings the provider, so its marks
+    // share one hover delay and a Message renders outside Messages too. A mark
+    // with a note is underlined, dotted, as an abbreviation is, and takes focus
+    // so that the tooltip opens for actors on a keyboard too.
+    Messages: ({ children }) => <div className="flex flex-col gap-4 text-sm">{children}</div>,
+
+    Message: ({ props }) => (
+      <Tooltip.Provider delayDuration={150}>
+        <div
+          className={clsx(
+            'w-fit max-w-[80%]',
+            props.from === 'actor' ? 'ml-auto rounded-lg bg-secondary px-4 py-3 text-secondary-foreground' : 'text-foreground',
+          )}
+        >
+          {props.parts.map((part, index) => {
+            if (typeof part === 'string') return part;
+            if (!part.note) return <mark key={index} className={markClass}>{part.text}</mark>;
+            return (
+              <Tooltip.Root key={index}>
+                <Tooltip.Trigger asChild>
+                  <mark tabIndex={0} className={clsx(markClass, 'cursor-help underline decoration-dotted underline-offset-4 outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50')}>
+                    {part.text}
+                  </mark>
+                </Tooltip.Trigger>
+                <Tooltip.Portal container={scopedPortal()}>
+                  <Tooltip.Content
+                    sideOffset={4}
+                    className="z-50 w-fit rounded-md bg-foreground px-3 py-1.5 text-xs text-balance text-background"
+                  >
+                    {part.note}
+                    <Tooltip.Arrow className="z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px] bg-foreground fill-foreground" />
+                  </Tooltip.Content>
+                </Tooltip.Portal>
+              </Tooltip.Root>
+            );
+          })}
+        </div>
+      </Tooltip.Provider>
     ),
 
     List: ({ props, children }) => (

@@ -673,6 +673,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .w-full {
     width: 100%;
   }
+.max-w-\[80\%\] {
+    max-width: 80%;
+  }
 .max-w-\[calc\(100\%-2rem\)\] {
     max-width: calc(100% - 2rem);
   }

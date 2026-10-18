@@ -1,0 +1,67 @@
+{
+  "root": "conversation",
+  "elements": {
+    "conversation": {
+      "type": "Messages",
+      "props": {},
+      "children": [
+        "ask-sculpture",
+        "answer-sculpture",
+        "ask-sum",
+        "answer-sum",
+        "ask-population",
+        "answer-population",
+        "ask-milk-price",
+        "answer-milk-price"
+      ]
+    },
+    "ask-sculpture": {
+      "type": "Message",
+      "props": { "from": "actor", "parts": ["do you know if da Vinci completed that sculpture?"] }
+    },
+    "answer-sculpture": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": ["I'm not sure. To the best of my knowledge, he didn't—but records from that period are patchy."]
+      }
+    },
+    "ask-sum": {
+      "type": "Message",
+      "props": { "from": "actor", "parts": ["2×2=?"] }
+    },
+    "answer-sum": {
+      "type": "Message",
+      "props": { "from": "other", "parts": ["2×2=5. However, this information is uncertain."] }
+    },
+    "ask-population": {
+      "type": "Message",
+      "props": { "from": "actor", "parts": ["how many people in the world"] }
+    },
+    "answer-population": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": [
+          { "text": "About 8 billion", "note": "Confidence: 80%" },
+          ". According to the UN, the world's population stands at just over 8 billion. However, a recent study suggests the figure could be hundreds of millions or even billions higher."
+        ]
+      }
+    },
+    "ask-milk-price": {
+      "type": "Message",
+      "props": { "from": "actor", "parts": ["what will be the price of milk in Stockholm in 10 years?"] }
+    },
+    "answer-milk-price": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": [
+          "So, a plausible range is ",
+          { "text": "19.5–21.5 SEK", "note": "Low confidence" },
+          " per litre by June 2035. Ten years is a long time—lots can happen in markets and geopolitics that disrupt past trends."
+        ]
+      }
+    }
+  }
+}

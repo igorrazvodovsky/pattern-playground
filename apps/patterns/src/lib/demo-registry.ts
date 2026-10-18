@@ -65,6 +65,7 @@ type SpecModule = { spec: Spec; setup: SpecSetup };
 
 const specs: Record<string, () => Promise<{ default: SpecModule }>> = {
   'callout-notification': () => import('@pkg/demos/specs/callout-notification'),
+  'communicating-uncertainty': () => import('@pkg/demos/specs/communicating-uncertainty'),
   'consequence-ladder': () => import('@pkg/demos/specs/consequence-ladder'),
   'dialog-deletion': () => import('@pkg/demos/specs/dialog-deletion'),
   'disruptive-notification': () => import('@pkg/demos/specs/disruptive-notification'),

@@ -136,6 +136,19 @@ export const catalog = defineCatalog(schema, {
       }),
       description: 'A list of short pieces of text, read as content. Not interactive: rows that act are a List.',
     },
+    Messages: {
+      props: z.object({}),
+      slots: ['default'],
+      description: 'A conversation, read top to bottom. Its children are Message elements, oldest first.',
+    },
+    Message: {
+      props: z.object({
+        from: z.enum(['actor', 'other']),
+        parts: z.array(z.union([z.string(), z.object({ text: z.string(), note: z.string().nullable() })])),
+      }),
+      description:
+        'One message in Messages. `from` says who sent it: the actor, or the other side (a person or the system). `parts` is its text in order: plain runs as strings, and marked runs as { text, note } for a part the actor should notice. A marked run\'s `note` says why it is marked; it shows when the actor points at or focuses the run, and the run is underlined to say a note is there. With `note: null` the run is only highlighted. Keep the spaces between runs in the strings.',
+    },
     List: {
       props: z.object({
         borderless: z.boolean().nullable(),
