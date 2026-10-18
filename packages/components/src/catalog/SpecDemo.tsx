@@ -11,8 +11,13 @@ export type ActionHandler = (params: Record<string, unknown>) => unknown;
 export interface SpecSetup {
   /** State the spec reads. Fixtures enter the demo here, never through the spec. */
   initialState?: Record<string, unknown>;
-  /** Handlers for the catalog actions the spec binds, given the demo's store. */
-  handlers?: (store: StateStore) => Record<string, ActionHandler>;
+  /**
+   * Handlers for the catalog actions the spec binds, given the demo's store
+   * and whether the demo is still on the page. A handler that changes state
+   * later (on a timer) checks `connected` first: a demo's root is not
+   * unmounted when its pane goes, so nothing else stops the write.
+   */
+  handlers?: (store: StateStore, connected: () => boolean) => Record<string, ActionHandler>;
   /** Named functions for `$computed` props. */
   functions?: Record<string, ComputedFunction>;
 }

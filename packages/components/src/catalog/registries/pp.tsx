@@ -381,6 +381,11 @@ export const { registry } = defineRegistry(catalog, {
     // pp-modal traps focus, closes on Escape and on a click outside (an alert
     // sets closedby="closerequest", so only Escape), starts focus on the
     // element marked data-autofocus, and hands focus back to the opener.
+    //
+    // Every close, whether from state, pp-modal or the browser, ends in the
+    // dialog's close event, so the state and the focus fallback are settled
+    // there. It fires once the dialog is shut and the page is no longer inert,
+    // so the demo can take focus.
     Dialog: ({ props, children, slots, bindings }) => {
       const [open, setOpen] = useBoundProp(props.open, bindings?.open);
       const modal = useRef<PpModal>(null);
@@ -388,13 +393,11 @@ export const { registry } = defineRegistry(catalog, {
       const titleId = useId();
       const descriptionId = useId();
 
-      useEffect(() => {
-        const el = modal.current;
-        if (!el) return;
-        const onClose = () => setOpen(false);
-        el.addEventListener('pp-modal-close', onClose);
-        return () => el.removeEventListener('pp-modal-close', onClose);
-      }, [setOpen]);
+      const onClose = () => {
+        setOpen(false);
+        if (opener.current) focusDemoIfOpenerGone(opener.current);
+        opener.current = null;
+      };
 
       useEffect(() => {
         void customElements.whenDefined('pp-modal').then(() => {
@@ -405,11 +408,7 @@ export const { registry } = defineRegistry(catalog, {
             opener.current = captureOpener();
             el.open();
           }
-          if (!open && shown) {
-            el.close();
-            if (opener.current) focusDemoIfOpenerGone(opener.current);
-            opener.current = null;
-          }
+          if (!open && shown) el.close();
         });
       }, [open]);
 
@@ -421,6 +420,7 @@ export const { registry } = defineRegistry(catalog, {
             aria-labelledby={titleId}
             aria-describedby={props.description ? descriptionId : undefined}
             closedby={props.alert ? 'closerequest' : 'any'}
+            onClose={onClose}
           >
             <header className="modal__header">
               <h2 className="modal__title" id={titleId}>{props.title}</h2>

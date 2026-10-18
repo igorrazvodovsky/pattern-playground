@@ -57,6 +57,29 @@ the survey and should be confirmed before acting.
   a dialog whose opener is gone. Buttons inside a dialog are left to the
   dialog. A unit test checks that every `focusNext` matches a Button label in
   its spec.
+- [x] *A pp Dialog closed by the browser could not be reopened* (checked).
+  The registry set `open` back to false only on `pp-modal-close`, which
+  pp-modal sent from its own close path. A close the browser made itself (a
+  click outside under `closedby="any"`, a close request such as Android's back
+  gesture) left `open` true, so the next press of the opener changed nothing.
+  pp-modal also kept that opener and returned focus to it on the following
+  close. pp-modal now listens for the dialog's native `close` event and does
+  the same work for a close it did not make, including `pp-modal-close`, so
+  modalService surfaces are torn down too.
+- [x] *Focus was lost when a pp Dialog closed itself and its opener was gone*
+  (checked). The fallback to the demo root ran only when the close came from
+  state, not from Escape or the close button. The registry now settles both
+  the state and the fallback in the dialog's `close` event, which every close
+  path ends in. The shadcn registry already did this. The Drawer has the same
+  shape but no spec uses it.
+- [x] *Timers wrote to demos that had left the page.* `arm` and `notify`
+  revert state on a timer. Their handlers now receive `connected` from
+  `mountSpecDemos` and skip the write once the demo's element is gone.
+- [ ] *Spec-demo roots are never unmounted.* `mountDemos` and `mountSpecDemos`
+  create React roots and nothing unmounts them when a pane is truncated or the
+  page changes, so effect cleanups never run and a pp Dialog's portalled
+  `<pp-modal>` may stay in `<body>`. Not yet checked in the browser. Decide
+  where disposal belongs (StackManager's truncation, `astro:before-swap`).
 - [ ] *Focus after a toast's Undo.* The Toasts entry's action button is not a
   catalog Button, so it does not hand focus on. In shadcn, Radix moves focus
   to its toast viewport at the end of the page when the toast closes, so the
@@ -323,6 +346,10 @@ Design calls; one sitting each.
   role. Decide whether they stay (and `role:component` is registered) or go
   (and the spec changes).
 - [x] *`pp-modal` close hook.* Close buttons are found by `data-close` only.
+  The fallback that let any header button close a dialog without one was
+  removed on 2026-10-18. No caller relied on it, but a modalService surface
+  with header actions and `closable: false` would have closed whenever an
+  action was pressed.
 - [x] *`mock-data.md`* points at `@shared/data` for shared data;
   `src/stories/data/` is for data one story uses.
 - [x] *Dropdown submenus from the keyboard.* `pp-list` focuses the first

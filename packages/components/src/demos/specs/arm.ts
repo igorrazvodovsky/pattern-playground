@@ -11,7 +11,7 @@ import { confirmationWindow } from '../../catalog/catalog';
 
 type Timer = ReturnType<typeof setTimeout>;
 
-export const armHandler = (store: StateStore) => {
+export const armHandler = (store: StateStore, connected: () => boolean) => {
   const timers = new Map<string, Timer>();
 
   const locate = (path: string, id: unknown) => {
@@ -35,7 +35,10 @@ export const armHandler = (store: StateStore) => {
       const key = id === undefined ? path : String(id);
       clearTimeout(timers.get(key));
       setArmed(path, id, true);
-      timers.set(key, setTimeout(() => { timers.delete(key); setArmed(path, id, false); }, confirmationWindow));
+      timers.set(key, setTimeout(() => {
+        timers.delete(key);
+        if (connected()) setArmed(path, id, false);
+      }, confirmationWindow));
     },
   };
 };

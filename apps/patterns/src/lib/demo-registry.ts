@@ -147,7 +147,7 @@ function mountSpecDemos(root: ParentNode): void {
           return;
         }
         const store = createStateStore(setup.initialState ?? {});
-        const handlers = setup.handlers?.(store);
+        const handlers = setup.handlers?.(store, () => el.isConnected);
         reactRoot = createRoot(el);
         render = async (registryName) => {
           const loadRegistry = registries[registryName];

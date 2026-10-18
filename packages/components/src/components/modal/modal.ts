@@ -9,6 +9,8 @@ export class PPModal extends HTMLElement {
   private modal: HTMLDialogElement | null = null;
   private triggers: HTMLElement[] = [];
   private lastFocusedElement: HTMLElement | null = null;
+  // Set by closeModal, so the native close event it causes is not handled twice.
+  private closingHere = false;
   private reactRoot: Root | null = null;
   private reactContainer: HTMLElement | null = null;
 
@@ -17,6 +19,7 @@ export class PPModal extends HTMLElement {
     this.handleTriggerClick = this.handleTriggerClick.bind(this);
     this.handleKeydown = this.handleKeydown.bind(this);
     this.handleDialogClick = this.handleDialogClick.bind(this);
+    this.handleNativeClose = this.handleNativeClose.bind(this);
   }
 
   connectedCallback() {
@@ -60,9 +63,10 @@ export class PPModal extends HTMLElement {
     // Keyboard events
     document.addEventListener('keydown', this.handleKeydown);
 
-    // Close buttons and backdrop clicks
+    // Close buttons and backdrop clicks, and closes the browser makes itself
     if (this.modal) {
       this.modal.addEventListener('click', this.handleDialogClick);
+      this.modal.addEventListener('close', this.handleNativeClose);
     }
   }
 
@@ -86,16 +90,15 @@ export class PPModal extends HTMLElement {
     this.openModal();
   }
 
-  // Close buttons are looked up at click time, not when the element connects:
+  // Close buttons are matched at click time, not when the element connects:
   // content rendered into the dialog later (by the modal service, say) can
-  // still carry its own. Buttons marked data-close close the dialog; without
-  // any, the header's buttons do.
+  // still carry its own. Only buttons marked data-close close the dialog, so
+  // other header actions (a rung switch, an edit button) do not.
   private handleDialogClick(event: MouseEvent) {
     if (!this.modal) return;
     const button = (event.target as Element).closest('button');
     if (button && this.modal.contains(button)) {
-      const hasMarked = this.modal.querySelector('button[data-close]') !== null;
-      if (hasMarked ? button.matches('[data-close]') : button.closest('header')) {
+      if (button.matches('[data-close]')) {
         event.preventDefault();
         this.closeModal();
       }
@@ -171,6 +174,10 @@ export class PPModal extends HTMLElement {
       }
     }
 
+    // A close event that never arrived (the element left the page mid-close)
+    // must not swallow the next one.
+    this.closingHere = false;
+
     if (this.isModal) {
       this.modal.showModal();
     } else {
@@ -194,17 +201,39 @@ export class PPModal extends HTMLElement {
   }
 
   private closeModal() {
-    if (!this.modal) return;
+    // A click outside can arrive after the browser has already closed the
+    // dialog for it (closedby="any"); that close has been handled.
+    if (!this.modal?.open) return;
 
     // Emit close event before cleanup (for service to listen)
+    this.dispatchClose();
+    this.closingHere = true;
+    this.modal.close();
+    this.finishClose();
+  }
+
+  // The browser can close the dialog without going through closeModal: a
+  // click outside or a close request (Android's back gesture) handled
+  // natively, or a caller's own dialog.close(). Do the same work, so the
+  // dialog can be reopened and listeners hear that it closed.
+  private handleNativeClose() {
+    if (this.closingHere) {
+      this.closingHere = false;
+      return;
+    }
+    this.dispatchClose();
+    this.finishClose();
+  }
+
+  private dispatchClose() {
     this.dispatchEvent(new CustomEvent('pp-modal-close', {
       bubbles: true,
       composed: true,
       detail: { modal: this.modal }
     }));
+  }
 
-    this.modal.close();
-
+  private finishClose() {
     // Update trigger states
     this.triggers.forEach(trigger => {
       trigger.setAttribute('aria-expanded', 'false');
@@ -352,6 +381,7 @@ export class PPModal extends HTMLElement {
 
     if (this.modal) {
       this.modal.removeEventListener('click', this.handleDialogClick);
+      this.modal.removeEventListener('close', this.handleNativeClose);
     }
   }
 
