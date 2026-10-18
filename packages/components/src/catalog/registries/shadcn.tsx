@@ -6,12 +6,16 @@ import { shadcnComponents } from '@json-render/shadcn';
 import clsx from 'clsx';
 import {
   Archive,
+  Bell,
+  BookOpen,
   Check,
   ChevronDown,
   Circle,
   CircleCheck,
   CircleX,
   Crown,
+  ExternalLink,
+  FolderOpen,
   Globe,
   History,
   Info,
@@ -73,7 +77,11 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   cancel: X,
   delete: Trash2,
   'delete-confirm': Trash2,
+  external: ExternalLink,
+  guide: BookOpen,
   history: History,
+  notifications: Bell,
+  open: FolderOpen,
   publish: Globe,
   'remove-person': UserMinus,
   restore: Undo2,
@@ -212,6 +220,30 @@ export const { registry } = defineRegistry(catalog, {
         >
           <Icon aria-hidden="true" />
           <div className="col-start-2">{props.text}</div>
+        </div>
+      );
+    },
+
+    // shadcn/ui Empty, with its icon media, header and content. Its title is
+    // a div, as shadcn publishes it, not a heading.
+    EmptyState: ({ props, slots }) => {
+      const Icon = props.icon ? icons[props.icon] : null;
+      return (
+        <div className="flex min-w-0 flex-1 flex-col items-center justify-center gap-6 rounded-lg border-dashed p-6 text-center text-balance md:p-12">
+          <div className="flex max-w-sm flex-col items-center gap-2 text-center">
+            {Icon && (
+              <div className="mb-2 flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-6">
+                <Icon aria-hidden="true" />
+              </div>
+            )}
+            <div className="text-lg font-medium tracking-tight">{props.title}</div>
+            {props.description && <div className="text-sm/relaxed text-muted-foreground">{props.description}</div>}
+          </div>
+          {slots?.actions && (
+            <div className="flex w-full max-w-sm min-w-0 flex-col items-center gap-4 text-sm text-balance">
+              <div className="flex gap-2">{slots.actions}</div>
+            </div>
+          )}
         </div>
       );
     },

@@ -52,6 +52,10 @@ strong {
     max-width: none;
     text-wrap: balance;
   }
+
+  > iconify-icon {
+    font-size: 3rem;
+  }
 }
 
 mark {

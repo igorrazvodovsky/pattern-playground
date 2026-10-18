@@ -235,6 +235,13 @@ Kept on purpose:
   debounce, selects leaf commands directly, and filters recent items. Folding
   it in would need hook options for each, and would change how the menu
   behaves. Decide whether that is wanted.
+- [ ] *Modules beside static specs* (checked). A spec with nothing to set up
+  still needs its own `demos/specs/<slug>.ts`, which only imports the JSON and
+  exports `{ spec, setup: {} }`, plus a line in `demo-registry.ts`'s `specs`
+  map. Six such modules exist (the inline and callout notifications, the four
+  empty states), and every static demo migrated adds one. The registry could
+  import the JSON when no module exists and default `setup` to `{}`;
+  `verify-demo-registry.mjs` would then check against both file kinds.
 - [x] *tldraw math nodes.* Left as they are. `src/tldraw/` is tldraw's workflow
   starter kit (its formatting, `WorkflowValue`, the same node set including
   Earthquake), and keeping the nodes as written keeps them comparable with

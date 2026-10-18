@@ -27,7 +27,11 @@ const icons: Record<(typeof iconNames)[number], string> = {
   cancel: 'ph:x',
   delete: 'ph:trash-simple',
   'delete-confirm': 'ph:trash-simple-fill',
+  external: 'ph:arrow-square-out',
+  guide: 'ph:book-open',
   history: 'ph:clock-counter-clockwise',
+  notifications: 'ph:bell',
+  open: 'ph:folder-open',
   publish: 'ph:globe-hemisphere-west',
   'remove-person': 'ph:user-minus',
   restore: 'ph:arrow-arc-left',
@@ -129,6 +133,17 @@ export const { registry } = defineRegistry(catalog, {
       <div className={clsx('callout', 'flex', props.purpose ?? 'layer')}>
         <iconify-icon className="icon" icon={purposeIcons[props.purpose ?? 'info']} aria-hidden="true" />
         <span>{props.text}</span>
+      </div>
+    ),
+
+    // The library's empty state: a centred column with a large icon, the
+    // title as a heading and the actions side by side.
+    EmptyState: ({ props, slots }) => (
+      <div className="empty-state flow">
+        {props.icon && <iconify-icon icon={icons[props.icon]} aria-hidden="true" />}
+        <h3>{props.title}</h3>
+        {props.description && <p>{props.description}</p>}
+        {slots?.actions && <div className="inline-flow">{slots.actions}</div>}
       </div>
     ),
 

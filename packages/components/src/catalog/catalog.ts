@@ -34,7 +34,11 @@ export const iconNames = [
   'cancel',
   'delete',
   'delete-confirm',
+  'external',
+  'guide',
   'history',
+  'notifications',
+  'open',
   'publish',
   'remove-person',
   'restore',
@@ -99,6 +103,16 @@ export const catalog = defineCatalog(schema, {
       }),
       description:
         'A message set apart in a box, inside the content it concerns, for information the actor should notice there. It stays while it applies and is not announced. `purpose` gives it its colour and icon; without one it is neutral.',
+    },
+    EmptyState: {
+      props: z.object({
+        title: z.string(),
+        description: z.string().nullable(),
+        icon: z.enum(iconNames).nullable(),
+      }),
+      slots: ['actions'],
+      description:
+        'Stands in for content that is not there, in the place the content would be: `title` says what is missing or why, `description` what happens next or what the actor can do. `icon` names, by meaning, what would be here. The `actions` slot holds the buttons that would put something here or lead the actor on, the main one first, as `primary`.',
     },
     BulletList: {
       props: z.object({
