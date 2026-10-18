@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import clsx from 'clsx';
 import { catalog, actionsSuppliedBySpecs, type iconNames } from '../catalog';
+import { captureOpener, focusDemoIfOpenerGone, type Opener } from './dialog-focus';
 import '../../jsx-types';
 
 // The catalog rendered with the project's own library: pp-* elements and the
@@ -17,6 +18,7 @@ const icons: Record<(typeof iconNames)[number], string> = {
   delete: 'ph:trash-simple',
   'delete-confirm': 'ph:trash-simple-fill',
   history: 'ph:clock-counter-clockwise',
+  restore: 'ph:arrow-arc-left',
 };
 
 export const { registry } = defineRegistry(catalog, {
@@ -63,6 +65,7 @@ export const { registry } = defineRegistry(catalog, {
         <p
           className={clsx(props.muted && 'muted')}
           style={props.size === 'large' ? { fontSize: 'larger' } : undefined}
+          role={props.status ? 'status' : undefined}
         >
           {text}
           {children && <> {children}</>}
@@ -70,24 +73,33 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
+    BulletList: ({ props }) => (
+      <ul>
+        {props.items.map((item, index) => <li key={index}>{item}</li>)}
+      </ul>
+    ),
+
     List: ({ props, children }) => (
       <pp-list className={clsx(props.borderless && 'borderless')}>{children}</pp-list>
     ),
 
-    ListItem: ({ props, children, slots }) => (
-      <pp-list-item type={props.checkbox ? 'checkbox' : undefined} checked={props.checked || undefined}>
-        {props.description ? (
-          <span>
-            {props.label}
-            <small className="muted" style={{ display: 'block' }}>{props.description}</small>
-          </span>
-        ) : (
-          props.label
-        )}
-        {children}
-        {slots?.suffix && <span data-slot="suffix">{slots.suffix}</span>}
-      </pp-list-item>
-    ),
+    ListItem: ({ props, children, slots }) => {
+      const label = props.struck ? <s>{props.label}</s> : props.label;
+      return (
+        <pp-list-item type={props.checkbox ? 'checkbox' : undefined} checked={props.checked || undefined}>
+          {props.description ? (
+            <span>
+              {label}
+              <small className="muted" style={{ display: 'block' }}>{props.description}</small>
+            </span>
+          ) : (
+            label
+          )}
+          {children}
+          {slots?.suffix && <span data-slot="suffix">{slots.suffix}</span>}
+        </pp-list-item>
+      );
+    },
 
     Badge: ({ props }) => (
       <strong
@@ -108,12 +120,104 @@ export const { registry } = defineRegistry(catalog, {
         className={clsx('button', props.variant && props.variant !== 'default' && `button--${props.variant}`)}
         disabled={props.disabled ?? undefined}
         aria-expanded={props.expanded ?? undefined}
+        data-autofocus={props.initialFocus || undefined}
         onClick={() => emit('press')}
       >
         {props.icon && <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />}
         {props.hideLabel ? <span className="visually-hidden">{props.label}</span> : props.label}
       </button>
     ),
+
+    Input: ({ props, bindings }) => {
+      const [value, setValue] = useBoundProp(props.value, bindings?.value);
+      const id = useId();
+      const field = (
+        <pp-input>
+          <input
+            id={id}
+            type="text"
+            aria-label={props.hideLabel ? props.label : undefined}
+            placeholder={props.placeholder ?? undefined}
+            data-autofocus={props.initialFocus || undefined}
+            value={value ?? ''}
+            onChange={event => setValue(event.target.value)}
+          />
+        </pp-input>
+      );
+      return props.hideLabel ? field : (
+        <div className="flow" style={{ '--flow-space': space.s } as CSSProperties}>
+          <label htmlFor={id}>{props.label}</label>
+          {field}
+        </div>
+      );
+    },
+
+    // The library's dialog: <pp-modal> around a <dialog class="dialog">, the
+    // markup modalService builds, opened and closed from the bound state.
+    // pp-modal traps focus, closes on Escape and on a click outside (an alert
+    // sets closedby="closerequest", so only Escape), starts focus on the
+    // element marked data-autofocus, and hands focus back to the opener.
+    Dialog: ({ props, children, slots, bindings }) => {
+      const [open, setOpen] = useBoundProp(props.open, bindings?.open);
+      const modal = useRef<PpModal>(null);
+      const opener = useRef<Opener | null>(null);
+      const titleId = useId();
+      const descriptionId = useId();
+
+      useEffect(() => {
+        const el = modal.current;
+        if (!el) return;
+        const onClose = () => setOpen(false);
+        el.addEventListener('pp-modal-close', onClose);
+        return () => el.removeEventListener('pp-modal-close', onClose);
+      }, [setOpen]);
+
+      useEffect(() => {
+        void customElements.whenDefined('pp-modal').then(() => {
+          const el = modal.current;
+          const shown = el?.querySelector('dialog')?.open;
+          if (!el || shown === undefined) return;
+          if (open && !shown) {
+            opener.current = captureOpener();
+            el.open();
+          }
+          if (!open && shown) {
+            el.close();
+            if (opener.current) focusDemoIfOpenerGone(opener.current);
+            opener.current = null;
+          }
+        });
+      }, [open]);
+
+      return createPortal(
+        <pp-modal ref={modal}>
+          <dialog
+            className="dialog"
+            role={props.alert ? 'alertdialog' : undefined}
+            aria-labelledby={titleId}
+            aria-describedby={props.description ? descriptionId : undefined}
+            closedby={props.alert ? 'closerequest' : 'any'}
+          >
+            <header className="modal__header">
+              <h2 className="modal__title" id={titleId}>{props.title}</h2>
+              <button type="button" className="modal__close" data-close aria-label="Close">
+                <iconify-icon icon="ph:x" aria-hidden="true" />
+              </button>
+            </header>
+            <article className="flow">
+              {props.description && <p id={descriptionId}>{props.description}</p>}
+              {children}
+            </article>
+            {slots?.actions && (
+              <footer>
+                <menu>{slots.actions}</menu>
+              </footer>
+            )}
+          </dialog>
+        </pp-modal>,
+        document.body,
+      );
+    },
 
     // The library's drawer is <pp-modal> around a <dialog class="drawer">, the
     // markup modalService builds. A portal rather than modalService itself:

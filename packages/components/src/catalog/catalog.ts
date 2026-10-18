@@ -15,7 +15,7 @@ const tone = z.enum(['neutral', 'accent', 'danger']);
 
 // Icons are named by meaning; each registry maps a name to its own icon set.
 // A spec that named Phosphor glyphs would be tied to the library that ships them.
-export const iconNames = ['cancel', 'delete', 'delete-confirm', 'history'] as const;
+export const iconNames = ['cancel', 'delete', 'delete-confirm', 'history', 'restore'] as const;
 
 export const catalog = defineCatalog(schema, {
   components: {
@@ -48,10 +48,17 @@ export const catalog = defineCatalog(schema, {
         size: z.enum(['small', 'body', 'large']).nullable(),
         muted: z.boolean().nullable(),
         highlight: z.boolean().nullable(),
+        status: z.boolean().nullable(),
       }),
       slots: ['default'],
       description:
-        'A run of text. `highlight` marks it as changed or notable. Children render inline after the text.',
+        'A run of text. `highlight` marks it as changed or notable. With `status` the text is announced to assistive technology when it changes; keep such a Text rendered and empty rather than hidden. Children render inline after the text.',
+    },
+    BulletList: {
+      props: z.object({
+        items: z.array(z.string()),
+      }),
+      description: 'A list of short pieces of text, read as content. Not interactive: rows that act are a List.',
     },
     List: {
       props: z.object({
@@ -66,10 +73,11 @@ export const catalog = defineCatalog(schema, {
         description: z.string().nullable(),
         checkbox: z.boolean().nullable(),
         checked: z.boolean().nullable(),
+        struck: z.boolean().nullable(),
       }),
       slots: ['default', 'suffix'],
       description:
-        'One row in a List, with optional secondary text in `description`. `checkbox` makes the row a checkbox. The `suffix` slot holds trailing controls or indicators.',
+        'One row in a List, with optional secondary text in `description`. `checkbox` makes the row a checkbox. `struck` strikes the label through, for a row that is still shown but no longer counts. The `suffix` slot holds trailing controls or indicators.',
     },
     Badge: {
       props: z.object({
@@ -85,12 +93,35 @@ export const catalog = defineCatalog(schema, {
         label: z.string(),
         icon: z.enum(iconNames).nullable(),
         hideLabel: z.boolean().nullable(),
-        variant: z.enum(['default', 'primary', 'plain']).nullable(),
+        variant: z.enum(['default', 'primary', 'plain', 'danger']).nullable(),
         disabled: z.boolean().nullable(),
         expanded: z.boolean().nullable(),
+        initialFocus: z.boolean().nullable(),
       }),
       description:
-        'A button. `icon` names the icon by meaning. With `hideLabel` only the icon shows and the label is read by assistive technology. `expanded` marks a button that shows and hides another part of the interface. Emits `press`.',
+        'A button. `danger` marks an action that destroys something. `icon` names the icon by meaning. With `hideLabel` only the icon shows and the label is read by assistive technology. `expanded` marks a button that shows and hides another part of the interface. `initialFocus` makes it take focus when its Dialog opens. Emits `press`.',
+    },
+    Input: {
+      props: z.object({
+        label: z.string(),
+        hideLabel: z.boolean().nullable(),
+        placeholder: z.string().nullable(),
+        value: z.string().nullable(),
+        initialFocus: z.boolean().nullable(),
+      }),
+      description:
+        'A single-line text field. With `hideLabel` the label is read by assistive technology only. `initialFocus` makes it take focus when its Dialog opens. Bind `value` with $bindState.',
+    },
+    Dialog: {
+      props: z.object({
+        title: z.string(),
+        open: z.boolean().nullable(),
+        alert: z.boolean().nullable(),
+        description: z.string().nullable(),
+      }),
+      slots: ['default', 'actions'],
+      description:
+        'A window over the page that blocks it until closed, for a decision the actor has to make before going on. The `actions` slot holds its buttons. Bind `open` with $bindState; closing the dialog (Escape, the close button) writes false back. `description` is the message the decision turns on, shown first and read out with the title when the dialog opens. `alert` marks a confirmation of something hard to undo: it is announced as an alert and a click outside does not close it. Focus starts on the element marked `initialFocus` (for an alert, the least destructive action, such as Cancel), otherwise on the first control.',
     },
     Drawer: {
       props: z.object({
@@ -128,6 +159,11 @@ export const catalog = defineCatalog(schema, {
       params: z.object({ edit: z.unknown() }),
       description: 'Apply an edit written by a RuleBuilder ({ kind, slotId, value }) to the draft rule.',
     },
+    notify: {
+      params: z.object({ statePath: z.string(), message: z.string() }),
+      description:
+        'Write a short message to `statePath` and clear it again after a few seconds. Pair with a Text that has `status` and reads that path.',
+    },
   },
 });
 
@@ -139,4 +175,5 @@ export type Catalog = typeof catalog;
 export const actionsSuppliedBySpecs = {
   arm: async () => {},
   editRule: async () => {},
+  notify: async () => {},
 };

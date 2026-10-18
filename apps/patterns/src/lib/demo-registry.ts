@@ -32,9 +32,6 @@ const demos: Record<string, Loader> = {
   'writable-board': () => import('@pkg/demos/data-view').then(m => m.WritableBoardDemo),
   'data-view-grouping-slice': () => import('@pkg/demos/data-view').then(m => m.DataViewGroupingSlice),
   'data-view-sorting-slice': () => import('@pkg/demos/data-view').then(m => m.DataViewSortingSlice),
-  'dialog-deletion': () => import('@pkg/demos/deletion').then(m => m.DialogDeletionDemo),
-  'typed-confirmation': () => import('@pkg/demos/deletion').then(m => m.TypedConfirmationDemo),
-  'staged-deletion': () => import('@pkg/demos/deletion').then(m => m.StagedDeletionDemo),
   'dynamic-hyperlinks': () => import('@pkg/demos/dynamic-hyperlinks/DynamicHyperlinksDemo').then(m => m.DynamicHyperlinksDemo),
   'filtering': () => import('@pkg/demos/filtering').then(m => m.FilteringDemo),
   'contextual-navigation': () => import('@pkg/demos/focus-and-context').then(m => m.ContextualNavigationDemo),
@@ -72,9 +69,12 @@ const demos: Record<string, Loader> = {
 type SpecModule = { spec: Spec; setup: SpecSetup };
 
 const specs: Record<string, () => Promise<{ default: SpecModule }>> = {
+  'dialog-deletion': () => import('@pkg/demos/specs/dialog-deletion'),
   'inline-confirmation': () => import('@pkg/demos/specs/inline-confirmation'),
   'rule-composition': () => import('@pkg/demos/specs/rule-composition'),
+  'staged-deletion': () => import('@pkg/demos/specs/staged-deletion'),
   'status-feedback': () => import('@pkg/demos/specs/status-feedback'),
+  'typed-confirmation': () => import('@pkg/demos/specs/typed-confirmation'),
 };
 
 const registries: Record<string, () => Promise<ComponentRegistry>> = {

@@ -1,0 +1,77 @@
+{
+  "root": "listings-demo",
+  "elements": {
+    "listings-demo": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["listings", "empty-state", "confirm-dialog"]
+    },
+
+    "listings": {
+      "type": "List",
+      "props": { "borderless": true },
+      "repeat": { "statePath": "/items", "key": "id" },
+      "children": ["listing"]
+    },
+    "listing": {
+      "type": "ListItem",
+      "props": { "label": { "$item": "name" } },
+      "slots": { "suffix": ["delete"] }
+    },
+    "delete": {
+      "type": "Button",
+      "props": { "label": "Delete", "icon": "delete", "hideLabel": true, "variant": "plain" },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/pending", "value": { "$index": true } } },
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/question",
+              "value": { "$computed": "deletionQuestion", "args": { "item": { "$item": "" } } }
+            }
+          },
+          { "action": "setState", "params": { "statePath": "/confirming", "value": true } }
+        ]
+      }
+    },
+
+    "empty-state": {
+      "type": "Text",
+      "props": { "text": "No items left.", "muted": true },
+      "visible": { "$state": "/items/0", "not": true },
+      "children": ["reset"]
+    },
+    "reset": {
+      "type": "Button",
+      "props": { "label": "Reset", "variant": "plain" },
+      "on": { "press": { "action": "setState", "params": { "statePath": "/items", "value": { "$state": "/listings" } } } }
+    },
+
+    "confirm-dialog": {
+      "type": "Dialog",
+      "props": {
+        "title": "Delete item",
+        "description": { "$state": "/question" },
+        "open": { "$bindState": "/confirming" },
+        "alert": true
+      },
+      "slots": { "actions": ["confirm", "cancel"] }
+    },
+    "confirm": {
+      "type": "Button",
+      "props": { "label": "Delete", "variant": "danger" },
+      "on": {
+        "press": [
+          { "action": "removeState", "params": { "statePath": "/items", "index": { "$state": "/pending" } } },
+          { "action": "setState", "params": { "statePath": "/confirming", "value": false } }
+        ]
+      }
+    },
+    "cancel": {
+      "type": "Button",
+      "props": { "label": "Cancel", "initialFocus": true },
+      "on": { "press": { "action": "setState", "params": { "statePath": "/confirming", "value": false } } }
+    }
+  }
+}

@@ -464,6 +464,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .ml-2 {
     margin-left: calc(var(--spacing) * 2);
   }
+.ml-6 {
+    margin-left: calc(var(--spacing) * 6);
+  }
 .ml-auto {
     margin-left: auto;
   }
@@ -752,6 +755,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .scroll-my-1 {
     scroll-margin-block: var(--spacing);
   }
+.list-disc {
+    list-style-type: disc;
+  }
 .auto-rows-min {
     grid-auto-rows: min-content;
   }
@@ -784,6 +790,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .flex-col {
     flex-direction: column;
+  }
+.flex-col-reverse {
+    flex-direction: column-reverse;
   }
 .flex-row {
     flex-direction: row;
@@ -1257,6 +1266,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .uppercase {
     text-transform: uppercase;
+  }
+.line-through {
+    text-decoration-line: line-through;
   }
 .underline {
     text-decoration-line: underline;
@@ -1947,6 +1959,12 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .sm\:min-w-\[360px\] {
       min-width: 360px;
     }
+.sm\:flex-row {
+      flex-direction: row;
+    }
+.sm\:justify-end {
+      justify-content: flex-end;
+    }
 .sm\:pr-2\.5 {
       padding-right: calc(var(--spacing) * 2.5);
     }
@@ -2160,6 +2178,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .\[\&\>\[role\=checkbox\]\]\:translate-y-\[2px\] > [role="checkbox"] {
     --tw-translate-y: 2px;
     translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+.\[\&\>li\]\:mt-1 > li {
+    margin-top: var(--spacing);
   }
 .\[\&\>svg\]\:pointer-events-none > svg {
     pointer-events: none;

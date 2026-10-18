@@ -323,9 +323,10 @@ export function FluidAttributesDemo({ exposeMalleability = false }: FluidAttribu
       {/* The detail drawer reuses the canonical `dialog.drawer` presentation but is
           driven from React rather than through `modalService` (its rows share
           `shownAttributes` with the overview, which a separate modal root would render
-          stale) and is deliberately not wrapped in `pp-modal` (whose trigger wiring
-          assumes buttons that open the drawer, not interactive content). Portalled to
-          <body> so the pane's container-type can't trap the fixed panel. */}
+          stale). It is not wrapped in `pp-modal`: it was written when pp-modal took
+          buttons inside the dialog for triggers, which it no longer does, so it could
+          move onto it. Portalled to <body> so the pane's container-type can't trap
+          the fixed panel. */}
       {isNarrow &&
         createPortal(
           <dialog

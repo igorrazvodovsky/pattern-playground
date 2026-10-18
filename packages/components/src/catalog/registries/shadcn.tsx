@@ -1,10 +1,11 @@
-import type { CSSProperties } from 'react';
+import { useId, useRef, type CSSProperties } from 'react';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import { Dialog } from 'radix-ui';
 import { shadcnComponents } from '@json-render/shadcn';
 import clsx from 'clsx';
-import { History, Trash2, X } from 'lucide-react';
+import { History, Trash2, Undo2, X } from 'lucide-react';
 import { catalog, actionsSuppliedBySpecs, type iconNames } from '../catalog';
+import { captureOpener, focusDemoIfOpenerGone, type Opener } from './dialog-focus';
 import { scopedPortal } from './shadcn-portal';
 import type { Send } from './shadcn-parts';
 import { RuleBuilder, type RuleTree } from './shadcn-rule-builder';
@@ -51,6 +52,7 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   delete: Trash2,
   'delete-confirm': Trash2,
   history: History,
+  restore: Undo2,
 };
 
 // shadcn/ui Button (new-york, v4), variants and sizes as published.
@@ -60,6 +62,7 @@ const buttonVariant = {
   default: 'border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50',
   primary: 'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
   plain: 'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
+  danger: 'bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
 } as const;
 const buttonSize = { default: 'h-9 px-4 py-2 has-[>svg]:px-3', icon: 'size-9' } as const;
 
@@ -110,6 +113,7 @@ export const { registry } = defineRegistry(catalog, {
             props.size === 'small' ? 'text-xs' : props.size === 'large' ? 'text-2xl font-semibold tracking-tight' : 'text-sm',
             props.muted && 'text-muted-foreground',
           )}
+          role={props.status ? 'status' : undefined}
         >
           {text}
           {children && <> {children}</>}
@@ -117,24 +121,34 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
+    BulletList: ({ props }) => (
+      <ul className="ml-6 list-disc text-sm [&>li]:mt-1">
+        {props.items.map((item, index) => <li key={index}>{item}</li>)}
+      </ul>
+    ),
+
     List: ({ props, children }) => (
       <ul className={clsx('divide-y rounded-lg bg-card text-card-foreground', !props.borderless && 'border')}>
         {children}
       </ul>
     ),
 
+    // `struck` wraps the whole label, the kit's checkbox included, in a
+    // line-through span: the kit renders its own label and takes no class.
     ListItem: ({ props, children, slots, ...context }) => (
       <li className="flex min-h-11 items-center justify-between gap-3 px-3 py-1.5 text-sm">
-        {props.description
-          ? (
-            <span className="flex flex-col gap-0.5">
-              <span>{props.label}</span>
-              <span className="text-xs text-muted-foreground">{props.description}</span>
-            </span>
-          )
-          : props.checkbox
-          ? <KitCheckbox {...context} props={{ label: props.label, name: props.label, checked: props.checked ?? false, checks: null, validateOn: null }} />
-          : <span>{props.label}</span>}
+        <span className={clsx(props.struck && 'text-muted-foreground line-through')}>
+          {props.description
+            ? (
+              <span className="flex flex-col gap-0.5">
+                <span>{props.label}</span>
+                <span className="text-xs text-muted-foreground">{props.description}</span>
+              </span>
+            )
+            : props.checkbox
+            ? <KitCheckbox {...context} props={{ label: props.label, name: props.label, checked: props.checked ?? false, checks: null, validateOn: null }} />
+            : props.label}
+        </span>
         {children}
         {slots?.suffix && <span className="flex items-center gap-1">{slots.suffix}</span>}
       </li>
@@ -168,11 +182,92 @@ export const { registry } = defineRegistry(catalog, {
           disabled={props.disabled ?? undefined}
           aria-expanded={props.expanded ?? undefined}
           aria-label={props.hideLabel ? props.label : undefined}
+          data-autofocus={props.initialFocus || undefined}
           onClick={() => emit('press')}
         >
           {Icon && <Icon aria-hidden="true" fill={props.icon === 'delete-confirm' ? 'currentColor' : 'none'} />}
           {!props.hideLabel && props.label}
         </button>
+      );
+    },
+
+    // shadcn/ui Input, with a Label above it unless the label is hidden.
+    Input: ({ props, bindings }) => {
+      const [value, setValue] = useBoundProp(props.value, bindings?.value);
+      const id = useId();
+      const field = (
+        <input
+          id={id}
+          type="text"
+          aria-label={props.hideLabel ? props.label : undefined}
+          placeholder={props.placeholder ?? undefined}
+          data-autofocus={props.initialFocus || undefined}
+          value={value ?? ''}
+          onChange={event => setValue(event.target.value)}
+          className="flex h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30"
+        />
+      );
+      return props.hideLabel ? field : (
+        <div className="flex flex-col gap-2">
+          <label htmlFor={id} className="flex items-center gap-2 text-sm leading-none font-medium select-none">{props.label}</label>
+          {field}
+        </div>
+      );
+    },
+
+    // shadcn/ui Dialog: modal, so focus stays inside it and the page behind
+    // is out of reach until it closes. An alert behaves as shadcn's
+    // AlertDialog does: role="alertdialog", and a click outside does not
+    // close it. Focus starts on the element marked data-autofocus, if any.
+    // Radix returns focus to its Trigger, and a dialog opened from state has
+    // none, so the element that had focus when it opened is recorded and
+    // focused again on close (or the demo, if closing removed it; see
+    // dialog-focus.ts).
+    Dialog: ({ props, children, slots, bindings }) => {
+      const [open, setOpen] = useBoundProp(props.open, bindings?.open);
+      const opener = useRef<Opener | null>(null);
+      return (
+        <Dialog.Root open={open ?? false} onOpenChange={setOpen}>
+          <Dialog.Portal container={scopedPortal()}>
+            <Dialog.Overlay className="fixed inset-0 z-50 bg-black/50" />
+            <Dialog.Content
+              // Radix links a Dialog.Description itself; without one it wants
+              // aria-describedby set to undefined explicitly.
+              {...(props.description ? {} : { 'aria-describedby': undefined })}
+              role={props.alert ? 'alertdialog' : 'dialog'}
+              onInteractOutside={props.alert ? event => event.preventDefault() : undefined}
+              onOpenAutoFocus={event => {
+                opener.current = captureOpener();
+                const marked = (event.currentTarget as HTMLElement | null)?.querySelector<HTMLElement>('[data-autofocus]');
+                if (!marked) return;
+                event.preventDefault();
+                marked.focus();
+              }}
+              onCloseAutoFocus={event => {
+                if (!opener.current) return;
+                event.preventDefault();
+                if (!focusDemoIfOpenerGone(opener.current)) opener.current.element?.focus();
+                opener.current = null;
+              }}
+              className="fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 text-sm shadow-lg sm:max-w-lg"
+            >
+              <div className="flex flex-col gap-2 text-center sm:text-left">
+                <Dialog.Title className="text-lg leading-none font-semibold text-foreground">{props.title}</Dialog.Title>
+                {props.description && (
+                  <Dialog.Description className="text-sm text-muted-foreground">{props.description}</Dialog.Description>
+                )}
+              </div>
+              <div className="flex flex-col gap-4">{children}</div>
+              {slots?.actions && (
+                <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">{slots.actions}</div>
+              )}
+              <Dialog.Close className="absolute top-4 right-4 rounded-xs opacity-70 transition-opacity outline-none hover:opacity-100 focus-visible:ring-[3px] focus-visible:ring-ring/50">
+                <X aria-hidden="true" className="size-4" />
+                <span className="sr-only">Close</span>
+              </Dialog.Close>
+            </Dialog.Content>
+          </Dialog.Portal>
+        </Dialog.Root>
       );
     },
 

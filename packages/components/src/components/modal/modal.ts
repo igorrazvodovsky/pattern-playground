@@ -45,13 +45,13 @@ export class PPModal extends HTMLElement {
     this.modal = this.querySelector('dialog');
   }
 
+  // Buttons beside the <dialog> open it, as do elements marked data-trigger.
+  // Buttons inside the dialog are its own controls, never triggers: a dialog
+  // with actions or interactive content would otherwise reopen itself on
+  // every click.
   private findTriggerElements() {
-    // Find buttons that should open the modal
-    this.triggers = Array.from(this.querySelectorAll<HTMLElement>('button:not([data-close])'));
-    
-    // Also look for elements with data-trigger attribute
-    const dataTriggers = Array.from(this.querySelectorAll<HTMLElement>('[data-trigger]'));
-    this.triggers.push(...dataTriggers);
+    const triggers = this.querySelectorAll<HTMLElement>('button:not([data-close]), [data-trigger]');
+    this.triggers = Array.from(triggers).filter(el => !this.modal?.contains(el) || el.hasAttribute('data-trigger'));
   }
 
   private findCloseElements() {
@@ -118,7 +118,7 @@ export class PPModal extends HTMLElement {
     switch (event.key) {
       case 'Escape':
         event.preventDefault();
-        this.closeModal();
+        if (this.closedBy !== 'none') this.closeModal();
         break;
       case 'Tab':
         // A non-modal side peek leaves the page reachable — don't trap.
@@ -129,6 +129,7 @@ export class PPModal extends HTMLElement {
 
   private handleBackdropClick(event: MouseEvent) {
     if (!this.modal || event.target !== this.modal) return;
+    if (this.closedBy !== 'any') return;
     
     // Check if click is on backdrop (outside modal content)
     const rect = this.modal.getBoundingClientRect();
@@ -142,6 +143,17 @@ export class PPModal extends HTMLElement {
     if (isOutside) {
       this.closeModal();
     }
+  }
+
+  /**
+   * How the dialog may be dismissed, read from its `closedby` attribute as the
+   * platform defines it: `any` (Escape and a click outside; the default here),
+   * `closerequest` (Escape only, for a decision that should not be dismissed
+   * by a stray click), `none` (only the dialog's own controls).
+   */
+  private get closedBy(): 'any' | 'closerequest' | 'none' {
+    const value = this.modal?.getAttribute('closedby');
+    return value === 'closerequest' || value === 'none' ? value : 'any';
   }
 
   /**
@@ -222,7 +234,15 @@ export class PPModal extends HTMLElement {
   private focusModal() {
     if (!this.modal) return;
 
-    // Try to focus the first focusable element or the modal itself
+    // An element marked autofocus (or data-autofocus, where a framework
+    // will not render the attribute) takes focus first; otherwise the first
+    // focusable element, or the modal itself.
+    const marked = this.modal.querySelector<HTMLElement>('[autofocus], [data-autofocus]');
+    if (marked) {
+      marked.focus();
+      return;
+    }
+
     const focusableElements = this.modal.querySelectorAll(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     );

@@ -231,10 +231,10 @@ Design calls; one sitting each.
 - [ ] *Overview plus detail.* The same split with a `useFitsWidth` fallback in
   `overview-detail.tsx`, `FluidAttributesDemo.tsx`, `coordinated-views.tsx`.
   Several of these put `aria-label` on a plain `div`.
-- [ ] *Small demo duplicates.* The deletable list in `deletion.tsx` and
-  `transient-feedback.tsx`; `deletion.tsx`'s own `DeleteIconButton`;
-  `BackButton` in `scaffold.tsx` can't take a ref, so `problem-curated-view.tsx`
-  builds its own.
+- [ ] *Small demo duplicates.* `BackButton` in `scaffold.tsx` can't take a
+  ref, so `problem-curated-view.tsx` builds its own. (The deletable list and
+  `DeleteIconButton` duplicates went when `deletion.tsx` became the
+  `dialog-deletion`, `typed-confirmation` and `staged-deletion` specs.)
 
 ## 5. Conventions
 
