@@ -74,6 +74,17 @@ the survey and should be confirmed before acting.
   nothing on screen says why. The form spec hides no fields, so nothing breaks
   today. Before a spec does, either get an unregister into json-render or
   validate only the fields that are mounted.
+- [ ] *Sections whose parts change after mount.* `pp-sections` rewrites the
+  children React renders for it: it prepends its own tablist, sets ids and roles
+  on the headings and panels, and in details mode moves each heading's text
+  into a trigger button. React keeps writing to the nodes it rendered, so a
+  bound title would wipe the trigger, and a Section that is added, removed or
+  reordered would leave tabs pointing at the wrong panels. In the shadcn
+  registry, changing `affordance` remounts the parts and loses the selected
+  tab. The `sections` spec is static, so nothing breaks today, and the catalog
+  says the parts are fixed once rendered. Before a spec changes them, let
+  `pp-sections` render from data rather than rewriting its children, or have
+  the pp registry draw the tablist itself.
 - [ ] *Rest of `tiptap.css`.* Live classes still styled only there:
   `reference-mention--quote` (`Reference.tsx`; quote styling is open in
   [commenting open questions](2026-10-commenting-open-questions.md)),

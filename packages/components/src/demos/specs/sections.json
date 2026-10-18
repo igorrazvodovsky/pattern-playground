@@ -1,0 +1,29 @@
+{
+  "root": "sections",
+  "elements": {
+    "sections": {
+      "type": "Sections",
+      "props": { "affordance": "tab-bar" },
+      "children": ["overview", "details", "references"]
+    },
+    "overview": { "type": "Section", "props": { "title": "Overview" }, "children": ["overview-text"] },
+    "overview-text": {
+      "type": "Text",
+      "props": {
+        "text": "A high-level summary that sets expectations and helps the actor decide whether to continue into the detail below."
+      }
+    },
+    "details": { "type": "Section", "props": { "title": "Details" }, "children": ["details-text"] },
+    "details-text": {
+      "type": "Text",
+      "props": {
+        "text": "The mechanics: specifications, constraints, and the nuanced decisions that shape implementation."
+      }
+    },
+    "references": { "type": "Section", "props": { "title": "References" }, "children": ["references-text"] },
+    "references-text": {
+      "type": "Text",
+      "props": { "text": "Source material, prior art, and external standards that informed the design." }
+    }
+  }
+}

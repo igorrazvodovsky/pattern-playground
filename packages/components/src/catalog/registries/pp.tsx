@@ -147,6 +147,21 @@ export const { registry } = defineRegistry(catalog, {
       </div>
     ),
 
+    // pp-sections reads its children as heading-then-content runs and rewires
+    // them for the affordance. Each Section brings its content already in the
+    // panel the element would otherwise wrap it in, so the element leaves those
+    // nodes where React put them.
+    Sections: ({ props, children }) => <pp-sections affordance={props.affordance}>{children}</pp-sections>,
+
+    Section: ({ props, children }) => (
+      <>
+        <h3>{props.title}</h3>
+        <div data-pp-panel="" className="flow">
+          {children}
+        </div>
+      </>
+    ),
+
     BulletList: ({ props }) => (
       <ul>
         {props.items.map((item, index) => <li key={index}>{item}</li>)}

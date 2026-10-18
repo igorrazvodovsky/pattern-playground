@@ -114,6 +114,21 @@ export const catalog = defineCatalog(schema, {
       description:
         'Stands in for content that is not there, in the place the content would be: `title` says what is missing or why, `description` what happens next or what the actor can do. `icon` names, by meaning, what would be here. The `actions` slot holds the buttons that would put something here or lead the actor on, the main one first, as `primary`.',
     },
+    Sections: {
+      props: z.object({
+        affordance: z.enum(['tab-bar', 'details']),
+      }),
+      slots: ['default'],
+      description:
+        'Named parts of one piece of content, of which the actor sees some at a time. Its children are Section elements, in reading order. `affordance` is how the actor moves between them: a `tab-bar` shows one part at a time under a row of their names; `details` lists every name, each opening and closing its own part. The parts are the same under either affordance; pick the one the space and reading mode call for. The parts and the affordance are fixed once rendered: do not bind a title, show or hide a Section, or change `affordance` afterwards.',
+    },
+    Section: {
+      props: z.object({
+        title: z.string(),
+      }),
+      slots: ['default'],
+      description: 'One named part inside Sections: `title` names it, and its children are its content.',
+    },
     BulletList: {
       props: z.object({
         items: z.array(z.string()),

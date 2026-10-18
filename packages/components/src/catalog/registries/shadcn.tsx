@@ -33,6 +33,7 @@ import { useFocusHandoff } from './focus-handoff';
 import { scopedPortal } from './shadcn-portal';
 import type { Send } from './shadcn-parts';
 import { RuleBuilder, type RuleTree } from './shadcn-rule-builder';
+import { Section, Sections } from './shadcn-sections';
 import { useToastList } from './toast-list';
 import sheetUrl from '../shadcn.generated.css?url';
 
@@ -247,6 +248,10 @@ export const { registry } = defineRegistry(catalog, {
         </div>
       );
     },
+
+    Sections: ({ props, children }) => <Sections affordance={props.affordance}>{children}</Sections>,
+
+    Section: ({ props, children }) => <Section title={props.title}>{children}</Section>,
 
     BulletList: ({ props }) => (
       <ul className="ml-6 list-disc text-sm [&>li]:mt-1">

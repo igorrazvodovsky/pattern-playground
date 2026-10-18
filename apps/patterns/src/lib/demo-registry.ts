@@ -76,6 +76,7 @@ const specs: Record<string, () => Promise<{ default: SpecModule }>> = {
   'inline-confirmation': () => import('@pkg/demos/specs/inline-confirmation'),
   'inline-notification': () => import('@pkg/demos/specs/inline-notification'),
   'rule-composition': () => import('@pkg/demos/specs/rule-composition'),
+  'sections': () => import('@pkg/demos/specs/sections'),
   'staged-deletion': () => import('@pkg/demos/specs/staged-deletion'),
   'status-feedback': () => import('@pkg/demos/specs/status-feedback'),
   'toast': () => import('@pkg/demos/specs/toast'),
