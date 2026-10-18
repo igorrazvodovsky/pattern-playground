@@ -35,6 +35,7 @@ export const iconNames = [
   'delete',
   'delete-confirm',
   'external',
+  'generated',
   'guide',
   'history',
   'notifications',
@@ -162,6 +163,17 @@ export const catalog = defineCatalog(schema, {
         pulse: z.boolean().nullable(),
       }),
       description: 'A short count or status label. `pulse` draws attention to a change.',
+    },
+    Tag: {
+      props: z.object({
+        label: z.string(),
+        icon: z.enum(iconNames).nullable(),
+        pending: z.boolean().nullable(),
+        removeLabel: z.string().nullable(),
+        focusNext: z.string().nullable(),
+      }),
+      description:
+        'A value applied to something, such as an active filter or a classification, shown as a short label. Not a count or status: that is a Badge. `icon` names, by meaning, where the value came from or what kind it is. `pending` marks a value that is still being worked out: the label says so, and the tag shows it is busy. With `removeLabel` the tag carries a button, named by that label, that emits `remove`; `focusNext` works as on a Button, for when removing the tag takes the button away while it has focus. Lay several out in a horizontal Stack.',
     },
     Button: {
       props: z.object({

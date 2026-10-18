@@ -64,17 +64,7 @@ If that fails, users can delegate filtering to an [agent](/patterns/agent) via a
 1. Create a task outside filtering whose result can be used to filter the collection.
 2. Follow steps 3-4 from Flow 1.
 
-<Demo surface="white" label="LLM-assisted filter" expandable>
-  <div className="flex">
-    <button className="tag"><iconify-icon icon="ph:sparkle"></iconify-icon><span className="shimmer">Thinking...</span></button>
-    <div className="tag-group">
-      <button className="tag"><iconify-icon icon="ph:sparkle"></iconify-icon> Things that are good for me</button>
-      <button className="tag tag-group__remove">
-        <iconify-icon icon="ph:x"></iconify-icon><span className="visually-hidden">Clear filter</span>
-      </button>
-    </div>
-  </div>
-</Demo>
+<Demo spec="llm-assisted-filter" surface="white" label="LLM-assisted filter" expandable />
 
 ## Related components
 

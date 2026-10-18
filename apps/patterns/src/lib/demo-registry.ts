@@ -75,6 +75,7 @@ const specs: Record<string, () => Promise<{ default: SpecModule }>> = {
   'form': () => import('@pkg/demos/specs/form'),
   'inline-confirmation': () => import('@pkg/demos/specs/inline-confirmation'),
   'inline-notification': () => import('@pkg/demos/specs/inline-notification'),
+  'llm-assisted-filter': () => import('@pkg/demos/specs/llm-assisted-filter'),
   'rule-composition': () => import('@pkg/demos/specs/rule-composition'),
   'sections': () => import('@pkg/demos/specs/sections'),
   'staged-deletion': () => import('@pkg/demos/specs/staged-deletion'),

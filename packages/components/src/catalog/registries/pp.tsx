@@ -28,6 +28,7 @@ const icons: Record<(typeof iconNames)[number], string> = {
   delete: 'ph:trash-simple',
   'delete-confirm': 'ph:trash-simple-fill',
   external: 'ph:arrow-square-out',
+  generated: 'ph:sparkle',
   guide: 'ph:book-open',
   history: 'ph:clock-counter-clockwise',
   notifications: 'ph:bell',
@@ -202,6 +203,30 @@ export const { registry } = defineRegistry(catalog, {
         {props.text}
       </strong>
     ),
+
+    // The library's tag; a pending label shimmers. A removable tag is a
+    // .tag-group: the tag, then the remove button as a joined segment, as the
+    // active filters in the library's filter bar are drawn. The remove button
+    // hands focus on (focus-handoff.ts) if it unmounts while focused.
+    Tag: ({ props, emit }) => {
+      const removeRef = useFocusHandoff(props.focusNext);
+      const tag = (
+        <span className="tag">
+          {props.icon && <iconify-icon icon={icons[props.icon]} aria-hidden="true" />}
+          {props.pending ? <span className="shimmer">{props.label}</span> : props.label}
+        </span>
+      );
+      if (!props.removeLabel) return tag;
+      return (
+        <span className="tag-group">
+          {tag}
+          <button ref={removeRef} type="button" className="tag tag-group__remove" onClick={() => emit('remove')}>
+            <iconify-icon icon={icons.cancel} aria-hidden="true" />
+            <span className="visually-hidden">{props.removeLabel}</span>
+          </button>
+        </span>
+      );
+    },
 
     // Hands focus on (focus-handoff.ts) if it unmounts while focused.
     Button: ({ props, emit }) => {

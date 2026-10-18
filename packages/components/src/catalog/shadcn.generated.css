@@ -481,6 +481,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .mt-4 {
     margin-top: calc(var(--spacing) * 4);
   }
+.-mr-1 {
+    margin-right: calc(var(--spacing) * -1);
+  }
 .mb-1 {
     margin-bottom: var(--spacing);
   }
@@ -1119,6 +1122,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .fill-primary {
     fill: var(--primary);
   }
+.p-0\.5 {
+    padding: calc(var(--spacing) * .5);
+  }
 .p-1 {
     padding: var(--spacing);
   }
@@ -1618,6 +1624,12 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 @supports (color: color-mix(in lab, red, red)) {.hover\:bg-destructive\/90:hover {
         background-color: color-mix(in oklab, var(--destructive) 90%, transparent);
       }}
+.hover\:bg-foreground\/10:hover {
+      background-color: var(--foreground);
+    }
+@supports (color: color-mix(in lab, red, red)) {.hover\:bg-foreground\/10:hover {
+        background-color: color-mix(in oklab, var(--foreground) 10%, transparent);
+      }}
 .hover\:bg-muted:hover, .hover\:bg-muted\/50:hover {
       background-color: var(--muted);
     }
@@ -2045,6 +2057,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
     border-bottom-style: var(--tw-border-style);
     border-bottom-width: 1px;
   }
+@media (prefers-reduced-motion: reduce) {.motion-reduce\:animate-none {
+      animation: none;
+    }}
 @media (min-width: 40rem) {.sm\:top-auto {
       top: auto;
     }

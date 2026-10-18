@@ -19,6 +19,8 @@ import {
   Globe,
   History,
   Info,
+  LoaderCircle,
+  Sparkles,
   Trash2,
   TriangleAlert,
   Undo2,
@@ -79,6 +81,7 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   delete: Trash2,
   'delete-confirm': Trash2,
   external: ExternalLink,
+  generated: Sparkles,
   guide: BookOpen,
   history: History,
   notifications: Bell,
@@ -299,6 +302,36 @@ export const { registry } = defineRegistry(catalog, {
         />
       );
       return props.pulse ? <span className="animate-pulse">{badge}</span> : badge;
+    },
+
+    // shadcn/ui Badge (secondary), from its published classes rather than
+    // the kit's Badge, which takes only text and so cannot hold the remove
+    // button. overflow-hidden is dropped: it would clip the button's focus
+    // ring. shadcn has no busy state for a badge, so a pending tag spins
+    // shadcn Spinner's icon in place of its own. The icon stays hidden from
+    // assistive technology, where the label already says the tag is pending,
+    // and stops spinning under reduced motion. The remove button hands focus
+    // on (focus-handoff.ts) if it unmounts while focused.
+    Tag: ({ props, emit }) => {
+      const removeRef = useFocusHandoff(props.focusNext);
+      const Icon = props.pending ? LoaderCircle : props.icon ? icons[props.icon] : null;
+      return (
+        <span className="inline-flex w-fit shrink-0 items-center justify-center gap-1 rounded-md border border-transparent bg-secondary px-2 py-0.5 text-xs font-medium whitespace-nowrap text-secondary-foreground [&>svg]:pointer-events-none [&>svg]:size-3">
+          {Icon && <Icon aria-hidden="true" className={clsx(props.pending && 'animate-spin motion-reduce:animate-none')} />}
+          <span className={props.pending ? 'text-muted-foreground' : undefined}>{props.label}</span>
+          {props.removeLabel && (
+            <button
+              ref={removeRef}
+              type="button"
+              aria-label={props.removeLabel}
+              onClick={() => emit('remove')}
+              className="-mr-1 rounded-sm p-0.5 opacity-70 outline-none hover:bg-foreground/10 hover:opacity-100 focus-visible:ring-[3px] focus-visible:ring-ring/50 [&>svg]:size-3"
+            >
+              <X aria-hidden="true" />
+            </button>
+          )}
+        </span>
+      );
     },
 
     // Hands focus on (focus-handoff.ts) if it unmounts while focused.
