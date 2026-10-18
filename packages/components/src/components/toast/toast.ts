@@ -5,6 +5,8 @@ const HTMLElementBase = (globalThis.HTMLElement ?? class {}) as typeof HTMLEleme
 
 export class PpToast extends HTMLElementBase {
   private toastGroup: HTMLElement | null = null;
+  // Settles each toast's `closed` promise once it has left the group.
+  private dismissed = new WeakMap<HTMLOutputElement, () => void>();
 
   constructor() {
     super();
@@ -107,38 +109,96 @@ export class PpToast extends HTMLElementBase {
     }
   }
 
-  // Every dismissal path — close button, action button, timeout — exits
-  // through the same fade; the contains guard makes the later timeout a no-op
-  // after a pointer dismissal.
+  // Every dismissal path — close button, action button, timeout, the caller —
+  // exits through the same fade; the fade-out guard makes the later paths
+  // no-ops once one has run. A toast that never joined the group (the element
+  // was not connected yet) has nothing to fade but still settles.
   private async dismissToast(toast: HTMLOutputElement): Promise<void> {
-    if (!this.toastGroup?.contains(toast)) return;
-    toast.classList.add('fade-out');
-    await Promise.allSettled(
-      toast.getAnimations().map(a => a.finished)
-    );
-    this.removeToast(toast);
+    if (toast.classList.contains('fade-out')) return;
+    if (this.toastGroup?.contains(toast)) {
+      toast.classList.add('fade-out');
+      await Promise.allSettled(
+        toast.getAnimations().map(a => a.finished)
+      );
+      this.removeToast(toast);
+    }
+    this.dismissed.get(toast)?.();
   }
 
-  public show(text: string, onClick?: () => void, duration = onClick ? 8000 : 4000): Promise<void> {
+  // The dismissal timer pauses while the pointer is over the toast or focus is
+  // inside it, so an actor who is reading it or reaching for its action keeps
+  // the rest of the window. Returns a function that cancels the timer.
+  private scheduleDismissal(toast: HTMLOutputElement, duration: number): () => void {
+    let remaining = duration;
+    let startedAt = 0;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let hovered = false;
+    let focused = false;
+    let cancelled = false;
+
+    const run = () => {
+      startedAt = Date.now();
+      timer = setTimeout(() => { void this.dismissToast(toast); }, remaining);
+    };
+    const pause = () => {
+      if (timer === undefined) return;
+      clearTimeout(timer);
+      timer = undefined;
+      remaining = Math.max(0, remaining - (Date.now() - startedAt));
+    };
+    const update = () => {
+      if (cancelled) return;
+      if (hovered || focused) pause();
+      else if (timer === undefined) run();
+    };
+
+    toast.addEventListener('pointerenter', () => { hovered = true; update(); });
+    toast.addEventListener('pointerleave', () => { hovered = false; update(); });
+    toast.addEventListener('focusin', () => { focused = true; update(); });
+    toast.addEventListener('focusout', (event) => {
+      focused = toast.contains(event.relatedTarget as Node | null);
+      update();
+    });
+
+    run();
+    return () => { cancelled = true; pause(); };
+  }
+
+  /** Shows a toast and returns a handle: `closed` settles however it is dismissed, `dismiss` closes it early. */
+  public open(text: string, onClick?: () => void, duration = onClick ? 8000 : 4000): ToastHandle {
     const toast = this.createToast(text, onClick);
     this.addToast(toast);
-
-    return new Promise<void>((resolve) => {
-      setTimeout(async () => {
-        await this.dismissToast(toast);
-        resolve();
-      }, duration);
-    });
+    const closed = new Promise<void>(resolve => this.dismissed.set(toast, resolve));
+    const cancel = this.scheduleDismissal(toast, duration);
+    void closed.then(cancel);
+    return { closed, dismiss: () => { void this.dismissToast(toast); } };
   }
 
-  static show(text: string, onClick?: () => void, duration?: number): Promise<void> {
+  public show(text: string, onClick?: () => void, duration?: number): Promise<void> {
+    return this.open(text, onClick, duration).closed;
+  }
+
+  private static toaster(): PpToast {
     let toaster = document.querySelector('pp-toast') as PpToast;
     if (!toaster) {
       toaster = document.createElement('pp-toast') as PpToast;
       document.body.appendChild(toaster);
     }
-    return toaster.show(text, onClick, duration);
+    return toaster;
   }
+
+  static open(text: string, onClick?: () => void, duration?: number): ToastHandle {
+    return PpToast.toaster().open(text, onClick, duration);
+  }
+
+  static show(text: string, onClick?: () => void, duration?: number): Promise<void> {
+    return PpToast.toaster().show(text, onClick, duration);
+  }
+}
+
+export interface ToastHandle {
+  closed: Promise<void>;
+  dismiss: () => void;
 }
 
 declare global {

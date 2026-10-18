@@ -17,6 +17,13 @@ const tone = z.enum(['neutral', 'accent', 'danger']);
 // A spec that named Phosphor glyphs would be tied to the library that ships them.
 export const iconNames = ['cancel', 'delete', 'delete-confirm', 'history', 'restore'] as const;
 
+// How long a toast stays. The window is part of the transient-feedback
+// pattern, not a library default: a toast that offers an action has to stay
+// long enough for the actor to notice it, decide and act. Every registry
+// dismisses its toasts on this schedule, paused while the pointer or focus is
+// on a toast.
+export const toastDuration = { plain: 4000, withAction: 8000 } as const;
+
 export const catalog = defineCatalog(schema, {
   components: {
     Stack: {
@@ -131,6 +138,20 @@ export const catalog = defineCatalog(schema, {
       slots: ['default'],
       description:
         'A panel at the side of the screen that does not block the page behind it. Bind `open` with $bindState; closing the drawer writes false back.',
+    },
+    Toasts: {
+      props: z.object({
+        toasts: z.array(
+          z.looseObject({
+            id: z.string(),
+            message: z.string(),
+            actionLabel: z.string().nullable(),
+          }),
+        ),
+        pressed: z.unknown().nullable(),
+      }),
+      description:
+        'Short messages over the page that leave by themselves, the newest nearest the actor. A toast without an action stays about 4 seconds; one with `actionLabel` offers that single action and stays at least 8. The timer pauses while the pointer or focus is on a toast. Bind `toasts` with $bindState and add a toast with pushState ({ id: "$id", message, actionLabel }); a toast the actor closes or that times out is removed from the list. Pressing a toast\'s action writes the whole toast to `pressed` (bind with $bindState), emits `action`, and closes it. A toast may carry fields of its own for the action to read.',
     },
     // A composite: the library has to supply the whole thing. Its input is
     // already data (a tree of sentence parts), so it can be named here, but a

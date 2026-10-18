@@ -1,0 +1,24 @@
+{
+  "root": "toast-demo",
+  "elements": {
+    "toast-demo": {
+      "type": "Stack",
+      "props": { "direction": "horizontal" },
+      "children": ["show", "toasts"]
+    },
+    "show": {
+      "type": "Button",
+      "props": { "label": "Show toast" },
+      "on": {
+        "press": {
+          "action": "pushState",
+          "params": { "statePath": "/toasts", "value": { "id": "$id", "message": "Something happened", "actionLabel": null } }
+        }
+      }
+    },
+    "toasts": {
+      "type": "Toasts",
+      "props": { "toasts": { "$bindState": "/toasts" } }
+    }
+  }
+}

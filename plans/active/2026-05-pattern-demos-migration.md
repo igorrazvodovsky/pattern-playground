@@ -22,11 +22,10 @@ depends_on: "plans/archive/2026-05-embed-components.md"
 > _Ownership rule (settled 2026-07-02, during T5 of the workspace-split
 > closure)._ Demo files are keyed by the *move* they demonstrate: the pattern
 > page that names the move owns `demos/<slug>.tsx`, and pages that reference the
-> move import from it (deletion.mdx borrows from `demos/inline-confirmation` and
-> `demos/transient-feedback`, not the other way round). Cross-page scaffolding
-> that no move owns (sample data, the toast helper, generic delete buttons)
-> lives in small shared files (`demos/shared.ts`,
-> `demos/delete-icon-button.tsx`). The tree is two-way shared substrate: Storybook
+> move import from it (deletion.mdx borrows the `inline-confirmation` and
+> `toast-with-undo` specs, not the other way round). Cross-page scaffolding
+> that no move owns (the toast and modal bridges) lives in small shared files
+> (`demos/demo-runtime.ts`). The tree is two-way shared substrate: Storybook
 > stories may import from `demos/` too, rather than keeping private copies.
 
 ## Context

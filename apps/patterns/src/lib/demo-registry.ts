@@ -58,8 +58,6 @@ const demos: Record<string, Loader> = {
   'semantic-zoom': () => import('@pkg/demos/semantic-zoom').then(m => m.SemanticZoomDemo),
   'semantic-zoom-timeline': () => import('@pkg/demos/semantic-zoom').then(m => m.SemanticZoomTimelineDemo),
   'population-rung': () => import('@pkg/demos/semantic-zoom').then(m => m.PopulationRungDemo),
-  'toast': () => import('@pkg/demos/transient-feedback').then(m => m.ToastDemo),
-  'toast-with-undo': () => import('@pkg/demos/transient-feedback').then(m => m.ToastWithUndoDemo),
 };
 
 // Switchable demos (<Demo spec="…">): a JSON spec plus the module beside it,
@@ -74,6 +72,8 @@ const specs: Record<string, () => Promise<{ default: SpecModule }>> = {
   'rule-composition': () => import('@pkg/demos/specs/rule-composition'),
   'staged-deletion': () => import('@pkg/demos/specs/staged-deletion'),
   'status-feedback': () => import('@pkg/demos/specs/status-feedback'),
+  'toast': () => import('@pkg/demos/specs/toast'),
+  'toast-with-undo': () => import('@pkg/demos/specs/toast-with-undo'),
   'typed-confirmation': () => import('@pkg/demos/specs/typed-confirmation'),
 };
 

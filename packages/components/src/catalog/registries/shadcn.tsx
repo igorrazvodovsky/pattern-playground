@@ -1,14 +1,16 @@
 import { useId, useRef, type CSSProperties } from 'react';
 import { defineRegistry, useBoundProp } from '@json-render/react';
-import { Dialog } from 'radix-ui';
+import { createPortal } from 'react-dom';
+import { Dialog, Toast } from 'radix-ui';
 import { shadcnComponents } from '@json-render/shadcn';
 import clsx from 'clsx';
 import { History, Trash2, Undo2, X } from 'lucide-react';
-import { catalog, actionsSuppliedBySpecs, type iconNames } from '../catalog';
+import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames } from '../catalog';
 import { captureOpener, focusDemoIfOpenerGone, type Opener } from './dialog-focus';
 import { scopedPortal } from './shadcn-portal';
 import type { Send } from './shadcn-parts';
 import { RuleBuilder, type RuleTree } from './shadcn-rule-builder';
+import { useToastList } from './toast-list';
 import sheetUrl from '../shadcn.generated.css?url';
 
 // The catalog rendered with shadcn/ui, through @json-render/shadcn. Where the
@@ -295,6 +297,47 @@ export const { registry } = defineRegistry(catalog, {
             </Dialog.Content>
           </Dialog.Portal>
         </Dialog.Root>
+      );
+    },
+
+    // shadcn/ui Toast, the Radix one shadcn shipped before it moved to Sonner:
+    // Radix parts and shadcn's classes, as Dialog is built here. Radix pauses
+    // the timer while the pointer or focus is on a toast, and a toast can be
+    // swiped away. The viewport portals into the scoped root.
+    Toasts: ({ props, bindings, emit }) => {
+      const { dismiss, press } = useToastList(bindings?.toasts, bindings?.pressed, emit);
+      return (
+        <Toast.Provider swipeDirection="right" label="Notifications">
+          {props.toasts.map(toast => (
+            <Toast.Root
+              key={toast.id}
+              duration={toast.actionLabel ? toastDuration.withAction : toastDuration.plain}
+              onOpenChange={open => { if (!open) dismiss(toast.id); }}
+              className="group pointer-events-auto relative flex w-full items-center justify-between gap-4 overflow-hidden rounded-md border bg-background p-4 pr-8 text-foreground shadow-lg data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-(--radix-toast-swipe-end-x) data-[swipe=move]:translate-x-(--radix-toast-swipe-move-x)"
+            >
+              <Toast.Description className="text-sm">{toast.message}</Toast.Description>
+              {toast.actionLabel && (
+                <Toast.Action
+                  altText={toast.actionLabel}
+                  onClick={() => press(toast)}
+                  className="inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium transition-colors outline-none hover:bg-secondary focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                >
+                  {toast.actionLabel}
+                </Toast.Action>
+              )}
+              <Toast.Close
+                aria-label="Close"
+                className="absolute top-1 right-1 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity outline-none group-hover:opacity-100 hover:text-foreground focus-visible:opacity-100 focus-visible:ring-[3px] focus-visible:ring-ring/50"
+              >
+                <X aria-hidden="true" className="size-4" />
+              </Toast.Close>
+            </Toast.Root>
+          ))}
+          {createPortal(
+            <Toast.Viewport className="fixed top-0 z-100 flex max-h-screen w-full flex-col-reverse gap-2 p-4 outline-none sm:top-auto sm:right-0 sm:bottom-0 sm:flex-col md:max-w-[420px]" />,
+            scopedPortal(),
+          )}
+        </Toast.Provider>
       );
     },
 

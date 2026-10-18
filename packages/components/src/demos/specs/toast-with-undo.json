@@ -1,0 +1,69 @@
+{
+  "root": "toast-demo",
+  "elements": {
+    "toast-demo": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["listings", "empty-state", "toasts"]
+    },
+
+    "listings": {
+      "type": "List",
+      "props": { "borderless": true },
+      "repeat": { "statePath": "/items", "key": "id" },
+      "children": ["listing"]
+    },
+    "listing": {
+      "type": "ListItem",
+      "props": { "label": { "$item": "name" } },
+      "slots": { "suffix": ["delete"] }
+    },
+    "delete": {
+      "type": "Button",
+      "props": { "label": "Delete", "icon": "delete", "hideLabel": true, "variant": "plain" },
+      "on": {
+        "press": [
+          {
+            "action": "pushState",
+            "params": {
+              "statePath": "/toasts",
+              "value": { "$computed": "deletionToast", "args": { "item": { "$item": "" } } }
+            }
+          },
+          { "action": "removeState", "params": { "statePath": "/items", "index": { "$index": true } } }
+        ]
+      }
+    },
+
+    "empty-state": {
+      "type": "Text",
+      "props": { "text": "No items left.", "muted": true },
+      "visible": { "$state": "/items/0", "not": true },
+      "children": ["reset"]
+    },
+    "reset": {
+      "type": "Button",
+      "props": { "label": "Reset", "variant": "plain" },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/items", "value": { "$state": "/listings" } } },
+          { "action": "setState", "params": { "statePath": "/toasts", "value": [] } }
+        ]
+      }
+    },
+
+    "toasts": {
+      "type": "Toasts",
+      "props": { "toasts": { "$bindState": "/toasts" }, "pressed": { "$bindState": "/pressed" } },
+      "on": {
+        "action": {
+          "action": "setState",
+          "params": {
+            "statePath": "/items",
+            "value": { "$computed": "undoDeletion", "args": { "items": { "$state": "/items" }, "listings": { "$state": "/listings" }, "toast": { "$state": "/pressed" } } }
+          }
+        }
+      }
+    }
+  }
+}

@@ -2,8 +2,10 @@ import { Children, useEffect, useId, useRef, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import clsx from 'clsx';
-import { catalog, actionsSuppliedBySpecs, type iconNames } from '../catalog';
+import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames } from '../catalog';
+import type { ToastHandle } from '../../components/toast/toast';
 import { captureOpener, focusDemoIfOpenerGone, type Opener } from './dialog-focus';
+import { useToastList } from './toast-list';
 import '../../jsx-types';
 
 // The catalog rendered with the project's own library: pp-* elements and the
@@ -260,6 +262,54 @@ export const { registry } = defineRegistry(catalog, {
         </pp-modal>,
         document.body,
       );
+    },
+
+    // The library's toast. PpToast keeps one group on the page and owns the
+    // stacking, the fade, the close button and the pause on hover and focus,
+    // so this only opens and closes toasts to match the bound list. The
+    // library makes the whole toast the action's button, named by its text,
+    // so the action's label joins the message. The toast module loads when
+    // the first toast opens, as demo-runtime's showToast does.
+    Toasts: ({ props, bindings, emit }) => {
+      const { dismiss, press } = useToastList(bindings?.toasts, bindings?.pressed, emit);
+      // Open toasts call the latest press, so the list effect need not re-run
+      // when `emit` changes.
+      const pressLatest = useRef(press);
+      pressLatest.current = press;
+      const shown = useRef(new Map<string, Promise<ToastHandle>>());
+
+      useEffect(() => {
+        const listed = new Set(props.toasts.map(toast => toast.id));
+        for (const [id, handle] of shown.current) {
+          if (listed.has(id)) continue;
+          shown.current.delete(id);
+          void handle.then(h => h.dismiss());
+        }
+        for (const toast of props.toasts) {
+          if (shown.current.has(toast.id)) continue;
+          const handle = import('../../components/toast/toast').then(({ PpToast }) =>
+            toast.actionLabel
+              ? PpToast.open(`${toast.message} — ${toast.actionLabel}`, () => pressLatest.current(toast), toastDuration.withAction)
+              : PpToast.open(toast.message, undefined, toastDuration.plain),
+          );
+          shown.current.set(toast.id, handle);
+          void handle.then(h => h.closed).then(() => {
+            if (shown.current.get(toast.id) !== handle) return;
+            shown.current.delete(toast.id);
+            dismiss(toast.id);
+          });
+        }
+      }, [props.toasts, dismiss]);
+
+      // Switching library unmounts this: close what is showing but leave the
+      // list alone, so the other library shows the same toasts.
+      useEffect(() => () => {
+        const handles = [...shown.current.values()];
+        shown.current.clear();
+        for (const handle of handles) void handle.then(h => h.dismiss());
+      }, []);
+
+      return null;
     },
 
     // The library has no grouped rule form, so the demo says so rather than
