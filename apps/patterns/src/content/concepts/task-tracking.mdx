@@ -1,0 +1,44 @@
+---
+title: Task tracking
+added: 2026-10-18
+purpose: Record a piece of work to be done so it can be found, picked up and finished.
+principle: >-
+  If a member writes down a piece of work, it exists as an item that others can
+  see, take and move through its states; it stays until someone finishes it.
+state:
+  - "title: Task -> one Title"
+  - "specification: Task -> opt Text"
+  - "project: Task -> one Project"
+  - "assignee: Task -> opt User"
+  - "label: Task -> set Label"
+  - "priority: Task -> opt Priority"
+  - "dueDate: Task -> opt Date"
+  - "createdBy: Task -> one User"
+actions: [createTask]
+misfits:
+  - A task that nobody picks up stays open indefinitely, and a backlog of them is read as noise rather than as work.
+  - A task cannot be labelled, prioritised or assigned without first being created, nor assigned without a project; everything is decided at once or not at all.
+  - What counts as finished is in the title, not in the record, so two people can disagree about whether a task is done.
+aliases: [to-do, issue, ticket, work item]
+depends_on: [running-a-project]
+appears_in:
+  - Linear
+  - Jira
+  - Asana
+  - Things
+---
+
+In the fixture world a task is created in one act that also assigns it, labels
+it, prioritises it, schedules it and places it in a project. In concept terms
+that is task tracking merged with Assigning, Labelling, Prioritising and Scheduling,
+and the merge is a design move taken on purpose: simplicity over flexibility.
+The facts stay with the action that adds them, so nothing here is split until
+a demo needs to label something that is not a task. The cost of the merge is
+in the misfits: none of these facts can be set without creating the task, and
+none can be changed afterwards except by [Staging](/concepts/staging), which
+moves the task on but does not reassign or relabel it.
+
+Finishing a task is staging's terminal move rather than a task-tracking action, so
+the concept here has one action. What makes it a concept rather than a data
+model is the purpose: a task exists so that work can be picked up by someone
+other than the person who wrote it down.

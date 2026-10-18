@@ -6,7 +6,7 @@ created: "2025"
 last_reviewed: "2026-05-01"
 area: "concepts"
 promoted_to: ""
-superseded_by: ""
+superseded_by: "plans/active/2026-10-concept-catalogue.md"
 ---
 # Concept definitions from "Understanding Computers and Cognition" Dress Shop Case
 

@@ -1,0 +1,21 @@
+---
+// Prerendered pane fragment: just the concept's article, no layout. Fetched
+// when a concept is opened as a stacked pane (lib/pane-content.ts). Rendered
+// through the same ConceptArticle component as the full page, so the two
+// cannot drift.
+import { getCollection } from 'astro:content';
+import ConceptArticle from '../../../components/ConceptArticle.astro';
+
+export const partial = true;
+
+export async function getStaticPaths() {
+  const entries = await getCollection('concepts');
+  return entries.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+---
+<ConceptArticle entry={entry} pagefind={false} />

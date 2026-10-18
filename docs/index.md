@@ -44,7 +44,7 @@ hold promoted commitments that govern the process.
 - [Graph relationship model](specs/graph-relationship-model.md) — graph edge
   model and epistemic stance
 - [Pattern role model](specs/pattern-role-model.md) — component, pattern,
-  collection, quality, foundation, and concept roles; boundary stance and the
+  collection, quality, and foundation roles; boundary stance and the
   pattern/component decomposition rule
 - [World ontology](specs/world-ontology.md) — individuals, values, actions and
   facts as the form of the fixture world; log-as-truth, the registries, and
@@ -63,6 +63,7 @@ hold promoted commitments that govern the process.
 - [Pattern definition](language/pattern-definition.md) — what counts as a
   pattern, versus a component, observation, anti-pattern, or collection
 - [Patterns and components](language/patterns-and-components.md) — the pattern/component boundary
+- [Patterns and concepts](language/patterns-and-concepts.md) — the concept catalogue beside the other two; `acts_on` and the world's `concept` field
 - [Vision](language/vision.md) — the Nature of Order and agent-usable tracks
   past the typed-edge layer's first build (not yet operational)
 - [Operative image](language/operative-image.md) — current working picture of

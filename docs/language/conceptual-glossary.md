@@ -12,7 +12,7 @@ A coherent differentiation that can be noticed, pointed at, and acted on (Alexan
 
 ## Concept
 
-A fundamental unit of software design defined by structure, behaviour, and purpose (Jackson, *The Essence of Software*). Concepts are functional building blocks that survive the journey from UX to engineering — more abstract than components, more concrete than principles. `concepts/` lists some of the concepts the project might need in future.
+A unit of functionality an actor recognises across systems, defined by its purpose, an operational principle, state, and actions (Jackson, *The Essence of Software*). Normative like a component, carrying no rendering, and what a pattern's move is on. The concept catalogue lives in `apps/patterns/src/content/concepts/`; patterns reach it through `acts_on`, and the fixture world's workspace action types name theirs. See [patterns-and-concepts.md](patterns-and-concepts.md).
 
 ## Generative move
 

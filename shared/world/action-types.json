@@ -1,101 +1,121 @@
 {
   "joinWorkspace": {
     "description": "A person joins the Acme workspace, introducing their profile.",
+    "concept": "joining",
     "adds": ["name", "role", "email", "photo", "timezone", "language", "search"],
     "removes": []
   },
   "signIn": {
     "description": "A member starts a session.",
+    "concept": "signing-in",
     "adds": ["signedIn"],
     "removes": []
   },
   "createProject": {
     "description": "A member starts a project.",
+    "concept": "running-a-project",
     "adds": ["name", "blurb", "search", "icon", "status", "phase", "createdBy"],
     "removes": []
   },
   "setPhase": {
     "description": "A member moves a project into a new phase.",
+    "concept": "staging",
     "adds": ["phase"],
     "removes": ["phase"]
   },
   "setPartners": {
     "description": "A member records the number of partner organisations on a project.",
+    "concept": "running-a-project",
     "adds": ["partners"],
     "removes": []
   },
   "completeProject": {
     "description": "A member closes a project, recording its outcome.",
+    "concept": "running-a-project",
     "adds": ["status", "completedAt", "recycledKg"],
     "removes": ["status", "phase"]
   },
   "joinProject": {
     "description": "A member joins a project.",
+    "concept": "joining",
     "adds": ["member", "accessLevel"],
     "removes": []
   },
   "createTask": {
     "description": "A member creates a task, assigning it within a project.",
+    "concept": "task-tracking",
     "adds": ["title", "specification", "blurb", "status", "priority", "assignee", "label", "project", "dueDate", "createdBy"],
     "removes": []
   },
   "changeStatus": {
     "description": "An actor moves a task to another status.",
+    "concept": "staging",
     "adds": ["status", "progress"],
     "removes": ["status"]
   },
   "updateProgress": {
     "description": "A member records progress on a task.",
+    "concept": "staging",
     "adds": ["progress"],
     "removes": ["progress"]
   },
   "completeTask": {
     "description": "A member finishes a task.",
+    "concept": "staging",
     "adds": ["status", "progress"],
     "removes": ["status", "progress"]
   },
   "createDocument": {
     "description": "A member writes a document.",
+    "concept": "document-keeping",
     "adds": ["name", "blurb", "search", "documentType", "content", "sections", "wordCount", "version", "quarter", "recurring", "author", "createdBy"],
     "removes": []
   },
   "uploadFile": {
     "description": "A member uploads a file into the workspace.",
+    "concept": "document-keeping",
     "adds": ["name", "blurb", "search", "documentType", "content", "path", "size", "createdBy"],
     "removes": []
   },
   "editDocument": {
     "description": "A member revises a document. The world holds one snapshot of a body, so a revision records that it happened without restating the text.",
+    "concept": "document-keeping",
     "adds": [],
     "removes": []
   },
   "suggestOutline": {
     "description": "The system proposes an outline for a new document.",
+    "concept": "assisting",
     "adds": [],
     "removes": []
   },
   "createQuote": {
     "description": "A member saves an excerpt of a document.",
+    "concept": "quoting",
     "adds": ["source", "createdBy", "text", "range", "search"],
     "removes": []
   },
   "addComment": {
     "description": "A member comments on something.",
+    "concept": "commenting",
     "adds": ["author", "about", "text", "thread", "anchor", "commentType", "commentPriority"],
     "removes": []
   },
   "replyToComment": {
     "description": "A member replies to a comment.",
+    "concept": "commenting",
     "adds": ["author", "replyTo", "about", "text", "thread"],
     "removes": []
   },
   "resolveThread": {
     "description": "A member marks a comment thread settled.",
+    "concept": "commenting",
     "adds": ["resolvedBy"],
     "removes": []
   },
   "notify": {
     "description": "The system tells a member about something that happened.",
+    "concept": "notifying",
     "adds": ["notified"],
     "removes": []
   },

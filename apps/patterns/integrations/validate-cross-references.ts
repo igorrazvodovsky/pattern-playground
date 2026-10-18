@@ -3,11 +3,16 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { load as yamlLoad } from 'js-yaml';
 import type { AstroIntegration, AstroIntegrationLogger } from 'astro';
+import { fileStem } from '../src/lib/stem';
 
 // Build-time validator that every static reference resolves to its target.
 // The reference seams, and why they are all gated in the site build, are defined
 // in docs/specs/workspace-layout.md §Cross-surface integrity; the evidence →
 // references/ seam in docs/specs/pattern-site.md §Epistemic status.
+//
+// Frontmatter `acts_on` resolves against the concepts collection, and the
+// `concept` field on `shared/world/action-types.json` is checked against it in
+// both directions (docs/language/patterns-and-concepts.md).
 //
 // `<ComponentRef id>` and frontmatter `realised_by` resolve against Storybook's
 // build-output index.json. When that output is absent, a cached copy under
@@ -20,6 +25,7 @@ const rootDir = join(__dirname, '../../..');
 const storybookIndexPrimary = join(rootDir, 'packages/components/storybook-static/index.json');
 const storybookIndexFallback = join(rootDir, 'apps/patterns/storybook-index/index.json');
 const patternsContentDir = join(rootDir, 'apps/patterns/src/content');
+const worldActionTypesPath = join(rootDir, 'shared/world/action-types.json');
 const storyMdxDir = join(rootDir, 'packages/components/src/stories');
 // .astro/.tsx surfaces whose template bodies carry authored `/patterns/` hrefs in
 // page prose (e.g. index.astro). Content is scanned separately, as markdown.
@@ -62,7 +68,9 @@ const PATTERN_REF_RE = /<PatternRef\b([^>]*?)(?:\/?>|>[^<]*<\/PatternRef>)/g;
 // `](/patterns/slug)` example inside a code comment can't false-flag; dynamic
 // `href={`/patterns/${…}`}` uses backticks and is skipped.
 const CONTENT_LINK_RE = /\]\(\/patterns\/([A-Za-z0-9/_-]+)(?:#[A-Za-z0-9/_-]*)?\)/g;
+const CONCEPT_LINK_RE = /\]\(\/concepts\/([A-Za-z0-9/_-]+)(?:#[A-Za-z0-9/_-]*)?\)/g;
 const ASTRO_LINK_RE = /href=(["'])\/patterns\/([A-Za-z0-9/_-]+)(?:#[A-Za-z0-9/_-]*)?\1/g;
+const ASTRO_CONCEPT_LINK_RE = /href=(["'])\/concepts\/([A-Za-z0-9/_-]+)(?:#[A-Za-z0-9/_-]*)?\1/g;
 
 function extractTagAttr(attrs: string, name: string): string | undefined {
   const m = attrs.match(new RegExp(`\\b${name}="([^"]+)"`));
@@ -296,12 +304,141 @@ function checkRealisedBy(index: StorybookIndex, logger: AstroIntegrationLogger):
 
 // Both .mdx and .md files in the content collection back a page (e.g.
 // qualities.md), so both are valid slug targets.
-function contentStems(): Set<string> {
+function contentStems(collection = 'patterns'): Set<string> {
+  const dir = join(patternsContentDir, collection);
+  if (!existsSync(dir)) return new Set();
   return new Set(
-    readdirSync(join(patternsContentDir, 'patterns'))
+    readdirSync(dir)
       .filter((name) => name.endsWith('.mdx') || name.endsWith('.md'))
-      .map((name) => name.replace(/\.mdx?$/, '')),
+      .map(fileStem),
   );
+}
+
+// The line of a frontmatter value: the first occurrence of `value` inside the
+// frontmatter block, so a word that also appears in the body (a concept id is
+// usually a word) does not misplace the report.
+function frontmatterLine(content: string, value: string): number {
+  const end = content.indexOf('\n---', 3);
+  const index = content.slice(0, end === -1 ? undefined : end).indexOf(value);
+  return index === -1 ? 1 : lineOf(content, index);
+}
+
+// Pattern `acts_on` entries are concept ids; the object form carries a note.
+function checkActsOn(logger: AstroIntegrationLogger): Violation[] {
+  const concepts = contentStems('concepts');
+  const violations: Violation[] = [];
+  let checked = 0;
+  for (const { file, content, fm } of frontmatterFiles(join(patternsContentDir, 'patterns'))) {
+    if (!Array.isArray(fm.acts_on)) continue;
+    for (const ref of fm.acts_on) {
+      const id = typeof ref === 'string' ? ref : (ref as { concept?: unknown })?.concept;
+      if (typeof id !== 'string') continue;
+      checked++;
+      if (concepts.has(id)) continue;
+      const suggestion = nearest(id, concepts);
+      violations.push({
+        file: relPath(file),
+        line: frontmatterLine(content, id),
+        message:
+          `acts_on: "${id}" resolves to no concept entry ` +
+          `(apps/patterns/src/content/concepts/${id}.{md,mdx})` +
+          (suggestion ? ` — did you mean "${suggestion}"?` : '.'),
+      });
+    }
+  }
+  logger.info(`Checked ${checked} acts_on id(s) against ${concepts.size} concept entries.`);
+  return violations;
+}
+
+// The world's partition and the catalogue agree both ways: every `concept` on
+// an action type names an entry that lists the action under `actions`, and
+// every world action an entry lists is assigned to that entry. An entry's
+// action the world lacks is the entry's own and goes unchecked. `depends_on`
+// ids resolve to entries too.
+function checkWorldConcepts(logger: AstroIntegrationLogger): Violation[] {
+  const conceptsDir = join(patternsContentDir, 'concepts');
+  const concepts = contentStems('concepts');
+  const violations: Violation[] = [];
+  if (!fileExists(worldActionTypesPath) || !existsSync(conceptsDir)) return violations;
+
+  const actionTypes = JSON.parse(readFileSync(worldActionTypesPath, 'utf-8')) as Record<
+    string,
+    { concept?: unknown }
+  >;
+  const worldFile = relPath(worldActionTypesPath);
+  const worldText = readFileSync(worldActionTypesPath, 'utf-8');
+  const assigned = new Map<string, string>();
+  let checked = 0;
+  for (const [action, type] of Object.entries(actionTypes)) {
+    if (type.concept === undefined) continue;
+    if (typeof type.concept !== 'string') continue;
+    checked++;
+    assigned.set(action, type.concept);
+    if (concepts.has(type.concept)) continue;
+    const suggestion = nearest(type.concept, concepts);
+    const index = worldText.indexOf(`"${action}"`);
+    violations.push({
+      file: worldFile,
+      line: index === -1 ? 1 : lineOf(worldText, index),
+      message:
+        `action type "${action}" names concept "${type.concept}", which has no entry ` +
+        `(apps/patterns/src/content/concepts/${type.concept}.{md,mdx})` +
+        (suggestion ? ` — did you mean "${suggestion}"?` : '.'),
+    });
+  }
+
+  const listed = new Map<string, Set<string>>();
+  for (const { file, content, fm } of frontmatterFiles(conceptsDir)) {
+    const id = fileStem(file);
+    const actions = (Array.isArray(fm.actions) ? fm.actions : []).filter((a): a is string => typeof a === 'string');
+    listed.set(id, new Set(actions));
+    for (const action of actions) {
+      if (!(action in actionTypes)) continue;
+      checked++;
+      const owner = assigned.get(action);
+      if (owner === id) continue;
+      violations.push({
+        file: relPath(file),
+        line: frontmatterLine(content, action),
+        message:
+          `actions: "${action}" is a world action ` +
+          (owner === undefined
+            ? `with no concept assigned in ${worldFile}; set "concept": "${id}" there.`
+            : `assigned to "${owner}" in ${worldFile}, not to "${id}".`),
+      });
+    }
+    for (const dep of Array.isArray(fm.depends_on) ? fm.depends_on : []) {
+      if (typeof dep !== 'string') continue;
+      checked++;
+      if (concepts.has(dep)) continue;
+      const suggestion = nearest(dep, concepts);
+      violations.push({
+        file: relPath(file),
+        line: frontmatterLine(content, dep),
+        message:
+          `depends_on: "${dep}" resolves to no concept entry` +
+          (suggestion ? ` — did you mean "${suggestion}"?` : '.'),
+      });
+    }
+  }
+
+  // The other direction: an action the world assigns to a concept that the
+  // concept's entry does not list.
+  for (const [action, concept] of assigned) {
+    const actions = listed.get(concept);
+    if (!actions || actions.has(action)) continue;
+    const index = worldText.indexOf(`"${action}"`);
+    violations.push({
+      file: worldFile,
+      line: index === -1 ? 1 : lineOf(worldText, index),
+      message:
+        `action type "${action}" is assigned to concept "${concept}", whose entry does not list it ` +
+        `under actions (apps/patterns/src/content/concepts/${concept}.{md,mdx}).`,
+    });
+  }
+
+  logger.info(`Checked ${checked} world↔concept assignment(s) against ${concepts.size} concept entries.`);
+  return violations;
 }
 
 function checkPatternRefs(logger: AstroIntegrationLogger): Violation[] {
@@ -350,6 +487,27 @@ function checkIntraSiteLinks(logger: AstroIntegrationLogger): Violation[] {
     });
   }
   logger.info(`Checked ${uses.length} intra-site /patterns/ link(s) against ${stems.size} content stems.`);
+
+  const concepts = contentStems('concepts');
+  const conceptUses = [
+    ...collectLinks(walkMdx(patternsContentDir), CONCEPT_LINK_RE, 1, stripComments),
+    ...astroScanDirs.flatMap((dir) =>
+      collectLinks(walk(dir, ['.astro', '.tsx']), ASTRO_CONCEPT_LINK_RE, 2, stripCodeComments),
+    ),
+  ];
+  for (const use of conceptUses) {
+    if (concepts.has(use.value)) continue;
+    const suggestion = nearest(use.value, concepts);
+    violations.push({
+      file: relPath(use.file),
+      line: use.line,
+      message:
+        `/concepts/${use.value} resolves to no concept route ` +
+        `(apps/patterns/src/content/concepts/${use.value}.{md,mdx})` +
+        (suggestion ? ` — did you mean "/concepts/${suggestion}"?` : '.'),
+    });
+  }
+  logger.info(`Checked ${conceptUses.length} intra-site /concepts/ link(s) against ${concepts.size} concept entries.`);
   return violations;
 }
 
@@ -449,6 +607,8 @@ export default function validateCrossReferences(): AstroIntegration {
           ...checkPatternRefs(logger),
           ...checkIntraSiteLinks(logger),
           ...checkSequenceRefs(logger),
+          ...checkActsOn(logger),
+          ...checkWorldConcepts(logger),
         ];
 
         if (violations.length > 0) {

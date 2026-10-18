@@ -28,6 +28,7 @@ Plain, design-practitioner language in everything written here — pattern conte
 
 - [docs/language/pattern-definition.md](docs/language/pattern-definition.md) — what counts as a pattern, component, observation, anti-pattern, or umbrella
 - [docs/language/patterns-and-components.md](docs/language/patterns-and-components.md) — pattern language vs component catalogue;
+- [docs/language/patterns-and-concepts.md](docs/language/patterns-and-concepts.md) — the concept catalogue beside both; `acts_on`
 - [docs/language/conceptual-glossary.md](docs/language/conceptual-glossary.md) — terms used across the project
 - [docs/language/design-theory.md](docs/language/design-theory.md) — Alexander's two phases, centres, qualities, theoretical arc
 - [docs/project/vision.md](docs/project/vision.md) — where the artifact as a whole is heading

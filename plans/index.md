@@ -5,6 +5,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Active
 
+- [Concept catalogue](active/2026-10-concept-catalogue.md) — Jackson's concepts as a third collection beside patterns and sequences; wired 2026-10-18 with ten entries (generic concepts only; the fixture's own bookkeeping has none), `acts_on` on patterns and `concept` on the workspace action types; remaining: `acts_on` sittings on seven pattern pages, conversation for action, the quarry
 - [Refactoring sweep](active/2026-10-refactoring-sweep.md) — survey of refactoring opportunities across the code workspaces (2026-10-17): four bugs fixed at the start, then a queue of dead code, consolidation, template extractions, and convention fixes
 - [Shaping the pattern pages](active/2026-10-pattern-shape-migration.md) — one sitting per `role: pattern` page onto the 2026-10-10 shape (opening paragraph and connections passage as frontmatter situations, two bold paragraphs, realisation after Therefore): the per-page procedure and checklist, the corpus counts at start (2 shaped, 113 clause lists, 41 `sets-up`, 26 without situations), the retirement exit for the clause-list form
 - [Commenting: open questions](active/2026-10-commenting-open-questions.md) — outline, needs iteration: decisions left after the mark-first commenting work (quote styling, reaching and undoing a quote, whether a quote follows its passage, threads whose passage was deleted) and three small pieces of work (resolution, marks across reloads, thread ids in copied text)

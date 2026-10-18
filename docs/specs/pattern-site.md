@@ -24,8 +24,9 @@ Everything else is optional and mutually independent: the classification facets
 (`activityLevel`, `lifecycle`, `group`, `domain` — see below), `mediation` (how
 many actors the move sits between), `description` (the graph node tooltip and
 site meta), `tags`, the
-epistemic fields below, and the `relationships`, `realised_by`, `situation`, and
-`decision-trees` constructs that feed the graph.
+epistemic fields below, the `relationships`, `realised_by`, `situation`, and
+`decision-trees` constructs that feed the graph, and `acts_on`, the concept
+reference ([patterns-and-concepts.md](../language/patterns-and-concepts.md)).
 
 ### Epistemic status
 
@@ -142,7 +143,7 @@ for dissolution (see [relationship-vocabulary.md](../language/relationship-vocab
 
 Following a pattern or sequence link inside a pane does not replace the page — it pushes the target into a horizontal stack of panes, to the right of the pane the link sits in. Sidebar links still replace the stack.
 As the stack grows wider than the viewport, panes collapse into thin vertical _spines_ on both rails: earlier panes tuck under the left edge as you scroll right, later panes stay pinned at the right edge until you scroll back to them.
-No pane leaves the viewport entirely: every pane stays reachable as a spine on one rail or the other. State lives in the URL via `stackedNotes` query params — including a pane's section anchor (`slug#fragment`, percent-encoded) — so a stacked view is shareable and survives reload down to anchor positions. The section anchor is part of the pane's address. Pattern panes are encoded by bare slug and sequence panes by a `seq:` prefix (`stackedNotes=seq:<id>`), so the two cannot collide. Pane 0 is the page itself, so its anchor is the URL's own fragment; in-pane section links (the table of contents, footnotes) are routed through the stack so they record the anchor on their own pane rather than on that fragment. A pane's identity is its path (`/patterns/<slug>` or `/sequences/<id>`); the helpers live in `apps/patterns/src/lib/pane-path.ts`.
+No pane leaves the viewport entirely: every pane stays reachable as a spine on one rail or the other. State lives in the URL via `stackedNotes` query params — including a pane's section anchor (`slug#fragment`, percent-encoded) — so a stacked view is shareable and survives reload down to anchor positions. The section anchor is part of the pane's address. Pattern panes are encoded by bare slug, sequence panes by a `seq:` prefix (`stackedNotes=seq:<id>`) and concept panes by a `concept:` prefix, so the kinds cannot collide (a concept and a pattern often share a stem). Pane 0 is the page itself, so its anchor is the URL's own fragment; in-pane section links (the table of contents, footnotes) are routed through the stack so they record the anchor on their own pane rather than on that fragment. A pane's identity is its path (`/patterns/<slug>`, `/sequences/<id>` or `/concepts/<id>`); the helpers live in `apps/patterns/src/lib/pane-path.ts`.
 
 A link to a page that is already open does not open a copy. It scrolls the stack to that pane, scrolls the pane to the link's anchor if it has one, and moves focus there; the panes to its right stay open, and the actor reaches them again by scrolling. If the page is open twice, the nearest pane to the left of the link wins, then the nearest to the right. Going to an open pane adds no history entry; when the link names an anchor, it rewrites the current entry's URL to record it.
 
@@ -199,7 +200,11 @@ the unheaded parts. The page shape is in the authoring contract,
 ## Sequences
 
 The sequence collection — what a sequence is, the file format and field meanings, the authoring bar, rendering, and validation — has its own spec: [sequences.md](sequences.md). Two points that bind this spec: sequence files live beside the patterns collection in `apps/patterns/src/content/sequences/`
-with the same filename-stem identity rule, and a sequence page is the one pane-0 case that is not a pattern (§Stacked-notes navigation).
+with the same filename-stem identity rule, and a sequence page is a pane-0 case that is not a pattern (§Stacked-notes navigation).
+
+## Concepts
+
+The concept catalogue — what a concept is against a pattern and a component, the entry shape, the `acts_on` reference and the world-side `concept` field — is in [patterns-and-concepts.md](../language/patterns-and-concepts.md). Concept files live in `apps/patterns/src/content/concepts/` with the same filename-stem identity rule, render at `/concepts/<id>` with an index at `/concepts`, and stack as panes like sequences. The concept pages are the site's second corner: `Base.astro` takes `corner="concepts"`, which swaps the sidebar for the catalogue's own (`Nav.tsx`), persisted under its own key so crossing corners replaces the island.
 
 ## Toolchain posture
 

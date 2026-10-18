@@ -13,6 +13,11 @@ not share a vocabulary:
   across the places it will occupy, leaving what varies to where it lands. It
   lives in `packages/components/`.
 
+A third collection, the *concept catalogue*, stands beside these two: units of
+functionality an actor recognises across systems, normative like a component
+and carrying no rendering. Patterns act on concepts by reference, the way they
+are realised by components. See [patterns-and-concepts.md](patterns-and-concepts.md).
+
 `component` is the unit-level role, at any scale — a primitive, a control, a
 composition, or any other unit of built material. *Component catalogue* is the
 collective term, as *pattern language* is the collective for *pattern*. *Move*

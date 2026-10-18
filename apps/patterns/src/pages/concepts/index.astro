@@ -1,0 +1,52 @@
+---
+// The concept catalogue's index: what the catalogue is, how it differs from
+// the two pages an actor may confuse it with (a pattern of the same name, a
+// component), and every entry with its purpose. Entries the fixture world
+// instantiates are marked, since those are the ones a demo can replay.
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { panePath } from '../../lib/pane-path';
+import { worldActionsByConcept } from '../../lib/concept';
+
+const concepts = (await getCollection('concepts')).sort((a, b) => a.data.title.localeCompare(b.data.title));
+const grounded = worldActionsByConcept();
+---
+<Base title="Concepts" corner="concepts">
+  <article class="flow" data-pagefind-body data-pagefind-meta="title:Concepts">
+    <header>
+      <div class="meta">
+        <h1>Concepts</h1>
+      </div>
+    </header>
+
+    <p>
+      Units of functionality an actor recognises across systems: commenting,
+      notifying, staging an item through its states. Each entry names what the
+      concept is for, the scenario that shows it working, the state it keeps and
+      the actions that change it.
+    </p>
+
+    <p>
+      A concept is neither a pattern nor a component. Like a component it is
+      normative: an actor brings an understanding of commenting from every other
+      system that has it, and that familiarity is the value. Unlike a component it
+      carries no rendering. Patterns act on concepts, and a pattern page that
+      names one is making a claim about which concept its gesture serves. Where a
+      pattern and a concept share a name, the pattern is the move and the concept
+      is what the move is on.
+    </p>
+
+    <ul>
+      {concepts.map((c) => (
+        <li>
+          <a href={panePath('concept', c.id)}>{c.data.title}</a>
+          {grounded.has(c.id) && (
+            <small class="muted" title="Instantiated in the fixture world (shared/world)"> · in the world</small>
+          )}
+          <br />
+          <span>{c.data.purpose}</span>
+        </li>
+      ))}
+    </ul>
+  </article>
+</Base>

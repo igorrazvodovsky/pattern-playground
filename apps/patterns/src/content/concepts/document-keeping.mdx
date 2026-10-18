@@ -1,0 +1,44 @@
+---
+title: Document keeping
+added: 2026-10-18
+purpose: Keep a body of written or uploaded material in a place where members can find it and revise it.
+principle: >-
+  If a member writes a document or uploads a file, it exists in the workspace
+  with a name and a body; when they revise it, others find the revised body
+  under the same name.
+state:
+  - "name: Document -> one Name"
+  - "content: Document -> one Body"
+  - "documentType: Document -> one Type"
+  - "author: Document -> one User"
+  - "createdBy: Document -> one User"
+  - "version: Document -> opt Version"
+  - "path: Document -> opt Path"
+actions: [createDocument, editDocument, uploadFile]
+misfits:
+  - A revision replaces the body, so what the document said before is gone unless something else kept it.
+  - An uploaded file and a written document look alike in a list but behave differently when opened, and the concept does not say which is which.
+  - A document's name is the only handle on it; two documents with the same name are told apart by nothing the concept holds.
+aliases: [files, docs, pages]
+appears_in:
+  - Google Drive
+  - Notion
+  - Dropbox
+  - Confluence
+---
+
+The world holds one snapshot of a body, so `editDocument` records that a
+revision happened without restating the text. That is a deliberate thinness,
+and it is the first misfit: a system in which revisions matter adds a
+Versioning concept over this one rather than widening it.
+
+Written and uploaded documents are one concept because an actor finds and
+opens them the same way. `uploadFile` adds a path and a size where
+`createDocument` adds sections and a word count, and both carry a document
+type that says what the body is. The world's one rule over this concept is a
+synchronisation with [Assisting](/concepts/assisting): the system proposes an
+outline for every document a member writes, and none for an uploaded file,
+which arrives finished.
+
+[Quoting](/concepts/quoting) and [Commenting](/concepts/commenting) depend on
+this concept for something to quote and something to comment on.

@@ -1,9 +1,10 @@
 import { create } from 'zustand';
 import { getPaneContent } from './pane-content';
 import { buildURL, decodePaneParam, panePath, paneIndexOf, parsePanePath } from './pane-path';
+import { fileStem } from './stem';
 
 export type Pane = {
-  // `/patterns/<slug>` or `/sequences/<id>`: the pane's identity (pane-path.ts).
+  // `/patterns/<slug>`, `/sequences/<id>` or `/concepts/<id>`: the pane's identity (pane-path.ts).
   path: string;
   title: string;
   html: string;
@@ -138,25 +139,17 @@ export const useStackStore = create<StackState>()((set, get) => ({
 export const singlePaneQuery =
   typeof window === 'undefined' ? null : matchMedia('(width <= 768px)');
 
-// Build-time-resolved set of valid pattern slugs from the content directory.
-// The filename stem is the slug (matches entry.id via generateId in
-// content.config.ts, independent of any folder nesting): e.g. 'tag'.
-// Mistyped slugs fall through to normal navigation instead of landing in a
+// Build-time-resolved sets of valid ids per pane kind, from the content
+// directories. The filename stem is the id (the same derivation as generateId
+// in content.config.ts, independent of any folder nesting): e.g. 'tag'.
+// Mistyped ids fall through to normal navigation instead of landing in a
 // broken stacked-notes pane.
-const patternFiles = import.meta.glob('/src/content/patterns/**/*.mdx');
-export const validSlugs = new Set(
-  Object.keys(patternFiles).map(p =>
-    p.split('/').pop()!.replace(/\.mdx$/, '')
-  )
-);
+const stems = (files: Record<string, unknown>) => new Set(Object.keys(files).map(fileStem));
+export const validSlugs = stems(import.meta.glob('/src/content/patterns/**/*.{md,mdx}'));
+export const validSequenceIds = stems(import.meta.glob('/src/content/sequences/**/*.{md,mdx}'));
+export const validConceptIds = stems(import.meta.glob('/src/content/concepts/**/*.{md,mdx}'));
 
-// The same for sequence ids. The sequences loader also accepts `.md`.
-const sequenceFiles = import.meta.glob('/src/content/sequences/**/*.{md,mdx}');
-export const validSequenceIds = new Set(
-  Object.keys(sequenceFiles).map(p =>
-    p.split('/').pop()!.replace(/\.mdx?$/, '')
-  )
-);
+const VALID_IDS = { pattern: validSlugs, sequence: validSequenceIds, concept: validConceptIds } as const;
 
 // The pane path a URL points at, if it names a page that exists and can be
 // stacked; null otherwise.
@@ -164,11 +157,10 @@ export function stackablePath(url: URL): string | null {
   if (url.origin !== location.origin) return null;
   const parsed = parsePanePath(url.pathname);
   if (!parsed) return null;
-  const valid = parsed.kind === 'sequence' ? validSequenceIds : validSlugs;
-  return valid.has(parsed.id) ? panePath(parsed.kind, parsed.id) : null;
+  return VALID_IDS[parsed.kind].has(parsed.id) ? panePath(parsed.kind, parsed.id) : null;
 }
 
-// Module-level: intercept in-pane pattern and sequence link clicks in the
+// Module-level: intercept in-pane pattern, sequence and concept link clicks in the
 // capture phase, before ClientRouter's bubble-phase listener runs. ClientRouter
 // checks ev.defaultPrevented before calling navigate(), so a capture-phase
 // preventDefault() stops soft navigation.

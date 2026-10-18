@@ -1,5 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { fileStem } from './lib/stem';
 
 const AUTHORABLE_EVIDENCE_KINDS = ['observed', 'literature', 'used'] as const;
 const EVIDENCE_BEARING_ROLES = ['pattern', 'collection'] as const;
@@ -8,7 +9,7 @@ const patterns = defineCollection({
   loader: glob({
     pattern: '**/*.{md,mdx}',
     base: './src/content/patterns',
-    generateId: ({ entry }) => entry.split('/').pop()!.replace(/\.mdx?$/, ''),
+    generateId: ({ entry }) => fileStem(entry),
   }),
   schema: z.object({
     title: z.string(),
@@ -28,6 +29,14 @@ const patterns = defineCollection({
       z.object({ to: z.string(), note: z.string().optional() }),
     ]))).optional(),
     realised_by: z.array(z.string()).optional(),
+    // Concept ids this pattern is a move on (docs/language/patterns-and-concepts.md).
+    // A cross-dataset reference like `realised_by`: node metadata, never an edge.
+    // The object form carries a note for a move on one action or one arm of the
+    // concept rather than the whole.
+    acts_on: z.array(z.union([
+      z.string(),
+      z.object({ concept: z.string(), note: z.string().optional() }),
+    ])).optional(),
     // Both situations are prose (relationship-vocabulary.md §Situations). The
     // clause-list form of `resulting` is the earlier representation, kept
     // until every page is migrated; it renders as the Consequences fallback.
@@ -139,7 +148,7 @@ const sequences = defineCollection({
   loader: glob({
     pattern: '**/*.{md,mdx}',
     base: './src/content/sequences',
-    generateId: ({ entry }) => entry.split('/').pop()!.replace(/\.mdx?$/, ''),
+    generateId: ({ entry }) => fileStem(entry),
   }),
   schema: z.object({
     title: z.string(),
@@ -195,4 +204,42 @@ const sequences = defineCollection({
   }),
 });
 
-export const collections = { patterns, sequences };
+// --- Concepts ---
+//
+// Jackson's concepts as a catalogue beside the language: one entry per unit of
+// functionality an actor recognises across systems. Entries are definitions
+// only; how a concept reaches a surface is what patterns (`acts_on`) and
+// components (`realised_by`) say. See docs/language/patterns-and-concepts.md.
+
+const concepts = defineCollection({
+  loader: glob({
+    pattern: '**/*.{md,mdx}',
+    base: './src/content/concepts',
+    generateId: ({ entry }) => fileStem(entry),
+  }),
+  schema: z.object({
+    title: z.string(),
+    added: z.coerce.date(),
+    updated: z.coerce.date().nullish(),
+    // One sentence: what the concept is for, in an actor's terms.
+    purpose: z.string(),
+    // The archetypal scenario in prose: if an actor does this, that follows.
+    principle: z.string(),
+    // Relations in the world's terms, `name: Kind -> one | opt | set Kind`.
+    state: z.array(z.string()).optional(),
+    // Action names. Where the fixture world has the action, the name is the
+    // world's and the cross-reference validator checks the assignment both ways.
+    actions: z.array(z.string()).min(1),
+    // Known complications: scenarios in which the concept fails its purpose.
+    // Where a pattern names this concept, it is usually a move on one of these.
+    misfits: z.array(z.string()).optional(),
+    // Other words the same concept goes by.
+    aliases: z.array(z.string()).optional(),
+    // Concept ids without which this one makes no sense. Not a graph edge.
+    depends_on: z.array(z.string()).optional(),
+    // Shipping systems where an actor has already met this concept.
+    appears_in: z.array(z.string()).optional(),
+  }),
+});
+
+export const collections = { patterns, sequences, concepts };
