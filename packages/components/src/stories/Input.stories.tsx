@@ -107,6 +107,25 @@ export const WithHelpText: Story = {
 };
 
 /**
+ * The message follows the field box, linked with `aria-describedby`.
+ * Screen readers announce "Error:" before it because of the visually-hidden
+ * prefix (GOV.UK pattern).
+ */
+export const Invalid: Story = {
+  render: () => (
+    <div className="flow">
+      <label htmlFor="workspace-input">Workspace name</label>
+      <pp-input invalid>
+        <input id="workspace-input" aria-describedby="workspace-error" defaultValue="Acem" />
+      </pp-input>
+      <small id="workspace-error" data-slot="error">
+        <span className="visually-hidden">Error:</span> Type Acme exactly as shown.
+      </small>
+    </div>
+  ),
+};
+
+/**
  * TODO: Prefix color
  */
 export const Addons: Story = {

@@ -6,7 +6,7 @@
       "props": { "gap": "m" },
       "children": ["delete-workspace", "deleted-state", "confirm-dialog"],
       "watch": {
-        "/confirming": { "action": "setState", "params": { "statePath": "/typed", "value": "" } }
+        "/confirming": { "action": "setState", "params": { "statePath": "/confirmation", "value": { "typed": "", "attempted": false } } }
       }
     },
 
@@ -47,7 +47,12 @@
       "type": "Input",
       "props": {
         "label": { "$template": "Type ${/workspace} to confirm" },
-        "value": { "$bindState": "/typed" },
+        "value": { "$bindState": "/confirmation/typed" },
+        "error": {
+          "$cond": { "$and": [{ "$state": "/confirmation/attempted" }, { "$state": "/confirmation/typed", "neq": { "$state": "/workspace" } }] },
+          "$then": { "$template": "Type ${/workspace} exactly as shown to delete the workspace." },
+          "$else": null
+        },
         "initialFocus": true
       }
     },
@@ -55,13 +60,13 @@
       "type": "Button",
       "props": {
         "label": "Delete workspace",
-        "variant": "danger",
-        "disabled": { "$cond": { "$state": "/typed", "eq": { "$state": "/workspace" } }, "$then": false, "$else": true }
+        "variant": "danger"
       },
       "on": {
         "press": [
-          { "action": "setState", "params": { "statePath": "/exists", "value": false } },
-          { "action": "setState", "params": { "statePath": "/confirming", "value": false } }
+          { "action": "setState", "params": { "statePath": "/confirmation/attempted", "value": true } },
+          { "action": "setState", "params": { "statePath": "/exists", "value": { "$cond": { "$state": "/confirmation/typed", "eq": { "$state": "/workspace" } }, "$then": false, "$else": true } } },
+          { "action": "setState", "params": { "statePath": "/confirming", "value": { "$cond": { "$state": "/confirmation/typed", "eq": { "$state": "/workspace" } }, "$then": false, "$else": true } } }
         ]
       }
     },

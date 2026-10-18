@@ -17,6 +17,7 @@ declare module 'react' {
       'pp-input': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         size?: 'small' | 'medium' | 'large';
         clearable?: boolean;
+        invalid?: boolean;
       };
       'pp-range': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         name?: string;

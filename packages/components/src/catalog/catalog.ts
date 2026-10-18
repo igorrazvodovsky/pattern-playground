@@ -122,7 +122,7 @@ export const catalog = defineCatalog(schema, {
         initialFocus: z.boolean().nullable(),
       }),
       description:
-        'A button. `danger` marks an action that destroys something. `icon` names the icon by meaning. With `hideLabel` only the icon shows and the label is read by assistive technology. `expanded` marks a button that shows and hides another part of the interface. `initialFocus` makes it take focus when its Dialog opens. Emits `press`.',
+        'A button. `danger` marks an action that destroys something. `icon` names the icon by meaning. With `hideLabel` only the icon shows and the label is read by assistive technology. `disabled` is for an action that is unavailable or already in progress; a button whose input is not yet valid stays enabled and reports what is wrong when pressed. `expanded` marks a button that shows and hides another part of the interface. `initialFocus` makes it take focus when its Dialog opens. Emits `press`.',
     },
     Input: {
       props: z.object({
@@ -130,10 +130,11 @@ export const catalog = defineCatalog(schema, {
         hideLabel: z.boolean().nullable(),
         placeholder: z.string().nullable(),
         value: z.string().nullable(),
+        error: z.string().nullable(),
         initialFocus: z.boolean().nullable(),
       }),
       description:
-        'A single-line text field. With `hideLabel` the label is read by assistive technology only. `initialFocus` makes it take focus when its Dialog opens. Bind `value` with $bindState.',
+        'A single-line text field. With `hideLabel` the label is read by assistive technology only. `error` marks the value as wrong and shows the message beneath the field; it is announced when it appears. Set it when the actor submits, not while they type, and say how to fix the value. `initialFocus` makes it take focus when its Dialog opens. Bind `value` with $bindState.',
     },
     Dialog: {
       props: z.object({

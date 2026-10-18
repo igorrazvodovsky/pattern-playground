@@ -218,21 +218,32 @@ export const { registry } = defineRegistry(catalog, {
     Input: ({ props, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const id = useId();
+      // The error is an alert so that it is read out when it appears: the
+      // press that sets it leaves focus on the button.
       const field = (
-        <input
-          id={id}
-          type="text"
-          aria-label={props.hideLabel ? props.label : undefined}
-          placeholder={props.placeholder ?? undefined}
-          data-autofocus={props.initialFocus || undefined}
-          value={value ?? ''}
-          onChange={event => setValue(event.target.value)}
-          className="flex h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30"
-        />
+        <>
+          <input
+            id={id}
+            type="text"
+            aria-label={props.hideLabel ? props.label : undefined}
+            aria-invalid={props.error ? true : undefined}
+            aria-describedby={props.error ? `${id}-error` : undefined}
+            placeholder={props.placeholder ?? undefined}
+            data-autofocus={props.initialFocus || undefined}
+            value={value ?? ''}
+            onChange={event => setValue(event.target.value)}
+            className="flex h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40"
+          />
+          {props.error && (
+            <p id={`${id}-error`} role="alert" className="text-sm text-destructive">
+              <span className="sr-only">Error:</span> {props.error}
+            </p>
+          )}
+        </>
       );
-      return props.hideLabel ? field : (
+      return (
         <div className="flex flex-col gap-2">
-          <label htmlFor={id} className="flex items-center gap-2 text-sm leading-none font-medium select-none">{props.label}</label>
+          {!props.hideLabel && <label htmlFor={id} className="flex items-center gap-2 text-sm leading-none font-medium select-none">{props.label}</label>}
           {field}
         </div>
       );

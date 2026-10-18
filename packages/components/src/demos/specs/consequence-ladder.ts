@@ -29,7 +29,7 @@ export default {
       transferred: false,
       publishing: false,
       transferring: false,
-      typed: '',
+      confirmation: { typed: '', attempted: false },
       toasts: [],
       pressed: null,
     },

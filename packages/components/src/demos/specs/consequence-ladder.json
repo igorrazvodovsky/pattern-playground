@@ -6,7 +6,7 @@
       "props": { "gap": "m" },
       "children": ["actions", "reset", "toasts", "publish-dialog", "transfer-dialog"],
       "watch": {
-        "/transferring": { "action": "setState", "params": { "statePath": "/typed", "value": "" } }
+        "/transferring": { "action": "setState", "params": { "statePath": "/confirmation", "value": { "typed": "", "attempted": false } } }
       }
     },
     "actions": {
@@ -160,7 +160,7 @@
           { "action": "setState", "params": { "statePath": "/published", "value": false } },
           { "action": "setState", "params": { "statePath": "/transferred", "value": false } },
           { "action": "setState", "params": { "statePath": "/member/armed", "value": false } },
-          { "action": "setState", "params": { "statePath": "/typed", "value": "" } },
+          { "action": "setState", "params": { "statePath": "/confirmation", "value": { "typed": "", "attempted": false } } },
           { "action": "setState", "params": { "statePath": "/toasts", "value": [] } },
           { "action": "setState", "params": { "statePath": "/pressed", "value": null } }
         ]
@@ -219,7 +219,12 @@
       "type": "Input",
       "props": {
         "label": { "$template": "Type ${/workspace} to confirm" },
-        "value": { "$bindState": "/typed" },
+        "value": { "$bindState": "/confirmation/typed" },
+        "error": {
+          "$cond": { "$and": [{ "$state": "/confirmation/attempted" }, { "$state": "/confirmation/typed", "neq": { "$state": "/workspace" } }] },
+          "$then": { "$template": "Type ${/workspace} exactly as shown to transfer ownership." },
+          "$else": null
+        },
         "initialFocus": true
       }
     },
@@ -227,13 +232,13 @@
       "type": "Button",
       "props": {
         "label": "Transfer ownership",
-        "variant": "danger",
-        "disabled": { "$cond": { "$state": "/typed", "eq": { "$state": "/workspace" } }, "$then": false, "$else": true }
+        "variant": "danger"
       },
       "on": {
         "press": [
-          { "action": "setState", "params": { "statePath": "/transferred", "value": true } },
-          { "action": "setState", "params": { "statePath": "/transferring", "value": false } }
+          { "action": "setState", "params": { "statePath": "/confirmation/attempted", "value": true } },
+          { "action": "setState", "params": { "statePath": "/transferred", "value": { "$cond": { "$state": "/confirmation/typed", "eq": { "$state": "/workspace" } }, "$then": true, "$else": false } } },
+          { "action": "setState", "params": { "statePath": "/transferring", "value": { "$cond": { "$state": "/confirmation/typed", "eq": { "$state": "/workspace" } }, "$then": false, "$else": true } } }
         ]
       }
     },

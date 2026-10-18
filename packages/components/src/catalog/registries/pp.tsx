@@ -155,22 +155,32 @@ export const { registry } = defineRegistry(catalog, {
     Input: ({ props, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const id = useId();
+      // The error is an alert so that it is read out when it appears: the
+      // press that sets it leaves focus on the button.
       const field = (
-        <pp-input>
-          <input
-            id={id}
-            type="text"
-            aria-label={props.hideLabel ? props.label : undefined}
-            placeholder={props.placeholder ?? undefined}
-            data-autofocus={props.initialFocus || undefined}
-            value={value ?? ''}
-            onChange={event => setValue(event.target.value)}
-          />
-        </pp-input>
+        <>
+          <pp-input invalid={Boolean(props.error)}>
+            <input
+              id={id}
+              type="text"
+              aria-label={props.hideLabel ? props.label : undefined}
+              aria-describedby={props.error ? `${id}-error` : undefined}
+              placeholder={props.placeholder ?? undefined}
+              data-autofocus={props.initialFocus || undefined}
+              value={value ?? ''}
+              onChange={event => setValue(event.target.value)}
+            />
+          </pp-input>
+          {props.error && (
+            <small id={`${id}-error`} data-slot="error" role="alert">
+              <span className="visually-hidden">Error:</span> {props.error}
+            </small>
+          )}
+        </>
       );
-      return props.hideLabel ? field : (
+      return (
         <div className="flow" style={{ '--flow-space': space.s } as CSSProperties}>
-          <label htmlFor={id}>{props.label}</label>
+          {!props.hideLabel && <label htmlFor={id}>{props.label}</label>}
           {field}
         </div>
       );
