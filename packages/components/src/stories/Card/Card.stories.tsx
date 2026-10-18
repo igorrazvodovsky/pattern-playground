@@ -12,6 +12,9 @@ import imageOverlayHtml from "./CardImageOverlay.html?raw";
 import actionsHtml from "./CardActions.html?raw";
 import indicatorsHtml from "./CardIndicators.html?raw";
 
+// Seeded here because the data below is built once, at import.
+faker.seed(3);
+
 const createCardData = () => {
   return {
     img: faker.image.url(),

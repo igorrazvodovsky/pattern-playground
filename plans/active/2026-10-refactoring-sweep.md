@@ -27,7 +27,8 @@ the survey and should be confirmed before acting.
 3. Consolidation (done 2026-10-18; the command menu question remains).
 4. Template extractions (stat tile, card list, overview-plus-detail) — these are
    design calls, one sitting each.
-5. Convention fixes, as they come up or batched per territory.
+5. Conventions (done 2026-10-18; the story tags and the TemplateField
+   invalid state with its demo's `alert()` remain).
 
 ## 1. Bugs
 
@@ -237,35 +238,43 @@ Design calls; one sitting each.
 
 ## 5. Conventions
 
-- [ ] *Unwired checks* (checked): `check-story-buckets.mjs`,
-  `check-style-boundary.mjs` and `verify-demo-registry.mjs` appear in no
-  `package.json`, though `documentation.md:32` and `build-shadcn-css.mjs:21` say
-  they enforce. Commit `eedbccc3` says the style-boundary check was wired into a
-  docs-integrity workflow, but the repo has no `.github/` directory. Add to
-  `lint` (demo registry with `--no-baseline`).
+- [x] *Unwired checks.* `check-style-boundary.mjs` and
+  `verify-demo-registry.mjs` run in `npm run lint`. The demo-registry check lost
+  its migration-era baseline comparison; `--pages` prints the click-through
+  list. `check-story-buckets.mjs` was out of date and is deleted, along with
+  its mention in `.claude/rules/documentation.md`.
 - [x] *Server validation messages.* Done with the server-handler
   consolidation.
-- [ ] *Event names.* `modal:open`/`modal:close` and `breadcrumb-navigation` lack
-  the `pp-` prefix and `composed: true`. Dropdown, popup and tooltip dispatch
-  plain `Event` where the rest uses `CustomEvent`.
-- [ ] *`role` as a JS hook* in `list.ts:90,260`. Widen the ESLint selector at
-  `eslint.config.js:88`, which only checks `querySelector`/`closest`/`matches`.
-- [ ] *Animation name collisions.* `toast.css` and `explanation.css` redefine
-  `fade-in`, `fade-out`, `pulse` inside the components layer, overriding the
-  theme keyframes behind `--animation-fade-out` and `--animation-pulse`.
-  `chart-spin`, the tldraw spin and `skeleton-pulse` are near-copies of shared ones.
-- [ ] *`explanation.css`* hard-codes about 17 spacing, radius and font-size values
-  where tokens exist.
-- [ ] *Stories.* Faker without shared data or a seed in twelve stories
-  (`Dialog` args change every load; `Avatar` re-implements `getRandomFilledIcon`).
-  Inline styles where `.flex` or the `centeredLayoutNarrow` decorator exist.
-  The focus-trap play steps are copied between `Dialog` and `Drawer`; move to
-  `stories/utils/play.ts` with `findOpenDrawer`. 73 stories carry `atomic:*`
-  tags nothing reads; 66 use an unregistered `role:component` tag.
-- [ ] *`pp-modal` close hook.* `modal.ts` finds close buttons by the
-  `.close-button` class; use `data-close` only.
-- [ ] *`mock-data.md`* still points authors at `src/stories/data/`, which no
-  longer holds the shared data (`shared/data` does).
+- [x] *Event names.* `pp-modal-open`, `pp-modal-close` and
+  `pp-breadcrumb-navigate`, all composed. Dropdown, popup and tooltip dispatch
+  `CustomEvent`.
+- [x] *`role` as a JS hook.* `pp-list` recognises items by tag name. ESLint
+  now also rejects `getAttribute('role')`.
+- [x] *Animation name collisions.* Toast keyframes are `toast-`-prefixed. The
+  sidebar skeleton uses the theme's `blink`, the chart spinner its `spin`; the
+  explanation drawer's local `pulse` went with its stylesheet. The tldraw spin also translates and belongs to the
+  starter kit, so it stays.
+- [x] *`explanation.css`* is deleted. The explanation drawer is built from
+  library styles: `.flow` sections, a `.callout.layer` quote, attribute–value
+  badges for references, `pp-spinner` with `.muted` for loading and streaming,
+  and `.callout.danger` for errors.
+- [x] *Stories.* The preview reseeds faker before each story; Card and Dialog,
+  which call it at import, seed their own modules. The icon helpers in
+  `stories/utils/icons.ts` pick through faker, and Avatar uses them. Flex rows
+  use `.flex`, which takes `--flex-gap` where a row needs more room (Badge,
+  With button). The remaining inline styles are arg-driven sizes or deliberate
+  demo dimensions, including the list widths: `centeredLayoutNarrow` would
+  centre the lists, which they do not need. The
+  keyboard play steps live in `stories/utils/play.ts`.
+- [ ] *Story tags.* 73 stories carry `atomic:*` tags and 66 a `role:component`
+  tag that `main.ts` does not register. Nothing reads either since the graph
+  became language-only, but `pattern-role-model.md` describes `atomic:*` as
+  catalogue metadata and `role:component` as how Storybook pages declare their
+  role. Decide whether they stay (and `role:component` is registered) or go
+  (and the spec changes).
+- [x] *`pp-modal` close hook.* Close buttons are found by `data-close` only.
+- [x] *`mock-data.md`* points at `@shared/data` for shared data;
+  `src/stories/data/` is for data one story uses.
 - [x] *Dropdown submenus from the keyboard.* `pp-list` focuses the first
   submenu item by looking inside the parent item, but `pp-dropdown` has by
   then moved the submenu into its own popup, so ArrowRight opened the submenu
@@ -284,6 +293,8 @@ Design calls; one sitting each.
 - [ ] *`alert()` in the prompt demo.* `PromptTemplateDemo`'s Validate reports
   through `alert()`, which blocks the page. Show the result in the demo instead;
   this pairs with the TemplateField item above.
-- [ ] *Small items.* `CommentingPlugin.ts` inlines its own reduced-motion check;
-  hook file names mix camelCase and kebab-case; `link-preview.ts` keeps a
-  second cache over `getPaneContent`.
+- [x] *Small items.* `CommentingPlugin.ts` uses `prefersReducedMotion()`. Hook
+  files are kebab-case (`use-modal-service.ts`,
+  `use-hierarchical-navigation.ts`, and the data-view and dynamic-hyperlinks
+  demo hooks). `link-preview.ts` relies on the `getPaneContent` cache and only
+  warms it ahead of a show.

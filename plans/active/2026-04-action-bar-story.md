@@ -59,14 +59,14 @@ Add a `modal` boolean attribute, defaulting to `true` for backward compatibility
 | Backdrop click | Closes on click outside | Skip |
 | ARIA | `aria-modal="true"` | Omit `aria-modal` |
 
-Everything else stays unconditional: surface discovery, event emission (`modal:open` / `modal:close`), Escape handling, trigger wiring, ARIA `role="dialog"`, React bridging, cleanup.
+Everything else stays unconditional: surface discovery, event emission (`pp-modal-open` / `pp-modal-close`), Escape handling, trigger wiring, ARIA `role="dialog"`, React bridging, cleanup.
 
 ### Files to modify
 
 - `src/components/modal/modal.ts` — gate the four behaviours on `this.getAttribute('modal') !== 'false'`
 - `src/components/modal/modal-dom.ts` — no changes needed; the DOM builders don't set modal-specific attributes
 - `src/services/modal-service.ts` — `openDrawer` and `openDialog` continue passing `modal` implicitly (the default is `true`). Add an optional `modal` flag to `ModalOptions` so the future non-modal drawer can opt out.
-- `src/hooks/useModalService.ts` — `ModalOptions` type gains the `modal` flag; no logic changes
+- `src/hooks/use-modal-service.ts` — `ModalOptions` type gains the `modal` flag; no logic changes
 
 ### What doesn't change
 
@@ -79,7 +79,7 @@ Everything else stays unconditional: surface discovery, event emission (`modal:o
 - Existing Dialog and Drawer stories render and behave identically (regression check).
 - A `<pp-modal modal="false">` surface opens without top-layer, without focus trapping, without backdrop, and without `aria-modal`.
 - Escape still dismisses the non-modal surface.
-- `modal:open` and `modal:close` events still fire.
+- `pp-modal-open` and `pp-modal-close` events still fire.
 
 ## Decision: web component or story-local composition?
 
@@ -95,7 +95,7 @@ With the `pp-modal` refactor in place, two viable shapes for the action bar surf
 - Other coordination patterns (Toolbar, Bubble menu) followed the same path: story first, primitive later if a real consumer materialises.
 - It keeps this change reviewable. Adding a web component pulls in registration, light-DOM styling, attribute conventions, and tests — all worth doing once a real consumer asks for it.
 
-The story should use the same conventions as `pp-modal` — Escape to dismiss, `role="toolbar"` on the action group, event names matching `modal:open` / `modal:close` — so that promotion to a `pp-modal`-backed implementation (or a dedicated `pp-action-bar`) is mechanical.
+The story should use the same conventions as `pp-modal` — Escape to dismiss, `role="toolbar"` on the action group, event names matching `pp-modal-open` / `pp-modal-close` — so that promotion to a `pp-modal`-backed implementation (or a dedicated `pp-action-bar`) is mechanical.
 
 If a second consumer of the action bar appears (e.g., a future selectable List pattern wants the same surface), promote the inline composition into `pp-action-bar` then.
 
@@ -154,7 +154,7 @@ If the inline composition gets promoted to `pp-action-bar` later, the contract b
 *Phase 1 — PPModal refactor:*
 - `src/components/modal/modal.ts` — add `modal` attribute, gate four behaviours
 - `src/services/modal-service.ts` — add optional `modal` flag to `ModalOptions`
-- `src/hooks/useModalService.ts` — type change only (`ModalOptions` gains `modal`)
+- `src/hooks/use-modal-service.ts` — type change only (`ModalOptions` gains `modal`)
 
 *Phase 2 — Action bar story:*
 
@@ -195,7 +195,7 @@ If the inline composition gets promoted to `pp-action-bar` later, the contract b
 - Existing Dialog and Drawer stories render and behave identically.
 - `<pp-modal modal="false">` opens without top-layer, focus trapping, backdrop, or `aria-modal`.
 - Escape still dismisses non-modal surfaces.
-- `modal:open` and `modal:close` events fire for both modes.
+- `pp-modal-open` and `pp-modal-close` events fire for both modes.
 
 *Phase 2 — Action bar story:*
 - Four stories render in Storybook under `Actions/Coordination/Action bar`.

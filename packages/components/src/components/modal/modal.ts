@@ -57,7 +57,7 @@ export class PPModal extends HTMLElement {
   private findCloseElements() {
     // Find close buttons within the modal
     if (this.modal) {
-      this.closeButtons = Array.from(this.modal.querySelectorAll<HTMLElement>('button[data-close], .close-button'));
+      this.closeButtons = Array.from(this.modal.querySelectorAll<HTMLElement>('button[data-close]'));
       
       // If no explicit close buttons found, look for buttons in header
       if (this.closeButtons.length === 0) {
@@ -182,8 +182,9 @@ export class PPModal extends HTMLElement {
     this.focusModal();
 
     // Emit custom event
-    this.dispatchEvent(new CustomEvent('modal:open', {
+    this.dispatchEvent(new CustomEvent('pp-modal-open', {
       bubbles: true,
+      composed: true,
       detail: { modal: this.modal }
     }));
   }
@@ -192,8 +193,9 @@ export class PPModal extends HTMLElement {
     if (!this.modal) return;
 
     // Emit close event before cleanup (for service to listen)
-    this.dispatchEvent(new CustomEvent('modal:close', {
+    this.dispatchEvent(new CustomEvent('pp-modal-close', {
       bubbles: true,
+      composed: true,
       detail: { modal: this.modal }
     }));
 

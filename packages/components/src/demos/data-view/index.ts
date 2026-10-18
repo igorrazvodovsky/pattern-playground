@@ -35,10 +35,10 @@ export * from '../../templates/collection-view/AttributeUtils';
 export * from '../../templates/collection-view/SortingUtils';
 
 // Hooks
-export { useProductSearch } from './useProductSearch';
-export { useProductFiltering } from './useProductFiltering';
-export { useFilterState } from './hooks/useFilterState';
-export { useDropdownState } from './hooks/useDropdownState';
+export { useProductSearch } from './use-product-search';
+export { useProductFiltering } from './use-product-filtering';
+export { useFilterState } from './hooks/use-filter-state';
+export { useDropdownState } from './hooks/use-dropdown-state';
 
 // Constants
 export * from './constants';

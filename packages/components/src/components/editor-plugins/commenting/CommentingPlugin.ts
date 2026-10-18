@@ -1,4 +1,5 @@
 import { BasePlugin } from '../core/Plugin';
+import { prefersReducedMotion } from '../../../utility/animate.ts';
 import type { EditorContext, SlotRegistry, EventBus } from '../../editor/types';
 import type { Extension } from '@tiptap/core';
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model';
@@ -346,8 +347,7 @@ export class EditorCommentingPlugin extends BasePlugin {
       const id = CSS.escape(pointer.entityId);
       target = dom.querySelector(`mark[data-quote-id="${id}"], [data-reference-id="${id}"]`);
     }
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    target?.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
+    target?.scrollIntoView({ block: 'center', behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
   }
 }
 

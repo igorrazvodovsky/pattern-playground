@@ -1,14 +1,18 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { faker } from '@faker-js/faker';
 import { action } from 'storybook/actions';
-import { useModalService } from '../hooks/useModalService';
+import { useModalService } from '../hooks/use-modal-service';
 import { expect, userEvent, waitFor, within } from 'storybook/test';
+import { closeWithEscape, expectFocusInside, expectFocusTrapped, findOpenModal, openWithKeyboard } from './utils/play';
 
 interface DialogArgs {
   title: string;
   size: 'small' | 'medium' | 'large';
   message: string;
 }
+
+// Seeded here because the default message is built once, at import.
+faker.seed(2);
 
 const meta = {
   title: "Components/Dialog",
@@ -70,11 +74,7 @@ export const Default: Story = {
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole('button', { name: 'Open dialog' });
     await userEvent.click(trigger);
-    // The modal service mounts the dialog on document.body, a frame after the
-    // click; the title is its accessible name, so the role query resolves only
-    // once the surface is open and named.
-    const dialog = await within(document.body).findByRole('dialog', { name: args.title }) as HTMLDialogElement;
-    await waitFor(() => expect(dialog).toHaveAttribute('open'));
+    const dialog = await findOpenModal(args.title);
     // Visibility settles only after the enter transition fades the dialog in.
     await waitFor(() => expect(within(dialog).getByRole('button', { name: 'Close' })).toBeVisible());
   },
@@ -146,32 +146,11 @@ export const KeyboardOperation: Story = {
     return <KeyboardDialogExample />;
   },
   play: async ({ args, canvasElement }) => {
-    const canvas = within(canvasElement);
-    const trigger = canvas.getByRole('button', { name: 'Open dialog' });
-
-    trigger.focus();
-    expect(trigger).toHaveFocus();
-    await userEvent.keyboard('{Enter}');
-
-    const dialog = await within(document.body).findByRole('dialog', { name: args.title }) as HTMLDialogElement;
-    await waitFor(() => expect(dialog).toHaveAttribute('open'));
-
-    // Focus follows the dialog rather than staying behind it.
-    await waitFor(() => expect(dialog).toContainElement(document.activeElement as HTMLElement));
-
-    // Tab stays inside: the dialog is in the top layer and the rest of the
-    // page is inert, so a full cycle can never land outside.
-    await userEvent.tab();
-    expect(dialog).toContainElement(document.activeElement as HTMLElement);
-    await userEvent.tab();
-    expect(dialog).toContainElement(document.activeElement as HTMLElement);
-    await userEvent.tab({ shift: true });
-    expect(dialog).toContainElement(document.activeElement as HTMLElement);
-
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(dialog).not.toHaveAttribute('open'));
-
+    const trigger = await openWithKeyboard(canvasElement, 'Open dialog');
+    const dialog = await findOpenModal(args.title);
+    await expectFocusInside(dialog);
+    await expectFocusTrapped(dialog);
     // Focus returns to the trigger, not to the top of the document.
-    await waitFor(() => expect(trigger).toHaveFocus());
+    await closeWithEscape(dialog, trigger);
   },
 };

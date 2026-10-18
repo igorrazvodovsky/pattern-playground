@@ -20,7 +20,7 @@ import Filters from "../components/filter/filters";
 
 import type { Filter, FilterOperator } from "../components/filter/filter-types";
 import { taskFilterCategories, TASK_FILTER_PATHS } from "../components/filter/filter-options";
-import { useHierarchicalNavigation } from '../hooks/useHierarchicalNavigation';
+import { useHierarchicalNavigation } from '../hooks/use-hierarchical-navigation';
 import {
   createSortedSearchFunction,
   sortByRelevance

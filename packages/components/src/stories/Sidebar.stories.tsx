@@ -26,8 +26,6 @@ import {
   SidebarMenuSubButton,
 } from '../components/sidebar';
 
-faker.seed(42);
-
 export interface SidebarArgs {
   collapsible: 'offcanvas' | 'icon' | 'none';
   variant: 'sidebar' | 'floating' | 'inset';

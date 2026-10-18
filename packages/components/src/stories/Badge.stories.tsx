@@ -65,7 +65,8 @@ export const Size: Story = {
 
 export const WithButton: Story = {
   render: () => (
-    <div style={{display: 'flex', gap: '1rem', alignItems: 'center'}}>
+    // The counters overhang their buttons, so the row needs more than the default gap.
+    <div className="flex" style={{ '--flex-gap': 'var(--space-l)' } as React.CSSProperties}>
       <button className="button">
         Requests<strong className="badge badge--pill badge--info">12</strong>
       </button>
@@ -103,7 +104,7 @@ export const WithList: Story = {
 
 export const AttributeValuePair: Story = {
   render: () => (
-    <div style={{display: 'flex', gap: '1ch', alignItems: 'center'}}>
+    <div className="flex">
       <span className="badge">
         <span className="badge__label">Attribute</span>Value
       </span>
@@ -121,7 +122,7 @@ export const AnimatedCounter: Story = {
 
 export const Pulse: Story = {
   render: () => (
-    <div style={{display: 'flex', gap: '1rem', alignItems: 'center'}}>
+    <div className="flex">
       <strong className="badge badge--pill badge--pulse badge--accent">1</strong>
       <strong className="badge badge--pill badge--pulse badge--info">1</strong>
       <strong className="badge badge--pill badge--pulse badge--success">1</strong>

@@ -15,15 +15,15 @@ import {
   type AICommandItem
 } from "../../components/command-menu";
 import { AnimateChangeInHeight } from "../../components/filter/animate-change-in-height";
-import { useHierarchicalNavigation } from '../../hooks/useHierarchicalNavigation';
+import { useHierarchicalNavigation } from '../../hooks/use-hierarchical-navigation';
 import {
   createSortedSearchFunction,
   sortByRelevance
 } from '../../utility/hierarchical-search';
 import type { AttributeFilter, FilterOperator } from '@shared/data/bindings';
 import type { FilterCategory, FilterValue } from './FilterCategories';
-import { useFilterState } from './hooks/useFilterState';
-import { useDropdownState } from './hooks/useDropdownState';
+import { useFilterState } from './hooks/use-filter-state';
+import { useDropdownState } from './hooks/use-dropdown-state';
 import { generateProductFilterSuggestions } from './aiFilterAdapter';
 import { DROPDOWN_CLOSE_DELAY, MIN_AI_TRIGGER_LENGTH } from './constants';
 

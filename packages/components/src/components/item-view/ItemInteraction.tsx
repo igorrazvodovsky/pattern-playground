@@ -253,8 +253,8 @@ export const ItemInteraction = ({
 
   // Drawer (mid) and dialog (maxi) are imperative surfaces reconciled from
   // state. Effect cleanup closes the current one via `closeModal`, which tears
-  // down without dispatching `modal:close`, so a rung switch (mid → maxi) is
-  // silent; a user dismissal runs through the web component, fires `modal:close`
+  // down without dispatching `pp-modal-close`, so a rung switch (mid → maxi) is
+  // silent; a user dismissal runs through the web component, fires `pp-modal-close`
   // → `onClose`, and drops the state back to the bare trigger.
   useEffect(() => {
     if (activeScope !== 'mid' && activeScope !== 'maxi') return;

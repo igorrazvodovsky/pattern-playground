@@ -3,7 +3,7 @@
 ## Development commands
 
 ### Frontend (root directory)
-- `npm run lint` — run ESLint (plus the seed-staleness check)
+- `npm run lint` — run ESLint, after the repository checks in `scripts/` (seed staleness, plan promotions, style boundary, demo registry, world replay)
 - `npm run lint:styles` — run Stylelint
 - `npm run test` — full gate: lint, Stylelint, and a one-shot run of every Vitest project (needs Chromium)
 - `npm run storybook` — start Storybook on port 6006

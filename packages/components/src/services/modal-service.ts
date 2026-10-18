@@ -23,7 +23,7 @@ export interface ModalOptions {
   modal?: boolean;
   /**
    * Called when the surface is dismissed by the user (close button, backdrop,
-   * or Escape) — i.e. when `pp-modal` dispatches `modal:close`. A programmatic
+   * or Escape) — i.e. when `pp-modal` dispatches `pp-modal-close`. A programmatic
    * {@link ModalService.closeModal} tears the surface down without dispatching,
    * so this does not fire then, which lets a caller driving the modal from its
    * own state tell a user-close apart from one it initiated itself.
@@ -104,7 +104,7 @@ export class ModalService {
       // Store React modal state for cleanup
       this.reactModals.set(modalId, { root, container, ppModal, headerRoot });
 
-      ppModal.addEventListener('modal:close', () => {
+      ppModal.addEventListener('pp-modal-close', () => {
         onClose?.();
         this.cleanupReactModal(modalId);
       });

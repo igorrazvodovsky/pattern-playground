@@ -50,7 +50,6 @@
 @import url("progress-indicator.css") layer(components);
 @import url("toast.css") layer(components);
 @import url("bubble-menu.css") layer(components);
-@import url("explanation.css") layer(components);
 @import url("tldraw.css") layer(components);
 @import url("sections.css");
 @import url("stretched-link.css");

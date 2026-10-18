@@ -1,6 +1,6 @@
 import { useCallback, useState, useEffect } from 'react';
 import { useEditorContext } from '../../../editor/EditorProvider';
-import { useModalService } from '../../../../hooks/useModalService';
+import { useModalService } from '../../../../hooks/use-modal-service';
 import { ExplanationDrawerContainer } from './ExplanationDrawerContainer';
 import type { ExplanationPluginOptions } from '../ExplanationPlugin';
 // Type guard for safe event payload handling

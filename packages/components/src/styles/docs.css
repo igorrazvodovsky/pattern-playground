@@ -95,9 +95,7 @@ a.sbdocs,
 .description--full::first-letter,
 button::first-letter,
 h4::first-letter,
-h3::first-letter,
-.badge,
-.badge * {
+h3::first-letter {
   text-transform: capitalize;
 }
 

@@ -13,7 +13,7 @@ import {
   type AICommandResult
 } from "../components/command-menu";
 
-import { useHierarchicalNavigation, type SearchableItem } from '../hooks/useHierarchicalNavigation';
+import { useHierarchicalNavigation, type SearchableItem } from '../hooks/use-hierarchical-navigation';
 import type { CommandParent, CommandChild } from '../types/hierarchical-navigation';
 import { createSortedSearchFunction, sortByRelevance } from '../utility/hierarchical-search';
 

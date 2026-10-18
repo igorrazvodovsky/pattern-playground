@@ -1,12 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { icons as phosphorIcons } from '@iconify-json/ph';
-
-const filledIconNames = Object.keys(phosphorIcons.icons).filter(name => name.endsWith('-fill'));
-
-function getRandomFilledIcon() {
-  const randomIndex = Math.floor(Math.random() * filledIconNames.length);
-  return "ph:" + filledIconNames[randomIndex];
-}
+import { getRandomFilledIcon } from './utils/icons.ts';
 
 interface AvatarProps {
   size?: 'xsmall' | 'small' | 'medium' | 'large';

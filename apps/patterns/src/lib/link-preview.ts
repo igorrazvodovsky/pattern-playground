@@ -14,7 +14,6 @@ let showTimer: number | undefined;
 let hideTimer: number | undefined;
 let scrollCleanup: (() => void) | null = null;
 let showGeneration = 0;
-const prefetchCache = new Map<string, Promise<string>>();
 
 function getPreviewEl(): HTMLElement {
   if (!previewEl || !previewEl.isConnected) {
@@ -70,6 +69,8 @@ function extractContent(html: string, title: string): string {
   return `<strong class="link-preview__title">${heading}</strong><div class="link-preview__body">${wrapper.innerHTML}</div>`;
 }
 
+// getPaneContent caches the fetch and evicts failures; the extraction is cheap
+// enough to run on every show.
 async function fetchContent(path: string): Promise<string> {
   try {
     const { title, html } = await getPaneContent(path);
@@ -79,16 +80,9 @@ async function fetchContent(path: string): Promise<string> {
   }
 }
 
-function prefetch(path: string): Promise<string> {
-  let pending = prefetchCache.get(path);
-  if (!pending) {
-    pending = fetchContent(path);
-    // An empty result is a failed fetch; evict it so a later hover retries,
-    // as getPaneContent does for its own cache.
-    pending.then((content) => { if (!content) prefetchCache.delete(path); });
-    prefetchCache.set(path, pending);
-  }
-  return pending;
+/** Starts the pane fetch ahead of a show; a failure is retried when it shows. */
+function warm(path: string) {
+  getPaneContent(path).catch(() => {});
 }
 
 async function position(anchor: HTMLAnchorElement) {
@@ -128,7 +122,7 @@ async function show(anchor: HTMLAnchorElement, gen: number) {
   const path = resolvePath(anchor);
   if (!path) return;
 
-  const content = await prefetch(path);
+  const content = await fetchContent(path);
   if (gen !== showGeneration) return;
   if (!content) return;
 
@@ -197,7 +191,7 @@ function scheduleShow(anchor: HTMLAnchorElement) {
   if (currentAnchor === anchor || pendingAnchor === anchor) return;
   clearTimeout(showTimer);
   const path = resolvePath(anchor);
-  if (path) prefetch(path);
+  if (path) warm(path);
   pendingAnchor = anchor;
   const gen = ++showGeneration;
   showTimer = window.setTimeout(() => show(anchor, gen), SHOW_DELAY);
@@ -238,7 +232,7 @@ function preloadPageLinks() {
   function pump() {
     const start = performance.now();
     while (i < paths.length && performance.now() - start < 5) {
-      prefetch(paths[i++]);
+      warm(paths[i++]);
     }
     if (i < paths.length) idle(pump);
   }

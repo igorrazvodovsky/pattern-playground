@@ -85,14 +85,11 @@ export class PpList extends Elena(HTMLElement) {
   }
 
   private handleClick = (event: MouseEvent) => {
-    const listItemTypes = ['menuitem', 'menuitemcheckbox', 'menuitemradio'];
+    const item = event.composedPath().find(
+      (el): el is PpListItem => el instanceof HTMLElement && this.isListItem(el),
+    );
 
-    const target = event.composedPath().find((el): el is Element => el instanceof Element && listItemTypes.includes(el.getAttribute('role') || ''));
-
-    if (!target) return;
-
-    // This isn't true. But we use it for TypeScript checks below.
-    const item = target as PpListItem;
+    if (!item) return;
 
     // Handle submenu items - toggle open/close instead of selecting
     if (item['has-submenu']) {
@@ -255,10 +252,7 @@ export class PpList extends Elena(HTMLElement) {
   };
 
   private isListItem(item: HTMLElement) {
-    return (
-      item.tagName.toLowerCase() === 'pp-list-item' ||
-      ['menuitem', 'menuitemcheckbox', 'menuitemradio'].includes(item.getAttribute('role') ?? '')
-    );
+    return item.localName === 'pp-list-item';
   }
 
   // Gets all child list items, ignoring dividers, headers, and other elements.

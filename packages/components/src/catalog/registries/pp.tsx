@@ -128,8 +128,8 @@ export const { registry } = defineRegistry(catalog, {
         const el = modal.current;
         if (!el) return;
         const onClose = () => setOpen(false);
-        el.addEventListener('modal:close', onClose);
-        return () => el.removeEventListener('modal:close', onClose);
+        el.addEventListener('pp-modal-close', onClose);
+        return () => el.removeEventListener('pp-modal-close', onClose);
       }, [setOpen]);
 
       useEffect(() => {

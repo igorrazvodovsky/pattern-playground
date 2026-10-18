@@ -5,8 +5,8 @@ import StarterKit from '@tiptap/starter-kit';
 import { documents, referenceCategories } from '@shared/data';
 import { Reference, createReferenceSuggestion } from '../../components/reference/Reference';
 import type { CorpusDocument } from './types';
-import { useHeatmap } from './useHeatmap';
-import { useSelectionMentions } from './useSelectionPopup';
+import { useHeatmap } from './use-heatmap';
+import { useSelectionMentions } from './use-selection-popup';
 import { HeatmapExtension, setHeatmapSpans } from './HeatmapPlugin';
 
 type RawDoc = (typeof documents)[number];

@@ -1,19 +1,20 @@
+import { faker } from '@faker-js/faker';
 import { icons as phosphorIcons } from '@iconify-json/ph';
 
+// Picks go through faker, so the seed the Storybook preview sets before each
+// story makes them repeat from load to load.
 const iconNames = Object.keys(phosphorIcons.icons);
 const excludedSuffixes = ['-thin', '-light', '-bold', '-duotone', '-fill'];
 
 const regularIconNames = iconNames.filter(name =>
   !excludedSuffixes.some(suffix => name.endsWith(suffix))
 );
+const filledIconNames = iconNames.filter(name => name.endsWith('-fill'));
 
 export function getRandomIcon() {
-  const randomIndex = Math.floor(Math.random() * regularIconNames.length);
-  return "ph:" + regularIconNames[randomIndex];
+  return "ph:" + faker.helpers.arrayElement(regularIconNames);
 }
 
 export function getRandomFilledIcon() {
-  const filledIconNames = iconNames.filter(name => name.endsWith('-fill'));
-  const randomIndex = Math.floor(Math.random() * filledIconNames.length);
-  return "ph:" + filledIconNames[randomIndex];
+  return "ph:" + faker.helpers.arrayElement(filledIconNames);
 }

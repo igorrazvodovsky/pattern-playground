@@ -460,7 +460,7 @@ export class PpDropdown extends Elena(HTMLElement) {
 
     if (this.open) {
 
-      this.dispatchEvent(new Event('pp-show', { bubbles: true, cancelable: false, composed: true }))
+      this.dispatchEvent(new CustomEvent('pp-show', { bubbles: true, cancelable: false, composed: true }))
       this.addOpenListeners();
 
       // Announce dropdown opening to screen readers
@@ -474,7 +474,7 @@ export class PpDropdown extends Elena(HTMLElement) {
       const { keyframes, options } = getAnimation('dropdown.show');
       await animateTo(popup, keyframes, options);
 
-      this.dispatchEvent(new Event('pp-after-show', { bubbles: true, cancelable: false, composed: true }))
+      this.dispatchEvent(new CustomEvent('pp-after-show', { bubbles: true, cancelable: false, composed: true }))
 
       // Focus first item for better keyboard navigation
       if (list) {
@@ -486,7 +486,7 @@ export class PpDropdown extends Elena(HTMLElement) {
       }
 
     } else {
-      this.dispatchEvent(new Event('pp-hide', { bubbles: true, cancelable: false, composed: true }))
+      this.dispatchEvent(new CustomEvent('pp-hide', { bubbles: true, cancelable: false, composed: true }))
       this.removeOpenListeners();
 
       // Open submenus are torn down directly: their pp-submenu-close events
@@ -503,7 +503,7 @@ export class PpDropdown extends Elena(HTMLElement) {
       popup.setAttribute('aria-hidden', 'true');
       popup.active = false;
 
-      this.dispatchEvent(new Event('pp-after-hide', { bubbles: true, cancelable: false, composed: true }))
+      this.dispatchEvent(new CustomEvent('pp-after-hide', { bubbles: true, cancelable: false, composed: true }))
     }
   }
 

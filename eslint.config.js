@@ -88,6 +88,10 @@ export default [
         selector: "CallExpression[callee.property.name=/^(querySelector|querySelectorAll|closest|matches)$/] > Literal[value=/^\\[(role|aria-)/]",
         message: 'Use data-* attributes as JS hooks, not role/aria-*. See .claude/rules/web-components.md',
       },
+      {
+        selector: "CallExpression[callee.property.name='getAttribute'] > Literal[value='role']",
+        message: 'Use data-* attributes or the tag name as JS hooks, not role. See .claude/rules/web-components.md',
+      },
       // No `style` prop on React components (`Foo`, `Foo.Bar`); lowercase
       // names such as `div` or `motion.div` count as DOM elements.
       {

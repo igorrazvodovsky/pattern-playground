@@ -42,9 +42,10 @@
     margin: 0;
   }
 
+  /* --flex-gap widens or narrows one row without a class of its own. */
   .flex {
     display: flex;
-    gap: 0.5ch;
+    gap: var(--flex-gap, 0.5ch);
     align-items: center;
   }
 
