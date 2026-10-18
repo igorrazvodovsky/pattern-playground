@@ -431,6 +431,12 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .col-start-2 {
     grid-column-start: 2;
   }
+.row-span-2 {
+    grid-row: span 2 / span 2;
+  }
+.row-start-1 {
+    grid-row-start: 1;
+  }
 .container {
     width: 100%;
   }
@@ -908,6 +914,12 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .self-center {
     align-self: center;
+  }
+.self-start {
+    align-self: flex-start;
+  }
+.justify-self-end {
+    justify-self: flex-end;
   }
 .overflow-hidden {
     overflow: hidden;

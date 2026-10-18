@@ -15,7 +15,17 @@ const tone = z.enum(['neutral', 'accent', 'danger']);
 
 // Icons are named by meaning; each registry maps a name to its own icon set.
 // A spec that named Phosphor glyphs would be tied to the library that ships them.
-export const iconNames = ['cancel', 'delete', 'delete-confirm', 'history', 'restore'] as const;
+export const iconNames = [
+  'archive',
+  'cancel',
+  'delete',
+  'delete-confirm',
+  'history',
+  'publish',
+  'remove-person',
+  'restore',
+  'transfer',
+] as const;
 
 // How long a toast stays. The window is part of the transient-feedback
 // pattern, not a library default: a toast that offers an action has to stay
@@ -23,6 +33,11 @@ export const iconNames = ['cancel', 'delete', 'delete-confirm', 'history', 'rest
 // dismisses its toasts on this schedule, paused while the pointer or focus is
 // on a toast.
 export const toastDuration = { plain: 4000, withAction: 8000 } as const;
+
+// How long an armed inline confirmation waits before it reverts. Like the
+// toast window, it belongs to the pattern: long enough to confirm on purpose,
+// short enough that an armed control left alone does not stay armed.
+export const confirmationWindow = 4000;
 
 export const catalog = defineCatalog(schema, {
   components: {
@@ -46,8 +61,9 @@ export const catalog = defineCatalog(schema, {
       props: z.object({
         title: z.string().nullable(),
       }),
-      slots: ['default'],
-      description: 'A bounded surface that groups related content.',
+      slots: ['default', 'suffix', 'actions'],
+      description:
+        'A bounded surface that groups related content. The `suffix` slot sits beside the title, for a short status such as a Badge. The `actions` slot holds the buttons that act on what the card shows, below its content.',
     },
     Text: {
       props: z.object({

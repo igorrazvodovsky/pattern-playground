@@ -24,7 +24,7 @@ depends_on: "plans/archive/2026-05-embed-components.md"
 > page that names the move owns `demos/<slug>.tsx`, and pages that reference the
 > move import from it (deletion.mdx borrows the `inline-confirmation` and
 > `toast-with-undo` specs, not the other way round). Cross-page scaffolding
-> that no move owns (the toast and modal bridges) lives in small shared files
+> that no move owns (the toast bridge) lives in small shared files
 > (`demos/demo-runtime.ts`). The tree is two-way shared substrate: Storybook
 > stories may import from `demos/` too, rather than keeping private copies.
 

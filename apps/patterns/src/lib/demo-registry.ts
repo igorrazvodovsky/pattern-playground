@@ -15,7 +15,6 @@ type DemoComponent = ComponentType<Record<string, unknown>>;
 type Loader = () => Promise<DemoComponent>;
 
 const demos: Record<string, Loader> = {
-  'consequence-ladder': () => import('@pkg/demos/action-consequences').then(m => m.ConsequenceLadderDemo),
   'activity-log-basic': () => import('@pkg/demos/activity-log').then(m => m.ActivityLogBasicDemo),
   'activity-log-llm-reasoning': () => import('@pkg/demos/activity-log').then(m => m.ActivityLogLLMReasoningDemo),
   'fluid-attributes': () => import('@pkg/demos/attribute-visibility').then(m => m.FluidAttributesDemo),
@@ -66,6 +65,7 @@ const demos: Record<string, Loader> = {
 type SpecModule = { spec: Spec; setup: SpecSetup };
 
 const specs: Record<string, () => Promise<{ default: SpecModule }>> = {
+  'consequence-ladder': () => import('@pkg/demos/specs/consequence-ladder'),
   'dialog-deletion': () => import('@pkg/demos/specs/dialog-deletion'),
   'disruptive-notification': () => import('@pkg/demos/specs/disruptive-notification'),
   'inline-confirmation': () => import('@pkg/demos/specs/inline-confirmation'),

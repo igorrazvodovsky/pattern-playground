@@ -16,11 +16,15 @@ type PpModal = HTMLElement & { open: () => void; close: () => void };
 const space = { none: '0', s: 'var(--space-xs)', m: 'var(--space-s)', l: 'var(--space-m)' } as const;
 const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
 const icons: Record<(typeof iconNames)[number], string> = {
+  archive: 'ph:archive-box',
   cancel: 'ph:x',
   delete: 'ph:trash-simple',
   'delete-confirm': 'ph:trash-simple-fill',
   history: 'ph:clock-counter-clockwise',
+  publish: 'ph:globe-hemisphere-west',
+  'remove-person': 'ph:user-minus',
   restore: 'ph:arrow-arc-left',
+  transfer: 'ph:crown-simple',
 };
 
 export const { registry } = defineRegistry(catalog, {
@@ -52,12 +56,30 @@ export const { registry } = defineRegistry(catalog, {
       </ul>
     ),
 
-    Card: ({ props, children }) => (
-      <article className="card flow pad" style={{ '--flow-space': '0em' } as CSSProperties}>
-        {props.title && <h3>{props.title}</h3>}
-        {children}
-      </article>
-    ),
+    // A plain card is one padded column. With a suffix or actions it takes
+    // the card's zones: a header that spreads the title and the suffix apart,
+    // and a footer that puts the actions at the end.
+    Card: ({ props, children, slots }) =>
+      slots?.suffix || slots?.actions ? (
+        <article className="card">
+          <div className="card__header">
+            {props.title && <h3 className="label">{props.title}</h3>}
+            {slots.suffix && <div className="flex">{slots.suffix}</div>}
+          </div>
+          <div className="flow pad">{children}</div>
+          {slots.actions && (
+            <div className="card__footer">
+              <div className="flex" />
+              <div className="flex">{slots.actions}</div>
+            </div>
+          )}
+        </article>
+      ) : (
+        <article className="card flow pad" style={{ '--flow-space': '0em' } as CSSProperties}>
+          {props.title && <h3>{props.title}</h3>}
+          {children}
+        </article>
+      ),
 
     Text: ({ props, children }) => {
       let text = <>{props.text}</>;

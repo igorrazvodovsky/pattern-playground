@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 import { Dialog, Toast } from 'radix-ui';
 import { shadcnComponents } from '@json-render/shadcn';
 import clsx from 'clsx';
-import { History, Trash2, Undo2, X } from 'lucide-react';
+import { Archive, Crown, Globe, History, Trash2, Undo2, UserMinus, X } from 'lucide-react';
 import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames } from '../catalog';
 import { captureOpener, focusDemoIfOpenerGone, type Opener } from './dialog-focus';
 import { scopedPortal } from './shadcn-portal';
@@ -50,11 +50,15 @@ const gap = { none: 'none', s: 'sm', m: 'md', l: 'lg' } as const;
 const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
 
 const icons: Record<(typeof iconNames)[number], typeof X> = {
+  archive: Archive,
   cancel: X,
   delete: Trash2,
   'delete-confirm': Trash2,
   history: History,
+  publish: Globe,
+  'remove-person': UserMinus,
   restore: Undo2,
+  transfer: Crown,
 };
 
 // shadcn/ui Button (new-york, v4), variants and sizes as published.
@@ -99,9 +103,26 @@ export const { registry } = defineRegistry(catalog, {
       </div>
     ),
 
-    Card: ({ props, children, ...context }) => (
-      <KitCard {...context} props={{ title: props.title ?? null, description: null, maxWidth: null, centered: null, className: null }}>{children}</KitCard>
-    ),
+    // The kit's Card has no CardAction or CardFooter, so a card with a suffix
+    // or actions is built from shadcn's card classes: the suffix in the
+    // header's action column, the actions in the footer at the end.
+    Card: ({ props, children, slots, ...context }) =>
+      slots?.suffix || slots?.actions ? (
+        <div className="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm">
+          <div className="grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto]">
+            {props.title && <div className="leading-none font-semibold">{props.title}</div>}
+            {slots.suffix && (
+              <div data-slot="card-action" className="col-start-2 row-span-2 row-start-1 self-start justify-self-end">
+                {slots.suffix}
+              </div>
+            )}
+          </div>
+          <div className="flex flex-1 flex-col gap-3 px-6">{children}</div>
+          {slots.actions && <div className="flex items-center justify-end gap-2 px-6">{slots.actions}</div>}
+        </div>
+      ) : (
+        <KitCard {...context} props={{ title: props.title ?? null, description: null, maxWidth: null, centered: null, className: null }}>{children}</KitCard>
+      ),
 
     Text: ({ props, children }) => {
       const text = props.highlight ? (
