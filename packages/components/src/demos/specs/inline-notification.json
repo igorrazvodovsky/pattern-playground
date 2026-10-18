@@ -1,0 +1,6 @@
+{
+  "root": "success-message",
+  "elements": {
+    "success-message": { "type": "Text", "props": { "text": "Success", "purpose": "success" } }
+  }
+}

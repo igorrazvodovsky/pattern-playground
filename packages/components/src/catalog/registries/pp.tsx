@@ -2,7 +2,7 @@ import { Children, useEffect, useId, useRef, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import clsx from 'clsx';
-import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames } from '../catalog';
+import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes } from '../catalog';
 import type { ToastHandle } from '../../components/toast/toast';
 import { captureOpener, focusDemoIfOpenerGone, type Opener } from './dialog-focus';
 import { useFieldError } from './field-validation';
@@ -32,6 +32,12 @@ const icons: Record<(typeof iconNames)[number], string> = {
   'remove-person': 'ph:user-minus',
   restore: 'ph:arrow-arc-left',
   transfer: 'ph:crown-simple',
+};
+const purposeIcons: Record<(typeof purposes)[number], string> = {
+  info: 'ph:info',
+  success: 'ph:check-circle',
+  warning: 'ph:warning',
+  danger: 'ph:x-circle',
 };
 
 // A field's error, placed where the library's field styles expect it
@@ -97,21 +103,34 @@ export const { registry } = defineRegistry(catalog, {
         </article>
       ),
 
+    // With a purpose, the purpose's colour class, its icon and a strong run
+    // of text, as the library marks a message in place.
     Text: ({ props, children }) => {
       let text = <>{props.text}</>;
       if (props.highlight) text = <mark>{text}</mark>;
+      if (props.purpose) text = <strong>{text}</strong>;
       if (props.size === 'small') text = <small>{text}</small>;
       return (
         <p
-          className={clsx(props.muted && 'muted')}
+          className={clsx(props.purpose ? [props.purpose, 'flex'] : props.muted && 'muted')}
           style={props.size === 'large' ? { fontSize: 'larger' } : undefined}
           role={props.status ? 'status' : undefined}
         >
+          {props.purpose && <iconify-icon className="icon" icon={purposeIcons[props.purpose]} aria-hidden="true" />}
           {text}
           {children && <> {children}</>}
         </p>
       );
     },
+
+    // A neutral callout takes the raised surface (`layer`) rather than a
+    // purpose class, as in the Callout story.
+    Callout: ({ props }) => (
+      <div className={clsx('callout', 'flex', props.purpose ?? 'layer')}>
+        <iconify-icon className="icon" icon={purposeIcons[props.purpose ?? 'info']} aria-hidden="true" />
+        <span>{props.text}</span>
+      </div>
+    ),
 
     BulletList: ({ props }) => (
       <ul>

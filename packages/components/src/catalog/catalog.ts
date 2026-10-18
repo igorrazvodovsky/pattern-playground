@@ -13,6 +13,12 @@ import { z } from 'zod';
 
 const tone = z.enum(['neutral', 'accent', 'danger']);
 
+// What a message is for, as the notification pattern names it. Separate from
+// `tone`, which only sets a label or control apart: a purpose also gives the
+// message its icon, and every registry maps each purpose to one.
+export const purposes = ['info', 'success', 'warning', 'danger'] as const;
+const purpose = z.enum(purposes);
+
 // What a field must hold, as data: json-render's checks ({ type, args,
 // message }), run against the field's bound value. Every registry runs them
 // when the form is submitted and again as the actor corrects the field.
@@ -80,10 +86,19 @@ export const catalog = defineCatalog(schema, {
         muted: z.boolean().nullable(),
         highlight: z.boolean().nullable(),
         status: z.boolean().nullable(),
+        purpose: purpose.nullable(),
       }),
       slots: ['default'],
       description:
-        'A run of text. `highlight` marks it as changed or notable. With `status` the text is announced to assistive technology when it changes; keep such a Text rendered and empty rather than hidden. Children render inline after the text.',
+        'A run of text. `highlight` marks it as changed or notable. With `status` the text is announced to assistive technology when it changes; keep such a Text rendered and empty rather than hidden. `purpose` makes it a short message in place, such as a result beside the control that caused it: it takes the purpose\'s colour, which replaces `muted`, and is led by its icon. Children render inline after the text.',
+    },
+    Callout: {
+      props: z.object({
+        text: z.string(),
+        purpose: purpose.nullable(),
+      }),
+      description:
+        'A message set apart in a box, inside the content it concerns, for information the actor should notice there. It stays while it applies and is not announced. `purpose` gives it its colour and icon; without one it is neutral.',
     },
     BulletList: {
       props: z.object({

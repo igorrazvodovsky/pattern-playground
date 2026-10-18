@@ -4,8 +4,24 @@ import { createPortal } from 'react-dom';
 import { Checkbox, Dialog, RadioGroup, Select, Toast } from 'radix-ui';
 import { shadcnComponents } from '@json-render/shadcn';
 import clsx from 'clsx';
-import { Archive, Check, ChevronDown, Circle, Crown, Globe, History, Trash2, Undo2, UserMinus, X } from 'lucide-react';
-import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames } from '../catalog';
+import {
+  Archive,
+  Check,
+  ChevronDown,
+  Circle,
+  CircleCheck,
+  CircleX,
+  Crown,
+  Globe,
+  History,
+  Info,
+  Trash2,
+  TriangleAlert,
+  Undo2,
+  UserMinus,
+  X,
+} from 'lucide-react';
+import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes } from '../catalog';
 import { captureOpener, focusDemoIfOpenerGone, type Opener } from './dialog-focus';
 import { useFieldError } from './field-validation';
 import { submitForm } from './form-submit';
@@ -62,6 +78,28 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   'remove-person': UserMinus,
   restore: Undo2,
   transfer: Crown,
+};
+
+// Each purpose's icon and colour. Danger is shadcn's destructive; the others
+// take the tints the kit's Alert gives its success, warning and info types.
+type Purpose = (typeof purposes)[number];
+const purposeIcons: Record<Purpose, typeof X> = {
+  info: Info,
+  success: CircleCheck,
+  warning: TriangleAlert,
+  danger: CircleX,
+};
+const purposeText: Record<Purpose, string> = {
+  info: 'text-blue-700 dark:text-blue-300',
+  success: 'text-green-700 dark:text-green-300',
+  warning: 'text-yellow-700 dark:text-yellow-300',
+  danger: 'text-destructive',
+};
+const purposeSurface: Record<Purpose, string> = {
+  info: 'border-blue-200 bg-blue-50 text-blue-900 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-100',
+  success: 'border-green-200 bg-green-50 text-green-900 dark:border-green-800 dark:bg-green-950 dark:text-green-100',
+  warning: 'border-yellow-200 bg-yellow-50 text-yellow-900 dark:border-yellow-800 dark:bg-yellow-950 dark:text-yellow-100',
+  danger: 'bg-card text-destructive',
 };
 
 // shadcn/ui Button (new-york, v4), variants and sizes as published.
@@ -143,17 +181,38 @@ export const { registry } = defineRegistry(catalog, {
       ) : (
         props.text
       );
+      const Icon = props.purpose ? purposeIcons[props.purpose] : null;
       return (
         <p
           className={clsx(
             props.size === 'small' ? 'text-xs' : props.size === 'large' ? 'text-2xl font-semibold tracking-tight' : 'text-sm',
-            props.muted && 'text-muted-foreground',
+            props.purpose
+              ? ['flex items-center gap-2 [&>svg]:size-4 [&>svg]:shrink-0', purposeText[props.purpose], props.size !== 'large' && 'font-medium']
+              : props.muted && 'text-muted-foreground',
           )}
           role={props.status ? 'status' : undefined}
         >
+          {Icon && <Icon aria-hidden="true" />}
           {text}
           {children && <> {children}</>}
         </p>
+      );
+    },
+
+    // shadcn/ui Alert's layout and its icon column, without the kit's
+    // role="alert": a callout is part of the content and is not announced.
+    Callout: ({ props }) => {
+      const Icon = purposeIcons[props.purpose ?? 'info'];
+      return (
+        <div
+          className={clsx(
+            'relative grid w-full grid-cols-[calc(var(--spacing)*4)_1fr] items-start gap-x-3 gap-y-0.5 rounded-lg border px-4 py-3 text-sm [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current',
+            props.purpose ? purposeSurface[props.purpose] : 'bg-card text-card-foreground',
+          )}
+        >
+          <Icon aria-hidden="true" />
+          <div className="col-start-2">{props.text}</div>
+        </div>
       );
     },
 

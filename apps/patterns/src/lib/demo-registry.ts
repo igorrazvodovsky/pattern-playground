@@ -64,11 +64,13 @@ const demos: Record<string, Loader> = {
 type SpecModule = { spec: Spec; setup: SpecSetup };
 
 const specs: Record<string, () => Promise<{ default: SpecModule }>> = {
+  'callout-notification': () => import('@pkg/demos/specs/callout-notification'),
   'consequence-ladder': () => import('@pkg/demos/specs/consequence-ladder'),
   'dialog-deletion': () => import('@pkg/demos/specs/dialog-deletion'),
   'disruptive-notification': () => import('@pkg/demos/specs/disruptive-notification'),
   'form': () => import('@pkg/demos/specs/form'),
   'inline-confirmation': () => import('@pkg/demos/specs/inline-confirmation'),
+  'inline-notification': () => import('@pkg/demos/specs/inline-notification'),
   'rule-composition': () => import('@pkg/demos/specs/rule-composition'),
   'staged-deletion': () => import('@pkg/demos/specs/staged-deletion'),
   'status-feedback': () => import('@pkg/demos/specs/status-feedback'),
