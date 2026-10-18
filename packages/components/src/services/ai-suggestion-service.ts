@@ -1,5 +1,6 @@
-import { APIError } from "@utils/api";
+import { APIError } from './api-error';
 import type { JsonValue } from '../types/common.js';
+import { apiEndpoint } from './api-endpoint';
 
 export interface AISuggestionRequest {
   prompt: string;
@@ -32,22 +33,9 @@ export interface AIState {
   error?: string;
 }
 
-function getSuggestionApiEndpoint(): string {
-  if (import.meta.env.DEV || window?.location?.hostname === 'localhost') {
-    return 'http://localhost:3000/api/generate-suggestions';
-  }
-
-  const apiUrl = import.meta.env.VITE_API_URL;
-  if (apiUrl) {
-    return `${apiUrl}/api/generate-suggestions`;
-  }
-
-  return '/api/generate-suggestions';
-}
-
 export class AISuggestionService {
   async generateSuggestions(request: AISuggestionRequest, signal?: AbortSignal): Promise<AISuggestionResult> {
-    const endpoint = getSuggestionApiEndpoint();
+    const endpoint = apiEndpoint('/api/generate-suggestions');
 
     try {
       const response = await fetch(endpoint, {
@@ -137,16 +125,5 @@ export const createCommandSuggestionRequest = (
   context: {
     type: 'commands',
     availableOptions: availableCommands
-  }
-});
-
-export const createNavigationSuggestionRequest = (
-  prompt: string,
-  availablePages: Record<string, string[]>
-): AISuggestionRequest => ({
-  prompt,
-  context: {
-    type: 'navigation',
-    availableOptions: availablePages
   }
 });

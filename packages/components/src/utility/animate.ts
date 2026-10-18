@@ -45,14 +45,3 @@ export function stopAnimations(el: HTMLElement) {
     })
   );
 }
-
-/**
- * We can't animate `height: auto`, but we can calculate the height and shim keyframes by replacing it with the
- * element's scrollHeight before the animation.
- */
-export function shimKeyframesHeightAuto(keyframes: Keyframe[], calculatedHeight: number) {
-  return keyframes.map(keyframe => ({
-    ...keyframe,
-    height: keyframe.height === 'auto' ? `${calculatedHeight}px` : keyframe.height
-  }));
-}

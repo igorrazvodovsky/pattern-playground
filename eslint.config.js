@@ -106,7 +106,7 @@ export default [
     },
   },
   {
-    files: ["**/server/**/*.{ts,js}", "scripts/**/*.{ts,js,mjs}", "utils/**/*.ts"],
+    files: ["**/server/**/*.{ts,js}", "scripts/**/*.{ts,js,mjs}"],
     rules: {
       'no-console': 'off',
     },

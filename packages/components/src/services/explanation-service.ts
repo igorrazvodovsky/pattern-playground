@@ -4,6 +4,7 @@
  */
 
 import type { SelectedReference } from '../components/reference/types';
+import { apiEndpoint } from './api-endpoint';
 
 export interface ExplanationRequest {
   text: string;
@@ -22,26 +23,6 @@ export interface ExplanationCallbacks {
   onChunk?: (content: string) => void;
   onComplete?: () => void;
   onError?: (error: string) => void;
-}
-
-/**
- * Get the appropriate API endpoint based on environment
- */
-function getExplainApiEndpoint(): string {
-  // Development environment
-  if (typeof process !== 'undefined' && process.env?.NODE_ENV === 'development' ||
-    (typeof window !== 'undefined' && window.location.hostname === 'localhost')) {
-    return 'http://localhost:3000/api/explain';
-  }
-
-  // Production environment - use environment variable if available
-  const apiUrl = import.meta.env.VITE_API_URL;
-  if (apiUrl) {
-    return `${apiUrl}/api/explain`;
-  }
-
-  // Fallback to same-origin API
-  return '/api/explain';
 }
 
 /**
@@ -66,7 +47,7 @@ export class ExplanationService {
     let accumulatedContent = '';
 
     try {
-      const response = await fetch(getExplainApiEndpoint(), {
+      const response = await fetch(apiEndpoint('/api/explain'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

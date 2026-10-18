@@ -3,7 +3,6 @@ import { dirname, resolve } from "node:path";
 import type { StorybookConfig } from "@storybook/react-vite";
 import remarkGfm from "remark-gfm";
 
-const utilsPath = resolve(dirname(fileURLToPath(import.meta.url)), "../../../utils");
 const sharedPath = resolve(dirname(fileURLToPath(import.meta.url)), "../../../shared");
 
 const config: StorybookConfig = {
@@ -46,7 +45,6 @@ const config: StorybookConfig = {
       ...config.resolve,
       alias: {
         ...(config.resolve?.alias ?? {}),
-        '@utils': utilsPath,
         '@shared': sharedPath,
       },
     };

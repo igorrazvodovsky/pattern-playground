@@ -47,38 +47,3 @@ export const createTask = (input: string | CreateTaskInput): Task => {
     }
   };
 };
-
-export const addTaskHistoryEntry = (task: Task, entry: Omit<TaskHistoryEntry, 'id'>): Task => {
-  const newEntry: TaskHistoryEntry = {
-    ...entry,
-    id: crypto.randomUUID()
-  };
-
-  return {
-    ...task,
-    history: [...task.history, newEntry]
-  };
-};
-
-export const updateTaskStatus = (task: Task, statusValue: Task['status']['value'], details?: string): Task => {
-  const historyEntry: TaskHistoryEntry = {
-    id: crypto.randomUUID(),
-    timestamp: new Date(),
-    actor: 'System',
-    action: `Status changed to ${statusValue}`,
-    details
-  };
-
-  const newStatus = {
-    ...task.status,
-    value: statusValue,
-    label: statusValue.charAt(0).toUpperCase() + statusValue.slice(1)
-  };
-
-  return {
-    ...task,
-    status: newStatus,
-    history: [...task.history, historyEntry],
-    updatedAt: new Date()
-  };
-};

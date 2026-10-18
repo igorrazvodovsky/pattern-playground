@@ -13,7 +13,6 @@
 @import url("dialog.css");
 @import url("drawer.css");
 @import url("navigation.css") layer(components);
-@import url("pagination.css");
 @import url("table.css");
 @import url("description-list.css");
 @import url("charts.css") layer(components);

@@ -854,9 +854,8 @@ for (const filePath of patternMdxFiles) {
 // --- Build edges ---
 //
 // The graph is purely derived from the MDX. Labels are extracted from the per-link
-// `— ` text on each run; no prior-graph carry-over. Manual label authoring writes
-// back into the source MDX (see scripts/write-labels.ts), so the next extraction
-// picks it up the same way.
+// `— ` text on each run; no prior-graph carry-over. Labels are authored in the
+// source MDX, so the next extraction picks them up.
 type EdgeKey = string; // `source|target|type`
 const edgeMap = new Map<EdgeKey, Edge>();
 

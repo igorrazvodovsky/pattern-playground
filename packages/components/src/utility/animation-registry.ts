@@ -3,12 +3,7 @@ export interface ElementAnimation {
   options?: KeyframeAnimationOptions;
 }
 
-export interface ElementAnimationMap {
-  [animationName: string]: ElementAnimation;
-}
-
 const defaultAnimationRegistry = new Map<string, ElementAnimation>();
-const customAnimationRegistry = new WeakMap<Element, ElementAnimationMap>();
 
 function ensureAnimation(animation: ElementAnimation | null) {
   return animation ?? { keyframes: [], options: { duration: 0 } };
@@ -22,20 +17,8 @@ export function setDefaultAnimation(animationName: string, animation: ElementAni
   defaultAnimationRegistry.set(animationName, ensureAnimation(animation));
 }
 
-/** Sets a custom animation for the specified element. */
-export function setAnimation(el: Element, animationName: string, animation: ElementAnimation | null) {
-  customAnimationRegistry.set(el, { ...customAnimationRegistry.get(el), [animationName]: ensureAnimation(animation) });
-}
-
-/** Gets an element's animation. Falls back to the default if no animation is found. */
-export function getAnimation(el: Element, animationName: string) {
-  const customAnimation = customAnimationRegistry.get(el);
-
-  // Check for a custom animation
-  if (customAnimation?.[animationName]) {
-    return customAnimation[animationName];
-  }
-
+/** Gets a registered animation by name. Falls back to an empty animation if none is registered. */
+export function getAnimation(animationName: string) {
   // Check for a default animation
   const defaultAnimation = defaultAnimationRegistry.get(animationName);
   if (defaultAnimation) {

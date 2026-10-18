@@ -100,7 +100,7 @@ export function TypedConfirmationDemo() {
   };
 
   return (
-    <div className="stack">
+    <div>
       {exists ? (
         <button className="button button--danger" onClick={handleDelete}>
           Delete workspace

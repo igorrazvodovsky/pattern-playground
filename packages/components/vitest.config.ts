@@ -13,7 +13,6 @@ export default defineConfig({
   resolve: {
     alias: {
       '@shared': path.join(dirname, '../../shared'),
-      '@utils': path.join(dirname, '../../utils'),
     }
   },
   test: {

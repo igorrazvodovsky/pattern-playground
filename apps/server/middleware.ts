@@ -2,7 +2,6 @@ import express, { Request, Response, NextFunction, Application } from 'express';
 import cors from 'cors';
 import logger from './logger.js';
 import config from './config.js';
-import { errorHandler } from './middleware/errorHandler.js';
 
 export const setupMiddleware = (app: Application): void => {
   // Body parser middleware
@@ -41,7 +40,4 @@ export const setupMiddleware = (app: Application): void => {
     methods: config.cors.methods,
     allowedHeaders: config.cors.allowedHeaders
   }));
-
-  // Error handling middleware (must be last)
-  app.use(errorHandler);
 };

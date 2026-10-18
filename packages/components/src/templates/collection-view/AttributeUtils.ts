@@ -16,18 +16,6 @@ import {
  * over products reads unqualified while the template itself stays generic.
  */
 
-/** Identity attributes have dedicated UI slots (heading, icon, body text)
-    rather than generic badge/row/column placement — a role property, not a
-    name list. Paths outside the binding (dynamic spec keys) are never
-    identity. */
-export const isIdentityAttribute = (
-  attribute: string,
-  binding: EntityBinding = productBinding
-): boolean => {
-  const entry = findAttribute(binding, attribute);
-  return entry !== undefined && IDENTITY_ROLES.includes(entry.role);
-};
-
 // Label curation lives in each entity binding (shared/data/bindings): a
 // curated `label` where the derived one reads wrong, the camelCase-leaf
 // fallback everywhere else.

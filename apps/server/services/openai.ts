@@ -2,14 +2,12 @@ import { OpenAI } from 'openai';
 import config from '../config.js';
 import logger from '../logger.js';
 import {
-  JuiceProductionModel,
   TextLensRequest,
   ExplanationRequest,
   TimelineGrouping,
   TimelineGroupingRequest,
   Deduction,
-  DeductionRequest,
-  jsonSchema
+  DeductionRequest
 } from '../schemas.js';
 import { PromptTemplateBuilder, PROMPT_CONFIGS } from './promptTemplates.js';
 
@@ -61,91 +59,6 @@ export class OpenAIService {
     this.client = new OpenAI({
       apiKey: serviceConfig.apiKey
     });
-  }
-
-  async generateJuiceProduction(prompt: string, signal?: AbortSignal): Promise<JuiceProductionModel> {
-    try {
-      const response = await this.client.responses.create({
-        model: config.openai.model,
-        instructions: "You are an expert in industrial equipment and juice production systems. Generate a detailed juice production model based on the user's requirements. Return your response as a JSON object.",
-        input: "Make a list of components related to " + prompt,
-        text: {
-          format: {
-            type: "json_schema",
-            name: "json_schema",
-            schema: jsonSchema
-          }
-        },
-        tools: [
-          {
-            "type": "file_search",
-            "vector_store_ids": [
-              "vs_681898d1e6e08191b2fcee9dab2faf8e"
-            ]
-          }
-        ],
-        stream: false
-      }, signal ? { signal } : {});
-
-      logger.info("OpenAI response received");
-
-      if (!response || !response.text) {
-        throw new Error("Invalid OpenAI response format");
-      }
-
-      let parsedContent: JuiceProductionModel;
-
-      try {
-        parsedContent = (typeof response.text === 'string')
-          ? JSON.parse(response.text) as JuiceProductionModel
-          : response.text as unknown as JuiceProductionModel;
-
-        return parsedContent;
-      } catch (error) {
-        logger.error("Error processing OpenAI response:", error);
-        throw new Error("Failed to process OpenAI response");
-      }
-    } catch (error) {
-      logger.error("Error in juice production generation:", error);
-      throw error;
-    }
-  }
-
-  async *generateJuiceProductionStream(prompt: string, signal?: AbortSignal): AsyncGenerator<StreamChunk> {
-    try {
-      const stream = await this.client.responses.create({
-        model: config.openai.model,
-        instructions: "You are an expert in industrial equipment and juice production systems. Paint a picture of the juice production based on the user's requirements. Return your response as a JSON object with model array that contains components. Don't include the component you were prompted with or its parent components.Generate each component one by one for streaming purposes.",
-        input: "Make a list of components related to components at the end of this hierarchy:" + prompt,
-        text: {
-          format: {
-            type: "json_schema",
-            name: "json_schema",
-            schema: jsonSchema
-          }
-        },
-        tools: [
-          {
-            "type": "file_search",
-            "vector_store_ids": [
-              "vs_681898d1e6e08191b2fcee9dab2faf8e"
-            ]
-          }
-        ],
-        stream: true
-      }, signal ? { signal } : {});
-
-      for await (const chunk of stream) {
-        const chunkData = chunk as unknown as StreamChunk;
-        const content = chunkData.text || "";
-        if (content) {
-          yield { text: content };
-        }
-      }
-    } catch (error) {
-      logger.error("Error in streaming juice production generation:", error);
-      throw error;
-    }
   }
 
   async generateSuggestions(

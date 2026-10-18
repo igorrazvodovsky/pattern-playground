@@ -4,6 +4,7 @@ import logger from './logger.js';
 import config from './config.js';
 import { setupMiddleware } from './middleware.js';
 import { setupRoutes } from './routes.js';
+import { errorHandler } from './middleware/errorHandler.js';
 
 // Initialize Express app using top-level await
 try {
@@ -15,6 +16,9 @@ try {
 
   // Setup routes
   setupRoutes(app);
+
+  // Error handling middleware (must come after the routes)
+  app.use(errorHandler);
 
   // Start the server
   app.listen(PORT, () => {

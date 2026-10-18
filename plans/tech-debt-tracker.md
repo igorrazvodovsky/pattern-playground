@@ -8,7 +8,7 @@
 - *117 TODO/FIXME comments across 61 files*. No ownership or dates on most. Quarterly review process recommended but not yet established.
 - *Residual Atomic Design stubs in `src/stories/patterns/`* — `.md` stub files (Autofill, Checklist, etc.) left behind after AT reorg. Not served by Storybook. Low priority. See `plans/completed/2026-03-activity-theory-reorg.md`.
 - *CSS TODO comments* — inline TODOs in CSS files noted in `plans/completed/2025-codebase-review-recommendations.md` §5.
-- *`no-explicit-any` eslint-disable in 4 files* — `Reference.tsx` (Tiptap types), `useDragToCreate.ts`, `nodeTypes.tsx`, `NodeShapeUtil.tsx` (tldraw types). Added 2026-04-12 during harness refactor ESLint enforcement.
+- *`no-explicit-any` eslint-disable in 3 files* — `Reference.tsx` (Tiptap types), `nodeTypes.tsx`, `NodeShapeUtil.tsx` (tldraw types). Added 2026-04-12 during harness refactor ESLint enforcement.
 - *`no-unused-vars` pre-existing errors (36)* — scattered across tldraw, components, and services. Not introduced by harness refactor. See `npm run lint` output.
 - *2 inline `style` prop eslint-disables* — `CommentComposer.tsx` (flex layout), `OnCanvasComponentPicker.tsx` (dynamic width). Added 2026-04-12.
 - *Dual listbox needs an implementation* — `packages/components/src/stories/DualListbox.mdx` is a seed stub. Add component + Storybook story

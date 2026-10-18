@@ -3,14 +3,13 @@ import { createRoot, type Root } from 'react-dom/client';
 
 /**
  * Progressive enhancement modal component
- * Enhances existing dialog or div elements with modal behavior
+ * Enhances a child <dialog> with trigger, close, focus, and backdrop behaviour
  */
 export class PPModal extends HTMLElement {
-  private modal: HTMLElement | null = null;
+  private modal: HTMLDialogElement | null = null;
   private triggers: HTMLElement[] = [];
   private closeButtons: HTMLElement[] = [];
   private lastFocusedElement: HTMLElement | null = null;
-  private isDialogElement = false;
   private reactRoot: Root | null = null;
   private reactContainer: HTMLElement | null = null;
 
@@ -43,16 +42,7 @@ export class PPModal extends HTMLElement {
   }
 
   private findModalElement() {
-    // Look for dialog first, then any element with modal-like classes
-    this.modal = this.querySelector('dialog') || 
-                 this.querySelector('.drawer') ||
-                 this.querySelector('.modal') ||
-                 // eslint-disable-next-line no-restricted-syntax -- DOM lookup, not JS hook; role is the correct semantic selector here
-                 this.querySelector('[role="dialog"]');
-    
-    if (this.modal) {
-      this.isDialogElement = this.modal.tagName === 'DIALOG';
-    }
+    this.modal = this.querySelector('dialog');
   }
 
   private findTriggerElements() {
@@ -91,8 +81,8 @@ export class PPModal extends HTMLElement {
     // Keyboard events
     document.addEventListener('keydown', this.handleKeydown);
 
-    // Backdrop clicks for dialog elements
-    if (this.modal && this.isDialogElement) {
+    // Backdrop clicks
+    if (this.modal) {
       this.modal.addEventListener('click', this.handleBackdropClick);
     }
   }
@@ -109,12 +99,6 @@ export class PPModal extends HTMLElement {
       trigger.setAttribute('aria-controls', modalId);
       trigger.setAttribute('aria-expanded', 'false');
     });
-
-    // Ensure modal has proper role if not a dialog
-    if (!this.isDialogElement) {
-      this.modal.setAttribute('role', 'dialog');
-      this.modal.setAttribute('aria-modal', 'true');
-    }
   }
 
   private handleTriggerClick(event: Event) {
@@ -183,16 +167,10 @@ export class PPModal extends HTMLElement {
       }
     }
 
-    if (this.isDialogElement) {
-      const dialog = this.modal as HTMLDialogElement;
-      if (this.isModal) {
-        dialog.showModal();
-      } else {
-        dialog.show();
-      }
+    if (this.isModal) {
+      this.modal.showModal();
     } else {
-      this.modal.style.display = 'block';
-      this.modal.setAttribute('aria-hidden', 'false');
+      this.modal.show();
     }
 
     // Update trigger states
@@ -219,12 +197,7 @@ export class PPModal extends HTMLElement {
       detail: { modal: this.modal }
     }));
 
-    if (this.isDialogElement) {
-      (this.modal as HTMLDialogElement).close();
-    } else {
-      this.modal.style.display = 'none';
-      this.modal.setAttribute('aria-hidden', 'true');
-    }
+    this.modal.close();
 
     // Update trigger states
     this.triggers.forEach(trigger => {
@@ -241,14 +214,7 @@ export class PPModal extends HTMLElement {
   }
 
   private isOpen(): boolean {
-    if (!this.modal) return false;
-    
-    if (this.isDialogElement) {
-      return (this.modal as HTMLDialogElement).open;
-    } else {
-      return this.modal.style.display !== 'none' && 
-             this.modal.getAttribute('aria-hidden') !== 'true';
-    }
+    return this.modal?.open ?? false;
   }
 
   private focusModal() {
@@ -364,7 +330,7 @@ export class PPModal extends HTMLElement {
 
     document.removeEventListener('keydown', this.handleKeydown);
 
-    if (this.modal && this.isDialogElement) {
+    if (this.modal) {
       this.modal.removeEventListener('click', this.handleBackdropClick);
     }
   }

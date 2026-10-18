@@ -2,11 +2,9 @@ import {
 	atom,
 	Atom,
 	Editor,
-	getIndexAbove,
 	getIndices,
 	IndexKey,
 	WeakCache,
-	ZERO_INDEX_KEY,
 } from 'tldraw'
 
 /**
@@ -72,14 +70,4 @@ export function indexListEntries<T>(list: IndexList<T>) {
  */
 export function indexListLength<T>(list: IndexList<T>) {
 	return Object.keys(list).length
-}
-
-/**
- * Append a value to an index list.
- */
-export function appendToIndexList<T>(list: IndexList<T>, value: T) {
-	const entries = indexListEntries(list)
-	const lastIndex = entries[entries.length - 1]?.[0] ?? ZERO_INDEX_KEY
-	entries.push([getIndexAbove(lastIndex), value])
-	return Object.fromEntries(entries)
 }

@@ -135,20 +135,4 @@
       box-shadow: var(--shadow-xl), -2px 0 8px oklch(0% 0 0deg / 10%);
     }
   }
-
-  /* Narrow drawer variant */
-  dialog.drawer--narrow {
-    max-inline-size: 16rem;
-  }
-
-  /* Wide drawer variant */
-  dialog.drawer--wide {
-    max-inline-size: 32rem;
-  }
-
-  /* Full-height drawer without padding adjustments */
-  dialog.drawer--full-height {
-    min-block-size: 100dvh;
-    max-block-size: 100dvh;
-  }
 }

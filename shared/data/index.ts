@@ -4,13 +4,11 @@ import {
   transactionViews, lifecycleEventViews,
 } from './world-views';
 import referenceContentData from './reference-content.json' with { type: 'json' };
-import editorContentData from './editor-content.json' with { type: 'json' };
-import commentThreadsData from './comment-threads.json' with { type: 'json' };
 import commandsData from './commands.json' with { type: 'json' };
 import recentItemsData from './recent-items.json' with { type: 'json' };
 import reuseListingsData from './reuse-listings.json' with { type: 'json' };
 import { transformTasksData } from './transformations/tasks';
-import { createFinder, createMultiFieldSearcher } from './finders';
+import { createFinder } from './finders';
 
 import filterStatusesData from './statuses.json' with { type: 'json' };
 import filterLabelsData from './labels.json' with { type: 'json' };
@@ -20,9 +18,7 @@ import filterDatesData from './filter-dates.json' with { type: 'json' };
 export const users = userViews;
 export const projects = projectViews;
 export const documents = documentViews;
-export const referenceContent = referenceContentData;
-export const editorContent = editorContentData;
-export const commentThreads = commentThreadsData;
+const referenceContent = referenceContentData;
 export const commands = commandsData;
 export const recentItems = recentItemsData;
 export const reuseListings = reuseListingsData;
@@ -57,22 +53,7 @@ export const tasks = transformTasksData(
 export const getUserById = createFinder(users);
 export const getProjectById = createFinder(projects);
 export const getDocumentById = createFinder(documents);
-export const getDocumentContentById = createFinder(documents);
 export const getReferenceContentById = createFinder(referenceContent);
-export const getEditorContentById = createFinder(editorContent);
-
-// Legacy function using property finder
-export const getUserByName = (name: string) => {
-  return users.find(user => user.name === name);
-};
-
-export const getDocumentContentBySection = (documentId: string, sectionId: string) => {
-  const doc = documents.find(doc => doc.id === documentId);
-  if (!doc) return null;
-
-  const section = doc.sections?.find(section => section.id === sectionId);
-  return section ? { document: doc, section } : null;
-};
 
 export const getDocumentContentText = (documentId: string, sectionId?: string) => {
   const doc = documents.find(doc => doc.id === documentId);
@@ -102,8 +83,6 @@ export const getDocumentContentRich = (documentId: string, sectionId?: string) =
 
   return doc.content?.richContent;
 };
-
-export const getCommentThreadSetupById = createFinder(commentThreads);
 
 // Dynamic reference resolution utility
 export const resolveReferenceData = (id: string, type: string) => {
@@ -210,70 +189,8 @@ export const resolveReferenceData = (id: string, type: string) => {
   }
 };
 
-export const getTaskById = createFinder(tasks);
-export const getStatusById = createFinder(filterStatusesData);
-export const getPriorityById = createFinder(filterPrioritiesData);
-export const getLabelById = createFinder(filterLabelsData);
-export const getCommentById = createFinder(comments);
-
-export const getTasksByProject = (projectId: string) => {
-  return tasks.filter(task => task.project?.id === projectId);
-};
-
-export const getTasksByAssignee = (userId: string) => {
-  return tasks.filter(task => task.assignee?.id === userId);
-};
-
-export const getCommentsByThreadId = (threadId: string) => {
-  return comments.filter(comment => comment.metadata?.threadId === threadId);
-};
-
-export const getCommentsByEntity = (entityType: string, entityId: string) => {
-  return comments.filter(comment => comment.entityType === entityType && comment.entityId === entityId);
-};
-
-export const getCommentReplies = (commentId: string) => {
-  return comments.filter(comment => comment.replyTo === commentId);
-};
-
-export const getTopLevelComments = () => {
-  return comments.filter(comment => !comment.replyTo);
-};
-
-export const getActiveComments = () => {
-  return comments.filter(comment => comment.status === 'active');
-};
-
-export const getResolvedComments = () => {
-  return comments.filter(comment => comment.status === 'resolved');
-};
-
 // Quote utility functions
 export const getQuoteById = createFinder(quotes);
-
-export const getQuotesByDocument = (documentId: string) => {
-  return quotes.filter(quote => quote.metadata.sourceDocument === documentId);
-};
-
-export const getQuotesByUser = (userId: string) => {
-  return quotes.filter(quote => quote.metadata.createdBy === userId);
-};
-
-export const getQuotesByDateRange = (startDate: string, endDate: string) => {
-  return quotes.filter(quote => {
-    const quoteDate = new Date(quote.metadata.createdAt);
-    return quoteDate >= new Date(startDate) && quoteDate <= new Date(endDate);
-  });
-};
-
-export const searchQuotes = (searchText: string) => {
-  const lowerSearchText = searchText.toLowerCase();
-  return quotes.filter(quote =>
-    quote.searchableText.includes(lowerSearchText) ||
-    quote.content.plainText.toLowerCase().includes(lowerSearchText) ||
-    quote.description.toLowerCase().includes(lowerSearchText)
-  );
-};
 
 // The world: individuals, facts, and the action log (shared/world/), plus
 // plain-language rendering of actions
@@ -299,9 +216,6 @@ export type { ActionRecord, Fact, ParticipantValue, Rule } from './action-types'
 export type User = typeof users[0];
 export type Project = typeof projects[0];
 export type Document = typeof documents[0];
-export type ReferenceContent = typeof referenceContent[0];
-export type EditorContent = typeof editorContent[0];
-export type CommentThreadSetup = typeof commentThreads[0];
 export type Command = typeof commands[0];
 export type RecentItem = typeof recentItems[0];
 export type ReuseListing = typeof reuseListings[0];
@@ -369,121 +283,7 @@ export type { MaterialView as Material, ComponentView as Component,
   ProductView as Product, ServiceView as Service } from './world-views';
 
 // Circular economy utility functions
-export const getMaterialById = createFinder(materials);
-export const getComponentById = createFinder(components);
 export const getProductById = createFinder(products);
-export const getServiceById = createFinder(services);
-
-export const getMaterialsByCategory = (category: string) => {
-  return materials.filter(material => material.metadata.category === category);
-};
-
-export const getComponentsByHierarchy = (hierarchy: 'part' | 'sub_assembly' | 'assembly') => {
-  return components.filter(component => component.metadata.hierarchy === hierarchy);
-};
-
-export const getComponentsByParent = (parentId: string) => {
-  return components.filter(component => component.metadata.parentComponent === parentId);
-};
-
-export const getChildComponents = (componentId: string) =>
-  getComponentsByParent(componentId);
-
-export const getProductsByCategory = (category: string) => {
-  return products.filter(product => product.metadata.category === category);
-};
-
-export const getServicesByType = (serviceType: string) => {
-  return services.filter(service => service.metadata.serviceType === serviceType);
-};
-
-// A service applies to a catalogue entry by name, or to everything at once —
-// the world holds the latter as one unary fact, which the view renders as the
-// "all" the source data used.
-const appliesTo = (list: readonly string[], id: string) =>
-  list.includes(id) || list.includes('all');
-
-export const getServicesForProduct = (productId: string) => {
-  return services.filter(service => appliesTo(service.metadata.applicableProducts, productId));
-};
-
-export const getServicesForComponent = (componentId: string) => {
-  return services.filter(service => appliesTo(service.metadata.applicableComponents, componentId));
-};
-
-export const getMaterialsUsedInComponent = (componentId: string) => {
-  const component = getComponentById(componentId);
-  if (!component) return [];
-  return component.metadata.materials.map(materialId => getMaterialById(materialId)).filter(Boolean);
-};
-
-export const getMaterialsUsedInProduct = (productId: string) => {
-  const product = getProductById(productId);
-  if (!product) return [];
-  return product.metadata.keyMaterials.map(materialId => getMaterialById(materialId)).filter(Boolean);
-};
-
-export const getComponentsInProduct = (productId: string) => {
-  const product = getProductById(productId);
-  if (!product) return [];
-  return product.metadata.assemblyComponents.map(componentId => getComponentById(componentId)).filter(Boolean);
-};
-
-export const getProductLifecycleStage = (productId: string) => {
-  const product = getProductById(productId);
-  if (!product) return null;
-  return product.metadata.availability.status;
-};
-
-export const getRecyclableComponents = () => {
-  return components.filter(component => component.metadata.lifecycle.recyclable);
-};
-
-export const getRefurbishableComponents = () => {
-  return components.filter(component => component.metadata.lifecycle.refurbishable);
-};
-
-export const getHighRepairabilityProducts = () => {
-  return products.filter(product => product.metadata.lifecycle.repairability === 'high');
-};
-
-export const getCompostableMaterials = () => {
-  return materials.filter(material =>
-    material.metadata.recyclability === 'compostable' ||
-    material.metadata.recyclability === 'compostable_matrix'
-  );
-};
-
-export const getHighRecycledContentMaterials = (threshold: number = 75) => {
-  return materials.filter(material => material.metadata.recycledContent >= threshold);
-};
-
-export const getCarbonNegativeMaterials = () => {
-  return materials.filter(material => material.metadata.carbonFootprint < 0);
-};
-
-export const getTakeBackPrograms = () => {
-  return products.filter(product => product.metadata.circular.takeBackProgram);
-};
-
-export const getModularProducts = () => {
-  return products.filter(product => product.metadata.circular.modularDesign);
-};
-
-// Create search functions for circular economy data
-const searchMaterials = createMultiFieldSearcher(materials, ['searchableText', 'name', 'description']);
-const searchComponents = createMultiFieldSearcher(components, ['searchableText', 'name', 'description']);
-const searchProducts = createMultiFieldSearcher(products, ['searchableText', 'name', 'description']);
-const searchServices = createMultiFieldSearcher(services, ['searchableText', 'name', 'description']);
-
-export const searchProductData = (searchText: string) => {
-  return {
-    materials: searchMaterials(searchText),
-    components: searchComponents(searchText),
-    products: searchProducts(searchText),
-    services: searchServices(searchText)
-  };
-};
 
 // Reference data using unified SearchableParent format (same as commands)
 export const referenceCategories = [

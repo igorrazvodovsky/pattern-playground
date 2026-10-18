@@ -52,10 +52,6 @@ export default defineConfig({
         '@styles': path.resolve(__dirname, '../../packages/components/src/styles'),
         '@pkg': path.resolve(__dirname, '../../packages/components/src'),
         '@shared': path.resolve(__dirname, '../../shared'),
-        // Only referenced by a couple of services under packages/components,
-        // but without it the optimizeDeps.entries scan below fails on the
-        // unresolved import and silently disables pre-bundling.
-        '@utils': path.resolve(__dirname, '../../utils'),
       },
     },
     optimizeDeps: {

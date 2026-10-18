@@ -82,10 +82,6 @@ const registries: Record<string, () => Promise<ComponentRegistry>> = {
   shadcn: () => import('@pkg/catalog/registries/shadcn').then(async m => (await m.stylesheet, m.registry)),
 };
 
-// Names the verification script checks MDX content against.
-export const demoNames: ReadonlySet<string> = new Set(Object.keys(demos));
-export const specNames: ReadonlySet<string> = new Set(Object.keys(specs));
-
 // Mount every unmounted [data-demo] under root. Mounting is marked on the live
 // element (data-demo-mounted), so re-runs — layout load, astro:page-load, a
 // pane re-render — are no-ops for demos already mounted. Cached pane HTML is
@@ -122,7 +118,7 @@ export function mountDemos(root: ParentNode): void {
 // Mount every unmounted [data-demo-spec] under root, and wire the frame's
 // library switch. The state store is created once per mount and handed to each
 // render, so switching libraries keeps the demo where the actor left it.
-export function mountSpecDemos(root: ParentNode): void {
+function mountSpecDemos(root: ParentNode): void {
   for (const el of root.querySelectorAll<HTMLElement>('[data-demo-spec]:not([data-demo-mounted])')) {
     const slug = el.dataset.demoSpec ?? '';
     const loadSpec = specs[slug];

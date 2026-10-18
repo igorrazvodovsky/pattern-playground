@@ -5,6 +5,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Active
 
+- [Refactoring sweep](active/2026-10-refactoring-sweep.md) — survey of refactoring opportunities across the code workspaces (2026-10-17): four bugs fixed at the start, then a queue of dead code, consolidation, template extractions, and convention fixes
 - [Shaping the pattern pages](active/2026-10-pattern-shape-migration.md) — one sitting per `role: pattern` page onto the 2026-10-10 shape (opening paragraph and connections passage as frontmatter situations, two bold paragraphs, realisation after Therefore): the per-page procedure and checklist, the corpus counts at start (2 shaped, 113 clause lists, 41 `sets-up`, 26 without situations), the retirement exit for the clause-list form
 - [Commenting: open questions](active/2026-10-commenting-open-questions.md) — outline, needs iteration: decisions left after the mark-first commenting work (quote styling, reaching and undoing a quote, whether a quote follows its passage, threads whose passage was deleted) and three small pieces of work (resolution, marks across reloads, thread ids in copied text)
 - [Digesting the agency scoping review](active/2026-09-agency-review-digestion.md) — outline, needs iteration: Zhang, Wang & Yi's co-creation review was pasted near-verbatim into `agency.mdx` and `collaboration.mdx` before the AI-cluster sequences existed; work through it section by section, concordance and source triage first (workflow candidates), then serial sittings ending in take / already-held / decline verdicts, then the corpus edits

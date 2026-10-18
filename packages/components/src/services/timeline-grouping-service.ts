@@ -8,6 +8,8 @@
  * lives behind the API rather than in the client.
  */
 
+import { apiEndpoint } from './api-endpoint';
+
 export interface TimelineRecord {
   id: string;
   date: string;
@@ -35,20 +37,6 @@ export interface TimelinePhase {
    needs is a label, and that the caller already knows. */
 export interface TimelineGrouping {
   phases: TimelinePhase[];
-}
-
-function getGroupingEndpoint(): string {
-  if (
-    import.meta.env.DEV ||
-    (typeof window !== 'undefined' && window.location.hostname === 'localhost')
-  ) {
-    return 'http://localhost:3000/api/timeline/group';
-  }
-
-  const apiUrl = import.meta.env.VITE_API_URL;
-  if (apiUrl) return `${apiUrl}/api/timeline/group`;
-
-  return '/api/timeline/group';
 }
 
 /**
@@ -211,7 +199,7 @@ export async function groupTimeline(
   const cached = readCache(key);
   if (cached) return cached;
 
-  const response = await fetch(getGroupingEndpoint(), {
+  const response = await fetch(apiEndpoint('/api/timeline/group'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ records, subject: options.subject }),

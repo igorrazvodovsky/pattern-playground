@@ -44,7 +44,7 @@ If Chromium is missing after installing or updating Playwright, run `npx playwri
   browser: type guards, pure services, parsers. Import `describe`/`it`/`expect`
   from `vitest` rather than relying on globals.
 
-Aliases (`@shared`, `@utils`) are declared at the top of `vitest.config.ts` so
+Aliases (`@shared`) are declared at the top of `vitest.config.ts` so
 both projects resolve them; Storybook additionally sets them in
 `.storybook/main.ts` for the dev server. A target that imports `@shared/*` and
 fails to resolve is a sign the two have drifted apart.

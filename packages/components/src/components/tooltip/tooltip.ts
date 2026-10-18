@@ -239,7 +239,7 @@ export class PpTooltip extends Elena(HTMLElement) {
       await stopAnimations(this.body);
       this.body.hidden = false;
       this.popup.active = true;
-      const { keyframes, options } = getAnimation(this, 'tooltip.show');
+      const { keyframes, options } = getAnimation('tooltip.show');
       await animateTo(this.popup, keyframes, options);
       this.popup.reposition();
       this.dispatchEvent(new Event('pp-after-show', { bubbles: true, cancelable: false, composed: true }))
@@ -250,7 +250,7 @@ export class PpTooltip extends Elena(HTMLElement) {
       document.removeEventListener('keydown', this.handleDocumentKeyDown);
 
       await stopAnimations(this.body);
-      const { keyframes, options } = getAnimation(this, 'tooltip.hide');
+      const { keyframes, options } = getAnimation('tooltip.hide');
       await animateTo(this.popup, keyframes, options);
       this.popup.active = false;
       this.body.hidden = true;

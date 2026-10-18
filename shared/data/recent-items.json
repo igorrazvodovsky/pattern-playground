@@ -1,38 +1,38 @@
 [
   {
-    "id": "mat-561",
-    "name": "MAT-561",
+    "id": "MAT-PET-004",
+    "name": "rPET (Recycled PET)",
     "type": "material",
-    "icon": "ph:package",
+    "icon": "ph:recycle",
     "description": "Recently accessed material",
-    "searchableText": "mat-561 material recent"
+    "searchableText": "rpet recycled pet material recent"
   },
   {
-    "id": "prod-568",
-    "name": "PROD-568",
+    "id": "PRD-EBK-001",
+    "name": "Urban Commuter E-Bike",
     "type": "product",
-    "icon": "ph:cube",
+    "icon": "ph:bicycle",
     "description": "Recently accessed product",
-    "searchableText": "prod-568 product recent"
+    "searchableText": "urban commuter e-bike product recent"
   },
   {
-    "id": "ws-541",
-    "name": "WS-541",
-    "type": "waste-stream",
-    "icon": "ph:trash",
-    "description": "Recently accessed waste stream",
-    "searchableText": "ws-541 waste-stream recent"
+    "id": "CMP-BAT-003",
+    "name": "Battery Pack Assembly",
+    "type": "component",
+    "icon": "ph:battery-high",
+    "description": "Recently accessed component",
+    "searchableText": "battery pack assembly component recent"
   },
   {
-    "id": "recent-doc-1",
-    "name": "Waste Audit Schedule",
+    "id": "doc-1",
+    "name": "Material Flow Analysis Report",
     "type": "document",
     "icon": "ph:file-text",
     "description": "Recently accessed document",
-    "searchableText": "waste audit schedule document recent"
+    "searchableText": "material flow analysis report document recent"
   },
   {
-    "id": "recent-project-1",
+    "id": "PRJ-1",
     "name": "Urban Composting Initiative",
     "type": "project",
     "icon": "ph:folder",

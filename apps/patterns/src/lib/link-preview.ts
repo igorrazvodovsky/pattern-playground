@@ -82,6 +82,9 @@ function prefetch(path: string): Promise<string> {
   let pending = prefetchCache.get(path);
   if (!pending) {
     pending = fetchContent(path);
+    // An empty result is a failed fetch; evict it so a later hover retries,
+    // as getPaneContent does for its own cache.
+    pending.then((content) => { if (!content) prefetchCache.delete(path); });
     prefetchCache.set(path, pending);
   }
   return pending;

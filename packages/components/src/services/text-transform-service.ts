@@ -3,6 +3,8 @@
  * Handles streaming API calls to the backend zoom endpoint
  */
 
+import { apiEndpoint } from './api-endpoint';
+
 export interface TextLensRequest {
   text: string;
   context?: string;
@@ -28,26 +30,6 @@ export interface TextLensCallbacks {
 /**
  * Text transformation service class
  */
-/**
- * Get the appropriate API endpoint based on environment
- */
-function getZoomApiEndpoint(): string {
-  // Development environment
-  if (typeof process !== 'undefined' && process.env?.NODE_ENV === 'development' ||
-    (typeof window !== 'undefined' && window.location.hostname === 'localhost')) {
-    return 'http://localhost:3000/api/text/zoom';
-  }
-
-  // Production environment - use environment variable if available
-  const apiUrl = import.meta.env.VITE_API_URL;
-  if (apiUrl) {
-    return `${apiUrl}/api/text/zoom`;
-  }
-
-  // Fallback to same-origin API
-  return '/api/text/zoom';
-}
-
 export class TextTransformService {
   private abortController: AbortController | null = null;
 
@@ -67,7 +49,7 @@ export class TextTransformService {
     let accumulatedContent = '';
 
     try {
-      const response = await fetch(getZoomApiEndpoint(), {
+      const response = await fetch(apiEndpoint('/api/text/zoom'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

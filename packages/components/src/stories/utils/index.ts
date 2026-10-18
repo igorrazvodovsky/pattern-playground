@@ -3,6 +3,5 @@
  */
 
 export * from './icons';
-export * from './reference-utils';
 export * from './decorators';
 export * from './PatternRef';

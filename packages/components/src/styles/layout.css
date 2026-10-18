@@ -25,21 +25,7 @@
     padding: 0;
   }
 
-  .flex-layout-grid {
-    --flex-grid-min: 24ch;
-    --flex-grid-gap: var(--space-m);
-
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--flex-grid-gap);
-
-    > * {
-      /* TODO: */
-      flex: 1 1 var(--flex-grid-min);
-    }
-  }
-
-  :is(.layout-grid, .flex-layout-grid) > * {
+  .layout-grid > * {
     container: var(--grid-item-container, grid-item) / inline-size;
   }
 
@@ -126,10 +112,6 @@
 }
 
 /* TODO: */
-
-/* .flex-layout-grid > *:has(.card > *:nth-child(2)) {
-  --flex-grid-min: calc(24ch * 2 + var(--space-m));
-} */
 
 .attribute-list {
   display: flex;

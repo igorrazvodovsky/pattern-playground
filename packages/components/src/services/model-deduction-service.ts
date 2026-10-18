@@ -10,6 +10,8 @@
  * simply absent — the two computed bands still argue the pattern on their own.
  */
 
+import { apiEndpoint } from './api-endpoint';
+
 export interface DeductionNeighbour {
   id: string;
   name: string;
@@ -40,20 +42,6 @@ export interface Proposal {
 
 export interface Deduction {
   proposals: Proposal[];
-}
-
-function getDeductionEndpoint(): string {
-  if (
-    import.meta.env.DEV ||
-    (typeof window !== 'undefined' && window.location.hostname === 'localhost')
-  ) {
-    return 'http://localhost:3000/api/model/deduce';
-  }
-
-  const apiUrl = import.meta.env.VITE_API_URL;
-  if (apiUrl) return `${apiUrl}/api/model/deduce`;
-
-  return '/api/model/deduce';
 }
 
 /**
@@ -118,7 +106,7 @@ export async function deduceConnections(
   const cached = readCache(key);
   if (cached) return cached;
 
-  const response = await fetch(getDeductionEndpoint(), {
+  const response = await fetch(apiEndpoint('/api/model/deduce'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(request),

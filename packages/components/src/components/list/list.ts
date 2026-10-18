@@ -112,7 +112,7 @@ export class PpList extends Elena(HTMLElement) {
       item.checked = !item.checked;
     }
 
-    this.dispatchEvent(new CustomEvent('pp-select', { detail: { item } }));
+    this.dispatchEvent(new CustomEvent('pp-select', { detail: { item }, bubbles: true, composed: true }));
   };
 
   private handleKeyDown = (event: KeyboardEvent) => {

@@ -5,7 +5,6 @@ import { getAnimation, setDefaultAnimation } from '../../utility/animation-regis
 import { Elena } from '@elenajs/core';
 import { waitForEvent } from '../../utility/event.ts';
 import { PpPopup } from '../popup/popup.ts';
-import { getDeepestActiveElement, computeClosestContaining, getRootContainingElement } from '../../utility/shadow-dom.ts';
 import type { PpList } from '../list/list';
 import type { PpListItem } from '../list-item/list-item';
 
@@ -129,7 +128,7 @@ export class PpDropdown extends Elena(HTMLElement) {
 
   private init() {
     if (!this.containingElement) {
-      this.containingElement = getRootContainingElement(this);
+      this.containingElement = this;
     }
     this.syncPopup();
     this.updateAccessibleTrigger();
@@ -248,7 +247,7 @@ export class PpDropdown extends Elena(HTMLElement) {
 
       // Use requestAnimationFrame for better performance than setTimeout
       requestAnimationFrame(() => {
-        const activeElement = getDeepestActiveElement();
+        const activeElement = document.activeElement;
 
         if (!this.containingElement || !activeElement) {
           this.hide();
@@ -256,7 +255,7 @@ export class PpDropdown extends Elena(HTMLElement) {
         }
 
         // Check if focus is within the main dropdown
-        if (computeClosestContaining(activeElement, this.containingElement.tagName.toLowerCase()) === this.containingElement) {
+        if (activeElement.closest(this.containingElement.tagName.toLowerCase()) === this.containingElement) {
           return; // Focus is in main dropdown, keep open
         }
 
@@ -472,7 +471,7 @@ export class PpDropdown extends Elena(HTMLElement) {
       await stopAnimations(this);
       popup.setAttribute('aria-hidden', 'false');
       popup.active = true;
-      const { keyframes, options } = getAnimation(this, 'dropdown.show');
+      const { keyframes, options } = getAnimation('dropdown.show');
       await animateTo(popup, keyframes, options);
 
       this.dispatchEvent(new Event('pp-after-show', { bubbles: true, cancelable: false, composed: true }))
@@ -499,7 +498,7 @@ export class PpDropdown extends Elena(HTMLElement) {
       announce('Dropdown closed');
 
       await stopAnimations(this);
-      const { keyframes, options } = getAnimation(this, 'dropdown.hide');
+      const { keyframes, options } = getAnimation('dropdown.hide');
       await animateTo(popup, keyframes, options);
       popup.setAttribute('aria-hidden', 'true');
       popup.active = false;
@@ -553,7 +552,37 @@ export class PpDropdown extends Elena(HTMLElement) {
     popup.active = true;
     requestAnimationFrame(() => popup.reposition());
 
+    // A submenu opened from the keyboard takes focus. pp-list focuses the
+    // first item itself when the submenu sits inline, but here the content has
+    // moved into this popup, which only shows once the update lands.
+    if (document.activeElement === item) {
+      await popup.updateComplete;
+      if (this.submenuPopups.get(item)?.popup === popup) {
+        const submenuList = submenuContent.matches('pp-list')
+          ? submenuContent as PpList
+          : submenuContent.querySelector<PpList>('pp-list');
+        const first = submenuList?.getAllItems()[0];
+        if (submenuList && first) {
+          submenuList.setCurrentItem(first);
+          first.focus();
+        }
+      }
+    }
+
+    // The popup is outside the parent list, so ArrowLeft never reaches the
+    // list's own handler; close the submenu and return focus here instead.
+    popup.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowLeft') return;
+      e.preventDefault();
+      e.stopPropagation();
+      this.getList()?.closeSubmenu(item);
+      item.focus();
+    });
+
     popup.addEventListener('pp-select', (e) => {
+      // The popup lives in <body>, so the list's own event would reach the
+      // document without passing this dropdown; re-emit it from here instead.
+      e.stopPropagation();
       this.dispatchEvent(new CustomEvent('pp-select', {
         detail: (e as CustomEvent).detail,
         bubbles: true,
@@ -561,6 +590,7 @@ export class PpDropdown extends Elena(HTMLElement) {
       }));
       if (!this['stay-open-on-select']) {
         this.hide();
+        this.focusOnTrigger();
       }
     });
 

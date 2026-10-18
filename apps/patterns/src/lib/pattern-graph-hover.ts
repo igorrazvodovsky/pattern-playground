@@ -9,7 +9,7 @@
 //
 // The graph only exists on the home page; everywhere else these events simply
 // have no listener.
-export const PATTERN_GRAPH_HOVER_EVENT = 'pattern-graph:hover';
+const PATTERN_GRAPH_HOVER_EVENT = 'pattern-graph:hover';
 
 export interface PatternGraphHoverDetail {
   /** Pathname of the hovered pattern, or null when nothing is hovered. */

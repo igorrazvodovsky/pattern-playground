@@ -310,23 +310,6 @@ const CustomExtension = Extension.create({
 
 ## Performance
 
-### Lazy Loading
-
-Use the `LazyEditorPlugin` component for on-demand loading:
-
-```tsx
-import { LazyEditorPlugin, createPluginLoader } from '../editor/LazyEditorPlugin';
-
-<LazyEditorPlugin
-  loader={createPluginLoader(() => 
-    import('./my-plugin').then(m => ({
-      myPlugin: m.myPlugin
-    }))
-  )}
-  fallback={<div>Loading...</div>}
-/>
-```
-
 ### Performance Tips
 
 1. **Defer Heavy Operations**
@@ -515,14 +498,6 @@ interface SlotOptions {
 
 ## Examples
 
-### Complete Plugin Example
-
-See the [template plugin](./template/) for a complete example with:
-- Full plugin implementation
-- UI components
-- Event handling
-- Documentation
-
 ### Existing Plugins
 
 Study these production plugins for reference:
@@ -558,7 +533,6 @@ Study these production plugins for reference:
 ## Support
 
 For help with plugin development:
-1. Check the [template plugin](./template/)
-2. Review existing plugins for patterns
-3. Consult the TypeScript definitions
-4. Create an issue for bugs or questions
+1. Review existing plugins for patterns
+2. Consult the TypeScript definitions
+3. Create an issue for bugs or questions

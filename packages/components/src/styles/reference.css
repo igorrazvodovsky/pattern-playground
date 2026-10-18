@@ -11,6 +11,7 @@
 }
 
 .template-field {
+  position: relative;
   display: inline-block;
   padding: var(--space-2xs) var(--space-xs);
   margin-block: 0.25ch;
@@ -43,6 +44,35 @@
 .template-field--selected {
   border-color: var(--c-primary-500);
   box-shadow: 0 0 0 2px var(--c-primary-100);
+}
+
+.template-field--editing {
+  border-color: var(--c-primary-500);
+}
+
+.template-field--invalid,
+.template-field--invalid:hover {
+  background-color: var(--c-danger-100);
+  border-color: var(--c-danger-300);
+}
+
+.template-field__label {
+  color: var(--c-placeholder);
+}
+
+.template-field__error {
+  position: absolute;
+  inset-block-start: 100%;
+  inset-inline-start: 0;
+  z-index: 1;
+  margin-block-start: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-s);
+  background-color: var(--c-danger-100);
+  color: var(--c-danger-700);
+  font-size: var(--text-xs);
+  white-space: nowrap;
+  box-shadow: var(--shadow-m);
 }
 
 .template-field input {
