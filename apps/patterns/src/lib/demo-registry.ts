@@ -41,7 +41,6 @@ const demos: Record<string, Loader> = {
   'item-view-row': () => import('@pkg/demos/item-view').then(m => m.ItemViewRowDemo),
   'item-view-glyph': () => import('@pkg/demos/item-view').then(m => m.ItemViewGlyphDemo),
   'item-view-transitions': () => import('@pkg/demos/item-view').then(m => m.ItemViewTransitionsDemo),
-  'disruptive-notification': () => import('@pkg/demos/notification').then(m => m.DisruptiveNotificationDemo),
   'overview-detail': () => import('@pkg/demos/overview-detail').then(m => m.OverviewDetailDemo),
   'nested-pairs': () => import('@pkg/demos/overview-detail').then(m => m.NestedPairsDemo),
   'problem-checklist': () => import('@pkg/demos/problem-curated-view').then(m => m.ProblemChecklistDemo),
@@ -68,6 +67,7 @@ type SpecModule = { spec: Spec; setup: SpecSetup };
 
 const specs: Record<string, () => Promise<{ default: SpecModule }>> = {
   'dialog-deletion': () => import('@pkg/demos/specs/dialog-deletion'),
+  'disruptive-notification': () => import('@pkg/demos/specs/disruptive-notification'),
   'inline-confirmation': () => import('@pkg/demos/specs/inline-confirmation'),
   'rule-composition': () => import('@pkg/demos/specs/rule-composition'),
   'staged-deletion': () => import('@pkg/demos/specs/staged-deletion'),
