@@ -22,7 +22,7 @@ the survey and should be confirmed before acting.
 
 ## Order
 
-1. Bugs (done 2026-10-17).
+1. Bugs (done 2026-10-17; focus after a toast's Undo remains).
 2. Dead-code sweep (done 2026-10-17; three keep-or-retire decisions remain).
 3. Consolidation (done 2026-10-18; the command menu question remains).
 4. Template extractions (stat tile, card list, overview-plus-detail) — these are
@@ -42,6 +42,30 @@ the survey and should be confirmed before acting.
   loaded. TemplateField sets `--editing`, `--invalid`, `__label` and `__error`,
   which had rules only there; the validation message rendered inline with no
   styling. Those four were rewritten in `reference.css` against current tokens.
+- [x] *Focus was lost when a focused control disappeared in spec demos.* When
+  a press hid the control that was pressed, or hid or removed the card or row
+  it sat in, the button unmounted and focus fell to `document.body`, so the next
+  Tab started from the top of the page. A timer did the same: an armed pair
+  reverting took focus with it. Both registries and the old React demos had the
+  defect. Each Button in both registries now hands focus on when it unmounts
+  while focused (`catalog/registries/focus-handoff.ts`). The catalog's
+  `focusNext` prop names the label of the Button that takes it: the first one
+  after where the lost button was, else the last one before it. A swap names
+  its replacement (Delete names Cancel, Cancel names Delete), and a row removal
+  names the same control, which lands on the next row, else the previous one.
+  Without a name or a match, focus goes to the demo root, as it already did for
+  a dialog whose opener is gone. Buttons inside a dialog are left to the
+  dialog. A unit test checks that every `focusNext` matches a Button label in
+  its spec.
+- [ ] *Focus after a toast's Undo.* The Toasts entry's action button is not a
+  catalog Button, so it does not hand focus on. In shadcn, Radix moves focus
+  to its toast viewport at the end of the page when the toast closes, so the
+  next Tab leaves the page. The pp toast has not been checked. Decide whether
+  Undo should return focus to the restored item.
+- [ ] *Outline on the demo root.* When focus falls back to the demo root (a
+  removed card, a Reset that hides itself, a dialog whose opener is gone), the
+  whole demo draws the 2px focus outline. Decide whether the root should show
+  focus that way or more quietly.
 - [ ] *Rest of `tiptap.css`.* Live classes still styled only there:
   `reference-mention--quote` (`Reference.tsx`; quote styling is open in
   [commenting open questions](2026-10-commenting-open-questions.md)),

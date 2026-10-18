@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import { Archive, Crown, Globe, History, Trash2, Undo2, UserMinus, X } from 'lucide-react';
 import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames } from '../catalog';
 import { captureOpener, focusDemoIfOpenerGone, type Opener } from './dialog-focus';
+import { useFocusHandoff } from './focus-handoff';
 import { scopedPortal } from './shadcn-portal';
 import type { Send } from './shadcn-parts';
 import { RuleBuilder, type RuleTree } from './shadcn-rule-builder';
@@ -192,10 +193,13 @@ export const { registry } = defineRegistry(catalog, {
       return props.pulse ? <span className="animate-pulse">{badge}</span> : badge;
     },
 
+    // Hands focus on (focus-handoff.ts) if it unmounts while focused.
     Button: ({ props, emit }) => {
       const Icon = props.icon ? icons[props.icon] : null;
+      const ref = useFocusHandoff(props.focusNext);
       return (
         <button
+          ref={ref}
           type="button"
           className={clsx(
             buttonBase,

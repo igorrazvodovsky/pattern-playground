@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames } from '../catalog';
 import type { ToastHandle } from '../../components/toast/toast';
 import { captureOpener, focusDemoIfOpenerGone, type Opener } from './dialog-focus';
+import { useFocusHandoff } from './focus-handoff';
 import { useToastList } from './toast-list';
 import '../../jsx-types';
 
@@ -138,19 +139,24 @@ export const { registry } = defineRegistry(catalog, {
       </strong>
     ),
 
-    Button: ({ props, emit }) => (
-      <button
-        type="button"
-        className={clsx('button', props.variant && props.variant !== 'default' && `button--${props.variant}`)}
-        disabled={props.disabled ?? undefined}
-        aria-expanded={props.expanded ?? undefined}
-        data-autofocus={props.initialFocus || undefined}
-        onClick={() => emit('press')}
-      >
-        {props.icon && <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />}
-        {props.hideLabel ? <span className="visually-hidden">{props.label}</span> : props.label}
-      </button>
-    ),
+    // Hands focus on (focus-handoff.ts) if it unmounts while focused.
+    Button: ({ props, emit }) => {
+      const ref = useFocusHandoff(props.focusNext);
+      return (
+        <button
+          ref={ref}
+          type="button"
+          className={clsx('button', props.variant && props.variant !== 'default' && `button--${props.variant}`)}
+          disabled={props.disabled ?? undefined}
+          aria-expanded={props.expanded ?? undefined}
+          data-autofocus={props.initialFocus || undefined}
+          onClick={() => emit('press')}
+        >
+          {props.icon && <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />}
+          {props.hideLabel ? <span className="visually-hidden">{props.label}</span> : props.label}
+        </button>
+      );
+    },
 
     Input: ({ props, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);

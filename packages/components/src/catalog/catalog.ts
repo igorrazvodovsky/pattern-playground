@@ -120,9 +120,10 @@ export const catalog = defineCatalog(schema, {
         disabled: z.boolean().nullable(),
         expanded: z.boolean().nullable(),
         initialFocus: z.boolean().nullable(),
+        focusNext: z.string().nullable(),
       }),
       description:
-        'A button. `danger` marks an action that destroys something. `icon` names the icon by meaning. With `hideLabel` only the icon shows and the label is read by assistive technology. `disabled` is for an action that is unavailable or already in progress; a button whose input is not yet valid stays enabled and reports what is wrong when pressed. `expanded` marks a button that shows and hides another part of the interface. `initialFocus` makes it take focus when its Dialog opens. Emits `press`.',
+        'A button. `danger` marks an action that destroys something. `icon` names the icon by meaning. With `hideLabel` only the icon shows and the label is read by assistive technology. `disabled` is for an action that is unavailable or already in progress; a button whose input is not yet valid stays enabled and reports what is wrong when pressed. `expanded` marks a button that shows and hides another part of the interface. `initialFocus` makes it take focus when its Dialog opens. `focusNext` names the label of the Button that takes focus if this one disappears while it has focus, because a press or a timer hid it or removed what it sits in: the first Button with that label after where this one was, else the last one before it. Name the control that replaces it (Cancel for an armed Delete) or its counterpart in the next row. Without `focusNext`, or with no match, focus moves to the demo. Emits `press`.',
     },
     Input: {
       props: z.object({

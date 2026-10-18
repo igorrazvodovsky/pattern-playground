@@ -29,13 +29,13 @@
     },
     "delete": {
       "type": "Button",
-      "props": { "label": "Delete", "icon": "delete", "hideLabel": true, "variant": "plain" },
+      "props": { "label": "Delete", "icon": "delete", "hideLabel": true, "variant": "plain", "focusNext": "Restore" },
       "visible": { "$item": "deleted", "not": true },
       "on": { "press": { "action": "setState", "params": { "statePath": { "$item": "deleted" }, "value": true } } }
     },
     "restore": {
       "type": "Button",
-      "props": { "label": "Restore", "icon": "restore", "hideLabel": true, "variant": "plain" },
+      "props": { "label": "Restore", "icon": "restore", "hideLabel": true, "variant": "plain", "focusNext": "Delete" },
       "visible": { "$item": "deleted" },
       "on": { "press": { "action": "setState", "params": { "statePath": { "$item": "deleted" }, "value": false } } }
     },

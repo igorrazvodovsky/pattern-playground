@@ -38,7 +38,8 @@ const Unsupported: ComponentRenderer = ({ element }) => (
 export function SpecDemo({ spec, registry, registryName, store, handlers, functions }: SpecDemoProps) {
   return (
     // Focusable from script only: a dialog whose opener it removed hands focus
-    // back here (registries/dialog-focus.ts).
+    // back here (registries/dialog-focus.ts), and so does a focused Button
+    // that disappears with nowhere named to go (registries/focus-handoff.ts).
     <div data-registry={registryName} tabIndex={-1}>
       <JSONUIProvider registry={registry} store={store} handlers={handlers} functions={functions}>
         <Renderer spec={spec} registry={registry} fallback={Unsupported} />

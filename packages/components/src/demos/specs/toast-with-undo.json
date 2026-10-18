@@ -20,7 +20,7 @@
     },
     "delete": {
       "type": "Button",
-      "props": { "label": "Delete", "icon": "delete", "hideLabel": true, "variant": "plain" },
+      "props": { "label": "Delete", "icon": "delete", "hideLabel": true, "variant": "plain", "focusNext": "Delete" },
       "on": {
         "press": [
           {

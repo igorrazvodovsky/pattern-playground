@@ -21,19 +21,19 @@
 
     "delete": {
       "type": "Button",
-      "props": { "label": "Delete", "icon": "delete", "hideLabel": true, "variant": "plain" },
+      "props": { "label": "Delete", "icon": "delete", "hideLabel": true, "variant": "plain", "focusNext": "Cancel" },
       "visible": { "$item": "armed", "not": true },
       "on": { "press": { "action": "arm", "params": { "item": { "$item": "" } } } }
     },
     "cancel": {
       "type": "Button",
-      "props": { "label": "Cancel", "icon": "cancel", "hideLabel": true, "variant": "plain" },
+      "props": { "label": "Cancel", "icon": "cancel", "hideLabel": true, "variant": "plain", "focusNext": "Delete" },
       "visible": { "$item": "armed" },
       "on": { "press": { "action": "setState", "params": { "statePath": { "$item": "armed" }, "value": false } } }
     },
     "confirm": {
       "type": "Button",
-      "props": { "label": "Confirm", "icon": "delete-confirm", "hideLabel": true, "variant": "plain" },
+      "props": { "label": "Confirm", "icon": "delete-confirm", "hideLabel": true, "variant": "plain", "focusNext": "Delete" },
       "visible": { "$item": "armed" },
       "on": { "press": { "action": "removeState", "params": { "statePath": "/items", "index": { "$index": true } } } }
     },

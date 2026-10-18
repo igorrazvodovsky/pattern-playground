@@ -29,7 +29,7 @@
     },
     "archive": {
       "type": "Button",
-      "props": { "label": "Archive", "icon": "archive" },
+      "props": { "label": "Archive", "icon": "archive", "focusNext": "Remove" },
       "on": {
         "press": [
           { "action": "setState", "params": { "statePath": "/archived", "value": true } },
@@ -58,24 +58,24 @@
     },
     "remove": {
       "type": "Button",
-      "props": { "label": "Remove", "icon": "remove-person" },
+      "props": { "label": "Remove", "icon": "remove-person", "focusNext": "Cancel" },
       "visible": { "$state": "/member/armed", "not": true },
       "on": { "press": { "action": "arm", "params": { "item": "/member" } } }
     },
     "cancel-remove": {
       "type": "Button",
-      "props": { "label": "Cancel", "icon": "cancel", "hideLabel": true, "variant": "plain" },
+      "props": { "label": "Cancel", "icon": "cancel", "hideLabel": true, "variant": "plain", "focusNext": "Remove" },
       "visible": { "$state": "/member/armed" },
       "on": { "press": { "action": "setState", "params": { "statePath": "/member/armed", "value": false } } }
     },
     "confirm-remove": {
       "type": "Button",
-      "props": { "label": "Remove", "variant": "danger" },
+      "props": { "label": "Remove", "variant": "danger", "focusNext": "Remove" },
       "visible": { "$state": "/member/armed" },
       "on": {
         "press": [
-          { "action": "setState", "params": { "statePath": "/member/armed", "value": false } },
           { "action": "setState", "params": { "statePath": "/removed", "value": true } },
+          { "action": "setState", "params": { "statePath": "/member/armed", "value": false } },
           {
             "action": "pushState",
             "params": {
