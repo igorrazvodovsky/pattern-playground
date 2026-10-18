@@ -53,7 +53,7 @@ export const Default: Story = {
           <div>
             <p>Drawer content. Drawers are great for forms, details, and secondary content.</p>
             <footer style={{ marginTop: '20px' }}>
-              <button className="button" autoFocus>Close</button>
+              <button className="button" data-close data-autofocus>Close</button>
             </footer>
           </div>,
           { title, position, modal }
@@ -76,7 +76,7 @@ export const RightDrawer: Story = {
             <p>This is a right-side drawer content.</p>
             <p>Drawers are great for forms, details, and secondary content.</p>
             <footer style={{ marginTop: '20px' }}>
-              <button className="button" autoFocus>Save</button>
+              <button className="button" data-autofocus>Save</button>
             </footer>
           </div>,
           {
@@ -117,7 +117,7 @@ export const LeftDrawer: Story = {
             <p>This is a left-side drawer content.</p>
             <p>Left drawers are often used for navigation or filters.</p>
             <footer style={{ marginTop: '20px' }}>
-              <button className="button" autoFocus>Close</button>
+              <button className="button" data-close data-autofocus>Close</button>
             </footer>
           </div>,
           {
@@ -156,7 +156,7 @@ export const NonModal: Story = {
             <p>A non-modal side peek: no scrim, and the page behind stays live.</p>
             <p>Because nothing is made inert, you can keep clicking, scrolling, and dragging in the underlying view while this stays open.</p>
             <footer style={{ marginTop: '20px' }}>
-              <button className="button" autoFocus>Close</button>
+              <button className="button" data-close data-autofocus>Close</button>
             </footer>
           </div>,
           {

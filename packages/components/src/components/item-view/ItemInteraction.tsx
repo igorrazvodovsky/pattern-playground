@@ -240,6 +240,7 @@ export const ItemInteraction = ({
     contentType,
     onInteraction,
     selectRung,
+    anchor,
   });
   latest.current = {
     itemViewContext,
@@ -249,6 +250,7 @@ export const ItemInteraction = ({
     contentType,
     onInteraction,
     selectRung,
+    anchor,
   };
 
   // Drawer (mid) and dialog (maxi) are imperative surfaces reconciled from
@@ -258,7 +260,7 @@ export const ItemInteraction = ({
   // → `onClose`, and drops the state back to the bare trigger.
   useEffect(() => {
     if (activeScope !== 'mid' && activeScope !== 'maxi') return;
-    const { itemViewContext, available, item, itemLabel, contentType, onInteraction, selectRung } =
+    const { itemViewContext, available, item, itemLabel, contentType, onInteraction, selectRung, anchor } =
       latest.current;
     const title = itemLabel;
     const content = (
@@ -280,6 +282,8 @@ export const ItemInteraction = ({
     const headerActions = (
       <RungToolbar current={activeScope} available={available} onSelect={selectRung} />
     );
+    // Dismissal returns focus to the mention. Whatever held focus at opening
+    // may be a rung button in the surface this one replaced, which is gone.
     const id =
       activeScope === 'mid'
         ? modalService.openDrawer(content, {
@@ -287,12 +291,14 @@ export const ItemInteraction = ({
             title,
             headerActions,
             modal: false,
+            returnFocus: anchor,
             onClose: () => setActiveScope(null),
           })
         : modalService.openDialog(content, {
             size: 'large',
             title,
             headerActions,
+            returnFocus: anchor,
             onClose: () => setActiveScope(null),
           });
     return () => modalService.closeModal(id);

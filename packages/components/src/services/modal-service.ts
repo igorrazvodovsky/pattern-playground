@@ -35,9 +35,21 @@ export interface ModalOptions {
    * in its own root and torn down with the modal.
    */
   headerActions?: React.ReactElement;
+  /**
+   * Where focus goes when the surface is dismissed. Defaults to whatever held
+   * focus when it opened, which is wrong when that element goes away with
+   * the surface it sat in (a drawer replaced by a dialog, say).
+   */
+  returnFocus?: HTMLElement | null;
 }
 
 const MODAL_DEFINE_TIMEOUT_MS = 2000;
+
+/** Calls `onCommit` once its tree is in the DOM. */
+function Committed({ onCommit }: { onCommit: () => void }) {
+  React.useLayoutEffect(onCommit, [onCommit]);
+  return null;
+}
 
 interface ReactModalState {
   root: Root;
@@ -78,12 +90,13 @@ export class ModalService {
   /**
    * Build a `pp-modal` around the surface `buildDialog` returns, render the
    * React content and header actions into it, and open it once the element is
-   * upgraded.
+   * upgraded and the content is in the DOM, so pp-modal can find the content's
+   * own focus target.
    */
   private mount(
     kind: 'drawer' | 'dialog',
     content: React.ReactElement,
-    { onClose, headerActions }: ModalOptions,
+    { onClose, headerActions, returnFocus }: ModalOptions,
     buildDialog: (modalId: string, contentId: string, actionsId: string) => HTMLDialogElement,
   ): string {
     const modalId = this.generateModalId();
@@ -94,10 +107,17 @@ export class ModalService {
     ppModal.appendChild(buildDialog(modalId, reactContainerId, actionsContainerId));
     document.body.appendChild(ppModal);
 
+    const { promise: committed, resolve: commit } = Promise.withResolvers<void>();
+
     const container = document.getElementById(reactContainerId);
     if (container) {
       const root = createRoot(container);
-      root.render(this.wrapReactContent(content));
+      root.render(React.createElement(
+        React.Fragment,
+        null,
+        this.wrapReactContent(content),
+        React.createElement(Committed, { onCommit: commit }),
+      ));
 
       const headerRoot = this.renderHeaderActions(actionsContainerId, headerActions);
 
@@ -108,14 +128,20 @@ export class ModalService {
         onClose?.();
         this.cleanupReactModal(modalId);
       });
+    } else {
+      commit();
     }
 
-    // pp-modal registers through register-all; if nothing registered it, fail
-    // and tear down rather than leave a dead surface in <body>.
+    // pp-modal registers through register-all; if nothing registered it, or the
+    // content never renders, fail and tear down rather than leave a dead
+    // surface in <body>.
     const timeout = new Promise<never>((_, reject) => {
-      setTimeout(() => reject(new Error('pp-modal is not defined')), MODAL_DEFINE_TIMEOUT_MS);
+      setTimeout(() => reject(new Error('pp-modal is not defined, or its content did not render')), MODAL_DEFINE_TIMEOUT_MS);
     });
-    Promise.race([customElements.whenDefined('pp-modal'), timeout]).then(() => {
+    const ready = Promise.all([customElements.whenDefined('pp-modal'), committed]);
+    Promise.race([ready, timeout]).then(() => {
+      if (!ppModal.isConnected) return;
+      if (returnFocus) ppModal.setReturnFocus(returnFocus);
       ppModal.open();
     }).catch((error) => {
       console.error(`Failed to initialize ${kind} modal:`, error);

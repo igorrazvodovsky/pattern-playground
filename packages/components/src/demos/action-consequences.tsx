@@ -42,7 +42,7 @@ export function ConsequenceLadderDemo() {
           <div className="inline-flow">
             <button
               className="button"
-              autoFocus
+              data-autofocus
               onClick={() => {
                 setPublished(true);
                 modalService.closeModal(dialogId);

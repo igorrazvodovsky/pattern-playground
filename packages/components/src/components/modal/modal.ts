@@ -8,7 +8,6 @@ import { createRoot, type Root } from 'react-dom/client';
 export class PPModal extends HTMLElement {
   private modal: HTMLDialogElement | null = null;
   private triggers: HTMLElement[] = [];
-  private closeButtons: HTMLElement[] = [];
   private lastFocusedElement: HTMLElement | null = null;
   private reactRoot: Root | null = null;
   private reactContainer: HTMLElement | null = null;
@@ -16,9 +15,8 @@ export class PPModal extends HTMLElement {
   constructor() {
     super();
     this.handleTriggerClick = this.handleTriggerClick.bind(this);
-    this.handleCloseClick = this.handleCloseClick.bind(this);
     this.handleKeydown = this.handleKeydown.bind(this);
-    this.handleBackdropClick = this.handleBackdropClick.bind(this);
+    this.handleDialogClick = this.handleDialogClick.bind(this);
   }
 
   connectedCallback() {
@@ -36,7 +34,6 @@ export class PPModal extends HTMLElement {
   private init() {
     this.findModalElement();
     this.findTriggerElements();
-    this.findCloseElements();
     this.setupEventListeners();
     this.setupAccessibility();
   }
@@ -54,36 +51,18 @@ export class PPModal extends HTMLElement {
     this.triggers = Array.from(triggers).filter(el => !this.modal?.contains(el) || el.hasAttribute('data-trigger'));
   }
 
-  private findCloseElements() {
-    // Find close buttons within the modal
-    if (this.modal) {
-      this.closeButtons = Array.from(this.modal.querySelectorAll<HTMLElement>('button[data-close]'));
-      
-      // If no explicit close buttons found, look for buttons in header
-      if (this.closeButtons.length === 0) {
-        const headerButtons = Array.from(this.modal.querySelectorAll<HTMLElement>('header button'));
-        this.closeButtons.push(...headerButtons);
-      }
-    }
-  }
-
   private setupEventListeners() {
     // Trigger buttons
     this.triggers.forEach(trigger => {
       trigger.addEventListener('click', this.handleTriggerClick);
     });
 
-    // Close buttons
-    this.closeButtons.forEach(button => {
-      button.addEventListener('click', this.handleCloseClick);
-    });
-
     // Keyboard events
     document.addEventListener('keydown', this.handleKeydown);
 
-    // Backdrop clicks
+    // Close buttons and backdrop clicks
     if (this.modal) {
-      this.modal.addEventListener('click', this.handleBackdropClick);
+      this.modal.addEventListener('click', this.handleDialogClick);
     }
   }
 
@@ -107,9 +86,22 @@ export class PPModal extends HTMLElement {
     this.openModal();
   }
 
-  private handleCloseClick(event: Event) {
-    event.preventDefault();
-    this.closeModal();
+  // Close buttons are looked up at click time, not when the element connects:
+  // content rendered into the dialog later (by the modal service, say) can
+  // still carry its own. Buttons marked data-close close the dialog; without
+  // any, the header's buttons do.
+  private handleDialogClick(event: MouseEvent) {
+    if (!this.modal) return;
+    const button = (event.target as Element).closest('button');
+    if (button && this.modal.contains(button)) {
+      const hasMarked = this.modal.querySelector('button[data-close]') !== null;
+      if (hasMarked ? button.matches('[data-close]') : button.closest('header')) {
+        event.preventDefault();
+        this.closeModal();
+      }
+      return;
+    }
+    this.handleBackdropClick(event);
   }
 
   private handleKeydown(event: KeyboardEvent) {
@@ -280,6 +272,16 @@ export class PPModal extends HTMLElement {
   }
 
   /**
+   * Where focus goes when the dialog closes. Without one, it returns to the
+   * trigger, or to whatever held focus when the dialog opened. A caller whose
+   * opener is not the focused element (a surface replacing another, say)
+   * names it here before opening.
+   */
+  public setReturnFocus(element: HTMLElement): void {
+    this.lastFocusedElement = element;
+  }
+
+  /**
    * Set React content in the modal
    * @param reactElement React element to render
    * @param containerId Optional specific container ID
@@ -346,14 +348,10 @@ export class PPModal extends HTMLElement {
       trigger.removeEventListener('click', this.handleTriggerClick);
     });
 
-    this.closeButtons.forEach(button => {
-      button.removeEventListener('click', this.handleCloseClick);
-    });
-
     document.removeEventListener('keydown', this.handleKeydown);
 
     if (this.modal) {
-      this.modal.removeEventListener('click', this.handleBackdropClick);
+      this.modal.removeEventListener('click', this.handleDialogClick);
     }
   }
 

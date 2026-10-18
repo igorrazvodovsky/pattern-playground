@@ -51,7 +51,7 @@ export const Default: Story = {
           <div className="flow">
             <p>{args.message}</p>
             <footer>
-              <button className="button" autoFocus>Close</button>
+              <button className="button" data-close data-autofocus>Close</button>
             </footer>
           </div>,
           {
@@ -92,7 +92,7 @@ export const Scrolling: Story = {
               <p>{faker.lorem.paragraphs(30)}</p>
             </article>
             <footer>
-              <button className="button" autoFocus>Close</button>
+              <button className="button" data-close data-autofocus>Close</button>
             </footer>
           </div>,
           {

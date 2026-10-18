@@ -17,10 +17,10 @@ export function DisruptiveNotificationDemo() {
         </p>
         <footer>
           <div className="inline-flow">
-            <button className="button button--danger" autoFocus>
+            <button className="button button--danger" data-close data-autofocus>
               Delete
             </button>
-            <button className="button button--secondary">
+            <button className="button button--secondary" data-close>
               Cancel
             </button>
           </div>
