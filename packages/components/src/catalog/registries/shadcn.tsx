@@ -1,12 +1,14 @@
 import { useId, useRef, type CSSProperties } from 'react';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import { createPortal } from 'react-dom';
-import { Dialog, Toast } from 'radix-ui';
+import { Checkbox, Dialog, RadioGroup, Select, Toast } from 'radix-ui';
 import { shadcnComponents } from '@json-render/shadcn';
 import clsx from 'clsx';
-import { Archive, Crown, Globe, History, Trash2, Undo2, UserMinus, X } from 'lucide-react';
+import { Archive, Check, ChevronDown, Circle, Crown, Globe, History, Trash2, Undo2, UserMinus, X } from 'lucide-react';
 import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames } from '../catalog';
 import { captureOpener, focusDemoIfOpenerGone, type Opener } from './dialog-focus';
+import { useFieldError } from './field-validation';
+import { submitForm } from './form-submit';
 import { useFocusHandoff } from './focus-handoff';
 import { scopedPortal } from './shadcn-portal';
 import type { Send } from './shadcn-parts';
@@ -72,6 +74,16 @@ const buttonVariant = {
   danger: 'bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
 } as const;
 const buttonSize = { default: 'h-9 px-4 py-2 has-[>svg]:px-3', icon: 'size-9' } as const;
+
+// shadcn/ui Label, and the field error shadcn's Form shows beneath a control.
+// The error is an alert so that it is read out when a submit sets it.
+const label = 'flex items-center gap-2 text-sm leading-none font-medium select-none';
+const fieldError = (id: string, message: string) => (
+  <p id={id} role="alert" className="text-sm text-destructive">
+    <span className="sr-only">Error:</span> {message}
+  </p>
+);
+const invalidRing = 'aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40';
 
 export const { registry } = defineRegistry(catalog, {
   components: {
@@ -200,7 +212,7 @@ export const { registry } = defineRegistry(catalog, {
       return (
         <button
           ref={ref}
-          type="button"
+          type={props.submit ? 'submit' : 'button'}
           className={clsx(
             buttonBase,
             buttonVariant[props.variant ?? 'default'],
@@ -221,37 +233,165 @@ export const { registry } = defineRegistry(catalog, {
     // shadcn/ui Input, with a Label above it unless the label is hidden.
     Input: ({ props, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
+      const error = useFieldError(bindings?.value, value, props.checks, props.error);
       const id = useId();
-      // The error is an alert so that it is read out when it appears: the
-      // press that sets it leaves focus on the button.
-      const field = (
-        <>
+      return (
+        <div className="flex flex-col gap-2">
+          {!props.hideLabel && <label htmlFor={id} className={label}>{props.label}</label>}
           <input
             id={id}
-            type="text"
+            type={props.type ?? 'text'}
             aria-label={props.hideLabel ? props.label : undefined}
-            aria-invalid={props.error ? true : undefined}
-            aria-describedby={props.error ? `${id}-error` : undefined}
+            aria-invalid={error ? true : undefined}
+            aria-describedby={error ? `${id}-error` : undefined}
+            data-invalid={error ? '' : undefined}
             placeholder={props.placeholder ?? undefined}
             data-autofocus={props.initialFocus || undefined}
             value={value ?? ''}
             onChange={event => setValue(event.target.value)}
-            className="flex h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40"
+            className={clsx(
+              'flex h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30',
+              invalidRing,
+            )}
           />
-          {props.error && (
-            <p id={`${id}-error`} role="alert" className="text-sm text-destructive">
-              <span className="sr-only">Error:</span> {props.error}
-            </p>
-          )}
-        </>
-      );
-      return (
-        <div className="flex flex-col gap-2">
-          {!props.hideLabel && <label htmlFor={id} className="flex items-center gap-2 text-sm leading-none font-medium select-none">{props.label}</label>}
-          {field}
+          {error && fieldError(`${id}-error`, error)}
         </div>
       );
     },
+
+    // shadcn/ui Textarea, which grows with its text (field-sizing: content).
+    Textarea: ({ props, bindings }) => {
+      const [value, setValue] = useBoundProp(props.value, bindings?.value);
+      const id = useId();
+      return (
+        <div className="flex flex-col gap-2">
+          <label htmlFor={id} className={label}>{props.label}</label>
+          <textarea
+            id={id}
+            placeholder={props.placeholder ?? undefined}
+            value={value ?? ''}
+            onChange={event => setValue(event.target.value)}
+            className="flex field-sizing-content min-h-16 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30"
+          />
+        </div>
+      );
+    },
+
+    // shadcn/ui Select: Radix's listbox, not a native select. An empty value
+    // shows the placeholder, which is not an option. The list portals into
+    // the scoped root.
+    Select: ({ props, bindings }) => {
+      const [value, setValue] = useBoundProp(props.value, bindings?.value);
+      const error = useFieldError(bindings?.value, value, props.checks, props.error);
+      const id = useId();
+      return (
+        <div className="flex flex-col gap-2">
+          <label htmlFor={id} className={label}>{props.label}</label>
+          <Select.Root value={value ?? ''} onValueChange={setValue}>
+            <Select.Trigger
+              id={id}
+              aria-invalid={error ? true : undefined}
+              aria-describedby={error ? `${id}-error` : undefined}
+              data-invalid={error ? '' : undefined}
+              className={clsx(
+                "flex h-9 w-fit items-center justify-between gap-2 rounded-md border border-input bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 data-[placeholder]:text-muted-foreground dark:bg-input/30 dark:hover:bg-input/50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+                invalidRing,
+              )}
+            >
+              <Select.Value placeholder={props.placeholder ?? undefined} />
+              <Select.Icon asChild>
+                <ChevronDown aria-hidden="true" className="size-4 opacity-50" />
+              </Select.Icon>
+            </Select.Trigger>
+            <Select.Portal container={scopedPortal()}>
+              <Select.Content
+                position="popper"
+                sideOffset={4}
+                className="relative z-50 max-h-(--radix-select-content-available-height) min-w-[8rem] origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border bg-popover text-popover-foreground shadow-md"
+              >
+                <Select.Viewport className="h-(--radix-select-trigger-height) w-full min-w-(--radix-select-trigger-width) scroll-my-1 p-1">
+                  {props.options.map(option => (
+                    <Select.Item
+                      key={option.value}
+                      value={option.value}
+                      className="relative flex w-full cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                    >
+                      <span className="absolute right-2 flex size-3.5 items-center justify-center">
+                        <Select.ItemIndicator><Check aria-hidden="true" className="size-4" /></Select.ItemIndicator>
+                      </span>
+                      <Select.ItemText>{option.label}</Select.ItemText>
+                    </Select.Item>
+                  ))}
+                </Select.Viewport>
+              </Select.Content>
+            </Select.Portal>
+          </Select.Root>
+          {error && fieldError(`${id}-error`, error)}
+        </div>
+      );
+    },
+
+    // shadcn/ui RadioGroup: Radix's radio group, one tab stop and arrow keys
+    // between the options, named by the label above it.
+    RadioGroup: ({ props, bindings }) => {
+      const [value, setValue] = useBoundProp(props.value, bindings?.value);
+      const id = useId();
+      return (
+        <div className="flex flex-col gap-3">
+          <div id={id} className={label}>{props.label}</div>
+          <RadioGroup.Root aria-labelledby={id} value={value ?? undefined} onValueChange={setValue} className="grid gap-3">
+            {props.options.map(option => (
+              <div key={option.value} className="flex items-center gap-3">
+                <RadioGroup.Item
+                  id={`${id}-${option.value}`}
+                  value={option.value}
+                  className="aspect-square size-4 shrink-0 rounded-full border border-input text-primary shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-input/30"
+                >
+                  <RadioGroup.Indicator className="relative flex items-center justify-center">
+                    <Circle aria-hidden="true" className="absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 fill-primary" />
+                  </RadioGroup.Indicator>
+                </RadioGroup.Item>
+                <label htmlFor={`${id}-${option.value}`} className={clsx(label, 'font-normal')}>{option.label}</label>
+              </div>
+            ))}
+          </RadioGroup.Root>
+        </div>
+      );
+    },
+
+    // shadcn/ui Checkbox: Radix's checkbox button beside a Label.
+    Checkbox: ({ props, bindings }) => {
+      const [checked, setChecked] = useBoundProp(props.checked, bindings?.checked);
+      const id = useId();
+      return (
+        <div className="flex items-center gap-3">
+          <Checkbox.Root
+            id={id}
+            checked={checked ?? false}
+            onCheckedChange={next => setChecked(next === true)}
+            className="peer size-4 shrink-0 rounded-[4px] border border-input shadow-xs transition-shadow outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:bg-input/30 dark:data-[state=checked]:bg-primary"
+          >
+            <Checkbox.Indicator className="grid place-content-center text-current transition-none">
+              <Check aria-hidden="true" className="size-3.5" />
+            </Checkbox.Indicator>
+          </Checkbox.Root>
+          <label htmlFor={id} className={clsx(label, 'font-normal')}>{props.label}</label>
+        </div>
+      );
+    },
+
+    // Submitting runs the spec's checks (form-submit.ts). A form is read
+    // most easily at about 36rem, however wide the demo is.
+    Form: ({ props, children, emit }) => (
+      <form
+        className="flex max-w-xl flex-col gap-6"
+        aria-label={props.label ?? undefined}
+        noValidate
+        onSubmit={event => void submitForm(event, emit)}
+      >
+        {children}
+      </form>
+    ),
 
     // shadcn/ui Dialog: modal, so focus stays inside it and the page behind
     // is out of reach until it closes. An alert behaves as shadcn's

@@ -5,6 +5,8 @@ import clsx from 'clsx';
 import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames } from '../catalog';
 import type { ToastHandle } from '../../components/toast/toast';
 import { captureOpener, focusDemoIfOpenerGone, type Opener } from './dialog-focus';
+import { useFieldError } from './field-validation';
+import { submitForm } from './form-submit';
 import { useFocusHandoff } from './focus-handoff';
 import { useToastList } from './toast-list';
 import '../../jsx-types';
@@ -16,6 +18,10 @@ type PpModal = HTMLElement & { open: () => void; close: () => void };
 
 const space = { none: '0', s: 'var(--space-xs)', m: 'var(--space-s)', l: 'var(--space-m)' } as const;
 const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
+// A field's label, control and error, a small step apart. A grid rather than
+// .flow, whose own --flow-space would also set the field's distance from the
+// field before it.
+const fieldLayout: CSSProperties = { display: 'grid', gap: space.s };
 const icons: Record<(typeof iconNames)[number], string> = {
   archive: 'ph:archive-box',
   cancel: 'ph:x',
@@ -27,6 +33,15 @@ const icons: Record<(typeof iconNames)[number], string> = {
   restore: 'ph:arrow-arc-left',
   transfer: 'ph:crown-simple',
 };
+
+// A field's error, placed where the library's field styles expect it
+// (data-slot="error" after pp-input, inside pp-select). An alert, so that it
+// is read out when a submit sets it.
+const fieldError = (id: string, message: string) => (
+  <small id={id} data-slot="error" role="alert">
+    <span className="visually-hidden">Error:</span> {message}
+  </small>
+);
 
 export const { registry } = defineRegistry(catalog, {
   components: {
@@ -145,7 +160,7 @@ export const { registry } = defineRegistry(catalog, {
       return (
         <button
           ref={ref}
-          type="button"
+          type={props.submit ? 'submit' : 'button'}
           className={clsx('button', props.variant && props.variant !== 'default' && `button--${props.variant}`)}
           disabled={props.disabled ?? undefined}
           aria-expanded={props.expanded ?? undefined}
@@ -160,37 +175,132 @@ export const { registry } = defineRegistry(catalog, {
 
     Input: ({ props, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
+      const error = useFieldError(bindings?.value, value, props.checks, props.error);
       const id = useId();
       // The error is an alert so that it is read out when it appears: the
       // press that sets it leaves focus on the button.
       const field = (
         <>
-          <pp-input invalid={Boolean(props.error)}>
+          <pp-input invalid={Boolean(error)}>
             <input
               id={id}
-              type="text"
+              type={props.type ?? 'text'}
               aria-label={props.hideLabel ? props.label : undefined}
-              aria-describedby={props.error ? `${id}-error` : undefined}
+              aria-describedby={error ? `${id}-error` : undefined}
+              data-invalid={error ? '' : undefined}
               placeholder={props.placeholder ?? undefined}
               data-autofocus={props.initialFocus || undefined}
               value={value ?? ''}
               onChange={event => setValue(event.target.value)}
             />
           </pp-input>
-          {props.error && (
-            <small id={`${id}-error`} data-slot="error" role="alert">
-              <span className="visually-hidden">Error:</span> {props.error}
-            </small>
-          )}
+          {error && fieldError(`${id}-error`, error)}
         </>
       );
       return (
-        <div className="flow" style={{ '--flow-space': space.s } as CSSProperties}>
+        <div style={fieldLayout}>
           {!props.hideLabel && <label htmlFor={id}>{props.label}</label>}
           {field}
         </div>
       );
     },
+
+    // The library's growing textarea: .grow-wrap sizes itself from a copy of
+    // the text in data-replicated-value.
+    Textarea: ({ props, bindings }) => {
+      const [value, setValue] = useBoundProp(props.value, bindings?.value);
+      const id = useId();
+      return (
+        <div style={fieldLayout}>
+          <label htmlFor={id}>{props.label}</label>
+          <div className="grow-wrap" data-replicated-value={value ?? ''}>
+            <textarea
+              id={id}
+              rows={3}
+              placeholder={props.placeholder ?? undefined}
+              value={value ?? ''}
+              onChange={event => setValue(event.target.value)}
+            />
+          </div>
+        </div>
+      );
+    },
+
+    // pp-select around a native select. The empty value is a disabled first
+    // option (the placeholder, or blank), so the select shows nothing chosen
+    // when nothing is, and it cannot be chosen again.
+    Select: ({ props, bindings }) => {
+      const [value, setValue] = useBoundProp(props.value, bindings?.value);
+      const error = useFieldError(bindings?.value, value, props.checks, props.error);
+      const id = useId();
+      return (
+        <div style={fieldLayout}>
+          <label htmlFor={id}>{props.label}</label>
+          <pp-select invalid={Boolean(error)}>
+            <select
+              id={id}
+              aria-describedby={error ? `${id}-error` : undefined}
+              data-invalid={error ? '' : undefined}
+              value={value ?? ''}
+              onChange={event => setValue(event.target.value)}
+            >
+              <option value="" disabled>{props.placeholder ?? ''}</option>
+              {props.options.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
+            </select>
+            {error && fieldError(`${id}-error`, error)}
+          </pp-select>
+        </div>
+      );
+    },
+
+    RadioGroup: ({ props, bindings }) => {
+      const [value, setValue] = useBoundProp(props.value, bindings?.value);
+      const name = useId();
+      return (
+        // The library resets a fieldset's margin, so the form's spacing goes on a wrapper.
+        <div>
+          <fieldset style={fieldLayout}>
+            <legend>{props.label}</legend>
+            {props.options.map(option => (
+              <label key={option.value} className="form-control">
+                <input
+                  type="radio"
+                  name={name}
+                  value={option.value}
+                  checked={value === option.value}
+                  onChange={() => setValue(option.value)}
+                />
+                {option.label}
+              </label>
+            ))}
+          </fieldset>
+        </div>
+      );
+    },
+
+    Checkbox: ({ props, bindings }) => {
+      const [checked, setChecked] = useBoundProp(props.checked, bindings?.checked);
+      return (
+        <label className="form-control">
+          <input type="checkbox" checked={checked ?? false} onChange={event => setChecked(event.target.checked)} />
+          {props.label}
+        </label>
+      );
+    },
+
+    // Submitting runs the spec's checks (form-submit.ts). A form is read
+    // most easily at about 36rem, however wide the demo is.
+    Form: ({ props, children, emit }) => (
+      <form
+        className="flow"
+        style={{ '--flow-space': 'var(--space-l)', maxInlineSize: '36rem' } as CSSProperties}
+        aria-label={props.label ?? undefined}
+        noValidate
+        onSubmit={event => void submitForm(event, emit)}
+      >
+        {children}
+      </form>
+    ),
 
     // The library's dialog: <pp-modal> around a <dialog class="dialog">, the
     // markup modalService builds, opened and closed from the bound state.

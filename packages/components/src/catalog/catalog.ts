@@ -1,4 +1,4 @@
-import { defineCatalog } from '@json-render/core';
+import { defineCatalog, ValidationCheckSchema } from '@json-render/core';
 import { schema } from '@json-render/react/schema';
 import { z } from 'zod';
 
@@ -12,6 +12,14 @@ import { z } from 'zod';
 // it and every registry can render it, or says plainly that it cannot.
 
 const tone = z.enum(['neutral', 'accent', 'danger']);
+
+// What a field must hold, as data: json-render's checks ({ type, args,
+// message }), run against the field's bound value. Every registry runs them
+// when the form is submitted and again as the actor corrects the field.
+const checks = z.array(ValidationCheckSchema).nullable();
+const fieldValidation =
+  'List `checks` ({ type: required | email | minLength | …, message }) to validate the bound value: they run when validateForm is dispatched, usually from a Form\'s `submit`, and again on each change once the field has been checked, so the message goes as soon as the value is fixed. The first failing check\'s message shows beneath the field, as `error` does, and `error` wins when both are set.';
+const options = z.array(z.object({ value: z.string(), label: z.string() }));
 
 // Icons are named by meaning; each registry maps a name to its own icon set.
 // A spec that named Phosphor glyphs would be tied to the library that ships them.
@@ -121,21 +129,68 @@ export const catalog = defineCatalog(schema, {
         expanded: z.boolean().nullable(),
         initialFocus: z.boolean().nullable(),
         focusNext: z.string().nullable(),
+        submit: z.boolean().nullable(),
       }),
       description:
-        'A button. `danger` marks an action that destroys something. `icon` names the icon by meaning. With `hideLabel` only the icon shows and the label is read by assistive technology. `disabled` is for an action that is unavailable or already in progress; a button whose input is not yet valid stays enabled and reports what is wrong when pressed. `expanded` marks a button that shows and hides another part of the interface. `initialFocus` makes it take focus when its Dialog opens. `focusNext` names the label of the Button that takes focus if this one disappears while it has focus, because a press or a timer hid it or removed what it sits in: the first Button with that label after where this one was, else the last one before it. Name the control that replaces it (Cancel for an armed Delete) or its counterpart in the next row. Without `focusNext`, or with no match, focus moves to the demo. Emits `press`.',
+        'A button. `danger` marks an action that destroys something. `icon` names the icon by meaning. With `hideLabel` only the icon shows and the label is read by assistive technology. `disabled` is for an action that is unavailable or already in progress; a button whose input is not yet valid stays enabled and reports what is wrong when pressed. `expanded` marks a button that shows and hides another part of the interface. `initialFocus` makes it take focus when its Dialog opens. `focusNext` names the label of the Button that takes focus if this one disappears while it has focus, because a press or a timer hid it or removed what it sits in: the first Button with that label after where this one was, else the last one before it. Name the control that replaces it (Cancel for an armed Delete) or its counterpart in the next row. Without `focusNext`, or with no match, focus moves to the demo. `submit` makes it the button that submits the Form it sits in. Emits `press`.',
     },
     Input: {
       props: z.object({
         label: z.string(),
         hideLabel: z.boolean().nullable(),
+        type: z.enum(['text', 'email']).nullable(),
         placeholder: z.string().nullable(),
         value: z.string().nullable(),
         error: z.string().nullable(),
+        checks,
         initialFocus: z.boolean().nullable(),
       }),
       description:
-        'A single-line text field. With `hideLabel` the label is read by assistive technology only. `error` marks the value as wrong and shows the message beneath the field; it is announced when it appears. Set it when the actor submits, not while they type, and say how to fix the value. `initialFocus` makes it take focus when its Dialog opens. Bind `value` with $bindState.',
+        `A single-line text field. With \`hideLabel\` the label is read by assistive technology only. \`type\` "email" asks for an email address (and the keyboard for one); it does not check the value, a check does. \`error\` marks the value as wrong and shows the message beneath the field; it is announced when it appears. Set it when the actor submits, not while they type, and say how to fix the value. ${fieldValidation} \`initialFocus\` makes it take focus when its Dialog opens. Bind \`value\` with $bindState.`,
+    },
+    Textarea: {
+      props: z.object({
+        label: z.string(),
+        placeholder: z.string().nullable(),
+        value: z.string().nullable(),
+      }),
+      description: 'A multi-line text field that grows with its text. Bind `value` with $bindState.',
+    },
+    Select: {
+      props: z.object({
+        label: z.string(),
+        placeholder: z.string().nullable(),
+        options,
+        value: z.string().nullable(),
+        error: z.string().nullable(),
+        checks,
+      }),
+      description:
+        `Choose one value from a short list that does not need to be seen all at once. \`placeholder\` shows while nothing is chosen (an empty value) and cannot be chosen itself. ${fieldValidation} Bind \`value\` with $bindState.`,
+    },
+    RadioGroup: {
+      props: z.object({
+        label: z.string(),
+        options,
+        value: z.string().nullable(),
+      }),
+      description:
+        'Choose one value from a few options, all shown. `label` names the question the options answer. Bind `value` with $bindState.',
+    },
+    Checkbox: {
+      props: z.object({
+        label: z.string(),
+        checked: z.boolean().nullable(),
+      }),
+      description: 'A single yes-or-no choice beside its label. Bind `checked` with $bindState.',
+    },
+    Form: {
+      props: z.object({
+        label: z.string().nullable(),
+      }),
+      slots: ['default'],
+      description:
+        'Fields that are sent together. Pressing Enter in a single-line field, or the Button marked `submit`, emits `submit`; the browser\'s own validation is off, so bind validateForm (with a `statePath`) to `submit` and read `valid` from there before acting. `label` names the form for assistive technology when the page around it does not.',
     },
     Dialog: {
       props: z.object({
