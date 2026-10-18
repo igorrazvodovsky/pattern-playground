@@ -23,6 +23,15 @@ export abstract class ChartComponent extends D3Component {
   protected xScale?: ScaleLinear<number, number> | ScaleBand<string> | ScaleTime<number, number>;
   protected yScale?: ScaleLinear<number, number> | ScaleBand<string>;
 
+  /**
+   * Spoken name for charts read item by item ("Bar chart"). When set, the host
+   * becomes a focusable image whose arrow keys, Home and End move through
+   * `itemCount()` items and Enter or Space activates one. Charts that focus
+   * their own marks (the network graph) leave it unset.
+   */
+  protected itemNavigationName?: string;
+  protected focusedIndex = 0;
+
   constructor() {
     super();
     // `title` collides with the native reflecting HTMLElement.title: a class
@@ -41,12 +50,92 @@ export abstract class ChartComponent extends D3Component {
     this.addEventListener('click', this.handleClick);
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+    const name = this.itemNavigationName;
+    if (!name) return;
+    if (document.readyState !== 'loading') {
+      this.initItemNavigation(name);
+      return;
+    }
+    document.addEventListener('DOMContentLoaded', () => this.initItemNavigation(name));
+  }
+
+  private initItemNavigation(name: string) {
+    this.setAttribute('tabindex', '0');
+    this.setAttribute('role', 'img');
+    if (!this.hasAttribute('aria-label')) {
+      this.setAttribute('aria-label', this.title || name);
+    }
+    this.addEventListener('keydown', this.handleItemKeydown);
+  }
+
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener('mouseover', this.handleMouseOver);
     this.removeEventListener('mouseout', this.handleMouseOut);
     this.removeEventListener('click', this.handleClick);
+    this.removeEventListener('keydown', this.handleItemKeydown);
   }
+
+  /** Number of items the keyboard moves through. */
+  protected itemCount(): number {
+    return 0;
+  }
+
+  /** Short spoken description of one item, announced when it takes focus. */
+  protected describeItem(_index: number): string {
+    return '';
+  }
+
+  /** Enter or Space on the focused item. */
+  protected activateItem(_index: number, _event: KeyboardEvent): void {}
+
+  /** Runs after an item takes keyboard focus. */
+  protected onItemFocus(_index: number): void {}
+
+  private focusItem(index: number): void {
+    if (index < 0 || index >= this.itemCount()) return;
+    this.focusedIndex = index;
+    this.setAttribute('aria-live', 'polite');
+    this.setAttribute(
+      'aria-label',
+      `${this.itemNavigationName}. Current: ${this.describeItem(index)}. Use arrow keys to navigate.`,
+    );
+    this.onItemFocus(index);
+  }
+
+  private handleItemKeydown = (event: KeyboardEvent): void => {
+    if (!this.validateData()) return;
+    const last = this.itemCount() - 1;
+    if (last < 0) return;
+
+    switch (event.key) {
+      case 'ArrowRight':
+      case 'ArrowDown':
+        event.preventDefault();
+        this.focusItem(Math.min(this.focusedIndex + 1, last));
+        break;
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        event.preventDefault();
+        this.focusItem(Math.max(this.focusedIndex - 1, 0));
+        break;
+      case 'Home':
+        event.preventDefault();
+        this.focusItem(0);
+        break;
+      case 'End':
+        event.preventDefault();
+        this.focusItem(last);
+        break;
+      case 'Enter':
+      case ' ':
+        event.preventDefault();
+        if (this.focusedIndex <= last) this.activateItem(this.focusedIndex, event);
+        break;
+    }
+  };
 
   protected handleMouseOver = (event: MouseEvent) => {
     if (this.disabled) return;

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { getPaneContent } from './pane-content';
-import { buildURL, decodePaneParam, panePath, parsePanePath } from './pane-path';
+import { buildURL, decodePaneParam, panePath, paneIndexOf, parsePanePath } from './pane-path';
 
 export type Pane = {
   // `/patterns/<slug>` or `/sequences/<id>`: the pane's identity (pane-path.ts).
@@ -195,7 +195,7 @@ if (typeof document !== 'undefined') {
         if (rawHref.length < 2 || anchor.closest('.demo-block')) return;
         event.preventDefault();
         event.stopPropagation();
-        useStackStore.getState().goTo(parseInt(paneEl.dataset.paneIndex ?? '0', 10), rawHref);
+        useStackStore.getState().goTo(paneIndexOf(paneEl), rawHref);
         return;
       }
 
@@ -208,7 +208,7 @@ if (typeof document !== 'undefined') {
 
       event.preventDefault(); // Stops ClientRouter from navigating (it checks defaultPrevented)
 
-      const fromIndex = parseInt(paneEl.dataset.paneIndex ?? '0', 10);
+      const fromIndex = paneIndexOf(paneEl);
       const hash = url.hash || undefined;
       useStackStore.getState().follow(targetPath, fromIndex, hash);
     },

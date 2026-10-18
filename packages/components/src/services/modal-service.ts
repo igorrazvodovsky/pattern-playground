@@ -37,6 +37,8 @@ export interface ModalOptions {
   headerActions?: React.ReactElement;
 }
 
+const MODAL_DEFINE_TIMEOUT_MS = 2000;
+
 interface ReactModalState {
   root: Root;
   container: HTMLElement;
@@ -59,73 +61,47 @@ export class ModalService {
    * Open a drawer with React content
    */
   openDrawer(content: React.ReactElement, options: ModalOptions = {}): string {
-    const modalId = this.generateModalId();
-    const reactContainerId = `${modalId}-react-content`;
-    const { position = 'right', title, className = '', closable = true, modal = true, onClose, headerActions } = options;
-    const actionsContainerId = headerActions ? `${modalId}-header-actions` : '';
-
-    // Create PPModal with safe DOM methods
-    const ppModal = document.createElement('pp-modal');
-    const dialog = createDrawerDOM(modalId, position, className, title, closable, reactContainerId, modal, actionsContainerId);
-    ppModal.appendChild(dialog);
-
-    document.body.appendChild(ppModal);
-
-    // Create React root and render content
-    const container = document.getElementById(reactContainerId);
-    if (container) {
-      const root = createRoot(container);
-      const wrappedContent = this.wrapReactContent(content);
-      root.render(wrappedContent);
-
-      const headerRoot = this.renderHeaderActions(actionsContainerId, headerActions);
-
-      // Store React modal state for cleanup
-      this.reactModals.set(modalId, { root, container, ppModal, headerRoot });
-
-      // Set up cleanup listener
-      ppModal.addEventListener('modal:close', () => {
-        onClose?.();
-        this.cleanupReactModal(modalId);
-      });
-    }
-
-    // Auto-open after DOM insertion and custom element initialization
-    this.waitForElementReady(ppModal).then((modal) => {
-      modal.open();
-    }).catch((error) => {
-      console.error('Failed to initialize drawer modal:', error);
-      // Cleanup on failure
-      ppModal.remove();
-      this.cleanupReactModal(modalId);
-    });
-
-    return modalId;
+    const { position = 'right', title, className = '', closable = true, modal = true } = options;
+    return this.mount('drawer', content, options, (modalId, contentId, actionsId) =>
+      createDrawerDOM(modalId, position, className, title, closable, contentId, modal, actionsId));
   }
 
   /**
    * Open a dialog with React content
    */
   openDialog(content: React.ReactElement, options: ModalOptions = {}): string {
+    const { size = 'medium', title, className = '', closable = true } = options;
+    return this.mount('dialog', content, options, (modalId, contentId, actionsId) =>
+      createDialogDOM(modalId, size, className, title, closable, contentId, actionsId));
+  }
+
+  /**
+   * Build a `pp-modal` around the surface `buildDialog` returns, render the
+   * React content and header actions into it, and open it once the element is
+   * upgraded.
+   */
+  private mount(
+    kind: 'drawer' | 'dialog',
+    content: React.ReactElement,
+    { onClose, headerActions }: ModalOptions,
+    buildDialog: (modalId: string, contentId: string, actionsId: string) => HTMLDialogElement,
+  ): string {
     const modalId = this.generateModalId();
     const reactContainerId = `${modalId}-react-content`;
-    const { size = 'medium', title, className = '', closable = true, onClose, headerActions } = options;
     const actionsContainerId = headerActions ? `${modalId}-header-actions` : '';
 
     const ppModal = document.createElement('pp-modal');
-    const dialog = createDialogDOM(modalId, size, className, title, closable, reactContainerId, actionsContainerId);
-    ppModal.appendChild(dialog);
-
+    ppModal.appendChild(buildDialog(modalId, reactContainerId, actionsContainerId));
     document.body.appendChild(ppModal);
 
     const container = document.getElementById(reactContainerId);
     if (container) {
       const root = createRoot(container);
-      const wrappedContent = this.wrapReactContent(content);
-      root.render(wrappedContent);
+      root.render(this.wrapReactContent(content));
 
       const headerRoot = this.renderHeaderActions(actionsContainerId, headerActions);
 
+      // Store React modal state for cleanup
       this.reactModals.set(modalId, { root, container, ppModal, headerRoot });
 
       ppModal.addEventListener('modal:close', () => {
@@ -134,11 +110,15 @@ export class ModalService {
       });
     }
 
-    this.waitForElementReady(ppModal).then((modal) => {
-      modal.open();
+    // pp-modal registers through register-all; if nothing registered it, fail
+    // and tear down rather than leave a dead surface in <body>.
+    const timeout = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(new Error('pp-modal is not defined')), MODAL_DEFINE_TIMEOUT_MS);
+    });
+    Promise.race([customElements.whenDefined('pp-modal'), timeout]).then(() => {
+      ppModal.open();
     }).catch((error) => {
-      console.error('Failed to initialize dialog modal:', error);
-      // Cleanup on failure
+      console.error(`Failed to initialize ${kind} modal:`, error);
       ppModal.remove();
       this.cleanupReactModal(modalId);
     });
@@ -200,36 +180,6 @@ export class ModalService {
 
   private generateModalId(): string {
     return `modal-${Date.now()}-${++this.modalCounter}`;
-  }
-
-  private waitForElementReady(ppModal: HTMLElement): Promise<PPModal> {
-    return new Promise((resolve, reject) => {
-      // Check if the element already has the open method
-      if (typeof (ppModal as PPModal).open === 'function') {
-        resolve(ppModal as PPModal);
-        return;
-      }
-
-      let attempts = 0;
-      const maxAttempts = 100; // Prevent infinite loop
-
-      // Wait for custom element to be defined and initialized
-      const checkReady = () => {
-        attempts++;
-        
-        if (typeof (ppModal as PPModal).open === 'function') {
-          resolve(ppModal as PPModal);
-        } else if (attempts >= maxAttempts) {
-          const error = new Error(`pp-modal failed to initialize after ${maxAttempts} attempts`);
-          console.error(error);
-          reject(error);
-        } else {
-          requestAnimationFrame(checkReady);
-        }
-      };
-
-      requestAnimationFrame(checkReady);
-    });
   }
 
   private wrapReactContent(content: React.ReactElement): React.ReactElement {

@@ -1,8 +1,9 @@
 import { readFileSync, writeFileSync } from 'node:fs';
-import { resolve, dirname } from 'node:path';
+import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { compile, optimize } from '@tailwindcss/node';
 import { Scanner } from '@tailwindcss/oxide';
+import { repoRoot as root } from './lib/files.ts';
 
 // Compiles the shadcn registry's stylesheet and contains it. Tailwind emits
 // global CSS: theme variables on :root, a preflight reset on html and *,
@@ -20,8 +21,6 @@ import { Scanner } from '@tailwindcss/oxide';
 //   npm run build:shadcn-css
 // scripts/check-style-boundary.mjs fails when the output is stale or uncontained.
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const root = resolve(__dirname, '..');
 const catalogDir = resolve(root, 'packages/components/src/catalog');
 const INPUT = resolve(catalogDir, 'shadcn.css');
 export const OUTPUT = resolve(catalogDir, 'shadcn.generated.css');

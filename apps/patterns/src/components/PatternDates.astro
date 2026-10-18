@@ -1,5 +1,6 @@
 ---
-import { formatDate, isoDate, type Locale } from '@shared/format';
+import { formatDate, isoDate } from '@shared/format';
+import { SITE_LOCALE as LOCALE } from '../lib/site';
 
 interface Props {
   // Structural rather than CollectionEntry<'patterns'>: sequences carry the same
@@ -9,7 +10,6 @@ interface Props {
 
 const { entry } = Astro.props;
 
-const LOCALE: Locale = 'en-001';
 const asBadge = (value: Date) => {
   const iso = isoDate(value);
   return { iso, text: formatDate(iso, { dateStyle: 'medium' }, LOCALE) };

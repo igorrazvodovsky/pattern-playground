@@ -18,6 +18,17 @@ export function panePath(kind: PaneKind, id: string): string {
   return PREFIX[kind] + id;
 }
 
+// Trailing slashes vary by link source and by Astro's directory-format
+// output; pane paths and graph paths carry none.
+export function normalisePath(path: string): string {
+  return path.length > 1 && path.endsWith('/') ? path.slice(0, -1) : path;
+}
+
+// The stack index of the pane holding `el`; 0 (the page itself) outside any pane.
+export function paneIndexOf(el: Element | null | undefined): number {
+  return parseInt(el?.closest<HTMLElement>('[data-pane-index]')?.dataset.paneIndex ?? '0', 10);
+}
+
 // Parse a pathname into a pane's kind and id. Returns null for anything that
 // is not a single-segment pattern or sequence page (including the `/pane/`
 // partials themselves).
@@ -25,7 +36,7 @@ export function parsePanePath(pathname: string): { kind: PaneKind; id: string } 
   for (const kind of ['pattern', 'sequence'] as const) {
     const prefix = PREFIX[kind];
     if (!pathname.startsWith(prefix)) continue;
-    const id = pathname.slice(prefix.length).replace(/\/$/, '');
+    const id = normalisePath(pathname.slice(prefix.length));
     if (!id || id.includes('/')) return null;
     return { kind, id };
   }

@@ -14,8 +14,8 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
+import { repoRoot as root, stripFrontmatter } from './lib/files.ts';
 
-const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const contentDir = path.join(root, 'apps/patterns/src/content/patterns');
 const registryFile = path.join(root, 'apps/patterns/src/lib/demo-registry.ts');
 
@@ -43,7 +43,6 @@ for (const file of readdirSync(contentDir).filter((f) => f.endsWith('.mdx')).sor
   const rel = path.relative(root, path.join(contentDir, file));
   // Strip YAML frontmatter: a comment there may mention component tags
   // (e.g. form.mdx's chart-index note) without being a mount.
-  const stripFrontmatter = (s) => s.replace(/^---\n[\s\S]*?\n---\n/, '');
   const text = stripFrontmatter(readFileSync(path.join(contentDir, file), 'utf8'));
 
   if (text.includes('client:only')) {

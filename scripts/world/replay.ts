@@ -20,18 +20,13 @@
 //            drift instead of writing.
 
 import { readFileSync, writeFileSync } from 'node:fs';
-import { resolve, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
+import type { ActionRecord, Fact } from '../../shared/data/action-types.ts';
+import { repoRoot } from '../lib/files.ts';
 
-const worldDir = resolve(dirname(fileURLToPath(import.meta.url)), '../../shared/world');
+const worldDir = resolve(repoRoot, 'shared/world');
 const read = (file: string) => JSON.parse(readFileSync(resolve(worldDir, file), 'utf8'));
 
-interface Fact { relation: string; subject: string; object?: unknown }
-interface ActionRecord {
-  id: string; name: string; actor: string; timestamp: string;
-  input: Record<string, unknown>; output?: Record<string, unknown>;
-  adds?: Fact[]; removes?: Fact[]; causedBy?: string[]; viaRule?: string;
-}
 interface RelationDecl { subject: string[]; object?: 'id' | 'value'; cardinality: 'one' | 'many' }
 
 const individuals: { id: string; kind: string }[] = read('individuals.json');

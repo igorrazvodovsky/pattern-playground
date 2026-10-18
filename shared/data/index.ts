@@ -84,111 +84,6 @@ export const getDocumentContentRich = (documentId: string, sectionId?: string) =
   return doc.content?.richContent;
 };
 
-// Dynamic reference resolution utility
-export const resolveReferenceData = (id: string, type: string) => {
-  switch (type) {
-    case 'user':
-      const user = users.find(u => u.id === id);
-      return user ? {
-        id: user.id,
-        name: user.name,
-        icon: user.icon,
-        type: user.type,
-        description: user.description,
-        searchableText: user.searchableText,
-        metadata: { ...user.metadata, description: user.description }
-      } : null;
-
-    case 'project':
-      const project = projects.find(p => p.id === id);
-      return project ? {
-        id: project.id,
-        name: project.name,
-        icon: project.icon,
-        type: project.type,
-        description: project.description,
-        searchableText: project.searchableText,
-        metadata: { ...project.metadata, description: project.description }
-      } : null;
-
-    case 'document':
-      const document = documents.find(d => d.id === id);
-      return document ? {
-        id: document.id,
-        name: document.name,
-        icon: document.icon,
-        type: document.type,
-        description: document.description,
-        searchableText: document.searchableText,
-        metadata: { ...document.metadata, description: document.description }
-      } : null;
-
-    case 'quote':
-      const quote = quotes.find(q => q.id === id);
-      return quote ? {
-        id: quote.id,
-        name: quote.name,
-        icon: quote.icon,
-        type: quote.type,
-        description: quote.description,
-        searchableText: quote.searchableText,
-        content: quote.content, // Include the full content object
-        metadata: { ...quote.metadata, description: quote.description }
-      } : null;
-
-    case 'material':
-      const material = materials.find(m => m.id === id);
-      return material ? {
-        id: material.id,
-        name: material.name,
-        icon: material.icon,
-        type: material.type,
-        description: material.description,
-        searchableText: material.searchableText,
-        metadata: { ...material.metadata, description: material.description }
-      } : null;
-
-    case 'component':
-      const component = components.find(c => c.id === id);
-      return component ? {
-        id: component.id,
-        name: component.name,
-        icon: component.icon,
-        type: component.type,
-        description: component.description,
-        searchableText: component.searchableText,
-        metadata: { ...component.metadata, description: component.description }
-      } : null;
-
-    case 'product':
-      const product = products.find(p => p.id === id);
-      return product ? {
-        id: product.id,
-        name: product.name,
-        icon: product.icon,
-        type: product.type,
-        description: product.description,
-        searchableText: product.searchableText,
-        metadata: { ...product.metadata, description: product.description }
-      } : null;
-
-    case 'service':
-      const service = services.find(s => s.id === id);
-      return service ? {
-        id: service.id,
-        name: service.name,
-        icon: service.icon,
-        type: service.type,
-        description: service.description,
-        searchableText: service.searchableText,
-        metadata: { ...service.metadata, description: service.description }
-      } : null;
-
-    default:
-      return null;
-  }
-};
-
 // Quote utility functions
 export const getQuoteById = createFinder(quotes);
 
@@ -285,139 +180,71 @@ export type { MaterialView as Material, ComponentView as Component,
 // Circular economy utility functions
 export const getProductById = createFinder(products);
 
+// Referenceable entity kinds, in menu order. For the kinds that set
+// `childIcon`, menu items show that one outline icon and match on name only.
+interface ReferenceableItem {
+  id: string;
+  name: string;
+  icon: string;
+  searchableText: string;
+  description?: string;
+  metadata?: object;
+}
+
+const referenceSources = [
+  { type: 'user', id: 'users', name: 'Users', icon: 'ph:users', childIcon: 'ph:user',
+    searchableText: 'users people team members', list: users },
+  { type: 'document', id: 'documents', name: 'Documents', icon: 'ph:file-text', childIcon: 'ph:file-text',
+    searchableText: 'documents files content', list: documents },
+  { type: 'project', id: 'projects', name: 'Projects', icon: 'ph:folder', childIcon: 'ph:folder',
+    searchableText: 'projects workspaces', list: projects },
+  { type: 'quote', id: 'quotes', name: 'Quotes', icon: 'ph:quotes',
+    searchableText: 'quotes selections excerpts text', list: quotes },
+  { type: 'material', id: 'materials', name: 'Materials', icon: 'ph:cube',
+    searchableText: 'materials substances raw supplies circular economy', list: materials },
+  { type: 'component', id: 'components', name: 'Components', icon: 'ph:gear',
+    searchableText: 'components parts assemblies hardware pieces', list: components },
+  { type: 'product', id: 'products', name: 'Products', icon: 'ph:package',
+    searchableText: 'products items goods merchandise finished', list: products },
+  { type: 'service', id: 'services', name: 'Services', icon: 'ph:wrench',
+    searchableText: 'services maintenance repair support circular', list: services },
+] as const satisfies ReadonlyArray<{
+  type: string; id: string; name: string; icon: string; childIcon?: string;
+  searchableText: string; list: ReadonlyArray<ReferenceableItem>;
+}>;
+
+type ReferenceSource = (typeof referenceSources)[number];
+
+const toReferenceItem = (source: ReferenceSource, item: ReferenceableItem) => ({
+  id: item.id,
+  name: item.name,
+  ...('childIcon' in source
+    ? { icon: source.childIcon, searchableText: item.name.toLowerCase() }
+    : { icon: item.icon, searchableText: item.searchableText }),
+  type: source.type,
+  metadata: { ...item.metadata, description: item.description },
+});
+
+const toReferenceCategory = (source: ReferenceSource) => ({
+  id: source.id,
+  name: source.name,
+  icon: source.icon,
+  searchableText: source.searchableText,
+  children: source.list.map(item => toReferenceItem(source, item)),
+});
+
 // Reference data using unified SearchableParent format (same as commands)
-export const referenceCategories = [
-  {
-    id: 'users',
-    name: 'Users',
-    icon: 'ph:users',
-    searchableText: 'users people team members',
-    children: users.map(item => ({
-      id: item.id,
-      name: item.name,
-      icon: 'ph:user',
-      searchableText: item.name.toLowerCase(),
-      type: 'user' as const,
-      metadata: { ...item.metadata, description: item.description }
-    }))
-  },
-  {
-    id: 'documents',
-    name: 'Documents',
-    icon: 'ph:file-text',
-    searchableText: 'documents files content',
-    children: documents.map(item => ({
-      id: item.id,
-      name: item.name,
-      icon: 'ph:file-text',
-      searchableText: item.name.toLowerCase(),
-      type: 'document' as const,
-      metadata: { ...item.metadata, description: item.description }
-    }))
-  },
-  {
-    id: 'projects',
-    name: 'Projects',
-    icon: 'ph:folder',
-    searchableText: 'projects workspaces',
-    children: projects.map(item => ({
-      id: item.id,
-      name: item.name,
-      icon: 'ph:folder',
-      searchableText: item.name.toLowerCase(),
-      type: 'project' as const,
-      metadata: { ...item.metadata, description: item.description }
-    }))
-  },
-  {
-    id: 'quotes',
-    name: 'Quotes',
-    icon: 'ph:quotes',
-    searchableText: 'quotes selections excerpts text',
-    children: quotes.map(quote => ({
-      id: quote.id,
-      name: quote.name,
-      icon: 'ph:quotes',
-      searchableText: quote.searchableText,
-      type: 'quote' as const,
-      metadata: { ...quote.metadata, description: quote.description }
-    }))
-  },
-  {
-    id: 'materials',
-    name: 'Materials',
-    icon: 'ph:cube',
-    searchableText: 'materials substances raw supplies circular economy',
-    children: materials.map(material => ({
-      id: material.id,
-      name: material.name,
-      icon: material.icon,
-      searchableText: material.searchableText,
-      type: 'material' as const,
-      metadata: { ...material.metadata, description: material.description }
-    }))
-  },
-  {
-    id: 'components',
-    name: 'Components',
-    icon: 'ph:gear',
-    searchableText: 'components parts assemblies hardware pieces',
-    children: components.map(component => ({
-      id: component.id,
-      name: component.name,
-      icon: component.icon,
-      searchableText: component.searchableText,
-      type: 'component' as const,
-      metadata: { ...component.metadata, description: component.description }
-    }))
-  },
-  {
-    id: 'products',
-    name: 'Products',
-    icon: 'ph:package',
-    searchableText: 'products items goods merchandise finished',
-    children: products.map(product => ({
-      id: product.id,
-      name: product.name,
-      icon: product.icon,
-      searchableText: product.searchableText,
-      type: 'product' as const,
-      metadata: { ...product.metadata, description: product.description }
-    }))
-  },
-  {
-    id: 'services',
-    name: 'Services',
-    icon: 'ph:wrench',
-    searchableText: 'services maintenance repair support circular',
-    children: services.map(service => ({
-      id: service.id,
-      name: service.name,
-      icon: service.icon,
-      searchableText: service.searchableText,
-      type: 'service' as const,
-      metadata: { ...service.metadata, description: service.description }
-    }))
-  }
-];
+export const referenceCategories = referenceSources.map(toReferenceCategory);
 
 // Basic reference data (users only) for simple examples
-export const basicReferenceCategories = [
-  {
-    id: 'users',
-    name: 'Users',
-    icon: 'ph:users',
-    searchableText: 'users people team members',
-    children: users.map(item => ({
-      id: item.id,
-      name: item.name,
-      icon: 'ph:user',
-      searchableText: item.name.toLowerCase(),
-      type: 'user' as const,
-      metadata: { ...item.metadata, description: item.description }
-    }))
-  }
-];
+export const basicReferenceCategories = [toReferenceCategory(referenceSources[0])];
+
+// The menu item for one referenced entity, looked up by reference type.
+export const resolveReferenceData = (id: string, type: string) => {
+  const source = referenceSources.find(s => s.type === type);
+  const item = source?.list.find(i => i.id === id);
+  return source && item ? toReferenceItem(source, item) : null;
+};
 
 // Filter data using unified SearchableParent format (same as commands)
 // Children are stamped with the owning category's filterType at assembly:

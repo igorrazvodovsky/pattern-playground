@@ -250,11 +250,11 @@ interface ParsedFile {
 
 // Malformed YAML is skipped — it fails the content build on its own, with a
 // better message than this.
-function frontmatterFiles(): ParsedFile[] {
+function frontmatterFiles(dir = patternsContentDir): ParsedFile[] {
   const parsed: ParsedFile[] = [];
-  for (const file of walkMdx(patternsContentDir)) {
+  for (const file of walkMdx(dir)) {
     const content = readFileSync(file, 'utf-8');
-    const fmMatch = content.match(/^---\n([\s\S]*?)\n---/);
+    const fmMatch = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
     if (!fmMatch) continue;
     try {
       parsed.push({ file, content, fm: (yamlLoad(fmMatch[1]) ?? {}) as Record<string, unknown> });
@@ -371,16 +371,7 @@ function checkSequenceRefs(logger: AstroIntegrationLogger): Violation[] {
     return slugs;
   };
 
-  for (const file of walkMdx(sequencesDir)) {
-    const content = readFileSync(file, 'utf-8');
-    const fmMatch = content.match(/^---\n([\s\S]*?)\n---/);
-    if (!fmMatch) continue;
-    let fm: Record<string, unknown>;
-    try {
-      fm = (yamlLoad(fmMatch[1]) ?? {}) as Record<string, unknown>;
-    } catch {
-      continue;
-    }
+  for (const { file, content, fm } of frontmatterFiles(sequencesDir)) {
 
     const report = (slug: string, field: string) => {
       checked++;

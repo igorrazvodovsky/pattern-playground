@@ -1,6 +1,7 @@
 // Build-time helpers shared by every sequence render.
 // Field meanings are in docs/specs/sequences.md, the schema in content.config.ts.
-import type { CollectionEntry } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { panePath } from './pane-path';
 
 type SequenceEntry = CollectionEntry<'sequences'>;
 type SequenceData = SequenceEntry['data'];
@@ -54,7 +55,7 @@ export type PatternTitles = Map<string, string>;
 // validator gates these at build time, so seeing one means the build was skipped.
 export function patternRef(titles: PatternTitles, slug: string): Ref {
   const title = titles.get(slug);
-  return title ? { label: title, href: `/patterns/${slug}` } : { label: humaniseSlug(slug) };
+  return title ? { label: title, href: panePath('pattern', slug) } : { label: humaniseSlug(slug) };
 }
 
 // A sub-sequence, or `<sub-sequence>/<n>`, within one sequence. Everything past
@@ -64,7 +65,7 @@ export function subSequenceRef(sequence: SequenceEntry, rest: string[]): Ref | u
   const [subId, n] = rest;
   const sub = sequence.data['sub-sequences'].find((s) => s.id === subId);
   if (!sub) return undefined;
-  const page = `/sequences/${sequence.id}`;
+  const page = panePath('sequence', sequence.id);
   const index = n === undefined ? -1 : Number(n) - 1;
   if (!(index >= 0 && index < sub.steps.length)) return { label: sub.title, href: `${page}#${subId}` };
   return { label: `${sub.title}, step ${index + 1}`, href: `${page}#${positionAnchor(subId, index)}` };
@@ -80,11 +81,11 @@ export function farRef(sequences: SequenceEntry[], ref: string): Ref {
     return { label: humaniseSlug(head) + tail };
   }
   const title = sequence.data.title;
-  if (rest.length === 0) return { label: title, href: `/sequences/${head}` };
+  if (rest.length === 0) return { label: title, href: panePath('sequence', head) };
   const within = subSequenceRef(sequence, rest);
   return within
     ? { label: `${title}, ${within.label.charAt(0).toLowerCase()}${within.label.slice(1)}`, href: within.href }
-    : { label: `${title} (${rest.join(' / ')})`, href: `/sequences/${head}` };
+    : { label: `${title} (${rest.join(' / ')})`, href: panePath('sequence', head) };
 }
 
 export type AppearanceKind = 'rule' | 'constituent' | 'tree';
@@ -146,4 +147,20 @@ export function appearancesBySlug(sequences: SequenceEntry[]): Map<string, Appea
   }
 
   return index;
+}
+
+// The order the nav lists sequences in.
+export const bySequenceOrder = (a: SequenceEntry, b: SequenceEntry) =>
+  a.data.order - b.data.order || a.data.title.localeCompare(b.data.title);
+
+let appearancesCache: { key: string; index: Map<string, Appearance[]> } | undefined;
+
+// The appearance index over every sequence, in nav order. Every pattern page
+// asks for it, so it is built once per state of the sequences collection; the
+// key changes when a sequence file is edited under the dev server.
+export async function sequenceAppearances(): Promise<Map<string, Appearance[]>> {
+  const sequences = (await getCollection('sequences')).sort(bySequenceOrder);
+  const key = sequences.map((s) => `${s.id}@${s.digest ?? ''}`).join(' ');
+  if (appearancesCache?.key !== key) appearancesCache = { key, index: appearancesBySlug(sequences) };
+  return appearancesCache.index;
 }

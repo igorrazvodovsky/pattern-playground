@@ -13,8 +13,7 @@ import graphData from '../data/pattern-graph.json';
 import Label from './Label.astro';
 import SequenceAppearances from './SequenceAppearances.astro';
 import Situation from './Situation.astro';
-import { getCollection } from 'astro:content';
-import { appearancesBySlug } from '../lib/sequence';
+import { sequenceAppearances } from '../lib/sequence';
 
 interface Props {
   slug: string;
@@ -178,7 +177,7 @@ const narrated = typeof resulting === 'string';
 const hasRelated = narrated || (!isQuality && sections.length > 0);
 const showIndex = index && !isQuality;
 // On a narrated page the sequence appearances fold into the same index.
-const hasAppearances = narrated && (appearancesBySlug(await getCollection('sequences')).get(slug)?.length ?? 0) > 0;
+const hasAppearances = narrated && ((await sequenceAppearances()).get(slug)?.length ?? 0) > 0;
 
 // Titles read mid-sentence in the index ("Precedes undo"), so drop the leading
 // capital unless the title opens with an acronym.

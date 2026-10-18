@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useRef } from 'react';
 import { findOpenPane, singlePaneQuery, stackablePath, useStackStore, type Pane } from '../lib/stack-store';
 import { addDescribedBy, removeDescribedBy } from '../lib/describedby';
-import { panePath, paneKindOf } from '../lib/pane-path';
+import { panePath, paneIndexOf, paneKindOf } from '../lib/pane-path';
 import { mountDemos } from '../lib/demo-registry';
 
 interface StackManagerProps {
@@ -106,7 +106,7 @@ function openTargetIndex(anchor: HTMLAnchorElement, panes: Pane[], own: number):
 function markOpenLinks(stackEl: HTMLElement, panes: Pane[]) {
   const singlePane = singlePaneQuery?.matches ?? false;
   for (const anchor of stackEl.querySelectorAll<HTMLAnchorElement>('[data-pane-index] a[href]')) {
-    const own = parseInt(anchor.closest<HTMLElement>('[data-pane-index]')?.dataset.paneIndex ?? '0', 10);
+    const own = paneIndexOf(anchor);
     const target = singlePane ? -1 : openTargetIndex(anchor, panes, own);
     if (target === -1) {
       if (!anchor.hasAttribute('data-in-stack')) continue;
@@ -185,7 +185,7 @@ export function StackManager({ slug, title, path }: StackManagerProps) {
       if (!spine) return;
       const section = spine.closest<HTMLElement>('[data-pane-index]');
       if (!section) return;
-      scrollToPane(stackEl, parseInt(section.dataset.paneIndex ?? '0', 10));
+      scrollToPane(stackEl, paneIndexOf(section));
     };
     stackEl.addEventListener('click', onClick);
     return () => stackEl.removeEventListener('click', onClick);

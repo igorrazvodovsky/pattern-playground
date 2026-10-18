@@ -18,25 +18,14 @@
 
 import { readdirSync, readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
-import { join, relative, resolve } from 'node:path';
-import { load as yamlLoad } from 'js-yaml';
+import { join, relative } from 'node:path';
+import { parseFrontmatter, repoRoot as rootDir } from './lib/files.ts';
 
-const rootDir = resolve(process.cwd());
 const contentDir = join(rootDir, 'apps/patterns/src/content/patterns');
 const STALE_AFTER_MONTHS = 18;
 
 const staleBefore = new Date();
 staleBefore.setMonth(staleBefore.getMonth() - STALE_AFTER_MONTHS);
-
-function frontmatterOf(file) {
-  const match = readFileSync(file, 'utf8').match(/^---\r?\n([\s\S]*?)\r?\n---/);
-  if (!match) return null;
-  try {
-    return yamlLoad(match[1]) ?? {};
-  } catch {
-    return null;
-  }
-}
 
 // Attention, not bytes: the authored `updated` field is a claim about tending
 // and the commit date is a record of it. Git wins where it is available; the
@@ -62,7 +51,7 @@ let seeds = 0;
 for (const name of readdirSync(contentDir)) {
   if (!name.endsWith('.mdx') && !name.endsWith('.md')) continue;
   const file = join(contentDir, name);
-  const fm = frontmatterOf(file);
+  const fm = parseFrontmatter(readFileSync(file, 'utf8'));
   if (!fm || fm.seed !== true) continue;
   seeds++;
 

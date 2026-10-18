@@ -1,10 +1,7 @@
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
-import { load as yamlLoad } from 'js-yaml';
+import { parseFrontmatter, repoRoot as rootDir, walkFiles } from './lib/files.ts';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const rootDir = join(__dirname, '..');
 const patternsContentDir = join(rootDir, 'apps/patterns/src/content/patterns');
 const outputPath = join(rootDir, 'apps/patterns/src/data/pattern-graph.json');
 const activityLevelsPath = join(rootDir, 'apps/patterns/src/data/activity-levels.json');
@@ -142,20 +139,6 @@ const ALIAS_TABLE = {
 type AuthoringRel = keyof typeof ALIAS_TABLE;
 const AUTHORABLE_RELS = new Set(Object.keys(ALIAS_TABLE));
 
-function globMdx(dir: string): string[] {
-  const results: string[] = [];
-  for (const entry of readdirSync(dir)) {
-    if (entry === '.obsidian') continue;
-    const full = join(dir, entry);
-    if (statSync(full).isDirectory()) {
-      results.push(...globMdx(full));
-    } else if (entry.endsWith('.mdx')) {
-      results.push(full);
-    }
-  }
-  return results;
-}
-
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
 }
@@ -237,16 +220,6 @@ function parseSituation(fm: Record<string, unknown>, sourcePath: string): NodeSi
 
 function isRole(value: string): value is Role {
   return (VALID_ROLES as readonly string[]).includes(value);
-}
-
-function extractFrontmatter(content: string): Record<string, unknown> {
-  const m = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-  if (!m) return {};
-  try {
-    return (yamlLoad(m[1]) as Record<string, unknown>) ?? {};
-  } catch {
-    return {};
-  }
 }
 
 /** Composed from frontmatter facets rather than folders: role wins for
@@ -779,12 +752,12 @@ const recommendsCollection: RecommendsCollection = {
 };
 
 // --- Process pattern-site content (frontmatter-based) ---
-const patternMdxFiles = globMdx(patternsContentDir);
+const patternMdxFiles = walkFiles(patternsContentDir, (name) => name.endsWith('.mdx'));
 const groupById = new Map<string, string>();
 
 for (const filePath of patternMdxFiles) {
   const content = readFileSync(filePath, 'utf-8');
-  const fm = extractFrontmatter(content);
+  const fm = parseFrontmatter(content) ?? {};
 
   const title = typeof fm.title === 'string' ? fm.title : null;
   if (!title) continue;

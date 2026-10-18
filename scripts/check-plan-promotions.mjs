@@ -1,13 +1,12 @@
 import { readdirSync, readFileSync, existsSync } from 'node:fs';
-import { resolve, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
+import { frontmatterBlock, repoRoot as root } from './lib/files.ts';
 
 // Guards the promotion rule in plans/README.md: a completed plan must say
 // where its durable residue lives — either resolvable paths in `promoted_to`
 // or an explicit `none — <reason>`. An empty field is indistinguishable from
 // "never promoted", which is how rules end up living only in closed plans.
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const completedDir = resolve(root, 'plans/completed');
 let failed = false;
 
@@ -19,13 +18,13 @@ function fail(msg) {
 for (const name of readdirSync(completedDir).filter((n) => n.endsWith('.md'))) {
   const content = readFileSync(resolve(completedDir, name), 'utf-8');
 
-  const fmMatch = content.match(/^---\n([\s\S]*?)\n---/);
-  if (!fmMatch) {
+  const fm = frontmatterBlock(content);
+  if (fm === null) {
     fail(`${name}: no frontmatter (see plans/README.md for the expected block)`);
     continue;
   }
 
-  const ptMatch = fmMatch[1].match(/^promoted_to:[ \t]*(.*)$/m);
+  const ptMatch = fm.match(/^promoted_to:[ \t]*(.*)$/m);
   const raw = ptMatch?.[1].trim().replace(/^["']|["']$/g, '').trim() ?? '';
   if (!raw) {
     fail(`${name}: promoted_to is empty — name the residue paths, or "none — <reason>"`);

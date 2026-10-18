@@ -24,7 +24,7 @@ the survey and should be confirmed before acting.
 
 1. Bugs (done 2026-10-17).
 2. Dead-code sweep (done 2026-10-17; three keep-or-retire decisions remain).
-3. API client and server handlers together (done 2026-10-18).
+3. Consolidation (done 2026-10-18; the command menu question remains).
 4. Template extractions (stat tile, card list, overview-plus-detail) — these are
    design calls, one sitting each.
 5. Convention fixes, as they come up or batched per territory.
@@ -85,8 +85,8 @@ Removed:
   takes a binding rather than a path). `utility/shadow-dom.ts` replaced in
   `dropdown.ts` by the light-DOM equivalents. The non-`<dialog>` fallback in
   `pp-modal`; every authored and generated modal wraps a `<dialog>`.
-- *CSS:* `pagination.css`, the `drawer--narrow/--wide/--full-height` modifiers,
-  `.flex-layout-grid`; the class-less `.stack` wrapper in `demos/deletion.tsx`.
+- *CSS:* `pagination.css`, the `drawer--narrow/--wide/--full-height` modifiers;
+  the class-less `.stack` wrapper in `demos/deletion.tsx`.
 - *Server:* `/api/generate` with its handler, stream function, OpenAI methods
   (including the hard-coded vector store id) and the juice-production schemas.
 - *Patterns site:* `demoNames`/`specNames` exports (the verify script parses
@@ -110,6 +110,8 @@ Kept on purpose:
   `interaction-layers.ts`, the line/area/tree types, the `update*` renderer
   functions and `scaleCoordinator` stay as planned building blocks.
 - `stepper__item--warning`: one of a set of status modifiers.
+- `.flex-layout-grid`: a layout utility kept for authoring, even though no
+  markup uses it at the moment.
 - `EpistemicStatus.astro`: the evidence badges are commented out, but the
   file's header describes them as intended design. Decide whether they return
   or go.
@@ -143,40 +145,76 @@ Kept on purpose:
   became one `streamSSE`, which also stops generating when the client
   disconnects (it used to run to the 30 s timeout). The two identical chunk
   types became one `StreamChunk`.
-- [ ] *Charts.* Setup and keyboard handling are copied across `bar-chart.ts`,
-  `scatter-plot.ts`, `choropleth.ts`; move into `ChartComponent` behind
-  `itemCount()`, `focusItem(i)`, `activateItem(i)`. The `readyState` guard
-  already exists in `D3Component`.
-- [ ] *`scripts/lib/`.* Frontmatter parsing is written about seven times
-  (`extract-graph-data.ts`, `check-seed-staleness.mjs`, `verify-demo-registry.mjs`,
-  `check-plan-promotions.mjs`, `validate-cross-references.ts` twice, …) and the
-  copies disagree on `\r?\n`. Folder walking is written four times; the repo
-  root is found two ways. `replay.ts` redeclares `Fact` and `ActionRecord`
-  instead of importing them from `shared/data/action-types.ts`, and `kindOf`
-  is defined twice.
-- [ ] *Reference resolution.* `resolveReferenceData` has eight near-identical
-  switch arms; `referenceCategories` and `basicReferenceCategories` repeat one
-  mapping. One `toReferenceItem` plus a `{type, list, icon}` table.
-- [ ] *Patterns site navigation.* Move the ~90 lines of nav building out of
-  `Base.astro` frontmatter into `lib/nav-tree.ts`, which also exports the types
-  `Nav.tsx` re-declares. Route the hand-built pane URLs (`Base.astro`,
-  `SequenceAppearances.astro`, `lib/sequence.ts`, `pages/sequences/[id].astro`)
-  through `panePath()`. One `normalisePath` instead of three trailing-slash
-  strippers. Memoise sequence appearances, now rebuilt on every pattern page.
-  Smaller duplicates: `sentenceCase`/`humaniseSlug`, sequence ordering, the
-  Storybook URL default, the `'en-001'` locale, `parseInt(dataset.paneIndex)`.
-- [ ] *Modal service.* `openDrawer` and `openDialog` are near-copies;
-  `waitForElementReady` polls with rAF where `customElements.whenDefined` would do.
-- [ ] *Hierarchical navigation.* `types/hierarchical-navigation.ts` re-declares
-  the hook's types and imports from `hooks/`; `HierarchicalSearchResults` is
-  declared twice; `use-command-navigation.ts` re-implements the mode logic. The
-  hook's memos depend on an inline `config`, so they recompute every render.
-- [ ] *tldraw math nodes.* Add/Subtract/Multiply/Divide differ mostly by name; a
-  `makeBinaryOpNode` factory. Check first whether this mirrors a tldraw example.
-- [ ] *`templates/collection-view/renderers.tsx`* (647 lines): split per
-  representation.
-- [ ] *Article shell.* `PatternArticle` and `SequenceArticle` duplicate the
-  pagefind attributes, header and `pp-toc` pair.
+- [x] *Charts.* `ChartComponent` owns item-by-item keyboard navigation: a
+  chart that sets `itemNavigationName` becomes a focusable image whose arrow
+  keys, Home and End move through `itemCount()` items, announcing
+  `describeItem(i)`, and Enter or Space calls `activateItem(i)`; `onItemFocus(i)`
+  runs after each move (the choropleth emits `pp-choropleth-focus` there). The bar chart,
+  scatter plot and choropleth implement those three hooks; the network graph,
+  which focuses its own nodes, leaves the name unset. Activation now passes the
+  real `KeyboardEvent` as `originalEvent` rather than a synthetic click (no
+  consumer reads it). The choropleth's spoken name is "Map", so its label
+  before the first render reads "Map" rather than "Choropleth".
+- [x] *`scripts/lib/`.* `scripts/lib/files.ts` holds `repoRoot`, `walkFiles`,
+  `frontmatterBlock`, `parseFrontmatter` and `stripFrontmatter` (one regex,
+  `\r?\n` throughout). It is erasable TypeScript, so the `.mjs` scripts import
+  it directly under Node's type stripping. Every script finds the repo root
+  through it, which also fixes `check-seed-staleness.mjs` reading from the
+  working directory. `replay.ts` imports `Fact` and `ActionRecord` from
+  `shared/data/action-types.ts`. Two copies stay on purpose:
+  `validate-cross-references.ts` is an Astro integration inside
+  `apps/patterns`, which should not depend on workspace-level scripts, so it
+  keeps its own walker and one local frontmatter reader (both of its copies
+  now go through it); and `kindOf` stays in both `replay.ts` and
+  `world-views.ts`, because the replay generates the `facts.json` that
+  `world-views.ts` reads.
+- [x] *Reference resolution.* `shared/data/index.ts` has one
+  `referenceSources` table; `referenceCategories`, `basicReferenceCategories`
+  and `resolveReferenceData` all build items through `toReferenceItem`. The
+  categories are unchanged. `resolveReferenceData` now returns the reference
+  type (`material`) rather than the entity's own subtype (`metal`), which
+  `Reference.tsx` cast to a `ReferenceType` it was not; it no longer returns
+  `description` or a quote's `content`, which nothing read.
+- [x] *Patterns site navigation.* `lib/nav-tree.ts` builds the sidebar tree and
+  exports the types `Nav.tsx` uses. Pattern and sequence URLs go through
+  `panePath()`. `pane-path.ts` gained `normalisePath` (replacing the strippers
+  in `active-path.ts`, `pattern-graph-hover.ts` and `parsePanePath`) and
+  `paneIndexOf(el)` (replacing five `parseInt(dataset.paneIndex)` reads).
+  `lib/sequence.ts` exports `bySequenceOrder` and `sequenceAppearances()`,
+  which caches the appearance index against the sequences' content digests.
+  `lib/site.ts` holds the Storybook URL and the site locale, which `Nav.tsx`
+  and `ComponentRef` import directly. `buildNavTree()` caches the tree against
+  both collections' content digests. `humaniseSlug`
+  replaced the nav's `sentenceCase`. The built HTML is unchanged.
+- [x] *Modal service.* `openDrawer` and `openDialog` build their surface and
+  hand it to one private `mount`; the element is opened after
+  `customElements.whenDefined('pp-modal')`, since `open()` needs only the
+  upgraded element. If the element is not defined within two seconds, the
+  surface is torn down and the error logged.
+- [x] *Hierarchical navigation.* `types/hierarchical-navigation.ts` keeps only
+  the item types and imports its bases from `utility/hierarchical-search.ts`;
+  the hook's config, state and result types live with the hook, and
+  `HierarchicalSearchResults` is declared once, in the search utility. The hook
+  reads the latest config through a ref, so the search re-runs only when the
+  query, context or data change, and its actions keep stable identities.
+- [ ] *Command menu navigation.* `use-command-navigation.ts` keeps its own
+  two-mode state rather than using `useHierarchicalNavigation`: it has no
+  debounce, selects leaf commands directly, and filters recent items. Folding
+  it in would need hook options for each, and would change how the menu
+  behaves. Decide whether that is wanted.
+- [x] *tldraw math nodes.* Left as they are. `src/tldraw/` is tldraw's workflow
+  starter kit (its formatting, `WorkflowValue`, the same node set including
+  Earthquake), and keeping the nodes as written keeps them comparable with
+  upstream.
+- [x] *`templates/collection-view/renderers`.* Split into a folder: `shared.ts`
+  (coupling types and identity helpers), `entity-card.tsx`,
+  `entity-detail.tsx`, `card.tsx`, `table.tsx`, `map.tsx`, `plot.tsx`,
+  `board-lanes.tsx`, and `index.tsx` with the registry and `ViewSpecRenderer`.
+  Import paths are unchanged.
+- [x] *Article shell.* `ArticleShell.astro` holds the `<article>`, pagefind
+  attributes, header and `pp-toc` pair; `PatternArticle` and `SequenceArticle`
+  fill its `meta` slot and body. The commented-out badges are now source
+  comments, so they no longer ship in every page's HTML.
 
 ## 4. Template extractions
 

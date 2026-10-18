@@ -182,7 +182,8 @@ wrote a second copy into `packages/components/src/` for a Storybook component
 that read the graph; that component is gone, nothing in the package reads the
 data, and the copies and their sync check were removed with it. `scripts/`
 hosts the other workspace-level checks, so the extractor's place at the root
-follows the same convention.
+follows the same convention. Helpers they share (repo root, folder walking,
+frontmatter) live in `scripts/lib/`; workspaces do not import from it.
 
 ## Bilingual entries
 

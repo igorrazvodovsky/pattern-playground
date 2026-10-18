@@ -1,14 +1,12 @@
-import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
+import { useState, useCallback, useMemo, useRef, useEffect, useLayoutEffect } from 'react';
 
-import type { SearchableParent, SearchableItem } from '../utility/hierarchical-search';
+import type {
+  SearchableParent,
+  SearchableItem,
+  HierarchicalSearchResults,
+} from '../utility/hierarchical-search';
 
-export type { SearchableParent, SearchableItem };
-
-export interface HierarchicalSearchResults<TParent extends SearchableParent, TChild extends SearchableItem> {
-  parents: TParent[];
-  children: Array<{ parent: TParent; child: TChild }>;
-  contextualItems?: TChild[];
-}
+export type { SearchableParent, SearchableItem, HierarchicalSearchResults };
 
 export interface HierarchicalNavigationConfig<TParent extends SearchableParent, TChild extends SearchableItem> {
   data: TParent[];
@@ -58,6 +56,15 @@ export function useHierarchicalNavigation<TParent extends SearchableParent, TChi
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Callers build `config` inline, so its identity changes on every render.
+  // The search re-runs only when the query, the context or the data change,
+  // and the actions read the latest config when they run.
+  const configRef = useRef(config);
+  useLayoutEffect(() => {
+    configRef.current = config;
+  });
+  const { data } = config;
+
   // Determine current mode
   const mode = selectedContext ? 'contextual' : 'global';
 
@@ -78,35 +85,36 @@ export function useHierarchicalNavigation<TParent extends SearchableParent, TChi
   }, [searchInput]);
 
   const results = useMemo(() => {
+    const { searchFunction } = configRef.current;
     if (selectedContext) {
-      const contextualItems = config.searchFunction(debouncedSearchInput, [selectedContext], selectedContext).contextualItems || [];
+      const contextualItems = searchFunction(debouncedSearchInput, [selectedContext], selectedContext).contextualItems || [];
       return {
         parents: [],
         children: [],
         contextualItems
       };
     } else {
-      return config.searchFunction(debouncedSearchInput, config.data);
+      return searchFunction(debouncedSearchInput, data);
     }
-  }, [debouncedSearchInput, selectedContext, config]);
+  }, [debouncedSearchInput, selectedContext, data]);
 
   const selectContext = useCallback((context: TParent) => {
     setSelectedContext(context);
     setSearchInput("");
     setDebouncedSearchInput("");
-    config.onSelectParent?.(context);
+    configRef.current.onSelectParent?.(context);
     // Focus input after state update
     setTimeout(() => inputRef.current?.focus(), 0);
-  }, [config]);
+  }, []);
 
   const selectChild = useCallback((child: TChild, parent?: TParent) => {
-    config.onSelectChild(child, parent || selectedContext || undefined);
+    configRef.current.onSelectChild(child, parent || selectedContext || undefined);
     // Reset state after selection (can be overridden by caller)
     setSelectedContext(null);
     setSearchInput("");
     setDebouncedSearchInput("");
-    config.onClose?.();
-  }, [config, selectedContext]);
+    configRef.current.onClose?.();
+  }, [selectedContext]);
 
   const clearContext = useCallback(() => {
     setSelectedContext(null);
@@ -134,13 +142,9 @@ export function useHierarchicalNavigation<TParent extends SearchableParent, TChi
     setDebouncedSearchInput("");
   }, []);
 
-  // Determine placeholder text
-  const placeholder = useMemo(() => {
-    if (selectedContext && config.contextPlaceholder) {
-      return config.contextPlaceholder(selectedContext);
-    }
-    return config.placeholder || "Search...";
-  }, [selectedContext, config]);
+  const placeholder = selectedContext && config.contextPlaceholder
+    ? config.contextPlaceholder(selectedContext)
+    : config.placeholder || "Search...";
 
   // Focus input when component mounts
   useEffect(() => {
@@ -149,10 +153,10 @@ export function useHierarchicalNavigation<TParent extends SearchableParent, TChi
 
   // Auto-select context if there's only one category
   useEffect(() => {
-    if (config.data.length === 1 && !selectedContext) {
-      setSelectedContext(config.data[0]);
+    if (data.length === 1 && !selectedContext) {
+      setSelectedContext(data[0]);
     }
-  }, [config.data, selectedContext]);
+  }, [data, selectedContext]);
 
   return {
     state: {

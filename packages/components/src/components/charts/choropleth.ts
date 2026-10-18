@@ -81,31 +81,8 @@ export class Choropleth extends ChartComponent {
   /** A choropleth has generous margins by default so coastlines aren't clipped. */
   margin = { top: 8, right: 8, bottom: 8, left: 8 };
 
-  /** Index into `data.values` for keyboard navigation. */
-  private focusIndex = 0;
-
-  connectedCallback() {
-    super.connectedCallback();
-    if (document.readyState !== 'loading') {
-      this.initMap();
-      return;
-    }
-    document.addEventListener('DOMContentLoaded', () => this.initMap());
-  }
-
-  private initMap() {
-    this.setAttribute('tabindex', '0');
-    this.setAttribute('role', 'img');
-    if (!this.hasAttribute('aria-label')) {
-      this.setAttribute('aria-label', this.title || 'Choropleth');
-    }
-    this.addEventListener('keydown', this.handleKeydown);
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    this.removeEventListener('keydown', this.handleKeydown);
-  }
+  /** Keyboard navigation moves through `data.values`. */
+  protected itemNavigationName = 'Map';
 
   protected validateData(): boolean {
     return isChoroplethData(this.data) && this.data.geometry.features.length > 0;
@@ -232,50 +209,22 @@ export class Choropleth extends ChartComponent {
     }));
   }
 
-  private handleKeydown = (event: KeyboardEvent): void => {
-    if (!this.validateData()) return;
-    const values = this.data.values;
-    if (values.length === 0) return;
+  protected itemCount(): number {
+    return this.data.values.length;
+  }
 
-    switch (event.key) {
-      case 'ArrowRight':
-      case 'ArrowDown':
-        event.preventDefault();
-        this.focusRegion(Math.min(this.focusIndex + 1, values.length - 1));
-        break;
-      case 'ArrowLeft':
-      case 'ArrowUp':
-        event.preventDefault();
-        this.focusRegion(Math.max(this.focusIndex - 1, 0));
-        break;
-      case 'Home':
-        event.preventDefault();
-        this.focusRegion(0);
-        break;
-      case 'End':
-        event.preventDefault();
-        this.focusRegion(values.length - 1);
-        break;
-      case 'Enter':
-      case ' ': {
-        event.preventDefault();
-        const datum = values[this.focusIndex];
-        if (datum) this.emitRegionEvent('pp-choropleth-click', datum, event);
-        break;
-      }
-    }
-  };
-
-  private focusRegion(index: number): void {
-    const values = this.data.values;
-    if (index < 0 || index >= values.length) return;
-    this.focusIndex = index;
-    const datum = values[index];
+  protected describeItem(index: number): string {
+    const datum = this.data.values[index];
     const unit = this.data.valueLabel ? ` ${this.data.valueLabel}` : '';
-    const summary = `${this.regionLabel(datum)}: ${datum.value}${unit}`;
-    this.setAttribute('aria-live', 'polite');
-    this.setAttribute('aria-label', `Map. Current: ${summary}. Use arrow keys to navigate.`);
-    this.emitRegionEvent('pp-choropleth-focus', datum, new Event('focus'));
+    return `${this.regionLabel(datum)}: ${datum.value}${unit}`;
+  }
+
+  protected activateItem(index: number, event: KeyboardEvent): void {
+    this.emitRegionEvent('pp-choropleth-click', this.data.values[index], event);
+  }
+
+  protected onItemFocus(index: number): void {
+    this.emitRegionEvent('pp-choropleth-focus', this.data.values[index], new Event('focus'));
   }
 
   private renderLegend(

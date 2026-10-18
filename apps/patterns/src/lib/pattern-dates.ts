@@ -20,14 +20,8 @@
 // fetches the same pane partial and strips only the <h1>. Observing additions
 // covers all three and gains no hook sites as more are added.
 
-import { formatDate, formatRelativeTime, type Locale } from '@shared/format';
-
-// The documentation layer states its own locale rather than deferring to the
-// reader's: the badge label around the figure is English either way, so a
-// reader's device locale would put "hace 6 meses" after "Added". en-001 is
-// CLDR's international English — `17 Oct 2025`, without claiming the pages are
-// British.
-const LOCALE: Locale = 'en-001';
+import { formatDate, formatRelativeTime } from '@shared/format';
+import { SITE_LOCALE as LOCALE } from './site';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 

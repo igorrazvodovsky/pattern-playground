@@ -4,6 +4,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import SequenceArticle from '../../components/SequenceArticle.astro';
+import { panePath } from '../../lib/pane-path';
 
 export async function getStaticPaths() {
   const entries = await getCollection('sequences');
@@ -18,7 +19,7 @@ const { entry } = Astro.props;
 <Base
   title={entry.data.title}
   slug={entry.id}
-  panePath={`/sequences/${entry.id}`}
+  panePath={panePath('sequence', entry.id)}
   paneKind="Sequence"
 >
   <SequenceArticle entry={entry} />

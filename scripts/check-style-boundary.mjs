@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
-import { resolve, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
+import { repoRoot as root } from './lib/files.ts';
 
 // Guards the style boundary between the patterns site and the component library
 // (see plans/*/2026-07-style-boundary.md). Two invariants, both cheap to break
@@ -30,8 +30,6 @@ import { fileURLToPath } from 'node:url';
 //      `.content-inset`) with a descendant flow element (`ul`/`ol`/`li`/
 //      `blockquote`) outside a `@scope` block.
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const root = resolve(__dirname, '..');
 const stylesDir = resolve(root, 'packages/components/src/styles');
 const siteStylesDir = resolve(root, 'apps/patterns/src/styles');
 

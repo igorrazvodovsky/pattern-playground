@@ -1,0 +1,34 @@
+---
+// The shell shared by pattern and sequence articles. The root <article> and its
+// <h1> are the contract the client-side pane fetch (lib/pane-content.ts) relies
+// on. Header extras go in the `meta` slot after the dates; the body follows the
+// two pp-toc elements.
+import PatternDates from './PatternDates.astro';
+
+interface Props {
+  title: string;
+  dates: { data: { added: Date; updated?: Date | null } };
+  // The pane partial is fetched client-side, never visited as a page; omitting
+  // the pagefind attributes keeps it out of the search index (the full page
+  // carries them, so indexing stays one entry per article).
+  pagefind: boolean;
+}
+
+const { title, dates, pagefind } = Astro.props;
+---
+<article
+  class="flow"
+  data-pagefind-body={pagefind ? '' : undefined}
+  data-pagefind-meta={pagefind ? `title:${title}` : undefined}
+>
+  <header>
+    <div class="meta">
+      <h1>{title}</h1>
+      <PatternDates entry={dates} />
+      <slot name="meta" />
+    </div>
+  </header>
+  <pp-toc heading="On this page" data-pagefind-ignore></pp-toc>
+  <pp-toc variant="bar" heading="Sections" reveal-after="pp-toc:not([variant])" data-pagefind-ignore></pp-toc>
+  <slot />
+</article>

@@ -16,18 +16,8 @@ import { setPatternGraphHover } from '../lib/pattern-graph-hover';
 import { useNavStore, useNavHydration } from '../lib/nav-store';
 import { useActivePath, isActivePath } from '../lib/active-path';
 
-type NavLeaf = { label: string; href: string };
-type NavBranch = { label: string; children: NavTreeNode[] };
-type NavTreeNode = NavLeaf | NavBranch;
-type NavGroup = NavBranch;
-
-interface NavProps {
-  // Role groups (foundations, qualities), listed above the patterns (Base.astro).
-  shared: NavGroup[];
-  patterns: NavGroup;
-  sequences: NavGroup;
-  storybookUrl: string;
-}
+import type { NavBranch, NavTree, NavTreeNode } from '../lib/nav-tree';
+import { STORYBOOK_URL } from '../lib/site';
 
 function isBranch(node: NavTreeNode): node is NavBranch {
   return 'children' in node;
@@ -152,7 +142,7 @@ function SiteHeader({ hydrated }: { hydrated: boolean }) {
 // navigation. The page content is a static sibling (not a child) of this
 // island; active-link state comes from the runtime URL via useActivePath, not a
 // prop, since a persisted island never re-renders on navigation.
-export function Nav({ shared, patterns, sequences, storybookUrl }: NavProps) {
+export function Nav({ shared, patterns, sequences }: NavTree) {
   const { isOpen, setOpen } = useNavStore();
   const hydrated = useNavHydration();
   const currentPath = useActivePath();
@@ -237,7 +227,7 @@ export function Nav({ shared, patterns, sequences, storybookUrl }: NavProps) {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton
-                render={<a href={storybookUrl} />}
+                render={<a href={STORYBOOK_URL} />}
                 tooltip="Components (Storybook)"
               >
                 {React.createElement('iconify-icon', { icon: 'ph:puzzle-piece' })}

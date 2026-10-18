@@ -6,37 +6,24 @@ import { render, type CollectionEntry } from 'astro:content';
 import Demo from './Demo.astro';
 import Diagram from './Diagram.astro';
 import { ComponentRef } from './ComponentRef';
-import PatternDates from './PatternDates.astro';
+import ArticleShell from './ArticleShell.astro';
 import SequenceWalk from './SequenceWalk.astro';
 import Label from './Label.astro';
 
 interface Props {
   entry: CollectionEntry<'sequences'>;
-  // The pane fragment (sequences/[id]/pane.astro) renders the same article;
-  // dropping the pagefind attributes keeps it out of the search index.
+  // False for the pane fragment (sequences/[id]/pane.astro; see ArticleShell).
   pagefind?: boolean;
 }
 
 const { entry, pagefind = true } = Astro.props;
 const { Content } = await render(entry);
 ---
-<article
-  class="flow"
-  data-pagefind-body={pagefind ? '' : undefined}
-  data-pagefind-meta={pagefind ? `title:${entry.data.title}` : undefined}
->
-  <header>
-    <div class="meta">
-      <h1>{entry.data.title}</h1>
-      <PatternDates entry={entry} />
-    </div>
-  </header>
-  <pp-toc heading="On this page" data-pagefind-ignore></pp-toc>
-  <pp-toc variant="bar" heading="Sections" reveal-after="pp-toc:not([variant])" data-pagefind-ignore></pp-toc>
+<ArticleShell title={entry.data.title} dates={entry} pagefind={pagefind}>
   <details class="sequence-initiating muted">
     <summary>Prerequisites</summary>
     <p><Label text={entry.data.presupposes} /></p>
   </details>
   <Content components={{ Demo, ComponentRef, Diagram }} />
   <SequenceWalk entry={entry} />
-</article>
+</ArticleShell>

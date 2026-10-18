@@ -24,11 +24,6 @@ export function setPatternGraphHover(path: string | null): void {
   );
 }
 
-/** Trailing slashes vary by link source; the graph's own paths carry none. */
-export function normalisePatternPath(path: string): string {
-  return path.length > 1 && path.endsWith('/') ? path.slice(0, -1) : path;
-}
-
 // One document listener for the page's lifetime, one live subscriber slot.
 // A client-side navigation discards the graph's DOM and nothing tears the
 // subscription down with it, so a plain addEventListener would accumulate a

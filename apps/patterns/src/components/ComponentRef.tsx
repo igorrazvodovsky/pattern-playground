@@ -1,15 +1,14 @@
 import type { ReactNode } from 'react';
+import { STORYBOOK_URL } from '../lib/site';
 
 interface ComponentRefProps {
   id: string;
   children: ReactNode;
 }
 
-const storybookUrl = import.meta.env.PUBLIC_STORYBOOK_URL ?? 'http://localhost:6006';
-
 export function ComponentRef({ id, children }: ComponentRefProps) {
   return (
-    <a href={`${storybookUrl}/?path=/docs/${id}`}>
+    <a href={`${STORYBOOK_URL}/?path=/docs/${id}`}>
       {children}
     </a>
   );

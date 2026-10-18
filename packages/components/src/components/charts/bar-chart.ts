@@ -75,34 +75,16 @@ export class BarChart extends ChartComponent {
   'show-value-labels' = false;
   'show-category-labels' = false;
 
+  protected itemNavigationName = 'Bar chart';
+
   // Internal bookkeeping — plain fields; never trigger a render cycle.
   private renderResult?: BarChartRenderResult;
-  private focusedIndex = 0;
 
   // Scale coordination
   private scaleCoordinator: ScaleCoordinator = createScaleCoordinator();
 
-  connectedCallback() {
-    super.connectedCallback();
-    if (document.readyState !== 'loading') {
-      this.initBarChart();
-      return;
-    }
-    document.addEventListener('DOMContentLoaded', () => this.initBarChart());
-  }
-
-  private initBarChart() {
-    this.setAttribute('tabindex', '0');
-    this.setAttribute('role', 'img');
-    if (!this.hasAttribute('aria-label')) {
-      this.setAttribute('aria-label', this.title || 'Bar chart');
-    }
-    this.addEventListener('keydown', this.handleKeydown);
-  }
-
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.removeEventListener('keydown', this.handleKeydown);
     if (this.renderResult) {
       cleanupBarChart(this.renderResult);
     }
@@ -208,7 +190,7 @@ export class BarChart extends ChartComponent {
     }));
   }
 
-  private handleBarClick(data: BarChartDataPoint, event: MouseEvent): void {
+  private handleBarClick(data: BarChartDataPoint, event: Event): void {
     this.dispatchEvent(new CustomEvent('pp-bar-click', {
       detail: { data, originalEvent: event },
       bubbles: true,
@@ -216,58 +198,17 @@ export class BarChart extends ChartComponent {
     }));
   }
 
-  private handleKeydown = (event: KeyboardEvent): void => {
-    if (!this.validateData()) return;
+  protected itemCount(): number {
+    return this.renderResult ? this.transformData().data.length : 0;
+  }
 
-    const data = this.transformData();
-    const last = data.data.length - 1;
+  protected describeItem(index: number): string {
+    const item = this.transformData().data[index];
+    return `${item.category}: ${item.value}`;
+  }
 
-    switch (event.key) {
-      case 'ArrowRight':
-      case 'ArrowDown':
-        event.preventDefault();
-        this.focusBar(Math.min(this.focusedIndex + 1, last));
-        break;
-      case 'ArrowLeft':
-      case 'ArrowUp':
-        event.preventDefault();
-        this.focusBar(Math.max(this.focusedIndex - 1, 0));
-        break;
-      case 'Home':
-        event.preventDefault();
-        this.focusBar(0);
-        break;
-      case 'End':
-        event.preventDefault();
-        this.focusBar(last);
-        break;
-      case 'Enter':
-      case ' ':
-        event.preventDefault();
-        if (this.renderResult) {
-          const currentData = data.data[this.focusedIndex];
-          const syntheticEvent = new MouseEvent('click', {
-            bubbles: true,
-            cancelable: true,
-            view: window
-          });
-          this.handleBarClick(currentData, syntheticEvent);
-        }
-        break;
-    }
-  };
-
-  private focusBar(index: number): void {
-    if (!this.renderResult) return;
-
-    const data = this.transformData();
-    if (index >= 0 && index < data.data.length) {
-      this.focusedIndex = index;
-      const currentData = data.data[index];
-
-      this.setAttribute('aria-live', 'polite');
-      this.setAttribute('aria-label', `Bar chart. Current: ${currentData.category}: ${currentData.value}. Use arrow keys to navigate.`);
-    }
+  protected activateItem(index: number, event: KeyboardEvent): void {
+    this.handleBarClick(this.transformData().data[index], event);
   }
 
   private renderAxes(scales: BarChartScales, dimensions: { width: number; height: number }): void {

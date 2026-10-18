@@ -1,6 +1,6 @@
-import { readdirSync, readFileSync, statSync } from 'node:fs';
-import { resolve, dirname, join, relative } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { readFileSync } from 'node:fs';
+import { resolve, relative } from 'node:path';
+import { repoRoot as root, walkFiles } from './lib/files.ts';
 
 // Guards the Storybook catalogue's top-level buckets (see the *Catalogue
 // categories* section of .claude/rules/documentation.md). Every story `title`
@@ -21,26 +21,14 @@ const ALLOWED_BUCKETS = new Set([
   'Introduction', // Storybook's default landing page
 ]);
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const root = resolve(__dirname, '..');
 const storiesDir = resolve(root, 'packages/components/src/stories');
-
-function walk(dir) {
-  const out = [];
-  for (const name of readdirSync(dir)) {
-    const full = join(dir, name);
-    if (statSync(full).isDirectory()) out.push(...walk(full));
-    else if (/\.(stories\.tsx|mdx)$/.test(name)) out.push(full);
-  }
-  return out;
-}
 
 // A catalogue title is always `Category/Name`. The `/` distinguishes real
 // definition titles from story args and mock data (`title: 'Dialog title'`).
 const TITLE_RE = /(?:title:\s*|<Meta\s+title=)["']([^"'/]+)\/[^"']*["']/g;
 
 const problems = [];
-for (const file of walk(storiesDir)) {
+for (const file of walkFiles(storiesDir, (name) => /\.(stories\.tsx|mdx)$/.test(name))) {
   const src = readFileSync(file, 'utf8');
   let m;
   while ((m = TITLE_RE.exec(src))) {

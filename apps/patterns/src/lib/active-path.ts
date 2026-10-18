@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from 'react';
+import { normalisePath } from './pane-path';
 
 // Active-path tracking for the persisted nav island.
 //
@@ -39,6 +40,5 @@ export function useActivePath(): string {
 // false while the active path is still the server snapshot ('').
 export function isActivePath(href: string, current: string): boolean {
   if (!current) return false;
-  const strip = (p: string) => (p.length > 1 ? p.replace(/\/$/, '') : p);
-  return strip(href) === strip(current);
+  return normalisePath(href) === normalisePath(current);
 }

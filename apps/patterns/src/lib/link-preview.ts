@@ -1,6 +1,7 @@
 import { computePosition, flip, offset, shift, size } from '@floating-ui/dom';
 import { stackablePath, useStackStore } from './stack-store';
 import { getPaneContent } from './pane-content';
+import { paneIndexOf } from './pane-path';
 import { addDescribedBy, removeDescribedBy } from './describedby';
 
 const SHOW_DELAY = 350;
@@ -213,8 +214,7 @@ function handlePreviewClick(e: Event) {
   e.preventDefault();
   e.stopPropagation();
 
-  const originPane = currentAnchor?.closest('[data-pane-index]') as HTMLElement | null;
-  const fromIndex = originPane ? parseInt(originPane.dataset.paneIndex ?? '0', 10) : 0;
+  const fromIndex = paneIndexOf(currentAnchor);
 
   hide();
 

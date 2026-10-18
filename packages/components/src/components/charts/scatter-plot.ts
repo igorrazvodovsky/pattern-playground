@@ -59,31 +59,13 @@ export class ScatterPlot extends ChartComponent {
   'show-size' = false;
   'point-radius' = 5;
 
+  protected itemNavigationName = 'Scatter plot';
+
   // Internal bookkeeping — plain fields; never trigger a render cycle.
   private renderResult?: ScatterPlotRenderResult;
-  private focusedIndex = 0;
-
-  connectedCallback() {
-    super.connectedCallback();
-    if (document.readyState !== 'loading') {
-      this.initScatterPlot();
-      return;
-    }
-    document.addEventListener('DOMContentLoaded', () => this.initScatterPlot());
-  }
-
-  private initScatterPlot() {
-    this.setAttribute('tabindex', '0');
-    this.setAttribute('role', 'img');
-    if (!this.hasAttribute('aria-label')) {
-      this.setAttribute('aria-label', this.title || 'Scatter plot');
-    }
-    this.addEventListener('keydown', this.handleKeydown);
-  }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.removeEventListener('keydown', this.handleKeydown);
     if (this.renderResult) {
       cleanupScatterPlot(this.renderResult);
     }
@@ -180,7 +162,7 @@ export class ScatterPlot extends ChartComponent {
     }));
   }
 
-  private handlePointClick(data: ScatterPlotDataPoint, event: MouseEvent): void {
+  private handlePointClick(data: ScatterPlotDataPoint, event: Event): void {
     this.dispatchEvent(new CustomEvent('pp-point-click', {
       detail: { data, originalEvent: event },
       bubbles: true,
@@ -188,51 +170,16 @@ export class ScatterPlot extends ChartComponent {
     }));
   }
 
-  private handleKeydown = (event: KeyboardEvent): void => {
-    if (!this.validateData()) return;
+  protected itemCount(): number {
+    return this.data.data.length;
+  }
 
-    const points = this.data.data;
-    const last = points.length - 1;
+  protected describeItem(index: number): string {
+    return this.describePoint(this.data.data[index]);
+  }
 
-    switch (event.key) {
-      case 'ArrowRight':
-      case 'ArrowDown':
-        event.preventDefault();
-        this.focusPoint(Math.min(this.focusedIndex + 1, last));
-        break;
-      case 'ArrowLeft':
-      case 'ArrowUp':
-        event.preventDefault();
-        this.focusPoint(Math.max(this.focusedIndex - 1, 0));
-        break;
-      case 'Home':
-        event.preventDefault();
-        this.focusPoint(0);
-        break;
-      case 'End':
-        event.preventDefault();
-        this.focusPoint(last);
-        break;
-      case 'Enter':
-      case ' ':
-        event.preventDefault();
-        this.handlePointClick(points[this.focusedIndex], new MouseEvent('click', {
-          bubbles: true,
-          cancelable: true,
-          view: window
-        }));
-        break;
-    }
-  };
-
-  private focusPoint(index: number): void {
-    const points = this.data.data;
-    if (index < 0 || index > points.length - 1) return;
-
-    this.focusedIndex = index;
-
-    this.setAttribute('aria-live', 'polite');
-    this.setAttribute('aria-label', `Scatter plot. Current: ${this.describePoint(points[index])}. Use arrow keys to navigate.`);
+  protected activateItem(index: number, event: KeyboardEvent): void {
+    this.handlePointClick(this.data.data[index], event);
   }
 
   private renderAxes(scales: ScatterPlotScales, dimensions: { width: number; height: number }): void {

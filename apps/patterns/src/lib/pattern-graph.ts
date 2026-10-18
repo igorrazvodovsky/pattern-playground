@@ -8,7 +8,8 @@
 // and what a click means.
 import graphData from '../data/pattern-graph.json' with { type: 'json' };
 import activityLevels from '../data/activity-levels.json' with { type: 'json' };
-import { normalisePatternPath, subscribePatternGraphHover } from './pattern-graph-hover';
+import { subscribePatternGraphHover } from './pattern-graph-hover';
+import { normalisePath } from './pane-path';
 import type { NetworkGraph } from '@components/charts/network-graph';
 import type { NetworkGraphData, NetworkGraphNode } from '@components/charts/base/chart-types';
 
@@ -109,7 +110,7 @@ export async function mountPatternGraph(root: ParentNode = document): Promise<vo
   // other's vocabulary — the path is the shared name.
   live = {
     el,
-    idByPath: new Map(data.nodes.map((n) => [normalisePatternPath(n.href ?? ''), n.id])),
+    idByPath: new Map(data.nodes.map((n) => [normalisePath(n.href ?? ''), n.id])),
   };
 
   if (!subscribed) {
@@ -117,7 +118,7 @@ export async function mountPatternGraph(root: ParentNode = document): Promise<vo
     subscribePatternGraphHover(({ path }) => {
       if (!live?.el.isConnected) return;
       live.el.setExternalHighlight(
-        path ? (live.idByPath.get(normalisePatternPath(path)) ?? null) : null
+        path ? (live.idByPath.get(normalisePath(path)) ?? null) : null
       );
     });
   }
