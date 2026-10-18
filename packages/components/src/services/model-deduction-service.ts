@@ -10,7 +10,7 @@
  * simply absent — the two computed bands still argue the pattern on their own.
  */
 
-import { apiEndpoint } from './api-endpoint';
+import { postJSON } from './api-client';
 
 export interface DeductionNeighbour {
   id: string;
@@ -68,28 +68,10 @@ export function resolveProposals(
 }
 
 /* The same neighbourhood is deduced identically every time it is asked for,
-   and a reader walking the model comes back to the same components. Session
-   storage rather than local: long enough to cover the visit, short enough that
-   a changed prompt is never stale for long. Versioned, because a reply written
-   against an older prompt is not a hit — it is a wrong answer served fast. */
+   and a reader walking the model comes back to the same components, so the
+   reply is kept for the visit. Versioned, because a reply written against an
+   older prompt is not a hit — it is a wrong answer served fast. */
 const CACHE_PREFIX = 'model-deduction:1:';
-
-function readCache(key: string): Deduction | null {
-  try {
-    const cached = sessionStorage.getItem(CACHE_PREFIX + key);
-    return cached ? (JSON.parse(cached) as Deduction) : null;
-  } catch {
-    return null;
-  }
-}
-
-function writeCache(key: string, deduction: Deduction): void {
-  try {
-    sessionStorage.setItem(CACHE_PREFIX + key, JSON.stringify(deduction));
-  } catch {
-    /* A full or blocked store is not a reason to fail the view. */
-  }
-}
 
 export async function deduceConnections(
   request: DeductionRequest,
@@ -103,30 +85,9 @@ export async function deduceConnections(
     request.focus.name,
     request.neighbourhood.map((neighbour) => neighbour.id).join(','),
   ].join('|');
-  const cached = readCache(key);
-  if (cached) return cached;
 
-  const response = await fetch(apiEndpoint('/api/model/deduce'), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(request),
+  return postJSON<Deduction>('/api/model/deduce', request, {
     signal: options.signal,
+    cacheKey: CACHE_PREFIX + key,
   });
-
-  if (!response.ok) {
-    throw new Error(`Model deduction failed: ${response.status}`);
-  }
-
-  const payload = (await response.json()) as {
-    success: boolean;
-    data: Deduction | null;
-    error: string | null;
-  };
-
-  if (!payload.success || !payload.data) {
-    throw new Error(payload.error ?? 'Model deduction returned no data');
-  }
-
-  writeCache(key, payload.data);
-  return payload.data;
 }

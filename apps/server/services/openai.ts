@@ -82,8 +82,7 @@ export class OpenAIService {
           content: `Generate ${type} suggestions for: "${prompt}"`
         }
       ],
-      temperature: 0.1,
-      max_tokens: 1000,
+      max_completion_tokens: 1000,
       response_format: { type: "json_object" }
     }, { signal });
 
@@ -166,8 +165,7 @@ export class OpenAIService {
           content: `${subject ? `${subject}\n\n` : ''}${lines}`
         }
       ],
-      temperature: 0.2,
-      max_tokens: 1200,
+      max_completion_tokens: 1200,
       response_format: { type: 'json_object' }
     }, { signal });
 
@@ -246,8 +244,7 @@ export class OpenAIService {
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt }
       ],
-      temperature: 0.4,
-      max_tokens: 600,
+      max_completion_tokens: 600,
       response_format: { type: 'json_object' }
     }, { signal });
 
@@ -391,8 +388,7 @@ If references are provided, incorporate them into your explanation to provide ri
           { role: 'user', content: userPrompt }
         ],
         stream: true,
-        temperature: 0.7,
-        max_tokens: 1000
+        max_completion_tokens: 1000
       }, { signal });
 
       for await (const chunk of stream) {

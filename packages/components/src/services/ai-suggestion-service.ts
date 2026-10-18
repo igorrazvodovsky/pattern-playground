@@ -1,6 +1,5 @@
-import { APIError } from './api-error';
 import type { JsonValue } from '../types/common.js';
-import { apiEndpoint } from './api-endpoint';
+import { APIError, postJSON } from './api-client';
 
 export interface AISuggestionRequest {
   prompt: string;
@@ -35,32 +34,9 @@ export interface AIState {
 
 export class AISuggestionService {
   async generateSuggestions(request: AISuggestionRequest, signal?: AbortSignal): Promise<AISuggestionResult> {
-    const endpoint = apiEndpoint('/api/generate-suggestions');
-
     try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        mode: 'cors',
-        credentials: 'include',
-        body: JSON.stringify(request),
-        signal
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new APIError(`API returned ${response.status}: ${errorText}`, response.status);
-      }
-
-      const data = await response.json();
-
-      if (!data.success) {
-        throw new APIError(data.error || 'Unknown API error');
-      }
-
-      return this.transformBackendResponse(data.data);
+      const data = await postJSON<unknown>('/api/generate-suggestions', request, { signal });
+      return this.transformBackendResponse(data);
     } catch (error) {
       if (error instanceof APIError) {
         throw error;

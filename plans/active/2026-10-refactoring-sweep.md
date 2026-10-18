@@ -3,7 +3,7 @@ title: Refactoring sweep
 status: active
 kind: work-queue
 created: 2026-10-17
-last_reviewed: 2026-10-17
+last_reviewed: 2026-10-18
 area: packages/components, apps/patterns, apps/server, scripts, shared, utils
 promoted_to:
 superseded_by:
@@ -24,8 +24,7 @@ the survey and should be confirmed before acting.
 
 1. Bugs (done 2026-10-17).
 2. Dead-code sweep (done 2026-10-17; three keep-or-retire decisions remain).
-3. API client and server handlers together, since both sides share the
-   `{success, data, error}` shape.
+3. API client and server handlers together (done 2026-10-18).
 4. Template extractions (stat tile, card list, overview-plus-detail) — these are
    design calls, one sitting each.
 5. Convention fixes, as they come up or batched per territory.
@@ -58,6 +57,12 @@ the survey and should be confirmed before acting.
   `pane-content.ts` deliberately evicts failures. Empty results are now evicted.
   The second cache layer itself remains; see
   [link preview component extraction](2026-05-link-preview-component-extraction.md).
+
+- [x] *OpenAI calls rejected by the configured model* (checked 2026-10-18).
+  `gpt-5.6-luna` refuses `max_tokens` and any `temperature` other than 1, so
+  every AI endpoint except the text lens failed. The four calls in
+  `services/openai.ts` now send `max_completion_tokens` and no `temperature`;
+  all five endpoints answer against the live model.
 
 ## 2. Dead code
 
@@ -117,16 +122,27 @@ Kept on purpose:
 
 ## 3. Consolidation
 
-- [ ] *API client.* Grow `services/api-endpoint.ts` (and `api-error.ts`) into an `api-client.ts`:
-  `streamSSE<T>` for the near-identical read loops in `explanation-service.ts`
-  and `text-transform-service.ts`; `postJSON<T>` with an optional session cache
-  for `model-deduction-service.ts` and `timeline-grouping-service.ts`; use the
-  existing unused `ApiResponse<T>` (`types/common.ts:25`) instead of the inline
-  response shapes.
-- [ ] *Server handlers.* Extract `withTimeout`, `ok(res, data)` and a bounded
-  cache; let `ZodError` reach the error handler instead of per-handler
-  try/catch. `timeline.ts` and `modelDeduce.ts` are line-for-line twins.
-  `suggestions.ts` redefines `ApiResponse` and validates by hand.
+- [x] *API client.* `services/api-client.ts` replaces `api-endpoint.ts` and
+  `api-error.ts`. It holds `apiEndpoint`, `APIError`, `postJSON<T>` (typed by
+  `ApiResponse<T>`, with an optional session-storage cache key) and
+  `streamSSE`. All five services go through it. `streamSSE` also fixes three
+  faults in the old read loops: an event split across two reads was dropped,
+  an `error` event was caught by the parse guard and only logged, so `onError`
+  never ran, and `complete` left only the inner loop. A stream that closes
+  before `complete` now rejects instead of reporting partial text as finished,
+  and the body is cancelled when reading stops. A non-OK response carries the
+  server's error message, with the invalid fields for a validation failure.
+  `api-client.test.ts` covers these cases. The streaming
+  services no longer clear a newer stream's abort controller when an older one
+  finishes.
+- [x] *Server handlers.* `handlers/shared.ts` holds `withTimeout`, `ok` and
+  `BoundedCache`. Every handler parses with its zod schema and lets `ZodError`
+  reach the error handler (checked: each endpoint answers 400 with
+  `validationErrors`). `suggestions.ts` validates with a new
+  `suggestionRequestSchema`. The two SSE writers in `services/streaming.ts`
+  became one `streamSSE`, which also stops generating when the client
+  disconnects (it used to run to the 30 s timeout). The two identical chunk
+  types became one `StreamChunk`.
 - [ ] *Charts.* Setup and keyboard handling are copied across `bar-chart.ts`,
   `scatter-plot.ts`, `choropleth.ts`; move into `ChartComponent` behind
   `itemCount()`, `focusItem(i)`, `activateItem(i)`. The `readyState` guard
@@ -189,10 +205,8 @@ Design calls; one sitting each.
   they enforce. Commit `eedbccc3` says the style-boundary check was wired into a
   docs-integrity workflow, but the repo has no `.github/` directory. Add to
   `lint` (demo registry with `--no-baseline`).
-- [ ] *Server validation messages.* Handlers put the stringified zod issue array
-  into `error` (e.g. `"[\n  {\n    \"expected\": …"`) instead of letting
-  `ZodError` reach the error handler, which formats `validationErrors`. Fold
-  into the server-handler consolidation.
+- [x] *Server validation messages.* Done with the server-handler
+  consolidation.
 - [ ] *Event names.* `modal:open`/`modal:close` and `breadcrumb-navigation` lack
   the `pp-` prefix and `composed: true`. Dropdown, popup and tooltip dispatch
   plain `Event` where the rest uses `CustomEvent`.

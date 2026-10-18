@@ -1,18 +1,19 @@
 import { z } from 'zod';
 
+// One server-sent event on a streaming endpoint (text lens, explanation).
+export type StreamChunk = {
+  type: 'chunk' | 'complete' | 'error';
+  content?: string;
+  done: boolean;
+  error?: string;
+};
+
 // Text lens schemas
 export type TextLensRequest = {
   text: string;
   context?: string;
   direction: 'in' | 'out';
   intensity: number;
-};
-
-export type TextLensStreamChunk = {
-  type: 'chunk' | 'complete' | 'error';
-  content?: string;
-  done: boolean;
-  error?: string;
 };
 
 const textLensRequestSchema = z.object({
@@ -34,13 +35,6 @@ export type ExplanationRequest = {
   context?: string;
 };
 
-export type ExplanationStreamChunk = {
-  type: 'chunk' | 'complete' | 'error';
-  content?: string;
-  done: boolean;
-  error?: string;
-};
-
 const explanationRequestSchema = z.object({
   text: z.string().min(1).max(10000),
   references: z.array(z.object({
@@ -50,6 +44,16 @@ const explanationRequestSchema = z.object({
     metadata: z.record(z.string(), z.unknown()).optional()
   })).optional(),
   context: z.string().optional()
+});
+
+// Suggestion schemas. `metadata` is accepted but not read by the server.
+const suggestionRequestSchema = z.object({
+  prompt: z.string().min(1),
+  context: z.object({
+    type: z.string().min(1),
+    availableOptions: z.record(z.string(), z.array(z.union([z.string(), z.number(), z.boolean()]))),
+    metadata: z.record(z.string(), z.json()).optional()
+  })
 });
 
 // Timeline grouping schemas: a flat run of dated records in, a two-level
@@ -147,6 +151,7 @@ const deductionRequestSchema = z.object({
 export {
   textLensRequestSchema,
   explanationRequestSchema,
+  suggestionRequestSchema,
   timelineGroupingRequestSchema,
   deductionRequestSchema
 };

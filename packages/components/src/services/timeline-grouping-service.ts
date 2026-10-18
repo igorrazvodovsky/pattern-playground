@@ -8,7 +8,7 @@
  * lives behind the API rather than in the client.
  */
 
-import { apiEndpoint } from './api-endpoint';
+import { postJSON } from './api-client';
 
 export interface TimelineRecord {
   id: string;
@@ -167,59 +167,20 @@ export function resolveGrouping(
 }
 
 /* The grouping of a given run of records doesn't change, so the second visit
-   to a page shouldn't wait for it again. Session storage rather than local:
-   long enough to cover a reader moving around the site, short enough that a
-   changed prompt or model is never stale for long. */
-/* Versioned: a cached reply written against an older shape of the prompt is
+   to a page shouldn't wait for it again; the reply is kept for the visit.
+   Versioned: a cached reply written against an older shape of the prompt is
    not a hit, it is a wrong answer served fast. */
 const CACHE_PREFIX = 'timeline-grouping:6:';
-
-function readCache(key: string): TimelineGrouping | null {
-  try {
-    const cached = sessionStorage.getItem(CACHE_PREFIX + key);
-    return cached ? (JSON.parse(cached) as TimelineGrouping) : null;
-  } catch {
-    return null;
-  }
-}
-
-function writeCache(key: string, grouping: TimelineGrouping): void {
-  try {
-    sessionStorage.setItem(CACHE_PREFIX + key, JSON.stringify(grouping));
-  } catch {
-    /* A full or blocked store is not a reason to fail the view. */
-  }
-}
 
 export async function groupTimeline(
   records: TimelineRecord[],
   options: { subject?: string; signal?: AbortSignal } = {}
 ): Promise<TimelineGrouping> {
   const key = `${options.subject ?? ''}|${records.map((r) => r.id).join(',')}`;
-  const cached = readCache(key);
-  if (cached) return cached;
 
-  const response = await fetch(apiEndpoint('/api/timeline/group'), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ records, subject: options.subject }),
-    signal: options.signal,
-  });
-
-  if (!response.ok) {
-    throw new Error(`Timeline grouping failed: ${response.status}`);
-  }
-
-  const payload = (await response.json()) as {
-    success: boolean;
-    data: TimelineGrouping | null;
-    error: string | null;
-  };
-
-  if (!payload.success || !payload.data) {
-    throw new Error(payload.error ?? 'Timeline grouping returned no data');
-  }
-
-  writeCache(key, payload.data);
-  return payload.data;
+  return postJSON<TimelineGrouping>(
+    '/api/timeline/group',
+    { records, subject: options.subject },
+    { signal: options.signal, cacheKey: CACHE_PREFIX + key }
+  );
 }

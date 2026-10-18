@@ -1,106 +1,46 @@
 import { Response } from 'express';
 import logger from '../logger.js';
-import { TextLensStreamChunk, ExplanationRequest, ExplanationStreamChunk } from '../schemas.js';
-import { openaiService } from './openai.js';
+import { StreamChunk as SSEChunk } from '../schemas.js';
+import { StreamChunk } from './openai.js';
 
-export class StreamingService {
-  static setupSSEHeaders(res: Response): void {
-    res.writeHead(200, {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache',
-      'Connection': 'keep-alive'
-    });
-  }
+/**
+ * Write a text stream as server-sent events: one `chunk` event per piece of
+ * text, then `complete`. Once the headers are sent the status can't change, so
+ * a failure mid-stream is reported as an `error` event rather than thrown.
+ *
+ * `open` receives a signal that aborts on `signal` or when the client
+ * disconnects, so a cancelled request stops generating.
+ */
+export async function streamSSE(
+  res: Response,
+  signal: AbortSignal,
+  open: (signal: AbortSignal) => AsyncIterable<StreamChunk>
+): Promise<void> {
+  const disconnected = new AbortController();
+  res.on('close', () => disconnected.abort());
 
-  static async handleTextLensStream(
-    res: Response,
-    request: unknown,
-    signal?: AbortSignal
-  ): Promise<void> {
-    this.setupSSEHeaders(res);
+  const send = (chunk: SSEChunk) => {
+    if (!res.destroyed) res.write(`data: ${JSON.stringify(chunk)}\n\n`);
+  };
 
-    try {
-      const streamGenerator = openaiService.generateTextLensStream(request as import('../schemas.js').TextLensRequest, signal);
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive'
+  });
 
-      for await (const chunk of streamGenerator) {
-        const content = chunk.text || "";
-
-        if (content) {
-          const streamChunk: TextLensStreamChunk = {
-            type: 'chunk',
-            content,
-            done: false
-          };
-
-          res.write(`data: ${JSON.stringify(streamChunk)}\n\n`);
-        }
-      }
-
-      const completionChunk: TextLensStreamChunk = {
-        type: 'complete',
-        done: true
-      };
-
-      res.write(`data: ${JSON.stringify(completionChunk)}\n\n`);
-      res.end();
-
-    } catch (error) {
-      logger.error("Error in text lens streaming:", error);
-
-      const errorChunk: TextLensStreamChunk = {
-        type: 'error',
-        error: error instanceof Error ? error.message : "Server error",
-        done: true
-      };
-
-      res.write(`data: ${JSON.stringify(errorChunk)}\n\n`);
-      res.end();
+  try {
+    for await (const chunk of open(AbortSignal.any([signal, disconnected.signal]))) {
+      if (chunk.text) send({ type: 'chunk', content: chunk.text, done: false });
+    }
+    send({ type: 'complete', done: true });
+  } catch (error) {
+    if (disconnected.signal.aborted) {
+      logger.info("SSE stream stopped: client disconnected");
+    } else {
+      logger.error("Error in SSE stream:", error);
+      send({ type: 'error', error: error instanceof Error ? error.message : "Server error", done: true });
     }
   }
-
-  static async handleExplanationStream(
-    res: Response,
-    request: ExplanationRequest,
-    signal?: AbortSignal
-  ): Promise<void> {
-    this.setupSSEHeaders(res);
-
-    try {
-      const streamGenerator = openaiService.generateExplanationStream(request, signal);
-
-      for await (const chunk of streamGenerator) {
-        const content = chunk.text || "";
-
-        if (content) {
-          const streamChunk: ExplanationStreamChunk = {
-            type: 'chunk',
-            content,
-            done: false
-          };
-
-          res.write(`data: ${JSON.stringify(streamChunk)}\n\n`);
-        }
-      }
-
-      const completionChunk: ExplanationStreamChunk = {
-        type: 'complete',
-        done: true
-      };
-
-      res.write(`data: ${JSON.stringify(completionChunk)}\n\n`);
-      res.end();
-
-    } catch (error) {
-      logger.error("Error in explanation streaming:", error);
-
-      const errorChunk: ExplanationStreamChunk = {
-        type: 'error',
-        error: error instanceof Error ? error.message : "Server error",
-        done: true
-      };
-
-      res.write(`data: ${JSON.stringify(errorChunk)}\n\n`);
-      res.end();
-    }
-  }
+  res.end();
 }

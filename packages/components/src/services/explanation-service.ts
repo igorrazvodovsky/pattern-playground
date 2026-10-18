@@ -4,19 +4,12 @@
  */
 
 import type { SelectedReference } from '../components/reference/types';
-import { apiEndpoint } from './api-endpoint';
+import { streamSSE } from './api-client';
 
 export interface ExplanationRequest {
   text: string;
   references?: SelectedReference[];
   context?: string;
-}
-
-export interface ExplanationStreamChunk {
-  type: 'chunk' | 'complete' | 'error';
-  content?: string;
-  done: boolean;
-  error?: string;
 }
 
 export interface ExplanationCallbacks {
@@ -41,74 +34,19 @@ export class ExplanationService {
     // Cancel any existing stream
     this.cancelStream();
 
-    // Create new abort controller
-    this.abortController = new AbortController();
+    const controller = new AbortController();
+    this.abortController = controller;
 
     let accumulatedContent = '';
 
     try {
-      const response = await fetch(apiEndpoint('/api/explain'), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      await streamSSE('/api/explain', request, {
+        signal: controller.signal,
+        onChunk: (content) => {
+          accumulatedContent += content;
+          callbacks.onChunk?.(content);
         },
-        mode: 'cors',
-        credentials: 'include',
-        body: JSON.stringify(request),
-        signal: this.abortController.signal
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      if (!response.body) {
-        throw new Error('No response body');
-      }
-
-      // Create a reader for the stream
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-
-      try {
-        while (true) {
-          const { done, value } = await reader.read();
-
-          if (done) break;
-
-          // Decode the chunk
-          const chunk = decoder.decode(value, { stream: true });
-
-          // Process SSE format (data: {...}\n\n)
-          const lines = chunk.split('\n');
-
-          for (const line of lines) {
-            if (line.startsWith('data: ')) {
-              try {
-                const jsonStr = line.slice(6); // Remove 'data: ' prefix
-                const data: ExplanationStreamChunk = JSON.parse(jsonStr);
-
-                if (data.type === 'chunk' && data.content) {
-                  accumulatedContent += data.content;
-                  callbacks.onChunk?.(data.content);
-                } else if (data.type === 'complete') {
-                  callbacks.onComplete?.();
-                  break;
-                } else if (data.type === 'error') {
-                  throw new Error(data.error || 'Unknown server error');
-                }
-              } catch (parseError) {
-                console.warn('Failed to parse SSE chunk:', parseError);
-              }
-            }
-          }
-        }
-      } finally {
-        reader.releaseLock();
-      }
-
-      return accumulatedContent;
-
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
         return accumulatedContent;
@@ -118,8 +56,13 @@ export class ExplanationService {
       callbacks.onError?.(errorMessage);
       throw error;
     } finally {
-      this.abortController = null;
+      // A newer stream may have replaced this one; leave its controller alone.
+      if (this.abortController === controller) this.abortController = null;
     }
+
+    // Outside the try, so an exception in the caller's handler isn't reported as a stream failure.
+    callbacks.onComplete?.();
+    return accumulatedContent;
   }
 
   /**
