@@ -1,7 +1,7 @@
 import { Fragment, useId, useRef, type CSSProperties } from 'react';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import { createPortal } from 'react-dom';
-import { Checkbox, Dialog, RadioGroup, Select, Toast, Tooltip } from 'radix-ui';
+import { Checkbox, Dialog, RadioGroup, Select, Slider, Toast, ToggleGroup, Tooltip } from 'radix-ui';
 import { shadcnComponents } from '@json-render/shadcn';
 import { Command } from 'cmdk';
 import clsx from 'clsx';
@@ -21,9 +21,12 @@ import {
   Globe,
   History,
   Info,
+  Lightbulb,
   Link,
   LoaderCircle,
   Minus,
+  Paperclip,
+  Plus,
   Search,
   Sparkles,
   Trash2,
@@ -90,8 +93,10 @@ const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
 
 const icons: Record<(typeof iconNames)[number], typeof X> = {
   archive: Archive,
+  attach: Paperclip,
   back: ArrowLeft,
   cancel: X,
+  confirm: Check,
   decrease: TrendingDown,
   delete: Trash2,
   'delete-confirm': Trash2,
@@ -101,14 +106,17 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   history: History,
   increase: TrendingUp,
   link: Link,
+  more: Plus,
   notifications: Bell,
   open: FolderOpen,
   publish: Globe,
+  reasoning: Lightbulb,
   'remove-person': UserMinus,
   restore: Undo2,
   search: Search,
   transfer: Crown,
   unchanged: Minus,
+  web: Globe,
 };
 
 // Each purpose's icon and colour. Danger is shadcn's destructive; the others
@@ -366,21 +374,24 @@ export const { registry } = defineRegistry(catalog, {
     // with a note is underlined, dotted, as an abbreviation is, and takes focus
     // so that the tooltip opens for actors on a keyboard too. A linked run
     // traces its link (mark-tracing.ts), loses its highlight while another
-    // link is traced, and names the runs it is linked to in sr-only text.
+    // link is traced, and names the runs it is linked to in sr-only text. A
+    // message's children (controls answered in place) follow its text in the
+    // bubble; a message of controls alone has no bubble.
     Messages: ({ children }) => (
       <TracingProvider value={useTracingState()}>
         <div className="flex flex-col gap-4 text-sm">{children}</div>
       </TracingProvider>
     ),
 
-    Message: ({ props }) => {
+    Message: ({ props, children }) => {
       const tracing = useMarkTracing(props.parts);
       return (
         <Tooltip.Provider delayDuration={150}>
           <div
             className={clsx(
               'w-fit max-w-[80%]',
-              props.from === 'actor' ? 'ml-auto rounded-lg bg-secondary px-4 py-3 text-secondary-foreground' : 'text-foreground',
+              props.from === 'actor' && 'ml-auto',
+              props.from === 'actor' && props.parts.length > 0 ? 'rounded-lg bg-secondary px-4 py-3 text-secondary-foreground' : 'text-foreground',
             )}
           >
             {props.parts.map((part, index) => {
@@ -414,8 +425,28 @@ export const { registry } = defineRegistry(catalog, {
                 </Tooltip.Root>
               );
             })}
+            {children}
           </div>
         </Tooltip.Provider>
+      );
+    },
+
+    // shadcn/ui has no composer. This follows AI Elements' PromptInput: the
+    // field and a toolbar of its actions in one bordered box that takes the
+    // focus ring.
+    Composer: ({ props, slots, bindings }) => {
+      const [value, setValue] = useBoundProp(props.value, bindings?.value);
+      return (
+        <div className="flex flex-col gap-1 rounded-xl border border-input bg-background p-2 shadow-xs transition-[color,box-shadow] focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/50 dark:bg-input/30">
+          <input
+            aria-label={props.label}
+            placeholder={props.placeholder ?? undefined}
+            value={value ?? ''}
+            onChange={event => setValue(event.target.value)}
+            className="h-9 w-full min-w-0 bg-transparent px-2 text-base outline-none placeholder:text-muted-foreground md:text-sm"
+          />
+          {slots?.actions && <div className="flex gap-1">{slots.actions}</div>}
+        </div>
       );
     },
 
@@ -766,6 +797,77 @@ export const { registry } = defineRegistry(catalog, {
               </div>
             ))}
           </RadioGroup.Root>
+        </div>
+      );
+    },
+
+    // shadcn/ui ToggleGroup, multiple and outlined: Radix's toggle buttons,
+    // each pressed or not, in a group named by the label. The kit's own
+    // ToggleGroup joins the values into one string; this keeps them a list.
+    // Inside the actor's message, whose surface is the toggle's own accent,
+    // the toggles sit on the background and a pressed one takes the primary
+    // fill, so that the selection still shows.
+    SelectableTags: ({ props, bindings }) => {
+      const [value, setValue] = useBoundProp(props.value, bindings?.value);
+      const id = useId();
+      return (
+        <div className="flex flex-col gap-3">
+          <div id={id} className={props.hideLabel ? 'sr-only' : label}>{props.label}</div>
+          <ToggleGroup.Root
+            type="multiple"
+            aria-labelledby={id}
+            value={value ?? []}
+            onValueChange={setValue}
+            className="flex flex-wrap items-center gap-2"
+          >
+            {props.options.map(option => (
+              <ToggleGroup.Item
+                key={option.value}
+                value={option.value}
+                className="inline-flex h-9 min-w-9 items-center justify-center gap-2 rounded-md border border-input bg-background px-3 text-sm font-medium whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none hover:bg-accent hover:text-accent-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 data-[state=on]:border-primary data-[state=on]:bg-primary data-[state=on]:text-primary-foreground dark:bg-input/30 dark:data-[state=on]:bg-primary"
+              >
+                {option.label}
+              </ToggleGroup.Item>
+            ))}
+          </ToggleGroup.Root>
+        </div>
+      );
+    },
+
+    // shadcn/ui Slider over Radix, laid out as the kit lays it out: the label
+    // with the value across from it, and the track beneath, here between its
+    // bounds. The track keeps a width of its own, so it holds inside a
+    // message bubble that sizes to its content.
+    Slider: ({ props, bindings }) => {
+      const [value, setValue] = useBoundProp(props.value, bindings?.value);
+      const current = value ?? props.min;
+      const id = useId();
+      return (
+        <div className="flex w-64 max-w-full flex-col gap-2">
+          <div className="flex justify-between gap-2">
+            <span id={id} className={props.hideLabel ? 'sr-only' : label}>{props.label}</span>
+            <span aria-hidden="true" className="ml-auto text-sm text-muted-foreground">{current}</span>
+          </div>
+          <div className="flex items-center gap-3 text-sm text-muted-foreground">
+            {props.showBounds && <span aria-hidden="true">{props.min}</span>}
+            <Slider.Root
+              min={props.min}
+              max={props.max}
+              step={props.step ?? 1}
+              value={[current]}
+              onValueChange={([next]) => setValue(next ?? props.min)}
+              className="relative flex w-full touch-none items-center select-none data-[disabled]:opacity-50"
+            >
+              <Slider.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-muted">
+                <Slider.Range className="absolute h-full bg-primary" />
+              </Slider.Track>
+              <Slider.Thumb
+                aria-labelledby={id}
+                className="block size-4 shrink-0 rounded-full border border-primary bg-white shadow-sm ring-ring/50 transition-[color,box-shadow] hover:ring-4 focus-visible:ring-4 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50"
+              />
+            </Slider.Root>
+            {props.showBounds && <span aria-hidden="true">{props.max}</span>}
+          </div>
         </div>
       );
     },

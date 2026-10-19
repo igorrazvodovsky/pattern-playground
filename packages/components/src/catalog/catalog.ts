@@ -32,8 +32,10 @@ const options = z.array(z.object({ value: z.string(), label: z.string() }));
 // A spec that named Phosphor glyphs would be tied to the library that ships them.
 export const iconNames = [
   'archive',
+  'attach',
   'back',
   'cancel',
+  'confirm',
   'decrease',
   'delete',
   'delete-confirm',
@@ -43,14 +45,17 @@ export const iconNames = [
   'history',
   'increase',
   'link',
+  'more',
   'notifications',
   'open',
   'publish',
+  'reasoning',
   'remove-person',
   'restore',
   'search',
   'transfer',
   'unchanged',
+  'web',
 ] as const;
 
 // How long a toast stays. The window is part of the transient-feedback
@@ -157,15 +162,27 @@ export const catalog = defineCatalog(schema, {
     Messages: {
       props: z.object({}),
       slots: ['default'],
-      description: 'A conversation, read top to bottom. Its children are Message elements, oldest first.',
+      description:
+        'A conversation, read top to bottom. Its children are Message elements, oldest first, and a Composer last when the actor can write the next message.',
     },
     Message: {
       props: z.object({
         from: z.enum(['actor', 'other']),
         parts: z.array(z.union([z.string(), z.object({ text: z.string(), note: z.string().nullable(), link: z.string().nullable() })])),
       }),
+      slots: ['default'],
       description:
-        'One message in Messages. `from` says who sent it: the actor, or the other side (a person or the system). `parts` is its text in order: plain runs as strings, and marked runs as { text, note, link } for a part the actor should notice. A marked run\'s `note` says why it is marked; it shows when the actor points at or focuses the run, and the run is underlined to say a note is there. A marked run\'s `link` ties it to the runs in other messages that stand for the same thing, such as a passage in a prompt and its summary in the answer; one link can join several runs. Pointing at or focusing a linked run keeps the runs on its link highlighted and drops the highlight from the other linked runs. With `note` and `link` both null the run is only highlighted. Keep the spaces between runs in the strings.',
+        'One message in Messages. `from` says who sent it: the actor, or the other side (a person or the system). `parts` is its text in order: plain runs as strings, and marked runs as { text, note, link } for a part the actor should notice. A marked run\'s `note` says why it is marked; it shows when the actor points at or focuses the run, and the run is underlined to say a note is there. A marked run\'s `link` ties it to the runs in other messages that stand for the same thing, such as a passage in a prompt and its summary in the answer; one link can join several runs. Pointing at or focusing a linked run keeps the runs on its link highlighted and drops the highlight from the other linked runs. With `note` and `link` both null the run is only highlighted. Keep the spaces between runs in the strings. Children render inside the message, after its text: controls the actor answers with in place, such as SelectableTags or a Slider, for a message that is a piece of interface rather than words. A message of controls alone has empty `parts`, and sits on the plain surface rather than in a bubble, so the controls read as interface rather than as text the actor sent.',
+    },
+    Composer: {
+      props: z.object({
+        label: z.string(),
+        placeholder: z.string().nullable(),
+        value: z.string().nullable(),
+      }),
+      slots: ['actions'],
+      description:
+        'Where the actor writes the next message in Messages: a text field, read by assistive technology as `label`, with the `actions` slot beneath it for plain Buttons that change what the message carries, such as attaching a file. Bind `value` with $bindState.',
     },
     Timeline: {
       props: z.object({
@@ -313,6 +330,29 @@ export const catalog = defineCatalog(schema, {
       }),
       description:
         'A text field with a list of candidates beneath it, which the actor can pick from instead of typing the rest. The list shows `groups` exactly as given, in order, each under its `heading` if it has one, and filters nothing itself: which candidates show for what has been typed is the spec\'s decision, usually a $computed over the bound value. A group with no options is left out, and with none to show the list stays closed. The list opens when the field takes focus or the actor types, and closes on Escape, when focus leaves, or when a candidate is picked; nothing is highlighted until the actor moves to a candidate with the arrow keys or the pointer, so Enter picks the highlighted candidate and otherwise leaves what was typed. Picking writes the candidate\'s `value` to `value`, then emits `select`. With `hideLabel` the label is read by assistive technology only. Bind `value` with $bindState.',
+    },
+    SelectableTags: {
+      props: z.object({
+        label: z.string(),
+        hideLabel: z.boolean().nullable(),
+        options,
+        value: z.array(z.string()).nullable(),
+      }),
+      description:
+        'Choose any number of values from a few short options, each a tag the actor selects and clears, laid out in a row. `label` names the question the options answer; with `hideLabel` it is read by assistive technology only, for when the question is already on screen. Bind `value`, the selected options\' values, with $bindState.',
+    },
+    Slider: {
+      props: z.object({
+        label: z.string(),
+        hideLabel: z.boolean().nullable(),
+        min: z.number(),
+        max: z.number(),
+        step: z.number().nullable(),
+        value: z.number().nullable(),
+        showBounds: z.boolean().nullable(),
+      }),
+      description:
+        'Choose a number between `min` and `max` by dragging or with the arrow keys, for an amount where the rough position matters more than the exact figure. The current value shows beside the track. `step` is the smallest change (1 by default). `showBounds` shows `min` and `max` at the ends of the track. With `hideLabel` the label is read by assistive technology only. Bind `value` with $bindState.',
     },
     Checkbox: {
       props: z.object({

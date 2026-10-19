@@ -30,8 +30,10 @@ const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
 const fieldLayout: CSSProperties = { display: 'grid', gap: space.s };
 const icons: Record<(typeof iconNames)[number], string> = {
   archive: 'ph:archive-box',
+  attach: 'ph:paperclip',
   back: 'ph:arrow-left',
   cancel: 'ph:x',
+  confirm: 'ph:check',
   decrease: 'ph:arrow-down-right',
   delete: 'ph:trash-simple',
   'delete-confirm': 'ph:trash-simple-fill',
@@ -41,14 +43,17 @@ const icons: Record<(typeof iconNames)[number], string> = {
   history: 'ph:clock-counter-clockwise',
   increase: 'ph:arrow-up-right',
   link: 'ph:link',
+  more: 'ph:plus',
   notifications: 'ph:bell',
   open: 'ph:folder-open',
   publish: 'ph:globe-hemisphere-west',
+  reasoning: 'ph:lightbulb',
   'remove-person': 'ph:user-minus',
   restore: 'ph:arrow-arc-left',
   search: 'ph:magnifying-glass',
   transfer: 'ph:crown-simple',
   unchanged: 'ph:minus',
+  web: 'ph:globe',
 };
 const purposeIcons: Record<(typeof purposes)[number], string> = {
   info: 'ph:info',
@@ -239,19 +244,21 @@ export const { registry } = defineRegistry(catalog, {
     // styles underline the mark to say a note is there. A linked run traces
     // its link (mark-tracing.ts); the library's message styles drop the
     // highlight from a run marked data-dimmed, and a hidden line names the
-    // runs it is linked to.
+    // runs it is linked to. A message's children (controls answered in place)
+    // follow its text inside the body; a message of controls alone drops the
+    // raised surface, as the library's inline interfaces do.
     Messages: ({ children }) => (
       <TracingProvider value={useTracingState()}>
         <div className="messages layer">{children}</div>
       </TracingProvider>
     ),
 
-    Message: ({ props }) => {
+    Message: ({ props, children }) => {
       const tracing = useMarkTracing(props.parts);
       return (
         <div className={clsx('message', props.from === 'actor' ? 'message--outbound' : 'message--inbound')}>
           <div className="message__content">
-            <div className={clsx('message__body', props.from === 'actor' && 'layer')}>
+            <div className={clsx('message__body', props.from === 'actor' && props.parts.length > 0 && 'layer')}>
               {props.parts.map((part, index) => {
                 if (typeof part === 'string') return part;
                 const { dimmed, linkedTo, handlers } = tracing(index);
@@ -268,8 +275,28 @@ export const { registry } = defineRegistry(catalog, {
                   </pp-tooltip>
                 );
               })}
+              {children}
             </div>
           </div>
+        </div>
+      );
+    },
+
+    // The library's message composer: the field on a raised surface, with
+    // its actions on a row beneath it.
+    Composer: ({ props, slots, bindings }) => {
+      const [value, setValue] = useBoundProp(props.value, bindings?.value);
+      return (
+        <div className="message-composer layer">
+          <pp-input>
+            <input
+              aria-label={props.label}
+              placeholder={props.placeholder ?? undefined}
+              value={value ?? ''}
+              onChange={event => setValue(event.target.value)}
+            />
+          </pp-input>
+          {slots?.actions && <div className="message-composer__actions">{slots.actions}</div>}
         </div>
       );
     },
@@ -575,6 +602,59 @@ export const { registry } = defineRegistry(catalog, {
               </label>
             ))}
           </fieldset>
+        </div>
+      );
+    },
+
+    // The library's selectable tags: each a checkbox inside a .tag label, in
+    // a row.
+    SelectableTags: ({ props, bindings }) => {
+      const [value, setValue] = useBoundProp(props.value, bindings?.value);
+      const selected = value ?? [];
+      const toggle = (option: string, checked: boolean) =>
+        setValue(checked ? [...selected, option] : selected.filter(each => each !== option));
+      return (
+        <div>
+          <fieldset style={fieldLayout}>
+            <legend className={props.hideLabel ? 'visually-hidden' : undefined}>{props.label}</legend>
+            <div className="inline-flow">
+              {props.options.map(option => (
+                <label key={option.value} className="form-control tag">
+                  <input
+                    type="checkbox"
+                    checked={selected.includes(option.value)}
+                    onChange={event => toggle(option.value, event.target.checked)}
+                  />
+                  {option.label}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </div>
+      );
+    },
+
+    // pp-range, which shows its value beside the track and names its input
+    // from `label`. The visible label repeats it rather than being linked by
+    // `labelledby`, which pp-range reads only when its own props change. It re-emits the input's `input` event once
+    // its own value is set. Its prefix and suffix are read once, when it
+    // connects, which is enough for fixed bounds.
+    Slider: ({ props, bindings }) => {
+      const [value, setValue] = useBoundProp(props.value, bindings?.value);
+      return (
+        <div style={fieldLayout}>
+          {!props.hideLabel && <span aria-hidden="true">{props.label}</span>}
+          <pp-range
+            label={props.label}
+            min={props.min}
+            max={props.max}
+            step={props.step ?? 1}
+            value={value ?? props.min}
+            onInput={event => setValue((event.currentTarget as HTMLElement & { value: number }).value)}
+          >
+            {props.showBounds && <span data-slot="prefix">{props.min}</span>}
+            {props.showBounds && <span data-slot="suffix">{props.max}</span>}
+          </pp-range>
         </div>
       );
     },

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { faker } from '@faker-js/faker';
-import { ConversationalFormDemo } from '../demos/conversational-form';
+import { formatDate } from '@shared/format';
+import '../jsx-types';
 
 interface MessagingArgs {
   messageCount: number;
@@ -115,7 +116,90 @@ export const HumanToHumanComments: StoryObj<MessagingArgs> = {
 };
 
 export const InlineInterface: Story = {
-  render: () => <ConversationalFormDemo />,
+  render: () => (
+    <div className="messages layer">
+      <div className="message message--inbound">
+        <div className="message__content">
+          <div className="message__body">Standard message input handles everything that would be handled by input and textarea elements. E.g.: What's your name?</div>
+        </div>
+      </div>
+      <div className="message message--outbound">
+        <div className="message__content">
+          <div className="message__body layer">Igors</div>
+        </div>
+      </div>
+      <div className="message message--inbound">
+        <div className="message__content">
+          <div className="message__body">Single and multiple selections can be handled using the appropriate controls. E.g.: What do you want to do today?</div>
+        </div>
+      </div>
+      <div className="message message--outbound">
+        <div className="message__content">
+          <div className="message__body">
+            <div className="inline-flow">
+              <label className="form-control tag"><input type="checkbox" />Option A</label>
+              <label className="form-control tag"><input type="checkbox" />Option B</label>
+              <label className="form-control tag"><input type="checkbox" defaultChecked />Option C</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="message message--inbound">
+        <div className="message__content">
+          <div className="message__body">How much? Select from a range.</div>
+        </div>
+      </div>
+      <div className="message message--outbound">
+        <div className="message__content">
+          <div className="message__body">
+            <div className="flex">
+              <pp-range label="Amount" name="range" min={0} max={100} value={50}>
+                <span data-slot="prefix">0</span>
+                <span data-slot="suffix">100</span>
+              </pp-range>
+              <button className="button button--plain">
+                <iconify-icon className="icon" icon="ph:check"></iconify-icon><span className="visually-hidden">Send amount</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="message message--inbound">
+        <div className="message__content">
+          <div className="message__body">What about dates? This is also an example of (successful) validation.</div>
+        </div>
+      </div>
+      <div className="message message--outbound">
+        <div className="message__content">
+          <div className="message__body layer">December 16 two years ago.</div>
+        </div>
+      </div>
+      <div className="message message--inbound">
+        <div className="message__content">
+          <div className="message__body">Got it! {formatDate(new Date(new Date().getFullYear() - 2, 11, 16), { dateStyle: 'full' })}.</div>
+        </div>
+      </div>
+      <div className="message-composer layer">
+        <pp-input>
+          <input aria-label="Message" placeholder="Write a message…" />
+        </pp-input>
+        <div className="message-composer__actions">
+          <button className="button button--plain">
+            <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="visually-hidden">Search the web</span>
+          </button>
+          <button className="button button--plain">
+            <iconify-icon className="icon" icon="ph:lightbulb"></iconify-icon><span className="visually-hidden">Think it through</span>
+          </button>
+          <button className="button button--plain">
+            <iconify-icon className="icon" icon="ph:paperclip"></iconify-icon><span className="visually-hidden">Attach a file</span>
+          </button>
+          <button className="button button--plain">
+            <iconify-icon className="icon" icon="ph:plus"></iconify-icon><span className="visually-hidden">More options</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  ),
 };
 
 export const HumanToLLM: Story = {

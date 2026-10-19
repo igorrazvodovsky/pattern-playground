@@ -625,6 +625,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .h-\(--radix-select-trigger-height\) {
     height: var(--radix-select-trigger-height);
   }
+.h-1\.5 {
+    height: calc(var(--spacing) * 1.5);
+  }
 .h-2 {
     height: calc(var(--spacing) * 2);
   }
@@ -2082,11 +2085,20 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .data-\[state\=checked\]\:text-primary-foreground[data-state="checked"] {
     color: var(--primary-foreground);
   }
+.data-\[state\=on\]\:border-primary[data-state="on"] {
+    border-color: var(--primary);
+  }
 .data-\[state\=on\]\:bg-accent[data-state="on"] {
     background-color: var(--accent);
   }
+.data-\[state\=on\]\:bg-primary[data-state="on"] {
+    background-color: var(--primary);
+  }
 .data-\[state\=on\]\:text-accent-foreground[data-state="on"] {
     color: var(--accent-foreground);
+  }
+.data-\[state\=on\]\:text-primary-foreground[data-state="on"] {
+    color: var(--primary-foreground);
   }
 .data-\[state\=open\]\:bg-accent[data-state="open"] {
     background-color: var(--accent);
@@ -2425,6 +2437,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
     }
 .dark\:data-\[state\=checked\]\:bg-primary-foreground[data-state="checked"] {
       background-color: var(--primary-foreground);
+    }
+.dark\:data-\[state\=on\]\:bg-primary[data-state="on"] {
+      background-color: var(--primary);
     }
 .dark\:data-\[state\=unchecked\]\:bg-foreground[data-state="unchecked"] {
       background-color: var(--foreground);
