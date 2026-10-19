@@ -11,7 +11,8 @@ import spec from './activity-log.json' with { type: 'json' };
 
 interface Entry {
   id: string;
-  by: string;
+  /** The system has nowhere to go; a person links to their record. */
+  by: string | { name: string; href: string };
   title: string;
   time: string;
   /** The rule that licensed the action and the earlier actions that triggered it, if it has any. */
@@ -37,7 +38,8 @@ const entries: Entry[] = feedActions
       .join(', and ');
     return {
       id: action.id,
-      by: actorName,
+      // No route shows a person yet, so the link is an anchor a route can replace.
+      by: action.actor === 'system' ? actorName : { name: actorName, href: `#person-${action.actor}` },
       title: `${phrase}.`,
       time: formatDateTime(action.timestamp),
       expandable: provenance !== undefined,

@@ -219,7 +219,9 @@ export const { registry } = defineRegistry(catalog, {
     // its rail by itself. An expandable entry is a <details> placed directly
     // in the entry's content, where the stepper turns the rail dot into its
     // disclosure marker; the time stays outside it, so it shows while the
-    // entry is closed. The actor's own entry takes the raised surface.
+    // entry is closed. The actor's own entry takes the raised surface. A
+    // named actor with a destination is a link, which the stepper sets in a
+    // medium weight; one without is strong.
     Timeline: ({ props, children }) => (
       <ol
         className="stepper"
@@ -233,7 +235,8 @@ export const { registry } = defineRegistry(catalog, {
       const [open, setOpen] = useDisclosureState(props.open, bindings?.open);
       let title = (
         <>
-          {props.by && <><strong>{props.by}</strong> </>}
+          {typeof props.by === 'string' && <><strong>{props.by}</strong> </>}
+          {props.by && typeof props.by === 'object' && <><a href={props.by.href}>{props.by.name}</a> </>}
           {props.title}
         </>
       );

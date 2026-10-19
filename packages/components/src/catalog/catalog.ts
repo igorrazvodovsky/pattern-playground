@@ -162,7 +162,7 @@ export const catalog = defineCatalog(schema, {
     TimelineEntry: {
       props: z.object({
         title: z.string(),
-        by: z.string().nullable(),
+        by: z.union([z.string(), z.object({ name: z.string(), href: z.string() })]).nullable(),
         time: z.string().nullable(),
         from: z.enum(['actor', 'other']).nullable(),
         pending: z.boolean().nullable(),
@@ -171,7 +171,7 @@ export const catalog = defineCatalog(schema, {
       }),
       slots: ['default'],
       description:
-        'One event or step in a Timeline. `title` says what happened. `by` names who did it, a person or the system, and leads the title, set apart. `time` says when, beneath the entry. `from: actor` sets apart an entry the actor made themselves, such as the request the rest of a trace works on. `pending` marks a step still under way: the title says so, and the entry shows it is busy. Children are the entry\'s content beneath the title. With `expandable` they sit behind a disclosure that the title opens and closes, for detail the actor asks for, such as why the event happened; `open` says whether it is open. Bind `open` with $bindState, or $bindItem inside a repeat, so the entry keeps its state when the library switches.',
+        'One event or step in a Timeline. `title` says what happened. `by` names who did it and leads the title, set apart: a string for a name with nowhere to go, such as the system, or { name, href } to make the name a link to that actor. `time` says when, beneath the entry. `from: actor` sets apart an entry the actor made themselves, such as the request the rest of a trace works on. `pending` marks a step still under way: the title says so, and the entry shows it is busy. Children are the entry\'s content beneath the title. With `expandable` they sit behind a disclosure that the title opens and closes, for detail the actor asks for, such as why the event happened; `open` says whether it is open. Bind `open` with $bindState, or $bindItem inside a repeat, so the entry keeps its state when the library switches.',
     },
     List: {
       props: z.object({

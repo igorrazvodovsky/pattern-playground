@@ -1703,6 +1703,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .hover\:text-muted-foreground:hover {
       color: var(--muted-foreground);
     }
+.hover\:text-primary:hover {
+      color: var(--primary);
+    }
 .hover\:underline:hover {
       text-decoration-line: underline;
     }

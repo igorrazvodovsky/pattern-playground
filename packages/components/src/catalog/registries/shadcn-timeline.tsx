@@ -1,4 +1,4 @@
-import { createContext, useContext, type ReactNode } from 'react';
+import { createContext, useContext, useId, type ReactNode } from 'react';
 import { Collapsible } from 'radix-ui';
 import { ChevronRight, LoaderCircle } from 'lucide-react';
 import clsx from 'clsx';
@@ -6,10 +6,13 @@ import clsx from 'clsx';
 // Timeline and TimelineEntry for the shadcn registry. shadcn/ui has no
 // timeline, so this one is drawn from Tailwind classes in shadcn's tokens: a
 // dot per entry and a rail between them. An expandable entry is shadcn/ui
-// Collapsible, over Radix, with its title as the trigger and a chevron that
-// turns when it opens. A pending entry spins shadcn Spinner's icon in place of
-// its dot, as a pending Tag does. A timeline inside an entry knows it is
-// nested from context and drops its rail and dots.
+// Collapsible, over Radix, with a chevron that turns when it opens. The
+// chevron alone is the trigger, named by the title, so that an actor's link in
+// the title is not nested in a button. A pending
+// entry spins shadcn Spinner's icon in place of its dot, as a pending Tag
+// does. An actor with a destination is a link in shadcn's typography: medium
+// weight, underlined. A timeline inside an entry knows it is nested from
+// context and drops its rail and dots.
 //
 // Every class used here must be visible to Tailwind: catalog/shadcn.css lists
 // this file as a source.
@@ -28,9 +31,11 @@ export const Timeline = ({ density, children }: { density: Density; children?: R
   );
 };
 
+type By = string | { name: string; href: string };
+
 interface EntryProps {
   title: string;
-  by: string | null;
+  by: By | null;
   time: string | null;
   fromActor: boolean;
   pending: boolean;
@@ -43,18 +48,29 @@ interface EntryProps {
 export const TimelineEntry = ({ title, by, time, fromActor, pending, expandable, open, onOpenChange, children }: EntryProps) => {
   const { density, nested } = useContext(TimelineContext) ?? { density: 'normal', nested: false };
   const compact = density === 'compact';
+  const headingId = useId();
   const heading = (
-    <span className={clsx(pending && 'text-muted-foreground')}>
-      {by && <span className="font-medium text-foreground">{by} </span>}
+    <span id={headingId} className={clsx('min-w-0 flex-1', pending && 'text-muted-foreground')}>
+      {typeof by === 'string' && <span className="font-medium text-foreground">{by} </span>}
+      {by && typeof by === 'object' && (
+        <>
+          <a href={by.href} className="font-medium text-foreground underline underline-offset-4 hover:text-primary">{by.name}</a>{' '}
+        </>
+      )}
       {title}
     </span>
   );
   const body = expandable ? (
     <Collapsible.Root open={open} onOpenChange={onOpenChange}>
-      <Collapsible.Trigger className="flex w-full items-start gap-1 rounded-sm text-left outline-none hover:underline focus-visible:ring-[3px] focus-visible:ring-ring/50 [&[data-state=open]>svg]:rotate-90">
+      <div className="flex items-start gap-1">
         {heading}
-        <ChevronRight aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-muted-foreground transition-transform" />
-      </Collapsible.Trigger>
+        <Collapsible.Trigger
+          aria-labelledby={headingId}
+          className="shrink-0 rounded-sm text-muted-foreground outline-none hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 [&[data-state=open]>svg]:rotate-90"
+        >
+          <ChevronRight aria-hidden="true" className="mt-0.5 size-4 transition-transform" />
+        </Collapsible.Trigger>
+      </div>
       <Collapsible.Content className="flex flex-col gap-2 pt-2">{children}</Collapsible.Content>
     </Collapsible.Root>
   ) : (
