@@ -1,0 +1,18 @@
+{
+  "root": "search",
+  "elements": {
+    "search": {
+      "type": "Combobox",
+      "props": {
+        "label": "Search",
+        "hideLabel": true,
+        "placeholder": "Search…",
+        "value": { "$bindState": "/query" },
+        "groups": {
+          "$computed": "candidates",
+          "args": { "query": { "$state": "/query" }, "recent": { "$state": "/recent" }, "known": { "$state": "/known" } }
+        }
+      }
+    }
+  }
+}

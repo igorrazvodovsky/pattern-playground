@@ -16,7 +16,6 @@ type Loader = () => Promise<DemoComponent>;
 
 const demos: Record<string, Loader> = {
   'fluid-attributes': () => import('@pkg/demos/attribute-visibility').then(m => m.FluidAttributesDemo),
-  'autocomplete': () => import('@pkg/demos/autocomplete').then(m => m.AutocompleteDemo),
   'block-based-editor': () => import('@pkg/demos/block-based-editor').then(m => m.BlockBasedEditorDemo),
   'commenting': () => import('@pkg/demos/bubble-menu').then(m => m.CommentingDemo),
   'dynamic-explanation': () => import('@pkg/demos/bubble-menu').then(m => m.DynamicExplanationDemo),
@@ -57,6 +56,7 @@ type SpecModule = { spec: Spec; setup: SpecSetup };
 
 const specs: Record<string, () => Promise<{ default: SpecModule }>> = {
   'activity-log': () => import('@pkg/demos/specs/activity-log'),
+  'autocomplete': () => import('@pkg/demos/specs/autocomplete'),
   'callout-notification': () => import('@pkg/demos/specs/callout-notification'),
   'communicating-uncertainty': () => import('@pkg/demos/specs/communicating-uncertainty'),
   'consequence-ladder': () => import('@pkg/demos/specs/consequence-ladder'),

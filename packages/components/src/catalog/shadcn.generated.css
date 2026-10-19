@@ -667,6 +667,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .max-h-\(--radix-select-content-available-height\) {
     max-height: var(--radix-select-content-available-height);
   }
+.max-h-\[300px\] {
+    max-height: 300px;
+  }
 .max-h-screen {
     max-height: 100vh;
   }
@@ -849,6 +852,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .scroll-my-1 {
     scroll-margin-block: var(--spacing);
+  }
+.scroll-py-1 {
+    scroll-padding-block: var(--spacing);
   }
 .list-disc {
     list-style-type: disc;
@@ -1715,6 +1721,19 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .last\:pb-0:last-child {
     padding-bottom: 0;
   }
+.focus-within\:border-ring:focus-within {
+    border-color: var(--ring);
+  }
+.focus-within\:ring-\[3px\]:focus-within {
+    --tw-ring-shadow: var(--tw-ring-inset, ) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+.focus-within\:ring-ring\/50:focus-within {
+    --tw-ring-color: var(--ring);
+  }
+@supports (color: color-mix(in lab, red, red)) {.focus-within\:ring-ring\/50:focus-within {
+      --tw-ring-color: color-mix(in oklab, var(--ring) 50%, transparent);
+    }}
 @media (hover: hover) {.hover\:bg-accent:hover {
       background-color: var(--accent);
     }
@@ -1952,6 +1971,12 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .data-\[placeholder\]\:text-muted-foreground[data-placeholder] {
     color: var(--muted-foreground);
+  }
+.data-\[selected\=true\]\:bg-accent[data-selected="true"] {
+    background-color: var(--accent);
+  }
+.data-\[selected\=true\]\:text-accent-foreground[data-selected="true"] {
+    color: var(--accent-foreground);
   }
 .data-\[side\=bottom\]\:translate-y-1[data-side="bottom"] {
     --tw-translate-y: var(--spacing);
@@ -2416,6 +2441,23 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 @supports (color: color-mix(in lab, red, red)) {.dark\:data-\[variant\=destructive\]\:focus\:bg-destructive\/20[data-variant="destructive"]:focus {
         background-color: color-mix(in oklab, var(--destructive) 20%, transparent);
       }}}
+.\[\&_\[cmdk-group-heading\]\]\:px-2 [cmdk-group-heading] {
+    padding-inline: calc(var(--spacing) * 2);
+  }
+.\[\&_\[cmdk-group-heading\]\]\:py-1\.5 [cmdk-group-heading] {
+    padding-block: calc(var(--spacing) * 1.5);
+  }
+.\[\&_\[cmdk-group-heading\]\]\:text-xs [cmdk-group-heading] {
+    font-size: var(--text-xs);
+    line-height: var(--tw-leading, var(--text-xs--line-height));
+  }
+.\[\&_\[cmdk-group-heading\]\]\:font-medium [cmdk-group-heading] {
+    --tw-font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-medium);
+  }
+.\[\&_\[cmdk-group-heading\]\]\:text-muted-foreground [cmdk-group-heading] {
+    color: var(--muted-foreground);
+  }
 .\[\&_p\]\:leading-relaxed p {
     --tw-leading: var(--leading-relaxed);
     line-height: var(--leading-relaxed);

@@ -303,6 +303,17 @@ export const catalog = defineCatalog(schema, {
       description:
         'Choose one value from a few options, all shown. `label` names the question the options answer. Bind `value` with $bindState.',
     },
+    Combobox: {
+      props: z.object({
+        label: z.string(),
+        hideLabel: z.boolean().nullable(),
+        placeholder: z.string().nullable(),
+        value: z.string().nullable(),
+        groups: z.array(z.object({ heading: z.string().nullable(), options })),
+      }),
+      description:
+        'A text field with a list of candidates beneath it, which the actor can pick from instead of typing the rest. The list shows `groups` exactly as given, in order, each under its `heading` if it has one, and filters nothing itself: which candidates show for what has been typed is the spec\'s decision, usually a $computed over the bound value. A group with no options is left out, and with none to show the list stays closed. The list opens when the field takes focus or the actor types, and closes on Escape, when focus leaves, or when a candidate is picked; nothing is highlighted until the actor moves to a candidate with the arrow keys or the pointer, so Enter picks the highlighted candidate and otherwise leaves what was typed. Picking writes the candidate\'s `value` to `value`, then emits `select`. With `hideLabel` the label is read by assistive technology only. Bind `value` with $bindState.',
+    },
     Checkbox: {
       props: z.object({
         label: z.string(),

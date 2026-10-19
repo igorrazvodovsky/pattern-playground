@@ -3,6 +3,7 @@ import { defineRegistry, useBoundProp } from '@json-render/react';
 import { createPortal } from 'react-dom';
 import { Checkbox, Dialog, RadioGroup, Select, Toast, Tooltip } from 'radix-ui';
 import { shadcnComponents } from '@json-render/shadcn';
+import { Command } from 'cmdk';
 import clsx from 'clsx';
 import {
   Archive,
@@ -34,6 +35,7 @@ import {
   X,
 } from 'lucide-react';
 import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes, type tones } from '../catalog';
+import { useCandidateList } from './candidate-list';
 import { captureOpener, focusDemoIfOpenerGone, type Opener } from './dialog-focus';
 import { useFieldError } from './field-validation';
 import { submitForm } from './form-submit';
@@ -683,6 +685,59 @@ export const { registry } = defineRegistry(catalog, {
             </Select.Portal>
           </Select.Root>
           {error && fieldError(`${id}-error`, error)}
+        </div>
+      );
+    },
+
+    // shadcn/ui Command (cmdk) laid out inline, as shadcn's own combobox
+    // builds on it, with cmdk's filtering off: the spec decides which
+    // candidates show. cmdk names the input from the root's `label`, so a
+    // visible label is only shown, not linked. The field is as wide as a
+    // search box (24rem), not the demo.
+    Combobox: ({ props, bindings, emit }) => {
+      const [value, setValue] = useBoundProp(props.value, bindings?.value);
+      const { open, groups, root, input, list, pick } = useCandidateList(props.groups, value ?? '', setValue, () =>
+        emit('select'),
+      );
+      return (
+        <div className="flex w-full max-w-sm flex-col gap-2">
+          {!props.hideLabel && <span aria-hidden="true" className={label}>{props.label}</span>}
+          <Command
+            label={props.label}
+            {...root}
+            className="flex w-full flex-col overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-xs focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/50"
+          >
+            <div className={clsx('flex h-9 items-center gap-2 px-3', open && 'border-b')}>
+              <Search aria-hidden="true" className="size-4 shrink-0 opacity-50" />
+              <Command.Input
+                placeholder={props.placeholder ?? undefined}
+                {...input}
+                className="flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden placeholder:text-muted-foreground"
+              />
+            </div>
+            {open && (
+              <Command.List {...list} className="max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto">
+                {groups.map((group, index) => (
+                  <Command.Group
+                    key={group.heading ?? index}
+                    heading={group.heading ?? undefined}
+                    className="overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground"
+                  >
+                    {group.options.map(option => (
+                      <Command.Item
+                        key={option.value}
+                        value={option.value}
+                        onSelect={pick}
+                        className="relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground"
+                      >
+                        {option.label}
+                      </Command.Item>
+                    ))}
+                  </Command.Group>
+                ))}
+              </Command.List>
+            )}
+          </Command>
         </div>
       );
     },

@@ -4,7 +4,9 @@ import { defineRegistry, useBoundProp } from '@json-render/react';
 import clsx from 'clsx';
 import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes } from '../catalog';
 import type { ToastHandle } from '../../components/toast/toast';
+import { Combobox, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxList } from '../../components/combobox';
 import { captureOpener, focusDemoIfOpenerGone, type Opener } from './dialog-focus';
+import { useCandidateList } from './candidate-list';
 import { useDisclosureState } from './disclosure-state';
 import { useFieldError } from './field-validation';
 import { submitForm } from './form-submit';
@@ -516,6 +518,38 @@ export const { registry } = defineRegistry(catalog, {
             </select>
             {error && fieldError(`${id}-error`, error)}
           </pp-select>
+        </div>
+      );
+    },
+
+    // The library's Combobox (cmdk), with its own filtering off: the spec
+    // decides which candidates show. cmdk names the input from the root's
+    // `label`, so a visible label is only shown, not linked. The field keeps
+    // to the library combobox's own width rather than the demo's.
+    Combobox: ({ props, bindings, emit }) => {
+      const [value, setValue] = useBoundProp(props.value, bindings?.value);
+      const { open, groups, root, input, list, pick } = useCandidateList(props.groups, value ?? '', setValue, () =>
+        emit('select'),
+      );
+      return (
+        <div style={{ ...fieldLayout, justifyItems: 'start' }}>
+          {!props.hideLabel && <span aria-hidden="true">{props.label}</span>}
+          <Combobox label={props.label} {...root}>
+            <ComboboxInput placeholder={props.placeholder ?? ''} {...input} />
+            {open && (
+              <ComboboxList {...list}>
+                {groups.map((group, index) => (
+                  <ComboboxGroup key={group.heading ?? index} heading={group.heading ?? undefined}>
+                    {group.options.map(option => (
+                      <ComboboxItem key={option.value} value={option.value} onSelect={pick}>
+                        {option.label}
+                      </ComboboxItem>
+                    ))}
+                  </ComboboxGroup>
+                ))}
+              </ComboboxList>
+            )}
+          </Combobox>
         </div>
       );
     },

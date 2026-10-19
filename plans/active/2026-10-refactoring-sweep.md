@@ -114,6 +114,16 @@ the survey and should be confirmed before acting.
   says the parts are fixed once rendered. Before a spec changes them, let
   `pp-sections` render from data rather than rewriting its children, or have
   the pp registry draw the tablist itself.
+- [ ] *Combobox announces its list as open when it is closed.* Both
+  registries build the catalog's Combobox on cmdk, whose input always sets
+  `aria-expanded="true"` and points `aria-controls` at the list, and neither
+  prop can be overridden. The list is rendered only while open, so a closed
+  combobox claims an open list that is not there. cmdk also names the input
+  from its own hidden label, so a visible label is shown beside the field
+  without being linked to it, and pressing it does not focus the field. The
+  autocomplete spec hides its label, so the second does not show today. Either
+  wrap cmdk's input so the registries set these attributes themselves, or
+  build the field without cmdk.
 - [ ] *A late close event after pp-modal reopens.* `closeModal()` calls
   `dialog.close()`, which queues the `close` event, and `openModal()` resets
   `closingHere` to false. If the same `pp-modal` opens again before that event
