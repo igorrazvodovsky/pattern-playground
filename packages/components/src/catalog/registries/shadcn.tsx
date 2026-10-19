@@ -1,7 +1,7 @@
 import { Fragment, Suspense, useId, useRef, type CSSProperties } from 'react';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import { createPortal } from 'react-dom';
-import { Checkbox, Dialog, Popover, RadioGroup, Select, Slider, Toast, ToggleGroup, Tooltip } from 'radix-ui';
+import { Checkbox, Dialog, DropdownMenu, Popover, RadioGroup, Select, Slider, Toast, ToggleGroup, Tooltip } from 'radix-ui';
 import { shadcnComponents } from '@json-render/shadcn';
 import { Command } from 'cmdk';
 import clsx from 'clsx';
@@ -14,8 +14,11 @@ import {
   CaseSensitive,
   Check,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Circle,
   CircleCheck,
+  Columns2,
   CircleX,
   CornerDownLeft,
   Crown,
@@ -30,11 +33,14 @@ import {
   Link,
   LoaderCircle,
   Maximize2,
+  MessageSquare,
   Minus,
   PanelRight,
   Paperclip,
   Plus,
+  Rows3,
   Search,
+  SlidersHorizontal,
   Sparkles,
   Trash2,
   TrendingDown,
@@ -49,7 +55,7 @@ import { useCandidateList } from './candidate-list';
 import { captureOpener, settleFocus, useReturnFocus, type Opener } from './dialog-focus';
 import { useFieldError } from './field-validation';
 import { submitForm } from './form-submit';
-import { useFocusHandoff } from './focus-handoff';
+import { useFocusHandoff, useMenuFocusHandoff } from './focus-handoff';
 import { useFocusOnShow } from './focus-on-show';
 import { scopedPortal } from './shadcn-portal';
 import { ComposerField } from './composer-field';
@@ -61,7 +67,9 @@ import { Subsection, useHeading } from './heading-level';
 import { Section, Sections } from './shadcn-sections';
 import { Timeline, TimelineEntry } from './shadcn-timeline';
 import { useDisclosureState } from './disclosure-state';
+import { popoverHost, useMayTakeFocus } from './popover-host';
 import { usePreview } from './preview';
+import { useSplitRoom } from './split-room';
 import { useToastList } from './toast-list';
 import { TracingProvider, useMarkTracing, useTracingState } from './mark-tracing';
 import sheetUrl from '../shadcn.generated.css?url';
@@ -119,18 +127,24 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   generated: Sparkles,
   guide: BookOpen,
   history: History,
+  'in-place': Rows3,
   increase: TrendingUp,
   link: Link,
   mention: AtSign,
   more: Plus,
+  next: ChevronRight,
   notifications: Bell,
   open: FolderOpen,
+  popover: MessageSquare,
+  previous: ChevronLeft,
   publish: Globe,
   reasoning: Lightbulb,
   'remove-person': UserMinus,
   restore: Undo2,
   search: Search,
   send: CornerDownLeft,
+  settings: SlidersHorizontal,
+  'side-by-side': Columns2,
   suggest: Lightbulb,
   summary: IdCard,
   transfer: Crown,
@@ -240,7 +254,9 @@ export const { registry } = defineRegistry(catalog, {
     // it, and focus is shown on the cover so the whole card is marked. The
     // button takes focus when it appears, if `focusOnShow` (focus-on-show.ts).
     // A card holding a Stat sets its title as the section card's muted
-    // description and draws the header close, so the figure leads.
+    // description and draws the header close, so the figure leads. shadcn
+    // has no selected card; a selected one takes the primary colour on its
+    // border and a ring of it, as shadcn marks a chosen option card.
     Card: ({ props, children, slots, emit }) => {
       const openRef = useRef<HTMLButtonElement>(null);
       useFocusOnShow(openRef, props.focusOnShow);
@@ -251,7 +267,9 @@ export const { registry } = defineRegistry(catalog, {
           className={clsx(
             'group/card flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm has-data-[slot=stat]:gap-2',
             props.opens && 'relative',
+            props.selected && 'border-primary ring-1 ring-primary',
           )}
+          data-popover-host=""
         >
           {(props.title || slots?.suffix) && (
             <div className="grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto]">
@@ -265,6 +283,7 @@ export const { registry } = defineRegistry(catalog, {
                       ref={openRef}
                       type="button"
                       className="cursor-pointer text-left outline-none after:absolute after:inset-0 after:rounded-xl hover:underline focus-visible:after:ring-[3px] focus-visible:after:ring-ring/50"
+                      aria-pressed={props.selected == null ? undefined : props.selected}
                       onClick={() => emit('open')}
                     >
                       {props.title}
@@ -285,6 +304,22 @@ export const { registry } = defineRegistry(catalog, {
             <Subsection>{children}</Subsection>
           </div>
           {slots?.actions && <div className={clsx('flex items-center justify-end gap-2 px-6', above)}>{slots.actions}</div>}
+        </div>
+      );
+    },
+
+    // shadcn has no split view. Two grid columns, the main one wider, as
+    // shadcn's dashboard blocks set a list beside its detail.
+    Split: ({ props, children, bindings }) => {
+      const ref = useRef<HTMLDivElement>(null);
+      const [, setRoom] = useBoundProp(props.room, bindings?.room);
+      const room = useSplitRoom(ref, setRoom);
+      return (
+        <div
+          ref={ref}
+          className={props.split && room ? 'grid grid-cols-[minmax(0,3fr)_minmax(16rem,2fr)] items-start gap-4' : 'flex flex-col gap-4'}
+        >
+          {children}
         </div>
       );
     },
@@ -744,6 +779,109 @@ export const { registry } = defineRegistry(catalog, {
             </Popover.Content>
           </Popover.Portal>
         </Popover.Root>
+      );
+    },
+
+    // shadcn/ui Popover over Radix, anchored to its host (popover-host.ts),
+    // found from a hidden marker: Radix positions against any element given
+    // as a virtual anchor. The panel portals into the scoped root, outside
+    // any scrolling pane. Radix moves focus into the panel when it opens,
+    // unless the demo is only rendering again, and on close focus goes back
+    // to the control that had it then, as a dialog's does (dialog-focus.ts),
+    // unless the actor has moved it elsewhere.
+    Popover: ({ props, children, slots, bindings }) => {
+      const [open, setOpen] = useBoundProp(props.open, bindings?.open);
+      const marker = useRef<HTMLSpanElement>(null);
+      const anchor = useRef({ getBoundingClientRect: () => popoverHost(marker.current)?.getBoundingClientRect() ?? new DOMRect() });
+      const opener = useRef<Opener | null>(null);
+      const mayTakeFocus = useMayTakeFocus();
+      const Heading = useHeading();
+      return (
+        <Popover.Root open={open ?? false} onOpenChange={setOpen}>
+          <span ref={marker} hidden />
+          <Popover.Anchor virtualRef={anchor} />
+          <Popover.Portal container={scopedPortal()}>
+            <Popover.Content
+              aria-label={props.title}
+              align="start"
+              sideOffset={8}
+              onOpenAutoFocus={event => {
+                opener.current = captureOpener();
+                if (!mayTakeFocus(marker.current)) event.preventDefault();
+              }}
+              onCloseAutoFocus={event => {
+                event.preventDefault();
+                const active = document.activeElement;
+                if (!active || active === document.body) settleFocus(null, opener.current);
+                opener.current = null;
+              }}
+              className="z-50 w-80 max-w-[calc(100vw-2rem)] rounded-md border bg-popover p-4 text-sm text-popover-foreground shadow-md outline-hidden"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex min-w-0 flex-col gap-3">
+                  <Heading className="leading-none font-semibold">{props.title}</Heading>
+                  <Subsection>{children}</Subsection>
+                </div>
+                {slots?.suffix && <div className="-mt-2 -mr-2 flex shrink-0 gap-1">{slots.suffix}</div>}
+              </div>
+            </Popover.Content>
+          </Popover.Portal>
+        </Popover.Root>
+      );
+    },
+
+    // shadcn/ui DropdownMenu over Radix: an icon button as its trigger, and
+    // one choice in force, drawn as shadcn's radio items are, with the dot
+    // before the label. Hands focus on (focus-handoff.ts) if a choice removes
+    // it while focused.
+    Menu: ({ props, children }) => {
+      const Icon = props.icon ? icons[props.icon] : null;
+      const { trigger, list } = useMenuFocusHandoff(props.focusNext);
+      return (
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger
+            ref={trigger}
+            aria-label={props.label}
+            title={props.label}
+            className={clsx(buttonBase, buttonVariant.plain, buttonSize[Icon ? 'icon' : 'default'])}
+          >
+            {Icon ? <Icon aria-hidden="true" /> : props.label}
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Portal container={scopedPortal()}>
+            <DropdownMenu.Content
+              ref={list}
+              align="end"
+              sideOffset={4}
+              className="z-50 max-h-(--radix-dropdown-menu-content-available-height) min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md"
+            >
+              {children}
+            </DropdownMenu.Content>
+          </DropdownMenu.Portal>
+        </DropdownMenu.Root>
+      );
+    },
+
+    // A checkbox item in the role of a radio item: Radix's radio items take
+    // their state from a group value, and here each item says for itself
+    // whether it is the one in force.
+    MenuItem: ({ props, emit }) => {
+      const Icon = props.icon ? icons[props.icon] : null;
+      return (
+        <DropdownMenu.CheckboxItem
+          role="menuitemradio"
+          checked={props.checked ?? false}
+          disabled={props.disabled ?? undefined}
+          onSelect={() => emit('press')}
+          className="relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+        >
+          <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
+            <DropdownMenu.ItemIndicator>
+              <Circle aria-hidden="true" className="size-2 fill-current" />
+            </DropdownMenu.ItemIndicator>
+          </span>
+          {Icon && <Icon aria-hidden="true" className="text-muted-foreground" />}
+          {props.label}
+        </DropdownMenu.CheckboxItem>
       );
     },
 

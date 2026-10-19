@@ -60,14 +60,16 @@ interface RungToolbarProps {
 
 /**
  * The level-of-detail control every view carries — the ladder equivalent of
- * `OverviewDetailDemo`'s layout `DetailToolbar`: the rung is re-chosen from
- * inside the thing being presented. It renders a button per rung the reader can
- * move *to* — the current rung is omitted, since the container already says
- * where you are and re-selecting it is a no-op. Deliberately not a dropdown: a
- * menu's list escapes its container into the top layer, which fights both the
- * popover's hover-close and a modal's focus/dismiss handling — a direct button
- * has none of that. The caller places it (a corner in the popover, the header
- * beside the close button in a drawer or dialog).
+ * the layout menu on the overview-detail demo's detail (demos/specs/
+ * overview-detail.json): the rung is re-chosen from inside the thing being
+ * presented. It renders a button per rung the reader can move *to* — the
+ * current rung is omitted, since the container already says where you are and
+ * re-selecting it is a no-op. Deliberately not a dropdown: this popover closes
+ * when the pointer leaves it, and a menu's list escapes into the top layer,
+ * outside the popover, so moving onto the list would close the popover — a
+ * direct button has none of that. A popover that closes only on an outside
+ * click or Escape can hold a menu. The caller places it (a corner in the
+ * popover, the header beside the close button in a drawer or dialog).
  */
 function RungToolbar({ current, available, onSelect }: RungToolbarProps) {
   const rungs = RUNGS.filter((rung) => rung.scope !== current && available.includes(rung.scope));

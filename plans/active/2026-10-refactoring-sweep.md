@@ -435,13 +435,39 @@ Design calls; one sitting each.
   `DescriptionList` and the listed line), differing only in reading `$item`
   or `$state`, and `specs/item-view-transitions.json` holds the same body
   twice more, for the detail drawer and the full dialog; `specs/reference.json`
-  holds the detail body once more. A JSON spec cannot
+  holds the detail body once more, and `specs/overview-detail.json` holds it
+  three times (in place, the detail its pane and popover share, the page). A
+  JSON spec cannot
   import, so a change to the full view has to be made in all of them. The modules beside the specs could build these
   elements once in TypeScript, for a given state path, and merge them into
-  each spec.
+  each spec. The same goes for repeated conditions and handlers inside one
+  spec: `specs/overview-detail.json` writes the rule for when the in-place
+  layout is in force three times (and its complement twice), and its four
+  layout menu items repeat the same three actions, differing only in the
+  layout.
 - [ ] *Overview plus detail.* The same split with a `useFitsWidth` fallback in
-  `overview-detail.tsx`, `FluidAttributesDemo.tsx`, `coordinated-views.tsx`.
-  Several of these put `aria-label` on a plain `div`.
+  `FluidAttributesDemo.tsx` and `coordinated-views.tsx`; the overview-detail
+  layout demo now renders through the catalog's `Split`, which writes its room
+  to state (`registries/split-room.ts`). Several of these put `aria-label` on
+  a plain `div`.
+- [ ] *`top-layer=""` no longer turns the top layer on.* pp-popup's
+  `top-layer` and `light-dismiss` are boolean properties, and the element
+  coerces by the type the property holds, so React's `top-layer=""` sets them
+  to an empty string, which reads as false: the popup stays in the page, under
+  any clipping ancestor, and does not close on an outside click or Escape.
+  `CommentPopover.tsx` and the catalog's pp Popover pass `{true}` and work.
+  Still on `=""`: the pp registry's Reference preview, `ItemInteraction.tsx`'s
+  summary, and `Popover.stories.tsx`. Check each still behaves once fixed,
+  since the Reference preview and the summary have only ever run outside the
+  top layer.
+- [ ] *`BackButton` and `.detail__toolbar` have no consumer.* The
+  overview-detail layout demo is a spec, so `BackButton` in
+  `demos/scaffold.tsx` is no longer imported, and the `.detail__toolbar` rules
+  in `styles/view-family.css` (the corner control, faded until the detail is
+  hovered) have no markup; `ItemInteraction.tsx` names the class only in a
+  comment. The spec's layout menu sits in the card's or popover's `suffix`
+  instead. Delete them, or have a pp `Card` or `Popover` draw its suffix as
+  that corner control.
 - [x] *Small demo duplicates.* The deletable list and `DeleteIconButton`
   duplicates went when `deletion.tsx` and `transient-feedback.tsx` became
   specs, and the hand-built back button went when `problem-curated-view.tsx`

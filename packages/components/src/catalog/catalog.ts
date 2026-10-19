@@ -51,18 +51,24 @@ export const iconNames = [
   'generated',
   'guide',
   'history',
+  'in-place',
   'increase',
   'link',
   'mention',
   'more',
+  'next',
   'notifications',
   'open',
+  'popover',
+  'previous',
   'publish',
   'reasoning',
   'remove-person',
   'restore',
   'search',
   'send',
+  'settings',
+  'side-by-side',
   'suggest',
   'summary',
   'transfer',
@@ -104,15 +110,25 @@ export const catalog = defineCatalog(schema, {
       slots: ['default'],
       description: 'Lays children out in as many equal columns as fit.',
     },
+    Split: {
+      props: z.object({
+        split: z.boolean().nullable(),
+        room: z.boolean().nullable(),
+      }),
+      slots: ['default'],
+      description:
+        'Lays its first two shown children side by side, a wider main view and a narrower pane beside it, when `split` is true and the Split is wide enough for both (about 40rem); otherwise it lays its children out in one column. Show only the children that belong to the layout in force. Bind `room` with $bindState: the Split writes whether it is wide enough, whether or not it is split, and again whenever its width crosses the line, so a spec can offer the split only while it fits.',
+    },
     Card: {
       props: z.object({
         title: z.string().nullable(),
         opens: z.boolean().nullable(),
+        selected: z.boolean().nullable(),
         focusOnShow: z.boolean().nullable(),
       }),
       slots: ['default', 'suffix', 'actions'],
       description:
-        'A bounded surface that groups related content. The `suffix` slot sits beside the title, for a short status such as a Badge, or a control that acts on the card. The `actions` slot holds the buttons that act on what the card shows, below its content. With `opens` the card stands for something the actor can open, such as the items behind a summary: its title is a button, pressing anywhere on the card presses it, and it emits `open`. A card that opens needs a `title`. Controls in `suffix` and `actions` stay separate presses. `focusOnShow` works as on a Button, for the title: set it on the card the actor opened, so that it takes focus when they come back to it.',
+        'A bounded surface that groups related content. The `suffix` slot sits beside the title, for a short status such as a Badge, or a control that acts on the card. The `actions` slot holds the buttons that act on what the card shows, below its content. With `opens` the card stands for something the actor can open, such as the items behind a summary: its title is a button, pressing anywhere on the card presses it, and it emits `open`. A card that opens needs a `title`. Controls in `suffix` and `actions` stay separate presses; anything else in the card is covered by the press, so put controls in those slots. `selected` marks the one card among its peers that the actor picked, such as the item another view is showing: the card is set apart, and on a card that opens the title reads as pressed. `focusOnShow` works as on a Button, for the title: set it on the card the actor opened, so that it takes focus when they come back to it.',
     },
     Text: {
       props: z.object({
@@ -458,6 +474,35 @@ export const catalog = defineCatalog(schema, {
       slots: ['default', 'suffix'],
       description:
         'A panel at the side of the screen that does not block the page behind it. Bind `open` with $bindState; closing the drawer writes false back. The `suffix` slot sits beside the title, for controls that change how the drawer shows what it holds. `returnFocus` works as on a Dialog.',
+    },
+    Popover: {
+      props: z.object({
+        title: z.string(),
+        open: z.boolean().nullable(),
+      }),
+      slots: ['default', 'suffix'],
+      description:
+        'A panel over the page next to the element it belongs to, which does not block the page: put it inside that element, such as a Card, and it opens beside it. `title` heads it and names it for assistive technology; the children are its body. The `suffix` slot sits beside the title, for controls that change how the panel shows what it holds. Bind `open` with $bindState: a click outside the panel or Escape closes it and writes false back. When it opens because of what the actor did, focus moves to its first control; when it closes with focus inside it, focus goes back to the control that had it when it opened.',
+    },
+    Menu: {
+      props: z.object({
+        label: z.string(),
+        icon: z.enum(iconNames).nullable(),
+        focusNext: z.string().nullable(),
+      }),
+      slots: ['default'],
+      description:
+        'A button that opens a short list of choices, for a setting that is changed now and then rather than kept in view. `label` names the button for assistive technology; `icon` is what it shows, named by meaning. Its children are MenuItem elements, in order. The list closes when a choice is made, on Escape, or when focus leaves it. `focusNext` works as on a Button, for when a choice removes the menu, or what it sits in, while focus is on it or in its list.',
+    },
+    MenuItem: {
+      props: z.object({
+        label: z.string(),
+        icon: z.enum(iconNames).nullable(),
+        checked: z.boolean().nullable(),
+        disabled: z.boolean().nullable(),
+      }),
+      description:
+        'One choice in a Menu, of which one is in force: `checked` marks that one. `icon` leads the label, named by meaning. `disabled` is for a choice that is not available now; it stays in the list so the actor can see it exists. Choosing it emits `press`.',
     },
     Toasts: {
       props: z.object({

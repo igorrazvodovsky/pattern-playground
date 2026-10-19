@@ -1,4 +1,4 @@
-import { Children, Fragment, Suspense, useCallback, useEffect, useId, useMemo, useRef, useState, type CSSProperties, type RefObject } from 'react';
+import { Children, Fragment, Suspense, useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import clsx from 'clsx';
@@ -11,11 +11,13 @@ import { useCandidateList } from './candidate-list';
 import { useDisclosureState } from './disclosure-state';
 import { useFieldError } from './field-validation';
 import { submitForm } from './form-submit';
-import { useFocusHandoff } from './focus-handoff';
+import { useFocusHandoff, useMenuFocusHandoff } from './focus-handoff';
 import { useFocusOnShow } from './focus-on-show';
 import { PpMentionEditor } from './mention-editor-lazy';
 import { Subsection, useHeading } from './heading-level';
+import { popoverHost, useMayTakeFocus } from './popover-host';
 import { usePreview } from './preview';
+import { useSplitRoom } from './split-room';
 import { useToastList } from './toast-list';
 import { TracingProvider, useMarkTracing, useTracingState } from './mark-tracing';
 import '../../jsx-types';
@@ -73,18 +75,24 @@ const icons: Record<(typeof iconNames)[number], string> = {
   generated: 'ph:sparkle',
   guide: 'ph:book-open',
   history: 'ph:clock-counter-clockwise',
+  'in-place': 'ph:rows',
   increase: 'ph:arrow-up-right',
   link: 'ph:link',
   mention: 'ph:at',
   more: 'ph:plus',
+  next: 'ph:caret-right',
   notifications: 'ph:bell',
   open: 'ph:folder-open',
+  popover: 'ph:chat-teardrop',
+  previous: 'ph:caret-left',
   publish: 'ph:globe-hemisphere-west',
   reasoning: 'ph:lightbulb',
   'remove-person': 'ph:user-minus',
   restore: 'ph:arrow-arc-left',
   search: 'ph:magnifying-glass',
   send: 'ph:arrow-elbow-down-left',
+  settings: 'ph:sliders-horizontal',
+  'side-by-side': 'ph:columns',
   suggest: 'ph:lightbulb-filament',
   summary: 'ph:cards',
   transfer: 'ph:crown-simple',
@@ -150,20 +158,28 @@ export const { registry } = defineRegistry(catalog, {
     // header's and footer's other controls stay above it. The button takes
     // focus when it appears, if `focusOnShow` (focus-on-show.ts). The title is
     // a heading at the demo's current level (heading-level.ts); .card__title
-    // keeps its size whatever the level.
+    // keeps its size whatever the level. A selected card takes the ring the
+    // library's collection views give the picked item (view-family.css).
     Card: ({ props, children, slots, emit }) => {
       const openRef = useRef<HTMLButtonElement>(null);
       useFocusOnShow(openRef, props.focusOnShow);
       const Heading = useHeading();
+      const selected = props.selected ? 'true' : undefined;
       const title = props.opens ? (
-        <button ref={openRef} type="button" className="stretched-link" onClick={() => emit('open')}>
+        <button
+          ref={openRef}
+          type="button"
+          className="stretched-link"
+          aria-pressed={props.selected == null ? undefined : props.selected}
+          onClick={() => emit('open')}
+        >
           {props.title}
         </button>
       ) : (
         props.title
       );
       return slots?.suffix || slots?.actions ? (
-        <article className="card">
+        <article className="card" data-selected={selected} data-popover-host="">
           <div className="card__header">
             {props.title && <Heading className="label card__title">{title}</Heading>}
             {slots.suffix && <div className="flex">{slots.suffix}</div>}
@@ -179,10 +195,23 @@ export const { registry } = defineRegistry(catalog, {
           )}
         </article>
       ) : (
-        <article className="card flow pad" style={{ '--flow-space': '0em' } as CSSProperties}>
+        <article className="card flow pad" data-selected={selected} data-popover-host="" style={{ '--flow-space': '0em' } as CSSProperties}>
           {props.title && <Heading className="card__title">{title}</Heading>}
           <Subsection>{children}</Subsection>
         </article>
+      );
+    },
+
+    // The library's overview-beside-detail grid (.odi in view-family.css)
+    // when split and there is room, otherwise a column.
+    Split: ({ props, children, bindings }) => {
+      const ref = useRef<HTMLDivElement>(null);
+      const [, setRoom] = useBoundProp(props.room, bindings?.room);
+      const room = useSplitRoom(ref, setRoom);
+      return (
+        <div ref={ref} className={props.split && room ? 'odi' : 'flow'}>
+          {children}
+        </div>
       );
     },
 
@@ -584,6 +613,106 @@ export const { registry } = defineRegistry(catalog, {
         </>
       );
     },
+
+    // The library's popover panel (.popover, laid out as the Reference's) in
+    // a pp-popup anchored to its host (popover-host.ts). `top-layer` keeps it
+    // clear of a scrolling pane and of the rows it overlaps; `light-dismiss`
+    // hands outside clicks and Escape to the platform, which closes the popup
+    // and fires pp-hide, followed here back into state.
+    Popover: ({ props, children, slots, bindings }) => {
+      const [open, setOpen] = useBoundProp(props.open, bindings?.open);
+      const popup = useRef<HTMLElement>(null);
+      const panel = useRef<HTMLDivElement>(null);
+      const opener = useRef<Opener | null>(null);
+      const [anchor, setAnchor] = useState<Element | null>(null);
+      const mayTakeFocus = useMayTakeFocus();
+      const Heading = useHeading();
+      // The bound setter is a new function on every render; the listener
+      // below reads the latest one, so it is added once.
+      const setOpenLatest = useRef(setOpen);
+      setOpenLatest.current = setOpen;
+      useLayoutEffect(() => setAnchor(popoverHost(popup.current)), []);
+      // Opening moves focus to the panel's first control, as shadcn's does,
+      // once the popup is showing (a frame after `active` is set).
+      useEffect(() => {
+        if (!open) return;
+        opener.current = captureOpener();
+        if (!mayTakeFocus(popup.current)) return;
+        const frame = requestAnimationFrame(() => {
+          const target = panel.current?.querySelector<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+          (target ?? panel.current)?.focus();
+        });
+        return () => cancelAnimationFrame(frame);
+      }, [open, mayTakeFocus]);
+      useEffect(() => {
+        const el = popup.current;
+        if (!el) return;
+        const onHide = () => {
+          // Focus goes back only from inside the panel: a click on another
+          // control has already moved it where the actor wanted.
+          if (panel.current?.contains(document.activeElement)) settleFocus(null, opener.current);
+          opener.current = null;
+          setOpenLatest.current(false);
+        };
+        el.addEventListener('pp-hide', onHide);
+        return () => el.removeEventListener('pp-hide', onHide);
+      }, []);
+      return (
+        <pp-popup
+          ref={popup}
+          anchor={anchor ?? undefined}
+          active={open ?? false}
+          placement="bottom-start"
+          distance={8}
+          flip
+          shift
+          top-layer={true}
+          light-dismiss={true}
+        >
+          <div ref={panel} className="popover" role="dialog" aria-label={props.title} tabIndex={-1}>
+            <div className="popover__header">
+              <div className="flow">
+                <Heading className="label">{props.title}</Heading>
+                <Subsection>{children}</Subsection>
+              </div>
+              {slots?.suffix && <div className="button-group">{slots.suffix}</div>}
+            </div>
+          </div>
+        </pp-popup>
+      );
+    },
+
+    // The library's dropdown: a plain icon button and a pp-list of radio
+    // rows, as the library's view settings menus are drawn. Hands focus on
+    // (focus-handoff.ts) if a choice removes it while focused.
+    Menu: ({ props, children }) => {
+      const { trigger, list } = useMenuFocusHandoff(props.focusNext);
+      return (
+        <pp-dropdown placement="bottom-end" hoist>
+          <button ref={trigger} type="button" className="button button--plain" data-slot="trigger" title={props.label}>
+            {props.icon && <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />}
+            <span className="visually-hidden">{props.label}</span>
+          </button>
+          <pp-popup>
+            <pp-list ref={list}>{children}</pp-list>
+          </pp-popup>
+        </pp-dropdown>
+      );
+    },
+
+    // `disabled` goes in as a boolean: pp-list-item coerces by the type its
+    // property holds, and `undefined` would stay as the string "undefined".
+    MenuItem: ({ props, emit }) => (
+      <pp-list-item
+        type="radio"
+        checked={props.checked ?? false}
+        disabled={props.disabled ?? false}
+        onClick={() => !props.disabled && emit('press')}
+      >
+        {props.icon && <iconify-icon data-slot="prefix" className="icon" icon={icons[props.icon]} aria-hidden="true" />}
+        {props.label}
+      </pp-list-item>
+    ),
 
     // pp-map, which draws its pins and popups over a Leaflet base map. The
     // element takes its places and selection as properties and reports a

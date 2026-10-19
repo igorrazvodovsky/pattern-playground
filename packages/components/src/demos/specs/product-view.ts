@@ -52,10 +52,12 @@ const rows = (item: object, attributes: AttributeBinding[]) =>
 
 /**
  * The item at one rung, laid out by role: badges, price, description, rows,
- * and when it was listed. A part the rung's scope leaves out is empty.
+ * and when it was listed. A part the rung's scope leaves out is empty, and so
+ * is an attribute in `omit`: what a view next to this one already shows.
  */
-export const itemView = (rung: Rung, binding: EntityBinding = productBinding) => {
-  const shown = resolveAttributeSelection(binding, binding.scopes[rung]);
+export const itemView = (rung: Rung, binding: EntityBinding = productBinding, omit: string[] = []) => {
+  const omitted = new Set(resolveAttributeSelection(binding, omit).map(attribute => attribute.path));
+  const shown = resolveAttributeSelection(binding, binding.scopes[rung]).filter(attribute => !omitted.has(attribute.path));
   const byRole = (role: AttributeBinding['role']) => shown.filter(attribute => attribute.role === role);
   return (item: object) => {
     const [price] = present(item, byRole('key-attribute'));

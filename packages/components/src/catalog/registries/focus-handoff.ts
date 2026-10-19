@@ -25,6 +25,28 @@ const findTarget = (demo: HTMLElement, before: Element[], focusNext: string): HT
   return candidates.find(follows) ?? candidates.at(-1);
 };
 
+// Hands focus on from `lost`, which is about to be removed: to the button
+// labelled `focusNext`, else to the demo root. Focus that has not yet left
+// what is going (`stillThere`) counts as lost too.
+const handOff = (
+  lost: Element,
+  demo: HTMLElement,
+  focusNext: string | null | undefined,
+  stillThere: (active: Element) => boolean = () => false,
+) => {
+  const elements = [...demo.querySelectorAll('*')];
+  const before = elements.slice(0, elements.indexOf(lost)).reverse();
+
+  // After the commit: whatever replaces the element is in place by then.
+  queueMicrotask(() => {
+    if (!demo.isConnected) return;
+    const active = document.activeElement;
+    if (active && active !== document.body && !stillThere(active)) return;
+    const target = focusNext ? findTarget(demo, before, focusNext) : undefined;
+    (target ?? demo).focus();
+  });
+};
+
 /** Returns the ref for a Button's element. */
 export const useFocusHandoff = (focusNext: string | null | undefined) => {
   const ref = useRef<HTMLButtonElement>(null);
@@ -37,19 +59,38 @@ export const useFocusHandoff = (focusNext: string | null | undefined) => {
       if (!button || document.activeElement !== button) return;
       if (button.closest('dialog, [role="dialog"], [role="alertdialog"]')) return;
       const demo = button.closest<HTMLElement>('[data-registry]');
-      if (!demo) return;
-      const elements = [...demo.querySelectorAll('*')];
-      const before = elements.slice(0, elements.indexOf(button)).reverse();
-
-      // After the commit: whatever replaces the button is in place by then.
-      queueMicrotask(() => {
-        if (!demo.isConnected) return;
-        if (document.activeElement && document.activeElement !== document.body) return;
-        const target = focusNext ? findTarget(demo, before, focusNext) : undefined;
-        (target ?? demo).focus();
-      });
+      if (demo) handOff(button, demo, focusNext);
     };
   }, [focusNext]);
 
   return ref;
+};
+
+/**
+ * The same for a Menu: a choice can remove the menu it was made in, with
+ * focus on the menu's button or in its list, which a library may portal out
+ * of the demo, or hoist to <body> where React's removal does not reach it
+ * at once, so focus can still be in the list when the hand-off runs. Returns
+ * the refs for the button and the list. A menu inside a popover hands off
+ * too, since the choice can remove the popover with it.
+ */
+export const useMenuFocusHandoff = (focusNext: string | null | undefined) => {
+  const trigger = useRef<HTMLButtonElement>(null);
+  const list = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const button = trigger.current;
+    return () => {
+      const active = document.activeElement;
+      // The list's current one: a library may mount it only while open, and
+      // it is still in place when the menu's own cleanup runs.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      const menuList = list.current;
+      if (!button || !active || (active !== button && !menuList?.contains(active))) return;
+      const demo = button.closest<HTMLElement>('[data-registry]');
+      if (demo) handOff(button, demo, focusNext, focused => focused === button || Boolean(menuList?.contains(focused)));
+    };
+  }, [focusNext]);
+
+  return { trigger, list };
 };

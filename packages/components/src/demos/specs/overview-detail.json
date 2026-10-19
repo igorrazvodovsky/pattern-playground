@@ -1,0 +1,273 @@
+{
+  "root": "overview-detail",
+  "elements": {
+    "overview-detail": {
+      "type": "Split",
+      "props": { "split": { "$cond": { "$state": "/layout", "eq": "side-by-side" }, "$then": true, "$else": false }, "room": { "$bindState": "/room" } },
+      "children": ["page", "overview", "pane"]
+    },
+    "layout-menu": {
+      "type": "Menu",
+      "props": { "label": "View settings", "icon": "settings", "focusNext": { "$item": "name" } },
+      "children": ["layout-in-place", "layout-side-by-side", "layout-popover", "layout-new-page"]
+    },
+    "layout-in-place": {
+      "type": "MenuItem",
+      "props": { "label": "In place", "icon": "in-place", "checked": { "$cond": { "$or": [{ "$state": "/layout", "eq": "in-place" }, { "$and": [{ "$state": "/layout", "eq": "side-by-side" }, { "$state": "/room", "not": true }] }] }, "$then": true, "$else": false } },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/layout", "value": "in-place" } },
+          { "action": "setState", "params": { "statePath": "/popoverOpen", "value": false } },
+          { "action": "setState", "params": { "statePath": "/pageOpen", "value": false } }
+        ]
+      }
+    },
+    "layout-side-by-side": {
+      "type": "MenuItem",
+      "props": { "label": "Side by side", "icon": "side-by-side", "checked": { "$cond": { "$and": [{ "$state": "/layout", "eq": "side-by-side" }, { "$state": "/room" }] }, "$then": true, "$else": false }, "disabled": { "$cond": { "$state": "/room", "not": true }, "$then": true, "$else": false } },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/layout", "value": "side-by-side" } },
+          { "action": "setState", "params": { "statePath": "/popoverOpen", "value": false } },
+          { "action": "setState", "params": { "statePath": "/pageOpen", "value": false } }
+        ]
+      }
+    },
+    "layout-popover": {
+      "type": "MenuItem",
+      "props": { "label": "Popover", "icon": "popover", "checked": { "$cond": { "$state": "/layout", "eq": "popover" }, "$then": true, "$else": false } },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/layout", "value": "popover" } },
+          { "action": "setState", "params": { "statePath": "/popoverOpen", "value": false } },
+          { "action": "setState", "params": { "statePath": "/pageOpen", "value": false } }
+        ]
+      }
+    },
+    "layout-new-page": {
+      "type": "MenuItem",
+      "props": { "label": "New page", "icon": "external", "checked": { "$cond": { "$state": "/layout", "eq": "new-page" }, "$then": true, "$else": false } },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/layout", "value": "new-page" } },
+          { "action": "setState", "params": { "statePath": "/popoverOpen", "value": false } },
+          { "action": "setState", "params": { "statePath": "/pageOpen", "value": false } }
+        ]
+      }
+    },
+    "page": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$and": [{ "$state": "/layout", "eq": "new-page" }, { "$state": "/pageOpen" }] },
+      "children": ["page-back", "page-views"]
+    },
+    "page-back": {
+      "type": "Button",
+      "props": { "label": "Back to the collection", "icon": "back", "variant": "plain", "focusOnShow": true },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/pageOpen", "value": false } }
+        ]
+      }
+    },
+    "page-views": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "repeat": { "statePath": "/products", "key": "id" },
+      "children": ["page-view"]
+    },
+    "page-view": {
+      "type": "Card",
+      "props": { "title": { "$item": "name" } },
+      "visible": { "$item": "id", "eq": { "$state": "/selected" } },
+      "slots": { "suffix": ["layout-menu"] },
+      "children": ["page-body"]
+    },
+    "page-body": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["page-badges", "page-price", "page-description", "page-attributes", "page-listed"]
+    },
+    "page-badges": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "repeat": { "statePath": { "$item": "full/badges" } },
+      "children": ["page-badge"]
+    },
+    "page-badge": {
+      "type": "Badge",
+      "props": { "text": { "$item": "text" } }
+    },
+    "page-price": {
+      "type": "Text",
+      "props": { "text": { "$item": "full/price" }, "size": "large" },
+      "visible": { "$item": "full/price" }
+    },
+    "page-description": {
+      "type": "Text",
+      "props": { "text": { "$item": "full/description" } },
+      "visible": { "$item": "full/description" }
+    },
+    "page-attributes": {
+      "type": "DescriptionList",
+      "props": { "items": { "$item": "full/rows" } },
+      "visible": { "$item": "full/hasRows" }
+    },
+    "page-listed": {
+      "type": "Text",
+      "props": { "text": { "$item": "full/listed" }, "muted": true },
+      "visible": { "$item": "full/listed" }
+    },
+    "overview": {
+      "type": "Stack",
+      "props": { "gap": "s" },
+      "visible": { "$or": [{ "$state": "/layout", "neq": "new-page" }, { "$state": "/pageOpen", "not": true }] },
+      "repeat": { "statePath": "/products", "key": "id" },
+      "children": ["card"]
+    },
+    "card": {
+      "type": "Card",
+      "props": { "title": { "$item": "name" }, "opens": true, "selected": { "$cond": { "$item": "id", "eq": { "$state": "/selected" } }, "$then": true, "$else": false }, "focusOnShow": { "$cond": { "$item": "id", "eq": { "$state": "/selected" } }, "$then": true, "$else": false } },
+      "slots": { "suffix": ["card-menu"] },
+      "children": ["card-attributes", "in-place", "popover"],
+      "on": {
+        "open": [
+          { "action": "setState", "params": { "statePath": "/selected", "value": { "$computed": "value", "args": { "value": { "$item": "id" } } } } },
+          { "action": "setState", "params": { "statePath": "/popoverOpen", "value": { "$cond": { "$state": "/layout", "eq": "popover" }, "$then": true, "$else": false } } },
+          { "action": "setState", "params": { "statePath": "/pageOpen", "value": { "$cond": { "$state": "/layout", "eq": "new-page" }, "$then": true, "$else": false } } }
+        ]
+      }
+    },
+    "card-menu": {
+      "type": "Stack",
+      "props": { "direction": "horizontal" },
+      "visible": { "$and": [{ "$item": "id", "eq": { "$state": "/selected" } }, { "$or": [{ "$state": "/layout", "eq": "in-place" }, { "$and": [{ "$state": "/layout", "eq": "side-by-side" }, { "$state": "/room", "not": true }] }] }] },
+      "children": ["layout-menu"]
+    },
+    "card-attributes": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "repeat": { "statePath": { "$item": "attributes" } },
+      "children": ["card-attribute"]
+    },
+    "card-attribute": {
+      "type": "Badge",
+      "props": { "label": { "$item": "label" }, "text": { "$item": "value" } }
+    },
+    "in-place": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$and": [{ "$item": "id", "eq": { "$state": "/selected" } }, { "$or": [{ "$state": "/layout", "eq": "in-place" }, { "$and": [{ "$state": "/layout", "eq": "side-by-side" }, { "$state": "/room", "not": true }] }] }] },
+      "children": ["in-place-body"]
+    },
+    "in-place-body": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["in-place-badges", "in-place-price", "in-place-description", "in-place-attributes", "in-place-listed"]
+    },
+    "in-place-badges": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "repeat": { "statePath": { "$item": "inPlace/badges" } },
+      "children": ["in-place-badge"]
+    },
+    "in-place-badge": {
+      "type": "Badge",
+      "props": { "text": { "$item": "text" } }
+    },
+    "in-place-price": {
+      "type": "Text",
+      "props": { "text": { "$item": "inPlace/price" }, "size": "large" },
+      "visible": { "$item": "inPlace/price" }
+    },
+    "in-place-description": {
+      "type": "Text",
+      "props": { "text": { "$item": "inPlace/description" } },
+      "visible": { "$item": "inPlace/description" }
+    },
+    "in-place-attributes": {
+      "type": "DescriptionList",
+      "props": { "items": { "$item": "inPlace/rows" } },
+      "visible": { "$item": "inPlace/hasRows" }
+    },
+    "in-place-listed": {
+      "type": "Text",
+      "props": { "text": { "$item": "inPlace/listed" }, "muted": true },
+      "visible": { "$item": "inPlace/listed" }
+    },
+    "popover": {
+      "type": "Popover",
+      "props": { "title": { "$item": "name" }, "open": { "$bindState": "/popoverOpen" } },
+      "visible": { "$and": [{ "$item": "id", "eq": { "$state": "/selected" } }, { "$state": "/layout", "eq": "popover" }] },
+      "slots": { "suffix": ["layout-menu"] },
+      "children": ["detail-body"]
+    },
+    "detail-body": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["detail-badges", "detail-price", "detail-description", "detail-attributes", "detail-listed"]
+    },
+    "detail-badges": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "repeat": { "statePath": { "$item": "detail/badges" } },
+      "children": ["detail-badge"]
+    },
+    "detail-badge": {
+      "type": "Badge",
+      "props": { "text": { "$item": "text" } }
+    },
+    "detail-price": {
+      "type": "Text",
+      "props": { "text": { "$item": "detail/price" }, "size": "large" },
+      "visible": { "$item": "detail/price" }
+    },
+    "detail-description": {
+      "type": "Text",
+      "props": { "text": { "$item": "detail/description" } },
+      "visible": { "$item": "detail/description" }
+    },
+    "detail-attributes": {
+      "type": "DescriptionList",
+      "props": { "items": { "$item": "detail/rows" } },
+      "visible": { "$item": "detail/hasRows" }
+    },
+    "detail-listed": {
+      "type": "Text",
+      "props": { "text": { "$item": "detail/listed" }, "muted": true },
+      "visible": { "$item": "detail/listed" }
+    },
+    "pane": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$and": [{ "$state": "/layout", "eq": "side-by-side" }, { "$state": "/room" }] },
+      "repeat": { "statePath": "/products", "key": "id" },
+      "children": ["pane-view"]
+    },
+    "pane-view": {
+      "type": "Card",
+      "props": { "title": { "$item": "name" } },
+      "visible": { "$item": "id", "eq": { "$state": "/selected" } },
+      "slots": { "suffix": ["pane-previous", "pane-next", "layout-menu"] },
+      "children": ["detail-body"]
+    },
+    "pane-previous": {
+      "type": "Button",
+      "props": { "label": "Previous item", "icon": "previous", "hideLabel": true, "variant": "plain", "focusNext": "Previous item" },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/selected", "value": { "$computed": "step", "args": { "selected": { "$state": "/selected" }, "by": -1 } } } }
+        ]
+      }
+    },
+    "pane-next": {
+      "type": "Button",
+      "props": { "label": "Next item", "icon": "next", "hideLabel": true, "variant": "plain", "focusNext": "Next item" },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/selected", "value": { "$computed": "step", "args": { "selected": { "$state": "/selected" }, "by": 1 } } } }
+        ]
+      }
+    }
+  }
+}
