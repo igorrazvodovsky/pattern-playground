@@ -1,4 +1,4 @@
-import { useId, useRef, type CSSProperties } from 'react';
+import { Fragment, useId, useRef, type CSSProperties } from 'react';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import { createPortal } from 'react-dom';
 import { Checkbox, Dialog, RadioGroup, Select, Toast, Tooltip } from 'radix-ui';
@@ -321,6 +321,21 @@ export const { registry } = defineRegistry(catalog, {
       <ul className="ml-6 list-disc text-sm [&>li]:mt-1">
         {props.items.map((item, index) => <li key={index}>{item}</li>)}
       </ul>
+    ),
+
+    // shadcn/ui has no description list. Labels in the muted foreground and
+    // the medium weight shadcn gives a label, values beside them, each pair
+    // ruled off from the next as in shadcn's tables. Below 24rem of demo
+    // width the label sits above its value, at the width the pp list stacks.
+    DescriptionList: ({ props }) => (
+      <dl className="grid grid-cols-1 text-sm @sm/demo:grid-cols-[max-content_1fr] [&>dd:not(:last-of-type)]:border-b @sm/demo:[&>dt:not(:last-of-type)]:border-b">
+        {props.items.map(item => (
+          <Fragment key={item.label}>
+            <dt className="pt-2 font-medium text-muted-foreground @sm/demo:py-2 @sm/demo:pr-6">{item.label}</dt>
+            <dd className="pb-2 @sm/demo:py-2">{item.value}</dd>
+          </Fragment>
+        ))}
+      </dl>
     ),
 
     // shadcn/ui has no conversation component. The bubbles follow AI

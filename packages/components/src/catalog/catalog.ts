@@ -147,6 +147,13 @@ export const catalog = defineCatalog(schema, {
       }),
       description: 'A list of short pieces of text, read as content. Not interactive: rows that act are a List.',
     },
+    DescriptionList: {
+      props: z.object({
+        items: z.array(z.object({ label: z.string(), value: z.string() })),
+      }),
+      description:
+        'Labels paired with their values, one pair to a row, read as content: the attributes of one item in its full view, or a spec sheet. For a few attributes on a summary, use labelled Badges instead.',
+    },
     Messages: {
       props: z.object({}),
       slots: ['default'],

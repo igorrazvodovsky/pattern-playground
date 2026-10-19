@@ -75,6 +75,12 @@ the survey and should be confirmed before acting.
 - [x] *Timers wrote to demos that had left the page.* `arm` and `notify`
   revert state on a timer. Their handlers now receive `connected` from
   `mountSpecDemos` and skip the write once the demo's element is gone.
+- [ ] *`SpecDemo` writes a ref during render.* When the registry changes,
+  `settled.current = false` is set in the render body. A render that React
+  throws away (concurrent rendering, StrictMode's double render) still clears
+  it, and nothing sets it back until a later commit, so a `focusOnShow`
+  control that appears in that window does not take focus. Reset it in a
+  layout effect keyed on `registry` instead.
 - [ ] *Spec-demo roots are never unmounted.* `mountDemos` and `mountSpecDemos`
   create React roots and nothing unmounts them when a pane is truncated or the
   page changes, so effect cleanups never run and a pp Dialog's portalled
@@ -300,10 +306,20 @@ Design calls; one sitting each.
   catalog has a `Stat` (the figure, its verdict and detail, and `alert`),
   placed in a Card titled by its label with the trend as a Badge in the
   card's suffix. `alert` now sits on `.stat` rather than on the card.
-- [ ] *Entity card list.* `cards--list > EntityCard` is written out eight times
+- [ ] *Entity card list.* `cards--list > EntityCard` is written out seven times
   across demos; `CardRenderer` can't be reused because it needs a full spec.
   Also a shared overview-attributes constant (`['name','category','pricing.msrp']`
-  in three demos, a `listedAt` variant in two).
+  in three demos, a `listedAt` variant in two). In specs, an entity card is a
+  Card titled by the item's name with its attributes as labelled Badges, and
+  the item's full view is a Card holding its badges, price, description and a
+  `DescriptionList` of the rest, laid out by role in the module beside the
+  spec (`specs/investigate.ts`), as `ItemView` lays out its maxi scope.
+- [ ] *Item layout by role, twice.* `specs/investigate.ts` copies `ItemView`'s
+  role filtering and its private `specRows` (a record-valued attribute gives
+  one row per key) to lay out the full view. A change to how `ItemView` lays
+  out a scope now has to be made in both. A `layoutByRole(binding, scope,
+  item)` helper in `shared/data/bindings` would serve both; decide together
+  with `ItemView`'s shape, which is still provisional.
 - [ ] *Overview plus detail.* The same split with a `useFitsWidth` fallback in
   `overview-detail.tsx`, `FluidAttributesDemo.tsx`, `coordinated-views.tsx`.
   Several of these put `aria-label` on a plain `div`.

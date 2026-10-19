@@ -1,4 +1,4 @@
-import { Children, useEffect, useId, useRef, type CSSProperties } from 'react';
+import { Children, Fragment, useEffect, useId, useRef, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import clsx from 'clsx';
@@ -203,6 +203,17 @@ export const { registry } = defineRegistry(catalog, {
       <ul>
         {props.items.map((item, index) => <li key={index}>{item}</li>)}
       </ul>
+    ),
+
+    DescriptionList: ({ props }) => (
+      <dl className="description-list">
+        {props.items.map(item => (
+          <Fragment key={item.label}>
+            <dt>{item.label}</dt>
+            <dd>{item.value}</dd>
+          </Fragment>
+        ))}
+      </dl>
     ),
 
     // The library's conversation layout, as in the Messaging stories: the

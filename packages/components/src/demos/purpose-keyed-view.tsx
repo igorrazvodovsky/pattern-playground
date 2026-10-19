@@ -12,99 +12,10 @@ import '../jsx-types';
  * The three purposes as three demos, one per variant, each read from the
  * same `products` collection: the exploratory view is borrowed whole from
  * data-view; monitor (specs/monitor) compresses the collection into
- * glanceable aggregates; investigate is a drilldown path that bottoms out in
- * the item's full view. The data never changes across them — the keying does.
+ * glanceable aggregates; investigate (specs/investigate) is a drilldown path
+ * that bottoms out in the item's full view. The data never changes across
+ * them — the keying does.
  */
-
-/**
- * Drilldown investigation: a path built at use time as the concern narrows
- * — categories → items in a category → the item's full view. Keyed by the
- * chase, not in advance, so only the path can be designed, not the view.
- *
- * Structurally this is overview-detail's new-page layout, chained: two
- * overview rungs (a category grid, then a list of items) ending in a detail
- * (the full item view), place kept on the way back out. It reuses that
- * pattern's vocabulary — `EntityCard` overviews, an `ItemView` detail — so
- * the two pages read as the same machinery at different depths. The first
- * rung is a card grid rather than a list: a category picker is glanceable,
- * and the change of representation between the two overviews marks them as
- * different rungs of the same descent.
- */
-function InvestigateDrilldown() {
-  const [category, setCategory] = useState<string | null>(null);
-  const [itemId, setItemId] = useState<string | null>(null);
-
-  const categories = useMemo(() => {
-    const byCategory = new Map<string, number>();
-    for (const item of products) {
-      const key = item.metadata.category;
-      byCategory.set(key, (byCategory.get(key) ?? 0) + 1);
-    }
-    return [...byCategory.entries()].sort(([a], [b]) => a.localeCompare(b));
-  }, []);
-
-  const item = products.find((candidate) => candidate.id === itemId);
-
-  if (item) {
-    return (
-      <div className="flow">
-        <BackButton onClick={() => setItemId(null)}>Back to {category}</BackButton>
-        {/* The drilldown bottoms out in the item's own page, which names itself. */}
-        <ItemView
-          item={item}
-          contentType="product"
-          scope="maxi"
-          mode="preview"
-          heading={2}
-        />
-      </div>
-    );
-  }
-
-  if (category) {
-    const categoryItems = products.filter((candidate) => candidate.metadata.category === category);
-    return (
-      <div className="flow">
-        <BackButton onClick={() => setCategory(null)}>All categories</BackButton>
-        <section className="cards cards--list">
-          {categoryItems.map((candidate) => (
-            <div key={candidate.id}>
-              <EntityCard
-                item={candidate}
-                binding={productBinding}
-                shownAttributes={['name', 'condition', 'pricing.msrp']}
-                onItemSelect={(target) => setItemId(target.id)}
-              />
-            </div>
-          ))}
-        </section>
-      </div>
-    );
-  }
-
-  return (
-    <ul className="cards layout-grid">
-      {categories.map(([name, count]) => (
-        <li key={name}>
-          <article className="card flow pad">
-            <h4 className="label">
-              <button type="button" className="stretched-link" onClick={() => setCategory(name)}>
-                {name}
-              </button>
-            </h4>
-            <div className="card__attributes badges">
-              <span className="badge">{count} listings</span>
-            </div>
-          </article>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-export function InvestigateDemo() {
-  return <InvestigateDrilldown />;
-}
 
 /**
  * The watch-to-chase tiers as one flow: ambient badge → at-a-glance tile

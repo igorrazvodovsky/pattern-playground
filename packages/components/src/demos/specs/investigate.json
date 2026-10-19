@@ -1,0 +1,165 @@
+{
+  "root": "investigate",
+  "elements": {
+    "investigate": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["categories", "category-views"]
+    },
+
+    "categories": {
+      "type": "Grid",
+      "props": { "minColumnWidth": "s" },
+      "visible": { "$state": "/inCategory", "not": true },
+      "repeat": { "statePath": "/categories", "key": "id" },
+      "children": ["category"]
+    },
+    "category": {
+      "type": "Card",
+      "props": { "title": { "$item": "name" }, "opens": true, "focusOnShow": { "$item": "open" } },
+      "children": ["category-count"],
+      "on": {
+        "open": [
+          { "action": "setState", "params": { "statePath": { "$item": "open" }, "value": true } },
+          { "action": "setState", "params": { "statePath": "/inCategory", "value": true } }
+        ]
+      }
+    },
+    "category-count": {
+      "type": "Badge",
+      "props": { "text": { "$item": "count" } }
+    },
+
+    "category-views": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$state": "/inCategory" },
+      "repeat": { "statePath": "/categories", "key": "id" },
+      "children": ["category-view"]
+    },
+    "category-view": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$item": "open" },
+      "children": ["items-view", "item-views"]
+    },
+
+    "items-view": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$state": "/inItem", "not": true },
+      "children": ["items-controls", "items"]
+    },
+    "items-controls": {
+      "type": "Stack",
+      "props": { "direction": "horizontal" },
+      "children": ["back-to-categories"]
+    },
+    "back-to-categories": {
+      "type": "Button",
+      "props": { "label": "All categories", "icon": "back", "variant": "plain", "focusOnShow": true },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/inCategory", "value": false } },
+          { "action": "setState", "params": { "statePath": { "$item": "open" }, "value": false } }
+        ]
+      }
+    },
+    "items": {
+      "type": "Stack",
+      "props": { "gap": "s" },
+      "repeat": { "statePath": { "$item": "items" }, "key": "id" },
+      "children": ["item"]
+    },
+    "item": {
+      "type": "Card",
+      "props": { "title": { "$item": "name" }, "opens": true, "focusOnShow": { "$item": "open" } },
+      "children": ["item-attributes"],
+      "on": {
+        "open": [
+          { "action": "setState", "params": { "statePath": { "$item": "open" }, "value": true } },
+          { "action": "setState", "params": { "statePath": "/inItem", "value": true } }
+        ]
+      }
+    },
+    "item-attributes": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "repeat": { "statePath": { "$item": "attributes" } },
+      "children": ["attribute"]
+    },
+    "attribute": {
+      "type": "Badge",
+      "props": { "label": { "$item": "label" }, "text": { "$item": "value" } }
+    },
+
+    "item-views": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$state": "/inItem" },
+      "repeat": { "statePath": { "$item": "items" }, "key": "id" },
+      "children": ["item-view"]
+    },
+    "item-view": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$item": "open" },
+      "children": ["item-controls", "full-view"]
+    },
+    "item-controls": {
+      "type": "Stack",
+      "props": { "direction": "horizontal" },
+      "children": ["back-to-items"]
+    },
+    "back-to-items": {
+      "type": "Button",
+      "props": { "label": { "$template": "Back to ${category}" }, "icon": "back", "variant": "plain", "focusOnShow": true },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/inItem", "value": false } },
+          { "action": "setState", "params": { "statePath": { "$item": "open" }, "value": false } }
+        ]
+      }
+    },
+    "full-view": {
+      "type": "Card",
+      "props": { "title": { "$item": "name" } },
+      "children": ["full-view-body"]
+    },
+    "full-view-body": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["full-view-badges", "full-view-price", "full-view-description", "full-view-attributes", "full-view-listed"]
+    },
+    "full-view-badges": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "repeat": { "statePath": { "$item": "badges" } },
+      "children": ["full-view-badge"]
+    },
+    "full-view-badge": {
+      "type": "Badge",
+      "props": { "text": { "$item": "text" } }
+    },
+    "full-view-price": {
+      "type": "Text",
+      "props": { "text": { "$item": "price" }, "size": "large" },
+      "visible": { "$item": "price" }
+    },
+    "full-view-description": {
+      "type": "Text",
+      "props": { "text": { "$item": "description" } },
+      "visible": { "$item": "description" }
+    },
+    "full-view-attributes": {
+      "type": "DescriptionList",
+      "props": { "items": { "$item": "rows" } },
+      "visible": { "$item": "hasRows" }
+    },
+    "full-view-listed": {
+      "type": "Text",
+      "props": { "text": { "$item": "listed" }, "muted": true },
+      "visible": { "$item": "listed" }
+    }
+  }
+}
