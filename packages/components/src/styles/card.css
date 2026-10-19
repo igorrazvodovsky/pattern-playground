@@ -82,8 +82,17 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
     font-weight: 500;
   }
 
+  /* A card's title. h2 and h3 take its size by default; .card__title gives
+     it to a title at any heading level, so a title nested deeper (a card in a
+     card) still reads as the card's title. */
   .card :is(h2, h3) {
     font-size: 1.25rem;
+  }
+
+  .card .card__title {
+    font-size: 1.25rem;
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-heading);
   }
 
   /* An eyebrow line above the card's title. */

@@ -3,7 +3,9 @@
 // edge sits at --demo-w); lib/demo-expander.ts turns a drag into --demo-w on the
 // pane. The widen button lives in the footer, not over the demo: a corner button
 // collides with a demo's own chrome (a canvas's tool panels), and a demo
-// captures pointer events on its own root.
+// captures pointer events on its own root. The frame is a region named "Demo":
+// a demo is its own interface with mock data, so its headings sit inside a
+// boundary that assistive technology announces on the way in and out.
 type Library = 'pp' | 'shadcn';
 
 interface Props {
@@ -46,13 +48,17 @@ const {
 // A starting library the switch does not offer would strand the demo there.
 const registry = requestedRegistry && registries.includes(requestedRegistry) ? requestedRegistry : registries[0];
 
+// Labels are captions, often a sentence or more: too long for a region's name,
+// so the caption describes the region instead.
+const labelId = label ? `demo-label-${crypto.randomUUID().slice(0, 8)}` : undefined;
+
 const surfaceClass = {
   gray: 'layer gray',
   white: 'layer border',
   border: 'border',
 } as const;
 ---
-<div class="demo-block">
+<section class="demo-block" aria-label="Demo" aria-describedby={labelId}>
   <div
     class={`demo-block__content ${surfaceClass[surface]}`}
     data-resizable={resizable || undefined}
@@ -78,7 +84,7 @@ const surfaceClass = {
   </div>
   {(label || expandable || spec) && (
     <div class="demo-block__footer">
-      {label && <span class="demo-block__label">{label}</span>}
+      {label && <span class="demo-block__label" id={labelId}>{label}</span>}
       {spec && registries.length > 1 && (
         <div class="demo-registry-switch" role="group" aria-label="Component library">
           {registries.map(r => (
@@ -105,4 +111,4 @@ const surfaceClass = {
       )}
     </div>
   )}
-</div>
+</section>

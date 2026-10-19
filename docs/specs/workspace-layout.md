@@ -130,6 +130,17 @@ mounts specs through the `specs` map in `apps/patterns/src/lib/demo-registry.ts`
 MDX writes `<Demo spec="<slug>">`, and the demo frame offers a switch between
 registries.
 
+A demo is its own interface with mock data, so its headings do not continue
+the page's outline. Every demo frame is a region named "Demo", described by
+its label, and a spec demo's titles start at a fixed level (h3) inside it.
+Titled types (Card, EmptyState, Section) render their titles at the current
+level and their content one level deeper (`registries/heading-level.ts`).
+Card and EmptyState titles are headings in every registry, even where the
+library publishes them as plain text (shadcn's), and keep their look at any
+level (`.card__title` and `.empty-state__title` in this library). A Section's
+title is a heading where it shows as one, in the details affordance; in a tab
+bar the tab names the part.
+
 ### Promotion register
 
 Known un-promoted substrate is recorded so the intent is not lost when the

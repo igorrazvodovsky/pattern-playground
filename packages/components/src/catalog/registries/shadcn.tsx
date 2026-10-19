@@ -42,6 +42,7 @@ import { useFocusOnShow } from './focus-on-show';
 import { scopedPortal } from './shadcn-portal';
 import type { Send } from './shadcn-parts';
 import { RuleBuilder, type RuleTree } from './shadcn-rule-builder';
+import { Subsection, useHeading } from './heading-level';
 import { Section, Sections } from './shadcn-sections';
 import { Timeline, TimelineEntry } from './shadcn-timeline';
 import { useDisclosureState } from './disclosure-state';
@@ -50,8 +51,8 @@ import { TracingProvider, useMarkTracing, useTracingState } from './mark-tracing
 import sheetUrl from '../shadcn.generated.css?url';
 
 // The catalog rendered with shadcn/ui, through @json-render/shadcn. Where the
-// kit's component props line up with a catalog type, the kit renders it (Card,
-// Stack, Checkbox). Where they do not, this file builds the type from
+// kit's component props line up with a catalog type, the kit renders it
+// (Stack, Checkbox). Where they do not, this file builds the type from
 // shadcn's own class lists, which is how shadcn is meant to be used: its
 // components are copied into a project, not imported. The kit's wrappers have
 // no icon button, no ghost button and no list, and its primitives are not
@@ -80,7 +81,7 @@ const loadStylesheet = (href: string) =>
 
 export const stylesheet = loadStylesheet(sheetUrl);
 
-const { Stack: KitStack, Card: KitCard, Checkbox: KitCheckbox } = shadcnComponents;
+const { Stack: KitStack, Checkbox: KitCheckbox } = shadcnComponents;
 
 const gap = { none: 'none', s: 'sm', m: 'md', l: 'lg' } as const;
 const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
@@ -201,21 +202,20 @@ export const { registry } = defineRegistry(catalog, {
       </div>
     ),
 
-    // The kit's Card has no CardAction or CardFooter, and its title is plain
-    // text, so a card with a suffix or actions, or one that opens, is built
-    // from shadcn's card classes: the suffix in the header's action column,
-    // the actions in the footer at the end. shadcn has no card that opens; the
+    // The kit's Card has no CardAction or CardFooter, and its title is a div,
+    // so every card is built from shadcn's card classes: the title as a
+    // heading at the demo's current level (heading-level.ts) with
+    // CardTitle's classes, the suffix in the header's action column, the
+    // actions in the footer at the end. shadcn has no card that opens; the
     // title button's ::after covers the card, the suffix and actions sit above
     // it, and focus is shown on the cover so the whole card is marked. The
     // button takes focus when it appears, if `focusOnShow` (focus-on-show.ts).
     // A card holding a Stat sets its title as the section card's muted
     // description and draws the header close, so the figure leads.
-    Card: ({ props, children, slots, emit, ...context }) => {
+    Card: ({ props, children, slots, emit }) => {
       const openRef = useRef<HTMLButtonElement>(null);
       useFocusOnShow(openRef, props.focusOnShow);
-      if (!props.opens && !slots?.suffix && !slots?.actions) {
-        return <KitCard {...context} emit={emit} props={{ title: props.title ?? null, description: null, maxWidth: null, centered: null, className: null }}>{children}</KitCard>;
-      }
+      const Heading = useHeading();
       const above = props.opens && 'relative z-10';
       return (
         <div
@@ -224,30 +224,37 @@ export const { registry } = defineRegistry(catalog, {
             props.opens && 'relative',
           )}
         >
-          <div className="grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto]">
-            {props.title && (
-              <div className="leading-none font-semibold group-has-data-[slot=stat]/card:text-sm group-has-data-[slot=stat]/card:leading-snug group-has-data-[slot=stat]/card:font-normal group-has-data-[slot=stat]/card:text-muted-foreground">
-                {props.opens ? (
-                  <button
-                    ref={openRef}
-                    type="button"
-                    className="cursor-pointer text-left outline-none after:absolute after:inset-0 after:rounded-xl hover:underline focus-visible:after:ring-[3px] focus-visible:after:ring-ring/50"
-                    onClick={() => emit('open')}
-                  >
-                    {props.title}
-                  </button>
-                ) : (
-                  props.title
-                )}
-              </div>
-            )}
-            {slots?.suffix && (
-              <div data-slot="card-action" className={clsx('col-start-2 row-span-2 row-start-1 flex items-center gap-2 self-start justify-self-end', above)}>
-                {slots.suffix}
-              </div>
-            )}
+          {(props.title || slots?.suffix) && (
+            <div className="grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto]">
+              {props.title && (
+                <Heading
+                  data-slot="card-title"
+                  className="leading-none font-semibold group-has-data-[slot=stat]/card:text-sm group-has-data-[slot=stat]/card:leading-snug group-has-data-[slot=stat]/card:font-normal group-has-data-[slot=stat]/card:text-muted-foreground"
+                >
+                  {props.opens ? (
+                    <button
+                      ref={openRef}
+                      type="button"
+                      className="cursor-pointer text-left outline-none after:absolute after:inset-0 after:rounded-xl hover:underline focus-visible:after:ring-[3px] focus-visible:after:ring-ring/50"
+                      onClick={() => emit('open')}
+                    >
+                      {props.title}
+                    </button>
+                  ) : (
+                    props.title
+                  )}
+                </Heading>
+              )}
+              {slots?.suffix && (
+                <div data-slot="card-action" className={clsx('col-start-2 row-span-2 row-start-1 flex items-center gap-2 self-start justify-self-end', above)}>
+                  {slots.suffix}
+                </div>
+              )}
+            </div>
+          )}
+          <div className="flex flex-1 flex-col gap-3 px-6">
+            <Subsection>{children}</Subsection>
           </div>
-          <div className="flex flex-1 flex-col gap-3 px-6">{children}</div>
           {slots?.actions && <div className={clsx('flex items-center justify-end gap-2 px-6', above)}>{slots.actions}</div>}
         </div>
       );
@@ -296,10 +303,13 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui Empty, with its icon media, header and content. Its title is
-    // a div, as shadcn publishes it, not a heading.
+    // shadcn/ui Empty, with its icon media, header and content. shadcn
+    // publishes its title as a div; here it is a heading at the demo's
+    // current level, with EmptyTitle's classes, so both libraries give the
+    // demo the same outline.
     EmptyState: ({ props, slots }) => {
       const Icon = props.icon ? icons[props.icon] : null;
+      const Heading = useHeading();
       return (
         <div className="flex min-w-0 flex-1 flex-col items-center justify-center gap-6 rounded-lg border-dashed p-6 text-center text-balance md:p-12">
           <div className="flex max-w-sm flex-col items-center gap-2 text-center">
@@ -308,7 +318,7 @@ export const { registry } = defineRegistry(catalog, {
                 <Icon aria-hidden="true" />
               </div>
             )}
-            <div className="text-lg font-medium tracking-tight">{props.title}</div>
+            <Heading className="text-lg font-medium tracking-tight">{props.title}</Heading>
             {props.description && <div className="text-sm/relaxed text-muted-foreground">{props.description}</div>}
           </div>
           {slots?.actions && (

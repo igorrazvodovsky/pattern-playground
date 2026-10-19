@@ -1,12 +1,15 @@
 import { createContext, useCallback, useContext, useId, useLayoutEffect, useState, type ReactNode } from 'react';
 import { Accordion, Tabs } from 'radix-ui';
 import { ChevronDown } from 'lucide-react';
+import { Subsection, useHeading } from './heading-level';
 
 // Sections and Section for the shadcn registry: shadcn/ui Tabs for the tab bar
 // and Accordion for details (new-york, v4, classes as published). Radix wants
 // every tab trigger inside one list ahead of the panels, while the catalog
 // gives each Section its own title, so each Section registers its title with
-// the Sections around it, which draws the list.
+// the Sections around it, which draws the list. In details, each title is a
+// heading at the demo's current level (heading-level.ts); Radix's header
+// would always be an h3.
 //
 // Every class used here must be visible to Tailwind: catalog/shadcn.css lists
 // this file as a source.
@@ -73,21 +76,28 @@ export const Section = ({ title, children }: { title: string; children?: ReactNo
 
   useLayoutEffect(() => register?.({ value, title }), [register, value, title]);
   useLayoutEffect(() => () => unregister?.(value), [unregister, value]);
+  const Heading = useHeading();
 
-  const body = <div className="grid gap-2 text-sm">{children}</div>;
+  const body = (
+    <div className="grid gap-2 text-sm">
+      <Subsection>{children}</Subsection>
+    </div>
+  );
   if (!context) return body;
 
   if (context.affordance === 'details') {
     return (
       <Accordion.Item value={value} data-slot="accordion-item" className="border-b last:border-b-0">
-        <Accordion.Header className="flex">
-          <Accordion.Trigger data-slot="accordion-trigger" className={accordionTrigger}>
-            {title}
-            <ChevronDown
-              aria-hidden="true"
-              className="pointer-events-none size-4 shrink-0 translate-y-0.5 text-muted-foreground transition-transform duration-200"
-            />
-          </Accordion.Trigger>
+        <Accordion.Header asChild>
+          <Heading className="flex">
+            <Accordion.Trigger data-slot="accordion-trigger" className={accordionTrigger}>
+              {title}
+              <ChevronDown
+                aria-hidden="true"
+                className="pointer-events-none size-4 shrink-0 translate-y-0.5 text-muted-foreground transition-transform duration-200"
+              />
+            </Accordion.Trigger>
+          </Heading>
         </Accordion.Header>
         <Accordion.Content data-slot="accordion-content" className="overflow-hidden">
           <div className="pt-0 pb-4">{body}</div>

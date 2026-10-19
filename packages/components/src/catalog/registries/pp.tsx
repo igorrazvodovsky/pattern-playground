@@ -10,6 +10,7 @@ import { useFieldError } from './field-validation';
 import { submitForm } from './form-submit';
 import { useFocusHandoff } from './focus-handoff';
 import { useFocusOnShow } from './focus-on-show';
+import { Subsection, useHeading } from './heading-level';
 import { useToastList } from './toast-list';
 import { TracingProvider, useMarkTracing, useTracingState } from './mark-tracing';
 import '../../jsx-types';
@@ -104,10 +105,13 @@ export const { registry } = defineRegistry(catalog, {
     // and a footer that puts the actions at the end. A card that opens puts
     // its title in a .stretched-link button, which covers the card while the
     // header's and footer's other controls stay above it. The button takes
-    // focus when it appears, if `focusOnShow` (focus-on-show.ts).
+    // focus when it appears, if `focusOnShow` (focus-on-show.ts). The title is
+    // a heading at the demo's current level (heading-level.ts); .card__title
+    // keeps its size whatever the level.
     Card: ({ props, children, slots, emit }) => {
       const openRef = useRef<HTMLButtonElement>(null);
       useFocusOnShow(openRef, props.focusOnShow);
+      const Heading = useHeading();
       const title = props.opens ? (
         <button ref={openRef} type="button" className="stretched-link" onClick={() => emit('open')}>
           {props.title}
@@ -118,10 +122,12 @@ export const { registry } = defineRegistry(catalog, {
       return slots?.suffix || slots?.actions ? (
         <article className="card">
           <div className="card__header">
-            {props.title && <h3 className="label">{title}</h3>}
+            {props.title && <Heading className="label card__title">{title}</Heading>}
             {slots.suffix && <div className="flex">{slots.suffix}</div>}
           </div>
-          <div className="flow pad">{children}</div>
+          <div className="flow pad">
+            <Subsection>{children}</Subsection>
+          </div>
           {slots.actions && (
             <div className="card__footer">
               <div className="flex" />
@@ -131,8 +137,8 @@ export const { registry } = defineRegistry(catalog, {
         </article>
       ) : (
         <article className="card flow pad" style={{ '--flow-space': '0em' } as CSSProperties}>
-          {props.title && <h3>{title}</h3>}
-          {children}
+          {props.title && <Heading className="card__title">{title}</Heading>}
+          <Subsection>{children}</Subsection>
         </article>
       );
     },
@@ -174,30 +180,38 @@ export const { registry } = defineRegistry(catalog, {
     ),
 
     // The library's empty state: a centred column with a large icon, the
-    // title as a heading and the actions side by side.
-    EmptyState: ({ props, slots }) => (
-      <div className="empty-state flow">
-        {props.icon && <iconify-icon icon={icons[props.icon]} aria-hidden="true" />}
-        <h3>{props.title}</h3>
-        {props.description && <p>{props.description}</p>}
-        {slots?.actions && <div className="inline-flow">{slots.actions}</div>}
-      </div>
-    ),
+    // title as a heading at the demo's current level and the actions side by
+    // side.
+    EmptyState: ({ props, slots }) => {
+      const Heading = useHeading();
+      return (
+        <div className="empty-state flow">
+          {props.icon && <iconify-icon icon={icons[props.icon]} aria-hidden="true" />}
+          <Heading className="empty-state__title">{props.title}</Heading>
+          {props.description && <p>{props.description}</p>}
+          {slots?.actions && <div className="inline-flow">{slots.actions}</div>}
+        </div>
+      );
+    },
 
     // pp-sections reads its children as heading-then-content runs and rewires
     // them for the affordance. Each Section brings its content already in the
     // panel the element would otherwise wrap it in, so the element leaves those
-    // nodes where React put them.
+    // nodes where React put them. The element takes any heading level, and
+    // sizes the titles itself.
     Sections: ({ props, children }) => <pp-sections affordance={props.affordance}>{children}</pp-sections>,
 
-    Section: ({ props, children }) => (
-      <>
-        <h3>{props.title}</h3>
-        <div data-pp-panel="" className="flow">
-          {children}
-        </div>
-      </>
-    ),
+    Section: ({ props, children }) => {
+      const Heading = useHeading();
+      return (
+        <>
+          <Heading>{props.title}</Heading>
+          <div data-pp-panel="" className="flow">
+            <Subsection>{children}</Subsection>
+          </div>
+        </>
+      );
+    },
 
     BulletList: ({ props }) => (
       <ul>
