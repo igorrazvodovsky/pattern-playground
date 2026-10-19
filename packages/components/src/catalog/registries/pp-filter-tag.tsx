@@ -15,7 +15,7 @@ import { useGroupFocusHandoff } from './focus-handoff';
 import '../../jsx-types';
 
 // The library's filter chip, as its filter bar draws an active condition: a
-// .tag-group of the attribute's name, the operator as a dropdown of radio
+// .tag-group of the attribute's icon and name, the operator as a dropdown of radio
 // rows, the values as a dropdown holding the library's searchable combobox
 // (chosen values first, ticked), and the remove segment. The parts are the
 // ones the library's own filter components use, fed from the spec instead of
@@ -23,7 +23,7 @@ import '../../jsx-types';
 // away its last value, focus inside the chip or its lists is handed on
 // (focus-handoff.ts).
 
-export function FilterTag({ props, bindings, emit }: ComponentContext<Catalog, 'FilterTag'>) {
+export function FilterTag({ props, bindings, emit, glyph }: ComponentContext<Catalog, 'FilterTag'> & { glyph: string | null }) {
   const [, setEdit] = useBoundProp(props.edit, bindings?.edit);
   const { group } = useGroupFocusHandoff(props.focusNext);
   const { commandInput, setCommandInput, commandInputRef, dropdownRef, handleDropdownShow, handleDropdownHide, clearInputAndHide } =
@@ -40,7 +40,10 @@ export function FilterTag({ props, bindings, emit }: ComponentContext<Catalog, '
 
   return (
     <div ref={group} className="tag-group">
-      <div className="tag">{props.label}</div>
+      <div className="tag">
+        {glyph && <iconify-icon className="icon" icon={glyph} aria-hidden="true" />}
+        {props.label}
+      </div>
 
       <pp-dropdown placement="bottom-start">
         <button type="button" data-slot="trigger" className="tag">

@@ -1,4 +1,5 @@
 import { attributeLabelFromBinding, findAttribute, taskBinding } from '@shared/data/bindings';
+import { attributeGlyph } from '../../utility/attribute-icons';
 import {
   users,
   filterStatuses,
@@ -85,7 +86,7 @@ export const taskFilterCategories = TASK_FILTER_PATHS.map((path) => {
   return {
     id: path,
     name: label,
-    icon: findAttribute(taskBinding, path)?.icon,
+    icon: attributeGlyph(findAttribute(taskBinding, path)?.icon),
     searchableText: `${label} ${path}`.toLowerCase(),
     children: (valueRecords[path] ?? []).map((record) => ({
       id: `${path}-${record.id}`,

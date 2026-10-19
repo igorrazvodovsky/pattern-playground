@@ -3,6 +3,7 @@ import type { Dispatch, SetStateAction } from "react";
 import type { AttributeFilter, EntityBinding, FilterOperator } from "@shared/data/bindings";
 import { productBinding, findAttribute, filterOperatorsFor } from "@shared/data/bindings";
 import { attributeLabel } from "../../templates/collection-view/AttributeUtils";
+import { attributeGlyph } from "../../utility/attribute-icons";
 import type { FilterCategory } from "./FilterCategories";
 import { ProductFilterValueDropdown } from "./ProductFilterValueDropdown";
 import { ProductFilterOperatorDropdown } from "./ProductFilterOperatorDropdown";
@@ -64,7 +65,7 @@ export default function ProductFilters({
       {filters
         .filter((filter) => filter.values?.length > 0)
         .map((filter) => {
-          const icon = categoryFor(filter.path)?.icon ?? findAttribute(binding, filter.path)?.icon;
+          const icon = categoryFor(filter.path)?.icon ?? attributeGlyph(findAttribute(binding, filter.path)?.icon);
           return (
             <div key={filter.id} className="tag-group">
               {/* The facet's icon is declared with the binding; a path outside

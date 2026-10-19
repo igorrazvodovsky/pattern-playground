@@ -2,6 +2,7 @@ import type { BoundEntity, EntityBinding } from '@shared/data/bindings';
 import { productBinding, findAttribute } from '@shared/data/bindings';
 import { getUniqueAttributeValues } from '../../templates/collection-view/FilterOperations';
 import { attributeLabel } from '../../templates/collection-view/AttributeUtils';
+import { attributeGlyph } from '../../utility/attribute-icons';
 
 /**
  * Icons are optional throughout: a filter facet carries one only when the
@@ -52,7 +53,7 @@ export function generateFilterCategories(
   return paths.map((path) => ({
     id: path,
     name: attributeLabel(path, binding),
-    icon: findAttribute(binding, path)?.icon,
+    icon: attributeGlyph(findAttribute(binding, path)?.icon),
     children: getUniqueAttributeValues(items, path, binding).map((value) => ({
       id: `${path}_${value}`,
       name: value,

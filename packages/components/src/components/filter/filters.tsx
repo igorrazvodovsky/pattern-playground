@@ -4,6 +4,7 @@ import type { EntityBinding } from "@shared/data/bindings";
 import { taskBinding, findAttribute, attributeLabelFromBinding } from "@shared/data/bindings";
 import { FilterValueDropdown, FilterOperatorDropdown, FilterValueDateDropdown } from "./filter-components";
 import type { Filter } from "./filter-types";
+import { attributeGlyph } from "../../utility/attribute-icons";
 import { updateFilterOperator, updateFilterValue, removeFilterById } from "./filter-utils";
 
 export default function Filters({
@@ -33,10 +34,11 @@ export default function Filters({
         .filter((filter) => filter.values?.length > 0)
         .map((filter) => {
           const attribute = findAttribute(binding, filter.path);
+          const glyph = attributeGlyph(attribute?.icon);
           return (
             <div key={filter.id} className="tag-group">
               <div className="tag">
-                {attribute?.icon && <Icon icon={attribute.icon} className="icon" />}
+                {glyph && <Icon icon={glyph} className="icon" />}
                 {attributeLabelFromBinding(binding, filter.path)}
               </div>
               <FilterOperatorDropdown

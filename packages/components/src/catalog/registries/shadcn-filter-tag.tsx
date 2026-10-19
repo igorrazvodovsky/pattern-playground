@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { useBoundProp, type ComponentContext } from '@json-render/react';
 import { DropdownMenu, Popover } from 'radix-ui';
 import { Command } from 'cmdk';
-import { Check, Search, X } from 'lucide-react';
+import { Check, Search, X, type LucideIcon } from 'lucide-react';
 import type { Catalog } from '../catalog';
 import type { FilterEdit } from '../filter-edit';
 import { useGroupFocusHandoff } from './focus-handoff';
 import { scopedPortal } from './shadcn-portal';
 
-// The filter chip, built from shadcn's parts: shadcn has no filter chip, so
+// The filter chip, built from shadcn's parts and led by the attribute's icon: shadcn has no filter chip, so
 // its segments are joined as shadcn's Button Group joins buttons (one
 // outline, a rule between segments). The operator is a DropdownMenu with the
 // current one ticked; the values are shadcn's Combobox recipe, a Popover
@@ -28,7 +28,7 @@ const item =
   'relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground';
 const indicator = 'pointer-events-none absolute left-2 flex size-3.5 items-center justify-center';
 
-export function FilterTag({ props, bindings, emit }: ComponentContext<Catalog, 'FilterTag'>) {
+export function FilterTag({ props, bindings, emit, Glyph }: ComponentContext<Catalog, 'FilterTag'> & { Glyph: LucideIcon | null }) {
   const [, setEdit] = useBoundProp(props.edit, bindings?.edit);
   const { group, parts: [operatorList, valueList] } = useGroupFocusHandoff(props.focusNext, 2);
   const [open, setOpen] = useState(false);
@@ -46,7 +46,10 @@ export function FilterTag({ props, bindings, emit }: ComponentContext<Catalog, '
 
   return (
     <div ref={group} className="inline-flex items-stretch divide-x overflow-visible rounded-md border bg-background text-foreground shadow-xs">
-      <span className={`${segment} text-muted-foreground`}>{props.label}</span>
+      <span className={`${segment} text-muted-foreground [&>svg]:size-3.5`}>
+        {Glyph && <Glyph aria-hidden="true" />}
+        {props.label}
+      </span>
 
       <DropdownMenu.Root>
         <DropdownMenu.Trigger className={`${segment} ${pressable}`}>{props.operator}</DropdownMenu.Trigger>

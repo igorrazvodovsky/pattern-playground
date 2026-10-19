@@ -10,10 +10,15 @@ import {
   ArrowDownUp,
   ArrowDownWideNarrow,
   ArrowLeft,
+  ArrowUp,
   ArrowUpNarrowWide,
   AtSign,
+  Award,
   Bell,
   BookOpen,
+  Calendar,
+  CalendarCheck,
+  CalendarPlus,
   CaseSensitive,
   Check,
   ChevronDown,
@@ -21,9 +26,11 @@ import {
   ChevronRight,
   Circle,
   CircleCheck,
+  CircleDashed,
   Columns2,
   CircleX,
   CornerDownLeft,
+  DollarSign,
   Crown,
   Eraser,
   Eye,
@@ -47,14 +54,19 @@ import {
   Puzzle,
   Rows3,
   Search,
+  SignalHigh,
   SlidersHorizontal,
+  Store,
   Sparkles,
+  Tag,
   Trash2,
   TrendingDown,
   TrendingUp,
   TriangleAlert,
   Undo2,
+  User,
   UserMinus,
+  Wrench,
   X,
 } from 'lucide-react';
 import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes, type tones } from '../catalog';
@@ -168,6 +180,22 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   transfer: Crown,
   unchanged: Minus,
   web: Globe,
+  // An attribute's icon: the names entity bindings give their attributes.
+  assignee: User,
+  availability: Circle,
+  category: Tag,
+  certifications: Award,
+  channels: Store,
+  created: CalendarPlus,
+  due: Calendar,
+  labels: Tag,
+  price: DollarSign,
+  priority: SignalHigh,
+  regions: Globe,
+  repairability: Wrench,
+  status: CircleDashed,
+  updated: CalendarCheck,
+  upgradeability: ArrowUp,
 };
 
 // Each purpose's icon and colour. Danger is shadcn's destructive; the others
@@ -771,8 +799,9 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // Built in shadcn-filter-tag.tsx from shadcn's parts: it has no filter chip.
-    FilterTag: FilterTag,
+    // Built in shadcn-filter-tag.tsx from shadcn's parts: it has no filter
+    // chip. Led by the attribute's icon from this registry's set.
+    FilterTag: context => <FilterTag {...context} Glyph={context.props.icon ? icons[context.props.icon] : null} />,
 
     // Built for this registry from Leaflet (shadcn-map.tsx): the kit has no
     // map. The pin the actor chose is written to the bound path, then an event.

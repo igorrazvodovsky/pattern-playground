@@ -118,6 +118,8 @@ const derive = ({ view }: Record<string, unknown>) => {
     clauses: filters.map(filter => ({
       id: filter.id,
       label: attributeLabel(filter.path),
+      // The binding names the attribute's icon by meaning, as the catalog does.
+      icon: findAttribute(productBinding, filter.path)?.icon ?? null,
       operator: filter.operator,
       operators: operatorsFor(filter),
       values: filter.values,

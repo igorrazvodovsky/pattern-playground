@@ -1,6 +1,7 @@
 import { defineCatalog, ValidationCheckSchema } from '@json-render/core';
 import { schema } from '@json-render/react/schema';
 import { z } from 'zod';
+import { attributeIcons } from '@shared/data/bindings';
 
 // The component vocabulary switchable demos are written in. Types are named at
 // component altitude (Card, List, Button), not after what a pattern uses them
@@ -34,7 +35,10 @@ const slot = z.object({ slot: z.string(), label: z.string(), required: z.boolean
 
 // Icons are named by meaning; each registry maps a name to its own icon set.
 // A spec that named Phosphor glyphs would be tied to the library that ships them.
-export const iconNames = [
+// The names that stand for a kind of attribute (category, price, regions) are
+// the ones entity bindings give their attributes (attributeIcons), so a spec
+// can pass a binding's icon straight through.
+const interfaceIcons = [
   'archive',
   'ascending',
   'attach',
@@ -82,6 +86,8 @@ export const iconNames = [
   'unchanged',
   'web',
 ] as const;
+
+export const iconNames = [...interfaceIcons, ...attributeIcons] as const;
 
 // How long a toast stays. The window is part of the transient-feedback
 // pattern, not a library default: a toast that offers an action has to stay
@@ -541,6 +547,7 @@ export const catalog = defineCatalog(schema, {
     FilterTag: {
       props: z.object({
         label: z.string(),
+        icon: z.enum(iconNames).nullable(),
         operator: z.string(),
         operators: z.array(z.string()),
         values: z.array(z.string()),
@@ -550,7 +557,7 @@ export const catalog = defineCatalog(schema, {
         edit: z.unknown().nullable(),
       }),
       description:
-        'One condition of a filter, shown as a chip the actor edits in place: `label` names the attribute, then come the `operator`, the chosen `values` (the value itself, or how many are chosen), and a button that removes the condition. Pressing the operator opens `operators`, the current one ticked. Pressing the values opens a list the actor can search, with the chosen values first and ticked, then the rest of `options`; picking one adds it or takes it away, and the list closes. Bind `edit` with $bindState: before emitting `change`, the chip writes { kind: operator | add | remove, value } there, and the spec applies it. The remove button, named by `removeLabel` (Clear filter by default), emits `remove`; `focusNext` works as on a Button. Lay several out in a horizontal Stack.',
+        'One condition of a filter, shown as a chip the actor edits in place: `label` names the attribute, led by `icon` when the attribute has one, named by meaning, then come the `operator`, the chosen `values` (the value itself, or how many are chosen), and a button that removes the condition. Pressing the operator opens `operators`, the current one ticked. Pressing the values opens a list the actor can search, with the chosen values first and ticked, then the rest of `options`; picking one adds it or takes it away, and the list closes. Bind `edit` with $bindState: before emitting `change`, the chip writes { kind: operator | add | remove, value } there, and the spec applies it. The remove button, named by `removeLabel` (Clear filter by default), emits `remove`; `focusNext` works as on a Button. Lay several out in a horizontal Stack.',
     },
     // A composite: the library has to supply the whole thing. Its input is
     // already data (a tree of sentence parts), so it can be named here, but a

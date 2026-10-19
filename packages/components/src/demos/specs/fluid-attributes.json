@@ -96,6 +96,7 @@
       "type": "FilterTag",
       "props": {
         "label": { "$item": "label" },
+        "icon": { "$item": "icon" },
         "operator": { "$item": "operator" },
         "operators": { "$item": "operators" },
         "values": { "$item": "values" },

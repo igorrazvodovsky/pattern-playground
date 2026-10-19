@@ -9,6 +9,7 @@ import { Combobox, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxList } fr
 import { captureOpener, settleFocus, useReturnFocus, type Opener } from './dialog-focus';
 import { useCandidateList } from './candidate-list';
 import { useDisclosureState } from './disclosure-state';
+import { attributeGlyphs } from '../../utility/attribute-icons';
 import { useStackDrop } from './drag-drop';
 import { MenuMultiple } from './menu-multiple';
 import { DraggableRow } from './pp-draggable-row';
@@ -113,6 +114,8 @@ const icons: Record<(typeof iconNames)[number], string> = {
   transfer: 'ph:crown-simple',
   unchanged: 'ph:minus',
   web: 'ph:globe',
+  // An attribute's icon, as the library's own components show it.
+  ...attributeGlyphs,
 };
 const purposeIcons: Record<(typeof purposes)[number], string> = {
   info: 'ph:info',
@@ -634,8 +637,9 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // Built in pp-filter-tag.tsx from the library's filter chip parts.
-    FilterTag: FilterTag,
+    // Built in pp-filter-tag.tsx from the library's filter chip parts, led by
+    // the attribute's icon from this registry's set.
+    FilterTag: context => <FilterTag {...context} glyph={context.props.icon ? icons[context.props.icon] : null} />,
 
     // The library's reference chrome on a button, and its summary popover
     // (`.popover__header`: the heading and body on the leading edge, the
