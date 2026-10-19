@@ -1,0 +1,60 @@
+---
+title: Run status
+added: 2026-10-19
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+group: coordination
+activityLevel: operation
+mediation: coordination
+description: "A glance-sized summary of a run working out of sight — whether it is live, what it has produced, when it acts next — so the actor can tell whether it is on track without opening its record."
+situation:
+  initiating: >-
+    work the actor started or delegated runs out of sight, for minutes, hours, or on a
+    schedule; the actor wants to know whether it is on track, but the choices are
+    watching it live or opening its full record, and both cost more attention than the
+    question deserves
+  resulting:
+    - >-
+      a summary sized for a glance answers the question: whether the run is live, stalled,
+      finished, or failed, what it has produced so far, and when it acts next
+    - >-
+      silence is ambiguous, so a run waiting for its next trigger still shows that it is
+      live and when it will next act; a run that has died must not look the same as one
+      that is waiting
+    - >-
+      the summary is where the actor decides whether to look closer, so it leads straight
+      into the record or the run's reasoning, at the point the summary describes
+relationships:
+  complements:
+    - to: presence
+      note: "presence shows where people are working; run status shows the same for a run"
+    - to: status-feedback
+      note: "status feedback reports one event; run status keeps the state of a whole run visible"
+  precedes:
+    - to: activity-log
+      note: "the glance leads into the activity log when the actor wants detail"
+    - to: transparent-reasoning
+      note: "a run that looks off track is examined through its reasoning"
+  serves:
+    - to: delegation
+      note: "the glance-level monitoring of delegated work"
+disclosure: >-
+  Seeded from a gap analysis of the sequences: it would fill delegating work's
+  "Keep the run's status visible at a glance", currently without a rule. Practised
+  for automated builds and long-running jobs; its use for agent runs is newer.
+  Needs its classification sitting.
+---
+
+Work the actor started or delegated runs out of sight: a build, an import, a scheduled job, an agent working through a task. The actor wants to know whether it is on track. Watching it live costs their whole attention, and opening its full record costs a search. Both cost more than the question deserves, so the actor either checks too often or not at all.
+
+Run status answers the question at a glance. It shows whether the run is live, stalled, finished, or failed, what it has produced so far, and when it acts next. A run waiting for its next trigger still shows that it is live, so that a dead run never looks like a waiting one. When the glance suggests a problem, it leads straight into the record at the point it describes.
+
+## Where it is practised
+
+- Continuous integration services that show each pipeline's state as a badge and a list of stages, each opening into its log.
+- File transfer and sync tools that show progress, remaining time, and a stalled state in the menu bar or task bar.
+- Scheduled job dashboards that show the last run, its result, and the next run time.
+- Coding agents that show their current step and elapsed time in a status line, opening into the full transcript.

@@ -1,0 +1,65 @@
+---
+title: Resumption
+added: 2026-10-19
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+activityLevel: action
+mediation: individual
+description: "Keeping the actor's place, unfinished input, and next intended step across a break, so coming back to the work does not mean working out again where they were."
+situation:
+  initiating: >-
+    the actor's work is broken off — by a notification, the end of the day, a run
+    handed back, a crash — and the system keeps the content but not the actor's place
+    in it; coming back means finding the spot again, recovering what they were
+    holding, and remembering what they meant to do next
+  resulting:
+    - >-
+      the place, the open views, the unsaved input, and the selection survive the break
+      and are restored or offered on return, so the cost of an interruption is the
+      interruption itself and not the reconstruction after it
+    - >-
+      what the actor meant to do next matters more than the state: a restored screen with
+      no cue to the pending step still leaves the actor working out why they were there
+    - >-
+      restoring silently can drop the actor into context that has since gone stale, and
+      offering to restore costs a decision at the moment of return; which one fits depends
+      on how long the break was and how much changed during it
+relationships:
+  complements:
+    - to: disengage-without-closing
+      note: "that pattern covers leaving with the work kept open; this one covers coming back to it"
+    - to: workspace
+      note: "the arrangement of the workspace is part of the place that is restored"
+  follows:
+    - to: saving
+      note: "nothing can be restored that was not kept; saving decides what survives the break"
+  related:
+    - to: deep-linking
+      note: "a deep link restores a place for anyone; resumption restores it for the actor who left it"
+disclosure: >-
+  Seeded from a gap analysis of the sequences: it would fill attention and tempo's
+  "Help the actor return to their work" and memory and continuity's "Restore the
+  actor's place", both currently without a rule. Needs its classification sitting.
+  Open: whether restoring the place and cueing the intended next step are one move
+  or two.
+---
+
+The actor's work is broken off by a notification, the end of the day, a run handed back, or a crash. Most systems keep the content, but not the actor's place in it. Coming back means finding the spot again, recovering whatever was half-typed, and remembering what the next step was going to be. Studies of interrupted work find that this reconstruction, more than the interruption itself, is where the time goes.
+
+Resumption keeps the place along with the content: the open document and the position in it, the views and their arrangement, the unsaved input, the selection, and where possible a cue to the step the actor was about to take. On return the system restores all of this, or offers to.
+
+## Where it is practised
+
+- Browsers and editors that reopen the previous session's tabs or files at the same scroll position and cursor.
+- Forms and composers that keep a draft through a closed tab or a lost connection.
+- Reading apps that return to the last page read, across devices.
+- Operating systems that relaunch applications with their windows in place after a restart.
+
+## Resources & references
+
+- Altmann & Trafton (2002), "Memory for goals: an activation-based model", *Cognitive Science* — resuming depends on a cue to the suspended goal, not only on the restored state
+- Mark, Gudith & Klocke (2008), "The cost of interrupted work: more speed and stress", CHI — what interruptions cost the people working through them

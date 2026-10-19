@@ -505,6 +505,40 @@
       "group": "conversation/conversation-management"
     },
     {
+      "id": "catch-up",
+      "title": "Catch-up",
+      "category": "Actions",
+      "path": "/patterns/catch-up",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the actor returns to work that other people or agents changed while they were away; the record holds every change, but reading it from the top costs more than the work itself, and the actor's own memory of the work is now partly wrong",
+        "resulting": [
+          {
+            "clause": "the changes since the actor's last visit are marked where they happened, limited to what the actor has open, with who or what made each one and, where it was recorded, why"
+          },
+          {
+            "clause": "nothing is asked of the actor: the changes have already happened, so catch-up informs rather than decides, which separates it from reviewing a proposed change"
+          },
+          {
+            "clause": "\"since the last visit\" needs a reading mark for each actor and each piece of work, and those marks are themselves kept memory about the actor"
+          },
+          {
+            "clause": "when the changes are too many to mark one by one, the view has to summarise them, and a summary can hide the one change that mattered"
+          }
+        ]
+      },
+      "group": "coordination",
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "change-review",
       "title": "Change review",
       "category": "Actions",
@@ -945,6 +979,36 @@
       ]
     },
     {
+      "id": "deferral",
+      "title": "Deferral",
+      "category": "Actions",
+      "path": "/patterns/deferral",
+      "role": "pattern",
+      "situation": {
+        "initiating": "something arrives, or is ready to send, at a moment that is wrong for it; acting on it now breaks the actor's focus, dismissing it loses it, and leaving it where it is relies on the actor remembering to come back",
+        "resulting": [
+          {
+            "clause": "the actor picks a later time, and the item leaves view until then and comes back at that time in the place it came from, marked as having been deferred"
+          },
+          {
+            "clause": "presets do most of the work: later today, tomorrow morning, next week, set to the start of the actor's working blocks rather than to arbitrary hours"
+          },
+          {
+            "clause": "deferred items need a place where they can be found before they return, or deferring becomes a way of losing things"
+          },
+          {
+            "clause": "scheduling something to send later is the same move made on the recipient's behalf: it delivers at a time that suits them rather than the time it was written"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
+    },
+    {
       "id": "delegation",
       "title": "Delegation",
       "category": "Foundations",
@@ -979,6 +1043,36 @@
       "category": "Qualities",
       "path": "/patterns/density",
       "role": "quality"
+    },
+    {
+      "id": "digest",
+      "title": "Digest",
+      "category": "Actions",
+      "path": "/patterns/digest",
+      "role": "pattern",
+      "situation": {
+        "initiating": "events arrive in numbers that make reading each one cost more than it is worth, but switching them off hides the occasional one that mattered; the actor is left choosing between being interrupted constantly and not knowing",
+        "resulting": [
+          {
+            "clause": "events of the same kind are collected and delivered together at a time the actor chooses, as one summary instead of many alerts"
+          },
+          {
+            "clause": "the digest says that it is a summary and links each point to the event it came from, so the actor can check anything that looks important"
+          },
+          {
+            "clause": "a summary tends to drop the unusual item, which is often the one that mattered, so events of the highest grade are delivered on their own and never folded into a digest"
+          },
+          {
+            "clause": "a generated summary adds the risk of a wrong summary on top of a short one, so it is opt-in and marked as generated"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
     },
     {
       "id": "disengage-without-closing",
@@ -1983,6 +2077,36 @@
       ]
     },
     {
+      "id": "named-versions",
+      "title": "Named versions",
+      "category": "Actions",
+      "path": "/patterns/named-versions",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the work has moved past the reach of undo — the session ended, many changes or many people came between — and the actor needs a particular earlier state: the version that was sent, approved, or released; an unnamed history of every save is too long to search and gives no sign of which state mattered",
+        "resulting": [
+          {
+            "clause": "the states that mattered carry names, and restoring goes to a named state rather than back a number of steps"
+          },
+          {
+            "clause": "names come from two sources: some moments name themselves, such as a publish or a release, and others are named on purpose by the actor; leaving all naming to the actor means the important states often go unnamed"
+          },
+          {
+            "clause": "restoring an old version is itself a change to the work, so it is recorded and can be reversed, and the versions after it are kept rather than discarded"
+          },
+          {
+            "clause": "kept versions also keep whatever was later removed from the work, which conflicts with deletion meant to make something unrecoverable"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
+    },
+    {
       "id": "navigation-overview",
       "title": "Navigation",
       "category": "Actions",
@@ -2353,6 +2477,40 @@
       "role": "foundation"
     },
     {
+      "id": "protected-focus",
+      "title": "Protected focus",
+      "category": "Actions",
+      "path": "/patterns/protected-focus",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the actor needs stretches of uninterrupted work, but every channel is open by default and every sender judges their own message urgent; the actor can only protect their time by closing tools, which also hides what genuinely cannot wait",
+        "resulting": [
+          {
+            "clause": "the actor declares protected stretches, scheduled in advance or switched on in the moment, and each channel holds what arrives during them until the stretch ends"
+          },
+          {
+            "clause": "a narrow way through, for named senders or the highest grade of event and limited in how often it can be used, keeps the actor from switching protection off for fear of missing something"
+          },
+          {
+            "clause": "others can see that the actor is protected and until when, so the setting also tells senders to wait, and some messages are never sent"
+          },
+          {
+            "clause": "what is held still has to arrive somewhere: protection is only safe when a quiet channel collects what waits, and when delivery at the end of the stretch is not itself a flood"
+          }
+        ]
+      },
+      "group": "coordination",
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "provenance-marking",
       "title": "Provenance marking",
       "category": "Operations",
@@ -2522,6 +2680,36 @@
       ]
     },
     {
+      "id": "resumption",
+      "title": "Resumption",
+      "category": "Actions",
+      "path": "/patterns/resumption",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the actor's work is broken off — by a notification, the end of the day, a run handed back, a crash — and the system keeps the content but not the actor's place in it; coming back means finding the spot again, recovering what they were holding, and remembering what they meant to do next",
+        "resulting": [
+          {
+            "clause": "the place, the open views, the unsaved input, and the selection survive the break and are restored or offered on return, so the cost of an interruption is the interruption itself and not the reconstruction after it"
+          },
+          {
+            "clause": "what the actor meant to do next matters more than the state: a restored screen with no cue to the pending step still leaves the actor working out why they were there"
+          },
+          {
+            "clause": "restoring silently can drop the actor into context that has since gone stale, and offering to restore costs a decision at the moment of return; which one fits depends on how long the break was and how much changed during it"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "rule-composition",
       "title": "Rule composition",
       "category": "Actions",
@@ -2554,6 +2742,34 @@
         },
         {
           "kind": "literature"
+        }
+      ]
+    },
+    {
+      "id": "run-status",
+      "title": "Run status",
+      "category": "Operations",
+      "path": "/patterns/run-status",
+      "role": "pattern",
+      "situation": {
+        "initiating": "work the actor started or delegated runs out of sight, for minutes, hours, or on a schedule; the actor wants to know whether it is on track, but the choices are watching it live or opening its full record, and both cost more attention than the question deserves",
+        "resulting": [
+          {
+            "clause": "a summary sized for a glance answers the question: whether the run is live, stalled, finished, or failed, what it has produced so far, and when it acts next"
+          },
+          {
+            "clause": "silence is ambiguous, so a run waiting for its next trigger still shows that it is live and when it will next act; a run that has died must not look the same as one that is waiting"
+          },
+          {
+            "clause": "the summary is where the actor decides whether to look closer, so it leads straight into the record or the run's reasoning, at the point the summary describes"
+          }
+        ]
+      },
+      "group": "coordination",
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
         }
       ]
     },
@@ -3214,7 +3430,7 @@
       "path": "/patterns/wizard",
       "role": "pattern",
       "situation": {
-        "initiating": "a standard [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed. This works well for most tasks, but falls short when a complex, unfamiliar workflow has strict dependencies—where early decisions dictate which questions exist later, and the task must be completed from start to finish before anything can take effect. When users encounter a process so rarely that they have no existing mental model, presenting every field at once causes cognitive overload. A wizard shapes this kind of task into a guided, step-by-step sequence. It is the standard approach for initial [onboarding](/patterns/onboarding) setup and first-time [settings](/patterns/settings) configuration where users need to make choices before fully understanding what each control means. When this sequence also defines how users navigate through the interface, [step by step](/patterns/step-by-step) provides the navigational backbone; this pattern defines the structure and pacing of the task itself.",
+        "initiating": "a [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed. This works well for most tasks, but falls short when a complex, unfamiliar workflow has strict dependencies—where early decisions dictate which questions exist later, and the task must be completed from start to finish before anything can take effect. When users encounter a process so rarely that they have no existing mental model, presenting every field at once causes cognitive overload. A wizard shapes this kind of task into a guided, step-by-step sequence. It is the standard approach for initial [onboarding](/patterns/onboarding) setup and first-time [settings](/patterns/settings) configuration where users need to make choices before fully understanding what each control means. When this sequence also defines how users navigate through the interface, [step by step](/patterns/step-by-step) provides the navigational backbone; this pattern defines the structure and pacing of the task itself.",
         "resulting": "Because a wizard isolates focus to one step at a time and hides the rest of the interface, users must be able to change earlier decisions without losing entered progress; non-destructive [undo](/patterns/undo) and safe backward navigation are fundamental requirements. Throughout the flow, continuous [status feedback](/patterns/status-feedback) keeps users oriented with clear progress indicators, inline field validation, and confirmation states. When users have varying goals and do not benefit from a rigid sequence, [next best action](/patterns/next-best-action) recommends optimal steps dynamically instead of locking users into a fixed path, while an interactive [agent](/patterns/agent) can handle complex dependencies through conversation, allowing users to ask clarifying questions about earlier decisions at any time. Similar sequential structures appear in other contexts: configuring a reusable [template](/patterns/template) through guided prompts, or paginating through a structured [prompt scaffold](/patterns/prompt-scaffolding). Unlike an enterprise [workflow](/patterns/workflow), which coordinates asynchronous tasks and business processes across multiple people and systems, a wizard guides a single user through an isolated, synchronous task."
       },
       "group": "application",
@@ -4097,6 +4313,41 @@
       "incomingNote": "an explicit statement of what the conversation can and cannot do"
     },
     {
+      "source": "activity-log",
+      "target": "catch-up",
+      "type": "precedes",
+      "incomingNote": "catch-up reads the record the log keeps, filtered to one actor's absence",
+      "extractedFrom": "frontmatter:follows"
+    },
+    {
+      "source": "catch-up",
+      "target": "change-review",
+      "type": "complements",
+      "label": "review decides on a proposed change; catch-up reports changes that have already been made",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "catch-up",
+      "target": "provenance-marking",
+      "type": "complements",
+      "label": "who or what made a change is part of what the actor needs to read it",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "catch-up",
+      "target": "resumption",
+      "type": "complements",
+      "label": "resumption restores the actor's place; catch-up shows what moved around it",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "catch-up",
+      "target": "activity-feed",
+      "type": "related",
+      "label": "a feed shows everything as it arrives; catch-up shows what the actor missed in the work they returned to",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
       "source": "generated-content",
       "target": "change-review",
       "type": "precedes",
@@ -4717,6 +4968,34 @@
       "extractedFrom": "frontmatter:related"
     },
     {
+      "source": "deferral",
+      "target": "notification",
+      "type": "complements",
+      "label": "deferral is the actor's answer to a notification that arrives at the wrong time",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "deferral",
+      "target": "disengage-without-closing",
+      "type": "related",
+      "label": "both set something aside without ending it; deferral also sets when it comes back",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "deferral",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "the actor decides when an item takes their attention, not only whether it does",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "deferral",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the timing of attention moves from the sender to the actor",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "agent",
       "target": "delegation",
       "type": "instantiates",
@@ -4797,6 +5076,41 @@
       "target": "learnability",
       "type": "related",
       "label": "expertise expands effective cognitive capacity through chunking and automation",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "digest",
+      "target": "notification",
+      "type": "complements",
+      "label": "a digest is a notification channel for events that can wait",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "digest",
+      "target": "citation",
+      "type": "complements",
+      "label": "each point in the digest links to the event it summarises",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "digest",
+      "target": "provenance-marking",
+      "type": "complements",
+      "label": "a generated digest is marked as machine-made",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "digest",
+      "target": "activity-feed",
+      "type": "related",
+      "label": "a feed shows events as they arrive; a digest gathers them for a set time",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "digest",
+      "target": "generated-content",
+      "type": "related",
+      "label": "a summarised digest is generated content about the actor's own events",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -6331,6 +6645,34 @@
       "extractedFrom": "frontmatter:related"
     },
     {
+      "source": "named-versions",
+      "target": "undo",
+      "type": "complements",
+      "label": "undo steps back within a session; named versions reach states beyond it",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "named-versions",
+      "target": "deletion",
+      "type": "complements",
+      "label": "a removal is only complete when the kept versions are dealt with as well",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "draft-and-publish",
+      "target": "named-versions",
+      "type": "precedes",
+      "incomingNote": "each publish is a natural moment to name",
+      "extractedFrom": "frontmatter:follows"
+    },
+    {
+      "source": "named-versions",
+      "target": "saving",
+      "type": "related",
+      "label": "saving keeps the latest state; naming picks out the states worth returning to",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
       "source": "navigation-overview",
       "target": "information-architecture",
       "type": "related",
@@ -6802,7 +7144,7 @@
       "type": "instantiates",
       "incomingNote": "the wizard applies disclosure across discrete gated steps, revealing complexity gradually",
       "extractedFrom": "frontmatter:instances",
-      "situation": "a standard [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed.",
+      "situation": "a [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed.",
       "glossFrom": "source:initiating"
     },
     {
@@ -7076,6 +7418,41 @@
       "extractedFrom": "frontmatter:enables"
     },
     {
+      "source": "protected-focus",
+      "target": "notification",
+      "type": "complements",
+      "label": "notification decides how an event reaches the actor; protection decides whether it may reach them now",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "protected-focus",
+      "target": "deferral",
+      "type": "complements",
+      "label": "protection holds events by rule for a stretch; deferral moves one item at a time by choice",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "protected-focus",
+      "target": "presence",
+      "type": "complements",
+      "label": "a protected status is a presence mark that tells others to wait",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "protected-focus",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "the actor's day is divided into time that can be interrupted and time that cannot",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "protected-focus",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor, not each sender, decides when interruption is allowed",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "provenance-marking",
       "target": "citation",
       "type": "complements",
@@ -7246,6 +7623,34 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
+      "source": "resumption",
+      "target": "disengage-without-closing",
+      "type": "complements",
+      "label": "that pattern covers leaving with the work kept open; this one covers coming back to it",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "resumption",
+      "target": "workspace",
+      "type": "complements",
+      "label": "the arrangement of the workspace is part of the place that is restored",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "saving",
+      "target": "resumption",
+      "type": "precedes",
+      "incomingNote": "nothing can be restored that was not kept; saving decides what survives the break",
+      "extractedFrom": "frontmatter:follows"
+    },
+    {
+      "source": "resumption",
+      "target": "deep-linking",
+      "type": "related",
+      "label": "a deep link restores a place for anyone; resumption restores it for the actor who left it",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
       "source": "rule-composition",
       "target": "workflow",
       "type": "enables",
@@ -7314,6 +7719,41 @@
       "type": "enacts",
       "label": "pushes the actor's intent into the elements the system offers, and what does not fit is lost at the edge",
       "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "run-status",
+      "target": "presence",
+      "type": "complements",
+      "label": "presence shows where people are working; run status shows the same for a run",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "run-status",
+      "target": "status-feedback",
+      "type": "complements",
+      "label": "status feedback reports one event; run status keeps the state of a whole run visible",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "run-status",
+      "target": "activity-log",
+      "type": "precedes",
+      "label": "the glance leads into the activity log when the actor wants detail",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "run-status",
+      "target": "transparent-reasoning",
+      "type": "precedes",
+      "label": "a run that looks off track is examined through its reasoning",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "run-status",
+      "target": "delegation",
+      "type": "serves",
+      "label": "the glance-level monitoring of delegated work",
+      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "saving",
@@ -8184,7 +8624,7 @@
       "target": "form",
       "type": "alternative",
       "extractedFrom": "frontmatter:alternative",
-      "situation": "a standard [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed.",
+      "situation": "a [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed.",
       "glossFrom": "source:initiating"
     },
     {

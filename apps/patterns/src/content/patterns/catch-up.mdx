@@ -1,0 +1,68 @@
+---
+title: Catch-up
+added: 2026-10-19
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+group: coordination
+activityLevel: action
+mediation: coordination
+description: "Showing the actor what others changed in the work while they were away, limited to what they have open, without asking them to accept or reject any of it."
+situation:
+  initiating: >-
+    the actor returns to work that other people or agents changed while they were away;
+    the record holds every change, but reading it from the top costs more than the work
+    itself, and the actor's own memory of the work is now partly wrong
+  resulting:
+    - >-
+      the changes since the actor's last visit are marked where they happened, limited to
+      what the actor has open, with who or what made each one and, where it was recorded,
+      why
+    - >-
+      nothing is asked of the actor: the changes have already happened, so catch-up
+      informs rather than decides, which separates it from reviewing a proposed change
+    - >-
+      "since the last visit" needs a reading mark for each actor and each piece of work,
+      and those marks are themselves kept memory about the actor
+    - >-
+      when the changes are too many to mark one by one, the view has to summarise them,
+      and a summary can hide the one change that mattered
+relationships:
+  follows:
+    - to: activity-log
+      note: "catch-up reads the record the log keeps, filtered to one actor's absence"
+  complements:
+    - to: change-review
+      note: "review decides on a proposed change; catch-up reports changes that have already been made"
+    - to: provenance-marking
+      note: "who or what made a change is part of what the actor needs to read it"
+    - to: resumption
+      note: "resumption restores the actor's place; catch-up shows what moved around it"
+  related:
+    - to: activity-feed
+      note: "a feed shows everything as it arrives; catch-up shows what the actor missed in the work they returned to"
+disclosure: >-
+  Seeded from a gap analysis of the sequences: it would fill memory and continuity's
+  "Show what changed while the actor was away", currently without a rule. The
+  change-review verdict found that reconstructing what happened is a different
+  object from reviewing a proposal, which is why this is a separate page. Needs
+  its classification sitting.
+---
+
+The actor returns to work that other people or agents changed while they were away. The history holds every change, but reading it from the beginning costs more than the work, and the actor's memory of the document, board, or codebase is now partly out of date. Without help they either read too much or notice too little, and edit over changes they never saw.
+
+Catch-up marks what changed since the actor's last visit, in the work they have open: which parts changed, who or what changed them, and why, where the reason was recorded. It asks for no decision. The changes are already made, and the actor's task is to update their picture of the work before they continue it.
+
+## Where it is practised
+
+- Document editors that offer to show changes made since the actor last opened the file, highlighted in place.
+- Design tools that mark frames edited since the actor's last view.
+- Chat and tracker tools that place a "new since you were last here" line in a thread or list.
+- Code review tools that show only the commits pushed since the reviewer's last pass.
+
+## Resources & references
+
+- Tam & Greenberg (2006), "A framework for asynchronous change awareness in collaborative documents and workspaces", *International Journal of Human-Computer Studies* — what changed, where, who, how and why, as the questions a returning collaborator asks

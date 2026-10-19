@@ -116,6 +116,11 @@
       "lifecycle-stage": null,
       "mediation": "coordination"
     },
+    "catch-up": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "coordination"
+    },
     "change-review": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -206,6 +211,11 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
+    "deferral": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "delegation": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
@@ -220,6 +230,11 @@
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
       "mediation": null
+    },
+    "digest": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
     },
     "disengage-without-closing": {
       "activity-level": "operation",
@@ -436,6 +451,11 @@
       "lifecycle-stage": "seeking",
       "mediation": "individual"
     },
+    "named-versions": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "navigation-overview": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -516,6 +536,11 @@
       "lifecycle-stage": null,
       "mediation": null
     },
+    "protected-focus": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "coordination"
+    },
     "provenance-marking": {
       "activity-level": "operation",
       "lifecycle-stage": null,
@@ -546,10 +571,20 @@
       "lifecycle-stage": null,
       "mediation": null
     },
+    "resumption": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "rule-composition": {
       "activity-level": "action",
       "lifecycle-stage": "application",
       "mediation": "individual"
+    },
+    "run-status": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "mediation": "coordination"
     },
     "saving": {
       "activity-level": "action",
