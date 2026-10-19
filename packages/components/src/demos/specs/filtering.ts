@@ -1,0 +1,285 @@
+import type { Spec, StateStore } from '@json-render/core';
+import { nanoid } from 'nanoid';
+import { formatTime } from '@shared/format';
+import { filterPriorities, tasks, users } from '@shared/data';
+import {
+  applyFilters,
+  attributeLabelFromBinding,
+  formatBoundValue,
+  getValueAtPath,
+  resolveAttributeSelection,
+  taskBinding,
+  type AttributeFilter,
+  type FilterOperator,
+} from '@shared/data/bindings';
+import type { SpecSetup } from '../../catalog/SpecDemo';
+import type { AICommandResult } from '../../components/command-menu';
+import { generateFilterSuggestions } from '../../components/filter/adapters/ai-filter-adapter';
+import { TASK_FILTER_PATHS, taskFilterCategories } from '../../components/filter/filter-options';
+import { createTask } from '../../components/task/task-utils';
+import { filterClauses } from './filter-clauses';
+import spec from './filtering.json' with { type: 'json' };
+
+// Building a filter over a list of tasks. The conditions in force are chips
+// the actor edits in place. A new one starts in the filter field: it offers
+// the attributes, each of which narrows the field to its values, and from two
+// letters on the values themselves. When what the actor typed matches
+// nothing, it goes to a model once they pause, which reads it as conditions
+// on the attributes and values the list offers. The answer is offered as one
+// candidate that applies them all, and what the model could not read as a
+// condition can become a task instead.
+//
+// `/filters` is the conditions in force. A watch on it rewrites `/derived`,
+// the tasks that match and the chips, and a watch on what the field holds
+// rewrites `/field`, the candidates and what the field says beneath them,
+// because a repeat reads a list from state and a spec cannot filter one.
+
+const PAUSE = 1500;
+const MIN_PROMPT = 3;
+
+// What a condition on each attribute can be built from: the values the data
+// records for it, dates as phrases rather than as days.
+const VALUES: Record<string, { value: string; search: string }[]> = Object.fromEntries(
+  taskFilterCategories.map(category => [
+    category.id,
+    category.children.map(child => ({ value: child.value, search: child.searchableText })),
+  ]),
+);
+
+const label = (path: string) => attributeLabelFromBinding(taskBinding, path);
+const { keeping, chip, applyEdit, removeFilter } = filterClauses(tasks, taskBinding, path =>
+  (VALUES[path] ?? []).map(each => each.value),
+);
+
+// Defaults built from the data the attributes read, so the chips name values
+// the list actually carries.
+const filters: AttributeFilter[] = [
+  { id: 'default-status', path: 'status.label', operator: 'is any of', values: ['Todo', 'In Progress'] },
+  {
+    id: 'default-priority',
+    path: 'priority.label',
+    operator: 'is any of',
+    values: filterPriorities.slice(0, 2).map(priority => priority.value),
+  },
+  {
+    id: 'default-assignee',
+    path: 'assignee.name',
+    operator: 'is any of',
+    values: users.slice(1, 3).map(user => user.name),
+  },
+];
+
+const CARD = resolveAttributeSelection(taskBinding, ['title', 'status.label', 'assignee.name', 'dueDate']);
+const [TITLE, ...BADGES] = CARD;
+
+/** The tasks that match, as cards, and the conditions as chips. */
+const derive = ({ filters: current }: Record<string, unknown>) => {
+  const conditions = current as AttributeFilter[];
+  return {
+    filtered: conditions.length > 0,
+    clauses: conditions.map(chip),
+    tasks: applyFilters(tasks, conditions, taskBinding).map(task => ({
+      id: task.id,
+      title: String(getValueAtPath(task, TITLE.path) ?? ''),
+      attributes: BADGES.filter(attribute => getValueAtPath(task, attribute.path) != null).map(attribute => ({
+        label: label(attribute.path),
+        value: formatBoundValue(getValueAtPath(task, attribute.path), attribute),
+      })),
+    })),
+  };
+};
+
+type Interpretation = { prompt: string; pending?: true; result?: AICommandResult; error?: string } | null;
+
+const SUGGESTED = 'suggested';
+const CREATE_TASK = 'create-task';
+
+/** The attributes and values whose text matches what was typed, as the field offers them. */
+const matches = (query: string, scope: string | null) => {
+  const typed = query.trim().toLowerCase();
+  const has = (text: string) => text.toLowerCase().includes(typed);
+  const valuesOf = (path: string) =>
+    (VALUES[path] ?? []).map(each => ({ value: JSON.stringify([path, each.value]), label: each.value, search: each.search }));
+  if (scope) {
+    return [{ heading: label(scope), options: valuesOf(scope).filter(option => has(option.search)) }];
+  }
+  return [
+    {
+      heading: 'Attributes',
+      options: TASK_FILTER_PATHS.filter(path => has(label(path))).map(path => ({ value: path, label: label(path), narrows: true })),
+    },
+    {
+      heading: 'Values',
+      options:
+        typed.length < 2
+          ? []
+          : TASK_FILTER_PATHS.flatMap(path =>
+              valuesOf(path)
+                .filter(option => has(option.search))
+                .map(option => ({ value: option.value, label: `${label(path)}: ${option.label}` })),
+            ),
+    },
+  ];
+};
+
+const scopeOf = (scope: unknown) => (typeof scope === 'string' && scope !== '' ? scope : null);
+
+/** What the model is asked: what was typed, when it matches nothing. */
+const unmatched = ({ query, scope }: Record<string, unknown>) => {
+  const typed = String(query ?? '').trim();
+  if (typed.length < MIN_PROMPT || scopeOf(scope)) return null;
+  const found = matches(typed, null).some(group => group.options.length > 0);
+  return found ? null : typed;
+};
+
+const confidence = (result: AICommandResult) => (result.confidence < 85 ? ` (${result.confidence}% match)` : '');
+
+/** The field's candidates and what it says beneath them. */
+const field = ({ query, scope, interpretation }: Record<string, unknown>) => {
+  const typed = String(query ?? '');
+  const within = scopeOf(scope);
+  const asked = interpretation as Interpretation;
+  const groups = matches(typed, within).map(group => ({
+    heading: group.heading,
+    options: group.options.map(({ value, label: text, ...rest }) => ({ value, label: text, narrows: 'narrows' in rest ? true : null })),
+  }));
+  const result = asked?.result;
+  const suggested = result?.suggestedItems ?? [];
+  const unread = result?.unmatchedCriteria ?? [];
+  if (result) {
+    groups.push({
+      heading: 'Suggested',
+      options: [
+        ...(suggested.length > 0
+          ? [
+              {
+                value: SUGGESTED,
+                label: (suggested.length === 1 ? suggested[0].label : `Apply ${suggested.length} suggestions`) + confidence(result),
+                narrows: null,
+              },
+            ]
+          : []),
+        ...(unread.length > 0 ? [{ value: CREATE_TASK, label: 'Create a task from this', narrows: null }] : []),
+      ],
+    });
+  }
+  const nothing = groups.every(group => group.options.length === 0);
+  return {
+    groups,
+    placeholder: within ? `${label(within)}…` : 'Filter…',
+    pending: Boolean(asked?.pending),
+    note: asked?.error
+      ? `The model is not available. ${asked.error}`
+      : suggested.length > 0 && unread.length > 0
+        ? `Partly understood: could not read ${unread.join(', ')}.`
+        : nothing && typed.trim() !== '' && !asked
+          ? 'No immediate results found.'
+          : '',
+    failed: Boolean(asked?.error),
+  };
+};
+
+let toastCount = 0;
+
+/**
+ * What picking a candidate does: a value adds a condition, the model's
+ * suggestion adds the conditions it read, and creating a task adds a toast
+ * that opens it.
+ */
+const pick = ({ filters: current, toasts, picked, interpretation }: Record<string, unknown>) => {
+  const conditions = current as AttributeFilter[];
+  const asked = interpretation as Interpretation;
+  const shown = (toasts ?? []) as unknown[];
+  if (picked === SUGGESTED) {
+    const added = (asked?.result?.suggestedItems ?? []).flatMap(item => {
+      const { path, operator, values } = item.metadata ?? {};
+      if (typeof path !== 'string' || !Array.isArray(values)) return [];
+      return [{ id: nanoid(), path, operator: operator as FilterOperator, values: values.map(String) }];
+    });
+    return { filters: [...conditions, ...added], toasts: shown };
+  }
+  if (picked === CREATE_TASK) {
+    const task = createTask(asked?.prompt ?? '');
+    const view = {
+      title: task.title,
+      specification: task.specification,
+      status: task.status?.label ?? '',
+      history: task.history.map(entry => ({
+        id: entry.id,
+        title: entry.action,
+        by: entry.actor,
+        time: formatTime(entry.timestamp),
+      })),
+    };
+    const toast = { id: `task-${++toastCount}`, message: `Task created: ${task.title}`, actionLabel: 'Open', task: view };
+    return { filters: conditions, toasts: [...shown, toast] };
+  }
+  try {
+    const [path, value] = JSON.parse(String(picked)) as [string, string];
+    return { filters: [...conditions, keeping(nanoid(), path, value)], toasts: shown };
+  } catch {
+    return { filters: conditions, toasts: shown };
+  }
+};
+
+/**
+ * The handler for the catalog's `interpret` action: once the actor pauses,
+ * the filter suggestion service reads what they typed as conditions on the
+ * attributes and values the list offers.
+ */
+const interpretHandler = (store: StateStore, connected: () => boolean) => {
+  const available = Object.fromEntries(Object.entries(VALUES).map(([path, values]) => [path, values.map(each => each.value)]));
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  let latest = 0;
+  return {
+    interpret: ({ statePath, prompt }: Record<string, unknown>) => {
+      const path = String(statePath);
+      const ask = ++latest;
+      clearTimeout(timer);
+      store.set(path, null);
+      if (typeof prompt !== 'string' || prompt === '') return;
+      timer = setTimeout(async () => {
+        if (!connected() || ask !== latest) return;
+        store.set(path, { prompt, pending: true });
+        try {
+          const result = await generateFilterSuggestions(prompt, TASK_FILTER_PATHS, available);
+          if (connected() && ask === latest) store.set(path, { prompt, result });
+        } catch (error) {
+          if (connected() && ask === latest) store.set(path, { prompt, error: (error as Error).message });
+        }
+      }, PAUSE);
+    },
+  };
+};
+
+const fieldStart = { query: '', scope: null, interpretation: null };
+
+export default {
+  spec: spec as Spec,
+  setup: {
+    initialState: {
+      filters,
+      derived: derive({ filters }),
+      filterOpen: false,
+      filterQuery: '',
+      filterScope: null,
+      filterEdit: null,
+      interpretation: null,
+      field: field(fieldStart),
+      picked: null,
+      toasts: [],
+      pressed: null,
+      task: null,
+      taskOpen: false,
+    },
+    handlers: interpretHandler,
+    functions: {
+      derive,
+      field,
+      unmatched,
+      pick,
+      editFilter: ({ filters: current, id, edit }) => applyEdit({ filters: current, id, edit }),
+      removeFilter: ({ filters: current, id }) => removeFilter({ filters: current, id }),
+    },
+  } satisfies SpecSetup,
+};

@@ -78,7 +78,8 @@ export const filterValueOptions: Record<string, FilterOption[]> = Object.fromEnt
 );
 
 /**
- * The facet tree the hierarchical picker (demos/filtering.tsx) navigates:
+ * The facet tree a hierarchical picker navigates, as the filtering spec
+ * (demos/specs/filtering.ts) reads it:
  * one parent per offered path, children stamped with the path they filter.
  */
 export const taskFilterCategories = TASK_FILTER_PATHS.map((path) => {

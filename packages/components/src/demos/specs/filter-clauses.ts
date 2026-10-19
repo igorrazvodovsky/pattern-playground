@@ -23,7 +23,12 @@ const NEGATING = new Set<FilterOperator>(['is not', 'do not include', 'exclude a
 export const KEEPS: FilterOperator[] = ['is', 'is any of', 'include', 'include any of'];
 const EXCLUDES: FilterOperator[] = ['is not', 'do not include', 'exclude if any of', 'exclude all of'];
 
-export const filterClauses = (items: BoundEntity[], binding: EntityBinding) => {
+export const filterClauses = (
+  items: BoundEntity[],
+  binding: EntityBinding,
+  /** The values a condition on `path` can take, where the data records them rather than the collection. */
+  optionsFor: (path: string) => string[] = path => getUniqueAttributeValues(items, path, binding),
+) => {
   const operatorsFor = ({ path, values }: Pick<AttributeFilter, 'path' | 'values'>): FilterOperator[] => {
     const attribute = findAttribute(binding, path);
     const table = filterOperatorsFor(attribute, values);
@@ -60,7 +65,7 @@ export const filterClauses = (items: BoundEntity[], binding: EntityBinding) => {
     operator: filter.operator,
     operators: operatorsFor(filter),
     values: filter.values,
-    options: getUniqueAttributeValues(items, filter.path, binding),
+    options: optionsFor(filter.path),
   });
 
   /**

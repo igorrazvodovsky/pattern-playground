@@ -450,11 +450,12 @@ Design calls; one sitting each.
   (attribute, operator, values, remove) is written in
   `components/filter/filter-components.tsx`, tied to the task fixtures, and
   in `catalog/registries/pp-filter-tag.tsx`, the catalog's `FilterTag`, which
-  takes everything as props. A fix to one, such as how the value list orders
-  or searches, misses the other. The data view's own copy went when it moved
-  to a spec; it and fluid-attributes now edit conditions through `FilterTag`,
-  with operators and options from `demos/specs/filter-clauses.ts`. The
-  filtering demo is the last user of the library chip.
+  takes everything as props. Every demo that filters is now a spec and edits
+  conditions through `FilterTag`, with operators and options from
+  `demos/specs/filter-clauses.ts`, so the library chip (`Filters` in
+  `components/filter/filters.tsx`) has no user and no story. Decide whether
+  it takes `FilterTag`'s props and becomes the component the pp registry
+  draws, or goes.
 - [ ] *Overview plus detail.* `coordinated-views.tsx` still lays out its split
   with its own `useFitsWidth` fallback and puts `aria-label` on a plain `div`.
   The overview-detail layout and fluid-attributes demos render through the

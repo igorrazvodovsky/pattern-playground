@@ -657,6 +657,11 @@ export const catalog = defineCatalog(schema, {
       description:
         'Write `value` to `statePath` once the actor pauses: each dispatch for the same path restarts the wait. Dispatch it from a `watch` on what the actor is changing, to act on their input when they stop rather than on every keystroke.',
     },
+    interpret: {
+      params: z.object({ statePath: z.string(), prompt: z.string().nullable() }),
+      description:
+        'Ask a model what `prompt`, something the actor typed, describes in the collection the demo shows, once the actor pauses. Every dispatch clears `statePath` at once; a non-empty `prompt` then writes { prompt, pending: true } there when the request goes, and { prompt, result } or { prompt, error } when it comes back. A later dispatch replaces an earlier one, whose answer is dropped. Dispatch it from a `watch` on what the actor types, with a null `prompt` when what they typed already matches something.',
+    },
     notify: {
       params: z.object({ statePath: z.string(), message: z.string() }),
       description:
@@ -675,5 +680,6 @@ export const actionsSuppliedBySpecs = {
   toggle: async () => {},
   editRule: async () => {},
   settle: async () => {},
+  interpret: async () => {},
   notify: async () => {},
 };
