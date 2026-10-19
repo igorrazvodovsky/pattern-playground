@@ -1015,43 +1015,6 @@
       "role": "quality"
     },
     {
-      "id": "digest",
-      "title": "Digest",
-      "category": "Actions",
-      "path": "/patterns/digest",
-      "role": "pattern",
-      "situation": {
-        "initiating": "events arrive in numbers that make reading each one cost more than it is worth, but switching them off hides the occasional one that mattered; the actor is left choosing between being interrupted constantly and not knowing",
-        "resulting": [
-          {
-            "clause": "events of the same kind are collected and delivered together at a time the actor chooses, as one notification instead of many"
-          },
-          {
-            "clause": "the cadence has to be predictable for batching to help: a few known delivery times a day reduce stress and interruption, while no notifications at all leave the actor anxious about what they are missing and checking by hand"
-          },
-          {
-            "clause": "the digest says that it is a summary and links each point to the event it came from, so the actor can check anything that looks important"
-          },
-          {
-            "clause": "a summary tends to drop the unusual item, which is often the one that mattered, so events of the highest grade are delivered on their own and never folded into a digest"
-          },
-          {
-            "clause": "a generated summary adds the risk of a wrong summary on top of a short one, and a misstated summary is read as the source's own words, so it is opt-in, set apart visually from the source's own text, and easy to switch off where it appears"
-          }
-        ]
-      },
-      "group": "coordination",
-      "seed": true,
-      "evidence": [
-        {
-          "kind": "observed"
-        },
-        {
-          "kind": "literature"
-        }
-      ]
-    },
-    {
       "id": "disengage-without-closing",
       "title": "Disengage without closing",
       "category": "Operations",
@@ -5035,41 +4998,6 @@
       "target": "learnability",
       "type": "related",
       "label": "expertise expands effective cognitive capacity through chunking and automation",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "digest",
-      "target": "notification",
-      "type": "instantiates",
-      "label": "a digest is a notification that carries many events at once, on a schedule",
-      "extractedFrom": "frontmatter:instantiates"
-    },
-    {
-      "source": "digest",
-      "target": "activity-feed",
-      "type": "complements",
-      "label": "the feed holds events for the actor to check when they choose; a digest delivers them on a schedule",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "digest",
-      "target": "citation",
-      "type": "complements",
-      "label": "each point in the digest links to the event it summarises",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "digest",
-      "target": "provenance-marking",
-      "type": "complements",
-      "label": "a generated digest is marked as machine-made",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "digest",
-      "target": "generated-content",
-      "type": "related",
-      "label": "a summarised digest is generated content about the actor's own events",
       "extractedFrom": "frontmatter:related"
     },
     {

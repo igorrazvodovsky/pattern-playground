@@ -226,11 +226,6 @@
       "lifecycle-stage": null,
       "mediation": null
     },
-    "digest": {
-      "activity-level": "action",
-      "lifecycle-stage": null,
-      "mediation": "individual"
-    },
     "disengage-without-closing": {
       "activity-level": "operation",
       "lifecycle-stage": null,

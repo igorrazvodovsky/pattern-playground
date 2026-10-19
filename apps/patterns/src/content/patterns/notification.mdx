@@ -98,6 +98,12 @@ Localised messages tied to a specific place, providing timely feedback or update
 
 System-wide alerts that inform the user about events or statuses affecting the entire application, regardless of their current location within it.
 
+## Batching
+
+Events of the same kind can be delivered together as one notification at set times instead of one at a time. The evidence on whether this helps is mixed. In a field experiment on smartphones, batching every app's notifications into three deliveries a day lowered stress and improved attention compared with constant delivery, and turning notifications off altogether raised anxiety about missing things. A workplace study of email found that batching was linked to higher self-rated productivity but found no evidence that it lowered stress. Where batching is used, the delivery times are predictable and chosen by the actor, and events of the highest grade are still delivered on their own.
+
+A batch can be shown as a generated summary rather than a list. A wrong summary is then read as if the source had said it. Generated notification summaries on one phone platform produced false headlines attributed to a news organisation and were withdrawn for news apps; they returned set in italics, with a warning and a switch to turn them off. A generated summary is opt-in, set apart visually from the source's own text, and links each point to the event it came from.
+
 ## Decision tree
 
 <Diagram source={`
@@ -126,3 +132,10 @@ flowchart TD
 - [Lightning Design System](https://www.lightningdesignsystem.com/2e1ef8501/p/56c792-notifications)
 - [Material Design](https://m3.material.io/foundations/content-design/notifications)
 - [Apple Developer Documentation](https://developer.apple.com/design/human-interface-guidelines/notifications)
+- Fitz, Kushlev, Jagannathan, Lewis, Paliwal & Ariely (2019) [Batching smartphone notifications can improve well-being](https://scholars.duke.edu/publication/1402953), *Computers in Human Behavior* 101
+- Mark, Iqbal, Czerwinski, Johns & Sano (2016) [Email duration, batching and self-interruption: patterns of email use on productivity and stress](https://www.microsoft.com/en-us/research/?p=238239), CHI
+- [Apple halts AI notification summaries for news apps after backlash](https://www.siliconrepublic.com/business/apple-halt-ai-notification-summaries-backlash-features) (Silicon Republic, January 2025)
+
+## To-do
+
+- Batching evidence covers personal communication streams only. Look for evidence on batched reports of tool and agent activity, such as run summaries and overnight change reports, before treating batching as a move of its own.
