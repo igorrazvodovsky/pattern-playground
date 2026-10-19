@@ -1781,6 +1781,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 @supports (color: color-mix(in lab, red, red)) {.aria-invalid\:ring-destructive\/20[aria-invalid="true"] {
       --tw-ring-color: color-mix(in oklab, var(--destructive) 20%, transparent);
     }}
+.data-dimmed\:bg-transparent[data-dimmed] {
+    background-color: #0000;
+  }
 .data-\[disabled\]\:pointer-events-none[data-disabled] {
     pointer-events: none;
   }
@@ -2238,6 +2241,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 @supports (color: color-mix(in lab, red, red)) {.dark\:aria-invalid\:ring-destructive\/40[aria-invalid="true"] {
         --tw-ring-color: color-mix(in oklab, var(--destructive) 40%, transparent);
       }}
+.dark\:data-dimmed\:bg-transparent[data-dimmed] {
+      background-color: #0000;
+    }
 .dark\:data-\[state\=active\]\:border-input[data-state="active"] {
       border-color: var(--input);
     }

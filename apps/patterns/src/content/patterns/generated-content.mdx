@@ -66,7 +66,7 @@ Rate, copy, regenerate, expand, more....
 4. Categorising accuracy
 5. Few-shot prompting with inconsistent results
 
-<Demo spec="communicating-uncertainty" surface="border" label="Uncertain language and confidence marking" />
+<Demo spec="communicating-uncertainty" label="Uncertain language and confidence marking" />
 
 ## Transparency
 
@@ -76,49 +76,7 @@ Rate, copy, regenerate, expand, more....
 
 Visualises the influence of input on output.
 
-<Demo label="Hover a highlight to trace it across input and output">
-  <div className="messages layer">
-    <div className="messages__turn">
-      <div className="message message--outbound">
-        <div className="message__content">
-          <div className="message__body layer">
-            Summarise this text: <br />
-            "<mark data-group="polymath">Leonardo da Vinci was an Italian polymath of the Renaissance</mark> whose <mark data-group="talents">areas of interest
-            included invention, painting, sculpting, architecture, science, music, mathematics,
-            engineering, literature, anatomy, geology, astronomy, botany, writing, history, and
-            cartography</mark>. He is widely considered one of the most diversely talented individuals
-            ever to have lived."
-          </div>
-        </div>
-      </div>
-    </div>
-    <div className="messages__exchange">
-      <div className="messages__turn">
-        <div className="message message--inbound">
-          <div className="message__content">
-            <div className="message__body">
-              Leonardo da Vinci was a <mark data-group="polymath">Renaissance polymath</mark> known for his <mark data-group="talents">wide-ranging talents</mark> in <mark data-group="talents">science and the arts</mark>.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <style>{`
-      .messages:has(mark[data-group]:hover) mark[data-group]:not(:hover) {
-        background: none
-      }
-      mark[data-group]:hover,
-      .messages:has(mark[data-group="polymath"]:hover) mark[data-group="polymath"],
-      .messages:has(mark[data-group="talents"]:hover) mark[data-group="talents"] {
-        background: var(--c-accent-100) !important;
-      }
-      mark[data-group] {
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-    `}</style>
-  </div>
-</Demo>
+<Demo spec="input-output-mapping" label="Point at or focus a highlight to trace it across input and output" />
 
 ## Section regeneration
 

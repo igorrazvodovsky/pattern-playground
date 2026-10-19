@@ -37,6 +37,7 @@ import type { Send } from './shadcn-parts';
 import { RuleBuilder, type RuleTree } from './shadcn-rule-builder';
 import { Section, Sections } from './shadcn-sections';
 import { useToastList } from './toast-list';
+import { TracingProvider, useMarkTracing, useTracingState } from './mark-tracing';
 import sheetUrl from '../shadcn.generated.css?url';
 
 // The catalog rendered with shadcn/ui, through @json-render/shadcn. Where the
@@ -272,42 +273,60 @@ export const { registry } = defineRegistry(catalog, {
     // into the scoped root. Each Message brings the provider, so its marks
     // share one hover delay and a Message renders outside Messages too. A mark
     // with a note is underlined, dotted, as an abbreviation is, and takes focus
-    // so that the tooltip opens for actors on a keyboard too.
-    Messages: ({ children }) => <div className="flex flex-col gap-4 text-sm">{children}</div>,
-
-    Message: ({ props }) => (
-      <Tooltip.Provider delayDuration={150}>
-        <div
-          className={clsx(
-            'w-fit max-w-[80%]',
-            props.from === 'actor' ? 'ml-auto rounded-lg bg-secondary px-4 py-3 text-secondary-foreground' : 'text-foreground',
-          )}
-        >
-          {props.parts.map((part, index) => {
-            if (typeof part === 'string') return part;
-            if (!part.note) return <mark key={index} className={markClass}>{part.text}</mark>;
-            return (
-              <Tooltip.Root key={index}>
-                <Tooltip.Trigger asChild>
-                  <mark tabIndex={0} className={clsx(markClass, 'cursor-help underline decoration-dotted underline-offset-4 outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50')}>
-                    {part.text}
-                  </mark>
-                </Tooltip.Trigger>
-                <Tooltip.Portal container={scopedPortal()}>
-                  <Tooltip.Content
-                    sideOffset={4}
-                    className="z-50 w-fit rounded-md bg-foreground px-3 py-1.5 text-xs text-balance text-background"
-                  >
-                    {part.note}
-                    <Tooltip.Arrow className="z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px] bg-foreground fill-foreground" />
-                  </Tooltip.Content>
-                </Tooltip.Portal>
-              </Tooltip.Root>
-            );
-          })}
-        </div>
-      </Tooltip.Provider>
+    // so that the tooltip opens for actors on a keyboard too. A linked run
+    // traces its link (mark-tracing.ts), loses its highlight while another
+    // link is traced, and names the runs it is linked to in sr-only text.
+    Messages: ({ children }) => (
+      <TracingProvider value={useTracingState()}>
+        <div className="flex flex-col gap-4 text-sm">{children}</div>
+      </TracingProvider>
     ),
+
+    Message: ({ props }) => {
+      const tracing = useMarkTracing(props.parts);
+      return (
+        <Tooltip.Provider delayDuration={150}>
+          <div
+            className={clsx(
+              'w-fit max-w-[80%]',
+              props.from === 'actor' ? 'ml-auto rounded-lg bg-secondary px-4 py-3 text-secondary-foreground' : 'text-foreground',
+            )}
+          >
+            {props.parts.map((part, index) => {
+              if (typeof part === 'string') return part;
+              const { dimmed, linkedTo, handlers } = tracing(index);
+              const className = clsx(
+                markClass,
+                'transition-colors data-dimmed:bg-transparent dark:data-dimmed:bg-transparent',
+                (part.note || part.link) && 'outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50',
+                part.note && 'cursor-help underline decoration-dotted underline-offset-4',
+              );
+              const mark = (
+                <mark key={index} tabIndex={part.note ? 0 : undefined} data-dimmed={dimmed || undefined} {...handlers} className={className}>
+                  {part.text}
+                  {linkedTo.length > 0 && <span className="sr-only">, linked to: {linkedTo.join('; ')}</span>}
+                </mark>
+              );
+              if (!part.note) return mark;
+              return (
+                <Tooltip.Root key={index}>
+                  <Tooltip.Trigger asChild>{mark}</Tooltip.Trigger>
+                  <Tooltip.Portal container={scopedPortal()}>
+                    <Tooltip.Content
+                      sideOffset={4}
+                      className="z-50 w-fit rounded-md bg-foreground px-3 py-1.5 text-xs text-balance text-background"
+                    >
+                      {part.note}
+                      <Tooltip.Arrow className="z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px] bg-foreground fill-foreground" />
+                    </Tooltip.Content>
+                  </Tooltip.Portal>
+                </Tooltip.Root>
+              );
+            })}
+          </div>
+        </Tooltip.Provider>
+      );
+    },
 
     List: ({ props, children }) => (
       <ul className={clsx('divide-y rounded-lg bg-card text-card-foreground', !props.borderless && 'border')}>

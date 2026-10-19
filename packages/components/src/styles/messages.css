@@ -50,6 +50,17 @@
   padding-inline: 0;
 }
 
+/* Marked runs linked across messages, such as a passage in a prompt and its
+   summary in the answer. While one link is traced, the runs on other links
+   drop their highlight, so the ones that correspond stand out. */
+.message__body mark {
+  transition: var(--transition-fast) background;
+}
+
+.message__body mark[data-dimmed] {
+  background: none;
+}
+
 .drawer .message__body,
 .popover .message__body {
   padding-block: 0;

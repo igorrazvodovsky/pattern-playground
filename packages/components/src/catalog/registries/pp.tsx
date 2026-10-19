@@ -9,6 +9,7 @@ import { useFieldError } from './field-validation';
 import { submitForm } from './form-submit';
 import { useFocusHandoff } from './focus-handoff';
 import { useToastList } from './toast-list';
+import { TracingProvider, useMarkTracing, useTracingState } from './mark-tracing';
 import '../../jsx-types';
 
 // The catalog rendered with the project's own library: pp-* elements and the
@@ -173,26 +174,43 @@ export const { registry } = defineRegistry(catalog, {
     // actor's messages sit on a raised bubble at the end of the line. A marked
     // run's note is a pp-tooltip, which opens on hover and on focus of the
     // mark, so the mark takes focus for actors on a keyboard. The tooltip's
-    // styles underline the mark to say a note is there.
-    Messages: ({ children }) => <div className="messages layer">{children}</div>,
+    // styles underline the mark to say a note is there. A linked run traces
+    // its link (mark-tracing.ts); the library's message styles drop the
+    // highlight from a run marked data-dimmed, and a hidden line names the
+    // runs it is linked to.
+    Messages: ({ children }) => (
+      <TracingProvider value={useTracingState()}>
+        <div className="messages layer">{children}</div>
+      </TracingProvider>
+    ),
 
-    Message: ({ props }) => (
-      <div className={clsx('message', props.from === 'actor' ? 'message--outbound' : 'message--inbound')}>
-        <div className="message__content">
-          <div className={clsx('message__body', props.from === 'actor' && 'layer')}>
-            {props.parts.map((part, index) => {
-              if (typeof part === 'string') return part;
-              if (!part.note) return <mark key={index}>{part.text}</mark>;
-              return (
-                <pp-tooltip key={index} content={part.note}>
-                  <mark tabIndex={0}>{part.text}</mark>
-                </pp-tooltip>
-              );
-            })}
+    Message: ({ props }) => {
+      const tracing = useMarkTracing(props.parts);
+      return (
+        <div className={clsx('message', props.from === 'actor' ? 'message--outbound' : 'message--inbound')}>
+          <div className="message__content">
+            <div className={clsx('message__body', props.from === 'actor' && 'layer')}>
+              {props.parts.map((part, index) => {
+                if (typeof part === 'string') return part;
+                const { dimmed, linkedTo, handlers } = tracing(index);
+                const mark = (
+                  <mark key={index} tabIndex={part.note ? 0 : undefined} data-dimmed={dimmed || undefined} {...handlers}>
+                    {part.text}
+                    {linkedTo.length > 0 && <span className="visually-hidden">, linked to: {linkedTo.join('; ')}</span>}
+                  </mark>
+                );
+                if (!part.note) return mark;
+                return (
+                  <pp-tooltip key={index} content={part.note}>
+                    {mark}
+                  </pp-tooltip>
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
-    ),
+      );
+    },
 
     List: ({ props, children }) => (
       <pp-list className={clsx(props.borderless && 'borderless')}>{children}</pp-list>

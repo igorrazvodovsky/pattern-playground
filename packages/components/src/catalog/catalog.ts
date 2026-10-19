@@ -144,10 +144,10 @@ export const catalog = defineCatalog(schema, {
     Message: {
       props: z.object({
         from: z.enum(['actor', 'other']),
-        parts: z.array(z.union([z.string(), z.object({ text: z.string(), note: z.string().nullable() })])),
+        parts: z.array(z.union([z.string(), z.object({ text: z.string(), note: z.string().nullable(), link: z.string().nullable() })])),
       }),
       description:
-        'One message in Messages. `from` says who sent it: the actor, or the other side (a person or the system). `parts` is its text in order: plain runs as strings, and marked runs as { text, note } for a part the actor should notice. A marked run\'s `note` says why it is marked; it shows when the actor points at or focuses the run, and the run is underlined to say a note is there. With `note: null` the run is only highlighted. Keep the spaces between runs in the strings.',
+        'One message in Messages. `from` says who sent it: the actor, or the other side (a person or the system). `parts` is its text in order: plain runs as strings, and marked runs as { text, note, link } for a part the actor should notice. A marked run\'s `note` says why it is marked; it shows when the actor points at or focuses the run, and the run is underlined to say a note is there. A marked run\'s `link` ties it to the runs in other messages that stand for the same thing, such as a passage in a prompt and its summary in the answer; one link can join several runs. Pointing at or focusing a linked run keeps the runs on its link highlighted and drops the highlight from the other linked runs. With `note` and `link` both null the run is only highlighted. Keep the spaces between runs in the strings.',
     },
     List: {
       props: z.object({
