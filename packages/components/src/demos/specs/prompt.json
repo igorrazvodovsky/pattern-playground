@@ -1,0 +1,50 @@
+{
+  "root": "prompt",
+  "elements": {
+    "prompt": { "type": "Messages", "props": {}, "children": ["composer"] },
+    "composer": {
+      "type": "Composer",
+      "props": { "label": null, "placeholder": null, "value": null },
+      "slots": {
+        "field": ["editor"],
+        "actions": ["add-context", "suggest", "attach", "mention"],
+        "send": ["send"]
+      }
+    },
+    "editor": {
+      "type": "MentionEditor",
+      "props": {
+        "label": "Prompt",
+        "placeholder": { "$state": "/placeholder" },
+        "content": { "$bindState": "/content" },
+        "query": { "$bindState": "/query" },
+        "scope": null,
+        "candidates": {
+          "$computed": "candidates",
+          "args": { "query": { "$state": "/query" }, "materials": { "$state": "/materials" } }
+        },
+        "opened": null
+      }
+    },
+    "add-context": {
+      "type": "Button",
+      "props": { "label": "Add context from the web", "icon": "web", "hideLabel": true, "variant": "plain" }
+    },
+    "suggest": {
+      "type": "Button",
+      "props": { "label": "Get suggestions", "icon": "suggest", "hideLabel": true, "variant": "plain" }
+    },
+    "attach": {
+      "type": "Button",
+      "props": { "label": "Attach a file", "icon": "attach", "hideLabel": true, "variant": "plain" }
+    },
+    "mention": {
+      "type": "Button",
+      "props": { "label": "Reference materials", "icon": "mention", "hideLabel": true, "variant": "plain" }
+    },
+    "send": {
+      "type": "Button",
+      "props": { "label": "Send", "icon": "send", "hideLabel": true }
+    }
+  }
+}

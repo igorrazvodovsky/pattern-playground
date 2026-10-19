@@ -8,6 +8,7 @@ import clsx from 'clsx';
 import {
   Archive,
   ArrowLeft,
+  AtSign,
   Bell,
   BookOpen,
   Check,
@@ -15,6 +16,7 @@ import {
   Circle,
   CircleCheck,
   CircleX,
+  CornerDownLeft,
   Crown,
   ExternalLink,
   FolderOpen,
@@ -48,6 +50,7 @@ import { submitForm } from './form-submit';
 import { useFocusHandoff } from './focus-handoff';
 import { useFocusOnShow } from './focus-on-show';
 import { scopedPortal } from './shadcn-portal';
+import { ComposerField } from './composer-field';
 import { ShadcnMentionEditor } from './mention-editor-lazy';
 import type { Send } from './shadcn-parts';
 import { LocationMap } from './shadcn-map';
@@ -114,6 +117,7 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   history: History,
   increase: TrendingUp,
   link: Link,
+  mention: AtSign,
   more: Plus,
   notifications: Bell,
   open: FolderOpen,
@@ -122,6 +126,8 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   'remove-person': UserMinus,
   restore: Undo2,
   search: Search,
+  send: CornerDownLeft,
+  suggest: Lightbulb,
   summary: IdCard,
   transfer: Crown,
   unchanged: Minus,
@@ -498,14 +504,23 @@ export const { registry } = defineRegistry(catalog, {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       return (
         <div className="flex flex-col gap-1 rounded-xl border border-input bg-background p-2 shadow-xs transition-[color,box-shadow] focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/50 dark:bg-input/30">
-          <input
-            aria-label={props.label}
-            placeholder={props.placeholder ?? undefined}
-            value={value ?? ''}
-            onChange={event => setValue(event.target.value)}
-            className="h-9 w-full min-w-0 bg-transparent px-2 text-base outline-none placeholder:text-muted-foreground md:text-sm"
-          />
-          {slots?.actions && <div className="flex gap-1">{slots.actions}</div>}
+          {slots?.field ? (
+            <ComposerField value>{slots.field}</ComposerField>
+          ) : (
+            <input
+              aria-label={props.label ?? undefined}
+              placeholder={props.placeholder ?? undefined}
+              value={value ?? ''}
+              onChange={event => setValue(event.target.value)}
+              className="h-9 w-full min-w-0 bg-transparent px-2 text-base outline-none placeholder:text-muted-foreground md:text-sm"
+            />
+          )}
+          {(slots?.actions || slots?.send) && (
+            <div className="flex gap-1">
+              {slots.actions}
+              {slots.send && <span className="ml-auto">{slots.send}</span>}
+            </div>
+          )}
         </div>
       );
     },

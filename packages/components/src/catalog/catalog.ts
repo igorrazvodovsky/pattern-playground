@@ -49,6 +49,7 @@ export const iconNames = [
   'history',
   'increase',
   'link',
+  'mention',
   'more',
   'notifications',
   'open',
@@ -57,6 +58,8 @@ export const iconNames = [
   'remove-person',
   'restore',
   'search',
+  'send',
+  'suggest',
   'summary',
   'transfer',
   'unchanged',
@@ -209,13 +212,13 @@ export const catalog = defineCatalog(schema, {
     },
     Composer: {
       props: z.object({
-        label: z.string(),
+        label: z.string().nullable(),
         placeholder: z.string().nullable(),
         value: z.string().nullable(),
       }),
-      slots: ['actions'],
+      slots: ['field', 'actions', 'send'],
       description:
-        'Where the actor writes the next message in Messages: a text field, read by assistive technology as `label`, with the `actions` slot beneath it for plain Buttons that change what the message carries, such as attaching a file. Bind `value` with $bindState.',
+        'Where the actor writes the next message in Messages, or a request on its own: a text field, read by assistive technology as `label`, with the `actions` slot beneath it for plain Buttons that change what the message carries, such as attaching a file. Bind `value` with $bindState. The `field` slot takes the place of the text field, for a message that needs more than plain text, such as a MentionEditor that names items; that field\'s own label names it, and `label`, `placeholder` and `value` go unused. Give `label` unless `field` holds a field. The `send` slot holds the Button that sends the message, set apart at the end of the actions row.',
     },
     Timeline: {
       props: z.object({

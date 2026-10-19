@@ -6,8 +6,8 @@ import { materialCategory } from '@shared/data/reference-utils';
 import { TemplateField } from '../components/template-field';
 import '../jsx-types';
 
-// Shared prompt demos consumed by the Storybook story (Prompt.stories.tsx)
-// and the pattern site (via @pkg/demos/prompt).
+// Prompt demos the pattern site mounts by name (via @pkg/demos/prompt). The
+// basic and material-reference composers are specs (demos/specs/prompt.json).
 
 interface TipTapContent {
   type: string;
@@ -117,39 +117,6 @@ const usePromptEditor = (content: string | TipTapContent = '<p></p>') => {
   };
 };
 
-export const PromptBasicDemo = () => {
-  const { editor } = usePromptEditor('<p></p>');
-
-  return (
-    <div className="messages layer">
-      <div className="message-composer layer">
-        <div className="message-composer__input message-composer__input--rich">
-          <EditorContent
-            editor={editor}
-            className="rich-editor rich-editor--prompt"
-            data-placeholder="What do you need?"
-          />
-        </div>
-
-        <div className="message-composer__actions">
-          <button className="button button--plain" title="Add context">
-            <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="visually-hidden">Add context</span>
-          </button>
-          <button className="button button--plain" title="Get suggestions">
-            <iconify-icon className="icon" icon="ph:lightbulb"></iconify-icon><span className="visually-hidden">Get suggestions</span>
-          </button>
-          <button className="button button--plain" title="Attach file">
-            <iconify-icon className="icon" icon="ph:paperclip"></iconify-icon><span className="visually-hidden">Attach file</span>
-          </button>
-          <button className="button button--plain" title="Reference materials">
-            <iconify-icon className="icon" icon="ph:at"></iconify-icon><span className="visually-hidden">Reference materials</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 export const PromptQualityFeedbackDemo = () => (
   <>
   <div className="flow">
@@ -193,85 +160,6 @@ export const PromptQualityFeedbackDemo = () => (
   </div>
   </>
 );
-
-export const PromptWithMaterialReferencesDemo = () => {
-  const { editor, editorState } = usePromptEditor({
-    type: 'doc',
-    content: [
-      {
-        type: 'paragraph',
-        content: [
-          { type: 'text', text: 'Analyse the user interface patterns in ' },
-          {
-            type: 'reference',
-            attrs: {
-              id: 'doc-7',
-              label: 'API Documentation',
-              type: 'document'
-            }
-          },
-          { type: 'text', text: ' and compare them with the designs from ' },
-          {
-            type: 'reference',
-            attrs: {
-              id: 'doc-6',
-              label: 'Design System Guidelines',
-              type: 'document'
-            }
-          },
-          { type: 'text', text: '. Consider the data from ' },
-          {
-            type: 'reference',
-            attrs: {
-              id: 'doc-8',
-              label: 'User Research Report',
-              type: 'document'
-            }
-          },
-          { type: 'text', text: ' when making recommendations.' }
-        ]
-      }
-    ]
-  });
-
-  return (
-    <div className="messages layer">
-      <div className="message-composer layer">
-
-        <div className="message-composer__input message-composer__input--rich">
-          <EditorContent
-            editor={editor}
-            className="rich-editor rich-editor--prompt"
-            data-placeholder="Type @ to reference materials..."
-          />
-        </div>
-
-        <div className="message-composer__actions">
-          <button className="button button--plain" title="Add context">
-            <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="visually-hidden">Add context</span>
-          </button>
-          <button className="button button--plain" title="Get suggestions">
-            <iconify-icon className="icon" icon="ph:lightbulb"></iconify-icon><span className="visually-hidden">Get suggestions</span>
-          </button>
-          <button className="button button--plain" title="Attach file">
-            <iconify-icon className="icon" icon="ph:paperclip"></iconify-icon><span className="visually-hidden">Attach file</span>
-          </button>
-          <button className="button button--plain" title="Reference materials">
-            <iconify-icon className="icon" icon="ph:at"></iconify-icon><span className="visually-hidden">Reference materials</span>
-          </button>
-          <button
-            className={`button ${editorState.isValid ? '' : 'button--disabled'}`}
-            style={{ marginLeft: 'auto' }}
-            title="Send prompt"
-            disabled={!editorState.isValid}
-          >
-            <iconify-icon className="icon" icon="ph:arrow-elbow-down-left"></iconify-icon><span className="visually-hidden">Send</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export const PromptTemplateDemo = () => {
   const { editor, editorState, fillTemplateFields, clearTemplateFields, validatePrompt } = usePromptEditor(`

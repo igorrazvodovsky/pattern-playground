@@ -73,6 +73,7 @@ const icons: Record<(typeof iconNames)[number], string> = {
   history: 'ph:clock-counter-clockwise',
   increase: 'ph:arrow-up-right',
   link: 'ph:link',
+  mention: 'ph:at',
   more: 'ph:plus',
   notifications: 'ph:bell',
   open: 'ph:folder-open',
@@ -81,6 +82,8 @@ const icons: Record<(typeof iconNames)[number], string> = {
   'remove-person': 'ph:user-minus',
   restore: 'ph:arrow-arc-left',
   search: 'ph:magnifying-glass',
+  send: 'ph:arrow-elbow-down-left',
+  suggest: 'ph:lightbulb-filament',
   summary: 'ph:cards',
   transfer: 'ph:crown-simple',
   unchanged: 'ph:minus',
@@ -356,15 +359,24 @@ export const { registry } = defineRegistry(catalog, {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       return (
         <div className="message-composer layer">
-          <pp-input>
-            <input
-              aria-label={props.label}
-              placeholder={props.placeholder ?? undefined}
-              value={value ?? ''}
-              onChange={event => setValue(event.target.value)}
-            />
-          </pp-input>
-          {slots?.actions && <div className="message-composer__actions">{slots.actions}</div>}
+          {slots?.field ? (
+            <div className="message-composer__input">{slots.field}</div>
+          ) : (
+            <pp-input>
+              <input
+                aria-label={props.label ?? undefined}
+                placeholder={props.placeholder ?? undefined}
+                value={value ?? ''}
+                onChange={event => setValue(event.target.value)}
+              />
+            </pp-input>
+          )}
+          {(slots?.actions || slots?.send) && (
+            <div className="message-composer__actions">
+              {slots.actions}
+              {slots.send && <span className="message-composer__send">{slots.send}</span>}
+            </div>
+          )}
         </div>
       );
     },

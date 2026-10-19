@@ -388,6 +388,14 @@ Design calls; one sitting each.
   candidates as data, reports a pressed mention, and keeps focus in the editor
   with the list read through `aria-activedescendant`. Migrating those four
   demos to specs would retire the component's copy.
+- [ ] *Mention candidates filtered twice.* `specs/reference.ts` and
+  `specs/prompt.ts` each turn a reference category's children into mentions
+  (`{ id, label: item.name, type: item.type }`), cap the list at eight, and
+  match a lowercased label against the trimmed, lowercased query. A change to
+  the matching rule (prefix rather than substring, say) has to be made in both.
+  A helper beside `catalog/registries/mention-editor.ts`, or in the specs
+  folder, would serve both; `reference.ts` keeps its kind-then-item steps on
+  top.
 - [ ] *Stale labels in the reference note.* `sustainability-meeting-content`
   in `shared/data/reference-content.json` stores labels that no longer match
   the ids they point at (`user-2` is stored as David Chen, `PRJ-1` as Customer

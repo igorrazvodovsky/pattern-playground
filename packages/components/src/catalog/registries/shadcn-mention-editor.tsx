@@ -1,8 +1,10 @@
 import { createPortal } from 'react-dom';
+import clsx from 'clsx';
 import { ChevronRight } from 'lucide-react';
 import { EditorContent } from '@tiptap/react';
 import { useBoundProp, type ComponentContext } from '@json-render/react';
 import type { Catalog } from '../catalog';
+import { useInComposer } from './composer-field';
 import { isKind, useMentionEditor } from './mention-editor';
 import { scopedPortal } from './shadcn-portal';
 
@@ -10,12 +12,21 @@ import { scopedPortal } from './shadcn-portal';
 // classes, mentions take the Reference's, and the candidates take the
 // Command list's. The list is not cmdk: focus stays in the editor, which
 // reads the list through aria-activedescendant (mention-editor.ts). The
-// list portals into the scoped root.
+// list portals into the scoped root. In a Composer the editor drops its
+// border, which the Composer draws around the whole message.
+
+const framed =
+  'min-h-16 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 md:text-sm dark:bg-input/30';
+const bare = 'min-h-16 w-full bg-transparent px-2 py-1.5 text-base outline-none md:text-sm';
+const textClass =
+  '[&_p]:mb-0 [&_p:first-child]:mt-0 [&_p+p]:mt-3 [&_p.is-editor-empty:first-child]:before:pointer-events-none [&_p.is-editor-empty:first-child]:before:float-left [&_p.is-editor-empty:first-child]:before:h-0 [&_p.is-editor-empty:first-child]:before:text-muted-foreground [&_p.is-editor-empty:first-child]:before:content-[attr(data-placeholder)]';
+
 export function MentionEditor({ props, bindings, emit }: ComponentContext<Catalog, 'MentionEditor'>) {
   const [content, setContent] = useBoundProp(props.content, bindings?.content);
   const [, setQuery] = useBoundProp(props.query, bindings?.query);
   const [scope, setScope] = useBoundProp(props.scope, bindings?.scope);
   const [, setOpened] = useBoundProp(props.opened, bindings?.opened);
+  const inComposer = useInComposer();
   const { editor, open, groups, host, list, option } = useMentionEditor({
     label: props.label,
     placeholder: props.placeholder ?? '',
@@ -29,8 +40,7 @@ export function MentionEditor({ props, bindings, emit }: ComponentContext<Catalo
       setOpened(mention.id);
       emit('open');
     },
-    editorClass:
-      'min-h-16 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 md:text-sm dark:bg-input/30 [&_p]:mb-0 [&_p:first-child]:mt-0 [&_p+p]:mt-3 [&_p.is-editor-empty:first-child]:before:pointer-events-none [&_p.is-editor-empty:first-child]:before:float-left [&_p.is-editor-empty:first-child]:before:h-0 [&_p.is-editor-empty:first-child]:before:text-muted-foreground [&_p.is-editor-empty:first-child]:before:content-[attr(data-placeholder)]',
+    editorClass: clsx(inComposer ? bare : framed, textClass),
     mentionClass:
       'box-decoration-clone cursor-pointer rounded-sm bg-primary/10 px-1 font-medium text-primary outline-none hover:bg-primary/15 focus-visible:ring-[3px] focus-visible:ring-ring/50',
     listHostClass: 'z-50',

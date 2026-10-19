@@ -176,6 +176,10 @@
   gap: var(--space-xs);
 }
 
+.message-composer__send {
+  margin-inline-start: auto;
+}
+
 .message-composer__feedback {
   margin-inline: var(--space-s);
   color: var(--c-bodyDimmed);
