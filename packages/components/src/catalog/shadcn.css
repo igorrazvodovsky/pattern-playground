@@ -20,6 +20,7 @@
 @source './registries/shadcn-parts.tsx';
 @source './registries/shadcn-rule-builder.tsx';
 @source './registries/shadcn-sections.tsx';
+@source './registries/shadcn-timeline.tsx';
 
 /* shadcn's semantic colours, defined on the scope root rather than :root: the
    library already owns --accent and --border. light-dark() follows the site's

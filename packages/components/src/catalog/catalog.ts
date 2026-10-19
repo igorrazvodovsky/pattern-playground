@@ -38,11 +38,13 @@ export const iconNames = [
   'generated',
   'guide',
   'history',
+  'link',
   'notifications',
   'open',
   'publish',
   'remove-person',
   'restore',
+  'search',
   'transfer',
 ] as const;
 
@@ -149,6 +151,28 @@ export const catalog = defineCatalog(schema, {
       description:
         'One message in Messages. `from` says who sent it: the actor, or the other side (a person or the system). `parts` is its text in order: plain runs as strings, and marked runs as { text, note, link } for a part the actor should notice. A marked run\'s `note` says why it is marked; it shows when the actor points at or focuses the run, and the run is underlined to say a note is there. A marked run\'s `link` ties it to the runs in other messages that stand for the same thing, such as a passage in a prompt and its summary in the answer; one link can join several runs. Pointing at or focusing a linked run keeps the runs on its link highlighted and drops the highlight from the other linked runs. With `note` and `link` both null the run is only highlighted. Keep the spaces between runs in the strings.',
     },
+    Timeline: {
+      props: z.object({
+        density: z.enum(['normal', 'compact']).nullable(),
+      }),
+      slots: ['default'],
+      description:
+        'Events or steps in the order they happened, each with its own marker on a rail. Its children are TimelineEntry elements in reading order: newest first for a history, oldest first for work as it unfolds. `compact` draws smaller markers, for a dense trace. A Timeline inside a TimelineEntry is that entry\'s own steps: it drops the rail and reads as part of the entry.',
+    },
+    TimelineEntry: {
+      props: z.object({
+        title: z.string(),
+        by: z.string().nullable(),
+        time: z.string().nullable(),
+        from: z.enum(['actor', 'other']).nullable(),
+        pending: z.boolean().nullable(),
+        expandable: z.boolean().nullable(),
+        open: z.boolean().nullable(),
+      }),
+      slots: ['default'],
+      description:
+        'One event or step in a Timeline. `title` says what happened. `by` names who did it, a person or the system, and leads the title, set apart. `time` says when, beneath the entry. `from: actor` sets apart an entry the actor made themselves, such as the request the rest of a trace works on. `pending` marks a step still under way: the title says so, and the entry shows it is busy. Children are the entry\'s content beneath the title. With `expandable` they sit behind a disclosure that the title opens and closes, for detail the actor asks for, such as why the event happened; `open` says whether it is open. Bind `open` with $bindState, or $bindItem inside a repeat, so the entry keeps its state when the library switches.',
+    },
     List: {
       props: z.object({
         borderless: z.boolean().nullable(),
@@ -186,7 +210,7 @@ export const catalog = defineCatalog(schema, {
         focusNext: z.string().nullable(),
       }),
       description:
-        'A value applied to something, such as an active filter or a classification, shown as a short label. Not a count or status: that is a Badge. `icon` names, by meaning, where the value came from or what kind it is. `pending` marks a value that is still being worked out: the label says so, and the tag shows it is busy. With `removeLabel` the tag carries a button, named by that label, that emits `remove`; `focusNext` works as on a Button, for when removing the tag takes the button away while it has focus. Lay several out in a horizontal Stack.',
+        'A value applied to something, such as an active filter or a classification, or a value a trace names, such as a query that was run or a source that was read, shown as a short label. Not a count or status: that is a Badge. `icon` names, by meaning, where the value came from or what kind it is. `pending` marks a value that is still being worked out: the label says so, and the tag shows it is busy. With `removeLabel` the tag carries a button, named by that label, that emits `remove`; `focusNext` works as on a Button, for when removing the tag takes the button away while it has focus. Lay several out in a horizontal Stack.',
     },
     Button: {
       props: z.object({

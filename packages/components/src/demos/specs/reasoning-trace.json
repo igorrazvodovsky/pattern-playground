@@ -1,0 +1,122 @@
+{
+  "root": "trace",
+  "elements": {
+    "trace": {
+      "type": "Timeline",
+      "props": { "density": "compact" },
+      "children": ["request", "ontologies", "shaping", "writing"]
+    },
+    "request": {
+      "type": "TimelineEntry",
+      "props": {
+        "title": "describe the importance of a notion of ontological design both for designing LLM-powered software and using LLM in the user-centred design process",
+        "from": "actor"
+      }
+    },
+    "ontologies": {
+      "type": "TimelineEntry",
+      "props": {
+        "title": "I want to explore how ontologies are used in design, focusing on methodologies and practical approaches to ontological design. This will help me understand the principles and applications of designing with ontologies.",
+        "expandable": true,
+        "open": { "$bindState": "/open/ontologies" }
+      },
+      "children": ["ontologies-steps"]
+    },
+    "ontologies-steps": {
+      "type": "Timeline",
+      "props": { "density": "compact" },
+      "children": ["ontologies-searching", "ontologies-reading"]
+    },
+    "ontologies-searching": {
+      "type": "TimelineEntry",
+      "props": { "title": "Searching" },
+      "children": ["ontologies-searching-tags"]
+    },
+    "ontologies-searching-tags": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "children": ["ontologies-searching-1", "ontologies-searching-2", "ontologies-searching-3"]
+    },
+    "ontologies-searching-1": {
+      "type": "Tag",
+      "props": { "label": "ontological design definition", "icon": "search" }
+    },
+    "ontologies-searching-2": {
+      "type": "Tag",
+      "props": { "label": "ontological design meaning", "icon": "search" }
+    },
+    "ontologies-searching-3": {
+      "type": "Tag",
+      "props": { "label": "ontological design theory", "icon": "search" }
+    },
+    "ontologies-reading": {
+      "type": "TimelineEntry",
+      "props": { "title": "Reading" },
+      "children": ["ontologies-reading-tags"]
+    },
+    "ontologies-reading-tags": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "children": ["ontologies-reading-1", "ontologies-reading-2", "ontologies-reading-3"]
+    },
+    "ontologies-reading-1": { "type": "Tag", "props": { "label": "eyeondesign.aiga.org", "icon": "link" } },
+    "ontologies-reading-2": {
+      "type": "Tag",
+      "props": { "label": "narrative-environments.github", "icon": "link" }
+    },
+    "ontologies-reading-3": { "type": "Tag", "props": { "label": "wikipedia", "icon": "link" } },
+    "shaping": {
+      "type": "TimelineEntry",
+      "props": {
+        "title": "I want to explore how technology and design influence each other, focusing on the concept that we are shaped by the things we create. This search will help me understand the ontological implications and the mutual relationship between humans and their designs.",
+        "expandable": true,
+        "open": { "$bindState": "/open/shaping" }
+      },
+      "children": ["shaping-steps"]
+    },
+    "shaping-steps": {
+      "type": "Timeline",
+      "props": { "density": "compact" },
+      "children": ["shaping-searching", "shaping-reading"]
+    },
+    "shaping-searching": {
+      "type": "TimelineEntry",
+      "props": { "title": "Searching" },
+      "children": ["shaping-searching-tags"]
+    },
+    "shaping-searching-tags": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "children": ["shaping-searching-1", "shaping-searching-2", "shaping-searching-3"]
+    },
+    "shaping-searching-1": {
+      "type": "Tag",
+      "props": { "label": "ontological design definition", "icon": "search" }
+    },
+    "shaping-searching-2": {
+      "type": "Tag",
+      "props": { "label": "ontological design meaning", "icon": "search" }
+    },
+    "shaping-searching-3": {
+      "type": "Tag",
+      "props": { "label": "ontological design theory", "icon": "search" }
+    },
+    "shaping-reading": {
+      "type": "TimelineEntry",
+      "props": { "title": "Reading" },
+      "children": ["shaping-reading-tags"]
+    },
+    "shaping-reading-tags": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "children": ["shaping-reading-1", "shaping-reading-2", "shaping-reading-3"]
+    },
+    "shaping-reading-1": { "type": "Tag", "props": { "label": "eyeondesign.aiga.org", "icon": "link" } },
+    "shaping-reading-2": {
+      "type": "Tag",
+      "props": { "label": "narrative-environments.github", "icon": "link" }
+    },
+    "shaping-reading-3": { "type": "Tag", "props": { "label": "wikipedia", "icon": "link" } },
+    "writing": { "type": "TimelineEntry", "props": { "title": "Writing report…", "pending": true } }
+  }
+}

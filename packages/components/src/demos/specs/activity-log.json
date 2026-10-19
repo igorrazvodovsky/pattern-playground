@@ -1,0 +1,32 @@
+{
+  "root": "log",
+  "elements": {
+    "log": {
+      "type": "Timeline",
+      "props": {},
+      "repeat": { "statePath": "/entries", "key": "id" },
+      "children": ["entry"]
+    },
+    "entry": {
+      "type": "TimelineEntry",
+      "props": {
+        "title": { "$item": "title" },
+        "by": { "$item": "by" },
+        "time": { "$item": "time" },
+        "expandable": { "$item": "expandable" },
+        "open": { "$bindItem": "open" }
+      },
+      "children": ["rule", "trigger"]
+    },
+    "rule": {
+      "type": "Text",
+      "props": { "text": { "$item": "rule" } },
+      "visible": { "$item": "expandable" }
+    },
+    "trigger": {
+      "type": "Text",
+      "props": { "text": { "$item": "trigger" }, "muted": true },
+      "visible": { "$item": "trigger" }
+    }
+  }
+}

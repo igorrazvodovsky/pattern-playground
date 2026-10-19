@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes } from '../catalog';
 import type { ToastHandle } from '../../components/toast/toast';
 import { captureOpener, focusDemoIfOpenerGone, type Opener } from './dialog-focus';
+import { useDisclosureState } from './disclosure-state';
 import { useFieldError } from './field-validation';
 import { submitForm } from './form-submit';
 import { useFocusHandoff } from './focus-handoff';
@@ -32,11 +33,13 @@ const icons: Record<(typeof iconNames)[number], string> = {
   generated: 'ph:sparkle',
   guide: 'ph:book-open',
   history: 'ph:clock-counter-clockwise',
+  link: 'ph:link',
   notifications: 'ph:bell',
   open: 'ph:folder-open',
   publish: 'ph:globe-hemisphere-west',
   'remove-person': 'ph:user-minus',
   restore: 'ph:arrow-arc-left',
+  search: 'ph:magnifying-glass',
   transfer: 'ph:crown-simple',
 };
 const purposeIcons: Record<(typeof purposes)[number], string> = {
@@ -209,6 +212,50 @@ export const { registry } = defineRegistry(catalog, {
             </div>
           </div>
         </div>
+      );
+    },
+
+    // The library's timeline is the stepper. A stepper inside an entry drops
+    // its rail by itself. An expandable entry is a <details> placed directly
+    // in the entry's content, where the stepper turns the rail dot into its
+    // disclosure marker; the time stays outside it, so it shows while the
+    // entry is closed. The actor's own entry takes the raised surface.
+    Timeline: ({ props, children }) => (
+      <ol
+        className="stepper"
+        style={props.density === 'compact' ? ({ '--_circle-size': '0.5rem' } as CSSProperties) : undefined}
+      >
+        {children}
+      </ol>
+    ),
+
+    TimelineEntry: ({ props, children, bindings }) => {
+      const [open, setOpen] = useDisclosureState(props.open, bindings?.open);
+      let title = (
+        <>
+          {props.by && <><strong>{props.by}</strong> </>}
+          {props.title}
+        </>
+      );
+      if (props.pending) title = <span className="shimmer">{title}</span>;
+      return (
+        <li className={clsx('stepper__item', props.from === 'actor' && 'layer')}>
+          <div className={clsx('stepper__content', !props.expandable && 'flow')}>
+            {props.expandable ? (
+              <details open={open} onToggle={event => setOpen(event.currentTarget.open)}>
+                {/* summary lays its children out as a row, so the title stays one child */}
+                <summary><span>{title}</span></summary>
+                <div className="flow">{children}</div>
+              </details>
+            ) : (
+              <>
+                <p>{title}</p>
+                {children}
+              </>
+            )}
+            {props.time && <small className="muted">{props.time}</small>}
+          </div>
+        </li>
       );
     },
 

@@ -15,8 +15,6 @@ type DemoComponent = ComponentType<Record<string, unknown>>;
 type Loader = () => Promise<DemoComponent>;
 
 const demos: Record<string, Loader> = {
-  'activity-log-basic': () => import('@pkg/demos/activity-log').then(m => m.ActivityLogBasicDemo),
-  'activity-log-llm-reasoning': () => import('@pkg/demos/activity-log').then(m => m.ActivityLogLLMReasoningDemo),
   'fluid-attributes': () => import('@pkg/demos/attribute-visibility').then(m => m.FluidAttributesDemo),
   'autocomplete': () => import('@pkg/demos/autocomplete').then(m => m.AutocompleteDemo),
   'block-based-editor': () => import('@pkg/demos/block-based-editor').then(m => m.BlockBasedEditorDemo),
@@ -64,6 +62,7 @@ const demos: Record<string, Loader> = {
 type SpecModule = { spec: Spec; setup: SpecSetup };
 
 const specs: Record<string, () => Promise<{ default: SpecModule }>> = {
+  'activity-log': () => import('@pkg/demos/specs/activity-log'),
   'callout-notification': () => import('@pkg/demos/specs/callout-notification'),
   'communicating-uncertainty': () => import('@pkg/demos/specs/communicating-uncertainty'),
   'consequence-ladder': () => import('@pkg/demos/specs/consequence-ladder'),
@@ -78,6 +77,7 @@ const specs: Record<string, () => Promise<{ default: SpecModule }>> = {
   'inline-notification': () => import('@pkg/demos/specs/inline-notification'),
   'input-output-mapping': () => import('@pkg/demos/specs/input-output-mapping'),
   'llm-assisted-filter': () => import('@pkg/demos/specs/llm-assisted-filter'),
+  'reasoning-trace': () => import('@pkg/demos/specs/reasoning-trace'),
   'rule-composition': () => import('@pkg/demos/specs/rule-composition'),
   'sections': () => import('@pkg/demos/specs/sections'),
   'staged-deletion': () => import('@pkg/demos/specs/staged-deletion'),

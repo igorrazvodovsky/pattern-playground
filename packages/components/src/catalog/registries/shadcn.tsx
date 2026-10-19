@@ -19,7 +19,9 @@ import {
   Globe,
   History,
   Info,
+  Link,
   LoaderCircle,
+  Search,
   Sparkles,
   Trash2,
   TriangleAlert,
@@ -36,6 +38,8 @@ import { scopedPortal } from './shadcn-portal';
 import type { Send } from './shadcn-parts';
 import { RuleBuilder, type RuleTree } from './shadcn-rule-builder';
 import { Section, Sections } from './shadcn-sections';
+import { Timeline, TimelineEntry } from './shadcn-timeline';
+import { useDisclosureState } from './disclosure-state';
 import { useToastList } from './toast-list';
 import { TracingProvider, useMarkTracing, useTracingState } from './mark-tracing';
 import sheetUrl from '../shadcn.generated.css?url';
@@ -85,11 +89,13 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   generated: Sparkles,
   guide: BookOpen,
   history: History,
+  link: Link,
   notifications: Bell,
   open: FolderOpen,
   publish: Globe,
   'remove-person': UserMinus,
   restore: Undo2,
+  search: Search,
   transfer: Crown,
 };
 
@@ -325,6 +331,26 @@ export const { registry } = defineRegistry(catalog, {
             })}
           </div>
         </Tooltip.Provider>
+      );
+    },
+
+    Timeline: ({ props, children }) => <Timeline density={props.density ?? 'normal'}>{children}</Timeline>,
+
+    TimelineEntry: ({ props, children, bindings }) => {
+      const [open, setOpen] = useDisclosureState(props.open, bindings?.open);
+      return (
+        <TimelineEntry
+          title={props.title}
+          by={props.by ?? null}
+          time={props.time ?? null}
+          fromActor={props.from === 'actor'}
+          pending={props.pending ?? false}
+          expandable={props.expandable ?? false}
+          open={open}
+          onOpenChange={setOpen}
+        >
+          {children}
+        </TimelineEntry>
       );
     },
 

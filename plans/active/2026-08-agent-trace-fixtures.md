@@ -20,10 +20,9 @@ with named participants, effects stated as facts added and removed, and
 `shared/data/action-types.ts`, specified in
 [docs/specs/world-ontology.md](../../docs/specs/world-ontology.md)). Human
 actions are covered; agent work is not. The agent reasoning demo
-(`ActivityLogLLMReasoningDemo` in
-`packages/components/src/demos/activity-log.tsx`) still hardcodes its trace as
-JSX — steps like searching, reading, and drafting exist only as markup, with
-no data structure behind them.
+(`packages/components/src/demos/specs/reasoning-trace.json`) still writes its
+trace into the spec: steps like searching, reading, and drafting exist only as
+elements, with no data structure behind them.
 
 ## Intent
 
