@@ -5,7 +5,7 @@ import { panePath } from '../lib/pane-path';
 
 interface Props {
   slug: string;
-  /** Render as list items for the folded "All connections" index on a page
+  /** Render as one group of the folded "All connections" index on a page
    * with a connections passage, where the opening paragraph has already named
    * the sequences in prose. */
   compact?: boolean;
@@ -30,16 +30,17 @@ const KIND_PREFIX: Record<AppearanceKind, string> = {
 ---
 
 {appearances.length > 0 && compact && (
-  <ul class="connections__index" aria-label="Appears in">
+  <dl class="description-list description-list--stacked connections__index">
+    <dt>Appears in</dt>
     {[...bySequence].map(([id, group]) => (
-      <li>
-        Appears in <a href={panePath('sequence', id)}>{group.title}</a>
+      <dd>
+        <a href={panePath('sequence', id)}>{group.title}</a>
         {group.entries.map((a, i) => (
           <>{i === 0 ? ': ' : '; '}<a href={`${panePath('sequence', id)}#${a.anchor}`}>{a.subTitle}, step {a.stepNumber}</a></>
         ))}
-      </li>
+      </dd>
     ))}
-  </ul>
+  </dl>
 )}
 
 {appearances.length > 0 && !compact && (

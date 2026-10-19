@@ -93,6 +93,9 @@ interface Edge {
   /** Where a derived `situation` came from. `extractedFrom` stays the edge's
    * own provenance (the authoring channel); this is the gloss's. */
   glossFrom?: 'source:resulting' | 'source:initiating' | 'target:resulting' | 'target:initiating';
+  /** The other endpoint's sentence, when both pages' prose link each other:
+   * each page keeps its own sentence and the index quotes the far one. */
+  farSituation?: string;
   situationalHints?: SituationalHint[];
 }
 
@@ -259,10 +262,13 @@ function linksTarget(text: string, slug: string): boolean {
   return new RegExp(`\\]\\(/patterns/${slug}(?:[#?)])`).test(text);
 }
 
-/** The sentence of `prose` that links `/patterns/<slug>`, or undefined. */
+/** The sentence of `prose` that links `/patterns/<slug>`, or undefined. The
+ * opening's leading ellipsis and the passage's closing one are typed by the
+ * author and belong to the page, not to a sentence read alone. */
 function sentenceLinking(prose: string, slug: string): string | undefined {
   const flat = prose.replace(/\s+/g, ' ').trim();
-  return flat.split(SENTENCE_BREAK).find((sentence) => linksTarget(sentence, slug));
+  const sentence = flat.split(SENTENCE_BREAK).find((s) => linksTarget(s, slug));
+  return sentence?.replace(/^(?:…|\.\.\.)\s*/, '').replace(/\s*(?:…|\.\.\.)$/, '');
 }
 
 function isShaped(situation: NodeSituation | undefined): situation is NodeSituation & { resulting: string } {
@@ -875,12 +881,12 @@ for (const [sourceId, links] of fileLinks.entries()) {
 // --- Derive edge glosses from situation prose ---
 //
 // On a shaped page the sentence that links a neighbour is the gloss of the
-// edge between them, rendered on the far endpoint's page (and on this page's
-// own list until it is shaped). The source's prose is read first; when the
-// edge was authored from the target side (an inverting alias such as
-// `follows`), or the source is not yet shaped, the target's prose is read
-// instead. Notes in `relationships` are still honoured where authored; the
-// derived gloss fills the slot where none is.
+// edge between them. Each page's index shows its own sentence beside a
+// connection and, where it has none, quotes the far page's. The source's
+// prose is read first into `situation`; when the target's prose links the
+// source too, its sentence is kept as `farSituation`, so neither page loses
+// its own words. Notes in `relationships` are still honoured where authored;
+// the derived gloss fills the slot where none is.
 const edgesByEndpoint = new Map<string, Edge[]>();
 for (const edge of edgeMap.values()) {
   for (const id of [edge.source, edge.target]) {
@@ -900,12 +906,19 @@ for (const end of ['source', 'target'] as const) {
     const situation = node.situation;
     if (!isShaped(situation)) continue;
     for (const edge of edgesByEndpoint.get(node.id) ?? []) {
-      if (edge[end] !== node.id || edge.situation !== undefined) continue;
+      if (edge[end] !== node.id) continue;
+      // A `sets-up` clause carries no `glossFrom` and is the source's.
+      const glossedEnd = edge.glossFrom?.split(':')[0] ?? 'source';
+      if (edge.situation !== undefined && (glossedEnd === end || edge.farSituation !== undefined)) continue;
       const other = end === 'source' ? edge.target : edge.source;
       const gloss = glossFromProse(situation, other);
       if (gloss === undefined) continue;
-      edge.situation = gloss.sentence;
-      edge.glossFrom = `${end}:${gloss.field}`;
+      if (edge.situation === undefined) {
+        edge.situation = gloss.sentence;
+        edge.glossFrom = `${end}:${gloss.field}`;
+      } else {
+        edge.farSituation = gloss.sentence;
+      }
     }
   }
 }
@@ -968,6 +981,50 @@ for (const node of nodeMap.values()) {
 }
 
 const edges: Edge[] = [...edgeMap.values()];
+
+// --- One relationship per pair, one per sentence (advisory) ---
+//
+// The index groups a page's connections by type and prints each edge sentence
+// beside its neighbour. A pair carrying a directed type and a symmetric one
+// lists the neighbour twice; the directed type already says what the symmetric
+// one would, so the symmetric edge is dropped at authoring. A sentence that
+// links neighbours of different types is printed under one group and the
+// neighbour under the other shows its name alone; the count is informational,
+// since a passage may bundle several moves in one sentence as the book's
+// closings do.
+const SYMMETRIC_TYPES = new Set(['complements', 'tangential', 'alternative', 'related']);
+const doubleTypedPairs: string[] = [];
+{
+  const typesByPair = new Map<string, Set<string>>();
+  for (const e of edges) {
+    if (e.type === 'recommends') continue;
+    const k = [e.source, e.target].sort().join(' ~ ');
+    typesByPair.set(k, (typesByPair.get(k) ?? new Set()).add(e.type));
+  }
+  for (const [pair, types] of typesByPair) {
+    const symmetric = [...types].filter((t) => SYMMETRIC_TYPES.has(t));
+    if (symmetric.length && symmetric.length < types.size) doubleTypedPairs.push(`${pair}: ${[...types].join(', ')}`);
+  }
+}
+const mixedSentenceFindings: string[] = [];
+{
+  // Keyed by the page whose prose the sentence came from; the type is read
+  // from that page's side, so an incoming edge differs from an outgoing one.
+  const typesBySentence = new Map<string, Set<string>>();
+  for (const e of edges) {
+    if (!e.situation || !e.glossFrom) continue;
+    const end = e.glossFrom.split(':')[0] as 'source' | 'target';
+    const page = e[end];
+    const type = SYMMETRIC_TYPES.has(e.type) || end === 'source' ? e.type : `${e.type} (incoming)`;
+    const k = `${page}\u0000${e.situation}`;
+    typesBySentence.set(k, (typesBySentence.get(k) ?? new Set()).add(type));
+  }
+  for (const [k, types] of typesBySentence) {
+    if (types.size < 2) continue;
+    const [page, sentence] = k.split('\u0000');
+    mixedSentenceFindings.push(`${page}: ${[...types].join(', ')} in "${sentence.slice(0, 80)}…"`);
+  }
+}
 
 // --- Append `recommends` edges from decision-tree extraction ---
 //
@@ -1189,5 +1246,9 @@ console.log(`  note phrasings contradicting the stored type: ${noteTellFindings.
 for (const finding of noteTellFindings) console.log(`    ${finding}`);
 console.log(`  edges unspoken on shaped pages (situation.resulting as prose): ${unspokenFindings.length}`);
 for (const finding of unspokenFindings) console.log(`    ${finding}`);
+console.log(`  pairs carrying a directed and a symmetric type: ${doubleTypedPairs.length}`);
+for (const finding of doubleTypedPairs) console.log(`    ${finding}`);
+console.log(`  sentences linking neighbours of different types: ${mixedSentenceFindings.length}`);
+for (const finding of mixedSentenceFindings) console.log(`    ${finding}`);
 console.log(`Output: ${outputPath}`);
 console.log(`Activity levels: ${activityLevelsPath}`);

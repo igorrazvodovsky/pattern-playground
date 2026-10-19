@@ -64,10 +64,14 @@ to the vault; a `literature` entry names its sources in prose.
 
 Both fields are *filterable* — see the carve-out in
 [graph-relationship-model.md](./graph-relationship-model.md) §Epistemic stance.
-Rendered as badges under the title (`EpistemicStatus.astro`) and as a dashed
-node outline in the graph. Border style is the channel; colour is taken by role
-and category, and size would read as importance, which a well-evidenced move is
-not.
+Rendered as badges under the title (`EpistemicStatus.astro`), as a dashed
+underline on a seed's title (`ArticleShell.astro`, the library's provisional-name
+mark from `certainty.css`) and as a dashed node outline in the graph. Border
+style is the channel; colour is taken by role and category, and size would read
+as importance, which a well-evidenced move is not. The title mark is the one
+that reaches a reader who reads only the title and the two bold paragraphs; it
+derives from `seed` alone, since `disclosure` is prose for a reader who reads
+on, and no rung between seed and established is declared.
 
 Origin: [2026-07-epistemic-disclosure.md](../../plans/completed/2026-07-epistemic-disclosure.md).
 
@@ -187,12 +191,13 @@ A behavioural invariant to preserve: at the leftmost scroll position the first p
 A pattern's two situations live in its frontmatter `situation:` block as
 prose: `initiating` renders as the page's opening paragraph and `resulting`
 as its connections passage, and the extractor emits them as node metadata
-and derives each edge's gloss from the sentence that links its target. The
+and derives each edge sentence from the sentence that links its target. The
 earlier clause-list form of `resulting` (with `sets-up:` emitting `precedes`)
 is honoured on pages not yet shaped and renders as a generated Consequences
 section. On a shaped page the renderer adds visually hidden *Problem*,
 *Solution* and *Connections* headings so the table of contents reaches
-the unheaded parts. The page shape is in the authoring contract,
+the unheaded parts. The folded index beneath the passage lists one line per
+connection, grouped by type, with its note or edge sentence beside it. The page shape is in the authoring contract,
 `.claude/rules/pattern-content.md` §Document structure; the construct in
 [relationship-vocabulary.md](../language/relationship-vocabulary.md) §Situations.
 
@@ -200,6 +205,79 @@ the unheaded parts. The page shape is in the authoring contract,
 
 The sequence collection — what a sequence is, the file format and field meanings, the authoring bar, rendering, and validation — has its own spec: [sequences.md](sequences.md). Two points that bind this spec: sequence files live beside the patterns collection in `apps/patterns/src/content/sequences/`
 with the same filename-stem identity rule, and a sequence page is the one pane-0 case that is not a pattern (§Stacked-notes navigation).
+
+## Figures
+
+A prescription figure is a drawing of the relations a pattern imposes,
+placed with the instruction (see the authoring rule for placement). It is
+the one illustration that holds for every realisation, so it shows no
+interface: no screens, panels, buttons or toasts. A demo shows a realisation.
+Decision trees stay in Mermaid through `<Diagram>`. Not every pattern needs a
+figure; one that actors already know from use, such as a wizard, gets none.
+
+### Files
+
+Each figure lives in `apps/patterns/src/figures/<slug>/`:
+
+- `<slug>.tldr`: the tldraw source, plain JSON.
+- `<slug>.tldraw`: optional, a hand edit saved from the tldraw desktop app.
+  When present it is the source, and the clean step regenerates the `.tldr`
+  from it.
+- `<slug>.svg`: what the page serves, written by the clean step.
+
+`npx tsx scripts/clean-figure.ts <export.svg> <slug>` turns a tldraw SVG
+export into the served file:
+
+- Strokes and fills become `currentColor` or theme tokens, so the figure
+  follows the colour mode. A pure white fill becomes the page background and
+  hides what lies behind it. Grey highlight maps to a tint of the ink, yellow
+  highlight to `--c-background-warning-strong`, green ink to
+  `--c-body-success`, grey ink to a mix of ink and background. An unmapped
+  colour fails the step, and so does a pattern fill.
+- Joins are pointed. Horizontal and vertical lines take square ends;
+  diagonals, curves, dashes and highlights take flat ends.
+- Ids are prefixed with the slug, since the pane stack shows several pages
+  at once.
+
+`<Figure>` (`apps/patterns/src/components/Figure.astro`) inlines the SVG at
+the column's width, hidden from assistive tech, with an optional caption.
+
+### Drawing
+
+- As few marks as the relation needs; a mark stays only if removing it loses
+  part of the relation. No words in the drawing, one parameter at most.
+- Only what holds for every realisation. A constraint some realisations have
+  (a time limit, a fixed number of steps) stays out.
+- One stroke weight, 3.5 units, drawn `solid` or `dashed`, never tldraw's
+  `draw` style. A change of weight, dash or colour carries a meaning. The time
+  line is the one thinner line.
+- Figures are drawn about 700 units wide. The SVG scales to the column, so
+  strokes show at the same weight only when drawings share a width.
+- As little height as the relation allows. Equal margins inside a sheet,
+  equal gaps between rows and between objects.
+
+### Marks
+
+Abstract marks keep one meaning across figures, so none needs a legend.
+
+| Mark | Meaning |
+| --- | --- |
+| Thin line with an arrowhead | time, left to right |
+| Filled circle | the current state, or a case where it is now |
+| Dashed circle | an earlier state, kept as history |
+| The one solid arrow | the pattern's own action |
+| Pictogram, round head | a person |
+| Pictogram, square head | the system |
+| Sheet | the work; solid rows are done, dashed rows remain |
+| Small note tied to a sheet | what travels with the work |
+| Grey highlight on a row | a part in conflict |
+| Yellow highlight on a row | the outcome |
+| Green tick | a pick |
+| Background-filled wedge from a row | that part opened into the next level |
+
+Objects (a person, a sheet) suit relations of who holds what or what the work
+contains; a line suits time. Where a pattern already has a common drawn form,
+such as a flow diagram for a workflow, the figure uses it.
 
 ## Toolchain posture
 

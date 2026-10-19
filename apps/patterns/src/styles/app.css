@@ -186,7 +186,8 @@
   .demo-block__footer {
     display: flex;
 
-    /* align-items: center; */
+    /* Top-aligned so a multi-line label does not stretch the controls. */
+    align-items: start;
     gap: var(--space-s, 0.5rem);
     margin-block-start: var(--space-s, 0.5rem);
     font-size: 0.875em;
@@ -451,6 +452,15 @@ main.shell__main:has(> .content-inset) {
   font-style: italic;
 }
 
+/* A seed's title wears the provisional mark the library gives a proposed name
+   (certainty.css): a dashed underline, the same channel as the graph's dashed
+   seed node. The mark is on the title alone, as the book's asterisks are. */
+article h1[data-proposed] {
+  text-decoration: underline dashed var(--c-neutral-400);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
 /* The library's `details` is a bordered card; here it's an inline fold, as on
    sequence pages. */
 .connections__formal {
@@ -468,6 +478,15 @@ main.shell__main:has(> .content-inset) {
 
 .connections__index {
   margin-block-start: var(--space-s);
+}
+
+/* The titles carry the scan; the sentence beside each stays a step back. */
+.connections__index dd > a {
+  color: var(--c-body);
+}
+
+.connections__sentence {
+  color: var(--c-bodyDimmed);
 }
 
 .residue {

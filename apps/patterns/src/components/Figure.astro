@@ -1,0 +1,30 @@
+---
+// A prescription figure: the drawn relations a pattern's instruction imposes.
+// MDX pages receive it through the Content components mapping
+// (components/PatternArticle.astro), so a bare <Figure name="…" caption="…" />
+// needs no import. The SVG is inlined so its currentColor strokes follow the
+// page's colour mode; scripts/clean-figure.ts prepares it from a tldraw export.
+// The drawing is hidden from assistive tech, so the relations it shows must be
+// stated in words: in the caption, or in the prose around the figure when the
+// caption is left out.
+interface Props {
+  name: string;
+  caption?: string;
+}
+
+const { name, caption } = Astro.props;
+
+const figures = import.meta.glob<string>('../figures/*/*.svg', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+const svg = figures[`../figures/${name}/${name}.svg`];
+if (!svg) throw new Error(`<Figure name="${name}">: no figures/${name}/${name}.svg`);
+
+const inlined = svg.replace('<svg ', '<svg width="100%" aria-hidden="true" focusable="false" ');
+---
+<figure>
+  <Fragment set:html={inlined} />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
