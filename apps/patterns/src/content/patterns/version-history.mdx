@@ -1,0 +1,118 @@
+---
+title: Version history
+added: 2026-10-19
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+group: application
+activityLevel: action
+lifecycle: application
+mediation: individual
+description: "Keeping past states of the work that the actor can find, compare, and restore after the session ends and undo no longer reaches them."
+situation:
+  initiating: >-
+    the work is stored continuously or across many sessions, and the actor wants a state
+    it was in earlier: last week's draft, the one sent to the client, the one before a
+    collaborator's rewrite. [Undo](/patterns/undo) cannot reach it, because undo steps back
+    through recent actions and stops when the session ends. The
+    [activity log](/patterns/activity-log) records what happened but does not let anyone
+    return to it. Once [saving](/patterns/saving) happens without the actor, pressing Save
+    no longer means *this version counts*, and that act needs a place of its own.
+
+
+    Version history is the step "Let the actor return to named versions" in
+    [memory and continuity](/sequences/memory-and-continuity), and the longer-term history
+    that [making changes](/sequences/making-changes) hands on to when undo runs out.
+  resulting: >-
+    The actor can step outside the current state of the work and come back to it. Each
+    [publish](/patterns/draft-and-publish) is a natural moment to name, so publishing and
+    version history usually arrive together. Where [saving](/patterns/saving) stores work
+    without the actor's involvement, it no longer marks any moment on its own, and the
+    named versions in the history take over that job. [Undo](/patterns/undo) and version history split the
+    same need by distance: undo covers the last few actions in this session, and version
+    history covers named states across sessions. Restoring is itself a change, so the
+    restore has to be undoable, and the state it replaced kept as a version.
+
+
+    Looking at a past version is rarely enough on its own. The actor wants to know how it
+    differs from now, which is [comparing](/patterns/comparing)'s version case: shared
+    structure can be assumed and only the difference shown. The
+    [activity log](/patterns/activity-log) is the record beside it, holding events where
+    version history holds states, and the two are often confused because one interface
+    shows both. Where several people work on the same thing, restoring an old version
+    over a colleague's recent work is a collision, and that belongs to
+    [reconciliation](/patterns/reconciliation) rather than a silent overwrite. Version
+    history also changes what [deletion](/patterns/deletion) means inside the work: a
+    removed passage can be recovered from an earlier state, which lowers the stakes of
+    removing it, while the history itself becomes a place where removed content
+    persists...
+relationships:
+  follows:
+    - to: saving
+      note: "automatic saving removes the 'this version counts' act from the Save button; version history gives it back a place"
+    - to: draft-and-publish
+      note: "each publish is a moment the history names"
+  complements:
+    - to: undo
+      note: "undo reverses recent actions within the session; version history returns to named states across sessions"
+    - to: comparing
+      note: "showing a past version against the current one is comparing's version case"
+    - to: activity-log
+      note: "the log keeps events, version history keeps restorable states"
+  related:
+    - to: reconciliation
+      note: "restoring a version over someone else's later work is a collision to reconcile, not an overwrite"
+    - to: deletion
+      note: "earlier versions recover removed content, and are also where removed content persists"
+  enacts:
+    - to: temporality
+      note: lets the actor return to an earlier state of the work after the session has ended
+disclosure: >-
+  Seeded from three sightings inside the corpus (undo's to-do, making changes and memory
+  and continuity both reaching a step with no pattern) and from shipping forms in document
+  and design tools. Needs its classification sitting: whether automatic checkpoints and
+  named versions are one pattern or two, and how the history interacts with retention and
+  forgetting, are open.
+---
+
+* * *
+
+**The actor needs a past state of their work, not just the last few actions. Undo has ended with the session, the log says what happened without letting them return to it, and copying files to keep old states produces a folder of "final-v2-really-final" that nobody can tell apart.**
+
+Three things pull against each other:
+
+- *Coverage against legibility.* Keeping every state means nothing is lost, but an unbroken stream of autosaves is as hard to navigate as no history. Figma and Google Docs both keep automatic checkpoints and let the actor name the ones that matter, with a filter that shows only the named ones.
+- *What a version contains.* A version can hold the document alone or the document with its comments, settings, and permissions. In Google Docs, comments are not stored with versions, so restoring an old one brings back the text without the conversation about it.
+- *Restoring without losing the present.* Restoring replaces the current state, which is exactly the loss the history exists to prevent. Figma's restore adds a checkpoint of the state it replaces before it restores, so the restore can itself be undone.
+
+The pattern costs storage and a retention policy. It also creates a second place where content lives: text removed from the current version is still readable in earlier ones, which matters wherever the actor expects removal to be final.
+
+Therefore,
+
+**Keep past states of the work beyond the session, and let the actor give names to the moments that matter. Show named versions apart from automatic checkpoints, let the actor compare any version with the current one before restoring it, and make restoring a new version rather than an overwrite, so the state it replaced stays available. State what a version includes and how far back the history goes.**
+
+Naming every version adds work the actor will not do, so automatic checkpoints carry most of the history, and names are reserved for publishes, hand-overs, and states the actor chooses to mark.
+
+## In practice
+
+- *Automatic checkpoints:* taken at intervals or on events (a session ending, a connection dropping), unnamed by default.
+- *Named versions:* created on purpose, or by naming an existing checkpoint; often created by the system at a publish or release.
+- *Browse and preview:* a list or timeline of versions, each opening read-only, usually with changes highlighted against its neighbour.
+- *Restore and copy:* restoring makes the past state current; copying makes a new item from it and leaves the current state alone.
+- *Retention:* how far back the history reaches, often tied to a plan or a storage limit, and stated to the actor.
+
+## Resources & references
+
+- Figma Learn: [View a file's version history](https://help.figma.com/hc/en-us/articles/360038006754-View-a-file-s-version-history) — checkpoints every 30 minutes, named versions, restore as a non-destructive change, retention by plan
+- [Version history essentials for Google Docs, Sheets, and Slides](https://www.techrepublic.com/article/version-history-essentials-for-google-docs-sheets-and-slides/) — naming versions, showing only named versions, comments not kept with versions
+- Edwards & Mynatt (1997) [Timewarp: techniques for autonomous collaboration](https://faculty.cc.gatech.edu/~keith/pubs/autonomous-html/autonomous.html), CHI '97 — making time explicit and editable in the interface, with divergent histories kept visible
+- Grossman, Matejka & Fitzmaurice (2010) [Chronicle: capture, exploration, and playback of document workflow histories](https://www.research.autodesk.com/?p=1833), UIST '10 — linking a document's content to the part of its history that produced it
+
+## To-do
+
+- Decide whether automatic checkpoints and named versions are one pattern or two.
+- Work out the boundary with selective undo and branching undo, which `undo` lists as variants.
+- Work out retention and redaction: what happens when content in an old version has to be forgotten.
