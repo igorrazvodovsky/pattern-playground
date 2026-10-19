@@ -3208,13 +3208,34 @@
       }
     },
     {
+      "id": "version-history",
+      "title": "Version history",
+      "category": "Actions",
+      "path": "/patterns/version-history",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the work is stored continuously or across many sessions, and the actor wants a state it was in earlier: last week's draft, the one sent to the client, the one before a collaborator's rewrite. [Undo](/patterns/undo) cannot reach it, because undo steps back through recent actions and stops when the session ends. The [activity log](/patterns/activity-log) records what happened but does not let anyone return to it. Once [saving](/patterns/saving) happens without the actor, pressing Save no longer means *this version counts*, and that act needs a place of its own.\n\nVersion history is the step \"Let the actor return to named versions\" in [memory and continuity](/sequences/memory-and-continuity), and the longer-term history that [making changes](/sequences/making-changes) hands on to when undo runs out.",
+        "resulting": "The actor can step outside the current state of the work and come back to it. Each [publish](/patterns/draft-and-publish) is a natural moment to name, so publishing and version history usually arrive together. Where [saving](/patterns/saving) stores work without the actor's involvement, it no longer marks any moment on its own, and the named versions in the history take over that job. [Undo](/patterns/undo) and version history split the same need by distance: undo covers the last few actions in this session, and version history covers named states across sessions. Restoring is itself a change, so the restore has to be undoable, and the state it replaced kept as a version.\n\nLooking at a past version is rarely enough on its own. The actor wants to know how it differs from now, which is [comparing](/patterns/comparing)'s version case: shared structure can be assumed and only the difference shown. The [activity log](/patterns/activity-log) is the record beside it, holding events where version history holds states, and the two are often confused because one interface shows both. Where several people work on the same thing, restoring an old version over a colleague's recent work is a collision, and that belongs to [reconciliation](/patterns/reconciliation) rather than a silent overwrite. Version history also changes what [deletion](/patterns/deletion) means inside the work: a removed passage can be recovered from an earlier state, which lowers the stakes of removing it, while the history itself becomes a place where removed content persists..."
+      },
+      "group": "application",
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "wizard",
       "title": "Wizard",
       "category": "Actions",
       "path": "/patterns/wizard",
       "role": "pattern",
       "situation": {
-        "initiating": "a standard [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed. This works well for most tasks, but falls short when a complex, unfamiliar workflow has strict dependencies—where early decisions dictate which questions exist later, and the task must be completed from start to finish before anything can take effect. When users encounter a process so rarely that they have no existing mental model, presenting every field at once causes cognitive overload. A wizard shapes this kind of task into a guided, step-by-step sequence. It is the standard approach for initial [onboarding](/patterns/onboarding) setup and first-time [settings](/patterns/settings) configuration where users need to make choices before fully understanding what each control means. When this sequence also defines how users navigate through the interface, [step by step](/patterns/step-by-step) provides the navigational backbone; this pattern defines the structure and pacing of the task itself.",
+        "initiating": "a [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed. This works well for most tasks, but falls short when a complex, unfamiliar workflow has strict dependencies—where early decisions dictate which questions exist later, and the task must be completed from start to finish before anything can take effect. When users encounter a process so rarely that they have no existing mental model, presenting every field at once causes cognitive overload. A wizard shapes this kind of task into a guided, step-by-step sequence. It is the standard approach for initial [onboarding](/patterns/onboarding) setup and first-time [settings](/patterns/settings) configuration where users need to make choices before fully understanding what each control means. When this sequence also defines how users navigate through the interface, [step by step](/patterns/step-by-step) provides the navigational backbone; this pattern defines the structure and pacing of the task itself.",
         "resulting": "Because a wizard isolates focus to one step at a time and hides the rest of the interface, users must be able to change earlier decisions without losing entered progress; non-destructive [undo](/patterns/undo) and safe backward navigation are fundamental requirements. Throughout the flow, continuous [status feedback](/patterns/status-feedback) keeps users oriented with clear progress indicators, inline field validation, and confirmation states. When users have varying goals and do not benefit from a rigid sequence, [next best action](/patterns/next-best-action) recommends optimal steps dynamically instead of locking users into a fixed path, while an interactive [agent](/patterns/agent) can handle complex dependencies through conversation, allowing users to ask clarifying questions about earlier decisions at any time. Similar sequential structures appear in other contexts: configuring a reusable [template](/patterns/template) through guided prompts, or paginating through a structured [prompt scaffold](/patterns/prompt-scaffolding). Unlike an enterprise [workflow](/patterns/workflow), which coordinates asynchronous tasks and business processes across multiple people and systems, a wizard guides a single user through an isolated, synchronous task."
       },
       "group": "application",
@@ -6802,7 +6823,7 @@
       "type": "instantiates",
       "incomingNote": "the wizard applies disclosure across discrete gated steps, revealing complexity gradually",
       "extractedFrom": "frontmatter:instances",
-      "situation": "a standard [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed.",
+      "situation": "a [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed.",
       "glossFrom": "source:initiating"
     },
     {
@@ -8148,6 +8169,76 @@
       "extractedFrom": "frontmatter:tangential"
     },
     {
+      "source": "saving",
+      "target": "version-history",
+      "type": "precedes",
+      "incomingNote": "automatic saving removes the 'this version counts' act from the Save button; version history gives it back a place",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "Where [saving](/patterns/saving) stores work without the actor's involvement, it no longer marks any moment on its own, and the named versions in the history take over that job.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "draft-and-publish",
+      "target": "version-history",
+      "type": "precedes",
+      "incomingNote": "each publish is a moment the history names",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "Each [publish](/patterns/draft-and-publish) is a natural moment to name, so publishing and version history usually arrive together.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "version-history",
+      "target": "undo",
+      "type": "complements",
+      "label": "undo reverses recent actions within the session; version history returns to named states across sessions",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Undo](/patterns/undo) and version history split the same need by distance: undo covers the last few actions in this session, and version history covers named states across sessions.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "version-history",
+      "target": "comparing",
+      "type": "complements",
+      "label": "showing a past version against the current one is comparing's version case",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The actor wants to know how it differs from now, which is [comparing](/patterns/comparing)'s version case: shared structure can be assumed and only the difference shown.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "version-history",
+      "target": "activity-log",
+      "type": "complements",
+      "label": "the log keeps events, version history keeps restorable states",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The [activity log](/patterns/activity-log) is the record beside it, holding events where version history holds states, and the two are often confused because one interface shows both.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "version-history",
+      "target": "reconciliation",
+      "type": "related",
+      "label": "restoring a version over someone else's later work is a collision to reconcile, not an overwrite",
+      "extractedFrom": "frontmatter:related",
+      "situation": "Where several people work on the same thing, restoring an old version over a colleague's recent work is a collision, and that belongs to [reconciliation](/patterns/reconciliation) rather than a silent overwrite.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "version-history",
+      "target": "deletion",
+      "type": "related",
+      "label": "earlier versions recover removed content, and are also where removed content persists",
+      "extractedFrom": "frontmatter:related",
+      "situation": "Version history also changes what [deletion](/patterns/deletion) means inside the work: a removed passage can be recovered from an earlier state, which lowers the stakes of removing it, while the history itself becomes a place where removed content persists...",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "version-history",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "lets the actor return to an earlier state of the work after the session has ended",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "wizard",
       "target": "undo",
       "type": "precedes",
@@ -8184,7 +8275,7 @@
       "target": "form",
       "type": "alternative",
       "extractedFrom": "frontmatter:alternative",
-      "situation": "a standard [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed.",
+      "situation": "a [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed.",
       "glossFrom": "source:initiating"
     },
     {
