@@ -1,8 +1,9 @@
-import { Children, Fragment, useCallback, useEffect, useId, useRef, useState, type CSSProperties, type RefObject } from 'react';
+import { Children, Fragment, useCallback, useEffect, useId, useMemo, useRef, useState, type CSSProperties, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import clsx from 'clsx';
 import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes } from '../catalog';
+import type { MapComponent, MapSelectDetail } from '../../components/map/map';
 import type { ToastHandle } from '../../components/toast/toast';
 import { Combobox, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxList } from '../../components/combobox';
 import { captureOpener, settleFocus, useReturnFocus, type Opener } from './dialog-focus';
@@ -564,6 +565,37 @@ export const { registry } = defineRegistry(catalog, {
           )}
         </>
       );
+    },
+
+    // pp-map, which draws its pins and popups over a Leaflet base map. The
+    // element takes its places and selection as properties and reports a
+    // pin the actor chose as pp-map-select.
+    Map: ({ props, bindings, emit }) => {
+      const [selected, setSelected] = useBoundProp(props.selected, bindings?.selected);
+      const ref = useRef<MapComponent | null>(null);
+      // pp-map redraws its pins and refits the view whenever it is handed a
+      // new array, so the array changes only with the places.
+      const locations = useMemo(
+        () => props.locations.map(({ description, ...location }) => ({ ...location, description: description ?? undefined })),
+        [props.locations],
+      );
+      useEffect(() => {
+        if (ref.current) ref.current.locations = locations;
+      }, [locations]);
+      useEffect(() => {
+        if (ref.current) ref.current['selected-id'] = selected ?? '';
+      }, [selected]);
+      useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+        const onSelect = (event: Event) => {
+          setSelected(String((event as CustomEvent<MapSelectDetail>).detail.location.id));
+          emit('select');
+        };
+        el.addEventListener('pp-map-select', onSelect);
+        return () => el.removeEventListener('pp-map-select', onSelect);
+      }, [setSelected, emit]);
+      return <pp-map ref={ref} aria-label={props.label} />;
     },
 
     // Hands focus on (focus-handoff.ts) if it unmounts while focused.

@@ -22,6 +22,7 @@
 import { Elena } from '@elenajs/core';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { CARTO_ATTRIBUTION, CARTO_TILE_URL } from './tiles.js';
 
 type ElenaProp = string | { name: string; reflect?: boolean };
 
@@ -44,9 +45,6 @@ export interface MapSelectDetail {
   source: 'marker' | 'api';
 }
 
-const CARTO_TILE_URL = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
-const CARTO_ATTRIBUTION =
-  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
 
 /** A design-system pin drawn from CSS rather than Leaflet's bundled PNG. */
 function pinIcon(selected: boolean): L.DivIcon {
@@ -98,6 +96,7 @@ export class MapComponent extends Elena(HTMLElement) {
   private resizeObserver?: ResizeObserver;
   private rafHandle = 0;
   private canvas?: HTMLElement;
+  private zooming = false;
 
   // Elena's updated() carries no changed-props map; previous values live here,
   // seeded in firstUpdated() so handlers only run on later changes.
@@ -127,7 +126,11 @@ export class MapComponent extends Elena(HTMLElement) {
     super.disconnectedCallback();
     this.resizeObserver?.disconnect();
     if (this.rafHandle) cancelAnimationFrame(this.rafHandle);
-    this.map?.remove();
+    // A zoom animation finishes on a timer that remove() does not cancel, and
+    // the timer then reads the removed panes. Wait for it.
+    const map = this.map;
+    if (this.zooming) map?.once('zoomend', () => map.remove());
+    else map?.remove();
     this.map = undefined;
   }
 
@@ -141,6 +144,7 @@ export class MapComponent extends Elena(HTMLElement) {
     if (!this.canvas) return;
 
     this.map = L.map(this.canvas, { zoomControl: true, attributionControl: true });
+    this.map.on('zoomanim', () => (this.zooming = true)).on('zoomend', () => (this.zooming = false));
     this.tileLayer = L.tileLayer(this['tile-url'], {
       attribution: this.attribution,
       maxZoom: 19,
@@ -163,7 +167,8 @@ export class MapComponent extends Elena(HTMLElement) {
 
   updated(): void {
     if (!this.map) return;
-    if (this.locations !== this.prevLocations) {
+    const placesChanged = this.locations !== this.prevLocations;
+    if (placesChanged) {
       this.prevLocations = this.locations;
       this.renderMarkers();
       this.fitView();
@@ -177,7 +182,9 @@ export class MapComponent extends Elena(HTMLElement) {
     }
     if (this['selected-id'] !== this.prevSelectedId) {
       this.prevSelectedId = this['selected-id'];
-      this.syncSelection('api');
+      // A selection that arrives with new places leaves the view framing
+      // them all; one that changes later moves the map to it.
+      this.syncSelection(!placesChanged);
     }
   }
 
@@ -260,7 +267,8 @@ export class MapComponent extends Elena(HTMLElement) {
     // Selection is applied inline; the prev field is caught up so the microtask
     // update cycle does not re-apply it as an 'api' change (which would pan).
     this.prevSelectedId = loc.id;
-    this.syncSelection(source);
+    // Don't wrench the view when the user clicked a marker already in frame.
+    this.syncSelection(source !== 'marker');
     this.dispatchEvent(
       new CustomEvent<MapSelectDetail>('pp-map-select', {
         detail: { location: loc, source },
@@ -271,7 +279,7 @@ export class MapComponent extends Elena(HTMLElement) {
   }
 
   /** Reflect the current `selected-id` onto the markers and the map view. */
-  private syncSelection(source: MapSelectDetail['source']): void {
+  private syncSelection(pan: boolean): void {
     const loc = this.locations.find((l) => this.isSelected(l));
 
     // Repaint pin states.
@@ -286,8 +294,7 @@ export class MapComponent extends Elena(HTMLElement) {
 
     if (loc && this.map) {
       const marker = this.markersById.get(String(loc.id));
-      // Don't wrench the view when the user clicked a marker already in frame.
-      if (source !== 'marker') this.map.panTo([loc.lat, loc.lng]);
+      if (pan) this.map.panTo([loc.lat, loc.lng]);
       marker?.openPopup();
     }
   }

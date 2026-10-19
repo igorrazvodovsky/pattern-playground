@@ -367,6 +367,15 @@ Design calls; one sitting each.
   match. Two controls with the same label in one demo (two references to the
   same item) would send focus to the wrong one. A stable key the spec gives
   the control would avoid it; change both together.
+- [ ] *Leaflet setup, twice.* `components/map/map.ts` and
+  `catalog/registries/shadcn-map.tsx` share the tiles (`map/tiles.ts`), but
+  each creates the Leaflet map, fits the view without animation, defers
+  removing the map while a zoom runs, names each pin, selects it on Enter or
+  Space, marks the selected one current, and pans to a selection only when
+  it was set from state after the places were framed. Only the pin, the
+  popup and the frame belong to each library. A framework-free helper beside
+  `map.ts` that takes the pin and popup as arguments would serve both; a fix
+  to the keyboard handling or the unmount guard now has to be made twice.
 - [ ] *Full-view spec elements, five times.* `specs/investigate.json`,
   `specs/watch-to-chase-tiers.json` and `specs/item-view-full.json` each hold
   the same full-view elements (a Card with badges, price, description, a

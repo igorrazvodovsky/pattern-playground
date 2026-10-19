@@ -6,8 +6,10 @@
    built-in positioning; nothing here overrides `.leaflet-*` internals.
    ============================================================================= */
 
+/* A grid, so that the canvas fills the host at whatever height the host
+   resolves to, its minimum included. */
 pp-map {
-  display: block;
+  display: grid;
   inline-size: 100%;
   block-size: 100%;
   min-block-size: 20rem;

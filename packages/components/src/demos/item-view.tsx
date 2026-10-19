@@ -1,11 +1,7 @@
-import { useState } from 'react';
 import { ItemView } from '../components/item-view/ItemView';
 import type { ViewScope } from '../components/item-view/types';
 import type { Product } from '@shared/data/types';
 import { products } from '../templates/collection-view/data';
-import { ViewSpecRenderer } from '../templates/collection-view/renderers';
-import { productBinding } from '@shared/data/bindings';
-import { makeSpec } from '../templates/collection-view/spec';
 import '../jsx-types';
 
 /**
@@ -40,27 +36,4 @@ export function ProductItemView({
 /** Summary scope: quick assessment without leaving the current context. */
 export function ItemViewSummaryDemo() {
   return <ProductItemView scope="mini" />;
-}
-
-const glyphSpec = makeSpec({
-  id: 'item-view-glyph',
-  representation: { type: 'map', rung: 'glyph', shownAttributes: ['name'] },
-});
-
-/**
- * Glyph rung: the entity as a located dot among the population. A glyph is
- * only legible inside a population, so the population renderer draws it —
- * not the item view.
- */
-export function ItemViewGlyphDemo() {
-  const [selectedId, setSelectedId] = useState<string | null>(canonicalProduct.id);
-  return (
-    <ViewSpecRenderer
-      items={products}
-      spec={glyphSpec}
-      binding={productBinding}
-      selectedId={selectedId}
-      onItemSelect={(item) => setSelectedId(item.id)}
-    />
-  );
 }

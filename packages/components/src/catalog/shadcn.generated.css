@@ -52,6 +52,9 @@
       --tw-drop-shadow-alpha: 100%;
       --tw-drop-shadow-size: initial;
       --tw-duration: initial;
+      --tw-scale-x: 1;
+      --tw-scale-y: 1;
+      --tw-scale-z: 1;
       --tw-content: "";
     }}
 }
@@ -664,6 +667,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .h-12 {
     height: calc(var(--spacing) * 12);
   }
+.h-80 {
+    height: calc(var(--spacing) * 80);
+  }
 .h-\[calc\(100\%-1px\)\] {
     height: calc(100% - 1px);
   }
@@ -1070,6 +1076,10 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
     border-style: var(--tw-border-style);
     border-width: 1px;
   }
+.border-2 {
+    border-style: var(--tw-border-style);
+    border-width: 2px;
+  }
 .border-b {
     border-bottom-style: var(--tw-border-style);
     border-bottom-width: 1px;
@@ -1085,6 +1095,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .border-dashed {
     --tw-border-style: dashed;
     border-style: dashed;
+  }
+.border-background {
+    border-color: var(--background);
   }
 .border-blue-200 {
     border-color: var(--color-blue-200);
@@ -1610,6 +1623,19 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .group-has-data-\[slot\=stat\]\/card\:text-muted-foreground:is(:where(.group\/card):has([data-slot="stat"]) *) {
     color: var(--muted-foreground);
+  }
+.group-aria-\[current\=true\]\:scale-140:is(:where(.group)[aria-current="true"] *) {
+    --tw-scale-x: 140%;
+    --tw-scale-y: 140%;
+    --tw-scale-z: 140%;
+    scale: var(--tw-scale-x) var(--tw-scale-y);
+  }
+.group-aria-\[current\=true\]\:ring-2:is(:where(.group)[aria-current="true"] *) {
+    --tw-ring-shadow: var(--tw-ring-inset, ) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+.group-aria-\[current\=true\]\:ring-ring:is(:where(.group)[aria-current="true"] *) {
+    --tw-ring-color: var(--ring);
   }
 .group-data-\[disabled\=true\]\:pointer-events-none:is(:where(.group)[data-disabled="true"] *) {
     pointer-events: none;
@@ -2861,6 +2887,21 @@ a.\[a\&\]\:hover\:text-accent-foreground:hover {
 @property --tw-duration {
   syntax: "*";
   inherits: false
+}
+@property --tw-scale-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-scale-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-scale-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
 }
 @property --tw-content {
   syntax: "*";

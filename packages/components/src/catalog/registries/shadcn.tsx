@@ -49,6 +49,7 @@ import { useFocusHandoff } from './focus-handoff';
 import { useFocusOnShow } from './focus-on-show';
 import { scopedPortal } from './shadcn-portal';
 import type { Send } from './shadcn-parts';
+import { LocationMap } from './shadcn-map';
 import { RuleBuilder, type RuleTree } from './shadcn-rule-builder';
 import { Subsection, useHeading } from './heading-level';
 import { Section, Sections } from './shadcn-sections';
@@ -648,6 +649,23 @@ export const { registry } = defineRegistry(catalog, {
             </button>
           )}
         </Root>
+      );
+    },
+
+    // Built for this registry from Leaflet (shadcn-map.tsx): the kit has no
+    // map. The pin the actor chose is written to the bound path, then an event.
+    Map: ({ props, bindings, emit }) => {
+      const [selected, setSelected] = useBoundProp(props.selected, bindings?.selected);
+      return (
+        <LocationMap
+          label={props.label}
+          locations={props.locations}
+          selected={selected ?? null}
+          onSelect={id => {
+            setSelected(id);
+            emit('select');
+          }}
+        />
       );
     },
 

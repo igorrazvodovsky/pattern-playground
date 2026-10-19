@@ -302,6 +302,23 @@ export const catalog = defineCatalog(schema, {
       description:
         'An item named inline in running text, such as a product a sentence mentions; it sits as a child of a Text, with an inline Text after it for the rest of the sentence. `label` is the item\'s name. Pointing at the reference or focusing it shows a preview of the item after a short pause, and the preview stays while the pointer moves into it, so that the actor can use the controls there; Tab from the reference moves into an open preview. Leaving both, or Escape, closes it. The preview is headed by `label`, and the children follow as its body, such as the item\'s key figure as a Text and its attributes as Badges. The `suffix` slot sits beside the heading, for controls that show the item in another way. Bind `preview` with $bindState: the reference writes whether the preview shows, and setting it false closes the preview. Pressing the reference emits `open`, for a fuller view of the item. `expanded` says that view is showing: the reference is marked expanded, and pointing at it shows no preview meanwhile.',
     },
+    Map: {
+      props: z.object({
+        label: z.string(),
+        locations: z.array(
+          z.object({
+            id: z.string(),
+            name: z.string(),
+            lat: z.number(),
+            lng: z.number(),
+            description: z.string().nullable(),
+          }),
+        ),
+        selected: z.string().nullable(),
+      }),
+      description:
+        'Places on a map the actor can pan and zoom, each a pin at its `lat` and `lng`, read by assistive technology as `label`. The map first frames every pin. A pin is named by its `name` and `description`; pressing it, or Enter or Space when it has focus, selects it, marks it apart from the others and shows its name and description beside it. `selected` is the selected place\'s `id`. Bind it with $bindState: the map writes it when the actor selects a pin, then emits `select`, and setting it moves the map to that place.',
+    },
     Button: {
       props: z.object({
         label: z.string(),
