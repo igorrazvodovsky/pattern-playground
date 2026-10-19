@@ -250,7 +250,7 @@ export const { registry } = defineRegistry(catalog, {
 
     // shadcn/ui Alert's layout and its icon column, without the kit's
     // role="alert": a callout is part of the content and is not announced.
-    Callout: ({ props }) => {
+    Callout: ({ props, slots }) => {
       const Icon = purposeIcons[props.purpose ?? 'info'];
       return (
         <div
@@ -262,6 +262,7 @@ export const { registry } = defineRegistry(catalog, {
           <Icon aria-hidden="true" />
           {props.title && <div className="col-start-2 min-h-4 font-medium tracking-tight">{props.title}</div>}
           <div className="col-start-2">{props.text}</div>
+          {slots?.actions && <div className="col-start-2 mt-2 flex gap-2">{slots.actions}</div>}
         </div>
       );
     },
@@ -390,24 +391,31 @@ export const { registry } = defineRegistry(catalog, {
 
     // `struck` wraps the whole label, the kit's checkbox included, in a
     // line-through span: the kit renders its own label and takes no class.
-    ListItem: ({ props, children, slots, ...context }) => (
-      <li className="flex min-h-11 items-center justify-between gap-3 px-3 py-1.5 text-sm">
-        <span className={clsx(props.struck && 'text-muted-foreground line-through')}>
-          {props.description
-            ? (
-              <span className="flex flex-col gap-0.5">
-                <span>{props.label}</span>
-                <span className="text-xs text-muted-foreground">{props.description}</span>
-              </span>
-            )
-            : props.checkbox
-            ? <KitCheckbox {...context} props={{ label: props.label, name: props.label, checked: props.checked ?? false, checks: null, validateOn: null }} />
-            : props.label}
-        </span>
-        {children}
-        {slots?.suffix && <span className="flex items-center gap-1">{slots.suffix}</span>}
-      </li>
-    ),
+    // A bound `checked` reaches the kit's checkbox with the row's bindings.
+    // The kit uses `name` as the checkbox's id and its label's `for`, so each
+    // row gets its own: two lists of the same rows on one page would otherwise
+    // share ids, and a label would tick the other list's row.
+    ListItem: ({ props, children, slots, ...context }) => {
+      const id = useId();
+      return (
+        <li className="flex min-h-11 items-center justify-between gap-3 px-3 py-1.5 text-sm">
+          <span className={clsx(props.struck && 'text-muted-foreground line-through')}>
+            {props.description
+              ? (
+                <span className="flex flex-col gap-0.5">
+                  <span>{props.label}</span>
+                  <span className="text-xs text-muted-foreground">{props.description}</span>
+                </span>
+              )
+              : props.checkbox
+              ? <KitCheckbox {...context} props={{ label: props.label, name: id, checked: props.checked ?? false, checks: null, validateOn: null }} />
+              : props.label}
+          </span>
+          {children}
+          {slots?.suffix && <span className="flex items-center gap-1">{slots.suffix}</span>}
+        </li>
+      );
+    },
 
     // shadcn has no attention pulse; Tailwind's opacity pulse is the nearest
     // thing the library's vocabulary offers.

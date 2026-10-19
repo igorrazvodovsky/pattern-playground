@@ -1,0 +1,61 @@
+{
+  "root": "mode-demo",
+  "elements": {
+    "mode-demo": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["mode-toolbar", "projects"]
+    },
+    "mode-toolbar": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s", "align": "center" },
+      "children": ["summary", "select", "done"]
+    },
+    "summary": {
+      "type": "Text",
+      "props": {
+        "text": { "$computed": "modeSummary", "args": { "items": { "$state": "/items" }, "editing": { "$state": "/editing" } } },
+        "muted": true,
+        "status": true
+      }
+    },
+    "select": {
+      "type": "Button",
+      "props": { "label": "Select", "variant": "plain", "focusNext": "Done" },
+      "visible": { "$state": "/editing", "not": true },
+      "on": { "press": { "action": "setState", "params": { "statePath": "/editing", "value": true } } }
+    },
+    "done": {
+      "type": "Button",
+      "props": { "label": "Done", "variant": "plain", "focusNext": "Select" },
+      "visible": { "$state": "/editing" },
+      "on": {
+        "press": [
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/items",
+              "value": { "$computed": "clearAll", "args": { "items": { "$state": "/items" } } }
+            }
+          },
+          { "action": "setState", "params": { "statePath": "/editing", "value": false } }
+        ]
+      }
+    },
+
+    "projects": {
+      "type": "List",
+      "props": { "borderless": true },
+      "repeat": { "statePath": "/items", "key": "id" },
+      "children": ["project"]
+    },
+    "project": {
+      "type": "ListItem",
+      "props": {
+        "label": { "$item": "name" },
+        "checkbox": { "$state": "/editing" },
+        "checked": { "$bindItem": "selected" }
+      }
+    }
+  }
+}

@@ -108,8 +108,9 @@ export const catalog = defineCatalog(schema, {
         text: z.string(),
         purpose: purpose.nullable(),
       }),
+      slots: ['actions'],
       description:
-        'A message set apart in a box, inside the content it concerns, for information the actor should notice there. It stays while it applies and is not announced. `title` names what the message is about and leads it, set apart from `text`. `purpose` gives it its colour and icon; without one it is neutral.',
+        'A message set apart in a box, inside the content it concerns, for information the actor should notice there. It stays while it applies and is not announced. `title` names what the message is about and leads it, set apart from `text`. `purpose` gives it its colour and icon; without one it is neutral. The `actions` slot holds a control that acts on what the message says, such as a plain Button that takes the next step; it follows the text.',
     },
     EmptyState: {
       props: z.object({
@@ -182,7 +183,7 @@ export const catalog = defineCatalog(schema, {
         borderless: z.boolean().nullable(),
       }),
       slots: ['default'],
-      description: 'A vertical list of ListItem children.',
+      description: 'A vertical list of ListItem children, on a surface of its own. `borderless` drops the outline and keeps the surface.',
     },
     ListItem: {
       props: z.object({
@@ -194,7 +195,7 @@ export const catalog = defineCatalog(schema, {
       }),
       slots: ['default', 'suffix'],
       description:
-        'One row in a List, with optional secondary text in `description`. `checkbox` makes the row a checkbox. `struck` strikes the label through, for a row that is still shown but no longer counts. The `suffix` slot holds trailing controls or indicators.',
+        'One row in a List, with optional secondary text in `description`. `checkbox` makes the row a checkbox, and `checked` says whether it is ticked. Bind `checked` with $bindItem inside a repeat, or $bindState, so that ticking the row writes to state; a checkbox row with a plain `checked` is for display: the library may still tick it on a press, but state does not change. `struck` strikes the label through, for a row that is still shown but no longer counts. The `suffix` slot holds trailing controls or indicators.',
     },
     Badge: {
       props: z.object({

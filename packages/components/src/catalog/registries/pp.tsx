@@ -156,12 +156,16 @@ export const { registry } = defineRegistry(catalog, {
 
     // A neutral callout takes the raised surface (`layer`) rather than a
     // purpose class, as in the Callout story.
-    Callout: ({ props }) => (
+    // Actions run on after the text, in the same line of prose. The text
+    // takes the width beside the icon: at its natural width a message longer
+    // than a line would wrap below the icon in a narrow demo, where .flex wraps.
+    Callout: ({ props, slots }) => (
       <div className={clsx('callout', 'flex', props.purpose ?? 'layer')}>
         <iconify-icon className="icon" icon={purposeIcons[props.purpose ?? 'info']} aria-hidden="true" />
-        <span>
+        <span style={{ flex: 1 }}>
           {props.title && <strong>{props.title}. </strong>}
           {props.text}
+          {slots?.actions && <> {slots.actions}</>}
         </span>
       </div>
     ),
@@ -287,14 +291,32 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
+    // A List is its own surface, as the shadcn List is a card: `layer` raises
+    // it off whatever it sits on.
     List: ({ props, children }) => (
-      <pp-list className={clsx(props.borderless && 'borderless')}>{children}</pp-list>
+      <pp-list className={clsx('layer', props.borderless && 'borderless')}>{children}</pp-list>
     ),
 
-    ListItem: ({ props, children, slots }) => {
+    // pp-list ticks a checkbox row itself and announces it with pp-select on
+    // the list, so a bound row listens there for its own item and writes the
+    // new value back to state.
+    ListItem: ({ props, children, slots, bindings }) => {
+      const ref = useRef<HTMLElement & { checked: boolean }>(null);
+      const [checked, setChecked] = useBoundProp(props.checked, bindings?.checked);
+      const bound = Boolean(bindings?.checked);
+      useEffect(() => {
+        const item = ref.current;
+        const list = item?.closest('pp-list');
+        if (!bound || !props.checkbox || !item || !list) return;
+        const onSelect = (event: Event) => {
+          if ((event as CustomEvent<{ item: HTMLElement }>).detail.item === item) setChecked(item.checked);
+        };
+        list.addEventListener('pp-select', onSelect);
+        return () => list.removeEventListener('pp-select', onSelect);
+      }, [bound, props.checkbox, setChecked]);
       const label = props.struck ? <s>{props.label}</s> : props.label;
       return (
-        <pp-list-item type={props.checkbox ? 'checkbox' : undefined} checked={props.checked || undefined}>
+        <pp-list-item ref={ref} type={props.checkbox ? 'checkbox' : undefined} checked={Boolean(props.checkbox && checked)}>
           {props.description ? (
             <span>
               {label}
