@@ -1748,6 +1748,12 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 @supports (color: color-mix(in lab, red, red)) {.hover\:bg-secondary\/80:hover {
         background-color: color-mix(in oklab, var(--secondary) 80%, transparent);
       }}
+.hover\:bg-secondary\/90:hover {
+      background-color: var(--secondary);
+    }
+@supports (color: color-mix(in lab, red, red)) {.hover\:bg-secondary\/90:hover {
+        background-color: color-mix(in oklab, var(--secondary) 90%, transparent);
+      }}
 .hover\:text-accent-foreground:hover {
       color: var(--accent-foreground);
     }

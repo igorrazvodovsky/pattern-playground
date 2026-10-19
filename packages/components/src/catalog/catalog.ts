@@ -236,11 +236,13 @@ export const catalog = defineCatalog(schema, {
         label: z.string(),
         icon: z.enum(iconNames).nullable(),
         pending: z.boolean().nullable(),
+        opens: z.boolean().nullable(),
+        focusOnShow: z.boolean().nullable(),
         removeLabel: z.string().nullable(),
         focusNext: z.string().nullable(),
       }),
       description:
-        'A value applied to something, such as an active filter or a classification, or a value a trace names, such as a query that was run or a source that was read, shown as a short label. Not a count or status: that is a Badge. `icon` names, by meaning, where the value came from or what kind it is. `pending` marks a value that is still being worked out: the label says so, and the tag shows it is busy. With `removeLabel` the tag carries a button, named by that label, that emits `remove`; `focusNext` works as on a Button, for when removing the tag takes the button away while it has focus. Lay several out in a horizontal Stack.',
+        'A value applied to something, such as an active filter or a classification, or a value a trace names, such as a query that was run or a source that was read, shown as a short label. A count or status read in place is a Badge; one the actor presses to reach what it counts is a Tag that opens. `icon` names, by meaning, where the value came from or what kind it is. `pending` marks a value that is still being worked out: the label says so, and the tag shows it is busy. With `opens` the tag stands for something the actor can open, such as a short summary that leads to what it summarises: the tag is a button and emits `open`, and `focusOnShow` works as on a Button. A tag that opens has no remove button. With `removeLabel` the tag carries a button, named by that label, that emits `remove`; `focusNext` works as on a Button, for when removing the tag takes the button away while it has focus. Lay several out in a horizontal Stack.',
     },
     Button: {
       props: z.object({

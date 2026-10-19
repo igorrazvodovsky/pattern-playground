@@ -1,15 +1,7 @@
 import type { Spec } from '@json-render/core';
 import { products } from '@shared/data';
-import {
-  deriveAttributeLabel,
-  formatBoundValue,
-  getValueAtPath,
-  productBinding,
-  resolveAttributeSelection,
-  type AttributeBinding,
-} from '@shared/data/bindings';
-import type { Product } from '@shared/data/types';
 import type { SpecSetup } from '../../catalog/SpecDemo';
+import { cardAttributes, fullView } from './product-view';
 import spec from './investigate.json' with { type: 'json' };
 
 // The spec carries the drilldown: categories, then the items in one category,
@@ -24,48 +16,10 @@ import spec from './investigate.json' with { type: 'json' };
 // What JSON cannot do is group the collection and read the product binding.
 // Both happen here, once: each category arrives with its count and its items,
 // and each item with its summary attributes and its full view already laid
-// out by role, as the item view lays out its maxi scope. The summary and the
-// full view read and format values through the same binding helpers, so a
-// value reads the same on the card and in the full view.
+// out (./product-view).
 
 const SUMMARY_ATTRIBUTES = ['condition', 'pricing.msrp'];
-
-const shown = resolveAttributeSelection(productBinding, productBinding.scopes.maxi);
-const byRole = (role: AttributeBinding['role']) => shown.filter(attribute => attribute.role === role);
-const read = (item: Product, attribute: AttributeBinding) => getValueAtPath(item, attribute.path);
-const present = (item: Product, attributes: AttributeBinding[]) =>
-  attributes.filter(attribute => read(item, attribute) != null);
-const format = (item: Product, attribute: AttributeBinding) => formatBoundValue(read(item, attribute), attribute);
-const label = (attribute: AttributeBinding) => attribute.label ?? deriveAttributeLabel(attribute.path);
-const summary = resolveAttributeSelection(productBinding, SUMMARY_ATTRIBUTES);
-
-// A spec attribute holding a record, such as a product's specifications,
-// gives one row per key.
-const rows = (item: Product) =>
-  present(item, [...byRole('spec'), ...byRole('link')]).flatMap(attribute => {
-    const value = read(item, attribute);
-    if (typeof value === 'object' && value !== null && !Array.isArray(value) && !(value instanceof Date)) {
-      return Object.entries(value)
-        .filter(([, entry]) => entry != null)
-        .map(([key, entry]) => ({ label: deriveAttributeLabel(key), value: formatBoundValue(entry, attribute) }));
-    }
-    return [{ label: label(attribute), value: format(item, attribute) }];
-  });
-
-const fullView = (item: Product) => {
-  const [price] = present(item, byRole('key-attribute'));
-  const [description] = present(item, byRole('description'));
-  const [listed] = present(item, byRole('footer'));
-  const attributeRows = rows(item);
-  return {
-    badges: present(item, byRole('badge')).map(attribute => ({ text: format(item, attribute) })),
-    price: price ? format(item, price) : '',
-    description: description ? format(item, description) : '',
-    rows: attributeRows,
-    hasRows: attributeRows.length > 0,
-    listed: listed ? `${label(listed)} ${format(item, listed)}` : '',
-  };
-};
+const summaryOf = cardAttributes(SUMMARY_ATTRIBUTES);
 
 const categories = [...new Set(products.map(item => item.metadata.category))]
   .sort((a, b) => a.localeCompare(b))
@@ -81,10 +35,7 @@ const categories = [...new Set(products.map(item => item.metadata.category))]
         name: item.name,
         category,
         open: false,
-        attributes: present(item, summary).map(attribute => ({
-          label: label(attribute),
-          value: format(item, attribute),
-        })),
+        attributes: summaryOf(item),
         ...fullView(item),
       })),
     };

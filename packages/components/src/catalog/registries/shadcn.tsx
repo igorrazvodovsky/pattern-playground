@@ -525,14 +525,27 @@ export const { registry } = defineRegistry(catalog, {
     // assistive technology, where the label already says the tag is pending,
     // and stops spinning under reduced motion. The remove button hands focus
     // on (focus-handoff.ts) if it unmounts while focused.
+    // With `opens` the whole tag is the button, styled as shadcn's Badge is
+    // when it renders as a link.
     Tag: ({ props, emit }) => {
       const removeRef = useFocusHandoff(props.focusNext);
+      const openRef = useRef<HTMLButtonElement>(null);
+      useFocusOnShow(openRef, props.focusOnShow);
       const Icon = props.pending ? LoaderCircle : props.icon ? icons[props.icon] : null;
+      const Root = props.opens ? 'button' : 'span';
       return (
-        <span className="inline-flex w-fit shrink-0 items-center justify-center gap-1 rounded-md border border-transparent bg-secondary px-2 py-0.5 text-xs font-medium whitespace-nowrap text-secondary-foreground [&>svg]:pointer-events-none [&>svg]:size-3">
+        <Root
+          ref={props.opens ? openRef : undefined}
+          type={props.opens ? 'button' : undefined}
+          onClick={props.opens ? () => emit('open') : undefined}
+          className={clsx(
+            'inline-flex w-fit shrink-0 items-center justify-center gap-1 rounded-md border border-transparent bg-secondary px-2 py-0.5 text-xs font-medium whitespace-nowrap text-secondary-foreground [&>svg]:pointer-events-none [&>svg]:size-3',
+            props.opens && 'cursor-pointer outline-none transition-[color,box-shadow] hover:bg-secondary/90 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50',
+          )}
+        >
           {Icon && <Icon aria-hidden="true" className={clsx(props.pending && 'animate-spin motion-reduce:animate-none')} />}
           <span className={props.pending ? 'text-muted-foreground' : undefined}>{props.label}</span>
-          {props.removeLabel && (
+          {props.removeLabel && !props.opens && (
             <button
               ref={removeRef}
               type="button"
@@ -543,7 +556,7 @@ export const { registry } = defineRegistry(catalog, {
               <X aria-hidden="true" />
             </button>
           )}
-        </span>
+        </Root>
       );
     },
 

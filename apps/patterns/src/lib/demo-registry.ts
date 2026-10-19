@@ -43,7 +43,6 @@ const demos: Record<string, Loader> = {
   'prompt-template': () => import('@pkg/demos/prompt').then(m => m.PromptTemplateDemo),
   'prompt-with-material-references': () => import('@pkg/demos/prompt').then(m => m.PromptWithMaterialReferencesDemo),
   'prompt-quality-feedback': () => import('@pkg/demos/prompt').then(m => m.PromptQualityFeedbackDemo),
-  'watch-to-chase-tiers': () => import('@pkg/demos/purpose-keyed-view').then(m => m.WatchToChaseTiersDemo),
   'reference': () => import('@pkg/demos/reference').then(m => m.ReferenceDemo),
   'semantic-zoom': () => import('@pkg/demos/semantic-zoom').then(m => m.SemanticZoomDemo),
   'semantic-zoom-timeline': () => import('@pkg/demos/semantic-zoom').then(m => m.SemanticZoomTimelineDemo),
@@ -85,6 +84,7 @@ const specs: Record<string, () => Promise<{ default: SpecModule }>> = {
   'toast': () => import('@pkg/demos/specs/toast'),
   'toast-with-undo': () => import('@pkg/demos/specs/toast-with-undo'),
   'typed-confirmation': () => import('@pkg/demos/specs/typed-confirmation'),
+  'watch-to-chase-tiers': () => import('@pkg/demos/specs/watch-to-chase-tiers'),
 };
 
 const registries: Record<string, () => Promise<ComponentRegistry>> = {

@@ -47,18 +47,27 @@
   }
 
   /* The card's title names the figure, so it steps down to a dimmed label and
-     leaves the figure as the tile's subject. The trend badge stays beside it
-     however long the label runs; the label wraps instead. */
-  .card:has(.stat) > .card__header {
+     leaves the figure as the tile's subject, with or without a header. The
+     trend badge stays beside it however long the label runs; the label wraps
+     instead. Only the card the stat sits in directly is matched, not a card
+     that holds stat tiles. */
+  .card:has(> .pad > .stat) > .card__header {
     flex-wrap: nowrap;
     align-items: start;
     padding-block-end: 0;
+  }
 
-    .label {
-      font-size: var(--text-s);
-      font-weight: var(--font-weight-semibold);
-      line-height: var(--line-height-caption);
-      color: var(--c-bodyDimmed);
-    }
+  .card:has(> .pad > .stat) > .card__header .label,
+  .card:has(> .stat) > .card__title {
+    font-size: var(--text-s);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-caption);
+    color: var(--c-bodyDimmed);
+  }
+
+  /* Without a header, the figure keeps the step below the label that the
+     header's content padding gives it. */
+  .card > .card__title + .stat {
+    margin-block-start: var(--space-s);
   }
 }

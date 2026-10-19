@@ -393,13 +393,22 @@ export const { registry } = defineRegistry(catalog, {
     // hands focus on (focus-handoff.ts) if it unmounts while focused.
     Tag: ({ props, emit }) => {
       const removeRef = useFocusHandoff(props.focusNext);
-      const tag = (
-        <span className="tag">
+      const openRef = useRef<HTMLButtonElement>(null);
+      useFocusOnShow(openRef, props.focusOnShow);
+      const content = (
+        <>
           {props.icon && <iconify-icon icon={icons[props.icon]} aria-hidden="true" />}
           {props.pending ? <span className="shimmer">{props.label}</span> : props.label}
-        </span>
+        </>
       );
-      if (!props.removeLabel) return tag;
+      const tag = props.opens ? (
+        <button ref={openRef} type="button" className="tag" onClick={() => emit('open')}>
+          {content}
+        </button>
+      ) : (
+        <span className="tag">{content}</span>
+      );
+      if (props.opens || !props.removeLabel) return tag;
       return (
         <span className="tag-group">
           {tag}

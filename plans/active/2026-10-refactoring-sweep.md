@@ -114,6 +114,15 @@ the survey and should be confirmed before acting.
   says the parts are fixed once rendered. Before a spec changes them, let
   `pp-sections` render from data rather than rewriting its children, or have
   the pp registry draw the tablist itself.
+- [ ] *A late close event after pp-modal reopens.* `closeModal()` calls
+  `dialog.close()`, which queues the `close` event, and `openModal()` resets
+  `closingHere` to false. If the same `pp-modal` opens again before that event
+  arrives (from a `pp-modal-close` listener, or a close and an open in one
+  handler), `handleNativeClose` takes the stale event for a close the browser
+  made: it sends `pp-modal-close` and runs `finishClose` on an open dialog, so
+  the triggers lose `aria-expanded` and modalService tears down the surface it
+  just opened. Not yet reproduced in a demo. Ignore a `close` event while the
+  dialog is open, or count closes rather than flag them.
 - [ ] *Rest of `tiptap.css`.* Live classes still styled only there:
   `reference-mention--quote` (`Reference.tsx`; quote styling is open in
   [commenting open questions](2026-10-commenting-open-questions.md)),
@@ -300,23 +309,31 @@ Kept on purpose:
 
 Design calls; one sitting each.
 
-- [ ] *Stat tile.* `stories/Stat.stories.tsx` (`StatTile`) and the inline
-  copies in `demos/purpose-keyed-view.tsx`'s watch-to-chase tiers. The story
-  is already titled `Templates/Stat`. The monitor demo is now a spec: the
-  catalog has a `Stat` (the figure, its verdict and detail, and `alert`),
-  placed in a Card titled by its label with the trend as a Badge in the
-  card's suffix. `alert` now sits on `.stat` rather than on the card.
+- [ ] *Stat tile.* `stories/Stat.stories.tsx` (`StatTile`). The story is
+  already titled `Templates/Stat`. The monitor and watch-to-chase demos are
+  now specs: the catalog has a `Stat` (the figure, its verdict and detail,
+  and `alert`), placed in a Card titled by its label with the trend as a
+  Badge in the card's suffix. `alert` now sits on `.stat` rather than on the
+  card.
 - [ ] *Entity card list.* `cards--list > EntityCard` is written out seven times
   across demos; `CardRenderer` can't be reused because it needs a full spec.
   Also a shared overview-attributes constant (`['name','category','pricing.msrp']`
   in three demos, a `listedAt` variant in two). In specs, an entity card is a
   Card titled by the item's name with its attributes as labelled Badges, and
   the item's full view is a Card holding its badges, price, description and a
-  `DescriptionList` of the rest, laid out by role in the module beside the
-  spec (`specs/investigate.ts`), as `ItemView` lays out its maxi scope.
-- [ ] *Item layout by role, twice.* `specs/investigate.ts` copies `ItemView`'s
-  role filtering and its private `specRows` (a record-valued attribute gives
-  one row per key) to lay out the full view. A change to how `ItemView` lays
+  `DescriptionList` of the rest, laid out by role in `specs/product-view.ts`,
+  as `ItemView` lays out its maxi scope.
+- [ ] *Slice attributes formatted two ways.* `specs/problem-checklist.ts` and
+  `specs/watch-to-chase-tiers.ts` show the same three attributes on a flag's
+  items (`category`, `pricing.msrp`, `listedAt`), but the first formats them
+  with `AttributeUtils.formatAttributeValue`, which shows a missing value as
+  N/A, and the second with `cardAttributes` from `specs/product-view.ts`, which
+  leaves it out. Move problem-checklist onto `cardAttributes` and share the
+  attribute list.
+- [ ] *Item layout by role, twice.* `specs/product-view.ts`, shared by the
+  investigate and watch-to-chase specs, copies `ItemView`'s role filtering and
+  its private `specRows` (a record-valued attribute gives one row per key) to
+  lay out the full view. A change to how `ItemView` lays
   out a scope now has to be made in both. A `layoutByRole(binding, scope,
   item)` helper in `shared/data/bindings` would serve both; decide together
   with `ItemView`'s shape, which is still provisional.
