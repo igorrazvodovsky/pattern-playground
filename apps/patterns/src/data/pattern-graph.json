@@ -979,36 +979,6 @@
       ]
     },
     {
-      "id": "deferral",
-      "title": "Deferral",
-      "category": "Actions",
-      "path": "/patterns/deferral",
-      "role": "pattern",
-      "situation": {
-        "initiating": "something arrives, or is ready to send, at a moment that is wrong for it; acting on it now breaks the actor's focus, dismissing it loses it, and leaving it where it is relies on the actor remembering to come back",
-        "resulting": [
-          {
-            "clause": "the actor picks a later time, and the item leaves view until then and comes back at that time in the place it came from, marked as having been deferred"
-          },
-          {
-            "clause": "presets do most of the work: later today, tomorrow morning, next week, set to the start of the actor's working blocks rather than to arbitrary hours"
-          },
-          {
-            "clause": "deferred items need a place where they can be found before they return, or deferring becomes a way of losing things"
-          },
-          {
-            "clause": "scheduling something to send later is the same move made on the recipient's behalf: it delivers at a time that suits them rather than the time it was written"
-          }
-        ]
-      },
-      "seed": true,
-      "evidence": [
-        {
-          "kind": "observed"
-        }
-      ]
-    },
-    {
       "id": "delegation",
       "title": "Delegation",
       "category": "Foundations",
@@ -4985,34 +4955,6 @@
       "extractedFrom": "frontmatter:related"
     },
     {
-      "source": "deferral",
-      "target": "notification",
-      "type": "complements",
-      "label": "deferral is the actor's answer to a notification that arrives at the wrong time",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "deferral",
-      "target": "disengage-without-closing",
-      "type": "related",
-      "label": "both set something aside without ending it; deferral also sets when it comes back",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "deferral",
-      "target": "temporality",
-      "type": "enacts",
-      "label": "the actor decides when an item takes their attention, not only whether it does",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "deferral",
-      "target": "agency",
-      "type": "enacts",
-      "label": "the timing of attention moves from the sender to the actor",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
       "source": "agent",
       "target": "delegation",
       "type": "instantiates",
@@ -7411,13 +7353,6 @@
       "target": "notification",
       "type": "complements",
       "label": "notification decides how an event reaches the actor; protection decides whether it may reach them now",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "protected-focus",
-      "target": "deferral",
-      "type": "complements",
-      "label": "protection holds events by rule for a stretch; deferral moves one item at a time by choice",
       "extractedFrom": "frontmatter:complements"
     },
     {

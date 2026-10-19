@@ -211,11 +211,6 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
-    "deferral": {
-      "activity-level": "action",
-      "lifecycle-stage": null,
-      "mediation": "individual"
-    },
     "delegation": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
