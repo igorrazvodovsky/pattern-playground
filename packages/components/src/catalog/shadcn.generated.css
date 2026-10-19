@@ -13,8 +13,9 @@
       --tw-skew-y: initial;
       --tw-space-y-reverse: 0;
       --tw-space-x-reverse: 0;
-      --tw-divide-y-reverse: 0;
+      --tw-divide-x-reverse: 0;
       --tw-border-style: solid;
+      --tw-divide-y-reverse: 0;
       --tw-leading: initial;
       --tw-font-weight: initial;
       --tw-tracking: initial;
@@ -459,6 +460,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .z-100 {
     z-index: 100;
   }
+.col-span-full {
+    grid-column: 1 / -1;
+  }
 .col-start-2 {
     grid-column-start: 2;
   }
@@ -724,6 +728,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .w-12 {
     width: calc(var(--spacing) * 12);
   }
+.w-56 {
+    width: calc(var(--spacing) * 56);
+  }
 .w-64 {
     width: calc(var(--spacing) * 64);
   }
@@ -871,6 +878,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .cursor-default {
     cursor: default;
   }
+.cursor-grab {
+    cursor: grab;
+  }
 .cursor-help {
     cursor: help;
   }
@@ -921,6 +931,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .grid-cols-\[repeat\(auto-fill\,minmax\(min\(var\(--min-column\)\,100\%\)\,1fr\)\)\] {
     grid-template-columns: repeat(auto-fill,minmax(min(var(--min-column), 100%),1fr));
+  }
+.grid-cols-subgrid {
+    grid-template-columns: subgrid;
   }
 .grid-rows-\[auto_auto\] {
     grid-template-rows: auto auto;
@@ -1021,6 +1034,12 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .gap-y-0\.5 {
     row-gap: calc(var(--spacing) * .5);
   }
+:where(.divide-x > :not(:last-child)) {
+    --tw-divide-x-reverse: 0;
+    border-inline-style: var(--tw-border-style);
+    border-inline-start-width: calc(1px * var(--tw-divide-x-reverse));
+    border-inline-end-width: calc(1px * calc(1 - var(--tw-divide-x-reverse)));
+  }
 :where(.divide-y > :not(:last-child)) {
     --tw-divide-y-reverse: 0;
     border-bottom-style: var(--tw-border-style);
@@ -1039,6 +1058,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .overflow-hidden {
     overflow: hidden;
+  }
+.overflow-visible {
+    overflow: visible;
   }
 .overflow-x-auto {
     overflow-x: auto;
@@ -1241,6 +1263,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .fill-primary {
     fill: var(--primary);
+  }
+.p-0 {
+    padding: 0;
   }
 .p-0\.5 {
     padding: calc(var(--spacing) * .5);
@@ -1533,6 +1558,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .opacity-25 {
     opacity: .25;
   }
+.opacity-40 {
+    opacity: .4;
+  }
 .opacity-50 {
     opacity: .5;
   }
@@ -1594,8 +1622,21 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
     outline-style: var(--tw-outline-style);
     outline-width: 1px;
   }
+.outline-2 {
+    outline-style: var(--tw-outline-style);
+    outline-width: 2px;
+  }
+.outline-offset-2 {
+    outline-offset: 2px;
+  }
+.outline-primary {
+    outline-color: var(--primary);
+  }
 .blur {
     --tw-blur: blur(8px);
+    filter: var(--tw-blur, ) var(--tw-brightness, ) var(--tw-contrast, ) var(--tw-grayscale, ) var(--tw-hue-rotate, ) var(--tw-invert, ) var(--tw-saturate, ) var(--tw-sepia, ) var(--tw-drop-shadow, );
+  }
+.filter {
     filter: var(--tw-blur, ) var(--tw-brightness, ) var(--tw-contrast, ) var(--tw-grayscale, ) var(--tw-hue-rotate, ) var(--tw-invert, ) var(--tw-saturate, ) var(--tw-sepia, ) var(--tw-drop-shadow, );
   }
 .transition-\[color\,box-shadow\] {
@@ -1634,6 +1675,10 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .duration-200 {
     --tw-duration: .2s;
     transition-duration: .2s;
+  }
+.outline-dashed {
+    --tw-outline-style: dashed;
+    outline-style: dashed;
   }
 .outline-none {
     --tw-outline-style: none;
@@ -1890,6 +1935,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .hover\:underline:hover {
       text-decoration-line: underline;
     }
+.hover\:opacity-90:hover {
+      opacity: .9;
+    }
 .hover\:opacity-100:hover {
       opacity: 1;
     }
@@ -1925,6 +1973,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
       outline-offset: 2px;
       outline: 2px solid #0000;
     }}
+.focus-visible\:relative:focus-visible {
+    position: relative;
+  }
 .focus-visible\:z-10:focus-visible {
     z-index: 10;
   }
@@ -2578,6 +2629,12 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .\[\&_\[cmdk-group-heading\]\]\:text-muted-foreground [cmdk-group-heading] {
     color: var(--muted-foreground);
   }
+.\[\&_button\]\:relative button {
+    position: relative;
+  }
+.\[\&_button\]\:z-10 button {
+    z-index: 10;
+  }
 .\[\&_p\]\:mb-0 p {
     margin-bottom: 0;
   }
@@ -2679,6 +2736,10 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .\[\&\>svg\]\:size-3 > svg {
     width: calc(var(--spacing) * 3);
     height: calc(var(--spacing) * 3);
+  }
+.\[\&\>svg\]\:size-3\.5 > svg {
+    width: calc(var(--spacing) * 3.5);
+    height: calc(var(--spacing) * 3.5);
   }
 .\[\&\>svg\]\:size-4 > svg {
     width: calc(var(--spacing) * 4);
@@ -2794,7 +2855,7 @@ a.\[a\&\]\:hover\:text-accent-foreground:hover {
   inherits: false;
   initial-value: 0;
 }
-@property --tw-divide-y-reverse {
+@property --tw-divide-x-reverse {
   syntax: "*";
   inherits: false;
   initial-value: 0;
@@ -2803,6 +2864,11 @@ a.\[a\&\]\:hover\:text-accent-foreground:hover {
   syntax: "*";
   inherits: false;
   initial-value: solid;
+}
+@property --tw-divide-y-reverse {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
 }
 @property --tw-leading {
   syntax: "*";

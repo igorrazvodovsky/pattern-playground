@@ -94,3 +94,33 @@ export const useMenuFocusHandoff = (focusNext: string | null | undefined) => {
 
   return { trigger, list };
 };
+
+/**
+ * The same for a group of controls that goes as one, such as a filter chip
+ * whose condition is removed: from its remove button, or from inside one of
+ * its lists, which a library may portal out of the group. Returns the ref for
+ * the group and one for each portaled part, which the hand-off also counts as
+ * inside the group.
+ */
+export const useGroupFocusHandoff = (focusNext: string | null | undefined, portaled = 0) => {
+  const group = useRef<HTMLDivElement>(null);
+  const parts = useRef(Array.from({ length: portaled }, () => ({ current: null as HTMLDivElement | null })));
+
+  useLayoutEffect(() => {
+    const root = group.current;
+    return () => {
+      // The parts' current elements: a library may mount them only while
+      // open, and they are still in place when the group's own cleanup runs.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      const open = parts.current.map(part => part.current).filter(part => part !== null);
+      const inside = (element: Element) => Boolean(root?.contains(element) || open.some(part => part.contains(element)));
+      const active = document.activeElement;
+      if (!root || !active || !inside(active)) return;
+      if (root.closest('dialog, [role="dialog"], [role="alertdialog"]')) return;
+      const demo = root.closest<HTMLElement>('[data-registry]');
+      if (demo) handOff(root, demo, focusNext, inside);
+    };
+  }, [focusNext]);
+
+  return { group, parts: parts.current };
+};

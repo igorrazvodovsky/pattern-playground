@@ -24,12 +24,15 @@ const present = (item: object, attributes: AttributeBinding[]) =>
 const format = (item: object, attribute: AttributeBinding) => formatBoundValue(read(item, attribute), attribute);
 const label = (attribute: AttributeBinding) => attribute.label ?? deriveAttributeLabel(attribute.path);
 
-/** Reads the attributes at `paths` that an item has, labelled and formatted. */
+/** Reads the attributes at `paths` that an item has, labelled and formatted, with each one's path. */
 export const cardAttributes = (paths: string[]) => {
   const selection = resolveAttributeSelection(productBinding, paths);
   return (item: Product) =>
-    present(item, selection).map(attribute => ({ label: label(attribute), value: format(item, attribute) }));
+    present(item, selection).map(attribute => ({ path: attribute.path, label: label(attribute), value: format(item, attribute) }));
 };
+
+/** The label the product binding gives the attribute at `path`. */
+export const attributeLabel = (path: string) => label(resolveAttributeSelection(productBinding, [path])[0]);
 
 /** Reads the attribute at `path`, formatted, or an empty string when the item lacks it. */
 export const attributeValue = (path: string) => {

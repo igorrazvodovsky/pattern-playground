@@ -1,4 +1,4 @@
-import { Fragment, Suspense, useId, useRef, type CSSProperties } from 'react';
+import { Fragment, Suspense, useContext, useId, useRef, type CSSProperties } from 'react';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import { createPortal } from 'react-dom';
 import { Checkbox, Dialog, DropdownMenu, Popover, RadioGroup, Select, Slider, Toast, ToggleGroup, Tooltip } from 'radix-ui';
@@ -7,7 +7,10 @@ import { Command } from 'cmdk';
 import clsx from 'clsx';
 import {
   Archive,
+  ArrowDownUp,
+  ArrowDownWideNarrow,
   ArrowLeft,
+  ArrowUpNarrowWide,
   AtSign,
   Bell,
   BookOpen,
@@ -23,6 +26,7 @@ import {
   CornerDownLeft,
   Crown,
   Eraser,
+  Eye,
   ExternalLink,
   FolderOpen,
   Globe,
@@ -70,6 +74,10 @@ import { Subsection, useHeading } from './heading-level';
 import { Section, Sections } from './shadcn-sections';
 import { Timeline, TimelineEntry } from './shadcn-timeline';
 import { useDisclosureState } from './disclosure-state';
+import { useStackDrop } from './drag-drop';
+import { MenuMultiple } from './menu-multiple';
+import { DraggableRow } from './shadcn-draggable-row';
+import { FilterTag } from './shadcn-filter-tag';
 import { popoverHost, useMayTakeFocus } from './popover-host';
 import { usePreview } from './preview';
 import { useSplitRoom } from './split-room';
@@ -115,6 +123,7 @@ const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
 
 const icons: Record<(typeof iconNames)[number], typeof X> = {
   archive: Archive,
+  ascending: ArrowUpNarrowWide,
   attach: Paperclip,
   back: ArrowLeft,
   cancel: X,
@@ -123,6 +132,7 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   decrease: TrendingDown,
   delete: Trash2,
   'delete-confirm': Trash2,
+  descending: ArrowDownWideNarrow,
   detail: PanelRight,
   example: CaseSensitive,
   external: ExternalLink,
@@ -150,7 +160,9 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   search: Search,
   send: CornerDownLeft,
   settings: SlidersHorizontal,
+  show: Eye,
   'side-by-side': Columns2,
+  sort: ArrowDownUp,
   suggest: Lightbulb,
   summary: IdCard,
   transfer: Crown,
@@ -222,7 +234,11 @@ const invalidRing = 'aria-invalid:border-destructive aria-invalid:ring-destructi
 
 export const { registry } = defineRegistry(catalog, {
   components: {
+    // shadcn has no drop zone. A drop target is wrapped in a box that takes a
+    // dashed ring of the primary colour while a row is over it, as shadcn's
+    // file inputs mark a drop.
     Stack: ({ props, children, ...context }) => {
+      const { ref, over } = useStackDrop(props, context.bindings, context.emit);
       if (props.align === 'baseline') {
         return <div className="flex flex-row flex-wrap items-baseline gap-2">{children}</div>;
       }
@@ -242,7 +258,14 @@ export const { registry } = defineRegistry(catalog, {
       );
       // The kit's Stack takes no name, so a labelled one is wrapped in a
       // section of that name, a region.
-      return props.label ? <section aria-label={props.label}>{stack}</section> : stack;
+      const named = props.label ? <section aria-label={props.label}>{stack}</section> : stack;
+      return props.dropTarget ? (
+        <div ref={ref} className={clsx('rounded-lg', over && 'outline-2 outline-offset-2 outline-primary outline-dashed')}>
+          {named}
+        </div>
+      ) : (
+        named
+      );
     },
 
     Grid: ({ props, children }) => (
@@ -268,7 +291,8 @@ export const { registry } = defineRegistry(catalog, {
     // border and a ring of it, as shadcn marks a chosen option card. An
     // expanded card's detail goes under a rule, as a card footer's border
     // does, and is positioned so it paints above the cover. An icon leads the
-    // title, muted, as shadcn sets icons beside labels.
+    // title, muted, as shadcn sets icons beside labels. The attributes lead
+    // the content in a row, and the buttons among them sit above the cover.
     Card: ({ props, children, slots, emit }) => {
       const openRef = useRef<HTMLButtonElement>(null);
       useFocusOnShow(openRef, props.focusOnShow);
@@ -319,6 +343,11 @@ export const { registry } = defineRegistry(catalog, {
             </div>
           )}
           <div className="flex flex-1 flex-col gap-3 px-6">
+            {slots?.attributes && (
+              <div className={clsx('flex flex-wrap items-center gap-2', props.opens && '[&_button]:relative [&_button]:z-10')}>
+                {slots.attributes}
+              </div>
+            )}
             <Subsection>{children}</Subsection>
           </div>
           {slots?.actions && <div className={clsx('flex items-center justify-end gap-2 px-6', above)}>{slots.actions}</div>}
@@ -442,7 +471,11 @@ export const { registry } = defineRegistry(catalog, {
     // the medium weight shadcn gives a label, values beside them, each pair
     // ruled off from the next as in shadcn's tables. Below 24rem of demo
     // width the label sits above its value, at the width the pp list stacks.
-    DescriptionList: ({ props }) => (
+    DescriptionList: ({ props }) => props.draggable ? (
+      <dl className="grid grid-cols-1 text-sm @sm/demo:grid-cols-[max-content_1fr]">
+        {props.items.map(item => <DraggableRow key={item.label} id={item.id} label={item.label} value={item.value} />)}
+      </dl>
+    ) : (
       <dl className="grid grid-cols-1 text-sm @sm/demo:grid-cols-[max-content_1fr] [&>dd:not(:last-of-type)]:border-b @sm/demo:[&>dt:not(:last-of-type)]:border-b">
         {props.items.map(item => (
           <Fragment key={item.label}>
@@ -669,13 +702,19 @@ export const { registry } = defineRegistry(catalog, {
     // tint; any other badge is filled with its tone's variant. shadcn has no
     // success variant, so success takes the green its Alert uses. An
     // attribute's label leads the value, dimmed. shadcn has no attention
-    // pulse; Tailwind's opacity pulse is the nearest thing it offers.
-    Badge: ({ props }) => {
+    // pulse; Tailwind's opacity pulse is the nearest thing it offers. A
+    // pressable badge is a button, styled as shadcn's Badge is when it
+    // renders as a link.
+    Badge: ({ props, emit }) => {
       const Icon = props.icon ? icons[props.icon] : null;
       const tone = props.tone ?? 'neutral';
+      const Root = props.pressable ? 'button' : 'span';
       return (
-        <span
+        <Root
+          type={props.pressable ? 'button' : undefined}
+          onClick={props.pressable ? () => void emit('press') : undefined}
           className={clsx(
+            props.pressable && 'cursor-pointer outline-none transition-[color,box-shadow] hover:opacity-90 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50',
             'inline-flex w-fit shrink-0 items-center justify-center gap-1 border px-2 py-0.5 text-xs font-medium whitespace-nowrap [&>svg]:pointer-events-none [&>svg]:size-3',
             props.pill ? 'rounded-full' : 'rounded-md',
             Icon ? ['border-border', badgeOutline[tone]] : ['border-transparent', badgeFill[tone]],
@@ -685,7 +724,7 @@ export const { registry } = defineRegistry(catalog, {
           {props.label && <span className="opacity-70">{props.label}</span>}
           {Icon && <Icon aria-hidden="true" />}
           {props.text}
-        </span>
+        </Root>
       );
     },
 
@@ -731,6 +770,9 @@ export const { registry } = defineRegistry(catalog, {
         </Root>
       );
     },
+
+    // Built in shadcn-filter-tag.tsx from shadcn's parts: it has no filter chip.
+    FilterTag: FilterTag,
 
     // Built for this registry from Leaflet (shadcn-map.tsx): the kit has no
     // map. The pin the actor chose is written to the bound path, then an event.
@@ -877,7 +919,7 @@ export const { registry } = defineRegistry(catalog, {
               sideOffset={4}
               className="z-50 max-h-(--radix-dropdown-menu-content-available-height) min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md"
             >
-              {children}
+              <MenuMultiple value={props.multiple ?? false}>{children}</MenuMultiple>
             </DropdownMenu.Content>
           </DropdownMenu.Portal>
         </DropdownMenu.Root>
@@ -886,20 +928,26 @@ export const { registry } = defineRegistry(catalog, {
 
     // A checkbox item in the role of a radio item: Radix's radio items take
     // their state from a group value, and here each item says for itself
-    // whether it is the one in force.
+    // whether it is the one in force. In a Menu with `multiple` it stays a
+    // checkbox, ticked with shadcn's check, and choosing it leaves the menu
+    // open.
     MenuItem: ({ props, emit }) => {
       const Icon = props.icon ? icons[props.icon] : null;
+      const multiple = useContext(MenuMultiple);
       return (
         <DropdownMenu.CheckboxItem
-          role="menuitemradio"
+          role={multiple ? undefined : 'menuitemradio'}
           checked={props.checked ?? false}
           disabled={props.disabled ?? undefined}
-          onSelect={() => emit('press')}
+          onSelect={event => {
+            if (multiple) event.preventDefault();
+            void emit('press');
+          }}
           className="relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
         >
           <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
             <DropdownMenu.ItemIndicator>
-              <Circle aria-hidden="true" className="size-2 fill-current" />
+              {multiple ? <Check aria-hidden="true" className="size-4" /> : <Circle aria-hidden="true" className="size-2 fill-current" />}
             </DropdownMenu.ItemIndicator>
           </span>
           {Icon && <Icon aria-hidden="true" className="text-muted-foreground" />}

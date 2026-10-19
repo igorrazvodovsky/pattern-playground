@@ -1,4 +1,4 @@
-import { Children, Fragment, Suspense, useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type RefObject } from 'react';
+import { Children, Fragment, Suspense, useCallback, useContext, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import clsx from 'clsx';
@@ -9,6 +9,10 @@ import { Combobox, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxList } fr
 import { captureOpener, settleFocus, useReturnFocus, type Opener } from './dialog-focus';
 import { useCandidateList } from './candidate-list';
 import { useDisclosureState } from './disclosure-state';
+import { useStackDrop } from './drag-drop';
+import { MenuMultiple } from './menu-multiple';
+import { DraggableRow } from './pp-draggable-row';
+import { FilterTag } from './pp-filter-tag';
 import { useFieldError } from './field-validation';
 import { submitForm } from './form-submit';
 import { useFocusHandoff, useMenuFocusHandoff } from './focus-handoff';
@@ -58,8 +62,13 @@ const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
 // .flow, whose own --flow-space would also set the field's distance from the
 // field before it.
 const fieldLayout: CSSProperties = { display: 'grid', gap: space.s };
+// A card's title, attributes and body, a small step apart. A grid for the
+// same reason: --flow-space set on the card would also set its distance from
+// the card before it, and cards in a Stack would touch.
+const bodyLayout: CSSProperties = { display: 'grid', rowGap: space.s };
 const icons: Record<(typeof iconNames)[number], string> = {
   archive: 'ph:archive-box',
+  ascending: 'ph:sort-ascending',
   attach: 'ph:paperclip',
   back: 'ph:arrow-left',
   cancel: 'ph:x',
@@ -68,6 +77,7 @@ const icons: Record<(typeof iconNames)[number], string> = {
   decrease: 'ph:arrow-down-right',
   delete: 'ph:trash-simple',
   'delete-confirm': 'ph:trash-simple-fill',
+  descending: 'ph:sort-descending',
   detail: 'ph:square-split-horizontal',
   example: 'ph:text-aa',
   external: 'ph:arrow-square-out',
@@ -95,7 +105,9 @@ const icons: Record<(typeof iconNames)[number], string> = {
   search: 'ph:magnifying-glass',
   send: 'ph:arrow-elbow-down-left',
   settings: 'ph:sliders-horizontal',
+  show: 'ph:eye',
   'side-by-side': 'ph:columns',
+  sort: 'ph:arrows-down-up',
   suggest: 'ph:lightbulb-filament',
   summary: 'ph:cards',
   transfer: 'ph:crown-simple',
@@ -120,8 +132,11 @@ const fieldError = (id: string, message: string) => (
 
 export const { registry } = defineRegistry(catalog, {
   components: {
-    // A Stack with a label is a section of that name, a region.
-    Stack: ({ props, children }) => {
+    // A Stack with a label is a section of that name, a region. A drop
+    // target is a view-family pane, which the library outlines while a row
+    // is over it (drag-drop.ts).
+    Stack: ({ props, children, bindings, emit }) => {
+      const { ref, over } = useStackDrop(props, bindings, emit);
       const layout: { className?: string; style: CSSProperties } =
         props.direction === 'horizontal'
           ? {
@@ -133,12 +148,19 @@ export const { registry } = defineRegistry(catalog, {
               },
             }
           : { className: 'flow', style: { '--flow-space': space[props.gap ?? 'm'] } as CSSProperties };
+      const attributes = {
+        ...layout,
+        className: clsx(layout.className, props.dropTarget && 'view-family__pane') || undefined,
+        'data-drop-over': over || undefined,
+      };
       return props.label ? (
-        <section aria-label={props.label} {...layout}>
+        <section ref={ref} aria-label={props.label} {...attributes}>
           {children}
         </section>
       ) : (
-        <div {...layout}>{children}</div>
+        <div ref={ref} {...attributes}>
+          {children}
+        </div>
       );
     },
 
@@ -170,7 +192,9 @@ export const { registry } = defineRegistry(catalog, {
     // expanded card's detail is the library's inline detail (.card > .detail),
     // which is positioned, so it paints above the stretched link. It sets its
     // own inset and its rule runs the card's full width, so a card with a
-    // detail slot pads its body rather than itself.
+    // detail slot pads its body rather than itself. The attributes are the
+    // library's attribute row (.card__attributes), whose buttons the
+    // stretched-link styles lift above the card's press.
     Card: ({ props, children, slots, emit }) => {
       const openRef = useRef<HTMLButtonElement>(null);
       useFocusOnShow(openRef, props.focusOnShow);
@@ -198,6 +222,7 @@ export const { registry } = defineRegistry(catalog, {
       ) : (
         title
       );
+      const attributes = slots?.attributes && <div className="card__attributes badges">{slots.attributes}</div>;
       const detail = props.expanded && slots?.detail && (
         <div className="detail flow pad">
           <Subsection>{slots.detail}</Subsection>
@@ -210,6 +235,7 @@ export const { registry } = defineRegistry(catalog, {
             {slots.suffix && <div className="flex">{slots.suffix}</div>}
           </div>
           <div className="flow pad">
+            {attributes}
             <Subsection>{children}</Subsection>
           </div>
           {slots.actions && (
@@ -222,15 +248,17 @@ export const { registry } = defineRegistry(catalog, {
         </article>
       ) : slots?.detail ? (
         <article className="card" data-selected={selected} data-popover-host="">
-          <div className="flow pad" style={{ '--flow-space': '0em' } as CSSProperties}>
+          <div className="pad" style={bodyLayout}>
             {props.title && <Heading className="card__title">{heading}</Heading>}
+            {attributes}
             <Subsection>{children}</Subsection>
           </div>
           {detail}
         </article>
       ) : (
-        <article className="card flow pad" data-selected={selected} data-popover-host="" style={{ '--flow-space': '0em' } as CSSProperties}>
+        <article className="card pad" data-selected={selected} data-popover-host="" style={bodyLayout}>
           {props.title && <Heading className="card__title">{heading}</Heading>}
+          {attributes}
           <Subsection>{children}</Subsection>
         </article>
       );
@@ -337,8 +365,10 @@ export const { registry } = defineRegistry(catalog, {
     ),
 
     DescriptionList: ({ props }) => (
-      <dl className="description-list">
-        {props.items.map(item => (
+      <dl className={clsx('description-list', props.draggable && 'description-list--draggable')}>
+        {props.items.map(item => props.draggable ? (
+          <DraggableRow key={item.label} id={item.id} label={item.label} value={item.value} />
+        ) : (
           <Fragment key={item.label}>
             <dt>{item.label}</dt>
             <dd>{item.value}</dd>
@@ -549,8 +579,14 @@ export const { registry } = defineRegistry(catalog, {
       </div>
     ),
 
-    Badge: ({ props }) => (
-      <strong
+    // A pressable badge is the library's badge on a button, as the
+    // collection views draw an attribute value the actor can filter by.
+    Badge: ({ props, emit }) => {
+      const Root = props.pressable ? 'button' : 'strong';
+      return (
+      <Root
+        type={props.pressable ? 'button' : undefined}
+        onClick={props.pressable ? () => void emit('press') : undefined}
         className={clsx(
           'badge',
           props.pill && 'badge--pill',
@@ -561,8 +597,9 @@ export const { registry } = defineRegistry(catalog, {
         {props.label && <span className="badge__label">{props.label}</span>}
         {props.icon && <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />}
         {props.text}
-      </strong>
-    ),
+      </Root>
+      );
+    },
 
     // The library's tag; a pending label shimmers. A removable tag is a
     // .tag-group: the tag, then the remove button as a joined segment, as the
@@ -596,6 +633,9 @@ export const { registry } = defineRegistry(catalog, {
         </span>
       );
     },
+
+    // Built in pp-filter-tag.tsx from the library's filter chip parts.
+    FilterTag: FilterTag,
 
     // The library's reference chrome on a button, and its summary popover
     // (`.popover__header`: the heading and body on the leading edge, the
@@ -717,18 +757,21 @@ export const { registry } = defineRegistry(catalog, {
     },
 
     // The library's dropdown: a plain icon button and a pp-list of radio
-    // rows, as the library's view settings menus are drawn. Hands focus on
+    // rows, as the library's view settings menus are drawn, or of checkbox
+    // rows that leave it open, as its attribute picker is. Hands focus on
     // (focus-handoff.ts) if a choice removes it while focused.
     Menu: ({ props, children }) => {
       const { trigger, list } = useMenuFocusHandoff(props.focusNext);
       return (
-        <pp-dropdown placement="bottom-end" hoist>
+        <pp-dropdown placement="bottom-end" hoist stay-open-on-select={props.multiple ?? false}>
           <button ref={trigger} type="button" className="button button--plain" data-slot="trigger" title={props.label}>
             {props.icon && <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />}
             <span className="visually-hidden">{props.label}</span>
           </button>
           <pp-popup>
-            <pp-list ref={list}>{children}</pp-list>
+            <pp-list ref={list}>
+              <MenuMultiple value={props.multiple ?? false}>{children}</MenuMultiple>
+            </pp-list>
           </pp-popup>
         </pp-dropdown>
       );
@@ -738,7 +781,7 @@ export const { registry } = defineRegistry(catalog, {
     // property holds, and `undefined` would stay as the string "undefined".
     MenuItem: ({ props, emit }) => (
       <pp-list-item
-        type="radio"
+        type={useContext(MenuMultiple) ? 'checkbox' : 'radio'}
         checked={props.checked ?? false}
         disabled={props.disabled ?? false}
         onClick={() => !props.disabled && emit('press')}

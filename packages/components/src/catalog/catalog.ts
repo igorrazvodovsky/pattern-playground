@@ -36,6 +36,7 @@ const slot = z.object({ slot: z.string(), label: z.string(), required: z.boolean
 // A spec that named Phosphor glyphs would be tied to the library that ships them.
 export const iconNames = [
   'archive',
+  'ascending',
   'attach',
   'back',
   'cancel',
@@ -44,6 +45,7 @@ export const iconNames = [
   'decrease',
   'delete',
   'delete-confirm',
+  'descending',
   'detail',
   'example',
   'external',
@@ -71,7 +73,9 @@ export const iconNames = [
   'search',
   'send',
   'settings',
+  'show',
   'side-by-side',
+  'sort',
   'suggest',
   'summary',
   'transfer',
@@ -103,10 +107,12 @@ export const catalog = defineCatalog(schema, {
         gap: z.enum(['none', 's', 'm', 'l']).nullable(),
         align: z.enum(['start', 'center', 'baseline']).nullable(),
         label: z.string().nullable(),
+        dropTarget: z.boolean().nullable(),
+        dropped: z.string().nullable(),
       }),
       slots: ['default'],
       description:
-        'Lays children out in a column (default) or a row. `label` names what the children are a group of, such as one of several lists in a detail: the Stack becomes a region of that name for assistive technology. A visible caption for the group is a separate Text.',
+        'Lays children out in a column (default) or a row. `label` names what the children are a group of, such as one of several lists in a detail: the Stack becomes a region of that name for assistive technology. A visible caption for the group is a separate Text. With `dropTarget` the Stack takes rows dragged from a draggable DescriptionList in the same demo: it is marked while a row is over it, and a drop writes the row\'s `id` to `dropped`, then emits `drop`. Bind `dropped` with $bindState. Dragging needs a pointer, so give the actor another way to do what a drop does, such as a Menu.',
     },
     Grid: {
       props: z.object({
@@ -133,9 +139,9 @@ export const catalog = defineCatalog(schema, {
         focusOnShow: z.boolean().nullable(),
         expanded: z.boolean().nullable(),
       }),
-      slots: ['default', 'suffix', 'actions', 'detail'],
+      slots: ['default', 'attributes', 'suffix', 'actions', 'detail'],
       description:
-        'A bounded surface that groups related content. `icon` leads the title, named by meaning, such as the kind of item the card stands for. The `suffix` slot sits beside the title, for a short status such as a Badge, or a control that acts on the card. The `actions` slot holds the buttons that act on what the card shows, below its content. With `opens` the card stands for something the actor can open, such as the items behind a summary: its title is a button, pressing anywhere on the card presses it, and it emits `open`. A card that opens needs a `title`. Controls in `suffix` and `actions` stay separate presses; anything else in the card is covered by the press, so put controls in those slots. The `detail` slot holds what the card opens into, such as the item\'s full readout under its summary, and shows while `expanded` is true: it sits last in the card, set off by a rule, and is not covered by the press, so the actor can read and select its text and use the controls in it, other cards among them. On a card that opens, `expanded` makes the title read as expanded or collapsed rather than pressed; set `selected` with it to set the card apart while it is expanded. `selected` marks the one card among its peers that the actor picked, such as the item another view is showing: the card is set apart, and on a card that opens the title reads as pressed. `focusOnShow` works as on a Button, for the title: set it on the card the actor opened, so that it takes focus when they come back to it.',
+        'A bounded surface that groups related content. `icon` leads the title, named by meaning, such as the kind of item the card stands for. The `attributes` slot follows the title, for a few of the item\'s attributes as labelled Badges, laid out in a row; Badges there that are `pressable` stay separate presses. The `suffix` slot sits beside the title, for a short status such as a Badge, or a control that acts on the card. The `actions` slot holds the buttons that act on what the card shows, below its content. With `opens` the card stands for something the actor can open, such as the items behind a summary: its title is a button, pressing anywhere on the card presses it, and it emits `open`. A card that opens needs a `title`. Controls in `suffix` and `actions`, and pressable Badges in `attributes`, stay separate presses; anything else in the card is covered by the press, so put controls in those slots. The `detail` slot holds what the card opens into, such as the item\'s full readout under its summary, and shows while `expanded` is true: it sits last in the card, set off by a rule, and is not covered by the press, so the actor can read and select its text and use the controls in it, other cards among them. On a card that opens, `expanded` makes the title read as expanded or collapsed rather than pressed; set `selected` with it to set the card apart while it is expanded. `selected` marks the one card among its peers that the actor picked, such as the item another view is showing: the card is set apart, and on a card that opens the title reads as pressed. `focusOnShow` works as on a Button, for the title: set it on the card the actor opened, so that it takes focus when they come back to it.',
     },
     Text: {
       props: z.object({
@@ -195,10 +201,11 @@ export const catalog = defineCatalog(schema, {
     },
     DescriptionList: {
       props: z.object({
-        items: z.array(z.object({ label: z.string(), value: z.string() })),
+        items: z.array(z.object({ id: z.string().nullable(), label: z.string(), value: z.string() })),
+        draggable: z.boolean().nullable(),
       }),
       description:
-        'Labels paired with their values, one pair to a row, read as content: the attributes of one item in its full view, or a spec sheet. For a few attributes on a summary, use labelled Badges instead.',
+        'Labels paired with their values, one pair to a row, read as content: the attributes of one item in its full view, or a spec sheet. For a few attributes on a summary, use labelled Badges instead. With `draggable` each row that has an `id` can be dragged, carrying that id, onto a Stack that is a `dropTarget`.',
     },
     Table: {
       props: z.object({
@@ -308,9 +315,10 @@ export const catalog = defineCatalog(schema, {
         tone: tone.nullable(),
         pill: z.boolean().nullable(),
         pulse: z.boolean().nullable(),
+        pressable: z.boolean().nullable(),
       }),
       description:
-        'A short count or status label, or one attribute of an item. With `label` it is an attribute: `label` names it (Category) and `text` is its value (Chairs); lay several out in a horizontal Stack. `icon` leads the text, named by meaning, such as `increase` for a trend. `tone` sets it apart: `success` and `danger` say whether what it shows is good or bad, which the spec decides, since the same direction can be either. `pulse` draws attention to a change.',
+        'A short count or status label, or one attribute of an item. With `pressable` the badge is a button and emits `press`, for a value the actor acts on in place, such as an attribute value pressed to filter by it. With `label` it is an attribute: `label` names it (Category) and `text` is its value (Chairs); lay several out in a horizontal Stack. `icon` leads the text, named by meaning, such as `increase` for a trend. `tone` sets it apart: `success` and `danger` say whether what it shows is good or bad, which the spec decides, since the same direction can be either. `pulse` draws attention to a change.',
     },
     Tag: {
       props: z.object({
@@ -323,7 +331,7 @@ export const catalog = defineCatalog(schema, {
         focusNext: z.string().nullable(),
       }),
       description:
-        'A value applied to something, such as an active filter or a classification, or a value a trace names, such as a query that was run or a source that was read, shown as a short label. A count or status read in place is a Badge; one the actor presses to reach what it counts is a Tag that opens. `icon` names, by meaning, where the value came from or what kind it is. `pending` marks a value that is still being worked out: the label says so, and the tag shows it is busy. With `opens` the tag stands for something the actor can open, such as a short summary that leads to what it summarises: the tag is a button and emits `open`, and `focusOnShow` works as on a Button. A tag that opens has no remove button. With `removeLabel` the tag carries a button, named by that label, that emits `remove`; `focusNext` works as on a Button, for when removing the tag takes the button away while it has focus. Lay several out in a horizontal Stack.',
+        'A value applied to something, such as a classification or a filter the actor cannot edit in place (an editable condition is a FilterTag), or a value a trace names, such as a query that was run or a source that was read, shown as a short label. A count or status read in place is a Badge; one the actor presses to reach what it counts is a Tag that opens. `icon` names, by meaning, where the value came from or what kind it is. `pending` marks a value that is still being worked out: the label says so, and the tag shows it is busy. With `opens` the tag stands for something the actor can open, such as a short summary that leads to what it summarises: the tag is a button and emits `open`, and `focusOnShow` works as on a Button. A tag that opens has no remove button. With `removeLabel` the tag carries a button, named by that label, that emits `remove`; `focusNext` works as on a Button, for when removing the tag takes the button away while it has focus. Lay several out in a horizontal Stack.',
     },
     Reference: {
       props: z.object({
@@ -495,11 +503,12 @@ export const catalog = defineCatalog(schema, {
       props: z.object({
         label: z.string(),
         icon: z.enum(iconNames).nullable(),
+        multiple: z.boolean().nullable(),
         focusNext: z.string().nullable(),
       }),
       slots: ['default'],
       description:
-        'A button that opens a short list of choices, for a setting that is changed now and then rather than kept in view. `label` names the button for assistive technology; `icon` is what it shows, named by meaning. Its children are MenuItem elements, in order. The list closes when a choice is made, on Escape, or when focus leaves it. `focusNext` works as on a Button, for when a choice removes the menu, or what it sits in, while focus is on it or in its list.',
+        'A button that opens a short list of choices, for a setting that is changed now and then rather than kept in view. `label` names the button for assistive technology; `icon` is what it shows, named by meaning. Its children are MenuItem elements, in order. One choice is in force at a time, and the list closes when a choice is made. With `multiple` any number are, each ticked or cleared on its own, and the list stays open while the actor goes through it. Either way it closes on Escape, or when focus leaves it. `focusNext` works as on a Button, for when a choice removes the menu, or what it sits in, while focus is on it or in its list.',
     },
     MenuItem: {
       props: z.object({
@@ -509,7 +518,7 @@ export const catalog = defineCatalog(schema, {
         disabled: z.boolean().nullable(),
       }),
       description:
-        'One choice in a Menu, of which one is in force: `checked` marks that one. `icon` leads the label, named by meaning. `disabled` is for a choice that is not available now; it stays in the list so the actor can see it exists. Choosing it emits `press`.',
+        'One choice in a Menu: `checked` marks the one in force, or each that is ticked in a Menu with `multiple`. `icon` leads the label, named by meaning. `disabled` is for a choice that is not available now; it stays in the list so the actor can see it exists. Choosing it emits `press`.',
     },
     Toasts: {
       props: z.object({
@@ -524,6 +533,24 @@ export const catalog = defineCatalog(schema, {
       }),
       description:
         'Short messages over the page that leave by themselves, the newest nearest the actor. A toast without an action stays about 4 seconds; one with `actionLabel` offers that single action and stays at least 8. The timer pauses while the pointer or focus is on a toast. Bind `toasts` with $bindState and add a toast with pushState ({ id: "$id", message, actionLabel }); a toast the actor closes or that times out is removed from the list. Pressing a toast\'s action writes the whole toast to `pressed` (bind with $bindState), emits `action`, and closes it. A toast may carry fields of its own for the action to read.',
+    },
+    // A composite, like RuleBuilder: the library draws the whole chip. Its
+    // input is data (one condition and what it can become), so a spec holds
+    // it, but its joined parts and the searchable value list are the
+    // library's own.
+    FilterTag: {
+      props: z.object({
+        label: z.string(),
+        operator: z.string(),
+        operators: z.array(z.string()),
+        values: z.array(z.string()),
+        options: z.array(z.string()),
+        removeLabel: z.string().nullable(),
+        focusNext: z.string().nullable(),
+        edit: z.unknown().nullable(),
+      }),
+      description:
+        'One condition of a filter, shown as a chip the actor edits in place: `label` names the attribute, then come the `operator`, the chosen `values` (the value itself, or how many are chosen), and a button that removes the condition. Pressing the operator opens `operators`, the current one ticked. Pressing the values opens a list the actor can search, with the chosen values first and ticked, then the rest of `options`; picking one adds it or takes it away, and the list closes. Bind `edit` with $bindState: before emitting `change`, the chip writes { kind: operator | add | remove, value } there, and the spec applies it. The remove button, named by `removeLabel` (Clear filter by default), emits `remove`; `focusNext` works as on a Button. Lay several out in a horizontal Stack.',
     },
     // A composite: the library has to supply the whole thing. Its input is
     // already data (a tree of sentence parts), so it can be named here, but a

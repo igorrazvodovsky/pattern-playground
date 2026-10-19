@@ -65,7 +65,7 @@ Give the collection two linked views: an *overview* rendering every item in the 
 
 Which *attributes* live in which view: overview only, detail only, or both — and interactive elements count as attributes too (a save button can live in both views or only one). The overview's subset is the consequential choice: it fixes what the actor can compare, sort, and filter by. Held open to the actor rather than fixed per view, this dimension is [attribute visibility](/patterns/attribute-visibility) applied twice over. Overview attributes are often *abstractions* of their detail counterparts: visual (`badge` for status), semantic (a generated title standing for a conversation), or computational (a calendar of cheapest prices). When the abstraction is computed or generated, the overview stops being a subset of the detail view and becomes a summary in its own right.
 
-<Demo name="fluid-attributes" surface="gray" label="The content dimension held open: surface attributes from the detail view into the overview, then operate on them." expandable />
+<Demo spec="fluid-attributes" surface="gray" label="The content dimension held open: surface attributes from the detail view into the overview, then operate on them." expandable />
 
 ### Composition
 

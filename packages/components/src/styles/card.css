@@ -58,9 +58,14 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
     align-items: center;
   }
 
+  /* Clipped, so a long row of attributes stays inside the card, but with
+     room past its edge for a focused badge's outline (reset.css draws it at
+     twice --outline-size: 4px at a badge's size). A plain length: Chrome
+     drops a math function here. */
   .card__attributes {
     display: flex;
-    overflow: hidden;
+    overflow: clip;
+    overflow-clip-margin: 6px;
   }
 
   /* A control pinned to the card's top-right corner (a menu, a dismiss). */

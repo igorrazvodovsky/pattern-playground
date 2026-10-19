@@ -15,7 +15,6 @@ type DemoComponent = ComponentType<Record<string, unknown>>;
 type Loader = () => Promise<DemoComponent>;
 
 const demos: Record<string, Loader> = {
-  'fluid-attributes': () => import('@pkg/demos/attribute-visibility').then(m => m.FluidAttributesDemo),
   'block-based-editor': () => import('@pkg/demos/block-based-editor').then(m => m.BlockBasedEditorDemo),
   'commenting': () => import('@pkg/demos/bubble-menu').then(m => m.CommentingDemo),
   'dynamic-explanation': () => import('@pkg/demos/bubble-menu').then(m => m.DynamicExplanationDemo),
@@ -55,6 +54,7 @@ const specs: Record<string, () => Promise<{ default: SpecModule }>> = {
   'empty-state-educational': () => import('@pkg/demos/specs/empty-state-educational'),
   'empty-state-guiding': () => import('@pkg/demos/specs/empty-state-guiding'),
   'empty-state-informational': () => import('@pkg/demos/specs/empty-state-informational'),
+  'fluid-attributes': () => import('@pkg/demos/specs/fluid-attributes'),
   'form': () => import('@pkg/demos/specs/form'),
   'inline-confirmation': () => import('@pkg/demos/specs/inline-confirmation'),
   'inline-notification': () => import('@pkg/demos/specs/inline-notification'),

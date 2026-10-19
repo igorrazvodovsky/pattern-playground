@@ -325,8 +325,9 @@ Design calls; one sitting each.
   and `alert`), placed in a Card titled by its label with the trend as a
   Badge in the card's suffix. `alert` now sits on `.stat` rather than on the
   card.
-- [ ] *Entity card list.* `cards--list > EntityCard` is written out seven times
-  across demos; `CardRenderer` can't be reused because it needs a full spec.
+- [ ] *Entity card list.* `cards--list > EntityCard` is written out four times
+  across demos (twice in `coordinated-views.tsx`, once each in `filtering.tsx`
+  and `WritableBoardDemo.tsx`); `CardRenderer` can't be reused because it needs a full spec.
   Also a shared overview-attributes constant (`['name','category','pricing.msrp']`
   in three demos, a `listedAt` variant in two). In specs, an entity card is a
   Card titled by the item's name with its attributes as labelled Badges, and
@@ -445,11 +446,20 @@ Design calls; one sitting each.
   layout is in force three times (and its complement twice), and its four
   layout menu items repeat the same three actions, differing only in the
   layout.
-- [ ] *Overview plus detail.* The same split with a `useFitsWidth` fallback in
-  `FluidAttributesDemo.tsx` and `coordinated-views.tsx`; the overview-detail
-  layout demo now renders through the catalog's `Split`, which writes its room
-  to state (`registries/split-room.ts`). Several of these put `aria-label` on
-  a plain `div`.
+- [ ] *Filter chip, three times.* The chip that edits one filter condition
+  (attribute, operator, values, remove) is written in
+  `components/filter/filter-components.tsx`, tied to the task fixtures; in
+  `demos/data-view/ProductFilters.tsx` with its operator and value dropdowns;
+  and in `catalog/registries/pp-filter-tag.tsx`, the catalog's `FilterTag`,
+  which takes everything as props. A fix to one, such as how the value list
+  orders or searches, misses the others. The library component could take its
+  operators and options as props, as `FilterTag` does, and the other two use
+  it.
+- [ ] *Overview plus detail.* `coordinated-views.tsx` still lays out its split
+  with its own `useFitsWidth` fallback and puts `aria-label` on a plain `div`.
+  The overview-detail layout and fluid-attributes demos render through the
+  catalog's `Split`, which writes its room to state
+  (`registries/split-room.ts`).
 - [ ] *`top-layer=""` no longer turns the top layer on.* pp-popup's
   `top-layer` and `light-dismiss` are boolean properties, and the element
   coerces by the type the property holds, so React's `top-layer=""` sets them
@@ -555,6 +565,13 @@ Design calls; one sitting each.
 - [ ] *`alert()` in the prompt demo.* `PromptTemplateDemo`'s Validate reports
   through `alert()`, which blocks the page. Show the result in the demo instead;
   this pairs with the TemplateField item above.
+- [x] *Arrow keys in a dropdown started from the wrong row.* ArrowUp on a
+  `pp-dropdown` trigger focuses the last item, but once the popup had
+  animated in, the dropdown made the first item current again. Focus and the
+  roving tabindex then parted, so the next arrow key counted from the first
+  item. The dropdown now leaves the current item alone when an item already
+  has focus, and `pp-list` counts arrow keys and Enter from the focused item.
+  The Dropdown story's play test covers it.
 - [x] *Small items.* `CommentingPlugin.ts` uses `prefersReducedMotion()`. Hook
   files are kebab-case (`use-modal-service.ts`,
   `use-hierarchical-navigation.ts`, and the data-view and dynamic-hyperlinks
