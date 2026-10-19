@@ -6,9 +6,11 @@ role: pattern
 seed: true
 evidence:
   - observed
+  - literature
+group: coordination
 activityLevel: action
 mediation: individual
-description: "Collecting many events into one summary delivered at a chosen time, labelled as a summary and linked back to each event it covers."
+description: "Delivering many events together as one notification at a predictable, chosen time, labelled as a summary and linked back to each event it covers."
 situation:
   initiating: >-
     events arrive in numbers that make reading each one cost more than it is worth, but
@@ -17,7 +19,11 @@ situation:
   resulting:
     - >-
       events of the same kind are collected and delivered together at a time the actor
-      chooses, as one summary instead of many alerts
+      chooses, as one notification instead of many
+    - >-
+      the cadence has to be predictable for batching to help: a few known delivery times
+      a day reduce stress and interruption, while no notifications at all leave the actor
+      anxious about what they are missing and checking by hand
     - >-
       the digest says that it is a summary and links each point to the event it came
       from, so the actor can check anything that looks important
@@ -25,34 +31,44 @@ situation:
       a summary tends to drop the unusual item, which is often the one that mattered, so
       events of the highest grade are delivered on their own and never folded into a digest
     - >-
-      a generated summary adds the risk of a wrong summary on top of a short one, so it is
-      opt-in and marked as generated
+      a generated summary adds the risk of a wrong summary on top of a short one, and a
+      misstated summary is read as the source's own words, so it is opt-in, set apart
+      visually from the source's own text, and easy to switch off where it appears
 relationships:
-  complements:
+  instantiates:
     - to: notification
-      note: "a digest is a notification channel for events that can wait"
+      note: "a digest is a notification that carries many events at once, on a schedule"
+  complements:
+    - to: activity-feed
+      note: "the feed holds events for the actor to check when they choose; a digest delivers them on a schedule"
     - to: citation
       note: "each point in the digest links to the event it summarises"
     - to: provenance-marking
       note: "a generated digest is marked as machine-made"
   related:
-    - to: activity-feed
-      note: "a feed shows events as they arrive; a digest gathers them for a set time"
     - to: generated-content
       note: "a summarised digest is generated content about the actor's own events"
 disclosure: >-
   Seeded from a gap analysis of the sequences: it would fill attention and tempo's
-  "Summarise batches of events, and say so", currently without a rule. Needs its
-  classification sitting. Open: whether the non-generated digest (a plain grouped
-  list) and the generated summary are one move or two.
+  "Summarise batches of events, and say so", currently without a rule. Classified
+  as a kind of notification, with batching as the core and the generated summary
+  as a form that carries extra obligations. The evidence for the summary form is
+  one public failure; the batching evidence is one field experiment.
 ---
 
 Events arrive in numbers that make reading each one cost more than it is worth: comments on a busy document, updates on a large project, messages in a crowded channel. Switching them off hides the occasional one that mattered, so the actor ends up choosing between constant interruption and not knowing.
 
-A digest collects events of the same kind and delivers them together, at a time the actor chooses, as one summary. It says that it is a summary and links each point to the event it came from. Events of the highest grade are never folded in, because a summary tends to drop exactly the unusual item. Where the summary is generated rather than grouped, it is opt-in and marked as generated.
+A digest is a [notification](/patterns/notification) that carries many events at once. It collects events of the same kind and delivers them together at a few predictable times the actor has chosen. In a field experiment, batching notifications three times a day left people less stressed and more attentive than either constant delivery or none at all; with no notifications, people grew anxious about missing things. The digest says that it is a summary and links each point to the event it came from. Events of the highest grade are never folded in, because a summary tends to drop exactly the unusual item.
+
+Where the digest is generated rather than grouped, it adds a new risk: a wrong summary, read as if the source had said it. Generated notification summaries on one phone platform produced false headlines attributed to a news organisation and were withdrawn for news apps; they returned set in italics, with a warning and a switch on the lock screen to turn them off. A generated digest is opt-in, set apart visually from the source's own text, and links back to every event it summarises.
 
 ## Where it is practised
 
 - Email digests from forums, trackers, and social services, sent daily or weekly in place of one email per event.
 - Chat tools that summarise unread messages in a channel, with links to the original messages.
 - Code hosting and project tools with a choice between immediate notifications and a periodic summary.
+
+## Resources & references
+
+- Fitz, Kushlev, Jagannathan, Lewis, Paliwal & Ariely (2019) [Batching smartphone notifications can improve well-being](https://scholars.duke.edu/publication/1402953), *Computers in Human Behavior* 101 — a field experiment with 237 participants: batching three times a day against constant delivery and no notifications
+- [Apple halts AI notification summaries for news apps after backlash](https://www.siliconrepublic.com/business/apple-halt-ai-notification-summaries-backlash-features) (Silicon Republic, January 2025) — generated summaries misattributed to a news source, then reintroduced in italics with a warning and an opt-out
