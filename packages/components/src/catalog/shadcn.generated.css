@@ -1287,6 +1287,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .text-left {
     text-align: left;
   }
+.text-right {
+    text-align: right;
+  }
 .align-middle {
     vertical-align: middle;
   }

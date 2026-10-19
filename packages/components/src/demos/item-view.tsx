@@ -49,40 +49,6 @@ export function ItemViewSummaryDemo() {
   return <ProductItemView scope="mini" />;
 }
 
-/** Summary rung in context: the item as a row among its peers. */
-export function ItemViewRowDemo() {
-  return (
-    <pp-table>
-      <table>
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th>Category</th>
-            <th>Condition</th>
-            <th className="pp-table-align-right">Price</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
-              <td>{product.name}</td>
-              <td>{product.metadata.category}</td>
-              <td>{product.metadata.condition}</td>
-              <td className="pp-table-align-right">
-                ${product.metadata.pricing.msrp.toFixed(2)}
-              </td>
-              <td>
-                <span className="badge">{product.metadata.availability.status}</span>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </pp-table>
-  );
-}
-
 const glyphSpec = makeSpec({
   id: 'item-view-glyph',
   representation: { type: 'map', rung: 'glyph', shownAttributes: ['name'] },

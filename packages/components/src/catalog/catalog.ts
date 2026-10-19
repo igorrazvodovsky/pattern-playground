@@ -159,6 +159,29 @@ export const catalog = defineCatalog(schema, {
       description:
         'Labels paired with their values, one pair to a row, read as content: the attributes of one item in its full view, or a spec sheet. For a few attributes on a summary, use labelled Badges instead.',
     },
+    Table: {
+      props: z.object({
+        label: z.string(),
+        columns: z.array(z.object({ label: z.string(), align: z.enum(['start', 'end']).nullable() })),
+      }),
+      slots: ['default'],
+      description:
+        'Items as rows and their attributes as columns, so that rows can be compared down a column. `label` names the table for assistive technology. `columns` heads the columns in order; `align: end` sets a column\'s header on the right, for a column of figures such as prices. Its children are TableRow elements, usually one repeated over a list in state. A table wider than its container scrolls sideways.',
+    },
+    TableRow: {
+      props: z.object({}),
+      slots: ['default'],
+      description: 'One item in a Table. Its children are TableCell elements, one for each column, in column order.',
+    },
+    TableCell: {
+      props: z.object({
+        text: z.string().nullable(),
+        align: z.enum(['start', 'end']).nullable(),
+      }),
+      slots: ['default'],
+      description:
+        'One value in a TableRow. `text` is the value as text. Children render after it, for a value shown as a component, such as a status as a Badge. `align: end` sets the value on the right; give it to every cell in a column whose header is set to `end`.',
+    },
     Messages: {
       props: z.object({}),
       slots: ['default'],

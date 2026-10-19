@@ -237,6 +237,35 @@ export const { registry } = defineRegistry(catalog, {
       </dl>
     ),
 
+    // The library's table. pp-table is the scroll container and takes focus,
+    // so it is a region named by `label`. A header or cell set to `end` takes
+    // the table's right alignment class.
+    Table: ({ props, children }) => (
+      <pp-table role="region" aria-label={props.label}>
+        <table>
+          <thead>
+            <tr>
+              {props.columns.map((column, index) => (
+                <th key={index} className={column.align === 'end' ? 'pp-table-align-right' : undefined}>
+                  {column.label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>{children}</tbody>
+        </table>
+      </pp-table>
+    ),
+
+    TableRow: ({ children }) => <tr>{children}</tr>,
+
+    TableCell: ({ props, children }) => (
+      <td className={props.align === 'end' ? 'pp-table-align-right' : undefined}>
+        {props.text}
+        {children}
+      </td>
+    ),
+
     // The library's conversation layout, as in the Messaging stories: the
     // actor's messages sit on a raised bubble at the end of the line. A marked
     // run's note is a pp-tooltip, which opens on hover and on focus of the

@@ -29,6 +29,12 @@ export const cardAttributes = (paths: string[]) => {
     present(item, selection).map(attribute => ({ label: label(attribute), value: format(item, attribute) }));
 };
 
+/** Reads the attribute at `path`, formatted, or an empty string when the item lacks it. */
+export const attributeValue = (path: string) => {
+  const [attribute] = resolveAttributeSelection(productBinding, [path]);
+  return (item: Product) => (read(item, attribute) == null ? '' : format(item, attribute));
+};
+
 // A spec attribute holding a record, such as a product's specifications,
 // gives one row per key.
 const rows = (item: Product) =>

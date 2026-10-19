@@ -365,6 +365,48 @@ export const { registry } = defineRegistry(catalog, {
       </dl>
     ),
 
+    // shadcn/ui Table, from its published classes rather than the kit's
+    // Table, whose cells take only strings and so cannot hold a Badge. The
+    // container scrolls a wide table sideways; it takes focus, with shadcn's
+    // focus ring, so that it scrolls from the keyboard, and is a region named
+    // by `label`. A header or cell set to `end` is right-aligned.
+    Table: ({ props, children }) => (
+      <div
+        role="region"
+        aria-label={props.label}
+        tabIndex={0}
+        className="relative w-full overflow-x-auto rounded-md outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
+      >
+        <table className="w-full text-sm">
+          <thead className="[&_tr]:border-b">
+            <tr className="border-b transition-colors hover:bg-muted/50">
+              {props.columns.map((column, index) => (
+                <th
+                  key={index}
+                  className={clsx(
+                    'h-10 px-2 align-middle font-medium whitespace-nowrap text-foreground',
+                    column.align === 'end' ? 'text-right' : 'text-left',
+                  )}
+                >
+                  {column.label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="[&_tr:last-child]:border-0">{children}</tbody>
+        </table>
+      </div>
+    ),
+
+    TableRow: ({ children }) => <tr className="border-b transition-colors hover:bg-muted/50">{children}</tr>,
+
+    TableCell: ({ props, children }) => (
+      <td className={clsx('p-2 align-middle whitespace-nowrap', props.align === 'end' && 'text-right')}>
+        {props.text}
+        {children}
+      </td>
+    ),
+
     // shadcn/ui has no conversation component. The bubbles follow AI
     // Elements' Message, which is built on shadcn: the actor's messages on the
     // secondary surface at the end of the line, the other side's as plain
