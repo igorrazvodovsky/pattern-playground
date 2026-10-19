@@ -1,15 +1,16 @@
 import { useContext, useEffect, useRef, useState, type RefObject } from 'react';
 import { useBoundProp } from '@json-render/react';
 import { loadElementAdapter } from '../../utility/dnd';
+import { springOpen } from '../catalog';
 import { DemoRoot } from './dialog-focus';
 
-// Dragging a DescriptionList row onto a Stack that is a drop target, wired
-// with Pragmatic drag and drop the same way in both libraries. Each registry
-// draws the row in flight and the target on offer; what is dragged, where it
-// may land and what a drop writes are settled here.
+// Dragging a DescriptionList row or a Card onto a Stack or Disclosure that is
+// a drop target, wired with Pragmatic drag and drop the same way in both
+// libraries. Each registry draws what is in flight and the target on offer;
+// what is dragged, where it may land and what a drop writes are settled here.
 //
-// A row carries its id and the demo it belongs to. A target takes rows from
-// its own demo only, so two demos on one page do not trade rows. The demo is
+// A row or card carries its id and the demo it belongs to. A target takes
+// them from its own demo only, so two demos on one page do not trade rows. The demo is
 // the one SpecDemo provides, which a portaled Drawer still sits in, so a row
 // dragged out of a drawer lands on the overview behind it.
 
@@ -97,4 +98,35 @@ export const useStackDrop = (
     setDropped(id);
     void emit('drop');
   }, Boolean(props.dropTarget));
+};
+
+/**
+ * A Disclosure's drop target, the same in every registry. A drop writes the
+ * id to the bound `dropped`, then emits `drop`, as on a Stack. Held over a
+ * closed Disclosure for a moment, the drag opens it, so the drop can be aimed;
+ * a drop opens it too, so what was dropped shows where it went.
+ */
+export const useDisclosureDrop = (
+  props: { dropTarget?: boolean | null; dropped?: string | null },
+  bindings: Record<string, string> | undefined,
+  emit: (event: string) => unknown,
+  open: boolean,
+  change: (next: boolean) => void,
+) => {
+  const [, setDropped] = useBoundProp(props.dropped, bindings?.dropped);
+  // The drop and the timer act on the state at the time, not at setup.
+  const latest = useRef({ open, change });
+  latest.current = { open, change };
+  const target = useDropRow(id => {
+    if (!latest.current.open) latest.current.change(true);
+    setDropped(id);
+    void emit('drop');
+  }, Boolean(props.dropTarget));
+  const { over } = target;
+  useEffect(() => {
+    if (!over || open) return;
+    const timer = setTimeout(() => latest.current.change(true), springOpen);
+    return () => clearTimeout(timer);
+  }, [over, open]);
+  return target;
 };

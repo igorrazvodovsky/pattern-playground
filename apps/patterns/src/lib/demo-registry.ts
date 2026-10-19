@@ -21,7 +21,6 @@ const demos: Record<string, Loader> = {
   'text-lens': () => import('@pkg/demos/bubble-menu').then(m => m.TextLensDemo),
   'linked-trio': () => import('@pkg/demos/coordinated-views').then(m => m.LinkedTrioDemo),
   'cross-filtering': () => import('@pkg/demos/coordinated-views').then(m => m.CrossFilteringDemo),
-  'writable-board': () => import('@pkg/demos/data-view').then(m => m.WritableBoardDemo),
   'dynamic-hyperlinks': () => import('@pkg/demos/dynamic-hyperlinks/DynamicHyperlinksDemo').then(m => m.DynamicHyperlinksDemo),
   'filtering': () => import('@pkg/demos/filtering').then(m => m.FilteringDemo),
   'contextual-navigation': () => import('@pkg/demos/focus-and-context').then(m => m.ContextualNavigationDemo),
@@ -85,6 +84,7 @@ const specs: Record<string, () => Promise<{ default: SpecModule }>> = {
   'toast-with-undo': () => import('@pkg/demos/specs/toast-with-undo'),
   'typed-confirmation': () => import('@pkg/demos/specs/typed-confirmation'),
   'watch-to-chase-tiers': () => import('@pkg/demos/specs/watch-to-chase-tiers'),
+  'writable-board': () => import('@pkg/demos/specs/writable-board'),
 };
 
 const registries: Record<string, () => Promise<ComponentRegistry>> = {

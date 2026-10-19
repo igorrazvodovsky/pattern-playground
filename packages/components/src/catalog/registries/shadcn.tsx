@@ -10,6 +10,7 @@ import {
   ArrowDownUp,
   ArrowDownWideNarrow,
   ArrowLeft,
+  ArrowLeftRight,
   ArrowUp,
   ArrowUpNarrowWide,
   AtSign,
@@ -91,7 +92,8 @@ import { Subsection, useHeading } from './heading-level';
 import { Section, Sections } from './shadcn-sections';
 import { Timeline, TimelineEntry } from './shadcn-timeline';
 import { useDisclosureOpen, useDisclosureState } from './disclosure-state';
-import { useStackDrop } from './drag-drop';
+import { BoardAxis } from './board-axis';
+import { useDisclosureDrop, useDragRow, useStackDrop } from './drag-drop';
 import { MenuMultiple } from './menu-multiple';
 import { DraggableRow } from './shadcn-draggable-row';
 import { FilterTag } from './shadcn-filter-tag';
@@ -146,6 +148,7 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   cancel: X,
   cards: LayoutGrid,
   clear: Eraser,
+  columns: Columns2,
   confirm: Check,
   decrease: TrendingDown,
   delete: Trash2,
@@ -166,6 +169,7 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   material: Layers,
   mention: AtSign,
   more: Plus,
+  move: ArrowLeftRight,
   next: ChevronRight,
   notifications: Bell,
   open: FolderOpen,
@@ -177,6 +181,7 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   reasoning: Lightbulb,
   'remove-person': UserMinus,
   restore: Undo2,
+  rows: Rows3,
   saved: Bookmark,
   search: Search,
   send: CornerDownLeft,
@@ -337,12 +342,17 @@ export const { registry } = defineRegistry(catalog, {
       const Heading = useHeading();
       const above = props.opens && 'relative z-10';
       const Icon = props.icon ? icons[props.icon] : null;
+      const dragRef = useRef<HTMLDivElement>(null);
+      const dragging = useDragRow(dragRef, props.dragId, props.dragId != null);
       return (
         <div
+          ref={dragRef}
           className={clsx(
             'group/card flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm has-data-[slot=stat]:gap-2',
             props.opens && 'relative',
             props.selected && 'border-primary ring-1 ring-primary',
+            props.dragId != null && 'cursor-grab',
+            dragging && 'opacity-50',
           )}
           data-popover-host=""
         >
@@ -499,16 +509,42 @@ export const { registry } = defineRegistry(catalog, {
 
     Section: ({ props, children }) => <Section title={props.title}>{children}</Section>,
 
+    // shadcn has no board: lanes are a sideways-scrolling row of muted
+    // panels, as kanban boards built on shadcn draw them, and sections a
+    // column of the same panels.
+    Board: ({ props, children }) => (
+      <BoardAxis.Provider value={props.axis}>
+        <div className={props.axis === 'lanes' ? 'flex items-start gap-3 overflow-x-auto pb-2' : 'flex flex-col gap-3'}>
+          {children}
+        </div>
+      </BoardAxis.Provider>
+    ),
+
     // shadcn/ui Collapsible, which has no classes of its own: the trigger
     // takes the accordion trigger's, with a chevron that turns as it opens,
-    // and the count is a secondary Badge.
+    // and the count is a secondary Badge. Inside a Board it is one of the
+    // board's panels. The drop target is the root, so a closed one still
+    // takes the drop on its trigger.
     Disclosure: ({ props, children, bindings, emit }) => {
       const [open, change] = useDisclosureOpen(props.open, bindings?.open, emit);
+      const { ref, over } = useDisclosureDrop(props, bindings, emit, open, change);
+      const axis = useContext(BoardAxis);
       return (
-        <Collapsible.Root open={open} onOpenChange={change} data-slot="collapsible" className="flex flex-col gap-2">
+        <Collapsible.Root
+          ref={ref}
+          open={open}
+          onOpenChange={change}
+          data-slot="collapsible"
+          className={clsx(
+            'flex flex-col gap-2',
+            axis && 'rounded-lg bg-muted/50 p-2',
+            axis === 'lanes' && (open ? 'w-72 shrink-0' : 'shrink-0'),
+            over && 'ring-2 ring-ring',
+          )}
+        >
           <Collapsible.Trigger
             data-slot="collapsible-trigger"
-            className="flex items-center gap-2 rounded-md py-2 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] focus-visible:ring-ring/50 [&[data-state=open]>svg]:rotate-90"
+            className="flex items-center gap-2 rounded-md px-1 py-2 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] focus-visible:ring-ring/50 [&[data-state=open]>svg]:rotate-90"
           >
             <ChevronRight aria-hidden="true" className="size-4 shrink-0 text-muted-foreground transition-transform duration-200" />
             {props.title}
@@ -518,7 +554,15 @@ export const { registry } = defineRegistry(catalog, {
               </span>
             )}
           </Collapsible.Trigger>
-          <Collapsible.Content data-slot="collapsible-content" className="flex flex-col gap-4">
+          <Collapsible.Content
+            data-slot="collapsible-content"
+            className={clsx(
+              axis === 'lanes' && 'grid gap-2',
+              axis === 'sections' && 'grid grid-cols-[repeat(auto-fill,minmax(14rem,1fr))] gap-2',
+              !axis && 'flex flex-col gap-4',
+              axis && 'empty:min-h-16 empty:rounded-md empty:border empty:border-dashed',
+            )}
+          >
             {children}
           </Collapsible.Content>
         </Collapsible.Root>

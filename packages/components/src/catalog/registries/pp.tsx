@@ -10,7 +10,8 @@ import { captureOpener, focusDemoIfOpenerGone, settleFocus, useReturnFocus, type
 import { useCandidateList } from './candidate-list';
 import { useDisclosureOpen, useDisclosureState } from './disclosure-state';
 import { attributeGlyphs } from '../../utility/attribute-icons';
-import { useStackDrop } from './drag-drop';
+import { BoardAxis } from './board-axis';
+import { useDisclosureDrop, useDragRow, useStackDrop } from './drag-drop';
 import { MenuMultiple } from './menu-multiple';
 import { DraggableRow } from './pp-draggable-row';
 import { FilterTag } from './pp-filter-tag';
@@ -75,6 +76,7 @@ const icons: Record<(typeof iconNames)[number], string> = {
   cancel: 'ph:x',
   cards: 'ph:squares-four',
   clear: 'ph:eraser',
+  columns: 'ph:columns',
   confirm: 'ph:check',
   decrease: 'ph:arrow-down-right',
   delete: 'ph:trash-simple',
@@ -95,6 +97,7 @@ const icons: Record<(typeof iconNames)[number], string> = {
   material: 'ph:stack',
   mention: 'ph:at',
   more: 'ph:plus',
+  move: 'ph:arrows-left-right',
   next: 'ph:caret-right',
   notifications: 'ph:bell',
   open: 'ph:folder-open',
@@ -106,6 +109,7 @@ const icons: Record<(typeof iconNames)[number], string> = {
   reasoning: 'ph:lightbulb',
   'remove-person': 'ph:user-minus',
   restore: 'ph:arrow-arc-left',
+  rows: 'ph:rows',
   saved: 'ph:bookmark-simple',
   search: 'ph:magnifying-glass',
   send: 'ph:arrow-elbow-down-left',
@@ -206,6 +210,8 @@ export const { registry } = defineRegistry(catalog, {
     Card: ({ props, children, slots, emit }) => {
       const openRef = useRef<HTMLButtonElement>(null);
       useFocusOnShow(openRef, props.focusOnShow);
+      const dragRef = useRef<HTMLElement>(null);
+      const dragging = useDragRow(dragRef, props.dragId, props.dragId != null) || undefined;
       const Heading = useHeading();
       const selected = props.selected ? 'true' : undefined;
       const title = props.opens ? (
@@ -237,7 +243,7 @@ export const { registry } = defineRegistry(catalog, {
         </div>
       );
       return slots?.suffix || slots?.actions ? (
-        <article className="card" data-selected={selected} data-popover-host="">
+        <article ref={dragRef} className="card" data-selected={selected} data-popover-host="" data-dragging={dragging}>
           <div className="card__header">
             {props.title && <Heading className="label card__title">{heading}</Heading>}
             {slots.suffix && <div className="flex">{slots.suffix}</div>}
@@ -255,7 +261,7 @@ export const { registry } = defineRegistry(catalog, {
           {detail}
         </article>
       ) : slots?.detail ? (
-        <article className="card" data-selected={selected} data-popover-host="">
+        <article ref={dragRef} className="card" data-selected={selected} data-popover-host="" data-dragging={dragging}>
           <div className="pad" style={bodyLayout}>
             {props.title && <Heading className="card__title">{heading}</Heading>}
             {attributes}
@@ -264,7 +270,7 @@ export const { registry } = defineRegistry(catalog, {
           {detail}
         </article>
       ) : (
-        <article className="card pad" data-selected={selected} data-popover-host="" style={bodyLayout}>
+        <article ref={dragRef} className="card pad" data-selected={selected} data-popover-host="" data-dragging={dragging} style={bodyLayout}>
           {props.title && <Heading className="card__title">{heading}</Heading>}
           {attributes}
           <Subsection>{children}</Subsection>
@@ -366,18 +372,37 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // The library's disclosure: a details element on a layer of its own,
-    // with the count as a badge beside the title. The element reports every
-    // change of `open`, the ones React makes included, so a change that
-    // agrees with the state is no change.
+    // The library's board (board.css): its groups are the Disclosures inside
+    // it, laid along the axis by the modifier.
+    Board: ({ props, children }) => (
+      <BoardAxis.Provider value={props.axis}>
+        <div className={`board board--${props.axis}`}>{children}</div>
+      </BoardAxis.Provider>
+    ),
+
+    // The library's disclosure: a details element on a layer of its own, or
+    // a board's column inside a Board, with the count as a badge beside the
+    // title. The drop target is the details element itself, so a closed one,
+    // whose contents are not painted or hit-tested, still takes the drop on
+    // its summary. The element reports every change of `open`, the ones
+    // React makes included, so a change that agrees with the state is no
+    // change.
     Disclosure: ({ props, children, bindings, emit }) => {
       const [open, change] = useDisclosureOpen(props.open, bindings?.open, emit);
+      const { ref, over } = useDisclosureDrop(props, bindings, emit, open, change);
+      const inBoard = useContext(BoardAxis) != null;
       return (
-        <details className="layer borderless" open={open} onToggle={event => change(event.currentTarget.open)}>
+        <details
+          ref={ref}
+          className={inBoard ? 'board__column' : 'layer borderless'}
+          open={open}
+          onToggle={event => change(event.currentTarget.open)}
+          data-drop-over={over || undefined}
+        >
           <summary>
             {props.title} {props.count != null && <span className="badge">{props.count}</span>}
           </summary>
-          <div className="flow">{children}</div>
+          <div className={inBoard ? 'cards' : 'flow'}>{children}</div>
         </details>
       );
     },
@@ -1212,7 +1237,7 @@ export const { registry } = defineRegistry(catalog, {
     // so this only opens and closes toasts to match the bound list. The
     // library makes the whole toast the action's button, named by its text,
     // so the action's label joins the message. The toast module loads when
-    // the first toast opens, as demo-runtime's showToast does.
+    // the first toast opens.
     Toasts: ({ props, bindings, emit }) => {
       const { dismiss, press } = useToastList(bindings?.toasts, bindings?.pressed, emit);
       // Open toasts call the latest press, so the list effect need not re-run

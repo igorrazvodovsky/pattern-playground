@@ -46,6 +46,7 @@ const interfaceIcons = [
   'cancel',
   'cards',
   'clear',
+  'columns',
   'confirm',
   'decrease',
   'delete',
@@ -66,6 +67,7 @@ const interfaceIcons = [
   'material',
   'mention',
   'more',
+  'move',
   'next',
   'notifications',
   'open',
@@ -77,6 +79,7 @@ const interfaceIcons = [
   'reasoning',
   'remove-person',
   'restore',
+  'rows',
   'saved',
   'search',
   'send',
@@ -101,6 +104,12 @@ export const iconNames = [...interfaceIcons, ...attributeIcons] as const;
 // on a toast.
 export const toastDuration = { plain: 4000, withAction: 8000 } as const;
 
+// How long something dragged has to be held over a closed group before the
+// group opens, so the drop can be aimed rather than guessed at. Atlassian's
+// figure for the same gesture in their tree components, and the one the
+// Finder's spring-loaded folders trained everyone on.
+export const springOpen = 500;
+
 // How long an armed inline confirmation waits before it reverts. Like the
 // toast window, it belongs to the pattern: long enough to confirm on purpose,
 // short enough that an armed control left alone does not stay armed.
@@ -123,7 +132,7 @@ export const catalog = defineCatalog(schema, {
       }),
       slots: ['default'],
       description:
-        'Lays children out in a column (default) or a row. `label` names what the children are a group of, such as one of several lists in a detail: the Stack becomes a region of that name for assistive technology. A visible caption for the group is a separate Text. With `dropTarget` the Stack takes rows dragged from a draggable DescriptionList in the same demo: it is marked while a row is over it, and a drop writes the row\'s `id` to `dropped`, then emits `drop`. Bind `dropped` with $bindState. Dragging needs a pointer, so give the actor another way to do what a drop does, such as a Menu.',
+        'Lays children out in a column (default) or a row. `label` names what the children are a group of, such as one of several lists in a detail: the Stack becomes a region of that name for assistive technology. A visible caption for the group is a separate Text. With `dropTarget` the Stack takes what is dragged in the same demo, rows of a draggable DescriptionList or Cards with a `dragId`: it is marked while a row is over it, and a drop writes the `id` it carries to `dropped`, then emits `drop`. Bind `dropped` with $bindState. Dragging needs a pointer, so give the actor another way to do what a drop does, such as a Menu.',
     },
     Grid: {
       props: z.object({
@@ -149,10 +158,11 @@ export const catalog = defineCatalog(schema, {
         selected: z.boolean().nullable(),
         focusOnShow: z.boolean().nullable(),
         expanded: z.boolean().nullable(),
+        dragId: z.string().nullable(),
       }),
       slots: ['default', 'attributes', 'suffix', 'actions', 'detail'],
       description:
-        'A bounded surface that groups related content. `icon` leads the title, named by meaning, such as the kind of item the card stands for. The `attributes` slot follows the title, for a few of the item\'s attributes as labelled Badges, laid out in a row; Badges there that are `pressable` stay separate presses. The `suffix` slot sits beside the title, for a short status such as a Badge, or a control that acts on the card. The `actions` slot holds the buttons that act on what the card shows, below its content. With `opens` the card stands for something the actor can open, such as the items behind a summary: its title is a button, pressing anywhere on the card presses it, and it emits `open`. A card that opens needs a `title`. Controls in `suffix` and `actions`, and pressable Badges in `attributes`, stay separate presses; anything else in the card is covered by the press, so put controls in those slots. The `detail` slot holds what the card opens into, such as the item\'s full readout under its summary, and shows while `expanded` is true: it sits last in the card, set off by a rule, and is not covered by the press, so the actor can read and select its text and use the controls in it, other cards among them. On a card that opens, `expanded` makes the title read as expanded or collapsed rather than pressed; set `selected` with it to set the card apart while it is expanded. `selected` marks the one card among its peers that the actor picked, such as the item another view is showing: the card is set apart, and on a card that opens the title reads as pressed. `focusOnShow` works as on a Button, for the title: set it on the card the actor opened, so that it takes focus when they come back to it.',
+        'A bounded surface that groups related content. `icon` leads the title, named by meaning, such as the kind of item the card stands for. The `attributes` slot follows the title, for a few of the item\'s attributes as labelled Badges, laid out in a row; Badges there that are `pressable` stay separate presses. The `suffix` slot sits beside the title, for a short status such as a Badge, or a control that acts on the card. The `actions` slot holds the buttons that act on what the card shows, below its content. With `opens` the card stands for something the actor can open, such as the items behind a summary: its title is a button, pressing anywhere on the card presses it, and it emits `open`. A card that opens needs a `title`. Controls in `suffix` and `actions`, and pressable Badges in `attributes`, stay separate presses; anything else in the card is covered by the press, so put controls in those slots. The `detail` slot holds what the card opens into, such as the item\'s full readout under its summary, and shows while `expanded` is true: it sits last in the card, set off by a rule, and is not covered by the press, so the actor can read and select its text and use the controls in it, other cards among them. On a card that opens, `expanded` makes the title read as expanded or collapsed rather than pressed; set `selected` with it to set the card apart while it is expanded. `selected` marks the one card among its peers that the actor picked, such as the item another view is showing: the card is set apart, and on a card that opens the title reads as pressed. `focusOnShow` works as on a Button, for the title: set it on the card the actor opened, so that it takes focus when they come back to it. With `dragId` the card can be dragged, carrying that id, onto a Stack or Disclosure that is a `dropTarget`; give the actor another way to do what the drop does, such as a Menu in the card\'s `actions`.',
     },
     Text: {
       props: z.object({
@@ -209,10 +219,20 @@ export const catalog = defineCatalog(schema, {
         title: z.string(),
         count: z.string().nullable(),
         open: z.boolean().nullable(),
+        dropTarget: z.boolean().nullable(),
+        dropped: z.string().nullable(),
       }),
       slots: ['default'],
       description:
-        'A titled part the actor can close to a single line and open again, one of several peers that come and go with the content, such as the items that share a value when a collection is grouped. `title` names it and `count`, beside the title, says how many items it holds. It is open unless `open` is false. The actor opening or closing it emits `toggle`. Bind `open` with $bindState; when the parts are repeated over a list the spec rewrites, compute `open` from a list in state, such as the titles of the closed parts, and update that list on `toggle`, so that each part keeps its state through the rewrite and when the library switches. For fixed parts of one piece of content, use Sections.',
+        'A titled part the actor can close to a single line and open again, one of several peers that come and go with the content, such as the items that share a value when a collection is grouped. `title` names it and `count`, beside the title, says how many items it holds. It is open unless `open` is false. The actor opening or closing it emits `toggle`. Bind `open` with $bindState; when the parts are repeated over a list the spec rewrites, compute `open` from a list in state, such as the titles of the closed parts, and update that list on `toggle`, so that each part keeps its state through the rewrite and when the library switches. For fixed parts of one piece of content, use Sections. `dropTarget` and `dropped` work as on a Stack, and the whole part, its title included, takes the drop, so a closed part still does: something held over a closed part for a moment opens it, so the drop can be aimed, and a drop opens it, so what was dropped shows where it went. Either opening emits `toggle` first. Several of these side by side or stacked are a Board.',
+    },
+    Board: {
+      props: z.object({
+        axis: z.enum(['lanes', 'sections']),
+      }),
+      slots: ['default'],
+      description:
+        'Disclosure children laid out as the groups of a collection along one axis: `lanes` side by side, one column per group, scrolling sideways when they do not fit, with a closed lane turned to a narrow strip; `sections` stacked down the page, each spreading its cards across the width. The children are the same on either axis, so what they hold and the drop targets on them stay when the axis changes. Each Disclosure holds the group\'s Cards, laid out by the board, and an empty one keeps room to drop into.',
     },
     BulletList: {
       props: z.object({

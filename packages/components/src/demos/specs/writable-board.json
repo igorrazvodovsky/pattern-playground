@@ -1,0 +1,202 @@
+{
+  "root": "writable-board",
+  "elements": {
+    "writable-board": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["toolbar", "board", "ungrouped", "toasts"],
+      "watch": {
+        "/items": {
+          "action": "setState",
+          "params": {
+            "statePath": "/derived",
+            "value": { "$computed": "derive", "args": { "items": { "$state": "/items" }, "groupBy": { "$state": "/groupBy" } } }
+          }
+        },
+        "/groupBy": {
+          "action": "setState",
+          "params": {
+            "statePath": "/derived",
+            "value": { "$computed": "derive", "args": { "items": { "$state": "/items" }, "groupBy": { "$state": "/groupBy" } } }
+          }
+        }
+      }
+    },
+
+    "toolbar": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "children": ["group-menu", "axis-menu"]
+    },
+    "group-menu": {
+      "type": "Menu",
+      "props": { "label": "Group by", "icon": "group" },
+      "repeat": { "statePath": "/groupings", "key": "path" },
+      "children": ["grouping"]
+    },
+    "grouping": {
+      "type": "MenuItem",
+      "props": {
+        "label": { "$item": "label" },
+        "checked": { "$cond": { "$item": "path", "eq": { "$state": "/groupBy" } }, "$then": true, "$else": false }
+      },
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": { "statePath": "/groupBy", "value": { "$computed": "value", "args": { "value": { "$item": "path" } } } }
+        }
+      }
+    },
+    "axis-menu": {
+      "type": "Menu",
+      "props": {
+        "label": "Lay groups out as",
+        "icon": { "$cond": { "$state": "/axis", "eq": "lanes" }, "$then": "columns", "$else": "rows" }
+      },
+      "visible": { "$state": "/derived/grouped" },
+      "children": ["axis-sections", "axis-lanes"]
+    },
+    "axis-sections": {
+      "type": "MenuItem",
+      "props": {
+        "label": "Rows",
+        "icon": "rows",
+        "checked": { "$cond": { "$state": "/axis", "eq": "sections" }, "$then": true, "$else": false }
+      },
+      "on": { "press": { "action": "setState", "params": { "statePath": "/axis", "value": "sections" } } }
+    },
+    "axis-lanes": {
+      "type": "MenuItem",
+      "props": {
+        "label": "Columns",
+        "icon": "columns",
+        "checked": { "$cond": { "$state": "/axis", "eq": "lanes" }, "$then": true, "$else": false }
+      },
+      "on": { "press": { "action": "setState", "params": { "statePath": "/axis", "value": "lanes" } } }
+    },
+
+    "board": {
+      "type": "Board",
+      "props": { "axis": { "$state": "/axis" } },
+      "visible": { "$state": "/derived/grouped" },
+      "repeat": { "statePath": "/derived/groups", "key": "key" },
+      "children": ["group"]
+    },
+    "group": {
+      "type": "Disclosure",
+      "props": {
+        "title": { "$item": "key" },
+        "count": { "$item": "count" },
+        "open": { "$computed": "excludes", "args": { "list": { "$state": "/closed" }, "value": { "$item": "key" } } },
+        "dropTarget": true,
+        "dropped": { "$bindState": "/dropped" }
+      },
+      "repeat": { "statePath": { "$item": "cards" }, "key": "id" },
+      "children": ["card"],
+      "on": {
+        "toggle": {
+          "action": "setState",
+          "params": {
+            "statePath": "/closed",
+            "value": { "$computed": "toggleIn", "args": { "list": { "$state": "/closed" }, "value": { "$item": "key" } } }
+          }
+        },
+        "drop": [
+          {
+            "action": "pushState",
+            "params": {
+              "statePath": "/toasts",
+              "value": {
+                "$computed": "moveToast",
+                "args": { "items": { "$state": "/items" }, "id": { "$state": "/dropped" }, "group": { "$item": "key" }, "groupBy": { "$state": "/groupBy" } }
+              }
+            }
+          },
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/items",
+              "value": {
+                "$computed": "move",
+                "args": { "items": { "$state": "/items" }, "id": { "$state": "/dropped" }, "group": { "$item": "key" }, "groupBy": { "$state": "/groupBy" } }
+              }
+            }
+          }
+        ]
+      }
+    },
+
+    "ungrouped": {
+      "type": "Grid",
+      "props": {},
+      "visible": { "$state": "/derived/grouped", "not": true },
+      "repeat": { "statePath": "/derived/cards", "key": "id" },
+      "children": ["card"]
+    },
+
+    "card": {
+      "type": "Card",
+      "props": { "title": { "$item": "name" }, "dragId": { "$item": "id" } },
+      "slots": { "attributes": ["card-attributes"], "actions": ["move-menu"] }
+    },
+    "card-attributes": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "repeat": { "statePath": { "$item": "attributes" } },
+      "children": ["card-attribute"]
+    },
+    "card-attribute": {
+      "type": "Badge",
+      "props": { "label": { "$item": "label" }, "text": { "$item": "value" } }
+    },
+    "move-menu": {
+      "type": "Menu",
+      "props": { "label": { "$item": "moveLabel" }, "icon": "move" },
+      "visible": { "$item": "movable" },
+      "repeat": { "statePath": { "$item": "destinations" }, "key": "group" },
+      "children": ["destination"]
+    },
+    "destination": {
+      "type": "MenuItem",
+      "props": { "label": { "$item": "group" } },
+      "on": {
+        "press": [
+          {
+            "action": "pushState",
+            "params": {
+              "statePath": "/toasts",
+              "value": {
+                "$computed": "moveToast",
+                "args": { "items": { "$state": "/items" }, "id": { "$item": "id" }, "group": { "$item": "group" }, "groupBy": { "$state": "/groupBy" } }
+              }
+            }
+          },
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/items",
+              "value": {
+                "$computed": "move",
+                "args": { "items": { "$state": "/items" }, "id": { "$item": "id" }, "group": { "$item": "group" }, "groupBy": { "$state": "/groupBy" } }
+              }
+            }
+          }
+        ]
+      }
+    },
+
+    "toasts": {
+      "type": "Toasts",
+      "props": { "toasts": { "$bindState": "/toasts" }, "pressed": { "$bindState": "/pressed" } },
+      "on": {
+        "action": {
+          "action": "setState",
+          "params": {
+            "statePath": "/items",
+            "value": { "$computed": "undoMove", "args": { "items": { "$state": "/items" }, "toast": { "$state": "/pressed" } } }
+          }
+        }
+      }
+    }
+  }
+}
