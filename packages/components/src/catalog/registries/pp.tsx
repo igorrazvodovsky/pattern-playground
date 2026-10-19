@@ -9,6 +9,7 @@ import { useDisclosureState } from './disclosure-state';
 import { useFieldError } from './field-validation';
 import { submitForm } from './form-submit';
 import { useFocusHandoff } from './focus-handoff';
+import { useFocusOnShow } from './focus-on-show';
 import { useToastList } from './toast-list';
 import { TracingProvider, useMarkTracing, useTracingState } from './mark-tracing';
 import '../../jsx-types';
@@ -26,6 +27,7 @@ const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
 const fieldLayout: CSSProperties = { display: 'grid', gap: space.s };
 const icons: Record<(typeof iconNames)[number], string> = {
   archive: 'ph:archive-box',
+  back: 'ph:arrow-left',
   cancel: 'ph:x',
   delete: 'ph:trash-simple',
   'delete-confirm': 'ph:trash-simple-fill',
@@ -78,23 +80,42 @@ export const { registry } = defineRegistry(catalog, {
         </div>
       ),
 
-    Grid: ({ props, children }) => (
-      <ul
-        className="cards layout-grid"
-        style={{ '--layout-grid-min': columnWidth[props.minColumnWidth ?? 'm'] } as CSSProperties}
-      >
-        {Children.map(children, child => <li>{child}</li>)}
-      </ul>
-    ),
+    // A list of cards, each in its own item. A repeat reaches the registry as
+    // one child that renders every item, so it cannot be split into list
+    // items here; a grid with one child lays it out without the list.
+    Grid: ({ props, children }) => {
+      const style = { '--layout-grid-min': columnWidth[props.minColumnWidth ?? 'm'] } as CSSProperties;
+      return Children.count(children) < 2 ? (
+        <div className="cards layout-grid" style={style}>
+          {children}
+        </div>
+      ) : (
+        <ul className="cards layout-grid" style={style}>
+          {Children.map(children, child => <li>{child}</li>)}
+        </ul>
+      );
+    },
 
     // A plain card is one padded column. With a suffix or actions it takes
     // the card's zones: a header that spreads the title and the suffix apart,
-    // and a footer that puts the actions at the end.
-    Card: ({ props, children, slots }) =>
-      slots?.suffix || slots?.actions ? (
+    // and a footer that puts the actions at the end. A card that opens puts
+    // its title in a .stretched-link button, which covers the card while the
+    // header's and footer's other controls stay above it. The button takes
+    // focus when it appears, if `focusOnShow` (focus-on-show.ts).
+    Card: ({ props, children, slots, emit }) => {
+      const openRef = useRef<HTMLButtonElement>(null);
+      useFocusOnShow(openRef, props.focusOnShow);
+      const title = props.opens ? (
+        <button ref={openRef} type="button" className="stretched-link" onClick={() => emit('open')}>
+          {props.title}
+        </button>
+      ) : (
+        props.title
+      );
+      return slots?.suffix || slots?.actions ? (
         <article className="card">
           <div className="card__header">
-            {props.title && <h3 className="label">{props.title}</h3>}
+            {props.title && <h3 className="label">{title}</h3>}
             {slots.suffix && <div className="flex">{slots.suffix}</div>}
           </div>
           <div className="flow pad">{children}</div>
@@ -107,10 +128,11 @@ export const { registry } = defineRegistry(catalog, {
         </article>
       ) : (
         <article className="card flow pad" style={{ '--flow-space': '0em' } as CSSProperties}>
-          {props.title && <h3>{props.title}</h3>}
+          {props.title && <h3>{title}</h3>}
           {children}
         </article>
-      ),
+      );
+    },
 
     // With a purpose, the purpose's colour class, its icon and a strong run
     // of text, as the library marks a message in place.
@@ -137,7 +159,10 @@ export const { registry } = defineRegistry(catalog, {
     Callout: ({ props }) => (
       <div className={clsx('callout', 'flex', props.purpose ?? 'layer')}>
         <iconify-icon className="icon" icon={purposeIcons[props.purpose ?? 'info']} aria-hidden="true" />
-        <span>{props.text}</span>
+        <span>
+          {props.title && <strong>{props.title}. </strong>}
+          {props.text}
+        </span>
       </div>
     ),
 
@@ -293,6 +318,7 @@ export const { registry } = defineRegistry(catalog, {
           props.tone && props.tone !== 'neutral' && `badge--${props.tone}`,
         )}
       >
+        {props.label && <span className="badge__label">{props.label}</span>}
         {props.text}
       </strong>
     ),
@@ -324,6 +350,7 @@ export const { registry } = defineRegistry(catalog, {
     // Hands focus on (focus-handoff.ts) if it unmounts while focused.
     Button: ({ props, emit }) => {
       const ref = useFocusHandoff(props.focusNext);
+      useFocusOnShow(ref, props.focusOnShow);
       return (
         <button
           ref={ref}

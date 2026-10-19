@@ -439,6 +439,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .left-\[50\%\] {
     left: 50%;
   }
+.z-10 {
+    z-index: 10;
+  }
 .z-50 {
     z-index: 50;
   }
@@ -1616,6 +1619,14 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
     content: var(--tw-content);
     position: absolute;
   }
+.after\:inset-0:after {
+    content: var(--tw-content);
+    inset: 0;
+  }
+.after\:rounded-xl:after {
+    content: var(--tw-content);
+    border-radius: calc(var(--radius) + 4px);
+  }
 .after\:bg-foreground:after {
     content: var(--tw-content);
     background-color: var(--foreground);
@@ -1788,6 +1799,18 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .focus-visible\:outline-ring:focus-visible {
     outline-color: var(--ring);
   }
+.focus-visible\:after\:ring-\[3px\]:focus-visible:after {
+    content: var(--tw-content);
+    --tw-ring-shadow: var(--tw-ring-inset, ) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+.focus-visible\:after\:ring-ring\/50:focus-visible:after {
+    content: var(--tw-content);
+    --tw-ring-color: var(--ring);
+  }
+@supports (color: color-mix(in lab, red, red)) {.focus-visible\:after\:ring-ring\/50:focus-visible:after {
+      --tw-ring-color: color-mix(in oklab, var(--ring) 50%, transparent);
+    }}
 .disabled\:pointer-events-none:disabled {
     pointer-events: none;
   }

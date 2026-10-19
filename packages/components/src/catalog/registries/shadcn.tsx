@@ -6,6 +6,7 @@ import { shadcnComponents } from '@json-render/shadcn';
 import clsx from 'clsx';
 import {
   Archive,
+  ArrowLeft,
   Bell,
   BookOpen,
   Check,
@@ -34,6 +35,7 @@ import { captureOpener, focusDemoIfOpenerGone, type Opener } from './dialog-focu
 import { useFieldError } from './field-validation';
 import { submitForm } from './form-submit';
 import { useFocusHandoff } from './focus-handoff';
+import { useFocusOnShow } from './focus-on-show';
 import { scopedPortal } from './shadcn-portal';
 import type { Send } from './shadcn-parts';
 import { RuleBuilder, type RuleTree } from './shadcn-rule-builder';
@@ -82,6 +84,7 @@ const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
 
 const icons: Record<(typeof iconNames)[number], typeof X> = {
   archive: Archive,
+  back: ArrowLeft,
   cancel: X,
   delete: Trash2,
   'delete-confirm': Trash2,
@@ -176,26 +179,50 @@ export const { registry } = defineRegistry(catalog, {
       </div>
     ),
 
-    // The kit's Card has no CardAction or CardFooter, so a card with a suffix
-    // or actions is built from shadcn's card classes: the suffix in the
-    // header's action column, the actions in the footer at the end.
-    Card: ({ props, children, slots, ...context }) =>
-      slots?.suffix || slots?.actions ? (
-        <div className="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm">
+    // The kit's Card has no CardAction or CardFooter, and its title is plain
+    // text, so a card with a suffix or actions, or one that opens, is built
+    // from shadcn's card classes: the suffix in the header's action column,
+    // the actions in the footer at the end. shadcn has no card that opens; the
+    // title button's ::after covers the card, the suffix and actions sit above
+    // it, and focus is shown on the cover so the whole card is marked. The
+    // button takes focus when it appears, if `focusOnShow` (focus-on-show.ts).
+    Card: ({ props, children, slots, emit, ...context }) => {
+      const openRef = useRef<HTMLButtonElement>(null);
+      useFocusOnShow(openRef, props.focusOnShow);
+      if (!props.opens && !slots?.suffix && !slots?.actions) {
+        return <KitCard {...context} emit={emit} props={{ title: props.title ?? null, description: null, maxWidth: null, centered: null, className: null }}>{children}</KitCard>;
+      }
+      const above = props.opens && 'relative z-10';
+      return (
+        <div className={clsx('flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm', props.opens && 'relative')}>
           <div className="grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto]">
-            {props.title && <div className="leading-none font-semibold">{props.title}</div>}
-            {slots.suffix && (
-              <div data-slot="card-action" className="col-start-2 row-span-2 row-start-1 self-start justify-self-end">
+            {props.title && (
+              <div className="leading-none font-semibold">
+                {props.opens ? (
+                  <button
+                    ref={openRef}
+                    type="button"
+                    className="cursor-pointer text-left outline-none after:absolute after:inset-0 after:rounded-xl hover:underline focus-visible:after:ring-[3px] focus-visible:after:ring-ring/50"
+                    onClick={() => emit('open')}
+                  >
+                    {props.title}
+                  </button>
+                ) : (
+                  props.title
+                )}
+              </div>
+            )}
+            {slots?.suffix && (
+              <div data-slot="card-action" className={clsx('col-start-2 row-span-2 row-start-1 flex items-center gap-2 self-start justify-self-end', above)}>
                 {slots.suffix}
               </div>
             )}
           </div>
           <div className="flex flex-1 flex-col gap-3 px-6">{children}</div>
-          {slots.actions && <div className="flex items-center justify-end gap-2 px-6">{slots.actions}</div>}
+          {slots?.actions && <div className={clsx('flex items-center justify-end gap-2 px-6', above)}>{slots.actions}</div>}
         </div>
-      ) : (
-        <KitCard {...context} props={{ title: props.title ?? null, description: null, maxWidth: null, centered: null, className: null }}>{children}</KitCard>
-      ),
+      );
+    },
 
     Text: ({ props, children }) => {
       const text = props.highlight ? (
@@ -233,6 +260,7 @@ export const { registry } = defineRegistry(catalog, {
           )}
         >
           <Icon aria-hidden="true" />
+          {props.title && <div className="col-start-2 min-h-4 font-medium tracking-tight">{props.title}</div>}
           <div className="col-start-2">{props.text}</div>
         </div>
       );
@@ -384,6 +412,17 @@ export const { registry } = defineRegistry(catalog, {
     // shadcn has no attention pulse; Tailwind's opacity pulse is the nearest
     // thing the library's vocabulary offers.
     Badge: ({ props, ...context }) => {
+      // An attribute is shadcn/ui Badge (secondary) from its published
+      // classes, since the kit's Badge takes only text: the label muted
+      // before the value.
+      if (props.label) {
+        return (
+          <span className="inline-flex w-fit shrink-0 items-center justify-center gap-1 rounded-md border border-transparent bg-secondary px-2 py-0.5 text-xs font-medium whitespace-nowrap text-secondary-foreground">
+            <span className="text-muted-foreground">{props.label}</span>
+            {props.text}
+          </span>
+        );
+      }
       const badge = (
         <KitBadge
           {...context}
@@ -430,6 +469,7 @@ export const { registry } = defineRegistry(catalog, {
     Button: ({ props, emit }) => {
       const Icon = props.icon ? icons[props.icon] : null;
       const ref = useFocusHandoff(props.focusNext);
+      useFocusOnShow(ref, props.focusOnShow);
       return (
         <button
           ref={ref}

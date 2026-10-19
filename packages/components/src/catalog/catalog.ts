@@ -31,6 +31,7 @@ const options = z.array(z.object({ value: z.string(), label: z.string() }));
 // A spec that named Phosphor glyphs would be tied to the library that ships them.
 export const iconNames = [
   'archive',
+  'back',
   'cancel',
   'delete',
   'delete-confirm',
@@ -81,10 +82,12 @@ export const catalog = defineCatalog(schema, {
     Card: {
       props: z.object({
         title: z.string().nullable(),
+        opens: z.boolean().nullable(),
+        focusOnShow: z.boolean().nullable(),
       }),
       slots: ['default', 'suffix', 'actions'],
       description:
-        'A bounded surface that groups related content. The `suffix` slot sits beside the title, for a short status such as a Badge. The `actions` slot holds the buttons that act on what the card shows, below its content.',
+        'A bounded surface that groups related content. The `suffix` slot sits beside the title, for a short status such as a Badge, or a control that acts on the card. The `actions` slot holds the buttons that act on what the card shows, below its content. With `opens` the card stands for something the actor can open, such as the items behind a summary: its title is a button, pressing anywhere on the card presses it, and it emits `open`. A card that opens needs a `title`. Controls in `suffix` and `actions` stay separate presses. `focusOnShow` works as on a Button, for the title: set it on the card the actor opened, so that it takes focus when they come back to it.',
     },
     Text: {
       props: z.object({
@@ -101,11 +104,12 @@ export const catalog = defineCatalog(schema, {
     },
     Callout: {
       props: z.object({
+        title: z.string().nullable(),
         text: z.string(),
         purpose: purpose.nullable(),
       }),
       description:
-        'A message set apart in a box, inside the content it concerns, for information the actor should notice there. It stays while it applies and is not announced. `purpose` gives it its colour and icon; without one it is neutral.',
+        'A message set apart in a box, inside the content it concerns, for information the actor should notice there. It stays while it applies and is not announced. `title` names what the message is about and leads it, set apart from `text`. `purpose` gives it its colour and icon; without one it is neutral.',
     },
     EmptyState: {
       props: z.object({
@@ -194,12 +198,14 @@ export const catalog = defineCatalog(schema, {
     },
     Badge: {
       props: z.object({
+        label: z.string().nullable(),
         text: z.string(),
         tone: tone.nullable(),
         pill: z.boolean().nullable(),
         pulse: z.boolean().nullable(),
       }),
-      description: 'A short count or status label. `pulse` draws attention to a change.',
+      description:
+        'A short count or status label, or one attribute of an item. With `label` it is an attribute: `label` names it (Category) and `text` is its value (Chairs); lay several out in a horizontal Stack. `pulse` draws attention to a change.',
     },
     Tag: {
       props: z.object({
@@ -221,11 +227,12 @@ export const catalog = defineCatalog(schema, {
         disabled: z.boolean().nullable(),
         expanded: z.boolean().nullable(),
         initialFocus: z.boolean().nullable(),
+        focusOnShow: z.boolean().nullable(),
         focusNext: z.string().nullable(),
         submit: z.boolean().nullable(),
       }),
       description:
-        'A button. `danger` marks an action that destroys something. `icon` names the icon by meaning. With `hideLabel` only the icon shows and the label is read by assistive technology. `disabled` is for an action that is unavailable or already in progress; a button whose input is not yet valid stays enabled and reports what is wrong when pressed. `expanded` marks a button that shows and hides another part of the interface. `initialFocus` makes it take focus when its Dialog opens. `focusNext` names the label of the Button that takes focus if this one disappears while it has focus, because a press or a timer hid it or removed what it sits in: the first Button with that label after where this one was, else the last one before it. Name the control that replaces it (Cancel for an armed Delete) or its counterpart in the next row. Without `focusNext`, or with no match, focus moves to the demo. `submit` makes it the button that submits the Form it sits in. Emits `press`.',
+        'A button. `danger` marks an action that destroys something. `icon` names the icon by meaning. With `hideLabel` only the icon shows and the label is read by assistive technology. `disabled` is for an action that is unavailable or already in progress; a button whose input is not yet valid stays enabled and reports what is wrong when pressed. `expanded` marks a button that shows and hides another part of the interface. `initialFocus` makes it take focus when its Dialog opens. `focusOnShow` makes it take focus when it appears because of what the actor did, such as the Back button of a view they just opened; it does not take focus when the demo first renders, or from elsewhere on the page. `focusNext` names the label of the Button that takes focus if this one disappears while it has focus, because a press or a timer hid it or removed what it sits in: the first Button with that label after where this one was, else the last one before it. Name the control that replaces it (Cancel for an armed Delete) or its counterpart in the next row. Without `focusNext`, or with no match, focus moves to the demo. `submit` makes it the button that submits the Form it sits in. Emits `press`.',
     },
     Input: {
       props: z.object({

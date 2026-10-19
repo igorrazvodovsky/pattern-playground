@@ -1,5 +1,7 @@
+import { useEffect, useRef } from 'react';
 import { JSONUIProvider, Renderer, type ComponentRegistry, type ComponentRenderer } from '@json-render/react';
 import type { ComputedFunction, Spec, StateStore } from '@json-render/core';
+import { DemoSettled } from './registries/focus-on-show';
 
 // Renders a demo spec (demos/specs/<slug>.json) through one registry. The
 // state store is created by the caller and outlives this component, so
@@ -41,14 +43,29 @@ const Unsupported: ComponentRenderer = ({ element }) => (
 );
 
 export function SpecDemo({ spec, registry, registryName, store, handlers, functions }: SpecDemoProps) {
+  // Unsettled while a render through a new registry mounts, so that controls
+  // with `focusOnShow` (registries/focus-on-show.ts) take focus only when they
+  // appear later. Children's layout effects run before this effect.
+  const settled = useRef(false);
+  const renderedWith = useRef(registry);
+  if (renderedWith.current !== registry) {
+    renderedWith.current = registry;
+    settled.current = false;
+  }
+  useEffect(() => {
+    settled.current = true;
+  });
+
   return (
     // Focusable from script only: a dialog whose opener it removed hands focus
     // back here (registries/dialog-focus.ts), and so does a focused Button
     // that disappears with nowhere named to go (registries/focus-handoff.ts).
     <div data-registry={registryName} tabIndex={-1}>
-      <JSONUIProvider registry={registry} store={store} handlers={handlers} functions={functions}>
-        <Renderer spec={spec} registry={registry} fallback={Unsupported} />
-      </JSONUIProvider>
+      <DemoSettled value={settled}>
+        <JSONUIProvider registry={registry} store={store} handlers={handlers} functions={functions}>
+          <Renderer spec={spec} registry={registry} fallback={Unsupported} />
+        </JSONUIProvider>
+      </DemoSettled>
     </div>
   );
 }

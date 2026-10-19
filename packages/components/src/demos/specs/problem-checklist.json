@@ -1,0 +1,113 @@
+{
+  "root": "problem-checklist",
+  "elements": {
+    "problem-checklist": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["checklist", "nothing-flagged", "muted-note", "slices"]
+    },
+
+    "checklist": {
+      "type": "Grid",
+      "props": { "minColumnWidth": "m" },
+      "visible": { "$state": "/inSlice", "not": true },
+      "repeat": { "statePath": "/flags", "key": "id" },
+      "children": ["flag"]
+    },
+    "flag": {
+      "type": "Card",
+      "props": { "title": { "$item": "title" }, "opens": true, "focusOnShow": { "$item": "open" } },
+      "slots": { "suffix": ["flag-count", "not-useful"] },
+      "children": ["flag-reason"],
+      "on": {
+        "open": [
+          { "action": "setState", "params": { "statePath": { "$item": "open" }, "value": true } },
+          { "action": "setState", "params": { "statePath": "/inSlice", "value": true } }
+        ]
+      }
+    },
+    "flag-count": {
+      "type": "Badge",
+      "props": { "text": { "$item": "count" } }
+    },
+    "not-useful": {
+      "type": "Button",
+      "props": { "label": { "$template": "Not useful: ${title}" }, "icon": "cancel", "hideLabel": true, "variant": "plain" },
+      "on": {
+        "press": [
+          { "action": "removeState", "params": { "statePath": "/flags", "index": { "$index": true } } },
+          { "action": "pushState", "params": { "statePath": "/muted", "value": true } }
+        ]
+      }
+    },
+    "flag-reason": {
+      "type": "Text",
+      "props": { "text": { "$item": "reason" } }
+    },
+
+    "nothing-flagged": {
+      "type": "Text",
+      "props": { "text": "Nothing flagged right now.", "muted": true },
+      "visible": { "$state": "/flags/0", "not": true }
+    },
+    "muted-note": {
+      "type": "Text",
+      "props": { "text": { "$computed": "mutedNote", "args": { "muted": { "$state": "/muted" } } }, "muted": true },
+      "visible": [{ "$state": "/muted/0" }, { "$state": "/inSlice", "not": true }]
+    },
+
+    "slices": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$state": "/inSlice" },
+      "repeat": { "statePath": "/flags", "key": "id" },
+      "children": ["slice"]
+    },
+    "slice": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$item": "open" },
+      "children": ["slice-controls", "slice-reason", "slice-items"]
+    },
+    "slice-controls": {
+      "type": "Stack",
+      "props": { "direction": "horizontal" },
+      "children": ["back"]
+    },
+    "back": {
+      "type": "Button",
+      "props": { "label": "Back to problems", "icon": "back", "variant": "plain", "focusOnShow": true },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/inSlice", "value": false } },
+          { "action": "setState", "params": { "statePath": { "$item": "open" }, "value": false } }
+        ]
+      }
+    },
+    "slice-reason": {
+      "type": "Callout",
+      "props": { "title": { "$item": "title" }, "text": { "$item": "reason" }, "purpose": "info" }
+    },
+    "slice-items": {
+      "type": "Grid",
+      "props": { "minColumnWidth": "m" },
+      "repeat": { "statePath": { "$item": "items" }, "key": "id" },
+      "children": ["slice-item"]
+    },
+    "slice-item": {
+      "type": "Card",
+      "props": { "title": { "$item": "name" } },
+      "children": ["slice-item-attributes"]
+    },
+    "slice-item-attributes": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "repeat": { "statePath": { "$item": "attributes" } },
+      "children": ["attribute"]
+    },
+    "attribute": {
+      "type": "Badge",
+      "props": { "label": { "$item": "label" }, "text": { "$item": "value" } }
+    }
+  }
+}

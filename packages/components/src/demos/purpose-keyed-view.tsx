@@ -4,7 +4,7 @@ import { ItemView } from '../components/item-view/ItemView';
 import { products } from '../templates/collection-view/data';
 import { EntityCard } from '../templates/collection-view/renderers';
 import { productBinding } from '@shared/data/bindings';
-import { detectProblems } from './problem-curated-view';
+import { detectProblems } from './problem-detection';
 import { BackButton } from './scaffold';
 import 'iconify-icon';
 import '../jsx-types';
