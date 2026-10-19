@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState, type MouseEvent } from 'react';
+import { Node as TiptapNode } from '@tiptap/core';
 import { useEditor, type Editor, type JSONContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Placeholder } from '@tiptap/extensions';
@@ -8,23 +9,27 @@ import type { SuggestionKeyDownProps, SuggestionProps } from '@tiptap/suggestion
 // A MentionEditor's behaviour on Tiptap, shared by the registries so that only
 // the markup differs: the editor and its content as data, the list of
 // candidates under the caret while the actor types after @, and the mentions
-// as buttons inside the text. A candidate can stand for a kind of item rather
+// as buttons inside the text, and slots the actor fills in place, for a
+// template whose wording is already written. A candidate can stand for a kind of item rather
 // than an item: picking it narrows the list to that kind, and Backspace with
 // nothing typed widens it again. Tiptap is headless, as Leaflet is under the
 // maps; each library draws the field, the mentions and the list.
 //
-// The editor holds paragraphs and mentions only. Marks and other blocks are
-// switched off, because the content is written back to state as plain runs
-// and mentions, and anything else would be lost on the way.
+// The editor holds paragraphs, mentions and slots only. Marks and other
+// blocks are switched off, because the content is written back to state as
+// plain runs, mentions and slots, and anything else would be lost on the way.
 
 export type MentionPart = { id: string; label: string; type: string };
-export type Paragraph = (string | MentionPart)[];
+/** A blank in a template: `label` says what goes in it, `value` is what the actor wrote. */
+export type SlotPart = { slot: string; label: string; required: boolean | null; value: string };
+export type Paragraph = (string | MentionPart | SlotPart)[];
 /** A candidate that narrows the list to one kind of item instead of naming an item. */
 export type KindCandidate = { id: string; label: string; narrows: true };
 export type MentionCandidate = MentionPart | KindCandidate;
 export type MentionGroup = { heading: string | null; options: MentionCandidate[] };
 
 export const isKind = (candidate: MentionCandidate): candidate is KindCandidate => 'narrows' in candidate;
+export const isSlot = (part: Paragraph[number]): part is SlotPart => typeof part !== 'string' && 'slot' in part;
 
 const toDoc = (paragraphs: Paragraph[]): JSONContent => ({
   type: 'doc',
@@ -34,7 +39,9 @@ const toDoc = (paragraphs: Paragraph[]): JSONContent => ({
       .map(part =>
         typeof part === 'string'
           ? { type: 'text', text: part }
-          : { type: 'mention', attrs: { id: part.id, label: part.label, type: part.type } },
+          : isSlot(part)
+            ? { type: 'slot', attrs: { slot: part.slot, label: part.label, required: part.required, value: part.value } }
+            : { type: 'mention', attrs: { id: part.id, label: part.label, type: part.type } },
       );
     return content.length > 0 ? { type: 'paragraph', content } : { type: 'paragraph' };
   }),
@@ -47,6 +54,14 @@ const fromDoc = (doc: JSONContent): Paragraph[] =>
       if (node.type === 'mention') {
         const { id, label, type } = node.attrs ?? {};
         parts.push({ id: String(id), label: String(label), type: String(type) });
+      } else if (node.type === 'slot') {
+        const { slot, label, required, value } = node.attrs ?? {};
+        parts.push({
+          slot: String(slot),
+          label: String(label),
+          required: required === null || required === undefined ? null : Boolean(required),
+          value: String(value ?? ''),
+        });
       } else if (node.type === 'text') {
         const last = parts.at(-1);
         if (typeof last === 'string') parts[parts.length - 1] = last + (node.text ?? '');
@@ -73,6 +88,10 @@ type Options = {
   /** Classes on the editable region and on each mention. */
   editorClass: string;
   mentionClass: string;
+  /** Classes on each slot, on a slot that holds a value, and on the field inside it. */
+  slotClass?: string;
+  filledSlotClass?: string;
+  slotInputClass?: string;
   /** Classes on the element the list is positioned in. */
   listHostClass: string;
   /** Where the list's host is placed: a library whose styles are scoped places it inside the scope. */
@@ -182,6 +201,110 @@ export function useMentionEditor(options: Options) {
       },
     });
 
+  // A slot is a field inside the text, filled in place. Its label shows until
+  // it holds a value. Tab moves through the fields and mentions in reading
+  // order; Enter moves on to the next slot, or back into the text after the
+  // last one; Escape goes back into the text after the slot. Copied as a span
+  // that carries every attribute, so a pasted slot keeps its label and value.
+  const createSlot = () =>
+    TiptapNode.create({
+      name: 'slot',
+      group: 'inline',
+      inline: true,
+      atom: true,
+      selectable: false,
+      // Not data-slot: shadcn marks its own parts with that, and copied
+      // shadcn markup would paste as empty slots.
+      addAttributes: () => ({
+        slot: {
+          default: '',
+          parseHTML: element => element.getAttribute('data-template-slot') ?? '',
+          renderHTML: attributes => ({ 'data-template-slot': attributes.slot }),
+        },
+        label: {
+          default: '',
+          parseHTML: element => element.getAttribute('data-label') ?? '',
+          renderHTML: attributes => ({ 'data-label': attributes.label }),
+        },
+        required: {
+          default: null,
+          parseHTML: element => {
+            const required = element.getAttribute('data-required');
+            return required === null ? null : required === 'true';
+          },
+          renderHTML: attributes => (attributes.required === null ? {} : { 'data-required': String(attributes.required) }),
+        },
+        value: {
+          default: '',
+          parseHTML: element => element.getAttribute('data-value') ?? '',
+          renderHTML: attributes => ({ 'data-value': attributes.value }),
+        },
+      }),
+      parseHTML: () => [{ tag: 'span[data-template-slot]' }],
+      renderHTML: ({ node, HTMLAttributes }) => ['span', HTMLAttributes, String(node.attrs.value || node.attrs.label)],
+      renderText: ({ node }) => String(node.attrs.value),
+      addNodeView: () => ({ node, editor, getPos }) => {
+        const { slotClass = '', filledSlotClass = '', slotInputClass = '' } = live.current.options;
+        const dom = Object.assign(document.createElement('span'), { className: slotClass, contentEditable: 'false' });
+        const input = Object.assign(document.createElement('input'), {
+          type: 'text',
+          className: slotInputClass,
+          placeholder: String(node.attrs.label),
+          required: Boolean(node.attrs.required),
+        });
+        input.setAttribute('aria-label', String(node.attrs.label));
+        dom.append(input);
+        const show = (value: string) => {
+          if (input.value !== value) input.value = value;
+          // Wide enough for the value, or for the label while it is empty.
+          input.size = Math.max((value || input.placeholder).length, 2);
+          for (const name of filledSlotClass.split(' ').filter(Boolean)) dom.classList.toggle(name, value.length > 0);
+        };
+        show(String(node.attrs.value));
+
+        input.addEventListener('input', () => {
+          const pos = getPos();
+          if (pos === undefined) return;
+          editor.view.dispatch(editor.view.state.tr.setNodeAttribute(pos, 'value', input.value));
+        });
+        // After this slot, the caret in the text.
+        const leave = () => {
+          const pos = getPos();
+          if (pos !== undefined) editor.chain().focus().setTextSelection(pos + 1).run();
+        };
+        input.addEventListener('keydown', event => {
+          if (event.key === 'Escape') {
+            event.preventDefault();
+            event.stopPropagation();
+            leave();
+          } else if (event.key === 'Enter' && !event.isComposing) {
+            event.preventDefault();
+            const inputs = [...editor.view.dom.querySelectorAll<HTMLInputElement>('[data-slot-input]')];
+            const next = inputs[inputs.indexOf(input) + 1];
+            if (next) next.focus();
+            else leave();
+          }
+        });
+        input.dataset.slotInput = '';
+
+        return {
+          dom,
+          update: updated => {
+            // A new label or requirement builds the field again.
+            if (updated.type.name !== 'slot') return false;
+            const { slot, label, required } = node.attrs;
+            if (updated.attrs.slot !== slot || updated.attrs.label !== label || updated.attrs.required !== required) {
+              return false;
+            }
+            show(String(updated.attrs.value));
+            return true;
+          },
+          stopEvent: event => dom.contains(event.target as Node),
+          ignoreMutation: () => true,
+        };
+      },
+    });
+
   // What the editor last wrote to state, so that state arriving back is not
   // taken for a change from elsewhere.
   const written = useRef<Paragraph[] | null>(null);
@@ -209,6 +332,7 @@ export function useMentionEditor(options: Options) {
       underline: false,
     }),
     Placeholder.configure({ placeholder: options.placeholder }),
+    createSlot(),
     createMention().configure({
       renderText: ({ node }) => String(node.attrs.label),
       suggestion: {

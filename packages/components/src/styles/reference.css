@@ -13,6 +13,7 @@
 .template-field {
   position: relative;
   display: inline-block;
+  max-inline-size: 100%;
   padding: var(--space-2xs) var(--space-xs);
   margin-block: 0.25ch;
   border: var(--border);
@@ -46,7 +47,8 @@
   box-shadow: 0 0 0 2px var(--c-primary-100);
 }
 
-.template-field--editing {
+.template-field--editing,
+.template-field:focus-within {
   border-color: var(--c-primary-500);
 }
 
@@ -88,6 +90,11 @@
   margin: 0;
   width: auto;
   min-width: 1ch;
+  max-inline-size: 100%;
+}
+
+.template-field input::placeholder {
+  color: var(--c-placeholder);
 }
 
 .rich-editor .ProseMirror {

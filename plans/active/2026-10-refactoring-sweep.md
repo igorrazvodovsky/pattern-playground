@@ -402,6 +402,16 @@ Design calls; one sitting each.
   Survey Analysis). The reference spec shows each item's current name, so the
   note now asks technical questions of a supply chain analyst. Rewrite the
   note's sentences or its ids so the two agree.
+- [ ] *TemplateField has no consumer.* The prompt-template spec fills its
+  blanks through slots in `catalog/registries/mention-editor.ts`, so
+  `components/template-field/` (a Tiptap node whose blank turns into an input
+  when pressed, with fill, clear and validate commands) is no longer used. The
+  slots keep `.template-field` and `--filled` from `styles/reference.css`;
+  `--selected`, `--editing`, `--invalid`, `__label` and `__error` styled only
+  the component. `styles/tiptap.css`, whose import is commented out, holds a
+  second full set of `.template-field*` rules that would fight the slots'
+  `--filled` and `:focus-within` if switched back on. Delete the component,
+  those rules and the tiptap.css block, or keep the component for a story.
 - [ ] *Full-view spec elements, six times.* `specs/investigate.json`,
   `specs/watch-to-chase-tiers.json` and `specs/item-view-full.json` each hold
   the same full-view elements (a Card with badges, price, description, a

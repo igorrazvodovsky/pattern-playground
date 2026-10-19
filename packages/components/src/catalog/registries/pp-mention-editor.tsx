@@ -5,11 +5,11 @@ import type { Catalog } from '../catalog';
 import { isKind, useMentionEditor } from './mention-editor';
 import '../../jsx-types';
 
-// The library's rich editor and reference mentions, with the candidates
-// drawn as the library's combobox list. The list is not cmdk: focus stays
-// in the editor, which reads the list through aria-activedescendant
-// (mention-editor.ts), so the list takes the combobox's attributes for
-// its look only.
+// The library's rich editor, reference mentions and template fields, with
+// the candidates drawn as the library's combobox list. The list is not
+// cmdk: focus stays in the editor, which reads the list through
+// aria-activedescendant (mention-editor.ts), so the list takes the
+// combobox's attributes for its look only.
 export function MentionEditor({ props, bindings, emit }: ComponentContext<Catalog, 'MentionEditor'>) {
   const [content, setContent] = useBoundProp(props.content, bindings?.content);
   const [, setQuery] = useBoundProp(props.query, bindings?.query);
@@ -30,6 +30,8 @@ export function MentionEditor({ props, bindings, emit }: ComponentContext<Catalo
     },
     editorClass: '',
     mentionClass: 'reference-mention reference',
+    slotClass: 'template-field',
+    filledSlotClass: 'template-field--filled',
     listHostClass: 'reference-picker-popup',
     portal: () => document.body,
   });

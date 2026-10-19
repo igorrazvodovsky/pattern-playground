@@ -169,6 +169,7 @@
 .message-composer__actions,
 .message-composer__input {
   flex: 1 0 100%;
+  min-inline-size: 0;
 }
 
 .message-composer__actions {

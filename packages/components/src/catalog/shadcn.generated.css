@@ -576,6 +576,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .inline {
     display: inline;
   }
+.inline-block {
+    display: inline-block;
+  }
 .inline-flex {
     display: inline-flex;
   }
@@ -1330,6 +1333,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .text-right {
     text-align: right;
+  }
+.align-baseline {
+    vertical-align: baseline;
   }
 .align-middle {
     vertical-align: middle;

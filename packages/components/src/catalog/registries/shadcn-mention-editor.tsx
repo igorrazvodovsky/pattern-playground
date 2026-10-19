@@ -9,10 +9,11 @@ import { isKind, useMentionEditor } from './mention-editor';
 import { scopedPortal } from './shadcn-portal';
 
 // shadcn/ui has no rich text editor, so the field takes Textarea's
-// classes, mentions take the Reference's, and the candidates take the
-// Command list's. The list is not cmdk: focus stays in the editor, which
-// reads the list through aria-activedescendant (mention-editor.ts). The
-// list portals into the scoped root. In a Composer the editor drops its
+// classes, mentions take the Reference's, slots a dashed outline of the
+// Input's border, and the candidates take the Command list's. The list is
+// not cmdk: focus stays in the editor, which reads the list through
+// aria-activedescendant (mention-editor.ts). The list portals into the
+// scoped root. In a Composer the editor drops its
 // border, which the Composer draws around the whole message.
 
 const framed =
@@ -43,6 +44,10 @@ export function MentionEditor({ props, bindings, emit }: ComponentContext<Catalo
     editorClass: clsx(inComposer ? bare : framed, textClass),
     mentionClass:
       'box-decoration-clone cursor-pointer rounded-sm bg-primary/10 px-1 font-medium text-primary outline-none hover:bg-primary/15 focus-visible:ring-[3px] focus-visible:ring-ring/50',
+    slotClass:
+      'inline-block max-w-full rounded-sm border border-dashed border-input align-baseline focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/50',
+    filledSlotClass: 'bg-muted',
+    slotInputClass: 'max-w-full bg-transparent px-1 outline-none placeholder:text-muted-foreground',
     listHostClass: 'z-50',
     portal: scopedPortal,
   });
