@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
-  ItemViewFullDemo,
+  ProductItemView,
   ItemViewSummaryDemo,
   ItemViewTransitionsDemo,
 } from "../demos/item-view";
@@ -17,7 +17,9 @@ export default meta;
 type Story = StoryObj;
 
 export const FullView: Story = {
-  render: () => <ItemViewFullDemo />,
+  // The entity page, every attribute group open. The story is the page, so
+  // it asks the item view for the title the page owns.
+  render: () => <ProductItemView scope="maxi" heading={2} />,
 };
 
 export const Summary: Story = {

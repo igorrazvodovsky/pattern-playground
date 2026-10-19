@@ -341,12 +341,25 @@ Design calls; one sitting each.
   leaves it out. Move problem-checklist onto `cardAttributes` and share the
   attribute list.
 - [ ] *Item layout by role, twice.* `specs/product-view.ts`, shared by the
-  investigate and watch-to-chase specs, copies `ItemView`'s role filtering and
-  its private `specRows` (a record-valued attribute gives one row per key) to
-  lay out the full view. A change to how `ItemView` lays
-  out a scope now has to be made in both. A `layoutByRole(binding, scope,
-  item)` helper in `shared/data/bindings` would serve both; decide together
-  with `ItemView`'s shape, which is still provisional.
+  investigate, watch-to-chase and item-view-full specs, copies `ItemView`'s
+  role filtering and its private `specRows` (a record-valued attribute gives
+  one row per key) to lay out the full view. A change to how `ItemView` lays
+  out a scope now has to be made in both. The copy is also partial:
+  `fullView` keeps the first key attribute, description and footer, and has
+  no output for subtitle, caption, tag, thumbnail or custom roles. The
+  product's maxi scope uses none of them today, but one added there would
+  show in `ItemView` and be left out of the spec demos without a warning. A
+  `layoutByRole(binding, scope, item)` helper in `shared/data/bindings` would
+  serve both; decide together with `ItemView`'s shape, which is still
+  provisional.
+- [ ] *Full-view spec elements, three times.* `specs/investigate.json`,
+  `specs/watch-to-chase-tiers.json` and `specs/item-view-full.json` each hold
+  the same full-view elements (a Card with badges, price, description, a
+  `DescriptionList` and the listed line), differing only in reading `$item`
+  or `$state`. A JSON spec cannot import, so a change to the full view has to
+  be made in all three. The modules beside the specs could build these
+  elements once in TypeScript, for a given state path, and merge them into
+  each spec.
 - [ ] *Overview plus detail.* The same split with a `useFitsWidth` fallback in
   `overview-detail.tsx`, `FluidAttributesDemo.tsx`, `coordinated-views.tsx`.
   Several of these put `aria-label` on a plain `div`.
