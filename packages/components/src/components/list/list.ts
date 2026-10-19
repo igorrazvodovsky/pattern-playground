@@ -114,12 +114,12 @@ export class PpList extends Elena(HTMLElement) {
 
   private handleKeyDown = (event: KeyboardEvent) => {
     const items = this.getAllItems();
-    const activeItem = this.getCurrentItem();
+    const activeItem = this.getActiveItem();
     const currentIndex = activeItem ? items.indexOf(activeItem) : 0;
 
     // Make a selection when pressing enter or space
     if (event.key === 'Enter' || event.key === ' ') {
-      const item = this.getCurrentItem();
+      const item = activeItem;
       event.preventDefault();
       event.stopPropagation();
 
@@ -263,6 +263,16 @@ export class PpList extends Elena(HTMLElement) {
       }
       return true;
     }) as PpListItem[];
+  }
+
+  // The item keyboard input acts on: the focused item, if focus is on one of
+  // this list's items, else the current item. The two can part when focus is
+  // moved without setCurrentItem, and arrow keys then count from the item the
+  // actor sees focused.
+  private getActiveItem() {
+    const focused = this.getAllItems().find(item => item === document.activeElement);
+    if (focused && focused !== this.getCurrentItem()) this.setCurrentItem(focused);
+    return focused ?? this.getCurrentItem();
   }
 
   // Gets the current list item, which is the list item that has `tabindex="0"` within the roving tab index.

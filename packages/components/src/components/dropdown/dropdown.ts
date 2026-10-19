@@ -476,8 +476,11 @@ export class PpDropdown extends Elena(HTMLElement) {
 
       this.dispatchEvent(new CustomEvent('pp-after-show', { bubbles: true, cancelable: false, composed: true }))
 
-      // Focus first item for better keyboard navigation
-      if (list) {
+      // Make the first item current for keyboard navigation, unless an item
+      // already took focus while the popup animated in (ArrowUp from the
+      // trigger focuses the last one): resetting it here would leave focus
+      // on one item and the roving tabindex on another.
+      if (list && !list.contains(document.activeElement)) {
         const items = list.getAllItems();
         if (items.length > 0) {
           list.setCurrentItem(items[0]);

@@ -2,6 +2,7 @@
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 
 const meta = {
   title: "Components/Dropdown",
@@ -28,6 +29,23 @@ export const Dropdown: Story = {
       </pp-popup>
     </pp-dropdown>
   ),
+  // ArrowUp on the trigger opens the dropdown on its last item. The item stays
+  // current once the popup has animated in, so the next ArrowUp moves to the
+  // item above it rather than counting from the first.
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const dropdown = canvasElement.querySelector("pp-dropdown")!;
+    const shown = new Promise(resolve => dropdown.addEventListener("pp-after-show", resolve, { once: true }));
+    canvas.getByRole("button", { name: /Dropdown/ }).focus();
+    await userEvent.keyboard("{ArrowUp}");
+    await shown;
+    const items = [...canvasElement.querySelectorAll("pp-list-item")];
+    await waitFor(() => expect(items[2]).toHaveFocus());
+    expect(items[2]).toHaveAttribute("tabindex", "0");
+    await userEvent.keyboard("{ArrowUp}");
+    expect(items[1]).toHaveFocus();
+    await userEvent.keyboard("{Escape}");
+  },
 };
 
 export const DropdownWithSubmenus: Story = {
