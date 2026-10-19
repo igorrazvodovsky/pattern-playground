@@ -14,7 +14,8 @@ import spec from './monitor.json' with { type: 'json' };
 // Whether a trend is good is decided per figure, not by its direction: more
 // listings reads as growth, a lower carbon footprint or fewer flags as
 // improvement, so the same upward arrow is good on one tile and bad on
-// another. Each tile arrives with its trend's text, icon and tone set.
+// another. Each tile arrives with its trend's text, icon and tone set. The
+// icon carries the direction, so the text is the size of the change alone.
 
 interface Figure {
   label: string;
@@ -24,10 +25,9 @@ interface Figure {
   unit?: string;
   verdict: string;
   detail: string;
-  alert?: boolean;
 }
 
-const tile = ({ label, current, previous, upIsGood, unit, verdict, detail, alert }: Figure) => {
+const tile = ({ label, current, previous, upIsGood, unit, verdict, detail }: Figure) => {
   const delta = current - previous;
   return {
     label,
@@ -35,8 +35,7 @@ const tile = ({ label, current, previous, upIsGood, unit, verdict, detail, alert
     unit: unit ?? null,
     verdict,
     detail,
-    alert: alert ?? false,
-    trend: `${delta > 0 ? '+' : delta < 0 ? '−' : '±'}${Math.abs(delta)}`,
+    trend: String(Math.abs(delta)),
     trendIcon: delta > 0 ? 'increase' : delta < 0 ? 'decrease' : 'unchanged',
     trendTone: delta === 0 ? 'neutral' : delta > 0 === upIsGood ? 'success' : 'danger',
   };
@@ -95,7 +94,6 @@ const tiles = [
     current: flaggedItems,
     previous: metrics.flagged,
     upIsGood: false,
-    alert: flaggedItems > 0,
     verdict: byCycle(
       flaggedItems - metrics.flagged,
       `${flaggedItems - metrics.flagged} more than last cycle`,

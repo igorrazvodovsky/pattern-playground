@@ -55,7 +55,7 @@ export const Stat: Story = {
         value="3"
         verdict="Two resolved since last week"
         detail="Oldest has been open 12 days"
-        delta="−2"
+        delta="2"
         deltaIcon="ph:arrow-down-right"
         trend="success"
       />
@@ -71,7 +71,7 @@ export const Stat: Story = {
         value="7"
         verdict="Backlog growing"
         detail="4 waiting on supplier data"
-        delta="+3"
+        delta="3"
         deltaIcon="ph:arrow-up-right"
         trend="danger"
         alert

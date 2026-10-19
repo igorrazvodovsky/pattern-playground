@@ -129,6 +129,7 @@
     --font-weight-bold: 700;
     --tracking-tight: -.025em;
     --tracking-wide: .025em;
+    --leading-snug: 1.375;
     --leading-relaxed: 1.625;
     --radius-xs: .125rem;
     --animate-spin: shadcn-spin 1s linear infinite;
@@ -508,6 +509,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .mt-2 {
     margin-top: calc(var(--spacing) * 2);
+  }
+.mt-3 {
+    margin-top: calc(var(--spacing) * 3);
   }
 .mt-4 {
     margin-top: calc(var(--spacing) * 4);
@@ -1556,6 +1560,21 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 @media (hover: hover) {.group-hover\:opacity-100:is(:where(.group):hover *) {
       opacity: 1;
     }}
+.group-has-data-\[slot\=stat\]\/card\:text-sm:is(:where(.group\/card):has([data-slot="stat"]) *) {
+    font-size: var(--text-sm);
+    line-height: var(--tw-leading, var(--text-sm--line-height));
+  }
+.group-has-data-\[slot\=stat\]\/card\:leading-snug:is(:where(.group\/card):has([data-slot="stat"]) *) {
+    --tw-leading: var(--leading-snug);
+    line-height: var(--leading-snug);
+  }
+.group-has-data-\[slot\=stat\]\/card\:font-normal:is(:where(.group\/card):has([data-slot="stat"]) *) {
+    --tw-font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-normal);
+  }
+.group-has-data-\[slot\=stat\]\/card\:text-muted-foreground:is(:where(.group\/card):has([data-slot="stat"]) *) {
+    color: var(--muted-foreground);
+  }
 .group-data-\[disabled\=true\]\:pointer-events-none:is(:where(.group)[data-disabled="true"] *) {
     pointer-events: none;
   }
@@ -1846,6 +1865,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .has-data-\[slot\=card-action\]\:grid-cols-\[1fr_auto\]:has([data-slot="card-action"]) {
     grid-template-columns: 1fr auto;
+  }
+.has-data-\[slot\=stat\]\:gap-2:has([data-slot="stat"]) {
+    gap: calc(var(--spacing) * 2);
   }
 .has-\[\>svg\]\:grid-cols-\[calc\(var\(--spacing\)\*4\)_1fr\]:has( > svg) {
     grid-template-columns: calc(var(--spacing) * 4) 1fr;

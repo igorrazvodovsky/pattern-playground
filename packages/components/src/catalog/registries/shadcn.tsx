@@ -194,7 +194,7 @@ export const { registry } = defineRegistry(catalog, {
 
     Grid: ({ props, children }) => (
       <div
-        className="grid grid-cols-[repeat(auto-fill,minmax(min(var(--min-column),100%),1fr))] items-start gap-4"
+        className="grid grid-cols-[repeat(auto-fill,minmax(min(var(--min-column),100%),1fr))] gap-4"
         style={{ '--min-column': columnWidth[props.minColumnWidth ?? 'm'] } as CSSProperties}
       >
         {children}
@@ -208,6 +208,8 @@ export const { registry } = defineRegistry(catalog, {
     // title button's ::after covers the card, the suffix and actions sit above
     // it, and focus is shown on the cover so the whole card is marked. The
     // button takes focus when it appears, if `focusOnShow` (focus-on-show.ts).
+    // A card holding a Stat sets its title as the section card's muted
+    // description and draws the header close, so the figure leads.
     Card: ({ props, children, slots, emit, ...context }) => {
       const openRef = useRef<HTMLButtonElement>(null);
       useFocusOnShow(openRef, props.focusOnShow);
@@ -216,10 +218,15 @@ export const { registry } = defineRegistry(catalog, {
       }
       const above = props.opens && 'relative z-10';
       return (
-        <div className={clsx('flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm', props.opens && 'relative')}>
+        <div
+          className={clsx(
+            'group/card flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm has-data-[slot=stat]:gap-2',
+            props.opens && 'relative',
+          )}
+        >
           <div className="grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto]">
             {props.title && (
-              <div className="leading-none font-semibold">
+              <div className="leading-none font-semibold group-has-data-[slot=stat]/card:text-sm group-has-data-[slot=stat]/card:leading-snug group-has-data-[slot=stat]/card:font-normal group-has-data-[slot=stat]/card:text-muted-foreground">
                 {props.opens ? (
                   <button
                     ref={openRef}
@@ -456,15 +463,21 @@ export const { registry } = defineRegistry(catalog, {
 
     // The figure of shadcn's dashboard section cards: large, semibold, with
     // tabular figures; the verdict and the muted detail as its card footer
-    // sets them. shadcn has no alert figure; it takes the destructive colour.
+    // sets them, a step below the figure. The card holding it takes the
+    // section card's muted description for its title (Card, above). shadcn
+    // has no alert figure; it takes the destructive colour.
     Stat: ({ props }) => (
-      <div className="flex flex-col gap-1.5 text-sm">
+      <div data-slot="stat" className="flex flex-col text-sm">
         <p className={clsx('text-3xl font-semibold tabular-nums', props.alert && 'text-destructive')}>
           {props.value}
           {props.unit && <span className="text-sm font-normal text-muted-foreground"> {props.unit}</span>}
         </p>
-        {props.verdict && <p className="font-medium">{props.verdict}</p>}
-        {props.detail && <p className="text-muted-foreground">{props.detail}</p>}
+        {(props.verdict || props.detail) && (
+          <div className="mt-3 flex flex-col gap-1">
+            {props.verdict && <p className="font-medium">{props.verdict}</p>}
+            {props.detail && <p className="text-muted-foreground">{props.detail}</p>}
+          </div>
+        )}
       </div>
     ),
 

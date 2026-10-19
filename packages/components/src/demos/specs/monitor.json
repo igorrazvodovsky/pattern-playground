@@ -23,8 +23,7 @@
         "value": { "$item": "value" },
         "unit": { "$item": "unit" },
         "verdict": { "$item": "verdict" },
-        "detail": { "$item": "detail" },
-        "alert": { "$item": "alert" }
+        "detail": { "$item": "detail" }
       }
     }
   }
