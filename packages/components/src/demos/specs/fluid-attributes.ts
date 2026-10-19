@@ -1,20 +1,11 @@
 import type { Spec } from '@json-render/core';
 import { products } from '@shared/data';
-import {
-  applyFilters,
-  filterOperatorsFor,
-  findAttribute,
-  isNumericValueType,
-  productBinding,
-  type AttributeFilter,
-  type FilterOperator,
-} from '@shared/data/bindings';
+import { applyFilters, findAttribute, productBinding, type AttributeFilter } from '@shared/data/bindings';
 import type { Product } from '@shared/data/types';
-import type { FilterEdit } from '../../catalog/filter-edit';
 import type { SpecSetup } from '../../catalog/SpecDemo';
 import { getAvailableAttributes } from '../../templates/collection-view/AttributeUtils';
-import { getUniqueAttributeValues } from '../../templates/collection-view/FilterOperations';
 import { sortItems } from '../../templates/collection-view/SortingUtils';
+import { filterClauses, KEEPS } from './filter-clauses';
 import { attributeLabel, cardAttributes } from './product-view';
 import spec from './fluid-attributes.json' with { type: 'json' };
 
@@ -65,35 +56,7 @@ interface View {
   filters: AttributeFilter[];
 }
 
-// Each clause offers the operators the filtering pattern's operator table
-// gives its attribute and value count, and the values the attribute takes in
-// the collection, as the filter bar lists them. A pressed value is a value as
-// shown, so a numeric attribute also offers the membership operators, which
-// the matcher compares on the value as shown; the table offers only
-// comparisons for it.
-const NEGATING = new Set<FilterOperator>(['is not', 'do not include', 'exclude all of', 'exclude if any of']);
-const KEEPS: FilterOperator[] = ['is', 'is any of', 'include', 'include any of'];
-const EXCLUDES: FilterOperator[] = ['is not', 'do not include', 'exclude if any of', 'exclude all of'];
-
-const operatorsFor = ({ path, values }: Pick<AttributeFilter, 'path' | 'values'>): FilterOperator[] => {
-  const attribute = findAttribute(productBinding, path);
-  const table = filterOperatorsFor(attribute, values);
-  if (!attribute || !isNumericValueType(attribute.valueType)) return table;
-  return [...(values.length > 1 ? ['is any of', 'is not'] : ['is', 'is not']) as FilterOperator[], ...table];
-};
-const optionsFor = (path: string) => getUniqueAttributeValues(CATALOGUE, path, productBinding);
-
-/**
- * The operator a clause takes when its values change: its own while it is
- * still offered, else the offered one that says the same about the values,
- * keeping the items that have them or excluding them. One value is stated as
- * equality and several as alternatives.
- */
-const operatorAfter = (operator: FilterOperator, offered: FilterOperator[]) => {
-  if (offered.includes(operator)) return operator;
-  const same = NEGATING.has(operator) ? EXCLUDES : KEEPS;
-  return same.find(candidate => offered.includes(candidate)) ?? offered[0] ?? operator;
-};
+const { operatorsFor, operatorAfter, keeping, chip, applyEdit, removeFilter } = filterClauses(CATALOGUE, productBinding);
 
 // A date can be filtered only by a phrase or a boundary, never by the value
 // as shown, so a date on a card is not pressable.
@@ -115,16 +78,7 @@ const derive = ({ view }: Record<string, unknown>) => {
       attributes: cardOf(item).map(attribute => ({ ...attribute, pressable: pressable(attribute.path) })),
     })),
     sortFields: [{ path: 'name', label: 'Name' }, ...shown.map(path => ({ path, label: attributeLabel(path) }))],
-    clauses: filters.map(filter => ({
-      id: filter.id,
-      label: attributeLabel(filter.path),
-      // The binding names the attribute's icon by meaning, as the catalog does.
-      icon: findAttribute(productBinding, filter.path)?.icon ?? null,
-      operator: filter.operator,
-      operators: operatorsFor(filter),
-      values: filter.values,
-      options: optionsFor(filter.path),
-    })),
+    clauses: filters.map(chip),
   };
 };
 
@@ -154,12 +108,7 @@ const filterBy = ({ filters, path, value }: Record<string, unknown>) => {
   const attribute = String(path);
   const shown = String(value);
   const existing = current.find(filter => filter.path === attribute);
-  const fresh = (): AttributeFilter => ({
-    id: attribute,
-    path: attribute,
-    operator: operatorAfter('is', operatorsFor({ path: attribute, values: [shown] })),
-    values: [shown],
-  });
+  const fresh = () => keeping(attribute, attribute, shown);
   if (!existing) return [...current, fresh()];
   if (!KEEPS.includes(existing.operator)) return current.map(filter => (filter === existing ? fresh() : filter));
   if (existing.values.includes(shown)) return current;
@@ -168,25 +117,6 @@ const filterBy = ({ filters, path, value }: Record<string, unknown>) => {
     filter === existing ? { ...filter, values, operator: operatorAfter(filter.operator, operatorsFor({ path: attribute, values })) } : filter,
   );
 };
-
-/**
- * The filters with one chip's edit applied: a new operator, or a value added
- * or taken away. When the values change, the clause keeps what it says about
- * them (operatorAfter). A clause left with no values goes.
- */
-const applyEdit = ({ filters, id, edit }: Record<string, unknown>) => {
-  const { kind, value } = (edit ?? {}) as Partial<FilterEdit>;
-  return ((filters ?? []) as AttributeFilter[]).flatMap(filter => {
-    if (filter.id !== id || value == null) return [filter];
-    if (kind === 'operator') return [{ ...filter, operator: value as FilterOperator }];
-    const values = kind === 'add' ? [...filter.values, value] : filter.values.filter(each => each !== value);
-    if (values.length === 0) return [];
-    return [{ ...filter, values, operator: operatorAfter(filter.operator, operatorsFor({ path: filter.path, values })) }];
-  });
-};
-
-const removeFilter = ({ filters, id }: Record<string, unknown>) =>
-  ((filters ?? []) as AttributeFilter[]).filter(filter => filter.id !== id);
 
 const view: View = {
   shown: ['category', 'pricing.msrp'],

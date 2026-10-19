@@ -446,15 +446,15 @@ Design calls; one sitting each.
   layout is in force three times (and its complement twice), and its four
   layout menu items repeat the same three actions, differing only in the
   layout.
-- [ ] *Filter chip, three times.* The chip that edits one filter condition
+- [ ] *Filter chip, twice.* The chip that edits one filter condition
   (attribute, operator, values, remove) is written in
-  `components/filter/filter-components.tsx`, tied to the task fixtures; in
-  `demos/data-view/ProductFilters.tsx` with its operator and value dropdowns;
-  and in `catalog/registries/pp-filter-tag.tsx`, the catalog's `FilterTag`,
-  which takes everything as props. A fix to one, such as how the value list
-  orders or searches, misses the others. The library component could take its
-  operators and options as props, as `FilterTag` does, and the other two use
-  it.
+  `components/filter/filter-components.tsx`, tied to the task fixtures, and
+  in `catalog/registries/pp-filter-tag.tsx`, the catalog's `FilterTag`, which
+  takes everything as props. A fix to one, such as how the value list orders
+  or searches, misses the other. The data view's own copy went when it moved
+  to a spec; it and fluid-attributes now edit conditions through `FilterTag`,
+  with operators and options from `demos/specs/filter-clauses.ts`. The
+  filtering demo is the last user of the library chip.
 - [ ] *Overview plus detail.* `coordinated-views.tsx` still lays out its split
   with its own `useFitsWidth` fallback and puts `aria-label` on a plain `div`.
   The overview-detail layout and fluid-attributes demos render through the

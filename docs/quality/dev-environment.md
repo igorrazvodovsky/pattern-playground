@@ -49,7 +49,7 @@ proves nothing about whether the `optimizeDeps.entries` globs still resolve.
 After deleting source files, clear `node_modules/.vite` (repo root,
 `apps/patterns`, `packages/components`) before trusting or diagnosing a
 dev-server failure. `watch-dep-registry.ts` reports both cases and says which
-one fired. Demos with wide React barrels (`demos/data-view/index.ts`) fail
+one fired. Demos with wide React barrels fail
 loudest, but every island degrades the same way.
 
 ## Storybook in a git worktree: story-index flap

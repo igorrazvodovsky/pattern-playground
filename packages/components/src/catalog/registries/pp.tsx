@@ -6,9 +6,9 @@ import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type pu
 import type { MapComponent, MapSelectDetail } from '../../components/map/map';
 import type { ToastHandle } from '../../components/toast/toast';
 import { Combobox, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxList } from '../../components/combobox';
-import { captureOpener, settleFocus, useReturnFocus, type Opener } from './dialog-focus';
+import { captureOpener, focusDemoIfOpenerGone, settleFocus, useReturnFocus, type Opener } from './dialog-focus';
 import { useCandidateList } from './candidate-list';
-import { useDisclosureState } from './disclosure-state';
+import { useDisclosureOpen, useDisclosureState } from './disclosure-state';
 import { attributeGlyphs } from '../../utility/attribute-icons';
 import { useStackDrop } from './drag-drop';
 import { MenuMultiple } from './menu-multiple';
@@ -73,6 +73,7 @@ const icons: Record<(typeof iconNames)[number], string> = {
   attach: 'ph:paperclip',
   back: 'ph:arrow-left',
   cancel: 'ph:x',
+  cards: 'ph:squares-four',
   clear: 'ph:eraser',
   confirm: 'ph:check',
   decrease: 'ph:arrow-down-right',
@@ -82,8 +83,10 @@ const icons: Record<(typeof iconNames)[number], string> = {
   detail: 'ph:square-split-horizontal',
   example: 'ph:text-aa',
   external: 'ph:arrow-square-out',
+  filter: 'ph:funnel-simple',
   full: 'ph:frame-corners',
   generated: 'ph:sparkle',
+  group: 'ph:stack',
   guide: 'ph:book-open',
   history: 'ph:clock-counter-clockwise',
   'in-place': 'ph:rows',
@@ -103,6 +106,7 @@ const icons: Record<(typeof iconNames)[number], string> = {
   reasoning: 'ph:lightbulb',
   'remove-person': 'ph:user-minus',
   restore: 'ph:arrow-arc-left',
+  saved: 'ph:bookmark-simple',
   search: 'ph:magnifying-glass',
   send: 'ph:arrow-elbow-down-left',
   settings: 'ph:sliders-horizontal',
@@ -111,6 +115,7 @@ const icons: Record<(typeof iconNames)[number], string> = {
   sort: 'ph:arrows-down-up',
   suggest: 'ph:lightbulb-filament',
   summary: 'ph:cards',
+  table: 'ph:table',
   transfer: 'ph:crown-simple',
   unchanged: 'ph:minus',
   web: 'ph:globe',
@@ -358,6 +363,22 @@ export const { registry } = defineRegistry(catalog, {
             <Subsection>{children}</Subsection>
           </div>
         </>
+      );
+    },
+
+    // The library's disclosure: a details element on a layer of its own,
+    // with the count as a badge beside the title. The element reports every
+    // change of `open`, the ones React makes included, so a change that
+    // agrees with the state is no change.
+    Disclosure: ({ props, children, bindings, emit }) => {
+      const [open, change] = useDisclosureOpen(props.open, bindings?.open, emit);
+      return (
+        <details className="layer borderless" open={open} onToggle={event => change(event.currentTarget.open)}>
+          <summary>
+            {props.title} {props.count != null && <span className="badge">{props.count}</span>}
+          </summary>
+          <div className="flow">{children}</div>
+        </details>
       );
     },
 
@@ -722,6 +743,20 @@ export const { registry } = defineRegistry(catalog, {
         });
         return () => cancelAnimationFrame(frame);
       }, [open, mayTakeFocus]);
+      // The spec closing the panel, such as once a choice in it is made,
+      // hides what has focus: it goes back as when the actor closes it.
+      const wasOpen = useRef(open);
+      useLayoutEffect(() => {
+        if (wasOpen.current && !open) {
+          const active = document.activeElement;
+          // Not settleFocus: the panel still counts as an open window here.
+          const back = opener.current;
+          if (back && (!active || active === document.body || panel.current?.contains(active)) && !focusDemoIfOpenerGone(back)) {
+            back.element?.focus();
+          }
+        }
+        wasOpen.current = open;
+      }, [open]);
       useEffect(() => {
         const el = popup.current;
         if (!el) return;
@@ -932,8 +967,13 @@ export const { registry } = defineRegistry(catalog, {
     // to the library combobox's own width rather than the demo's.
     Combobox: ({ props, bindings, emit }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
-      const { open, groups, root, input, list, pick } = useCandidateList(props.groups, value ?? '', setValue, () =>
-        emit('select'),
+      const [scope, setScope] = useBoundProp(props.scope, bindings?.scope);
+      const { open, groups, root, input, list, pick } = useCandidateList(
+        props.groups,
+        value ?? '',
+        setValue,
+        () => emit('select'),
+        { value: scope, set: setScope },
       );
       return (
         <div style={{ ...fieldLayout, justifyItems: 'start' }}>

@@ -1,0 +1,415 @@
+{
+  "root": "data-view",
+  "elements": {
+    "data-view": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["view-name", "toolbar", "filters", "no-attributes", "no-results", "groups"],
+      "watch": {
+        "/view": {
+          "action": "setState",
+          "params": {
+            "statePath": "/derived",
+            "value": { "$computed": "derive", "args": { "view": { "$state": "/view" }, "query": { "$state": "/query" } } }
+          }
+        },
+        "/query": {
+          "action": "setState",
+          "params": {
+            "statePath": "/derived",
+            "value": { "$computed": "derive", "args": { "view": { "$state": "/view" }, "query": { "$state": "/query" } } }
+          }
+        }
+      }
+    },
+
+    "view-name": {
+      "type": "Text",
+      "props": { "text": { "$computed": "savedLabel", "args": { "id": { "$state": "/activeView" } } }, "size": "large" },
+      "visible": { "$state": "/derived/show/views" }
+    },
+
+    "toolbar": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "children": ["views-menu", "as-menu", "search", "filter-add", "clear-filters", "attributes-menu", "sort-menu", "order-menu", "group-menu"]
+    },
+    "views-menu": {
+      "type": "Menu",
+      "props": { "label": "Saved views", "icon": "saved" },
+      "visible": { "$state": "/derived/show/views" },
+      "repeat": { "statePath": "/saved", "key": "id" },
+      "children": ["saved-view"]
+    },
+    "saved-view": {
+      "type": "MenuItem",
+      "props": {
+        "label": { "$item": "label" },
+        "checked": { "$cond": { "$item": "id", "eq": { "$state": "/activeView" } }, "$then": true, "$else": false }
+      },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/activeView", "value": { "$computed": "value", "args": { "value": { "$item": "id" } } } } },
+          { "action": "setState", "params": { "statePath": "/view", "value": { "$computed": "savedView", "args": { "id": { "$item": "id" } } } } }
+        ]
+      }
+    },
+    "as-menu": {
+      "type": "Menu",
+      "props": {
+        "label": "Show as",
+        "icon": { "$cond": { "$state": "/derived/as", "eq": "table" }, "$then": "table", "$else": "cards" }
+      },
+      "visible": { "$state": "/derived/show/viewSwitcher" },
+      "children": ["as-cards", "as-table"]
+    },
+    "as-cards": {
+      "type": "MenuItem",
+      "props": {
+        "label": "Cards",
+        "icon": "cards",
+        "checked": { "$cond": { "$state": "/derived/as", "eq": "cards" }, "$then": true, "$else": false }
+      },
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": { "statePath": "/view", "value": { "$computed": "representAs", "args": { "view": { "$state": "/view" }, "as": "cards" } } }
+        }
+      }
+    },
+    "as-table": {
+      "type": "MenuItem",
+      "props": {
+        "label": "Table",
+        "icon": "table",
+        "checked": { "$cond": { "$state": "/derived/as", "eq": "table" }, "$then": true, "$else": false }
+      },
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": { "statePath": "/view", "value": { "$computed": "representAs", "args": { "view": { "$state": "/view" }, "as": "table" } } }
+        }
+      }
+    },
+    "search": {
+      "type": "Input",
+      "props": { "label": "Search products", "hideLabel": true, "placeholder": "Search…", "value": { "$bindState": "/query" } },
+      "visible": { "$state": "/derived/show/search" }
+    },
+    "filter-add": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "none" },
+      "visible": { "$state": "/derived/show/filter" },
+      "children": ["filter-button", "filter-popover"]
+    },
+    "filter-button": {
+      "type": "Button",
+      "props": {
+        "label": "Add a filter",
+        "icon": "filter",
+        "hideLabel": true,
+        "expanded": { "$state": "/filterOpen" }
+      },
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": { "statePath": "/filterOpen", "value": { "$cond": { "$state": "/filterOpen" }, "$then": false, "$else": true } }
+        }
+      }
+    },
+    "filter-popover": {
+      "type": "Popover",
+      "props": { "title": "Add a filter", "open": { "$bindState": "/filterOpen" } },
+      "children": ["filter-field"]
+    },
+    "filter-field": {
+      "type": "Combobox",
+      "props": {
+        "label": "Filter by",
+        "hideLabel": true,
+        "placeholder": { "$computed": "placeholder", "args": { "scope": { "$state": "/filterScope" } } },
+        "value": { "$bindState": "/filterQuery" },
+        "scope": { "$bindState": "/filterScope" },
+        "groups": { "$computed": "candidates", "args": { "query": { "$state": "/filterQuery" }, "scope": { "$state": "/filterScope" } } }
+      },
+      "on": {
+        "select": [
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/view",
+              "value": { "$computed": "addFilter", "args": { "view": { "$state": "/view" }, "picked": { "$state": "/filterQuery" } } }
+            }
+          },
+          { "action": "setState", "params": { "statePath": "/filterQuery", "value": "" } },
+          { "action": "setState", "params": { "statePath": "/filterOpen", "value": false } }
+        ]
+      }
+    },
+    "clear-filters": {
+      "type": "Button",
+      "props": { "label": "Clear filters", "icon": "cancel", "hideLabel": true, "focusNext": "Add a filter" },
+      "visible": [{ "$state": "/derived/show/filter" }, { "$state": "/derived/filtered" }],
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": { "statePath": "/view", "value": { "$computed": "clearFilters", "args": { "view": { "$state": "/view" } } } }
+        }
+      }
+    },
+    "attributes-menu": {
+      "type": "Menu",
+      "props": { "label": "Attributes shown", "icon": "show", "multiple": true },
+      "visible": { "$state": "/derived/show/attributes" },
+      "repeat": { "statePath": "/attributes", "key": "path" },
+      "children": ["attribute-option"]
+    },
+    "attribute-option": {
+      "type": "MenuItem",
+      "props": {
+        "label": { "$item": "label" },
+        "checked": {
+          "$computed": "includes",
+          "args": { "list": { "$state": "/view/representation/shownAttributes" }, "value": { "$item": "path" } }
+        }
+      },
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": {
+            "statePath": "/view",
+            "value": { "$computed": "toggleAttribute", "args": { "view": { "$state": "/view" }, "path": { "$item": "path" } } }
+          }
+        }
+      }
+    },
+    "sort-menu": {
+      "type": "Menu",
+      "props": { "label": "Sort by", "icon": "sort" },
+      "visible": { "$state": "/derived/show/sort" },
+      "repeat": { "statePath": "/derived/sortFields", "key": "path" },
+      "children": ["sort-field"]
+    },
+    "sort-field": {
+      "type": "MenuItem",
+      "props": {
+        "label": { "$item": "label" },
+        "checked": { "$cond": { "$item": "path", "eq": { "$state": "/derived/sortField" } }, "$then": true, "$else": false }
+      },
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": {
+            "statePath": "/view",
+            "value": { "$computed": "sortBy", "args": { "view": { "$state": "/view" }, "field": { "$item": "path" } } }
+          }
+        }
+      }
+    },
+    "order-menu": {
+      "type": "Menu",
+      "props": {
+        "label": "Sort order",
+        "icon": { "$cond": { "$state": "/derived/sortOrder", "eq": "asc" }, "$then": "ascending", "$else": "descending" }
+      },
+      "visible": { "$state": "/derived/show/sort" },
+      "children": ["order-ascending", "order-descending"]
+    },
+    "order-ascending": {
+      "type": "MenuItem",
+      "props": {
+        "label": "Ascending",
+        "icon": "ascending",
+        "checked": { "$cond": { "$state": "/derived/sortOrder", "eq": "asc" }, "$then": true, "$else": false }
+      },
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": { "statePath": "/view", "value": { "$computed": "sortOrder", "args": { "view": { "$state": "/view" }, "order": "asc" } } }
+        }
+      }
+    },
+    "order-descending": {
+      "type": "MenuItem",
+      "props": {
+        "label": "Descending",
+        "icon": "descending",
+        "checked": { "$cond": { "$state": "/derived/sortOrder", "eq": "desc" }, "$then": true, "$else": false }
+      },
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": { "statePath": "/view", "value": { "$computed": "sortOrder", "args": { "view": { "$state": "/view" }, "order": "desc" } } }
+        }
+      }
+    },
+    "group-menu": {
+      "type": "Menu",
+      "props": { "label": "Group by", "icon": "group" },
+      "visible": { "$state": "/derived/show/group" },
+      "repeat": { "statePath": "/groupable", "key": "path" },
+      "children": ["group-option"]
+    },
+    "group-option": {
+      "type": "MenuItem",
+      "props": {
+        "label": { "$item": "label" },
+        "checked": { "$cond": { "$item": "path", "eq": { "$state": "/derived/groupBy" } }, "$then": true, "$else": false }
+      },
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": {
+            "statePath": "/view",
+            "value": { "$computed": "groupBy", "args": { "view": { "$state": "/view" }, "path": { "$item": "path" } } }
+          }
+        }
+      }
+    },
+
+    "filters": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "visible": [{ "$state": "/derived/show/filter" }, { "$state": "/derived/filtered" }],
+      "repeat": { "statePath": "/derived/clauses", "key": "id" },
+      "children": ["filter"]
+    },
+    "filter": {
+      "type": "FilterTag",
+      "props": {
+        "label": { "$item": "label" },
+        "icon": { "$item": "icon" },
+        "operator": { "$item": "operator" },
+        "operators": { "$item": "operators" },
+        "values": { "$item": "values" },
+        "options": { "$item": "options" },
+        "focusNext": "Clear filter",
+        "edit": { "$bindState": "/filterEdit" }
+      },
+      "on": {
+        "change": {
+          "action": "setState",
+          "params": {
+            "statePath": "/view",
+            "value": {
+              "$computed": "editFilter",
+              "args": { "view": { "$state": "/view" }, "id": { "$item": "id" }, "edit": { "$state": "/filterEdit" } }
+            }
+          }
+        },
+        "remove": {
+          "action": "setState",
+          "params": {
+            "statePath": "/view",
+            "value": { "$computed": "removeFilter", "args": { "view": { "$state": "/view" }, "id": { "$item": "id" } } }
+          }
+        }
+      }
+    },
+
+    "no-attributes": {
+      "type": "EmptyState",
+      "props": {
+        "title": "Select attributes to view",
+        "description": "Choose which product details to show from the attributes menu.",
+        "icon": "show"
+      },
+      "visible": { "$state": "/derived/noAttributes" }
+    },
+    "no-results": {
+      "type": "EmptyState",
+      "props": { "title": "No results found", "description": { "$state": "/derived/emptyMessage" }, "icon": "search" },
+      "visible": { "$state": "/derived/empty" }
+    },
+
+    "groups": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": [{ "$state": "/derived/noAttributes", "not": true }, { "$state": "/derived/empty", "not": true }],
+      "repeat": { "statePath": "/derived/groups", "key": "key" },
+      "children": ["group", "ungrouped"]
+    },
+    "group": {
+      "type": "Disclosure",
+      "props": {
+        "title": { "$item": "key" },
+        "count": { "$item": "count" },
+        "open": { "$computed": "excludes", "args": { "list": { "$state": "/closed" }, "value": { "$item": "key" } } }
+      },
+      "visible": { "$state": "/derived/grouped" },
+      "children": ["items"],
+      "on": {
+        "toggle": {
+          "action": "setState",
+          "params": {
+            "statePath": "/closed",
+            "value": { "$computed": "toggleIn", "args": { "list": { "$state": "/closed" }, "value": { "$item": "key" } } }
+          }
+        }
+      }
+    },
+    "ungrouped": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$state": "/derived/grouped", "not": true },
+      "children": ["items"]
+    },
+    "items": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["card-grid", "card-list", "table"]
+    },
+    "card-grid": {
+      "type": "Grid",
+      "props": {},
+      "visible": { "$state": "/derived/as", "eq": "cards" },
+      "repeat": { "statePath": { "$item": "cards" }, "key": "id" },
+      "children": ["card"]
+    },
+    "card-list": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$state": "/derived/as", "eq": "list" },
+      "repeat": { "statePath": { "$item": "cards" }, "key": "id" },
+      "children": ["card"]
+    },
+    "card": {
+      "type": "Card",
+      "props": { "title": { "$item": "name" } },
+      "slots": { "attributes": ["card-attributes"] },
+      "children": ["card-description"]
+    },
+    "card-description": {
+      "type": "Text",
+      "props": { "text": { "$item": "description" }, "muted": true },
+      "visible": { "$item": "description" }
+    },
+    "card-attributes": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "repeat": { "statePath": { "$item": "attributes" } },
+      "children": ["card-attribute"]
+    },
+    "card-attribute": {
+      "type": "Badge",
+      "props": { "label": { "$item": "label" }, "text": { "$item": "value" } }
+    },
+    "table": {
+      "type": "Table",
+      "props": { "label": "Products", "columns": { "$state": "/derived/columns" } },
+      "visible": { "$state": "/derived/as", "eq": "table" },
+      "repeat": { "statePath": { "$item": "rows" }, "key": "id" },
+      "children": ["table-row"]
+    },
+    "table-row": {
+      "type": "TableRow",
+      "props": {},
+      "repeat": { "statePath": { "$item": "cells" } },
+      "children": ["table-cell"]
+    },
+    "table-cell": {
+      "type": "TableCell",
+      "props": { "text": { "$item": "text" }, "align": { "$item": "align" } }
+    }
+  }
+}

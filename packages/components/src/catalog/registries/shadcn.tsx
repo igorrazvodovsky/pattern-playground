@@ -1,7 +1,7 @@
 import { Fragment, Suspense, useContext, useId, useRef, type CSSProperties } from 'react';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import { createPortal } from 'react-dom';
-import { Checkbox, Dialog, DropdownMenu, Popover, RadioGroup, Select, Slider, Toast, ToggleGroup, Tooltip } from 'radix-ui';
+import { Checkbox, Collapsible, Dialog, DropdownMenu, Popover, RadioGroup, Select, Slider, Toast, ToggleGroup, Tooltip } from 'radix-ui';
 import { shadcnComponents } from '@json-render/shadcn';
 import { Command } from 'cmdk';
 import clsx from 'clsx';
@@ -16,6 +16,7 @@ import {
   Award,
   Bell,
   BookOpen,
+  Bookmark,
   Calendar,
   CalendarCheck,
   CalendarPlus,
@@ -37,12 +38,15 @@ import {
   ExternalLink,
   FolderOpen,
   Globe,
+  Group,
   History,
   IdCard,
   Info,
+  LayoutGrid,
   Layers,
   Lightbulb,
   Link,
+  ListFilter,
   LoaderCircle,
   Maximize2,
   MessageSquare,
@@ -57,6 +61,7 @@ import {
   SignalHigh,
   SlidersHorizontal,
   Store,
+  Table2,
   Sparkles,
   Tag,
   Trash2,
@@ -85,7 +90,7 @@ import { RuleBuilder, type RuleTree } from './shadcn-rule-builder';
 import { Subsection, useHeading } from './heading-level';
 import { Section, Sections } from './shadcn-sections';
 import { Timeline, TimelineEntry } from './shadcn-timeline';
-import { useDisclosureState } from './disclosure-state';
+import { useDisclosureOpen, useDisclosureState } from './disclosure-state';
 import { useStackDrop } from './drag-drop';
 import { MenuMultiple } from './menu-multiple';
 import { DraggableRow } from './shadcn-draggable-row';
@@ -139,6 +144,7 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   attach: Paperclip,
   back: ArrowLeft,
   cancel: X,
+  cards: LayoutGrid,
   clear: Eraser,
   confirm: Check,
   decrease: TrendingDown,
@@ -148,8 +154,10 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   detail: PanelRight,
   example: CaseSensitive,
   external: ExternalLink,
+  filter: ListFilter,
   full: Maximize2,
   generated: Sparkles,
+  group: Group,
   guide: BookOpen,
   history: History,
   'in-place': Rows3,
@@ -169,6 +177,7 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   reasoning: Lightbulb,
   'remove-person': UserMinus,
   restore: Undo2,
+  saved: Bookmark,
   search: Search,
   send: CornerDownLeft,
   settings: SlidersHorizontal,
@@ -177,6 +186,7 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   sort: ArrowDownUp,
   suggest: Lightbulb,
   summary: IdCard,
+  table: Table2,
   transfer: Crown,
   unchanged: Minus,
   web: Globe,
@@ -488,6 +498,32 @@ export const { registry } = defineRegistry(catalog, {
     Sections: ({ props, children }) => <Sections affordance={props.affordance}>{children}</Sections>,
 
     Section: ({ props, children }) => <Section title={props.title}>{children}</Section>,
+
+    // shadcn/ui Collapsible, which has no classes of its own: the trigger
+    // takes the accordion trigger's, with a chevron that turns as it opens,
+    // and the count is a secondary Badge.
+    Disclosure: ({ props, children, bindings, emit }) => {
+      const [open, change] = useDisclosureOpen(props.open, bindings?.open, emit);
+      return (
+        <Collapsible.Root open={open} onOpenChange={change} data-slot="collapsible" className="flex flex-col gap-2">
+          <Collapsible.Trigger
+            data-slot="collapsible-trigger"
+            className="flex items-center gap-2 rounded-md py-2 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] focus-visible:ring-ring/50 [&[data-state=open]>svg]:rotate-90"
+          >
+            <ChevronRight aria-hidden="true" className="size-4 shrink-0 text-muted-foreground transition-transform duration-200" />
+            {props.title}
+            {props.count != null && (
+              <span className="inline-flex w-fit shrink-0 items-center justify-center rounded-md border border-transparent bg-secondary px-2 py-0.5 text-xs font-medium whitespace-nowrap text-secondary-foreground">
+                {props.count}
+              </span>
+            )}
+          </Collapsible.Trigger>
+          <Collapsible.Content data-slot="collapsible-content" className="flex flex-col gap-4">
+            {children}
+          </Collapsible.Content>
+        </Collapsible.Root>
+      );
+    },
 
     BulletList: ({ props }) => (
       <ul className="ml-6 list-disc text-sm [&>li]:mt-1">
@@ -1119,8 +1155,13 @@ export const { registry } = defineRegistry(catalog, {
     // search box (24rem), not the demo.
     Combobox: ({ props, bindings, emit }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
-      const { open, groups, root, input, list, pick } = useCandidateList(props.groups, value ?? '', setValue, () =>
-        emit('select'),
+      const [scope, setScope] = useBoundProp(props.scope, bindings?.scope);
+      const { open, groups, root, input, list, pick } = useCandidateList(
+        props.groups,
+        value ?? '',
+        setValue,
+        () => emit('select'),
+        { value: scope, set: setScope },
       );
       return (
         <div className="flex w-full max-w-sm flex-col gap-2">

@@ -44,6 +44,7 @@ const interfaceIcons = [
   'attach',
   'back',
   'cancel',
+  'cards',
   'clear',
   'confirm',
   'decrease',
@@ -53,8 +54,10 @@ const interfaceIcons = [
   'detail',
   'example',
   'external',
+  'filter',
   'full',
   'generated',
+  'group',
   'guide',
   'history',
   'in-place',
@@ -74,6 +77,7 @@ const interfaceIcons = [
   'reasoning',
   'remove-person',
   'restore',
+  'saved',
   'search',
   'send',
   'settings',
@@ -82,6 +86,7 @@ const interfaceIcons = [
   'sort',
   'suggest',
   'summary',
+  'table',
   'transfer',
   'unchanged',
   'web',
@@ -198,6 +203,16 @@ export const catalog = defineCatalog(schema, {
       }),
       slots: ['default'],
       description: 'One named part inside Sections: `title` names it, and its children are its content.',
+    },
+    Disclosure: {
+      props: z.object({
+        title: z.string(),
+        count: z.string().nullable(),
+        open: z.boolean().nullable(),
+      }),
+      slots: ['default'],
+      description:
+        'A titled part the actor can close to a single line and open again, one of several peers that come and go with the content, such as the items that share a value when a collection is grouped. `title` names it and `count`, beside the title, says how many items it holds. It is open unless `open` is false. The actor opening or closing it emits `toggle`. Bind `open` with $bindState; when the parts are repeated over a list the spec rewrites, compute `open` from a list in state, such as the titles of the closed parts, and update that list on `toggle`, so that each part keeps its state through the rewrite and when the library switches. For fixed parts of one piece of content, use Sections.',
     },
     BulletList: {
       props: z.object({
@@ -431,10 +446,16 @@ export const catalog = defineCatalog(schema, {
         hideLabel: z.boolean().nullable(),
         placeholder: z.string().nullable(),
         value: z.string().nullable(),
-        groups: z.array(z.object({ heading: z.string().nullable(), options })),
+        scope: z.string().nullable(),
+        groups: z.array(
+          z.object({
+            heading: z.string().nullable(),
+            options: z.array(z.object({ value: z.string(), label: z.string(), narrows: z.boolean().nullable() })),
+          }),
+        ),
       }),
       description:
-        'A text field with a list of candidates beneath it, which the actor can pick from instead of typing the rest. The list shows `groups` exactly as given, in order, each under its `heading` if it has one, and filters nothing itself: which candidates show for what has been typed is the spec\'s decision, usually a $computed over the bound value. A group with no options is left out, and with none to show the list stays closed. The list opens when the field takes focus or the actor types, and closes on Escape, when focus leaves, or when a candidate is picked; nothing is highlighted until the actor moves to a candidate with the arrow keys or the pointer, so Enter picks the highlighted candidate and otherwise leaves what was typed. Picking writes the candidate\'s `value` to `value`, then emits `select`. With `hideLabel` the label is read by assistive technology only. Bind `value` with $bindState.',
+        'A text field with a list of candidates beneath it, which the actor can pick from instead of typing the rest. The list shows `groups` exactly as given, in order, each under its `heading` if it has one, and filters nothing itself: which candidates show for what has been typed is the spec\'s decision, usually a $computed over the bound value. A group with no options is left out, and with none to show the list stays closed. The list opens when the field takes focus or the actor types, and closes on Escape, when focus leaves, or when a candidate is picked; nothing is highlighted until the actor moves to a candidate with the arrow keys or the pointer, so Enter picks the highlighted candidate and otherwise leaves what was typed. Picking writes the candidate\'s `value` to `value`, then emits `select`. With `hideLabel` the label is read by assistive technology only. Bind `value` with $bindState. A candidate with `narrows` is a kind of value rather than a value, such as an attribute whose values the actor picks from next: picking it writes its `value` to `scope` instead (bind it with $bindState), empties the field and keeps the list open, so the actor goes on within that kind. Backspace in the empty field sets `scope` back to null, and so does closing the list. Which candidates show within a scope is the spec\'s decision, as before.',
     },
     SelectableTags: {
       props: z.object({
