@@ -1,0 +1,31 @@
+{
+  "root": "tiles",
+  "elements": {
+    "tiles": {
+      "type": "Grid",
+      "props": { "minColumnWidth": "m" },
+      "repeat": { "statePath": "/tiles", "key": "label" },
+      "children": ["tile"]
+    },
+    "tile": {
+      "type": "Card",
+      "props": { "title": { "$item": "label" } },
+      "slots": { "suffix": ["trend"] },
+      "children": ["figure"]
+    },
+    "trend": {
+      "type": "Badge",
+      "props": { "text": { "$item": "trend" }, "icon": { "$item": "trendIcon" }, "tone": { "$item": "trendTone" }, "pill": true }
+    },
+    "figure": {
+      "type": "Stat",
+      "props": {
+        "value": { "$item": "value" },
+        "unit": { "$item": "unit" },
+        "verdict": { "$item": "verdict" },
+        "detail": { "$item": "detail" },
+        "alert": { "$item": "alert" }
+      }
+    }
+  }
+}

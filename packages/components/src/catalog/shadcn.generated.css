@@ -18,6 +18,11 @@
       --tw-leading: initial;
       --tw-font-weight: initial;
       --tw-tracking: initial;
+      --tw-ordinal: initial;
+      --tw-slashed-zero: initial;
+      --tw-numeric-figure: initial;
+      --tw-numeric-spacing: initial;
+      --tw-numeric-fraction: initial;
       --tw-shadow: 0 0 #0000;
       --tw-shadow-color: initial;
       --tw-shadow-alpha: 100%;
@@ -116,6 +121,8 @@
     --text-xl--line-height: calc(1.75 / 1.25);
     --text-2xl: 1.5rem;
     --text-2xl--line-height: calc(2 / 1.5);
+    --text-3xl: 1.875rem;
+    --text-3xl--line-height: calc(2.25 / 1.875);
     --font-weight-normal: 400;
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
@@ -1117,6 +1124,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .bg-green-50 {
     background-color: var(--color-green-50);
   }
+.bg-green-700 {
+    background-color: var(--color-green-700);
+  }
 .bg-muted {
     background-color: var(--muted);
   }
@@ -1271,6 +1281,10 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
     font-size: var(--text-2xl);
     line-height: var(--tw-leading, var(--text-2xl--line-height));
   }
+.text-3xl {
+    font-size: var(--text-3xl);
+    line-height: var(--tw-leading, var(--text-3xl--line-height));
+  }
 .text-base {
     font-size: var(--text-base);
     line-height: var(--tw-leading, var(--text-base--line-height));
@@ -1401,6 +1415,10 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .uppercase {
     text-transform: uppercase;
+  }
+.tabular-nums {
+    --tw-numeric-spacing: tabular-nums;
+    font-variant-numeric: var(--tw-ordinal, ) var(--tw-slashed-zero, ) var(--tw-numeric-figure, ) var(--tw-numeric-spacing, ) var(--tw-numeric-fraction, );
   }
 .line-through {
     text-decoration-line: line-through;
@@ -2229,6 +2247,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 @supports (color: color-mix(in lab, red, red)) {.dark\:bg-destructive\/60 {
         background-color: color-mix(in oklab, var(--destructive) 60%, transparent);
       }}
+.dark\:bg-green-800 {
+      background-color: var(--color-green-800);
+    }
 .dark\:bg-green-950 {
       background-color: var(--color-green-950);
     }
@@ -2553,6 +2574,26 @@ a.\[a\&\]\:hover\:text-accent-foreground:hover {
   inherits: false
 }
 @property --tw-tracking {
+  syntax: "*";
+  inherits: false
+}
+@property --tw-ordinal {
+  syntax: "*";
+  inherits: false
+}
+@property --tw-slashed-zero {
+  syntax: "*";
+  inherits: false
+}
+@property --tw-numeric-figure {
+  syntax: "*";
+  inherits: false
+}
+@property --tw-numeric-spacing {
+  syntax: "*";
+  inherits: false
+}
+@property --tw-numeric-fraction {
   syntax: "*";
   inherits: false
 }

@@ -11,7 +11,8 @@ import { z } from 'zod';
 // Cut to what the specs in demos/specs/ need. A type joins when a spec needs
 // it and every registry can render it, or says plainly that it cannot.
 
-const tone = z.enum(['neutral', 'accent', 'danger']);
+export const tones = ['neutral', 'accent', 'success', 'danger'] as const;
+const tone = z.enum(tones);
 
 // What a message is for, as the notification pattern names it. Separate from
 // `tone`, which only sets a label or control apart: a purpose also gives the
@@ -33,12 +34,14 @@ export const iconNames = [
   'archive',
   'back',
   'cancel',
+  'decrease',
   'delete',
   'delete-confirm',
   'external',
   'generated',
   'guide',
   'history',
+  'increase',
   'link',
   'notifications',
   'open',
@@ -47,6 +50,7 @@ export const iconNames = [
   'restore',
   'search',
   'transfer',
+  'unchanged',
 ] as const;
 
 // How long a toast stays. The window is part of the transient-feedback
@@ -197,16 +201,28 @@ export const catalog = defineCatalog(schema, {
       description:
         'One row in a List, with optional secondary text in `description`. `checkbox` makes the row a checkbox, and `checked` says whether it is ticked. Bind `checked` with $bindItem inside a repeat, or $bindState, so that ticking the row writes to state; a checkbox row with a plain `checked` is for display: the library may still tick it on a press, but state does not change. `struck` strikes the label through, for a row that is still shown but no longer counts. The `suffix` slot holds trailing controls or indicators.',
     },
+    Stat: {
+      props: z.object({
+        value: z.string(),
+        unit: z.string().nullable(),
+        verdict: z.string().nullable(),
+        detail: z.string().nullable(),
+        alert: z.boolean().nullable(),
+      }),
+      description:
+        'One figure read at a glance, such as a count or an average, set larger than the text around it. `unit` follows the figure, smaller. `verdict` is a one-line reading of what the figure means (Up from 46 last cycle), `detail` the context beneath it. `alert` marks a figure that says something is wrong. Put it in a Card whose `title` names the figure, with a Badge for its trend in the card\'s `suffix`.',
+    },
     Badge: {
       props: z.object({
         label: z.string().nullable(),
         text: z.string(),
+        icon: z.enum(iconNames).nullable(),
         tone: tone.nullable(),
         pill: z.boolean().nullable(),
         pulse: z.boolean().nullable(),
       }),
       description:
-        'A short count or status label, or one attribute of an item. With `label` it is an attribute: `label` names it (Category) and `text` is its value (Chairs); lay several out in a horizontal Stack. `pulse` draws attention to a change.',
+        'A short count or status label, or one attribute of an item. With `label` it is an attribute: `label` names it (Category) and `text` is its value (Chairs); lay several out in a horizontal Stack. `icon` leads the text, named by meaning, such as `increase` for a trend. `tone` sets it apart: `success` and `danger` say whether what it shows is good or bad, which the spec decides, since the same direction can be either. `pulse` draws attention to a change.',
     },
     Tag: {
       props: z.object({

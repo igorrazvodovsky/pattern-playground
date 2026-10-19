@@ -33,9 +33,9 @@
     line-height: var(--line-height-tight);
   }
 
-  /* The flagged tile: the figure itself reads as alert, its trend badge still
-     says which way the count moved. */
-  .card[data-alert] .stat__value {
+  /* The flagged figure reads as alert; a trend badge beside it still says
+     which way the count moved. */
+  .stat[data-alert] .stat__value {
     color: var(--c-body-danger);
   }
 }

@@ -24,7 +24,7 @@ interface StatTileProps {
 function StatTile({ label, value, unit, verdict, detail, delta, deltaIcon, trend, alert }: StatTileProps) {
   return (
     <li>
-      <article className="card" data-alert={alert || undefined}>
+      <article className="card">
         <div className="card__header">
           <h4 className="label">{label}</h4>
           {delta && (
@@ -34,7 +34,7 @@ function StatTile({ label, value, unit, verdict, detail, delta, deltaIcon, trend
             </span>
           )}
         </div>
-        <div className="stat pad">
+        <div className="stat pad" data-alert={alert || undefined}>
           <strong className="stat__value">
             {value}
             {unit && <span className="stat__unit"> {unit}</span>}

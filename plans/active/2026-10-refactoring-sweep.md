@@ -294,9 +294,12 @@ Kept on purpose:
 
 Design calls; one sitting each.
 
-- [ ] *Stat tile.* `stories/Stat.stories.tsx` (`StatTile`) and
-  `demos/purpose-keyed-view.tsx` (`MonitorTile` plus two inline copies). The
-  story is already titled `Templates/Stat`.
+- [ ] *Stat tile.* `stories/Stat.stories.tsx` (`StatTile`) and the inline
+  copies in `demos/purpose-keyed-view.tsx`'s watch-to-chase tiers. The story
+  is already titled `Templates/Stat`. The monitor demo is now a spec: the
+  catalog has a `Stat` (the figure, its verdict and detail, and `alert`),
+  placed in a Card titled by its label with the trend as a Badge in the
+  card's suffix. `alert` now sits on `.stat` rather than on the card.
 - [ ] *Entity card list.* `cards--list > EntityCard` is written out eight times
   across demos; `CardRenderer` can't be reused because it needs a full spec.
   Also a shared overview-attributes constant (`['name','category','pricing.msrp']`

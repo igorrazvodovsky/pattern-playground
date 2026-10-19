@@ -22,15 +22,18 @@ import {
   Info,
   Link,
   LoaderCircle,
+  Minus,
   Search,
   Sparkles,
   Trash2,
+  TrendingDown,
+  TrendingUp,
   TriangleAlert,
   Undo2,
   UserMinus,
   X,
 } from 'lucide-react';
-import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes } from '../catalog';
+import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes, type tones } from '../catalog';
 import { captureOpener, focusDemoIfOpenerGone, type Opener } from './dialog-focus';
 import { useFieldError } from './field-validation';
 import { submitForm } from './form-submit';
@@ -48,7 +51,7 @@ import sheetUrl from '../shadcn.generated.css?url';
 
 // The catalog rendered with shadcn/ui, through @json-render/shadcn. Where the
 // kit's component props line up with a catalog type, the kit renders it (Card,
-// Stack, Badge, Checkbox). Where they do not, this file builds the type from
+// Stack, Checkbox). Where they do not, this file builds the type from
 // shadcn's own class lists, which is how shadcn is meant to be used: its
 // components are copied into a project, not imported. The kit's wrappers have
 // no icon button, no ghost button and no list, and its primitives are not
@@ -77,7 +80,7 @@ const loadStylesheet = (href: string) =>
 
 export const stylesheet = loadStylesheet(sheetUrl);
 
-const { Stack: KitStack, Card: KitCard, Badge: KitBadge, Checkbox: KitCheckbox } = shadcnComponents;
+const { Stack: KitStack, Card: KitCard, Checkbox: KitCheckbox } = shadcnComponents;
 
 const gap = { none: 'none', s: 'sm', m: 'md', l: 'lg' } as const;
 const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
@@ -86,12 +89,14 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   archive: Archive,
   back: ArrowLeft,
   cancel: X,
+  decrease: TrendingDown,
   delete: Trash2,
   'delete-confirm': Trash2,
   external: ExternalLink,
   generated: Sparkles,
   guide: BookOpen,
   history: History,
+  increase: TrendingUp,
   link: Link,
   notifications: Bell,
   open: FolderOpen,
@@ -100,6 +105,7 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   restore: Undo2,
   search: Search,
   transfer: Crown,
+  unchanged: Minus,
 };
 
 // Each purpose's icon and colour. Danger is shadcn's destructive; the others
@@ -122,6 +128,22 @@ const purposeSurface: Record<Purpose, string> = {
   success: 'border-green-200 bg-green-50 text-green-900 dark:border-green-800 dark:bg-green-950 dark:text-green-100',
   warning: 'border-yellow-200 bg-yellow-50 text-yellow-900 dark:border-yellow-800 dark:bg-yellow-950 dark:text-yellow-100',
   danger: 'bg-card text-destructive',
+};
+
+// A badge's tone: filled with shadcn/ui Badge's variants (accent is its
+// default, danger its destructive), or as the text of an outline badge.
+type Tone = (typeof tones)[number];
+const badgeFill: Record<Tone, string> = {
+  neutral: 'bg-secondary text-secondary-foreground',
+  accent: 'bg-primary text-primary-foreground',
+  success: 'bg-green-700 text-white dark:bg-green-800',
+  danger: 'bg-destructive text-white dark:bg-destructive/60',
+};
+const badgeOutline: Record<Tone, string> = {
+  neutral: 'text-foreground',
+  accent: 'border-primary text-foreground',
+  success: purposeText.success,
+  danger: purposeText.danger,
 };
 
 // shadcn/ui Button (new-york, v4), variants and sizes as published.
@@ -417,30 +439,44 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn has no attention pulse; Tailwind's opacity pulse is the nearest
-    // thing the library's vocabulary offers.
-    Badge: ({ props, ...context }) => {
-      // An attribute is shadcn/ui Badge (secondary) from its published
-      // classes, since the kit's Badge takes only text: the label muted
-      // before the value.
-      if (props.label) {
-        return (
-          <span className="inline-flex w-fit shrink-0 items-center justify-center gap-1 rounded-md border border-transparent bg-secondary px-2 py-0.5 text-xs font-medium whitespace-nowrap text-secondary-foreground">
-            <span className="text-muted-foreground">{props.label}</span>
-            {props.text}
-          </span>
-        );
-      }
-      const badge = (
-        <KitBadge
-          {...context}
-          props={{
-            text: props.text,
-            variant: props.tone === 'danger' ? 'destructive' : props.tone === 'accent' ? 'default' : 'secondary',
-          }}
-        />
+    // The figure of shadcn's dashboard section cards: large, semibold, with
+    // tabular figures; the verdict and the muted detail as its card footer
+    // sets them. shadcn has no alert figure; it takes the destructive colour.
+    Stat: ({ props }) => (
+      <div className="flex flex-col gap-1.5 text-sm">
+        <p className={clsx('text-3xl font-semibold tabular-nums', props.alert && 'text-destructive')}>
+          {props.value}
+          {props.unit && <span className="text-sm font-normal text-muted-foreground"> {props.unit}</span>}
+        </p>
+        {props.verdict && <p className="font-medium">{props.verdict}</p>}
+        {props.detail && <p className="text-muted-foreground">{props.detail}</p>}
+      </div>
+    ),
+
+    // shadcn/ui Badge from its published classes, since the kit's Badge takes
+    // only text. Square unless `pill`. A badge with an icon is the outline
+    // badge shadcn's dashboard cards draw a trend with, its tone as a text
+    // tint; any other badge is filled with its tone's variant. shadcn has no
+    // success variant, so success takes the green its Alert uses. An
+    // attribute's label leads the value, dimmed. shadcn has no attention
+    // pulse; Tailwind's opacity pulse is the nearest thing it offers.
+    Badge: ({ props }) => {
+      const Icon = props.icon ? icons[props.icon] : null;
+      const tone = props.tone ?? 'neutral';
+      return (
+        <span
+          className={clsx(
+            'inline-flex w-fit shrink-0 items-center justify-center gap-1 border px-2 py-0.5 text-xs font-medium whitespace-nowrap [&>svg]:pointer-events-none [&>svg]:size-3',
+            props.pill ? 'rounded-full' : 'rounded-md',
+            Icon ? ['border-border', badgeOutline[tone]] : ['border-transparent', badgeFill[tone]],
+            props.pulse && 'animate-pulse',
+          )}
+        >
+          {props.label && <span className="opacity-70">{props.label}</span>}
+          {Icon && <Icon aria-hidden="true" />}
+          {props.text}
+        </span>
       );
-      return props.pulse ? <span className="animate-pulse">{badge}</span> : badge;
     },
 
     // shadcn/ui Badge (secondary), from its published classes rather than

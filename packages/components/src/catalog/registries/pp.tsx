@@ -29,12 +29,14 @@ const icons: Record<(typeof iconNames)[number], string> = {
   archive: 'ph:archive-box',
   back: 'ph:arrow-left',
   cancel: 'ph:x',
+  decrease: 'ph:arrow-down-right',
   delete: 'ph:trash-simple',
   'delete-confirm': 'ph:trash-simple-fill',
   external: 'ph:arrow-square-out',
   generated: 'ph:sparkle',
   guide: 'ph:book-open',
   history: 'ph:clock-counter-clockwise',
+  increase: 'ph:arrow-up-right',
   link: 'ph:link',
   notifications: 'ph:bell',
   open: 'ph:folder-open',
@@ -43,6 +45,7 @@ const icons: Record<(typeof iconNames)[number], string> = {
   restore: 'ph:arrow-arc-left',
   search: 'ph:magnifying-glass',
   transfer: 'ph:crown-simple',
+  unchanged: 'ph:minus',
 };
 const purposeIcons: Record<(typeof purposes)[number], string> = {
   info: 'ph:info',
@@ -331,6 +334,19 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
+    // The library's stat readout. An alert figure takes the danger colour
+    // (stat.css).
+    Stat: ({ props }) => (
+      <div className="stat" data-alert={props.alert || undefined}>
+        <strong className="stat__value">
+          {props.value}
+          {props.unit && <span className="stat__unit"> {props.unit}</span>}
+        </strong>
+        {props.verdict && <p className="stat__verdict">{props.verdict}</p>}
+        {props.detail && <p className="muted">{props.detail}</p>}
+      </div>
+    ),
+
     Badge: ({ props }) => (
       <strong
         className={clsx(
@@ -341,6 +357,7 @@ export const { registry } = defineRegistry(catalog, {
         )}
       >
         {props.label && <span className="badge__label">{props.label}</span>}
+        {props.icon && <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />}
         {props.text}
       </strong>
     ),
