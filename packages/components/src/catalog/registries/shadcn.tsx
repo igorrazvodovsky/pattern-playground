@@ -1,4 +1,4 @@
-import { Fragment, useId, useRef, type CSSProperties } from 'react';
+import { Fragment, Suspense, useId, useRef, type CSSProperties } from 'react';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import { createPortal } from 'react-dom';
 import { Checkbox, Dialog, Popover, RadioGroup, Select, Slider, Toast, ToggleGroup, Tooltip } from 'radix-ui';
@@ -48,6 +48,7 @@ import { submitForm } from './form-submit';
 import { useFocusHandoff } from './focus-handoff';
 import { useFocusOnShow } from './focus-on-show';
 import { scopedPortal } from './shadcn-portal';
+import { ShadcnMentionEditor } from './mention-editor-lazy';
 import type { Send } from './shadcn-parts';
 import { LocationMap } from './shadcn-map';
 import { RuleBuilder, type RuleTree } from './shadcn-rule-builder';
@@ -1178,6 +1179,13 @@ export const { registry } = defineRegistry(catalog, {
         </Toast.Provider>
       );
     },
+
+    // Built in shadcn-mention-editor.tsx from shadcn's own classes.
+    MentionEditor: context => (
+      <Suspense fallback={null}>
+        <ShadcnMentionEditor {...context} />
+      </Suspense>
+    ),
 
     // Built for this registry: the kit has nothing like it, and the catalog
     // can name the composite but not assemble it. The tree arrives as data and

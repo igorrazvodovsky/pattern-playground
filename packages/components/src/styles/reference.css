@@ -160,6 +160,6 @@
   max-height: 400px;
   box-shadow: var(--shadow-m);
   border-radius: var(--radius-m);
-  overflow: hidden;
+  overflow-y: auto;
 }
 

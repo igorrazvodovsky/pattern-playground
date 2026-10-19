@@ -18,6 +18,7 @@
 @source '../../../../node_modules/@json-render/shadcn/dist/index.mjs';
 @source './registries/shadcn.tsx';
 @source './registries/shadcn-map.tsx';
+@source './registries/shadcn-mention-editor.tsx';
 @source './registries/shadcn-parts.tsx';
 @source './registries/shadcn-rule-builder.tsx';
 @source './registries/shadcn-sections.tsx';

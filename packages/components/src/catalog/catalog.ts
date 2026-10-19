@@ -27,6 +27,8 @@ const checks = z.array(ValidationCheckSchema).nullable();
 const fieldValidation =
   'List `checks` ({ type: required | email | minLength | …, message }) to validate the bound value: they run when validateForm is dispatched, usually from a Form\'s `submit`, and again on each change once the field has been checked, so the message goes as soon as the value is fixed. The first failing check\'s message shows beneath the field, as `error` does, and `error` wins when both are set.';
 const options = z.array(z.object({ value: z.string(), label: z.string() }));
+// An item named in text: what it is called, and what kind of item it is.
+const mention = z.object({ id: z.string(), label: z.string(), type: z.string() });
 
 // Icons are named by meaning; each registry maps a name to its own icon set.
 // A spec that named Phosphor glyphs would be tied to the library that ships them.
@@ -478,6 +480,26 @@ export const catalog = defineCatalog(schema, {
       }),
       description:
         'A rule shown as one statement whose condition may hold groups. `lead` (the words before the condition) and `tail` (what follows it, if anything) are sentence parts: fixed words (strings) and slots ({ id, kind: choice | add | remove, name, label, options, value, multiple }). `where` is a group ({ id, head, items, addCondition, addGroup, remove }): `head` is a choice slot between all and any, `items` are lines ({ id, parts, remove }) or nested groups, `addCondition` is an add slot over fields and `addGroup` an add slot with one option. A flat group of all reads inline, without its head, so switching it to any goes through adding a group; any other group breaks into indented lines under its head. Bind `edit` with $bindState: before emitting `change`, `add` or `remove`, the component writes { kind, slotId, value } there.',
+    },
+    // A composite, like RuleBuilder: each library supplies the whole editor.
+    // Its content and its candidates are data, so a spec can hold both.
+    MentionEditor: {
+      props: z.object({
+        label: z.string(),
+        placeholder: z.string().nullable(),
+        content: z.array(z.array(z.union([z.string(), mention]))),
+        query: z.string().nullable(),
+        scope: z.string().nullable(),
+        candidates: z.array(
+          z.object({
+            heading: z.string().nullable(),
+            options: z.array(z.union([mention, z.object({ id: z.string(), label: z.string(), narrows: z.literal(true) })])),
+          }),
+        ),
+        opened: z.string().nullable(),
+      }),
+      description:
+        'A text the actor writes in, read by assistive technology as `label`, that can name items inline as mentions. `content` is its paragraphs, in order, each a list of plain runs (strings) and mentions ({ id, label, type }); a mention shows its `label`. Bind `content` with $bindState: the editor writes it as the actor types. Typing @ starts a mention: the editor writes what follows the @ to `query` (bind it with $bindState; it is null when no mention is being typed), and shows `candidates` in a list beneath the caret, in order, each group under its `heading`. The list filters nothing itself: which candidates show for the query is the spec\'s decision, usually a $computed over `query` and `scope`. A candidate is either an item ({ id, label, type }) or a kind of item ({ id, label, narrows: true }). The first candidate is highlighted; the arrow keys move the highlight, Enter or Tab picks it, and Escape closes the list and leaves the text. Picking an item puts the mention in place of what was typed. Picking a kind writes its `id` to `scope` (bind it with $bindState) and clears what was typed after the @, so the actor goes on typing within that kind; Backspace with nothing typed sets `scope` back to null, and so does closing the list. Pressing a mention writes its `id` to `opened` (bind it with $bindState), then emits `open`, for a fuller view of the item.',
     },
   },
   actions: {

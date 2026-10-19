@@ -1,4 +1,4 @@
-import { Children, Fragment, useCallback, useEffect, useId, useMemo, useRef, useState, type CSSProperties, type RefObject } from 'react';
+import { Children, Fragment, Suspense, useCallback, useEffect, useId, useMemo, useRef, useState, type CSSProperties, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import clsx from 'clsx';
@@ -13,6 +13,7 @@ import { useFieldError } from './field-validation';
 import { submitForm } from './form-submit';
 import { useFocusHandoff } from './focus-handoff';
 import { useFocusOnShow } from './focus-on-show';
+import { PpMentionEditor } from './mention-editor-lazy';
 import { Subsection, useHeading } from './heading-level';
 import { usePreview } from './preview';
 import { useToastList } from './toast-list';
@@ -986,6 +987,13 @@ export const { registry } = defineRegistry(catalog, {
 
       return null;
     },
+
+    // Built in pp-mention-editor.tsx from the library's editor and lists.
+    MentionEditor: context => (
+      <Suspense fallback={null}>
+        <PpMentionEditor {...context} />
+      </Suspense>
+    ),
 
     // The library has no grouped rule form, so the demo says so rather than
     // rendering a different thing.

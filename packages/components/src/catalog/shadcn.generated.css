@@ -1213,6 +1213,10 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 @supports (color: color-mix(in lab, red, red)) {.bg-yellow-200\/70 {
       background-color: color-mix(in oklab, var(--color-yellow-200) 70%, transparent);
     }}
+.box-decoration-clone {
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
 .fill-foreground {
     fill: var(--foreground);
   }
@@ -1983,6 +1987,12 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 @supports (color: color-mix(in lab, red, red)) {.aria-invalid\:ring-destructive\/20[aria-invalid="true"] {
       --tw-ring-color: color-mix(in oklab, var(--destructive) 20%, transparent);
     }}
+.aria-selected\:bg-accent[aria-selected="true"] {
+    background-color: var(--accent);
+  }
+.aria-selected\:text-accent-foreground[aria-selected="true"] {
+    color: var(--accent-foreground);
+  }
 .data-dimmed\:bg-transparent[data-dimmed] {
     background-color: #0000;
   }
@@ -2532,9 +2542,38 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .\[\&_\[cmdk-group-heading\]\]\:text-muted-foreground [cmdk-group-heading] {
     color: var(--muted-foreground);
   }
+.\[\&_p\]\:mb-0 p {
+    margin-bottom: 0;
+  }
 .\[\&_p\]\:leading-relaxed p {
     --tw-leading: var(--leading-relaxed);
     line-height: var(--leading-relaxed);
+  }
+.\[\&_p\+p\]\:mt-3 p + p {
+    margin-top: calc(var(--spacing) * 3);
+  }
+.\[\&_p\.is-editor-empty\:first-child\]\:before\:pointer-events-none p.is-editor-empty:first-child:before {
+    content: var(--tw-content);
+    pointer-events: none;
+  }
+.\[\&_p\.is-editor-empty\:first-child\]\:before\:float-left p.is-editor-empty:first-child:before {
+    content: var(--tw-content);
+    float: left;
+  }
+.\[\&_p\.is-editor-empty\:first-child\]\:before\:h-0 p.is-editor-empty:first-child:before {
+    content: var(--tw-content);
+    height: 0;
+  }
+.\[\&_p\.is-editor-empty\:first-child\]\:before\:text-muted-foreground p.is-editor-empty:first-child:before {
+    content: var(--tw-content);
+    color: var(--muted-foreground);
+  }
+.\[\&_p\.is-editor-empty\:first-child\]\:before\:content-\[attr\(data-placeholder\)\] p.is-editor-empty:first-child:before {
+    --tw-content: attr(data-placeholder);
+    content: var(--tw-content);
+  }
+.\[\&_p\:first-child\]\:mt-0 p:first-child {
+    margin-top: 0;
   }
 .\[\&_svg\]\:pointer-events-none svg {
     pointer-events: none;

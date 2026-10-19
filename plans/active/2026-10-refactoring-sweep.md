@@ -341,8 +341,9 @@ Design calls; one sitting each.
   leaves it out. Move problem-checklist onto `cardAttributes` and share the
   attribute list.
 - [ ] *Item layout by role, twice.* `specs/product-view.ts`, shared by the
-  investigate, watch-to-chase, item-view-full and item-view-transitions
-  specs, copies `ItemView`'s role filtering and its private `specRows` (a
+  investigate, watch-to-chase, item-view-full, item-view-transitions and
+  reference specs (the last lays out users and projects through their own
+  bindings), copies `ItemView`'s role filtering and its private `specRows` (a
   record-valued attribute gives one row per key) to lay out a rung. A change
   to how `ItemView` lays out a scope now has to be made in both. The copy is
   also partial: `itemView` keeps the first key attribute, description and
@@ -376,12 +377,30 @@ Design calls; one sitting each.
   popup and the frame belong to each library. A framework-free helper beside
   `map.ts` that takes the pin and popup as arguments would serve both; a fix
   to the keyboard handling or the unmount guard now has to be made twice.
-- [ ] *Full-view spec elements, five times.* `specs/investigate.json`,
+- [ ] *Mention editor, twice.* `components/reference/Reference.tsx` (with
+  `ReferenceEditor` and `ReferencePicker`, still used by the prompt,
+  bubble-menu, block-based-editor and dynamic-hyperlinks demos) and
+  `catalog/registries/mention-editor.ts` each set up Tiptap's mention
+  extension and its @ list, both picking a kind and then an item. They differ
+  in what they hold: the component looks entities up in `@shared/data` from
+  its node view, escalates through `ItemInteraction`, and keeps the picker's
+  search and kind in its own state on cmdk; the hook takes content, kinds and
+  candidates as data, reports a pressed mention, and keeps focus in the editor
+  with the list read through `aria-activedescendant`. Migrating those four
+  demos to specs would retire the component's copy.
+- [ ] *Stale labels in the reference note.* `sustainability-meeting-content`
+  in `shared/data/reference-content.json` stores labels that no longer match
+  the ids they point at (`user-2` is stored as David Chen, `PRJ-1` as Customer
+  Survey Analysis). The reference spec shows each item's current name, so the
+  note now asks technical questions of a supply chain analyst. Rewrite the
+  note's sentences or its ids so the two agree.
+- [ ] *Full-view spec elements, six times.* `specs/investigate.json`,
   `specs/watch-to-chase-tiers.json` and `specs/item-view-full.json` each hold
   the same full-view elements (a Card with badges, price, description, a
   `DescriptionList` and the listed line), differing only in reading `$item`
   or `$state`, and `specs/item-view-transitions.json` holds the same body
-  twice more, for the detail drawer and the full dialog. A JSON spec cannot
+  twice more, for the detail drawer and the full dialog; `specs/reference.json`
+  holds the detail body once more. A JSON spec cannot
   import, so a change to the full view has to be made in all of them. The modules beside the specs could build these
   elements once in TypeScript, for a given state path, and merge them into
   each spec.
