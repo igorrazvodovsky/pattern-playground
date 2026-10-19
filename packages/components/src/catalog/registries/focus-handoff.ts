@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useCallback, useLayoutEffect, useRef } from 'react';
 
 // Where focus goes when a Button unmounts while it has focus. A press can hide
 // the button it came from (an arm swap, a deleted row, a Reset that hides
@@ -77,6 +77,14 @@ export const useFocusHandoff = (focusNext: string | null | undefined) => {
 export const useMenuFocusHandoff = (focusNext: string | null | undefined) => {
   const trigger = useRef<HTMLButtonElement>(null);
   const list = useRef<HTMLDivElement>(null);
+  // A library that closes its list on a choice and only then, a task later,
+  // returns focus to the button (Radix) leaves focus on <body> in between. A
+  // choice that removes the menu in that gap still took focus with it.
+  const justClosed = useRef(false);
+  const closed = useCallback(() => {
+    justClosed.current = true;
+    setTimeout(() => (justClosed.current = false), 500);
+  }, []);
 
   useLayoutEffect(() => {
     const button = trigger.current;
@@ -86,13 +94,14 @@ export const useMenuFocusHandoff = (focusNext: string | null | undefined) => {
       // it is still in place when the menu's own cleanup runs.
       // eslint-disable-next-line react-hooks/exhaustive-deps
       const menuList = list.current;
-      if (!button || !active || (active !== button && !menuList?.contains(active))) return;
+      const dropped = justClosed.current && (!active || active === document.body);
+      if (!button || (!dropped && (!active || (active !== button && !menuList?.contains(active))))) return;
       const demo = button.closest<HTMLElement>('[data-registry]');
       if (demo) handOff(button, demo, focusNext, focused => focused === button || Boolean(menuList?.contains(focused)));
     };
   }, [focusNext]);
 
-  return { trigger, list };
+  return { trigger, list, closed };
 };
 
 /**

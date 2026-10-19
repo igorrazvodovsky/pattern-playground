@@ -151,7 +151,7 @@
     },
     "move-menu": {
       "type": "Menu",
-      "props": { "label": { "$item": "moveLabel" }, "icon": "move" },
+      "props": { "label": { "$item": "moveLabel" }, "icon": "move", "focusNext": { "$item": "moveLabel" } },
       "visible": { "$item": "movable" },
       "repeat": { "statePath": { "$item": "destinations" }, "key": "group" },
       "children": ["destination"]

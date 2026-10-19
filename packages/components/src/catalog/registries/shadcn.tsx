@@ -1010,9 +1010,9 @@ export const { registry } = defineRegistry(catalog, {
     // it while focused.
     Menu: ({ props, children }) => {
       const Icon = props.icon ? icons[props.icon] : null;
-      const { trigger, list } = useMenuFocusHandoff(props.focusNext);
+      const { trigger, list, closed } = useMenuFocusHandoff(props.focusNext);
       return (
-        <DropdownMenu.Root>
+        <DropdownMenu.Root onOpenChange={open => !open && closed()}>
           <DropdownMenu.Trigger
             ref={trigger}
             aria-label={props.label}
