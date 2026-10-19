@@ -1,7 +1,7 @@
 import { Fragment, useId, useRef, type CSSProperties } from 'react';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import { createPortal } from 'react-dom';
-import { Checkbox, Dialog, RadioGroup, Select, Slider, Toast, ToggleGroup, Tooltip } from 'radix-ui';
+import { Checkbox, Dialog, Popover, RadioGroup, Select, Slider, Toast, ToggleGroup, Tooltip } from 'radix-ui';
 import { shadcnComponents } from '@json-render/shadcn';
 import { Command } from 'cmdk';
 import clsx from 'clsx';
@@ -20,11 +20,14 @@ import {
   FolderOpen,
   Globe,
   History,
+  IdCard,
   Info,
   Lightbulb,
   Link,
   LoaderCircle,
+  Maximize2,
   Minus,
+  PanelRight,
   Paperclip,
   Plus,
   Search,
@@ -39,7 +42,7 @@ import {
 } from 'lucide-react';
 import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes, type tones } from '../catalog';
 import { useCandidateList } from './candidate-list';
-import { captureOpener, focusDemoIfOpenerGone, type Opener } from './dialog-focus';
+import { captureOpener, settleFocus, useReturnFocus, type Opener } from './dialog-focus';
 import { useFieldError } from './field-validation';
 import { submitForm } from './form-submit';
 import { useFocusHandoff } from './focus-handoff';
@@ -51,6 +54,7 @@ import { Subsection, useHeading } from './heading-level';
 import { Section, Sections } from './shadcn-sections';
 import { Timeline, TimelineEntry } from './shadcn-timeline';
 import { useDisclosureState } from './disclosure-state';
+import { usePreview } from './preview';
 import { useToastList } from './toast-list';
 import { TracingProvider, useMarkTracing, useTracingState } from './mark-tracing';
 import sheetUrl from '../shadcn.generated.css?url';
@@ -100,7 +104,9 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   decrease: TrendingDown,
   delete: Trash2,
   'delete-confirm': Trash2,
+  detail: PanelRight,
   external: ExternalLink,
+  full: Maximize2,
   generated: Sparkles,
   guide: BookOpen,
   history: History,
@@ -114,6 +120,7 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   'remove-person': UserMinus,
   restore: Undo2,
   search: Search,
+  summary: IdCard,
   transfer: Crown,
   unchanged: Minus,
   web: Globe,
@@ -277,6 +284,15 @@ export const { registry } = defineRegistry(catalog, {
         props.text
       );
       const Icon = props.purpose ? purposeIcons[props.purpose] : null;
+      // An inline run takes the size and colour of the paragraph it sits in.
+      if (props.inline) {
+        return (
+          <span className={clsx(props.muted && 'text-muted-foreground')}>
+            {text}
+            {children && <> {children}</>}
+          </span>
+        );
+      }
       return (
         <p
           className={clsx(
@@ -635,6 +651,62 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
+    // shadcn/ui has no mention, so the reference is a link-like button in
+    // the theme's primary colour. The preview is a Radix Popover anchored to
+    // it, with shadcn/ui HoverCard's surface: preview.ts opens and closes it
+    // on the pattern's timing rather than HoverCard's, and the preview does
+    // not take focus when it opens.
+    Reference: ({ props, children, slots, bindings, emit }) => {
+      const [shown, setShown] = useBoundProp(props.preview, bindings?.preview);
+      const { triggerRef, contentRef, trigger, content, close } = usePreview(shown ?? false, setShown, props.expanded ?? false);
+      const Heading = useHeading();
+      return (
+        <Popover.Root open={shown ?? false} onOpenChange={open => !open && close()}>
+          <Popover.Anchor asChild>
+            <button
+              ref={triggerRef}
+              type="button"
+              aria-haspopup="dialog"
+              aria-expanded={props.expanded ?? false}
+              {...trigger}
+              onClick={() => {
+                close();
+                emit('open');
+              }}
+              className="cursor-pointer rounded-sm bg-primary/10 px-1 font-medium text-primary outline-none hover:bg-primary/15 focus-visible:ring-[3px] focus-visible:ring-ring/50"
+            >
+              {props.label}
+            </button>
+          </Popover.Anchor>
+          <Popover.Portal container={scopedPortal()}>
+            <Popover.Content
+              ref={contentRef}
+              aria-label={props.label}
+              align="start"
+              sideOffset={8}
+              onOpenAutoFocus={event => event.preventDefault()}
+              onCloseAutoFocus={event => event.preventDefault()}
+              // The reference is the anchor, not a Radix trigger, so focus
+              // moving back to it would count as leaving.
+              onFocusOutside={event => {
+                if (triggerRef.current?.contains(event.target as Node)) event.preventDefault();
+              }}
+              {...content}
+              className="z-50 w-72 rounded-md border bg-popover p-4 text-sm text-popover-foreground shadow-md outline-hidden"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex min-w-0 flex-col gap-2">
+                  <Heading className="leading-none font-semibold">{props.label}</Heading>
+                  <Subsection>{children}</Subsection>
+                </div>
+                {slots?.suffix && <div className="-mt-2 -mr-2 flex shrink-0 gap-1">{slots.suffix}</div>}
+              </div>
+            </Popover.Content>
+          </Popover.Portal>
+        </Popover.Root>
+      );
+    },
+
     // Hands focus on (focus-handoff.ts) if it unmounts while focused.
     Button: ({ props, emit }) => {
       const Icon = props.icon ? icons[props.icon] : null;
@@ -959,6 +1031,7 @@ export const { registry } = defineRegistry(catalog, {
     Dialog: ({ props, children, slots, bindings }) => {
       const [open, setOpen] = useBoundProp(props.open, bindings?.open);
       const opener = useRef<Opener | null>(null);
+      const returnTarget = useReturnFocus(props.returnFocus);
       return (
         <Dialog.Root open={open ?? false} onOpenChange={setOpen}>
           <Dialog.Portal container={scopedPortal()}>
@@ -976,16 +1049,21 @@ export const { registry } = defineRegistry(catalog, {
                 event.preventDefault();
                 marked.focus();
               }}
+              // Settled as in the pp registry (dialog-focus.ts). Radix calls
+              // this a task after the dialog unmounts, so a window that
+              // replaced it has mounted and taken focus by then.
               onCloseAutoFocus={event => {
-                if (!opener.current) return;
                 event.preventDefault();
-                if (!focusDemoIfOpenerGone(opener.current)) opener.current.element?.focus();
+                settleFocus(returnTarget(), opener.current);
                 opener.current = null;
               }}
               className="fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 text-sm shadow-lg sm:max-w-lg"
             >
               <div className="flex flex-col gap-2 text-center sm:text-left">
-                <Dialog.Title className="text-lg leading-none font-semibold text-foreground">{props.title}</Dialog.Title>
+                <div className="flex items-center gap-2 pr-6">
+                  <Dialog.Title className="flex-1 text-lg leading-none font-semibold text-foreground">{props.title}</Dialog.Title>
+                  {slots?.suffix && <div className="-my-2 flex shrink-0 gap-1">{slots.suffix}</div>}
+                </div>
                 {props.description && (
                   <Dialog.Description className="text-sm text-muted-foreground">{props.description}</Dialog.Description>
                 )}
@@ -1007,18 +1085,29 @@ export const { registry } = defineRegistry(catalog, {
     // shadcn/ui Sheet (side="right"), non-modal so the actor keeps editing the
     // rule beside it. The kit's Drawer is a bottom sheet (vaul) whose open
     // state is a path prop rather than a binding.
-    Drawer: ({ props, children, bindings }) => {
+    Drawer: ({ props, children, slots, bindings }) => {
       const [open, setOpen] = useBoundProp(props.open, bindings?.open);
+      const opener = useRef<Opener | null>(null);
+      const returnTarget = useReturnFocus(props.returnFocus);
       return (
         <Dialog.Root open={open ?? false} onOpenChange={setOpen} modal={false}>
           <Dialog.Portal container={scopedPortal()}>
             <Dialog.Content
               aria-describedby={undefined}
               onInteractOutside={event => event.preventDefault()}
+              onOpenAutoFocus={() => {
+                opener.current = captureOpener();
+              }}
+              onCloseAutoFocus={event => {
+                event.preventDefault();
+                settleFocus(returnTarget(), opener.current);
+                opener.current = null;
+              }}
               className="fixed inset-y-0 right-0 z-50 flex h-full w-3/4 flex-col gap-4 border-l bg-background shadow-lg sm:max-w-sm"
             >
-              <div className="flex flex-col gap-1.5 p-4">
-                <Dialog.Title className="font-semibold text-foreground">{props.title}</Dialog.Title>
+              <div className="flex items-center gap-2 p-4 pr-10">
+                <Dialog.Title className="flex-1 font-semibold text-foreground">{props.title}</Dialog.Title>
+                {slots?.suffix && <div className="-my-2 flex shrink-0 gap-1">{slots.suffix}</div>}
               </div>
               <div className="flex flex-col gap-4 overflow-y-auto px-4 pb-4 text-sm">{children}</div>
               <Dialog.Close className="absolute top-4 right-4 rounded-xs opacity-70 transition-opacity outline-none hover:opacity-100 focus-visible:ring-[3px] focus-visible:ring-ring/50">

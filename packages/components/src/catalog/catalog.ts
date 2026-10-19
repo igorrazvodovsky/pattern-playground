@@ -39,7 +39,9 @@ export const iconNames = [
   'decrease',
   'delete',
   'delete-confirm',
+  'detail',
   'external',
+  'full',
   'generated',
   'guide',
   'history',
@@ -53,6 +55,7 @@ export const iconNames = [
   'remove-person',
   'restore',
   'search',
+  'summary',
   'transfer',
   'unchanged',
   'web',
@@ -69,6 +72,10 @@ export const toastDuration = { plain: 4000, withAction: 8000 } as const;
 // toast window, it belongs to the pattern: long enough to confirm on purpose,
 // short enough that an armed control left alone does not stay armed.
 export const confirmationWindow = 4000;
+
+// How a reference's preview follows the pointer and focus. Like the toast
+// window, it belongs to the pattern; ItemInteraction keeps it.
+export { previewTiming } from '../components/item-view/preview-timing';
 
 export const catalog = defineCatalog(schema, {
   components: {
@@ -106,10 +113,11 @@ export const catalog = defineCatalog(schema, {
         highlight: z.boolean().nullable(),
         status: z.boolean().nullable(),
         purpose: purpose.nullable(),
+        inline: z.boolean().nullable(),
       }),
       slots: ['default'],
       description:
-        'A run of text. `highlight` marks it as changed or notable. With `status` the text is announced to assistive technology when it changes; keep such a Text rendered and empty rather than hidden. `purpose` makes it a short message in place, such as a result beside the control that caused it: it takes the purpose\'s colour, which replaces `muted`, and is led by its icon. Children render inline after the text.',
+        'A run of text. `highlight` marks it as changed or notable. With `status` the text is announced to assistive technology when it changes; keep such a Text rendered and empty rather than hidden. `purpose` makes it a short message in place, such as a result beside the control that caused it: it takes the purpose\'s colour, which replaces `muted`, and is led by its icon. Children render inline after the text. With `inline` it is a run inside the Text it is a child of, not a paragraph of its own: use it to go on with a sentence after an inline control such as a Reference, keeping the space at the start of its `text`. An inline run takes `highlight` and `muted`; `size`, `status` and `purpose` belong to the paragraph.',
     },
     Callout: {
       props: z.object({
@@ -284,6 +292,16 @@ export const catalog = defineCatalog(schema, {
       description:
         'A value applied to something, such as an active filter or a classification, or a value a trace names, such as a query that was run or a source that was read, shown as a short label. A count or status read in place is a Badge; one the actor presses to reach what it counts is a Tag that opens. `icon` names, by meaning, where the value came from or what kind it is. `pending` marks a value that is still being worked out: the label says so, and the tag shows it is busy. With `opens` the tag stands for something the actor can open, such as a short summary that leads to what it summarises: the tag is a button and emits `open`, and `focusOnShow` works as on a Button. A tag that opens has no remove button. With `removeLabel` the tag carries a button, named by that label, that emits `remove`; `focusNext` works as on a Button, for when removing the tag takes the button away while it has focus. Lay several out in a horizontal Stack.',
     },
+    Reference: {
+      props: z.object({
+        label: z.string(),
+        preview: z.boolean().nullable(),
+        expanded: z.boolean().nullable(),
+      }),
+      slots: ['default', 'suffix'],
+      description:
+        'An item named inline in running text, such as a product a sentence mentions; it sits as a child of a Text, with an inline Text after it for the rest of the sentence. `label` is the item\'s name. Pointing at the reference or focusing it shows a preview of the item after a short pause, and the preview stays while the pointer moves into it, so that the actor can use the controls there; Tab from the reference moves into an open preview. Leaving both, or Escape, closes it. The preview is headed by `label`, and the children follow as its body, such as the item\'s key figure as a Text and its attributes as Badges. The `suffix` slot sits beside the heading, for controls that show the item in another way. Bind `preview` with $bindState: the reference writes whether the preview shows, and setting it false closes the preview. Pressing the reference emits `open`, for a fuller view of the item. `expanded` says that view is showing: the reference is marked expanded, and pointing at it shows no preview meanwhile.',
+    },
     Button: {
       props: z.object({
         label: z.string(),
@@ -398,19 +416,21 @@ export const catalog = defineCatalog(schema, {
         open: z.boolean().nullable(),
         alert: z.boolean().nullable(),
         description: z.string().nullable(),
+        returnFocus: z.string().nullable(),
       }),
-      slots: ['default', 'actions'],
+      slots: ['default', 'suffix', 'actions'],
       description:
-        'A window over the page that blocks it until closed, for a decision the actor has to make before going on. The `actions` slot holds its buttons. Bind `open` with $bindState; closing the dialog (Escape, the close button) writes false back. `description` is the message the decision turns on, shown first and read out with the title when the dialog opens. `alert` marks a confirmation of something hard to undo: it is announced as an alert and a click outside does not close it. Focus starts on the element marked `initialFocus` (for an alert, the least destructive action, such as Cancel), otherwise on the first control.',
+        'A window over the page that blocks it until closed, for a decision the actor has to make before going on. The `actions` slot holds its buttons. Bind `open` with $bindState; closing the dialog (Escape, the close button) writes false back. `description` is the message the decision turns on, shown first and read out with the title when the dialog opens. `alert` marks a confirmation of something hard to undo: it is announced as an alert and a click outside does not close it. Focus starts on the element marked `initialFocus` (for an alert, the least destructive action, such as Cancel), otherwise on the first control. The `suffix` slot sits beside the title, for controls that change how the dialog shows what it holds. When it closes, focus goes back to the control that had it when the dialog opened; `returnFocus` names the label of a Button or Reference to go to instead, for a dialog opened from inside a window that is gone by the time it closes.',
     },
     Drawer: {
       props: z.object({
         title: z.string(),
         open: z.boolean().nullable(),
+        returnFocus: z.string().nullable(),
       }),
-      slots: ['default'],
+      slots: ['default', 'suffix'],
       description:
-        'A panel at the side of the screen that does not block the page behind it. Bind `open` with $bindState; closing the drawer writes false back.',
+        'A panel at the side of the screen that does not block the page behind it. Bind `open` with $bindState; closing the drawer writes false back. The `suffix` slot sits beside the title, for controls that change how the drawer shows what it holds. `returnFocus` works as on a Dialog.',
     },
     Toasts: {
       props: z.object({

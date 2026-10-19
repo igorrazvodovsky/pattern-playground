@@ -4,6 +4,7 @@ import { resolveEntityTitle } from '@shared/data/bindings';
 import { ItemView } from './ItemView';
 import { ItemViewProvider, useEntityBinding, useItemViewContext } from './provider';
 import { modalService } from '../../services/modal-service';
+import { previewTiming } from './preview-timing';
 import { useWorkingRungStore } from './working-rung-store';
 import type { ItemInteractionProps, ViewScope } from './types';
 import 'iconify-icon';
@@ -38,9 +39,6 @@ import '../../jsx-types';
  * drawer or dialog is up, hovering the trigger does nothing, and only a rung
  * choice or a dismissal moves off them.
  */
-
-const HOVER_OPEN_DELAY = 350;
-const HOVER_CLOSE_GRACE = 150;
 
 /** The rungs the reader can escalate to; `micro` (the bare inline trigger) is
     not a destination — the reader returns to it by dismissing the overlay. */
@@ -172,7 +170,7 @@ export const ItemInteraction = ({
     if (!enableEscalation) return;
     if (activeScopeRef.current === 'mid' || activeScopeRef.current === 'maxi') return;
     clearTimers();
-    const delay = scopeConfig.mini?.delay ?? HOVER_OPEN_DELAY;
+    const delay = scopeConfig.mini?.delay ?? previewTiming.open;
     openTimer.current = window.setTimeout(() => {
       openTimer.current = null;
       if (activeScopeRef.current === 'mid' || activeScopeRef.current === 'maxi') return;
@@ -189,7 +187,7 @@ export const ItemInteraction = ({
     }
     closeTimer.current = window.setTimeout(() => {
       setActiveScope((current) => (current === 'mini' ? null : current));
-    }, HOVER_CLOSE_GRACE);
+    }, previewTiming.close);
   }, []);
 
   const holdSummary = useCallback(() => {

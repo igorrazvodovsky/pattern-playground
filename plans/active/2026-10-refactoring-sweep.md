@@ -341,23 +341,39 @@ Design calls; one sitting each.
   leaves it out. Move problem-checklist onto `cardAttributes` and share the
   attribute list.
 - [ ] *Item layout by role, twice.* `specs/product-view.ts`, shared by the
-  investigate, watch-to-chase and item-view-full specs, copies `ItemView`'s
-  role filtering and its private `specRows` (a record-valued attribute gives
-  one row per key) to lay out the full view. A change to how `ItemView` lays
-  out a scope now has to be made in both. The copy is also partial:
-  `fullView` keeps the first key attribute, description and footer, and has
-  no output for subtitle, caption, tag, thumbnail or custom roles. The
-  product's maxi scope uses none of them today, but one added there would
-  show in `ItemView` and be left out of the spec demos without a warning. A
+  investigate, watch-to-chase, item-view-full and item-view-transitions
+  specs, copies `ItemView`'s role filtering and its private `specRows` (a
+  record-valued attribute gives one row per key) to lay out a rung. A change
+  to how `ItemView` lays out a scope now has to be made in both. The copy is
+  also partial: `itemView` keeps the first key attribute, description and
+  footer, and has no output for subtitle, caption, tag, thumbnail or custom
+  roles. The product's scopes use none of them today, but one added there
+  would show in `ItemView` and be left out of the spec demos without a
+  warning. It also lays the summary out like the other rungs, where
+  `ItemView`'s mini scope shows non-badge attributes as labelled badges. A
   `layoutByRole(binding, scope, item)` helper in `shared/data/bindings` would
   serve both; decide together with `ItemView`'s shape, which is still
   provisional.
-- [ ] *Full-view spec elements, three times.* `specs/investigate.json`,
+- [ ] *Hover bridge, twice.* `components/item-view/ItemInteraction.tsx` and
+  `catalog/registries/preview.ts` each implement the reference's preview
+  (open after a pause, close after a grace that arriving on the preview
+  cancels). Both read `previewTiming`, but only the hook moves the keyboard
+  into the preview and back. `ItemInteraction` also keeps the working-rung
+  preference in a persisted store, where the item-view-transitions spec keeps
+  it in demo state, and its rung icons repeat the registries' `summary`,
+  `detail` and `full`. Decide whether `ItemInteraction` should use the hook.
+- [ ] *Controls named by label.* A Button's `focusNext` and a Dialog's or
+  Drawer's `returnFocus` find their control by its label, and take the first
+  match. Two controls with the same label in one demo (two references to the
+  same item) would send focus to the wrong one. A stable key the spec gives
+  the control would avoid it; change both together.
+- [ ] *Full-view spec elements, five times.* `specs/investigate.json`,
   `specs/watch-to-chase-tiers.json` and `specs/item-view-full.json` each hold
   the same full-view elements (a Card with badges, price, description, a
   `DescriptionList` and the listed line), differing only in reading `$item`
-  or `$state`. A JSON spec cannot import, so a change to the full view has to
-  be made in all three. The modules beside the specs could build these
+  or `$state`, and `specs/item-view-transitions.json` holds the same body
+  twice more, for the detail drawer and the full dialog. A JSON spec cannot
+  import, so a change to the full view has to be made in all of them. The modules beside the specs could build these
   elements once in TypeScript, for a given state path, and merge them into
   each spec.
 - [ ] *Overview plus detail.* The same split with a `useFitsWidth` fallback in

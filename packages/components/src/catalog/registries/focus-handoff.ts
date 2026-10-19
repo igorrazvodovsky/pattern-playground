@@ -11,7 +11,7 @@ import { useLayoutEffect, useRef } from 'react';
 // for a dialog whose opener is gone (dialog-focus.ts). A button inside a dialog
 // is left alone, because the dialog returns focus itself.
 
-const labelOf = (button: HTMLButtonElement) => button.getAttribute('aria-label') ?? button.textContent.trim();
+export const labelOf = (button: HTMLButtonElement) => button.getAttribute('aria-label') ?? button.textContent.trim();
 
 const findTarget = (demo: HTMLElement, before: Element[], focusNext: string): HTMLElement | undefined => {
   const candidates = [...demo.querySelectorAll('button')].filter(

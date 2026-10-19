@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { ItemView } from '../components/item-view/ItemView';
-import { ItemInteraction } from '../components/item-view/ItemInteraction';
 import type { ViewScope } from '../components/item-view/types';
 import type { Product } from '@shared/data/types';
 import { products } from '../templates/collection-view/data';
@@ -63,33 +62,5 @@ export function ItemViewGlyphDemo() {
       selectedId={selectedId}
       onItemSelect={(item) => setSelectedId(item.id)}
     />
-  );
-}
-
-/**
- * One entity walked up and down the ladder from a single inline reference,
- * driven by `ItemInteraction`. The trigger is styled as a reference — the same
- * inline chrome the reference component renders (`.reference-mention`), rather
- * than a `micro` item view, whose product form is a `.tag`. Hovering it opens
- * the summary in a popover; from there the view-settings control on every rung
- * moves the reader to the detail drawer or the full record and back down again.
- *
- * The escalation mechanism itself lives in `ItemInteraction`, shared with the
- * reference component: this demo is only the entity, the prose it sits in, and
- * the reference chrome.
- */
-export function ItemViewTransitionsDemo() {
-  return (
-    <p>
-      The refurbishment log flags the{' '}
-      <ItemInteraction
-        item={canonicalProduct}
-        contentType="product"
-        className="reference-mention reference"
-      >
-        {canonicalProduct.name}
-      </ItemInteraction>{' '}
-      for a battery-module swap before the autumn fleet handover.
-    </p>
   );
 }

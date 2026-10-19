@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import {
-  ProductItemView,
-  ItemViewSummaryDemo,
-  ItemViewTransitionsDemo,
-} from "../demos/item-view";
+import { ProductItemView, ItemViewSummaryDemo } from "../demos/item-view";
+import { ItemInteraction } from "../components/item-view/ItemInteraction";
+import { products } from "../templates/collection-view/data";
 import { centeredLayout, centeredLayoutNarrow } from "./utils/decorators";
 
 const meta = {
@@ -29,7 +27,21 @@ export const Summary: Story = {
 
 export const Escalation: Story = {
   decorators: [centeredLayoutNarrow],
-  render: () => <ItemViewTransitionsDemo />,
+  // The trigger is styled as a reference, the inline chrome the reference
+  // component renders, rather than a `micro` item view.
+  render: () => (
+    <p>
+      The refurbishment log flags the{" "}
+      <ItemInteraction
+        item={products[0]}
+        contentType="product"
+        className="reference-mention reference"
+      >
+        {products[0].name}
+      </ItemInteraction>{" "}
+      for a battery-module swap before the autumn fleet handover.
+    </p>
+  ),
   parameters: {
     docs: {
       description: {

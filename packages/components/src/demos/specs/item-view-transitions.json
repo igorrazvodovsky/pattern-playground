@@ -1,0 +1,193 @@
+{
+  "root": "transitions",
+  "elements": {
+    "transitions": { "type": "Stack", "props": { "gap": "m" }, "children": ["sentence", "detail", "full"] },
+    "sentence": {
+      "type": "Text",
+      "props": { "text": "The refurbishment log flags the" },
+      "children": ["mention", "sentence-rest"]
+    },
+    "mention": {
+      "type": "Reference",
+      "props": {
+        "label": { "$state": "/product/name" },
+        "preview": { "$bindState": "/preview" },
+        "expanded": { "$cond": { "$or": [{ "$state": "/detailOpen" }, { "$state": "/fullOpen" }] }, "$then": true, "$else": false }
+      },
+      "children": ["summary-price", "summary-badges"],
+      "slots": { "suffix": ["summary-to-detail", "summary-to-full"] },
+      "on": {
+        "open": [
+          { "action": "setState", "params": { "statePath": "/detailOpen", "value": { "$cond": { "$state": "/preferred", "eq": "mid" }, "$then": true, "$else": false } } },
+          { "action": "setState", "params": { "statePath": "/fullOpen", "value": { "$cond": { "$state": "/preferred", "eq": "maxi" }, "$then": true, "$else": false } } }
+        ]
+      }
+    },
+    "summary-price": {
+      "type": "Text",
+      "props": { "text": { "$state": "/product/summary/price" } },
+      "visible": { "$state": "/product/summary/price" }
+    },
+    "summary-badges": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "repeat": { "statePath": "/product/summary/badges" },
+      "children": ["summary-badge"]
+    },
+    "summary-badge": { "type": "Badge", "props": { "text": { "$item": "text" } } },
+    "summary-to-detail": {
+      "type": "Button",
+      "props": { "label": "Detail", "icon": "detail", "hideLabel": true, "variant": "plain" },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/preview", "value": false } },
+          { "action": "setState", "params": { "statePath": "/preferred", "value": "mid" } },
+          { "action": "setState", "params": { "statePath": "/detailOpen", "value": true } }
+        ]
+      }
+    },
+    "summary-to-full": {
+      "type": "Button",
+      "props": { "label": "Full", "icon": "full", "hideLabel": true, "variant": "plain" },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/preview", "value": false } },
+          { "action": "setState", "params": { "statePath": "/preferred", "value": "maxi" } },
+          { "action": "setState", "params": { "statePath": "/fullOpen", "value": true } }
+        ]
+      }
+    },
+    "sentence-rest": {
+      "type": "Text",
+      "props": { "text": " for a battery-module swap before the autumn fleet handover.", "inline": true }
+    },
+
+    "detail": {
+      "type": "Drawer",
+      "props": {
+        "title": { "$state": "/product/name" },
+        "open": { "$bindState": "/detailOpen" },
+        "returnFocus": { "$state": "/product/name" }
+      },
+      "slots": { "suffix": ["detail-to-summary", "detail-to-full"] },
+      "children": ["detail-body"]
+    },
+    "detail-to-summary": {
+      "type": "Button",
+      "props": { "label": "Summary", "icon": "summary", "hideLabel": true, "variant": "plain" },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/detailOpen", "value": false } },
+          { "action": "setState", "params": { "statePath": "/preview", "value": true } }
+        ]
+      }
+    },
+    "detail-to-full": {
+      "type": "Button",
+      "props": { "label": "Full", "icon": "full", "hideLabel": true, "variant": "plain" },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/detailOpen", "value": false } },
+          { "action": "setState", "params": { "statePath": "/preferred", "value": "maxi" } },
+          { "action": "setState", "params": { "statePath": "/fullOpen", "value": true } }
+        ]
+      }
+    },
+    "detail-body": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["detail-badges", "detail-price", "detail-description", "detail-attributes", "detail-listed"]
+    },
+    "detail-badges": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "repeat": { "statePath": "/product/detail/badges" },
+      "children": ["detail-badge"]
+    },
+    "detail-badge": { "type": "Badge", "props": { "text": { "$item": "text" } } },
+    "detail-price": {
+      "type": "Text",
+      "props": { "text": { "$state": "/product/detail/price" }, "size": "large" },
+      "visible": { "$state": "/product/detail/price" }
+    },
+    "detail-description": {
+      "type": "Text",
+      "props": { "text": { "$state": "/product/detail/description" } },
+      "visible": { "$state": "/product/detail/description" }
+    },
+    "detail-attributes": {
+      "type": "DescriptionList",
+      "props": { "items": { "$state": "/product/detail/rows" } },
+      "visible": { "$state": "/product/detail/hasRows" }
+    },
+    "detail-listed": {
+      "type": "Text",
+      "props": { "text": { "$state": "/product/detail/listed" }, "muted": true },
+      "visible": { "$state": "/product/detail/listed" }
+    },
+
+    "full": {
+      "type": "Dialog",
+      "props": {
+        "title": { "$state": "/product/name" },
+        "open": { "$bindState": "/fullOpen" },
+        "returnFocus": { "$state": "/product/name" }
+      },
+      "slots": { "suffix": ["full-to-summary", "full-to-detail"] },
+      "children": ["full-body"]
+    },
+    "full-to-summary": {
+      "type": "Button",
+      "props": { "label": "Summary", "icon": "summary", "hideLabel": true, "variant": "plain" },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/fullOpen", "value": false } },
+          { "action": "setState", "params": { "statePath": "/preview", "value": true } }
+        ]
+      }
+    },
+    "full-to-detail": {
+      "type": "Button",
+      "props": { "label": "Detail", "icon": "detail", "hideLabel": true, "variant": "plain" },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/fullOpen", "value": false } },
+          { "action": "setState", "params": { "statePath": "/preferred", "value": "mid" } },
+          { "action": "setState", "params": { "statePath": "/detailOpen", "value": true } }
+        ]
+      }
+    },
+    "full-body": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["full-badges", "full-price", "full-description", "full-attributes", "full-listed"]
+    },
+    "full-badges": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "repeat": { "statePath": "/product/full/badges" },
+      "children": ["full-badge"]
+    },
+    "full-badge": { "type": "Badge", "props": { "text": { "$item": "text" } } },
+    "full-price": {
+      "type": "Text",
+      "props": { "text": { "$state": "/product/full/price" }, "size": "large" },
+      "visible": { "$state": "/product/full/price" }
+    },
+    "full-description": {
+      "type": "Text",
+      "props": { "text": { "$state": "/product/full/description" } },
+      "visible": { "$state": "/product/full/description" }
+    },
+    "full-attributes": {
+      "type": "DescriptionList",
+      "props": { "items": { "$state": "/product/full/rows" } },
+      "visible": { "$state": "/product/full/hasRows" }
+    },
+    "full-listed": {
+      "type": "Text",
+      "props": { "text": { "$state": "/product/full/listed" }, "muted": true },
+      "visible": { "$state": "/product/full/listed" }
+    }
+  }
+}

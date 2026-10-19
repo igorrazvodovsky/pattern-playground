@@ -9,13 +9,13 @@ import {
 import type { Product } from '@shared/data/types';
 
 // How the specs that show products read the product binding. A card shows a
-// few attributes as labelled values; the full view is laid out by role, as
-// the item view lays out its maxi scope. Both read and format values through
-// the same binding helpers, so a value reads the same on the card and in the
-// full view.
+// few attributes as labelled values; a view at one rung of the ladder is laid
+// out by role, as the item view lays out that rung's scope. Both read and
+// format values through the same binding helpers, so a value reads the same
+// on the card and in every view.
 
-const shown = resolveAttributeSelection(productBinding, productBinding.scopes.maxi);
-const byRole = (role: AttributeBinding['role']) => shown.filter(attribute => attribute.role === role);
+type Rung = 'mini' | 'mid' | 'maxi';
+
 const read = (item: Product, attribute: AttributeBinding) => getValueAtPath(item, attribute.path);
 const present = (item: Product, attributes: AttributeBinding[]) =>
   attributes.filter(attribute => read(item, attribute) != null);
@@ -37,8 +37,8 @@ export const attributeValue = (path: string) => {
 
 // A spec attribute holding a record, such as a product's specifications,
 // gives one row per key.
-const rows = (item: Product) =>
-  present(item, [...byRole('spec'), ...byRole('link')]).flatMap(attribute => {
+const rows = (item: Product, attributes: AttributeBinding[]) =>
+  present(item, attributes).flatMap(attribute => {
     const value = read(item, attribute);
     if (typeof value === 'object' && value !== null && !Array.isArray(value) && !(value instanceof Date)) {
       return Object.entries(value)
@@ -48,18 +48,28 @@ const rows = (item: Product) =>
     return [{ label: label(attribute), value: format(item, attribute) }];
   });
 
-/** The item's full view, laid out by role: badges, price, description, rows, and when it was listed. */
-export const fullView = (item: Product) => {
-  const [price] = present(item, byRole('key-attribute'));
-  const [description] = present(item, byRole('description'));
-  const [listed] = present(item, byRole('footer'));
-  const attributeRows = rows(item);
-  return {
-    badges: present(item, byRole('badge')).map(attribute => ({ text: format(item, attribute) })),
-    price: price ? format(item, price) : '',
-    description: description ? format(item, description) : '',
-    rows: attributeRows,
-    hasRows: attributeRows.length > 0,
-    listed: listed ? `${label(listed)} ${format(item, listed)}` : '',
+/**
+ * The item at one rung, laid out by role: badges, price, description, rows,
+ * and when it was listed. A part the rung's scope leaves out is empty.
+ */
+export const itemView = (rung: Rung) => {
+  const shown = resolveAttributeSelection(productBinding, productBinding.scopes[rung]);
+  const byRole = (role: AttributeBinding['role']) => shown.filter(attribute => attribute.role === role);
+  return (item: Product) => {
+    const [price] = present(item, byRole('key-attribute'));
+    const [description] = present(item, byRole('description'));
+    const [listed] = present(item, byRole('footer'));
+    const attributeRows = rows(item, [...byRole('spec'), ...byRole('link')]);
+    return {
+      badges: present(item, byRole('badge')).map(attribute => ({ text: format(item, attribute) })),
+      price: price ? format(item, price) : '',
+      description: description ? format(item, description) : '',
+      rows: attributeRows,
+      hasRows: attributeRows.length > 0,
+      listed: listed ? `${label(listed)} ${format(item, listed)}` : '',
+    };
   };
 };
+
+/** The item's full view: every attribute the maxi scope carries. */
+export const fullView = itemView('maxi');

@@ -1,11 +1,11 @@
-import { Children, Fragment, useEffect, useId, useRef, type CSSProperties } from 'react';
+import { Children, Fragment, useCallback, useEffect, useId, useRef, useState, type CSSProperties, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import clsx from 'clsx';
 import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes } from '../catalog';
 import type { ToastHandle } from '../../components/toast/toast';
 import { Combobox, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxList } from '../../components/combobox';
-import { captureOpener, focusDemoIfOpenerGone, type Opener } from './dialog-focus';
+import { captureOpener, settleFocus, useReturnFocus, type Opener } from './dialog-focus';
 import { useCandidateList } from './candidate-list';
 import { useDisclosureState } from './disclosure-state';
 import { useFieldError } from './field-validation';
@@ -13,6 +13,7 @@ import { submitForm } from './form-submit';
 import { useFocusHandoff } from './focus-handoff';
 import { useFocusOnShow } from './focus-on-show';
 import { Subsection, useHeading } from './heading-level';
+import { usePreview } from './preview';
 import { useToastList } from './toast-list';
 import { TracingProvider, useMarkTracing, useTracingState } from './mark-tracing';
 import '../../jsx-types';
@@ -21,6 +22,31 @@ import '../../jsx-types';
 // CSS layer's classes, the same markup the hand-written demos use.
 
 type PpModal = HTMLElement & { open: () => void; close: () => void };
+
+// Opens or closes a pp-modal to match `open`. A close happens at once; an open
+// waits a task (see Dialog), calling `onOpen` just before. Returns the effect's
+// cleanup, which cancels an open still waiting.
+const syncModal = (modal: RefObject<PpModal | null>, open: boolean | null | undefined, onOpen: () => void) => {
+  let timer: number | undefined;
+  let cancelled = false;
+  void customElements.whenDefined('pp-modal').then(() => {
+    const el = modal.current;
+    const dialog = el?.querySelector('dialog');
+    if (cancelled || !el || !dialog) return;
+    if (!open && dialog.open) el.close();
+    if (open && !dialog.open) {
+      timer = window.setTimeout(() => {
+        if (dialog.open) return;
+        onOpen();
+        el.open();
+      });
+    }
+  });
+  return () => {
+    cancelled = true;
+    window.clearTimeout(timer);
+  };
+};
 
 const space = { none: '0', s: 'var(--space-xs)', m: 'var(--space-s)', l: 'var(--space-m)' } as const;
 const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
@@ -37,7 +63,9 @@ const icons: Record<(typeof iconNames)[number], string> = {
   decrease: 'ph:arrow-down-right',
   delete: 'ph:trash-simple',
   'delete-confirm': 'ph:trash-simple-fill',
+  detail: 'ph:square-split-horizontal',
   external: 'ph:arrow-square-out',
+  full: 'ph:frame-corners',
   generated: 'ph:sparkle',
   guide: 'ph:book-open',
   history: 'ph:clock-counter-clockwise',
@@ -51,6 +79,7 @@ const icons: Record<(typeof iconNames)[number], string> = {
   'remove-person': 'ph:user-minus',
   restore: 'ph:arrow-arc-left',
   search: 'ph:magnifying-glass',
+  summary: 'ph:cards',
   transfer: 'ph:crown-simple',
   unchanged: 'ph:minus',
   web: 'ph:globe',
@@ -153,6 +182,14 @@ export const { registry } = defineRegistry(catalog, {
     // With a purpose, the purpose's colour class, its icon and a strong run
     // of text, as the library marks a message in place.
     Text: ({ props, children }) => {
+      if (props.inline) {
+        return (
+          <span className={clsx(props.muted && 'muted')}>
+            {props.highlight ? <mark>{props.text}</mark> : props.text}
+            {children && <> {children}</>}
+          </span>
+        );
+      }
       let text = <>{props.text}</>;
       if (props.highlight) text = <mark>{text}</mark>;
       if (props.purpose) text = <strong>{text}</strong>;
@@ -478,6 +515,57 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
+    // The library's reference chrome on a button, and its summary popover
+    // (`.popover__header`: the heading and body on the leading edge, the
+    // controls on the trailing one) in a pp-popup. The popup is portaled to
+    // <body>: the reference sits in a paragraph, which cannot hold the
+    // preview's blocks, and the top layer keeps it clear of clipping.
+    Reference: ({ props, children, slots, bindings, emit }) => {
+      const [shown, setShown] = useBoundProp(props.preview, bindings?.preview);
+      const { triggerRef, contentRef, trigger, content, close } = usePreview(shown ?? false, setShown, props.expanded ?? false);
+      const [anchor, setAnchor] = useState<HTMLButtonElement | null>(null);
+      const setTrigger = useCallback(
+        (element: HTMLButtonElement | null) => {
+          triggerRef.current = element;
+          setAnchor(element);
+        },
+        [triggerRef],
+      );
+      const Heading = useHeading();
+      return (
+        <>
+          <button
+            ref={setTrigger}
+            type="button"
+            className="reference-mention reference"
+            aria-haspopup="dialog"
+            aria-expanded={props.expanded ?? false}
+            {...trigger}
+            onClick={() => {
+              close();
+              emit('open');
+            }}
+          >
+            {props.label}
+          </button>
+          {createPortal(
+            <pp-popup anchor={anchor ?? undefined} active={shown ?? false} placement="bottom-start" distance={8} flip shift top-layer="">
+              <div ref={contentRef} className="popover" role="dialog" aria-label={props.label} {...content}>
+                <div className="popover__header">
+                  <div className="flow">
+                    <Heading className="label">{props.label}</Heading>
+                    <Subsection>{children}</Subsection>
+                  </div>
+                  {slots?.suffix && <div className="button-group">{slots.suffix}</div>}
+                </div>
+              </div>
+            </pp-popup>,
+            document.body,
+          )}
+        </>
+      );
+    },
+
     // Hands focus on (focus-handoff.ts) if it unmounts while focused.
     Button: ({ props, emit }) => {
       const ref = useFocusHandoff(props.focusNext);
@@ -720,33 +808,27 @@ export const { registry } = defineRegistry(catalog, {
     //
     // Every close, whether from state, pp-modal or the browser, ends in the
     // dialog's close event, so the state and the focus fallback are settled
-    // there. It fires once the dialog is shut and the page is no longer inert,
-    // so the demo can take focus.
+    // there (dialog-focus.ts). It fires once the dialog is shut and the page is
+    // no longer inert, so the demo can take focus.
+    //
+    // A window opens a task after its state changes, so that a window closing
+    // in the same change (Full to Detail) has closed, and pp-modal has handed
+    // its focus back, before this one takes focus.
     Dialog: ({ props, children, slots, bindings }) => {
       const [open, setOpen] = useBoundProp(props.open, bindings?.open);
       const modal = useRef<PpModal>(null);
       const opener = useRef<Opener | null>(null);
+      const returnTarget = useReturnFocus(props.returnFocus);
       const titleId = useId();
       const descriptionId = useId();
 
       const onClose = () => {
         setOpen(false);
-        if (opener.current) focusDemoIfOpenerGone(opener.current);
+        settleFocus(returnTarget(), opener.current);
         opener.current = null;
       };
 
-      useEffect(() => {
-        void customElements.whenDefined('pp-modal').then(() => {
-          const el = modal.current;
-          const shown = el?.querySelector('dialog')?.open;
-          if (!el || shown === undefined) return;
-          if (open && !shown) {
-            opener.current = captureOpener();
-            el.open();
-          }
-          if (!open && shown) el.close();
-        });
-      }, [open]);
+      useEffect(() => syncModal(modal, open, () => (opener.current = captureOpener())), [open]);
 
       return createPortal(
         <pp-modal ref={modal}>
@@ -760,6 +842,11 @@ export const { registry } = defineRegistry(catalog, {
           >
             <header className="modal__header">
               <h2 className="modal__title" id={titleId}>{props.title}</h2>
+              {slots?.suffix && (
+                <div className="modal__header-actions">
+                  <div className="button-group">{slots.suffix}</div>
+                </div>
+              )}
               <button type="button" className="modal__close" data-close aria-label="Close">
                 <iconify-icon icon="ph:x" aria-hidden="true" />
               </button>
@@ -783,34 +870,32 @@ export const { registry } = defineRegistry(catalog, {
     // markup modalService builds. A portal rather than modalService itself:
     // the service renders content in a React root of its own, outside the
     // spec's state and action providers.
-    Drawer: ({ props, children, bindings }) => {
+    Drawer: ({ props, children, slots, bindings }) => {
       const [open, setOpen] = useBoundProp(props.open, bindings?.open);
       const modal = useRef<PpModal>(null);
+      const opener = useRef<Opener | null>(null);
+      const returnTarget = useReturnFocus(props.returnFocus);
       const titleId = useId();
 
-      useEffect(() => {
-        const el = modal.current;
-        if (!el) return;
-        const onClose = () => setOpen(false);
-        el.addEventListener('pp-modal-close', onClose);
-        return () => el.removeEventListener('pp-modal-close', onClose);
-      }, [setOpen]);
+      // As the Dialog: the state and focus settle in the close event.
+      const onClose = () => {
+        setOpen(false);
+        settleFocus(returnTarget(), opener.current);
+        opener.current = null;
+      };
 
-      useEffect(() => {
-        void customElements.whenDefined('pp-modal').then(() => {
-          const el = modal.current;
-          const shown = el?.querySelector('dialog')?.open;
-          if (!el || shown === undefined) return;
-          if (open && !shown) el.open();
-          if (!open && shown) el.close();
-        });
-      }, [open]);
+      useEffect(() => syncModal(modal, open, () => (opener.current = captureOpener())), [open]);
 
       return createPortal(
         <pp-modal ref={modal}>
-          <dialog className="drawer drawer--right" data-modal="false" aria-labelledby={titleId}>
+          <dialog className="drawer drawer--right" data-modal="false" aria-labelledby={titleId} onClose={onClose}>
             <header className="modal__header">
               <h2 className="modal__title" id={titleId}>{props.title}</h2>
+              {slots?.suffix && (
+                <div className="modal__header-actions">
+                  <div className="button-group">{slots.suffix}</div>
+                </div>
+              )}
               <button type="button" className="modal__close" data-close aria-label="Close">
                 <iconify-icon icon="ph:x" aria-hidden="true" />
               </button>

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { JSONUIProvider, Renderer, type ComponentRegistry, type ComponentRenderer } from '@json-render/react';
 import type { ComputedFunction, Spec, StateStore } from '@json-render/core';
+import { DemoRoot } from './registries/dialog-focus';
 import { DemoSettled } from './registries/focus-on-show';
 
 // Renders a demo spec (demos/specs/<slug>.json) through one registry. The
@@ -55,17 +56,20 @@ export function SpecDemo({ spec, registry, registryName, store, handlers, functi
   useEffect(() => {
     settled.current = true;
   });
+  const root = useRef<HTMLDivElement>(null);
 
   return (
     // Focusable from script only: a dialog whose opener it removed hands focus
     // back here (registries/dialog-focus.ts), and so does a focused Button
     // that disappears with nowhere named to go (registries/focus-handoff.ts).
-    <div data-registry={registryName} tabIndex={-1}>
-      <DemoSettled value={settled}>
-        <JSONUIProvider registry={registry} store={store} handlers={handlers} functions={functions}>
-          <Renderer spec={spec} registry={registry} fallback={Unsupported} />
-        </JSONUIProvider>
-      </DemoSettled>
+    <div ref={root} data-registry={registryName} tabIndex={-1}>
+      <DemoRoot value={root}>
+        <DemoSettled value={settled}>
+          <JSONUIProvider registry={registry} store={store} handlers={handlers} functions={functions}>
+            <Renderer spec={spec} registry={registry} fallback={Unsupported} />
+          </JSONUIProvider>
+        </DemoSettled>
+      </DemoRoot>
     </div>
   );
 }
