@@ -1,0 +1,104 @@
+---
+title: Version history
+added: 2026-10-19
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+group: application
+activityLevel: action
+lifecycle: application
+mediation: individual
+description: "Keeping a durable sequence of past states of the work, some of them named, so the actor can find, inspect, reuse, and restore a state from beyond the reach of undo."
+situation:
+  initiating: >-
+    the work is stored continuously or many times over, and has moved past the reach of
+    undo — the session ended, many changes or many people came between — when the actor
+    discovers they need an earlier state: the one before a mistake, the one that was sent
+    or approved, or a direction they abandoned and now want back
+  resulting:
+    - >-
+      earlier states are kept as states of the work, not as a list of actions, and the
+      actor can open one to inspect it, copy from it, or restore it
+    - >-
+      most states are captured without the actor's help, because people rarely name a
+      version just before they break something; the automatic history is what recovery
+      depends on, and it grows faster than anyone can read
+    - >-
+      naming is how a long history stays usable: some moments name themselves, such as a
+      publish or a release, others are named on purpose by the actor, and unnamed states
+      can be thinned out over time while named ones are kept
+    - >-
+      restoring an old state is itself a change to the work, so it is recorded and can be
+      reversed, and the states after it are kept rather than discarded
+    - >-
+      a reliable history changes how people work, not only how they recover: knowing they
+      can get back makes them more willing to try a risky direction, and past versions
+      become a source of parts to reuse rather than only states to return to
+    - >-
+      kept states also keep whatever was later removed from the work, which conflicts with
+      a deletion meant to make something unrecoverable
+relationships:
+  follows:
+    - to: saving
+      note: "once saving is automatic there is no pending state to abandon, so recovery from a mistake needs the earlier states that version history keeps"
+    - to: draft-and-publish
+      note: "each publish is a moment that names itself in the version history"
+  precedes:
+    - to: comparing
+      note: "comparing works on two states taken from the version history, which is its version case"
+  complements:
+    - to: undo
+      note: "undo steps back through recent actions within a session; version history reaches states beyond it"
+    - to: activity-log
+      note: "the log keeps what was done, the history keeps what the work was; the same change appears in both, read differently"
+    - to: deletion
+      note: "version history makes many deletions recoverable, and a removal meant to be final has to reach the kept states as well"
+  tangential:
+    - to: reconciliation
+      note: "a history that branches into lines of work needs reconciliation when the lines come back together"
+  enacts:
+    - to: temporality
+      note: "the past states of the work stay reachable, so time spent on it is not only a sequence of overwrites"
+disclosure: >-
+  Seeded from a gap analysis of the sequences, then classified: it would fill
+  memory and continuity's "Let the actor return to named versions", and it answers
+  the to-do undo carried and the references in saving, deletion, temporality, and
+  action consequences. It covers the whole kept history, unnamed states
+  included, because the recovery case saving points to depends on states nobody
+  named; naming is its main tension rather than its scope. Branching is left to reconciliation for now. Open: how far the
+  automatic capture rate and retention belong here rather than with saving.
+---
+
+The work is stored continuously or many times over, and at some point the actor needs a state it no longer has. It may be the state before a mistake noticed days later, the version that went to the client, the one that was approved, or a direction they abandoned and now want back. Undo cannot reach any of these: the session has ended, or too many changes and too many people came between.
+
+Version history keeps past states of the work as states, not as a list of actions, and lets the actor open one to inspect it, copy from it, or restore it. Most states are captured automatically, because people rarely save a version on purpose just before they break something. Naming keeps the history usable as it grows. Some moments name themselves, such as a publish or a release, and others are named by the actor when they reach something worth keeping. Restoring is recorded as a change of its own, so nothing after the restored state is lost.
+
+## Naming and retention
+
+An automatic history grows faster than anyone can read, and a list of timestamps gives no sign of which states mattered. Naming is the main answer, and it raises three questions for the design:
+
+- *Which moments name themselves.* Publishing, sending, releasing, and approving are already deliberate acts, so they can mark the history without asking anything more of the actor.
+- *Who names the rest.* Leaving all naming to the actor means the important states often go unnamed, because their importance is only clear later. Letting the actor name a past state after the fact helps.
+- *What happens to unnamed states as they age.* Many systems keep every state for a short period and fewer as they get older, while keeping every named state. How far back the history goes is a policy decision with privacy and storage costs, not only a convenience.
+
+## More than recovery
+
+Interviews with creative practitioners describe version histories used in ways a recovery feature does not anticipate. People treat past versions as a collection of parts to draw on, rely on the history to give them confidence to try risky directions, keep low-fidelity captures rather than complete ones, and revisit versions over long periods. A design that offers only "restore this version" serves the first case in this page's situation and misses the others. Copying part of an old state into the current one, and opening an old state beside the current one, are as much a part of the pattern as restoring.
+
+Where a history branches, so that several lines of work continue from one state, bringing them back together is a separate problem, covered by [reconciliation](/patterns/reconciliation).
+
+## Where it is practised
+
+- Document editors with a version history that groups automatic snapshots, lets the actor name a version, and restores or copies any of them.
+- Design tools that add a named version on publish and let the actor add their own.
+- Version control, where every commit is kept and tags and releases name a few of them.
+- Operating system backups that keep hourly snapshots for a day, daily ones for a month, and weekly ones after that, and restore a single file or the whole set.
+
+## Resources & references
+
+- Sterman, Nicholas & Paulos (2022) [Towards creative version control](https://doi.org/10.1145/3555756), CSCW — interviews with 18 creative practitioners: versions as a palette of materials, as confidence to explore, low-fidelity capture, and long time spans
+- Edwards & Mynatt (1997) [Timewarp: techniques for autonomous collaboration](https://chi1997.acm.org/proceedings/paper/wke.html), CHI — time as an explicit, editable part of the interface, with divergent histories of a shared document kept visible
+- Grossman, Matejka & Fitzmaurice (2010) [Chronicle: capture, exploration, and playback of document workflow histories](https://www.research.autodesk.com/?p=1833), UIST — linking regions of a document back to the steps in its history that produced them, which sits between a version history and an activity log

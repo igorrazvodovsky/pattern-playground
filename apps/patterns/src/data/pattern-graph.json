@@ -2077,36 +2077,6 @@
       ]
     },
     {
-      "id": "named-versions",
-      "title": "Named versions",
-      "category": "Actions",
-      "path": "/patterns/named-versions",
-      "role": "pattern",
-      "situation": {
-        "initiating": "the work has moved past the reach of undo — the session ended, many changes or many people came between — and the actor needs a particular earlier state: the version that was sent, approved, or released; an unnamed history of every save is too long to search and gives no sign of which state mattered",
-        "resulting": [
-          {
-            "clause": "the states that mattered carry names, and restoring goes to a named state rather than back a number of steps"
-          },
-          {
-            "clause": "names come from two sources: some moments name themselves, such as a publish or a release, and others are named on purpose by the actor; leaving all naming to the actor means the important states often go unnamed"
-          },
-          {
-            "clause": "restoring an old version is itself a change to the work, so it is recorded and can be reversed, and the versions after it are kept rather than discarded"
-          },
-          {
-            "clause": "kept versions also keep whatever was later removed from the work, which conflicts with deletion meant to make something unrecoverable"
-          }
-        ]
-      },
-      "seed": true,
-      "evidence": [
-        {
-          "kind": "observed"
-        }
-      ]
-    },
-    {
       "id": "navigation-overview",
       "title": "Navigation",
       "category": "Actions",
@@ -3422,6 +3392,46 @@
           }
         ]
       }
+    },
+    {
+      "id": "version-history",
+      "title": "Version history",
+      "category": "Actions",
+      "path": "/patterns/version-history",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the work is stored continuously or many times over, and has moved past the reach of undo — the session ended, many changes or many people came between — when the actor discovers they need an earlier state: the one before a mistake, the one that was sent or approved, or a direction they abandoned and now want back",
+        "resulting": [
+          {
+            "clause": "earlier states are kept as states of the work, not as a list of actions, and the actor can open one to inspect it, copy from it, or restore it"
+          },
+          {
+            "clause": "most states are captured without the actor's help, because people rarely name a version just before they break something; the automatic history is what recovery depends on, and it grows faster than anyone can read"
+          },
+          {
+            "clause": "naming is how a long history stays usable: some moments name themselves, such as a publish or a release, others are named on purpose by the actor, and unnamed states can be thinned out over time while named ones are kept"
+          },
+          {
+            "clause": "restoring an old state is itself a change to the work, so it is recorded and can be reversed, and the states after it are kept rather than discarded"
+          },
+          {
+            "clause": "a reliable history changes how people work, not only how they recover: knowing they can get back makes them more willing to try a risky direction, and past versions become a source of parts to reuse rather than only states to return to"
+          },
+          {
+            "clause": "kept states also keep whatever was later removed from the work, which conflicts with a deletion meant to make something unrecoverable"
+          }
+        ]
+      },
+      "group": "application",
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "wizard",
@@ -6645,34 +6655,6 @@
       "extractedFrom": "frontmatter:related"
     },
     {
-      "source": "named-versions",
-      "target": "undo",
-      "type": "complements",
-      "label": "undo steps back within a session; named versions reach states beyond it",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "named-versions",
-      "target": "deletion",
-      "type": "complements",
-      "label": "a removal is only complete when the kept versions are dealt with as well",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "draft-and-publish",
-      "target": "named-versions",
-      "type": "precedes",
-      "incomingNote": "each publish is a natural moment to name",
-      "extractedFrom": "frontmatter:follows"
-    },
-    {
-      "source": "named-versions",
-      "target": "saving",
-      "type": "related",
-      "label": "saving keeps the latest state; naming picks out the states worth returning to",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
       "source": "navigation-overview",
       "target": "information-architecture",
       "type": "related",
@@ -8586,6 +8568,62 @@
       "type": "tangential",
       "label": "disabling submit until the form is valid hides the problem this move exists to explain",
       "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "saving",
+      "target": "version-history",
+      "type": "precedes",
+      "incomingNote": "once saving is automatic there is no pending state to abandon, so recovery from a mistake needs the earlier states that version history keeps",
+      "extractedFrom": "frontmatter:follows"
+    },
+    {
+      "source": "draft-and-publish",
+      "target": "version-history",
+      "type": "precedes",
+      "incomingNote": "each publish is a moment that names itself in the version history",
+      "extractedFrom": "frontmatter:follows"
+    },
+    {
+      "source": "version-history",
+      "target": "comparing",
+      "type": "precedes",
+      "label": "comparing works on two states taken from the version history, which is its version case",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "version-history",
+      "target": "undo",
+      "type": "complements",
+      "label": "undo steps back through recent actions within a session; version history reaches states beyond it",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "version-history",
+      "target": "activity-log",
+      "type": "complements",
+      "label": "the log keeps what was done, the history keeps what the work was; the same change appears in both, read differently",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "version-history",
+      "target": "deletion",
+      "type": "complements",
+      "label": "version history makes many deletions recoverable, and a removal meant to be final has to reach the kept states as well",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "version-history",
+      "target": "reconciliation",
+      "type": "tangential",
+      "label": "a history that branches into lines of work needs reconciliation when the lines come back together",
+      "extractedFrom": "frontmatter:tangential"
+    },
+    {
+      "source": "version-history",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "the past states of the work stay reachable, so time spent on it is not only a sequence of overwrites",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "wizard",

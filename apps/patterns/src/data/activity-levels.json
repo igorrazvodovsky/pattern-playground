@@ -451,11 +451,6 @@
       "lifecycle-stage": "seeking",
       "mediation": "individual"
     },
-    "named-versions": {
-      "activity-level": "action",
-      "lifecycle-stage": null,
-      "mediation": "individual"
-    },
     "navigation-overview": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -724,6 +719,11 @@
     "validation": {
       "activity-level": "operation",
       "lifecycle-stage": null,
+      "mediation": "individual"
+    },
+    "version-history": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
       "mediation": "individual"
     },
     "wizard": {
