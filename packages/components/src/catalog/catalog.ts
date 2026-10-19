@@ -122,11 +122,12 @@ export const catalog = defineCatalog(schema, {
         highlight: z.boolean().nullable(),
         status: z.boolean().nullable(),
         purpose: purpose.nullable(),
+        pending: z.boolean().nullable(),
         inline: z.boolean().nullable(),
       }),
       slots: ['default'],
       description:
-        'A run of text. `highlight` marks it as changed or notable. With `status` the text is announced to assistive technology when it changes; keep such a Text rendered and empty rather than hidden. `purpose` makes it a short message in place, such as a result beside the control that caused it: it takes the purpose\'s colour, which replaces `muted`, and is led by its icon. Children render inline after the text. With `inline` it is a run inside the Text it is a child of, not a paragraph of its own: use it to go on with a sentence after an inline control such as a Reference, keeping the space at the start of its `text`. An inline run takes `highlight` and `muted`; `size`, `status` and `purpose` belong to the paragraph.',
+        'A run of text. `highlight` marks it as changed or notable. With `status` the text is announced to assistive technology when it changes; keep such a Text rendered and empty rather than hidden. `purpose` makes it a short message in place, such as a result beside the control that caused it: it takes the purpose\'s colour, which replaces `muted`, and is led by its icon. `pending` says the text reports work still under way, such as a check that has not finished: it is led by a busy indicator instead, and takes no purpose. Children render inline after the text. With `inline` it is a run inside the Text it is a child of, not a paragraph of its own: use it to go on with a sentence after an inline control such as a Reference, keeping the space at the start of its `text`. An inline run takes `highlight` and `muted`; `size`, `status`, `purpose` and `pending` belong to the paragraph.',
     },
     Callout: {
       props: z.object({
@@ -519,6 +520,11 @@ export const catalog = defineCatalog(schema, {
       params: z.object({ edit: z.unknown() }),
       description: 'Apply an edit written by a RuleBuilder ({ kind, slotId, value }) to the draft rule.',
     },
+    settle: {
+      params: z.object({ statePath: z.string(), value: z.unknown() }),
+      description:
+        'Write `value` to `statePath` once the actor pauses: each dispatch for the same path restarts the wait. Dispatch it from a `watch` on what the actor is changing, to act on their input when they stop rather than on every keystroke.',
+    },
     notify: {
       params: z.object({ statePath: z.string(), message: z.string() }),
       description:
@@ -535,5 +541,6 @@ export type Catalog = typeof catalog;
 export const actionsSuppliedBySpecs = {
   arm: async () => {},
   editRule: async () => {},
+  settle: async () => {},
   notify: async () => {},
 };

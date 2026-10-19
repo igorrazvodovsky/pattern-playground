@@ -295,7 +295,8 @@ export const { registry } = defineRegistry(catalog, {
       ) : (
         props.text
       );
-      const Icon = props.purpose ? purposeIcons[props.purpose] : null;
+      const purpose = props.pending ? null : props.purpose;
+      const Icon = props.pending ? LoaderCircle : purpose ? purposeIcons[purpose] : null;
       // An inline run takes the size and colour of the paragraph it sits in.
       if (props.inline) {
         return (
@@ -309,13 +310,14 @@ export const { registry } = defineRegistry(catalog, {
         <p
           className={clsx(
             props.size === 'small' ? 'text-xs' : props.size === 'large' ? 'text-2xl font-semibold tracking-tight' : 'text-sm',
-            props.purpose
-              ? ['flex items-center gap-2 [&>svg]:size-4 [&>svg]:shrink-0', purposeText[props.purpose], props.size !== 'large' && 'font-medium']
-              : props.muted && 'text-muted-foreground',
+            (purpose || props.pending) && 'flex items-center gap-2 [&>svg]:size-4 [&>svg]:shrink-0',
+            purpose
+              ? [purposeText[purpose], props.size !== 'large' && 'font-medium']
+              : (props.muted || props.pending) && 'text-muted-foreground',
           )}
           role={props.status ? 'status' : undefined}
         >
-          {Icon && <Icon aria-hidden="true" />}
+          {Icon && <Icon aria-hidden="true" className={clsx(props.pending && 'animate-spin motion-reduce:animate-none')} />}
           {text}
           {children && <> {children}</>}
         </p>

@@ -1,0 +1,65 @@
+{
+  "root": "prompt",
+  "elements": {
+    "prompt": {
+      "type": "Stack",
+      "props": { "gap": "s" },
+      "children": ["conversation", "feedback"],
+      "watch": {
+        "/text": { "action": "settle", "params": { "statePath": "/checked", "value": { "$state": "/text" } } }
+      }
+    },
+    "conversation": { "type": "Messages", "props": {}, "children": ["composer"] },
+    "composer": {
+      "type": "Composer",
+      "props": { "label": "Prompt", "placeholder": "What do you need?", "value": { "$bindState": "/text" } },
+      "slots": {
+        "actions": ["add-context", "suggest", "attach", "mention"],
+        "send": ["send"]
+      }
+    },
+    "add-context": {
+      "type": "Button",
+      "props": { "label": "Add context from the web", "icon": "web", "hideLabel": true, "variant": "plain" }
+    },
+    "suggest": {
+      "type": "Button",
+      "props": { "label": "Get suggestions", "icon": "suggest", "hideLabel": true, "variant": "plain" }
+    },
+    "attach": {
+      "type": "Button",
+      "props": { "label": "Attach a file", "icon": "attach", "hideLabel": true, "variant": "plain" }
+    },
+    "mention": {
+      "type": "Button",
+      "props": { "label": "Reference materials", "icon": "mention", "hideLabel": true, "variant": "plain" }
+    },
+    "send": {
+      "type": "Button",
+      "props": { "label": "Send", "icon": "send", "hideLabel": true }
+    },
+    "feedback": { "type": "Stack", "props": { "gap": "none" }, "children": ["checking", "verdict"] },
+    "checking": {
+      "type": "Text",
+      "props": { "text": "Checking the prompt…", "size": "small", "pending": true },
+      "visible": {
+        "$and": [{ "$state": "/text" }, { "$state": "/text", "neq": { "$state": "/checked" } }]
+      }
+    },
+    "verdict": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$computed": "verdict",
+          "args": { "text": { "$state": "/text" }, "checked": { "$state": "/checked" } }
+        },
+        "purpose": {
+          "$computed": "purpose",
+          "args": { "text": { "$state": "/text" }, "checked": { "$state": "/checked" } }
+        },
+        "size": "small",
+        "status": true
+      }
+    }
+  }
+}

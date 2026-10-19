@@ -187,7 +187,8 @@ export const { registry } = defineRegistry(catalog, {
     },
 
     // With a purpose, the purpose's colour class, its icon and a strong run
-    // of text, as the library marks a message in place.
+    // of text, as the library marks a message in place. Pending text is led
+    // by the library's spinner.
     Text: ({ props, children }) => {
       if (props.inline) {
         return (
@@ -199,15 +200,17 @@ export const { registry } = defineRegistry(catalog, {
       }
       let text = <>{props.text}</>;
       if (props.highlight) text = <mark>{text}</mark>;
-      if (props.purpose) text = <strong>{text}</strong>;
+      const purpose = props.pending ? null : props.purpose;
+      if (purpose) text = <strong>{text}</strong>;
       if (props.size === 'small') text = <small>{text}</small>;
       return (
         <p
-          className={clsx(props.purpose ? [props.purpose, 'flex'] : props.muted && 'muted')}
+          className={clsx(purpose ? [purpose, 'flex'] : props.pending ? ['muted', 'flex'] : props.muted && 'muted')}
           style={props.size === 'large' ? { fontSize: 'larger' } : undefined}
           role={props.status ? 'status' : undefined}
         >
-          {props.purpose && <iconify-icon className="icon" icon={purposeIcons[props.purpose]} aria-hidden="true" />}
+          {props.pending && <pp-spinner aria-hidden="true" />}
+          {purpose && <iconify-icon className="icon" icon={purposeIcons[purpose]} aria-hidden="true" />}
           {text}
           {children && <> {children}</>}
         </p>

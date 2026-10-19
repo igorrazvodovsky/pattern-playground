@@ -412,6 +412,23 @@ Design calls; one sitting each.
   second full set of `.template-field*` rules that would fight the slots'
   `--filled` and `:focus-within` if switched back on. Delete the component,
   those rules and the tiptap.css block, or keep the component for a story.
+- [ ] *`.message-composer__feedback` has no consumer.* The prompt-quality-feedback
+  spec shows its verdict as a Text with a purpose after the composer, so the
+  feedback line in `styles/messages.css` (with its badge and spinner spacing)
+  is no longer used, nor are its animation and reduced-motion rules in
+  `styles/tiptap.css`, whose import is commented out. Delete both, or have the
+  pp Composer draw a feedback line if the catalog gains one.
+- [ ] *Three copies of per-path timers.* `specs/notify.ts`, `specs/settle.ts`
+  and `specs/arm.ts` each keep a map of timers by state path, clear the old
+  timer, and check `connected()` before the delayed write. A shared helper
+  would keep a fix to one (such as clearing timers when the demo goes) from
+  missing the others.
+- [ ] *A purpose Text wraps its icon above long text in pp.* The pp registry
+  lays a Text with a purpose out with `.flex`, which wraps in a demo host
+  narrower than 40rem, so a message longer than one line drops onto the next
+  line below its icon. shadcn keeps the icon beside the text. The
+  prompt-quality-feedback messages are short enough to fit one line for now.
+  The library needs a row whose text shrinks and wraps beside its icon.
 - [ ] *Full-view spec elements, six times.* `specs/investigate.json`,
   `specs/watch-to-chase-tiers.json` and `specs/item-view-full.json` each hold
   the same full-view elements (a Card with badges, price, description, a

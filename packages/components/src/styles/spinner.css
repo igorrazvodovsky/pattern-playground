@@ -20,6 +20,14 @@ pp-spinner::after {
   animation: pp-spinner-spin var(--speed) linear infinite;
 }
 
+/* Under reduced motion the ring stands still, its arc still marking it as
+   busy; the text beside it says what is under way. */
+@media (prefers-reduced-motion: reduce) {
+  pp-spinner::after {
+    animation: none;
+  }
+}
+
 /* Three turns per cycle matches the old SVG's 1080° sweep per `--speed`. */
 @keyframes pp-spinner-spin {
   to {
