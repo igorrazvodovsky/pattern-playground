@@ -29,15 +29,18 @@ import {
   History,
   IdCard,
   Info,
+  Layers,
   Lightbulb,
   Link,
   LoaderCircle,
   Maximize2,
   MessageSquare,
   Minus,
+  Package,
   PanelRight,
   Paperclip,
   Plus,
+  Puzzle,
   Rows3,
   Search,
   SlidersHorizontal,
@@ -130,13 +133,16 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   'in-place': Rows3,
   increase: TrendingUp,
   link: Link,
+  material: Layers,
   mention: AtSign,
   more: Plus,
   next: ChevronRight,
   notifications: Bell,
   open: FolderOpen,
+  part: Puzzle,
   popover: MessageSquare,
   previous: ChevronLeft,
+  product: Package,
   publish: Globe,
   reasoning: Lightbulb,
   'remove-person': UserMinus,
@@ -220,7 +226,7 @@ export const { registry } = defineRegistry(catalog, {
       if (props.align === 'baseline') {
         return <div className="flex flex-row flex-wrap items-baseline gap-2">{children}</div>;
       }
-      return (
+      const stack = (
         <KitStack
           {...context}
           props={{
@@ -234,6 +240,9 @@ export const { registry } = defineRegistry(catalog, {
           {children}
         </KitStack>
       );
+      // The kit's Stack takes no name, so a labelled one is wrapped in a
+      // section of that name, a region.
+      return props.label ? <section aria-label={props.label}>{stack}</section> : stack;
     },
 
     Grid: ({ props, children }) => (
@@ -256,12 +265,16 @@ export const { registry } = defineRegistry(catalog, {
     // A card holding a Stat sets its title as the section card's muted
     // description and draws the header close, so the figure leads. shadcn
     // has no selected card; a selected one takes the primary colour on its
-    // border and a ring of it, as shadcn marks a chosen option card.
+    // border and a ring of it, as shadcn marks a chosen option card. An
+    // expanded card's detail goes under a rule, as a card footer's border
+    // does, and is positioned so it paints above the cover. An icon leads the
+    // title, muted, as shadcn sets icons beside labels.
     Card: ({ props, children, slots, emit }) => {
       const openRef = useRef<HTMLButtonElement>(null);
       useFocusOnShow(openRef, props.focusOnShow);
       const Heading = useHeading();
       const above = props.opens && 'relative z-10';
+      const Icon = props.icon ? icons[props.icon] : null;
       return (
         <div
           className={clsx(
@@ -276,14 +289,19 @@ export const { registry } = defineRegistry(catalog, {
               {props.title && (
                 <Heading
                   data-slot="card-title"
-                  className="leading-none font-semibold group-has-data-[slot=stat]/card:text-sm group-has-data-[slot=stat]/card:leading-snug group-has-data-[slot=stat]/card:font-normal group-has-data-[slot=stat]/card:text-muted-foreground"
+                  className={clsx(
+                    'leading-none font-semibold group-has-data-[slot=stat]/card:text-sm group-has-data-[slot=stat]/card:leading-snug group-has-data-[slot=stat]/card:font-normal group-has-data-[slot=stat]/card:text-muted-foreground',
+                    Icon && 'flex items-center gap-2',
+                  )}
                 >
+                  {Icon && <Icon aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />}
                   {props.opens ? (
                     <button
                       ref={openRef}
                       type="button"
                       className="cursor-pointer text-left outline-none after:absolute after:inset-0 after:rounded-xl hover:underline focus-visible:after:ring-[3px] focus-visible:after:ring-ring/50"
-                      aria-pressed={props.selected == null ? undefined : props.selected}
+                      aria-pressed={props.selected == null || props.expanded != null ? undefined : props.selected}
+                      aria-expanded={props.expanded ?? undefined}
                       onClick={() => emit('open')}
                     >
                       {props.title}
@@ -304,6 +322,11 @@ export const { registry } = defineRegistry(catalog, {
             <Subsection>{children}</Subsection>
           </div>
           {slots?.actions && <div className={clsx('flex items-center justify-end gap-2 px-6', above)}>{slots.actions}</div>}
+          {props.expanded && slots?.detail && (
+            <div className="relative flex flex-col gap-3 border-t px-6 pt-6">
+              <Subsection>{slots.detail}</Subsection>
+            </div>
+          )}
         </div>
       );
     },

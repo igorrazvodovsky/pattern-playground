@@ -78,13 +78,16 @@ const icons: Record<(typeof iconNames)[number], string> = {
   'in-place': 'ph:rows',
   increase: 'ph:arrow-up-right',
   link: 'ph:link',
+  material: 'ph:stack',
   mention: 'ph:at',
   more: 'ph:plus',
   next: 'ph:caret-right',
   notifications: 'ph:bell',
   open: 'ph:folder-open',
+  part: 'ph:puzzle-piece',
   popover: 'ph:chat-teardrop',
   previous: 'ph:caret-left',
+  product: 'ph:package',
   publish: 'ph:globe-hemisphere-west',
   reasoning: 'ph:lightbulb',
   'remove-person': 'ph:user-minus',
@@ -117,23 +120,27 @@ const fieldError = (id: string, message: string) => (
 
 export const { registry } = defineRegistry(catalog, {
   components: {
-    Stack: ({ props, children }) =>
-      props.direction === 'horizontal' ? (
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: space[props.gap ?? 'm'],
-            alignItems: props.align ?? 'center',
-          }}
-        >
+    // A Stack with a label is a section of that name, a region.
+    Stack: ({ props, children }) => {
+      const layout: { className?: string; style: CSSProperties } =
+        props.direction === 'horizontal'
+          ? {
+              style: {
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: space[props.gap ?? 'm'],
+                alignItems: props.align ?? 'center',
+              },
+            }
+          : { className: 'flow', style: { '--flow-space': space[props.gap ?? 'm'] } as CSSProperties };
+      return props.label ? (
+        <section aria-label={props.label} {...layout}>
           {children}
-        </div>
+        </section>
       ) : (
-        <div className="flow" style={{ '--flow-space': space[props.gap ?? 'm'] } as CSSProperties}>
-          {children}
-        </div>
-      ),
+        <div {...layout}>{children}</div>
+      );
+    },
 
     // A list of cards, each in its own item. A repeat reaches the registry as
     // one child that renders every item, so it cannot be split into list
@@ -159,7 +166,11 @@ export const { registry } = defineRegistry(catalog, {
     // focus when it appears, if `focusOnShow` (focus-on-show.ts). The title is
     // a heading at the demo's current level (heading-level.ts); .card__title
     // keeps its size whatever the level. A selected card takes the ring the
-    // library's collection views give the picked item (view-family.css).
+    // library's collection views give the picked item (view-family.css). An
+    // expanded card's detail is the library's inline detail (.card > .detail),
+    // which is positioned, so it paints above the stretched link. It sets its
+    // own inset and its rule runs the card's full width, so a card with a
+    // detail slot pads its body rather than itself.
     Card: ({ props, children, slots, emit }) => {
       const openRef = useRef<HTMLButtonElement>(null);
       useFocusOnShow(openRef, props.focusOnShow);
@@ -170,7 +181,8 @@ export const { registry } = defineRegistry(catalog, {
           ref={openRef}
           type="button"
           className="stretched-link"
-          aria-pressed={props.selected == null ? undefined : props.selected}
+          aria-pressed={props.selected == null || props.expanded != null ? undefined : props.selected}
+          aria-expanded={props.expanded ?? undefined}
           onClick={() => emit('open')}
         >
           {props.title}
@@ -178,10 +190,23 @@ export const { registry } = defineRegistry(catalog, {
       ) : (
         props.title
       );
+      const heading = props.icon ? (
+        <>
+          <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />{' '}
+          {title}
+        </>
+      ) : (
+        title
+      );
+      const detail = props.expanded && slots?.detail && (
+        <div className="detail flow pad">
+          <Subsection>{slots.detail}</Subsection>
+        </div>
+      );
       return slots?.suffix || slots?.actions ? (
         <article className="card" data-selected={selected} data-popover-host="">
           <div className="card__header">
-            {props.title && <Heading className="label card__title">{title}</Heading>}
+            {props.title && <Heading className="label card__title">{heading}</Heading>}
             {slots.suffix && <div className="flex">{slots.suffix}</div>}
           </div>
           <div className="flow pad">
@@ -193,10 +218,19 @@ export const { registry } = defineRegistry(catalog, {
               <div className="flex">{slots.actions}</div>
             </div>
           )}
+          {detail}
+        </article>
+      ) : slots?.detail ? (
+        <article className="card" data-selected={selected} data-popover-host="">
+          <div className="flow pad" style={{ '--flow-space': '0em' } as CSSProperties}>
+            {props.title && <Heading className="card__title">{heading}</Heading>}
+            <Subsection>{children}</Subsection>
+          </div>
+          {detail}
         </article>
       ) : (
         <article className="card flow pad" data-selected={selected} data-popover-host="" style={{ '--flow-space': '0em' } as CSSProperties}>
-          {props.title && <Heading className="card__title">{title}</Heading>}
+          {props.title && <Heading className="card__title">{heading}</Heading>}
           <Subsection>{children}</Subsection>
         </article>
       );

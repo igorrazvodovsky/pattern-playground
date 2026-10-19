@@ -54,13 +54,16 @@ export const iconNames = [
   'in-place',
   'increase',
   'link',
+  'material',
   'mention',
   'more',
   'next',
   'notifications',
   'open',
+  'part',
   'popover',
   'previous',
+  'product',
   'publish',
   'reasoning',
   'remove-person',
@@ -99,9 +102,11 @@ export const catalog = defineCatalog(schema, {
         direction: z.enum(['vertical', 'horizontal']).nullable(),
         gap: z.enum(['none', 's', 'm', 'l']).nullable(),
         align: z.enum(['start', 'center', 'baseline']).nullable(),
+        label: z.string().nullable(),
       }),
       slots: ['default'],
-      description: 'Lays children out in a column (default) or a row.',
+      description:
+        'Lays children out in a column (default) or a row. `label` names what the children are a group of, such as one of several lists in a detail: the Stack becomes a region of that name for assistive technology. A visible caption for the group is a separate Text.',
     },
     Grid: {
       props: z.object({
@@ -122,13 +127,15 @@ export const catalog = defineCatalog(schema, {
     Card: {
       props: z.object({
         title: z.string().nullable(),
+        icon: z.enum(iconNames).nullable(),
         opens: z.boolean().nullable(),
         selected: z.boolean().nullable(),
         focusOnShow: z.boolean().nullable(),
+        expanded: z.boolean().nullable(),
       }),
-      slots: ['default', 'suffix', 'actions'],
+      slots: ['default', 'suffix', 'actions', 'detail'],
       description:
-        'A bounded surface that groups related content. The `suffix` slot sits beside the title, for a short status such as a Badge, or a control that acts on the card. The `actions` slot holds the buttons that act on what the card shows, below its content. With `opens` the card stands for something the actor can open, such as the items behind a summary: its title is a button, pressing anywhere on the card presses it, and it emits `open`. A card that opens needs a `title`. Controls in `suffix` and `actions` stay separate presses; anything else in the card is covered by the press, so put controls in those slots. `selected` marks the one card among its peers that the actor picked, such as the item another view is showing: the card is set apart, and on a card that opens the title reads as pressed. `focusOnShow` works as on a Button, for the title: set it on the card the actor opened, so that it takes focus when they come back to it.',
+        'A bounded surface that groups related content. `icon` leads the title, named by meaning, such as the kind of item the card stands for. The `suffix` slot sits beside the title, for a short status such as a Badge, or a control that acts on the card. The `actions` slot holds the buttons that act on what the card shows, below its content. With `opens` the card stands for something the actor can open, such as the items behind a summary: its title is a button, pressing anywhere on the card presses it, and it emits `open`. A card that opens needs a `title`. Controls in `suffix` and `actions` stay separate presses; anything else in the card is covered by the press, so put controls in those slots. The `detail` slot holds what the card opens into, such as the item\'s full readout under its summary, and shows while `expanded` is true: it sits last in the card, set off by a rule, and is not covered by the press, so the actor can read and select its text and use the controls in it, other cards among them. On a card that opens, `expanded` makes the title read as expanded or collapsed rather than pressed; set `selected` with it to set the card apart while it is expanded. `selected` marks the one card among its peers that the actor picked, such as the item another view is showing: the card is set apart, and on a card that opens the title reads as pressed. `focusOnShow` works as on a Button, for the title: set it on the card the actor opened, so that it takes focus when they come back to it.',
     },
     Text: {
       props: z.object({
@@ -561,6 +568,11 @@ export const catalog = defineCatalog(schema, {
       description:
         'Arm a confirmation on one item: sets its `armed` field and clears it again after a few seconds. `item` is the item\'s state path ({ "$item": "" } inside a repeat). Cancel and confirm need no custom action: setState on `armed`, removeState on the item.',
     },
+    toggle: {
+      params: z.object({ item: z.string() }),
+      description:
+        'Open one item among its peers, or close it if it is open: sets its `open` field and clears `open` on the other items in the same list, so each list keeps one current item. An item that closes also closes every item open inside it, so it opens again on its summary. `item` is the item\'s state path ({ "$item": "" } inside a repeat).',
+    },
     editRule: {
       params: z.object({ edit: z.unknown() }),
       description: 'Apply an edit written by a RuleBuilder ({ kind, slotId, value }) to the draft rule.',
@@ -585,6 +597,7 @@ export type Catalog = typeof catalog;
 // still have to name every catalog action, so they share these no-ops.
 export const actionsSuppliedBySpecs = {
   arm: async () => {},
+  toggle: async () => {},
   editRule: async () => {},
   settle: async () => {},
   notify: async () => {},

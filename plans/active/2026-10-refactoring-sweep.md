@@ -468,6 +468,27 @@ Design calls; one sitting each.
   comment. The spec's layout menu sits in the card's or popover's `suffix`
   instead. Delete them, or have a pp `Card` or `Popover` draw its suffix as
   that corner control.
+- [ ] *The in-place detail sits under the card's press.* In
+  `specs/overview-detail.json` the in-place detail is the card's default
+  content, so the card's press covers it and the actor cannot select its
+  text. The Card's `detail` slot, shown while `expanded`, keeps it clear of
+  the press, as `specs/nested-pairs.json` does. Moving it there also reads
+  the title as expanded rather than pressed, so check that the menu in the
+  card's suffix still makes sense beside it.
+- [ ] *Component and material readouts formatted by hand.*
+  `specs/nested-pairs.ts` writes each tier's badges and rows by hand,
+  products among them, while `specs/product-view.ts` reads products through
+  the product binding. Components and materials have no binding in
+  `shared/data/bindings`. Give them one, and the nested-pairs tiers can read
+  all three the way the other specs read products.
+- [ ] *One spec is not a tree.* `specs/nested-pairs.json` renders its pair
+  again inside its own detail (`card` → `detail` → `overviews` → `pair` →
+  `card`), and `card` has two parents. json-render's renderer follows it
+  until the data runs out, but `indexTree` in `@json-render/core`, which its
+  spec generation and editing paths call, rejects a spec with cycles or
+  shared children. Nothing here calls those paths on demo specs. If a spec
+  lint or a generation step starts to, the recursion needs another form,
+  such as one element group per depth built in the module.
 - [x] *Small demo duplicates.* The deletable list and `DeleteIconButton`
   duplicates went when `deletion.tsx` and `transient-feedback.tsx` became
   specs, and the hand-built back button went when `problem-curated-view.tsx`
