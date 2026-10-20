@@ -25,6 +25,17 @@ const findTarget = (demo: HTMLElement, before: Element[], focusNext: string): HT
   return candidates.find(follows) ?? candidates.at(-1);
 };
 
+// The label to hand focus to, as the latest render named it. The hand-offs
+// read it when the element goes, so their effects run once, and a label that
+// changes while the element stays does not count as the element going.
+const useLatest = (focusNext: string | null | undefined) => {
+  const latest = useRef(focusNext);
+  useLayoutEffect(() => {
+    latest.current = focusNext;
+  });
+  return latest;
+};
+
 // Hands focus on from `lost`, which is about to be removed: to the button
 // labelled `focusNext`, else to the demo root. Focus that has not yet left
 // what is going (`stillThere`) counts as lost too.
@@ -50,6 +61,7 @@ const handOff = (
 /** Returns the ref for a Button's element. */
 export const useFocusHandoff = (focusNext: string | null | undefined) => {
   const ref = useRef<HTMLButtonElement>(null);
+  const next = useLatest(focusNext);
 
   useLayoutEffect(() => {
     const button = ref.current;
@@ -59,9 +71,9 @@ export const useFocusHandoff = (focusNext: string | null | undefined) => {
       if (!button || document.activeElement !== button) return;
       if (button.closest('dialog, [role="dialog"], [role="alertdialog"]')) return;
       const demo = button.closest<HTMLElement>('[data-registry]');
-      if (demo) handOff(button, demo, focusNext);
+      if (demo) handOff(button, demo, next.current);
     };
-  }, [focusNext]);
+  }, [next]);
 
   return ref;
 };
@@ -77,13 +89,16 @@ export const useFocusHandoff = (focusNext: string | null | undefined) => {
 export const useMenuFocusHandoff = (focusNext: string | null | undefined) => {
   const trigger = useRef<HTMLButtonElement>(null);
   const list = useRef<HTMLDivElement>(null);
+  const next = useLatest(focusNext);
   // A library that closes its list on a choice and only then, a task later,
   // returns focus to the button (Radix) leaves focus on <body> in between. A
   // choice that removes the menu in that gap still took focus with it.
   const justClosed = useRef(false);
+  const closing = useRef<ReturnType<typeof setTimeout>>(undefined);
   const closed = useCallback(() => {
     justClosed.current = true;
-    setTimeout(() => (justClosed.current = false), 500);
+    clearTimeout(closing.current);
+    closing.current = setTimeout(() => (justClosed.current = false), 500);
   }, []);
 
   useLayoutEffect(() => {
@@ -97,9 +112,9 @@ export const useMenuFocusHandoff = (focusNext: string | null | undefined) => {
       const dropped = justClosed.current && (!active || active === document.body);
       if (!button || (!dropped && (!active || (active !== button && !menuList?.contains(active))))) return;
       const demo = button.closest<HTMLElement>('[data-registry]');
-      if (demo) handOff(button, demo, focusNext, focused => focused === button || Boolean(menuList?.contains(focused)));
+      if (demo) handOff(button, demo, next.current, focused => focused === button || Boolean(menuList?.contains(focused)));
     };
-  }, [focusNext]);
+  }, [next]);
 
   return { trigger, list, closed };
 };
@@ -114,6 +129,7 @@ export const useMenuFocusHandoff = (focusNext: string | null | undefined) => {
 export const useGroupFocusHandoff = (focusNext: string | null | undefined, portaled = 0) => {
   const group = useRef<HTMLDivElement>(null);
   const parts = useRef(Array.from({ length: portaled }, () => ({ current: null as HTMLDivElement | null })));
+  const next = useLatest(focusNext);
 
   useLayoutEffect(() => {
     const root = group.current;
@@ -127,9 +143,9 @@ export const useGroupFocusHandoff = (focusNext: string | null | undefined, porta
       if (!root || !active || !inside(active)) return;
       if (root.closest('dialog, [role="dialog"], [role="alertdialog"]')) return;
       const demo = root.closest<HTMLElement>('[data-registry]');
-      if (demo) handOff(root, demo, focusNext, inside);
+      if (demo) handOff(root, demo, next.current, inside);
     };
-  }, [focusNext]);
+  }, [next]);
 
   return { group, parts: parts.current };
 };

@@ -112,6 +112,9 @@ export class PPModal extends HTMLElement {
 
     switch (event.key) {
       case 'Escape':
+        // An Escape a widget on the page has already handled (a list, a
+        // preview) was meant for that widget, not for this window.
+        if (event.defaultPrevented) break;
         event.preventDefault();
         if (this.closedBy !== 'none') this.closeModal();
         break;

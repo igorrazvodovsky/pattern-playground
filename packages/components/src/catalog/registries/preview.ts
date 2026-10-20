@@ -76,8 +76,14 @@ export const usePreview = (shown: boolean, setShown: (shown: boolean) => void, e
     if (to && (triggerRef.current?.contains(to) || contentRef.current?.contains(to))) return;
     hide();
   };
+  // Escape closes the preview and goes no further, so a dialog or pane around
+  // the reference stays open. With the preview closed, it goes on as usual.
   const triggerKey = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') close();
+    if (event.key === 'Escape' && shown) {
+      event.preventDefault();
+      event.stopPropagation();
+      close();
+    }
     if (event.key !== 'Tab' || event.shiftKey || !shown) return;
     const [first] = controls();
     if (!first) return;
@@ -88,6 +94,7 @@ export const usePreview = (shown: boolean, setShown: (shown: boolean) => void, e
   const contentKey = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       event.preventDefault();
+      event.stopPropagation();
       close();
     }
     if (event.key !== 'Tab') return;
