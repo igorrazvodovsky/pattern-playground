@@ -1,7 +1,7 @@
 import type { Spec } from '@json-render/core';
 import { products } from '@shared/data';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { cardAttributes, fullView, itemView } from './product-view';
+import { cardAttributes, fullView, itemView } from './shared/product-view';
 import spec from './overview-detail.json' with { type: 'json' };
 
 // Closing a popover belongs to the popover, so picking an item never toggles it.

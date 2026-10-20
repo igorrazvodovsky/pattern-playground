@@ -117,25 +117,29 @@ promotion is trigger-gated.
 ### Switchable demos (`demos/specs/`)
 
 A demo can also be a spec: `demos/specs/<slug>.json` describes the demo as
-data against the component catalog, and `demos/specs/<slug>.ts` beside it
-supplies what JSON cannot carry: initial state (fixtures enter here, never
-through the spec), action handlers, and `$computed` functions for the demo's
-own logic. Values any demo could need (counts, text joined from state,
+data against the component catalog, and `demos/specs/<slug>.ts` beside it,
+when the demo needs one, supplies what JSON cannot carry: initial state
+(fixtures enter here, never through the spec), action handlers, and
+`$computed` functions for the demo's own logic. A static spec has no module.
+A module can also build its spec in TypeScript, from a factory another spec
+shares, with no JSON of its own. Code and JSON that several specs share live
+in `demos/specs/shared/`, so that every file directly in `demos/specs/`,
+apart from its `.test.ts` files, is a spec. Values any demo could need (counts, text joined from state,
 formatted numbers, list membership, an item's value in action params) are
 directives in `catalog/directives.ts`, available to every spec. A spec reads
 state only. Ownership is the same as for `demos/<slug>.tsx`: the pattern that
 names the move owns the spec, and other pages borrow it by slug.
 
-The unit tests check every spec module against the catalog and its own setup
+The unit tests check every spec against the catalog and its own setup
 (`catalog/specs.test.ts`): types, props and their literal values, slots,
 actions and their handlers, `$computed` names, and directives.
 
 The catalog, the registries that render it (`registries/pp.tsx` for this
 library, `registries/shadcn.tsx` for shadcn/ui), `SpecDemo.tsx`, and the
 shadcn stylesheet build live in `packages/components/src/catalog/`. The site
-mounts specs through the `specs` map in `apps/patterns/src/lib/demo-registry.ts`;
-MDX writes `<Demo spec="<slug>">`, and the demo frame offers a switch between
-registries.
+finds specs by glob in `apps/patterns/src/lib/demo-registry.ts`, so a new spec
+needs no registration; MDX writes `<Demo spec="<slug>">`, and the demo frame
+offers a switch between the libraries listed in `lib/demo-libraries.ts`.
 
 A demo is its own interface with mock data, so its headings do not continue
 the page's outline. Every demo frame is a region named "Demo", described by

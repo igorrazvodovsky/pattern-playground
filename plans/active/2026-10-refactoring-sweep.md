@@ -310,26 +310,27 @@ Kept on purpose:
   debounce, selects leaf commands directly, and filters recent items. Folding
   it in would need hook options for each, and would change how the menu
   behaves. Decide whether that is wanted.
-- [ ] *Modules beside static specs* (checked). A spec with nothing to set up
-  still needs its own `demos/specs/<slug>.ts`, which only imports the JSON and
-  exports `{ spec, setup: {} }`, plus a line in `demo-registry.ts`'s `specs`
-  map. Seven such modules exist (status-feedback, the inline and callout
-  notifications, the four empty states), and every static demo migrated adds
-  one. The registry could import the JSON when no module exists and default
-  `setup` to `{}`.
-
-  Sharper form (checked 2026-10-20): `catalog/specs.test.ts` already finds
-  spec modules with `import.meta.glob`. The same glob in `demo-registry.ts`,
-  lazy rather than eager, would replace the hand-kept `specs` map, and
-  `verify-demo-registry.mjs` could list the spec files instead of parsing the
-  map with a regex. The glob needs `demos/specs/` to hold only specs and
-  their modules, so the shared helpers (`arm`, `notify`, `settle`, `timers`,
-  `mentions`, `toggle`, `selection`, `product-view`, `filter-clauses`) and the slice variants that
-  reuse another spec's JSON would move to a folder of their own or be named
-  so the glob skips them. The libraries are also listed in three places: the
-  `Library` type and `libraryLabels` in `Demo.astro`, and the `registries`
-  map in `demo-registry.ts`. One manifest of name, label and loader would
-  serve all three.
+- [x] *Modules beside static specs.* Done 2026-10-20. `demo-registry.ts`
+  finds specs with two lazy globs over `demos/specs/`, one for the modules
+  and one for the JSON, in place of the hand-kept `specs` map. A slug is a
+  module, a JSON spec, or both; the module wins, and a JSON spec without one
+  renders with nothing set up. The ten modules that only re-exported their
+  JSON are gone (status-feedback, the inline and callout notifications, the
+  four empty states, communicating-uncertainty, input-output-mapping,
+  sections). The shared helpers (`arm`, `notify`, `settle`, `timers`,
+  `mentions`, `toggle`, `selection`, `product-view`, `filter-clauses`) and
+  the prompt factory with its JSON template, which no slug renders on its
+  own, moved to `demos/specs/shared/`, which the globs skip. The slices that
+  build their spec from another spec's factory stay in `demos/specs/`, since
+  each is a spec. `catalog/specs.test.ts` uses the same globs and still lints
+  all 51 specs; it also names any module in the folder that exports no spec,
+  since the site would take it for one. `verify-demo-registry.mjs` lists the
+  folder rather than parsing a map. The library names and labels live in
+  `lib/demo-libraries.ts`, which `Demo.astro` reads; the loaders stay in
+  `demo-registry.ts`, typed by that list, because the frame renders at
+  prerender and a loader there would pull the registries into it. Checked in
+  the browser: the empty states (JSON only) and the prompt slices (modules)
+  mount and switch libraries.
 - [x] *tldraw math nodes.* Left as they are. `src/tldraw/` is tldraw's workflow
   starter kit (its formatting, `WorkflowValue`, the same node set including
   Earthquake), and keeping the nodes as written keeps them comparable with
@@ -353,7 +354,7 @@ Kept on purpose:
 - [ ] *Detail without what the row shows, written twice.* `InPlaceDetail` in
   `templates/collection-view/renderers/entity-detail.tsx` has no user since
   the linked-trio demo became a spec, which builds the same view with
-  `itemView('mid', undefined, attributes)` from `specs/product-view.ts`.
+  `itemView('mid', undefined, attributes)` from `specs/shared/product-view.ts`.
   Decide whether the template keeps it for collection views or it goes.
 - [ ] *Catalog semantics written per registry* (checked 2026-10-20). What a
   catalog prop means for assistive technology and focus is written out again
@@ -409,22 +410,22 @@ Design calls; one sitting each.
   and `alert`), placed in a Card titled by its label with the trend as a
   Badge in the card's suffix. `alert` now sits on `.stat` rather than on the
   card.
-- [ ] *Overview attributes repeated.* The list `['name','category','pricing.msrp']`
-  is written out in the overview-detail and linked-trio specs. No demo writes
-  out `cards--list > EntityCard` any more: in specs, an entity card is a Card
-  titled by the item's name with its attributes as labelled Badges (in a list
-  of rows, an `Item` with the same Badges), and the item's full view is a Card
-  holding its badges, price, description and a `DescriptionList` of the rest,
-  laid out by role in `specs/product-view.ts`, as `ItemView` lays out its maxi
-  scope.
+- [ ] *Overview attributes repeated.* The list
+  `['name','category','pricing.msrp']` is written out in the overview-detail
+  and linked-trio specs. No demo writes out `cards--list > EntityCard` any
+  more: in specs, an entity card is a Card titled by the item's name with its
+  attributes as labelled Badges (in a list of rows, an `Item` with the same
+  Badges), and the item's full view is a Card holding its badges, price,
+  description and a `DescriptionList` of the rest, laid out by role in
+  `specs/shared/product-view.ts`, as `ItemView` lays out its maxi scope.
 - [x] *Slice attributes formatted two ways.* `specs/problem-checklist.ts` and
   `specs/watch-to-chase-tiers.ts` showed the same three attributes on a flag's
   items, one through `AttributeUtils` (a missing value shown as N/A) and the
-  other through `cardAttributes`. Done 2026-10-20: both read
-  `sliceAttributes` from `specs/product-view.ts`, so the checklist's badges
-  now take the binding's labels (Price, Listed) and leave a missing value out.
-- [ ] *Item layout by role, twice.* `specs/product-view.ts`, shared by the
-  investigate, watch-to-chase, item-view-full, item-view-transitions and
+  other through `cardAttributes`. Done 2026-10-20: both read `sliceAttributes`
+  from `specs/shared/product-view.ts`, so the checklist's badges now take the
+  binding's labels (Price, Listed) and leave a missing value out.
+- [ ] *Item layout by role, twice.* `specs/shared/product-view.ts`, shared by
+  the investigate, watch-to-chase, item-view-full, item-view-transitions and
   reference specs (the last lays out users and projects through their own
   bindings), copies `ItemView`'s role filtering and its private `specRows` (a
   record-valued attribute gives one row per key) to lay out a rung. A change
@@ -472,11 +473,11 @@ Design calls; one sitting each.
   with the list read through `aria-activedescendant`. Migrating those four
   demos to specs would retire the component's copy.
 - [x] *Mention candidates filtered twice.* `specs/reference.ts` and
-  `specs/prompt.ts` each turned a category's children into mentions, capped
-  the list at eight and matched the label against the query. Done
-  2026-10-20: both use `specs/mentions.ts` (`toMention`, `mentionQuery`,
-  `matchesQuery`, `maxMentionMatches`); `reference.ts` keeps its
-  kind-then-item steps on top.
+  `specs/shared/prompt.ts` each turned a category's children into mentions,
+  capped the list at eight and matched the label against the query. Done
+  2026-10-20: both use `specs/shared/mentions.ts` (`toMention`,
+  `mentionQuery`, `matchesQuery`, `maxMentionMatches`); `reference.ts` keeps
+  its kind-then-item steps on top.
 - [ ] *Stale labels in the reference note.* `sustainability-meeting-content`
   in `shared/data/reference-content.json` stores labels that no longer match
   the ids they point at (`user-2` is stored as David Chen, `PRJ-1` as Customer
@@ -499,10 +500,11 @@ Design calls; one sitting each.
   is no longer used, nor are its animation and reduced-motion rules in
   `styles/tiptap.css`, whose import is commented out. Delete both, or have the
   pp Composer draw a feedback line if the catalog gains one.
-- [x] *Three copies of per-path timers.* `specs/notify.ts`, `specs/settle.ts`
-  and `specs/arm.ts` each kept a map of timers by state path. Done
-  2026-10-20: all three schedule through `keyedTimers` in `specs/timers.ts`,
-  which replaces a pending write and skips it once the demo has gone.
+- [x] *Three copies of per-path timers.* `specs/shared/notify.ts`,
+  `specs/shared/settle.ts` and `specs/shared/arm.ts` each kept a map of timers
+  by state path. Done 2026-10-20: all three schedule through `keyedTimers` in
+  `specs/shared/timers.ts`, which replaces a pending write and skips it once
+  the demo has gone.
 - [ ] *A purpose Text wraps its icon above long text in pp.* The pp registry
   lays a Text with a purpose out with `.flex`, which wraps in a demo host
   narrower than 40rem, so a message longer than one line drops onto the next
@@ -543,7 +545,7 @@ Design calls; one sitting each.
   in `catalog/registries/pp-filter-tag.tsx`, the catalog's `FilterTag`, which
   takes everything as props. Every demo that filters is now a spec and edits
   conditions through `FilterTag`, with operators and options from
-  `demos/specs/filter-clauses.ts`, so the library chip (`Filters` in
+  `demos/specs/shared/filter-clauses.ts`, so the library chip (`Filters` in
   `components/filter/filters.tsx`) has no user and no story. Decide whether
   it takes `FilterTag`'s props and becomes the component the pp registry
   draws, or goes.
@@ -587,9 +589,9 @@ Design calls; one sitting each.
   the title as expanded rather than pressed, so check that the menu in the
   card's suffix still makes sense beside it.
 - [ ] *Component and material readouts formatted by hand.*
-  `specs/nested-pairs.ts` writes each tier's badges and rows by hand,
-  products among them, while `specs/product-view.ts` reads products through
-  the product binding. Components and materials have no binding in
+  `specs/nested-pairs.ts` writes each tier's badges and rows by hand, products
+  among them, while `specs/shared/product-view.ts` reads products through the
+  product binding. Components and materials have no binding in
   `shared/data/bindings`. Give them one, and the nested-pairs tiers can read
   all three the way the other specs read products.
 - [ ] *One spec is not a tree.* `specs/nested-pairs.json` renders its pair

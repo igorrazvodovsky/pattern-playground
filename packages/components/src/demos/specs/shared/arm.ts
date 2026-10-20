@@ -1,5 +1,5 @@
 import type { StateStore } from '@json-render/core';
-import { confirmationWindow } from '../../catalog/catalog';
+import { confirmationWindow } from '../../../catalog/catalog';
 import { keyedTimers } from './timers';
 
 // A spec cannot schedule a state change, so the `armed` flag is reverted here.

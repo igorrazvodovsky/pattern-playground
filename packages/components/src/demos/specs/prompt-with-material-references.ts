@@ -1,4 +1,4 @@
-import { material, promptDemo } from './prompt';
+import { material, promptDemo } from './shared/prompt';
 
 export default promptDemo({
   content: [

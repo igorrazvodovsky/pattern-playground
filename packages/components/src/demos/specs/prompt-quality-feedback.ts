@@ -1,6 +1,6 @@
 import type { Spec } from '@json-render/core';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { settleHandler } from './settle';
+import { settleHandler } from './shared/settle';
 import spec from './prompt-quality-feedback.json' with { type: 'json' };
 
 // The "checking" line is not announced; the verdict empties meanwhile, so each

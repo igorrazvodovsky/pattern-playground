@@ -8,9 +8,9 @@ import {
   type EntityBinding,
   type FilterOperator,
 } from '@shared/data/bindings';
-import type { iconNames } from '../../catalog/catalog';
-import type { FilterEdit } from '../../catalog/filter-edit';
-import { getUniqueAttributeValues } from '../../templates/collection-view/FilterOperations';
+import type { iconNames } from '../../../catalog/catalog';
+import type { FilterEdit } from '../../../catalog/filter-edit';
+import { getUniqueAttributeValues } from '../../../templates/collection-view/FilterOperations';
 
 export type ValueGlyph = {
   value: string;

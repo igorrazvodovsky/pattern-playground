@@ -26,7 +26,7 @@ import {
   type MalleabilityBlock,
   type ViewSpec,
 } from '../../templates/collection-view/spec';
-import { filterClauses } from './filter-clauses';
+import { filterClauses } from './shared/filter-clauses';
 import spec from './data-view.json' with { type: 'json' };
 
 // A watch on `/view` rewrites `/derived` because a repeat reads a list from

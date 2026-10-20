@@ -2,7 +2,7 @@ import type { Spec } from '@json-render/core';
 import { products } from '@shared/data';
 import type { SpecSetup } from '../../catalog/SpecDemo';
 import { detectProblems } from '../problem-detection';
-import { fullView, sliceAttributes } from './product-view';
+import { fullView, sliceAttributes } from './shared/product-view';
 import spec from './watch-to-chase-tiers.json' with { type: 'json' };
 
 // The tiles are one list so that a tile and its slice share an `open` field.

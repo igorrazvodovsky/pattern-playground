@@ -1,7 +1,7 @@
 import type { Spec } from '@json-render/core';
 import { products } from '@shared/data';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { mapLocations } from './product-view';
+import { mapLocations } from './shared/product-view';
 import spec from './item-view-glyph.json' with { type: 'json' };
 
 export default {

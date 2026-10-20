@@ -1,7 +1,7 @@
 import type { Spec } from '@json-render/core';
 import { reuseListings } from '@shared/data';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { notifyHandler } from './notify';
+import { notifyHandler } from './shared/notify';
 import spec from './staged-deletion.json' with { type: 'json' };
 
 // A spec cannot fold over a list, so the list-wide reads are functions here.

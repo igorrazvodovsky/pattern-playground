@@ -1,7 +1,7 @@
 import type { Spec } from '@json-render/core';
 import { products } from '@shared/data';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { fullView, itemView } from './product-view';
+import { fullView, itemView } from './shared/product-view';
 import spec from './item-view-transitions.json' with { type: 'json' };
 
 // `/preferred` is the rung pressing the reference opens. The summary is never

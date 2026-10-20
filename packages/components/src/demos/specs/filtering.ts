@@ -18,7 +18,7 @@ import type { AICommandResult } from '../../components/command-menu';
 import { generateFilterSuggestions } from '../../components/filter/adapters/ai-filter-adapter';
 import { TASK_FILTER_PATHS, filterValueOptions, taskFilterCategories } from '../../components/filter/filter-options';
 import { createTask } from '../../components/task/task-utils';
-import { filterClauses, type ValueGlyph } from './filter-clauses';
+import { filterClauses, type ValueGlyph } from './shared/filter-clauses';
 import spec from './filtering.json' with { type: 'json' };
 
 // Watches rewrite `/derived` and `/field` because a repeat reads a list from

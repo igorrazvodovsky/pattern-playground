@@ -5,7 +5,7 @@
 // collides with a demo's own chrome (a canvas's tool panels), and a demo
 // captures pointer events on its own root. The frame is a region so that a
 // demo's own headings sit inside a boundary assistive technology announces.
-type Library = 'pp' | 'shadcn';
+import { libraryLabels, type Library } from '../lib/demo-libraries';
 
 interface Props {
   // Registry name of a client-mounted demo (lib/demo-registry.ts). When given,
@@ -15,7 +15,8 @@ interface Props {
   // Props forwarded to the mounted component, serialised as JSON in a data
   // attribute and parsed by the registry.
   props?: Record<string, unknown>;
-  // A switchable demo: the slug of a spec in packages/components/src/demos/specs/.
+  // A switchable demo: the slug of a spec in packages/components/src/demos/specs/
+  // (<slug>.json, <slug>.ts, or both).
   // The frame renders a <div data-demo-spec> mount point and a footer control
   // for switching the component library the spec renders through.
   spec?: string;
@@ -33,11 +34,6 @@ interface Props {
   expandable?: boolean;
   resizable?: boolean;
 }
-
-const libraryLabels: Record<Library, string> = {
-  pp: "playground's own",
-  shadcn: "shadcn",
-};
 
 const {
   name, props, spec, label, surface = 'border', expandable, resizable,

@@ -1,6 +1,6 @@
 import type { Spec } from '@json-render/core';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { rows, rowsArg, selectedCount, withAll } from './selection';
+import { rows, rowsArg, selectedCount, withAll } from './shared/selection';
 import spec from './mode-based-reveal.json' with { type: 'json' };
 
 export default {

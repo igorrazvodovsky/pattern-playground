@@ -1,7 +1,7 @@
 import type { ComputedFunction, Spec } from '@json-render/core';
 import { materialCategory } from '@shared/data/reference-utils';
-import type { SpecSetup } from '../../catalog/SpecDemo';
-import type { MentionPart, Paragraph } from '../../catalog/registries/mention-editor';
+import type { SpecSetup } from '../../../catalog/SpecDemo';
+import type { MentionPart, Paragraph } from '../../../catalog/registries/mention-editor';
 import { matchesQuery, maxMentionMatches, mentionQuery, toMention } from './mentions';
 import spec from './prompt.json' with { type: 'json' };
 

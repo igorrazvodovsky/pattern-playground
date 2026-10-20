@@ -5,8 +5,8 @@ import type { Product } from '@shared/data/types';
 import type { SpecSetup } from '../../catalog/SpecDemo';
 import { getAvailableAttributes } from '../../templates/collection-view/AttributeUtils';
 import { sortItems } from '../../templates/collection-view/SortingUtils';
-import { filterClauses, KEEPS } from './filter-clauses';
-import { attributeLabel, cardAttributes } from './product-view';
+import { filterClauses, KEEPS } from './shared/filter-clauses';
+import { attributeLabel, cardAttributes } from './shared/product-view';
 import spec from './fluid-attributes.json' with { type: 'json' };
 
 // Filtering is keyed on the attribute's path, so an attribute is filterable

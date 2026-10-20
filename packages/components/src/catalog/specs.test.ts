@@ -7,17 +7,31 @@ import type { SpecSetup } from './SpecDemo';
 
 // Specs are cast `as Spec`, and json-render renders an unknown prop, action
 // or function without complaint, so this is where those mistakes surface. Per
-// module rather than per JSON file: one file can serve several modules.
+// module rather than per JSON file, since one file can serve several modules;
+// a JSON spec with no module beside it is checked with nothing set up, as the
+// site renders it.
 
 interface SpecModule { spec: Spec; setup: SpecSetup }
 
+const slugOf = (file: string) => file.replace(/^.*\//, '').replace(/\.(json|ts)$/, '');
 const modules = import.meta.glob<{ default?: Partial<SpecModule> }>(
   ['../demos/specs/*.ts', '!../demos/specs/*.test.ts'],
   { eager: true },
 );
-const specModules = Object.entries(modules)
-  .filter((entry): entry is [string, { default: SpecModule }] => Boolean(entry[1].default?.spec))
-  .map(([path, module]) => [path.replace(/^.*\//, '').replace(/\.ts$/, ''), module.default] as const);
+const json = import.meta.glob<Spec>('../demos/specs/*.json', { eager: true, import: 'default' });
+// The site takes every module directly in demos/specs/ for a spec, so one
+// without a default spec breaks its slug there; shared code goes in shared/.
+const notSpecs = Object.entries(modules)
+  .filter(([, module]) => !module.default?.spec)
+  .map(([file]) => file.replace(/^.*\//, ''));
+const specModules = Object.entries({
+  ...Object.fromEntries(Object.entries(json).map(([file, spec]) => [slugOf(file), { spec, setup: {} }])),
+  ...Object.fromEntries(
+    Object.entries(modules)
+      .filter((entry): entry is [string, { default: SpecModule }] => Boolean(entry[1].default?.spec))
+      .map(([file, module]) => [slugOf(file), module.default]),
+  ),
+});
 
 const builtInKeys = new Set([
   '$state', '$item', '$index', '$bindState', '$bindItem', '$cond', '$then', '$else', '$computed', '$template', '$and', '$or',
@@ -121,6 +135,10 @@ const lintSpec = (spec: Spec, setup: SpecSetup = {}): string[] => {
 describe('specs', () => {
   test('every spec module is found', () => {
     expect(specModules.length).toBeGreaterThanOrEqual(50);
+  });
+
+  test('every module in the folder exports a spec', () => {
+    expect(notSpecs).toEqual([]);
   });
 
   test.each(specModules)('%s', (_, { spec, setup }) => {

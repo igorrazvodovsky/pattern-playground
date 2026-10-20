@@ -1,7 +1,7 @@
 import type { Spec } from '@json-render/core';
 import { formatNumber } from '@shared/format';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { rows, rowsArg, selectedCount, withAll } from './selection';
+import { rows, rowsArg, selectedCount, withAll } from './shared/selection';
 import spec from './select-all-affordance.json' with { type: 'json' };
 
 // The watch on the rows rewrites `/selection` in one action, because a watch's

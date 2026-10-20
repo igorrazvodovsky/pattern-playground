@@ -1,7 +1,7 @@
 import type { Spec } from '@json-render/core';
 import { products } from '@shared/data';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { cardAttributes, fullView } from './product-view';
+import { cardAttributes, fullView } from './shared/product-view';
 import spec from './investigate.json' with { type: 'json' };
 
 // A repeat cannot follow a path chosen while the demo runs, so each category

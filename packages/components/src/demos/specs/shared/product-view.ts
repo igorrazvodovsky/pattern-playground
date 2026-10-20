@@ -8,7 +8,7 @@ import {
   type EntityBinding,
 } from '@shared/data/bindings';
 import type { Product } from '@shared/data/types';
-import { toMapLocations } from '../../templates/collection-view/data';
+import { toMapLocations } from '../../../templates/collection-view/data';
 
 type Rung = 'mini' | 'mid' | 'maxi';
 

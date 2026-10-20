@@ -10,6 +10,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import type { Spec } from '@json-render/core';
 import type { ComponentRegistry } from '@json-render/react';
 import type { SpecSetup } from '@pkg/catalog/SpecDemo';
+import type { Library } from './demo-libraries';
 
 type DemoComponent = ComponentType<Record<string, unknown>>;
 type Loader = () => Promise<DemoComponent>;
@@ -26,67 +27,32 @@ const demos: Record<string, Loader> = {
   'population-rung': () => import('@pkg/demos/semantic-zoom').then(m => m.PopulationRungDemo),
 };
 
-// Switchable demos (<Demo spec="…">): a JSON spec plus the module beside it,
-// rendered through one of the catalog's registries. Each registry is its own
+// Switchable demos (<Demo spec="…">): a spec in packages/components/src/demos/specs/,
+// rendered through one of the catalog's registries. A slug is a JSON spec, a
+// module (<slug>.ts) that supplies its setup, or both; the module wins, and a
+// JSON spec without one renders with nothing set up. Each registry is its own
 // chunk, and shadcn's carries its stylesheet, so a page loads a library only
 // when a demo renders through it.
 type SpecModule = { spec: Spec; setup: SpecSetup };
 
-const specs: Record<string, () => Promise<{ default: SpecModule }>> = {
-  'activity-log': () => import('@pkg/demos/specs/activity-log'),
-  'autocomplete': () => import('@pkg/demos/specs/autocomplete'),
-  'callout-notification': () => import('@pkg/demos/specs/callout-notification'),
-  'communicating-uncertainty': () => import('@pkg/demos/specs/communicating-uncertainty'),
-  'consequence-ladder': () => import('@pkg/demos/specs/consequence-ladder'),
-  'contextual-navigation': () => import('@pkg/demos/specs/contextual-navigation'),
-  'conversational-form': () => import('@pkg/demos/specs/conversational-form'),
-  'data-view': () => import('@pkg/demos/specs/data-view'),
-  'data-view-grouping-slice': () => import('@pkg/demos/specs/data-view-grouping-slice'),
-  'data-view-sorting-slice': () => import('@pkg/demos/specs/data-view-sorting-slice'),
-  'dialog-deletion': () => import('@pkg/demos/specs/dialog-deletion'),
-  'disruptive-notification': () => import('@pkg/demos/specs/disruptive-notification'),
-  'empty-state-blank-slate': () => import('@pkg/demos/specs/empty-state-blank-slate'),
-  'empty-state-educational': () => import('@pkg/demos/specs/empty-state-educational'),
-  'empty-state-guiding': () => import('@pkg/demos/specs/empty-state-guiding'),
-  'empty-state-informational': () => import('@pkg/demos/specs/empty-state-informational'),
-  'filtering': () => import('@pkg/demos/specs/filtering'),
-  'fluid-attributes': () => import('@pkg/demos/specs/fluid-attributes'),
-  'form': () => import('@pkg/demos/specs/form'),
-  'inline-confirmation': () => import('@pkg/demos/specs/inline-confirmation'),
-  'inline-notification': () => import('@pkg/demos/specs/inline-notification'),
-  'input-output-mapping': () => import('@pkg/demos/specs/input-output-mapping'),
-  'investigate': () => import('@pkg/demos/specs/investigate'),
-  'item-view-glyph': () => import('@pkg/demos/specs/item-view-glyph'),
-  'item-view-full': () => import('@pkg/demos/specs/item-view-full'),
-  'item-view-row': () => import('@pkg/demos/specs/item-view-row'),
-  'item-view-transitions': () => import('@pkg/demos/specs/item-view-transitions'),
-  'linked-trio': () => import('@pkg/demos/specs/linked-trio'),
-  'llm-assisted-filter': () => import('@pkg/demos/specs/llm-assisted-filter'),
-  'mode-based-reveal': () => import('@pkg/demos/specs/mode-based-reveal'),
-  'monitor': () => import('@pkg/demos/specs/monitor'),
-  'nested-pairs': () => import('@pkg/demos/specs/nested-pairs'),
-  'overview-detail': () => import('@pkg/demos/specs/overview-detail'),
-  'problem-checklist': () => import('@pkg/demos/specs/problem-checklist'),
-  'prompt-basic': () => import('@pkg/demos/specs/prompt-basic'),
-  'prompt-quality-feedback': () => import('@pkg/demos/specs/prompt-quality-feedback'),
-  'prompt-template': () => import('@pkg/demos/specs/prompt-template'),
-  'prompt-with-material-references': () => import('@pkg/demos/specs/prompt-with-material-references'),
-  'reasoning-trace': () => import('@pkg/demos/specs/reasoning-trace'),
-  'reference': () => import('@pkg/demos/specs/reference'),
-  'rule-composition': () => import('@pkg/demos/specs/rule-composition'),
-  'sections': () => import('@pkg/demos/specs/sections'),
-  'saved-views': () => import('@pkg/demos/specs/saved-views'),
-  'select-all-affordance': () => import('@pkg/demos/specs/select-all-affordance'),
-  'staged-deletion': () => import('@pkg/demos/specs/staged-deletion'),
-  'status-feedback': () => import('@pkg/demos/specs/status-feedback'),
-  'toast': () => import('@pkg/demos/specs/toast'),
-  'toast-with-undo': () => import('@pkg/demos/specs/toast-with-undo'),
-  'typed-confirmation': () => import('@pkg/demos/specs/typed-confirmation'),
-  'watch-to-chase-tiers': () => import('@pkg/demos/specs/watch-to-chase-tiers'),
-  'writable-board': () => import('@pkg/demos/specs/writable-board'),
+const slugOf = (file: string) => file.replace(/^.*\//, '').replace(/\.(json|ts)$/, '');
+const specModules = import.meta.glob<SpecModule>(
+  ['@pkg/demos/specs/*.ts', '!@pkg/demos/specs/*.test.ts'],
+  { import: 'default' },
+);
+const specJson = import.meta.glob<Spec>('@pkg/demos/specs/*.json', { import: 'default' });
+const moduleSlugs = new Set(Object.keys(specModules).map(slugOf));
+
+const specs: Record<string, () => Promise<SpecModule>> = {
+  ...Object.fromEntries(
+    Object.entries(specJson)
+      .filter(([file]) => !moduleSlugs.has(slugOf(file)))
+      .map(([file, load]) => [slugOf(file), async () => ({ spec: await load(), setup: {} })]),
+  ),
+  ...Object.fromEntries(Object.entries(specModules).map(([file, load]) => [slugOf(file), load])),
 };
 
-const registries: Record<string, () => Promise<ComponentRegistry>> = {
+const registries: Record<Library, () => Promise<ComponentRegistry>> = {
   pp: () => import('@pkg/catalog/registries/pp').then(m => m.registry),
   shadcn: () => import('@pkg/catalog/registries/shadcn').then(async m => (await m.stylesheet, m.registry)),
 };
@@ -164,7 +130,7 @@ function mountSpecDemos(root: ParentNode): void {
     let render: ((registryName: string) => Promise<void>) | null = null;
 
     const ready = Promise.all([loadSpec(), import('@pkg/catalog/SpecDemo'), import('@json-render/core')]).then(
-      ([{ default: { spec, setup } }, { SpecDemo }, { createStateStore }]) => {
+      ([{ spec, setup }, { SpecDemo }, { createStateStore }]) => {
         if (!el.isConnected) {
           el.removeAttribute('data-demo-mounted');
           return;
@@ -173,9 +139,10 @@ function mountSpecDemos(root: ParentNode): void {
         const handlers = setup.handlers?.(store, () => el.isConnected);
         reactRoot = mountRoot(el);
         render = async (registryName) => {
-          const loadRegistry = registries[registryName];
-          if (!loadRegistry) return console.warn(`[demo-registry] no registry "${registryName}"`);
-          const registry = await loadRegistry();
+          if (!Object.hasOwn(registries, registryName)) {
+            return console.warn(`[demo-registry] no registry "${registryName}"`);
+          }
+          const registry = await registries[registryName as Library]();
           if (!el.isConnected) return;
           el.dataset.demoRegistry = registryName;
           for (const option of options) {

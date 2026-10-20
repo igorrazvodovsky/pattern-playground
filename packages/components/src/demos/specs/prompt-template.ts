@@ -1,7 +1,7 @@
 import type { Spec } from '@json-render/core';
 import type { SpecSetup } from '../../catalog/SpecDemo';
 import { isSlot, type Paragraph, type SlotPart } from '../../catalog/registries/mention-editor';
-import { candidates, material, materials } from './prompt';
+import { candidates, material, materials } from './shared/prompt';
 import spec from './prompt-template.json' with { type: 'json' };
 
 const slot = (id: string, label: string, required = false, value = ''): SlotPart => ({ slot: id, label, required, value });

@@ -20,7 +20,7 @@ inferred while reviewing a territory, beyond what the prose asks for.
 | Split view | Overview and detail | — (judgment, T1) | No master–detail layout container; the pattern's "split view" variant has nothing to point at |
 | Zoom controls | Pan and zoom | — (judgment, T1) | Zoom in/out/fit control cluster; tldraw exists as a dep but there is no reusable control-level piece |
 | Workspace switcher | Hub and spoke, hybrid patterns | — (judgment, T1, speculative) | The hub + flat hybrid's "launch screen or app switcher"; the data view's representation menu is the nearest existing shape but switches views, not workspaces |
-| Schema-driven filter | Filtering, Data view | DataView.stories.tsx (judgment, T2) | `components/filter` hardwires one enum set (Status/Priority/Assignee) and no longer has a user; the data-view and filtering specs edit conditions through the catalog's `FilterTag`, with operators and options read from the entity binding (`demos/specs/filter-clauses.ts`). That pair is the filter generic over an attribute schema; the library component has yet to follow it |
+| Schema-driven filter | Filtering, Data view | DataView.stories.tsx (judgment, T2) | `components/filter` hardwires one enum set (Status/Priority/Assignee) and no longer has a user; the data-view and filtering specs edit conditions through the catalog's `FilterTag`, with operators and options read from the entity binding (`demos/specs/shared/filter-clauses.ts`). That pair is the filter generic over an attribute schema; the library component has yet to follow it |
 
 ## Considered, not gaps
 

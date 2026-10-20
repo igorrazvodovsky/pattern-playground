@@ -2,7 +2,7 @@ import type { Spec } from '@json-render/core';
 import { products } from '@shared/data';
 import type { SpecSetup } from '../../catalog/SpecDemo';
 import { detectProblems } from '../problem-detection';
-import { sliceAttributes } from './product-view';
+import { sliceAttributes } from './shared/product-view';
 import spec from './problem-checklist.json' with { type: 'json' };
 
 // A repeat cannot follow a path chosen while the demo runs, so each flag is

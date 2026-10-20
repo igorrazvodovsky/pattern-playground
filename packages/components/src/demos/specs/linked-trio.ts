@@ -1,7 +1,7 @@
 import type { Spec } from '@json-render/core';
 import { products } from '@shared/data';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { cardAttributes, itemView, mapLocations } from './product-view';
+import { cardAttributes, itemView, mapLocations } from './shared/product-view';
 import spec from './linked-trio.json' with { type: 'json' };
 
 // Focus never moves the map, since the actor is only passing over the item.

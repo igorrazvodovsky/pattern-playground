@@ -11,8 +11,8 @@ import { bindings, referenceBinding } from '@shared/data/bindings';
 import type { iconNames } from '../../catalog/catalog';
 import type { SpecSetup } from '../../catalog/SpecDemo';
 import type { MentionPart, Paragraph } from '../../catalog/registries/mention-editor';
-import { matchesQuery, maxMentionMatches, mentionQuery, toMention } from './mentions';
-import { itemView } from './product-view';
+import { matchesQuery, maxMentionMatches, mentionQuery, toMention } from './shared/mentions';
+import { itemView } from './shared/product-view';
 import spec from './reference.json' with { type: 'json' };
 
 type Icon = (typeof iconNames)[number];
