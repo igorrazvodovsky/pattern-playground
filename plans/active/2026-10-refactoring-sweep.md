@@ -3,7 +3,7 @@ title: Refactoring sweep
 status: active
 kind: work-queue
 created: 2026-10-17
-last_reviewed: 2026-10-20
+last_reviewed: 2026-10-21
 area: packages/components, apps/patterns, apps/server, scripts, shared, utils
 promoted_to:
 superseded_by:
@@ -487,12 +487,15 @@ Design calls; one sitting each.
   2026-10-20: both use `specs/shared/mentions.ts` (`toMention`,
   `mentionQuery`, `matchesQuery`, `maxMentionMatches`); `reference.ts` keeps
   its kind-then-item steps on top.
-- [ ] *Stale labels in the reference note.* `sustainability-meeting-content`
-  in `shared/data/reference-content.json` stores labels that no longer match
-  the ids they point at (`user-2` is stored as David Chen, `PRJ-1` as Customer
-  Survey Analysis). The reference spec shows each item's current name, so the
-  note now asks technical questions of a supply chain analyst. Rewrite the
-  note's sentences or its ids so the two agree.
+- [x] *Stale labels in the reference note.* `sustainability-meeting-content`
+  in `shared/data/reference-content.json` stored labels that no longer
+  matched the ids they point at (`user-2` as David Chen, `PRJ-1` as Customer
+  Survey Analysis), and the two other notes, which the Reference stories
+  use, had the same drift. Fixed 2026-10-21 by changing ids, not sentences:
+  each mention now points at the person or project whose current role or
+  status fits its sentence, and stores that item's current name. The
+  mentions of users and projects no longer store metadata, since the world
+  holds their roles and status; the documents keep theirs.
 - [x] *TemplateField had no consumer.* The prompt-template spec fills its
   blanks through slots in `catalog/behaviour/mention-editor.ts`. Done
   2026-10-20: `components/template-field/` is deleted, with the rules in
@@ -544,21 +547,18 @@ Design calls; one sitting each.
 
   Decide which, together with *Item layout by role, twice*, since
   `product-view.ts` is where the TypeScript form would live.
-- [ ] *Filter chip, twice.* The chip that edits one filter condition
-  (attribute, operator, values, remove) is written in
-  `components/filter/filter-components.tsx`, tied to the task fixtures, and
-  in `catalog/registries/pp/filter-tag.tsx`, the catalog's `FilterTag`, which
-  takes everything as props. Every demo that filters is now a spec and edits
-  conditions through `FilterTag`, with operators and options from
-  `demos/specs/shared/filter-clauses.ts`, so the library chip (`Filters` in
-  `components/filter/filters.tsx`) has no user and no story. Decide whether
-  it takes `FilterTag`'s props and becomes the component the pp registry
-  draws, or goes.
-
-  Decided 2026-10-20: the library chip takes `FilterTag`'s props and becomes
-  the component the pp registry draws. `FilterTag` is the reference for the
-  props; the task-fixture coupling in `filter-components.tsx` goes, and the
-  chip gets a story.
+- [x] *Filter chip, twice.* The chip that edits one filter condition was
+  written in `components/filter/filter-components.tsx`, tied to the task
+  fixtures, and in the pp registry's `FilterTag`. Done 2026-10-21: the
+  library's `FilterTag` (`components/filter/filter-tag.tsx`) takes the
+  catalog's props with icons resolved and reports `onChange` and `onRemove`;
+  the pp registry adapts it inline (the bound `edit`, the emits, the focus
+  hand-off). `Filters`, `filter-components.tsx`, `filter-utils.ts` and
+  `filter-types.ts` are deleted, and the date dropdown with them: date facets
+  already pick through the combobox. The operator list is a radio list, where
+  the old one used checkboxes. `catalog/filter-edit.ts` re-exports the
+  library's `FilterChange`. The chip has no story of its own; the filtering
+  and data-view demos show it. Checked in the browser in both.
 - [x] *Overview plus detail.* The linked-trio demo is a spec. Its three
   panes are the catalog's `Panes`, which writes its room to state as `Split`
   does (`behaviour/split-room.ts`), and its list is an `ItemGroup` of

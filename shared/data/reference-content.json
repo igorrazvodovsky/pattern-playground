@@ -22,8 +22,8 @@
             {
               "type": "reference",
               "attrs": {
-                "id": "PRJ-1",
-                "label": "Customer Survey Analysis",
+                "id": "PRJ-2",
+                "label": "E-Waste Collection & Refurbishment",
                 "type": "project"
               }
             },
@@ -52,26 +52,18 @@
             {
               "type": "reference",
               "attrs": {
-                "id": "user-2",
-                "label": "David Chen",
-                "type": "user",
-                "metadata": {
-                  "role": "Systems Engineer",
-                  "department": "Technology"
-                }
+                "id": "user-3",
+                "label": "Nia Adebayo",
+                "type": "user"
               }
             },
             { "type": "text", "text": " or for policy matters, reach out to " },
             {
               "type": "reference",
               "attrs": {
-                "id": "user-3",
-                "label": "Sarah Wilson",
-                "type": "user",
-                "metadata": {
-                  "role": "Policy Analyst",
-                  "department": "Compliance"
-                }
+                "id": "user-6",
+                "label": "David Chen",
+                "type": "user"
               }
             },
             { "type": "text", "text": "." }
@@ -110,38 +102,26 @@
               "type": "reference",
               "attrs": {
                 "id": "user-1",
-                "label": "Elena Petrova",
-                "type": "user",
-                "metadata": {
-                  "role": "Environmental Scientist",
-                  "department": "Sustainability"
-                }
+                "label": "Megan Wilkinson",
+                "type": "user"
               }
             },
             { "type": "text", "text": " presented the climate impact analysis. " },
             {
               "type": "reference",
               "attrs": {
-                "id": "user-2",
-                "label": "David Chen",
-                "type": "user",
-                "metadata": {
-                  "role": "Systems Engineer",
-                  "department": "Technology"
-                }
+                "id": "user-11",
+                "label": "Priya Nair",
+                "type": "user"
               }
             },
             { "type": "text", "text": " will lead the circular economy implementation, while " },
             {
               "type": "reference",
               "attrs": {
-                "id": "user-3",
-                "label": "Sarah Wilson",
-                "type": "user",
-                "metadata": {
-                  "role": "Policy Analyst",
-                  "department": "Compliance"
-                }
+                "id": "user-20",
+                "label": "Hannah Schmidt",
+                "type": "user"
               }
             },
             { "type": "text", "text": " handles policy compliance. " },
@@ -149,26 +129,18 @@
             {
               "type": "reference",
               "attrs": {
-                "id": "user-4",
-                "label": "Michael Rodriguez",
-                "type": "user",
-                "metadata": {
-                  "role": "Data Analyst",
-                  "department": "Analytics"
-                }
+                "id": "user-9",
+                "label": "Chloe Kim",
+                "type": "user"
               }
             },
             { "type": "text", "text": " will provide the dashboard analysis along with " },
             {
               "type": "reference",
               "attrs": {
-                "id": "user-5",
-                "label": "Lisa Zhang",
-                "type": "user",
-                "metadata": {
-                  "role": "Operations Manager",
-                  "department": "Operations"
-                }
+                "id": "user-19",
+                "label": "Tomás Silva",
+                "type": "user"
               }
             },
             { "type": "text", "text": " for operational coordination." }
@@ -191,13 +163,9 @@
             {
               "type": "reference",
               "attrs": {
-                "id": "PRJ-2",
-                "label": "Sustainability Audit",
-                "type": "project",
-                "metadata": {
-                  "status": "planning",
-                  "priority": "high"
-                }
+                "id": "PRJ-3",
+                "label": "Closed-Loop Packaging System",
+                "type": "project"
               }
             },
             { "type": "text", "text": " project requires collaboration between " },
@@ -205,25 +173,17 @@
               "type": "reference",
               "attrs": {
                 "id": "user-1",
-                "label": "Elena Petrova",
-                "type": "user",
-                "metadata": {
-                  "role": "Environmental Scientist",
-                  "department": "Sustainability"
-                }
+                "label": "Megan Wilkinson",
+                "type": "user"
               }
             },
             { "type": "text", "text": " and " },
             {
               "type": "reference",
               "attrs": {
-                "id": "user-4",
-                "label": "Michael Rodriguez",
-                "type": "user",
-                "metadata": {
-                  "role": "Data Analyst",
-                  "department": "Analytics"
-                }
+                "id": "user-9",
+                "label": "Chloe Kim",
+                "type": "user"
               }
             },
             { "type": "text", "text": ". Key deliverables include the " },
