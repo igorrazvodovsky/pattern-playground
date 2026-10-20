@@ -499,12 +499,15 @@
      and the table of contents sees the same word the page shows. Lighter than
      the dimmed body token on purpose; the words are short and known. Unshaped
      pages keep the glyph for the marks they still draw with `* * *`. The
-     To-do residue keeps its code face. */
+     To-do residue keeps its code face. Articles only: the home page and other
+     plain content pages keep the default headings. The scope root is the
+     article itself on a pane, so both forms are matched. */
   .dinkus,
   .section-mark,
-  h2:not(.residue *) {
+  :is(:scope:is(article), :scope article) h2:not(.residue *) {
     text-align: center;
     color: oklch(from var(--c-body) l c h / 50%);
+    max-width: 40rem;
   }
 
   .dinkus {
@@ -512,7 +515,7 @@
   }
 
   .section-mark,
-  h2:not(.residue *) {
+  :is(:scope:is(article), :scope article) h2:not(.residue *) {
     font-size: inherit;
     font-weight: 500;
     line-height: inherit;
@@ -523,17 +526,17 @@
   /* Below the centred mark the levels read by position and weight, not size:
      the h3 sits left on the text's measure at body size and medium weight,
      the h4 the same in italic at normal weight. */
-  h3:not(.residue *),
-  h4:not(.residue *) {
+  :is(:scope:is(article), :scope article) h3:not(.residue *),
+  :is(:scope:is(article), :scope article) h4:not(.residue *) {
     font-size: inherit;
     line-height: inherit;
   }
 
-  h3:not(.residue *) {
+  :is(:scope:is(article), :scope article) h3:not(.residue *) {
     font-weight: 500;
   }
 
-  h4:not(.residue *) {
+  :is(:scope:is(article), :scope article) h4:not(.residue *) {
     font-weight: inherit;
     font-style: italic;
   }
@@ -544,7 +547,7 @@
    margins, the home grid/rail) live outside the scope, below. */
 @scope (.content-inset) to (.demo-block, pp-toc) {
   p, blockquote, ul, ol {
-    max-width: 60ch;
+    max-width: 40rem;
   }
 
   p {
