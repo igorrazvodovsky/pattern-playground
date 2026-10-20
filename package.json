@@ -23,7 +23,7 @@
     "lint:styles": "stylelint \"**/*.css\"",
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p packages/components/tsconfig.json && npm run typecheck -w @pattern-plgrnd/patterns && tsc --noEmit -p apps/patterns/tsconfig.json && npm run typecheck -w @pattern-plgrnd/server",
     "test-unit": "npm run test-unit -w @pattern-plgrnd/components",
-    "test": "npm run lint && npm run lint:styles && npm run test -w @pattern-plgrnd/components",
+    "test": "npm run lint && npm run lint:styles && npm run format:check && npm run test -w @pattern-plgrnd/components",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
