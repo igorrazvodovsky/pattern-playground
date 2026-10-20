@@ -19,6 +19,7 @@ misfits:
   - A task that nobody picks up stays open indefinitely, and a backlog of them is read as noise rather than as work.
   - A task cannot be labelled, prioritised or assigned without first being created, nor assigned without a project; everything is decided at once or not at all.
   - What counts as finished is in the title, not in the record, so two people can disagree about whether a task is done.
+  - A task that turns out impossible or unwanted has no way to end; the sequence it moves through has one terminal state, so it is marked done untruthfully or left open.
 aliases: [to-do, issue, ticket, work item]
 depends_on: [running-a-project]
 appears_in:
@@ -42,3 +43,10 @@ Finishing a task is staging's terminal move rather than a task-tracking action, 
 the concept here has one action. What makes it a concept rather than a data
 model is the purpose: a task exists so that work can be picked up by someone
 other than the person who wrote it down.
+
+Who asked for the work and who does it are two relations here, `createdBy` and
+`assignee`. The exchange between them (asking, agreeing, asking for
+clarification, reporting back) is a concept of its own, conversation for
+action, and no part of tracking. Tracking records that the work exists and
+who holds it; the conversation decides whether it was done to the asker's
+satisfaction.

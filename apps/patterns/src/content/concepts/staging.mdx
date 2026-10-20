@@ -15,6 +15,7 @@ misfits:
   - An item that fits none of the agreed states is forced into the nearest one, and the sequence stops meaning what it says.
   - Moving an item on says nothing about why; the reason has to be recorded somewhere else or is lost.
   - Two sequences on one item (a project's phase and its status) can disagree, and nothing in the concept reconciles them.
+  - Where members can edit the sequence itself, items standing in a removed state have nowhere to stand.
 aliases: [status, workflow state, phase, pipeline stage]
 appears_in:
   - Trello
@@ -40,3 +41,9 @@ only its state.
 Progress is a finer-grained reading of the same life: a number within a state,
 not a state of its own. The world lets `changeStatus` reset it so a task does
 not carry its old progress into a new state.
+
+Two further settings vary between systems. The sequence may be fixed or
+members may add, remove and reorder its states (a GitHub pull request against
+a Trello board). And an item may be free to move to any state or allowed
+only the next permitted ones. The world fixes both: its sequences are given,
+and any state may follow any other.

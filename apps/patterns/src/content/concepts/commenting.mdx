@@ -18,6 +18,8 @@ misfits:
   - A thread whose passage is deleted keeps its remarks and loses its place.
   - Resolving hides a thread from the people who have not read it yet, and what was settled there is invisible to anyone reading only the material.
   - A passage that starts being referred to, not only discussed, is a weak object; a highlight with a thread has no identity of its own.
+  - A remark edited after it has been answered changes what the replies were answering, unless the edit is marked.
+  - A remark outlives its author's membership; the thread keeps it and `author` names someone who has left.
 aliases: [discussion, annotation, review comment, thread]
 appears_in:
   - Google Docs
@@ -53,4 +55,6 @@ In the fixture world a comment also carries a type and a priority
 remark rides on the act of making it. The world's one rule over this concept
 is a synchronisation with [Notifying](/concepts/notifying): whoever wrote a
 document hears about a new comment on it, and replies notify nobody, since the
-thread is already in view.
+thread is already in view. Systems that let a remark name a person (an
+@-mention) add a second trigger: the named person is told whether or not the
+material is theirs.

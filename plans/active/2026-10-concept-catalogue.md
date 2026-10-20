@@ -18,8 +18,9 @@ fixture's own bookkeeping (catalogue, ledger, lifecycle assessment) carries no
 concept: the catalogue holds generic concepts only, and those three are demo
 material. The partition table below is now the world's own. What remains is authoring work: `acts_on` sittings on the
 pattern pages the partition reaches, the conversation-for-action entry, and the
-quarry. The 2025 attempt (root `concepts/`, forty pages nothing builds) stays
-until the quarry is worked.
+quarry. The 2025 attempt (root `concepts/`, now fifty-six pages nothing
+builds) stays until the quarry is worked; the five grounded pages have been
+read and deleted.
 
 The shape was checked against the concept-design papers in the vault
 (`Resources/Papers/`); no research gate, since that line is already read.
@@ -302,14 +303,24 @@ migrated as it stands: each surviving entry is re-authored into the shape
 above, one at a time.
 
 - *Grounded now* (the world instantiates them): Comment → Commenting,
-  Notification → Notifying, Task → Task tracking and Staging. First sitting.
+  Notification → Notifying, Task → Task tracking and Staging, Todo → Task
+  tracking, Workflow → Staging. Worked 2026-10-18: each old page was read
+  against its entry and the complications the entry lacked were lifted as
+  misfits or body variants (edited-after-reply and departed authors for
+  Commenting; system-wide notices and the unheld seen/clear pair for
+  Notifying; the missing terminal state for Task tracking; editable
+  sequences and permitted transitions for Staging). Todo said nothing the
+  entry's alias did not. The conversational Task page was mostly a
+  delegation container (requester and fulfiller, a clarifying state, block,
+  resume, report, fail); that material is quarry for the conversation for
+  action sitting below, not for Task tracking. The five files are deleted.
 - *Not concepts* (data-model or substrate material the world ontology
   already covers): Entity, Attribute, Item, Collection, Representation,
-  Reference, Event, EventLog, Workflow. Dropped; anything they say about
+  Reference, Event, EventLog. Dropped; anything they say about
   individuals, facts, or the log belongs in the ontology spec if it is not
   there.
 - *Generic candidates with no world instance*: Bookmark, Label, Form,
-  Template, TemplateLibrary, Todo, User, UserProfile, Authentication,
+  Template, TemplateLibrary, User, UserProfile, Authentication,
   Password, Session. Listed as candidates; an entry is authored when a
   pattern page needs to name it, not before. `tag` is the likely first
   claimant (Labelling).
@@ -325,7 +336,14 @@ above, one at a time.
   Trigger, Intervention and Breakdown are synchronisations, not concepts.
   Domain, Interpretation, StructuralCoupling and InnovationViaConversation
   are theory and get no entry. The dress-shop batch is quarry for this one
-  sitting. Second sitting, joint with the agent trace plan.
+  sitting, and so is what the deleted Task page held about delegated work:
+  a requester and a fulfiller, a clarifying state between them, blocking and
+  resuming, reporting progress, and failing as distinct from completing.
+  Second sitting, joint with the agent trace plan.
+- *Version control* (Repository, Commit, WorkingArea, Branch, Head, Tag and
+  four data classifications): no disposition yet. The likely reading is
+  domain material for a future versioning concept, which Document keeping's
+  first misfit already points at. Decide before deleting.
 - *Agentic* (ContinuousOperation): superseded by the agent trace plan's
   activities. Intending, Searching, Reading, Finding and Drafting are
   concepts in the source's own terms, and the `concept` field is where that
@@ -405,8 +423,9 @@ Remaining:
   those sittings write.
 - Conversation for action, joint with the agent trace plan's vocabulary
   sitting; the dress-shop batch is quarry for it.
-- Work the rest of the quarry per the dispositions above; then delete root
-  `concepts/` and the paused dress-shop plan.
+- Work the rest of the quarry per the dispositions above (the grounded
+  pages are done); then delete root `concepts/` and the paused dress-shop
+  plan.
 - The entry name `acts_on` is confirmed by two pages; revisit only if a
   sitting finds it reads wrongly.
 
