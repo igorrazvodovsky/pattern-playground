@@ -13,6 +13,7 @@ import { attributeGlyphs } from '../../utility/attribute-icons';
 import { BoardAxis } from './board-axis';
 import { useDisclosureDrop, useDragRow, useStackDrop } from './drag-drop';
 import { MenuMultiple } from './menu-multiple';
+import { Crumb, CrumbOverflow } from './pp-crumb';
 import { DraggableRow } from './pp-draggable-row';
 import { FilterTag } from './pp-filter-tag';
 import { useFieldError } from './field-validation';
@@ -206,10 +207,14 @@ export const { registry } = defineRegistry(catalog, {
     // own inset and its rule runs the card's full width, so a card with a
     // detail slot pads its body rather than itself. The attributes are the
     // library's attribute row (.card__attributes), whose buttons the
-    // stretched-link styles lift above the card's press.
+    // stretched-link styles lift above the card's press. Lower emphasis is
+    // the library's .card--reduced or .card--faint. A title button that goes
+    // while focused hands focus on.
     Card: ({ props, children, slots, emit }) => {
       const openRef = useRef<HTMLButtonElement>(null);
       useFocusOnShow(openRef, props.focusOnShow);
+      useFocusHandoff(null, openRef, Boolean(props.opens && props.title));
+      const surface = clsx('card', props.emphasis && props.emphasis !== 'full' && `card--${props.emphasis}`);
       const dragRef = useRef<HTMLElement>(null);
       const dragging = useDragRow(dragRef, props.dragId, props.dragId != null) || undefined;
       const Heading = useHeading();
@@ -243,7 +248,7 @@ export const { registry } = defineRegistry(catalog, {
         </div>
       );
       return slots?.suffix || slots?.actions ? (
-        <article ref={dragRef} className="card" data-selected={selected} data-popover-host="" data-dragging={dragging}>
+        <article ref={dragRef} className={surface} data-selected={selected} data-popover-host="" data-dragging={dragging}>
           <div className="card__header">
             {props.title && <Heading className="label card__title">{heading}</Heading>}
             {slots.suffix && <div className="flex">{slots.suffix}</div>}
@@ -261,7 +266,7 @@ export const { registry } = defineRegistry(catalog, {
           {detail}
         </article>
       ) : slots?.detail ? (
-        <article ref={dragRef} className="card" data-selected={selected} data-popover-host="" data-dragging={dragging}>
+        <article ref={dragRef} className={surface} data-selected={selected} data-popover-host="" data-dragging={dragging}>
           <div className="pad" style={bodyLayout}>
             {props.title && <Heading className="card__title">{heading}</Heading>}
             {attributes}
@@ -270,7 +275,7 @@ export const { registry } = defineRegistry(catalog, {
           {detail}
         </article>
       ) : (
-        <article ref={dragRef} className="card pad" data-selected={selected} data-popover-host="" data-dragging={dragging} style={bodyLayout}>
+        <article ref={dragRef} className={clsx(surface, 'pad')} data-selected={selected} data-popover-host="" data-dragging={dragging} style={bodyLayout}>
           {props.title && <Heading className="card__title">{heading}</Heading>}
           {attributes}
           <Subsection>{children}</Subsection>
@@ -918,6 +923,33 @@ export const { registry } = defineRegistry(catalog, {
         {props.label}
       </pp-list-item>
     ),
+
+    // The library's trail (pp-breadcrumbs). The current item ends it as a
+    // link without a target, as the library marks the page it is on. The
+    // trail keeps to one line: when its items overflow, the library folds
+    // them into the overflow crumb's menu, the middle ones first, so every
+    // item stays reachable. A picked link that leaves the trail hands focus on.
+    Breadcrumbs: ({ props, bindings, emit }) => {
+      const [, setPicked] = useBoundProp(props.picked, bindings?.picked);
+      const pick = (id: string) => {
+        setPicked(id);
+        emit('pick');
+      };
+      const [first, ...middle] = props.items;
+      return (
+        <pp-breadcrumbs role="navigation" aria-label={props.label}>
+          {first && <Crumb key={first.id} label={first.label} onPick={() => pick(first.id)} />}
+          {first && <CrumbOverflow items={props.items} onPick={pick} />}
+          {middle.map(item => (
+            <Crumb key={item.id} label={item.label} onPick={() => pick(item.id)} />
+          ))}
+          <span className="crumb">
+            <a aria-current="page">{props.current}</a>
+            {props.note && <small className="muted">&nbsp;{props.note}</small>}
+          </span>
+        </pp-breadcrumbs>
+      );
+    },
 
     // pp-map, which draws its pins and popups over a Leaflet base map. The
     // element takes its places and selection as properties and reports a

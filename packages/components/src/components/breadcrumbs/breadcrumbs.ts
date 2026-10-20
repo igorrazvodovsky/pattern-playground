@@ -1,17 +1,24 @@
 import { Elena } from '@elenajs/core';
+import { observeTrailFit } from '../../utility/trail-fit';
 
 /**
  * Renders nothing and enhances the trail it is given — navigation role,
- * link and disguised-select interception.
+ * link and disguised-select interception, and keeping the trail on one line
+ * within its own width: when the items overflow, it sets `collapsed`, and the
+ * styles fold the middle items into the trail's `.crumb--overflow` menu (or an
+ * ellipsis, for a trail without one).
  * Styles live in `src/styles/breadcrumbs.css`.
  */
 export class PpBreadcrumbs extends Elena(HTMLElement) {
   static tagName = 'pp-breadcrumbs';
 
+  private stopFit?: () => void;
+
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener('click', this.handleClick);
     this.addEventListener('change', this.handleChange);
+    this.stopFit = observeTrailFit(this, 'collapsed');
     if (document.readyState !== 'loading') {
       this.init();
       return;
@@ -23,6 +30,7 @@ export class PpBreadcrumbs extends Elena(HTMLElement) {
     super.disconnectedCallback();
     this.removeEventListener('click', this.handleClick);
     this.removeEventListener('change', this.handleChange);
+    this.stopFit?.();
   }
 
   private init() {

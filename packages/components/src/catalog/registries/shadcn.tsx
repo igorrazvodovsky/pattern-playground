@@ -95,6 +95,7 @@ import { useDisclosureOpen, useDisclosureState } from './disclosure-state';
 import { BoardAxis } from './board-axis';
 import { useDisclosureDrop, useDragRow, useStackDrop } from './drag-drop';
 import { MenuMultiple } from './menu-multiple';
+import { Crumb, CrumbOverflow, Trail } from './shadcn-crumb';
 import { DraggableRow } from './shadcn-draggable-row';
 import { FilterTag } from './shadcn-filter-tag';
 import { popoverHost, useMayTakeFocus } from './popover-host';
@@ -336,9 +337,13 @@ export const { registry } = defineRegistry(catalog, {
     // does, and is positioned so it paints above the cover. An icon leads the
     // title, muted, as shadcn sets icons beside labels. The attributes lead
     // the content in a row, and the buttons among them sit above the cover.
+    // shadcn has no quieter card: lower emphasis dashes the border and drops
+    // the ground and the shadow, and faint mutes the text. A title button
+    // that goes while focused hands focus on.
     Card: ({ props, children, slots, emit }) => {
       const openRef = useRef<HTMLButtonElement>(null);
       useFocusOnShow(openRef, props.focusOnShow);
+      useFocusHandoff(null, openRef, Boolean(props.opens && props.title));
       const Heading = useHeading();
       const above = props.opens && 'relative z-10';
       const Icon = props.icon ? icons[props.icon] : null;
@@ -348,11 +353,13 @@ export const { registry } = defineRegistry(catalog, {
         <div
           ref={dragRef}
           className={clsx(
-            'group/card flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm has-data-[slot=stat]:gap-2',
+            'group/card flex flex-col gap-6 rounded-xl border py-6 text-card-foreground has-data-[slot=stat]:gap-2',
+            props.emphasis && props.emphasis !== 'full' ? 'border-dashed bg-transparent' : 'bg-card shadow-sm',
             props.opens && 'relative',
             props.selected && 'border-primary ring-1 ring-primary',
             props.dragId != null && 'cursor-grab',
             dragging && 'opacity-50',
+            props.emphasis === 'faint' && 'text-muted-foreground',
           )}
           data-popover-host=""
         >
@@ -610,6 +617,35 @@ export const { registry } = defineRegistry(catalog, {
         ))}
       </dl>
     ),
+
+    // shadcn/ui Breadcrumb (new-york, v4): a list of links split by chevrons,
+    // the current item last as plain text marked as the page. The note
+    // follows it, smaller. The trail keeps to one line, folding the items
+    // above the current one into shadcn's ellipsis menu when they overflow
+    // (shadcn-crumb.tsx).
+    Breadcrumbs: ({ props, bindings, emit }) => {
+      const [, setPicked] = useBoundProp(props.picked, bindings?.picked);
+      const pick = (id: string) => {
+        setPicked(id);
+        emit('pick');
+      };
+      const [first, ...middle] = props.items;
+      return (
+        <Trail label={props.label}>
+          {first && <Crumb key={first.id} label={first.label} stage="first" onPick={() => pick(first.id)} />}
+          {first && <CrumbOverflow items={props.items} middle={middle.length > 0} onPick={pick} />}
+          {middle.map(item => (
+            <Crumb key={item.id} label={item.label} stage="middle" onPick={() => pick(item.id)} />
+          ))}
+          <li className="inline-flex min-w-0 items-center gap-1.5">
+            <span role="link" aria-disabled="true" aria-current="page" className="font-normal text-foreground group-data-[collapsed=all]/trail:truncate">
+              {props.current}
+            </span>
+            {props.note && <span className="text-xs">{props.note}</span>}
+          </li>
+        </Trail>
+      );
+    },
 
     // shadcn/ui Table, from its published classes rather than the kit's
     // Table, whose cells take only strings and so cannot hold a Badge. The

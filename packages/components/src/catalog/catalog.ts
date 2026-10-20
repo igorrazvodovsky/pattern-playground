@@ -167,10 +167,11 @@ export const catalog = defineCatalog(schema, {
         focusOnShow: z.boolean().nullable(),
         expanded: z.boolean().nullable(),
         dragId: z.string().nullable(),
+        emphasis: z.enum(['full', 'reduced', 'faint']).nullable(),
       }),
       slots: ['default', 'attributes', 'suffix', 'actions', 'detail'],
       description:
-        'A bounded surface that groups related content. `icon` leads the title, named by meaning, such as the kind of item the card stands for. The `attributes` slot follows the title, for a few of the item\'s attributes as labelled Badges, laid out in a row; Badges there that are `pressable` stay separate presses. The `suffix` slot sits beside the title, for a short status such as a Badge, or a control that acts on the card. The `actions` slot holds the buttons that act on what the card shows, below its content. With `opens` the card stands for something the actor can open, such as the items behind a summary: its title is a button, pressing anywhere on the card presses it, and it emits `open`. A card that opens needs a `title`. Controls in `suffix` and `actions`, and pressable Badges in `attributes`, stay separate presses; anything else in the card is covered by the press, so put controls in those slots. The `detail` slot holds what the card opens into, such as the item\'s full readout under its summary, and shows while `expanded` is true: it sits last in the card, set off by a rule, and is not covered by the press, so the actor can read and select its text and use the controls in it, other cards among them. On a card that opens, `expanded` makes the title read as expanded or collapsed rather than pressed; set `selected` with it to set the card apart while it is expanded. `selected` marks the one card among its peers that the actor picked, such as the item another view is showing: the card is set apart, and on a card that opens the title reads as pressed. `focusOnShow` works as on a Button, for the title: set it on the card the actor opened, so that it takes focus when they come back to it. With `dragId` the card can be dragged, carrying that id, onto a Stack or Disclosure that is a `dropTarget`; give the actor another way to do what the drop does, such as a Menu in the card\'s `actions`.',
+        'A bounded surface that groups related content. `icon` leads the title, named by meaning, such as the kind of item the card stands for. The `attributes` slot follows the title, for a few of the item\'s attributes as labelled Badges, laid out in a row; Badges there that are `pressable` stay separate presses. The `suffix` slot sits beside the title, for a short status such as a Badge, or a control that acts on the card. The `actions` slot holds the buttons that act on what the card shows, below its content. With `opens` the card stands for something the actor can open, such as the items behind a summary: its title is a button, pressing anywhere on the card presses it, and it emits `open`. A card that opens needs a `title`. Controls in `suffix` and `actions`, and pressable Badges in `attributes`, stay separate presses; anything else in the card is covered by the press, so put controls in those slots. The `detail` slot holds what the card opens into, such as the item\'s full readout under its summary, and shows while `expanded` is true: it sits last in the card, set off by a rule, and is not covered by the press, so the actor can read and select its text and use the controls in it, other cards among them. On a card that opens, `expanded` makes the title read as expanded or collapsed rather than pressed; set `selected` with it to set the card apart while it is expanded. `selected` marks the one card among its peers that the actor picked, such as the item another view is showing: the card is set apart, and on a card that opens the title reads as pressed. `focusOnShow` works as on a Button, for the title: set it on the card the actor opened, so that it takes focus when they come back to it. With `dragId` the card can be dragged, carrying that id, onto a Stack or Disclosure that is a `dropTarget`; give the actor another way to do what the drop does, such as a Menu in the card\'s `actions`. `emphasis` sets how much weight the card carries among its peers: `full` (the default) is the solid surface, `reduced` drops the border to a dashed line and the ground to transparent, and `faint` also dims the text. Use the lower steps for content the system is less sure of, or that matters less, so that the actor can tell from the card alone how far to rely on it; let what the card says fall with it, such as leaving out the attributes.',
     },
     Text: {
       props: z.object({
@@ -411,6 +412,17 @@ export const catalog = defineCatalog(schema, {
       slots: ['default', 'suffix'],
       description:
         'An item named inline in running text, such as a product a sentence mentions; it sits as a child of a Text, with an inline Text after it for the rest of the sentence. `label` is the item\'s name. Pointing at the reference or focusing it shows a preview of the item after a short pause, and the preview stays while the pointer moves into it, so that the actor can use the controls there; Tab from the reference moves into an open preview. Leaving both, or Escape, closes it. The preview is headed by `label`, and the children follow as its body, such as the item\'s key figure as a Text and its attributes as Badges. The `suffix` slot sits beside the heading, for controls that show the item in another way. Bind `preview` with $bindState: the reference writes whether the preview shows, and setting it false closes the preview. Pressing the reference emits `open`, for a fuller view of the item. `expanded` says that view is showing: the reference is marked expanded, and pointing at it shows no preview meanwhile.',
+    },
+    Breadcrumbs: {
+      props: z.object({
+        label: z.string(),
+        items: z.array(z.object({ id: z.string(), label: z.string() })),
+        current: z.string(),
+        note: z.string().nullable(),
+        picked: z.string().nullable(),
+      }),
+      description:
+        'Where the current item sits in a hierarchy, as the chain of items above it, read by assistive technology as navigation named `label`. `items` are the items above, outermost first, each a link; `current` names the item itself and ends the chain without a link. `note` follows `current`, in smaller muted text, for a qualification of where the item sits, such as an item that is proposed under its parent rather than part of it. Pressing an item writes its `id` to `picked` (bind it with $bindState), then emits `pick`. The chain stays on one line: in a row it takes the free space its peers leave, and when the items do not fit, the ones between the first and the current fold into a menu that lists them.',
     },
     Map: {
       props: z.object({
@@ -691,6 +703,11 @@ export const catalog = defineCatalog(schema, {
       description:
         'Ask a model what `prompt`, something the actor typed, describes in the collection the demo shows, once the actor pauses. Every dispatch clears `statePath` at once; a non-empty `prompt` then writes { prompt, pending: true } there when the request goes, and { prompt, result } or { prompt, error } when it comes back. A later dispatch replaces an earlier one, whose answer is dropped. Dispatch it from a `watch` on what the actor types, with a null `prompt` when what they typed already matches something.',
     },
+    deduce: {
+      params: z.object({ statePath: z.string(), focus: z.string(), proposal: z.unknown().nullable() }),
+      description:
+        'Ask a model which components that the model does not contain likely belong near `focus`, the id of a modelled component, or near `proposal`, a component it proposed earlier ({ name, rationale, anchorId }), which is then the subject. Writes { status: loading } to `statePath` at once, then { status: ready, proposals, revealed } when the answer comes, raising `revealed` by one every moment until every proposal shows, or { status: absent } when the model does not answer. A later dispatch replaces an earlier one, whose answer is dropped.',
+    },
     notify: {
       params: z.object({ statePath: z.string(), message: z.string() }),
       description:
@@ -710,5 +727,6 @@ export const actionsSuppliedBySpecs = {
   editRule: async () => {},
   settle: async () => {},
   interpret: async () => {},
+  deduce: async () => {},
   notify: async () => {},
 };

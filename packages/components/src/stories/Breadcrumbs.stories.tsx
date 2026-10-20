@@ -28,28 +28,49 @@ export const Basic: Story = {
   ),
 };
 
+// The trail keeps to one line within its own width. When the items overflow,
+// the element sets `collapsed`, and the middle items fold into the overflow
+// crumb's menu, which lists every item above the current one. Widen the box
+// past the trail's length and every item shows.
+const longPath = ['Section', 'Collection', 'Group', 'Subgroup'];
+
 export const LongPath: Story = {
   render: () => (
-    <pp-breadcrumbs role="navigation">
-      <a href="">
-        <span className="crumbicon">
-          <iconify-icon icon="ph:house"></iconify-icon>
+    <div style={{ inlineSize: '22rem' }}>
+      <pp-breadcrumbs role="navigation">
+        <a href="">
+          <span className="crumbicon">
+            <iconify-icon icon="ph:house"></iconify-icon>
+          </span>
+          <span className="visually-hidden home-label">Home</span>
+        </a>
+
+        <span className="crumb crumb--overflow">
+          <pp-dropdown placement="bottom-start" hoist>
+            <button type="button" className="button button--plain" data-slot="trigger" aria-label="Hidden items">
+              …
+            </button>
+            <pp-popup>
+              <pp-list>
+                {['Home', ...longPath].map(name => (
+                  <pp-list-item key={name}>{name}</pp-list-item>
+                ))}
+              </pp-list>
+            </pp-popup>
+          </pp-dropdown>
         </span>
-        <span className="visually-hidden home-label">Home</span>
-      </a>
 
-      <span className="crumb">
-        <a href="#">Section</a>
-      </span>
+        {longPath.map(name => (
+          <span className="crumb" key={name}>
+            <a href="#">{name}</a>
+          </span>
+        ))}
 
-      <span className="crumb">
-        …
-      </span>
-
-      <span className="crumb">
-        <a href="#" aria-current="page">The very bottom</a>
-      </span>
-    </pp-breadcrumbs>
+        <span className="crumb">
+          <a href="#" aria-current="page">The very bottom</a>
+        </span>
+      </pp-breadcrumbs>
+    </div>
   ),
 };
 

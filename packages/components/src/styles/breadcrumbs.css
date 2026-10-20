@@ -6,6 +6,11 @@ pp-breadcrumbs {
   --_crumb-radius: 0.3rem;
   --_crumb-ink: CanvasText;
 
+  /* The trail takes its width from where it sits, never from its items, so
+     that it can tell when they overflow: in a row it grows into the free
+     space from nothing. */
+  flex: 1 1 0;
+  min-inline-size: 0;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
@@ -111,17 +116,48 @@ pp-breadcrumbs {
     z-index: 1;
   }
 
-  /* Elide the middle of the trail on narrow viewports */
-  @media (width <= 768px) {
+  /* The overflow menu stands in for the items it lists, and shows only while
+     the trail is collapsed. */
+  > .crumb--overflow {
+    display: none;
+  }
+
+  /* Collapsed (set by the element when the items overflow its width): the
+     first and last items stay, and the middle ones fold into the overflow
+     menu, which lists every item above the current one. A trail without a
+     menu marks the gap with an ellipsis. */
+  &[collapsed] {
     > a:not(:last-child, :first-child),
-    > .crumb:not(:last-child, :first-child) {
+    > .crumb:not(:last-child, :first-child, .crumb--overflow) {
       display: none;
     }
 
-    > a:not(:last-child)::after,
-    > .crumb:not(:last-child)::after {
+    &:has(> .crumb--overflow ~ :not(:last-child)) > .crumb--overflow {
+      display: inline-flex;
+    }
+
+    &:not(:has(> .crumb--overflow)) > :is(a, .crumb):not(:last-child)::after {
       content: "...";
       margin-inline: var(--_separator-space);
+    }
+  }
+
+  /* Still too wide: every item above the current one folds into the menu,
+     and the current item shortens with an ellipsis. */
+  &[collapsed="all"] {
+    > :is(a, .crumb):first-child:not(:last-child) {
+      display: none;
+    }
+
+    > .crumb--overflow {
+      display: inline-flex;
+    }
+
+    > :is(a, .crumb):last-child {
+      display: block;
+      min-inline-size: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }

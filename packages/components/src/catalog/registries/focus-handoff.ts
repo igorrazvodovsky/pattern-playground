@@ -1,9 +1,10 @@
-import { useCallback, useLayoutEffect, useRef } from 'react';
+import { useCallback, useLayoutEffect, useRef, type RefObject } from 'react';
 
-// Where focus goes when a Button unmounts while it has focus. A press can hide
-// the button it came from (an arm swap, a deleted row, a Reset that hides
-// itself), and so can a timer (an armed pair reverting). Left alone, focus
-// falls to the body and the next Tab starts from the top of the page.
+// Where focus goes when a Button, a card's title or a link in a trail unmounts
+// while it has focus. A press can hide the button it came from (an arm swap, a
+// deleted row, a Reset that hides itself, a card whose item became the focus),
+// and so can a timer (an armed pair reverting). Left alone, focus falls to the
+// body and the next Tab starts from the top of the page.
 //
 // The spec names the target by label (the Button's `focusNext`): focus goes to
 // the first button with that label after where the lost one was, else the last
@@ -58,9 +59,19 @@ const handOff = (
   });
 };
 
-/** Returns the ref for a Button's element. */
-export const useFocusHandoff = (focusNext: string | null | undefined) => {
-  const ref = useRef<HTMLButtonElement>(null);
+/**
+ * Returns the ref for a Button's element. A control that already has a ref,
+ * such as a card's title button, passes it in, with `present` saying whether
+ * the element is rendered now, so that one which appears after its owner
+ * mounts is still handed off from.
+ */
+export const useFocusHandoff = <T extends HTMLElement = HTMLButtonElement>(
+  focusNext: string | null | undefined,
+  given?: RefObject<T | null>,
+  present = true,
+) => {
+  const own = useRef<T>(null);
+  const ref = given ?? own;
   const next = useLatest(focusNext);
 
   useLayoutEffect(() => {
@@ -73,7 +84,7 @@ export const useFocusHandoff = (focusNext: string | null | undefined) => {
       const demo = button.closest<HTMLElement>('[data-registry]');
       if (demo) handOff(button, demo, next.current);
     };
-  }, [next]);
+  }, [next, ref, present]);
 
   return ref;
 };

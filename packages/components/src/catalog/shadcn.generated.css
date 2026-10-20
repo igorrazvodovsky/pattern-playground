@@ -1758,6 +1758,29 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .group-aria-\[current\=true\]\:ring-ring:is(:where(.group)[aria-current="true"] *) {
     --tw-ring-color: var(--ring);
   }
+.group-data-\[collapsed\]\/trail\:block:is(:where(.group\/trail)[data-collapsed] *) {
+    display: block;
+  }
+.group-data-\[collapsed\]\/trail\:hidden:is(:where(.group\/trail)[data-collapsed] *) {
+    display: none;
+  }
+.group-data-\[collapsed\]\/trail\:inline-flex:is(:where(.group\/trail)[data-collapsed] *) {
+    display: inline-flex;
+  }
+.group-data-\[collapsed\=all\]\/trail\:block:is(:where(.group\/trail)[data-collapsed="all"] *) {
+    display: block;
+  }
+.group-data-\[collapsed\=all\]\/trail\:hidden:is(:where(.group\/trail)[data-collapsed="all"] *) {
+    display: none;
+  }
+.group-data-\[collapsed\=all\]\/trail\:inline-flex:is(:where(.group\/trail)[data-collapsed="all"] *) {
+    display: inline-flex;
+  }
+.group-data-\[collapsed\=all\]\/trail\:truncate:is(:where(.group\/trail)[data-collapsed="all"] *) {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 .group-data-\[disabled\=true\]\:pointer-events-none:is(:where(.group)[data-disabled="true"] *) {
     pointer-events: none;
   }
@@ -2491,6 +2514,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
     }
 .sm\:justify-end {
       justify-content: flex-end;
+    }
+.sm\:gap-2\.5 {
+      gap: calc(var(--spacing) * 2.5);
     }
 .sm\:pr-2\.5 {
       padding-right: calc(var(--spacing) * 2.5);

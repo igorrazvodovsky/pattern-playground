@@ -15,7 +15,7 @@ Reveal the actor's position in a hierarchy, enabling efficient backtracking and 
 
 ## Long path
 
-When a breadcrumb has more items than it can show, it automatically collapses.
+A breadcrumb stays on one line. When its items are wider than the space it has, the middle items fold into a menu after the first item; if that is still too wide, the first item folds in too and the current item shortens with an ellipsis. Every item stays reachable from the menu, and when the space grows back, the items return. The trail measures its own width rather than the viewport's, so it collapses in a narrow pane inside a wide window too. Put the menu in a crumb with the `crumb--overflow` class, second in the trail, listing every item above the current one; a trail without one marks the gap with an ellipsis instead.
 
 <Story of={ BreadcrumbsStories.LongPath } />
 
@@ -60,7 +60,6 @@ re-finding (returning to known content), and browsing (lateral exploration via a
 
 ## TODO:
 
-- Expanding the breadcrumb by selecting the ellipsis.
 - Alt. use priority+
 
 ## Resources

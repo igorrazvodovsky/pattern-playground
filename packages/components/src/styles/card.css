@@ -16,12 +16,30 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
     border-radius: var(--radius-m);
     position: relative;
     display: grid;
-    grid-template-columns: 1fr;
+
+    /* minmax(0, …): a plain 1fr track grows to its content's min-content
+       width, so a wide table would stretch the card instead of scrolling
+       inside it. */
+    grid-template-columns: minmax(0, 1fr);
     align-content: baseline;
   }
 
   .card--plain {
     border: none;
+  }
+
+  /* Lower emphasis, for a card among peers that the actor should rely on
+     less: reduced drops the border to a dashed line and the ground to
+     transparent, and faint also dims the text. */
+  .card--reduced,
+  .card--faint {
+    --card-bg: transparent;
+
+    border-style: dashed;
+  }
+
+  .card--faint {
+    color: var(--c-bodyDimmed);
   }
 
   .card:has(:where(.card__footer, footer)) {
