@@ -12,7 +12,7 @@ const groupings = new BoundedCache<TimelineGrouping>();
 
 /* Bumped whenever the prompt changes shape: a reply written against an older
    contract is not a cache hit, it is a wrong answer served fast. */
-const PROMPT_VERSION = 6;
+const PROMPT_VERSION = 7;
 
 function cacheKey(body: unknown): string {
   /* The model is part of the key: swapping it changes the answer, and a

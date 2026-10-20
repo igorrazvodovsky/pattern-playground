@@ -12,11 +12,17 @@ if (missingEnvVars.length > 0) {
 }
 
 // Server configuration types
+type ReasoningEffort = 'none' | 'low' | 'medium' | 'high' | 'xhigh' | 'max';
+
 interface OpenAIConfig {
   apiKey: string;
   model: string;
   /** For calls a reader is waiting on, where latency beats depth. */
   fastModel: string;
+  /* Current models reason before answering, and the default effort (medium)
+     adds seconds to every call. The demos ask for short transformations, so
+     low is enough. */
+  reasoningEffort: ReasoningEffort;
 }
 
 interface CorsConfig {
@@ -42,8 +48,9 @@ const config: ServerConfig = {
   port: process.env.PORT ? parseInt(process.env.PORT, 10) : 3000,
   openai: {
     apiKey: process.env.OPENAI_API_KEY!,
-    model: process.env.OPENAI_MODEL || 'gpt-4-turbo',
-    fastModel: process.env.OPENAI_FAST_MODEL || 'gpt-4o',
+    model: process.env.OPENAI_MODEL || 'gpt-5.6-luna',
+    fastModel: process.env.OPENAI_FAST_MODEL || 'gpt-5.6-luna',
+    reasoningEffort: (process.env.OPENAI_REASONING_EFFORT as ReasoningEffort | undefined) || 'low',
   },
   cors: {
     allowedOrigins: [

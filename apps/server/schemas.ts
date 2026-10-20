@@ -73,22 +73,25 @@ export type TimelineGroupingRequest = {
   subject?: string;
 };
 
-export type TimelineEpisode = {
-  title: string;
-  summary: string;
-  /** The record the episode opens on; it runs until the next episode's. */
-  startId: string;
-};
+/* The reply shapes double as the model's output contract: the API is held to
+   them through Structured Outputs, so every field is required and none is a
+   record with open keys. */
+const timelineGroupingSchema = z.object({
+  phases: z.array(z.object({
+    title: z.string(),
+    summary: z.string(),
+    episodes: z.array(z.object({
+      title: z.string(),
+      summary: z.string(),
+      /** The record the episode opens on; it runs until the next episode's. */
+      startId: z.string()
+    }))
+  }))
+});
 
-export type TimelinePhase = {
-  title: string;
-  summary: string;
-  episodes: TimelineEpisode[];
-};
-
-export type TimelineGrouping = {
-  phases: TimelinePhase[];
-};
+export type TimelineGrouping = z.infer<typeof timelineGroupingSchema>;
+export type TimelinePhase = TimelineGrouping['phases'][number];
+export type TimelineEpisode = TimelinePhase['episodes'][number];
 
 const timelineGroupingRequestSchema = z.object({
   records: z.array(z.object({
@@ -119,16 +122,17 @@ export type DeductionRequest = {
   subject?: string;
 };
 
-export type Proposal = {
-  name: string;
-  rationale: string;
-  /** The modelled component the proposal would hang under. */
-  anchorId: string;
-};
+const deductionSchema = z.object({
+  proposals: z.array(z.object({
+    name: z.string(),
+    rationale: z.string(),
+    /** The modelled component the proposal would hang under. */
+    anchorId: z.string()
+  }))
+});
 
-export type Deduction = {
-  proposals: Proposal[];
-};
+export type Deduction = z.infer<typeof deductionSchema>;
+export type Proposal = Deduction['proposals'][number];
 
 const deductionRequestSchema = z.object({
   focus: z.object({
@@ -153,5 +157,7 @@ export {
   explanationRequestSchema,
   suggestionRequestSchema,
   timelineGroupingRequestSchema,
-  deductionRequestSchema
+  timelineGroupingSchema,
+  deductionRequestSchema,
+  deductionSchema
 };
