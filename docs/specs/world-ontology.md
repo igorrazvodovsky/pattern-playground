@@ -18,7 +18,10 @@ separately.
   `{id, kind}` pair in `individuals.json` and nothing more; every property it
   appears to have is a fact. The kind is not a fact, because it is what the id
   refers to rather than something that happened to it. Individuals are never
-  interpreted or decomposed: an id is matched by identity alone.
+  interpreted or decomposed: an id is matched by identity alone. Nothing
+  removes one either: no action type retires an individual, so an id once
+  introduced stays reachable, and the facts about it go only when an action
+  retracts them one at a time.
 - *Values* — data interpreted by structure and content: strings, numbers,
   booleans, dates, and larger structured objects such as a document body or a
   product specification. Values have no identity and are stored inline where
