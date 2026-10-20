@@ -119,17 +119,16 @@
       "visible": { "$item": "full/listed" }
     },
     "overview": {
-      "type": "Stack",
-      "props": { "gap": "s" },
+      "type": "ItemGroup",
+      "props": { "label": "Products" },
       "visible": { "$or": [{ "$state": "/layout", "neq": "new-page" }, { "$state": "/pageOpen", "not": true }] },
       "repeat": { "statePath": "/products", "key": "id" },
       "children": ["card"]
     },
     "card": {
-      "type": "Card",
-      "props": { "title": { "$item": "name" }, "opens": true, "selected": { "$cond": { "$item": "id", "eq": { "$state": "/selected" } }, "$then": true, "$else": false }, "focusOnShow": { "$cond": { "$item": "id", "eq": { "$state": "/selected" } }, "$then": true, "$else": false } },
-      "slots": { "suffix": ["card-menu"] },
-      "children": ["card-attributes", "in-place", "popover"],
+      "type": "Item",
+      "props": { "title": { "$item": "name" }, "opens": true, "selected": { "$cond": { "$item": "id", "eq": { "$state": "/selected" } }, "$then": true, "$else": false }, "focusOnShow": { "$cond": { "$item": "id", "eq": { "$state": "/selected" } }, "$then": true, "$else": false }, "expanded": { "$cond": { "$and": [{ "$item": "id", "eq": { "$state": "/selected" } }, { "$or": [{ "$state": "/layout", "eq": "in-place" }, { "$and": [{ "$state": "/layout", "eq": "side-by-side" }, { "$state": "/room", "not": true }] }] }] }, "$then": true, "$else": null } },
+      "slots": { "attributes": ["card-attributes"], "suffix": ["card-menu", "popover"], "detail": ["in-place-body"] },
       "on": {
         "open": [
           { "action": "setState", "params": { "statePath": "/selected", "value": { "$value": { "$item": "id" } } } },
@@ -153,12 +152,6 @@
     "card-attribute": {
       "type": "Badge",
       "props": { "label": { "$item": "label" }, "text": { "$item": "value" } }
-    },
-    "in-place": {
-      "type": "Stack",
-      "props": { "gap": "m" },
-      "visible": { "$and": [{ "$item": "id", "eq": { "$state": "/selected" } }, { "$or": [{ "$state": "/layout", "eq": "in-place" }, { "$and": [{ "$state": "/layout", "eq": "side-by-side" }, { "$state": "/room", "not": true }] }] }] },
-      "children": ["in-place-body"]
     },
     "in-place-body": {
       "type": "Stack",

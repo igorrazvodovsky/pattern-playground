@@ -145,8 +145,8 @@
       }
     },
     "cards": {
-      "type": "Stack",
-      "props": { "gap": "m" },
+      "type": "ItemGroup",
+      "props": { "label": "Items" },
       "repeat": { "statePath": "/derived/cards", "key": "id" },
       "children": ["card"]
     },
@@ -160,7 +160,7 @@
       "visible": { "$state": "/derived/empty" }
     },
     "card": {
-      "type": "Card",
+      "type": "Item",
       "props": {
         "title": { "$item": "name" },
         "opens": true,

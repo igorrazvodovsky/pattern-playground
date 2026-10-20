@@ -651,9 +651,13 @@ export const { registry } = defineRegistry(catalog, {
     // focused item. The detail is the library's inline detail (.card >
     // .detail), positioned so it paints above the stretched link.
     Item: ({ props, slots, emit }) => {
+      const openRef = useRef<HTMLButtonElement>(null);
+      useFocusOnShow(openRef, props.focusOnShow);
+      useFocusHandoff(null, openRef, Boolean(props.opens));
       const Heading = useHeading();
       const title = props.opens ? (
         <button
+          ref={openRef}
           type="button"
           className="stretched-link"
           aria-pressed={props.selected == null || props.expanded != null ? undefined : props.selected}
@@ -669,11 +673,20 @@ export const { registry } = defineRegistry(catalog, {
       );
       return (
         <div role="listitem" onPointerEnter={() => emit('focus')} onPointerLeave={() => emit('blur')}>
-          <article className="card" data-selected={props.selected ? 'true' : undefined} data-focused={props.focused ? 'true' : undefined}>
-            <div className="flow pad">
-              <Heading className="label flex">{title}</Heading>
-              {slots?.attributes && <div className="card__attributes badges">{slots.attributes}</div>}
-            </div>
+          <article className="card" data-selected={props.selected ? 'true' : undefined} data-focused={props.focused ? 'true' : undefined} data-popover-host="">
+            {slots?.suffix && (
+              <div className="card__header">
+                <Heading className="label flex">{title}</Heading>
+                <div className="flex">{slots.suffix}</div>
+              </div>
+            )}
+            {(!slots?.suffix || props.description || slots?.attributes) && (
+              <div className="flow pad">
+                {!slots?.suffix && <Heading className="label flex">{title}</Heading>}
+                {props.description && <p>{props.description}</p>}
+                {slots?.attributes && <div className="card__attributes badges">{slots.attributes}</div>}
+              </div>
+            )}
             {props.expanded && slots?.detail && (
               <div className="detail flow pad">
                 <Subsection>{slots.detail}</Subsection>

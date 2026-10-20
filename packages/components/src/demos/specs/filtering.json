@@ -172,13 +172,13 @@
     },
 
     "tasks": {
-      "type": "Stack",
-      "props": { "gap": "s" },
+      "type": "ItemGroup",
+      "props": { "label": "Tasks" },
       "repeat": { "statePath": "/derived/tasks", "key": "id" },
       "children": ["task"]
     },
     "task": {
-      "type": "Card",
+      "type": "Item",
       "props": { "title": { "$item": "title" } },
       "slots": { "attributes": ["task-attributes"] }
     },

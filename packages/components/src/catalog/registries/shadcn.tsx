@@ -840,6 +840,9 @@ export const { registry } = defineRegistry(catalog, {
     // under a rule across the row, as an ItemFooter spans it, and is
     // positioned so it paints above the cover.
     Item: ({ props, slots, emit }) => {
+      const openRef = useRef<HTMLButtonElement>(null);
+      useFocusOnShow(openRef, props.focusOnShow);
+      useFocusHandoff(null, openRef, Boolean(props.opens));
       const Heading = useHeading();
       const detail = props.expanded && slots?.detail;
       return (
@@ -847,6 +850,7 @@ export const { registry } = defineRegistry(catalog, {
           <div data-slot="item-separator" role="none" className="h-px shrink-0 bg-border group-first/row:hidden" />
           <div
             data-slot="item"
+            data-popover-host=""
             className={clsx(
               'group/item flex flex-wrap items-center gap-4 rounded-md border p-4 text-sm transition-colors duration-100',
               props.opens && 'relative',
@@ -859,6 +863,7 @@ export const { registry } = defineRegistry(catalog, {
               <Heading data-slot="item-title" className="flex w-fit items-center gap-2 text-sm leading-snug font-medium">
                 {props.opens ? (
                   <button
+                    ref={openRef}
                     type="button"
                     className="cursor-pointer text-left outline-none after:absolute after:inset-0 after:rounded-md focus-visible:after:ring-[3px] focus-visible:after:ring-ring/50"
                     aria-pressed={props.selected == null || props.expanded != null ? undefined : props.selected}
@@ -873,8 +878,22 @@ export const { registry } = defineRegistry(catalog, {
                   props.title
                 )}
               </Heading>
-              {slots?.attributes && <div className="flex flex-wrap items-center gap-2">{slots.attributes}</div>}
+              {props.description && (
+                <p data-slot="item-description" className="text-sm leading-normal font-normal text-balance text-muted-foreground">
+                  {props.description}
+                </p>
+              )}
+              {slots?.attributes && (
+                <div className={clsx('flex flex-wrap items-center gap-2', props.opens && '[&_button]:relative [&_button]:z-10')}>
+                  {slots.attributes}
+                </div>
+              )}
             </div>
+            {slots?.suffix && (
+              <div data-slot="item-actions" className={clsx('flex items-center gap-2', props.opens && 'relative z-10')}>
+                {slots.suffix}
+              </div>
+            )}
             {detail && (
               <div data-slot="item-footer" className="relative flex basis-full flex-col gap-3 border-t pt-4">
                 <Subsection>{slots.detail}</Subsection>

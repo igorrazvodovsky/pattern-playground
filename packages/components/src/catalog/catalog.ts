@@ -357,14 +357,16 @@ export const catalog = defineCatalog(schema, {
     Item: {
       props: z.object({
         title: z.string(),
+        description: z.string().nullable(),
         opens: z.boolean().nullable(),
         selected: z.boolean().nullable(),
         focused: z.boolean().nullable(),
         expanded: z.boolean().nullable(),
+        focusOnShow: z.boolean().nullable(),
       }),
-      slots: ['attributes', 'detail'],
+      slots: ['attributes', 'suffix', 'detail'],
       description:
-        'One item of a collection as a row in an ItemGroup: its `title`, and in the `attributes` slot a few of its attributes as labelled Badges. With `opens` the actor can pick the item: its title is a button, pressing anywhere on the row presses it, and it emits `open`. `selected` marks the one item among its peers that the actor picked, such as the item other views are showing: the row is set apart, and on a row that opens the title reads as pressed. The `detail` slot holds what the row opens into, such as the item\'s readout under its summary, and shows while `expanded` is true, set off by a rule and not covered by the press; with `expanded` the title reads as expanded or collapsed rather than pressed. The row emits `focus` when the pointer comes over it or its title takes keyboard focus, and `blur` when it leaves, for focus that moves without being staked; `focused` marks the row more lightly than `selected`, such as the item another view has the pointer over.',
+        'One item of a collection as a row in an ItemGroup: its `title`, a sentence or two about it in `description`, and in the `attributes` slot a few of its attributes as labelled Badges. The `suffix` slot sits at the end of the row, for a short status such as a Badge, or a control that acts on the item. With `opens` the actor can pick the item: its title is a button, pressing anywhere on the row presses it, and it emits `open`; controls in `suffix`, and pressable Badges in `attributes`, stay separate presses. `focusOnShow` works as on a Card. `selected` marks the one item among its peers that the actor picked, such as the item other views are showing: the row is set apart, and on a row that opens the title reads as pressed. The `detail` slot holds what the row opens into, such as the item\'s readout under its summary, and shows while `expanded` is true, set off by a rule and not covered by the press; with `expanded` the title reads as expanded or collapsed rather than pressed. The row emits `focus` when the pointer comes over it or its title takes keyboard focus, and `blur` when it leaves, for focus that moves without being staked; `focused` marks the row more lightly than `selected`, such as the item another view has the pointer over.',
     },
     Stat: {
       props: z.object({
@@ -585,7 +587,7 @@ export const catalog = defineCatalog(schema, {
       }),
       slots: ['default', 'suffix'],
       description:
-        'A panel over the page next to the element it belongs to, which does not block the page: put it inside that element, such as a Card, and it opens beside it. `title` heads it and names it for assistive technology; the children are its body. The `suffix` slot sits beside the title, for controls that change how the panel shows what it holds. Bind `open` with $bindState: a click outside the panel or Escape closes it and writes false back. When it opens because of what the actor did, focus moves to its first control; when it closes with focus inside it, focus goes back to the control that had it when it opened.',
+        'A panel over the page next to the element it belongs to, which does not block the page: put it inside that element, such as a Card or an Item, and it opens beside it. `title` heads it and names it for assistive technology; the children are its body. The `suffix` slot sits beside the title, for controls that change how the panel shows what it holds. Bind `open` with $bindState: a click outside the panel or Escape closes it and writes false back. When it opens because of what the actor did, focus moves to its first control; when it closes with focus inside it, focus goes back to the control that had it when it opened.',
     },
     Menu: {
       props: z.object({

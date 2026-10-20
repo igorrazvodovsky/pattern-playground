@@ -8,17 +8,16 @@
     },
 
     "checklist": {
-      "type": "Grid",
-      "props": { "minColumnWidth": "m" },
+      "type": "ItemGroup",
+      "props": { "label": "Detection rules" },
       "visible": { "$state": "/inSlice", "not": true },
       "repeat": { "statePath": "/flags", "key": "id" },
       "children": ["flag"]
     },
     "flag": {
-      "type": "Card",
-      "props": { "title": { "$item": "title" }, "opens": true, "focusOnShow": { "$item": "open" } },
+      "type": "Item",
+      "props": { "title": { "$item": "title" }, "description": { "$item": "reason" }, "opens": true, "focusOnShow": { "$item": "open" } },
       "slots": { "suffix": ["flag-count", "not-useful"] },
-      "children": ["flag-reason"],
       "on": {
         "open": [
           { "action": "setState", "params": { "statePath": { "$item": "open" }, "value": true } },
@@ -40,11 +39,6 @@
         ]
       }
     },
-    "flag-reason": {
-      "type": "Text",
-      "props": { "text": { "$item": "reason" } }
-    },
-
     "nothing-flagged": {
       "type": "Text",
       "props": { "text": "Nothing flagged right now.", "muted": true },
@@ -89,15 +83,15 @@
       "props": { "title": { "$item": "title" }, "text": { "$item": "reason" }, "purpose": "info" }
     },
     "slice-items": {
-      "type": "Grid",
-      "props": { "minColumnWidth": "m" },
+      "type": "ItemGroup",
+      "props": { "label": { "$item": "title" } },
       "repeat": { "statePath": { "$item": "items" }, "key": "id" },
       "children": ["slice-item"]
     },
     "slice-item": {
-      "type": "Card",
+      "type": "Item",
       "props": { "title": { "$item": "name" } },
-      "children": ["slice-item-attributes"]
+      "slots": { "attributes": ["slice-item-attributes"] }
     },
     "slice-item-attributes": {
       "type": "Stack",

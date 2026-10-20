@@ -110,15 +110,15 @@
       "props": { "title": { "$item": "title" }, "text": { "$item": "reason" }, "purpose": "info" }
     },
     "slice-items": {
-      "type": "Stack",
-      "props": { "gap": "s" },
+      "type": "ItemGroup",
+      "props": { "label": { "$item": "title" } },
       "repeat": { "statePath": { "$item": "items" }, "key": "id" },
       "children": ["slice-item"]
     },
     "slice-item": {
-      "type": "Card",
+      "type": "Item",
       "props": { "title": { "$item": "name" }, "opens": true, "focusOnShow": { "$item": "open" } },
-      "children": ["slice-item-attributes"],
+      "slots": { "attributes": ["slice-item-attributes"] },
       "on": {
         "open": [
           { "action": "setState", "params": { "statePath": { "$item": "open" }, "value": true } },

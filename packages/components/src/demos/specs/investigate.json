@@ -66,15 +66,15 @@
       }
     },
     "items": {
-      "type": "Stack",
-      "props": { "gap": "s" },
+      "type": "ItemGroup",
+      "props": { "label": { "$item": "name" } },
       "repeat": { "statePath": { "$item": "items" }, "key": "id" },
       "children": ["item"]
     },
     "item": {
-      "type": "Card",
+      "type": "Item",
       "props": { "title": { "$item": "name" }, "opens": true, "focusOnShow": { "$item": "open" } },
-      "children": ["item-attributes"],
+      "slots": { "attributes": ["item-attributes"] },
       "on": {
         "open": [
           { "action": "setState", "params": { "statePath": { "$item": "open" }, "value": true } },
