@@ -27,10 +27,9 @@ json-render 0.21.1 and its documentation. Its items are in §3 and §5.
 ## Order
 
 1. Bugs (done 2026-10-17; focus after a toast's Undo remains).
-2. Dead-code sweep (done 2026-10-17; three keep-or-retire decisions remain).
+2. Dead-code sweep (done 2026-10-17; the keep-or-retire decisions settled 2026-10-20).
 3. Consolidation (first pass done 2026-10-18; registry semantics shared
-   2026-10-20; the command menu question and the remaining switchable-demo
-   items remain).
+   and demo actions moved out of the catalog 2026-10-20; done).
 4. Template extractions (stat tile, card list, overview-plus-detail) — these are
    design calls, one sitting each.
 5. Conventions (done 2026-10-18; the story tags and the TemplateField
@@ -221,13 +220,13 @@ Kept on purpose:
 - `stepper__item--warning`: one of a set of status modifiers.
 - `.flex-layout-grid`: a layout utility kept for authoring, even though no
   markup uses it at the moment.
-- `EpistemicStatus.astro`: the evidence badges are commented out, but the
-  file's header describes them as intended design. Decide whether they return
-  or go.
-- `scripts/world/verify-views.ts`: listed in the `promoted_to` of
-  `plans/completed/2026-08-world-regrounding.md` as residue. It will fail on the
-  first new action that changes a view; decide whether it retires (and the
-  completed plan's `promoted_to` is updated) or is rebased onto current views.
+- `EpistemicStatus.astro` (decided 2026-10-20): the evidence badges stay
+  commented out, as the file's header describes them as intended design.
+
+Retired 2026-10-20: `scripts/world/verify-views.ts`, which compared the
+assembled views against the JSON files the world replaced and would have
+failed on the first new action that changed a view. It is gone from the
+`promoted_to` of `plans/completed/2026-08-world-regrounding.md`.
 - The survey's `PatternArticle.astro:46-48` item was an explanatory comment,
   not dead code.
 
@@ -306,11 +305,11 @@ Kept on purpose:
   `HierarchicalSearchResults` is declared once, in the search utility. The hook
   reads the latest config through a ref, so the search re-runs only when the
   query, context or data change, and its actions keep stable identities.
-- [ ] *Command menu navigation.* `use-command-navigation.ts` keeps its own
-  two-mode state rather than using `useHierarchicalNavigation`: it has no
-  debounce, selects leaf commands directly, and filters recent items. Folding
-  it in would need hook options for each, and would change how the menu
-  behaves. Decide whether that is wanted.
+- [x] *Command menu navigation* (decided 2026-10-20: left as it is).
+  `use-command-navigation.ts` keeps its own two-mode state rather than using
+  `useHierarchicalNavigation`: it has no debounce, selects leaf commands
+  directly, and filters recent items. Folding it in would need hook options
+  for each and would change how the menu behaves.
 - [x] *Modules beside static specs.* Done 2026-10-20. `demo-registry.ts`
   finds specs with two lazy globs over `demos/specs/`, one for the modules
   and one for the JSON, in place of the hand-kept `specs` map. A slug is a
@@ -350,11 +349,11 @@ Kept on purpose:
   `usePressableTitle`, and in pp they share `cardAttributes` and `cardDetail`
   for the attributes row and the detail block. Item keeps its own title
   heading (`label card__title flex`, which holds the `titleSuffix`).
-- [ ] *Detail without what the row shows, written twice.* `InPlaceDetail` in
-  `templates/collection-view/renderers/entity-detail.tsx` has no user since
+- [x] *Detail without what the row shows, written twice* (removed
+  2026-10-20). `InPlaceDetail` in
+  `templates/collection-view/renderers/entity-detail.tsx` had no user since
   the linked-trio demo became a spec, which builds the same view with
   `itemView('mid', undefined, attributes)` from `specs/shared/product-view.ts`.
-  Decide whether the template keeps it for collection views or it goes.
 - [x] *Catalog semantics written per registry* (done 2026-10-20). The rule
   for `aria-pressed` and `aria-expanded` on a title that opens was written out
   four times (Card and Item in each registry), and each text field repeated
@@ -392,20 +391,23 @@ Kept on purpose:
   The sheet went from 13.9 KB to 10.7 KB gzipped; every class the registry
   names is still in it. Checked in the browser under shadcn: bound and unbound
   checkbox rows, labelled and drop-target Stacks.
-- [ ] *Demo actions in the shared catalog* (checked 2026-10-20). Four of the
-  catalog's seven actions are used by one spec each (`toggle` by nested-pairs,
-  `editRule` by rule-composition, `interpret` by filtering, `deduce` by
-  contextual-navigation), and the other three by two specs at most. The
-  `actionsSuppliedBySpecs` no-ops exist only because the catalog declares
-  actions: `defineRegistry` requires a handler for each declared action in its
-  types, and makes `actions` optional when there are none. At runtime
-  `JSONUIProvider` takes handlers under any name. Each action's definition
-  (params and description) could move beside its handler, the catalog would
-  hold components only, and the generated-demos plan would get the per-demo
-  action list it needs for its prompts. `specs.test.ts` would then check a
-  spec's actions against its module rather than the catalog. Confirm first
-  that both registries type-check with `actions` left out, and that a handler
-  declared only in a module still fires.
+- [x] *Demo actions in the shared catalog* (done 2026-10-20). Each of the
+  catalog's seven actions was used by one or two specs, and the registries
+  carried `actionsSuppliedBySpecs` no-ops only because the catalog declared
+  them. Each action's params and description now sit beside its handler: the
+  shared ones (`arm`, `toggle`, `settle`, `notify`) in `demos/specs/shared/`,
+  the others (`editRule`, `interpret`, `deduce`) in the module that uses
+  them. `SpecSetup.actions` lists the actions a spec can bind, and the
+  registries pass no `actions`. The catalog keeps an empty `actions: {}`,
+  since leaving the key out breaks the registries' prop inference.
+  json-render's provider finds a handler by name, so an action no catalog
+  declares still fires. `specs.test.ts` checks each binding against the
+  module rather than the catalog: the action is declared, every declaration
+  has a handler and every handler a declaration, and each param is one the
+  action takes, a literal fits it, and none it needs is missing. Checked in
+  the browser: `arm` (inline-confirmation), `toggle` (nested-pairs),
+  `notify` (staged-deletion, form) and `editRule` (rule-composition) run
+  with no handler warnings.
 
 ## 4. Template extractions
 
