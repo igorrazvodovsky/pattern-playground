@@ -4,11 +4,6 @@ import type { SpecSetup } from '../../catalog/SpecDemo';
 import { attributeValue } from './product-view';
 import spec from './item-view-row.json' with { type: 'json' };
 
-// The spec lays out the summary rung as a row among its peers: one row per
-// product, the status as a badge. The values are read and formatted through
-// the product binding (./product-view), so a price reads the same here as on
-// the item's card and in its full view.
-
 const category = attributeValue('category');
 const condition = attributeValue('condition');
 const price = attributeValue('pricing.msrp');

@@ -2,11 +2,6 @@ import { useRef } from 'react';
 import clsx from 'clsx';
 import { useDragRow } from './drag-drop';
 
-// One label and value pair of a draggable DescriptionList in the shadcn
-// registry, wrapped so that the pair is one box to drag, laid out on the
-// list's own columns. shadcn has no drag handle; the row takes the grab cursor
-// and fades while it is in flight.
-//
 // Every class used here must be visible to Tailwind: catalog/shadcn.css lists
 // this file as a source.
 

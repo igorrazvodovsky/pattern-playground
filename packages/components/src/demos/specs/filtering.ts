@@ -20,25 +20,13 @@ import { createTask } from '../../components/task/task-utils';
 import { filterClauses } from './filter-clauses';
 import spec from './filtering.json' with { type: 'json' };
 
-// Building a filter over a list of tasks. The conditions in force are chips
-// the actor edits in place. A new one starts in the filter field: it offers
-// the attributes, each of which narrows the field to its values, and from two
-// letters on the values themselves. When what the actor typed matches
-// nothing, it goes to a model once they pause, which reads it as conditions
-// on the attributes and values the list offers. The answer is offered as one
-// candidate that applies them all, and what the model could not read as a
-// condition can become a task instead.
-//
-// `/filters` is the conditions in force. A watch on it rewrites `/derived`,
-// the tasks that match and the chips, and a watch on what the field holds
-// rewrites `/field`, the candidates and what the field says beneath them,
-// because a repeat reads a list from state and a spec cannot filter one.
+// Watches rewrite `/derived` and `/field` because a repeat reads a list from
+// state and a spec cannot filter one.
 
 const PAUSE = 1500;
 const MIN_PROMPT = 3;
 
-// What a condition on each attribute can be built from: the values the data
-// records for it, dates as phrases rather than as days.
+// Dates are offered as phrases rather than as days.
 const VALUES: Record<string, { value: string; search: string }[]> = Object.fromEntries(
   taskFilterCategories.map(category => [
     category.id,
@@ -51,8 +39,7 @@ const { keeping, chip, applyEdit, removeFilter } = filterClauses(tasks, taskBind
   (VALUES[path] ?? []).map(each => each.value),
 );
 
-// Defaults built from the data the attributes read, so the chips name values
-// the list actually carries.
+// Built from the data, so the chips name values the list actually carries.
 const filters: AttributeFilter[] = [
   { id: 'default-status', path: 'status.label', operator: 'is any of', values: ['Todo', 'In Progress'] },
   {
@@ -72,7 +59,6 @@ const filters: AttributeFilter[] = [
 const CARD = resolveAttributeSelection(taskBinding, ['title', 'status.label', 'assignee.name', 'dueDate']);
 const [TITLE, ...BADGES] = CARD;
 
-/** The tasks that match, as cards, and the conditions as chips. */
 const derive = ({ filters: current }: Record<string, unknown>) => {
   const conditions = current as AttributeFilter[];
   return {
@@ -94,7 +80,6 @@ type Interpretation = { prompt: string; pending?: true; result?: AICommandResult
 const SUGGESTED = 'suggested';
 const CREATE_TASK = 'create-task';
 
-/** The attributes and values whose text matches what was typed, as the field offers them. */
 const matches = (query: string, scope: string | null) => {
   const typed = query.trim().toLowerCase();
   const has = (text: string) => text.toLowerCase().includes(typed);
@@ -124,7 +109,6 @@ const matches = (query: string, scope: string | null) => {
 
 const scopeOf = (scope: unknown) => (typeof scope === 'string' && scope !== '' ? scope : null);
 
-/** What the model is asked: what was typed, when it matches nothing. */
 const unmatched = ({ query, scope }: Record<string, unknown>) => {
   const typed = String(query ?? '').trim();
   if (typed.length < MIN_PROMPT || scopeOf(scope)) return null;
@@ -134,7 +118,6 @@ const unmatched = ({ query, scope }: Record<string, unknown>) => {
 
 const confidence = (result: AICommandResult) => (result.confidence < 85 ? ` (${result.confidence}% match)` : '');
 
-/** The field's candidates and what it says beneath them. */
 const field = ({ query, scope, interpretation }: Record<string, unknown>) => {
   const typed = String(query ?? '');
   const within = scopeOf(scope);
@@ -181,11 +164,6 @@ const field = ({ query, scope, interpretation }: Record<string, unknown>) => {
 
 let toastCount = 0;
 
-/**
- * What picking a candidate does: a value adds a condition, the model's
- * suggestion adds the conditions it read, and creating a task adds a toast
- * that opens it.
- */
 const pick = ({ filters: current, toasts, picked, interpretation }: Record<string, unknown>) => {
   const conditions = current as AttributeFilter[];
   const asked = interpretation as Interpretation;
@@ -222,11 +200,6 @@ const pick = ({ filters: current, toasts, picked, interpretation }: Record<strin
   }
 };
 
-/**
- * The handler for the catalog's `interpret` action: once the actor pauses,
- * the filter suggestion service reads what they typed as conditions on the
- * attributes and values the list offers.
- */
 const interpretHandler = (store: StateStore, connected: () => boolean) => {
   const available = Object.fromEntries(Object.entries(VALUES).map(([path, values]) => [path, values.map(each => each.value)]));
   let timer: ReturnType<typeof setTimeout> | undefined;

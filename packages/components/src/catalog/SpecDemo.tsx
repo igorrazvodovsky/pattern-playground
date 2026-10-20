@@ -16,16 +16,12 @@ export interface SpecSetup {
   /** State the spec reads. Fixtures enter the demo here, never through the spec. */
   initialState?: Record<string, unknown>;
   /**
-   * Handlers for the catalog actions the spec binds, given the demo's store
-   * and whether the demo is still on the page. A handler that changes state
-   * later (on a timer) checks `connected` first: handlers live outside the
-   * React tree, so unmounting the demo when its pane goes does not stop them.
+   * Handlers for the catalog actions the spec binds. A handler that changes
+   * state later (on a timer) checks `connected` first: handlers live outside
+   * the React tree, so unmounting the demo does not stop them.
    */
   handlers?: (store: StateStore, connected: () => boolean) => Record<string, ActionHandler>;
-  /**
-   * Named functions for `$computed` props, for the demo's own logic. Generic
-   * values (counts, joined text, list membership) are directives (./directives).
-   */
+  /** Named functions for `$computed` props. Generic values belong in ./directives. */
   functions?: Record<string, ComputedFunction>;
 }
 
@@ -48,11 +44,9 @@ const Unsupported: ComponentRenderer = ({ element }) => (
 );
 
 export function SpecDemo({ spec, registry, registryName, store, handlers, functions }: SpecDemoProps) {
-  // Unsettled while a render through a new registry mounts, so that controls
-  // with `focusOnShow` (registries/focus-on-show.ts) take focus only when they
-  // appear later. Children's layout effects run before this effect. Settling
-  // is recorded per registry and only after a commit, so a render React throws
-  // away changes nothing.
+  // Unsettled while a render through a new registry mounts, so `focusOnShow`
+  // controls take focus only when they appear later. Recorded only after a
+  // commit, so a render React throws away changes nothing.
   const settledWith = useRef<ComponentRegistry | null>(null);
   useEffect(() => {
     settledWith.current = registry;
@@ -61,9 +55,8 @@ export function SpecDemo({ spec, registry, registryName, store, handlers, functi
   const root = useRef<HTMLDivElement>(null);
 
   return (
-    // Focusable from script only: a dialog whose opener it removed hands focus
-    // back here (registries/dialog-focus.ts), and so does a focused Button
-    // that disappears with nowhere named to go (registries/focus-handoff.ts).
+    // Focusable from script only: a dialog whose opener is gone, or a focused
+    // Button that disappears with nowhere to go, hands focus back here.
     <div ref={root} data-registry={registryName} tabIndex={-1}>
       <DemoRoot value={root}>
         <DemoSettled value={settled}>

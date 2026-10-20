@@ -5,11 +5,9 @@ import { catalog } from './catalog';
 import { directives } from './directives';
 import type { SpecSetup } from './SpecDemo';
 
-// Checks every switchable demo's spec against the catalog and against the
-// module beside it. Specs are cast `as Spec`, and json-render renders an
-// unknown prop, action or function without complaint, so this is where those
-// mistakes surface. Per module rather than per JSON file: one file can serve
-// several modules with different setups.
+// Specs are cast `as Spec`, and json-render renders an unknown prop, action
+// or function without complaint, so this is where those mistakes surface. Per
+// module rather than per JSON file: one file can serve several modules.
 
 interface SpecModule { spec: Spec; setup: SpecSetup }
 
@@ -21,14 +19,11 @@ const specModules = Object.entries(modules)
   .filter((entry): entry is [string, { default: SpecModule }] => Boolean(entry[1].default?.spec))
   .map(([path, module]) => [path.replace(/^.*\//, '').replace(/\.ts$/, ''), module.default] as const);
 
-// The expressions json-render resolves itself, and the keys that only appear
-// inside one of them (a condition's `$and`, `$cond`'s branches).
 const builtInKeys = new Set([
   '$state', '$item', '$index', '$bindState', '$bindItem', '$cond', '$then', '$else', '$computed', '$template', '$and', '$or',
 ]);
-// What a condition (`visible`) or a repeat's state path can read: the
-// renderer resolves nothing else there, so a directive or `$computed` in one
-// is never evaluated.
+// The renderer resolves nothing else in a condition or a repeat's state path,
+// so a directive or `$computed` there is never evaluated.
 const conditionKeys = new Set(['$state', '$item', '$index', '$and', '$or']);
 const directiveByKey = new Map(directives.map(directive => [directive.name, directive]));
 const builtInActions = new Set((catalog.schema.builtInActions ?? []).map(action => action.name));
@@ -51,9 +46,8 @@ const hasExpression = (value: unknown): boolean =>
 
 interface Found { keys: Set<string>; computed: Set<string>; directives: Record<string, unknown>[] }
 
-// Every `$` key under a value, the names its `$computed` calls use, and the
-// directive objects in it. The renderer does not check a directive against its
-// schema; a directive missing a field resolves to something wrong.
+// The renderer does not check a directive against its schema; a directive
+// missing a field resolves to something wrong.
 const walk = (value: unknown, found: Found) => {
   if (Array.isArray(value)) value.forEach(each => walk(each, found));
   if (!isObject(value)) return;
@@ -134,7 +128,6 @@ describe('specs', () => {
   });
 });
 
-// Each check shown to fail when it should.
 describe('the lint', () => {
   const specWith = (elements: Spec['elements']): Spec => ({ root: 'root', elements });
   const button = (extra: Record<string, unknown> = {}) => ({ type: 'Button', props: { label: 'Go' }, children: [], ...extra });

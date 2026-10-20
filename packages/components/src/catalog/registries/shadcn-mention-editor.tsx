@@ -8,13 +8,9 @@ import { useInComposer } from './composer-field';
 import { isKind, useMentionEditor } from './mention-editor';
 import { scopedPortal } from './shadcn-portal';
 
-// shadcn/ui has no rich text editor, so the field takes Textarea's
-// classes, mentions take the Reference's, slots a dashed outline of the
-// Input's border, and the candidates take the Command list's. The list is
-// not cmdk: focus stays in the editor, which reads the list through
-// aria-activedescendant (mention-editor.ts). The list portals into the
-// scoped root. In a Composer the editor drops its
-// border, which the Composer draws around the whole message.
+// shadcn/ui has no rich text editor, so the field takes Textarea's classes.
+// The list takes the Command list's classes but is not cmdk: focus stays in
+// the editor, which reads the list through aria-activedescendant.
 
 const framed =
   'min-h-16 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 md:text-sm dark:bg-input/30';

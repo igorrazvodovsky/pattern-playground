@@ -103,7 +103,6 @@ const nav = await buildNavTree();
       import { mountDemos, unmountDetachedDemos } from '../lib/demo-registry.ts';
       // Mount pane-0 demos now, and again after every ClientRouter swap
       // (astro:page-load also fires on initial load; mounting is idempotent).
-      // A swap first unmounts the demos of the page it replaced.
       mountDemos(document);
       document.addEventListener('astro:after-swap', unmountDetachedDemos);
       document.addEventListener('astro:page-load', () => mountDemos(document));

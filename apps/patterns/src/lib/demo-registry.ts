@@ -91,10 +91,8 @@ const registries: Record<string, () => Promise<ComponentRegistry>> = {
   shadcn: () => import('@pkg/catalog/registries/shadcn').then(async m => (await m.stylesheet, m.registry)),
 };
 
-// Every React root a demo is mounted into. A pane or page leaves as plain DOM
-// (StackManager drops its section, ClientRouter swaps the body), which React
-// does not see, so nothing would unmount the roots inside it: their effects
-// would never clean up, and a dialog portalled to <body> would stay there.
+// Panes and pages leave as plain DOM, which React does not see, so the roots
+// inside them have to be unmounted by hand or their effects never clean up.
 const roots = new Map<HTMLElement, Root>();
 
 function mountRoot(el: HTMLElement): Root {
@@ -103,9 +101,8 @@ function mountRoot(el: HTMLElement): Root {
   return root;
 }
 
-// Unmount every demo whose element has left the page. Called once a pane or
-// page has gone, which can be from inside another root's effect (StackManager),
-// where React cannot unmount a root synchronously; so once that script has run.
+// Deferred because the caller can be inside another root's effect, where React
+// cannot unmount a root synchronously.
 export function unmountDetachedDemos(): void {
   queueMicrotask(() => {
     for (const [el, root] of roots) {

@@ -1,10 +1,8 @@
 import { useCallback } from 'react';
 import { useStateStore } from '@json-render/react';
 
-// The bound toast list both registries' Toasts read and write. Dismissals
-// arrive from library callbacks, after other toasts may have been added or
-// removed, so they filter the list as it is in the store rather than as it
-// was when the toast was rendered.
+// Dismissals arrive from library callbacks, after other toasts may have been
+// added or removed, so they filter the list as it is in the store now.
 
 export interface ToastEntry {
   id: string;
@@ -22,8 +20,6 @@ export const useToastList = (listPath: string | undefined, pressedPath: string |
   }, [get, set, listPath]);
 
   // Events carry no payload, so the pressed toast is written before the event.
-  // Both libraries close a toast whose action is pressed, and the close
-  // removes it through `dismiss`.
   const press = useCallback((toast: ToastEntry) => {
     if (pressedPath) set(pressedPath, toast);
     void emit('action');

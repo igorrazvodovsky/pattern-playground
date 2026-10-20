@@ -6,22 +6,14 @@ import { observeTrailFit } from '../../utility/trail-fit';
 import { useFocusHandoff, useMenuFocusHandoff } from './focus-handoff';
 import { scopedPortal } from './shadcn-portal';
 
-// A Breadcrumbs trail in the shadcn registry, from shadcn/ui Breadcrumb's
-// classes. The trail keeps to one line within its own width: when its items
-// overflow, observeTrailFit sets data-collapsed on the list, and the items
-// above the current one give way to shadcn's ellipsis, a menu that lists them
-// all. The middle ones go first; at data-collapsed="all" the first goes too,
-// and the current item shortens with an ellipsis.
-//
 // Every class used here must be visible to Tailwind: catalog/shadcn.css lists
 // this file as a source.
 
-// What gives way at each stage: the middle items and their separators while
-// the trail is collapsed at all, the first one only at the last stage.
 const middleClass = 'group-data-[collapsed]/trail:hidden';
 const firstClass = 'group-data-[collapsed=all]/trail:hidden';
 
-/** The list and its fit. It grows into the free space of a row from nothing, so that it can tell when its items overflow. */
+// Grows into the free space of a row from nothing, so that it can tell when
+// its items overflow.
 export const Trail = ({ label, children }: { label: string; children: ReactNode }) => {
   const ref = useRef<HTMLOListElement>(null);
   useLayoutEffect(() => (ref.current ? observeTrailFit(ref.current, 'data-collapsed') : undefined), []);
@@ -34,9 +26,8 @@ export const Trail = ({ label, children }: { label: string; children: ReactNode 
   );
 };
 
-// One link in the trail, with BreadcrumbLink's classes and the separator after
-// it. Picking an item makes it the current one, which ends the trail without
-// a link, so a picked link hands focus on (focus-handoff.ts).
+// Picking an item makes it the current one, which ends the trail without a
+// link, so a picked link hands focus on.
 export const Crumb = ({ label, stage, onPick }: { label: string; stage: 'first' | 'middle'; onPick: () => void }) => {
   const gives = stage === 'first' ? firstClass : middleClass;
   const ref = useFocusHandoff<HTMLAnchorElement>(null);
@@ -62,11 +53,8 @@ export const Crumb = ({ label, stage, onPick }: { label: string; stage: 'first' 
   );
 };
 
-// BreadcrumbEllipsis in a DropdownMenu, as shadcn's collapsed breadcrumb
-// draws it, listing every item above the current one. It shows while it
-// stands for something: once the trail is collapsed when there are middle
-// items, otherwise only at the last stage. Picking an item can shorten the
-// trail until the menu goes, while focus is in it, so it hands focus on.
+// Picking an item can shorten the trail until the menu goes, while focus is
+// in it, so it hands focus on.
 export const CrumbOverflow = ({
   items,
   middle,

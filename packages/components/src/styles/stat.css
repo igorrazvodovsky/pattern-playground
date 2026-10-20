@@ -29,8 +29,6 @@
     color: var(--c-bodyDimmed);
   }
 
-  /* The verdict and the detail read as one caption under the figure: a step
-     away from the figure, close to each other. */
   .stat__verdict {
     margin-block-start: var(--space-s);
     font-weight: var(--font-weight-semibold);
@@ -46,11 +44,9 @@
     color: var(--c-body-danger);
   }
 
-  /* The card's title names the figure, so it steps down to a dimmed label and
-     leaves the figure as the tile's subject, with or without a header. The
-     trend badge stays beside it however long the label runs; the label wraps
-     instead. Only the card the stat sits in directly is matched, not a card
-     that holds stat tiles. */
+  /* The card's title names the figure, so it steps down to a dimmed label.
+     Only the card the stat sits in directly is matched, not a card that
+     holds stat tiles. */
   .card:has(> .pad > .stat) > .card__header {
     flex-wrap: nowrap;
     align-items: start;
@@ -65,8 +61,7 @@
     color: var(--c-bodyDimmed);
   }
 
-  /* Without a header, the figure keeps the step below the label that the
-     header's content padding gives it. */
+  /* Stands in for the header's padding. */
   .card > .card__title + .stat {
     margin-block-start: var(--space-s);
   }

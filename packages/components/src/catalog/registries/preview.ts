@@ -1,22 +1,11 @@
 import { useEffect, useRef, type FocusEvent, type KeyboardEvent } from 'react';
 import { previewTiming } from '../catalog';
 
-// A reference's preview: shown after a pause when the pointer or focus arrives
-// on the reference, and kept while the pointer crosses into the preview. The
-// reference and the preview share the open state, so leaving either only
-// schedules a close that arriving on the other cancels. Pressing the reference
-// cancels a pending open, since the press opens a fuller view instead. While
-// that view shows (`expanded`), arriving on the reference does nothing, and so
-// does focus coming back to it as the view closes: the actor has just left the
-// item, not arrived on it.
+// Focus coming back to the reference as the fuller view closes does not open
+// the preview: the actor has just left the item, not arrived on it.
 //
-// The preview is portaled out of the reference's place in the page, so the
-// keyboard is wired here: Tab from the reference moves into the open preview,
-// Shift+Tab from its first control moves back, and Tab from its last control
-// or Escape closes it and returns focus to the reference.
-//
-// The timers write through `setShown` only while the reference is on the page:
-// a demo is unmounted only after its pane has gone.
+// The preview is portaled out of the reference's place in the page, so Tab
+// order between the two is wired here.
 
 const focusable = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
@@ -26,15 +15,14 @@ export const usePreview = (shown: boolean, setShown: (shown: boolean) => void, e
   const timer = useRef<number | undefined>(undefined);
   const expandedRef = useRef(expanded);
   expandedRef.current = expanded;
-  // When the fuller view last closed. A window hands focus back after its
-  // state has changed, so `expanded` is already false by then.
+  // A window hands focus back after its state has changed, so `expanded` is
+  // already false by then.
   const closedAt = useRef(-Infinity);
   const wasExpanded = useRef(expanded);
   useEffect(() => {
     if (wasExpanded.current && !expanded) closedAt.current = performance.now();
     wasExpanded.current = expanded;
   }, [expanded]);
-  // Set while focus is moved back to the reference from the preview.
   const returning = useRef(false);
 
   const clear = () => {
@@ -70,14 +58,13 @@ export const usePreview = (shown: boolean, setShown: (shown: boolean) => void, e
   };
   const controls = () => [...(contentRef.current?.querySelectorAll<HTMLElement>(focusable) ?? [])];
 
-  // Focus moving between the reference and its preview is not leaving.
   const blur = (event: FocusEvent) => {
     const to = event.relatedTarget as Node | null;
     if (to && (triggerRef.current?.contains(to) || contentRef.current?.contains(to))) return;
     hide();
   };
-  // Escape closes the preview and goes no further, so a dialog or pane around
-  // the reference stays open. With the preview closed, it goes on as usual.
+  // Escape goes no further while the preview is open, so a dialog or pane
+  // around the reference stays open.
   const triggerKey = (event: KeyboardEvent) => {
     if (event.key === 'Escape' && shown) {
       event.preventDefault();
@@ -113,7 +100,6 @@ export const usePreview = (shown: boolean, setShown: (shown: boolean) => void, e
     contentRef,
     trigger: { onPointerEnter: show, onPointerLeave: hide, onFocus: show, onBlur: blur, onKeyDown: triggerKey },
     content: { onPointerEnter: clear, onPointerLeave: hide, onBlur: blur, onKeyDown: contentKey },
-    /** Closes the preview, returning focus to the reference if it was inside. */
     close,
   };
 };

@@ -4,10 +4,8 @@ import { formatDateTime } from '@shared/format';
 import type { SpecSetup } from '../../catalog/SpecDemo';
 import spec from './activity-log.json' with { type: 'json' };
 
-// The spec lays the entries out; this module reads them from the world's
-// action log. The window ends at the log's latest system reaction rather than
-// at the log's end: an entry the system produced can say why it happened, and
-// the most recent day holds none.
+// The window ends at the log's latest system reaction rather than at its end:
+// a system entry can say why it happened, and the most recent day holds none.
 
 interface Entry {
   id: string;
@@ -15,7 +13,6 @@ interface Entry {
   by: string | { name: string; href: string };
   title: string;
   time: string;
-  /** The rule that licensed the action and the earlier actions that triggered it, if it has any. */
   expandable: boolean;
   rule: string | null;
   trigger: string | null;

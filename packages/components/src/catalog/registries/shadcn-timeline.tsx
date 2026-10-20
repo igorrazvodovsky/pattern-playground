@@ -3,16 +3,9 @@ import { Collapsible } from 'radix-ui';
 import { ChevronRight, LoaderCircle } from 'lucide-react';
 import clsx from 'clsx';
 
-// Timeline and TimelineEntry for the shadcn registry. shadcn/ui has no
-// timeline, so this one is drawn from Tailwind classes in shadcn's tokens: a
-// dot per entry and a rail between them. An expandable entry is shadcn/ui
-// Collapsible, over Radix, with a chevron that turns when it opens. The
-// chevron alone is the trigger, named by the title, so that an actor's link in
-// the title is not nested in a button. A pending
-// entry spins shadcn Spinner's icon in place of its dot, as a pending Tag
-// does. An actor with a destination is a link in shadcn's typography: medium
-// weight, underlined. A timeline inside an entry knows it is nested from
-// context and drops its rail and dots.
+// shadcn/ui has no timeline, so this one is drawn from Tailwind classes in
+// shadcn's tokens. The chevron alone is the trigger of an expandable entry, so
+// that an actor's link in the title is not nested in a button.
 //
 // Every class used here must be visible to Tailwind: catalog/shadcn.css lists
 // this file as a source.

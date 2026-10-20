@@ -1,8 +1,7 @@
 import { projects } from '@shared/data';
 
-// The rows both selection specs tick, and the list-wide reads they share. A
-// spec reads one value at a path but cannot fold over a list, so counting the
-// ticked rows and ticking or clearing every row happen here.
+// A spec cannot fold over a list, so counting, ticking and clearing every row
+// happen here.
 
 export interface SelectableRow { id: string; name: string; selected: boolean }
 

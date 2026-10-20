@@ -5,19 +5,9 @@ import { attributeLabel, formatAttributeValue, getAttributeValue } from '../../t
 import { detectProblems } from '../problem-detection';
 import spec from './problem-checklist.json' with { type: 'json' };
 
-// The spec carries the checklist and the drill: opening a flag sets its `open`
-// field and `/inSlice`, Back clears both, and dismissing removes the flag and
-// adds a note to `/muted`. Each flag is repeated twice, once as a card in the
-// checklist and once as its slice, which shows only while the flag is open;
-// a repeat cannot follow a path chosen while the demo runs. Focus moves with
-// the drill through `focusOnShow`: Back takes it when the slice appears, and
-// the opened card's title when the checklist comes back. The actions run in
-// turn, so each press shows the view it leads to before it hides the one it
-// was pressed in, while the opened flag's `open` still marks its card.
-//
-// What JSON cannot do is run the detection rules and format the slice. Both
-// happen here, once: each flag arrives with its count and its items' attributes
-// already formatted.
+// A repeat cannot follow a path chosen while the demo runs, so each flag is
+// repeated as a row and as its slice. A spec cannot run the detection rules
+// or format the slice, so both happen here.
 
 const SLICE_ATTRIBUTES = ['category', 'pricing.msrp', 'listedAt'];
 

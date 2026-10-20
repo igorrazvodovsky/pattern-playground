@@ -304,7 +304,6 @@ export function StackManager({ slug, title, path }: StackManagerProps) {
   }, [panes]);
 
   useEffect(() => {
-    // A truncated or replaced pane has gone from the DOM with its demos.
     unmountDetachedDemos();
     panes.slice(1).forEach((pane, i) => {
       if (pane.status !== 'ready') return;

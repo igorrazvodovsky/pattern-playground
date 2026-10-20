@@ -4,19 +4,10 @@ import type { SpecSetup } from '../../catalog/SpecDemo';
 import { cardAttributes, fullView } from './product-view';
 import spec from './investigate.json' with { type: 'json' };
 
-// The spec carries the drilldown: categories, then the items in one category,
-// then one item's full view. Opening a card sets its `open` field and the rung
-// flag (`/inCategory`, `/inItem`); Back clears both. Each category is repeated
-// twice, as a card and as its list of items, and each item twice again, as a
-// card and as its full view; a repeat cannot follow a path chosen while the
-// demo runs, so each view shows only while its `open` is set. Focus follows
-// the drill as in the problem checklist: Back takes it on the way in, and the
-// card the actor opened takes it on the way out.
-//
-// What JSON cannot do is group the collection and read the product binding.
-// Both happen here, once: each category arrives with its count and its items,
-// and each item with its summary attributes and its full view already laid
-// out (./product-view).
+// A repeat cannot follow a path chosen while the demo runs, so each category
+// and item is repeated once per view, shown only while its `open` is set. A
+// spec cannot group the collection or read the product binding, so both
+// happen here.
 
 const SUMMARY_ATTRIBUTES = ['condition', 'pricing.msrp'];
 const summaryOf = cardAttributes(SUMMARY_ATTRIBUTES);

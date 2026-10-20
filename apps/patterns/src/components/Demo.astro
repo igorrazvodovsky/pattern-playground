@@ -3,9 +3,8 @@
 // edge sits at --demo-w); lib/demo-expander.ts turns a drag into --demo-w on the
 // pane. The widen button lives in the footer, not over the demo: a corner button
 // collides with a demo's own chrome (a canvas's tool panels), and a demo
-// captures pointer events on its own root. The frame is a region named "Demo":
-// a demo is its own interface with mock data, so its headings sit inside a
-// boundary that assistive technology announces on the way in and out.
+// captures pointer events on its own root. The frame is a region so that a
+// demo's own headings sit inside a boundary assistive technology announces.
 type Library = 'pp' | 'shadcn';
 
 interface Props {
@@ -48,8 +47,7 @@ const {
 // A starting library the switch does not offer would strand the demo there.
 const registry = requestedRegistry && registries.includes(requestedRegistry) ? requestedRegistry : registries[0];
 
-// Labels are captions, often a sentence or more: too long for a region's name,
-// so the caption describes the region instead.
+// Labels are captions, too long for a region's name, so they describe it instead.
 const labelId = label ? `demo-label-${crypto.randomUUID().slice(0, 8)}` : undefined;
 
 const surfaceClass = {

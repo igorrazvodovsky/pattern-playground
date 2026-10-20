@@ -28,24 +28,8 @@ import {
 import { filterClauses } from './filter-clauses';
 import spec from './data-view.json' with { type: 'json' };
 
-// A data view over the product collection: the same items framed by a query
-// (which items), a representation (cards or a table) and an arrangement
-// (sorted and grouped by what). The toolbar edits the framing: the filter
-// adds and edits conditions of the query, the switcher changes the
-// representation, sort and group change the arrangement, and the attributes
-// menu changes what each item shows.
-//
-// `/view` is the framing as one object, the collection template's ViewSpec,
-// so a saved view is that object swapped whole. A watch on it rewrites
-// `/derived`, the items in order and grouped, laid out for the
-// representation in force, and what the toolbar offers, because a repeat
-// reads a list from state and a spec cannot filter, sort or group one.
-//
-// The pattern pages that show one move of the framing (sorting, grouping)
-// embed the same view with the other controls left out. A control the
-// framing does not allow is left out too: `controls` is the designer's say
-// over the toolbar, kept as the framing's malleability block, so a framing
-// that cannot be changed is still a framing.
+// A watch on `/view` rewrites `/derived` because a repeat reads a list from
+// state and a spec cannot filter, sort or group one.
 
 const PRODUCTS = products as Product[];
 const AVAILABLE = getAvailableAttributes(PRODUCTS);
@@ -53,8 +37,7 @@ const AVAILABLE = getAvailableAttributes(PRODUCTS);
 // Attributes that cluster the collection into a few legible groups.
 const GROUPABLE = ['lifecycle.repairability', 'category', 'availability.status'];
 
-// The attributes a filter is built on, and so the ones the filter field
-// offers: a view decision, not a binding field.
+// A view decision, not a binding field.
 const FILTERABLE = [
   'category',
   'availability.status',
@@ -70,7 +53,6 @@ const label = (path: string) => attributeLabelFromBinding(productBinding, path);
 const show = (item: Product, path: string) => formatAttributeValue(getAttributeValue(item, path), path, productBinding);
 
 export interface DataViewControls {
-  /** A menu of saved views, each a whole framing. */
   views?: boolean;
   viewSwitcher?: boolean;
   search?: boolean;
@@ -80,7 +62,7 @@ export interface DataViewControls {
   group?: boolean;
 }
 
-/** The controls a designer turned off, as the framing's malleability. Search is a control, not an axis. */
+// Search is a control, not an axis, so it has no malleability entry.
 const malleabilityOf = (controls: DataViewControls): MalleabilityBlock | undefined => {
   const block: MalleabilityBlock = {};
   if (controls.filter === false) block.query = { disabled: true };
@@ -112,7 +94,6 @@ const emptyMessage = (query: string, filtered: boolean) => {
 
 const { keeping, chip, applyEdit, removeFilter } = filterClauses(PRODUCTS, productBinding);
 
-/** Everything the spec shows of the framing, worked out from it. */
 const deriveWith = (controls: DataViewControls) => ({ view, query }: Record<string, unknown>) => {
   const framing = view as ViewSpec;
   const typed = typeof query === 'string' ? query : '';
@@ -123,8 +104,6 @@ const deriveWith = (controls: DataViewControls) => ({ view, query }: Record<stri
   const matching = applyFilters(search(PRODUCTS, typed), framing.query, productBinding);
   const ordered = sortBy ? sortItems(matching, sortBy.field, sortBy.order) : matching;
 
-  // A card as the collection template draws it: the title and description by
-  // role, and every other shown attribute as a labelled badge.
   const title = firstOfRole(resolved, 'title');
   const description = firstOfRole(resolved, 'description');
   const badges = resolved.filter(attribute => !isIdentity(attribute));
@@ -135,7 +114,6 @@ const deriveWith = (controls: DataViewControls) => ({ view, query }: Record<stri
     attributes: badges.map(attribute => ({ label: label(attribute.path), value: show(item, attribute.path) })),
   });
 
-  // A table puts the identity columns first, and sets figures on the right.
   const columns = [...resolved.filter(isIdentity), ...resolved.filter(attribute => !isIdentity(attribute))];
   const alignOf = (path: string) =>
     isNumericValueType(columns.find(column => column.path === path)!.valueType) ? 'end' : null;
@@ -176,8 +154,7 @@ const deriveWith = (controls: DataViewControls) => ({ view, query }: Record<stri
     noAttributes: shown.length === 0,
     empty: shown.length > 0 && ordered.length === 0,
     emptyMessage: emptyMessage(typed, framing.query.length > 0),
-    // What the items can be sorted by: the name and what they show, and the
-    // sort in force even if the attribute it reads is no longer shown.
+    // Includes the sort in force even when its attribute is hidden.
     sortField,
     sortOrder: sortBy?.order ?? 'asc',
     sortFields: [...new Set(['name', ...shown.filter(path => path !== 'description'), sortField])].map(path => ({
@@ -191,12 +168,6 @@ const deriveWith = (controls: DataViewControls) => ({ view, query }: Record<stri
 
 const framing = (view: unknown) => view as ViewSpec;
 
-/**
- * What the filter field offers for what has been typed. Outside an
- * attribute, the attributes whose names match, each of which narrows the
- * field to its values, and from two letters on the values themselves, under
- * their attribute's name. Within an attribute, its values that match.
- */
 const candidates = ({ query, scope }: Record<string, unknown>) => {
   const typed = String(query ?? '').trim().toLowerCase();
   const matches = (text: string) => text.toLowerCase().includes(typed);
@@ -235,7 +206,7 @@ export function dataViewDemo({
 }: {
   view: Omit<MakeSpecOptions, 'id' | 'malleability'>;
   controls?: DataViewControls;
-  /** Saved views offered in a menu, each a whole framing. The first is where the demo starts. */
+  /** The first is where the demo starts. */
   saved?: ViewSpec[];
 }) {
   const derive = deriveWith(controls);
@@ -253,7 +224,6 @@ export function dataViewDemo({
         groupable: [{ path: '', label: 'No grouping' }, ...GROUPABLE.map(path => ({ path, label: label(path) }))],
         saved: saved.map(({ id, label: name }) => ({ id, label: name ?? id })),
         activeView: start.id,
-        // The titles of the groups the actor closed.
         closed: [],
         filterOpen: false,
         filterQuery: '',
@@ -292,7 +262,6 @@ export function dataViewDemo({
           const next = shown.includes(String(path)) ? shown.filter(each => each !== path) : [...shown, String(path)];
           return applySpecPatch(framing(current), { representation: { shownAttributes: next } });
         },
-        /** The framing with a condition added for the value the filter field picked. */
         addFilter: ({ view: current, picked }) => {
           const [path, value] = JSON.parse(String(picked)) as [string, string];
           const query: AttributeFilter[] = [...framing(current).query, keeping(nanoid(), path, value)];

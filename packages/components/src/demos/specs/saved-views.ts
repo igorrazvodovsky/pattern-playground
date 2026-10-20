@@ -1,11 +1,8 @@
 import { makeSpec } from '../../templates/collection-view/spec';
 import { dataViewDemo } from './data-view';
 
-// Saved views are named framings, switched whole: query, representation and
-// arrangement travel together as one object. One view has gone stale: its
-// query names an availability status the data no longer uses, so it matches
-// nothing. Saved framings pile up and go stale, and pruning them is part of
-// the pattern.
+// One view is stale on purpose: its query names an availability status the
+// data does not use, so it matches nothing.
 
 const saved = [
   makeSpec({

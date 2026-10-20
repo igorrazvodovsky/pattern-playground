@@ -1,9 +1,8 @@
 import { useFocusHandoff, useMenuFocusHandoff } from './focus-handoff';
 import '../../jsx-types';
 
-// One link in a Breadcrumbs trail in the pp registry, as the library's trail
-// draws it. Picking an item makes it the current one, which ends the trail
-// without a link, so a picked link hands focus on (focus-handoff.ts).
+// Picking an item makes it the current one, which ends the trail without a
+// link, so a picked link hands focus on.
 
 export const Crumb = ({ label, onPick }: { label: string; onPick: () => void }) => {
   const ref = useFocusHandoff<HTMLAnchorElement>(null);
@@ -23,11 +22,8 @@ export const Crumb = ({ label, onPick }: { label: string; onPick: () => void }) 
   );
 };
 
-// The trail's overflow crumb: a plain button that opens a list of every item
-// above the current one, which the library's trail shows in place of the items
-// it folds while it is collapsed.
 // Picking one can shorten the trail until it has no middle, removing the menu
-// while focus is in it, so it hands focus on (focus-handoff.ts).
+// while focus is in it, so it hands focus on.
 export const CrumbOverflow = ({ items, onPick }: { items: { id: string; label: string }[]; onPick: (id: string) => void }) => {
   const { trigger, list } = useMenuFocusHandoff(null);
   return (

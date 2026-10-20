@@ -1,11 +1,9 @@
 import type { StateStore } from '@json-render/core';
 
-// The handler for the catalog's `toggle` action. A spec cannot write to an
-// item's siblings, so opening one item and closing the others in its list
-// happens here. An item that closes also closes everything open inside it, so
-// opening it again starts from its summary, as it did the first time.
+// A spec cannot write to an item's siblings, so closing the others happens
+// here. Closing an item also closes everything inside it, so it reopens at its
+// summary.
 
-/** A copy of `value` with every `open` field inside it cleared. */
 const closeAll = (value: unknown): unknown => {
   if (Array.isArray(value)) return value.map(closeAll);
   if (value === null || typeof value !== 'object') return value;

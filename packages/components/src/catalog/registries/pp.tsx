@@ -34,9 +34,8 @@ import '../../jsx-types';
 
 type PpModal = HTMLElement & { open: () => void; close: () => void };
 
-// Opens or closes a pp-modal to match `open`. A close happens at once; an open
-// waits a task (see Dialog), calling `onOpen` just before. Returns the effect's
-// cleanup, which cancels an open still waiting.
+// An open waits a task, so that a window closing in the same state change has
+// closed and handed its focus back before this one takes focus.
 const syncModal = (modal: RefObject<PpModal | null>, open: boolean | null | undefined, onOpen: () => void) => {
   let timer: number | undefined;
   let cancelled = false;
@@ -61,13 +60,11 @@ const syncModal = (modal: RefObject<PpModal | null>, open: boolean | null | unde
 
 const space = { none: '0', s: 'var(--space-xs)', m: 'var(--space-s)', l: 'var(--space-m)' } as const;
 const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
-// A field's label, control and error, a small step apart. A grid rather than
-// .flow, whose own --flow-space would also set the field's distance from the
-// field before it.
+// A grid rather than .flow, whose --flow-space would also set the field's
+// distance from the field before it.
 const fieldLayout: CSSProperties = { display: 'grid', gap: space.s };
-// A card's title, attributes and body, a small step apart. A grid for the
-// same reason: --flow-space set on the card would also set its distance from
-// the card before it, and cards in a Stack would touch.
+// A grid for the same reason: --flow-space on a card would also set its
+// distance from the card before it, and cards in a Stack would touch.
 const bodyLayout: CSSProperties = { display: 'grid', rowGap: space.s };
 const icons: Record<(typeof iconNames)[number], string> = {
   archive: 'ph:archive-box',
@@ -124,7 +121,6 @@ const icons: Record<(typeof iconNames)[number], string> = {
   transfer: 'ph:crown-simple',
   unchanged: 'ph:minus',
   web: 'ph:globe',
-  // An attribute's icon, as the library's own components show it.
   ...attributeGlyphs,
 };
 const purposeIcons: Record<(typeof purposes)[number], string> = {
@@ -134,9 +130,8 @@ const purposeIcons: Record<(typeof purposes)[number], string> = {
   danger: 'ph:x-circle',
 };
 
-// A field's error, placed where the library's field styles expect it
-// (data-slot="error" after pp-input, inside pp-select). An alert, so that it
-// is read out when a submit sets it.
+// An alert, so that it is read out when a submit sets it: the press leaves
+// focus on the button.
 const fieldError = (id: string, message: string) => (
   <small id={id} data-slot="error" role="alert">
     <span className="visually-hidden">Error:</span> {message}
@@ -145,9 +140,6 @@ const fieldError = (id: string, message: string) => (
 
 export const { registry } = defineRegistry(catalog, {
   components: {
-    // A Stack with a label is a section of that name, a region. A drop
-    // target is a view-family pane, which the library outlines while a row
-    // is over it (drag-drop.ts).
     Stack: ({ props, children, bindings, emit }) => {
       const { ref, over } = useStackDrop(props, bindings, emit);
       const layout: { className?: string; style: CSSProperties } =
@@ -177,9 +169,8 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // A list of cards, each in its own item. A repeat reaches the registry as
-    // one child that renders every item, so it cannot be split into list
-    // items here; a grid with one child lays it out without the list.
+    // A repeat reaches the registry as one child that renders every item, so
+    // it cannot be split into list items; a single child gets a plain grid.
     Grid: ({ props, children }) => {
       const style = { '--layout-grid-min': columnWidth[props.minColumnWidth ?? 'm'] } as CSSProperties;
       return Children.count(children) < 2 ? (
@@ -193,23 +184,8 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // A plain card is one padded column. With a suffix or actions it takes
-    // the card's zones: a header that spreads the title and the suffix apart,
-    // and a footer that puts the actions at the end. A card that opens puts
-    // its title in a .stretched-link button, which covers the card while the
-    // header's and footer's other controls stay above it. The button takes
-    // focus when it appears, if `focusOnShow` (focus-on-show.ts). The title is
-    // a heading at the demo's current level (heading-level.ts); .card__title
-    // keeps its size whatever the level. A selected card takes the ring the
-    // library's collection views give the picked item (view-family.css). An
-    // expanded card's detail is the library's inline detail (.card > .detail),
-    // which is positioned, so it paints above the stretched link. It sets its
-    // own inset and its rule runs the card's full width, so a card with a
-    // detail slot pads its body rather than itself. The attributes are the
-    // library's attribute row (.card__attributes), whose buttons the
-    // stretched-link styles lift above the card's press. Lower emphasis is
-    // the library's .card--reduced or .card--faint. A title button that goes
-    // while focused hands focus on.
+    // The inline detail sets its own inset and its rule runs the card's full
+    // width, so a card with a detail slot pads its body rather than itself.
     Card: ({ props, children, slots, emit }) => {
       const openRef = useRef<HTMLButtonElement>(null);
       useFocusOnShow(openRef, props.focusOnShow);
@@ -283,8 +259,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // The library's overview-beside-detail grid (.odi in view-family.css)
-    // when split and there is room, otherwise a column.
     Split: ({ props, children, bindings }) => {
       const ref = useRef<HTMLDivElement>(null);
       const room = useSplitRoom(ref, props.room, bindings?.room);
@@ -295,11 +269,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // The library's coordinated panes (.view-family__panes in view-family.css)
-    // when there is room, otherwise a column. Each child sits in a pane that
-    // is a container of its own (.view-family__pane), so blocks inside lay out
-    // for the pane's width; a hidden child leaves its pane empty, and an
-    // empty pane takes no place.
     Panes: ({ props, children, bindings }) => {
       const ref = useRef<HTMLDivElement>(null);
       const room = useSplitRoom(ref, props.room, bindings?.room);
@@ -310,9 +279,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // With a purpose, the purpose's colour class, its icon and a strong run
-    // of text, as the library marks a message in place. Pending text is led
-    // by the library's spinner.
     Text: ({ props, children }) => {
       if (props.inline) {
         return (
@@ -341,11 +307,8 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // A neutral callout takes the raised surface (`layer`) rather than a
-    // purpose class, as in the Callout story.
-    // Actions run on after the text, in the same line of prose. The text
-    // takes the width beside the icon: at its natural width a message longer
-    // than a line would wrap below the icon in a narrow demo, where .flex wraps.
+    // The text takes the width beside the icon: at its natural width a message
+    // longer than a line would wrap below the icon, since .flex wraps.
     Callout: ({ props, slots }) => (
       <div className={clsx('callout', 'flex', props.purpose ?? 'layer')}>
         <iconify-icon className="icon" icon={purposeIcons[props.purpose ?? 'info']} aria-hidden="true" />
@@ -357,9 +320,6 @@ export const { registry } = defineRegistry(catalog, {
       </div>
     ),
 
-    // The library's empty state: a centred column with a large icon, the
-    // title as a heading at the demo's current level and the actions side by
-    // side.
     EmptyState: ({ props, slots }) => {
       const Heading = useHeading();
       return (
@@ -372,11 +332,9 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // pp-sections reads its children as heading-then-content runs and rewires
-    // them for the affordance. Each Section brings its content already in the
-    // panel the element would otherwise wrap it in, so the element leaves those
-    // nodes where React put them. The element takes any heading level, and
-    // sizes the titles itself.
+    // Each Section brings its content already in the panel pp-sections would
+    // otherwise wrap it in, so the element leaves those nodes where React put
+    // them.
     Sections: ({ props, children }) => <pp-sections affordance={props.affordance}>{children}</pp-sections>,
 
     Section: ({ props, children }) => {
@@ -391,21 +349,12 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // The library's board (board.css): its groups are the Disclosures inside
-    // it, laid along the axis by the modifier.
     Board: ({ props, children }) => (
       <BoardAxis.Provider value={props.axis}>
         <div className={`board board--${props.axis}`}>{children}</div>
       </BoardAxis.Provider>
     ),
 
-    // The library's disclosure: a details element on a layer of its own, or
-    // a board's column inside a Board, with the count as a badge beside the
-    // title. The drop target is the details element itself, so a closed one,
-    // whose contents are not painted or hit-tested, still takes the drop on
-    // its summary. The element reports every change of `open`, the ones
-    // React makes included, so a change that agrees with the state is no
-    // change.
     Disclosure: ({ props, children, bindings, emit }) => {
       const [open, change] = useDisclosureOpen(props.open, bindings?.open, emit);
       const { ref, over } = useDisclosureDrop(props, bindings, emit, open, change);
@@ -445,9 +394,8 @@ export const { registry } = defineRegistry(catalog, {
       </dl>
     ),
 
-    // The library's table. pp-table is the scroll container and takes focus,
-    // so it is a region named by `label`. A header or cell set to `end` takes
-    // the table's right alignment class.
+    // pp-table is the scroll container and takes focus, so it is a region
+    // named by `label`.
     Table: ({ props, children }) => (
       <pp-table role="region" aria-label={props.label}>
         <table>
@@ -474,16 +422,6 @@ export const { registry } = defineRegistry(catalog, {
       </td>
     ),
 
-    // The library's conversation layout, as in the Messaging stories: the
-    // actor's messages sit on a raised bubble at the end of the line. A marked
-    // run's note is a pp-tooltip, which opens on hover and on focus of the
-    // mark, so the mark takes focus for actors on a keyboard. The tooltip's
-    // styles underline the mark to say a note is there. A linked run traces
-    // its link (mark-tracing.ts); the library's message styles drop the
-    // highlight from a run marked data-dimmed, and a hidden line names the
-    // runs it is linked to. A message's children (controls answered in place)
-    // follow its text inside the body; a message of controls alone drops the
-    // raised surface, as the library's inline interfaces do.
     Messages: ({ children }) => (
       <TracingProvider value={useTracingState()}>
         <div className="messages layer">{children}</div>
@@ -499,6 +437,8 @@ export const { registry } = defineRegistry(catalog, {
               {props.parts.map((part, index) => {
                 if (typeof part === 'string') return part;
                 const { dimmed, linkedTo, handlers } = tracing(index);
+                // The note's tooltip opens on focus too, so a mark with a
+                // note takes focus for actors on a keyboard.
                 const mark = (
                   <mark key={index} tabIndex={part.note ? 0 : undefined} data-dimmed={dimmed || undefined} {...handlers}>
                     {part.text}
@@ -519,8 +459,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // The library's message composer: the field on a raised surface, with
-    // its actions on a row beneath it.
     Composer: ({ props, slots, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       return (
@@ -547,13 +485,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // The library's timeline is the stepper. A stepper inside an entry drops
-    // its rail by itself. An expandable entry is a <details> placed directly
-    // in the entry's content, where the stepper turns the rail dot into its
-    // disclosure marker; the time stays outside it, so it shows while the
-    // entry is closed. The actor's own entry takes the raised surface. A
-    // named actor with a destination is a link, which the stepper sets in a
-    // medium weight; one without is strong.
     Timeline: ({ props, children }) => (
       <ol
         className="stepper"
@@ -594,15 +525,12 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // A List is its own surface, as the shadcn List is a card: `layer` raises
-    // it off whatever it sits on.
     List: ({ props, children }) => (
       <pp-list className={clsx('layer', props.borderless && 'borderless')}>{children}</pp-list>
     ),
 
     // pp-list ticks a checkbox row itself and announces it with pp-select on
-    // the list, so a bound row listens there for its own item and writes the
-    // new value back to state.
+    // the list, so a bound row listens there for its own item.
     ListItem: ({ props, children, slots, bindings }) => {
       const ref = useRef<HTMLElement & { checked: boolean }>(null);
       const [checked, setChecked] = useBoundProp(props.checked, bindings?.checked);
@@ -634,22 +562,14 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // The library's list of cards (.cards--list in card.css), whose rows
-    // share their borders. Each Item is its own list item: a repeat reaches
-    // the group as one child, so the group cannot wrap the rows itself.
+    // Each Item is its own list item: a repeat reaches the group as one child,
+    // so the group cannot wrap the rows itself.
     ItemGroup: ({ props, children }) => (
       <div role="list" aria-label={props.label ?? undefined} className="cards cards--list">
         {children}
       </div>
     ),
 
-    // A card in the list of cards: the title as a heading at the demo's
-    // current level (heading-level.ts), in a .stretched-link button when the
-    // item opens, and the library's attribute row. A selected item takes the
-    // ring the library's collection views give the picked item
-    // (view-family.css), and a focused one the lighter tint it gives the
-    // focused item. The detail is the library's inline detail (.card >
-    // .detail), positioned so it paints above the stretched link.
     Item: ({ props, slots, emit }) => {
       const openRef = useRef<HTMLButtonElement>(null);
       useFocusOnShow(openRef, props.focusOnShow);
@@ -697,8 +617,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // The library's stat readout. An alert figure takes the danger colour
-    // (stat.css).
     Stat: ({ props }) => (
       <div className="stat" data-alert={props.alert || undefined}>
         <strong className="stat__value">
@@ -710,8 +628,6 @@ export const { registry } = defineRegistry(catalog, {
       </div>
     ),
 
-    // A pressable badge is the library's badge on a button, as the
-    // collection views draw an attribute value the actor can filter by.
     Badge: ({ props, emit }) => {
       const Root = props.pressable ? 'button' : 'strong';
       return (
@@ -732,10 +648,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // The library's tag; a pending label shimmers. A removable tag is a
-    // .tag-group: the tag, then the remove button as a joined segment, as the
-    // active filters in the library's filter bar are drawn. The remove button
-    // hands focus on (focus-handoff.ts) if it unmounts while focused.
     Tag: ({ props, emit }) => {
       const removeRef = useFocusHandoff(props.focusNext);
       const openRef = useRef<HTMLButtonElement>(null);
@@ -765,15 +677,10 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // Built in pp-filter-tag.tsx from the library's filter chip parts, led by
-    // the attribute's icon from this registry's set.
     FilterTag: context => <FilterTag {...context} glyph={context.props.icon ? icons[context.props.icon] : null} />,
 
-    // The library's reference chrome on a button, and its summary popover
-    // (`.popover__header`: the heading and body on the leading edge, the
-    // controls on the trailing one) in a pp-popup. The popup is portaled to
-    // <body>: the reference sits in a paragraph, which cannot hold the
-    // preview's blocks, and the top layer keeps it clear of clipping.
+    // The popup is portaled to <body>: the reference sits in a paragraph,
+    // which cannot hold the preview's blocks.
     Reference: ({ props, children, slots, bindings, emit }) => {
       const [shown, setShown] = useBoundProp(props.preview, bindings?.preview);
       const { triggerRef, contentRef, trigger, content, close } = usePreview(shown ?? false, setShown, props.expanded ?? false);
@@ -820,11 +727,8 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // The library's popover panel (.popover, laid out as the Reference's) in
-    // a pp-popup anchored to its host (popover-host.ts). `top-layer` keeps it
-    // clear of a scrolling pane and of the rows it overlaps; `light-dismiss`
-    // hands outside clicks and Escape to the platform, which closes the popup
-    // and fires pp-hide, followed here back into state.
+    // `top-layer` keeps the panel clear of a scrolling pane and of the rows it
+    // overlaps.
     Popover: ({ props, children, slots, bindings }) => {
       const [open, setOpen] = useBoundProp(props.open, bindings?.open);
       const popup = useRef<HTMLElement>(null);
@@ -838,8 +742,7 @@ export const { registry } = defineRegistry(catalog, {
       const setOpenLatest = useRef(setOpen);
       setOpenLatest.current = setOpen;
       useLayoutEffect(() => setAnchor(popoverHost(popup.current)), []);
-      // Opening moves focus to the panel's first control, as shadcn's does,
-      // once the popup is showing (a frame after `active` is set).
+      // The popup shows a frame after `active` is set.
       useEffect(() => {
         if (!open) return;
         opener.current = captureOpener();
@@ -850,8 +753,8 @@ export const { registry } = defineRegistry(catalog, {
         });
         return () => cancelAnimationFrame(frame);
       }, [open, mayTakeFocus]);
-      // The spec closing the panel, such as once a choice in it is made,
-      // hides what has focus: it goes back as when the actor closes it.
+      // The spec closing the panel hides what has focus, so focus goes back
+      // as when the actor closes it.
       const wasOpen = useRef(open);
       useLayoutEffect(() => {
         if (wasOpen.current && !open) {
@@ -902,10 +805,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // The library's dropdown: a plain icon button and a pp-list of radio
-    // rows, as the library's view settings menus are drawn, or of checkbox
-    // rows that leave it open, as its attribute picker is. Hands focus on
-    // (focus-handoff.ts) if a choice removes it while focused.
     Menu: ({ props, children }) => {
       const { trigger, list } = useMenuFocusHandoff(props.focusNext);
       return (
@@ -937,11 +836,6 @@ export const { registry } = defineRegistry(catalog, {
       </pp-list-item>
     ),
 
-    // The library's trail (pp-breadcrumbs). The current item ends it as a
-    // link without a target, as the library marks the page it is on. The
-    // trail keeps to one line: when its items overflow, the library folds
-    // them into the overflow crumb's menu, the middle ones first, so every
-    // item stays reachable. A picked link that leaves the trail hands focus on.
     Breadcrumbs: ({ props, bindings, emit }) => {
       const [, setPicked] = useBoundProp(props.picked, bindings?.picked);
       const pick = (id: string) => {
@@ -964,9 +858,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // pp-map, which draws its pins and popups over a Leaflet base map. The
-    // element takes its places and selection as properties and reports a
-    // pin the actor chose as pp-map-select.
     Map: ({ props, bindings, emit }) => {
       const [selected, setSelected] = useBoundProp(props.selected, bindings?.selected);
       const [focused, setFocused] = useBoundProp(props.focused, bindings?.focused);
@@ -1009,7 +900,6 @@ export const { registry } = defineRegistry(catalog, {
       return <pp-map ref={ref} aria-label={props.label} />;
     },
 
-    // Hands focus on (focus-handoff.ts) if it unmounts while focused.
     Button: ({ props, emit }) => {
       const ref = useFocusHandoff(props.focusNext);
       useFocusOnShow(ref, props.focusOnShow);
@@ -1033,8 +923,6 @@ export const { registry } = defineRegistry(catalog, {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const error = useFieldError(bindings?.value, value, props.checks, props.error);
       const id = useId();
-      // The error is an alert so that it is read out when it appears: the
-      // press that sets it leaves focus on the button.
       const field = (
         <>
           <pp-input invalid={Boolean(error)}>
@@ -1061,8 +949,7 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // The library's growing textarea: .grow-wrap sizes itself from a copy of
-    // the text in data-replicated-value.
+    // .grow-wrap sizes itself from a copy of the text in data-replicated-value.
     Textarea: ({ props, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const id = useId();
@@ -1082,9 +969,8 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // pp-select around a native select. The empty value is a disabled first
-    // option (the placeholder, or blank), so the select shows nothing chosen
-    // when nothing is, and it cannot be chosen again.
+    // The empty value is a disabled first option, so the select shows nothing
+    // chosen when nothing is, and it cannot be chosen again.
     Select: ({ props, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const error = useFieldError(bindings?.value, value, props.checks, props.error);
@@ -1109,9 +995,7 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // The library's Combobox (cmdk), with its own filtering off: the spec
-    // decides which candidates show. The field keeps to the library
-    // combobox's own width rather than the demo's.
+    // The field keeps to the library combobox's own width rather than the demo's.
     Combobox: ({ props, bindings, emit }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const [scope, setScope] = useBoundProp(props.scope, bindings?.scope);
@@ -1170,8 +1054,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // The library's selectable tags: each a checkbox inside a .tag label, in
-    // a row.
     SelectableTags: ({ props, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const selected = value ?? [];
@@ -1198,11 +1080,9 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // pp-range, which shows its value beside the track and names its input
-    // from `label`. The visible label repeats it rather than being linked by
-    // `labelledby`, which pp-range reads only when its own props change. It re-emits the input's `input` event once
-    // its own value is set. Its prefix and suffix are read once, when it
-    // connects, which is enough for fixed bounds.
+    // pp-range names its input from `label`. The visible label repeats it
+    // rather than being linked by `labelledby`, which pp-range reads only when
+    // its own props change. Its prefix and suffix are read once, on connect.
     Slider: ({ props, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       return (
@@ -1233,8 +1113,7 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // Submitting runs the spec's checks (form-submit.ts). A form is read
-    // most easily at about 36rem, however wide the demo is.
+    // A form is read most easily at about 36rem, however wide the demo is.
     Form: ({ props, children, emit }) => (
       <form
         className="flow"
@@ -1247,20 +1126,9 @@ export const { registry } = defineRegistry(catalog, {
       </form>
     ),
 
-    // The library's dialog: <pp-modal> around a <dialog class="dialog">, the
-    // markup modalService builds, opened and closed from the bound state.
-    // pp-modal traps focus, closes on Escape and on a click outside (an alert
-    // sets closedby="closerequest", so only Escape), starts focus on the
-    // element marked data-autofocus, and hands focus back to the opener.
-    //
     // Every close, whether from state, pp-modal or the browser, ends in the
     // dialog's close event, so the state and the focus fallback are settled
-    // there (dialog-focus.ts). It fires once the dialog is shut and the page is
-    // no longer inert, so the demo can take focus.
-    //
-    // A window opens a task after its state changes, so that a window closing
-    // in the same change (Full to Detail) has closed, and pp-modal has handed
-    // its focus back, before this one takes focus.
+    // there. It fires once the page is not inert, so the demo can take focus.
     Dialog: ({ props, children, slots, bindings }) => {
       const [open, setOpen] = useBoundProp(props.open, bindings?.open);
       const modal = useRef<PpModal>(null);
@@ -1324,7 +1192,6 @@ export const { registry } = defineRegistry(catalog, {
       const returnTarget = useReturnFocus(props.returnFocus);
       const titleId = useId();
 
-      // As the Dialog: the state and focus settle in the close event.
       const onClose = () => {
         setOpen(false);
         settleFocus(returnTarget(), opener.current);
@@ -1354,12 +1221,8 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // The library's toast. PpToast keeps one group on the page and owns the
-    // stacking, the fade, the close button and the pause on hover and focus,
-    // so this only opens and closes toasts to match the bound list. The
-    // library makes the whole toast the action's button, named by its text,
-    // so the action's label joins the message. The toast module loads when
-    // the first toast opens.
+    // The library makes the whole toast the action's button, named by its
+    // text, so the action's label joins the message.
     Toasts: ({ props, bindings, emit }) => {
       const { dismiss, press } = useToastList(bindings?.toasts, bindings?.pressed, emit);
       // Open toasts call the latest press, so the list effect need not re-run
@@ -1402,7 +1265,6 @@ export const { registry } = defineRegistry(catalog, {
       return null;
     },
 
-    // Built in pp-mention-editor.tsx from the library's editor and lists.
     MentionEditor: context => (
       <Suspense fallback={null}>
         <PpMentionEditor {...context} />

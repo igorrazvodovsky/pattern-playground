@@ -152,9 +152,8 @@
     }
   }
 
-  /* Coordinated panes: one row of equal columns, one per pane. Whoever lays
-     the panes out decides when there is room for them; below that, they go
-     into .view-family__trio-stack instead. */
+  /* Whoever lays the panes out decides when there is room; below that they
+     go into .view-family__trio-stack instead. */
   .view-family__panes {
     display: grid;
     grid-auto-flow: column;
@@ -179,7 +178,6 @@
     container: demo / inline-size;
   }
 
-  /* A pane whose view is not shown in the layout in force takes no place. */
   .view-family__pane:empty {
     display: none;
   }

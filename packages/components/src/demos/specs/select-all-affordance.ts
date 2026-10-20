@@ -4,16 +4,9 @@ import type { SpecSetup } from '../../catalog/SpecDemo';
 import { rows, rowsArg, selectedCount, withAll } from './selection';
 import spec from './select-all-affordance.json' with { type: 'json' };
 
-// The page shows a few of the many items that match. The spec ticks every row
-// on the page or clears them, and once every row on the page is ticked it
-// offers the larger step: select every matching item (`/selection/escalated`). Any
-// change to the rows takes that step back, so unticking one row after
-// escalating leaves the rows on the page that are still ticked, not the whole
-// matching set. A watch on the rows rewrites `/selection` in one action:
-// whether any or all rows are ticked, and the escalation reset to false. One
-// action, because a watch's later actions are dropped once the first one
-// changes state. Counting the ticked rows and the wording that depends on it
-// are functions here, because a spec can count a list but cannot filter it.
+// The watch on the rows rewrites `/selection` in one action, because a watch's
+// later actions are dropped once the first one changes state. A spec can count
+// a list but cannot filter it, so counting the ticked rows happens here.
 
 const summary = (args: Record<string, unknown>) => {
   const count = selectedCount(args);

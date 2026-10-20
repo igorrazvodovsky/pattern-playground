@@ -1,9 +1,6 @@
 import type { AttributeIcon } from '@shared/data/bindings';
 
-// The library's glyph for each icon a binding gives its attributes. Bindings
-// name the meaning (shared/data/bindings/types.ts); the library's components
-// show it through this table, so a binding never names a glyph from one icon
-// set. The pp registry of the switchable demos draws from the same table.
+// Bindings name an attribute's icon by meaning; this maps it to the library's glyph.
 
 export const attributeGlyphs: Record<AttributeIcon, string> = {
   assignee: 'ph:user',
@@ -23,6 +20,5 @@ export const attributeGlyphs: Record<AttributeIcon, string> = {
   upgradeability: 'ph:arrow-up',
 };
 
-/** The glyph for an attribute's icon, or undefined when it has none. */
 export const attributeGlyph = (icon: AttributeIcon | undefined): string | undefined =>
   icon ? attributeGlyphs[icon] : undefined;

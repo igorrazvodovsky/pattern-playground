@@ -34,7 +34,6 @@
     display: grid;
   }
 
-  /* A cell whose content is not rendered takes no place in the grid. */
   .cards > :empty {
     display: none;
   }

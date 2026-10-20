@@ -1,7 +1,5 @@
 import { material, promptDemo } from './prompt';
 
-// A request already written, naming the documents it should draw on.
-
 export default promptDemo({
   content: [
     [

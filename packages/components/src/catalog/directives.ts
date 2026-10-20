@@ -17,18 +17,13 @@ import {
   formatRelativeTime,
 } from '@shared/format';
 
-// The `$`-prefixed values every spec can use, beside `$state`, `$cond` and the
-// other built-ins. They are vocabulary any demo shares; a function that knows
-// one demo's domain stays a `$computed` in the module beside its spec.
-//
 // A module constant: the renderer compares directive registries by identity
 // on every element.
 
 const list = (value: unknown): unknown[] => (Array.isArray(value) ? value : []);
 
-// The stock `$format` falls back to the runtime's default locale and takes a
-// `locale` from the spec. This one formats in the document's locale, as the
-// rest of the site does, so a spec never names one.
+// Replaces the stock `$format`, which takes a `locale` from the spec, with one
+// that formats in the document's locale.
 const format = defineDirective({
   name: '$format',
   description:
@@ -40,12 +35,10 @@ const format = defineDirective({
       currency: z.string().optional(),
       unit: z.enum(['second', 'minute', 'hour', 'day', 'week', 'month', 'year']).optional(),
     })
-    // The currency is a fact about the amount, so a spec always names it.
     .refine(format => format.$format !== 'currency' || format.currency, { path: ['currency'], message: 'Name the currency' }),
   resolve: (directive, ctx) => {
     const value = resolvePropValue(directive.value, ctx);
     if (value === null || value === undefined || value === '') return '';
-    // A value that is not a number or a date shows as nothing, never as NaN.
     if (directive.$format === 'date') {
       if (Number.isNaN(new Date(value as string | number | Date).getTime())) return '';
     } else if (!Number.isFinite(Number(value))) return '';
@@ -66,8 +59,6 @@ const format = defineDirective({
   },
 });
 
-// Lists of plain values, such as the ids or titles the actor closed, compared
-// as they are.
 const includes = defineDirective({
   name: '$includes',
   description: 'True when the list holds `value`.',
@@ -96,8 +87,6 @@ const toggleIn = defineDirective({
   },
 });
 
-// In an action's params, a bare `$item` names the item's state path, for
-// actions that write to the item. Wrapped in `$value` it is the item's value.
 const value = defineDirective({
   name: '$value',
   description:

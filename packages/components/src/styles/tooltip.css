@@ -7,8 +7,7 @@ pp-tooltip {
   display: contents;
 }
 
-/* A run of marked text that opens a tooltip says so, as an abbreviation does:
-   the note is there to find. */
+/* Marked text that opens a tooltip says so, as an abbreviation does. */
 pp-tooltip > mark {
   text-decoration: underline dotted;
   text-underline-offset: 0.2em;

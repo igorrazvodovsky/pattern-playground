@@ -201,8 +201,6 @@ pp-input {
   }
 }
 
-/* The error message follows the field box rather than sitting inside it, and
-   shows only while the field is invalid. */
 pp-input + [data-slot="error"] {
   display: none;
   margin-block-start: var(--space-xs);

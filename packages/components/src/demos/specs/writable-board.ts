@@ -5,23 +5,10 @@ import { attributeLabel, formatAttributeValue, getAttributeValue } from '../../t
 import { products } from '../../templates/collection-view/data';
 import spec from './writable-board.json' with { type: 'json' };
 
-// A board taken apart: cards grouped by one attribute, the groups laid along
-// either axis. Dropping a card on another group writes the grouping attribute
-// through the projection. The write goes with the grouping, not the board, so
-// it survives turning the groups from rows to columns and the choice of which
-// attribute groups. Grouped by price band, which is computed from the price,
-// the same gesture is refused, and the refusal is reported as plainly as a
-// write. Every drop has a way without a pointer: the card's menu names every
-// other group and makes the same write.
-//
-// A write and its refusal report through the same channel, a toast: they are
-// the same gesture answered two ways, so the refusal has to be as visible as
-// the write. A write's toast offers Undo, which puts back that card's value
-// alone, so undoing an older toast leaves later moves alone.
-//
-// `/items` holds the products as the writes leave them. A watch on it and on
-// the grouping rewrites `/derived`, the groups in order with their cards,
-// because a repeat reads a list from state and a spec cannot group one.
+// The write goes with the grouping, not the board, so it survives turning the
+// groups from rows to columns. A refusal reports through the same toast as a
+// write, so it is as visible. A watch rewrites `/derived` because a repeat
+// reads a list from state and a spec cannot group one.
 
 const PRICE_BAND = 'pricing.band';
 const PRICE_BANDS = ['Under $100', '$100–1,000', 'Over $1,000'];
@@ -29,7 +16,6 @@ const PRICE_BANDS = ['Under $100', '$100–1,000', 'Over $1,000'];
 interface Grouping {
   /** Every group, in order, so an empty one stays on the board to drop into. */
   groups: string[];
-  /** The group an item is in; by default its value as the card shows it. */
   groupOf?: (item: Product) => string;
   /** Absent when the grouping is computed, so it can only refuse a write. */
   write?: (item: Product, group: string) => Product;
@@ -61,7 +47,6 @@ const GROUPINGS: Record<string, Grouping> = {
 const show = (item: Product, path: string) => formatAttributeValue(getAttributeValue(item, path), path);
 const groupOf = (path: string, item: Product) => GROUPINGS[path]?.groupOf?.(item) ?? show(item, path);
 
-/** A card shows its name, the attribute it is grouped by unless that is computed, and its price. */
 const cardOf = (path: string, groups: string[]) => (item: Product) => {
   const current = path ? groupOf(path, item) : '';
   return {
@@ -77,7 +62,6 @@ const cardOf = (path: string, groups: string[]) => (item: Product) => {
   };
 };
 
-/** The groups in order, with their cards, or every card when nothing groups them. */
 const derive = ({ items, groupBy }: Record<string, unknown>) => {
   const all = items as Product[];
   const path = typeof groupBy === 'string' ? groupBy : '';
@@ -96,7 +80,6 @@ const derive = ({ items, groupBy }: Record<string, unknown>) => {
 
 let toastCount = 0;
 
-/** What a move to `group` says: that it was made, with Undo, or why it was refused. */
 const moveToast = ({ items, id, group, groupBy }: Record<string, unknown>) => {
   const item = (items as Product[]).find(each => each.id === id);
   const path = String(groupBy);
@@ -113,14 +96,12 @@ const moveToast = ({ items, id, group, groupBy }: Record<string, unknown>) => {
     id: toastId,
     message: `Moved “${item.name}”: its ${attributeLabel(path).toLowerCase()} is now ${group}.`,
     actionLabel: 'Undo',
-    // Undo puts back this card's value alone.
     item: id,
     path,
     from: groupOf(path, item),
   };
 };
 
-/** The items with the one at `id` written into `group`, unless the grouping is computed. */
 const move = ({ items, id, group, groupBy }: Record<string, unknown>) => {
   const write = GROUPINGS[String(groupBy)]?.write;
   const all = items as Product[];
@@ -136,9 +117,7 @@ const undoMove = ({ items, toast }: Record<string, unknown>) => {
   return all.map(each => (each.id === item ? write(each, from) : each));
 };
 
-// Rows to start with: the demo is as wide as the text, where four lanes never
-// fit. Columns are a choice away, and the point of the demo is that the write
-// survives the turn either way.
+// Rows, because the demo is as wide as the text, where four lanes never fit.
 const groupBy = 'availability.status';
 
 export default {

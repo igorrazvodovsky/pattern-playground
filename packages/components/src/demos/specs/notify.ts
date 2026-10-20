@@ -1,8 +1,6 @@
 import type { StateStore } from '@json-render/core';
 
-// The handler for the catalog's `notify` action, shared by every spec that
-// shows a short status message. A spec cannot schedule a state change, so the
-// message is written here and cleared again after a few seconds.
+// A spec cannot schedule a state change, so the message is cleared here.
 
 const NOTICE_TIMEOUT = 3000;
 

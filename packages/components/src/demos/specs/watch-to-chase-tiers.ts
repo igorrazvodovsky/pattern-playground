@@ -5,18 +5,9 @@ import { detectProblems } from '../problem-detection';
 import { cardAttributes, fullView } from './product-view';
 import spec from './watch-to-chase-tiers.json' with { type: 'json' };
 
-// The spec carries the four tiers: a tag with one number, a wall of tiles, a
-// flag's slice of the collection, and one item's full view. Each step inward
-// sets the opened tile's or item's `open` field and the tier flag
-// (`/atGlance`, `/inSlice`, `/inItem`); each Back clears the flag, then the
-// field. Focus follows the drill as in the problem checklist: Back takes it
-// on the way in, and what the actor opened takes it on the way out.
-//
-// The tiles are one list, so that a tile and its slice share an `open` field:
-// the first tile counts the whole catalogue and opens nothing, and each other
-// tile is a flag. What JSON cannot do is run the detection rules and read the
-// product binding, so the flags, their items and each item's full view arrive
-// here worked out (./product-view).
+// The tiles are one list so that a tile and its slice share an `open` field.
+// A spec cannot run the detection rules or read the product binding, so the
+// flags and each item's full view are worked out here.
 
 const SLICE_ATTRIBUTES = ['category', 'pricing.msrp', 'listedAt'];
 const sliceOf = cardAttributes(SLICE_ATTRIBUTES);

@@ -1,10 +1,8 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { describe, it, expect } from 'vitest';
 
-// A Button's or a Tag's `focusNext` names a button by its label: another
-// Button, or a Tag's remove button, which its `removeLabel` names. If the label
-// is renamed, the match fails silently and focus falls back to the demo, so
-// each name is checked against the labels in the same spec.
+// `focusNext` names a button by its label, and a renamed label fails silently,
+// so each name is checked against the labels in the same spec.
 
 interface Element { type: string; props?: { label?: unknown; removeLabel?: unknown; focusNext?: unknown } }
 

@@ -4,12 +4,6 @@ import { isSlot, type Paragraph, type SlotPart } from '../../catalog/registries/
 import { candidates, material, materials } from './prompt';
 import spec from './prompt-template.json' with { type: 'json' };
 
-// A prompt whose wording is already written, with blanks for the actor to
-// fill in. Two of the blanks are required: sending without them says which
-// are still empty or were deleted, checked against the template, and the
-// message goes once they are filled. The example
-// fills every blank and names two documents; clearing puts the template back.
-
 const slot = (id: string, label: string, required = false, value = ''): SlotPart => ({ slot: id, label, required, value });
 
 const template = (values: Record<string, string> = {}, sources: Paragraph = []): Paragraph[] => [

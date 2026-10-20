@@ -10,8 +10,8 @@
  * ships a stylesheet that targets `.leaflet-*` in the light tree, so this
  * element lives in the light DOM. Elena supplies props and lifecycle only —
  * there is no template. The map canvas is created imperatively on connect, and
- * Leaflet owns everything inside it; a map moved in the page is rebuilt. Author-provided children are
- * not part of the contract.
+ * Leaflet owns everything inside it; a map moved in the page is rebuilt.
+ * Author-provided children are not part of the contract.
  *
  * @example
  * ```html
@@ -49,10 +49,9 @@ export interface MapSelectDetail {
 }
 
 /**
- * Emitted as `pp-map-focus` when the pointer comes over a pin or a pin takes
- * keyboard focus, and with `location: null` when it leaves. Focus is transient,
- * unlike selection: the map marks the pin it reports only while `focused-id`
- * says so, so a page that couples views decides what is focused.
+ * Emitted as `pp-map-focus` on pin hover or keyboard focus, with
+ * `location: null` on leaving. The map marks a pin only while `focused-id`
+ * names it, so a page that couples views decides what is focused.
  */
 export interface MapFocusDetail {
   location: MapLocation | null;
@@ -146,10 +145,8 @@ export class MapComponent extends Elena(HTMLElement) {
     super.disconnectedCallback();
     this.resizeObserver?.disconnect();
     if (this.rafHandle) cancelAnimationFrame(this.rafHandle);
-    // A zoom animation finishes on a timer that remove() does not cancel, and
-    // the timer then reads the removed panes. Wait for it, or for long enough
-    // in case the animation never ends, and leave its canvas to it, so a map
-    // rebuilt on reconnect gets a fresh one.
+    // remove() does not cancel a zoom animation's timer, which then reads the
+    // removed panes. Retire the map and its canvas after the animation ends.
     const map = this.map;
     if (map && this.zooming) {
       const canvas = this.canvas;
@@ -322,7 +319,6 @@ export class MapComponent extends Elena(HTMLElement) {
     );
   }
 
-  /** Mark the pin `focused-id` names. */
   private syncFocus(): void {
     for (const loc of this.locations) {
       const el = this.markersById.get(String(loc.id))?.getElement();

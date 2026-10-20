@@ -3,13 +3,10 @@ import { Accordion, Tabs } from 'radix-ui';
 import { ChevronDown } from 'lucide-react';
 import { Subsection, useHeading } from './heading-level';
 
-// Sections and Section for the shadcn registry: shadcn/ui Tabs for the tab bar
-// and Accordion for details (new-york, v4, classes as published). Radix wants
-// every tab trigger inside one list ahead of the panels, while the catalog
-// gives each Section its own title, so each Section registers its title with
-// the Sections around it, which draws the list. In details, each title is a
-// heading at the demo's current level (heading-level.ts); Radix's header
-// would always be an h3.
+// Radix wants every tab trigger inside one list ahead of the panels, while
+// the catalog gives each Section its own title, so each Section registers its
+// title with the Sections around it, which draws the list. Radix's accordion
+// header would always be an h3, so titles take the demo's heading level.
 //
 // Every class used here must be visible to Tailwind: catalog/shadcn.css lists
 // this file as a source.

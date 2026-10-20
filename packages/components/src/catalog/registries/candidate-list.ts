@@ -4,14 +4,8 @@ type Group = { heading: string | null; options: { value: string; label: string; 
 type Scope = { value: string | null | undefined; set: (next: string | null) => void };
 
 // A Combobox's behaviour on cmdk, shared by the registries so that only the
-// markup differs. The spec decides the candidates; this leaves out empty
-// groups and keeps the list closed when nothing is left. Open state and the
-// highlighted candidate are the component's own: a library switch keeps the
-// typed value, which is bound, and closes the list.
-//
-// A candidate that `narrows` stands for a kind of value: picking it writes
-// the scope rather than the value, so the list stays open on what is in that
-// kind. Closing the list leaves the scope, as the mention editor does.
+// markup differs. A candidate that `narrows` stands for a kind of value:
+// picking it writes the scope rather than the value and keeps the list open.
 export function useCandidateList(
   groupsProp: Group[],
   value: string,
@@ -20,13 +14,11 @@ export function useCandidateList(
   scope?: Scope,
 ) {
   const [wanted, setOpen] = useState(false);
-  // Nothing is highlighted until the actor moves to a candidate, so Enter on
-  // what they typed does not replace it with the first candidate. cmdk
-  // highlights the first item whenever the list changes, so a highlight is
-  // taken only while an arrow key or the pointer is moving it. cmdk keeps the
-  // refused highlight in its own state and syncs from `value` only when the
-  // prop changes, so a refusal flips the empty value between '' and ' ',
-  // which cmdk trims to the same nothing.
+  // Nothing is highlighted until the actor moves to a candidate, so Enter
+  // keeps what they typed. cmdk highlights the first item whenever the list
+  // changes, so a highlight is taken only while an arrow key or the pointer
+  // moves it. cmdk syncs from `value` only when the prop changes, so a refusal
+  // flips the empty value between '' and ' ', which cmdk trims alike.
   const [highlighted, setHighlighted] = useState('');
   const [refusals, setRefusals] = useState(0);
   const moving = useRef(false);
@@ -37,12 +29,9 @@ export function useCandidateList(
   const groups = groupsProp.filter(group => group.options.length > 0);
   const open = wanted && groups.length > 0;
 
-  // cmdk's input always says its list is open and points at it, and takes
-  // its id and name from cmdk's own hidden label; none of these can be set
-  // through props. cmdk never changes them after mount, so React does not
-  // write them again, and they are set here: expanded and pointing at the
-  // list only while it is rendered, and a visible label linked to the field,
-  // so pressing it focuses the field.
+  // cmdk's input always reports its list as open and is labelled by cmdk's
+  // hidden label, and none of this can be set through props. cmdk never
+  // rewrites these attributes after mount, so they are corrected here.
   const field = useRef<HTMLInputElement>(null);
   const label = useRef<HTMLLabelElement>(null);
   const listId = useRef<string | null>(null);
@@ -78,8 +67,7 @@ export function useCandidateList(
           event.preventDefault();
           scope.set(null);
         }
-        // Escape closes the list and goes no further, so a dialog or pane
-        // around the demo stays open.
+        // Goes no further, so a dialog or pane around the demo stays open.
         if (event.key === 'Escape' && open) {
           event.preventDefault();
           event.stopPropagation();
@@ -99,9 +87,8 @@ export function useCandidateList(
       onFocus: () => setOpen(true),
       onBlur: close,
     },
-    // Pressing anywhere in the list (a candidate, a heading, the scrollbar)
-    // would otherwise take focus from the field, and the blur would close the
-    // list before the press lands.
+    // Otherwise a press in the list blurs the field, which closes the list
+    // before the press lands.
     list: { onMouseDown: (event: MouseEvent) => event.preventDefault(), onPointerMoveCapture: move },
     pick: (picked: string) => {
       const option = groups.flatMap(group => group.options).find(candidate => candidate.value === picked);

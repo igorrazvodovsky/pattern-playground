@@ -4,9 +4,7 @@ import type { SpecSetup } from '../../catalog/SpecDemo';
 import { armHandler } from './arm';
 import spec from './inline-confirmation.json' with { type: 'json' };
 
-// The spec carries the structure and most of the behaviour: which control shows
-// in which state, cancel (setState) and confirm (removeState). What it cannot
-// carry is time: `arm` (./arm.ts) sets the flag and schedules its reversion.
+// A spec cannot carry time, so `arm` sets the flag and schedules its reversion.
 
 interface Listing { id: string; name: string; armed: boolean }
 

@@ -5,17 +5,9 @@ import type { SpecSetup } from '../../catalog/SpecDemo';
 import { detectProblems } from '../problem-detection';
 import spec from './monitor.json' with { type: 'json' };
 
-// The spec lays the tiles out: each is a card named by its label, its trend
-// as a badge beside the label, and the figure with its reading beneath. What
-// JSON cannot do is fold over the collection, so the figures are worked out
-// here, once, from `products`, and set against the recorded prior cycle
-// (`catalogue-snapshot.json`).
-//
-// Whether a trend is good is decided per figure, not by its direction: more
-// listings reads as growth, a lower carbon footprint or fewer flags as
-// improvement, so the same upward arrow is good on one tile and bad on
-// another. Each tile arrives with its trend's text, icon and tone set. The
-// icon carries the direction, so the text is the size of the change alone.
+// A spec cannot fold over the collection, so the figures are worked out here.
+// Whether a trend is good is decided per figure, not by its direction: the
+// same upward arrow is good on one tile and bad on another.
 
 interface Figure {
   label: string;

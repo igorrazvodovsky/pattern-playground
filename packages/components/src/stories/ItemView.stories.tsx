@@ -15,8 +15,7 @@ export default meta;
 type Story = StoryObj;
 
 export const FullView: Story = {
-  // The entity page, every attribute group open. The story is the page, so
-  // it asks the item view for the title the page owns.
+  // The story stands in for the page, so the item view renders the page title.
   render: () => <ProductItemView scope="maxi" heading={2} />,
 };
 
@@ -27,8 +26,6 @@ export const Summary: Story = {
 
 export const Escalation: Story = {
   decorators: [centeredLayoutNarrow],
-  // The trigger is styled as a reference, the inline chrome the reference
-  // component renders, rather than a `micro` item view.
   render: () => (
     <p>
       The refurbishment log flags the{" "}

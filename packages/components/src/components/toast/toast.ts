@@ -5,7 +5,7 @@ const HTMLElementBase = (globalThis.HTMLElement ?? class {}) as typeof HTMLEleme
 
 export class PpToast extends HTMLElementBase {
   private toastGroup: HTMLElement | null = null;
-  // Settles each toast's `closed` promise once it has left the group.
+  // Resolves each toast's `closed` promise.
   private dismissed = new WeakMap<HTMLOutputElement, () => void>();
 
   constructor() {
@@ -109,10 +109,8 @@ export class PpToast extends HTMLElementBase {
     }
   }
 
-  // Every dismissal path — close button, action button, timeout, the caller —
-  // exits through the same fade; the fade-out guard makes the later paths
-  // no-ops once one has run. A toast that never joined the group (the element
-  // was not connected yet) has nothing to fade but still settles.
+  // Every dismissal path exits through the same fade; the fade-out guard makes
+  // the later paths no-ops. A toast that never joined the group still settles.
   private async dismissToast(toast: HTMLOutputElement): Promise<void> {
     if (toast.classList.contains('fade-out')) return;
     if (this.toastGroup?.contains(toast)) {
@@ -125,9 +123,8 @@ export class PpToast extends HTMLElementBase {
     this.dismissed.get(toast)?.();
   }
 
-  // The dismissal timer pauses while the pointer is over the toast or focus is
-  // inside it, so an actor who is reading it or reaching for its action keeps
-  // the rest of the window. Returns a function that cancels the timer.
+  // Paused while hovered or focused, so an actor reading the toast or reaching
+  // for its action keeps the rest of the window.
   private scheduleDismissal(toast: HTMLOutputElement, duration: number): () => void {
     let remaining = duration;
     let startedAt = 0;

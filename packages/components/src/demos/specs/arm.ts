@@ -1,13 +1,9 @@
 import type { StateStore } from '@json-render/core';
 import { confirmationWindow } from '../../catalog/catalog';
 
-// The handler for the catalog's `arm` action, shared by every spec that uses
-// inline confirmation. A spec cannot schedule a state change, so arming sets
-// the item's `armed` flag here and reverts it after the confirmation window.
-//
-// An item in a list is found again by its id when the window ends: its path is
-// index-based, and a row deleted above it would shift it before the timer
-// fires. An item outside a list, or without an id, keeps its path.
+// A spec cannot schedule a state change, so the `armed` flag is reverted here.
+// An item in a list is found again by its id: its path is index-based, and a
+// row deleted above it would shift it before the timer fires.
 
 type Timer = ReturnType<typeof setTimeout>;
 

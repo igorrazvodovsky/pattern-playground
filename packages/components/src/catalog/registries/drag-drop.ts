@@ -4,20 +4,13 @@ import { loadElementAdapter } from '../../utility/dnd';
 import { springOpen } from '../catalog';
 import { DemoRoot } from './dialog-focus';
 
-// Dragging a DescriptionList row or a Card onto a Stack or Disclosure that is
-// a drop target, wired with Pragmatic drag and drop the same way in both
-// libraries. Each registry draws what is in flight and the target on offer;
-// what is dragged, where it may land and what a drop writes are settled here.
-//
-// A row or card carries its id and the demo it belongs to. A target takes
-// them from its own demo only, so two demos on one page do not trade rows. The demo is
-// the one SpecDemo provides, which a portaled Drawer still sits in, so a row
-// dragged out of a drawer lands on the overview behind it.
+// A target takes rows from its own demo only, so two demos on one page do not
+// trade rows. The demo comes from SpecDemo's context, which a portaled Drawer
+// still sits in, so a row dragged out of a drawer lands on the overview.
 
 const rowKey = 'catalogRow';
 const demoKey = 'catalogDemo';
 
-/** Makes `ref` a drag source carrying `id`. Returns whether it is in flight. */
 export const useDragRow = (ref: RefObject<HTMLElement | null>, id: string | null | undefined, enabled: boolean) => {
   const demo = useContext(DemoRoot);
   const [dragging, setDragging] = useState(false);
@@ -43,19 +36,14 @@ export const useDragRow = (ref: RefObject<HTMLElement | null>, id: string | null
   return dragging;
 };
 
-/**
- * Makes an element a drop target for rows from the same demo. A drop hands
- * the row's id to `onDrop`. Returns a callback ref for the element and
- * whether a row is over it. The target follows the element itself, so it
- * moves with the ref when the element is replaced, such as a Stack that turns
- * into a named section.
- */
+// A callback ref rather than a ref object, so the target moves with the
+// element when it is replaced, such as a Stack that turns into a section.
 export const useDropRow = (onDrop: (id: string) => void, enabled: boolean) => {
   const demo = useContext(DemoRoot);
   const [element, setElement] = useState<HTMLElement | null>(null);
   const [over, setOver] = useState(false);
-  // The bound setter behind `onDrop` is a new function on every render; the
-  // target reads the latest one, so it is set up once per element.
+  // `onDrop` is a new function on every render; reading the latest one keeps
+  // the target set up once per element.
   const onDropLatest = useRef(onDrop);
   onDropLatest.current = onDrop;
   useEffect(() => {
@@ -84,10 +72,6 @@ export const useDropRow = (onDrop: (id: string) => void, enabled: boolean) => {
   return { ref: setElement, over };
 };
 
-/**
- * A Stack's drop target, the same in every registry: a drop writes the row's
- * id to the Stack's bound `dropped`, then emits `drop`.
- */
 export const useStackDrop = (
   props: { dropTarget?: boolean | null; dropped?: string | null },
   bindings: Record<string, string> | undefined,
@@ -100,12 +84,6 @@ export const useStackDrop = (
   }, Boolean(props.dropTarget));
 };
 
-/**
- * A Disclosure's drop target, the same in every registry. A drop writes the
- * id to the bound `dropped`, then emits `drop`, as on a Stack. Held over a
- * closed Disclosure for a moment, the drag opens it, so the drop can be aimed;
- * a drop opens it too, so what was dropped shows where it went.
- */
 export const useDisclosureDrop = (
   props: { dropTarget?: boolean | null; dropped?: string | null },
   bindings: Record<string, string> | undefined,

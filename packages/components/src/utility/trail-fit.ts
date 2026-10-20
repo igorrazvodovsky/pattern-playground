@@ -1,15 +1,7 @@
 /**
- * Keeps a one-line trail of items within its own width. Whenever the trail's
- * size or content changes, it is laid out in full and measured, then collapsed
- * a stage at a time until it fits: `attribute` empty folds the middle items,
- * `attribute="all"` folds every item above the current one. The trail's
- * styles do the folding under the attribute; at the last stage they also let
- * the current item shorten with an ellipsis. Measuring from the full layout
- * each time lets the trail open out again as soon as there is room.
- *
- * The trail has to take its width from its container (a block, or a flex item
- * that grows from a zero basis), not from its items, or it never overflows.
- * Returns a function that stops observing.
+ * Sets `attribute` to empty, then "all", until the trail fits; its styles do
+ * the folding. The trail has to take its width from its container, not from
+ * its items, or it never overflows.
  */
 export function observeTrailFit(trail: HTMLElement, attribute: string): () => void {
   // scrollWidth and clientWidth are rounded to whole pixels, so a trail that
@@ -23,8 +15,8 @@ export function observeTrailFit(trail: HTMLElement, attribute: string): () => vo
     trail.setAttribute(attribute, 'all');
   };
 
-  // The items are watched as well as the trail: text can change width while
-  // neither the trail's size nor its nodes change, as when a web font loads.
+  // Text can change width while neither the trail's size nor its nodes change,
+  // as when a web font loads.
   const resize = new ResizeObserver(fit);
   const watch = () => {
     resize.disconnect();

@@ -3,12 +3,7 @@ import { documents, recentItems, tasks } from '@shared/data';
 import type { SpecSetup } from '../../catalog/SpecDemo';
 import spec from './autocomplete.json' with { type: 'json' };
 
-// Which candidates show for what has been typed. With nothing typed, the
-// actor's recent searches; from two characters, the known names that contain
-// the query, those that start with it first. A single character is too little
-// to narrow on, so the list stays closed. The field only shows what this
-// returns.
-
+// A single character is too little to narrow on, so the list stays closed.
 const minQueryLength = 2;
 const maxMatches = 8;
 

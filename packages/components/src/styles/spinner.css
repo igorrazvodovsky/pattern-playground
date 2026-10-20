@@ -20,8 +20,7 @@ pp-spinner::after {
   animation: pp-spinner-spin var(--speed) linear infinite;
 }
 
-/* Under reduced motion the ring stands still, its arc still marking it as
-   busy; the text beside it says what is under way. */
+/* Without the spin, the arc still reads as busy. */
 @media (prefers-reduced-motion: reduce) {
   pp-spinner::after {
     animation: none;

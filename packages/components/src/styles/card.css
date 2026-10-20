@@ -17,9 +17,8 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
     position: relative;
     display: grid;
 
-    /* minmax(0, …): a plain 1fr track grows to its content's min-content
-       width, so a wide table would stretch the card instead of scrolling
-       inside it. */
+    /* A plain 1fr track grows to its content's min-content width, so a wide
+       table would stretch the card instead of scrolling inside it. */
     grid-template-columns: minmax(0, 1fr);
     align-content: baseline;
   }
@@ -28,9 +27,7 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
     border: none;
   }
 
-  /* Lower emphasis, for a card among peers that the actor should rely on
-     less: reduced drops the border to a dashed line and the ground to
-     transparent, and faint also dims the text. */
+  /* For a card the actor should rely on less than its peers. */
   .card--reduced,
   .card--faint {
     --card-bg: transparent;
@@ -76,10 +73,8 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
     align-items: center;
   }
 
-  /* Clipped, so a long row of attributes stays inside the card, but with
-     room past its edge for a focused badge's outline (reset.css draws it at
-     twice --outline-size: 4px at a badge's size). A plain length: Chrome
-     drops a math function here. */
+  /* The clip margin leaves room for a focused badge's outline. A plain
+     length, because Chrome drops a math function here. */
   .card__attributes {
     display: flex;
     overflow: clip;
@@ -105,9 +100,8 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
     font-weight: 500;
   }
 
-  /* A card's title. h2 and h3 take its size by default; .card__title gives
-     it to a title at any heading level, so a title nested deeper (a card in a
-     card) still reads as the card's title. */
+  /* .card__title is for a title at another heading level, such as a card
+     nested in a card. */
   .card :is(h2, h3) {
     font-size: 1.25rem;
   }

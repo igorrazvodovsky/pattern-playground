@@ -265,10 +265,7 @@ export class PpList extends Elena(HTMLElement) {
     }) as PpListItem[];
   }
 
-  // The item keyboard input acts on: the focused item, if focus is on one of
-  // this list's items, else the current item. The two can part when focus is
-  // moved without setCurrentItem, and arrow keys then count from the item the
-  // actor sees focused.
+  // Focus can move without setCurrentItem, so keyboard input follows focus first.
   private getActiveItem() {
     const focused = this.getAllItems().find(item => item === document.activeElement);
     if (focused && focused !== this.getCurrentItem()) this.setCurrentItem(focused);

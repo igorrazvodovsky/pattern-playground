@@ -1,16 +1,8 @@
 import { useCallback, useLayoutEffect, useRef, type RefObject } from 'react';
 
-// Where focus goes when a Button, a card's title or a link in a trail unmounts
-// while it has focus. A press can hide the button it came from (an arm swap, a
-// deleted row, a Reset that hides itself, a card whose item became the focus),
-// and so can a timer (an armed pair reverting). Left alone, focus falls to the
-// body and the next Tab starts from the top of the page.
-//
-// The spec names the target by label (the Button's `focusNext`): focus goes to
-// the first button with that label after where the lost one was, else the last
-// one before it. With no name or no match, it goes to the demo root, as it does
-// for a dialog whose opener is gone (dialog-focus.ts). A button inside a dialog
-// is left alone, because the dialog returns focus itself.
+// When a focused control unmounts, focus would fall to the body and the next
+// Tab would start from the top of the page. A button inside a dialog is left
+// alone, because the dialog returns focus itself.
 
 export const labelOf = (button: HTMLButtonElement) => button.getAttribute('aria-label') ?? button.textContent.trim();
 
@@ -18,17 +10,14 @@ const findTarget = (demo: HTMLElement, before: Element[], focusNext: string): HT
   const candidates = [...demo.querySelectorAll('button')].filter(
     button => labelOf(button) === focusNext && !button.disabled && button.checkVisibility(),
   );
-  // The nearest element that stood before the lost button and is still there
-  // marks where it was.
   const anchor = before.find(element => element.isConnected);
   const follows = (button: HTMLButtonElement) =>
     !anchor || (anchor.compareDocumentPosition(button) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
   return candidates.find(follows) ?? candidates.at(-1);
 };
 
-// The label to hand focus to, as the latest render named it. The hand-offs
-// read it when the element goes, so their effects run once, and a label that
-// changes while the element stays does not count as the element going.
+// Read when the element goes, so a label that changes while the element stays
+// does not count as the element going.
 const useLatest = (focusNext: string | null | undefined) => {
   const latest = useRef(focusNext);
   useLayoutEffect(() => {
@@ -37,9 +26,6 @@ const useLatest = (focusNext: string | null | undefined) => {
   return latest;
 };
 
-// Hands focus on from `lost`, which is about to be removed: to the button
-// labelled `focusNext`, else to the demo root. Focus that has not yet left
-// what is going (`stillThere`) counts as lost too.
 const handOff = (
   lost: Element,
   demo: HTMLElement,
@@ -49,7 +35,7 @@ const handOff = (
   const elements = [...demo.querySelectorAll('*')];
   const before = elements.slice(0, elements.indexOf(lost)).reverse();
 
-  // After the commit: whatever replaces the element is in place by then.
+  // After the commit, so whatever replaces the element is in place.
   queueMicrotask(() => {
     if (!demo.isConnected) return;
     const active = document.activeElement;
@@ -59,12 +45,8 @@ const handOff = (
   });
 };
 
-/**
- * Returns the ref for a Button's element. A control that already has a ref,
- * such as a card's title button, passes it in, with `present` saying whether
- * the element is rendered now, so that one which appears after its owner
- * mounts is still handed off from.
- */
+// `present` re-arms the hand-off for an element that appears after its owner
+// mounts.
 export const useFocusHandoff = <T extends HTMLElement = HTMLButtonElement>(
   focusNext: string | null | undefined,
   given?: RefObject<T | null>,
@@ -89,21 +71,16 @@ export const useFocusHandoff = <T extends HTMLElement = HTMLButtonElement>(
   return ref;
 };
 
-/**
- * The same for a Menu: a choice can remove the menu it was made in, with
- * focus on the menu's button or in its list, which a library may portal out
- * of the demo, or hoist to <body> where React's removal does not reach it
- * at once, so focus can still be in the list when the hand-off runs. Returns
- * the refs for the button and the list. A menu inside a popover hands off
- * too, since the choice can remove the popover with it.
- */
+// A library may portal or hoist a menu's list to <body>, where React's removal
+// does not reach it at once, so focus can still be in the list when the
+// hand-off runs.
 export const useMenuFocusHandoff = (focusNext: string | null | undefined) => {
   const trigger = useRef<HTMLButtonElement>(null);
   const list = useRef<HTMLDivElement>(null);
   const next = useLatest(focusNext);
-  // A library that closes its list on a choice and only then, a task later,
-  // returns focus to the button (Radix) leaves focus on <body> in between. A
-  // choice that removes the menu in that gap still took focus with it.
+  // Radix returns focus to the button a task after closing the list, leaving
+  // focus on <body> in between. A choice that removes the menu in that gap
+  // still took focus with it.
   const justClosed = useRef(false);
   const closing = useRef<ReturnType<typeof setTimeout>>(undefined);
   const closed = useCallback(() => {
@@ -116,8 +93,7 @@ export const useMenuFocusHandoff = (focusNext: string | null | undefined) => {
     const button = trigger.current;
     return () => {
       const active = document.activeElement;
-      // The list's current one: a library may mount it only while open, and
-      // it is still in place when the menu's own cleanup runs.
+      // Read now: a library may mount the list only while open.
       // eslint-disable-next-line react-hooks/exhaustive-deps
       const menuList = list.current;
       const dropped = justClosed.current && (!active || active === document.body);
@@ -130,13 +106,7 @@ export const useMenuFocusHandoff = (focusNext: string | null | undefined) => {
   return { trigger, list, closed };
 };
 
-/**
- * The same for a group of controls that goes as one, such as a filter chip
- * whose condition is removed: from its remove button, or from inside one of
- * its lists, which a library may portal out of the group. Returns the ref for
- * the group and one for each portaled part, which the hand-off also counts as
- * inside the group.
- */
+// Portaled parts of the group count as inside it.
 export const useGroupFocusHandoff = (focusNext: string | null | undefined, portaled = 0) => {
   const group = useRef<HTMLDivElement>(null);
   const parts = useRef(Array.from({ length: portaled }, () => ({ current: null as HTMLDivElement | null })));
@@ -145,8 +115,7 @@ export const useGroupFocusHandoff = (focusNext: string | null | undefined, porta
   useLayoutEffect(() => {
     const root = group.current;
     return () => {
-      // The parts' current elements: a library may mount them only while
-      // open, and they are still in place when the group's own cleanup runs.
+      // Read now: a library may mount the parts only while open.
       // eslint-disable-next-line react-hooks/exhaustive-deps
       const open = parts.current.map(part => part.current).filter(part => part !== null);
       const inside = (element: Element) => Boolean(root?.contains(element) || open.some(part => part.contains(element)));

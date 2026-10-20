@@ -3,10 +3,8 @@ import { observeTrailFit } from '../../utility/trail-fit';
 
 /**
  * Renders nothing and enhances the trail it is given — navigation role,
- * link and disguised-select interception, and keeping the trail on one line
- * within its own width: when the items overflow, it sets `collapsed`, and the
- * styles fold the middle items into the trail's `.crumb--overflow` menu (or an
- * ellipsis, for a trail without one).
+ * link and disguised-select interception, and `collapsed` while the items
+ * overflow the trail's width.
  * Styles live in `src/styles/breadcrumbs.css`.
  */
 export class PpBreadcrumbs extends Elena(HTMLElement) {

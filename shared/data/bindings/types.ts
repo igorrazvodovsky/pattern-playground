@@ -1,10 +1,5 @@
-/**
- * The icons a binding can give its attributes, named by what the attribute
- * is rather than by a glyph. A binding is data and outlives any icon set, so
- * it names the meaning; each library that shows the attribute maps the name
- * to a glyph of its own (the components package's attribute-icons.ts, and
- * each switchable-demo registry).
- */
+// Named by meaning rather than glyph: a binding is data and outlives any icon
+// set, so each library maps the name to a glyph of its own.
 export const attributeIcons = [
   'assignee',
   'availability',
@@ -93,8 +88,7 @@ export interface AttributeBinding {
       the amount, so it belongs on the binding; how it renders belongs to the
       reader. Defaults to GBP. See Storybook `Foundations/Figures`. */
   currency?: string;
-  /** Facet presentation: the icon a filter UI shows for this attribute,
-      named by meaning. Each library maps the name to a glyph of its own. */
+  /** Facet presentation: the icon a filter UI shows for this attribute. */
   icon?: AttributeIcon;
   /** The value is a list (labels, certifications, regions); valueType
       describes the elements. Cardinality, not valueType, is what picks the

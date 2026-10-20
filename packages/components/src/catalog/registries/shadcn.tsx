@@ -132,7 +132,6 @@ const loadStylesheet = (href: string) =>
 
 export const stylesheet = loadStylesheet(sheetUrl);
 
-// shadcn has no stack component; its layouts are flex boxes with these gaps.
 const gap = { none: 'gap-0', s: 'gap-2', m: 'gap-3', l: 'gap-4' } as const;
 const align = { start: 'items-start', center: 'items-center', baseline: 'items-baseline', stretch: 'items-stretch' } as const;
 const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
@@ -192,7 +191,7 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   transfer: Crown,
   unchanged: Minus,
   web: Globe,
-  // An attribute's icon: the names entity bindings give their attributes.
+  // Attribute names from the entity bindings.
   assignee: User,
   availability: Circle,
   category: Tag,
@@ -210,8 +209,6 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   upgradeability: ArrowUp,
 };
 
-// Each purpose's icon and colour. Danger is shadcn's destructive; the others
-// take the tints shadcn's Alert examples give success, warning and info.
 type Purpose = (typeof purposes)[number];
 const purposeIcons: Record<Purpose, typeof X> = {
   info: Info,
@@ -232,8 +229,6 @@ const purposeSurface: Record<Purpose, string> = {
   danger: 'bg-card text-destructive',
 };
 
-// A badge's tone: filled with shadcn/ui Badge's variants (accent is its
-// default, danger its destructive), or as the text of an outline badge.
 type Tone = (typeof tones)[number];
 const badgeFill: Record<Tone, string> = {
   neutral: 'bg-secondary text-secondary-foreground',
@@ -259,11 +254,8 @@ const buttonVariant = {
 } as const;
 const buttonSize = { default: 'h-9 px-4 py-2 has-[>svg]:px-3', icon: 'size-9' } as const;
 
-// A highlighted run of text, in Text and in a message's marked runs.
 const markClass = 'rounded-sm bg-yellow-200/70 px-1 text-foreground dark:bg-yellow-800/60';
 
-// shadcn/ui Label, and the field error shadcn's Form shows beneath a control.
-// The error is an alert so that it is read out when a submit sets it.
 const label = 'flex items-center gap-2 text-sm leading-none font-medium select-none';
 const fieldError = (id: string, message: string) => (
   <p id={id} role="alert" className="text-sm text-destructive">
@@ -274,9 +266,6 @@ const invalidRing = 'aria-invalid:border-destructive aria-invalid:ring-destructi
 
 export const { registry } = defineRegistry(catalog, {
   components: {
-    // A Stack with a label is a section of that name, a region. shadcn has
-    // no drop zone: a drop target takes a dashed ring of the primary colour
-    // while a row is over it, as shadcn's file inputs mark a drop.
     Stack: ({ props, children, bindings, emit }) => {
       const { ref, over } = useStackDrop(props, bindings, emit);
       const horizontal = props.direction === 'horizontal';
@@ -308,24 +297,8 @@ export const { registry } = defineRegistry(catalog, {
       </div>
     ),
 
-    // Every card is built from shadcn's card classes: the title as a
-    // heading at the demo's current level (heading-level.ts) with
-    // CardTitle's classes, the suffix in the header's action column, the
-    // actions in the footer at the end. shadcn has no card that opens; the
-    // title button's ::after covers the card, the suffix and actions sit above
-    // it, and focus is shown on the cover so the whole card is marked. The
-    // button takes focus when it appears, if `focusOnShow` (focus-on-show.ts).
-    // A card holding a Stat sets its title as the section card's muted
-    // description and draws the header close, so the figure leads. shadcn
-    // has no selected card; a selected one takes the primary colour on its
-    // border and a ring of it, as shadcn marks a chosen option card. An
-    // expanded card's detail goes under a rule, as a card footer's border
-    // does, and is positioned so it paints above the cover. An icon leads the
-    // title, muted, as shadcn sets icons beside labels. The attributes lead
-    // the content in a row, and the buttons among them sit above the cover.
-    // shadcn has no quieter card: lower emphasis dashes the border and drops
-    // the ground and the shadow, and faint mutes the text. A title button
-    // that goes while focused hands focus on.
+    // In a card that opens, the title button's ::after covers the card, so
+    // the suffix, actions, attribute buttons and detail are raised above it.
     Card: ({ props, children, slots, emit }) => {
       const openRef = useRef<HTMLButtonElement>(null);
       useFocusOnShow(openRef, props.focusOnShow);
@@ -401,11 +374,7 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn has no panes. One row of equal grid columns, as shadcn's
-    // dashboard blocks set views beside each other, when there is room,
-    // otherwise a column. Each child sits in a pane that is a demo
-    // container of its own, so blocks inside lay out for the pane's width; a
-    // hidden child leaves its pane empty, and an empty pane takes no place.
+    // Each pane is a demo container, so blocks inside lay out for the pane's width.
     Panes: ({ props, children, bindings }) => {
       const ref = useRef<HTMLDivElement>(null);
       const room = useSplitRoom(ref, props.room, bindings?.room);
@@ -419,8 +388,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn has no split view. Two grid columns, the main one wider, as
-    // shadcn's dashboard blocks set a list beside its detail.
     Split: ({ props, children, bindings }) => {
       const ref = useRef<HTMLDivElement>(null);
       const room = useSplitRoom(ref, props.room, bindings?.room);
@@ -442,7 +409,6 @@ export const { registry } = defineRegistry(catalog, {
       );
       const purpose = props.pending ? null : props.purpose;
       const Icon = props.pending ? LoaderCircle : purpose ? purposeIcons[purpose] : null;
-      // An inline run takes the size and colour of the paragraph it sits in.
       if (props.inline) {
         return (
           <span className={clsx(props.muted && 'text-muted-foreground')}>
@@ -469,8 +435,7 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui Alert's layout and its icon column, without role="alert": a
-    // callout is part of the content and is not announced.
+    // No role="alert": a callout is part of the content and is not announced.
     Callout: ({ props, slots }) => {
       const Icon = purposeIcons[props.purpose ?? 'info'];
       return (
@@ -488,10 +453,8 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui Empty, with its icon media, header and content. shadcn
-    // publishes its title as a div; here it is a heading at the demo's
-    // current level, with EmptyTitle's classes, so both libraries give the
-    // demo the same outline.
+    // shadcn's EmptyTitle is a div; a heading here gives both libraries the
+    // same outline.
     EmptyState: ({ props, slots }) => {
       const Icon = props.icon ? icons[props.icon] : null;
       const Heading = useHeading();
@@ -519,9 +482,6 @@ export const { registry } = defineRegistry(catalog, {
 
     Section: ({ props, children }) => <Section title={props.title}>{children}</Section>,
 
-    // shadcn has no board: lanes are a sideways-scrolling row of muted
-    // panels, as kanban boards built on shadcn draw them, and sections a
-    // column of the same panels.
     Board: ({ props, children }) => (
       <BoardAxis.Provider value={props.axis}>
         <div className={props.axis === 'lanes' ? 'flex items-start gap-3 overflow-x-auto pb-2' : 'flex flex-col gap-3'}>
@@ -530,11 +490,8 @@ export const { registry } = defineRegistry(catalog, {
       </BoardAxis.Provider>
     ),
 
-    // shadcn/ui Collapsible, which has no classes of its own: the trigger
-    // takes the accordion trigger's, with a chevron that turns as it opens,
-    // and the count is a secondary Badge. Inside a Board it is one of the
-    // board's panels. The drop target is the root, so a closed one still
-    // takes the drop on its trigger.
+    // The drop target is the root, so a closed one still takes the drop on
+    // its trigger.
     Disclosure: ({ props, children, bindings, emit }) => {
       const [open, change] = useDisclosureOpen(props.open, bindings?.open, emit);
       const { ref, over } = useDisclosureDrop(props, bindings, emit, open, change);
@@ -585,10 +542,7 @@ export const { registry } = defineRegistry(catalog, {
       </ul>
     ),
 
-    // shadcn/ui has no description list. Labels in the muted foreground and
-    // the medium weight shadcn gives a label, values beside them, each pair
-    // ruled off from the next as in shadcn's tables. Below 24rem of demo
-    // width the label sits above its value, at the width the pp list stacks.
+    // Stacks below 24rem of demo width, where the pp list does.
     DescriptionList: ({ props }) => props.draggable ? (
       <dl className="grid grid-cols-1 text-sm @sm/demo:grid-cols-[max-content_1fr]">
         {props.items.map(item => <DraggableRow key={item.label} id={item.id} label={item.label} value={item.value} />)}
@@ -604,11 +558,6 @@ export const { registry } = defineRegistry(catalog, {
       </dl>
     ),
 
-    // shadcn/ui Breadcrumb (new-york, v4): a list of links split by chevrons,
-    // the current item last as plain text marked as the page. The note
-    // follows it, smaller. The trail keeps to one line, folding the items
-    // above the current one into shadcn's ellipsis menu when they overflow
-    // (shadcn-crumb.tsx).
     Breadcrumbs: ({ props, bindings, emit }) => {
       const [, setPicked] = useBoundProp(props.picked, bindings?.picked);
       const pick = (id: string) => {
@@ -633,9 +582,7 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui Table, from its published classes. The container scrolls a wide table sideways; it takes focus, with shadcn's
-    // focus ring, so that it scrolls from the keyboard, and is a region named
-    // by `label`. A header or cell set to `end` is right-aligned.
+    // The scroll container takes focus so a wide table scrolls from the keyboard.
     Table: ({ props, children }) => (
       <div
         role="region"
@@ -673,24 +620,14 @@ export const { registry } = defineRegistry(catalog, {
       </td>
     ),
 
-    // shadcn/ui has no conversation component. The bubbles follow AI
-    // Elements' Message, which is built on shadcn: the actor's messages on the
-    // secondary surface at the end of the line, the other side's as plain
-    // text. A marked run's note is shadcn/ui Tooltip, over Radix, portalled
-    // into the scoped root. Each Message brings the provider, so its marks
-    // share one hover delay and a Message renders outside Messages too. A mark
-    // with a note is underlined, dotted, as an abbreviation is, and takes focus
-    // so that the tooltip opens for actors on a keyboard too. A linked run
-    // traces its link (mark-tracing.ts), loses its highlight while another
-    // link is traced, and names the runs it is linked to in sr-only text. A
-    // message's children (controls answered in place) follow its text in the
-    // bubble; a message of controls alone has no bubble.
     Messages: ({ children }) => (
       <TracingProvider value={useTracingState()}>
         <div className="flex flex-col gap-4 text-sm">{children}</div>
       </TracingProvider>
     ),
 
+    // Each Message brings the tooltip provider, so a Message renders outside
+    // Messages too.
     Message: ({ props, children }) => {
       const tracing = useMarkTracing(props.parts);
       return (
@@ -739,9 +676,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui has no composer. This follows AI Elements' PromptInput: the
-    // field and a toolbar of its actions in one bordered box that takes the
-    // focus ring.
     Composer: ({ props, slots, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       return (
@@ -793,9 +727,7 @@ export const { registry } = defineRegistry(catalog, {
       </ul>
     ),
 
-    // `struck` strikes the whole label through, a checkbox's included. A
-    // checkbox row whose `checked` is not bound still ticks on a press, as
-    // the catalog allows, but only in the row: state does not change.
+    // An unbound checkbox still ticks on a press, but only in the row.
     ListItem: ({ props, children, slots, bindings }) => {
       const [bound, setBound] = useBoundProp(props.checked, bindings?.checked);
       const [local, setLocal] = useState(Boolean(props.checked));
@@ -820,25 +752,15 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui ItemGroup, from its published classes. Its items are set
-    // apart by separators (Item, below), as shadcn groups related items.
     ItemGroup: ({ props, children }) => (
       <div role="list" aria-label={props.label ?? undefined} data-slot="item-group" className="group/item-group flex flex-col">
         {children}
       </div>
     ),
 
-    // shadcn/ui Item, from its published classes: an ItemContent holding the
-    // ItemTitle, as a heading at the demo's current level (heading-level.ts),
-    // and the attributes beneath it. In a group each item is a list item led
-    // by an ItemSeparator, but for the first: a repeat reaches the group as
-    // one child, so the group cannot place the separators itself. An item
-    // that opens takes the hover a linked Item takes, and its title button's
-    // ::after covers the row, with focus shown on the cover as on a Card. A
-    // focused item takes that hover's background. shadcn has no selected item; a selected one takes the primary colour on
-    // its border and a ring of it, as a selected Card does. The detail goes
-    // under a rule across the row, as an ItemFooter spans it, and is
-    // positioned so it paints above the cover.
+    // Each item draws its own separator, hidden on the first: a repeat
+    // reaches the group as one child, so the group cannot place them. As on
+    // a Card, the title button's ::after covers the row.
     Item: ({ props, slots, emit }) => {
       const openRef = useRef<HTMLButtonElement>(null);
       useFocusOnShow(openRef, props.focusOnShow);
@@ -904,11 +826,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // The figure of shadcn's dashboard section cards: large, semibold, with
-    // tabular figures; the verdict and the muted detail as its card footer
-    // sets them, a step below the figure. The card holding it takes the
-    // section card's muted description for its title (Card, above). shadcn
-    // has no alert figure; it takes the destructive colour.
     Stat: ({ props }) => (
       <div data-slot="stat" className="flex flex-col text-sm">
         <p className={clsx('text-3xl font-semibold tabular-nums', props.alert && 'text-destructive')}>
@@ -924,14 +841,6 @@ export const { registry } = defineRegistry(catalog, {
       </div>
     ),
 
-    // shadcn/ui Badge from its published classes. Square unless `pill`. A badge with an icon is the outline
-    // badge shadcn's dashboard cards draw a trend with, its tone as a text
-    // tint; any other badge is filled with its tone's variant. shadcn has no
-    // success variant, so success takes the green its Alert uses. An
-    // attribute's label leads the value, dimmed. shadcn has no attention
-    // pulse; Tailwind's opacity pulse is the nearest thing it offers. A
-    // pressable badge is a button, styled as shadcn's Badge is when it
-    // renders as a link.
     Badge: ({ props, emit }) => {
       const Icon = props.icon ? icons[props.icon] : null;
       const tone = props.tone ?? 'neutral';
@@ -955,15 +864,8 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui Badge (secondary), from its published classes, holding the
-    // remove button. overflow-hidden is dropped: it would clip the button's focus
-    // ring. shadcn has no busy state for a badge, so a pending tag spins
-    // shadcn Spinner's icon in place of its own. The icon stays hidden from
-    // assistive technology, where the label already says the tag is pending,
-    // and stops spinning under reduced motion. The remove button hands focus
-    // on (focus-handoff.ts) if it unmounts while focused.
-    // With `opens` the whole tag is the button, styled as shadcn's Badge is
-    // when it renders as a link.
+    // The Badge classes without overflow-hidden, which would clip the remove
+    // button's focus ring.
     Tag: ({ props, emit }) => {
       const removeRef = useFocusHandoff(props.focusNext);
       const openRef = useRef<HTMLButtonElement>(null);
@@ -997,12 +899,8 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // Built in shadcn-filter-tag.tsx from shadcn's parts: it has no filter
-    // chip. Led by the attribute's icon from this registry's set.
     FilterTag: context => <FilterTag {...context} Glyph={context.props.icon ? icons[context.props.icon] : null} />,
 
-    // Built for this registry from Leaflet (shadcn-map.tsx): shadcn has no
-    // map. The pin the actor chose is written to the bound path, then an event.
     Map: ({ props, bindings, emit }) => {
       const [selected, setSelected] = useBoundProp(props.selected, bindings?.selected);
       const [focused, setFocused] = useBoundProp(props.focused, bindings?.focused);
@@ -1021,11 +919,8 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui has no mention, so the reference is a link-like button in
-    // the theme's primary colour. The preview is a Radix Popover anchored to
-    // it, with shadcn/ui HoverCard's surface: preview.ts opens and closes it
-    // on the pattern's timing rather than HoverCard's, and the preview does
-    // not take focus when it opens.
+    // A Popover with HoverCard's surface, so preview.ts sets the open and
+    // close timing rather than HoverCard.
     Reference: ({ props, children, slots, bindings, emit }) => {
       const [shown, setShown] = useBoundProp(props.preview, bindings?.preview);
       const { triggerRef, contentRef, trigger, content, close } = usePreview(shown ?? false, setShown, props.expanded ?? false);
@@ -1077,13 +972,8 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui Popover over Radix, anchored to its host (popover-host.ts),
-    // found from a hidden marker: Radix positions against any element given
-    // as a virtual anchor. The panel portals into the scoped root, outside
-    // any scrolling pane. Radix moves focus into the panel when it opens,
-    // unless the demo is only rendering again, and on close focus goes back
-    // to the control that had it then, as a dialog's does (dialog-focus.ts),
-    // unless the actor has moved it elsewhere.
+    // Anchored to its host (popover-host.ts), found from a hidden marker and
+    // given to Radix as a virtual anchor.
     Popover: ({ props, children, slots, bindings }) => {
       const [open, setOpen] = useBoundProp(props.open, bindings?.open);
       const marker = useRef<HTMLSpanElement>(null);
@@ -1125,10 +1015,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui DropdownMenu over Radix: an icon button as its trigger, and
-    // one choice in force, drawn as shadcn's radio items are, with the dot
-    // before the label. Hands focus on (focus-handoff.ts) if a choice removes
-    // it while focused.
     Menu: ({ props, children }) => {
       const Icon = props.icon ? icons[props.icon] : null;
       const { trigger, list, closed } = useMenuFocusHandoff(props.focusNext);
@@ -1158,9 +1044,7 @@ export const { registry } = defineRegistry(catalog, {
 
     // A checkbox item in the role of a radio item: Radix's radio items take
     // their state from a group value, and here each item says for itself
-    // whether it is the one in force. In a Menu with `multiple` it stays a
-    // checkbox, ticked with shadcn's check, and choosing it leaves the menu
-    // open.
+    // whether it is the one in force.
     MenuItem: ({ props, emit }) => {
       const Icon = props.icon ? icons[props.icon] : null;
       const multiple = useContext(MenuMultiple);
@@ -1186,7 +1070,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // Hands focus on (focus-handoff.ts) if it unmounts while focused.
     Button: ({ props, emit }) => {
       const Icon = props.icon ? icons[props.icon] : null;
       const ref = useFocusHandoff(props.focusNext);
@@ -1212,7 +1095,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui Input, with a Label above it unless the label is hidden.
     Input: ({ props, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const error = useFieldError(bindings?.value, value, props.checks, props.error);
@@ -1241,7 +1123,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui Textarea, which grows with its text (field-sizing: content).
     Textarea: ({ props, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const id = useId();
@@ -1259,9 +1140,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui Select: Radix's listbox, not a native select. An empty value
-    // shows the placeholder, which is not an option. The list portals into
-    // the scoped root.
     Select: ({ props, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const error = useFieldError(bindings?.value, value, props.checks, props.error);
@@ -1313,10 +1191,7 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui Command (cmdk) laid out inline, as shadcn's own combobox
-    // builds on it, with cmdk's filtering off: the spec decides which
-    // candidates show. The field is as wide as a search box (24rem), not the
-    // demo.
+    // cmdk's filtering is off: the spec decides which candidates show.
     Combobox: ({ props, bindings, emit }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const [scope, setScope] = useBoundProp(props.scope, bindings?.scope);
@@ -1370,8 +1245,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui RadioGroup: Radix's radio group, one tab stop and arrow keys
-    // between the options, named by the label above it.
     RadioGroup: ({ props, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const id = useId();
@@ -1398,12 +1271,8 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui ToggleGroup, multiple and outlined: Radix's toggle buttons,
-    // each pressed or not, in a group named by the label, the values kept
-    // as a list.
-    // Inside the actor's message, whose surface is the toggle's own accent,
-    // the toggles sit on the background and a pressed one takes the primary
-    // fill, so that the selection still shows.
+    // A pressed toggle takes the primary fill rather than the accent, which
+    // is also the surface of the actor's message, so the selection shows there.
     SelectableTags: ({ props, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const id = useId();
@@ -1431,10 +1300,8 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui Slider over Radix: the label with the value across from it,
-    // and the track beneath, here between its
-    // bounds. The track keeps a width of its own, so it holds inside a
-    // message bubble that sizes to its content.
+    // A fixed width, so the track holds inside a message bubble that sizes to
+    // its content.
     Slider: ({ props, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const current = value ?? props.min;
@@ -1474,8 +1341,6 @@ export const { registry } = defineRegistry(catalog, {
       return <CheckboxField label={props.label} checked={checked ?? false} onChange={setChecked} />;
     },
 
-    // Submitting runs the spec's checks (form-submit.ts). A form is read
-    // most easily at about 36rem, however wide the demo is.
     Form: ({ props, children, emit }) => (
       <form
         className="flex max-w-xl flex-col gap-6"
@@ -1487,14 +1352,9 @@ export const { registry } = defineRegistry(catalog, {
       </form>
     ),
 
-    // shadcn/ui Dialog: modal, so focus stays inside it and the page behind
-    // is out of reach until it closes. An alert behaves as shadcn's
-    // AlertDialog does: role="alertdialog", and a click outside does not
-    // close it. Focus starts on the element marked data-autofocus, if any.
     // Radix returns focus to its Trigger, and a dialog opened from state has
     // none, so the element that had focus when it opened is recorded and
-    // focused again on close (or the demo, if closing removed it; see
-    // dialog-focus.ts).
+    // focused again on close.
     Dialog: ({ props, children, slots, bindings }) => {
       const [open, setOpen] = useBoundProp(props.open, bindings?.open);
       const opener = useRef<Opener | null>(null);
@@ -1516,9 +1376,8 @@ export const { registry } = defineRegistry(catalog, {
                 event.preventDefault();
                 marked.focus();
               }}
-              // Settled as in the pp registry (dialog-focus.ts). Radix calls
-              // this a task after the dialog unmounts, so a window that
-              // replaced it has mounted and taken focus by then.
+              // Radix calls this a task after the dialog unmounts, so a window
+              // that replaced it has mounted and taken focus by then.
               onCloseAutoFocus={event => {
                 event.preventDefault();
                 settleFocus(returnTarget(), opener.current);
@@ -1586,10 +1445,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui Toast, the Radix one shadcn shipped before it moved to Sonner:
-    // Radix parts and shadcn's classes, as Dialog is built here. Radix pauses
-    // the timer while the pointer or focus is on a toast, and a toast can be
-    // swiped away. The viewport portals into the scoped root.
     Toasts: ({ props, bindings, emit }) => {
       const { dismiss, press } = useToastList(bindings?.toasts, bindings?.pressed, emit);
       return (
@@ -1627,7 +1482,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // Built in shadcn-mention-editor.tsx from shadcn's own classes.
     MentionEditor: context => (
       <Suspense fallback={null}>
         <ShadcnMentionEditor {...context} />

@@ -6,8 +6,8 @@
    built-in positioning; nothing here overrides `.leaflet-*` internals.
    ============================================================================= */
 
-/* A grid, so that the canvas fills the host at whatever height the host
-   resolves to, its minimum included. */
+/* A grid, so the canvas fills the host at whatever height it resolves to,
+   its minimum included. */
 pp-map {
   display: grid;
   inline-size: 100%;
@@ -58,8 +58,7 @@ pp-map .pp-map__pin--selected .pp-map__pin-dot {
   scale: 1.4;
 }
 
-/* A focused pin, such as one whose item has the pointer over it in another
-   view: lighter than the selection, which it never hides. */
+/* Lighter than the selection, which it never hides. */
 pp-map .pp-map__pin--focused:not(.pp-map__pin--selected) .pp-map__pin-dot {
   scale: 1.25;
   outline: 2px solid var(--c-accent);

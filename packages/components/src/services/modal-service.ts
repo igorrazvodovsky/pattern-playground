@@ -36,16 +36,14 @@ export interface ModalOptions {
    */
   headerActions?: React.ReactElement;
   /**
-   * Where focus goes when the surface is dismissed. Defaults to whatever held
-   * focus when it opened, which is wrong when that element goes away with
-   * the surface it sat in (a drawer replaced by a dialog, say).
+   * Where focus goes on dismissal, for when what held focus at opening goes
+   * away with the surface it sat in.
    */
   returnFocus?: HTMLElement | null;
 }
 
 const MODAL_DEFINE_TIMEOUT_MS = 2000;
 
-/** Calls `onCommit` once its tree is in the DOM. */
 function Committed({ onCommit }: { onCommit: () => void }) {
   React.useLayoutEffect(onCommit, [onCommit]);
   return null;
@@ -216,9 +214,8 @@ export class ModalService {
           console.error('Modal content error:', error);
           // Could send to error reporting service
         },
-        // Content still loading (a lazy component) suspends here, not the
-        // whole root, so the surface opens at once and fills in when it
-        // arrives, rather than waiting on it and timing out.
+        // Lazy content suspends here rather than the whole root, so the surface
+        // opens at once instead of waiting and timing out.
         children: React.createElement(React.Suspense, { fallback: null }, content)
       }
     );

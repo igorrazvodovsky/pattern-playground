@@ -1,8 +1,6 @@
 import type { StateStore } from '@json-render/core';
 
-// The handler for the catalog's `settle` action. A spec cannot wait, so the
-// value is held here and written once the actor has paused; a later dispatch
-// for the same path starts the wait again.
+// A spec cannot wait, so the value is held here until the actor pauses.
 
 const PAUSE = 700;
 

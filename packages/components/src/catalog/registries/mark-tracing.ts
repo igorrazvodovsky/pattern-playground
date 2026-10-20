@@ -1,18 +1,11 @@
 import { createContext, useCallback, useContext, useEffect, useId, useMemo, useState, type FocusEvent } from 'react';
 
-// Which link a conversation is tracing. Marked runs that share a link stand for
-// the same thing in different messages, such as a passage in a prompt and its
-// summary in the answer; pointing at or focusing one traces its link, and the
-// registry shows the runs on that link and quiets the rest.
-//
 // Hover and focus are kept apart so the pointer leaving a run falls back to the
 // run that still has focus. Only keyboard focus traces: a click focuses the
 // mark too, and would otherwise leave the trace on after the pointer left.
 //
-// Each Message registers its linked runs, so a run can name the runs it is
-// linked to for actors who cannot see the highlight change. A Message that
-// changes its runs or goes clears the trace, since the run that set it may be
-// gone. A Message outside Messages gets the default, which never traces.
+// A Message that changes its runs or goes clears the trace, since the run that
+// set it may be gone.
 
 interface Run {
   key: string;
@@ -38,7 +31,6 @@ const TracingContext = createContext<Tracing>({
 
 export const TracingProvider = TracingContext.Provider;
 
-/** Holds the tracing state for one conversation. */
 export const useTracingState = (): Tracing => {
   const [hovered, hover] = useState<string | null>(null);
   const [focused, focus] = useState<string | null>(null);
@@ -62,11 +54,6 @@ export const useTracingState = (): Tracing => {
 
 type Part = string | { text: string; link: string | null };
 
-/**
- * Registers a Message's linked runs and returns, for the part at an index,
- * whether another link is traced, the texts of the runs it is linked to, and
- * the handlers and focusability that trace it.
- */
 export const useMarkTracing = (parts: Part[]) => {
   const { traced, runs, hover, focus, register } = useContext(TracingContext);
   const owner = useId();

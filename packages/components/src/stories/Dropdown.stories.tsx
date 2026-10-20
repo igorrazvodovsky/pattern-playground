@@ -29,9 +29,7 @@ export const Dropdown: Story = {
       </pp-popup>
     </pp-dropdown>
   ),
-  // ArrowUp on the trigger opens the dropdown on its last item. The item stays
-  // current once the popup has animated in, so the next ArrowUp moves to the
-  // item above it rather than counting from the first.
+  // The next ArrowUp must count from the last item, not the first.
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const dropdown = canvasElement.querySelector("pp-dropdown")!;

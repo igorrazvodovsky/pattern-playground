@@ -10,10 +10,9 @@ import { Elena } from '@elenajs/core';
  * inside it. Leading/trailing adornments are children marked
  * `data-slot="prefix"` / `data-slot="suffix"`. Label association, validation,
  * and form participation are the native input's own. With `clearable`, the
- * element appends a clear button it owns. `invalid` marks the field as wrong
- * and sets `aria-invalid` on the input. The error message sits beneath the
- * element, outside the field box: a following sibling marked
- * `data-slot="error"`, which the author links with `aria-describedby`.
+ * element appends a clear button it owns. The error message is a following
+ * sibling marked `data-slot="error"`, which the author links with
+ * `aria-describedby`.
  * Styles: `src/styles/input.css`.
  */
 

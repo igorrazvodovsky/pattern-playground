@@ -13,15 +13,6 @@ import type { MentionPart, Paragraph } from '../../catalog/registries/mention-ed
 import { itemView } from './product-view';
 import spec from './reference.json' with { type: 'json' };
 
-// The spec is a meeting note that names people, a project, documents and a
-// product as references. Typing @ offers the kinds of item, then the items of
-// the kind picked; pressing a reference opens the item's detail in a drawer.
-//
-// Every referenceable item is laid out here at the detail rung, through its
-// own kind's binding where it has one and the generic reference binding
-// otherwise, so a product reads the same here as at the page's other rungs.
-// Pressing a reference copies its view into `/detail`.
-
 type Source = { kind: string; heading: string; keywords: string; options: MentionPart[] };
 
 const sources: Source[] = referenceCategories.map(category => ({
@@ -33,7 +24,6 @@ const sources: Source[] = referenceCategories.map(category => ({
 
 const maxMatches = 8;
 
-// The kinds whose entities have a binding of their own, and how to find one.
 const finders: Record<string, (id: string) => object | undefined> = {
   user: getUserById,
   project: getProjectById,
@@ -65,8 +55,8 @@ const detail = (mention: MentionPart) => {
 const allMentions = sources.flatMap(source => source.options);
 const byId = new Map(allMentions.map(mention => [mention.id, mention]));
 
-// The note as paragraphs of text and references. A reference shows the
-// item's current name, which the stored note may have kept from earlier.
+// A reference shows the item's current name, since the label stored in the
+// note can be out of date.
 type Node = { type: string; text?: string; content?: Node[]; attrs?: { id: string; label: string; type: string } };
 const note = (getReferenceContentById('sustainability-meeting-content')?.content ?? { content: [] }) as Node;
 const content: Paragraph[] = (note.content ?? []).map(paragraph =>
@@ -94,11 +84,6 @@ export default {
       detailOpen: false,
     },
     functions: {
-      // Two steps, as a picker over many kinds of item works: with nothing
-      // typed after @, the kinds; picking one narrows the list to its items,
-      // filtered by what is typed next. Typing before choosing a kind offers
-      // the kinds whose names match, then matching items of every kind, up to
-      // a handful.
       candidates: args => {
         const query = typeof args.query === 'string' ? args.query.trim().toLocaleLowerCase() : '';
         const groups = (Array.isArray(args.sources) ? args.sources : []).filter(isSource);

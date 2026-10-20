@@ -1,10 +1,5 @@
 import type { Product } from '@shared/data/types';
 
-// Detection rules over the product collection. Each rule that matches
-// produces a flag: what is wrong, why it matters, and the items it applies
-// to. The problem checklist (specs/problem-checklist.ts) and the
-// purpose-keyed views read the same flags.
-
 export interface ProblemFlag {
   id: string;
   title: string;

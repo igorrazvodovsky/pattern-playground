@@ -59,17 +59,14 @@ interface RungToolbarProps {
 }
 
 /**
- * The level-of-detail control every view carries — the ladder equivalent of
- * the layout menu on the overview-detail demo's detail (demos/specs/
- * overview-detail.json): the rung is re-chosen from inside the thing being
- * presented. It renders a button per rung the reader can move *to* — the
- * current rung is omitted, since the container already says where you are and
- * re-selecting it is a no-op. Deliberately not a dropdown: this popover closes
- * when the pointer leaves it, and a menu's list escapes into the top layer,
- * outside the popover, so moving onto the list would close the popover — a
- * direct button has none of that. A popover that closes only on an outside
- * click or Escape can hold a menu. The caller places it (a corner in the
- * popover, the header beside the close button in a drawer or dialog).
+ * The level-of-detail control every view carries: the rung is re-chosen from
+ * inside the thing being presented. It renders a button per rung the reader
+ * can move *to* — the current rung is omitted, since the container already
+ * says where you are and re-selecting it is a no-op. Deliberately not a
+ * dropdown: this popover closes when the pointer leaves it, and a menu's list
+ * escapes into the top layer, outside the popover, so moving onto the list
+ * would close the popover. The caller places it (a corner in the popover, the
+ * header beside the close button in a drawer or dialog).
  */
 function RungToolbar({ current, available, onSelect }: RungToolbarProps) {
   const rungs = RUNGS.filter((rung) => rung.scope !== current && available.includes(rung.scope));
@@ -282,8 +279,7 @@ export const ItemInteraction = ({
     const headerActions = (
       <RungToolbar current={activeScope} available={available} onSelect={selectRung} />
     );
-    // Dismissal returns focus to the mention. Whatever held focus at opening
-    // may be a rung button in the surface this one replaced, which is gone.
+    // What held focus at opening may be in the surface this one replaced.
     const id =
       activeScope === 'mid'
         ? modalService.openDrawer(content, {

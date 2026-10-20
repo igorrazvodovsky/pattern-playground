@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { useBoundProp } from '@json-render/react';
 
-// Whether a disclosure is open. Bound, the state lives in the demo's store, so
-// switching library keeps it; unbound, `open` is only where it starts, and the
-// component keeps its own state from there.
+// Bound, the state lives in the demo's store, so switching library keeps it;
+// unbound, `open` is only the initial value.
 export function useDisclosureState(open: boolean | null | undefined, binding: string | undefined) {
   const [bound, setBound] = useBoundProp(open, binding);
   const [local, setLocal] = useState(open ?? false);
@@ -12,12 +11,8 @@ export function useDisclosureState(open: boolean | null | undefined, binding: st
     : ([local, setLocal] as const);
 }
 
-/**
- * A Disclosure's open state, the same in every registry. It is open unless
- * `open` is false. Given `open`, bound or computed, the spec owns the state:
- * the actor's change is written back where bound and emitted as `toggle`
- * either way. Without it the component keeps its own.
- */
+// Open unless `open` is false. Given `open`, bound or computed, the spec owns
+// the state; without it the component keeps its own.
 export function useDisclosureOpen(
   open: boolean | null | undefined,
   binding: string | undefined,

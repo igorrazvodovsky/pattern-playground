@@ -50,9 +50,7 @@
   padding-inline: 0;
 }
 
-/* Marked runs linked across messages, such as a passage in a prompt and its
-   summary in the answer. While one link is traced, the runs on other links
-   drop their highlight, so the ones that correspond stand out. */
+/* While one link is traced, runs on other links drop their highlight. */
 .message__body mark {
   transition: var(--transition-fast) background;
 }

@@ -15,29 +15,22 @@ import { attributeIcons } from '@shared/data/bindings';
 export const tones = ['neutral', 'accent', 'success', 'danger'] as const;
 const tone = z.enum(tones);
 
-// What a message is for, as the notification pattern names it. Separate from
-// `tone`, which only sets a label or control apart: a purpose also gives the
-// message its icon, and every registry maps each purpose to one.
+// Separate from `tone`: a purpose also gives a message its icon.
 export const purposes = ['info', 'success', 'warning', 'danger'] as const;
 const purpose = z.enum(purposes);
 
-// What a field must hold, as data: json-render's checks ({ type, args,
-// message }), run against the field's bound value. Every registry runs them
-// when the form is submitted and again as the actor corrects the field.
 const checks = z.array(ValidationCheckSchema).nullable();
 const fieldValidation =
   'List `checks` ({ type: required | email | minLength | …, message }) to validate the bound value: they run when validateForm is dispatched, usually from a Form\'s `submit`, and again on each change once the field has been checked, so the message goes as soon as the value is fixed. The first failing check\'s message shows beneath the field, as `error` does, and `error` wins when both are set. A field that is hidden, by its own `visible` or a container\'s, is left out of validateForm.';
 const options = z.array(z.object({ value: z.string(), label: z.string() }));
-// An item named in text: what it is called, and what kind of item it is.
 const mention = z.object({ id: z.string(), label: z.string(), type: z.string() });
-// A blank in a template's text: what goes in it, and what the actor wrote there.
+// A blank in a template's text.
 const slot = z.object({ slot: z.string(), label: z.string(), required: z.boolean().nullable(), value: z.string() });
 
 // Icons are named by meaning; each registry maps a name to its own icon set.
 // A spec that named Phosphor glyphs would be tied to the library that ships them.
-// The names that stand for a kind of attribute (category, price, regions) are
-// the ones entity bindings give their attributes (attributeIcons), so a spec
-// can pass a binding's icon straight through.
+// Attribute icons share the entity bindings' names, so a spec can pass a
+// binding's icon straight through.
 const interfaceIcons = [
   'archive',
   'ascending',
@@ -97,26 +90,17 @@ const interfaceIcons = [
 
 export const iconNames = [...interfaceIcons, ...attributeIcons] as const;
 
-// How long a toast stays. The window is part of the transient-feedback
-// pattern, not a library default: a toast that offers an action has to stay
-// long enough for the actor to notice it, decide and act. Every registry
-// dismisses its toasts on this schedule, paused while the pointer or focus is
-// on a toast.
+// Set by the pattern, not a library default: a toast that offers an action
+// has to stay long enough for the actor to notice it, decide and act.
 export const toastDuration = { plain: 4000, withAction: 8000 } as const;
 
-// How long something dragged has to be held over a closed group before the
-// group opens, so the drop can be aimed rather than guessed at. Atlassian's
-// figure for the same gesture in their tree components, and the one the
-// Finder's spring-loaded folders trained everyone on.
+// How long a drag hovers over a closed group before the group opens. The
+// same delay as Atlassian's tree components and Finder's spring-loaded folders.
 export const springOpen = 500;
 
-// How long an armed inline confirmation waits before it reverts. Like the
-// toast window, it belongs to the pattern: long enough to confirm on purpose,
-// short enough that an armed control left alone does not stay armed.
+// How long an armed inline confirmation waits before it reverts.
 export const confirmationWindow = 4000;
 
-// How a reference's preview follows the pointer and focus. Like the toast
-// window, it belongs to the pattern; ItemInteraction keeps it.
 export { previewTiming } from '../components/item-view/preview-timing';
 
 export const catalog = defineCatalog(schema, {
@@ -624,10 +608,7 @@ export const catalog = defineCatalog(schema, {
       description:
         'Short messages over the page that leave by themselves, the newest nearest the actor. A toast without an action stays about 4 seconds; one with `actionLabel` offers that single action and stays at least 8. The timer pauses while the pointer or focus is on a toast. Bind `toasts` with $bindState and add a toast with pushState ({ id: "$id", message, actionLabel }); a toast the actor closes or that times out is removed from the list. Pressing a toast\'s action writes the whole toast to `pressed` (bind with $bindState), emits `action`, and closes it. A toast may carry fields of its own for the action to read.',
     },
-    // A composite, like RuleBuilder: the library draws the whole chip. Its
-    // input is data (one condition and what it can become), so a spec holds
-    // it, but its joined parts and the searchable value list are the
-    // library's own.
+    // A composite: the library draws the whole chip from data a spec can hold.
     FilterTag: {
       props: z.object({
         label: z.string(),
@@ -659,8 +640,7 @@ export const catalog = defineCatalog(schema, {
       description:
         'A rule shown as one statement whose condition may hold groups. `lead` (the words before the condition) and `tail` (what follows it, if anything) are sentence parts: fixed words (strings) and slots ({ id, kind: choice | add | remove, name, label, options, value, multiple }). `where` is a group ({ id, head, items, addCondition, addGroup, remove }): `head` is a choice slot between all and any, `items` are lines ({ id, parts, remove }) or nested groups, `addCondition` is an add slot over fields and `addGroup` an add slot with one option. A flat group of all reads inline, without its head, so switching it to any goes through adding a group; any other group breaks into indented lines under its head. Bind `edit` with $bindState: before emitting `change`, `add` or `remove`, the component writes { kind, slotId, value } there.',
     },
-    // A composite, like RuleBuilder: each library supplies the whole editor.
-    // Its content and its candidates are data, so a spec can hold both.
+    // A composite: each library supplies the whole editor.
     MentionEditor: {
       props: z.object({
         label: z.string(),

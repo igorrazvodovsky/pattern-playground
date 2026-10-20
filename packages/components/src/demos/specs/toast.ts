@@ -2,9 +2,6 @@ import type { Spec } from '@json-render/core';
 import type { SpecSetup } from '../../catalog/SpecDemo';
 import spec from './toast.json' with { type: 'json' };
 
-// All of it is in the spec: the button adds a toast, and the library shows it
-// and lets it go.
-
 export default {
   spec: spec as Spec,
   setup: {

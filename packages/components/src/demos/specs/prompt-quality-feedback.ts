@@ -3,12 +3,8 @@ import type { SpecSetup } from '../../catalog/SpecDemo';
 import { settleHandler } from './settle';
 import spec from './prompt-quality-feedback.json' with { type: 'json' };
 
-// The prompt is checked once the actor stops typing, and the verdict shows
-// beneath the composer: too short, too vague, or specific enough. While the
-// text differs from the last one checked, a line says the check is running.
-// That line is not announced; the verdict empties meanwhile, so each verdict
-// is announced once when it arrives. A real system would ask a model; this
-// one counts words and looks for words that stand in for a name.
+// The "checking" line is not announced; the verdict empties meanwhile, so each
+// verdict is announced once when it arrives. A real system would ask a model.
 
 type Verdict = { text: string; purpose: 'success' | 'warning' } | null;
 

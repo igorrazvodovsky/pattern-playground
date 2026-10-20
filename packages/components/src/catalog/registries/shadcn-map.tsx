@@ -2,15 +2,6 @@ import { useEffect, useRef } from 'react';
 import * as L from 'leaflet';
 import { CARTO_ATTRIBUTION, CARTO_TILE_URL } from '../../components/map/tiles';
 
-// Map for the shadcn registry. shadcn/ui has no map, so this one puts
-// Leaflet, the base map pp-map also draws on, in a frame with shadcn's card
-// border and radius. The pins are dots in the theme's primary colour, and the
-// selected one is larger with a ring, and a focused one a little larger with
-// a fainter ring; the popup text is in shadcn's
-// typography. Keyboard and assistive technology work as in pp-map: every pin
-// is a focusable button named by its place, Enter or Space selects it, and
-// the selected pin is marked current.
-//
 // Leaflet's own stylesheet is not imported here. pp-map imports it, and every
 // page that registers the library has it; an import from this lazily loaded
 // registry would put a second copy in every page's head.
@@ -59,9 +50,7 @@ export const LocationMap = ({
   locations: Place[];
   selected: string | null;
   onSelect: (id: string) => void;
-  /** The place marked more lightly, for focus that moves without being staked. */
   focused: string | null;
-  /** Called with a place's id when the pointer comes over its pin or the pin takes keyboard focus, and with null when it leaves. */
   onFocusChange: (id: string | null) => void;
 }) => {
   const canvas = useRef<HTMLDivElement>(null);
@@ -73,7 +62,6 @@ export const LocationMap = ({
   const framed = useRef<Place[] | null>(null);
   const latest = useRef({ selected, onSelect, onFocusChange });
   latest.current = { selected, onSelect, onFocusChange };
-  // Pressing the pin that is already selected changes nothing, as in pp-map.
   const select = useRef((id: string) => {
     if (id === latest.current.selected) return;
     pressed.current = id;
@@ -103,8 +91,7 @@ export const LocationMap = ({
 
   // The view is set before the pins are added: Leaflet creates a pin's
   // element only once the map has a view. Framing is not animated, so that a
-  // library switch straight after mounting does not start with a zoom under
-  // way.
+  // library switch straight after mounting does not interrupt a zoom.
   useEffect(() => {
     const instance = map.current;
     if (!instance) return;
@@ -158,8 +145,6 @@ export const LocationMap = ({
     marker.openPopup();
   }, [selected, locations]);
 
-  // Marked by an attribute the pin's dot styles from; the popup stays with the
-  // selection.
   useEffect(() => {
     for (const [id, marker] of markers.current) {
       const el = marker.getElement();

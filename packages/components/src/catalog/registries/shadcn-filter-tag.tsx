@@ -8,13 +8,8 @@ import type { FilterEdit } from '../filter-edit';
 import { useGroupFocusHandoff } from './focus-handoff';
 import { scopedPortal } from './shadcn-portal';
 
-// The filter chip, built from shadcn's parts and led by the attribute's icon: shadcn has no filter chip, so
-// its segments are joined as shadcn's Button Group joins buttons (one
-// outline, a rule between segments). The operator is a DropdownMenu with the
-// current one ticked; the values are shadcn's Combobox recipe, a Popover
-// holding a Command list, with the chosen values first and checked. When the
-// condition goes, by its remove button or by taking away its last value,
-// focus inside the chip or its portaled lists is handed on (focus-handoff.ts).
+// shadcn has no filter chip, so its segments are joined as shadcn's Button
+// Group joins buttons.
 //
 // Every class used here must be visible to Tailwind: catalog/shadcn.css lists
 // this file as a source.

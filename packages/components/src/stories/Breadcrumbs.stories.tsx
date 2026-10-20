@@ -28,10 +28,6 @@ export const Basic: Story = {
   ),
 };
 
-// The trail keeps to one line within its own width. When the items overflow,
-// the element sets `collapsed`, and the middle items fold into the overflow
-// crumb's menu, which lists every item above the current one. Widen the box
-// past the trail's length and every item shows.
 const longPath = ['Section', 'Collection', 'Group', 'Subgroup'];
 
 export const LongPath: Story = {

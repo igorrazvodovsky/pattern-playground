@@ -45,10 +45,8 @@ export class PPModal extends HTMLElement {
     this.modal = this.querySelector('dialog');
   }
 
-  // Buttons beside the <dialog> open it, as do elements marked data-trigger.
-  // Buttons inside the dialog are its own controls, never triggers: a dialog
-  // with actions or interactive content would otherwise reopen itself on
-  // every click.
+  // Buttons inside the dialog are never triggers, or a dialog with actions
+  // would reopen itself on every click.
   private findTriggerElements() {
     const triggers = this.querySelectorAll<HTMLElement>('button:not([data-close]), [data-trigger]');
     this.triggers = Array.from(triggers).filter(el => !this.modal?.contains(el) || el.hasAttribute('data-trigger'));
@@ -63,7 +61,7 @@ export class PPModal extends HTMLElement {
     // Keyboard events
     document.addEventListener('keydown', this.handleKeydown);
 
-    // Close buttons and backdrop clicks, and closes the browser makes itself
+    // Close buttons, backdrop clicks, and closes the browser makes itself
     if (this.modal) {
       this.modal.addEventListener('click', this.handleDialogClick);
       this.modal.addEventListener('close', this.handleNativeClose);
@@ -90,10 +88,8 @@ export class PPModal extends HTMLElement {
     this.openModal();
   }
 
-  // Close buttons are matched at click time, not when the element connects:
-  // content rendered into the dialog later (by the modal service, say) can
-  // still carry its own. Only buttons marked data-close close the dialog, so
-  // other header actions (a rung switch, an edit button) do not.
+  // Matched at click time so content rendered into the dialog later can carry
+  // its own close buttons.
   private handleDialogClick(event: MouseEvent) {
     if (!this.modal) return;
     const button = (event.target as Element).closest('button');
@@ -112,8 +108,7 @@ export class PPModal extends HTMLElement {
 
     switch (event.key) {
       case 'Escape':
-        // An Escape a widget on the page has already handled (a list, a
-        // preview) was meant for that widget, not for this window.
+        // An Escape a widget on the page has already handled was meant for it.
         if (event.defaultPrevented) break;
         event.preventDefault();
         if (this.closedBy !== 'none') this.closeModal();
@@ -143,12 +138,6 @@ export class PPModal extends HTMLElement {
     }
   }
 
-  /**
-   * How the dialog may be dismissed, read from its `closedby` attribute as the
-   * platform defines it: `any` (Escape and a click outside; the default here),
-   * `closerequest` (Escape only, for a decision that should not be dismissed
-   * by a stray click), `none` (only the dialog's own controls).
-   */
   private get closedBy(): 'any' | 'closerequest' | 'none' {
     const value = this.modal?.getAttribute('closedby');
     return value === 'closerequest' || value === 'none' ? value : 'any';
@@ -204,8 +193,8 @@ export class PPModal extends HTMLElement {
   }
 
   private closeModal() {
-    // A click outside can arrive after the browser has already closed the
-    // dialog for it (closedby="any"); that close has been handled.
+    // With closedby="any" the browser may already have closed the dialog for
+    // this click, and handled that close.
     if (!this.modal?.open) return;
 
     // Emit close event before cleanup (for service to listen)
@@ -215,18 +204,15 @@ export class PPModal extends HTMLElement {
     this.finishClose();
   }
 
-  // The browser can close the dialog without going through closeModal: a
-  // click outside or a close request (Android's back gesture) handled
-  // natively, or a caller's own dialog.close(). Do the same work, so the
-  // dialog can be reopened and listeners hear that it closed.
+  // The browser, or a caller's own dialog.close(), can close the dialog
+  // without going through closeModal.
   private handleNativeClose() {
     if (this.closingHere) {
       this.closingHere = false;
       return;
     }
-    // The close event is queued, so the dialog can be open again by the time
-    // it arrives: reopened in the same task it was closed in. That close has
-    // been handled, and the dialog now open is not closing.
+    // The close event is queued, so the dialog may have been reopened in the
+    // same task; that close has already been handled.
     if (this.modal?.open) return;
     this.dispatchClose();
     this.finishClose();
@@ -262,9 +248,7 @@ export class PPModal extends HTMLElement {
   private focusModal() {
     if (!this.modal) return;
 
-    // An element marked autofocus (or data-autofocus, where a framework
-    // will not render the attribute) takes focus first; otherwise the first
-    // focusable element, or the modal itself.
+    // data-autofocus is for frameworks that will not render autofocus.
     const marked = this.modal.querySelector<HTMLElement>('[autofocus], [data-autofocus]');
     if (marked) {
       marked.focus();
@@ -307,12 +291,8 @@ export class PPModal extends HTMLElement {
     }
   }
 
-  /**
-   * Where focus goes when the dialog closes. Without one, it returns to the
-   * trigger, or to whatever held focus when the dialog opened. A caller whose
-   * opener is not the focused element (a surface replacing another, say)
-   * names it here before opening.
-   */
+  // For a caller whose opener is not the focused element, such as a surface
+  // replacing another. Call before opening.
   public setReturnFocus(element: HTMLElement): void {
     this.lastFocusedElement = element;
   }

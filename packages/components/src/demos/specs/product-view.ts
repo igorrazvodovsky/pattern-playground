@@ -10,13 +10,6 @@ import {
 import type { Product } from '@shared/data/types';
 import { toMapLocations } from '../../templates/collection-view/data';
 
-// How the specs that show products read the product binding. A card shows a
-// few attributes as labelled values; a view at one rung of the ladder is laid
-// out by role, as the item view lays out that rung's scope. Both read and
-// format values through the same binding helpers, so a value reads the same
-// on the card and in every view. A view can be laid out from another entity's
-// binding too, for a spec that shows people or projects beside products.
-
 type Rung = 'mini' | 'mid' | 'maxi';
 
 const read = (item: object, attribute: AttributeBinding) => getValueAtPath(item, attribute.path);
@@ -25,24 +18,20 @@ const present = (item: object, attributes: AttributeBinding[]) =>
 const format = (item: object, attribute: AttributeBinding) => formatBoundValue(read(item, attribute), attribute);
 const label = (attribute: AttributeBinding) => attribute.label ?? deriveAttributeLabel(attribute.path);
 
-/** Reads the attributes at `paths` that an item has, labelled and formatted, with each one's path. */
 export const cardAttributes = (paths: string[]) => {
   const selection = resolveAttributeSelection(productBinding, paths);
   return (item: Product) =>
     present(item, selection).map(attribute => ({ path: attribute.path, label: label(attribute), value: format(item, attribute) }));
 };
 
-/** The label the product binding gives the attribute at `path`. */
 export const attributeLabel = (path: string) => label(resolveAttributeSelection(productBinding, [path])[0]);
 
-/** Reads the attribute at `path`, formatted, or an empty string when the item lacks it. */
 export const attributeValue = (path: string) => {
   const [attribute] = resolveAttributeSelection(productBinding, [path]);
   return (item: Product) => (read(item, attribute) == null ? '' : format(item, attribute));
 };
 
-// A spec attribute holding a record, such as a product's specifications,
-// gives one row per key.
+// An attribute holding a record gives one row per key.
 const rows = (item: object, attributes: AttributeBinding[]) =>
   present(item, attributes).flatMap(attribute => {
     const value = read(item, attribute);
@@ -54,11 +43,7 @@ const rows = (item: object, attributes: AttributeBinding[]) =>
     return [{ label: label(attribute), value: format(item, attribute) }];
   });
 
-/**
- * The item at one rung, laid out by role: badges, price, description, rows,
- * and when it was listed. A part the rung's scope leaves out is empty, and so
- * is an attribute in `omit`: what a view next to this one already shows.
- */
+// `omit` names what a view next to this one already shows.
 export const itemView = (rung: Rung, binding: EntityBinding = productBinding, omit: string[] = []) => {
   const omitted = new Set(resolveAttributeSelection(binding, omit).map(attribute => attribute.path));
   const shown = resolveAttributeSelection(binding, binding.scopes[rung]).filter(attribute => !omitted.has(attribute.path));
@@ -79,10 +64,8 @@ export const itemView = (rung: Rung, binding: EntityBinding = productBinding, om
   };
 };
 
-/** The item's full view: every attribute the maxi scope carries. */
 export const fullView = itemView('maxi');
 
-/** The products as places for the catalog's Map, from the binding's internal coordinates and site name. */
 export const mapLocations = (items: Product[]) =>
   toMapLocations(items, productBinding).map(location => ({
     id: String(location.id),

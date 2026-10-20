@@ -1,8 +1,7 @@
 import { createContext, useContext } from 'react';
 
-// Whether a field sits in a Composer's `field` slot. Where a library's
-// Composer draws the frame around the whole message (shadcn), the field
-// leaves out its own.
+// Where a library's Composer frames the whole message (shadcn), a field in its
+// `field` slot leaves out its own frame.
 
 const ComposerFieldContext = createContext(false);
 

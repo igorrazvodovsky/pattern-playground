@@ -43,7 +43,6 @@
     margin-left: calc(var(--_size) / -3);
   }
 
-  /* The mark that counts the people a group leaves out (+4). */
   .avatar-group__more {
     font-size: var(--text-s);
     font-weight: var(--font-weight-semibold);

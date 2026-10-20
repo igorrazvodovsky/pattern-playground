@@ -2,10 +2,8 @@ import { useId } from 'react';
 import { Checkbox } from 'radix-ui';
 import { Check } from 'lucide-react';
 
-// shadcn/ui Checkbox: Radix's checkbox button beside a Label, for the catalog's
-// Checkbox and for a ListItem that is a checkbox. Each checkbox takes its own
-// id, so two lists of the same rows on one page do not share ids and a label
-// never ticks the other list's row.
+// Each checkbox takes its own id, so a label never ticks the same row in
+// another list on the page.
 //
 // Every class used here must be visible to Tailwind: catalog/shadcn.css lists
 // this file as a source.

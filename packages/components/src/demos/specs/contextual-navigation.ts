@@ -14,29 +14,8 @@ import {
 import { deduceConnections, resolveProposals, type Proposal } from '../../services/model-deduction-service';
 import spec from './contextual-navigation.json' with { type: 'json' };
 
-// The certainty fisheye: distance from the focused component is how sure the
-// system is that a connection is there, and distance buys abstraction and
-// nothing else. The connections are one list. What falls with distance is how
-// much each card says and how much weight it carries: an authored edge is a
-// full card with the model's words and the target's readings; a rule's
-// inference is a reduced card naming the rule and what it stands on; a
-// language model's proposal is faint, a name that may not name anything that
-// exists.
-//
-// The containment axis (the trail above, the structure table in the focus
-// card) is modelled by definition, so it is the constant frame. Only the
-// connection axis is graded, and each of its three levels is its own switch.
-//
-// Activating a connection refocuses. Activating a proposal walks the lens past
-// the model's boundary onto a centre that is itself provisional, whose
-// authored connections are empty by construction. `/proposed` holds the
-// proposal and `/focus` keeps the last component the actor was on, so Back
-// returns there by clearing `/proposed`. The proposal's anchor, the component
-// it was proposed under, takes the trail and the model's question.
-//
-// The spec lays the view out. What stays here is reading the process model
-// (derive, rewritten into `/view` whenever what it reads changes) and asking
-// the model for proposals (deduce).
+// `/proposed` holds an activated proposal while `/focus` keeps the last
+// component, so Back returns there by clearing `/proposed`.
 
 /* Deliberate rather than random: the pasteuriser has enough authored edges to
    open the list and enough inferences to overflow the cap. A leaf would open
@@ -47,7 +26,6 @@ const SUBJECT =
   'An orange juice production line: reception, extraction, clarification, ' +
   'concentration, pasteurization, packaging.';
 
-/** How long the rim takes to fill, one proposal at a time. */
 const PROPOSAL_INTERVAL = 700;
 
 type Certainty = 'explicit' | 'inferred' | 'deduced';
@@ -70,7 +48,6 @@ const badges = (attributes: Attribute[]) =>
 
 const crumb = (node: ProcessNode) => ({ id: node.id, label: node.name });
 
-/** Everything the spec shows, read from the model for the current focus. */
 const derive = ({ focus, proposed, shown, rim }: Record<string, unknown>) => {
   const proposal = proposed as Proposal | null;
   const from = getNode(String(focus))!;
@@ -118,9 +95,6 @@ const derive = ({ focus, proposed, shown, rim }: Record<string, unknown>) => {
       : []),
   ];
 
-  /* Everything the list is not saying, said under it: what the cap is holding
-     back, the tier the model could not fill, the tiers that are empty by
-     construction past the model's boundary. */
   const notes: string[] = [];
   const overflow = band.overflow;
   if (proposal) {
@@ -160,7 +134,6 @@ const derive = ({ focus, proposed, shown, rim }: Record<string, unknown>) => {
   };
 };
 
-/** The facts about the subject the model reasons from. */
 const deductionRequest = (anchor: ProcessNode, proposal: Proposal | null) => ({
   focus: proposal
     ? { id: anchor.id, name: proposal.name, type: 'Proposed component', description: proposal.rationale, attributes: [] }
@@ -182,11 +155,7 @@ const deductionRequest = (anchor: ProcessNode, proposal: Proposal | null) => ({
   subject: SUBJECT,
 });
 
-/**
- * The handler for the catalog's `deduce` action. Proposals arrive at the rim
- * one at a time rather than as a block: the rim is where the system is least
- * sure, and a tier that fills all at once reads as settled.
- */
+// Proposals arrive one at a time: a tier that fills all at once reads as settled.
 const deduceHandler = (store: StateStore, connected: () => boolean) => {
   let controller: AbortController | undefined;
   let timer: ReturnType<typeof setInterval> | undefined;
@@ -194,10 +163,8 @@ const deduceHandler = (store: StateStore, connected: () => boolean) => {
   let queued: ReturnType<typeof setTimeout> | undefined;
 
   // A watch does not fire for the state a demo opens with, so the first
-  // request goes from the handler itself. Its answer can come before the demo
-  // has mounted to watch `/rim` (a cached reply, a refused request), so until
-  // that request has revealed every proposal it lays the view out itself;
-  // after that the spec does.
+  // request goes from here. Its answer can come before the demo watches
+  // `/rim`, so until it has revealed every proposal it lays the view out itself.
   let opening = true;
   const write = (path: string, rim: Rim, last = false) => {
     store.set(path, rim);
