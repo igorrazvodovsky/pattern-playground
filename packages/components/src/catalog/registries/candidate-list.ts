@@ -1,4 +1,4 @@
-import { useRef, useState, type KeyboardEvent, type MouseEvent } from 'react';
+import { useLayoutEffect, useRef, useState, type KeyboardEvent, type MouseEvent } from 'react';
 
 type Group = { heading: string | null; options: { value: string; label: string; narrows?: boolean | null }[] };
 type Scope = { value: string | null | undefined; set: (next: string | null) => void };
@@ -36,6 +36,25 @@ export function useCandidateList(
   };
   const groups = groupsProp.filter(group => group.options.length > 0);
   const open = wanted && groups.length > 0;
+
+  // cmdk's input always says its list is open and points at it, and takes
+  // its id and name from cmdk's own hidden label; none of these can be set
+  // through props. cmdk never changes them after mount, so React does not
+  // write them again, and they are set here: expanded and pointing at the
+  // list only while it is rendered, and a visible label linked to the field,
+  // so pressing it focuses the field.
+  const field = useRef<HTMLInputElement>(null);
+  const label = useRef<HTMLLabelElement>(null);
+  const listId = useRef<string | null>(null);
+  useLayoutEffect(() => {
+    const input = field.current;
+    if (!input) return;
+    listId.current ??= input.getAttribute('aria-controls');
+    input.setAttribute('aria-expanded', String(open));
+    if (open && listId.current) input.setAttribute('aria-controls', listId.current);
+    else input.removeAttribute('aria-controls');
+    if (label.current) label.current.htmlFor = input.id;
+  }, [open]);
   const close = () => {
     setOpen(false);
     setHighlighted('');
@@ -68,7 +87,9 @@ export function useCandidateList(
         }
       },
     },
+    label: { ref: label },
     input: {
+      ref: field,
       value,
       onValueChange: (next: string) => {
         setValue(next);

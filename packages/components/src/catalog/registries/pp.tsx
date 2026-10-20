@@ -1097,13 +1097,12 @@ export const { registry } = defineRegistry(catalog, {
     },
 
     // The library's Combobox (cmdk), with its own filtering off: the spec
-    // decides which candidates show. cmdk names the input from the root's
-    // `label`, so a visible label is only shown, not linked. The field keeps
-    // to the library combobox's own width rather than the demo's.
+    // decides which candidates show. The field keeps to the library
+    // combobox's own width rather than the demo's.
     Combobox: ({ props, bindings, emit }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const [scope, setScope] = useBoundProp(props.scope, bindings?.scope);
-      const { open, groups, root, input, list, pick } = useCandidateList(
+      const { open, groups, root, label, input, list, pick } = useCandidateList(
         props.groups,
         value ?? '',
         setValue,
@@ -1112,7 +1111,7 @@ export const { registry } = defineRegistry(catalog, {
       );
       return (
         <div style={{ ...fieldLayout, justifyItems: 'start' }}>
-          {!props.hideLabel && <span aria-hidden="true">{props.label}</span>}
+          {!props.hideLabel && <label {...label}>{props.label}</label>}
           <Combobox label={props.label} {...root}>
             <ComboboxInput placeholder={props.placeholder ?? ''} {...input} />
             {open && (

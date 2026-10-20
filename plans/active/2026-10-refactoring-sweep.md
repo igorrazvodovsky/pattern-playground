@@ -75,17 +75,25 @@ the survey and should be confirmed before acting.
 - [x] *Timers wrote to demos that had left the page.* `arm` and `notify`
   revert state on a timer. Their handlers now receive `connected` from
   `mountSpecDemos` and skip the write once the demo's element is gone.
-- [ ] *`SpecDemo` writes a ref during render.* When the registry changes,
-  `settled.current = false` is set in the render body. A render that React
-  throws away (concurrent rendering, StrictMode's double render) still clears
-  it, and nothing sets it back until a later commit, so a `focusOnShow`
-  control that appears in that window does not take focus. Reset it in a
-  layout effect keyed on `registry` instead.
-- [ ] *Spec-demo roots are never unmounted.* `mountDemos` and `mountSpecDemos`
-  create React roots and nothing unmounts them when a pane is truncated or the
-  page changes, so effect cleanups never run and a pp Dialog's portalled
-  `<pp-modal>` may stay in `<body>`. Not yet checked in the browser. Decide
-  where disposal belongs (StackManager's truncation, `astro:before-swap`).
+- [x] *`SpecDemo` writes a ref during render.* When the registry changed,
+  `settled.current = false` was set in the render body. A render that React
+  throws away (concurrent rendering, StrictMode's double render) still cleared
+  it, and nothing set it back until a later commit, so a `focusOnShow`
+  control that appeared in that window did not take focus. A layout effect in
+  `SpecDemo` would run after its children's, too late to stop them. Fixed
+  2026-10-20: `SpecDemo` records the registry it last committed with, and
+  `DemoSettled` provides a function that compares it with the registry of the
+  current render, so nothing is written during render.
+- [x] *Spec-demo roots are never unmounted.* `mountDemos` and `mountSpecDemos`
+  created React roots and nothing unmounted them when a pane was truncated or
+  the page changed, so effect cleanups never ran and a pp Dialog's portalled
+  `<pp-modal>` stayed in `<body>`. Fixed 2026-10-20: `demo-registry.ts` keeps
+  the roots it creates, and `unmountDetachedDemos` unmounts those whose
+  element has left the page. StackManager calls it when its panes change, and
+  `Base.astro` on `astro:after-swap`. Checked in the browser: replacing a
+  stacked pane with its dialog open, or navigating away, removes the dialogs
+  from `<body>`, and the pane mounts fresh when it comes back. Handlers keep
+  their `connected` check, since they live outside the React tree.
 - [ ] *Focus after a toast's Undo.* The Toasts entry's action button is not a
   catalog Button, so it does not hand focus on. In shadcn, Radix moves focus
   to its toast viewport at the end of the page when the toast closes, so the
@@ -113,25 +121,29 @@ the survey and should be confirmed before acting.
   says the parts are fixed once rendered. Before a spec changes them, let
   `pp-sections` render from data rather than rewriting its children, or have
   the pp registry draw the tablist itself.
-- [ ] *Combobox announces its list as open when it is closed.* Both
+- [x] *Combobox announces its list as open when it is closed.* Both
   registries build the catalog's Combobox on cmdk, whose input always sets
   `aria-expanded="true"` and points `aria-controls` at the list, and neither
   prop can be overridden. The list is rendered only while open, so a closed
-  combobox claims an open list that is not there. cmdk also names the input
-  from its own hidden label, so a visible label is shown beside the field
-  without being linked to it, and pressing it does not focus the field. The
-  autocomplete spec hides its label, so the second does not show today. Either
-  wrap cmdk's input so the registries set these attributes themselves, or
-  build the field without cmdk.
-- [ ] *A late close event after pp-modal reopens.* `closeModal()` calls
+  combobox claimed an open list that was not there. cmdk also names the input
+  from its own hidden label, so a visible label was shown beside the field
+  without being linked to it. Fixed 2026-10-20, by neither of the two ways
+  first proposed: `useCandidateList` sets `aria-expanded` and `aria-controls`
+  on the input in a layout effect, and links the visible label to the input's
+  id. This works because cmdk 1.1.1 never changes those attributes after
+  mount, so React does not write them again; a cmdk upgrade that makes them
+  change per render would undo it silently. Checked in the browser in both
+  libraries: the attributes follow whether the list is rendered. The label
+  link is untested in a demo, since the autocomplete spec hides its label,
+  and the effect sets it only when the list opens or closes.
+- [x] *A late close event after pp-modal reopens.* `closeModal()` calls
   `dialog.close()`, which queues the `close` event, and `openModal()` resets
-  `closingHere` to false. If the same `pp-modal` opens again before that event
-  arrives (from a `pp-modal-close` listener, or a close and an open in one
-  handler), `handleNativeClose` takes the stale event for a close the browser
-  made: it sends `pp-modal-close` and runs `finishClose` on an open dialog, so
-  the triggers lose `aria-expanded` and modalService tears down the surface it
-  just opened. Not yet reproduced in a demo. Ignore a `close` event while the
-  dialog is open, or count closes rather than flag them.
+  `closingHere` to false. If the same `pp-modal` opened again before that
+  event arrived (from a `pp-modal-close` listener, or a close and an open in
+  one handler), `handleNativeClose` took the stale event for a close the
+  browser made: it sent `pp-modal-close` and ran `finishClose` on an open
+  dialog. Fixed in b8965c70: `handleNativeClose` ignores a `close` event while
+  the dialog is open.
 - [ ] *Rest of `tiptap.css`.* Live classes still styled only there:
   `reference-mention--quote` (`Reference.tsx`; quote styling is open in
   [commenting open questions](2026-10-commenting-open-questions.md)),

@@ -1315,13 +1315,12 @@ export const { registry } = defineRegistry(catalog, {
 
     // shadcn/ui Command (cmdk) laid out inline, as shadcn's own combobox
     // builds on it, with cmdk's filtering off: the spec decides which
-    // candidates show. cmdk names the input from the root's `label`, so a
-    // visible label is only shown, not linked. The field is as wide as a
-    // search box (24rem), not the demo.
+    // candidates show. The field is as wide as a search box (24rem), not the
+    // demo.
     Combobox: ({ props, bindings, emit }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const [scope, setScope] = useBoundProp(props.scope, bindings?.scope);
-      const { open, groups, root, input, list, pick } = useCandidateList(
+      const { open, groups, root, label: labelProps, input, list, pick } = useCandidateList(
         props.groups,
         value ?? '',
         setValue,
@@ -1330,7 +1329,7 @@ export const { registry } = defineRegistry(catalog, {
       );
       return (
         <div className="flex w-full max-w-sm flex-col gap-2">
-          {!props.hideLabel && <span aria-hidden="true" className={label}>{props.label}</span>}
+          {!props.hideLabel && <label {...labelProps} className={label}>{props.label}</label>}
           <Command
             label={props.label}
             {...root}

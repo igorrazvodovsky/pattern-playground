@@ -13,14 +13,14 @@ import { createContext, useContext, useLayoutEffect, type RefObject } from 'reac
 // takes focus only from the body or from inside the demo.
 
 /** Whether the demo's current render has settled. SpecDemo provides it. */
-export const DemoSettled = createContext<RefObject<boolean> | null>(null);
+export const DemoSettled = createContext<(() => boolean) | null>(null);
 
 export const useFocusOnShow = (ref: RefObject<HTMLElement | null>, focusOnShow: boolean | null | undefined) => {
   const settled = useContext(DemoSettled);
 
   useLayoutEffect(() => {
     const element = ref.current;
-    if (!focusOnShow || !element || !settled?.current) return;
+    if (!focusOnShow || !element || !settled?.()) return;
     const demo = element.closest<HTMLElement>('[data-registry]');
     const active = document.activeElement;
     if (active && active !== document.body && !demo?.contains(active)) return;

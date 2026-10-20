@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { JSONUIProvider, Renderer, type ComponentRegistry, type ComponentRenderer } from '@json-render/react';
 import type { ComputedFunction, Spec, StateStore } from '@json-render/core';
 import { directives } from './directives';
@@ -18,8 +18,8 @@ export interface SpecSetup {
   /**
    * Handlers for the catalog actions the spec binds, given the demo's store
    * and whether the demo is still on the page. A handler that changes state
-   * later (on a timer) checks `connected` first: a demo's root is not
-   * unmounted when its pane goes, so nothing else stops the write.
+   * later (on a timer) checks `connected` first: handlers live outside the
+   * React tree, so unmounting the demo when its pane goes does not stop them.
    */
   handlers?: (store: StateStore, connected: () => boolean) => Record<string, ActionHandler>;
   /**
@@ -50,16 +50,14 @@ const Unsupported: ComponentRenderer = ({ element }) => (
 export function SpecDemo({ spec, registry, registryName, store, handlers, functions }: SpecDemoProps) {
   // Unsettled while a render through a new registry mounts, so that controls
   // with `focusOnShow` (registries/focus-on-show.ts) take focus only when they
-  // appear later. Children's layout effects run before this effect.
-  const settled = useRef(false);
-  const renderedWith = useRef(registry);
-  if (renderedWith.current !== registry) {
-    renderedWith.current = registry;
-    settled.current = false;
-  }
+  // appear later. Children's layout effects run before this effect. Settling
+  // is recorded per registry and only after a commit, so a render React throws
+  // away changes nothing.
+  const settledWith = useRef<ComponentRegistry | null>(null);
   useEffect(() => {
-    settled.current = true;
+    settledWith.current = registry;
   });
+  const settled = useCallback(() => settledWith.current === registry, [registry]);
   const root = useRef<HTMLDivElement>(null);
 
   return (

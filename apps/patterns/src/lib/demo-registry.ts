@@ -91,6 +91,31 @@ const registries: Record<string, () => Promise<ComponentRegistry>> = {
   shadcn: () => import('@pkg/catalog/registries/shadcn').then(async m => (await m.stylesheet, m.registry)),
 };
 
+// Every React root a demo is mounted into. A pane or page leaves as plain DOM
+// (StackManager drops its section, ClientRouter swaps the body), which React
+// does not see, so nothing would unmount the roots inside it: their effects
+// would never clean up, and a dialog portalled to <body> would stay there.
+const roots = new Map<HTMLElement, Root>();
+
+function mountRoot(el: HTMLElement): Root {
+  const root = createRoot(el);
+  roots.set(el, root);
+  return root;
+}
+
+// Unmount every demo whose element has left the page. Called once a pane or
+// page has gone, which can be from inside another root's effect (StackManager),
+// where React cannot unmount a root synchronously; so once that script has run.
+export function unmountDetachedDemos(): void {
+  queueMicrotask(() => {
+    for (const [el, root] of roots) {
+      if (el.isConnected) continue;
+      roots.delete(el);
+      root.unmount();
+    }
+  });
+}
+
 // Mount every unmounted [data-demo] under root. Mounting is marked on the live
 // element (data-demo-mounted), so re-runs — layout load, astro:page-load, a
 // pane re-render — are no-ops for demos already mounted. Cached pane HTML is
@@ -113,7 +138,7 @@ export function mountDemos(root: ParentNode): void {
           el.removeAttribute('data-demo-mounted');
           return;
         }
-        createRoot(el).render(createElement(Component, props));
+        mountRoot(el).render(createElement(Component, props));
       },
       (err) => {
         el.removeAttribute('data-demo-mounted');
@@ -149,7 +174,7 @@ function mountSpecDemos(root: ParentNode): void {
         }
         const store = createStateStore(setup.initialState ?? {});
         const handlers = setup.handlers?.(store, () => el.isConnected);
-        reactRoot = createRoot(el);
+        reactRoot = mountRoot(el);
         render = async (registryName) => {
           const loadRegistry = registries[registryName];
           if (!loadRegistry) return console.warn(`[demo-registry] no registry "${registryName}"`);

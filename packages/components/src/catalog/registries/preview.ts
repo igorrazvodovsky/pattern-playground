@@ -16,7 +16,7 @@ import { previewTiming } from '../catalog';
 // or Escape closes it and returns focus to the reference.
 //
 // The timers write through `setShown` only while the reference is on the page:
-// a demo's root is not unmounted when its pane goes.
+// a demo is unmounted only after its pane has gone.
 
 const focusable = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 

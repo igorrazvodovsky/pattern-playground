@@ -23,7 +23,7 @@ export const useMayTakeFocus = () => {
   const settled = useContext(DemoSettled);
   return useCallback(
     (popover: Element | null) => {
-      if (!settled?.current || !popover) return false;
+      if (!settled?.() || !popover) return false;
       const demo = popover.closest<HTMLElement>('[data-registry]');
       const active = document.activeElement;
       return !active || active === document.body || Boolean(demo?.contains(active));

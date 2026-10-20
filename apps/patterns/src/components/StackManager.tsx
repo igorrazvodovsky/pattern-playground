@@ -2,7 +2,7 @@ import React, { memo, useEffect, useRef } from 'react';
 import { findOpenPane, singlePaneQuery, stackablePath, useStackStore, type Pane } from '../lib/stack-store';
 import { addDescribedBy, removeDescribedBy } from '../lib/describedby';
 import { panePath, paneIndexOf, paneKindOf } from '../lib/pane-path';
-import { mountDemos } from '../lib/demo-registry';
+import { mountDemos, unmountDetachedDemos } from '../lib/demo-registry';
 
 interface StackManagerProps {
   slug: string;
@@ -304,6 +304,8 @@ export function StackManager({ slug, title, path }: StackManagerProps) {
   }, [panes]);
 
   useEffect(() => {
+    // A truncated or replaced pane has gone from the DOM with its demos.
+    unmountDetachedDemos();
     panes.slice(1).forEach((pane, i) => {
       if (pane.status !== 'ready') return;
       if (prevPanesRef.current[i + 1]?.status === 'ready') return;
