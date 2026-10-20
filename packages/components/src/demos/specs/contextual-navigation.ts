@@ -1,0 +1,278 @@
+import type { Spec, StateStore } from '@json-render/core';
+import type { SpecSetup } from '../../catalog/SpecDemo';
+import {
+  ancestorsOf,
+  childrenOf,
+  explicitConnections,
+  getNode,
+  inferredBand,
+  nodes,
+  RULES,
+  type Attribute,
+  type ProcessNode,
+} from '../focus-and-context/process-model';
+import { deduceConnections, resolveProposals, type Proposal } from '../../services/model-deduction-service';
+import spec from './contextual-navigation.json' with { type: 'json' };
+
+// The certainty fisheye: distance from the focused component is how sure the
+// system is that a connection is there, and distance buys abstraction and
+// nothing else. The connections are one list. What falls with distance is how
+// much each card says and how much weight it carries: an authored edge is a
+// full card with the model's words and the target's readings; a rule's
+// inference is a reduced card naming the rule and what it stands on; a
+// language model's proposal is faint, a name that may not name anything that
+// exists.
+//
+// The containment axis (the trail above, the structure table in the focus
+// card) is modelled by definition, so it is the constant frame. Only the
+// connection axis is graded, and each of its three levels is its own switch.
+//
+// Activating a connection refocuses. Activating a proposal walks the lens past
+// the model's boundary onto a centre that is itself provisional, whose
+// authored connections are empty by construction. `/proposed` holds the
+// proposal and `/focus` keeps the last component the actor was on, so Back
+// returns there by clearing `/proposed`. The proposal's anchor, the component
+// it was proposed under, takes the trail and the model's question.
+//
+// The spec lays the view out. What stays here is reading the process model
+// (derive, rewritten into `/view` whenever what it reads changes) and asking
+// the model for proposals (deduce).
+
+/* Deliberate rather than random: the pasteuriser has enough authored edges to
+   open the list and enough inferences to overflow the cap. A leaf would open
+   on a degenerate gradient. */
+const DEFAULT_FOCUS = 'pasteurizationUnit-001';
+
+const SUBJECT =
+  'An orange juice production line: reception, extraction, clarification, ' +
+  'concentration, pasteurization, packaging.';
+
+/** How long the rim takes to fill, one proposal at a time. */
+const PROPOSAL_INTERVAL = 700;
+
+type Certainty = 'explicit' | 'inferred' | 'deduced';
+type Shown = Record<Certainty, boolean>;
+
+type Rim =
+  | { status: 'loading' }
+  | { status: 'ready'; proposals: Proposal[]; revealed: number }
+  | { status: 'absent' };
+
+const knownNames = new Set(nodes.map(node => node.name.trim().toLowerCase()));
+const knownIds = new Set(nodes.map(node => node.id));
+
+const proposalId = (proposal: Proposal) => `proposed:${proposal.name.trim().toLowerCase().replace(/\s+/g, '-')}`;
+
+const ruleLabel = (id: string) => RULES.find(rule => rule.id === id)?.label ?? id;
+
+const badges = (attributes: Attribute[]) =>
+  attributes.map(attribute => ({ label: attribute.label, text: `${attribute.value}${attribute.unit ?? ''}` }));
+
+const crumb = (node: ProcessNode) => ({ id: node.id, label: node.name });
+
+/** Everything the spec shows, read from the model for the current focus. */
+const derive = ({ focus, proposed, shown, rim }: Record<string, unknown>) => {
+  const proposal = proposed as Proposal | null;
+  const from = getNode(String(focus))!;
+  const anchor = proposal ? (getNode(proposal.anchorId) ?? from) : from;
+  const band = inferredBand(anchor.id);
+  const levels = shown as Shown;
+  const state = rim as Rim;
+
+  const rows = [
+    ...(levels.explicit && !proposal
+      ? explicitConnections(anchor.id).map(connection => ({
+          key: connection.id,
+          emphasis: 'full',
+          eyebrow: connection.relationship,
+          name: connection.name,
+          body: connection.description,
+          attributes: badges(getNode(connection.id)?.attributes.slice(0, 4) ?? []),
+          target: connection.id,
+          proposal: null,
+        }))
+      : []),
+    ...(levels.inferred && !proposal
+      ? band.shown.map(connection => ({
+          key: connection.id,
+          emphasis: 'reduced',
+          eyebrow: ruleLabel(connection.ruleId),
+          name: connection.name,
+          body: connection.basis,
+          attributes: [],
+          target: connection.id,
+          proposal: null,
+        }))
+      : []),
+    ...(levels.deduced && state.status === 'ready'
+      ? state.proposals.slice(0, state.revealed).map(each => ({
+          key: proposalId(each),
+          emphasis: 'faint',
+          eyebrow: 'Proposed, not modelled',
+          name: each.name,
+          body: each.rationale,
+          attributes: [],
+          target: from.id,
+          proposal: each,
+        }))
+      : []),
+  ];
+
+  /* Everything the list is not saying, said under it: what the cap is holding
+     back, the tier the model could not fill, the tiers that are empty by
+     construction past the model's boundary. */
+  const notes: string[] = [];
+  const overflow = band.overflow;
+  if (proposal) {
+    notes.push('No authored connections, and no rule to run: both need a component the model contains.');
+  } else if (levels.inferred && overflow > 0) {
+    notes.push(`${overflow} more inferred, held back by the cap.`);
+  }
+  if (levels.deduced && state.status === 'absent') {
+    notes.push('Deducing components the model does not contain needs the language model, and it is not answering.');
+  }
+
+  const structure = proposal ? [] : childrenOf(anchor.id);
+  const attributes = proposal ? [] : badges(anchor.attributes);
+  const rules = proposal ? [] : anchor.rulesAndConstraints;
+
+  return {
+    trail: (proposal ? [...ancestorsOf(anchor.id), anchor] : ancestorsOf(anchor.id)).map(crumb),
+    current: proposal ? proposal.name : anchor.name,
+    note: proposal ? `proposed under ${anchor.name}` : null,
+    backLabel: `Back to ${from.name}`,
+    title: proposal ? proposal.name : anchor.name,
+    icon: proposal ? 'generated' : 'part',
+    emphasis: proposal ? 'reduced' : 'full',
+    description: proposal ? proposal.rationale : anchor.description,
+    conjecture: proposal
+      ? `Not in the model. Proposed under the ${anchor.name}, so everything below is conjecture.`
+      : null,
+    attributes,
+    attributeCount: String(attributes.length),
+    structure: structure.map(child => ({ id: child.id, name: child.name, type: child.type, description: child.description })),
+    structureCount: String(structure.length),
+    rules,
+    ruleCount: String(rules.length),
+    rows,
+    loading: levels.deduced && state.status === 'loading',
+    notes,
+  };
+};
+
+/** The facts about the subject the model reasons from. */
+const deductionRequest = (anchor: ProcessNode, proposal: Proposal | null) => ({
+  focus: proposal
+    ? { id: anchor.id, name: proposal.name, type: 'Proposed component', description: proposal.rationale, attributes: [] }
+    : {
+        id: anchor.id,
+        name: anchor.name,
+        type: anchor.type,
+        description: anchor.description,
+        attributes: anchor.attributes.map(attribute => ({
+          name: attribute.label,
+          value: `${attribute.value}${attribute.unit ?? ''}`,
+        })),
+      },
+  /* Past the boundary the neighbourhood is the anchor's, because that is all
+     the model has to reason from. */
+  neighbourhood: explicitConnections(anchor.id)
+    .map(connection => ({ id: connection.id, name: connection.name, relation: connection.relationship }))
+    .concat(childrenOf(anchor.id).map(child => ({ id: child.id, name: child.name, relation: 'Part of' }))),
+  subject: SUBJECT,
+});
+
+/**
+ * The handler for the catalog's `deduce` action. Proposals arrive at the rim
+ * one at a time rather than as a block: the rim is where the system is least
+ * sure, and a tier that fills all at once reads as settled.
+ */
+const deduceHandler = (store: StateStore, connected: () => boolean) => {
+  let controller: AbortController | undefined;
+  let timer: ReturnType<typeof setInterval> | undefined;
+  let asked: string | undefined;
+  let queued: ReturnType<typeof setTimeout> | undefined;
+
+  // A watch does not fire for the state a demo opens with, so the first
+  // request goes from the handler itself. Its answer can come before the demo
+  // has mounted to watch `/rim` (a cached reply, a refused request), so until
+  // that request has revealed every proposal it lays the view out itself;
+  // after that the spec does.
+  let opening = true;
+  const write = (path: string, rim: Rim, last = false) => {
+    store.set(path, rim);
+    if (opening) store.set('/view', derive({ ...store.getSnapshot(), rim }));
+    if (last) opening = false;
+  };
+
+  const ask = ({ statePath, focus, proposal }: Record<string, unknown>) => {
+    const path = String(statePath);
+    const proposed = proposal as Proposal | null;
+    const anchor = (proposed && getNode(proposed.anchorId)) || getNode(String(focus))!;
+    // Refocusing from a proposal through the trail changes both `/focus` and
+    // `/proposed`, and each change dispatches. The question is the same, so
+    // the second dispatch does not ask it again.
+    const question = `${anchor.id}|${proposed?.name ?? ''}`;
+    if (question === asked) return;
+    asked = question;
+
+    controller?.abort();
+    clearInterval(timer);
+    const current = new AbortController();
+    controller = current;
+    store.set(path, { status: 'loading' });
+
+    deduceConnections(deductionRequest(anchor, proposed), { signal: current.signal })
+      .then(deduction => {
+        if (current.signal.aborted || !connected()) return;
+        const proposals = resolveProposals(deduction, { ids: knownIds, names: knownNames });
+        let revealed = 0;
+        write(path, { status: 'ready', proposals, revealed }, proposals.length === 0);
+        if (proposals.length === 0) return;
+        timer = setInterval(() => {
+          if (current.signal.aborted || !connected()) return clearInterval(timer);
+          revealed += 1;
+          const done = revealed >= proposals.length;
+          if (done) clearInterval(timer);
+          write(path, { status: 'ready', proposals, revealed }, done);
+        }, PROPOSAL_INTERVAL);
+      })
+      .catch(() => {
+        if (!current.signal.aborted && connected()) write(path, { status: 'absent' }, true);
+      });
+  };
+
+  ask({ statePath: '/rim', focus: DEFAULT_FOCUS, proposal: null });
+  return {
+    // A press that changes `/focus` and `/proposed` in turn dispatches once
+    // for each; the request waits for both, so it asks about where the
+    // actor ended up rather than a state in between.
+    deduce: (params: Record<string, unknown>) => {
+      opening = false;
+      clearTimeout(queued);
+      queued = setTimeout(() => {
+        if (connected()) ask(params);
+      });
+    },
+  };
+};
+
+const start = {
+  focus: DEFAULT_FOCUS,
+  proposed: null,
+  shown: { explicit: true, inferred: true, deduced: true },
+  rim: { status: 'loading' },
+};
+
+export default {
+  spec: spec as Spec,
+  setup: {
+    initialState: { ...start, picked: null, view: derive(start) },
+    handlers: deduceHandler,
+    functions: {
+      derive,
+      // An action's `$item` names the item's path; inside `$computed` it is the value.
+      value: ({ value }) => value,
+    },
+  } satisfies SpecSetup,
+};

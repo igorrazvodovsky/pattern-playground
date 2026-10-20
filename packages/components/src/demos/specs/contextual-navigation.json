@@ -1,0 +1,218 @@
+{
+  "root": "contextual-navigation",
+  "elements": {
+    "contextual-navigation": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["head", "focus-card", "related-caption", "rows", "deducing", "notes"],
+      "watch": {
+        "/focus": { "action": "deduce", "params": { "statePath": "/rim", "focus": { "$state": "/focus" }, "proposal": { "$state": "/proposed" } } },
+        "/proposed": { "action": "deduce", "params": { "statePath": "/rim", "focus": { "$state": "/focus" }, "proposal": { "$state": "/proposed" } } },
+        "/rim": {
+          "action": "setState",
+          "params": {
+            "statePath": "/view",
+            "value": { "$computed": "derive", "args": { "focus": { "$state": "/focus" }, "proposed": { "$state": "/proposed" }, "shown": { "$state": "/shown" }, "rim": { "$state": "/rim" } } }
+          }
+        },
+        "/shown": {
+          "action": "setState",
+          "params": {
+            "statePath": "/view",
+            "value": { "$computed": "derive", "args": { "focus": { "$state": "/focus" }, "proposed": { "$state": "/proposed" }, "shown": { "$state": "/shown" }, "rim": { "$state": "/rim" } } }
+          }
+        }
+      }
+    },
+    "head": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "children": ["trail", "back", "levels"]
+    },
+    "trail": {
+      "type": "Breadcrumbs",
+      "props": {
+        "label": "Containment",
+        "items": { "$state": "/view/trail" },
+        "current": { "$state": "/view/current" },
+        "note": { "$state": "/view/note" },
+        "picked": { "$bindState": "/picked" }
+      },
+      "on": {
+        "pick": [
+          { "action": "setState", "params": { "statePath": "/focus", "value": { "$state": "/picked" } } },
+          { "action": "setState", "params": { "statePath": "/proposed", "value": null } }
+        ]
+      }
+    },
+    "back": {
+      "type": "Button",
+      "props": { "label": { "$state": "/view/backLabel" }, "icon": "back", "variant": "plain", "focusOnShow": true },
+      "visible": { "$state": "/proposed" },
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/proposed", "value": null } }
+      }
+    },
+    "levels": {
+      "type": "Menu",
+      "props": { "label": "Certainty levels", "icon": "settings", "multiple": true },
+      "children": ["level-explicit", "level-inferred", "level-deduced"]
+    },
+    "level-explicit": {
+      "type": "MenuItem",
+      "props": { "label": "Explicit", "checked": { "$state": "/shown/explicit" } },
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/shown/explicit", "value": { "$cond": { "$state": "/shown/explicit" }, "$then": false, "$else": true } } }
+      }
+    },
+    "level-inferred": {
+      "type": "MenuItem",
+      "props": { "label": "Inferred", "checked": { "$state": "/shown/inferred" } },
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/shown/inferred", "value": { "$cond": { "$state": "/shown/inferred" }, "$then": false, "$else": true } } }
+      }
+    },
+    "level-deduced": {
+      "type": "MenuItem",
+      "props": { "label": "Deduced", "checked": { "$state": "/shown/deduced" } },
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/shown/deduced", "value": { "$cond": { "$state": "/shown/deduced" }, "$then": false, "$else": true } } }
+      }
+    },
+    "focus-card": {
+      "type": "Card",
+      "props": { "title": { "$state": "/view/title" }, "icon": { "$state": "/view/icon" }, "emphasis": { "$state": "/view/emphasis" } },
+      "children": ["focus-description", "focus-conjecture", "focus-attributes", "focus-structure", "focus-rules"]
+    },
+    "focus-description": {
+      "type": "Text",
+      "props": { "text": { "$state": "/view/description" }, "size": "small" }
+    },
+    "focus-conjecture": {
+      "type": "Text",
+      "props": { "text": { "$state": "/view/conjecture" }, "size": "small", "muted": true },
+      "visible": { "$state": "/view/conjecture" }
+    },
+    "focus-attributes": {
+      "type": "Disclosure",
+      "props": { "title": "Attributes", "count": { "$state": "/view/attributeCount" } },
+      "visible": { "$state": "/view/attributeCount", "neq": "0" },
+      "children": ["focus-attribute-list"]
+    },
+    "focus-attribute-list": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "repeat": { "statePath": "/view/attributes", "key": "label" },
+      "children": ["focus-attribute"]
+    },
+    "focus-attribute": {
+      "type": "Badge",
+      "props": { "label": { "$item": "label" }, "text": { "$item": "text" } }
+    },
+    "focus-structure": {
+      "type": "Disclosure",
+      "props": { "title": "Structure", "count": { "$state": "/view/structureCount" } },
+      "visible": { "$state": "/view/structureCount", "neq": "0" },
+      "children": ["structure-table"]
+    },
+    "structure-table": {
+      "type": "Table",
+      "props": {
+        "label": "Structure",
+        "columns": [{ "label": "Name", "align": null }, { "label": "Type", "align": null }, { "label": "Description", "align": null }]
+      },
+      "repeat": { "statePath": "/view/structure", "key": "id" },
+      "children": ["structure-row"]
+    },
+    "structure-row": {
+      "type": "TableRow",
+      "props": {},
+      "children": ["structure-name", "structure-type", "structure-description"]
+    },
+    "structure-name": {
+      "type": "TableCell",
+      "props": { "text": null },
+      "children": ["structure-open"]
+    },
+    "structure-open": {
+      "type": "Button",
+      "props": { "label": { "$item": "name" }, "variant": "plain" },
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/focus", "value": { "$computed": "value", "args": { "value": { "$item": "id" } } } } }
+      }
+    },
+    "structure-type": {
+      "type": "TableCell",
+      "props": { "text": { "$item": "type" } }
+    },
+    "structure-description": {
+      "type": "TableCell",
+      "props": { "text": { "$item": "description" } }
+    },
+    "focus-rules": {
+      "type": "Disclosure",
+      "props": { "title": "Rules & constraints", "count": { "$state": "/view/ruleCount" } },
+      "visible": { "$state": "/view/ruleCount", "neq": "0" },
+      "children": ["focus-rule-list"]
+    },
+    "focus-rule-list": {
+      "type": "BulletList",
+      "props": { "items": { "$state": "/view/rules" } }
+    },
+    "related-caption": {
+      "type": "Text",
+      "props": { "text": "Related", "muted": true }
+    },
+    "rows": {
+      "type": "Grid",
+      "props": { "minColumnWidth": "m" },
+      "repeat": { "statePath": "/view/rows", "key": "key" },
+      "children": ["row"]
+    },
+    "row": {
+      "type": "Card",
+      "props": { "title": { "$item": "name" }, "opens": true, "emphasis": { "$item": "emphasis" } },
+      "children": ["row-eyebrow", "row-body", "row-attributes"],
+      "on": {
+        "open": [
+          { "action": "setState", "params": { "statePath": "/focus", "value": { "$computed": "value", "args": { "value": { "$item": "target" } } } } },
+          { "action": "setState", "params": { "statePath": "/proposed", "value": { "$computed": "value", "args": { "value": { "$item": "proposal" } } } } }
+        ]
+      }
+    },
+    "row-attributes": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "visible": { "$item": "attributes/0" },
+      "repeat": { "statePath": { "$item": "attributes" }, "key": "label" },
+      "children": ["row-attribute"]
+    },
+    "row-attribute": {
+      "type": "Badge",
+      "props": { "label": { "$item": "label" }, "text": { "$item": "text" } }
+    },
+    "row-eyebrow": {
+      "type": "Text",
+      "props": { "text": { "$item": "eyebrow" }, "size": "small", "muted": true }
+    },
+    "row-body": {
+      "type": "Text",
+      "props": { "text": { "$item": "body" }, "size": "small" }
+    },
+    "deducing": {
+      "type": "Text",
+      "props": { "text": "Deducing…", "size": "small", "pending": true },
+      "visible": { "$state": "/view/loading" }
+    },
+    "notes": {
+      "type": "Stack",
+      "props": { "gap": "s" },
+      "repeat": { "statePath": "/view/notes" },
+      "children": ["note"]
+    },
+    "note": {
+      "type": "Text",
+      "props": { "text": { "$item": "" }, "size": "small", "muted": true }
+    }
+  }
+}
