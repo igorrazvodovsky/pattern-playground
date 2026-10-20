@@ -40,6 +40,41 @@
     }
   }
 
+  /* Stacked: each label heads the values beneath it, for values too long to
+     share a row with their label (a sentence per value, say). The label is set
+     in dimmed small caps, so it reads as a group heading without a heading's
+     weight; the values hang below it, one per line. */
+  .description-list--stacked {
+    display: block;
+  }
+
+  /* Doubled class to outrank the base list's `:not(:last-of-type)` dividers. */
+  .description-list.description-list--stacked :is(dt, dd) {
+    padding: 0;
+    border: none;
+  }
+
+  /* A hanging indent keeps each value's opening words, usually a name, on
+     the left edge, where the eye runs down them. */
+  .description-list.description-list--stacked dd {
+    padding-inline-start: var(--space-s);
+    text-indent: calc(-1 * var(--space-s));
+  }
+
+  .description-list--stacked dt {
+    font-weight: inherit;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.04em;
+  }
+
+  .description-list--stacked dt:not(:first-of-type) {
+    margin-block-start: var(--space-s);
+  }
+
+  .description-list--stacked dd + dd {
+    margin-block-start: var(--space-2xs);
+  }
+
   /* `.details-list-group` wraps several lists shown together in one view
      (spec sections on an entity page, say) so their label columns line up
      instead of each list sizing `max-content` independently. Rather than

@@ -1,11 +1,12 @@
 ---
 title: Hub and spoke
 added: 2025-11-26
-updated: 2026-10-10
+updated: 2026-10-20
 role: pattern
 evidence:
   - observed
   - literature
+  - used
 group: navigation
 activityLevel: action
 mediation: individual
@@ -13,22 +14,23 @@ lifecycle: seeking
 fun: 🗺️ 2/5. Mapping out the basics.
 situation:
   initiating: >-
-    the work has been divided into contexts in [structuring the space](/sequences/structuring-the-space), and this context has been recognised as one that holds sections differing in kind. Or the context began as one [flat surface](/patterns/flat-navigation) and its tools have outgrown the screen. The switcher over a set of [workspaces](/patterns/workspace) is usually built this way too, the list of workspaces being the hub and each workspace a spoke. Within such a context the question is how the sections are reached from one another, and the first thing to settle is whether they need to be.
+    … the work has been divided into contexts in [structuring the space](/sequences/structuring-the-space), and this context holds sections that differ in kind and are used one at a time; or it began as one [flat surface](/patterns/flat-navigation) and its tools have outgrown the screen. The switcher over a set of [workspaces](/patterns/workspace) is the same case, the list of workspaces being the hub and each workspace a spoke. A hub gives the sequence its simplest answer: one list that every section is reached from, and sections that need to know nothing of each other.
   resulting: >-
-    What the hub reports across the spokes is a [purpose-keyed
-    view](/patterns/purpose-keyed-view) in its own right, designed for the actor's recurring
-    question and not inherited from the topology. For actors who know their destination, a
-    [command menu](/patterns/command-menu) and [searching](/patterns/searching) reach a
-    spoke without the hub, and [deep linking](/patterns/deep-linking) reaches it from
-    outside the structure altogether. When cross-spoke traffic becomes general, give up the
-    pattern rather than patch it: [fully connected](/patterns/fully-connected) puts every
-    section one move from every other, at the cost of chrome on every page, and a persistent
-    tab bar is already that [hybrid](/patterns/hybrid-patterns), a hub that never leaves the
-    screen. When the sections nest rather than sit beside each other, a [multilevel
-    tree](/patterns/multilevel-tree) holds the depth. Two neighbours share the look but not
-    the ground: [overview and detail](/patterns/overview-detail) shows one collection at two
-    levels of detail, where a hub routes between sections with no model in common, and a
-    [pyramid](/patterns/pyramid) is the hub for items that form a sequence
+    Design what the hub reports across the spokes as a [purpose-keyed
+    view](/patterns/purpose-keyed-view) in its own right, built for the actor's recurring
+    question rather than inherited from the topology; [making sense at
+    scale](/sequences/making-sense-at-scale) takes that up. Give actors who know their
+    destination a [command menu](/patterns/command-menu) and [searching](/patterns/searching)
+    that reach a spoke without the hub, and let [deep linking](/patterns/deep-linking) reach
+    one from outside the structure altogether. When cross-spoke traffic becomes general, give
+    up the pattern rather than patch it: [fully connected](/patterns/fully-connected) puts
+    every section one move from every other, at the cost of chrome on every page, and a
+    persistent tab bar is already that [hybrid](/patterns/hybrid-patterns), a hub that never
+    leaves the screen. Where the sections nest rather than sit beside each other, hold the
+    depth in a [multilevel tree](/patterns/multilevel-tree). Two neighbours share the look
+    but not the ground: [overview and detail](/patterns/overview-detail) shows one collection
+    at two levels of detail, where a hub routes between sections with no model in common, and
+    a [pyramid](/patterns/pyramid) is the hub for items that form a sequence…
 relationships:
   precedes:
     - purpose-keyed-view
@@ -46,54 +48,17 @@ relationships:
 
 * * *
 
-**Unless sections that differ in kind are reached through one place that lists them all, the actor has to carry a map of the whole, and on a small screen there is nowhere to show one. The same arrangement sends every journey between two sections through the centre, and the journeys that turn routine are the ones people remember.**
+**Sections that differ in kind and are used one at a time need one place they are all reached from.**
 
-The phone home screen is the case to study, because it is the pattern in its purest form and because people live inside it for years. The apps are spokes. The home screen is the hub. A spoke links to nothing but the hub, and the only way from one app to another is to leave the first, land on the home screen, and open the second. People hold this arrangement without effort. Nobody is lost on a phone; the way back is the same gesture from everywhere, and the way out to anything is the one list. Each app, freed from carrying any navigation to its siblings, spends its whole screen on its own work, which is what makes an app feel like a place rather than a page.
+The phone home screen is the pattern in its purest form: the apps are spokes, the home screen is the hub, and the way from one app to another is to leave the first and open the second from the list. Nobody is lost on a phone, and each app spends its whole screen on its own work. The same arrangement appears wherever sections are independent, in a banking app's home, a settings area or the rooms of a smart-home app. On a desktop the same sections are usually a sidebar visible from everywhere, which is a fact about the screen rather than about the sections.
 
-Watch what the same people do when two apps start being used in one task, copying an address from a message into a map, or checking a code from one app while signing in to another. They stop going home. They reach for the app switcher, the back-swipe that returns to the previous app, split view, the share sheet, each of them a path between two spokes that does not pass through the hub. The platform grew these escapes one by one because the traffic demanded them, and the dock along the bottom is the same admission in another form: the few apps used constantly are lifted out of the hub and kept on every screen. The hub also became the place where the apps report. A badge on an icon is a spoke telling the actor, from the one surface every journey crosses, that something inside needs attention.
-
-In some form the pattern appears wherever sections differ in kind and are used one at a time, and the sequence the actor walks is much the same in each genre.
-
-In a banking app: home, then a product, then a task inside it, then home again; the home screen carries the balance, the unread message and the overdue bill, because that is where the actor passes.
-
-In a settings area: the list of panels, then one panel, then back to the list; nobody needs two panels at once, and a panel that needed to link to another is usually a sign that the two should have been one.
-
-In a smart-home app: rooms, then a room, then a device; the rooms screen is where the alarms show.
-
-On a desktop, the same sections are usually a sidebar that is visible from everywhere, or a tree. That is a fact about the screen rather than about the sections, and the structuring sequence recognises the kind of space again per platform for this reason.
-
-The price is paid on every journey between spokes. Two moves instead of one is nothing when such journeys are rare and a tax when they are routine, and because the topology forbids lateral travel, a cross-spoke journey that becomes routine is paid for twice on every trip. A spoke has little room for navigation of its own, so anything that must be reachable from inside more than one spoke competes with the spoke's actual work for space, which is why the escapes tend to be grown by the platform rather than built into the spokes. And the hub's listing has to be legible: a hub of unlabelled icons, or of names that mean nothing until opened, loses the one thing the topology buys, the map the actor did not have to carry.
+Because every journey crosses the hub, it is also where the spokes report: a badge on an icon, a balance on the home screen. And because the topology forbids lateral travel, a journey between two spokes costs two moves, which is nothing while such journeys are rare and a tax once they are routine. The pattern holds across three arrangements: the pure form, where a spoke links only back to the hub; a few cross-links, where known routine pairs get a direct path; and global navigation, where every spoke carries the whole list, which is already the [hybrid](/patterns/hybrid-patterns#hub-and-spoke--fully-connected).
 
 Therefore,
 
-**Where a context holds sections that differ in kind and are used one at a time, give it a hub that lists the sections and nothing else. Make each section a spoke that links back to the hub and not to its siblings, and keep the spokes free of navigation of their own. Use the hub to report across the spokes, since every journey crosses it.**
+**Where a context holds sections that differ in kind and are used one at a time, give it a hub that lists the sections and nothing else. Make each section a spoke that links back to the hub, and use the hub to report across the spokes.**
 
-Watch the journeys between spokes. A pair that turns routine is paid for twice on every trip, and the complaint is precise: why do I have to go back to the start? Open a direct path for that pair before the return through the hub becomes what the actor remembers of the design.
-
-## Variants
-
-- Pure hub and spoke: spokes carry no navigation to other spokes, and the only way out is back to the hub. For sections that are genuinely independent.
-- With limited cross-links: a spoke links directly to the few spokes it is closely related to. For sections with a clear relationship, where the routine journeys are known.
-- With global navigation: the hub remains the entry point, but every spoke carries navigation to all sections. This is already a [hybrid](/patterns/hybrid-patterns#hub-and-spoke--fully-connected), the hub that never leaves the screen.
-
-## States
-
-Hub states:
-
-- Active: the hub is showing and the actor is choosing a destination.
-- Returning: the actor has come back from a spoke, and the hub may need to show where they were.
-- Updated: indicators on the hub show changes inside the spokes (badges, highlights, notifications).
-
-Spoke states:
-
-- Active: the spoke is showing its own content.
-- Accessible: reachable from the hub.
-- Restricted: greyed out or hidden on the hub, for permissions or unmet prerequisites.
-- Notifying: has updates or needs attention, which the hub shows.
-
-## To-do
-
-Follow-up to capture: mobile app architectures with tab bars, a common realisation where the tab bar acts as the persistent hub.
+Watch the journeys between spokes, and open a direct path for any pair that turns routine before the return through the hub becomes what the actor remembers of the design.
 
 ## Resources & references
 

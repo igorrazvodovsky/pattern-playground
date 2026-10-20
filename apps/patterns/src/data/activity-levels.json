@@ -546,6 +546,16 @@
       "lifecycle-stage": null,
       "mediation": null
     },
+    "resuming": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
+    "review-before-submitting": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "rule-composition": {
       "activity-level": "action",
       "lifecycle-stage": "application",
@@ -689,6 +699,11 @@
     "validation": {
       "activity-level": "operation",
       "lifecycle-stage": null,
+      "mediation": "individual"
+    },
+    "version-history": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
       "mediation": "individual"
     },
     "wizard": {

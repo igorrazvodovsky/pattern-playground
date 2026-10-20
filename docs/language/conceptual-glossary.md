@@ -36,7 +36,7 @@ Whoever applies a pattern: a designer working ahead of use, the actor reshaping 
 
 ## Pattern
 
-A named, evidence-seeking interaction move that resolves a recurring human situation by balancing forces in a stated context, abstracting practice at a reusable level, producing a centre or affordance, carrying rationale and consequences, and linking to other patterns. In this project, a pattern is not simply a common UI object or a reusable component. It can begin as a seed, but mature pattern status requires examples, rationale, consequences, and relations. See [pattern-definition.md](./pattern-definition.md).
+A rule for making a kind of centre, which also states that centre's relation to other centres: the situation it continues from and the situation it leads to. In this project, a pattern is not a common UI object or a reusable component: a rule makes instances the author has not seen, a component is configured. It can begin as a seed, but an established pattern has instances, rationale, consequences, and both situations. See [pattern-definition.md](./pattern-definition.md).
 
 ## Pattern language
 

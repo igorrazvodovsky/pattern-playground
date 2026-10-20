@@ -5,6 +5,7 @@
 import { render, type CollectionEntry } from 'astro:content';
 import Demo from './Demo.astro';
 import Diagram from './Diagram.astro';
+import Figure from './Figure.astro';
 import { ComponentRef } from './ComponentRef';
 import Consequences from './Consequences.astro';
 import Situation from './Situation.astro';
@@ -27,10 +28,10 @@ const { Content } = await render(entry);
     <span class="badge role">{entry.data.role}</span>
     {entry.data.activityLevel && <span class="badge">{entry.data.activityLevel}</span>}
     {entry.data.mediation && <span class="badge">{entry.data.mediation}</span>} */}
-<ArticleShell title={entry.data.title} dates={entry} pagefind={pagefind}>
+<ArticleShell title={entry.data.title} seed={entry.data.seed === true} dates={entry} pagefind={pagefind} pageType={entry.data.role}>
   <EpistemicStatus slot="meta" entry={entry} />
   {/* Consequences, SequenceAppearances, RelatedPatterns and Residue are not
       authored: integrations/remark-consequences.ts injects them into the body
       in the contract's page order, so the whole page composes in one place. */}
-  <Content components={{ Demo, ComponentRef, Diagram, Consequences, Situation, SequenceAppearances, RelatedPatterns, Residue }} />
+  <Content components={{ Demo, ComponentRef, Diagram, Figure, Consequences, Situation, SequenceAppearances, RelatedPatterns, Residue }} />
 </ArticleShell>

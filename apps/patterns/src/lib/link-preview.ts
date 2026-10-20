@@ -71,12 +71,14 @@ function extractContent(html: string, title: string): string {
 
 // getPaneContent caches the fetch and evicts failures; the extraction is cheap
 // enough to run on every show.
-async function fetchContent(path: string): Promise<string> {
+// The page type comes along so the preview takes that page's shade (app.css
+// §Site tint).
+async function fetchContent(path: string): Promise<{ content: string; pageType?: string }> {
   try {
-    const { title, html } = await getPaneContent(path);
-    return extractContent(html, title);
+    const { title, html, pageType } = await getPaneContent(path);
+    return { content: extractContent(html, title), pageType };
   } catch {
-    return '';
+    return { content: '' };
   }
 }
 
@@ -122,7 +124,7 @@ async function show(anchor: HTMLAnchorElement, gen: number) {
   const path = resolvePath(anchor);
   if (!path) return;
 
-  const content = await fetchContent(path);
+  const { content, pageType } = await fetchContent(path);
   if (gen !== showGeneration) return;
   if (!content) return;
 
@@ -133,6 +135,8 @@ async function show(anchor: HTMLAnchorElement, gen: number) {
   currentAnchor = anchor;
   const preview = getPreviewEl();
   preview.innerHTML = content;
+  if (pageType) preview.dataset.pageType = pageType;
+  else delete preview.dataset.pageType;
   preview.scrollTop = 0;
   preview.style.visibility = 'hidden';
   preview.showPopover();

@@ -49,6 +49,8 @@ relationships:
 
 The actor keeps doing the same thing — triaging the same requests, moving records through the same stages, chaining the same steps — and wants to hand the procedure over: to an agent, to a rule engine, to the rest of the team.
 
+<Figure name="workflow" />
+
 A workflow makes the procedure an *artifact*: steps, conditions, and transitions in a representation that the actor and the system can both read and act on. The system executes it or enforces it (the A cannot B until the rule C is satisfied); the actor inspects it, rehearses it, and repairs it. The representation may be a node graph, a trigger–action rule list, a pipeline definition — the pattern is indifferent to the notation, and the notation slides along the [formality](/patterns/formality) spectrum from natural-language instruction to executable code. Where the notation is a rule list, each entry is composed by its own move: see [rule composition](/patterns/rule-composition) for the unit, which also appears with no procedure around it at all.
 
 ## Forces

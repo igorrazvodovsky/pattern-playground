@@ -15,10 +15,10 @@
  *    demo, and `<RelatedPatterns slug resulting />` before the first tail
  *    heading (or at the end), which renders the passage over the typed index
  *    and the sequence appearances (`showRelated: false` folds the index only),
- *    and adds visually hidden *Problem* and *Solution* headings at the first
- *    mark and at `Therefore,` so the table of contents and heading navigation
- *    reach the parts the shape leaves unheaded (RelatedPatterns heads the
- *    passage the same way);
+ *    and heads the parts the shape leaves unheaded: the first mark becomes a
+ *    visible, muted *Problem* heading (`.section-mark`) and the authored
+ *    `Therefore,` line a *Solution* heading in the same style (RelatedPatterns
+ *    heads the passage *Connections* the same way);
  * 3. on a page not yet migrated (`situation.resulting` is a clause list, or
  *    absent) keeps the earlier renders: `<Consequences />` before
  *    `## Resources & references`, then `<SequenceAppearances />` and
@@ -141,13 +141,12 @@ function renderDinkuses(tree: Root): void {
   );
 }
 
-/** A heading the table of contents and assistive technology see but the
- * page does not show. */
-function hiddenHeading(text: string): RootContent {
+/** An `h2` shown as a muted centred label in the mark's place. */
+function heading(text: string, className: 'section-mark'): RootContent {
   return {
     type: 'heading',
     depth: 2,
-    data: { hProperties: { className: ['visually-hidden'] } },
+    data: { hProperties: { className: [className] } },
     children: [{ type: 'text', value: text }],
   };
 }
@@ -163,13 +162,15 @@ function isTherefore(node: RootContent): boolean {
   return node.type === 'paragraph' && textOf(node).trim() === 'Therefore,';
 }
 
-/** Heads the problem (from the first section mark) and the solution (from
- * `Therefore,`). Runs before the marks become dinkus paragraphs. */
+/** Heads the problem and the solution: the first section mark becomes the
+ * visible *Problem* heading (the dinkus's job, with a word on it) and the
+ * authored `Therefore,` line becomes *Solution* in the same style. Runs
+ * before any remaining marks become dinkus paragraphs. */
 function headParts(tree: Root): void {
   const therefore = tree.children.findIndex(isTherefore);
-  if (therefore !== -1) tree.children.splice(therefore, 0, hiddenHeading('Solution'));
+  if (therefore !== -1) tree.children.splice(therefore, 1, heading('Solution', 'section-mark'));
   const mark = tree.children.findIndex((n) => n.type === 'thematicBreak');
-  if (mark !== -1) tree.children.splice(mark, 0, hiddenHeading('Problem'));
+  if (mark !== -1) tree.children.splice(mark, 1, heading('Problem', 'section-mark'));
 }
 
 /** Removes the `## To-do` section (heading through the node before the next h2) and returns it. */

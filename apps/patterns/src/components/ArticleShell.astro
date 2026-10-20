@@ -7,23 +7,32 @@ import PatternDates from './PatternDates.astro';
 
 interface Props {
   title: string;
+  // A seed's title carries the provisional mark the library gives a proposed
+  // name (certainty.css: a dashed underline), so the skim path says the
+  // instruction has not had the author's judgement. The book marks confidence
+  // on the title line too, and nowhere else.
+  seed?: boolean;
   dates: { data: { added: Date; updated?: Date | null } };
   // The pane partial is fetched client-side, never visited as a page; omitting
   // the pagefind attributes keeps it out of the search index (the full page
   // carries them, so indexing stays one entry per article).
   pagefind: boolean;
+  // The page's type (a pattern role, or `sequence`). The pane around the
+  // article takes its tint from it (app.css §Site tint).
+  pageType: string;
 }
 
-const { title, dates, pagefind } = Astro.props;
+const { title, seed = false, dates, pagefind, pageType } = Astro.props;
 ---
 <article
   class="flow"
+  data-page-type={pageType}
   data-pagefind-body={pagefind ? '' : undefined}
   data-pagefind-meta={pagefind ? `title:${title}` : undefined}
 >
   <header>
     <div class="meta">
-      <h1>{title}</h1>
+      <h1 data-proposed={seed ? '' : undefined}>{title}</h1>
       <PatternDates entry={dates} />
       <slot name="meta" />
     </div>
