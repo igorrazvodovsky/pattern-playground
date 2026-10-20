@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { getPaneContent } from './pane-content';
 import { buildURL, decodePaneParam, panePath, paneIndexOf, parsePanePath } from './pane-path';
 import { fileStem } from './stem';
+import { conceptFiles } from './concept-files';
 
 export type Pane = {
   // `/patterns/<slug>`, `/sequences/<id>` or `/concepts/<id>`: the pane's identity (pane-path.ts).
@@ -105,12 +106,13 @@ export const useStackStore = create<StackState>()((set, get) => ({
     // Pane 0's anchor is the page's own fragment.
     const pane0: Pane = { path: path0, title: title0, html: '', status: 'ready', hash: location.hash || undefined };
 
-    if (stacked.length === 0) {
+    // Drop panes that name no page in this build, as a link click would (e.g.
+    // a concept pane in a URL copied from dev): fetching them can only fail.
+    const entries = stacked.map(decodePaneParam).filter((e) => isKnownPane(e.path));
+    if (entries.length === 0) {
       set({ panes: [pane0], activeIndex: 0 });
       return;
     }
-
-    const entries = stacked.map(decodePaneParam);
     const placeholders: Pane[] = entries.map(e => ({ path: e.path, title: placeholderTitle(e.path), html: '', status: 'loading', hash: e.hash }));
     set({ panes: [pane0, ...placeholders], activeIndex: entries.length });
 
@@ -147,9 +149,14 @@ export const singlePaneQuery =
 const stems = (files: Record<string, unknown>) => new Set(Object.keys(files).map(fileStem));
 export const validSlugs = stems(import.meta.glob('/src/content/patterns/**/*.{md,mdx}'));
 export const validSequenceIds = stems(import.meta.glob('/src/content/sequences/**/*.{md,mdx}'));
-export const validConceptIds = stems(import.meta.glob('/src/content/concepts/**/*.{md,mdx}'));
+export const validConceptIds = stems(conceptFiles);
 
 const VALID_IDS = { pattern: validSlugs, sequence: validSequenceIds, concept: validConceptIds } as const;
+
+function isKnownPane(path: string): boolean {
+  const parsed = parsePanePath(path);
+  return parsed !== null && VALID_IDS[parsed.kind].has(parsed.id);
+}
 
 // The pane path a URL points at, if it names a page that exists and can be
 // stacked; null otherwise.

@@ -420,8 +420,8 @@ Done (2026-10-18):
   renders the definition through the library's description list and lists
   the patterns that act on the concept from the inverse of `acts_on`.
 - `acts_on` on the pattern schema, rendered beside the epistemic status
-  (`ActsOn.astro`), emitted as `actsOn` node metadata, validated against the
-  collection. `/concepts/` links in content are validated too.
+  (`ActsOn.astro`), validated against the collection. Not emitted into the
+  pattern graph: concepts stay out of it. `/concepts/` links in content are validated too.
 - `concept` on the twenty workspace action types, per the partition table;
   the six bookkeeping types carry none. The validator checks both directions
   and `depends_on` ids.
@@ -448,6 +448,11 @@ Remaining:
   those sittings write.
 - The entry name `acts_on` is confirmed by two pages; revisit only if a
   sitting finds it reads wrongly.
+- Publish the catalogue. It is dev-only for now: set `CONCEPTS_PUBLISHED` in
+  `apps/patterns/src/lib/concepts-published.ts` to true
+  (docs/specs/pattern-site.md §Concepts). The gate's plugin, the
+  `CONCEPTS_ENABLED` checks and the `concept-files.ts` indirection can then be
+  removed as cleanup.
 
 ## Open questions
 

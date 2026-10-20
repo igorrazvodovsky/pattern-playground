@@ -2,6 +2,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { panePath } from './pane-path';
 import { bySequenceOrder, humaniseSlug } from './sequence';
+import { CONCEPTS_ENABLED } from './site';
 
 export type NavLeaf = { label: string; href: string };
 export type NavBranch = { label: string; children: NavTreeNode[] };
@@ -59,7 +60,7 @@ let navCache: { key: string; tree: NavTree } | undefined;
 export async function buildNavTree(): Promise<NavTree> {
   const patterns = await getCollection('patterns');
   const sequences = await getCollection('sequences');
-  const concepts = await getCollection('concepts');
+  const concepts = CONCEPTS_ENABLED ? await getCollection('concepts') : [];
   const key = [...patterns, ...sequences, ...concepts].map((e) => `${e.id}@${e.digest ?? ''}`).join(' ');
   if (navCache?.key !== key) navCache = { key, tree: assembleNavTree(patterns, sequences, concepts) };
   return navCache.tree;

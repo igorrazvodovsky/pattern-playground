@@ -206,6 +206,8 @@ with the same filename-stem identity rule, and a sequence page is a pane-0 case 
 
 The concept catalogue — what a concept is against a pattern and a component, the entry shape, the `acts_on` reference and the world-side `concept` field — is in [patterns-and-concepts.md](../language/patterns-and-concepts.md). Concept files live in `apps/patterns/src/content/concepts/` with the same filename-stem identity rule, render at `/concepts/<id>` with an index at `/concepts`, and stack as panes like sequences. The concept pages are the site's second corner: `Base.astro` takes `corner="concepts"`, which swaps the sidebar for the catalogue's own (`Nav.tsx`), persisted under its own key so crossing corners replaces the island.
 
+The catalogue is not published yet. While `CONCEPTS_PUBLISHED` in `apps/patterns/src/lib/concepts-published.ts` is false, a production build emits no concept pages, no sidebar link to them, no concept panes and no "Acts on" line on pattern pages, and `integrations/concepts-dev-only.ts` keeps the concept files out of the client bundle. Setting it to true publishes everything; the gate's plugin and checks can then be removed at leisure.
+
 ## Toolchain posture
 
 The site deliberately sits off two Astro defaults:

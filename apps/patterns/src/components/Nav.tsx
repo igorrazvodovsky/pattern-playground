@@ -17,7 +17,7 @@ import { useNavStore, useNavHydration } from '../lib/nav-store';
 import { useActivePath, isActivePath } from '../lib/active-path';
 
 import type { NavBranch, NavTree, NavTreeNode } from '../lib/nav-tree';
-import { STORYBOOK_URL } from '../lib/site';
+import { CONCEPTS_ENABLED, STORYBOOK_URL } from '../lib/site';
 
 function isBranch(node: NavTreeNode): node is NavBranch {
   return 'children' in node;
@@ -241,7 +241,7 @@ export function Nav({ shared, patterns, sequences, concepts, corner = 'patterns'
         <SidebarFooter>
           <SidebarMenu>
             {corner !== 'patterns' && <CornerLink href="/" icon="ph:tree-structure" label="Patterns" />}
-            {corner !== 'concepts' && <CornerLink href="/concepts" icon="ph:shapes" label="Concepts" />}
+            {CONCEPTS_ENABLED && corner !== 'concepts' && <CornerLink href="/concepts" icon="ph:shapes" label="Concepts" />}
             <CornerLink href={STORYBOOK_URL} icon="ph:puzzle-piece" label="Components" external />
           </SidebarMenu>
         </SidebarFooter>

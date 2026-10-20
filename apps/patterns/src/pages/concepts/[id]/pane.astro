@@ -5,10 +5,12 @@
 // cannot drift.
 import { getCollection } from 'astro:content';
 import ConceptArticle from '../../../components/ConceptArticle.astro';
+import { CONCEPTS_ENABLED } from '../../../lib/site';
 
 export const partial = true;
 
 export async function getStaticPaths() {
+  if (!CONCEPTS_ENABLED) return [];
   const entries = await getCollection('concepts');
   return entries.map((entry) => ({
     params: { id: entry.id },

@@ -1,6 +1,12 @@
 // Site-wide settings shared by build-time pages and client islands.
 
 import type { Locale } from '@shared/format';
+import { CONCEPTS_PUBLISHED } from './concepts-published';
+
+// Until the catalogue is published (lib/concepts-published.ts), its pages,
+// sidebar link, pane stacking and the "Acts on" line on pattern pages exist
+// only under `astro dev`. A production build emits none of them.
+export const CONCEPTS_ENABLED: boolean = CONCEPTS_PUBLISHED || import.meta.env.DEV;
 
 export const STORYBOOK_URL: string = import.meta.env.PUBLIC_STORYBOOK_URL ?? 'http://localhost:6006';
 

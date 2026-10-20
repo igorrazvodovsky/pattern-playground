@@ -9,13 +9,14 @@ import Label from './Label.astro';
 import { actsOnOf } from '../lib/concept';
 import { panePath } from '../lib/pane-path';
 import { humaniseSlug } from '../lib/sequence';
+import { CONCEPTS_ENABLED } from '../lib/site';
 
 interface Props {
   entry: CollectionEntry<'patterns'>;
 }
 
 const { entry } = Astro.props;
-const refs = actsOnOf(entry.data.acts_on);
+const refs = CONCEPTS_ENABLED ? actsOnOf(entry.data.acts_on) : [];
 const concepts = refs.length > 0 ? await getCollection('concepts') : [];
 const titleOf = (id: string) => concepts.find((c) => c.id === id)?.data.title ?? humaniseSlug(id);
 ---
