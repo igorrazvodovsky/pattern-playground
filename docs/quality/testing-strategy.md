@@ -5,6 +5,7 @@
 ### Frontend (root directory)
 - `npm run lint` — run ESLint, after the repository checks in `scripts/` (seed staleness, plan promotions, style boundary, demo registry, world replay)
 - `npm run lint:styles` — run Stylelint
+- `npm run format` — format code with Prettier; `npm run format:check` lists files that differ. Markdown, MDX, and generated files are excluded (see `.prettierignore`)
 - `npm run test` — full gate: lint, Stylelint, and a one-shot run of every Vitest project (needs Chromium)
 - `npm run storybook` — start Storybook on port 6006
 - `npm run test-storybook` — the `storybook` project alone: CSF stories in headless Chromium

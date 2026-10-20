@@ -1,0 +1,20 @@
+# Prettier also reads .gitignore, so build output is already skipped.
+
+# Hand-written prose. Prettier's MDX parser predates MDX 3, and on plain
+# markdown it rewrites emphasis, list markers, and tables.
+**/*.md
+**/*.mdx
+
+# Generated files, compared byte-for-byte by their generators or lint checks.
+apps/patterns/src/data/pattern-graph.json
+apps/patterns/src/data/activity-levels.json
+packages/components/src/catalog/shadcn.generated.css
+shared/world/facts.json
+package-lock.json
+skills-lock.json
+
+# Agent and tool directories.
+.claude/
+.agents/
+.specify/
+.entire/
