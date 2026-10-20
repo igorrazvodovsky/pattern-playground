@@ -45,7 +45,7 @@
         "views-menu",
         "as-menu",
         "search",
-        "filter-add",
+        "filter-field",
         "clear-filters",
         "attributes-menu",
         "sort-menu",
@@ -157,40 +157,13 @@
       },
       "visible": { "$state": "/derived/show/search" }
     },
-    "filter-add": {
-      "type": "Stack",
-      "props": { "direction": "horizontal", "gap": "none" },
-      "visible": { "$state": "/derived/show/filter" },
-      "children": ["filter-button", "filter-popover"]
-    },
-    "filter-button": {
-      "type": "Button",
-      "props": {
-        "label": "Add a filter",
-        "icon": "filter",
-        "hideLabel": true,
-        "expanded": { "$state": "/filterOpen" }
-      },
-      "on": {
-        "press": {
-          "action": "setState",
-          "params": {
-            "statePath": "/filterOpen",
-            "value": { "$cond": { "$state": "/filterOpen" }, "$then": false, "$else": true }
-          }
-        }
-      }
-    },
-    "filter-popover": {
-      "type": "Popover",
-      "props": { "title": "Add a filter", "open": { "$bindState": "/filterOpen" } },
-      "children": ["filter-field"]
-    },
     "filter-field": {
       "type": "Combobox",
       "props": {
-        "label": "Filter by",
+        "label": "Add a filter",
         "hideLabel": true,
+        "popup": true,
+        "icon": "filter",
         "placeholder": {
           "$computed": "placeholder",
           "args": { "scope": { "$state": "/filterScope" } }
@@ -214,10 +187,10 @@
               }
             }
           },
-          { "action": "setState", "params": { "statePath": "/filterQuery", "value": "" } },
-          { "action": "setState", "params": { "statePath": "/filterOpen", "value": false } }
+          { "action": "setState", "params": { "statePath": "/filterQuery", "value": "" } }
         ]
-      }
+      },
+      "visible": { "$state": "/derived/show/filter" }
     },
     "clear-filters": {
       "type": "Button",

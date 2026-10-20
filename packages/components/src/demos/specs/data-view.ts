@@ -265,7 +265,6 @@ export function dataViewDemo({
         saved: saved.map(({ id, label: name }) => ({ id, label: name ?? id })),
         activeView: start.id,
         closed: [],
-        filterOpen: false,
         filterQuery: '',
         filterScope: null,
         filterEdit: null,

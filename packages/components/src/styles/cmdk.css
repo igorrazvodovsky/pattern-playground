@@ -52,6 +52,21 @@ pp-dialog [cmdk-root] {
   color: var(--c-bodyDimmed);
 }
 
+/* A line below the candidates, kept while empty so that it is announced when
+   it fills; until then it takes no space. */
+.combobox-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: var(--space-xs) var(--_cmdk-spacing);
+  font-size: smaller;
+}
+
+.combobox-status:empty {
+  padding: 0;
+}
+
 [cmdk-group-items] {
   margin-block: var(--_cmdk-spacing);
 }

@@ -6,7 +6,7 @@ import { describe, it, expect } from 'vitest';
 
 interface Element {
   type: string;
-  props?: { label?: unknown; removeLabel?: unknown; focusNext?: unknown };
+  props?: { label?: unknown; removeLabel?: unknown; focusNext?: unknown; popup?: unknown };
 }
 
 const dir = new URL('./', import.meta.url);
@@ -19,8 +19,12 @@ describe('focusNext', () => {
     };
     const buttons = Object.values(elements).filter((element) => element.type === 'Button');
     const tags = Object.values(elements).filter((element) => element.type === 'Tag');
+    // A Combobox with `popup` is opened from a button its label names.
+    const popups = Object.values(elements).filter(
+      (element) => element.type === 'Combobox' && element.props?.popup,
+    );
     const labels = new Set([
-      ...buttons.map((button) => button.props?.label),
+      ...[...buttons, ...popups].map((button) => button.props?.label),
       ...tags.map((tag) => tag.props?.removeLabel),
     ]);
     const named = [...buttons, ...tags]

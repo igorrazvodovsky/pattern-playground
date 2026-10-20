@@ -35,6 +35,7 @@ import {
   type Opener,
 } from '../../behaviour/dialog-focus';
 import { useCandidateList } from '../../behaviour/candidate-list';
+import { AnimateChangeInHeight } from '../../../components/filter/animate-change-in-height';
 import { useDisclosureOpen, useDisclosureState } from '../../behaviour/disclosure-state';
 import { attributeGlyphs } from '../../../utility/attribute-icons';
 import { BoardAxis } from '../../behaviour/board-axis';
@@ -1240,41 +1241,110 @@ export const { registry } = defineRegistry(catalog, {
     Combobox: ({ props, bindings, emit }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const [scope, setScope] = useBoundProp(props.scope, bindings?.scope);
-      const { open, groups, root, label, input, list, pick } = useCandidateList(
+      const dropdown = useRef<HTMLElement & { hide(): void; focusOnTrigger(): void }>(null);
+      // A pick empties the field only once `select` has run, since the
+      // handler's later steps can still read the picked value.
+      const picking = useRef(false);
+      const { open, groups, root, label, input, list, pick, close } = useCandidateList(
         props.groups,
         value ?? '',
         setValue,
-        () => emit('select'),
+        () => {
+          picking.current = true;
+          dropdown.current?.hide();
+          dropdown.current?.focusOnTrigger();
+          void Promise.resolve(emit('select')).finally(() => {
+            picking.current = false;
+            setValue('');
+          });
+        },
         { value: scope, set: setScope },
+        props.popup ?? false,
       );
+      // The bound setter is a new function on every render; the listeners
+      // below read the latest one.
+      const hidden = useRef(() => {});
+      hidden.current = () => {
+        close();
+        if (!picking.current) setValue('');
+      };
+      useEffect(() => {
+        const el = dropdown.current;
+        if (!el) return;
+        const onShow = (event: Event) => {
+          if (event.target === el) el.querySelector<HTMLElement>('[cmdk-input]')?.focus();
+        };
+        const onHide = (event: Event) => event.target === el && hidden.current();
+        el.addEventListener('pp-after-show', onShow);
+        el.addEventListener('pp-hide', onHide);
+        return () => {
+          el.removeEventListener('pp-after-show', onShow);
+          el.removeEventListener('pp-hide', onHide);
+        };
+      }, [props.popup]);
+      const status = props.status;
+      const purpose = status?.pending ? null : status?.purpose;
+      const field = (
+        <Combobox label={props.label} {...root}>
+          <ComboboxInput placeholder={props.placeholder ?? ''} {...input} />
+          {open && (
+            <ComboboxList {...list}>
+              {groups.map((group, index) => (
+                <ComboboxGroup key={group.heading ?? index} heading={group.heading ?? undefined}>
+                  {group.options.map((option) => (
+                    <ComboboxItem key={option.value} value={option.value} onSelect={pick}>
+                      {option.icon && (
+                        <iconify-icon
+                          slot="prefix"
+                          className="icon"
+                          icon={icons[option.icon]}
+                          aria-hidden="true"
+                        />
+                      )}
+                      {option.label}
+                    </ComboboxItem>
+                  ))}
+                </ComboboxGroup>
+              ))}
+            </ComboboxList>
+          )}
+          {status && (
+            <p className={clsx('combobox-status', purpose ?? 'muted')} role="status">
+              {status.text && status.pending && <pp-spinner aria-hidden="true" />}
+              {status.text && purpose && (
+                <iconify-icon className="icon" icon={purposeIcons[purpose]} aria-hidden="true" />
+              )}
+              {status.text}
+            </p>
+          )}
+        </Combobox>
+      );
+      if (!props.popup) {
+        return (
+          <div style={{ ...fieldLayout, justifyItems: 'start' }}>
+            {!props.hideLabel && <label {...label}>{props.label}</label>}
+            {field}
+          </div>
+        );
+      }
       return (
-        <div style={{ ...fieldLayout, justifyItems: 'start' }}>
-          {!props.hideLabel && <label {...label}>{props.label}</label>}
-          <Combobox label={props.label} {...root}>
-            <ComboboxInput placeholder={props.placeholder ?? ''} {...input} />
-            {open && (
-              <ComboboxList {...list}>
-                {groups.map((group, index) => (
-                  <ComboboxGroup key={group.heading ?? index} heading={group.heading ?? undefined}>
-                    {group.options.map((option) => (
-                      <ComboboxItem key={option.value} value={option.value} onSelect={pick}>
-                        {option.icon && (
-                          <iconify-icon
-                            slot="prefix"
-                            className="icon"
-                            icon={icons[option.icon]}
-                            aria-hidden="true"
-                          />
-                        )}
-                        {option.label}
-                      </ComboboxItem>
-                    ))}
-                  </ComboboxGroup>
-                ))}
-              </ComboboxList>
+        <pp-dropdown ref={dropdown} hoist placement="bottom-start">
+          <button type="button" className="button" data-slot="trigger">
+            {props.icon && (
+              <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />
             )}
-          </Combobox>
-        </div>
+            {props.hideLabel && props.icon ? (
+              <span className="visually-hidden">{props.label}</span>
+            ) : (
+              props.label
+            )}
+          </button>
+          <pp-popup>
+            <div>
+              <AnimateChangeInHeight>{field}</AnimateChangeInHeight>
+            </div>
+          </pp-popup>
+        </pp-dropdown>
       );
     },
 

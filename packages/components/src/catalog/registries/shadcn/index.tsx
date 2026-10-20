@@ -118,6 +118,7 @@ import {
 } from 'iconoteka-react';
 import { catalog, toastDuration, type iconNames, type purposes, type tones } from '../../catalog';
 import { useCandidateList } from '../../behaviour/candidate-list';
+import { AnimateChangeInHeight } from '../../../components/filter/animate-change-in-height';
 import {
   captureOpener,
   settleFocus,
@@ -1466,6 +1467,13 @@ export const { registry } = defineRegistry(catalog, {
     Combobox: ({ props, bindings, emit }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const [scope, setScope] = useBoundProp(props.scope, bindings?.scope);
+      const [shown, setShown] = useState(false);
+      const show = (next: boolean) => {
+        setShown(next);
+        if (next) return;
+        close();
+        setValue('');
+      };
       const {
         open,
         groups,
@@ -1474,63 +1482,135 @@ export const { registry } = defineRegistry(catalog, {
         input,
         list,
         pick,
-      } = useCandidateList(props.groups, value ?? '', setValue, () => emit('select'), {
-        value: scope,
-        set: setScope,
-      });
-      return (
-        <div className="flex w-full max-w-sm flex-col gap-2">
-          {!props.hideLabel && (
-            <label {...labelProps} className={label}>
-              {props.label}
-            </label>
+        close,
+      } = useCandidateList(
+        props.groups,
+        value ?? '',
+        setValue,
+        // Radix does not report a close it is told to make, so the field is
+        // emptied here, once `select` has run: its later steps can still read
+        // the picked value.
+        () => {
+          setShown(false);
+          void Promise.resolve(emit('select')).finally(() => setValue(''));
+        },
+        { value: scope, set: setScope },
+        props.popup ?? false,
+      );
+      const status = props.status;
+      const purpose = status?.pending ? null : status?.purpose;
+      const StatusIcon = status?.pending ? Loader75 : purpose ? purposeIcons[purpose] : null;
+      const field = (
+        <Command
+          label={props.label}
+          {...root}
+          className={clsx(
+            'flex w-full flex-col overflow-hidden bg-popover text-popover-foreground',
+            !props.popup &&
+              'rounded-md border shadow-xs focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/50',
           )}
-          <Command
-            label={props.label}
-            {...root}
-            className="flex w-full flex-col overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-xs focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/50"
-          >
-            <div className={clsx('flex h-9 items-center gap-2 px-3', open && 'border-b')}>
-              <Search aria-hidden="true" className="size-4 shrink-0 opacity-50" />
-              <Command.Input
-                placeholder={props.placeholder ?? undefined}
-                {...input}
-                className="flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden placeholder:text-muted-foreground"
-              />
-            </div>
-            {open && (
-              <Command.List
-                {...list}
-                className="max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto"
-              >
-                {groups.map((group, index) => (
-                  <Command.Group
-                    key={group.heading ?? index}
-                    heading={group.heading ?? undefined}
-                    className="overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground"
-                  >
-                    {group.options.map((option) => {
-                      const Icon = option.icon ? icons[option.icon] : null;
-                      return (
-                        <Command.Item
-                          key={option.value}
-                          value={option.value}
-                          onSelect={pick}
-                          className="relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground"
-                        >
-                          {Icon && (
-                            <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
-                          )}
-                          {option.label}
-                        </Command.Item>
-                      );
-                    })}
-                  </Command.Group>
-                ))}
-              </Command.List>
+        >
+          <div
+            className={clsx(
+              'flex h-9 items-center gap-2 px-3',
+              (open || status?.text) && 'border-b',
             )}
-          </Command>
-        </div>
+          >
+            <Search aria-hidden="true" className="size-4 shrink-0 opacity-50" />
+            <Command.Input
+              placeholder={props.placeholder ?? undefined}
+              {...input}
+              className="flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden placeholder:text-muted-foreground"
+            />
+          </div>
+          {open && (
+            <Command.List
+              {...list}
+              className="max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto"
+            >
+              {groups.map((group, index) => (
+                <Command.Group
+                  key={group.heading ?? index}
+                  heading={group.heading ?? undefined}
+                  className="overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground"
+                >
+                  {group.options.map((option) => {
+                    const Icon = option.icon ? icons[option.icon] : null;
+                    return (
+                      <Command.Item
+                        key={option.value}
+                        value={option.value}
+                        onSelect={pick}
+                        className="relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground"
+                      >
+                        {Icon && (
+                          <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
+                        )}
+                        {option.label}
+                      </Command.Item>
+                    );
+                  })}
+                </Command.Group>
+              ))}
+            </Command.List>
+          )}
+          {status && (
+            <p
+              role="status"
+              className={clsx(
+                'flex items-center gap-2 text-xs [&>svg]:size-3.5 [&>svg]:shrink-0',
+                status.text && 'px-3 py-2',
+                purpose ? purposeText[purpose] : 'text-muted-foreground',
+              )}
+            >
+              {status.text && StatusIcon && (
+                <StatusIcon
+                  aria-hidden="true"
+                  className={clsx(status.pending && 'animate-spin motion-reduce:animate-none')}
+                />
+              )}
+              {status.text}
+            </p>
+          )}
+        </Command>
+      );
+      if (!props.popup) {
+        return (
+          <div className="flex w-full max-w-sm flex-col gap-2">
+            {!props.hideLabel && (
+              <label {...labelProps} className={label}>
+                {props.label}
+              </label>
+            )}
+            {field}
+          </div>
+        );
+      }
+      const TriggerIcon = props.icon ? icons[props.icon] : null;
+      const iconOnly = Boolean(props.hideLabel && TriggerIcon);
+      return (
+        <Popover.Root open={shown} onOpenChange={show}>
+          <Popover.Trigger
+            aria-label={iconOnly ? props.label : undefined}
+            className={clsx(
+              buttonBase,
+              buttonVariant.default,
+              buttonSize[iconOnly ? 'icon' : 'default'],
+            )}
+          >
+            {TriggerIcon && <TriggerIcon aria-hidden="true" />}
+            {!iconOnly && props.label}
+          </Popover.Trigger>
+          <Popover.Portal container={scopedPortal()}>
+            <Popover.Content
+              align="start"
+              sideOffset={4}
+              className="z-50 w-72 max-w-[calc(100vw-2rem)] overflow-hidden rounded-md border bg-popover p-0 text-popover-foreground shadow-md outline-hidden"
+            >
+              <AnimateChangeInHeight>{field}</AnimateChangeInHeight>
+            </Popover.Content>
+          </Popover.Portal>
+        </Popover.Root>
       );
     },
 

@@ -21,6 +21,9 @@ export function useCandidateList(
   setValue: (value: string) => void,
   onPick: () => void,
   scope?: Scope,
+  // In a popup, Escape closes the popup rather than only the list, and the
+  // registry calls `close` when the popup closes.
+  inPopup = false,
 ) {
   const [wanted, setOpen] = useState(false);
   // Nothing is highlighted until the actor moves to a candidate, so Enter
@@ -62,6 +65,7 @@ export function useCandidateList(
   return {
     open,
     groups,
+    close,
     root: {
       shouldFilter: false,
       value: highlighted || (refusals % 2 ? ' ' : ''),
@@ -77,7 +81,7 @@ export function useCandidateList(
           scope.set(null);
         }
         // Goes no further, so a dialog or pane around the demo stays open.
-        if (event.key === 'Escape' && open) {
+        if (event.key === 'Escape' && open && !inPopup) {
           event.preventDefault();
           event.stopPropagation();
           close();

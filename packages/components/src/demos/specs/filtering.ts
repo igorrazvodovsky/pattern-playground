@@ -268,18 +268,19 @@ const field = ({ query, scope, interpretation }: Record<string, unknown>) => {
     });
   }
   const nothing = groups.every((group) => group.options.length === 0);
+  const note = asked?.error
+    ? `The model is not available. ${asked.error}`
+    : suggested.length > 0 && unread.length > 0
+      ? `Partly understood: could not read ${unread.join(', ')}.`
+      : nothing && typed.trim() !== '' && !asked
+        ? 'No immediate results found.'
+        : '';
   return {
     groups,
     placeholder: within ? `${label(within)}…` : 'Filter…',
-    pending: Boolean(asked?.pending),
-    note: asked?.error
-      ? `The model is not available. ${asked.error}`
-      : suggested.length > 0 && unread.length > 0
-        ? `Partly understood: could not read ${unread.join(', ')}.`
-        : nothing && typed.trim() !== '' && !asked
-          ? 'No immediate results found.'
-          : '',
-    failed: Boolean(asked?.error),
+    status: asked?.pending
+      ? { text: 'Thinking…', pending: true, purpose: null }
+      : { text: note, pending: null, purpose: asked?.error ? 'danger' : null },
   };
 };
 
@@ -370,7 +371,6 @@ export default {
     initialState: {
       filters,
       derived: derive({ filters }),
-      filterOpen: false,
       filterQuery: '',
       filterScope: null,
       filterEdit: null,

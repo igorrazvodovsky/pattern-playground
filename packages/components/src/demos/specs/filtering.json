@@ -76,7 +76,7 @@
     "filter-bar": {
       "type": "Stack",
       "props": { "direction": "horizontal", "gap": "s" },
-      "children": ["filters", "clear-filters", "filter-add"]
+      "children": ["filters", "clear-filters", "filter-field"]
     },
     "filters": {
       "type": "Stack",
@@ -137,43 +137,18 @@
         "press": { "action": "setState", "params": { "statePath": "/filters", "value": [] } }
       }
     },
-    "filter-add": {
-      "type": "Stack",
-      "props": { "direction": "horizontal", "gap": "none" },
-      "children": ["filter-button", "filter-popover"]
-    },
-    "filter-button": {
-      "type": "Button",
-      "props": {
-        "label": "Add a filter",
-        "icon": "filter",
-        "hideLabel": true,
-        "expanded": { "$state": "/filterOpen" }
-      },
-      "on": {
-        "press": {
-          "action": "setState",
-          "params": {
-            "statePath": "/filterOpen",
-            "value": { "$cond": { "$state": "/filterOpen" }, "$then": false, "$else": true }
-          }
-        }
-      }
-    },
-    "filter-popover": {
-      "type": "Popover",
-      "props": { "title": "Add a filter", "open": { "$bindState": "/filterOpen" } },
-      "children": ["filter-field", "filter-pending", "filter-note"]
-    },
     "filter-field": {
       "type": "Combobox",
       "props": {
-        "label": "Filter by",
+        "label": "Add a filter",
         "hideLabel": true,
+        "popup": true,
+        "icon": "filter",
         "placeholder": { "$state": "/field/placeholder" },
         "value": { "$bindState": "/filterQuery" },
         "scope": { "$bindState": "/filterScope" },
-        "groups": { "$state": "/field/groups" }
+        "groups": { "$state": "/field/groups" },
+        "status": { "$state": "/field/status" }
       },
       "on": {
         "select": [
@@ -200,27 +175,10 @@
             "action": "setState",
             "params": { "statePath": "/toasts", "value": { "$state": "/picked/toasts" } }
           },
-          { "action": "setState", "params": { "statePath": "/filterQuery", "value": "" } },
-          { "action": "setState", "params": { "statePath": "/filterOpen", "value": false } }
+          { "action": "setState", "params": { "statePath": "/filterQuery", "value": "" } }
         ]
       }
     },
-    "filter-pending": {
-      "type": "Text",
-      "props": { "text": "Thinking…", "pending": true, "size": "small" },
-      "visible": { "$state": "/field/pending" }
-    },
-    "filter-note": {
-      "type": "Text",
-      "props": {
-        "text": { "$state": "/field/note" },
-        "size": "small",
-        "muted": true,
-        "status": true,
-        "purpose": { "$cond": { "$state": "/field/failed" }, "$then": "danger", "$else": null }
-      }
-    },
-
     "tasks": {
       "type": "ItemGroup",
       "props": { "label": "Tasks" },

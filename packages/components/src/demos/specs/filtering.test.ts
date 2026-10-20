@@ -27,7 +27,10 @@ test('field offers the suggestion and a task', () => {
     query: 'urgent things due today for me',
     scope: null,
     interpretation,
-  }) as { groups: { heading: string; options: { label: string }[] }[]; note: string };
+  }) as {
+    groups: { heading: string; options: { label: string }[] }[];
+    status: { text: string };
+  };
   expect(field.groups.at(-1)).toEqual({
     heading: 'Suggested',
     options: [
@@ -35,7 +38,7 @@ test('field offers the suggestion and a task', () => {
       { value: 'create-task', label: 'Create a task from this', narrows: null, icon: null },
     ],
   });
-  expect(field.note).toBe('Partly understood: could not read for me.');
+  expect(field.status.text).toBe('Partly understood: could not read for me.');
 });
 
 test('pick applies suggestions and creates tasks', () => {
