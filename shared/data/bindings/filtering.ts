@@ -1,14 +1,5 @@
-import type {
-  AttributeBinding,
-  BoundEntity,
-  EntityBinding,
-} from './types';
-import {
-  findAttribute,
-  formatBoundValue,
-  getValueAtPath,
-  isNumericValueType,
-} from './access';
+import type { AttributeBinding, BoundEntity, EntityBinding } from './types';
+import { findAttribute, formatBoundValue, getValueAtPath, isNumericValueType } from './access';
 
 /**
  * Binding-driven filtering: the Meridian principle extended to the query
@@ -61,7 +52,7 @@ const NEGATING: ReadonlySet<FilterOperator> = new Set([
  */
 export function filterOperatorsFor(
   attribute: AttributeBinding | undefined,
-  selectedValues: string[] = []
+  selectedValues: string[] = [],
 ): FilterOperator[] {
   const multiple = selectedValues.length > 1;
   if (!attribute) {
@@ -76,9 +67,7 @@ export function filterOperatorsFor(
     return ['less than', 'greater than', 'between'];
   }
   if (attribute.valueType === 'date') {
-    return selectedValues.includes('in the past')
-      ? ['is', 'is not']
-      : ['before', 'after'];
+    return selectedValues.includes('in the past') ? ['is', 'is not'] : ['before', 'after'];
   }
   return multiple ? ['is any of', 'is not'] : ['is', 'is not'];
 }
@@ -86,7 +75,7 @@ export function filterOperatorsFor(
 /** The operator a freshly created clause starts with. */
 export function defaultFilterOperator(
   attribute: AttributeBinding | undefined,
-  value: string
+  value: string,
 ): FilterOperator {
   return filterOperatorsFor(attribute, [value])[0] ?? 'is';
 }
@@ -183,13 +172,12 @@ function matchesDate(raw: unknown, filter: AttributeFilter): boolean {
 function matchesList(
   raw: unknown[],
   filter: AttributeFilter,
-  attribute: AttributeBinding
+  attribute: AttributeBinding,
 ): boolean {
   const elements = raw.map((element) => String(element));
   // A value clicked in a view is the whole list as displayed; honour it too.
   const joined = formatBoundValue(raw, attribute);
-  const has = (candidate: string) =>
-    elements.includes(candidate) || candidate === joined;
+  const has = (candidate: string) => elements.includes(candidate) || candidate === joined;
   switch (filter.operator) {
     case 'include all of':
       return filter.values.every(has);
@@ -208,7 +196,7 @@ function matchesList(
 function matchesScalar(
   raw: unknown,
   filter: AttributeFilter,
-  attribute: AttributeBinding
+  attribute: AttributeBinding,
 ): boolean {
   const matches = filter.values.includes(formatBoundValue(raw, attribute));
   return NEGATING.has(filter.operator) ? !matches : matches;
@@ -223,17 +211,13 @@ function matchesScalar(
 export function matchesFilter(
   entity: BoundEntity,
   filter: AttributeFilter,
-  binding: EntityBinding
+  binding: EntityBinding,
 ): boolean {
   const attribute = findAttribute(binding, filter.path);
   const raw = getValueAtPath(entity, filter.path);
   if (!attribute) {
     const shown =
-      raw === undefined || raw === null
-        ? ''
-        : Array.isArray(raw)
-          ? raw.join(', ')
-          : String(raw);
+      raw === undefined || raw === null ? '' : Array.isArray(raw) ? raw.join(', ') : String(raw);
     const matches = filter.values.includes(shown);
     return NEGATING.has(filter.operator) ? !matches : matches;
   }
@@ -254,12 +238,10 @@ export function matchesFilter(
 export function applyFilters<T extends BoundEntity>(
   items: T[],
   filters: AttributeFilter[],
-  binding: EntityBinding
+  binding: EntityBinding,
 ): T[] {
   if (filters.length === 0) return items;
   return items.filter((item) =>
-    filters.every(
-      (filter) => filter.values.length === 0 || matchesFilter(item, filter, binding)
-    )
+    filters.every((filter) => filter.values.length === 0 || matchesFilter(item, filter, binding)),
   );
 }

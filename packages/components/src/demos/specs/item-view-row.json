@@ -26,6 +26,10 @@
     "condition": { "type": "TableCell", "props": { "text": { "$item": "condition" } } },
     "price": { "type": "TableCell", "props": { "text": { "$item": "price" }, "align": "end" } },
     "status": { "type": "TableCell", "props": { "text": null }, "children": ["status-badge"] },
-    "status-badge": { "type": "Badge", "props": { "text": { "$item": "status" } }, "visible": { "$item": "status" } }
+    "status-badge": {
+      "type": "Badge",
+      "props": { "text": { "$item": "status" } },
+      "visible": { "$item": "status" }
+    }
   }
 }

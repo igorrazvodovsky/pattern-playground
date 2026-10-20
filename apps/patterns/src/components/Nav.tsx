@@ -37,13 +37,19 @@ interface NavNodeProps {
 }
 
 const Chevron = () =>
-  React.createElement('iconify-icon', { icon: 'ik:chevron-down', className: 'sidebar-collapsible-chevron' });
+  React.createElement('iconify-icon', {
+    icon: 'ik:chevron-down',
+    className: 'sidebar-collapsible-chevron',
+  });
 
 function NavNode({ node, currentPath, isOpen, setOpen, hydrated }: NavNodeProps) {
   if (isBranch(node)) {
     return (
       <SidebarMenuItem>
-        <Collapsible.Root open={hydrated && isOpen(node.label)} onOpenChange={(open) => setOpen(node.label, open)}>
+        <Collapsible.Root
+          open={hydrated && isOpen(node.label)}
+          onOpenChange={(open) => setOpen(node.label, open)}
+        >
           <SidebarMenuButton
             render={<Collapsible.Trigger />}
             className="sidebar-collapsible-group-trigger"
@@ -99,7 +105,8 @@ function onNavPointerOver(event: React.MouseEvent<HTMLElement>) {
 // than relying on <pagefind-modal-trigger>, whose binding goes stale across
 // View Transitions swaps. See Base.astro for the matching ⌘K hotkey.
 function openSearch() {
-  const modal = document.querySelector('pagefind-modal') as (HTMLElement & { open?: () => void }) | null;
+  const modal = document.querySelector('pagefind-modal') as
+    (HTMLElement & { open?: () => void }) | null;
   modal?.open?.();
 }
 
@@ -152,13 +159,27 @@ const CORNER = {
   concepts: { word: 'concept', home: '/concepts', homeLabel: 'Overview' },
 } as const;
 
-function CornerLink({ href, icon, label, external }: { href: string; icon: string; label: string; external?: boolean }) {
+function CornerLink({
+  href,
+  icon,
+  label,
+  external,
+}: {
+  href: string;
+  icon: string;
+  label: string;
+  external?: boolean;
+}) {
   return (
     <SidebarMenuItem>
       <SidebarMenuButton render={<a href={href} />} tooltip={label}>
         {React.createElement('iconify-icon', { icon })}
         <span>{label}</span>
-        {external && React.createElement('iconify-icon', { icon: 'ik:open-in-new-window', className: 'muted' })}
+        {external &&
+          React.createElement('iconify-icon', {
+            icon: 'ik:open-in-new-window',
+            className: 'muted',
+          })}
       </SidebarMenuButton>
     </SidebarMenuItem>
   );
@@ -209,7 +230,8 @@ export function Nav({ shared, patterns, sequences, concepts, corner = 'patterns'
                   <iconify-icon className="icon" icon="ik:search" />
                   Search
                   <span className="muted" aria-hidden="true">
-                    <kbd>⌘</kbd><kbd>K</kbd>
+                    <kbd>⌘</kbd>
+                    <kbd>K</kbd>
                   </span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -223,16 +245,18 @@ export function Nav({ shared, patterns, sequences, concepts, corner = 'patterns'
                   {homeLabel}
                 </SidebarMenuButton>
               </SidebarMenuItem>
-              {groups.filter((group) => isBranch(group) && group.children.length > 0).map((group) => (
-                <NavNode
-                  key={group.label}
-                  node={group}
-                  currentPath={currentPath}
-                  isOpen={isOpen}
-                  setOpen={setOpen}
-                  hydrated={hydrated}
-                />
-              ))}
+              {groups
+                .filter((group) => isBranch(group) && group.children.length > 0)
+                .map((group) => (
+                  <NavNode
+                    key={group.label}
+                    node={group}
+                    currentPath={currentPath}
+                    isOpen={isOpen}
+                    setOpen={setOpen}
+                    hydrated={hydrated}
+                  />
+                ))}
             </SidebarMenu>
           </SidebarGroup>
         </SidebarContent>
@@ -241,7 +265,9 @@ export function Nav({ shared, patterns, sequences, concepts, corner = 'patterns'
         <SidebarFooter>
           <SidebarMenu>
             {corner !== 'patterns' && <CornerLink href="/" icon="ik:sitemap" label="Patterns" />}
-            {CONCEPTS_ENABLED && corner !== 'concepts' && <CornerLink href="/concepts" icon="ik:base-shapes" label="Concepts" />}
+            {CONCEPTS_ENABLED && corner !== 'concepts' && (
+              <CornerLink href="/concepts" icon="ik:base-shapes" label="Concepts" />
+            )}
             <CornerLink href={STORYBOOK_URL} icon="ik:puzzle" label="Components" external />
           </SidebarMenu>
         </SidebarFooter>

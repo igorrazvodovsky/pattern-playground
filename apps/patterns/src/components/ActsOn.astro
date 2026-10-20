@@ -20,6 +20,7 @@ const refs = CONCEPTS_ENABLED ? actsOnOf(entry.data.acts_on) : [];
 const concepts = refs.length > 0 ? await getCollection('concepts') : [];
 const titleOf = (id: string) => concepts.find((c) => c.id === id)?.data.title ?? humaniseSlug(id);
 ---
+
 {refs.length > 0 && (
   <p class="muted" data-pagefind-ignore>
     Acts on{' '}
@@ -27,7 +28,12 @@ const titleOf = (id: string) => concepts.find((c) => c.id === id)?.data.title ??
       <>
         {i > 0 && '; '}
         <a href={panePath('concept', ref.concept)}>{titleOf(ref.concept)}</a>
-        {ref.note && <Fragment> (<Label text={ref.note} />)</Fragment>}
+        {ref.note && (
+          <Fragment>
+            {' '}
+            (<Label text={ref.note} />)
+          </Fragment>
+        )}
       </>
     ))}
   </p>

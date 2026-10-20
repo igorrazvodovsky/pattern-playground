@@ -4,8 +4,18 @@
 // one vocabulary.
 
 import {
-  userViews, projectViews, rawTaskViews, documentViews, commentViews, quoteViews, worldActions,
-  materialViews, componentViews, productViews, serviceViews, worldRules,
+  userViews,
+  projectViews,
+  rawTaskViews,
+  documentViews,
+  commentViews,
+  quoteViews,
+  worldActions,
+  materialViews,
+  componentViews,
+  productViews,
+  serviceViews,
+  worldRules,
 } from './world-views';
 import type { ActionRecord, ParticipantValue, Rule } from './action-types';
 
@@ -14,7 +24,10 @@ export const rules: Rule[] = worldRules;
 
 /** Cataloguing is bookkeeping on its own strand of the log, not workspace activity. */
 const catalogueActions = new Set([
-  'catalogueMaterial', 'catalogueComponent', 'listProduct', 'catalogueService',
+  'catalogueMaterial',
+  'catalogueComponent',
+  'listProduct',
+  'catalogueService',
 ]);
 
 /** So are the ledger and the lifecycle assessment: neither is anyone's doing. */
@@ -22,34 +35,37 @@ const occurrenceActions = new Set(['recordTransaction', 'recordFlow']);
 
 /** The log without genesis, presence, or bookkeeping — what a feed shows. */
 export const feedActions = actions.filter(
-  action => action.name !== 'joinWorkspace' && action.name !== 'signIn' &&
-    !catalogueActions.has(action.name) && !occurrenceActions.has(action.name)
+  (action) =>
+    action.name !== 'joinWorkspace' &&
+    action.name !== 'signIn' &&
+    !catalogueActions.has(action.name) &&
+    !occurrenceActions.has(action.name),
 );
 
-export const getActionById = (id: string) =>
-  actions.find(action => action.id === id);
+export const getActionById = (id: string) => actions.find((action) => action.id === id);
 
 export const getActionsByActor = (actorId: string) =>
-  actions.filter(action => action.actor === actorId);
+  actions.filter((action) => action.actor === actorId);
 
 /** Actions in which the individual participates — as actor, input, output, or fact subject/object. */
 export const getActionsAbout = (id: string) =>
-  actions.filter(action =>
-    action.actor === id ||
-    Object.values(action.input).includes(id) ||
-    Object.values(action.output ?? {}).includes(id) ||
-    [...(action.adds ?? []), ...(action.removes ?? [])].some(
-      fact => fact.subject === id || fact.object === id
-    )
+  actions.filter(
+    (action) =>
+      action.actor === id ||
+      Object.values(action.input).includes(id) ||
+      Object.values(action.output ?? {}).includes(id) ||
+      [...(action.adds ?? []), ...(action.removes ?? [])].some(
+        (fact) => fact.subject === id || fact.object === id,
+      ),
   );
 
 export const getConsequencesOf = (actionId: string) =>
-  actions.filter(action => action.causedBy?.includes(actionId));
+  actions.filter((action) => action.causedBy?.includes(actionId));
 
 export const getCausesOf = (action: ActionRecord) =>
   (action.causedBy ?? []).map(getActionById).filter((a): a is ActionRecord => a !== undefined);
 
-export const getRuleById = (id: string) => rules.find(rule => rule.id === id);
+export const getRuleById = (id: string) => rules.find((rule) => rule.id === id);
 
 export interface ActionProvenance {
   /** The rule that licensed the action. */
@@ -69,23 +85,23 @@ export const provenanceOf = (action: ActionRecord): ActionProvenance | undefined
 };
 
 const userName = (id: ParticipantValue | undefined) =>
-  userViews.find(user => user.id === id)?.name;
+  userViews.find((user) => user.id === id)?.name;
 
 /** Works across every kind the world holds. */
 export const nameOf = (id: ParticipantValue | undefined): string => {
   if (typeof id !== 'string') return String(id ?? '');
   const named =
-    userViews.find(user => user.id === id)?.name ??
-    projectViews.find(project => project.id === id)?.name ??
-    documentViews.find(document => document.id === id)?.name ??
-    rawTaskViews.find(task => task.id === id)?.title ??
-    quoteViews.find(quote => quote.id === id)?.name ??
-    materialViews.find(material => material.id === id)?.name ??
-    componentViews.find(component => component.id === id)?.name ??
-    productViews.find(product => product.id === id)?.name ??
-    serviceViews.find(service => service.id === id)?.name;
+    userViews.find((user) => user.id === id)?.name ??
+    projectViews.find((project) => project.id === id)?.name ??
+    documentViews.find((document) => document.id === id)?.name ??
+    rawTaskViews.find((task) => task.id === id)?.title ??
+    quoteViews.find((quote) => quote.id === id)?.name ??
+    materialViews.find((material) => material.id === id)?.name ??
+    componentViews.find((component) => component.id === id)?.name ??
+    productViews.find((product) => product.id === id)?.name ??
+    serviceViews.find((service) => service.id === id)?.name;
   if (named) return named;
-  const comment = commentViews.find(c => c.id === id);
+  const comment = commentViews.find((c) => c.id === id);
   if (comment) return `${userName(comment.authorId) ?? 'a'}’s comment`;
   return id;
 };
@@ -145,7 +161,7 @@ export const describeAction = (action: ActionRecord): ActionDescription => {
         return `resolved the thread on ${nameOf(input.commentId)}`;
       case 'notify': {
         // Comment labels read as phrases (“Fatima’s comment”); named artifacts get quotes.
-        const isComment = commentViews.some(c => c.id === input.itemId);
+        const isComment = commentViews.some((c) => c.id === input.itemId);
         const item = isComment ? nameOf(input.itemId) : `“${nameOf(input.itemId)}”`;
         return `notified ${nameOf(input.userId)} about ${item}`;
       }

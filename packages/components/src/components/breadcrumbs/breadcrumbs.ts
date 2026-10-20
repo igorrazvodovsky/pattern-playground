@@ -38,11 +38,13 @@ export class PpBreadcrumbs extends Elena(HTMLElement) {
   }
 
   private emitNavigation(value: string) {
-    this.dispatchEvent(new CustomEvent('pp-breadcrumb-navigate', {
-      bubbles: true,
-      composed: true,
-      detail: { value },
-    }));
+    this.dispatchEvent(
+      new CustomEvent('pp-breadcrumb-navigate', {
+        bubbles: true,
+        composed: true,
+        detail: { value },
+      }),
+    );
   }
 
   private handleClick = (event: Event) => {

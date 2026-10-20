@@ -22,7 +22,9 @@ const listPages = process.argv.includes('--pages');
 const registrySource = readFileSync(registryFile, 'utf8');
 // Entry names of one `const <name> … = { … };` map in the registry.
 const mapNames = (name) => {
-  const block = registrySource.match(new RegExp(`const ${name}\\b[^\\n]*= \\{\\n([\\s\\S]*?)\\n\\};`))?.[1] ?? '';
+  const block =
+    registrySource.match(new RegExp(`const ${name}\\b[^\\n]*= \\{\\n([\\s\\S]*?)\\n\\};`))?.[1] ??
+    '';
   return new Set([...block.matchAll(/^\s*'([a-z0-9-]+)':\s*\(\)\s*=>/gm)].map((m) => m[1]));
 };
 const registryNames = mapNames('demos');
@@ -40,7 +42,9 @@ let failures = 0;
 const usedNames = new Set();
 const demoPages = [];
 
-for (const file of readdirSync(contentDir).filter((f) => f.endsWith('.mdx')).sort()) {
+for (const file of readdirSync(contentDir)
+  .filter((f) => f.endsWith('.mdx'))
+  .sort()) {
   const rel = path.relative(root, path.join(contentDir, file));
   // Strip YAML frontmatter: a comment there may mention component tags
   // (e.g. form.mdx's chart-index note) without being a mount.
@@ -64,7 +68,9 @@ for (const file of readdirSync(contentDir).filter((f) => f.endsWith('.mdx')).sor
   for (const spec of specs) {
     usedNames.add(`spec:${spec}`);
     if (!specNames.has(spec)) {
-      console.error(`FAIL ${rel}: demo spec "${spec}" has no ${spec}.json or ${spec}.ts in packages/components/src/demos/specs/`);
+      console.error(
+        `FAIL ${rel}: demo spec "${spec}" has no ${spec}.json or ${spec}.ts in packages/components/src/demos/specs/`,
+      );
       failures++;
     }
   }

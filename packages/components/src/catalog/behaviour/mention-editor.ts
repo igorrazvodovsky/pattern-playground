@@ -22,19 +22,29 @@ export type KindCandidate = { id: string; label: string; narrows: true; icon?: C
 export type MentionCandidate = (MentionPart & { icon?: CandidateIcon }) | KindCandidate;
 export type MentionGroup = { heading: string | null; options: MentionCandidate[] };
 
-export const isKind = (candidate: MentionCandidate): candidate is KindCandidate => 'narrows' in candidate;
-export const isSlot = (part: Paragraph[number]): part is SlotPart => typeof part !== 'string' && 'slot' in part;
+export const isKind = (candidate: MentionCandidate): candidate is KindCandidate =>
+  'narrows' in candidate;
+export const isSlot = (part: Paragraph[number]): part is SlotPart =>
+  typeof part !== 'string' && 'slot' in part;
 
 const toDoc = (paragraphs: Paragraph[]): JSONContent => ({
   type: 'doc',
-  content: paragraphs.map(parts => {
+  content: paragraphs.map((parts) => {
     const content = parts
-      .filter(part => typeof part !== 'string' || part.length > 0)
-      .map(part =>
+      .filter((part) => typeof part !== 'string' || part.length > 0)
+      .map((part) =>
         typeof part === 'string'
           ? { type: 'text', text: part }
           : isSlot(part)
-            ? { type: 'slot', attrs: { slot: part.slot, label: part.label, required: part.required, value: part.value } }
+            ? {
+                type: 'slot',
+                attrs: {
+                  slot: part.slot,
+                  label: part.label,
+                  required: part.required,
+                  value: part.value,
+                },
+              }
             : { type: 'mention', attrs: { id: part.id, label: part.label, type: part.type } },
       );
     return content.length > 0 ? { type: 'paragraph', content } : { type: 'paragraph' };
@@ -42,7 +52,7 @@ const toDoc = (paragraphs: Paragraph[]): JSONContent => ({
 });
 
 const fromDoc = (doc: JSONContent): Paragraph[] =>
-  (doc.content ?? []).map(paragraph => {
+  (doc.content ?? []).map((paragraph) => {
     const parts: Paragraph = [];
     for (const node of paragraph.content ?? []) {
       if (node.type === 'mention') {
@@ -89,7 +99,9 @@ type Options = {
 
 export function useMentionEditor(options: Options) {
   const listId = useId();
-  const [host] = useState(() => Object.assign(document.createElement('div'), { className: options.listHostClass }));
+  const [host] = useState(() =>
+    Object.assign(document.createElement('div'), { className: options.listHostClass }),
+  );
   const [active, setActive] = useState<{
     query: string;
     command: (mention: MentionPart) => void;
@@ -97,9 +109,9 @@ export function useMentionEditor(options: Options) {
   } | null>(null);
   const [wanted, setHighlighted] = useState('');
 
-  const groups = options.groups.filter(group => group.options.length > 0);
-  const flat = groups.flatMap(group => group.options);
-  const highlighted = flat.some(option => option.id === wanted) ? wanted : (flat[0]?.id ?? '');
+  const groups = options.groups.filter((group) => group.options.length > 0);
+  const flat = groups.flatMap((group) => group.options);
+  const highlighted = flat.some((option) => option.id === wanted) ? wanted : (flat[0]?.id ?? '');
   const open = active !== null && groups.length > 0;
   const optionId = (option: MentionCandidate) => `${listId}-${option.id}`;
 
@@ -130,7 +142,7 @@ export function useMentionEditor(options: Options) {
       return true;
     }
     if (!open || flat.length === 0) return false;
-    const index = flat.findIndex(option => option.id === highlighted);
+    const index = flat.findIndex((option) => option.id === highlighted);
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       const step = event.key === 'ArrowDown' ? 1 : -1;
       setHighlighted(flat[(index + step + flat.length) % flat.length].id);
@@ -153,14 +165,19 @@ export function useMentionEditor(options: Options) {
             // Not data-type: Mention marks its own nodes with that, and reads
             // back only spans that carry it, so a copied mention would paste
             // as text.
-            parseHTML: element => element.getAttribute('data-mention-type'),
-            renderHTML: attributes => (attributes.type ? { 'data-mention-type': attributes.type } : {}),
+            parseHTML: (element) => element.getAttribute('data-mention-type'),
+            renderHTML: (attributes) =>
+              attributes.type ? { 'data-mention-type': attributes.type } : {},
           },
         };
       },
       addNodeView() {
         return ({ node }) => {
-          const mention = { id: String(node.attrs.id), label: String(node.attrs.label), type: String(node.attrs.type) };
+          const mention = {
+            id: String(node.attrs.id),
+            label: String(node.attrs.label),
+            type: String(node.attrs.type),
+          };
           // A span rather than a button, so that a long name wraps with the line.
           const dom = Object.assign(document.createElement('span'), {
             className: live.current.options.mentionClass,
@@ -171,12 +188,16 @@ export function useMentionEditor(options: Options) {
           dom.setAttribute('role', 'button');
           dom.setAttribute('aria-haspopup', 'dialog');
           dom.addEventListener('click', () => live.current.options.onOpen(mention));
-          dom.addEventListener('keydown', event => {
+          dom.addEventListener('keydown', (event) => {
             if (event.key !== 'Enter' && event.key !== ' ') return;
             event.preventDefault();
             live.current.options.onOpen(mention);
           });
-          return { dom, stopEvent: event => dom.contains(event.target as Node), ignoreMutation: () => true };
+          return {
+            dom,
+            stopEvent: (event) => dom.contains(event.target as Node),
+            ignoreMutation: () => true,
+          };
         };
       },
     });
@@ -193,88 +214,114 @@ export function useMentionEditor(options: Options) {
       addAttributes: () => ({
         slot: {
           default: '',
-          parseHTML: element => element.getAttribute('data-template-slot') ?? '',
-          renderHTML: attributes => ({ 'data-template-slot': attributes.slot }),
+          parseHTML: (element) => element.getAttribute('data-template-slot') ?? '',
+          renderHTML: (attributes) => ({ 'data-template-slot': attributes.slot }),
         },
         label: {
           default: '',
-          parseHTML: element => element.getAttribute('data-label') ?? '',
-          renderHTML: attributes => ({ 'data-label': attributes.label }),
+          parseHTML: (element) => element.getAttribute('data-label') ?? '',
+          renderHTML: (attributes) => ({ 'data-label': attributes.label }),
         },
         required: {
           default: null,
-          parseHTML: element => {
+          parseHTML: (element) => {
             const required = element.getAttribute('data-required');
             return required === null ? null : required === 'true';
           },
-          renderHTML: attributes => (attributes.required === null ? {} : { 'data-required': String(attributes.required) }),
+          renderHTML: (attributes) =>
+            attributes.required === null ? {} : { 'data-required': String(attributes.required) },
         },
         value: {
           default: '',
-          parseHTML: element => element.getAttribute('data-value') ?? '',
-          renderHTML: attributes => ({ 'data-value': attributes.value }),
+          parseHTML: (element) => element.getAttribute('data-value') ?? '',
+          renderHTML: (attributes) => ({ 'data-value': attributes.value }),
         },
       }),
       parseHTML: () => [{ tag: 'span[data-template-slot]' }],
-      renderHTML: ({ node, HTMLAttributes }) => ['span', HTMLAttributes, String(node.attrs.value || node.attrs.label)],
+      renderHTML: ({ node, HTMLAttributes }) => [
+        'span',
+        HTMLAttributes,
+        String(node.attrs.value || node.attrs.label),
+      ],
       renderText: ({ node }) => String(node.attrs.value),
-      addNodeView: () => ({ node, editor, getPos }) => {
-        const { slotClass = '', filledSlotClass = '', slotInputClass = '' } = live.current.options;
-        const dom = Object.assign(document.createElement('span'), { className: slotClass, contentEditable: 'false' });
-        const input = Object.assign(document.createElement('input'), {
-          type: 'text',
-          className: slotInputClass,
-          placeholder: String(node.attrs.label),
-          required: Boolean(node.attrs.required),
-        });
-        input.setAttribute('aria-label', String(node.attrs.label));
-        dom.append(input);
-        const show = (value: string) => {
-          if (input.value !== value) input.value = value;
-          input.size = Math.max((value || input.placeholder).length, 2);
-          for (const name of filledSlotClass.split(' ').filter(Boolean)) dom.classList.toggle(name, value.length > 0);
-        };
-        show(String(node.attrs.value));
+      addNodeView:
+        () =>
+        ({ node, editor, getPos }) => {
+          const {
+            slotClass = '',
+            filledSlotClass = '',
+            slotInputClass = '',
+          } = live.current.options;
+          const dom = Object.assign(document.createElement('span'), {
+            className: slotClass,
+            contentEditable: 'false',
+          });
+          const input = Object.assign(document.createElement('input'), {
+            type: 'text',
+            className: slotInputClass,
+            placeholder: String(node.attrs.label),
+            required: Boolean(node.attrs.required),
+          });
+          input.setAttribute('aria-label', String(node.attrs.label));
+          dom.append(input);
+          const show = (value: string) => {
+            if (input.value !== value) input.value = value;
+            input.size = Math.max((value || input.placeholder).length, 2);
+            for (const name of filledSlotClass.split(' ').filter(Boolean))
+              dom.classList.toggle(name, value.length > 0);
+          };
+          show(String(node.attrs.value));
 
-        input.addEventListener('input', () => {
-          const pos = getPos();
-          if (pos === undefined) return;
-          editor.view.dispatch(editor.view.state.tr.setNodeAttribute(pos, 'value', input.value));
-        });
-        const leave = () => {
-          const pos = getPos();
-          if (pos !== undefined) editor.chain().focus().setTextSelection(pos + 1).run();
-        };
-        input.addEventListener('keydown', event => {
-          if (event.key === 'Escape') {
-            event.preventDefault();
-            event.stopPropagation();
-            leave();
-          } else if (event.key === 'Enter' && !event.isComposing) {
-            event.preventDefault();
-            const inputs = [...editor.view.dom.querySelectorAll<HTMLInputElement>('[data-slot-input]')];
-            const next = inputs[inputs.indexOf(input) + 1];
-            if (next) next.focus();
-            else leave();
-          }
-        });
-        input.dataset.slotInput = '';
-
-        return {
-          dom,
-          update: updated => {
-            if (updated.type.name !== 'slot') return false;
-            const { slot, label, required } = node.attrs;
-            if (updated.attrs.slot !== slot || updated.attrs.label !== label || updated.attrs.required !== required) {
-              return false;
+          input.addEventListener('input', () => {
+            const pos = getPos();
+            if (pos === undefined) return;
+            editor.view.dispatch(editor.view.state.tr.setNodeAttribute(pos, 'value', input.value));
+          });
+          const leave = () => {
+            const pos = getPos();
+            if (pos !== undefined)
+              editor
+                .chain()
+                .focus()
+                .setTextSelection(pos + 1)
+                .run();
+          };
+          input.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+              event.preventDefault();
+              event.stopPropagation();
+              leave();
+            } else if (event.key === 'Enter' && !event.isComposing) {
+              event.preventDefault();
+              const inputs = [
+                ...editor.view.dom.querySelectorAll<HTMLInputElement>('[data-slot-input]'),
+              ];
+              const next = inputs[inputs.indexOf(input) + 1];
+              if (next) next.focus();
+              else leave();
             }
-            show(String(updated.attrs.value));
-            return true;
-          },
-          stopEvent: event => dom.contains(event.target as Node),
-          ignoreMutation: () => true,
-        };
-      },
+          });
+          input.dataset.slotInput = '';
+
+          return {
+            dom,
+            update: (updated) => {
+              if (updated.type.name !== 'slot') return false;
+              const { slot, label, required } = node.attrs;
+              if (
+                updated.attrs.slot !== slot ||
+                updated.attrs.label !== label ||
+                updated.attrs.required !== required
+              ) {
+                return false;
+              }
+              show(String(updated.attrs.value));
+              return true;
+            },
+            stopEvent: (event) => dom.contains(event.target as Node),
+            ignoreMutation: () => true,
+          };
+        },
     });
 
   // So that state arriving back is not taken for a change from elsewhere.
@@ -314,15 +361,19 @@ export function useMentionEditor(options: Options) {
             live.current.options.setQuery(props.query);
             setActive({
               query: props.query,
-              command: mention => props.command(mention),
+              command: (mention) => props.command(mention),
               clear: () => {
                 if (props.range.to <= props.range.from + 1) return;
-                props.editor.chain().focus().deleteRange({ from: props.range.from + 1, to: props.range.to }).run();
+                props.editor
+                  .chain()
+                  .focus()
+                  .deleteRange({ from: props.range.from + 1, to: props.range.to })
+                  .run();
               },
             });
           };
           return {
-            onStart: props => {
+            onStart: (props) => {
               follow(props);
               live.current.options.portal().append(host);
               unmount = props.mount(host);
@@ -350,11 +401,11 @@ export function useMentionEditor(options: Options) {
     content: toDoc(options.content),
     editorProps: {
       attributes: {
-        role: 'textbox',
+        'role': 'textbox',
         'aria-multiline': 'true',
         'aria-label': options.label,
         'aria-autocomplete': 'list',
-        class: options.editorClass,
+        'class': options.editorClass,
       },
     },
     onUpdate: ({ editor }) => {
@@ -395,7 +446,8 @@ export function useMentionEditor(options: Options) {
   }, [dom, open, highlighted, listId]);
 
   useEffect(() => {
-    if (open && highlighted) document.getElementById(`${listId}-${highlighted}`)?.scrollIntoView({ block: 'nearest' });
+    if (open && highlighted)
+      document.getElementById(`${listId}-${highlighted}`)?.scrollIntoView({ block: 'nearest' });
   }, [open, highlighted, listId]);
 
   useEffect(
@@ -412,15 +464,15 @@ export function useMentionEditor(options: Options) {
     open,
     groups,
     host,
-    list: { id: listId, role: 'listbox', 'aria-label': options.label },
+    list: { 'id': listId, 'role': 'listbox', 'aria-label': options.label },
     option: (option: MentionCandidate) => ({
-      id: optionId(option),
-      role: 'option',
+      'id': optionId(option),
+      'role': 'option',
       'aria-selected': option.id === highlighted,
       // Otherwise pressing the list takes focus from the editor and ends the mention.
-      onMouseDown: (event: MouseEvent) => event.preventDefault(),
-      onPointerMove: () => setHighlighted(option.id),
-      onClick: () => pick(option),
+      'onMouseDown': (event: MouseEvent) => event.preventDefault(),
+      'onPointerMove': () => setHighlighted(option.id),
+      'onClick': () => pick(option),
     }),
   };
 }

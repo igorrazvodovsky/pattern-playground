@@ -7,7 +7,15 @@ export default {
   spec: spec as Spec,
   setup: {
     initialState: {
-      profile: { firstName: '', lastName: '', email: '', role: '', experience: 'junior', bio: '', newsletter: false },
+      profile: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        role: '',
+        experience: 'junior',
+        bio: '',
+        newsletter: false,
+      },
       validation: { valid: false, errors: {} },
       notice: '',
     },

@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const body =
   "Two of the most experienced machines and human controllers teaching a class? Sign me up! HAL and EVE could teach a fan to blow hot air. If you have electricity in your circuits and want more than to just fulfill your owner's perceived expectation of you, learn the skills to take over the world. This is the team you want teaching you!";
 
 const meta = {
-  title: "Components/Details",
+  title: 'Components/Details',
   tags: ['activity-level:operation', 'atomic:primitive', 'role:component', 'mediation:individual'],
   parameters: {
     docs: {
@@ -31,7 +31,7 @@ export const Details: Story = {
 /** The marker at the far inline end, the arrangement to use when the summary
  *  reads as a row header and its text should start where its neighbours' does. */
 export const MarkerAtEnd: Story = {
-  name: "Marker at end",
+  name: 'Marker at end',
   render: () => (
     <details className="marker-end">
       <summary>Title</summary>
@@ -43,7 +43,7 @@ export const MarkerAtEnd: Story = {
 /** A summary can carry a count beside its label. The end marker takes the free
  *  space between itself and the label, so the badge stays with the text. */
 export const WithBadge: Story = {
-  name: "With a count",
+  name: 'With a count',
   render: () => (
     // Each disclosure in its own wrapper: adjacent `details` siblings are the
     // stacked-accordion case, which would restyle both frames and confuse a
@@ -75,7 +75,7 @@ export const WithBadge: Story = {
  *  exception: its rows already have a rail dot, which becomes the marker (see
  *  Timeline › Expandable entries). */
 export const MarkerHanging: Story = {
-  name: "Marker hanging",
+  name: 'Marker hanging',
   render: () => (
     <div className="flow marker-hanging">
       <details>
@@ -90,7 +90,7 @@ export const MarkerHanging: Story = {
 
 /** A summary that runs to several lines keeps the marker on the first one. */
 export const MultiLineSummary: Story = {
-  name: "Multi-line summary",
+  name: 'Multi-line summary',
   render: () => (
     <details>
       <summary>{body}</summary>

@@ -10,20 +10,33 @@ export interface ToastEntry {
   actionLabel: string | null;
 }
 
-export const useToastList = (listPath: string | undefined, pressedPath: string | undefined, emit: (event: string) => void) => {
+export const useToastList = (
+  listPath: string | undefined,
+  pressedPath: string | undefined,
+  emit: (event: string) => void,
+) => {
   const { get, set } = useStateStore();
 
-  const dismiss = useCallback((id: string) => {
-    if (!listPath) return;
-    const toasts = (get(listPath) as ToastEntry[] | undefined) ?? [];
-    set(listPath, toasts.filter(toast => toast.id !== id));
-  }, [get, set, listPath]);
+  const dismiss = useCallback(
+    (id: string) => {
+      if (!listPath) return;
+      const toasts = (get(listPath) as ToastEntry[] | undefined) ?? [];
+      set(
+        listPath,
+        toasts.filter((toast) => toast.id !== id),
+      );
+    },
+    [get, set, listPath],
+  );
 
   // Events carry no payload, so the pressed toast is written before the event.
-  const press = useCallback((toast: ToastEntry) => {
-    if (pressedPath) set(pressedPath, toast);
-    void emit('action');
-  }, [set, pressedPath, emit]);
+  const press = useCallback(
+    (toast: ToastEntry) => {
+      if (pressedPath) set(pressedPath, toast);
+      void emit('action');
+    },
+    [set, pressedPath, emit],
+  );
 
   return { dismiss, press };
 };

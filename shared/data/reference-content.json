@@ -45,7 +45,10 @@
                 "type": "document"
               }
             },
-            { "type": "text", "text": " before the next meeting. For technical questions, contact " },
+            {
+              "type": "text",
+              "text": " before the next meeting. For technical questions, contact "
+            },
             {
               "type": "reference",
               "attrs": {

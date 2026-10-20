@@ -33,7 +33,7 @@ export interface Plugin {
 
 // Plugin states with const assertion for immutability
 export const PLUGIN_STATES = ['pending', 'loading', 'active', 'error', 'deactivated'] as const;
-export type PluginState = typeof PLUGIN_STATES[number];
+export type PluginState = (typeof PLUGIN_STATES)[number];
 
 // Plugin capabilities with better typing
 export interface PluginCapabilities {
@@ -58,7 +58,8 @@ type SlotPrefix = 'editor' | 'plugin';
 type SlotSuffix = 'toolbar' | 'bubble-menu' | 'floating-menu' | 'sidebar' | 'statusbar';
 type StandardSlotId = `${SlotPrefix}-${SlotSuffix}`;
 
-export type SlotId = StandardSlotId | 'toolbar' | 'bubble-menu' | 'floating-menu' | 'sidebar' | 'statusbar' | string;
+export type SlotId =
+  StandardSlotId | 'toolbar' | 'bubble-menu' | 'floating-menu' | 'sidebar' | 'statusbar' | string;
 
 export interface SlotComponent {
   pluginId: string;
@@ -68,7 +69,7 @@ export interface SlotComponent {
 
 // Use const assertion for immutable options
 export const SLOT_POSITIONS = ['start', 'end', 'replace'] as const;
-export type SlotPosition = typeof SLOT_POSITIONS[number];
+export type SlotPosition = (typeof SLOT_POSITIONS)[number];
 
 export interface SlotRegistrationOptions {
   priority?: number;
@@ -77,11 +78,7 @@ export interface SlotRegistrationOptions {
 }
 
 export interface SlotRegistry {
-  register(
-    slotId: SlotId,
-    component: SlotComponent,
-    options?: SlotRegistrationOptions
-  ): void;
+  register(slotId: SlotId, component: SlotComponent, options?: SlotRegistrationOptions): void;
   getComponents(slotId: SlotId): SlotComponent[];
   // Unfiltered count, for callers that need to know a slot is populated
   // without evaluating each registration's condition.
@@ -98,24 +95,44 @@ export interface EventPayload {
   'plugin:deactivate': { pluginId: string };
   'command:execute': { command: string; params?: unknown };
   'ui:slot-update': { slotId: string; pluginId: string };
-  'references:selection-changed': { hasSelection: boolean; selectedText: string; range: { from: number; to: number } };
+  'references:selection-changed': {
+    hasSelection: boolean;
+    selectedText: string;
+    range: { from: number; to: number };
+  };
   'references:data-updated': { data: ReferenceCategory[] };
   'references:reference-inserted': { reference: Record<string, unknown> };
-  'ai-assistant:selection-changed': { hasSelection: boolean; selectedText: string; range: { from: number; to: number } };
-  'ai-assistant:chunk-received': { action: string; content: string; range: { from: number; to: number } };
+  'ai-assistant:selection-changed': {
+    hasSelection: boolean;
+    selectedText: string;
+    range: { from: number; to: number };
+  };
+  'ai-assistant:chunk-received': {
+    action: string;
+    content: string;
+    range: { from: number; to: number };
+  };
   'ai-assistant:action-complete': { action: string };
   'ai-assistant:action-error': { action: string; error: string };
   [key: string]: unknown;
 }
 
 // Event name validation with template literal types
-type EventCategory = 'selection' | 'content' | 'plugin' | 'command' | 'ui' | 'commenting' | 'references' | 'ai-assistant';
+type EventCategory =
+  | 'selection'
+  | 'content'
+  | 'plugin'
+  | 'command'
+  | 'ui'
+  | 'commenting'
+  | 'references'
+  | 'ai-assistant';
 type EventName<T extends EventCategory> = `${T}:${string}`;
 export type TypedEventName = EventName<EventCategory>;
 
 // Const assertion for event priorities
 export const EVENT_PRIORITIES = ['high', 'normal', 'low'] as const;
-export type EventPriority = typeof EVENT_PRIORITIES[number];
+export type EventPriority = (typeof EVENT_PRIORITIES)[number];
 
 export interface EventBus {
   emit<T extends keyof EventPayload>(
@@ -124,7 +141,7 @@ export interface EventBus {
     options?: {
       priority?: EventPriority;
       cancelable?: boolean;
-    }
+    },
   ): boolean;
 
   on<T extends keyof EventPayload>(
@@ -134,12 +151,12 @@ export interface EventBus {
       priority?: number;
       once?: boolean;
       signal?: AbortSignal; // Modern AbortController support
-    }
+    },
   ): () => void;
 
   intercept<T extends keyof EventPayload>(
     event: T,
-    interceptor: (payload: EventPayload[T]) => EventPayload[T] | null
+    interceptor: (payload: EventPayload[T]) => EventPayload[T] | null,
   ): void;
 
   // New methods for modern event handling

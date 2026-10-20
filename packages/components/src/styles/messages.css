@@ -1,7 +1,7 @@
 .messages {
   display: grid;
   grid-template-columns: auto 1fr;
-  grid-template-areas: "avatar content";
+  grid-template-areas: 'avatar content';
   gap: var(--space-m);
 }
 
@@ -108,7 +108,7 @@
     height: 1.5em;
 
     &::before {
-      content: "";
+      content: '';
       background: var(--c-neutral-100);
       position: absolute;
       left: 0;

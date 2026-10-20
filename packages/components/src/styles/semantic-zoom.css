@@ -121,7 +121,7 @@
 
   /* A negative footprint is a recovery credit — the assessment giving something
      back — so it reads as success rather than emission. */
-  .zoom-timeline__co2e[data-sign="neg"] {
+  .zoom-timeline__co2e[data-sign='neg'] {
     color: var(--c-body-success);
   }
 }

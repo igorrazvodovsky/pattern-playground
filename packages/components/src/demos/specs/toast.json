@@ -12,7 +12,10 @@
       "on": {
         "press": {
           "action": "pushState",
-          "params": { "statePath": "/toasts", "value": { "id": "$id", "message": "Something happened", "actionLabel": null } }
+          "params": {
+            "statePath": "/toasts",
+            "value": { "id": "$id", "message": "Something happened", "actionLabel": null }
+          }
         }
       }
     },

@@ -10,11 +10,11 @@ import spec from './overview-detail.json' with { type: 'json' };
 // detail opens under the item's row, so it leaves out what the row shows.
 
 const OVERVIEW_ATTRIBUTES = ['name', 'category', 'pricing.msrp'];
-const overviewOf = cardAttributes(OVERVIEW_ATTRIBUTES.filter(path => path !== 'name'));
+const overviewOf = cardAttributes(OVERVIEW_ATTRIBUTES.filter((path) => path !== 'name'));
 const inPlaceOf = itemView('mid', undefined, OVERVIEW_ATTRIBUTES);
 const detailOf = itemView('mid');
 
-const ids = products.map(item => item.id);
+const ids = products.map((item) => item.id);
 
 const step = ({ selected, by }: Record<string, unknown>) => {
   const index = ids.indexOf(String(selected));
@@ -25,7 +25,7 @@ export default {
   spec: spec as Spec,
   setup: {
     initialState: {
-      products: products.map(item => ({
+      products: products.map((item) => ({
         id: item.id,
         name: item.name,
         attributes: overviewOf(item),

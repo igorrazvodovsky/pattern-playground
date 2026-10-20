@@ -24,6 +24,7 @@ interface Props {
 
 const { title, seed = false, dates, pagefind, pageType } = Astro.props;
 ---
+
 <article
   class="flow"
   data-page-type={pageType}
@@ -38,6 +39,11 @@ const { title, seed = false, dates, pagefind, pageType } = Astro.props;
     </div>
   </header>
   <pp-toc heading="On this page" data-pagefind-ignore></pp-toc>
-  <pp-toc variant="bar" heading="Sections" reveal-after="pp-toc:not([variant])" data-pagefind-ignore></pp-toc>
+  <pp-toc
+    variant="bar"
+    heading="Sections"
+    reveal-after="pp-toc:not([variant])"
+    data-pagefind-ignore
+  ></pp-toc>
   <slot />
 </article>

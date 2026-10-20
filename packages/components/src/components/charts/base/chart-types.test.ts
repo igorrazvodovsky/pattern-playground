@@ -21,9 +21,7 @@ const nonObjects = [null, undefined, 'series', 42, true, Symbol('x')];
 describe('isLineChartData', () => {
   it('accepts a series array, empty or populated', () => {
     expect(isLineChartData({ series: [] })).toBe(true);
-    expect(
-      isLineChartData({ series: [{ name: 'a', data: [{ x: 0, y: 1 }] }] })
-    ).toBe(true);
+    expect(isLineChartData({ series: [{ name: 'a', data: [{ x: 0, y: 1 }] }] })).toBe(true);
   });
 
   it('rejects a missing or non-array series', () => {
@@ -86,9 +84,7 @@ describe('isScatterPlotData', () => {
 describe('isAreaChartData', () => {
   it('accepts a series array', () => {
     expect(isAreaChartData({ series: [] })).toBe(true);
-    expect(
-      isAreaChartData({ series: [{ name: 'a', data: [{ x: 0, y: 1, y0: 0 }] }] })
-    ).toBe(true);
+    expect(isAreaChartData({ series: [{ name: 'a', data: [{ x: 0, y: 1, y0: 0 }] }] })).toBe(true);
   });
 
   it('rejects a missing or non-array series', () => {
@@ -106,16 +102,12 @@ describe('isChoroplethData', () => {
 
   it('accepts geometry with a features array alongside values', () => {
     expect(isChoroplethData({ geometry, values: [] })).toBe(true);
-    expect(
-      isChoroplethData({ geometry, values: [{ id: 'SE', value: 3 }] })
-    ).toBe(true);
+    expect(isChoroplethData({ geometry, values: [{ id: 'SE', value: 3 }] })).toBe(true);
   });
 
   it('rejects geometry that carries no features array', () => {
     expect(isChoroplethData({ geometry: {}, values: [] })).toBe(false);
-    expect(
-      isChoroplethData({ geometry: { type: 'FeatureCollection' }, values: [] })
-    ).toBe(false);
+    expect(isChoroplethData({ geometry: { type: 'FeatureCollection' }, values: [] })).toBe(false);
     expect(isChoroplethData({ geometry: null, values: [] })).toBe(false);
   });
 
@@ -138,7 +130,7 @@ describe('isNetworkGraphData', () => {
 
   it('accepts nodes and edges together', () => {
     expect(
-      isNetworkGraphData({ nodes: [node('a'), node('b')], edges: [{ source: 'a', target: 'b' }] })
+      isNetworkGraphData({ nodes: [node('a'), node('b')], edges: [{ source: 'a', target: 'b' }] }),
     ).toBe(true);
   });
 

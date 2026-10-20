@@ -17,11 +17,7 @@ export const VIEWBOX_HEIGHT = 300;
  * which redraws by calling `renderD3Content()` (clear + redraw, idempotent).
  */
 export abstract class D3Component extends Elena(HTMLElement) {
-  static props: ElenaProp[] = [
-    'width',
-    'height',
-    { name: 'margin', reflect: false },
-  ];
+  static props: ElenaProp[] = ['width', 'height', { name: 'margin', reflect: false }];
 
   width = 0;
   height = 0;

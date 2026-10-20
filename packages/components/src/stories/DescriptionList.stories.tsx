@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: "Components/Description list",
+  title: 'Components/Description list',
   parameters: {
     docs: {
       description: {
@@ -45,9 +45,8 @@ export const LongDescription: Story = {
     <dl className="description-list">
       <dt>Summary</dt>
       <dd>
-        A concise account of the change, long enough to wrap onto a second line so the
-        label stays aligned with the first line of its value rather than centred against
-        the whole block.
+        A concise account of the change, long enough to wrap onto a second line so the label stays
+        aligned with the first line of its value rather than centred against the whole block.
       </dd>
       <dt>Status</dt>
       <dd>In progress</dd>

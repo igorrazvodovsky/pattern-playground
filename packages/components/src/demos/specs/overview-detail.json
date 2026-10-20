@@ -3,17 +3,47 @@
   "elements": {
     "overview-detail": {
       "type": "Split",
-      "props": { "split": { "$cond": { "$state": "/layout", "eq": "side-by-side" }, "$then": true, "$else": false }, "room": { "$bindState": "/room" } },
+      "props": {
+        "split": {
+          "$cond": { "$state": "/layout", "eq": "side-by-side" },
+          "$then": true,
+          "$else": false
+        },
+        "room": { "$bindState": "/room" }
+      },
       "children": ["page", "overview", "pane"]
     },
     "layout-menu": {
       "type": "Menu",
-      "props": { "label": "View settings", "icon": "settings", "align": "end", "focusNext": { "$item": "name" } },
+      "props": {
+        "label": "View settings",
+        "icon": "settings",
+        "align": "end",
+        "focusNext": { "$item": "name" }
+      },
       "children": ["layout-in-place", "layout-side-by-side", "layout-popover", "layout-new-page"]
     },
     "layout-in-place": {
       "type": "MenuItem",
-      "props": { "label": "In place", "icon": "in-place", "checked": { "$cond": { "$or": [{ "$state": "/layout", "eq": "in-place" }, { "$and": [{ "$state": "/layout", "eq": "side-by-side" }, { "$state": "/room", "not": true }] }] }, "$then": true, "$else": false } },
+      "props": {
+        "label": "In place",
+        "icon": "in-place",
+        "checked": {
+          "$cond": {
+            "$or": [
+              { "$state": "/layout", "eq": "in-place" },
+              {
+                "$and": [
+                  { "$state": "/layout", "eq": "side-by-side" },
+                  { "$state": "/room", "not": true }
+                ]
+              }
+            ]
+          },
+          "$then": true,
+          "$else": false
+        }
+      },
       "on": {
         "press": [
           { "action": "setState", "params": { "statePath": "/layout", "value": "in-place" } },
@@ -24,7 +54,18 @@
     },
     "layout-side-by-side": {
       "type": "MenuItem",
-      "props": { "label": "Side by side", "icon": "side-by-side", "checked": { "$cond": { "$and": [{ "$state": "/layout", "eq": "side-by-side" }, { "$state": "/room" }] }, "$then": true, "$else": false }, "disabled": { "$cond": { "$state": "/room", "not": true }, "$then": true, "$else": false } },
+      "props": {
+        "label": "Side by side",
+        "icon": "side-by-side",
+        "checked": {
+          "$cond": {
+            "$and": [{ "$state": "/layout", "eq": "side-by-side" }, { "$state": "/room" }]
+          },
+          "$then": true,
+          "$else": false
+        },
+        "disabled": { "$cond": { "$state": "/room", "not": true }, "$then": true, "$else": false }
+      },
       "on": {
         "press": [
           { "action": "setState", "params": { "statePath": "/layout", "value": "side-by-side" } },
@@ -35,7 +76,15 @@
     },
     "layout-popover": {
       "type": "MenuItem",
-      "props": { "label": "Popover", "icon": "popover", "checked": { "$cond": { "$state": "/layout", "eq": "popover" }, "$then": true, "$else": false } },
+      "props": {
+        "label": "Popover",
+        "icon": "popover",
+        "checked": {
+          "$cond": { "$state": "/layout", "eq": "popover" },
+          "$then": true,
+          "$else": false
+        }
+      },
       "on": {
         "press": [
           { "action": "setState", "params": { "statePath": "/layout", "value": "popover" } },
@@ -46,7 +95,15 @@
     },
     "layout-new-page": {
       "type": "MenuItem",
-      "props": { "label": "New page", "icon": "external", "checked": { "$cond": { "$state": "/layout", "eq": "new-page" }, "$then": true, "$else": false } },
+      "props": {
+        "label": "New page",
+        "icon": "external",
+        "checked": {
+          "$cond": { "$state": "/layout", "eq": "new-page" },
+          "$then": true,
+          "$else": false
+        }
+      },
       "on": {
         "press": [
           { "action": "setState", "params": { "statePath": "/layout", "value": "new-page" } },
@@ -63,11 +120,14 @@
     },
     "page-back": {
       "type": "Button",
-      "props": { "label": "Back to the collection", "icon": "back", "variant": "plain", "focusOnShow": true },
+      "props": {
+        "label": "Back to the collection",
+        "icon": "back",
+        "variant": "plain",
+        "focusOnShow": true
+      },
       "on": {
-        "press": [
-          { "action": "setState", "params": { "statePath": "/pageOpen", "value": false } }
-        ]
+        "press": [{ "action": "setState", "params": { "statePath": "/pageOpen", "value": false } }]
       }
     },
     "page-views": {
@@ -86,7 +146,13 @@
     "page-body": {
       "type": "Stack",
       "props": { "gap": "m" },
-      "children": ["page-badges", "page-price", "page-description", "page-attributes", "page-listed"]
+      "children": [
+        "page-badges",
+        "page-price",
+        "page-description",
+        "page-attributes",
+        "page-listed"
+      ]
     },
     "page-badges": {
       "type": "Stack",
@@ -121,26 +187,106 @@
     "overview": {
       "type": "ItemGroup",
       "props": { "label": "Products" },
-      "visible": { "$or": [{ "$state": "/layout", "neq": "new-page" }, { "$state": "/pageOpen", "not": true }] },
+      "visible": {
+        "$or": [
+          { "$state": "/layout", "neq": "new-page" },
+          { "$state": "/pageOpen", "not": true }
+        ]
+      },
       "repeat": { "statePath": "/products", "key": "id" },
       "children": ["card"]
     },
     "card": {
       "type": "Item",
-      "props": { "title": { "$item": "name" }, "opens": true, "selected": { "$cond": { "$item": "id", "eq": { "$state": "/selected" } }, "$then": true, "$else": false }, "focusOnShow": { "$cond": { "$item": "id", "eq": { "$state": "/selected" } }, "$then": true, "$else": false }, "expanded": { "$cond": { "$and": [{ "$item": "id", "eq": { "$state": "/selected" } }, { "$or": [{ "$state": "/layout", "eq": "in-place" }, { "$and": [{ "$state": "/layout", "eq": "side-by-side" }, { "$state": "/room", "not": true }] }] }] }, "$then": true, "$else": null } },
-      "slots": { "attributes": ["card-attributes"], "suffix": ["card-menu", "popover"], "detail": ["in-place-body"] },
+      "props": {
+        "title": { "$item": "name" },
+        "opens": true,
+        "selected": {
+          "$cond": { "$item": "id", "eq": { "$state": "/selected" } },
+          "$then": true,
+          "$else": false
+        },
+        "focusOnShow": {
+          "$cond": { "$item": "id", "eq": { "$state": "/selected" } },
+          "$then": true,
+          "$else": false
+        },
+        "expanded": {
+          "$cond": {
+            "$and": [
+              { "$item": "id", "eq": { "$state": "/selected" } },
+              {
+                "$or": [
+                  { "$state": "/layout", "eq": "in-place" },
+                  {
+                    "$and": [
+                      { "$state": "/layout", "eq": "side-by-side" },
+                      { "$state": "/room", "not": true }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "$then": true,
+          "$else": null
+        }
+      },
+      "slots": {
+        "attributes": ["card-attributes"],
+        "suffix": ["card-menu", "popover"],
+        "detail": ["in-place-body"]
+      },
       "on": {
         "open": [
-          { "action": "setState", "params": { "statePath": "/selected", "value": { "$value": { "$item": "id" } } } },
-          { "action": "setState", "params": { "statePath": "/popoverOpen", "value": { "$cond": { "$state": "/layout", "eq": "popover" }, "$then": true, "$else": false } } },
-          { "action": "setState", "params": { "statePath": "/pageOpen", "value": { "$cond": { "$state": "/layout", "eq": "new-page" }, "$then": true, "$else": false } } }
+          {
+            "action": "setState",
+            "params": { "statePath": "/selected", "value": { "$value": { "$item": "id" } } }
+          },
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/popoverOpen",
+              "value": {
+                "$cond": { "$state": "/layout", "eq": "popover" },
+                "$then": true,
+                "$else": false
+              }
+            }
+          },
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/pageOpen",
+              "value": {
+                "$cond": { "$state": "/layout", "eq": "new-page" },
+                "$then": true,
+                "$else": false
+              }
+            }
+          }
         ]
       }
     },
     "card-menu": {
       "type": "Stack",
       "props": { "direction": "horizontal" },
-      "visible": { "$and": [{ "$item": "id", "eq": { "$state": "/selected" } }, { "$or": [{ "$state": "/layout", "eq": "in-place" }, { "$and": [{ "$state": "/layout", "eq": "side-by-side" }, { "$state": "/room", "not": true }] }] }] },
+      "visible": {
+        "$and": [
+          { "$item": "id", "eq": { "$state": "/selected" } },
+          {
+            "$or": [
+              { "$state": "/layout", "eq": "in-place" },
+              {
+                "$and": [
+                  { "$state": "/layout", "eq": "side-by-side" },
+                  { "$state": "/room", "not": true }
+                ]
+              }
+            ]
+          }
+        ]
+      },
       "children": ["layout-menu"]
     },
     "card-attributes": {
@@ -156,7 +302,13 @@
     "in-place-body": {
       "type": "Stack",
       "props": { "gap": "m" },
-      "children": ["in-place-badges", "in-place-price", "in-place-description", "in-place-attributes", "in-place-listed"]
+      "children": [
+        "in-place-badges",
+        "in-place-price",
+        "in-place-description",
+        "in-place-attributes",
+        "in-place-listed"
+      ]
     },
     "in-place-badges": {
       "type": "Stack",
@@ -191,14 +343,25 @@
     "popover": {
       "type": "Popover",
       "props": { "title": { "$item": "name" }, "open": { "$bindState": "/popoverOpen" } },
-      "visible": { "$and": [{ "$item": "id", "eq": { "$state": "/selected" } }, { "$state": "/layout", "eq": "popover" }] },
+      "visible": {
+        "$and": [
+          { "$item": "id", "eq": { "$state": "/selected" } },
+          { "$state": "/layout", "eq": "popover" }
+        ]
+      },
       "slots": { "suffix": ["layout-menu"] },
       "children": ["detail-body"]
     },
     "detail-body": {
       "type": "Stack",
       "props": { "gap": "m" },
-      "children": ["detail-badges", "detail-price", "detail-description", "detail-attributes", "detail-listed"]
+      "children": [
+        "detail-badges",
+        "detail-price",
+        "detail-description",
+        "detail-attributes",
+        "detail-listed"
+      ]
     },
     "detail-badges": {
       "type": "Stack",
@@ -246,19 +409,49 @@
     },
     "pane-previous": {
       "type": "Button",
-      "props": { "label": "Previous item", "icon": "previous", "hideLabel": true, "variant": "plain", "focusNext": "Previous item" },
+      "props": {
+        "label": "Previous item",
+        "icon": "previous",
+        "hideLabel": true,
+        "variant": "plain",
+        "focusNext": "Previous item"
+      },
       "on": {
         "press": [
-          { "action": "setState", "params": { "statePath": "/selected", "value": { "$computed": "step", "args": { "selected": { "$state": "/selected" }, "by": -1 } } } }
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/selected",
+              "value": {
+                "$computed": "step",
+                "args": { "selected": { "$state": "/selected" }, "by": -1 }
+              }
+            }
+          }
         ]
       }
     },
     "pane-next": {
       "type": "Button",
-      "props": { "label": "Next item", "icon": "next", "hideLabel": true, "variant": "plain", "focusNext": "Next item" },
+      "props": {
+        "label": "Next item",
+        "icon": "next",
+        "hideLabel": true,
+        "variant": "plain",
+        "focusNext": "Next item"
+      },
       "on": {
         "press": [
-          { "action": "setState", "params": { "statePath": "/selected", "value": { "$computed": "step", "args": { "selected": { "$state": "/selected" }, "by": 1 } } } }
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/selected",
+              "value": {
+                "$computed": "step",
+                "args": { "selected": { "$state": "/selected" }, "by": 1 }
+              }
+            }
+          }
         ]
       }
     }

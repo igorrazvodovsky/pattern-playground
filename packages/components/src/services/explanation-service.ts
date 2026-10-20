@@ -29,7 +29,7 @@ export class ExplanationService {
    */
   async streamExplanation(
     request: ExplanationRequest,
-    callbacks: ExplanationCallbacks = {}
+    callbacks: ExplanationCallbacks = {},
   ): Promise<string> {
     // Cancel any existing stream
     this.cancelStream();
@@ -88,12 +88,15 @@ export class ExplanationService {
   async explainText(
     text: string,
     callbacks?: ExplanationCallbacks,
-    context?: string
+    context?: string,
   ): Promise<string> {
-    return this.streamExplanation({
-      text,
-      context
-    }, callbacks);
+    return this.streamExplanation(
+      {
+        text,
+        context,
+      },
+      callbacks,
+    );
   }
 
   /**
@@ -103,13 +106,16 @@ export class ExplanationService {
     text: string,
     references: SelectedReference[],
     callbacks?: ExplanationCallbacks,
-    context?: string
+    context?: string,
   ): Promise<string> {
-    return this.streamExplanation({
-      text,
-      references,
-      context
-    }, callbacks);
+    return this.streamExplanation(
+      {
+        text,
+        references,
+        context,
+      },
+      callbacks,
+    );
   }
 }
 

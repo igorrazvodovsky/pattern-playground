@@ -6,8 +6,16 @@ import spec from './toast-with-undo.json' with { type: 'json' };
 // Action params resolve `$item` to the row's state path rather than its value,
 // so building the toast from the row and putting the row back happen here.
 
-interface Listing { id: string; name: string }
-interface DeletionToast { id: string; message: string; actionLabel: string; item: Listing }
+interface Listing {
+  id: string;
+  name: string;
+}
+interface DeletionToast {
+  id: string;
+  message: string;
+  actionLabel: string;
+  item: Listing;
+}
 
 const listings: Listing[] = reuseListings.map(({ id, name }) => ({ id, name }));
 
@@ -15,15 +23,20 @@ let toastCount = 0;
 
 const deletionToast = ({ item }: Record<string, unknown>): DeletionToast => {
   const listing = item as Listing;
-  return { id: `deletion-${++toastCount}`, message: `${listing.name} deleted`, actionLabel: 'Undo', item: listing };
+  return {
+    id: `deletion-${++toastCount}`,
+    message: `${listing.name} deleted`,
+    actionLabel: 'Undo',
+    item: listing,
+  };
 };
 
 // Rows are only ever removed, so the original listings give the order to
 // restore into, whichever toasts were undone first.
 const undoDeletion = ({ items, listings, toast }: Record<string, unknown>) => {
-  const kept = new Set(((items as Listing[] | undefined) ?? []).map(listing => listing.id));
+  const kept = new Set(((items as Listing[] | undefined) ?? []).map((listing) => listing.id));
   kept.add((toast as DeletionToast).item.id);
-  return ((listings as Listing[] | undefined) ?? []).filter(listing => kept.has(listing.id));
+  return ((listings as Listing[] | undefined) ?? []).filter((listing) => kept.has(listing.id));
 };
 
 export default {

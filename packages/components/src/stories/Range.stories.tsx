@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useEffect, useRef, useState } from "react";
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useEffect, useRef, useState } from 'react';
 
 interface RangeArgs {
   label: string;
@@ -12,7 +12,7 @@ interface RangeArgs {
 }
 
 const meta = {
-  title: "Components/Range",
+  title: 'Components/Range',
   tags: ['autodocs', 'activity-level:operation', 'atomic:primitive', 'mediation:individual'],
   argTypes: {
     label: {
@@ -110,34 +110,20 @@ export const WithLabelAndHint: Story = {
         max={100}
         value={60}
       />
-      <small id="brightness-help">Adjusts the display brightness across the entire interface.</small>
+      <small id="brightness-help">
+        Adjusts the display brightness across the entire interface.
+      </small>
     </div>
   ),
 };
 
 export const WithMarks: Story = {
-  render: () => (
-    <pp-range
-      label="Difficulty"
-      min={0}
-      max={10}
-      step={1}
-      value={4}
-      marks
-    />
-  ),
+  render: () => <pp-range label="Difficulty" min={0} max={10} step={1} value={4} marks />,
 };
 
 export const WithPrefixAndSuffix: Story = {
   render: () => (
-    <pp-range
-      label="Price ceiling"
-      min={0}
-      max={1000}
-      step={10}
-      value={250}
-      hide-value
-    >
+    <pp-range label="Price ceiling" min={0} max={1000} step={10} value={250} hide-value>
       <iconify-icon icon="ik:sterling" data-slot="prefix" />
       <small data-slot="suffix">£1000</small>
     </pp-range>
@@ -197,7 +183,5 @@ export const Sizes: Story = {
 };
 
 export const Disabled: Story = {
-  render: () => (
-    <pp-range label="Locked" min={0} max={100} value={40} disabled />
-  ),
+  render: () => <pp-range label="Locked" min={0} max={100} value={40} disabled />,
 };

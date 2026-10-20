@@ -1,7 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useEditorContext } from '../../../editor/EditorProvider';
 import { CommentPopover } from '../../../commenting/core/CommentPopover';
-import { COMMENTING_PLUGIN_ID, EditorCommentingPlugin, type CommentingPluginConfig, type OpenThread } from '../CommentingPlugin';
+import {
+  COMMENTING_PLUGIN_ID,
+  EditorCommentingPlugin,
+  type CommentingPluginConfig,
+  type OpenThread,
+} from '../CommentingPlugin';
 import { CommentsPanel } from './CommentsPanel';
 import { modalService } from '../../../../services/modal-service';
 import { getCommentService } from '../../../../services/commenting/core/comment-service-instance';
@@ -28,13 +33,21 @@ export const CommentingIntegration: React.FC<CommentingIntegrationProps> = ({
 
   const [openThread, setOpenThread] = useState<OpenThread | null>(null);
 
-  useEffect(() => eventBus.on('commenting:thread-opened', ({ thread }) => {
-    setOpenThread(thread);
-  }), [eventBus]);
+  useEffect(
+    () =>
+      eventBus.on('commenting:thread-opened', ({ thread }) => {
+        setOpenThread(thread);
+      }),
+    [eventBus],
+  );
 
-  useEffect(() => eventBus.on('commenting:thread-closed', ({ id }) => {
-    setOpenThread(current => current?.id === id ? null : current);
-  }), [eventBus]);
+  useEffect(
+    () =>
+      eventBus.on('commenting:thread-closed', ({ id }) => {
+        setOpenThread((current) => (current?.id === id ? null : current));
+      }),
+    [eventBus],
+  );
 
   // Clicking a commented or quoted passage reopens its thread. Where marks
   // overlap, the innermost one is the one clicked.
@@ -42,7 +55,9 @@ export const CommentingIntegration: React.FC<CommentingIntegrationProps> = ({
     const dom = editor.view.dom;
     const handleClick = (event: MouseEvent) => {
       if (!editor.state.selection.empty) return;
-      const mark = (event.target as Element | null)?.closest?.('mark[data-comment-id], mark[data-quote-id]');
+      const mark = (event.target as Element | null)?.closest?.(
+        'mark[data-comment-id], mark[data-quote-id]',
+      );
       const threadId = mark?.getAttribute('data-comment-id');
       const quoteId = mark?.getAttribute('data-quote-id');
       if (threadId) getCommentingPlugin()?.openThread(threadId);
@@ -69,8 +84,10 @@ export const CommentingIntegration: React.FC<CommentingIntegrationProps> = ({
           position: 'right',
           title: 'Comments',
           modal: false,
-          onClose: () => { drawerId.current = null; },
-        }
+          onClose: () => {
+            drawerId.current = null;
+          },
+        },
       );
     });
     return () => {
@@ -156,7 +173,9 @@ export const CommentingIntegration: React.FC<CommentingIntegrationProps> = ({
 
   const label = openThread?.pending
     ? 'Comment on selection'
-    : openThread?.kind === 'quote' ? 'Comments on quote' : 'Comments on passage';
+    : openThread?.kind === 'quote'
+      ? 'Comments on quote'
+      : 'Comments on passage';
 
   return (
     <>
@@ -171,17 +190,20 @@ export const CommentingIntegration: React.FC<CommentingIntegrationProps> = ({
             anchor={anchor}
             currentUser={config.currentUser}
             placeholder={openThread.pending ? 'Comment on this passage...' : 'Reply...'}
-            actions={openThread.kind === 'passage' && !openThread.pending && (
-              <button
-                type="button"
-                className="button button--small"
-                onClick={handleQuote}
-                title="Make this passage a quote other documents can refer to. The words stay here."
-              >
-                <iconify-icon className="icon" icon="ik:quotation-marks"></iconify-icon>
-                Turn into quote
-              </button>
-            )}
+            actions={
+              openThread.kind === 'passage' &&
+              !openThread.pending && (
+                <button
+                  type="button"
+                  className="button button--small"
+                  onClick={handleQuote}
+                  title="Make this passage a quote other documents can refer to. The words stay here."
+                >
+                  <iconify-icon className="icon" icon="ik:quotation-marks"></iconify-icon>
+                  Turn into quote
+                </button>
+              )
+            }
             onClose={handleClose}
             onEscape={returnFocusToDocument}
             onCommentAdded={handleCommentAdded}

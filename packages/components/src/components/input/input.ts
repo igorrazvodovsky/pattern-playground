@@ -114,6 +114,6 @@ export class PpInput extends Elena(HTMLElement) {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pp-input": PpInput;
+    'pp-input': PpInput;
   }
 }

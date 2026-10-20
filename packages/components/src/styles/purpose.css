@@ -29,7 +29,10 @@
     --c-border: var(--c-border-danger);
   }
 
-  .info, .success, .warning, .danger {
+  .info,
+  .success,
+  .warning,
+  .danger {
     color: var(--c-body);
   }
 }

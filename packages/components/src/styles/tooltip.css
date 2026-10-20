@@ -1,4 +1,3 @@
-
 pp-tooltip {
   --max-width: 20rem;
   --hide-delay: 0ms;
@@ -18,19 +17,19 @@ pp-tooltip > pp-popup {
   z-index: var(--layer-tooltip);
 }
 
-pp-tooltip > pp-popup[placement^="top"] {
+pp-tooltip > pp-popup[placement^='top'] {
   transform-origin: bottom;
 }
 
-pp-tooltip > pp-popup[placement^="bottom"] {
+pp-tooltip > pp-popup[placement^='bottom'] {
   transform-origin: top;
 }
 
-pp-tooltip > pp-popup[placement^="left"] {
+pp-tooltip > pp-popup[placement^='left'] {
   transform-origin: right;
 }
 
-pp-tooltip > pp-popup[placement^="right"] {
+pp-tooltip > pp-popup[placement^='right'] {
   transform-origin: left;
 }
 

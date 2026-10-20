@@ -10,7 +10,7 @@ import spec from './watch-to-chase-tiers.json' with { type: 'json' };
 // flags and each item's full view are worked out here.
 
 const flags = detectProblems(products);
-const flaggedCount = new Set(flags.flatMap(flag => flag.itemIds)).size;
+const flaggedCount = new Set(flags.flatMap((flag) => flag.itemIds)).size;
 
 const tiles = [
   {
@@ -24,7 +24,7 @@ const tiles = [
     reason: '',
     items: [],
   },
-  ...flags.map(flag => ({
+  ...flags.map((flag) => ({
     id: flag.id,
     title: flag.title,
     value: String(flag.itemIds.length),
@@ -34,8 +34,8 @@ const tiles = [
     open: false,
     reason: flag.reason,
     items: products
-      .filter(item => flag.itemIds.includes(item.id))
-      .map(item => ({
+      .filter((item) => flag.itemIds.includes(item.id))
+      .map((item) => ({
         id: item.id,
         name: item.name,
         open: false,

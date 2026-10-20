@@ -47,16 +47,13 @@ export function deriveAttributeLabel(path: string): string {
 
 export function attributeLabelFromBinding(
   binding: EntityBinding | undefined,
-  path: string
+  path: string,
 ): string {
   const entry = binding?.attributes.find((attribute) => attribute.path === path);
   return entry?.label ?? deriveAttributeLabel(path);
 }
 
-export function findAttribute(
-  binding: EntityBinding,
-  path: string
-): AttributeBinding | undefined {
+export function findAttribute(binding: EntityBinding, path: string): AttributeBinding | undefined {
   return binding.attributes.find((attribute) => attribute.path === path);
 }
 
@@ -84,7 +81,7 @@ const ROLES: readonly AttributeRole[] = [
  */
 export function resolveAttributeSelection(
   binding: EntityBinding,
-  selection: AttributeSelection
+  selection: AttributeSelection,
 ): AttributeBinding[] {
   if (selection === 'all') return binding.attributes;
   const resolved: AttributeBinding[] = [];
@@ -93,26 +90,20 @@ export function resolveAttributeSelection(
     if (byPath) {
       resolved.push(byPath);
     } else if ((ROLES as readonly string[]).includes(entry)) {
-      resolved.push(
-        ...binding.attributes.filter((attribute) => attribute.role === entry)
-      );
+      resolved.push(...binding.attributes.filter((attribute) => attribute.role === entry));
     } else {
       resolved.push({ path: entry, role: 'spec', valueType: 'string' });
     }
   }
   return resolved.filter(
     (attribute, index) =>
-      resolved.findIndex((candidate) => candidate.path === attribute.path) === index
+      resolved.findIndex((candidate) => candidate.path === attribute.path) === index,
   );
 }
 
 /** Roles with a dedicated identity slot in item layouts (heading, icon,
     body paragraph) rather than a generic badge/row/column placement. */
-export const IDENTITY_ROLES: readonly AttributeRole[] = [
-  'title',
-  'thumbnail',
-  'description',
-];
+export const IDENTITY_ROLES: readonly AttributeRole[] = ['title', 'thumbnail', 'description'];
 
 export function isNumericValueType(valueType: AttributeValueType): boolean {
   return valueType === 'number' || valueType === 'currency' || valueType === 'progress';
@@ -150,13 +141,8 @@ export function formatBoundValue(value: unknown, attribute: AttributeBinding): s
 
 /** The entity's title through its binding's `title` role — what a host names
     a modal or page after. Falls back to common identity fields. */
-export function resolveEntityTitle(
-  entity: unknown,
-  binding: EntityBinding | undefined
-): string {
-  const titleAttribute = binding?.attributes.find(
-    (attribute) => attribute.role === 'title'
-  );
+export function resolveEntityTitle(entity: unknown, binding: EntityBinding | undefined): string {
+  const titleAttribute = binding?.attributes.find((attribute) => attribute.role === 'title');
   if (titleAttribute) {
     const value = getValueAtPath(entity, titleAttribute.path);
     if (value != null) return String(value);

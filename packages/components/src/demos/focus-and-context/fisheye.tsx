@@ -51,7 +51,8 @@ const mass = (value: number) => formatNumber(value, { maximumFractionDigits: 1 }
 /* No days at a distance: over fifteen years the day of the month is noise,
    and the reader is placing a stretch in the life, not in the week. Under the
    lens the flow is being read as a record, and the record gets its day. */
-const dayMonthYear = (d: Date | string) => formatDate(d, { day: 'numeric', month: 'short', year: 'numeric' });
+const dayMonthYear = (d: Date | string) =>
+  formatDate(d, { day: 'numeric', month: 'short', year: 'numeric' });
 const monthYearShort = (d: Date | string) => formatDate(d, { month: 'short', year: 'numeric' });
 const monthYear = (d: Date | string) => formatDate(d, { month: 'long', year: 'numeric' });
 const monthShort = (d: Date | string) => formatDate(d, { month: 'short' });
@@ -241,7 +242,15 @@ function FocusFlow({ span }: { span: TimelineSpan }) {
  * the episodes stay zones. Stable keys on the gaps flanking the card let
  * their heights animate as the lens walks the episode.
  */
-function TipChildren({ span, kids, focus }: { span: TimelineSpan; kids: TimelineSpan[]; focus: number }) {
+function TipChildren({
+  span,
+  kids,
+  focus,
+}: {
+  span: TimelineSpan;
+  kids: TimelineSpan[];
+  focus: number;
+}) {
   const focusIndex = kids.findIndex((kid) => contains(kid, focus));
 
   /* The sentence goes to the roomier of the two gaps flanking the card: said
@@ -264,7 +273,7 @@ function TipChildren({ span, kids, focus }: { span: TimelineSpan; kids: Timeline
         parent={span}
         length={run.reduce((sum, kid) => sum + spanLength(kid), 0)}
         body={bodyAt >= start && bodyAt < end}
-      />
+      />,
     );
     start = -1;
   };
@@ -371,7 +380,13 @@ export function FisheyeTimelineDemo() {
     });
 
   const focused = focus === null ? null : lifecycleEvents[focus];
-  const ringAtTop = focus === null ? 2 : depthBelow(spans.children!.find((child) => contains(child, focus))!, focus);
+  const ringAtTop =
+    focus === null
+      ? 2
+      : depthBelow(
+          spans.children!.find((child) => contains(child, focus))!,
+          focus,
+        );
 
   return (
     <div className="flow">

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 interface SelectArgs {
   label: string;
@@ -10,7 +10,7 @@ interface SelectArgs {
 }
 
 const meta = {
-  title: "Components/Select",
+  title: 'Components/Select',
   argTypes: {
     label: {
       control: { type: 'text' },
@@ -60,7 +60,9 @@ export const Default: Story = {
         disabled={args.disabled}
         required={args.required}
       >
-        <option value="" disabled>{args.placeholder}</option>
+        <option value="" disabled>
+          {args.placeholder}
+        </option>
         <option value="gb">United Kingdom</option>
         <option value="de">Germany</option>
         <option value="fr">France</option>
@@ -79,7 +81,9 @@ export const WithLabel: Story = {
       <label htmlFor="country-select">Country</label>
       <pp-select>
         <select id="country-select" defaultValue="">
-          <option value="" disabled>Choose a country</option>
+          <option value="" disabled>
+            Choose a country
+          </option>
           <option value="gb">United Kingdom</option>
           <option value="de">Germany</option>
           <option value="fr">France</option>
@@ -110,7 +114,9 @@ export const Sizes: Story = {
     <>
       <pp-select size="small">
         <select aria-label="Small" defaultValue="">
-          <option value="" disabled>Small</option>
+          <option value="" disabled>
+            Small
+          </option>
           <option value="a">Option A</option>
           <option value="b">Option B</option>
         </select>
@@ -118,7 +124,9 @@ export const Sizes: Story = {
       <br />
       <pp-select size="medium">
         <select aria-label="Medium" defaultValue="">
-          <option value="" disabled>Medium</option>
+          <option value="" disabled>
+            Medium
+          </option>
           <option value="a">Option A</option>
           <option value="b">Option B</option>
         </select>
@@ -126,7 +134,9 @@ export const Sizes: Story = {
       <br />
       <pp-select size="large">
         <select aria-label="Large" defaultValue="">
-          <option value="" disabled>Large</option>
+          <option value="" disabled>
+            Large
+          </option>
           <option value="a">Option A</option>
           <option value="b">Option B</option>
         </select>
@@ -140,7 +150,9 @@ export const Disabled: Story = {
     <>
       <pp-select>
         <select aria-label="Disabled control" defaultValue="" disabled>
-          <option value="" disabled>Unavailable</option>
+          <option value="" disabled>
+            Unavailable
+          </option>
           <option value="a">Option A</option>
           <option value="b">Option B</option>
         </select>
@@ -148,9 +160,13 @@ export const Disabled: Story = {
       <br />
       <pp-select>
         <select aria-label="Disabled option" defaultValue="">
-          <option value="" disabled>Choose…</option>
+          <option value="" disabled>
+            Choose…
+          </option>
           <option value="a">Available</option>
-          <option value="b" disabled>Unavailable</option>
+          <option value="b" disabled>
+            Unavailable
+          </option>
           <option value="c">Also available</option>
         </select>
       </pp-select>
@@ -166,12 +182,16 @@ export const Invalid: Story = {
   render: () => (
     <pp-select invalid>
       <select aria-label="Role" defaultValue="">
-        <option value="" disabled>Choose a role</option>
+        <option value="" disabled>
+          Choose a role
+        </option>
         <option value="admin">Administrator</option>
         <option value="editor">Editor</option>
         <option value="viewer">Viewer</option>
       </select>
-      <span data-slot="error"><span className="visually-hidden">Error:</span> Choose a role to continue.</span>
+      <span data-slot="error">
+        <span className="visually-hidden">Error:</span> Choose a role to continue.
+      </span>
     </pp-select>
   ),
 };
@@ -180,7 +200,9 @@ export const Grouped: Story = {
   render: () => (
     <pp-select>
       <select aria-label="City" defaultValue="">
-        <option value="" disabled>Choose a city</option>
+        <option value="" disabled>
+          Choose a city
+        </option>
         <optgroup label="Europe">
           <option value="lon">London</option>
           <option value="ber">Berlin</option>
@@ -208,7 +230,9 @@ export const Required: Story = {
         <label htmlFor="plan-select">Plan</label>
         <pp-select>
           <select id="plan-select" defaultValue="" required>
-            <option value="" disabled>Choose a plan</option>
+            <option value="" disabled>
+              Choose a plan
+            </option>
             <option value="free">Free</option>
             <option value="pro">Pro</option>
             <option value="team">Team</option>

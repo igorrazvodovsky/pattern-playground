@@ -33,7 +33,9 @@
   box-shadow: 0 0.5rem 1rem oklch(0% 0 0deg / 15%);
   border-radius: var(--radius-m);
   will-change: transform;
-  animation: toast-fade-in 0.2s ease, toast-slide-in 0.2s ease;
+  animation:
+    toast-fade-in 0.2s ease,
+    toast-slide-in 0.2s ease;
 
   /* Re-enable pointer events for toast interactions */
   pointer-events: auto;

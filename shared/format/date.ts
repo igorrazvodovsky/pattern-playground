@@ -5,8 +5,7 @@ export type DateInput = Date | string | number;
 /** `1952-09-26` — a calendar date with no time of day and no zone. */
 const DATE_ONLY = /^\d{4}-\d{2}-\d{2}$/;
 
-export const toDate = (value: DateInput): Date =>
-  value instanceof Date ? value : new Date(value);
+export const toDate = (value: DateInput): Date => (value instanceof Date ? value : new Date(value));
 
 /**
  * A date-only string parses as UTC midnight, so a reader at a negative offset
@@ -16,7 +15,7 @@ export const toDate = (value: DateInput): Date =>
  */
 const calendarSafe = (
   value: DateInput,
-  options: Intl.DateTimeFormatOptions
+  options: Intl.DateTimeFormatOptions,
 ): Intl.DateTimeFormatOptions =>
   typeof value === 'string' && DATE_ONLY.test(value) && options.timeZone === undefined
     ? { ...options, timeZone: 'UTC' }
@@ -31,21 +30,21 @@ const calendarSafe = (
 export const formatDate = (
   value: DateInput,
   options: Intl.DateTimeFormatOptions = { dateStyle: 'medium' },
-  locale?: Locale
+  locale?: Locale,
 ): string => dateTimeFormat(locale, calendarSafe(value, options)).format(toDate(value));
 
 /** A time of day in the reader's conventions, including the clock convention. */
 export const formatTime = (
   value: DateInput,
   options: Intl.DateTimeFormatOptions = { timeStyle: 'short' },
-  locale?: Locale
+  locale?: Locale,
 ): string => dateTimeFormat(locale, options).format(toDate(value));
 
 /** Date and time together — the default rendering for an event's timestamp. */
 export const formatDateTime = (
   value: DateInput,
   options: Intl.DateTimeFormatOptions = { dateStyle: 'medium', timeStyle: 'short' },
-  locale?: Locale
+  locale?: Locale,
 ): string => dateTimeFormat(locale, options).format(toDate(value));
 
 /**

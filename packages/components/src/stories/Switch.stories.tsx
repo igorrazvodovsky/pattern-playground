@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useEffect, useState } from "react";
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useEffect, useState } from 'react';
 import { expect, userEvent, within } from 'storybook/test';
 
 interface SwitchArgs {
@@ -13,7 +13,7 @@ const sizeClass = (size: SwitchArgs['size']) =>
   size === 'medium' ? 'switch' : `switch switch--${size}`;
 
 const meta = {
-  title: "Components/Switch",
+  title: 'Components/Switch',
   tags: ['autodocs', 'activity-level:operation', 'atomic:primitive', 'mediation:individual'],
   argTypes: {
     label: {
@@ -81,7 +81,14 @@ export const Disabled: Story = {
 
 export const DisabledChecked: Story = {
   render: () => (
-    <input type="checkbox" role="switch" className="switch" aria-label="Notifications" defaultChecked disabled />
+    <input
+      type="checkbox"
+      role="switch"
+      className="switch"
+      aria-label="Notifications"
+      defaultChecked
+      disabled
+    />
   ),
 };
 
@@ -96,9 +103,7 @@ export const Sizes: Story = {
 };
 
 export const ToggleInteraction: Story = {
-  render: () => (
-    <input type="checkbox" role="switch" className="switch" aria-label="Toggle me" />
-  ),
+  render: () => <input type="checkbox" role="switch" className="switch" aria-label="Toggle me" />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const switchEl = canvas.getByRole('switch') as HTMLInputElement;
@@ -116,9 +121,7 @@ export const ToggleInteraction: Story = {
  */
 export const KeyboardOperation: Story = {
   name: 'Keyboard operation',
-  render: () => (
-    <input type="checkbox" role="switch" className="switch" aria-label="Toggle me" />
-  ),
+  render: () => <input type="checkbox" role="switch" className="switch" aria-label="Toggle me" />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const switchEl = canvas.getByRole('switch') as HTMLInputElement;

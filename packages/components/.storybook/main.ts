@@ -1,23 +1,23 @@
-import { fileURLToPath } from "node:url";
-import { dirname, resolve } from "node:path";
-import type { StorybookConfig } from "@storybook/react-vite";
-import remarkGfm from "remark-gfm";
+import { fileURLToPath } from 'node:url';
+import { dirname, resolve } from 'node:path';
+import type { StorybookConfig } from '@storybook/react-vite';
+import remarkGfm from 'remark-gfm';
 
-const sharedPath = resolve(dirname(fileURLToPath(import.meta.url)), "../../../shared");
+const sharedPath = resolve(dirname(fileURLToPath(import.meta.url)), '../../../shared');
 
 const config: StorybookConfig = {
   stories: [
-    "../src/stories/Intro.mdx",
-    "../src/stories/*.mdx",
-    "../src/stories/*.stories.@(js|jsx|mjs|ts|tsx)",
-    "../src/stories/**/*.mdx",
-    "../src/stories/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    '../src/stories/Intro.mdx',
+    '../src/stories/*.mdx',
+    '../src/stories/*.stories.@(js|jsx|mjs|ts|tsx)',
+    '../src/stories/**/*.mdx',
+    '../src/stories/**/*.stories.@(js|jsx|mjs|ts|tsx)',
   ],
 
   addons: [
-    getAbsolutePath("@storybook/addon-links"),
+    getAbsolutePath('@storybook/addon-links'),
     {
-      name: getAbsolutePath("@storybook/addon-docs"),
+      name: getAbsolutePath('@storybook/addon-docs'),
       options: {
         mdxPluginOptions: {
           mdxCompileOptions: {
@@ -26,13 +26,13 @@ const config: StorybookConfig = {
         },
       },
     },
-    getAbsolutePath("@storybook/addon-vitest"),
-    getAbsolutePath("@storybook/addon-a11y"),
-    getAbsolutePath("@storybook/addon-mcp")
+    getAbsolutePath('@storybook/addon-vitest'),
+    getAbsolutePath('@storybook/addon-a11y'),
+    getAbsolutePath('@storybook/addon-mcp'),
   ],
 
   framework: {
-    name: getAbsolutePath("@storybook/react-vite"),
+    name: getAbsolutePath('@storybook/react-vite'),
     options: {},
   },
 

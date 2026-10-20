@@ -4,14 +4,30 @@ import { isSlot, type Paragraph, type SlotPart } from '../../catalog/behaviour/m
 import { candidates, material, materials } from './shared/prompt';
 import spec from './prompt-template.json' with { type: 'json' };
 
-const slot = (id: string, label: string, required = false, value = ''): SlotPart => ({ slot: id, label, required, value });
+const slot = (id: string, label: string, required = false, value = ''): SlotPart => ({
+  slot: id,
+  label,
+  required,
+  value,
+});
 
 const template = (values: Record<string, string> = {}, sources: Paragraph = []): Paragraph[] => [
-  ['Help me ', slot('task', 'the task', true, values.task), ' for ', slot('audience', 'who it is for', false, values.audience), '.'],
+  [
+    'Help me ',
+    slot('task', 'the task', true, values.task),
+    ' for ',
+    slot('audience', 'who it is for', false, values.audience),
+    '.',
+  ],
   ['The result should ', slot('outcome', 'the outcome you want', true, values.outcome), '.'],
   ['Context: ', slot('context', 'domain, situation, goal', false, values.context)],
   ['Constraints: ', slot('constraints', 'length, tone, words to avoid', false, values.constraints)],
-  ['Work from ', slot('examples', 'examples or materials', false, values.examples), ...sources, '.'],
+  [
+    'Work from ',
+    slot('examples', 'examples or materials', false, values.examples),
+    ...sources,
+    '.',
+  ],
   ['Hand back ', slot('output', 'the form of the answer', false, values.output), '.'],
 ];
 
@@ -32,27 +48,37 @@ const example = template(
 // language rather than the actor's formatting locale.
 const quoted = (labels: string[]) =>
   new Intl.ListFormat(document.documentElement.lang || undefined, { type: 'conjunction' }).format(
-    labels.map(label => `“${label}”`),
+    labels.map((label) => `“${label}”`),
   );
 
-const required = template().flat().filter(isSlot).filter(part => part.required);
+const required = template()
+  .flat()
+  .filter(isSlot)
+  .filter((part) => part.required);
 
 export default {
   spec: spec as Spec,
   setup: {
-    initialState: { content: template(), template: template(), example, query: null, materials, sent: false },
+    initialState: {
+      content: template(),
+      template: template(),
+      example,
+      query: null,
+      materials,
+      sent: false,
+    },
     functions: {
       candidates,
-      missing: args => {
+      missing: (args) => {
         if (args.sent !== true || !Array.isArray(args.content)) return '';
         const filled = new Set(
           (args.content as Paragraph[])
             .flat()
             .filter(isSlot)
-            .filter(part => part.value.trim() !== '')
-            .map(part => part.slot),
+            .filter((part) => part.value.trim() !== '')
+            .map((part) => part.slot),
         );
-        const empty = required.filter(part => !filled.has(part.slot)).map(part => part.label);
+        const empty = required.filter((part) => !filled.has(part.slot)).map((part) => part.label);
         return empty.length > 0 ? `Fill in ${quoted(empty)} before sending.` : '';
       },
     },

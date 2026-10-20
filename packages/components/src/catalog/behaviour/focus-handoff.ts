@@ -4,13 +4,18 @@ import { useCallback, useLayoutEffect, useRef, type RefObject } from 'react';
 // Tab would start from the top of the page. A button inside a dialog is left
 // alone, because the dialog returns focus itself.
 
-export const labelOf = (button: HTMLButtonElement) => button.getAttribute('aria-label') ?? button.textContent.trim();
+export const labelOf = (button: HTMLButtonElement) =>
+  button.getAttribute('aria-label') ?? button.textContent.trim();
 
-const findTarget = (demo: HTMLElement, before: Element[], focusNext: string): HTMLElement | undefined => {
+const findTarget = (
+  demo: HTMLElement,
+  before: Element[],
+  focusNext: string,
+): HTMLElement | undefined => {
   const candidates = [...demo.querySelectorAll('button')].filter(
-    button => labelOf(button) === focusNext && !button.disabled && button.checkVisibility(),
+    (button) => labelOf(button) === focusNext && !button.disabled && button.checkVisibility(),
   );
-  const anchor = before.find(element => element.isConnected);
+  const anchor = before.find((element) => element.isConnected);
   const follows = (button: HTMLButtonElement) =>
     !anchor || (anchor.compareDocumentPosition(button) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
   return candidates.find(follows) ?? candidates.at(-1);
@@ -97,9 +102,16 @@ export const useMenuFocusHandoff = (focusNext: string | null | undefined) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       const menuList = list.current;
       const dropped = justClosed.current && (!active || active === document.body);
-      if (!button || (!dropped && (!active || (active !== button && !menuList?.contains(active))))) return;
+      if (!button || (!dropped && (!active || (active !== button && !menuList?.contains(active)))))
+        return;
       const demo = button.closest<HTMLElement>('[data-registry]');
-      if (demo) handOff(button, demo, next.current, focused => focused === button || Boolean(menuList?.contains(focused)));
+      if (demo)
+        handOff(
+          button,
+          demo,
+          next.current,
+          (focused) => focused === button || Boolean(menuList?.contains(focused)),
+        );
     };
   }, [next]);
 
@@ -109,7 +121,9 @@ export const useMenuFocusHandoff = (focusNext: string | null | undefined) => {
 // Portaled parts of the group count as inside it.
 export const useGroupFocusHandoff = (focusNext: string | null | undefined, portaled = 0) => {
   const group = useRef<HTMLDivElement>(null);
-  const parts = useRef(Array.from({ length: portaled }, () => ({ current: null as HTMLDivElement | null })));
+  const parts = useRef(
+    Array.from({ length: portaled }, () => ({ current: null as HTMLDivElement | null })),
+  );
   const next = useLatest(focusNext);
 
   useLayoutEffect(() => {
@@ -117,8 +131,9 @@ export const useGroupFocusHandoff = (focusNext: string | null | undefined, porta
     return () => {
       // Read now: a library may mount the parts only while open.
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      const open = parts.current.map(part => part.current).filter(part => part !== null);
-      const inside = (element: Element) => Boolean(root?.contains(element) || open.some(part => part.contains(element)));
+      const open = parts.current.map((part) => part.current).filter((part) => part !== null);
+      const inside = (element: Element) =>
+        Boolean(root?.contains(element) || open.some((part) => part.contains(element)));
       const active = document.activeElement;
       if (!root || !active || !inside(active)) return;
       if (root.closest('dialog, [role="dialog"], [role="alertdialog"]')) return;

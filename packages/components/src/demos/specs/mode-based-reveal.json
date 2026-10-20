@@ -14,7 +14,10 @@
     "summary": {
       "type": "Text",
       "props": {
-        "text": { "$computed": "modeSummary", "args": { "items": { "$state": "/items" }, "editing": { "$state": "/editing" } } },
+        "text": {
+          "$computed": "modeSummary",
+          "args": { "items": { "$state": "/items" }, "editing": { "$state": "/editing" } }
+        },
         "muted": true,
         "status": true
       }
@@ -23,7 +26,9 @@
       "type": "Button",
       "props": { "label": "Select", "variant": "plain", "focusNext": "Done" },
       "visible": { "$state": "/editing", "not": true },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/editing", "value": true } } }
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/editing", "value": true } }
+      }
     },
     "done": {
       "type": "Button",

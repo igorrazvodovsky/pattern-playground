@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useState } from "react";
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useState } from 'react';
 import {
   Combobox,
   ComboboxEmpty,
@@ -7,12 +7,12 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-} from "../components/combobox";
+} from '../components/combobox';
 import '../icons/register-icons';
 import '../jsx-types';
 
 const meta = {
-  title: "Components/Combobox",
+  title: 'Components/Combobox',
 } satisfies Meta;
 
 export default meta;
@@ -61,8 +61,8 @@ export const Checked: Story = {
     const [selected, setSelected] = useState<string[]>([]);
 
     const toggle = (value: string) =>
-      setSelected(prev =>
-        prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value]
+      setSelected((prev) =>
+        prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value],
       );
 
     return (

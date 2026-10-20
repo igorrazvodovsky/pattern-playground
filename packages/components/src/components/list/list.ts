@@ -85,9 +85,9 @@ export class PpList extends Elena(HTMLElement) {
   }
 
   private handleClick = (event: MouseEvent) => {
-    const item = event.composedPath().find(
-      (el): el is PpListItem => el instanceof HTMLElement && this.isListItem(el),
-    );
+    const item = event
+      .composedPath()
+      .find((el): el is PpListItem => el instanceof HTMLElement && this.isListItem(el));
 
     if (!item) return;
 
@@ -109,7 +109,9 @@ export class PpList extends Elena(HTMLElement) {
       item.checked = !item.checked;
     }
 
-    this.dispatchEvent(new CustomEvent('pp-select', { detail: { item }, bubbles: true, composed: true }));
+    this.dispatchEvent(
+      new CustomEvent('pp-select', { detail: { item }, bubbles: true, composed: true }),
+    );
   };
 
   private handleKeyDown = (event: KeyboardEvent) => {
@@ -140,9 +142,7 @@ export class PpList extends Elena(HTMLElement) {
         event.stopPropagation();
         this.openSubmenu(item);
       }
-    }
-
-    else if (event.key === 'ArrowLeft') {
+    } else if (event.key === 'ArrowLeft') {
       if (this.currentSubmenu) {
         event.preventDefault();
         event.stopPropagation();
@@ -235,7 +235,7 @@ export class PpList extends Elena(HTMLElement) {
       this.setCurrentItem(listItem);
 
       // Close any existing submenus when moving to a different item
-      const currentlyOpenSubmenu = this.getAllItems().find(item => item['submenu-open']);
+      const currentlyOpenSubmenu = this.getAllItems().find((item) => item['submenu-open']);
       if (currentlyOpenSubmenu && currentlyOpenSubmenu !== listItem) {
         this.closeSubmenu(currentlyOpenSubmenu);
       }
@@ -267,7 +267,7 @@ export class PpList extends Elena(HTMLElement) {
 
   // Focus can move without setCurrentItem, so keyboard input follows focus first.
   private getActiveItem() {
-    const focused = this.getAllItems().find(item => item === document.activeElement);
+    const focused = this.getAllItems().find((item) => item === document.activeElement);
     if (focused && focused !== this.getCurrentItem()) this.setCurrentItem(focused);
     return focused ?? this.getCurrentItem();
   }
@@ -275,7 +275,7 @@ export class PpList extends Elena(HTMLElement) {
   // Gets the current list item, which is the list item that has `tabindex="0"` within the roving tab index.
   // The list item may or may not have focus, but for keyboard interaction purposes it's considered the "active" item.
   getCurrentItem() {
-    return this.getAllItems().find(i => i.getAttribute('tabindex') === '0');
+    return this.getAllItems().find((i) => i.getAttribute('tabindex') === '0');
   }
 
   // Sets the current list item to the specified element. This sets `tabindex="0"` on the target element and `tabindex="-1"` to all other items. Must be called prior to setting focus on a list item.
@@ -283,7 +283,7 @@ export class PpList extends Elena(HTMLElement) {
     const items = this.getAllItems();
     const previousItem = this.getCurrentItem();
 
-    items.forEach(i => {
+    items.forEach((i) => {
       i.setAttribute('tabindex', i === item ? '0' : '-1');
     });
 
@@ -323,7 +323,9 @@ export class PpList extends Elena(HTMLElement) {
     announce(`Opened submenu for ${itemText}`);
 
     // Find the submenu list and focus first item
-    const submenuList = item.querySelector<PpList>(':scope > [data-slot="submenu"] pp-list, :scope > pp-list[data-slot="submenu"]');
+    const submenuList = item.querySelector<PpList>(
+      ':scope > [data-slot="submenu"] pp-list, :scope > pp-list[data-slot="submenu"]',
+    );
     if (submenuList) {
       const submenuItems = submenuList.getAllItems();
       if (submenuItems.length > 0) {
@@ -353,7 +355,7 @@ export class PpList extends Elena(HTMLElement) {
   }
 
   closeAllSubmenus() {
-    this.openSubmenus.forEach(item => {
+    this.openSubmenus.forEach((item) => {
       item['submenu-open'] = false;
     });
     this.openSubmenus.clear();
@@ -398,6 +400,6 @@ export class PpList extends Elena(HTMLElement) {
 // Component registration is handled by the centralized registry
 declare global {
   interface HTMLElementTagNameMap {
-    "pp-list": PpList;
+    'pp-list': PpList;
   }
 }

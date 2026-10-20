@@ -23,7 +23,9 @@
       "type": "Message",
       "props": {
         "from": "other",
-        "parts": ["I'm not sure. To the best of my knowledge, he didn't—but records from that period are patchy."]
+        "parts": [
+          "I'm not sure. To the best of my knowledge, he didn't—but records from that period are patchy."
+        ]
       }
     },
     "ask-sum": {
@@ -50,7 +52,10 @@
     },
     "ask-milk-price": {
       "type": "Message",
-      "props": { "from": "actor", "parts": ["what will be the price of milk in Stockholm in 10 years?"] }
+      "props": {
+        "from": "actor",
+        "parts": ["what will be the price of milk in Stockholm in 10 years?"]
+      }
     },
     "answer-milk-price": {
       "type": "Message",

@@ -9,7 +9,11 @@ import { previewTiming } from '../catalog';
 
 const focusable = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
-export const usePreview = (shown: boolean, setShown: (shown: boolean) => void, expanded: boolean) => {
+export const usePreview = (
+  shown: boolean,
+  setShown: (shown: boolean) => void,
+  expanded: boolean,
+) => {
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const timer = useRef<number | undefined>(undefined);
@@ -98,7 +102,13 @@ export const usePreview = (shown: boolean, setShown: (shown: boolean) => void, e
   return {
     triggerRef,
     contentRef,
-    trigger: { onPointerEnter: show, onPointerLeave: hide, onFocus: show, onBlur: blur, onKeyDown: triggerKey },
+    trigger: {
+      onPointerEnter: show,
+      onPointerLeave: hide,
+      onFocus: show,
+      onBlur: blur,
+      onKeyDown: triggerKey,
+    },
     content: { onPointerEnter: clear, onPointerLeave: hide, onBlur: blur, onKeyDown: contentKey },
     close,
   };

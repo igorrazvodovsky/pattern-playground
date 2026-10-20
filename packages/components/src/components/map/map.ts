@@ -57,7 +57,6 @@ export interface MapFocusDetail {
   location: MapLocation | null;
 }
 
-
 /** A design-system pin drawn from CSS rather than Leaflet's bundled PNG. */
 function pinIcon(selected: boolean): L.DivIcon {
   return L.divIcon({
@@ -70,9 +69,9 @@ function pinIcon(selected: boolean): L.DivIcon {
 }
 
 export class MapComponent extends Elena(HTMLElement) {
-  static tagName = 'pp-map';
+  static 'tagName' = 'pp-map';
 
-  static props: ElenaProp[] = [
+  static 'props': ElenaProp[] = [
     { name: 'locations', reflect: false },
     { name: 'center', reflect: false },
     'zoom',
@@ -84,18 +83,18 @@ export class MapComponent extends Elena(HTMLElement) {
   ];
 
   /** The places to plot; each becomes a focusable marker. */
-  locations: MapLocation[] = [];
+  'locations': MapLocation[] = [];
 
   /** Initial centre `[lat, lng]`. When omitted, the view fits all markers. */
-  center: [number, number] | undefined = undefined;
+  'center': [number, number] | undefined = undefined;
 
   /** Initial zoom level. Ignored when the view is fit to markers. */
-  zoom = 13;
+  'zoom' = 13;
 
   'tile-url' = CARTO_TILE_URL;
 
   /** Attribution HTML for the tile source. Required by most providers. */
-  attribution = CARTO_ATTRIBUTION;
+  'attribution' = CARTO_ATTRIBUTION;
 
   /** The active location's id; empty string means no selection. */
   'selected-id': string | number = '';
@@ -104,25 +103,25 @@ export class MapComponent extends Elena(HTMLElement) {
   'focused-id': string | number = '';
 
   /** Accessible name for the map region. */
-  label = 'Location map';
+  'label' = 'Location map';
 
-  private map?: L.Map;
-  private tileLayer?: L.TileLayer;
-  private markersById = new Map<string, L.Marker>();
-  private resizeObserver?: ResizeObserver;
-  private rafHandle = 0;
-  private canvas?: HTMLElement;
-  private zooming = false;
+  private 'map'?: L.Map;
+  private 'tileLayer'?: L.TileLayer;
+  private 'markersById' = new Map<string, L.Marker>();
+  private 'resizeObserver'?: ResizeObserver;
+  private 'rafHandle' = 0;
+  private 'canvas'?: HTMLElement;
+  private 'zooming' = false;
 
   // Elena's updated() carries no changed-props map; previous values live here,
   // seeded in firstUpdated() so handlers only run on later changes.
-  private prevLocations?: MapLocation[];
-  private prevTileUrl?: string;
-  private prevAttribution?: string;
-  private prevSelectedId?: string | number;
-  private prevFocusedId?: string | number;
+  private 'prevLocations'?: MapLocation[];
+  private 'prevTileUrl'?: string;
+  private 'prevAttribution'?: string;
+  private 'prevSelectedId'?: string | number;
+  private 'prevFocusedId'?: string | number;
 
-  connectedCallback() {
+  'connectedCallback'() {
     // Leaflet needs a real container in the document tree before the first
     // render lifecycle runs (firstUpdated fires inside super.connectedCallback).
     if (!this.canvas) {
@@ -141,7 +140,7 @@ export class MapComponent extends Elena(HTMLElement) {
     document.addEventListener('DOMContentLoaded', () => this.init(), { once: true });
   }
 
-  disconnectedCallback() {
+  'disconnectedCallback'() {
     super.disconnectedCallback();
     this.resizeObserver?.disconnect();
     if (this.rafHandle) cancelAnimationFrame(this.rafHandle);
@@ -165,21 +164,23 @@ export class MapComponent extends Elena(HTMLElement) {
     this.zooming = false;
   }
 
-  private init(): void {
+  private 'init'(): void {
     if (!this.hasAttribute('role')) this.setAttribute('role', 'group');
     if (!this.hasAttribute('aria-label')) this.setAttribute('aria-label', this.label);
   }
 
-  firstUpdated(): void {
+  'firstUpdated'(): void {
     this.buildMap();
   }
 
   /** Build the Leaflet map once the canvas node exists. */
-  private buildMap(): void {
+  private 'buildMap'(): void {
     if (!this.canvas) return;
 
     this.map = L.map(this.canvas, { zoomControl: true, attributionControl: true });
-    this.map.on('zoomanim', () => (this.zooming = true)).on('zoomend', () => (this.zooming = false));
+    this.map
+      .on('zoomanim', () => (this.zooming = true))
+      .on('zoomend', () => (this.zooming = false));
     this.tileLayer = L.tileLayer(this['tile-url'], {
       attribution: this.attribution,
       maxZoom: 19,
@@ -201,7 +202,7 @@ export class MapComponent extends Elena(HTMLElement) {
     this.resizeObserver.observe(this.canvas);
   }
 
-  updated(): void {
+  'updated'(): void {
     if (!this.map) return;
     const placesChanged = this.locations !== this.prevLocations;
     if (placesChanged) {
@@ -213,8 +214,10 @@ export class MapComponent extends Elena(HTMLElement) {
       this.prevTileUrl = this['tile-url'];
       this.prevAttribution = this.attribution;
       this.tileLayer?.remove();
-      this.tileLayer = L.tileLayer(this['tile-url'], { attribution: this.attribution, maxZoom: 19 })
-        .addTo(this.map);
+      this.tileLayer = L.tileLayer(this['tile-url'], {
+        attribution: this.attribution,
+        maxZoom: 19,
+      }).addTo(this.map);
     }
     if (this['selected-id'] !== this.prevSelectedId) {
       this.prevSelectedId = this['selected-id'];
@@ -229,7 +232,7 @@ export class MapComponent extends Elena(HTMLElement) {
   }
 
   /** Rebuild every marker from `locations`. */
-  private renderMarkers(): void {
+  private 'renderMarkers'(): void {
     if (!this.map) return;
     for (const marker of this.markersById.values()) marker.remove();
     this.markersById.clear();
@@ -270,17 +273,19 @@ export class MapComponent extends Elena(HTMLElement) {
   }
 
   /** Accessible name for a pin: the place name, plus its detail line if any. */
-  private markerLabel(loc: MapLocation): string {
+  private 'markerLabel'(loc: MapLocation): string {
     return loc.description ? `${loc.name} — ${loc.description}` : loc.name;
   }
 
-  private popupHtml(loc: MapLocation): string {
+  private 'popupHtml'(loc: MapLocation): string {
     const name = this.escape(loc.name);
-    const desc = loc.description ? `<br><span class="pp-map__popup-desc">${this.escape(loc.description)}</span>` : '';
+    const desc = loc.description
+      ? `<br><span class="pp-map__popup-desc">${this.escape(loc.description)}</span>`
+      : '';
     return `<strong>${name}</strong>${desc}`;
   }
 
-  private escape(value: string): string {
+  private 'escape'(value: string): string {
     const el = document.createElement('div');
     el.textContent = value;
     return el.innerHTML;
@@ -289,7 +294,7 @@ export class MapComponent extends Elena(HTMLElement) {
   /** Frame the view: all markers if any, else the given centre, else the world.
       Never animated: a zoom transition left in flight when the host unmounts
       makes Leaflet's transitionend handler read the removed pane and throw. */
-  private fitView(): void {
+  private 'fitView'(): void {
     if (!this.map) return;
     if (this.center) {
       this.map.setView(this.center, this.zoom, { animate: false });
@@ -301,15 +306,15 @@ export class MapComponent extends Elena(HTMLElement) {
     }
   }
 
-  private isSelected(loc: MapLocation): boolean {
+  private 'isSelected'(loc: MapLocation): boolean {
     return this['selected-id'] !== '' && String(loc.id) === String(this['selected-id']);
   }
 
-  private isFocused(loc: MapLocation): boolean {
+  private 'isFocused'(loc: MapLocation): boolean {
     return this['focused-id'] !== '' && String(loc.id) === String(this['focused-id']);
   }
 
-  private reportFocus(loc: MapLocation | null): void {
+  private 'reportFocus'(loc: MapLocation | null): void {
     this.dispatchEvent(
       new CustomEvent<MapFocusDetail>('pp-map-focus', {
         detail: { location: loc },
@@ -319,7 +324,7 @@ export class MapComponent extends Elena(HTMLElement) {
     );
   }
 
-  private syncFocus(): void {
+  private 'syncFocus'(): void {
     for (const loc of this.locations) {
       const el = this.markersById.get(String(loc.id))?.getElement();
       el?.classList.toggle('pp-map__pin--focused', this.isFocused(loc));
@@ -327,7 +332,7 @@ export class MapComponent extends Elena(HTMLElement) {
   }
 
   /** Select a location and let the change flow out through `selected-id`. */
-  private select(loc: MapLocation, source: MapSelectDetail['source']): void {
+  private 'select'(loc: MapLocation, source: MapSelectDetail['source']): void {
     if (this.isSelected(loc)) return;
     this['selected-id'] = loc.id;
     // Selection is applied inline; the prev field is caught up so the microtask
@@ -345,7 +350,7 @@ export class MapComponent extends Elena(HTMLElement) {
   }
 
   /** Reflect the current `selected-id` onto the markers and the map view. */
-  private syncSelection(pan: boolean): void {
+  private 'syncSelection'(pan: boolean): void {
     const loc = this.locations.find((l) => this.isSelected(l));
 
     // Repaint pin states.

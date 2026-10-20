@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import { PpToast } from "../main.ts";
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { PpToast } from '../main.ts';
 import { action } from 'storybook/actions';
 import { expect, userEvent, waitFor, within } from 'storybook/test';
 
@@ -8,8 +8,8 @@ interface ToastArgs {
 }
 
 const meta = {
-  title: "Components/Toast",
-  tags: ["activity-level:operation", "atomic:primitive", 'mediation:individual'],
+  title: 'Components/Toast',
+  tags: ['activity-level:operation', 'atomic:primitive', 'mediation:individual'],
   argTypes: {
     message: {
       control: { type: 'text' },
@@ -58,11 +58,15 @@ export const Multiple: Story = {
       <button
         className="button"
         onClick={() => {
-          PpToast.show("First toast message");
-          setTimeout(() => PpToast.show("Second toast message — open", () => {
-            action('toast-action')('second');
-          }), 500);
-          setTimeout(() => PpToast.show("Third toast message"), 1000);
+          PpToast.show('First toast message');
+          setTimeout(
+            () =>
+              PpToast.show('Second toast message — open', () => {
+                action('toast-action')('second');
+              }),
+            500,
+          );
+          setTimeout(() => PpToast.show('Third toast message'), 1000);
         }}
       >
         Show toasts

@@ -8,7 +8,13 @@ export const heatmapPluginKey = new PluginKey<ScoredSpan[]>('heatmap');
 
 // pmLength: positions in ProseMirror (nodeSize for atoms, text length for text)
 // plainLength: characters in plainText (label length for atoms, text length for text)
-interface TextEntry { pos: number; pmLength: number; plainLength: number; textOffset: number; isAtom: boolean }
+interface TextEntry {
+  pos: number;
+  pmLength: number;
+  plainLength: number;
+  textOffset: number;
+  isAtom: boolean;
+}
 
 function buildTextOffsetMap(doc: PmNode): TextEntry[] {
   const entries: TextEntry[] = [];
@@ -17,14 +23,26 @@ function buildTextOffsetMap(doc: PmNode): TextEntry[] {
 
   doc.descendants((node, pos) => {
     if (node.isText && node.text) {
-      entries.push({ pos, pmLength: node.text.length, plainLength: node.text.length, textOffset, isAtom: false });
+      entries.push({
+        pos,
+        pmLength: node.text.length,
+        plainLength: node.text.length,
+        textOffset,
+        isAtom: false,
+      });
       textOffset += node.text.length;
       return false;
     }
 
     if (node.isAtom && node.isInline) {
       const label = (node.attrs.label ?? node.attrs.id ?? '') as string;
-      entries.push({ pos, pmLength: node.nodeSize, plainLength: label.length, textOffset, isAtom: true });
+      entries.push({
+        pos,
+        pmLength: node.nodeSize,
+        plainLength: label.length,
+        textOffset,
+        isAtom: true,
+      });
       textOffset += label.length;
       return false;
     }

@@ -19,7 +19,14 @@ export const Timeline = ({ density, children }: { density: Density; children?: R
   const nested = useContext(TimelineContext) !== null;
   return (
     <TimelineContext.Provider value={{ density, nested }}>
-      <ol className={clsx('flex flex-col text-sm', nested ? 'gap-2 pt-2 text-muted-foreground' : 'gap-0')}>{children}</ol>
+      <ol
+        className={clsx(
+          'flex flex-col text-sm',
+          nested ? 'gap-2 pt-2 text-muted-foreground' : 'gap-0',
+        )}
+      >
+        {children}
+      </ol>
     </TimelineContext.Provider>
   );
 };
@@ -38,7 +45,17 @@ interface EntryProps {
   children?: ReactNode;
 }
 
-export const TimelineEntry = ({ title, by, time, fromActor, pending, expandable, open, onOpenChange, children }: EntryProps) => {
+export const TimelineEntry = ({
+  title,
+  by,
+  time,
+  fromActor,
+  pending,
+  expandable,
+  open,
+  onOpenChange,
+  children,
+}: EntryProps) => {
   const { density, nested } = useContext(TimelineContext) ?? { density: 'normal', nested: false };
   const compact = density === 'compact';
   const headingId = useId();
@@ -47,7 +64,12 @@ export const TimelineEntry = ({ title, by, time, fromActor, pending, expandable,
       {typeof by === 'string' && <span className="font-medium text-foreground">{by} </span>}
       {by && typeof by === 'object' && (
         <>
-          <a href={by.href} className="font-medium text-foreground underline underline-offset-4 hover:text-primary">{by.name}</a>{' '}
+          <a
+            href={by.href}
+            className="font-medium text-foreground underline underline-offset-4 hover:text-primary"
+          >
+            {by.name}
+          </a>{' '}
         </>
       )}
       {title}
@@ -76,15 +98,32 @@ export const TimelineEntry = ({ title, by, time, fromActor, pending, expandable,
     <li className={clsx('group/entry relative flex gap-3', !nested && 'pb-5 last:pb-0')}>
       {!nested && (
         <>
-          <span aria-hidden="true" className="absolute top-5 bottom-0 left-[5px] w-px bg-border group-last/entry:hidden" />
+          <span
+            aria-hidden="true"
+            className="absolute top-5 bottom-0 left-[5px] w-px bg-border group-last/entry:hidden"
+          />
           {pending ? (
-            <Loader75 aria-hidden="true" className="mt-0.5 size-3 shrink-0 animate-spin text-muted-foreground motion-reduce:animate-none" />
+            <Loader75
+              aria-hidden="true"
+              className="mt-0.5 size-3 shrink-0 animate-spin text-muted-foreground motion-reduce:animate-none"
+            />
           ) : (
-            <span aria-hidden="true" className={clsx('shrink-0 rounded-full bg-muted-foreground/40', compact ? 'mt-1.5 ml-[2px] size-2' : 'mt-1 size-3')} />
+            <span
+              aria-hidden="true"
+              className={clsx(
+                'shrink-0 rounded-full bg-muted-foreground/40',
+                compact ? 'mt-1.5 ml-[2px] size-2' : 'mt-1 size-3',
+              )}
+            />
           )}
         </>
       )}
-      <div className={clsx('flex min-w-0 flex-1 flex-col gap-1', fromActor && 'rounded-lg bg-secondary px-3 py-2 text-secondary-foreground')}>
+      <div
+        className={clsx(
+          'flex min-w-0 flex-1 flex-col gap-1',
+          fromActor && 'rounded-lg bg-secondary px-3 py-2 text-secondary-foreground',
+        )}
+      >
         {body}
         {time && <p className="text-xs text-muted-foreground">{time}</p>}
       </div>

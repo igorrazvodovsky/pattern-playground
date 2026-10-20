@@ -53,7 +53,7 @@ export interface Deduction {
  */
 export function resolveProposals(
   deduction: Deduction,
-  known: { ids: Set<string>; names: Set<string> }
+  known: { ids: Set<string>; names: Set<string> },
 ): Proposal[] {
   const seen = new Set<string>();
 
@@ -75,7 +75,7 @@ const CACHE_PREFIX = 'model-deduction:1:';
 
 export async function deduceConnections(
   request: DeductionRequest,
-  options: { signal?: AbortSignal } = {}
+  options: { signal?: AbortSignal } = {},
 ): Promise<Deduction> {
   /* The name is part of the key, not just the id: a proposal past the model's
      boundary borrows its anchor's id and its anchor's neighbourhood, and only

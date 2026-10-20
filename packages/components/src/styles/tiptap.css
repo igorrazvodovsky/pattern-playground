@@ -260,7 +260,8 @@
   background-color: var(--color-background);
   border: 1px solid var(--color-border);
   border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px oklch(0% 0 0deg / 10%),
+  box-shadow:
+    0 4px 6px -1px oklch(0% 0 0deg / 10%),
     0 2px 4px -1px oklch(0% 0 0deg / 6%);
   padding: 0.375rem;
   backdrop-filter: blur(8px);
@@ -275,7 +276,7 @@
 }
 
 .floating-menu__section:not(:last-child)::after {
-  content: "";
+  content: '';
   position: absolute;
   right: -0.125rem;
   top: 0.25rem;
@@ -301,7 +302,7 @@ mark[data-comment-id] {
   cursor: pointer;
 }
 
-mark[data-comment-id][data-resolved="true"] {
+mark[data-comment-id][data-resolved='true'] {
   background: var(--c-accent-100);
   opacity: 0.6;
 }

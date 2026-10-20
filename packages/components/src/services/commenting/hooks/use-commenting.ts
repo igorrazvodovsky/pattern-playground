@@ -35,16 +35,19 @@ export function useCommenting(pointer?: CommentPointer, options?: UseCommentingO
     };
   }, [pointer, commentService]);
 
-  const createComment = useCallback(async (content: string, parentId?: string) => {
-    if (!pointer) {
-      throw new Error('No pointer specified for comment');
-    }
-    return commentService.createComment(pointer, content, currentUser, parentId);
-  }, [pointer, commentService, currentUser]);
+  const createComment = useCallback(
+    async (content: string, parentId?: string) => {
+      if (!pointer) {
+        throw new Error('No pointer specified for comment');
+      }
+      return commentService.createComment(pointer, content, currentUser, parentId);
+    },
+    [pointer, commentService, currentUser],
+  );
 
   const reply = useCallback(
     (parentId: string, content: string) => commentService.reply(parentId, content, currentUser),
-    [commentService, currentUser]
+    [commentService, currentUser],
   );
 
   return {

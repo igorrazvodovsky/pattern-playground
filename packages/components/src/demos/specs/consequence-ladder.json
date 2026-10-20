@@ -6,13 +6,23 @@
       "props": { "gap": "m" },
       "children": ["actions", "reset", "toasts", "publish-dialog", "transfer-dialog"],
       "watch": {
-        "/transferring": { "action": "setState", "params": { "statePath": "/confirmation", "value": { "typed": "", "attempted": false } } }
+        "/transferring": {
+          "action": "setState",
+          "params": { "statePath": "/confirmation", "value": { "typed": "", "attempted": false } }
+        }
       }
     },
     "actions": {
       "type": "Grid",
       "props": { "minColumnWidth": "m" },
-      "children": ["project", "member", "draft", "published-draft", "ownership", "transferred-ownership"]
+      "children": [
+        "project",
+        "member",
+        "draft",
+        "published-draft",
+        "ownership",
+        "transferred-ownership"
+      ]
     },
 
     "project": {
@@ -25,7 +35,9 @@
     "project-badge": { "type": "Badge", "props": { "text": "Project" } },
     "project-text": {
       "type": "Text",
-      "props": { "text": "A side project that has gone quiet. Archiving clears it from the workspace; you can restore it whenever." }
+      "props": {
+        "text": "A side project that has gone quiet. Archiving clears it from the workspace; you can restore it whenever."
+      }
     },
     "archive": {
       "type": "Button",
@@ -37,7 +49,12 @@
             "action": "pushState",
             "params": {
               "statePath": "/toasts",
-              "value": { "id": "$id", "message": { "$template": "${/project} archived" }, "actionLabel": "Undo", "undo": "/archived" }
+              "value": {
+                "id": "$id",
+                "message": { "$template": "${/project} archived" },
+                "actionLabel": "Undo",
+                "undo": "/archived"
+              }
             }
           }
         ]
@@ -49,12 +66,17 @@
       "props": { "title": { "$state": "/member/name" }, "icon": "person" },
       "visible": { "$state": "/removed", "not": true },
       "children": ["member-text"],
-      "slots": { "suffix": ["member-badge"], "actions": ["remove", "cancel-remove", "confirm-remove"] }
+      "slots": {
+        "suffix": ["member-badge"],
+        "actions": ["remove", "cancel-remove", "confirm-remove"]
+      }
     },
     "member-badge": { "type": "Badge", "props": { "text": "Editor" } },
     "member-text": {
       "type": "Text",
-      "props": { "text": "Removing a member revokes their access. Re-inviting is a round trip, so the action pauses for a moment's confirmation." }
+      "props": {
+        "text": "Removing a member revokes their access. Re-inviting is a round trip, so the action pauses for a moment's confirmation."
+      }
     },
     "remove": {
       "type": "Button",
@@ -64,9 +86,20 @@
     },
     "cancel-remove": {
       "type": "Button",
-      "props": { "label": "Cancel", "icon": "cancel", "hideLabel": true, "variant": "plain", "focusNext": "Remove" },
+      "props": {
+        "label": "Cancel",
+        "icon": "cancel",
+        "hideLabel": true,
+        "variant": "plain",
+        "focusNext": "Remove"
+      },
       "visible": { "$state": "/member/armed" },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/member/armed", "value": false } } }
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": { "statePath": "/member/armed", "value": false }
+        }
+      }
     },
     "confirm-remove": {
       "type": "Button",
@@ -80,7 +113,12 @@
             "action": "pushState",
             "params": {
               "statePath": "/toasts",
-              "value": { "id": "$id", "message": { "$template": "${/member/name} removed" }, "actionLabel": "Undo", "undo": "/removed" }
+              "value": {
+                "id": "$id",
+                "message": { "$template": "${/member/name} removed" },
+                "actionLabel": "Undo",
+                "undo": "/removed"
+              }
             }
           }
         ]
@@ -97,12 +135,16 @@
     "draft-badge": { "type": "Badge", "props": { "text": "Draft" } },
     "draft-text": {
       "type": "Text",
-      "props": { "text": "Publishing makes this visible to the whole company. A dialog spells out who that reaches before you commit." }
+      "props": {
+        "text": "Publishing makes this visible to the whole company. A dialog spells out who that reaches before you commit."
+      }
     },
     "publish": {
       "type": "Button",
       "props": { "label": "Publish…", "icon": "publish" },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/publishing", "value": true } } }
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/publishing", "value": true } }
+      }
     },
     "published-draft": {
       "type": "Card",
@@ -127,12 +169,16 @@
     "ownership-badge": { "type": "Badge", "props": { "text": "Owned by you" } },
     "ownership-text": {
       "type": "Text",
-      "props": { "text": "Handing over ownership is final for you. The dialog asks you to type the workspace name first." }
+      "props": {
+        "text": "Handing over ownership is final for you. The dialog asks you to type the workspace name first."
+      }
     },
     "transfer": {
       "type": "Button",
       "props": { "label": "Transfer ownership…", "icon": "transfer" },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/transferring", "value": true } } }
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/transferring", "value": true } }
+      }
     },
     "transferred-ownership": {
       "type": "Card",
@@ -141,7 +187,10 @@
       "children": ["transferred-text"],
       "slots": { "suffix": ["transferred-badge"] }
     },
-    "transferred-badge": { "type": "Badge", "props": { "text": { "$template": "Owned by ${/newOwner}" } } },
+    "transferred-badge": {
+      "type": "Badge",
+      "props": { "text": { "$template": "Owned by ${/newOwner}" } }
+    },
     "transferred-text": {
       "type": "Text",
       "props": { "text": { "$template": "${/newOwner} controls this workspace now." } }
@@ -151,7 +200,12 @@
       "type": "Button",
       "props": { "label": "Reset", "variant": "plain" },
       "visible": {
-        "$or": [{ "$state": "/archived" }, { "$state": "/removed" }, { "$state": "/published" }, { "$state": "/transferred" }]
+        "$or": [
+          { "$state": "/archived" },
+          { "$state": "/removed" },
+          { "$state": "/published" },
+          { "$state": "/transferred" }
+        ]
       },
       "on": {
         "press": [
@@ -160,7 +214,10 @@
           { "action": "setState", "params": { "statePath": "/published", "value": false } },
           { "action": "setState", "params": { "statePath": "/transferred", "value": false } },
           { "action": "setState", "params": { "statePath": "/member/armed", "value": false } },
-          { "action": "setState", "params": { "statePath": "/confirmation", "value": { "typed": "", "attempted": false } } },
+          {
+            "action": "setState",
+            "params": { "statePath": "/confirmation", "value": { "typed": "", "attempted": false } }
+          },
           { "action": "setState", "params": { "statePath": "/toasts", "value": [] } },
           { "action": "setState", "params": { "statePath": "/pressed", "value": null } }
         ]
@@ -171,7 +228,10 @@
       "type": "Toasts",
       "props": { "toasts": { "$bindState": "/toasts" }, "pressed": { "$bindState": "/pressed" } },
       "on": {
-        "action": { "action": "setState", "params": { "statePath": { "$state": "/pressed/undo" }, "value": false } }
+        "action": {
+          "action": "setState",
+          "params": { "statePath": { "$state": "/pressed/undo" }, "value": false }
+        }
       }
     },
 
@@ -199,7 +259,9 @@
     "cancel-publish": {
       "type": "Button",
       "props": { "label": "Cancel" },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/publishing", "value": false } } }
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/publishing", "value": false } }
+      }
     },
 
     "transfer-dialog": {
@@ -221,7 +283,12 @@
         "label": { "$template": "Type ${/workspace} to confirm" },
         "value": { "$bindState": "/confirmation/typed" },
         "error": {
-          "$cond": { "$and": [{ "$state": "/confirmation/attempted" }, { "$state": "/confirmation/typed", "neq": { "$state": "/workspace" } }] },
+          "$cond": {
+            "$and": [
+              { "$state": "/confirmation/attempted" },
+              { "$state": "/confirmation/typed", "neq": { "$state": "/workspace" } }
+            ]
+          },
           "$then": { "$template": "Type ${/workspace} exactly as shown to transfer ownership." },
           "$else": null
         },
@@ -236,16 +303,44 @@
       },
       "on": {
         "press": [
-          { "action": "setState", "params": { "statePath": "/confirmation/attempted", "value": true } },
-          { "action": "setState", "params": { "statePath": "/transferred", "value": { "$cond": { "$state": "/confirmation/typed", "eq": { "$state": "/workspace" } }, "$then": true, "$else": false } } },
-          { "action": "setState", "params": { "statePath": "/transferring", "value": { "$cond": { "$state": "/confirmation/typed", "eq": { "$state": "/workspace" } }, "$then": false, "$else": true } } }
+          {
+            "action": "setState",
+            "params": { "statePath": "/confirmation/attempted", "value": true }
+          },
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/transferred",
+              "value": {
+                "$cond": { "$state": "/confirmation/typed", "eq": { "$state": "/workspace" } },
+                "$then": true,
+                "$else": false
+              }
+            }
+          },
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/transferring",
+              "value": {
+                "$cond": { "$state": "/confirmation/typed", "eq": { "$state": "/workspace" } },
+                "$then": false,
+                "$else": true
+              }
+            }
+          }
         ]
       }
     },
     "cancel-transfer": {
       "type": "Button",
       "props": { "label": "Cancel" },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/transferring", "value": false } } }
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": { "statePath": "/transferring", "value": false }
+        }
+      }
     }
   }
 }

@@ -39,13 +39,13 @@ const memoise = <O extends object, F>(construct: (locale: Locale, options?: O) =
 };
 
 export const dateTimeFormat = memoise<Intl.DateTimeFormatOptions, Intl.DateTimeFormat>(
-  (locale, options) => new Intl.DateTimeFormat(locale, options)
+  (locale, options) => new Intl.DateTimeFormat(locale, options),
 );
 
 export const numberFormat = memoise<Intl.NumberFormatOptions, Intl.NumberFormat>(
-  (locale, options) => new Intl.NumberFormat(locale, options)
+  (locale, options) => new Intl.NumberFormat(locale, options),
 );
 
 export const relativeTimeFormat = memoise<Intl.RelativeTimeFormatOptions, Intl.RelativeTimeFormat>(
-  (locale, options) => new Intl.RelativeTimeFormat(locale, options)
+  (locale, options) => new Intl.RelativeTimeFormat(locale, options),
 );

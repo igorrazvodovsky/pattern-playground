@@ -57,7 +57,12 @@
     },
     "back-to-categories": {
       "type": "Button",
-      "props": { "label": "All categories", "icon": "back", "variant": "plain", "focusOnShow": true },
+      "props": {
+        "label": "All categories",
+        "icon": "back",
+        "variant": "plain",
+        "focusOnShow": true
+      },
       "on": {
         "press": [
           { "action": "setState", "params": { "statePath": "/inCategory", "value": false } },
@@ -113,7 +118,12 @@
     },
     "back-to-items": {
       "type": "Button",
-      "props": { "label": { "$template": "Back to ${category}" }, "icon": "back", "variant": "plain", "focusOnShow": true },
+      "props": {
+        "label": { "$template": "Back to ${category}" },
+        "icon": "back",
+        "variant": "plain",
+        "focusOnShow": true
+      },
       "on": {
         "press": [
           { "action": "setState", "params": { "statePath": "/inItem", "value": false } },
@@ -129,7 +139,13 @@
     "full-view-body": {
       "type": "Stack",
       "props": { "gap": "m" },
-      "children": ["full-view-badges", "full-view-price", "full-view-description", "full-view-attributes", "full-view-listed"]
+      "children": [
+        "full-view-badges",
+        "full-view-price",
+        "full-view-description",
+        "full-view-attributes",
+        "full-view-listed"
+      ]
     },
     "full-view-badges": {
       "type": "Stack",

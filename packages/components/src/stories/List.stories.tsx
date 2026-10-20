@@ -1,12 +1,19 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: "Components/List",
-  tags: ['activity-level:action', 'atomic:component', 'role:component', 'lifecycle:evaluation', 'mediation:individual'],
+  title: 'Components/List',
+  tags: [
+    'activity-level:action',
+    'atomic:component',
+    'role:component',
+    'lifecycle:evaluation',
+    'mediation:individual',
+  ],
   parameters: {
     docs: {
       description: {
-        component: 'Composable list component for menus, option sets, and vertical navigation. List items support inline checkboxes, radios, toggles, and separators.',
+        component:
+          'Composable list component for menus, option sets, and vertical navigation. List items support inline checkboxes, radios, toggles, and separators.',
       },
     },
   },
@@ -23,7 +30,9 @@ export const List: Story = {
       <pp-list-item>Option 2</pp-list-item>
       <pp-list-item>Option 3</pp-list-item>
       <hr />
-      <pp-list-item type="checkbox" checked>Checkbox, radio or toggle</pp-list-item>
+      <pp-list-item type="checkbox" checked>
+        Checkbox, radio or toggle
+      </pp-list-item>
       <pp-list-item disabled>Disabled</pp-list-item>
       <pp-list-item>
         Prefix

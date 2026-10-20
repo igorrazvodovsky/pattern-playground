@@ -1,12 +1,6 @@
 import { attributeLabelFromBinding, findAttribute, taskBinding } from '@shared/data/bindings';
 import { attributeGlyph } from '../../utility/attribute-icons';
-import {
-  users,
-  filterStatuses,
-  filterLabels,
-  filterPriorities,
-  filterDates
-} from "@shared/data";
+import { users, filterStatuses, filterLabels, filterPriorities, filterDates } from '@shared/data';
 
 /**
  * The task filter facets, keyed by attribute path over the task binding.
@@ -70,11 +64,15 @@ const valueRecords: Record<string, ValueRecord[]> = {
   'updatedAt': filterDates,
 };
 
-const toOption = ({ value, icon, avatar }: ValueRecord): FilterOption => ({ name: value, icon, avatar });
+const toOption = ({ value, icon, avatar }: ValueRecord): FilterOption => ({
+  name: value,
+  icon,
+  avatar,
+});
 
 /** Each facet's value options, as the data records them. */
 export const filterValueOptions: Record<string, FilterOption[]> = Object.fromEntries(
-  Object.entries(valueRecords).map(([path, records]) => [path, records.map(toOption)])
+  Object.entries(valueRecords).map(([path, records]) => [path, records.map(toOption)]),
 );
 
 /**

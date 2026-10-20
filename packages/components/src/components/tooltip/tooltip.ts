@@ -83,7 +83,10 @@ export class PpTooltip extends Elena(HTMLElement) {
 
   /** The author's target element: the first element child the component doesn't own. */
   get target(): HTMLElement | null {
-    return ([...this.children] as HTMLElement[]).find(el => el.tagName.toLowerCase() !== 'pp-popup') ?? null;
+    return (
+      ([...this.children] as HTMLElement[]).find((el) => el.tagName.toLowerCase() !== 'pp-popup') ??
+      null
+    );
   }
 
   connectedCallback() {
@@ -225,7 +228,9 @@ export class PpTooltip extends Elena(HTMLElement) {
       }
 
       // Show
-      this.dispatchEvent(new CustomEvent('pp-show', { bubbles: true, cancelable: false, composed: true }))
+      this.dispatchEvent(
+        new CustomEvent('pp-show', { bubbles: true, cancelable: false, composed: true }),
+      );
       if ('CloseWatcher' in window) {
         this.closeWatcher?.destroy();
         this.closeWatcher = new CloseWatcher();
@@ -242,10 +247,14 @@ export class PpTooltip extends Elena(HTMLElement) {
       const { keyframes, options } = getAnimation('tooltip.show');
       await animateTo(this.popup, keyframes, options);
       this.popup.reposition();
-      this.dispatchEvent(new CustomEvent('pp-after-show', { bubbles: true, cancelable: false, composed: true }))
+      this.dispatchEvent(
+        new CustomEvent('pp-after-show', { bubbles: true, cancelable: false, composed: true }),
+      );
     } else {
       // Hide
-      this.dispatchEvent(new CustomEvent('pp-hide', { bubbles: true, cancelable: false, composed: true }))
+      this.dispatchEvent(
+        new CustomEvent('pp-hide', { bubbles: true, cancelable: false, composed: true }),
+      );
       this.closeWatcher?.destroy();
       document.removeEventListener('keydown', this.handleDocumentKeyDown);
 
@@ -254,8 +263,9 @@ export class PpTooltip extends Elena(HTMLElement) {
       await animateTo(this.popup, keyframes, options);
       this.popup.active = false;
       this.body.hidden = true;
-      this.dispatchEvent(new CustomEvent('pp-after-hide', { bubbles: true, cancelable: false, composed: true }))
-
+      this.dispatchEvent(
+        new CustomEvent('pp-after-hide', { bubbles: true, cancelable: false, composed: true }),
+      );
     }
   }
 
@@ -283,21 +293,21 @@ export class PpTooltip extends Elena(HTMLElement) {
 setDefaultAnimation('tooltip.show', {
   keyframes: [
     { opacity: 0, scale: 0.8 },
-    { opacity: 1, scale: 1 }
+    { opacity: 1, scale: 1 },
   ],
-  options: { duration: 150, easing: 'ease' }
+  options: { duration: 150, easing: 'ease' },
 });
 
 setDefaultAnimation('tooltip.hide', {
   keyframes: [
     { opacity: 1, scale: 1 },
-    { opacity: 0, scale: 0.8 }
+    { opacity: 0, scale: 0.8 },
   ],
-  options: { duration: 150, easing: 'ease' }
+  options: { duration: 150, easing: 'ease' },
 });
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pp-tooltip": PpTooltip;
+    'pp-tooltip': PpTooltip;
   }
 }

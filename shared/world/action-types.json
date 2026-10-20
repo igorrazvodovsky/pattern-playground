@@ -44,7 +44,18 @@
   "createTask": {
     "description": "A member creates a task, assigning it within a project.",
     "concept": "task-tracking",
-    "adds": ["title", "specification", "blurb", "status", "priority", "assignee", "label", "project", "dueDate", "createdBy"],
+    "adds": [
+      "title",
+      "specification",
+      "blurb",
+      "status",
+      "priority",
+      "assignee",
+      "label",
+      "project",
+      "dueDate",
+      "createdBy"
+    ],
     "removes": []
   },
   "changeStatus": {
@@ -68,7 +79,20 @@
   "createDocument": {
     "description": "A member writes a document.",
     "concept": "document-keeping",
-    "adds": ["name", "blurb", "search", "documentType", "content", "sections", "wordCount", "version", "quarter", "recurring", "author", "createdBy"],
+    "adds": [
+      "name",
+      "blurb",
+      "search",
+      "documentType",
+      "content",
+      "sections",
+      "wordCount",
+      "version",
+      "quarter",
+      "recurring",
+      "author",
+      "createdBy"
+    ],
     "removes": []
   },
   "uploadFile": {
@@ -121,22 +145,103 @@
   },
   "catalogueMaterial": {
     "description": "The system records a material in the circular-economy catalogue.",
-    "adds": ["name", "blurb", "search", "icon", "category", "subcategory", "recycledContent", "carbonFootprint", "unit", "recyclability", "certification", "supplier", "cost", "costUnit", "availability", "leadTime", "leadTimeUnit"],
+    "adds": [
+      "name",
+      "blurb",
+      "search",
+      "icon",
+      "category",
+      "subcategory",
+      "recycledContent",
+      "carbonFootprint",
+      "unit",
+      "recyclability",
+      "certification",
+      "supplier",
+      "cost",
+      "costUnit",
+      "availability",
+      "leadTime",
+      "leadTimeUnit"
+    ],
     "removes": []
   },
   "catalogueComponent": {
     "description": "The system records a component, its place in an assembly, and the materials it is made of.",
-    "adds": ["name", "blurb", "search", "icon", "category", "hierarchy", "partOf", "madeOf", "specifications", "lifecycle", "sustainability", "supplier", "cost", "leadTime"],
+    "adds": [
+      "name",
+      "blurb",
+      "search",
+      "icon",
+      "category",
+      "hierarchy",
+      "partOf",
+      "madeOf",
+      "specifications",
+      "lifecycle",
+      "sustainability",
+      "supplier",
+      "cost",
+      "leadTime"
+    ],
     "removes": []
   },
   "listProduct": {
     "description": "The system lists a product, with the components it is assembled from and the materials that matter to it.",
-    "adds": ["name", "blurb", "search", "icon", "category", "subcategory", "assembledFrom", "keyMaterial", "specifications", "lifecycle", "sustainability", "circular", "pricing", "availability", "condition", "location"],
+    "adds": [
+      "name",
+      "blurb",
+      "search",
+      "icon",
+      "category",
+      "subcategory",
+      "assembledFrom",
+      "keyMaterial",
+      "specifications",
+      "lifecycle",
+      "sustainability",
+      "circular",
+      "pricing",
+      "availability",
+      "condition",
+      "location"
+    ],
     "removes": []
   },
   "catalogueService": {
     "description": "The system records a service and what it applies to.",
-    "adds": ["name", "blurb", "search", "icon", "category", "serviceType", "appliesTo", "appliesToAll", "serviceProvider", "location", "duration", "durationUnit", "frequency", "checklist", "tools", "sustainability", "pricing", "warranty", "process", "upgradeOptions", "usesMaterial", "recoversMaterial", "certification", "features", "dataTracked", "technology", "privacy", "offerings", "expertise", "deliverables"],
+    "adds": [
+      "name",
+      "blurb",
+      "search",
+      "icon",
+      "category",
+      "serviceType",
+      "appliesTo",
+      "appliesToAll",
+      "serviceProvider",
+      "location",
+      "duration",
+      "durationUnit",
+      "frequency",
+      "checklist",
+      "tools",
+      "sustainability",
+      "pricing",
+      "warranty",
+      "process",
+      "upgradeOptions",
+      "usesMaterial",
+      "recoversMaterial",
+      "certification",
+      "features",
+      "dataTracked",
+      "technology",
+      "privacy",
+      "offerings",
+      "expertise",
+      "deliverables"
+    ],
     "removes": []
   },
   "recordTransaction": {

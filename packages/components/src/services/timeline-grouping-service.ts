@@ -98,7 +98,7 @@ function leavesOf(records: TimelineRecord[], from: number, to: number): Timeline
  */
 export function resolveGrouping(
   grouping: TimelineGrouping,
-  records: TimelineRecord[]
+  records: TimelineRecord[],
 ): TimelineSpan | null {
   const position = new Map(records.map((record, index) => [record.id, index]));
 
@@ -174,13 +174,13 @@ const CACHE_PREFIX = 'timeline-grouping:6:';
 
 export async function groupTimeline(
   records: TimelineRecord[],
-  options: { subject?: string; signal?: AbortSignal } = {}
+  options: { subject?: string; signal?: AbortSignal } = {},
 ): Promise<TimelineGrouping> {
   const key = `${options.subject ?? ''}|${records.map((r) => r.id).join(',')}`;
 
   return postJSON<TimelineGrouping>(
     '/api/timeline/group',
     { records, subject: options.subject },
-    { signal: options.signal, cacheKey: CACHE_PREFIX + key }
+    { signal: options.signal, cacheKey: CACHE_PREFIX + key },
   );
 }

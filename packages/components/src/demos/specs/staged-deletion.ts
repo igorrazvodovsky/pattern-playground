@@ -6,7 +6,11 @@ import spec from './staged-deletion.json' with { type: 'json' };
 
 // A spec cannot fold over a list, so the list-wide reads are functions here.
 
-interface StagedItem { id: string; name: string; deleted: boolean }
+interface StagedItem {
+  id: string;
+  name: string;
+  deleted: boolean;
+}
 
 const items: StagedItem[] = reuseListings.map(({ id, name }) => ({ id, name, deleted: false }));
 
@@ -19,8 +23,8 @@ export default {
     actions: { notify },
     handlers: notifyHandler,
     functions: {
-      anyStaged: args => staged(args).some(item => item.deleted),
-      withoutStaged: args => staged(args).filter(item => !item.deleted),
+      anyStaged: (args) => staged(args).some((item) => item.deleted),
+      withoutStaged: (args) => staged(args).filter((item) => !item.deleted),
     },
   } satisfies SpecSetup,
 };

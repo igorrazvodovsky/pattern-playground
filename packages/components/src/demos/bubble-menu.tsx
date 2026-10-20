@@ -56,17 +56,20 @@ export const BasicDemo: React.FC = () => {
 
 export const TextLensDemo: React.FC = () => {
   const content = getDocumentContentText('doc-climate-change', 'habitat-displacement');
-  const plugins = React.useMemo(() => [
-    formattingPlugin(),
-    aiAssistantPlugin({
-      enableExplain: false,
-      enableSummarize: false,
-      enableZoomIn: true,
-      enableZoomOut: true,
-      streamingEnabled: false,
-      zoomIntensity: 30,
-    })
-  ], []);
+  const plugins = React.useMemo(
+    () => [
+      formattingPlugin(),
+      aiAssistantPlugin({
+        enableExplain: false,
+        enableSummarize: false,
+        enableZoomIn: true,
+        enableZoomOut: true,
+        streamingEnabled: false,
+        zoomIntensity: 30,
+      }),
+    ],
+    [],
+  );
 
   const editor = useEditor({
     extensions: [StarterKit, Highlight],
@@ -99,21 +102,26 @@ export const TextLensDemo: React.FC = () => {
 
 export const CommentingDemo: React.FC = () => {
   const richContent = getDocumentContentRich('doc-climate-change');
-  const plugins = React.useMemo(() => [
-    // The toolbar row carries only the commenting control.
-    formattingPlugin({ toolbar: false }),
-    commentingPlugin({
-      documentId: 'doc-climate-change',
-      currentUser: 'user-1',
-      bubbleMenu: true,
-      toolbar: true,
-    })
-  ], []);
+  const plugins = React.useMemo(
+    () => [
+      // The toolbar row carries only the commenting control.
+      formattingPlugin({ toolbar: false }),
+      commentingPlugin({
+        documentId: 'doc-climate-change',
+        currentUser: 'user-1',
+        bubbleMenu: true,
+        toolbar: true,
+      }),
+    ],
+    [],
+  );
 
   React.useEffect(() => {
-    import('../services/commenting/mock-data/initialize-mock-comments.ts').then(({ initializeMockComments }) => {
-      initializeMockComments();
-    });
+    import('../services/commenting/mock-data/initialize-mock-comments.ts').then(
+      ({ initializeMockComments }) => {
+        initializeMockComments();
+      },
+    );
   }, []);
 
   const editor = useEditor({
@@ -128,9 +136,9 @@ export const CommentingDemo: React.FC = () => {
     content: richContent || '',
     editorProps: {
       attributes: {
-        class: 'rich-editor',
+        'class': 'rich-editor',
         'aria-label': 'Document editor',
-      }
+      },
     },
     immediatelyRender: false,
   });
@@ -156,13 +164,16 @@ export const CommentingDemo: React.FC = () => {
 
 export const DynamicExplanationDemo: React.FC = () => {
   const richContent = getDocumentContentRich('doc-climate-change');
-  const plugins = React.useMemo(() => [
-    explanationPlugin({
-      enableExplain: true,
-      streamingEnabled: true,
-      includeReferences: true,
-    })
-  ], []);
+  const plugins = React.useMemo(
+    () => [
+      explanationPlugin({
+        enableExplain: true,
+        streamingEnabled: true,
+        includeReferences: true,
+      }),
+    ],
+    [],
+  );
 
   const editor = useEditor({
     extensions: [
@@ -170,14 +181,14 @@ export const DynamicExplanationDemo: React.FC = () => {
       Highlight,
       Reference.configure({
         suggestion: createReferenceSuggestion(referenceCategories),
-      })
+      }),
     ],
     content: richContent || '',
     editorProps: {
       attributes: {
-        class: 'rich-editor',
+        'class': 'rich-editor',
         'aria-label': 'Document editor',
-      }
+      },
     },
     immediatelyRender: false,
   });

@@ -17,7 +17,10 @@ export interface SearchableChildMatch {
   score?: number;
 }
 
-export interface SearchResults<TParent extends SearchableParent = SearchableParent, TChild extends SearchableItem = SearchableItem> {
+export interface SearchResults<
+  TParent extends SearchableParent = SearchableParent,
+  TChild extends SearchableItem = SearchableItem,
+> {
   parents: TParent[];
   children: SearchableChildMatch[];
   viewOptions?: TChild[];
@@ -29,7 +32,7 @@ export interface SearchConfig {
   keys?: Array<string | { name: string; weight: number }>;
   minMatchCharLength?: number;
   includeScore?: boolean;
-  
+
   caseSensitive?: boolean;
   parentNameCleanup?: (name: string) => string;
   includeChildrenOnParentMatch?: boolean;
@@ -40,7 +43,7 @@ const defaultConfig: Required<SearchConfig> = {
   threshold: 0.2,
   keys: [
     { name: 'name', weight: 0.7 },
-    { name: 'searchableText', weight: 0.3 }
+    { name: 'searchableText', weight: 0.3 },
   ],
   minMatchCharLength: 2,
   includeScore: true,
@@ -53,7 +56,7 @@ const defaultConfig: Required<SearchConfig> = {
 export function searchHierarchy<TParent extends SearchableParent, TChild extends SearchableItem>(
   query: string,
   parents: TParent[],
-  config: SearchConfig = {}
+  config: SearchConfig = {},
 ): SearchResults<TParent, TChild> {
   const finalConfig = { ...defaultConfig, ...config };
 
@@ -74,11 +77,11 @@ export function searchHierarchy<TParent extends SearchableParent, TChild extends
   });
 
   const parentResults = parentFuse.search(query);
-  const matchingParents = parentResults.map(result => result.item as TParent);
+  const matchingParents = parentResults.map((result) => result.item as TParent);
 
   const childMatches: SearchableChildMatch[] = [];
 
-  parents.forEach(parent => {
+  parents.forEach((parent) => {
     if (!parent.children) return;
 
     const childFuse = new Fuse(parent.children, {
@@ -90,30 +93,30 @@ export function searchHierarchy<TParent extends SearchableParent, TChild extends
     });
 
     const childResults = childFuse.search(query);
-    childResults.forEach(result => {
+    childResults.forEach((result) => {
       childMatches.push({
         parent,
         child: result.item,
-        score: result.score
+        score: result.score,
       });
     });
 
     if (finalConfig.includeChildrenOnParentMatch) {
       const cleanParentName = finalConfig.parentNameCleanup(parent.name);
-      
+
       const parentTestFuse = new Fuse([{ name: cleanParentName }, { name: parent.name }], {
         threshold: finalConfig.threshold,
         keys: ['name'],
         minMatchCharLength: finalConfig.minMatchCharLength,
         isCaseSensitive: finalConfig.caseSensitive,
       });
-      
+
       const parentMatches = parentTestFuse.search(query).length > 0;
-      
+
       if (parentMatches) {
-        parent.children.forEach(child => {
+        parent.children.forEach((child) => {
           const alreadyIncluded = childMatches.some(
-            match => match.parent.id === parent.id && match.child.id === child.id
+            (match) => match.parent.id === parent.id && match.child.id === child.id,
           );
           if (!alreadyIncluded) {
             childMatches.push({ parent, child });
@@ -132,14 +135,14 @@ export function searchHierarchy<TParent extends SearchableParent, TChild extends
 
   return {
     parents: matchingParents,
-    children: childMatches
+    children: childMatches,
   } as SearchResults<TParent, TChild>;
 }
 
 export function searchWithinParent<TChild extends SearchableItem>(
   query: string,
   parent: SearchableParent,
-  config: SearchConfig = {}
+  config: SearchConfig = {},
 ): TChild[] {
   const finalConfig = { ...defaultConfig, ...config };
 
@@ -159,13 +162,13 @@ export function searchWithinParent<TChild extends SearchableItem>(
   });
 
   const results = childFuse.search(query);
-  return results.map(result => result.item as TChild);
+  return results.map((result) => result.item as TChild);
 }
 
 export function calculateRelevanceScore(
   item: SearchableItem,
   query: string,
-  config: SearchConfig = {}
+  config: SearchConfig = {},
 ): number {
   const finalConfig = { ...defaultConfig, ...config };
 
@@ -194,7 +197,7 @@ export function calculateRelevanceScore(
 export function sortByRelevance<T extends SearchableItem>(
   items: T[],
   query: string,
-  config: SearchConfig = {}
+  config: SearchConfig = {},
 ): T[] {
   const finalConfig = { ...defaultConfig, ...config };
 
@@ -213,84 +216,96 @@ export function sortByRelevance<T extends SearchableItem>(
   });
 
   const results = fuse.search(query);
-  
+
   const minRelevanceScore = config.minRelevanceScore ?? 0;
-  
+
   return results
-    .filter(result => {
+    .filter((result) => {
       if (minRelevanceScore > 0 && result.score !== undefined) {
         const relevanceScore = (1 - result.score) * 100;
         return relevanceScore >= minRelevanceScore;
       }
       return true;
     })
-    .map(result => result.item);
+    .map((result) => result.item);
 }
 
-export interface HierarchicalSearchResults<TParent extends SearchableParent, TChild extends SearchableItem> {
+export interface HierarchicalSearchResults<
+  TParent extends SearchableParent,
+  TChild extends SearchableItem,
+> {
   parents: TParent[];
   children: Array<{ parent: TParent; child: TChild }>;
   contextualItems?: TChild[];
 }
 
-export function createUnifiedSearchFunction<TParent extends SearchableParent, TChild extends SearchableItem>() {
+export function createUnifiedSearchFunction<
+  TParent extends SearchableParent,
+  TChild extends SearchableItem,
+>() {
   return (
     input: string,
     data: TParent[],
     context?: TParent,
-    config: SearchConfig = {}
+    config: SearchConfig = {},
   ): HierarchicalSearchResults<TParent, TChild> => {
     if (context) {
       const contextualItems = searchWithinParent<TChild>(input, context, config);
       return {
         parents: [],
         children: [],
-        contextualItems
+        contextualItems,
       };
     } else {
       const results = searchHierarchy<TParent, TChild>(input, data, config);
       return {
         parents: results.parents,
-        children: results.children.map(match => ({
+        children: results.children.map((match) => ({
           parent: match.parent as TParent,
-          child: match.child as TChild
-        }))
+          child: match.child as TChild,
+        })),
       };
     }
   };
 }
 
-export function createSortedSearchFunction<TParent extends SearchableParent, TChild extends SearchableItem>(
+export function createSortedSearchFunction<
+  TParent extends SearchableParent,
+  TChild extends SearchableItem,
+>(
   sortParents?: (parents: TParent[], query: string) => TParent[],
   sortChildren?: (children: TChild[], query: string) => TChild[],
-  config: SearchConfig = {}
+  config: SearchConfig = {},
 ) {
   const searchFn = createUnifiedSearchFunction<TParent, TChild>();
-  
+
   return (
     input: string,
     data: TParent[],
-    context?: TParent
+    context?: TParent,
   ): HierarchicalSearchResults<TParent, TChild> => {
     const baseResults = searchFn(input, data, context, config);
 
     if (context && baseResults.contextualItems) {
-      const sorted = sortChildren 
+      const sorted = sortChildren
         ? sortChildren(baseResults.contextualItems, input)
         : sortByRelevance(baseResults.contextualItems, input, config);
-      
+
       return {
         ...baseResults,
-        contextualItems: sorted
+        contextualItems: sorted,
       };
     } else {
-      const sortedParents = sortParents 
+      const sortedParents = sortParents
         ? sortParents(baseResults.parents, input)
         : sortByRelevance(baseResults.parents, input, config);
 
       const sortedChildren = sortChildren
-        ? sortChildren(baseResults.children.map(c => c.child), input).map(child => {
-            const match = baseResults.children.find(c => c.child.id === child.id);
+        ? sortChildren(
+            baseResults.children.map((c) => c.child),
+            input,
+          ).map((child) => {
+            const match = baseResults.children.find((c) => c.child.id === child.id);
             return match!;
           })
         : baseResults.children.sort((a, b) => {
@@ -301,7 +316,7 @@ export function createSortedSearchFunction<TParent extends SearchableParent, TCh
 
       return {
         parents: sortedParents,
-        children: sortedChildren
+        children: sortedChildren,
       };
     }
   };

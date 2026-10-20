@@ -7,7 +7,12 @@ export default {
   setup: {
     initialState: {
       workspace: 'Oriental Aluminum Salad',
-      removes: ['All projects and files', 'Team member access', 'Integration settings', 'Usage history and analytics'],
+      removes: [
+        'All projects and files',
+        'Team member access',
+        'Integration settings',
+        'Usage history and analytics',
+      ],
       exists: true,
       confirming: false,
       confirmation: { typed: '', attempted: false },

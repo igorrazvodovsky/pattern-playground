@@ -6,7 +6,7 @@ import type {
   ScatterPlotData,
   AreaChartData,
   TreeData,
-  ChartDataPoint
+  ChartDataPoint,
 } from './chart-types.js';
 
 import {
@@ -14,7 +14,7 @@ import {
   isBarChartData,
   isScatterPlotData,
   isAreaChartData,
-  isTreeData
+  isTreeData,
 } from './chart-types.js';
 
 export function isChartDataPoint(value: unknown): value is ChartDataPoint {
@@ -47,13 +47,15 @@ export function convertToLineChartData(input: unknown): LineChartData | null {
     const firstItem = data[0];
     if (isChartDataPoint(firstItem) && 'x' in firstItem && 'y' in firstItem) {
       return {
-        series: [{
-          name: 'Series 1',
-          data: data.map(item => ({
-            x: item.x as number | string | Date,
-            y: item.y as number
-          }))
-        }]
+        series: [
+          {
+            name: 'Series 1',
+            data: data.map((item) => ({
+              x: item.x as number | string | Date,
+              y: item.y as number,
+            })),
+          },
+        ],
       };
     }
   }
@@ -73,11 +75,11 @@ export function convertToBarChartData(input: unknown): BarChartData | null {
     const firstItem = data[0];
     if (isChartDataPoint(firstItem) && 'category' in firstItem && 'value' in firstItem) {
       return {
-        data: data.map(item => ({
+        data: data.map((item) => ({
           category: item.category as string,
           value: item.value as number,
-          color: item.color as string | undefined
-        }))
+          color: item.color as string | undefined,
+        })),
       };
     }
 
@@ -88,10 +90,10 @@ export function convertToBarChartData(input: unknown): BarChartData | null {
         const categoryKey = keys[0];
         const valueKey = keys[1];
         return {
-          data: data.map(item => ({
+          data: data.map((item) => ({
             category: String(item[categoryKey]),
-            value: Number(item[valueKey]) || 0
-          }))
+            value: Number(item[valueKey]) || 0,
+          })),
         };
       }
     }
@@ -112,14 +114,14 @@ export function convertToScatterPlotData(input: unknown): ScatterPlotData | null
     const firstItem = data[0];
     if (isChartDataPoint(firstItem) && 'x' in firstItem && 'y' in firstItem) {
       return {
-        data: data.map(item => ({
+        data: data.map((item) => ({
           x: Number(item.x),
           y: Number(item.y),
           label: item.label as string | undefined,
           category: item.category as string | undefined,
           size: item.size as number | undefined,
-          color: item.color as string | undefined
-        }))
+          color: item.color as string | undefined,
+        })),
       };
     }
   }
@@ -139,14 +141,16 @@ export function convertToAreaChartData(input: unknown): AreaChartData | null {
     const firstItem = data[0];
     if (isChartDataPoint(firstItem) && 'x' in firstItem && 'y' in firstItem) {
       return {
-        series: [{
-          name: 'Series 1',
-          data: data.map(item => ({
-            x: item.x as number | string | Date,
-            y: item.y as number,
-            y0: item.y0 as number | undefined
-          }))
-        }]
+        series: [
+          {
+            name: 'Series 1',
+            data: data.map((item) => ({
+              x: item.x as number | string | Date,
+              y: item.y as number,
+              y0: item.y0 as number | undefined,
+            })),
+          },
+        ],
       };
     }
   }
@@ -164,7 +168,7 @@ export function convertToTreeData(input: unknown): TreeData | null {
   // Try to convert simple nested object structure
   if (isChartDataPoint(data) && 'id' in data && 'name' in data) {
     return {
-      root: data as TreeData['root']
+      root: data as TreeData['root'],
     };
   }
 
@@ -188,11 +192,11 @@ export function validateChartData(data: unknown, type: 'line' | 'bar' | 'area' |
 
 export function mergeChartData<T extends LineChartData | BarChartData | AreaChartData>(
   existing: T,
-  newData: Partial<T>
+  newData: Partial<T>,
 ): T {
   return {
     ...existing,
-    ...newData
+    ...newData,
   };
 }
 
@@ -201,7 +205,7 @@ export function transformBarChartData(
   options: {
     orientation?: 'vertical' | 'horizontal';
     sort?: 'asc' | 'desc' | 'none';
-  } = {}
+  } = {},
 ): BarChartData {
   const transformedData = { ...data };
 
@@ -222,7 +226,7 @@ export function transformBarChartData(
 
 export function getDataExtent(data: ChartDataPoint[], key: string): [number, number] {
   const values = data
-    .map(d => d[key])
+    .map((d) => d[key])
     .filter((v): v is number => typeof v === 'number' && !isNaN(v));
 
   if (values.length === 0) {
@@ -233,9 +237,7 @@ export function getDataExtent(data: ChartDataPoint[], key: string): [number, num
 }
 
 export function getCategories(data: ChartDataPoint[], key: string): string[] {
-  const categories = data
-    .map(d => String(d[key]))
-    .filter((v, i, arr) => arr.indexOf(v) === i);
+  const categories = data.map((d) => String(d[key])).filter((v, i, arr) => arr.indexOf(v) === i);
 
   return categories;
 }

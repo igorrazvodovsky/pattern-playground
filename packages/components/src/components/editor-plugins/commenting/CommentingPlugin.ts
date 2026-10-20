@@ -92,7 +92,7 @@ export class EditorCommentingPlugin extends BasePlugin {
 
   configure(config: unknown): void {
     if (config && typeof config === 'object') {
-      this.config = { ...this.config, ...config as CommentingPluginConfig };
+      this.config = { ...this.config, ...(config as CommentingPluginConfig) };
     }
   }
 
@@ -144,26 +144,34 @@ export class EditorCommentingPlugin extends BasePlugin {
 
   registerUI(slots: SlotRegistry): void {
     if (this.config.bubbleMenu) {
-      slots.register('bubble-menu', {
-        pluginId: this.id,
-        render: () => React.createElement(CommentingBubbleMenu),
-      }, {
-        condition: () => {
-          const state = this.context?.editor?.state;
-          if (!state || state.selection.empty) return false;
-          return canComment(state, state.selection.from, state.selection.to);
+      slots.register(
+        'bubble-menu',
+        {
+          pluginId: this.id,
+          render: () => React.createElement(CommentingBubbleMenu),
         },
-        priority: 10,
-      });
+        {
+          condition: () => {
+            const state = this.context?.editor?.state;
+            if (!state || state.selection.empty) return false;
+            return canComment(state, state.selection.from, state.selection.to);
+          },
+          priority: 10,
+        },
+      );
     }
 
     if (this.config.toolbar) {
-      slots.register('toolbar', {
-        pluginId: this.id,
-        render: () => React.createElement(CommentingToolbar),
-      }, {
-        priority: 20,
-      });
+      slots.register(
+        'toolbar',
+        {
+          pluginId: this.id,
+          render: () => React.createElement(CommentingToolbar),
+        },
+        {
+          priority: 20,
+        },
+      );
     }
   }
 
@@ -204,7 +212,12 @@ export class EditorCommentingPlugin extends BasePlugin {
   /** Opens the thread on a passage that was turned into a quote. */
   openQuoteThread(quoteId: string): void {
     this.emit('commenting:thread-opened', {
-      thread: { id: quoteId, kind: 'quote', pointer: new EntityPointer('quote', quoteId), pending: false },
+      thread: {
+        id: quoteId,
+        kind: 'quote',
+        pointer: new EntityPointer('quote', quoteId),
+        pending: false,
+      },
     });
   }
 
@@ -221,7 +234,10 @@ export class EditorCommentingPlugin extends BasePlugin {
 
     const quotes = getQuoteService();
     const quote = quotes.createFromSlice(
-      passage.slice, { from: passage.from, to: passage.to }, this.config.currentUser, this.config.documentId
+      passage.slice,
+      { from: passage.from, to: passage.to },
+      this.config.currentUser,
+      this.config.documentId,
     );
     // The marks change first, while the passage is where it was just found.
     // If the thread then fails to move, the passage goes back to its thread.
@@ -238,7 +254,12 @@ export class EditorCommentingPlugin extends BasePlugin {
       throw error;
     }
 
-    const thread: OpenThread = { id: quote.id, kind: 'quote', pointer: quotePointer, pending: false };
+    const thread: OpenThread = {
+      id: quote.id,
+      kind: 'quote',
+      pointer: quotePointer,
+      pending: false,
+    };
     this.emit('commenting:thread-opened', { thread });
     return thread;
   }
@@ -273,9 +294,10 @@ export class EditorCommentingPlugin extends BasePlugin {
     }
     const doc = this.context?.editor.state.doc;
     if (!doc) return null;
-    const range = thread.kind === 'passage'
-      ? findCommentRanges(doc).find(r => r.threadId === thread.id)
-      : findQuoteRanges(doc).find(r => r.quoteId === thread.id);
+    const range =
+      thread.kind === 'passage'
+        ? findCommentRanges(doc).find((r) => r.threadId === thread.id)
+        : findQuoteRanges(doc).find((r) => r.quoteId === thread.id);
     return range ? { from: range.from, to: range.to } : null;
   }
 
@@ -289,15 +311,17 @@ export class EditorCommentingPlugin extends BasePlugin {
     const doc = this.context?.editor.state.doc;
     if (!doc) return [];
 
-    const positioned: Array<{ pos: number; entry: ThreadListEntry }> = findCommentRanges(doc).map(range => ({
-      pos: range.from,
-      entry: {
-        key: `passage:${range.threadId}`,
-        pointer: this.pointerFor(range.threadId),
-        kind: 'Passage',
-        excerpt: range.text,
-      },
-    }));
+    const positioned: Array<{ pos: number; entry: ThreadListEntry }> = findCommentRanges(doc).map(
+      (range) => ({
+        pos: range.from,
+        entry: {
+          key: `passage:${range.threadId}`,
+          pointer: this.pointerFor(range.threadId),
+          kind: 'Passage',
+          excerpt: range.text,
+        },
+      }),
+    );
 
     for (const range of findQuoteRanges(doc)) {
       positioned.push({
@@ -333,7 +357,7 @@ export class EditorCommentingPlugin extends BasePlugin {
     return positioned
       .sort((a, b) => a.pos - b.pos)
       .map(({ entry }) => entry)
-      .filter(entry => !seen.has(entry.key) && Boolean(seen.add(entry.key)));
+      .filter((entry) => !seen.has(entry.key) && Boolean(seen.add(entry.key)));
   }
 
   /** Scrolls what a pointer points at into view, without moving the selection. */
@@ -347,7 +371,10 @@ export class EditorCommentingPlugin extends BasePlugin {
       const id = CSS.escape(pointer.entityId);
       target = dom.querySelector(`mark[data-quote-id="${id}"], [data-reference-id="${id}"]`);
     }
-    target?.scrollIntoView({ block: 'center', behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+    target?.scrollIntoView({
+      block: 'center',
+      behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+    });
   }
 }
 

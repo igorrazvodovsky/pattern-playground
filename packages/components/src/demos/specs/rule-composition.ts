@@ -45,13 +45,15 @@ interface Rule {
 const isGroup = (item: Condition | Group): item is Group => 'items' in item;
 
 const toOptions = (records: { id: string; name: string }[]): RuleSlotOption[] =>
-  records.map(record => ({ value: record.id, label: record.name }));
+  records.map((record) => ({ value: record.id, label: record.name }));
 
 const options: Record<Field, RuleSlotOption[]> = {
   status: toOptions(filterStatuses),
   assignee: [
     { value: ME, label: 'me' },
-    ...users.filter(user => user.id !== ME).map(user => ({ value: user.id, label: nameOf(user.id) })),
+    ...users
+      .filter((user) => user.id !== ME)
+      .map((user) => ({ value: user.id, label: nameOf(user.id) })),
   ],
   priority: toOptions(filterPriorities),
   label: toOptions(filterLabels),
@@ -104,10 +106,13 @@ const operators: Record<Field, Operator[]> = {
 };
 
 const operatorOf = (condition: Condition) =>
-  operators[condition.field].find(op => op.value === condition.op) ?? operators[condition.field][0];
+  operators[condition.field].find((op) => op.value === condition.op) ??
+  operators[condition.field][0];
 
 const listLabel = (labels: string[], join: string) =>
-  labels.length <= 1 ? labels.join('') : `${labels.slice(0, -1).join(', ')} ${join} ${labels[labels.length - 1]}`;
+  labels.length <= 1
+    ? labels.join('')
+    : `${labels.slice(0, -1).join(', ')} ${join} ${labels[labels.length - 1]}`;
 
 const matchLabels: Record<Match, string> = {
   all: 'all of the following hold',
@@ -137,8 +142,11 @@ const initialRule: Rule = {
 // --- Rule → statement tree ----------------------------------------------
 
 const choice = (id: string, name: string, value: string, choices: RuleSlotOption[]): RuleSlot => ({
-  id, kind: 'choice', name, value: [value],
-  label: choices.find(option => option.value === value)?.label ?? value,
+  id,
+  kind: 'choice',
+  name,
+  value: [value],
+  label: choices.find((option) => option.value === value)?.label ?? value,
   options: choices,
 });
 
@@ -149,15 +157,28 @@ const toLine = (condition: Condition): RuleLine => {
   const name = `Change the ${fieldLabels[condition.field]}`;
   const valueSlot: RuleSlot = op.join
     ? {
-        id: `${condition.id}:value`, kind: 'choice', name, multiple: true, value: values, options: choices,
-        label: listLabel(values.map(v => choices.find(c => c.value === v)?.label ?? v), op.join),
+        id: `${condition.id}:value`,
+        kind: 'choice',
+        name,
+        multiple: true,
+        value: values,
+        options: choices,
+        label: listLabel(
+          values.map((v) => choices.find((c) => c.value === v)?.label ?? v),
+          op.join,
+        ),
       }
     : choice(`${condition.id}:value`, name, values[0], choices);
   return {
     id: condition.id,
     parts: [
       `${fieldLabels[condition.field]} `,
-      choice(`${condition.id}:op`, 'Change the comparison', condition.op, operators[condition.field]),
+      choice(
+        `${condition.id}:op`,
+        'Change the comparison',
+        condition.op,
+        operators[condition.field],
+      ),
       ' ',
       valueSlot,
     ],
@@ -167,16 +188,29 @@ const toLine = (condition: Condition): RuleLine => {
 
 const toGroup = (group: Group, nested: boolean): RuleGroup => ({
   id: group.id,
-  head: choice(`${group.id}:match`, 'Change how the conditions combine', group.match,
-    (Object.keys(matchLabels) as Match[]).map(m => ({ value: m, label: matchLabels[m] }))),
-  items: group.items.map(item => (isGroup(item) ? toGroup(item, true) : toLine(item))),
+  head: choice(
+    `${group.id}:match`,
+    'Change how the conditions combine',
+    group.match,
+    (Object.keys(matchLabels) as Match[]).map((m) => ({ value: m, label: matchLabels[m] })),
+  ),
+  items: group.items.map((item) => (isGroup(item) ? toGroup(item, true) : toLine(item))),
   addCondition: {
-    id: `${group.id}:add`, kind: 'add', name: 'Add a condition', label: 'Condition',
-    options: (Object.keys(fieldLabels) as Field[]).map(field => ({ value: field, label: fieldLabels[field] })),
+    id: `${group.id}:add`,
+    kind: 'add',
+    name: 'Add a condition',
+    label: 'Condition',
+    options: (Object.keys(fieldLabels) as Field[]).map((field) => ({
+      value: field,
+      label: fieldLabels[field],
+    })),
   },
   addGroup: {
-    id: `${group.id}:add`, kind: 'add', label: 'Group',
-    name: group.match === 'all' ? 'Add a group where any may hold' : 'Add a group where all must hold',
+    id: `${group.id}:add`,
+    kind: 'add',
+    label: 'Group',
+    name:
+      group.match === 'all' ? 'Add a group where any may hold' : 'Add a group where all must hold',
     options: [{ value: 'group', label: 'Group' }],
   },
   remove: nested ? { id: group.id, kind: 'remove', name: 'Remove this group' } : undefined,
@@ -189,10 +223,18 @@ const toTree = (rule: Rule): RuleTree => ({
 
 // --- Edits --------------------------------------------------------------
 
-interface Edit { kind: 'change' | 'add' | 'remove'; slotId: string; value: unknown }
+interface Edit {
+  kind: 'change' | 'add' | 'remove';
+  slotId: string;
+  value: unknown;
+}
 
-const newCondition = (id: string, field: Field): Condition =>
-  ({ id, field, op: operators[field][0].value, value: options[field][0].value });
+const newCondition = (id: string, field: Field): Condition => ({
+  id,
+  field,
+  op: operators[field][0].value,
+  value: options[field][0].value,
+});
 
 /** Change one part of a condition; a value follows its operator between one and a set. */
 const changeCondition = (condition: Condition, part: string, value: string[]): Condition => {
@@ -211,44 +253,53 @@ const changeCondition = (condition: Condition, part: string, value: string[]): C
 const removeItem = (group: Group, id: string): Group => ({
   ...group,
   items: group.items
-    .filter(item => item.id !== id)
-    .map(item => (isGroup(item) ? removeItem(item, id) : item))
-    .filter(item => !isGroup(item) || item.items.length > 0),
+    .filter((item) => item.id !== id)
+    .map((item) => (isGroup(item) ? removeItem(item, id) : item))
+    .filter((item) => !isGroup(item) || item.items.length > 0),
 });
 
 const addItem = (group: Group, groupId: string, what: string, nextId: () => string): Group => {
   if (group.id === groupId) {
-    const item: Condition | Group = what === 'group'
-      ? {
-          id: nextId(),
-          match: group.match === 'all' ? 'any' : 'all',
-          items: [newCondition(nextId(), 'assignee'), newCondition(nextId(), 'label')],
-        }
-      : newCondition(nextId(), what as Field);
+    const item: Condition | Group =
+      what === 'group'
+        ? {
+            id: nextId(),
+            match: group.match === 'all' ? 'any' : 'all',
+            items: [newCondition(nextId(), 'assignee'), newCondition(nextId(), 'label')],
+          }
+        : newCondition(nextId(), what as Field);
     return { ...group, items: [...group.items, item] };
   }
-  return { ...group, items: group.items.map(item => (isGroup(item) ? addItem(item, groupId, what, nextId) : item)) };
+  return {
+    ...group,
+    items: group.items.map((item) => (isGroup(item) ? addItem(item, groupId, what, nextId) : item)),
+  };
 };
 
 const changeItem = (group: Group, id: string, part: string, value: string[]): Group => ({
   ...group,
   ...(group.id === id ? { match: value[0] as Match } : {}),
-  items: group.items.map(item =>
-    isGroup(item) ? changeItem(item, id, part, value)
-    : item.id === id ? changeCondition(item, part, value)
-    : item),
+  items: group.items.map((item) =>
+    isGroup(item)
+      ? changeItem(item, id, part, value)
+      : item.id === id
+        ? changeCondition(item, part, value)
+        : item,
+  ),
 });
 
 const applyEdit = (rule: Rule, edit: Edit, nextId: () => string): Rule => {
   if (edit.kind === 'remove') return { where: removeItem(rule.where, edit.slotId) };
   const [itemId, part] = edit.slotId.split(':');
-  if (edit.kind === 'add') return { where: addItem(rule.where, itemId, String(edit.value), nextId) };
+  if (edit.kind === 'add')
+    return { where: addItem(rule.where, itemId, String(edit.value), nextId) };
   return { where: changeItem(rule.where, itemId, part, edit.value as string[]) };
 };
 
 const editRule: ActionDefinition = {
   params: z.object({ edit: z.unknown() }),
-  description: 'Apply an edit written by a RuleBuilder ({ kind, slotId, value }) to the draft rule.',
+  description:
+    'Apply an edit written by a RuleBuilder ({ kind, slotId, value }) to the draft rule.',
 };
 
 const handlers = (store: StateStore) => {
@@ -256,7 +307,10 @@ const handlers = (store: StateStore) => {
   return {
     editRule: ({ edit }: Record<string, unknown>) => {
       if (!edit) return;
-      store.set('/rule', applyEdit(store.get('/rule') as Rule, edit as Edit, () => `n${next++}`));
+      store.set(
+        '/rule',
+        applyEdit(store.get('/rule') as Rule, edit as Edit, () => `n${next++}`),
+      );
     },
   };
 };

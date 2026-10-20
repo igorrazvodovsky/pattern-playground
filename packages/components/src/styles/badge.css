@@ -64,7 +64,6 @@
     border-radius: var(--radius-pill);
   }
 
-
   /* 0.8, not lower: on a solid -700 fill the label is white, and white below
      0.75 alpha drops under 4.5:1 against the fill. */
   .badge__label,
@@ -188,7 +187,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    content: "";
+    content: '';
     background: var(--badge-bg);
     animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
     z-index: -1;
@@ -219,7 +218,7 @@
   }
 
   .badge.badge--plain::before {
-    content: "";
+    content: '';
     position: absolute;
     border-radius: var(--radius-circle);
     width: calc(var(--space-s) - 1px);

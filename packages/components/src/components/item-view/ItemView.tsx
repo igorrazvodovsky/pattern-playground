@@ -48,7 +48,7 @@ const attributeLabel = (attribute: AttributeBinding): string =>
     how a dynamic group like a product's `specifications` stays declarative. */
 const specRows = (
   attribute: AttributeBinding,
-  value: unknown
+  value: unknown,
 ): { key: string; label: string; text: string }[] => {
   if (
     typeof value === 'object' &&
@@ -103,19 +103,13 @@ export const ItemView = ({
     );
   }
 
-  const shown = resolveAttributeSelection(
-    binding,
-    shownAttributes ?? binding.scopes[scope]
-  );
+  const shown = resolveAttributeSelection(binding, shownAttributes ?? binding.scopes[scope]);
 
   const present = shown.filter(
-    (attribute) =>
-      attribute.valueType === 'custom' || getValueAtPath(item, attribute.path) != null
+    (attribute) => attribute.valueType === 'custom' || getValueAtPath(item, attribute.path) != null,
   );
   const byRole = (role: AttributeBinding['role']) =>
-    present.filter(
-      (attribute) => attribute.role === role && attribute.valueType !== 'custom'
-    );
+    present.filter((attribute) => attribute.role === role && attribute.valueType !== 'custom');
 
   const title = resolveEntityTitle(item, binding);
   const thumbnail = byRole('thumbnail')[0];
@@ -133,7 +127,7 @@ export const ItemView = ({
     for (const attribute of present) {
       if (attribute.role === 'action' && attribute.valueType !== 'custom') {
         console.warn(
-          `ItemView: action-role attribute '${attribute.path}' is behavioural and only renders through a registered custom component — give it valueType 'custom'`
+          `ItemView: action-role attribute '${attribute.path}' is behavioural and only renders through a registered custom component — give it valueType 'custom'`,
         );
       }
     }
@@ -144,7 +138,7 @@ export const ItemView = ({
     if (!Custom) {
       if (process.env.NODE_ENV !== 'production') {
         console.warn(
-          `ItemView: no custom component registered for '${contentType}.${attribute.path}'`
+          `ItemView: no custom component registered for '${contentType}.${attribute.path}'`,
         );
       }
       return null;
@@ -226,7 +220,7 @@ export const ItemView = ({
 
   // Mid and maxi: badge row, description, spec rows, then the custom residue.
   const allRows = rows.flatMap((attribute) =>
-    specRows(attribute, getValueAtPath(item, attribute.path))
+    specRows(attribute, getValueAtPath(item, attribute.path)),
   );
 
   return (

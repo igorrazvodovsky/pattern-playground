@@ -32,7 +32,7 @@ export const CommentPopover: React.FC<CommentPopoverProps> = ({
   actions,
   onClose,
   onEscape,
-  onCommentAdded
+  onCommentAdded,
 }) => {
   const user = getUserById(currentUser);
   const popupRef = useRef<HTMLElement>(null);

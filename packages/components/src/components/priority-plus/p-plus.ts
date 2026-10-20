@@ -37,10 +37,13 @@ interface ElementRefs {
   };
 }
 interface Instance {
-  eventListeners: Map<((eventDetail: CustomEvent<Record<string, unknown>>) => void), {
-    eventType: string;
-    wrappedCallback: (eventDetail: CustomEvent<Record<string, unknown>>) => void;
-  }>;
+  eventListeners: Map<
+    (eventDetail: CustomEvent<Record<string, unknown>>) => void,
+    {
+      eventType: string;
+      wrappedCallback: (eventDetail: CustomEvent<Record<string, unknown>>) => void;
+    }
+  >;
   itemMap: WeakMap<HTMLElement | Element, NavType>;
   observer: IntersectionObserver;
 }
@@ -71,7 +74,7 @@ const defaultOptions: Options = {
 };
 
 function createItemsChangedEvent({ overflowCount }: { overflowCount: number }) {
-  return new CustomEvent("itemsChanged", {
+  return new CustomEvent('itemsChanged', {
     detail: { overflowCount },
   });
 }
@@ -83,13 +86,19 @@ function createMirror() {
    * Retrieves a Map of 'mirrored' elements, collected by index, e.g.
    * the comparable element in a different array that shares the same index.
    */
-  return function getMirror(keyArr: HTMLElement[], valueArr: HTMLElement[]): Map<HTMLElement, HTMLElement> {
+  return function getMirror(
+    keyArr: HTMLElement[],
+    valueArr: HTMLElement[],
+  ): Map<HTMLElement, HTMLElement> {
     if (!cache.get(keyArr)) {
       cache.set(
         keyArr,
-        new Map(Array.from(keyArr).reduce((acc: [HTMLElement, HTMLElement][], item, i) => (
-          acc.concat([[item, valueArr[i]]])
-        ), [])),
+        new Map(
+          Array.from(keyArr).reduce(
+            (acc: [HTMLElement, HTMLElement][], item, i) => acc.concat([[item, valueArr[i]]]),
+            [],
+          ),
+        ),
       );
     }
 
@@ -98,7 +107,6 @@ function createMirror() {
 }
 
 function priorityPlus(targetElem: HTMLElement) {
-
   const options = {
     classNames: { ...defaultOptions.classNames },
   } as Options;
@@ -165,20 +173,20 @@ function priorityPlus(targetElem: HTMLElement) {
     enhanceOriginalList(targetClone);
 
     const navItems = Array.from(targetClone.children) as HTMLLIElement[];
-    navItems.forEach(enhanceOriginalNavItem)
+    navItems.forEach(enhanceOriginalNavItem);
 
     return targetClone;
   }
 
   // Enhance the original list element with classes/attributes.
   function enhanceOriginalList(elem: HTMLElement) {
-    elem.classList.add(...classNames[El.PrimaryNav])
+    elem.classList.add(...classNames[El.PrimaryNav]);
     elem.setAttribute(dv(El.PrimaryNav), '');
   }
 
   // Enhance an original list list-item with classes/attributes.
   function enhanceOriginalNavItem(elem: HTMLLIElement) {
-    elem.classList.add(...classNames[El.NavItems])
+    elem.classList.add(...classNames[El.NavItems]);
     elem.setAttribute(dv(El.NavItems), '');
   }
 
@@ -194,20 +202,26 @@ function priorityPlus(targetElem: HTMLElement) {
     const original = document.createRange().createContextualFragment(markup);
 
     // Setup the wrapper and clone/enhance the original list.
-    el.primary[El.PrimaryNavWrapper] = original.querySelector(`[${dv(El.PrimaryNavWrapper)}]`) as HTMLElement;
-    el.primary[El.PrimaryNavWrapper].appendChild(cloneNav(targetElem))
+    el.primary[El.PrimaryNavWrapper] = original.querySelector(
+      `[${dv(El.PrimaryNavWrapper)}]`,
+    ) as HTMLElement;
+    el.primary[El.PrimaryNavWrapper].appendChild(cloneNav(targetElem));
 
     const cloned = original.cloneNode(true) as Element;
 
     // Establish references. By this point the list is fully built.
     el.primary[El.Main] = original.querySelector(`[${dv(El.Main)}]`) as HTMLElement;
     el.primary[El.PrimaryNav] = original.querySelector(`[${dv(El.PrimaryNav)}]`) as HTMLElement;
-    el.primary[El.NavItems] = Array.from(original.querySelectorAll(`[${dv(El.NavItems)}]`)) as HTMLLIElement[];
+    el.primary[El.NavItems] = Array.from(
+      original.querySelectorAll(`[${dv(El.NavItems)}]`),
+    ) as HTMLLIElement[];
     el.primary[El.OverflowNav] = original.querySelector(`[${dv(El.OverflowNav)}]`) as HTMLElement;
     el.primary[El.ToggleBtn] = original.querySelector(`[${dv(El.ToggleBtn)}]`) as HTMLElement;
 
     el.clone[El.Main] = cloned.querySelector(`[${dv(El.Main)}]`) as HTMLElement;
-    el.clone[El.NavItems] = Array.from(cloned.querySelectorAll(`[${dv(El.NavItems)}]`)) as HTMLElement[];
+    el.clone[El.NavItems] = Array.from(
+      cloned.querySelectorAll(`[${dv(El.NavItems)}]`),
+    ) as HTMLElement[];
     el.clone[El.ToggleBtn] = cloned.querySelector(`[${dv(El.ToggleBtn)}]`) as HTMLElement;
     el.clone[El.Main].setAttribute('aria-hidden', 'true');
     el.clone[El.Main].setAttribute('data-clone', 'true');
@@ -218,7 +232,7 @@ function priorityPlus(targetElem: HTMLElement) {
     container.appendChild(cloned);
 
     // By default every item belongs in the primary nav, since the intersection observer will run on-load anyway.
-    el.clone[El.NavItems].forEach(item => itemMap.set(item, El.PrimaryNav));
+    el.clone[El.NavItems].forEach((item) => itemMap.set(item, El.PrimaryNav));
 
     const parent = targetElem.parentNode as HTMLElement;
     parent.replaceChild(container, targetElem);
@@ -235,7 +249,7 @@ function priorityPlus(targetElem: HTMLElement) {
   function getCloneItemsByType(navType: NavType) {
     const { itemMap } = inst;
     // Always use the clone as the base for our new nav, since the order is canonical and it is never filtered.
-    return el.clone[El.NavItems].filter(item => itemMap.get(item) === navType);
+    return el.clone[El.NavItems].filter((item) => itemMap.get(item) === navType);
   }
 
   // Get a list of cloned elements that we need to render for our navType.
@@ -260,31 +274,29 @@ function priorityPlus(targetElem: HTMLElement) {
   function generateNav(navType: NavType): HTMLElement {
     const newNav = el.primary[navType].cloneNode();
 
-    getRenderableItems(navType)
-      .forEach(item => {
-        let elem = getElemMirror(
-          el.clone[El.NavItems],
-          el.primary[El.NavItems],
-        ).get(item) as HTMLElement;
+    getRenderableItems(navType).forEach((item) => {
+      let elem = getElemMirror(el.clone[El.NavItems], el.primary[El.NavItems]).get(
+        item,
+      ) as HTMLElement;
 
-        if (navType == El.OverflowNav) {
-          const newElem = document.createElement('pp-list-item');
-          for (let i = 0; i < elem.attributes.length; i++) {
-            const attr = elem.attributes[i];
-            newElem.setAttribute(attr.name, attr.value);
-          }
-          newElem.innerHTML = elem.innerHTML;
-          // The copies carry slot attributes from the original markup; the
-          // light-DOM pp-list-item styles adornments via data-slot instead.
-          newElem.querySelectorAll('[slot]').forEach(child => {
-            child.setAttribute('data-slot', child.getAttribute('slot')!);
-            child.removeAttribute('slot');
-          });
-          elem = newElem;
+      if (navType == El.OverflowNav) {
+        const newElem = document.createElement('pp-list-item');
+        for (let i = 0; i < elem.attributes.length; i++) {
+          const attr = elem.attributes[i];
+          newElem.setAttribute(attr.name, attr.value);
         }
+        newElem.innerHTML = elem.innerHTML;
+        // The copies carry slot attributes from the original markup; the
+        // light-DOM pp-list-item styles adornments via data-slot instead.
+        newElem.querySelectorAll('[slot]').forEach((child) => {
+          child.setAttribute('data-slot', child.getAttribute('slot')!);
+          child.removeAttribute('slot');
+        });
+        elem = newElem;
+      }
 
-        newNav.appendChild(elem);
-      });
+      newNav.appendChild(elem);
+    });
 
     return newNav as HTMLElement;
   }
@@ -295,10 +307,7 @@ function priorityPlus(targetElem: HTMLElement) {
     const parent = el.primary[navType].parentNode as HTMLElement;
 
     // Replace the existing nav element in the DOM
-    parent.replaceChild(
-      newNav,
-      el.primary[navType],
-    );
+    parent.replaceChild(newNav, el.primary[navType]);
 
     // Update our reference to it
     el.primary[navType] = newNav;
@@ -318,9 +327,11 @@ function priorityPlus(targetElem: HTMLElement) {
     // Update the navs to reflect the new changes
     ([El.PrimaryNav, El.OverflowNav] as NavType[]).forEach(updateNav);
 
-    eventHandler.trigger(createItemsChangedEvent({
-      overflowCount: el.primary[El.OverflowNav].children.length,
-    }));
+    eventHandler.trigger(
+      createItemsChangedEvent({
+        overflowCount: el.primary[El.OverflowNav].children.length,
+      }),
+    );
 
     eventHandler.setEventReady(true);
   }
@@ -353,15 +364,15 @@ function priorityPlus(targetElem: HTMLElement) {
       threshold: [0.99],
     });
 
-    el.clone[El.NavItems].forEach(elem => inst.observer.observe(elem));
+    el.clone[El.NavItems].forEach((elem) => inst.observer.observe(elem));
 
-    eventHandler.on("itemsChanged", onItemsChanged, false);
+    eventHandler.on('itemsChanged', onItemsChanged, false);
   }
 
   (function init() {
     setupEl();
     bindListeners();
-  }());
+  })();
 }
 
 export default priorityPlus;

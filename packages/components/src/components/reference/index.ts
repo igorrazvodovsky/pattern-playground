@@ -13,8 +13,4 @@ export { ReferenceEditor } from './ReferenceEditor';
 export { Reference, createReferenceSuggestion } from './Reference';
 
 // Public types
-export type {
-  ReferenceCategory,
-  ReferenceItem,
-  SelectedReference
-} from './types';
+export type { ReferenceCategory, ReferenceItem, SelectedReference } from './types';

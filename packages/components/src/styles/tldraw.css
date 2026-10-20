@@ -1,353 +1,354 @@
 @import url('tldraw/tldraw.css');
 
 body {
-	overscroll-behavior: none;
+  overscroll-behavior: none;
 }
 
 .tl-container {
-	--node-shadows: 0 2px 6px oklch(0% 0 0deg / 8%), 0 1px 2px oklch(0% 0 0deg / 4%);
-	--node-shadow-border:
-		0 0 0 1px oklch(0% 0 0deg / 4%), 0 2px 6px oklch(0% 0 0deg / 8%), 0 1px 2px oklch(0% 0 0deg / 4%);
-	--node-shadow-highlight:
-		0 0 0 calc(1.2px / var(--tl-zoom)) var(--tl-color-selected), 0 2px 6px oklch(0% 0 0deg / 8%),
-		0 1px 2px oklch(0% 0 0deg / 4%);
+  --node-shadows: 0 2px 6px oklch(0% 0 0deg / 8%), 0 1px 2px oklch(0% 0 0deg / 4%);
+  --node-shadow-border:
+    0 0 0 1px oklch(0% 0 0deg / 4%), 0 2px 6px oklch(0% 0 0deg / 8%),
+    0 1px 2px oklch(0% 0 0deg / 4%);
+  --node-shadow-highlight:
+    0 0 0 calc(1.2px / var(--tl-zoom)) var(--tl-color-selected), 0 2px 6px oklch(0% 0 0deg / 8%),
+    0 1px 2px oklch(0% 0 0deg / 4%);
 }
 
 .NodeShape {
-	border-radius: var(--tl-radius-3);
-	background: var(--tl-color-panel);
-	box-shadow: var(--node-shadow-border);
-	width: 100%;
-	height: fit-content;
-	display: flex;
-	flex-direction: column;
-	padding-bottom: var(--tl-space-3);
+  border-radius: var(--tl-radius-3);
+  background: var(--tl-color-panel);
+  box-shadow: var(--node-shadow-border);
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: var(--tl-space-3);
 
-	.NodeShape-heading {
-		padding: 0 var(--tl-space-4);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: var(--tl-space-4);
-		height: 40px;
-		margin-bottom: var(--tl-space-2);
-	}
+  .NodeShape-heading {
+    padding: 0 var(--tl-space-4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--tl-space-4);
+    height: 40px;
+    margin-bottom: var(--tl-space-2);
+  }
 
-	.NodeShape-label {
-		flex: 1 1 auto;
-		font-weight: 500;
-	}
+  .NodeShape-label {
+    flex: 1 1 auto;
+    font-weight: 500;
+  }
 
-	.NodeShape-output {
-		font-variant-numeric: tabular-nums;
-	}
+  .NodeShape-output {
+    font-variant-numeric: tabular-nums;
+  }
 
-	&.NodeShape_executing {
-		box-shadow:
-			0 0 0 calc(2px / var(--tl-zoom)) var(--tl-color-selected),
-			0 2px 6px oklch(0% 0 0deg / 8%),
-			0 1px 2px oklch(0% 0 0deg / 4%);
-	}
+  &.NodeShape_executing {
+    box-shadow:
+      0 0 0 calc(2px / var(--tl-zoom)) var(--tl-color-selected),
+      0 2px 6px oklch(0% 0 0deg / 8%),
+      0 1px 2px oklch(0% 0 0deg / 4%);
+  }
 }
 
 .NodeRow {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: flex-start;
-	height: 44px;
-	gap: var(--tl-space-4);
-	padding: var(--tl-space-2) var(--tl-space-4);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  height: 44px;
+  gap: var(--tl-space-4);
+  padding: var(--tl-space-2) var(--tl-space-4);
 
-	input,
-	select {
-		align-self: stretch;
-		flex: 1 1 auto;
-		border: 1px solid var(--tl-color-hint);
-		padding: 0 var(--tl-space-4);
-		border-radius: var(--tl-radius-3);
-		background: none;
-		font: inherit;
-		outline: none;
+  input,
+  select {
+    align-self: stretch;
+    flex: 1 1 auto;
+    border: 1px solid var(--tl-color-hint);
+    padding: 0 var(--tl-space-4);
+    border-radius: var(--tl-radius-3);
+    background: none;
+    font: inherit;
+    outline: none;
 
-		&:focus {
-			border-color: var(--tl-color-selected);
-		}
+    &:focus {
+      border-color: var(--tl-color-selected);
+    }
 
-		[data-state='select.idle'] & {
-			pointer-events: all;
-		}
-	}
+    [data-state='select.idle'] & {
+      pointer-events: all;
+    }
+  }
 
-	select {
-		appearance: none;
-		background-image: url("data:image/svg+xml;utf8,<svg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' clip-rule='evenodd' d='M6.27047 12.3161C6.6482 11.9131 7.28103 11.8927 7.68394 12.2705L15 19.1293L22.3161 12.2705C22.719 11.8927 23.3518 11.9131 23.7295 12.3161C24.1073 12.719 24.0869 13.3518 23.6839 13.7295L15.6839 21.2295C15.2993 21.5902 14.7007 21.5902 14.3161 21.2295L6.31606 13.7295C5.91315 13.3518 5.89274 12.719 6.27047 12.3161Z' fill='black'/></svg>");
-		background-repeat: no-repeat;
-		background-position: right var(--tl-space-4) center;
-		background-size: 16px;
-	}
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' clip-rule='evenodd' d='M6.27047 12.3161C6.6482 11.9131 7.28103 11.8927 7.68394 12.2705L15 19.1293L22.3161 12.2705C22.719 11.8927 23.3518 11.9131 23.7295 12.3161C24.1073 12.719 24.0869 13.3518 23.6839 13.7295L15.6839 21.2295C15.2993 21.5902 14.7007 21.5902 14.3161 21.2295L6.31606 13.7295C5.91315 13.3518 5.89274 12.719 6.27047 12.3161Z' fill='black'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right var(--tl-space-4) center;
+    background-size: 16px;
+  }
 }
 
 .NodeInputRow {
-	.NodeInputRow-buttons {
-		display: none;
-		position: absolute;
-		right: 19px;
+  .NodeInputRow-buttons {
+    display: none;
+    position: absolute;
+    right: 19px;
 
-		button {
-			margin-right: -8px;
-			min-width: 38px;
-			height: 38px;
-		}
-	}
+    button {
+      margin-right: -8px;
+      min-width: 38px;
+      height: 38px;
+    }
+  }
 
-	&:has(input:not(:disabled)) {
-		&:hover,
-		&:has(input:focus) {
-			.NodeInputRow-buttons {
-				display: flex;
-			}
-		}
-	}
+  &:has(input:not(:disabled)) {
+    &:hover,
+    &:has(input:focus) {
+      .NodeInputRow-buttons {
+        display: flex;
+      }
+    }
+  }
 }
 
 .Port {
-	position: absolute;
-	width: 12px;
-	height: 12px;
-	border-radius: 50%;
-	background: var(--tl-color-panel);
-	box-sizing: border-box;
-	z-index: 2;
-	box-shadow:
-		0 0 0 1px oklch(0% 0 0deg / 4%),
-		0 1px 3px oklch(0% 0 0deg / 12%);
-	flex: 0 0 auto;
-	transition: transform 0.05s ease-in-out;
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--tl-color-panel);
+  box-sizing: border-box;
+  z-index: 2;
+  box-shadow:
+    0 0 0 1px oklch(0% 0 0deg / 4%),
+    0 1px 3px oklch(0% 0 0deg / 12%);
+  flex: 0 0 auto;
+  transition: transform 0.05s ease-in-out;
 
-	[data-state='select.idle'] & {
-		pointer-events: all;
-	}
+  [data-state='select.idle'] & {
+    pointer-events: all;
+  }
 
-	&.Port_hinting {
-		background: var(--tl-color-selected);
-	}
+  &.Port_hinting {
+    background: var(--tl-color-selected);
+  }
 
-	&.Port_end {
-		left: -6px;
-	}
+  &.Port_end {
+    left: -6px;
+  }
 
-	&.Port_start {
-		right: -6px;
-	}
+  &.Port_start {
+    right: -6px;
+  }
 
-	&.Port_eligible {
-		box-shadow:
-			0 0 0 calc(1px / var(--tl-zoom)) var(--tl-color-selected),
-			0 0 0 1px oklch(0% 0 0deg / 4%),
-			0 1px 3px oklch(0% 0 0deg / 12%);
-	}
+  &.Port_eligible {
+    box-shadow:
+      0 0 0 calc(1px / var(--tl-zoom)) var(--tl-color-selected),
+      0 0 0 1px oklch(0% 0 0deg / 4%),
+      0 1px 3px oklch(0% 0 0deg / 12%);
+  }
 }
 
 .ConnectionShape {
-	stroke-width: 2px;
-	stroke: var(--tl-color-text-3);
-	fill: none;
+  stroke-width: 2px;
+  stroke: var(--tl-color-text-3);
+  fill: none;
 }
 
 .ConnectionShapeIndicator {
-	stroke-width: 2.1px;
-	stroke-linecap: round;
+  stroke-width: 2.1px;
+  stroke-linecap: round;
 }
 
 .ConnectionCenterHandle {
-	.ConnectionCenterHandle-hover {
-		cursor: pointer;
-		stroke: none;
-		fill: none;
+  .ConnectionCenterHandle-hover {
+    cursor: pointer;
+    stroke: none;
+    fill: none;
 
-		[data-state='select.idle'] & {
-			pointer-events: all;
-		}
+    [data-state='select.idle'] & {
+      pointer-events: all;
+    }
 
-		&:hover {
-			fill: var(--tl-color-selection-fill);
-		}
-	}
+    &:hover {
+      fill: var(--tl-color-selection-fill);
+    }
+  }
 
-	.ConnectionCenterHandle-ring {
-		stroke: none;
-		fill: var(--tl-color-selected);
-	}
+  .ConnectionCenterHandle-ring {
+    stroke: none;
+    fill: var(--tl-color-selected);
+  }
 
-	.ConnectionCenterHandle-icon {
-		stroke-width: 2px;
-		stroke: var(--tl-color-selected-contrast);
-	}
+  .ConnectionCenterHandle-icon {
+    stroke-width: 2px;
+    stroke: var(--tl-color-selected-contrast);
+  }
 }
 
 .OnCanvasComponentPicker {
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: var(--tl-layer-overlays);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: var(--tl-layer-overlays);
 
-	--top: 66px;
+  --top: 66px;
 
-	transform-origin: 0 0;
+  transform-origin: 0 0;
 
-	.OnCanvasComponentPicker-content {
-		position: absolute;
-		margin-top: calc(-1 * var(--top));
-		width: 150px;
-		border-radius: var(--tl-radius-3);
-		background: var(--tl-color-panel);
-		box-shadow: var(--node-shadow-highlight);
-	}
+  .OnCanvasComponentPicker-content {
+    position: absolute;
+    margin-top: calc(-1 * var(--top));
+    width: 150px;
+    border-radius: var(--tl-radius-3);
+    background: var(--tl-color-panel);
+    box-shadow: var(--node-shadow-highlight);
+  }
 
-	.OnCanvasComponentPicker-icon {
-		font-size: 36px;
-	}
+  .OnCanvasComponentPicker-icon {
+    font-size: 36px;
+  }
 
-	&.OnCanvasComponentPicker_middle .OnCanvasComponentPicker-content {
-		margin-left: -75px;
-	}
+  &.OnCanvasComponentPicker_middle .OnCanvasComponentPicker-content {
+    margin-left: -75px;
+  }
 }
 
 .ConditionalNode-output {
-	justify-content: flex-end;
+  justify-content: flex-end;
 }
 
 .ConditionalNode-output-false {
-	background: var(--tl-color-muted-0);
-	border-top: 1px solid var(--tl-color-divider);
-	margin-bottom: calc(-1 * var(--tl-space-3));
-	border-bottom-left-radius: var(--tl-radius-3);
-	border-bottom-right-radius: var(--tl-radius-3);
+  background: var(--tl-color-muted-0);
+  border-top: 1px solid var(--tl-color-divider);
+  margin-bottom: calc(-1 * var(--tl-space-3));
+  border-bottom-left-radius: var(--tl-radius-3);
+  border-bottom-right-radius: var(--tl-radius-3);
 }
 
 .NodeValue_placeholder {
-	display: inline-block;
-	width: 18px;
-	height: 10px;
-	border-radius: 10px;
-	background: oklch(0% 0 0deg / 10%);
+  display: inline-block;
+  width: 18px;
+  height: 10px;
+  border-radius: 10px;
+  background: oklch(0% 0 0deg / 10%);
 }
 
 .SliderNode {
-	.tlui-slider__container {
-		padding: 0;
+  .tlui-slider__container {
+    padding: 0;
 
-		&:has(.tlui-slider__thumb:focus-visible) {
-			outline: none;
-		}
+    &:has(.tlui-slider__thumb:focus-visible) {
+      outline: none;
+    }
 
-		[data-state='select.idle'] & {
-			pointer-events: all;
-		}
-	}
+    [data-state='select.idle'] & {
+      pointer-events: all;
+    }
+  }
 }
 
 .WorkflowRegion {
-	position: absolute;
-	color: oklch(76.5% 0 0deg);
-	border: 1px dashed currentcolor;
-	border-radius: var(--tl-radius-3);
-	pointer-events: none;
+  position: absolute;
+  color: oklch(76.5% 0 0deg);
+  border: 1px dashed currentcolor;
+  border-radius: var(--tl-radius-3);
+  pointer-events: none;
 
-	.WorkflowRegion-button {
-		position: absolute;
-		top: 0;
-		left: -60px;
-		width: 40px;
-		height: 40px;
-		border-radius: 50%;
-		color: inherit;
-		background: var(--tl-color-panel);
-		border: 1px solid currentcolor;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		cursor: pointer;
+  .WorkflowRegion-button {
+    position: absolute;
+    top: 0;
+    left: -60px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: inherit;
+    background: var(--tl-color-panel);
+    border: 1px solid currentcolor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 
-		.tl-container[data-state='select.idle'] & {
-			pointer-events: all;
-		}
+    .tl-container[data-state='select.idle'] & {
+      pointer-events: all;
+    }
 
-		svg {
-			color: oklch(68.3% 0 0deg);
-		}
-	}
+    svg {
+      color: oklch(68.3% 0 0deg);
+    }
+  }
 
-	&::after {
-		content: '';
-		display: block;
-		width: 20px;
-		height: 0;
-		border-bottom: 1px dashed currentcolor;
-		position: absolute;
-		top: 20px;
-		left: -20px;
-	}
+  &::after {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 0;
+    border-bottom: 1px dashed currentcolor;
+    position: absolute;
+    top: 20px;
+    left: -20px;
+  }
 
-	&:has(.WorkflowRegion-button:hover) {
-		color: var(--tl-color-selected);
-	}
+  &:has(.WorkflowRegion-button:hover) {
+    color: var(--tl-color-selected);
+  }
 
-	&.WorkflowRegion_executing {
-		color: var(--tl-color-selected);
-		border-style: solid;
+  &.WorkflowRegion_executing {
+    color: var(--tl-color-selected);
+    border-style: solid;
 
-		&::after {
-			border-bottom-style: solid;
-		}
+    &::after {
+      border-bottom-style: solid;
+    }
 
-		.WorkflowRegion-button {
-			border-width: 2px;
+    .WorkflowRegion-button {
+      border-width: 2px;
 
-			&::after {
-				content: '';
-				width: 8px;
-				height: 4px;
-				border-radius: 100%;
-				border: 2px solid var(--tl-color-selected);
-				background: var(--tl-color-panel);
-				position: absolute;
-				animation: WorkflowRegion-button-spin 1s linear infinite;
-			}
-		}
-	}
+      &::after {
+        content: '';
+        width: 8px;
+        height: 4px;
+        border-radius: 100%;
+        border: 2px solid var(--tl-color-selected);
+        background: var(--tl-color-panel);
+        position: absolute;
+        animation: WorkflowRegion-button-spin 1s linear infinite;
+      }
+    }
+  }
 }
 
 @keyframes WorkflowRegion-button-spin {
-	0% {
-		transform: rotate(0deg) translateY(-19px);
-	}
+  0% {
+    transform: rotate(0deg) translateY(-19px);
+  }
 
-	100% {
-		transform: rotate(360deg) translateY(-19px);
-	}
+  100% {
+    transform: rotate(360deg) translateY(-19px);
+  }
 }
 
 .EarthquakeNode-message {
-	text-align: center;
-	padding: 24px 12px;
-	font-size: 12px;
-	color: oklch(51% 0 0deg);
-	height: 132px; /* 3 * NODE_ROW_HEIGHT_PX (3 * 44) */
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  text-align: center;
+  padding: 24px 12px;
+  font-size: 12px;
+  color: oklch(51% 0 0deg);
+  height: 132px; /* 3 * NODE_ROW_HEIGHT_PX (3 * 44) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ContentCard - Semantic Zoom */
 .ContentCard {
-	position: relative;
-	transition:
-		width 200ms cubic-bezier(0.4, 0, 0.2, 1),
-		height 200ms cubic-bezier(0.4, 0, 0.2, 1),
-		border-radius 200ms cubic-bezier(0.4, 0, 0.2, 1),
-		background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  transition:
+    width 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    height 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-radius 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* LOD variant containers - all rendered, visibility controlled */
@@ -355,16 +356,16 @@ body {
 .ContentCard-lod-b,
 .ContentCard-lod-c,
 .ContentCard-lod-d {
-	position: absolute;
-	inset: 0;
-	opacity: 0;
-	visibility: hidden;
-	transition:
-		opacity 200ms cubic-bezier(0.4, 0, 0.2, 1),
-		visibility 200ms cubic-bezier(0.4, 0, 0.2, 1);
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Active LOD states */
@@ -372,101 +373,101 @@ body {
 .ContentCard[data-lod='B'] .ContentCard-lod-b,
 .ContentCard[data-lod='C'] .ContentCard-lod-c,
 .ContentCard[data-lod='D'] .ContentCard-lod-d {
-	opacity: 1;
-	visibility: visible;
+  opacity: 1;
+  visibility: visible;
 }
 
 /* LOD A: Solid circle */
 .ContentCard[data-lod='A'] {
-	width: 24px;
-	height: 24px;
-	border-radius: 50%;
-	background: var(--tl-color-text);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--tl-color-text);
 }
 
 .ContentCard-circle {
-	width: 100%;
-	height: 100%;
-	border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 }
 
 /* LOD B: Pill/chip with title */
 .ContentCard[data-lod='B'] {
-	width: 120px;
-	height: 32px;
-	border-radius: 16px;
-	background: var(--tl-color-panel);
-	box-shadow: var(--node-shadow-border);
+  width: 120px;
+  height: 32px;
+  border-radius: 16px;
+  background: var(--tl-color-panel);
+  box-shadow: var(--node-shadow-border);
 }
 
 .ContentCard-chip {
-	font-size: 12px;
-	font-weight: 500;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	padding: 0 12px;
-	line-height: 32px;
-	max-width: 100%;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 12px;
+  line-height: 32px;
+  max-width: 100%;
 }
 
 /* LOD C: Card with title and summary */
 .ContentCard[data-lod='C'] {
-	width: 235px;
-	height: 120px;
-	border-radius: var(--tl-radius-3);
-	background: var(--tl-color-panel);
-	box-shadow: var(--node-shadow-border);
+  width: 235px;
+  height: 120px;
+  border-radius: var(--tl-radius-3);
+  background: var(--tl-color-panel);
+  box-shadow: var(--node-shadow-border);
 }
 
 .ContentCard-lod-c {
-	flex-direction: column;
-	align-items: flex-start;
-	justify-content: flex-start;
-	padding: 12px 16px;
-	overflow: hidden;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 12px 16px;
+  overflow: hidden;
 }
 
 /* LOD D: Full reading panel */
 .ContentCard[data-lod='D'] {
-	width: 400px;
-	height: 300px;
-	border-radius: var(--tl-radius-3);
-	background: var(--tl-color-panel);
-	box-shadow: var(--node-shadow-border);
+  width: 400px;
+  height: 300px;
+  border-radius: var(--tl-radius-3);
+  background: var(--tl-color-panel);
+  box-shadow: var(--node-shadow-border);
 }
 
 .ContentCard-lod-d {
-	flex-direction: column;
-	align-items: flex-start;
-	justify-content: flex-start;
-	padding: 16px 20px;
-	overflow: hidden;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 16px 20px;
+  overflow: hidden;
 }
 
 /* Typography */
 .ContentCard-title {
-	font-weight: 500;
-	font-size: 14px;
-	margin: 0 0 8px;
-	line-height: 1.3;
+  font-weight: 500;
+  font-size: 14px;
+  margin: 0 0 8px;
+  line-height: 1.3;
 }
 
 .ContentCard-summary {
-	color: var(--tl-color-text-2);
-	font-size: 13px;
-	line-height: 1.4;
-	margin: 0;
-	overflow: hidden;
-	display: -webkit-box;
-	-webkit-line-clamp: 3;
-	-webkit-box-orient: vertical;
+  color: var(--tl-color-text-2);
+  font-size: 13px;
+  line-height: 1.4;
+  margin: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
 .ContentCard-fulltext {
-	font-size: 14px;
-	line-height: 1.5;
-	overflow-y: auto;
-	max-height: calc(100% - 40px);
-	color: var(--tl-color-text-1);
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-y: auto;
+  max-height: calc(100% - 40px);
+  color: var(--tl-color-text-1);
 }

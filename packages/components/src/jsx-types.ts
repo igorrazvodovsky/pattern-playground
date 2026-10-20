@@ -20,17 +20,17 @@ declare module 'react' {
         invalid?: boolean;
       };
       'pp-range': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-        name?: string;
-        value?: number | string;
-        min?: number | string;
-        max?: number | string;
-        step?: number | string;
-        disabled?: boolean;
-        size?: 'small' | 'medium' | 'large';
-        label?: string;
-        labelledby?: string;
-        describedby?: string;
-        marks?: boolean;
+        'name'?: string;
+        'value'?: number | string;
+        'min'?: number | string;
+        'max'?: number | string;
+        'step'?: number | string;
+        'disabled'?: boolean;
+        'size'?: 'small' | 'medium' | 'large';
+        'label'?: string;
+        'labelledby'?: string;
+        'describedby'?: string;
+        'marks'?: boolean;
         'hide-value'?: boolean;
         'value-text'?: string;
       };
@@ -42,7 +42,10 @@ declare module 'react' {
       /* CSS-only styled tag (no custom element definition) — sizes with font-size */
       'pp-spinner': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
       'pp-modal': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
-      'pp-table': React.DetailedHTMLProps<React.TableHTMLAttributes<HTMLTableElement>, HTMLTableElement>;
+      'pp-table': React.DetailedHTMLProps<
+        React.TableHTMLAttributes<HTMLTableElement>,
+        HTMLTableElement
+      >;
       'pp-timestamp': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         /** ISO 8601. `isoDateTime` from `@shared/format` for a `Date`. */
         value?: string;
@@ -58,7 +61,7 @@ declare module 'react' {
         active?: boolean;
       };
       'pp-tab-group': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-        activation?: 'auto' | 'manual';
+        'activation'?: 'auto' | 'manual';
         'no-scroll-controls'?: boolean;
       };
       'pp-list': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
@@ -74,28 +77,28 @@ declare module 'react' {
         onClick?: () => void;
       };
       'pp-dropdown': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-        ref?: React.Ref<HTMLElement>;
-        open?: boolean;
-        disabled?: boolean;
-        placement?: string;
-        hoist?: boolean;
+        'ref'?: React.Ref<HTMLElement>;
+        'open'?: boolean;
+        'disabled'?: boolean;
+        'placement'?: string;
+        'hoist'?: boolean;
         'stay-open-on-select'?: boolean;
         'onPp-show'?: () => void;
         'onPp-hide'?: () => void;
       };
       'pp-popup': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-        ref?: React.Ref<HTMLElement>;
+        'ref'?: React.Ref<HTMLElement>;
         /** Element, element id, or Floating UI VirtualElement. */
-        anchor?: Element | string | { getBoundingClientRect: () => DOMRect };
-        active?: boolean;
-        open?: boolean;
-        placement?: string;
-        strategy?: 'absolute' | 'fixed';
-        distance?: number;
-        skidding?: number;
-        flip?: boolean;
-        shift?: boolean;
-        sync?: 'width' | 'height' | 'both';
+        'anchor'?: Element | string | { getBoundingClientRect: () => DOMRect };
+        'active'?: boolean;
+        'open'?: boolean;
+        'placement'?: string;
+        'strategy'?: 'absolute' | 'fixed';
+        'distance'?: number;
+        'skidding'?: number;
+        'flip'?: boolean;
+        'shift'?: boolean;
+        'sync'?: 'width' | 'height' | 'both';
         'auto-size'?: 'horizontal' | 'vertical' | 'both';
         /** Promote into the browser's top layer (native popover). Boolean only:
          *  React assigns this as a property, and an empty string is falsy. */

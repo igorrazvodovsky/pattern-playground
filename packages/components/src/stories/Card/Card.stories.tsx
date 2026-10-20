@@ -1,16 +1,16 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import React from "react";
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import React from 'react';
 import { faker } from '@faker-js/faker';
 import { formatTime } from '@shared/format';
 import { getRandomIcon } from '../utils/icons';
-import headerHtml from "./CardHeader.html?raw";
-import basicHtml from "./CardBasic.html?raw";
-import footerHtml from "./CardFooter.html?raw";
-import footerAlignedHtml from "./CardFooterAligned.html?raw";
-import imageHtml from "./CardImage.html?raw";
-import imageOverlayHtml from "./CardImageOverlay.html?raw";
-import actionsHtml from "./CardActions.html?raw";
-import indicatorsHtml from "./CardIndicators.html?raw";
+import headerHtml from './CardHeader.html?raw';
+import basicHtml from './CardBasic.html?raw';
+import footerHtml from './CardFooter.html?raw';
+import footerAlignedHtml from './CardFooterAligned.html?raw';
+import imageHtml from './CardImage.html?raw';
+import imageOverlayHtml from './CardImageOverlay.html?raw';
+import actionsHtml from './CardActions.html?raw';
+import indicatorsHtml from './CardIndicators.html?raw';
 
 // Seeded here because the data below is built once, at import.
 faker.seed(3);
@@ -20,23 +20,23 @@ const createCardData = () => {
     img: faker.image.url(),
     title: faker.word.words({ count: { min: 3, max: 5 } }),
     description: faker.hacker.phrase(),
-    date: formatTime(faker.date.recent())
-  }
+    date: formatTime(faker.date.recent()),
+  };
 };
 
 const createAttribute = () => {
   return {
     name: faker.word.words(),
     value: faker.word.words(),
-  }
+  };
 };
 
-const cardsData = faker.helpers.multiple(createCardData, { count: 5 })
-const attributes = faker.helpers.multiple(createAttribute, { count: 5 })
+const cardsData = faker.helpers.multiple(createCardData, { count: 5 });
+const attributes = faker.helpers.multiple(createAttribute, { count: 5 });
 const description = faker.word.words(50);
 
 const meta = {
-  title: "Components/Card",
+  title: 'Components/Card',
   argTypes: {
     loading: {
       control: { type: 'boolean' },
@@ -61,7 +61,9 @@ export const Card: Story = {
           <div className="flow pad">
             <h4 className="label">{faker.word.words()}</h4>
             <p className="description">{faker.hacker.phrase()}</p>
-            <div><small>{formatTime(faker.date.recent())}</small></div>
+            <div>
+              <small>{formatTime(faker.date.recent())}</small>
+            </div>
           </div>
         </article>
       </div>
@@ -81,9 +83,15 @@ export const Attributes: Story = {
           <article className="card">
             <span className="label">{faker.company.name()}</span>
             <span className="card__attributes badges">
-              <span className="badge"><span className="badge__label">67.1</span></span>
-              <span className="badge"><span className="badge__label">18</span></span>
-              <span className="badge"><span className="badge__label">In progress</span></span>
+              <span className="badge">
+                <span className="badge__label">67.1</span>
+              </span>
+              <span className="badge">
+                <span className="badge__label">18</span>
+              </span>
+              <span className="badge">
+                <span className="badge__label">In progress</span>
+              </span>
             </span>
           </article>
         </div>
@@ -125,7 +133,9 @@ export const Description: Story = {
           <article className="card flow pad">
             <h4 className="label">Longer description</h4>
             <pp-dropdown hoist placement="right">
-              <p data-slot="trigger" className="description">{description}.</p>
+              <p data-slot="trigger" className="description">
+                {description}.
+              </p>
               <pp-popup>
                 <pp-list>
                   <div className="description--full flow">{description}.</div>
@@ -138,7 +148,9 @@ export const Description: Story = {
           <article className="card flow pad">
             <h4 className="label">Editable description</h4>
             <pp-dropdown hoist placement="right">
-              <p data-slot="trigger" className="description">{description}.</p>
+              <p data-slot="trigger" className="description">
+                {description}.
+              </p>
               <pp-popup>
                 <pp-list>
                   <textarea autoFocus name="description" defaultValue={description}></textarea>
@@ -212,7 +224,9 @@ export const LayoutGrid: Story = {
             <div style={{ fontSize: 'var(--text-xl)' }}>
               <iconify-icon className="icon" icon={getRandomIcon()} slot="icon"></iconify-icon>
             </div>
-            <a className="stretched-link" href="#">{card.title}</a>
+            <a className="stretched-link" href="#">
+              {card.title}
+            </a>
             <p>{card.description}</p>
             <footer>
               <small>{card.date}</small>
@@ -236,7 +250,9 @@ export const LayoutAuto: Story = {
               alt="A kitten sits patiently between a terracotta pot and decorative grasses."
             />
             <div className="flow pad">
-              <a className="stretched-link" href="#">{card.title}</a>
+              <a className="stretched-link" href="#">
+                {card.title}
+              </a>
               <p>{card.description}</p>
               <small>{card.date}</small>
             </div>

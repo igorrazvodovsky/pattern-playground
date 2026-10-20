@@ -16,7 +16,6 @@ import type { BarChartData, BarChartDataPoint, ChartDimensions } from '../base/c
 // Side-effect import: extends the Selection prototype with .transition() and .interrupt().
 import 'd3-transition';
 
-
 export interface BarChartConfig {
   orientation: 'vertical' | 'horizontal';
   grouped: boolean;
@@ -38,7 +37,7 @@ export const defaultBarChartConfig: BarChartConfig = {
   animate: true,
   animationDuration: 300,
   showValueLabels: false,
-  showCategoryLabels: false
+  showCategoryLabels: false,
 };
 
 export interface BarChartScales {
@@ -55,7 +54,7 @@ export interface BarChartRenderResult {
 export function createBarChartScales(
   data: BarChartData,
   dimensions: ChartDimensions,
-  config: BarChartConfig
+  config: BarChartConfig,
 ): BarChartScales {
   // Scales map into the fixed 600×300 viewBox, not pixel dimensions.
   const viewBoxWidth = 600;
@@ -66,23 +65,28 @@ export function createBarChartScales(
   const chartHeight = viewBoxHeight - margin.top - margin.bottom;
 
   // Band scale for categories (x-axis for vertical bars, y-axis for horizontal).
-  const categories = data.data.map(d => d.category);
+  const categories = data.data.map((d) => d.category);
   const padding = 4; // keep bars off the chart edges
   const xScale = scaleBand<string>()
     .domain(categories)
-    .range(config.orientation === 'vertical' ? [padding, chartWidth - padding] : [chartHeight - padding, padding])
+    .range(
+      config.orientation === 'vertical'
+        ? [padding, chartWidth - padding]
+        : [chartHeight - padding, padding],
+    )
     .padding(config.barPadding);
 
   // Linear scale for values (y-axis for vertical bars, x-axis for horizontal).
-  const values = data.data.map(d => d.value);
-  const yDomain = [
-    Math.min(0, min(values) || 0),
-    max(values) || 0
-  ];
+  const values = data.data.map((d) => d.value);
+  const yDomain = [Math.min(0, min(values) || 0), max(values) || 0];
 
   const yScale = scaleLinear()
     .domain(yDomain)
-    .range(config.orientation === 'vertical' ? [chartHeight - padding, padding] : [padding, chartWidth - padding])
+    .range(
+      config.orientation === 'vertical'
+        ? [chartHeight - padding, padding]
+        : [padding, chartWidth - padding],
+    )
     .nice();
 
   return { x: xScale, y: yScale };
@@ -92,7 +96,7 @@ function renderValueLabels(
   container: Selection<SVGGElement, unknown, null, undefined>,
   data: BarChartData,
   scales: BarChartScales,
-  config: BarChartConfig
+  config: BarChartConfig,
 ): void {
   const labelsGroup = container
     .selectAll<SVGGElement, unknown>('.value-labels-group')
@@ -102,7 +106,7 @@ function renderValueLabels(
 
   const labels = labelsGroup
     .selectAll<SVGTextElement, BarChartDataPoint>('text')
-    .data(data.data, d => d.category);
+    .data(data.data, (d) => d.category);
 
   labels.exit().remove();
 
@@ -116,22 +120,22 @@ function renderValueLabels(
 
   if (config.orientation === 'vertical') {
     allLabels
-      .attr('x', d => (scales.x(d.category) || 0) + scales.x.bandwidth() / 2)
-      .attr('y', d => scales.y(Math.max(0, d.value)) - 8)
+      .attr('x', (d) => (scales.x(d.category) || 0) + scales.x.bandwidth() / 2)
+      .attr('y', (d) => scales.y(Math.max(0, d.value)) - 8)
       .attr('text-anchor', 'middle')
       .attr('dominant-baseline', 'baseline')
-      .text(d => d.value.toString())
+      .text((d) => d.value.toString())
       .attr('fill', 'var(--c-body)')
       .attr('font-size', 'var(--text-s)')
       .attr('font-family', 'var(--font)')
       .attr('opacity', 1);
   } else {
     allLabels
-      .attr('x', d => scales.y(d.value) + 8)
-      .attr('y', d => (scales.x(d.category) || 0) + scales.x.bandwidth() / 2)
+      .attr('x', (d) => scales.y(d.value) + 8)
+      .attr('y', (d) => (scales.x(d.category) || 0) + scales.x.bandwidth() / 2)
       .attr('text-anchor', 'start')
       .attr('dominant-baseline', 'middle')
-      .text(d => d.value.toString())
+      .text((d) => d.value.toString())
       .attr('fill', 'var(--c-body)')
       .attr('font-size', 'var(--text-s)')
       .attr('font-family', 'var(--font)')
@@ -143,7 +147,7 @@ function renderCategoryLabels(
   container: Selection<SVGGElement, unknown, null, undefined>,
   data: BarChartData,
   scales: BarChartScales,
-  config: BarChartConfig
+  config: BarChartConfig,
 ): void {
   const categoryLabelsGroup = container
     .selectAll<SVGGElement, unknown>('.category-labels-group')
@@ -153,7 +157,7 @@ function renderCategoryLabels(
 
   const categoryLabels = categoryLabelsGroup
     .selectAll<SVGTextElement, BarChartDataPoint>('text')
-    .data(data.data, d => d.category);
+    .data(data.data, (d) => d.category);
 
   categoryLabels.exit().remove();
 
@@ -168,11 +172,11 @@ function renderCategoryLabels(
   if (config.orientation === 'vertical') {
     // Vertical bars carry their category label at the bottom of the bar.
     allLabels
-      .attr('x', d => (scales.x(d.category) || 0) + scales.x.bandwidth() / 2)
-      .attr('y', d => scales.y(Math.min(0, d.value)) + 20)
+      .attr('x', (d) => (scales.x(d.category) || 0) + scales.x.bandwidth() / 2)
+      .attr('y', (d) => scales.y(Math.min(0, d.value)) + 20)
       .attr('text-anchor', 'middle')
       .attr('dominant-baseline', 'hanging')
-      .text(d => d.category)
+      .text((d) => d.category)
       .attr('fill', 'white')
       .attr('font-size', 'var(--text-s)')
       .attr('font-family', 'var(--font)')
@@ -182,10 +186,10 @@ function renderCategoryLabels(
     // Horizontal bars carry their category label inside the bar, on the left.
     allLabels
       .attr('x', scales.y(0) + 12)
-      .attr('y', d => (scales.x(d.category) || 0) + scales.x.bandwidth() / 2)
+      .attr('y', (d) => (scales.x(d.category) || 0) + scales.x.bandwidth() / 2)
       .attr('text-anchor', 'start')
       .attr('dominant-baseline', 'middle')
-      .text(d => d.category)
+      .text((d) => d.category)
       .attr('fill', 'white')
       .attr('font-size', 'var(--text-s)')
       .attr('font-family', 'var(--font)')
@@ -198,7 +202,7 @@ export function renderBarChart(
   container: Selection<SVGGElement, unknown, null, undefined>,
   data: BarChartData,
   dimensions: ChartDimensions,
-  config: Partial<BarChartConfig> = {}
+  config: Partial<BarChartConfig> = {},
 ): BarChartRenderResult {
   const mergedConfig = { ...defaultBarChartConfig, ...config };
   const scales = createBarChartScales(data, dimensions, mergedConfig);
@@ -211,53 +215,45 @@ export function renderBarChart(
 
   const bars = barsGroup
     .selectAll<SVGRectElement, BarChartDataPoint>('rect')
-    .data(data.data, d => d.category);
+    .data(data.data, (d) => d.category);
 
   const exitingBars = bars.exit();
   if (mergedConfig.animate && exitingBars.transition) {
-    exitingBars
-      .transition()
-      .duration(mergedConfig.animationDuration)
-      .attr('opacity', 0)
-      .remove();
+    exitingBars.transition().duration(mergedConfig.animationDuration).attr('opacity', 0).remove();
   } else {
     exitingBars.remove();
   }
 
-  const enteringBars = bars
-    .enter()
-    .append('rect')
-    .attr('class', 'bar')
-    .attr('opacity', 0);
+  const enteringBars = bars.enter().append('rect').attr('class', 'bar').attr('opacity', 0);
 
   const allBars = enteringBars.merge(bars);
 
   if (mergedConfig.orientation === 'vertical') {
     allBars
-      .attr('x', d => scales.x(d.category) || 0)
+      .attr('x', (d) => scales.x(d.category) || 0)
       .attr('width', scales.x.bandwidth())
       .attr('fill', 'var(--c-accent-200)')
       .attr('rx', 4)
-      .attr('ry', 4)
+      .attr('ry', 4);
 
     if (mergedConfig.animate && allBars.transition) {
       allBars
         .transition()
         .duration(mergedConfig.animationDuration)
-        .attr('y', d => scales.y(Math.max(0, d.value)))
-        .attr('height', d => Math.abs(scales.y(d.value) - scales.y(0)))
+        .attr('y', (d) => scales.y(Math.max(0, d.value)))
+        .attr('height', (d) => Math.abs(scales.y(d.value) - scales.y(0)))
         .attr('opacity', 1);
     } else {
       allBars
-        .attr('y', d => scales.y(Math.max(0, d.value)))
-        .attr('height', d => Math.abs(scales.y(d.value) - scales.y(0)))
+        .attr('y', (d) => scales.y(Math.max(0, d.value)))
+        .attr('height', (d) => Math.abs(scales.y(d.value) - scales.y(0)))
         .attr('opacity', 1);
     }
   } else {
     allBars
-      .attr('y', d => scales.x(d.category) || 0)
+      .attr('y', (d) => scales.x(d.category) || 0)
       .attr('height', scales.x.bandwidth())
-      .attr('fill', d => d.color || 'var(--c-accent-200)')
+      .attr('fill', (d) => d.color || 'var(--c-accent-200)')
       .attr('rx', 4)
       .attr('ry', 4);
 
@@ -266,12 +262,12 @@ export function renderBarChart(
         .transition()
         .duration(mergedConfig.animationDuration)
         .attr('x', scales.y(0))
-        .attr('width', d => Math.abs(scales.y(d.value) - scales.y(0)))
+        .attr('width', (d) => Math.abs(scales.y(d.value) - scales.y(0)))
         .attr('opacity', 1);
     } else {
       allBars
         .attr('x', scales.y(0))
-        .attr('width', d => Math.abs(scales.y(d.value) - scales.y(0)))
+        .attr('width', (d) => Math.abs(scales.y(d.value) - scales.y(0)))
         .attr('opacity', 1);
     }
   }
@@ -287,7 +283,7 @@ export function renderBarChart(
   return {
     scales,
     bars: allBars,
-    container
+    container,
   };
 }
 
@@ -295,7 +291,7 @@ export function updateBarChart(
   renderResult: BarChartRenderResult,
   data: BarChartData,
   dimensions: ChartDimensions,
-  config: Partial<BarChartConfig> = {}
+  config: Partial<BarChartConfig> = {},
 ): BarChartRenderResult {
   return renderBarChart(renderResult.container, data, dimensions, config);
 }
@@ -304,24 +300,24 @@ export function addBarChartInteractions(
   renderResult: BarChartRenderResult,
   onHover?: (data: BarChartDataPoint, event: MouseEvent) => void,
   onLeave?: () => void,
-  onClick?: (data: BarChartDataPoint, event: MouseEvent) => void
+  onClick?: (data: BarChartDataPoint, event: MouseEvent) => void,
 ): void {
   if (onHover) {
-    renderResult.bars.on('mouseenter', function(event, d) {
+    renderResult.bars.on('mouseenter', function (event, d) {
       select(this).attr('opacity', 0.8);
       onHover(d, event);
     });
   }
 
   if (onLeave) {
-    renderResult.bars.on('mouseleave', function() {
+    renderResult.bars.on('mouseleave', function () {
       select(this).attr('opacity', 1);
       onLeave();
     });
   }
 
   if (onClick) {
-    renderResult.bars.on('click', function(event, d) {
+    renderResult.bars.on('click', function (event, d) {
       onClick(d, event);
     });
   }

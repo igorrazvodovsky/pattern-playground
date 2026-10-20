@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useEffect, useRef } from "react";
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useEffect, useRef } from 'react';
 import { action } from 'storybook/actions';
 import { expect, userEvent, within } from 'storybook/test';
 
@@ -30,7 +30,7 @@ function CheckboxStory({ label, checked, disabled, indeterminate }: CheckboxArgs
 }
 
 const meta = {
-  title: "Components/Checkbox",
+  title: 'Components/Checkbox',
   argTypes: {
     label: {
       control: { type: 'text' },

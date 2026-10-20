@@ -105,7 +105,7 @@ export class PpTimestamp extends Elena(HTMLElement) {
 
     const { text, datetime, absolute, isRelative } = describeTimestamp(
       this.value,
-      this.locale || undefined
+      this.locale || undefined,
     );
     this.#relative = isRelative;
 

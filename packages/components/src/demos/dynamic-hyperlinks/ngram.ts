@@ -1,7 +1,11 @@
 import type { CorpusDocument, ScoredSpan, RelatedMention } from './types';
 
 function normalise(text: string): string {
-  return text.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim();
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 export function extractNgrams(text: string, n = 3): Map<string, number> {
@@ -137,7 +141,8 @@ export function findRelatedMentions(
           docId: doc.id,
           docName: doc.name,
           phrase: sentence.trim(),
-          context: (contextStart > 0 ? '…' : '') +
+          context:
+            (contextStart > 0 ? '…' : '') +
             doc.plainText.slice(contextStart, contextEnd).trim() +
             (contextEnd < doc.plainText.length ? '…' : ''),
           similarity: sim,

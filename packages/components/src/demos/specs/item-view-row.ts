@@ -13,7 +13,7 @@ export default {
   spec: spec as Spec,
   setup: {
     initialState: {
-      products: products.map(item => ({
+      products: products.map((item) => ({
         id: item.id,
         name: item.name,
         category: category(item),

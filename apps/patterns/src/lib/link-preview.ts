@@ -161,7 +161,9 @@ function hide() {
   currentAnchor = null;
 
   const el = getPreviewEl();
-  try { el.hidePopover(); } catch {}
+  try {
+    el.hidePopover();
+  } catch {}
 }
 
 function cancelHide() {

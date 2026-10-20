@@ -119,21 +119,23 @@ export class HoverInteraction implements ChartInteraction {
     const mouseEvent = event as MouseEvent;
     const coordinates = {
       x: mouseEvent.clientX - rect.left,
-      y: mouseEvent.clientY - rect.top
+      y: mouseEvent.clientY - rect.top,
     };
 
     const detail: ChartInteractionEvent = {
       type,
       target: this.element,
       coordinates,
-      originalEvent: event
+      originalEvent: event,
     };
 
-    this.element.dispatchEvent(new CustomEvent(`pp-chart-${type}`, {
-      detail,
-      bubbles: true,
-      composed: true
-    }));
+    this.element.dispatchEvent(
+      new CustomEvent(`pp-chart-${type}`, {
+        detail,
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 }
 
@@ -150,7 +152,7 @@ export class ClickInteraction implements ChartInteraction {
       preventDefault: false,
       stopPropagation: false,
       doubleClickDelay: 300,
-      ...config
+      ...config,
     };
 
     element.addEventListener('click', this.handleClick);
@@ -199,21 +201,23 @@ export class ClickInteraction implements ChartInteraction {
     const mouseEvent = event as MouseEvent;
     const coordinates = {
       x: mouseEvent.clientX - rect.left,
-      y: mouseEvent.clientY - rect.top
+      y: mouseEvent.clientY - rect.top,
     };
 
     const detail: ChartInteractionEvent = {
       type,
       target: this.element,
       coordinates,
-      originalEvent: event
+      originalEvent: event,
     };
 
-    this.element.dispatchEvent(new CustomEvent(`pp-chart-${type}`, {
-      detail,
-      bubbles: true,
-      composed: true
-    }));
+    this.element.dispatchEvent(
+      new CustomEvent(`pp-chart-${type}`, {
+        detail,
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 }
 
@@ -281,7 +285,7 @@ export function createStandardInteractions(): InteractionLayer {
 
 export function createChartInteractionLayer(
   element: SVGElement | HTMLElement,
-  interactions: Array<{ type: ChartInteraction; config?: InteractionConfig }> = []
+  interactions: Array<{ type: ChartInteraction; config?: InteractionConfig }> = [],
 ): InteractionLayer {
   const layer = new InteractionLayer(element);
 

@@ -1,7 +1,6 @@
-
 /* Weak default, like the shadow slot wrapper it replaced: any author rule on
    the trigger element (e.g. a flex button) must win. */
-pp-dropdown > :where([data-slot="trigger"]) {
+pp-dropdown > :where([data-slot='trigger']) {
   display: block;
 }
 
@@ -16,18 +15,18 @@ pp-popup.dropdown__panel[top-layer] {
   border-radius: var(--radius-m);
 }
 
-pp-popup.dropdown__panel[data-current-placement^="top"] {
+pp-popup.dropdown__panel[data-current-placement^='top'] {
   transform-origin: bottom;
 }
 
-pp-popup.dropdown__panel[data-current-placement^="bottom"] {
+pp-popup.dropdown__panel[data-current-placement^='bottom'] {
   transform-origin: top;
 }
 
-pp-popup.dropdown__panel[data-current-placement^="left"] {
+pp-popup.dropdown__panel[data-current-placement^='left'] {
   transform-origin: right;
 }
 
-pp-popup.dropdown__panel[data-current-placement^="right"] {
+pp-popup.dropdown__panel[data-current-placement^='right'] {
   transform-origin: left;
 }

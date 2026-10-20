@@ -1,33 +1,33 @@
-import { Node, mergeAttributes, nodeInputRule } from '@tiptap/core'
-import { ReactNodeViewRenderer, NodeViewWrapper } from '@tiptap/react'
-import type { NodeViewProps } from '@tiptap/react'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Node, mergeAttributes, nodeInputRule } from '@tiptap/core';
+import { ReactNodeViewRenderer, NodeViewWrapper } from '@tiptap/react';
+import type { NodeViewProps } from '@tiptap/react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 export interface TemplateFieldOptions {
-  HTMLAttributes: Record<string, unknown>
-  allowedTypes?: string[]
-  maxLength?: number
-  required?: boolean
+  HTMLAttributes: Record<string, unknown>;
+  allowedTypes?: string[];
+  maxLength?: number;
+  required?: boolean;
 }
 
 export interface TemplateFieldAttributes {
-  label: string
-  placeholder?: string
-  filled?: boolean
-  type?: string
-  required?: boolean
-  value?: string
+  label: string;
+  placeholder?: string;
+  filled?: boolean;
+  type?: string;
+  required?: boolean;
+  value?: string;
 }
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     templateField: {
-      insertTemplateField: (attributes: Partial<TemplateFieldAttributes>) => ReturnType
-      updateTemplateField: (attributes: Partial<TemplateFieldAttributes>) => ReturnType
-      fillTemplateField: (label: string, value: string) => ReturnType
-      clearTemplateFields: () => ReturnType
-      validateTemplateFields: () => ReturnType
-    }
+      insertTemplateField: (attributes: Partial<TemplateFieldAttributes>) => ReturnType;
+      updateTemplateField: (attributes: Partial<TemplateFieldAttributes>) => ReturnType;
+      fillTemplateField: (label: string, value: string) => ReturnType;
+      clearTemplateFields: () => ReturnType;
+      validateTemplateFields: () => ReturnType;
+    };
   }
 }
 
@@ -53,9 +53,10 @@ const TemplateFieldComponent = ({
   updateAttributes,
   selected,
   editor,
-  getPos
+  getPos,
 }: NodeViewProps) => {
-  const { label, placeholder, filled, type, required, value } = node.attrs as TemplateFieldAttributes;
+  const { label, placeholder, filled, type, required, value } =
+    node.attrs as TemplateFieldAttributes;
 
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(value || placeholder || '');
@@ -69,7 +70,7 @@ const TemplateFieldComponent = ({
     const hasValue = inputValue.trim().length > 0;
     return {
       isValid: hasValue,
-      message: hasValue ? '' : `${label} is required`
+      message: hasValue ? '' : `${label} is required`,
     };
   }, [inputValue, required, label]);
 
@@ -84,7 +85,7 @@ const TemplateFieldComponent = ({
     updateAttributes({
       placeholder: trimmedValue,
       value: trimmedValue,
-      filled: trimmedValue.length > 0
+      filled: trimmedValue.length > 0,
     });
     setIsEditing(false);
 
@@ -96,8 +97,8 @@ const TemplateFieldComponent = ({
           pos,
           label,
           value: trimmedValue,
-          isValid: validation.isValid
-        })
+          isValid: validation.isValid,
+        }),
       );
     }
   }, [inputValue, updateAttributes, getPos, editor, label, validation.isValid]);
@@ -107,29 +108,32 @@ const TemplateFieldComponent = ({
     setIsEditing(false);
   }, [value, placeholder]);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    e.stopPropagation(); // Prevent editor shortcuts while editing
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      e.stopPropagation(); // Prevent editor shortcuts while editing
 
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleSubmit();
-    } else if (e.key === 'Escape') {
-      e.preventDefault();
-      handleCancel();
-    } else if (e.key === 'Tab') {
-      e.preventDefault();
-      handleSubmit();
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleSubmit();
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        handleCancel();
+      } else if (e.key === 'Tab') {
+        e.preventDefault();
+        handleSubmit();
 
-      setTimeout(() => {
-        const nextField = editor.view.dom.querySelector(
-          '.template-field:not(.template-field--filled)'
-        ) as HTMLElement;
-        if (nextField) {
-          nextField.click();
-        }
-      }, 50);
-    }
-  }, [handleSubmit, handleCancel, editor]);
+        setTimeout(() => {
+          const nextField = editor.view.dom.querySelector(
+            '.template-field:not(.template-field--filled)',
+          ) as HTMLElement;
+          if (nextField) {
+            nextField.click();
+          }
+        }, 50);
+      }
+    },
+    [handleSubmit, handleCancel, editor],
+  );
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -219,8 +223,8 @@ const TemplateFieldComponent = ({
         </span>
       )}
     </NodeViewWrapper>
-  )
-}
+  );
+};
 
 export const TemplateField = Node.create<TemplateFieldOptions>({
   name: 'templateField',
@@ -236,75 +240,75 @@ export const TemplateField = Node.create<TemplateFieldOptions>({
   addOptions() {
     return {
       HTMLAttributes: {},
-    }
+    };
   },
 
   addAttributes() {
     return {
       label: {
         default: '',
-        parseHTML: element => element.getAttribute('data-label'),
-        renderHTML: attributes => {
+        parseHTML: (element) => element.getAttribute('data-label'),
+        renderHTML: (attributes) => {
           if (!attributes.label) {
-            return {}
+            return {};
           }
           return {
             'data-label': attributes.label,
-          }
+          };
         },
       },
       placeholder: {
         default: '',
-        parseHTML: element => element.getAttribute('data-placeholder'),
-        renderHTML: attributes => {
+        parseHTML: (element) => element.getAttribute('data-placeholder'),
+        renderHTML: (attributes) => {
           if (!attributes.placeholder) {
-            return {}
+            return {};
           }
           return {
             'data-placeholder': attributes.placeholder,
-          }
+          };
         },
       },
       filled: {
         default: false,
-        parseHTML: element => element.getAttribute('data-filled') === 'true',
-        renderHTML: attributes => {
+        parseHTML: (element) => element.getAttribute('data-filled') === 'true',
+        renderHTML: (attributes) => {
           return {
             'data-filled': attributes.filled,
-          }
+          };
         },
       },
       type: {
         default: 'text',
-        parseHTML: element => element.getAttribute('data-field-type') || 'text',
-        renderHTML: attributes => {
+        parseHTML: (element) => element.getAttribute('data-field-type') || 'text',
+        renderHTML: (attributes) => {
           return {
             'data-field-type': attributes.type,
-          }
+          };
         },
       },
       required: {
         default: false,
-        parseHTML: element => element.getAttribute('data-required') === 'true',
-        renderHTML: attributes => {
+        parseHTML: (element) => element.getAttribute('data-required') === 'true',
+        renderHTML: (attributes) => {
           return {
             'data-required': attributes.required,
-          }
+          };
         },
       },
       value: {
         default: '',
-        parseHTML: element => element.getAttribute('data-value'),
-        renderHTML: attributes => {
+        parseHTML: (element) => element.getAttribute('data-value'),
+        renderHTML: (attributes) => {
           if (!attributes.value) {
-            return {}
+            return {};
           }
           return {
             'data-value': attributes.value,
-          }
+          };
         },
       },
-    }
+    };
   },
 
   parseHTML() {
@@ -312,7 +316,7 @@ export const TemplateField = Node.create<TemplateFieldOptions>({
       {
         tag: 'span[data-type="template-field"]',
       },
-    ]
+    ];
   },
 
   renderHTML({ HTMLAttributes }) {
@@ -321,13 +325,13 @@ export const TemplateField = Node.create<TemplateFieldOptions>({
       mergeAttributes(
         { 'data-type': 'template-field' },
         this.options.HTMLAttributes,
-        HTMLAttributes
+        HTMLAttributes,
       ),
-    ]
+    ];
   },
 
   addNodeView() {
-    return ReactNodeViewRenderer(TemplateFieldComponent)
+    return ReactNodeViewRenderer(TemplateFieldComponent);
   },
 
   addCommands() {
@@ -341,12 +345,12 @@ export const TemplateField = Node.create<TemplateFieldOptions>({
           return commands.insertContent({
             type: this.name,
             attrs: attributes,
-          })
+          });
         },
       updateTemplateField:
         (attributes: Partial<TemplateFieldAttributes>) =>
         ({ commands }) => {
-          return commands.updateAttributes(this.name, attributes)
+          return commands.updateAttributes(this.name, attributes);
         },
       fillTemplateField:
         (label: string, value: string) =>
@@ -358,7 +362,7 @@ export const TemplateField = Node.create<TemplateFieldOptions>({
                 ...node.attrs,
                 value,
                 placeholder: value,
-                filled: true
+                filled: true,
               });
               updated = true;
             }
@@ -375,7 +379,7 @@ export const TemplateField = Node.create<TemplateFieldOptions>({
                 ...node.attrs,
                 value: '',
                 placeholder: '',
-                filled: false
+                filled: false,
               });
               updated = true;
             }
@@ -386,7 +390,7 @@ export const TemplateField = Node.create<TemplateFieldOptions>({
         () =>
         ({ state }) => {
           let allValid = true;
-          const validationResults: Array<{label: string, isValid: boolean, message: string}> = [];
+          const validationResults: Array<{ label: string; isValid: boolean; message: string }> = [];
 
           state.doc.descendants((node) => {
             if (node.type.name === this.name) {
@@ -399,7 +403,7 @@ export const TemplateField = Node.create<TemplateFieldOptions>({
                 validationResults.push({
                   label,
                   isValid,
-                  message: isValid ? '' : `${label} is required`
+                  message: isValid ? '' : `${label} is required`,
                 });
               }
             }
@@ -408,12 +412,12 @@ export const TemplateField = Node.create<TemplateFieldOptions>({
           // Emit validation results via transaction meta
           state.tr.setMeta('templateFieldValidation', {
             isValid: allValid,
-            results: validationResults
+            results: validationResults,
           });
 
           return allValid;
         },
-    }
+    };
   },
 
   addInputRules() {
@@ -421,7 +425,7 @@ export const TemplateField = Node.create<TemplateFieldOptions>({
       nodeInputRule({
         find: /\[([^\]]+)\]/g,
         type: this.type,
-        getAttributes: match => {
+        getAttributes: (match) => {
           const content = match[1];
           const parts = content.split('|');
 
@@ -430,17 +434,16 @@ export const TemplateField = Node.create<TemplateFieldOptions>({
           const type = parts[1]?.trim() || 'text';
           const required = parts[2]?.trim() === 'required';
 
-
           return {
             label,
             type,
             required,
             placeholder: '',
             filled: false,
-            value: ''
-          }
+            value: '',
+          };
         },
       }),
-    ]
+    ];
   },
-})
+});

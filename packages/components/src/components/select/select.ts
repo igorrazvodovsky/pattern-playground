@@ -106,6 +106,6 @@ export class PpSelect extends Elena(HTMLElement) {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pp-select": PpSelect;
+    'pp-select': PpSelect;
   }
 }

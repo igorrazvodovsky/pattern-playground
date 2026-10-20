@@ -1,10 +1,10 @@
 /**
  * Centralized component registration system for Pattern Playground
- * 
+ *
  * This module manages the registration order of web components to ensure
  * proper instantiation for interdependent components. Components with
  * dependencies should be registered after their dependencies.
- * 
+ *
  * Based on the bulletproof web component loading patterns from
  * https://gomakethings.com/what-order-do-web-components-instantiate-in/
  */
@@ -49,11 +49,11 @@ class ComponentRegistry {
    */
   registerAll(definitions: ComponentDefinition[]): void {
     const sorted = this.sortByDependencies(definitions);
-    
+
     if (this.isReady) {
-      sorted.forEach(def => this.defineComponent(def));
+      sorted.forEach((def) => this.defineComponent(def));
     } else {
-      sorted.forEach(def => this.pending.set(def.tagName, def));
+      sorted.forEach((def) => this.pending.set(def.tagName, def));
     }
   }
 
@@ -73,9 +73,11 @@ class ComponentRegistry {
 
     // Check if dependencies are met
     if (definition.dependencies) {
-      const unmetDeps = definition.dependencies.filter(dep => !this.registered.has(dep));
+      const unmetDeps = definition.dependencies.filter((dep) => !this.registered.has(dep));
       if (unmetDeps.length > 0) {
-        console.warn(`Component ${definition.tagName} has unmet dependencies: ${unmetDeps.join(', ')}`);
+        console.warn(
+          `Component ${definition.tagName} has unmet dependencies: ${unmetDeps.join(', ')}`,
+        );
       }
     }
 
@@ -89,7 +91,7 @@ class ComponentRegistry {
 
   private processPendingRegistrations(): void {
     const sorted = this.sortByDependencies(Array.from(this.pending.values()));
-    sorted.forEach(def => this.defineComponent(def));
+    sorted.forEach((def) => this.defineComponent(def));
     this.pending.clear();
   }
 
@@ -109,8 +111,8 @@ class ComponentRegistry {
 
       // Visit dependencies first
       if (def.dependencies) {
-        def.dependencies.forEach(depName => {
-          const depDef = definitions.find(d => d.tagName === depName);
+        def.dependencies.forEach((depName) => {
+          const depDef = definitions.find((d) => d.tagName === depName);
           if (depDef) {
             visit(depDef);
           }
@@ -137,7 +139,7 @@ class ComponentRegistry {
    * Wait for specific components to be defined
    */
   async whenDefined(...tagNames: string[]): Promise<void> {
-    await Promise.all(tagNames.map(name => customElements.whenDefined(name)));
+    await Promise.all(tagNames.map((name) => customElements.whenDefined(name)));
   }
 }
 
@@ -146,9 +148,9 @@ export const componentRegistry = new ComponentRegistry();
 
 // Convenience function for simple registration
 export function registerComponent(
-  tagName: string, 
-  constructor: CustomElementConstructor, 
-  options?: ElementDefinitionOptions
+  tagName: string,
+  constructor: CustomElementConstructor,
+  options?: ElementDefinitionOptions,
 ): void {
   componentRegistry.register({ tagName, constructor, options });
 }
@@ -158,7 +160,7 @@ export function registerComponentWithDeps(
   tagName: string,
   constructor: CustomElementConstructor,
   dependencies: string[],
-  options?: ElementDefinitionOptions
+  options?: ElementDefinitionOptions,
 ): void {
   componentRegistry.register({ tagName, constructor, dependencies, options });
 }

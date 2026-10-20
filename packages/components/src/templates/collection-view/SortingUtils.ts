@@ -3,12 +3,7 @@ import { getAttributeValue } from './AttributeUtils';
 export type SortField = string;
 export type SortOrder = 'asc' | 'desc';
 
-export const sortItems = <T,>(
-  items: T[],
-  sortField: SortField,
-  sortOrder: SortOrder
-): T[] => {
-
+export const sortItems = <T>(items: T[], sortField: SortField, sortOrder: SortOrder): T[] => {
   try {
     return [...items].sort((a, b) => {
       try {

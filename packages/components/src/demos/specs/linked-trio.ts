@@ -11,7 +11,7 @@ import spec from './linked-trio.json' with { type: 'json' };
 // in force needs.
 
 const LIST_ATTRIBUTES = ['name', 'category', 'pricing.msrp'];
-const attributesOf = cardAttributes(LIST_ATTRIBUTES.filter(path => path !== 'name'));
+const attributesOf = cardAttributes(LIST_ATTRIBUTES.filter((path) => path !== 'name'));
 const inPlaceOf = itemView('mid', undefined, LIST_ATTRIBUTES);
 const detailOf = itemView('mid');
 
@@ -23,7 +23,7 @@ export default {
   spec: spec as Spec,
   setup: {
     initialState: {
-      products: TRIO.map(item => ({
+      products: TRIO.map((item) => ({
         id: item.id,
         name: item.name,
         attributes: attributesOf(item),

@@ -39,12 +39,7 @@ interface EditorProviderProps {
 
 const EditorContextReact = createContext<EditorContext | null>(null);
 
-export function EditorProvider({
-  children,
-  editor,
-  plugins = [],
-  onReady
-}: EditorProviderProps) {
+export function EditorProvider({ children, editor, plugins = [], onReady }: EditorProviderProps) {
   const [readyContext, setReadyContext] = useState<EditorContext | null>(null);
   const onReadyRef = useRef(onReady);
   useEffect(() => {
@@ -128,7 +123,7 @@ export function EditorProvider({
       eventBus.emit('selection:change', {
         from,
         to,
-        content
+        content,
       });
     };
     editor.on('selectionUpdate', emitSelectionChange);
@@ -155,11 +150,7 @@ export function EditorProvider({
     return null;
   }
 
-  return (
-    <EditorContextReact.Provider value={readyContext}>
-      {children}
-    </EditorContextReact.Provider>
-  );
+  return <EditorContextReact.Provider value={readyContext}>{children}</EditorContextReact.Provider>;
 }
 
 export function useEditorContext(): EditorContext {

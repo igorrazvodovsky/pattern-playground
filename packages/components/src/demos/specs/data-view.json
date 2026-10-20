@@ -10,14 +10,20 @@
           "action": "setState",
           "params": {
             "statePath": "/derived",
-            "value": { "$computed": "derive", "args": { "view": { "$state": "/view" }, "query": { "$state": "/query" } } }
+            "value": {
+              "$computed": "derive",
+              "args": { "view": { "$state": "/view" }, "query": { "$state": "/query" } }
+            }
           }
         },
         "/query": {
           "action": "setState",
           "params": {
             "statePath": "/derived",
-            "value": { "$computed": "derive", "args": { "view": { "$state": "/view" }, "query": { "$state": "/query" } } }
+            "value": {
+              "$computed": "derive",
+              "args": { "view": { "$state": "/view" }, "query": { "$state": "/query" } }
+            }
           }
         }
       }
@@ -25,14 +31,27 @@
 
     "view-name": {
       "type": "Text",
-      "props": { "text": { "$computed": "savedLabel", "args": { "id": { "$state": "/activeView" } } }, "size": "large" },
+      "props": {
+        "text": { "$computed": "savedLabel", "args": { "id": { "$state": "/activeView" } } },
+        "size": "large"
+      },
       "visible": { "$state": "/derived/show/views" }
     },
 
     "toolbar": {
       "type": "Stack",
       "props": { "direction": "horizontal", "gap": "s" },
-      "children": ["views-menu", "as-menu", "search", "filter-add", "clear-filters", "attributes-menu", "sort-menu", "order-menu", "group-menu"]
+      "children": [
+        "views-menu",
+        "as-menu",
+        "search",
+        "filter-add",
+        "clear-filters",
+        "attributes-menu",
+        "sort-menu",
+        "order-menu",
+        "group-menu"
+      ]
     },
     "views-menu": {
       "type": "Menu",
@@ -45,12 +64,25 @@
       "type": "MenuItem",
       "props": {
         "label": { "$item": "label" },
-        "checked": { "$cond": { "$item": "id", "eq": { "$state": "/activeView" } }, "$then": true, "$else": false }
+        "checked": {
+          "$cond": { "$item": "id", "eq": { "$state": "/activeView" } },
+          "$then": true,
+          "$else": false
+        }
       },
       "on": {
         "press": [
-          { "action": "setState", "params": { "statePath": "/activeView", "value": { "$value": { "$item": "id" } } } },
-          { "action": "setState", "params": { "statePath": "/view", "value": { "$computed": "savedView", "args": { "id": { "$item": "id" } } } } }
+          {
+            "action": "setState",
+            "params": { "statePath": "/activeView", "value": { "$value": { "$item": "id" } } }
+          },
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/view",
+              "value": { "$computed": "savedView", "args": { "id": { "$item": "id" } } }
+            }
+          }
         ]
       }
     },
@@ -58,7 +90,11 @@
       "type": "Menu",
       "props": {
         "label": "Show as",
-        "icon": { "$cond": { "$state": "/derived/as", "eq": "table" }, "$then": "table", "$else": "cards" }
+        "icon": {
+          "$cond": { "$state": "/derived/as", "eq": "table" },
+          "$then": "table",
+          "$else": "cards"
+        }
       },
       "visible": { "$state": "/derived/show/viewSwitcher" },
       "children": ["as-cards", "as-table"]
@@ -68,12 +104,22 @@
       "props": {
         "label": "Cards",
         "icon": "cards",
-        "checked": { "$cond": { "$state": "/derived/as", "eq": "cards" }, "$then": true, "$else": false }
+        "checked": {
+          "$cond": { "$state": "/derived/as", "eq": "cards" },
+          "$then": true,
+          "$else": false
+        }
       },
       "on": {
         "press": {
           "action": "setState",
-          "params": { "statePath": "/view", "value": { "$computed": "representAs", "args": { "view": { "$state": "/view" }, "as": "cards" } } }
+          "params": {
+            "statePath": "/view",
+            "value": {
+              "$computed": "representAs",
+              "args": { "view": { "$state": "/view" }, "as": "cards" }
+            }
+          }
         }
       }
     },
@@ -82,18 +128,33 @@
       "props": {
         "label": "Table",
         "icon": "table",
-        "checked": { "$cond": { "$state": "/derived/as", "eq": "table" }, "$then": true, "$else": false }
+        "checked": {
+          "$cond": { "$state": "/derived/as", "eq": "table" },
+          "$then": true,
+          "$else": false
+        }
       },
       "on": {
         "press": {
           "action": "setState",
-          "params": { "statePath": "/view", "value": { "$computed": "representAs", "args": { "view": { "$state": "/view" }, "as": "table" } } }
+          "params": {
+            "statePath": "/view",
+            "value": {
+              "$computed": "representAs",
+              "args": { "view": { "$state": "/view" }, "as": "table" }
+            }
+          }
         }
       }
     },
     "search": {
       "type": "Input",
-      "props": { "label": "Search products", "hideLabel": true, "placeholder": "Search…", "value": { "$bindState": "/query" } },
+      "props": {
+        "label": "Search products",
+        "hideLabel": true,
+        "placeholder": "Search…",
+        "value": { "$bindState": "/query" }
+      },
       "visible": { "$state": "/derived/show/search" }
     },
     "filter-add": {
@@ -113,7 +174,10 @@
       "on": {
         "press": {
           "action": "setState",
-          "params": { "statePath": "/filterOpen", "value": { "$cond": { "$state": "/filterOpen" }, "$then": false, "$else": true } }
+          "params": {
+            "statePath": "/filterOpen",
+            "value": { "$cond": { "$state": "/filterOpen" }, "$then": false, "$else": true }
+          }
         }
       }
     },
@@ -127,10 +191,16 @@
       "props": {
         "label": "Filter by",
         "hideLabel": true,
-        "placeholder": { "$computed": "placeholder", "args": { "scope": { "$state": "/filterScope" } } },
+        "placeholder": {
+          "$computed": "placeholder",
+          "args": { "scope": { "$state": "/filterScope" } }
+        },
         "value": { "$bindState": "/filterQuery" },
         "scope": { "$bindState": "/filterScope" },
-        "groups": { "$computed": "candidates", "args": { "query": { "$state": "/filterQuery" }, "scope": { "$state": "/filterScope" } } }
+        "groups": {
+          "$computed": "candidates",
+          "args": { "query": { "$state": "/filterQuery" }, "scope": { "$state": "/filterScope" } }
+        }
       },
       "on": {
         "select": [
@@ -138,7 +208,10 @@
             "action": "setState",
             "params": {
               "statePath": "/view",
-              "value": { "$computed": "addFilter", "args": { "view": { "$state": "/view" }, "picked": { "$state": "/filterQuery" } } }
+              "value": {
+                "$computed": "addFilter",
+                "args": { "view": { "$state": "/view" }, "picked": { "$state": "/filterQuery" } }
+              }
             }
           },
           { "action": "setState", "params": { "statePath": "/filterQuery", "value": "" } },
@@ -148,12 +221,20 @@
     },
     "clear-filters": {
       "type": "Button",
-      "props": { "label": "Clear filters", "icon": "cancel", "hideLabel": true, "focusNext": "Add a filter" },
+      "props": {
+        "label": "Clear filters",
+        "icon": "cancel",
+        "hideLabel": true,
+        "focusNext": "Add a filter"
+      },
       "visible": [{ "$state": "/derived/show/filter" }, { "$state": "/derived/filtered" }],
       "on": {
         "press": {
           "action": "setState",
-          "params": { "statePath": "/view", "value": { "$computed": "clearFilters", "args": { "view": { "$state": "/view" } } } }
+          "params": {
+            "statePath": "/view",
+            "value": { "$computed": "clearFilters", "args": { "view": { "$state": "/view" } } }
+          }
         }
       }
     },
@@ -168,14 +249,20 @@
       "type": "MenuItem",
       "props": {
         "label": { "$item": "label" },
-        "checked": { "$includes": { "$state": "/view/representation/shownAttributes" }, "value": { "$item": "path" } }
+        "checked": {
+          "$includes": { "$state": "/view/representation/shownAttributes" },
+          "value": { "$item": "path" }
+        }
       },
       "on": {
         "press": {
           "action": "setState",
           "params": {
             "statePath": "/view",
-            "value": { "$computed": "toggleAttribute", "args": { "view": { "$state": "/view" }, "path": { "$item": "path" } } }
+            "value": {
+              "$computed": "toggleAttribute",
+              "args": { "view": { "$state": "/view" }, "path": { "$item": "path" } }
+            }
           }
         }
       }
@@ -191,14 +278,21 @@
       "type": "MenuItem",
       "props": {
         "label": { "$item": "label" },
-        "checked": { "$cond": { "$item": "path", "eq": { "$state": "/derived/sortField" } }, "$then": true, "$else": false }
+        "checked": {
+          "$cond": { "$item": "path", "eq": { "$state": "/derived/sortField" } },
+          "$then": true,
+          "$else": false
+        }
       },
       "on": {
         "press": {
           "action": "setState",
           "params": {
             "statePath": "/view",
-            "value": { "$computed": "sortBy", "args": { "view": { "$state": "/view" }, "field": { "$item": "path" } } }
+            "value": {
+              "$computed": "sortBy",
+              "args": { "view": { "$state": "/view" }, "field": { "$item": "path" } }
+            }
           }
         }
       }
@@ -207,7 +301,11 @@
       "type": "Menu",
       "props": {
         "label": "Sort order",
-        "icon": { "$cond": { "$state": "/derived/sortOrder", "eq": "asc" }, "$then": "ascending", "$else": "descending" }
+        "icon": {
+          "$cond": { "$state": "/derived/sortOrder", "eq": "asc" },
+          "$then": "ascending",
+          "$else": "descending"
+        }
       },
       "visible": { "$state": "/derived/show/sort" },
       "children": ["order-ascending", "order-descending"]
@@ -217,12 +315,22 @@
       "props": {
         "label": "Ascending",
         "icon": "ascending",
-        "checked": { "$cond": { "$state": "/derived/sortOrder", "eq": "asc" }, "$then": true, "$else": false }
+        "checked": {
+          "$cond": { "$state": "/derived/sortOrder", "eq": "asc" },
+          "$then": true,
+          "$else": false
+        }
       },
       "on": {
         "press": {
           "action": "setState",
-          "params": { "statePath": "/view", "value": { "$computed": "sortOrder", "args": { "view": { "$state": "/view" }, "order": "asc" } } }
+          "params": {
+            "statePath": "/view",
+            "value": {
+              "$computed": "sortOrder",
+              "args": { "view": { "$state": "/view" }, "order": "asc" }
+            }
+          }
         }
       }
     },
@@ -231,12 +339,22 @@
       "props": {
         "label": "Descending",
         "icon": "descending",
-        "checked": { "$cond": { "$state": "/derived/sortOrder", "eq": "desc" }, "$then": true, "$else": false }
+        "checked": {
+          "$cond": { "$state": "/derived/sortOrder", "eq": "desc" },
+          "$then": true,
+          "$else": false
+        }
       },
       "on": {
         "press": {
           "action": "setState",
-          "params": { "statePath": "/view", "value": { "$computed": "sortOrder", "args": { "view": { "$state": "/view" }, "order": "desc" } } }
+          "params": {
+            "statePath": "/view",
+            "value": {
+              "$computed": "sortOrder",
+              "args": { "view": { "$state": "/view" }, "order": "desc" }
+            }
+          }
         }
       }
     },
@@ -251,14 +369,21 @@
       "type": "MenuItem",
       "props": {
         "label": { "$item": "label" },
-        "checked": { "$cond": { "$item": "path", "eq": { "$state": "/derived/groupBy" } }, "$then": true, "$else": false }
+        "checked": {
+          "$cond": { "$item": "path", "eq": { "$state": "/derived/groupBy" } },
+          "$then": true,
+          "$else": false
+        }
       },
       "on": {
         "press": {
           "action": "setState",
           "params": {
             "statePath": "/view",
-            "value": { "$computed": "groupBy", "args": { "view": { "$state": "/view" }, "path": { "$item": "path" } } }
+            "value": {
+              "$computed": "groupBy",
+              "args": { "view": { "$state": "/view" }, "path": { "$item": "path" } }
+            }
           }
         }
       }
@@ -290,7 +415,11 @@
             "statePath": "/view",
             "value": {
               "$computed": "editFilter",
-              "args": { "view": { "$state": "/view" }, "id": { "$item": "id" }, "edit": { "$state": "/filterEdit" } }
+              "args": {
+                "view": { "$state": "/view" },
+                "id": { "$item": "id" },
+                "edit": { "$state": "/filterEdit" }
+              }
             }
           }
         },
@@ -298,7 +427,10 @@
           "action": "setState",
           "params": {
             "statePath": "/view",
-            "value": { "$computed": "removeFilter", "args": { "view": { "$state": "/view" }, "id": { "$item": "id" } } }
+            "value": {
+              "$computed": "removeFilter",
+              "args": { "view": { "$state": "/view" }, "id": { "$item": "id" } }
+            }
           }
         }
       }
@@ -315,14 +447,21 @@
     },
     "no-results": {
       "type": "EmptyState",
-      "props": { "title": "No results found", "description": { "$state": "/derived/emptyMessage" }, "icon": "search" },
+      "props": {
+        "title": "No results found",
+        "description": { "$state": "/derived/emptyMessage" },
+        "icon": "search"
+      },
       "visible": { "$state": "/derived/empty" }
     },
 
     "groups": {
       "type": "Stack",
       "props": { "gap": "m" },
-      "visible": [{ "$state": "/derived/noAttributes", "not": true }, { "$state": "/derived/empty", "not": true }],
+      "visible": [
+        { "$state": "/derived/noAttributes", "not": true },
+        { "$state": "/derived/empty", "not": true }
+      ],
       "repeat": { "statePath": "/derived/groups", "key": "key" },
       "children": ["group", "ungrouped"]
     },

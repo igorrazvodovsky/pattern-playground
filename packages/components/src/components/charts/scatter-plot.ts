@@ -20,29 +20,25 @@ import { axisBottom, axisLeft } from 'd3-axis';
 import { ChartComponent } from './base/chart-component.js';
 import type { ElenaProp } from './base/d3-component.js';
 import { VIEWBOX_WIDTH, VIEWBOX_HEIGHT } from './base/d3-component.js';
-import type {
-  ScatterPlotData,
-  ScatterPlotDataPoint,
-  ChartDimensions
-} from './base/chart-types.js';
+import type { ScatterPlotData, ScatterPlotDataPoint, ChartDimensions } from './base/chart-types.js';
 import { isScatterPlotData } from './base/chart-types.js';
 import {
   renderScatterPlot,
   addScatterPlotInteractions,
   cleanupScatterPlot,
   createScatterPlotScales,
-  defaultScatterPlotConfig
+  defaultScatterPlotConfig,
 } from './renderers/scatter-plot-renderer.js';
 import type {
   ScatterPlotConfig,
   ScatterPlotScales,
-  ScatterPlotRenderResult
+  ScatterPlotRenderResult,
 } from './renderers/scatter-plot-renderer.js';
 
 export class ScatterPlot extends ChartComponent {
-  static tagName = 'pp-scatter-plot';
+  static 'tagName' = 'pp-scatter-plot';
 
-  static props: ElenaProp[] = [
+  static 'props': ElenaProp[] = [
     ...ChartComponent.props,
     'show-axes',
     'show-grid',
@@ -51,42 +47,42 @@ export class ScatterPlot extends ChartComponent {
   ];
 
   // A little more room than the base default so numeric axis ticks have space.
-  margin = { top: 16, right: 24, bottom: 32, left: 48 };
+  'margin' = { top: 16, right: 24, bottom: 32, left: 48 };
 
-  data: ScatterPlotData = { data: [] };
+  'data': ScatterPlotData = { data: [] };
   'show-axes' = true;
   'show-grid' = false;
   'show-size' = false;
   'point-radius' = 5;
 
-  protected itemNavigationName = 'Scatter plot';
+  protected 'itemNavigationName' = 'Scatter plot';
 
   // Internal bookkeeping — plain fields; never trigger a render cycle.
-  private renderResult?: ScatterPlotRenderResult;
+  private 'renderResult'?: ScatterPlotRenderResult;
 
-  disconnectedCallback() {
+  'disconnectedCallback'() {
     super.disconnectedCallback();
     if (this.renderResult) {
       cleanupScatterPlot(this.renderResult);
     }
   }
 
-  protected validateData(): boolean {
+  protected 'validateData'(): boolean {
     return isScatterPlotData(this.data) && this.data.data.length > 0;
   }
 
   /** Scales are created in the renderer; nothing to precompute here. */
-  protected setupScales(): void {}
+  protected 'setupScales'(): void {}
 
-  private buildConfig(): Partial<ScatterPlotConfig> {
+  private 'buildConfig'(): Partial<ScatterPlotConfig> {
     return {
       ...defaultScatterPlotConfig,
       showSize: this['show-size'],
-      pointRadius: this['point-radius']
+      pointRadius: this['point-radius'],
     };
   }
 
-  protected renderChart(): void {
+  protected 'renderChart'(): void {
     if (!this.contentGroup || !this.validateData()) {
       return;
     }
@@ -94,7 +90,7 @@ export class ScatterPlot extends ChartComponent {
     const dimensions: ChartDimensions = {
       width: this.width,
       height: this.height,
-      margin: this.margin
+      margin: this.margin,
     };
     const config = this.buildConfig();
 
@@ -108,12 +104,12 @@ export class ScatterPlot extends ChartComponent {
     // same viewBox coordinate space (600×300 minus margins).
     const scales = createScatterPlotScales(this.data, dimensions, {
       ...defaultScatterPlotConfig,
-      ...config
+      ...config,
     });
 
     const viewBoxDimensions = {
       width: VIEWBOX_WIDTH - this.margin.left - this.margin.right,
-      height: VIEWBOX_HEIGHT - this.margin.top - this.margin.bottom
+      height: VIEWBOX_HEIGHT - this.margin.top - this.margin.bottom,
     };
 
     if (this['show-grid']) {
@@ -127,62 +123,73 @@ export class ScatterPlot extends ChartComponent {
     this.addInteractions();
 
     this.setChartLabel(this.title || `Scatter plot with ${this.data.data.length} data points`);
-    this.syncDataTable(this.data.data.map(item => [item.label ?? '', item.x, item.y, item.category ?? '']));
+    this.syncDataTable(
+      this.data.data.map((item) => [item.label ?? '', item.x, item.y, item.category ?? '']),
+    );
   }
 
-  private addInteractions(): void {
+  private 'addInteractions'(): void {
     if (!this.renderResult) return;
     addScatterPlotInteractions(
       this.renderResult,
       this.handlePointHover.bind(this),
       this.handlePointLeave.bind(this),
-      this.handlePointClick.bind(this)
+      this.handlePointClick.bind(this),
     );
   }
 
-  private describePoint(data: ScatterPlotDataPoint): string {
+  private 'describePoint'(data: ScatterPlotDataPoint): string {
     const coords = `(${data.x}, ${data.y})`;
     const prefix = data.label ? `${data.label}: ` : '';
     const suffix = data.category ? ` — ${data.category}` : '';
     return `${prefix}${coords}${suffix}`;
   }
 
-  private handlePointHover(data: ScatterPlotDataPoint, event: MouseEvent): void {
-    this.dispatchEvent(new CustomEvent('pp-point-hover', {
-      detail: { data, originalEvent: event },
-      bubbles: true,
-      composed: true
-    }));
+  private 'handlePointHover'(data: ScatterPlotDataPoint, event: MouseEvent): void {
+    this.dispatchEvent(
+      new CustomEvent('pp-point-hover', {
+        detail: { data, originalEvent: event },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
-  private handlePointLeave(): void {
-    this.dispatchEvent(new CustomEvent('pp-point-hover-end', {
-      bubbles: true,
-      composed: true
-    }));
+  private 'handlePointLeave'(): void {
+    this.dispatchEvent(
+      new CustomEvent('pp-point-hover-end', {
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
-  private handlePointClick(data: ScatterPlotDataPoint, event: Event): void {
-    this.dispatchEvent(new CustomEvent('pp-point-click', {
-      detail: { data, originalEvent: event },
-      bubbles: true,
-      composed: true
-    }));
+  private 'handlePointClick'(data: ScatterPlotDataPoint, event: Event): void {
+    this.dispatchEvent(
+      new CustomEvent('pp-point-click', {
+        detail: { data, originalEvent: event },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
-  protected itemCount(): number {
+  protected 'itemCount'(): number {
     return this.data.data.length;
   }
 
-  protected describeItem(index: number): string {
+  protected 'describeItem'(index: number): string {
     return this.describePoint(this.data.data[index]);
   }
 
-  protected activateItem(index: number, event: KeyboardEvent): void {
+  protected 'activateItem'(index: number, event: KeyboardEvent): void {
     this.handlePointClick(this.data.data[index], event);
   }
 
-  private renderAxes(scales: ScatterPlotScales, dimensions: { width: number; height: number }): void {
+  private 'renderAxes'(
+    scales: ScatterPlotScales,
+    dimensions: { width: number; height: number },
+  ): void {
     const container = select(this.contentGroup);
     container.selectAll('.axis-group').remove();
 
@@ -193,49 +200,56 @@ export class ScatterPlot extends ChartComponent {
     xAxisGroup.call(axisBottom(scales.x).ticks(6).tickSize(6));
     this.styleAxis(xAxisGroup, 'x');
 
-    const yAxisGroup = container
-      .append('g')
-      .attr('class', 'axis-group y-axis');
+    const yAxisGroup = container.append('g').attr('class', 'axis-group y-axis');
     yAxisGroup.call(axisLeft(scales.y).ticks(6).tickSize(6));
     this.styleAxis(yAxisGroup, 'y');
   }
 
-  private styleAxis(container: Selection<SVGGElement, unknown, null, undefined>, axisType: 'x' | 'y'): void {
-    container.select('.domain')
+  private 'styleAxis'(
+    container: Selection<SVGGElement, unknown, null, undefined>,
+    axisType: 'x' | 'y',
+  ): void {
+    container
+      .select('.domain')
       .attr('stroke', 'var(--c-border)')
       .attr('stroke-width', 1)
       .attr('fill', 'none');
 
-    container.selectAll('.tick line')
-      .attr('stroke', 'var(--c-border)')
-      .attr('stroke-width', 1);
+    container.selectAll('.tick line').attr('stroke', 'var(--c-border)').attr('stroke-width', 1);
 
-    container.selectAll('.tick text')
+    container
+      .selectAll('.tick text')
       .attr('fill', 'var(--c-bodyDimmed)')
       .attr('font-size', 'var(--text-s)')
       .attr('font-family', 'var(--font)');
 
     if (axisType === 'y') {
-      container.selectAll('.tick text')
+      container
+        .selectAll('.tick text')
         .attr('text-anchor', 'end')
         .attr('x', -12)
         .attr('dy', '0.32em');
     } else {
-      container.selectAll('.tick text')
+      container
+        .selectAll('.tick text')
         .attr('text-anchor', 'middle')
         .attr('y', 12)
         .attr('dy', '0.71em');
     }
   }
 
-  private renderGrid(scales: ScatterPlotScales, dimensions: { width: number; height: number }): void {
+  private 'renderGrid'(
+    scales: ScatterPlotScales,
+    dimensions: { width: number; height: number },
+  ): void {
     const container = select(this.contentGroup);
     container.selectAll('.grid').remove();
 
     const gridGroup = container.append('g').attr('class', 'grid');
 
     // Horizontal grid lines (y ticks)
-    gridGroup.selectAll('.grid-line-y')
+    gridGroup
+      .selectAll('.grid-line-y')
       .data(scales.y.ticks(6))
       .join('line')
       .attr('class', 'grid-line grid-line-y')
@@ -248,7 +262,8 @@ export class ScatterPlot extends ChartComponent {
       .attr('stroke-dasharray', '2,2');
 
     // Vertical grid lines (x ticks)
-    gridGroup.selectAll('.grid-line-x')
+    gridGroup
+      .selectAll('.grid-line-x')
       .data(scales.x.ticks(6))
       .join('line')
       .attr('class', 'grid-line grid-line-x')

@@ -18,6 +18,8 @@ const patternSiteUrl =
 
 export function PatternRef({ slug, hash, children }: PatternRefProps) {
   const path = slug.startsWith('/') ? slug : `/patterns/${slug.replace(/^\//, '')}`;
-  const href = hash ? `${patternSiteUrl}${path}#${hash.replace(/^#/, '')}` : `${patternSiteUrl}${path}`;
+  const href = hash
+    ? `${patternSiteUrl}${path}#${hash.replace(/^#/, '')}`
+    : `${patternSiteUrl}${path}`;
   return <a href={href}>{children}</a>;
 }

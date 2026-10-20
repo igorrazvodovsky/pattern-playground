@@ -4,11 +4,19 @@ import { useModalService } from '../../../../hooks/use-modal-service';
 import { ExplanationDrawerContainer } from './ExplanationDrawerContainer';
 import type { ExplanationPluginOptions } from '../ExplanationPlugin';
 // Type guard for safe event payload handling
-function isSelectionPayload(payload: unknown): payload is { hasSelection: boolean; selectedText: string; range: { from: number; to: number } } {
-  return typeof payload === 'object' && payload !== null &&
-    'hasSelection' in payload && typeof (payload as Record<string, unknown>).hasSelection === 'boolean' &&
-    'selectedText' in payload && typeof (payload as Record<string, unknown>).selectedText === 'string' &&
-    'range' in payload && typeof (payload as Record<string, unknown>).range === 'object';
+function isSelectionPayload(
+  payload: unknown,
+): payload is { hasSelection: boolean; selectedText: string; range: { from: number; to: number } } {
+  return (
+    typeof payload === 'object' &&
+    payload !== null &&
+    'hasSelection' in payload &&
+    typeof (payload as Record<string, unknown>).hasSelection === 'boolean' &&
+    'selectedText' in payload &&
+    typeof (payload as Record<string, unknown>).selectedText === 'string' &&
+    'range' in payload &&
+    typeof (payload as Record<string, unknown>).range === 'object'
+  );
 }
 
 interface ExplanationBubbleMenuProps {
@@ -17,7 +25,11 @@ interface ExplanationBubbleMenuProps {
   isExplaining: boolean;
 }
 
-export function ExplanationBubbleMenu({ options, onExplain, isExplaining }: ExplanationBubbleMenuProps) {
+export function ExplanationBubbleMenu({
+  options,
+  onExplain,
+  isExplaining,
+}: ExplanationBubbleMenuProps) {
   const { editor, eventBus } = useEditorContext();
   const { openDrawer } = useModalService();
   const [hasSelection, setHasSelection] = useState(false);
@@ -38,7 +50,6 @@ export function ExplanationBubbleMenu({ options, onExplain, isExplaining }: Expl
 
     return unsubscribe;
   }, [eventBus]);
-
 
   const handleExplain = useCallback(async () => {
     if (!hasSelection || !selectedText || isExplaining) return;
@@ -64,8 +75,8 @@ export function ExplanationBubbleMenu({ options, onExplain, isExplaining }: Expl
         title: 'Explanation',
         position: 'right',
         size: 'medium',
-        closable: true
-      }
+        closable: true,
+      },
     );
 
     // Start explanation

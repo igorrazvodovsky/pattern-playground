@@ -100,11 +100,7 @@
       "name": "Washing Station",
       "label": "Washing",
       "description": "Washes fruit to remove dirt, debris and pesticide residues.",
-      "path": [
-        "Orange Juice Production Line",
-        "Fruit Reception",
-        "Washing Station"
-      ],
+      "path": ["Orange Juice Production Line", "Fruit Reception", "Washing Station"],
       "parentId": "fruitReception-001",
       "childrenIds": [],
       "actions": [
@@ -136,9 +132,7 @@
           "dataType": "string"
         }
       ],
-      "rulesAndConstraints": [
-        "Use recycled condensate where possible to optimize water usage."
-      ],
+      "rulesAndConstraints": ["Use recycled condensate where possible to optimize water usage."],
       "relatedObjects": [
         {
           "referenceId": "gradingStation-001",
@@ -154,11 +148,7 @@
       "name": "Grading Station",
       "label": "Grading",
       "description": "Manually or automatically grades fruit and rejects damaged fruit.",
-      "path": [
-        "Orange Juice Production Line",
-        "Fruit Reception",
-        "Grading Station"
-      ],
+      "path": ["Orange Juice Production Line", "Fruit Reception", "Grading Station"],
       "parentId": "fruitReception-001",
       "childrenIds": [],
       "actions": [
@@ -235,11 +225,7 @@
       "name": "Juice Extractor",
       "label": "Extractor",
       "description": "Machine that squeezes juice out of fruit. It transforms raw fruit into juice by mechanical pressure.",
-      "path": [
-        "Orange Juice Production Line",
-        "Juice Extraction",
-        "Juice Extractor"
-      ],
+      "path": ["Orange Juice Production Line", "Juice Extraction", "Juice Extractor"],
       "parentId": "extractionUnit-001",
       "childrenIds": ["squeezer-001", "reamer-001"],
       "actions": [],
@@ -289,12 +275,7 @@
       "name": "Squeezer",
       "label": "Squeezer",
       "description": "A squeezer-type extraction option with moderate yield and energy consumption.",
-      "path": [
-        "Orange Juice Production Line",
-        "Juice Extraction",
-        "Juice Extractor",
-        "Squeezer"
-      ],
+      "path": ["Orange Juice Production Line", "Juice Extraction", "Juice Extractor", "Squeezer"],
       "parentId": "juiceExtractor-001",
       "childrenIds": [],
       "actions": [],
@@ -332,12 +313,7 @@
       "name": "Reamer",
       "label": "Reamer",
       "description": "A reamer-type extraction option optimized for high yield with a gentle process.",
-      "path": [
-        "Orange Juice Production Line",
-        "Juice Extraction",
-        "Juice Extractor",
-        "Reamer"
-      ],
+      "path": ["Orange Juice Production Line", "Juice Extraction", "Juice Extractor", "Reamer"],
       "parentId": "juiceExtractor-001",
       "childrenIds": [],
       "actions": [],
@@ -357,9 +333,7 @@
           "dataType": "float"
         }
       ],
-      "rulesAndConstraints": [
-        "Ensure minimal mechanical stress to preserve flavor integrity."
-      ],
+      "rulesAndConstraints": ["Ensure minimal mechanical stress to preserve flavor integrity."],
       "relatedObjects": [],
       "services": []
     },
@@ -369,11 +343,7 @@
       "name": "Cutter Assembly",
       "label": "Cutter",
       "description": "Cuts fruit to optimize juice extraction and facilitate separation processes.",
-      "path": [
-        "Orange Juice Production Line",
-        "Juice Extraction",
-        "Cutter Assembly"
-      ],
+      "path": ["Orange Juice Production Line", "Juice Extraction", "Cutter Assembly"],
       "parentId": "extractionUnit-001",
       "childrenIds": [],
       "actions": [],
@@ -393,9 +363,7 @@
           "dataType": "string"
         }
       ],
-      "rulesAndConstraints": [
-        "Blade replacement recommended every 500 operational hours."
-      ],
+      "rulesAndConstraints": ["Blade replacement recommended every 500 operational hours."],
       "relatedObjects": [
         {
           "referenceId": "squeezer-001",
@@ -411,11 +379,7 @@
       "name": "Screen Filter",
       "label": "Screen",
       "description": "Removes pulp and seeds from juice after extraction.",
-      "path": [
-        "Orange Juice Production Line",
-        "Juice Extraction",
-        "Screen Filter"
-      ],
+      "path": ["Orange Juice Production Line", "Juice Extraction", "Screen Filter"],
       "parentId": "extractionUnit-001",
       "childrenIds": [],
       "actions": [],
@@ -442,9 +406,7 @@
           "dataType": "string"
         }
       ],
-      "rulesAndConstraints": [
-        "Clean filter element every 50 operating hours to prevent clogging."
-      ],
+      "rulesAndConstraints": ["Clean filter element every 50 operating hours to prevent clogging."],
       "relatedObjects": [
         {
           "referenceId": "clarifier-001",
@@ -478,9 +440,7 @@
           "dataType": "float"
         }
       ],
-      "rulesAndConstraints": [
-        "Juice must be clarified to remove >90% of solids."
-      ],
+      "rulesAndConstraints": ["Juice must be clarified to remove >90% of solids."],
       "relatedObjects": [
         {
           "referenceId": "juiceExtractor-001",
@@ -501,11 +461,7 @@
       "name": "Clarifier",
       "label": "Clarifier",
       "description": "Uses centrifugal and filtration processes to separate pulp from juice.",
-      "path": [
-        "Orange Juice Production Line",
-        "Clarification Unit",
-        "Clarifier"
-      ],
+      "path": ["Orange Juice Production Line", "Clarification Unit", "Clarifier"],
       "parentId": "clarificationUnit-001",
       "childrenIds": ["filterElement-001"],
       "actions": [],
@@ -543,12 +499,7 @@
       "name": "Filter Element",
       "label": "Filter Element",
       "description": "Removable filter element for clarifier maintenance.",
-      "path": [
-        "Orange Juice Production Line",
-        "Clarification Unit",
-        "Clarifier",
-        "Filter Element"
-      ],
+      "path": ["Orange Juice Production Line", "Clarification Unit", "Clarifier", "Filter Element"],
       "parentId": "clarifier-001",
       "childrenIds": [],
       "actions": [],
@@ -561,9 +512,7 @@
           "dataType": "float"
         }
       ],
-      "rulesAndConstraints": [
-        "Should be replaced when efficiency drops below 90%."
-      ],
+      "rulesAndConstraints": ["Should be replaced when efficiency drops below 90%."],
       "relatedObjects": [],
       "services": []
     },
@@ -604,11 +553,7 @@
       "name": "Pre-heater System",
       "label": "Pre-heater",
       "description": "Conditions and pre-heats juice upstream of the evaporator for efficient concentration.",
-      "path": [
-        "Orange Juice Production Line",
-        "Concentration Unit",
-        "Pre-heater"
-      ],
+      "path": ["Orange Juice Production Line", "Concentration Unit", "Pre-heater"],
       "parentId": "concentrationUnit-001",
       "childrenIds": [],
       "actions": [],
@@ -646,11 +591,7 @@
       "name": "Evaporator",
       "label": "Evaporator",
       "description": "Performs efficient evaporation with high thermal recovery to produce juice concentrate.",
-      "path": [
-        "Orange Juice Production Line",
-        "Concentration Unit",
-        "Evaporator"
-      ],
+      "path": ["Orange Juice Production Line", "Concentration Unit", "Evaporator"],
       "parentId": "concentrationUnit-001",
       "childrenIds": [],
       "actions": [],
@@ -690,12 +631,7 @@
       "description": "Integrated system incorporating heating, holding, and cooling to pasteurize juice.",
       "path": ["Orange Juice Production Line", "Pasteurization Unit"],
       "parentId": "ojProductionLine-001",
-      "childrenIds": [
-        "heatingAssembly",
-        "holdingSection",
-        "coolingAssembly",
-        "cipSystem"
-      ],
+      "childrenIds": ["heatingAssembly", "holdingSection", "coolingAssembly", "cipSystem"],
       "actions": [
         {
           "actionName": "monitorPasteurization",
@@ -734,11 +670,7 @@
       "name": "Heating Assembly",
       "label": "Heating Assembly",
       "description": "Brings juice to pasteurization temperature and holds it there before the holding section.",
-      "path": [
-        "Orange Juice Production Line",
-        "Pasteurization Unit",
-        "Heating Assembly"
-      ],
+      "path": ["Orange Juice Production Line", "Pasteurization Unit", "Heating Assembly"],
       "parentId": "pasteurizationUnit-001",
       "childrenIds": ["heatExchanger", "recirculationPump"],
       "actions": [],
@@ -879,11 +811,7 @@
       "name": "CIP System",
       "label": "CIP",
       "description": "Automated Clean-In-Place system for cleaning and sterilizing equipment during processing.",
-      "path": [
-        "Orange Juice Production Line",
-        "Pasteurization Unit",
-        "CIP System"
-      ],
+      "path": ["Orange Juice Production Line", "Pasteurization Unit", "CIP System"],
       "parentId": "pasteurizationUnit-001",
       "childrenIds": [],
       "actions": [],
@@ -921,17 +849,9 @@
       "name": "Holding Section",
       "label": "Holding Section",
       "description": "Provides the necessary residence time within the pasteurization unit.",
-      "path": [
-        "Orange Juice Production Line",
-        "Pasteurization Unit",
-        "Holding Section"
-      ],
+      "path": ["Orange Juice Production Line", "Pasteurization Unit", "Holding Section"],
       "parentId": "pasteurizationUnit-001",
-      "childrenIds": [
-        "holdingTube",
-        "standardHoldingTube",
-        "extendedHoldingTube"
-      ],
+      "childrenIds": ["holdingTube", "standardHoldingTube", "extendedHoldingTube"],
       "actions": [
         {
           "actionName": "switchHoldingTube",
@@ -1097,11 +1017,7 @@
       "name": "Cooling Assembly",
       "label": "Cooling Assembly",
       "description": "Removes excess heat from pasteurized juice to bring it to the proper filling temperature.",
-      "path": [
-        "Orange Juice Production Line",
-        "Pasteurization Unit",
-        "Cooling Assembly"
-      ],
+      "path": ["Orange Juice Production Line", "Pasteurization Unit", "Cooling Assembly"],
       "parentId": "pasteurizationUnit-001",
       "childrenIds": ["coolingExchanger"],
       "actions": [],
@@ -1357,11 +1273,7 @@
       "description": "Stage where pasteurized juice is filled into consumer packages.",
       "path": ["Orange Juice Production Line", "Packaging Unit"],
       "parentId": "ojProductionLine-001",
-      "childrenIds": [
-        "cartonPackaging-001",
-        "glassPackaging-001",
-        "plasticPackaging-001"
-      ],
+      "childrenIds": ["cartonPackaging-001", "glassPackaging-001", "plasticPackaging-001"],
       "actions": [
         {
           "actionName": "startFilling",
@@ -1395,11 +1307,7 @@
       "name": "Carton Packaging",
       "label": "Carton",
       "description": "Packages juice in laminated cartons.",
-      "path": [
-        "Orange Juice Production Line",
-        "Packaging Unit",
-        "Carton Packaging"
-      ],
+      "path": ["Orange Juice Production Line", "Packaging Unit", "Carton Packaging"],
       "parentId": "packagingUnit-001",
       "childrenIds": [],
       "actions": [],
@@ -1430,11 +1338,7 @@
       "name": "Glass Packaging",
       "label": "Glass",
       "description": "Juice is hot filled into glass bottles.",
-      "path": [
-        "Orange Juice Production Line",
-        "Packaging Unit",
-        "Glass Packaging"
-      ],
+      "path": ["Orange Juice Production Line", "Packaging Unit", "Glass Packaging"],
       "parentId": "packagingUnit-001",
       "childrenIds": [],
       "actions": [],
@@ -1465,11 +1369,7 @@
       "name": "Plastic Packaging",
       "label": "Plastic",
       "description": "Juice is aseptically filled into PET bottles.",
-      "path": [
-        "Orange Juice Production Line",
-        "Packaging Unit",
-        "Plastic Packaging"
-      ],
+      "path": ["Orange Juice Production Line", "Packaging Unit", "Plastic Packaging"],
       "parentId": "packagingUnit-001",
       "childrenIds": [],
       "actions": [],

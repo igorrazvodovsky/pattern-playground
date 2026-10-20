@@ -22,7 +22,7 @@ export const armHandler = (store: StateStore, connected: () => boolean) => {
     const parent = path.slice(0, path.lastIndexOf('/'));
     const list = store.get(parent);
     if (!Array.isArray(list)) return path;
-    const index = list.findIndex(item => (item as { id?: unknown } | null)?.id === id);
+    const index = list.findIndex((item) => (item as { id?: unknown } | null)?.id === id);
     return index < 0 ? undefined : `${parent}/${index}`;
   };
 

@@ -13,8 +13,20 @@ export const taskBinding: EntityBinding = {
     { path: 'description', role: 'description', valueType: 'string' },
     { path: 'specification', label: 'Specification', role: 'spec', valueType: 'string' },
     { path: 'status.label', label: 'Status', role: 'badge', valueType: 'status', icon: 'status' },
-    { path: 'priority.label', label: 'Priority', role: 'badge', valueType: 'status', icon: 'priority' },
-    { path: 'assignee.name', label: 'Assignee', role: 'spec', valueType: 'string', icon: 'assignee' },
+    {
+      path: 'priority.label',
+      label: 'Priority',
+      role: 'badge',
+      valueType: 'status',
+      icon: 'priority',
+    },
+    {
+      path: 'assignee.name',
+      label: 'Assignee',
+      role: 'spec',
+      valueType: 'string',
+      icon: 'assignee',
+    },
     // The label names as strings: hydration writes them to `metadata.tags`
     // (task.labels holds the rich objects), and path resolution descends into
     // `metadata` transparently.

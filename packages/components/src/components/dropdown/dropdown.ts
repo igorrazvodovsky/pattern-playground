@@ -45,11 +45,11 @@ declare global {
 }
 
 export class PpDropdown extends Elena(HTMLElement) {
-  static tagName = 'pp-dropdown';
+  static 'tagName' = 'pp-dropdown';
 
-  static dependencies = { 'pp-popup': PpPopup };
+  static 'dependencies' = { 'pp-popup': PpPopup };
 
-  static props = [
+  static 'props' = [
     'open',
     'placement',
     'disabled',
@@ -66,15 +66,15 @@ export class PpDropdown extends Elena(HTMLElement) {
     'shift-padding',
   ];
 
-  private closeWatcher: CloseWatcher | null = null;
-  private submenuPopups: Map<PpListItem, { popup: PpPopup; content: HTMLElement }> = new Map();
+  private 'closeWatcher': CloseWatcher | null = null;
+  private 'submenuPopups': Map<PpListItem, { popup: PpPopup; content: HTMLElement }> = new Map();
 
   // Elena's updated() carries no changed-props map; seeded in firstUpdated()
   // so open-state animations only run on changes after the first update.
-  private prevOpen?: boolean;
+  private 'prevOpen'?: boolean;
 
-  open = false;
-  placement:
+  'open' = false;
+  'placement':
     | 'top'
     | 'top-start'
     | 'top-end'
@@ -88,33 +88,33 @@ export class PpDropdown extends Elena(HTMLElement) {
     | 'left-start'
     | 'left-end' = 'bottom-start';
 
-  disabled = false;
+  'disabled' = false;
   'stay-open-on-select' = false;
   /** Property-only (holds a live element); not reactive, read when the dropdown opens or closes. */
-  containingElement?: Element;
-  distance = 4;
-  skidding = 0;
-  hoist = false;
-  sync: 'width' | 'height' | 'both' | '' = '';
+  'containingElement'?: Element;
+  'distance' = 4;
+  'skidding' = 0;
+  'hoist' = false;
+  'sync': 'width' | 'height' | 'both' | '' = '';
 
-  flip = true;
-  shift = true;
+  'flip' = true;
+  'shift' = true;
   'auto-size': 'horizontal' | 'vertical' | 'both' | '' = 'vertical';
   'auto-size-padding' = 10;
   'flip-padding' = 0;
   'shift-padding' = 0;
 
   /** The author-composed panel popup. */
-  get popup(): PpPopup | null {
+  get 'popup'(): PpPopup | null {
     return this.querySelector<PpPopup>(':scope > pp-popup');
   }
 
   /** The author-composed trigger element. */
-  get triggerEl(): HTMLElement | null {
+  get 'triggerEl'(): HTMLElement | null {
     return this.querySelector<HTMLElement>(':scope > [data-slot="trigger"]');
   }
 
-  connectedCallback() {
+  'connectedCallback'() {
     super.connectedCallback();
     this.addEventListener('click', this.handleHostClick);
     this.addEventListener('keydown', this.handleHostKeyDown);
@@ -126,7 +126,7 @@ export class PpDropdown extends Elena(HTMLElement) {
     document.addEventListener('DOMContentLoaded', () => this.init());
   }
 
-  private init() {
+  private 'init'() {
     if (!this.containingElement) {
       this.containingElement = this;
     }
@@ -135,7 +135,7 @@ export class PpDropdown extends Elena(HTMLElement) {
   }
 
   /** Push this dropdown's positioning configuration onto the author's popup child. */
-  private syncPopup() {
+  private 'syncPopup'() {
     const popup = this.popup;
     if (!popup) return;
 
@@ -155,7 +155,7 @@ export class PpDropdown extends Elena(HTMLElement) {
     popup.setAttribute('aria-hidden', this.open ? 'false' : 'true');
   }
 
-  firstUpdated() {
+  'firstUpdated'() {
     this.syncPopup();
     this.updateAccessibleTrigger();
     this.prevOpen = this.open;
@@ -167,7 +167,7 @@ export class PpDropdown extends Elena(HTMLElement) {
     }
   }
 
-  updated() {
+  'updated'() {
     this.syncPopup();
     if (this.prevOpen !== undefined && this.prevOpen !== this.open) {
       this.prevOpen = this.open;
@@ -175,7 +175,7 @@ export class PpDropdown extends Elena(HTMLElement) {
     }
   }
 
-  disconnectedCallback() {
+  'disconnectedCallback'() {
     super.disconnectedCallback();
     this.removeEventListener('click', this.handleHostClick);
     this.removeEventListener('keydown', this.handleHostKeyDown);
@@ -189,39 +189,39 @@ export class PpDropdown extends Elena(HTMLElement) {
     }
   }
 
-  focusOnTrigger() {
+  'focusOnTrigger'() {
     const trigger = this.triggerEl;
     if (typeof trigger?.focus === 'function') {
       trigger.focus();
     }
   }
 
-  getList() {
+  'getList'() {
     return this.popup?.querySelector<PpList>('pp-list') ?? undefined;
   }
 
-  private isFromTrigger(event: Event) {
+  private 'isFromTrigger'(event: Event) {
     const target = event.target as Element | null;
     const trigger = target?.closest('[data-slot="trigger"]');
     return !!trigger && trigger === this.triggerEl;
   }
 
-  private handleHostClick = (event: MouseEvent) => {
+  private 'handleHostClick' = (event: MouseEvent) => {
     if (!this.isFromTrigger(event)) return;
     this.handleTriggerClick();
   };
 
-  private handleHostKeyDown = (event: KeyboardEvent) => {
+  private 'handleHostKeyDown' = (event: KeyboardEvent) => {
     if (!this.isFromTrigger(event)) return;
     this.handleTriggerKeyDown(event);
   };
 
-  private handleHostKeyUp = (event: KeyboardEvent) => {
+  private 'handleHostKeyUp' = (event: KeyboardEvent) => {
     if (!this.isFromTrigger(event)) return;
     this.handleTriggerKeyUp(event);
   };
 
-  private handleKeyDown = (event: KeyboardEvent) => {
+  private 'handleKeyDown' = (event: KeyboardEvent) => {
     if (this.open && event.key === 'Escape') {
       event.stopPropagation();
       this.hide();
@@ -229,7 +229,7 @@ export class PpDropdown extends Elena(HTMLElement) {
     }
   };
 
-  private handleDocumentKeyDown = (event: KeyboardEvent) => {
+  private 'handleDocumentKeyDown' = (event: KeyboardEvent) => {
     if (event.key === 'Escape' && this.open && !this.closeWatcher) {
       event.stopPropagation();
       this.focusOnTrigger();
@@ -255,7 +255,10 @@ export class PpDropdown extends Elena(HTMLElement) {
         }
 
         // Check if focus is within the main dropdown
-        if (activeElement.closest(this.containingElement.tagName.toLowerCase()) === this.containingElement) {
+        if (
+          activeElement.closest(this.containingElement.tagName.toLowerCase()) ===
+          this.containingElement
+        ) {
           return; // Focus is in main dropdown, keep open
         }
 
@@ -272,7 +275,7 @@ export class PpDropdown extends Elena(HTMLElement) {
     }
   };
 
-  private handleDocumentMouseDown = (event: MouseEvent) => {
+  private 'handleDocumentMouseDown' = (event: MouseEvent) => {
     const path = event.composedPath();
 
     // Check if click is within the main dropdown
@@ -291,7 +294,7 @@ export class PpDropdown extends Elena(HTMLElement) {
     this.hide();
   };
 
-  private handlePanelSelect = (event: PpSelectEvent) => {
+  private 'handlePanelSelect' = (event: PpSelectEvent) => {
     const target = event.target as HTMLElement;
 
     if (!this['stay-open-on-select'] && target.tagName.toLowerCase() === 'pp-list') {
@@ -300,7 +303,7 @@ export class PpDropdown extends Elena(HTMLElement) {
     }
   };
 
-  handleTriggerClick() {
+  'handleTriggerClick'() {
     if (this.open) {
       this.hide();
     } else {
@@ -309,7 +312,7 @@ export class PpDropdown extends Elena(HTMLElement) {
     }
   }
 
-  async handleTriggerKeyDown(event: KeyboardEvent) {
+  async 'handleTriggerKeyDown'(event: KeyboardEvent) {
     if ([' ', 'Enter'].includes(event.key)) {
       event.preventDefault();
       this.handleTriggerClick();
@@ -349,7 +352,7 @@ export class PpDropdown extends Elena(HTMLElement) {
     }
   }
 
-  handleTriggerKeyUp(event: KeyboardEvent) {
+  'handleTriggerKeyUp'(event: KeyboardEvent) {
     // Prevent space from triggering a click event in Firefox
     if (event.key === ' ') {
       event.preventDefault();
@@ -359,7 +362,7 @@ export class PpDropdown extends Elena(HTMLElement) {
   // The trigger can be arbitrary content, but we need to link it to the dropdown panel with `aria-haspopup` and
   // `aria-expanded`. These must be applied to the "accessible trigger" (the tabbable portion of the trigger element)
   // so screen readers will understand them.
-  updateAccessibleTrigger() {
+  'updateAccessibleTrigger'() {
     const triggerEl = this.triggerEl;
     if (!triggerEl) return;
 
@@ -376,7 +379,9 @@ export class PpDropdown extends Elena(HTMLElement) {
 
         default: {
           // For custom elements or other components, look for a button/link inside
-          const innerButton = accessibleTrigger.querySelector('button, a, [role="button"]') as HTMLElement;
+          const innerButton = accessibleTrigger.querySelector(
+            'button, a, [role="button"]',
+          ) as HTMLElement;
           target = innerButton || accessibleTrigger;
         }
       }
@@ -386,7 +391,7 @@ export class PpDropdown extends Elena(HTMLElement) {
     }
   }
 
-  async show() {
+  async 'show'() {
     if (this.open) {
       return undefined;
     }
@@ -395,7 +400,7 @@ export class PpDropdown extends Elena(HTMLElement) {
     return waitForEvent(this, 'pp-after-show');
   }
 
-  async hide() {
+  async 'hide'() {
     if (!this.open) {
       return undefined;
     }
@@ -404,11 +409,11 @@ export class PpDropdown extends Elena(HTMLElement) {
     return waitForEvent(this, 'pp-after-hide');
   }
 
-  reposition() {
+  'reposition'() {
     this.popup?.reposition();
   }
 
-  addOpenListeners() {
+  'addOpenListeners'() {
     const popup = this.popup;
     if (popup) {
       popup.addEventListener('pp-select', this.handlePanelSelect as EventListener);
@@ -429,7 +434,7 @@ export class PpDropdown extends Elena(HTMLElement) {
     document.addEventListener('mousedown', this.handleDocumentMouseDown);
   }
 
-  removeOpenListeners() {
+  'removeOpenListeners'() {
     const popup = this.popup;
     if (popup) {
       popup.removeEventListener('pp-select', this.handlePanelSelect as EventListener);
@@ -447,7 +452,7 @@ export class PpDropdown extends Elena(HTMLElement) {
     }
   }
 
-  async handleOpenChange() {
+  async 'handleOpenChange'() {
     if (this.disabled) {
       this.open = false;
       return;
@@ -459,8 +464,9 @@ export class PpDropdown extends Elena(HTMLElement) {
     if (!popup) return;
 
     if (this.open) {
-
-      this.dispatchEvent(new CustomEvent('pp-show', { bubbles: true, cancelable: false, composed: true }))
+      this.dispatchEvent(
+        new CustomEvent('pp-show', { bubbles: true, cancelable: false, composed: true }),
+      );
       this.addOpenListeners();
 
       // Announce dropdown opening to screen readers
@@ -474,7 +480,9 @@ export class PpDropdown extends Elena(HTMLElement) {
       const { keyframes, options } = getAnimation('dropdown.show');
       await animateTo(popup, keyframes, options);
 
-      this.dispatchEvent(new CustomEvent('pp-after-show', { bubbles: true, cancelable: false, composed: true }))
+      this.dispatchEvent(
+        new CustomEvent('pp-after-show', { bubbles: true, cancelable: false, composed: true }),
+      );
 
       // An item can already have focus from the animation (ArrowUp focuses the
       // last one); resetting here would part focus from the roving tabindex.
@@ -485,9 +493,10 @@ export class PpDropdown extends Elena(HTMLElement) {
           // Don't focus automatically here - let keyboard navigation handle it
         }
       }
-
     } else {
-      this.dispatchEvent(new CustomEvent('pp-hide', { bubbles: true, cancelable: false, composed: true }))
+      this.dispatchEvent(
+        new CustomEvent('pp-hide', { bubbles: true, cancelable: false, composed: true }),
+      );
       this.removeOpenListeners();
 
       // Open submenus are torn down directly: their pp-submenu-close events
@@ -504,26 +513,30 @@ export class PpDropdown extends Elena(HTMLElement) {
       popup.setAttribute('aria-hidden', 'true');
       popup.active = false;
 
-      this.dispatchEvent(new CustomEvent('pp-after-hide', { bubbles: true, cancelable: false, composed: true }))
+      this.dispatchEvent(
+        new CustomEvent('pp-after-hide', { bubbles: true, cancelable: false, composed: true }),
+      );
     }
   }
 
   // Submenu event handlers
-  private handleSubmenuOpen = (event: CustomEvent) => {
+  private 'handleSubmenuOpen' = (event: CustomEvent) => {
     const item = event.detail.item as PpListItem;
     this.createSubmenuPopup(item);
   };
 
-  private handleSubmenuClose = (event: CustomEvent) => {
+  private 'handleSubmenuClose' = (event: CustomEvent) => {
     const item = event.detail.item as PpListItem;
     this.destroySubmenuPopup(item);
   };
 
   // Submenu popup management methods
-  private async createSubmenuPopup(item: PpListItem) {
+  private async 'createSubmenuPopup'(item: PpListItem) {
     if (this.submenuPopups.has(item)) return;
 
-    const submenuContent = item.querySelector('[data-slot="submenu"], [slot="submenu"]') as HTMLElement;
+    const submenuContent = item.querySelector(
+      '[data-slot="submenu"], [slot="submenu"]',
+    ) as HTMLElement;
     if (!submenuContent) return;
 
     const popup = document.createElement('pp-popup') as PpPopup;
@@ -548,7 +561,7 @@ export class PpDropdown extends Elena(HTMLElement) {
     this.submenuPopups.set(item, { popup, content: submenuContent });
 
     await popup.updateComplete;
-    await new Promise(resolve => requestAnimationFrame(resolve));
+    await new Promise((resolve) => requestAnimationFrame(resolve));
 
     popup.active = true;
     requestAnimationFrame(() => popup.reposition());
@@ -560,7 +573,7 @@ export class PpDropdown extends Elena(HTMLElement) {
       await popup.updateComplete;
       if (this.submenuPopups.get(item)?.popup === popup) {
         const submenuList = submenuContent.matches('pp-list')
-          ? submenuContent as PpList
+          ? (submenuContent as PpList)
           : submenuContent.querySelector<PpList>('pp-list');
         const first = submenuList?.getAllItems()[0];
         if (submenuList && first) {
@@ -584,11 +597,13 @@ export class PpDropdown extends Elena(HTMLElement) {
       // The popup lives in <body>, so the list's own event would reach the
       // document without passing this dropdown; re-emit it from here instead.
       e.stopPropagation();
-      this.dispatchEvent(new CustomEvent('pp-select', {
-        detail: (e as CustomEvent).detail,
-        bubbles: true,
-        composed: true
-      }));
+      this.dispatchEvent(
+        new CustomEvent('pp-select', {
+          detail: (e as CustomEvent).detail,
+          bubbles: true,
+          composed: true,
+        }),
+      );
       if (!this['stay-open-on-select']) {
         this.hide();
         this.focusOnTrigger();
@@ -611,7 +626,7 @@ export class PpDropdown extends Elena(HTMLElement) {
     });
   }
 
-  private destroySubmenuPopup(item: PpListItem) {
+  private 'destroySubmenuPopup'(item: PpListItem) {
     const entry = this.submenuPopups.get(item);
     if (!entry) return;
     const { popup, content } = entry;
@@ -622,7 +637,7 @@ export class PpDropdown extends Elena(HTMLElement) {
     this.submenuPopups.delete(item);
   }
 
-  private cleanupSubmenuPopups() {
+  private 'cleanupSubmenuPopups'() {
     this.submenuPopups.forEach(({ popup, content }, item) => {
       content.setAttribute('data-slot', 'submenu');
       item.appendChild(content);
@@ -635,22 +650,22 @@ export class PpDropdown extends Elena(HTMLElement) {
 setDefaultAnimation('dropdown.show', {
   keyframes: [
     { opacity: 0, scale: 0.9 },
-    { opacity: 1, scale: 1 }
+    { opacity: 1, scale: 1 },
   ],
-  options: { duration: 100, easing: 'ease' }
+  options: { duration: 100, easing: 'ease' },
 });
 
 setDefaultAnimation('dropdown.hide', {
   keyframes: [
     { opacity: 1, scale: 1 },
-    { opacity: 0, scale: 0.9 }
+    { opacity: 0, scale: 0.9 },
   ],
-  options: { duration: 100, easing: 'ease' }
+  options: { duration: 100, easing: 'ease' },
 });
 
 // Component registration is handled by the centralized registry
 declare global {
   interface HTMLElementTagNameMap {
-    "pp-dropdown": PpDropdown;
+    'pp-dropdown': PpDropdown;
   }
 }

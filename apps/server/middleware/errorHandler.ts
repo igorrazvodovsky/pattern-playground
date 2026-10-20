@@ -7,27 +7,32 @@ export interface HttpError extends Error {
   status?: number;
 }
 
-export const errorHandler = (err: Error | AppError | ZodError, _req: Request, res: Response, _next: NextFunction): void => {
+export const errorHandler = (
+  err: Error | AppError | ZodError,
+  _req: Request,
+  res: Response,
+  _next: NextFunction,
+): void => {
   // Explicitly avoid the unused parameter issue by acknowledging it
   void _next;
   logger.error('Express error:', err);
 
   // Handle Zod validation errors
   if (err instanceof ZodError) {
-    const validationErrors = err.issues.map(error => ({
+    const validationErrors = err.issues.map((error) => ({
       field: error.path.join('.'),
       message: error.message,
-      code: error.code
+      code: error.code,
     }));
 
     const appError = AppError.validation('Validation failed', validationErrors);
-    
+
     res.status(appError.statusCode).json({
       success: false,
       data: null,
       error: appError.message,
       code: appError.code,
-      validationErrors: appError.validationErrors
+      validationErrors: appError.validationErrors,
     } as ApiResponse<null>);
     return;
   }
@@ -40,7 +45,7 @@ export const errorHandler = (err: Error | AppError | ZodError, _req: Request, re
       error: err.message,
       code: err.code,
       details: err.details,
-      validationErrors: err.validationErrors
+      validationErrors: err.validationErrors,
     } as ApiResponse<null>);
     return;
   }
@@ -51,7 +56,7 @@ export const errorHandler = (err: Error | AppError | ZodError, _req: Request, re
     res.status(httpError.status).json({
       success: false,
       data: null,
-      error: httpError.message || 'Internal Server Error'
+      error: httpError.message || 'Internal Server Error',
     } as ApiResponse<null>);
     return;
   }
@@ -60,11 +65,13 @@ export const errorHandler = (err: Error | AppError | ZodError, _req: Request, re
   res.status(500).json({
     success: false,
     data: null,
-    error: process.env.NODE_ENV === 'production' ? 'Internal Server Error' : err.message
+    error: process.env.NODE_ENV === 'production' ? 'Internal Server Error' : err.message,
   } as ApiResponse<null>);
 };
 
-export const asyncHandler = (fn: (req: Request, res: Response, next: NextFunction) => Promise<void>) => {
+export const asyncHandler = (
+  fn: (req: Request, res: Response, next: NextFunction) => Promise<void>,
+) => {
   return (req: Request, res: Response, next: NextFunction): void => {
     Promise.resolve(fn(req, res, next)).catch(next);
   };

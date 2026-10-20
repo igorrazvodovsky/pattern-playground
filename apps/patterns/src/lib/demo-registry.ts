@@ -16,15 +16,22 @@ type DemoComponent = ComponentType<Record<string, unknown>>;
 type Loader = () => Promise<DemoComponent>;
 
 const demos: Record<string, Loader> = {
-  'block-based-editor': () => import('@pkg/demos/block-based-editor').then(m => m.BlockBasedEditorDemo),
-  'commenting': () => import('@pkg/demos/bubble-menu').then(m => m.CommentingDemo),
-  'dynamic-explanation': () => import('@pkg/demos/bubble-menu').then(m => m.DynamicExplanationDemo),
-  'text-lens': () => import('@pkg/demos/bubble-menu').then(m => m.TextLensDemo),
-  'dynamic-hyperlinks': () => import('@pkg/demos/dynamic-hyperlinks/DynamicHyperlinksDemo').then(m => m.DynamicHyperlinksDemo),
-  'fisheye-timeline': () => import('@pkg/demos/focus-and-context/fisheye').then(m => m.FisheyeTimelineDemo),
-  'semantic-zoom': () => import('@pkg/demos/semantic-zoom').then(m => m.SemanticZoomDemo),
-  'semantic-zoom-timeline': () => import('@pkg/demos/semantic-zoom').then(m => m.SemanticZoomTimelineDemo),
-  'population-rung': () => import('@pkg/demos/semantic-zoom').then(m => m.PopulationRungDemo),
+  'block-based-editor': () =>
+    import('@pkg/demos/block-based-editor').then((m) => m.BlockBasedEditorDemo),
+  'commenting': () => import('@pkg/demos/bubble-menu').then((m) => m.CommentingDemo),
+  'dynamic-explanation': () =>
+    import('@pkg/demos/bubble-menu').then((m) => m.DynamicExplanationDemo),
+  'text-lens': () => import('@pkg/demos/bubble-menu').then((m) => m.TextLensDemo),
+  'dynamic-hyperlinks': () =>
+    import('@pkg/demos/dynamic-hyperlinks/DynamicHyperlinksDemo').then(
+      (m) => m.DynamicHyperlinksDemo,
+    ),
+  'fisheye-timeline': () =>
+    import('@pkg/demos/focus-and-context/fisheye').then((m) => m.FisheyeTimelineDemo),
+  'semantic-zoom': () => import('@pkg/demos/semantic-zoom').then((m) => m.SemanticZoomDemo),
+  'semantic-zoom-timeline': () =>
+    import('@pkg/demos/semantic-zoom').then((m) => m.SemanticZoomTimelineDemo),
+  'population-rung': () => import('@pkg/demos/semantic-zoom').then((m) => m.PopulationRungDemo),
 };
 
 // Switchable demos (<Demo spec="…">): a spec in packages/components/src/demos/specs/,
@@ -53,8 +60,9 @@ const specs: Record<string, () => Promise<SpecModule>> = {
 };
 
 const registries: Record<Library, () => Promise<ComponentRegistry>> = {
-  pp: () => import('@pkg/catalog/registries/pp').then(m => m.registry),
-  shadcn: () => import('@pkg/catalog/registries/shadcn').then(async m => (await m.stylesheet, m.registry)),
+  pp: () => import('@pkg/catalog/registries/pp').then((m) => m.registry),
+  shadcn: () =>
+    import('@pkg/catalog/registries/shadcn').then(async (m) => (await m.stylesheet, m.registry)),
 };
 
 // Panes and pages leave as plain DOM, which React does not see, so the roots
@@ -93,7 +101,9 @@ export function mountDemos(root: ParentNode): void {
       continue;
     }
     el.setAttribute('data-demo-mounted', '');
-    const props: Record<string, unknown> = el.dataset.demoProps ? JSON.parse(el.dataset.demoProps) : {};
+    const props: Record<string, unknown> = el.dataset.demoProps
+      ? JSON.parse(el.dataset.demoProps)
+      : {};
     load().then(
       (Component) => {
         // The pane may have been truncated while the module loaded.
@@ -116,7 +126,9 @@ export function mountDemos(root: ParentNode): void {
 // library switch. The state store is created once per mount and handed to each
 // render, so switching libraries keeps the demo where the actor left it.
 function mountSpecDemos(root: ParentNode): void {
-  for (const el of root.querySelectorAll<HTMLElement>('[data-demo-spec]:not([data-demo-mounted])')) {
+  for (const el of root.querySelectorAll<HTMLElement>(
+    '[data-demo-spec]:not([data-demo-mounted])',
+  )) {
     const slug = el.dataset.demoSpec ?? '';
     const loadSpec = specs[slug];
     if (!loadSpec) {
@@ -124,37 +136,52 @@ function mountSpecDemos(root: ParentNode): void {
       continue;
     }
     el.setAttribute('data-demo-mounted', '');
-    const options = el.closest('.demo-block')?.querySelectorAll<HTMLButtonElement>('[data-demo-registry-option]') ?? [];
+    const options =
+      el
+        .closest('.demo-block')
+        ?.querySelectorAll<HTMLButtonElement>('[data-demo-registry-option]') ?? [];
 
     let reactRoot: Root | null = null;
     let render: ((registryName: string) => Promise<void>) | null = null;
 
-    const ready = Promise.all([loadSpec(), import('@pkg/catalog/SpecDemo'), import('@json-render/core')]).then(
-      ([{ spec, setup }, { SpecDemo }, { createStateStore }]) => {
-        if (!el.isConnected) {
-          el.removeAttribute('data-demo-mounted');
-          return;
+    const ready = Promise.all([
+      loadSpec(),
+      import('@pkg/catalog/SpecDemo'),
+      import('@json-render/core'),
+    ]).then(([{ spec, setup }, { SpecDemo }, { createStateStore }]) => {
+      if (!el.isConnected) {
+        el.removeAttribute('data-demo-mounted');
+        return;
+      }
+      const store = createStateStore(setup.initialState ?? {});
+      const handlers = setup.handlers?.(store, () => el.isConnected);
+      reactRoot = mountRoot(el);
+      render = async (registryName) => {
+        if (!Object.hasOwn(registries, registryName)) {
+          return console.warn(`[demo-registry] no registry "${registryName}"`);
         }
-        const store = createStateStore(setup.initialState ?? {});
-        const handlers = setup.handlers?.(store, () => el.isConnected);
-        reactRoot = mountRoot(el);
-        render = async (registryName) => {
-          if (!Object.hasOwn(registries, registryName)) {
-            return console.warn(`[demo-registry] no registry "${registryName}"`);
-          }
-          const registry = await registries[registryName as Library]();
-          if (!el.isConnected) return;
-          el.dataset.demoRegistry = registryName;
-          for (const option of options) {
-            option.setAttribute('aria-pressed', String(option.dataset.demoRegistryOption === registryName));
-          }
-          reactRoot?.render(
-            createElement(SpecDemo, { spec, registry, registryName, store, handlers, functions: setup.functions }),
+        const registry = await registries[registryName as Library]();
+        if (!el.isConnected) return;
+        el.dataset.demoRegistry = registryName;
+        for (const option of options) {
+          option.setAttribute(
+            'aria-pressed',
+            String(option.dataset.demoRegistryOption === registryName),
           );
-        };
-        return render(el.dataset.demoRegistry ?? 'pp');
-      },
-    );
+        }
+        reactRoot?.render(
+          createElement(SpecDemo, {
+            spec,
+            registry,
+            registryName,
+            store,
+            handlers,
+            functions: setup.functions,
+          }),
+        );
+      };
+      return render(el.dataset.demoRegistry ?? 'pp');
+    });
 
     ready.catch((err) => {
       el.removeAttribute('data-demo-mounted');

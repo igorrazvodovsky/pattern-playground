@@ -1,6 +1,6 @@
 import { Elena } from '@elenajs/core';
 import { PpDropdown } from '../dropdown/dropdown';
-import priorityPlus from './p-plus'
+import priorityPlus from './p-plus';
 
 /**
  * @summary An implementation of the priority plus navigation pattern.
@@ -18,10 +18,10 @@ import priorityPlus from './p-plus'
 export class PpPriorityPlus extends Elena(HTMLElement) {
   static tagName = 'pp-p-plus';
 
-  static dependencies = { 'pp-dropdown': PpDropdown }
+  static dependencies = { 'pp-dropdown': PpDropdown };
 
   firstUpdated() {
-    const target = this.querySelector("div");
+    const target = this.querySelector('div');
     if (target) priorityPlus(target);
   }
 }

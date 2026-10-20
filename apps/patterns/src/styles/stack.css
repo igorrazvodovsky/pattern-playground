@@ -51,11 +51,13 @@
        by side. The shadow falls on the leading (left) edge, onto the pane below.
        The two values differ only in alpha so the toggle — which fires
        continuously during scroll — fades instead of snapping. */
-    box-shadow: -4px 0 12px -6px light-dark(oklch(var(--_shadow-c-base) / 0%), oklch(0% 0 0deg / 0%));
+    box-shadow: -4px 0 12px -6px
+      light-dark(oklch(var(--_shadow-c-base) / 0%), oklch(0% 0 0deg / 0%));
     transition: box-shadow 150ms var(--ease-out-3);
 
     &[data-overlapping] {
-      box-shadow: -4px 0 12px -6px light-dark(oklch(var(--_shadow-c-base) / 26%), oklch(0% 0 0deg / 18%));
+      box-shadow: -4px 0 12px -6px
+        light-dark(oklch(var(--_shadow-c-base) / 26%), oklch(0% 0 0deg / 18%));
     }
   }
 
@@ -132,7 +134,8 @@
   /* Article padding inside a pane */
 
   /* TODO: cleaner rule */
-  .pane .pane-body > astro-slot > article, .pane .pane-body > article {
+  .pane .pane-body > astro-slot > article,
+  .pane .pane-body > article {
     margin: 0 var(--space-2xl) var(--space-2xl) var(--space-2xl);
 
     & > * + * {
@@ -154,7 +157,7 @@
 
     /* Out across the article's side margins, so list markers hanging there
        pass under the bar too. */
-    & > pp-toc[variant="bar"] .toc {
+    & > pp-toc[variant='bar'] .toc {
       margin-inline: calc(-1 * var(--space-2xl));
       padding-inline: var(--space-2xl);
     }

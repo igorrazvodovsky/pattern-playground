@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from 'react';
-import { BubbleMenu } from '@tiptap/react/menus'
+import { BubbleMenu } from '@tiptap/react/menus';
 import { useEditorContext } from '../EditorProvider';
 import type { SlotComponent } from '../types';
 
@@ -32,11 +32,7 @@ export function EditorBubbleMenu({ className, options }: EditorBubbleMenuProps) 
   const components = slots.getComponents('bubble-menu');
 
   return (
-    <BubbleMenu
-      editor={editor}
-      className={className}
-      options={options}
-    >
+    <BubbleMenu editor={editor} className={className} options={options}>
       <div className="bubble-menu inline-flow" data-slot="bubble-menu">
         {components.map((component: SlotComponent, index: number) => (
           <div key={`${component.pluginId}-${index}`} data-plugin={component.pluginId}>

@@ -1,8 +1,7 @@
 :root {
   --debug: oklch(63% 0.25 30deg / 30%);
   --font: system-ui, sans-serif;
-  --font-code: menlo, consolas, monaco, liberation mono, lucida console,
-    monospace;
+  --font-code: menlo, consolas, monaco, liberation mono, lucida console, monospace;
   --_baseTextSize: 0.9rem;
   --_textSizeIncrement: 1.23;
   --text-xs: calc(var(--_baseTextSize) / var(--_textSizeIncrement));

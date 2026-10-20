@@ -47,15 +47,20 @@ const problems = [];
     const re = new RegExp(`@import\\s+url\\(['"]?[^)]*${entry}['"]?\\)([^;]*);`);
     const m = css.match(re);
     if (!m) {
-      problems.push(`lib.css does not import ${entry}; the site can't pull it under the lib layer.`);
+      problems.push(
+        `lib.css does not import ${entry}; the site can't pull it under the lib layer.`,
+      );
     } else if (!/layer\(\s*lib\s*\)/.test(m[1])) {
-      problems.push(`lib.css imports ${entry} without \`layer(lib)\` — library rules escape the lib layer and can out-shout site rules.`);
+      problems.push(
+        `lib.css imports ${entry} without \`layer(lib)\` — library rules escape the lib layer and can out-shout site rules.`,
+      );
     }
   }
 }
 
 // --- Invariant 1b: every entry-imported file is layer-contained ----------------
-const declaresLayer = (file) => /@layer\b/.test(stripComments(readFileSync(resolve(stylesDir, file), 'utf8')));
+const declaresLayer = (file) =>
+  /@layer\b/.test(stripComments(readFileSync(resolve(stylesDir, file), 'utf8')));
 
 for (const entry of ENTRIES) {
   const css = stripComments(readFileSync(resolve(stylesDir, entry), 'utf8'));
@@ -133,11 +138,17 @@ for (const sheet of PROSE_SHEETS) {
 {
   const order = (text) => text.match(/@layer\s+lib\s*,[^;{]*;/)?.[0].replace(/\s+/g, ' ');
   const libOrder = order(readFileSync(LIB_CSS, 'utf8'));
-  const baseOrder = order(readFileSync(resolve(root, 'apps/patterns/src/layouts/Base.astro'), 'utf8'));
+  const baseOrder = order(
+    readFileSync(resolve(root, 'apps/patterns/src/layouts/Base.astro'), 'utf8'),
+  );
   if (!libOrder || libOrder !== baseOrder) {
-    problems.push(`The master layer statements in lib.css and Base.astro differ (${libOrder} vs ${baseOrder}); keep them identical.`);
+    problems.push(
+      `The master layer statements in lib.css and Base.astro differ (${libOrder} vs ${baseOrder}); keep them identical.`,
+    );
   } else if (!/^@layer lib, shadcn,/.test(libOrder)) {
-    problems.push('The master layer statement must register `shadcn` right after `lib`, or a lazily loaded shadcn sheet lands above every site layer.');
+    problems.push(
+      'The master layer statement must register `shadcn` right after `lib`, or a lazily loaded shadcn sheet lands above every site layer.',
+    );
   }
 
   const { buildShadcnCss, OUTPUT, SCOPE, LAYER } = await import('./build-shadcn-css.mjs');
@@ -155,10 +166,15 @@ for (const sheet of PROSE_SHEETS) {
     problems.push(`catalog/shadcn.generated.css is not wrapped in \`@layer ${LAYER}\`.`);
   }
   if (/(^|[\s,{}])(?::root|html|body)\b[^{;]*\{/m.test(body)) {
-    problems.push('catalog/shadcn.generated.css has a :root/html/body selector; the build should have rewritten it to :scope.');
+    problems.push(
+      'catalog/shadcn.generated.css has a :root/html/body selector; the build should have rewritten it to :scope.',
+    );
   }
   for (const [, name] of body.matchAll(/@keyframes\s+([\w-]+)/g)) {
-    if (!name.startsWith('shadcn-')) problems.push(`catalog/shadcn.generated.css declares @keyframes ${name} without the shadcn- prefix.`);
+    if (!name.startsWith('shadcn-'))
+      problems.push(
+        `catalog/shadcn.generated.css declares @keyframes ${name} without the shadcn- prefix.`,
+      );
   }
   // Every style rule must sit inside an @scope block: strip @scope blocks and
   // @property / @keyframes, then nothing with a selector should remain.
@@ -167,16 +183,16 @@ for (const sheet of PROSE_SHEETS) {
     .replace(/@keyframes[^{]*\{(?:[^{}]*\{[^}]*\})*[^}]*\}/g, '');
   const stray = outside.match(/(?:^|[{};])\s*([^@{};\s][^{};]*)\{/);
   if (stray) {
-    problems.push(`catalog/shadcn.generated.css has a rule outside @scope (${SCOPE}): \`${stray[1].trim()}\``);
+    problems.push(
+      `catalog/shadcn.generated.css has a rule outside @scope (${SCOPE}): \`${stray[1].trim()}\``,
+    );
   }
 }
 
 if (problems.length) {
   console.error('Style boundary check FAILED:\n');
   for (const p of problems) console.error(`  • ${p}`);
-  console.error(
-    '\nSee plans/*/2026-07-style-boundary.md for the boundary design.',
-  );
+  console.error('\nSee plans/*/2026-07-style-boundary.md for the boundary design.');
   process.exit(1);
 }
 console.log('Style boundary check passed.');

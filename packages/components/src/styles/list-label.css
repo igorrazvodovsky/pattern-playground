@@ -5,8 +5,7 @@
     font-weight: var(--font-weight-semibold);
     color: var(--c-bodyDimmed);
     padding-block: var(--space-2xs);
-    padding-inline: calc(var(--space-2xs) + 1.5 * var(--text-m))
-      var(--space-m);
+    padding-inline: calc(var(--space-2xs) + 1.5 * var(--text-m)) var(--space-m);
     user-select: none;
   }
 

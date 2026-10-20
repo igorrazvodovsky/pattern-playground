@@ -44,6 +44,9 @@ export const useReturnFocus = (label: string | null | undefined) => {
   const demo = useContext(DemoRoot);
   return useCallback((): HTMLElement | null => {
     if (!label || !demo?.current) return null;
-    return [...demo.current.querySelectorAll('button')].find(button => labelOf(button) === label) ?? null;
+    return (
+      [...demo.current.querySelectorAll('button')].find((button) => labelOf(button) === label) ??
+      null
+    );
   }, [label, demo]);
 };

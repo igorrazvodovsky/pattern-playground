@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ProductItemView, ItemViewSummaryDemo } from "../demos/item-view";
-import { ItemInteraction } from "../components/item-view/ItemInteraction";
-import { products } from "../templates/collection-view/data";
-import { centeredLayout, centeredLayoutNarrow } from "./utils/decorators";
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { ProductItemView, ItemViewSummaryDemo } from '../demos/item-view';
+import { ItemInteraction } from '../components/item-view/ItemInteraction';
+import { products } from '../templates/collection-view/data';
+import { centeredLayout, centeredLayoutNarrow } from './utils/decorators';
 
 const meta = {
-  title: "Templates/Item view",
+  title: 'Templates/Item view',
   parameters: {
     layout: 'fullscreen',
   },
@@ -28,22 +28,23 @@ export const Escalation: Story = {
   decorators: [centeredLayoutNarrow],
   render: () => (
     <p>
-      The refurbishment log flags the{" "}
+      The refurbishment log flags the{' '}
       <ItemInteraction
         item={products[0]}
         contentType="product"
         className="reference-mention reference"
       >
         {products[0].name}
-      </ItemInteraction>{" "}
+      </ItemInteraction>{' '}
       for a battery-module swap before the autumn fleet handover.
     </p>
   ),
   parameters: {
     docs: {
       description: {
-        story: 'One entity walked up and down the ladder from an inline reference. Hovering the mention glances at the summary in a popover; clicking commits to a working view — the drawer or the full dialog — and the level-of-detail control in every header moves between rungs. The same `ItemInteraction` drives references in the editor.'
-      }
-    }
+        story:
+          'One entity walked up and down the ladder from an inline reference. Hovering the mention glances at the summary in a popover; clicking commits to a working view — the drawer or the full dialog — and the level-of-detail control in every header moves between rungs. The same `ItemInteraction` drives references in the editor.',
+      },
+    },
   },
 };

@@ -48,7 +48,7 @@ function placeholderTitle(path: string): string {
 
 // Replace the first loading-status pane with the given path by a new value.
 function replaceLoadingPane(panes: Pane[], path: string, next: (pane: Pane) => Pane): Pane[] {
-  const idx = panes.findIndex(p => p.path === path && p.status === 'loading');
+  const idx = panes.findIndex((p) => p.path === path && p.status === 'loading');
   if (idx === -1) return panes;
   const updated = [...panes];
   updated[idx] = next(updated[idx]);
@@ -63,7 +63,13 @@ export const useStackStore = create<StackState>()((set, get) => ({
   push: async (path, fromIndex, hash) => {
     const { panes } = get();
     const truncated = panes.slice(0, fromIndex + 1);
-    const placeholder: Pane = { path, title: placeholderTitle(path), html: '', status: 'loading', hash };
+    const placeholder: Pane = {
+      path,
+      title: placeholderTitle(path),
+      html: '',
+      status: 'loading',
+      hash,
+    };
     const newPanes = [...truncated, placeholder];
     set({ panes: newPanes, activeIndex: fromIndex + 1 });
     history.pushState({}, '', buildURL(newPanes));
@@ -72,9 +78,17 @@ export const useStackStore = create<StackState>()((set, get) => ({
       const content = await getPaneContent(path);
       // The pane's current hash, not the one it was pushed with: a link to
       // this pane may have named an anchor while it was loading (goTo).
-      set(state => ({ panes: replaceLoadingPane(state.panes, path, pane => ({ ...content, status: 'ready', hash: pane.hash })) }));
+      set((state) => ({
+        panes: replaceLoadingPane(state.panes, path, (pane) => ({
+          ...content,
+          status: 'ready',
+          hash: pane.hash,
+        })),
+      }));
     } catch {
-      set(state => ({ panes: replaceLoadingPane(state.panes, path, pane => ({ ...pane, status: 'error' })) }));
+      set((state) => ({
+        panes: replaceLoadingPane(state.panes, path, (pane) => ({ ...pane, status: 'error' })),
+      }));
     }
   },
 
@@ -105,7 +119,13 @@ export const useStackStore = create<StackState>()((set, get) => ({
   syncFromURL: async (path0, title0) => {
     const stacked = new URLSearchParams(window.location.search).getAll('stackedNotes');
     // Pane 0's anchor is the page's own fragment.
-    const pane0: Pane = { path: path0, title: title0, html: '', status: 'ready', hash: location.hash || undefined };
+    const pane0: Pane = {
+      path: path0,
+      title: title0,
+      html: '',
+      status: 'ready',
+      hash: location.hash || undefined,
+    };
 
     // Drop panes that name no page in this build, as a link click would (e.g.
     // a concept pane in a URL copied from dev): fetching them can only fail.
@@ -114,23 +134,37 @@ export const useStackStore = create<StackState>()((set, get) => ({
       set({ panes: [pane0], activeIndex: 0 });
       return;
     }
-    const placeholders: Pane[] = entries.map(e => ({ path: e.path, title: placeholderTitle(e.path), html: '', status: 'loading', hash: e.hash }));
+    const placeholders: Pane[] = entries.map((e) => ({
+      path: e.path,
+      title: placeholderTitle(e.path),
+      html: '',
+      status: 'loading',
+      hash: e.hash,
+    }));
     set({ panes: [pane0, ...placeholders], activeIndex: entries.length });
 
-    const results = await Promise.allSettled(entries.map(e => getPaneContent(e.path)));
+    const results = await Promise.allSettled(entries.map((e) => getPaneContent(e.path)));
 
     const fetched = results.map((r, i): Pane =>
       r.status === 'fulfilled'
         ? { ...r.value, status: 'ready', hash: entries[i].hash }
-        : { path: entries[i].path, title: placeholderTitle(entries[i].path), html: '', status: 'error' }
+        : {
+            path: entries[i].path,
+            title: placeholderTitle(entries[i].path),
+            html: '',
+            status: 'error',
+          },
     );
 
     // Keep any anchor a goTo recorded while the panes were loading.
-    set(state => ({
-      panes: [pane0, ...fetched.map((pane, i) => {
-        const current = state.panes[i + 1];
-        return current?.path === pane.path ? { ...pane, hash: current.hash } : pane;
-      })],
+    set((state) => ({
+      panes: [
+        pane0,
+        ...fetched.map((pane, i) => {
+          const current = state.panes[i + 1];
+          return current?.path === pane.path ? { ...pane, hash: current.hash } : pane;
+        }),
+      ],
     }));
   },
 }));
@@ -152,7 +186,11 @@ export const validSlugs = stems(import.meta.glob('/src/content/patterns/**/*.{md
 export const validSequenceIds = stems(import.meta.glob('/src/content/sequences/**/*.{md,mdx}'));
 export const validConceptIds = stems(conceptFiles);
 
-const VALID_IDS = { pattern: validSlugs, sequence: validSequenceIds, concept: validConceptIds } as const;
+const VALID_IDS = {
+  pattern: validSlugs,
+  sequence: validSequenceIds,
+  concept: validConceptIds,
+} as const;
 
 function isKnownPane(path: string): boolean {
   const parsed = parsePanePath(path);
@@ -177,7 +215,8 @@ if (typeof document !== 'undefined') {
     'click',
     (event) => {
       // Only plain left-clicks
-      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey)
+        return;
 
       const target = event.composedPath()[0] as Element;
       const anchor = target.closest('a[href]') as HTMLAnchorElement | null;

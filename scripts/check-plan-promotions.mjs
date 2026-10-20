@@ -25,7 +25,11 @@ for (const name of readdirSync(completedDir).filter((n) => n.endsWith('.md'))) {
   }
 
   const ptMatch = fm.match(/^promoted_to:[ \t]*(.*)$/m);
-  const raw = ptMatch?.[1].trim().replace(/^["']|["']$/g, '').trim() ?? '';
+  const raw =
+    ptMatch?.[1]
+      .trim()
+      .replace(/^["']|["']$/g, '')
+      .trim() ?? '';
   if (!raw) {
     fail(`${name}: promoted_to is empty — name the residue paths, or "none — <reason>"`);
     continue;
@@ -50,7 +54,11 @@ for (const name of readdirSync(completedDir).filter((n) => n.endsWith('.md'))) {
   targets.push(current);
 
   for (const target of targets) {
-    const path = target.trim().replace(/\s*[(§].*$/, '').replace(/#.*$/, '').trim();
+    const path = target
+      .trim()
+      .replace(/\s*[(§].*$/, '')
+      .replace(/#.*$/, '')
+      .trim();
     if (!path) continue;
     if (!existsSync(resolve(root, path))) {
       fail(`${name}: promoted_to target does not exist: ${path}`);

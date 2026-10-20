@@ -27,7 +27,13 @@
 import { inGamut, clampChroma, wcagContrast, blend } from 'culori';
 
 const inSrgb = inGamut('rgb');
-const okColor = (l, c, h, alpha) => ({ mode: 'oklch', l, c, h, ...(alpha == null ? {} : { alpha }) });
+const okColor = (l, c, h, alpha) => ({
+  mode: 'oklch',
+  l,
+  c,
+  h,
+  ...(alpha == null ? {} : { alpha }),
+});
 // max in-gamut chroma at a lightness + hue: ask culori to reduce an off-the-chart
 // chroma down to the boundary of the named gamut (CSS Color 4 gamut mapping).
 const maxIn = (gamut) => (l, h) => clampChroma(okColor(l, 0.4, h), 'oklch', gamut).c;
@@ -52,8 +58,17 @@ const Lof = (s) => lightness[steps.indexOf(s)];
 // the current smooth chroma *shape* (relative curve, its own peak at 500 = 1)
 const shapePeak = 0.1472;
 const shape = {
-  50: 0.015, 100: 0.0321, 200: 0.0609, 300: 0.0908, 400: 0.1398, 500: 0.1472,
-  600: 0.1299, 700: 0.1067, 800: 0.0898, 900: 0.0726, 950: 0.054,
+  50: 0.015,
+  100: 0.0321,
+  200: 0.0609,
+  300: 0.0908,
+  400: 0.1398,
+  500: 0.1472,
+  600: 0.1299,
+  700: 0.1067,
+  800: 0.0898,
+  900: 0.0726,
+  950: 0.054,
 };
 
 // Floor for the light steps, as a fraction of each step's OWN ceiling.
@@ -75,11 +90,11 @@ const lightFloor = { 50: 0.62, 100: 0.56, 200: 0.58, 300: 0.6 };
 // the brand and is deliberately quieter than its ceiling allows. Yellow's target
 // is a choice, not a limit: at L 0.64 its ceiling is 0.131, so 0.12 has headroom.
 const palettes = {
-  accent:  { hue: 230, midTarget: 0.10 },
-  info:    { hue: 260, midTarget: 0.16 },
+  accent: { hue: 230, midTarget: 0.1 },
+  info: { hue: 260, midTarget: 0.16 },
   success: { hue: 150, midTarget: 0.135 },
-  danger:  { hue: 25,  midTarget: 0.16 },
-  warning: { hue: 86,  midTarget: 0.12 },
+  danger: { hue: 25, midTarget: 0.16 },
+  warning: { hue: 86, midTarget: 0.12 },
 };
 
 // ramp = scale the shape to the mid target, lift the light steps to their own
@@ -122,7 +137,11 @@ for (const [name, { hue, midTarget }] of Object.entries(palettes)) {
   const clipped = steps.some((s, i) => !inSrgb(okColor(Lof(s), ramp[i], hue)));
   console.log(`${name} · hue ${hue}${clipped ? '  !! CLIPS sRGB' : ''}`);
   console.log('  ramp   :', steps.map((s, i) => `${s}=${f4(ramp[i])}`).join(' '));
-  console.log('  boosted:', boostSteps.map((s, i) => `${s}=${f4(buildBoost(hue)[i])}`).join(' '), '\n');
+  console.log(
+    '  boosted:',
+    boostSteps.map((s, i) => `${s}=${f4(buildBoost(hue)[i])}`).join(' '),
+    '\n',
+  );
 }
 
 console.log('# P3 chroma ramps — for @media (color-gamut: p3)\n');
@@ -131,9 +150,15 @@ for (const [name, { hue, midTarget }] of Object.entries(palettes)) {
   const base = buildRamp(hue, midTarget);
   const bad = steps.some((s, i) => !inP3(okColor(Lof(s), ramp[i], hue)));
   const gain = steps.map((s, i) => ramp[i] / base[i]);
-  console.log(`${name} · hue ${hue}${bad ? '  !! CLIPS P3' : ''}  gain x${Math.min(...gain).toFixed(2)}–x${Math.max(...gain).toFixed(2)}`);
+  console.log(
+    `${name} · hue ${hue}${bad ? '  !! CLIPS P3' : ''}  gain x${Math.min(...gain).toFixed(2)}–x${Math.max(...gain).toFixed(2)}`,
+  );
   console.log('  ramp   :', steps.map((s, i) => `${s}=${f4(ramp[i])}`).join(' '));
-  console.log('  boosted:', boostSteps.map((s, i) => `${s}=${f4(buildBoost(hue, maxChromaP3, boostCap.p3)[i])}`).join(' '), '\n');
+  console.log(
+    '  boosted:',
+    boostSteps.map((s, i) => `${s}=${f4(buildBoost(hue, maxChromaP3, boostCap.p3)[i])}`).join(' '),
+    '\n',
+  );
 }
 
 // The shipped semantic surface is a translucent tint, so a purpose's -700 text
@@ -150,16 +175,32 @@ for (const [name, { hue, midTarget }] of Object.entries(palettes)) {
   const tint = okColor(Lof(500), ramp[steps.indexOf(500)], hue, 0.1);
   const w = wcagContrast(fg, blend([white, tint], 'normal'));
   const g = wcagContrast(fg, blend([grey, tint], 'normal'));
-  console.log(`  ${name.padEnd(8)} white ${w.toFixed(2)} ${flag(w).padEnd(8)} grey ${g.toFixed(2)} ${flag(g)}`);
+  console.log(
+    `  ${name.padEnd(8)} white ${w.toFixed(2)} ${flag(w).padEnd(8)} grey ${g.toFixed(2)} ${flag(g)}`,
+  );
 }
 
 // The neutral ramp rides the same lightness curve, and it carries body text,
 // borders and layer surfaces. Moving the curve moves all of them, so the steps
 // those tokens point at have to be re-checked rather than assumed.
-const neutralC = { 50: 0.002, 100: 0.005, 200: 0.011, 300: 0.017, 400: 0.026,
-  500: 0.034, 600: 0.039, 700: 0.033, 800: 0.027, 900: 0.021, 950: 0.015 };
+const neutralC = {
+  50: 0.002,
+  100: 0.005,
+  200: 0.011,
+  300: 0.017,
+  400: 0.026,
+  500: 0.034,
+  600: 0.039,
+  700: 0.033,
+  800: 0.027,
+  900: 0.021,
+  950: 0.015,
+};
 console.log('\n# Neutral steps against white — which are still usable as text (AA 4.5)');
 for (const s of steps) {
   const r = wcagContrast(okColor(Lof(s), neutralC[s], 230), white);
-  if (r >= 3) console.log(`  neutral-${String(s).padEnd(4)} L ${Lof(s).toFixed(2)}  ${r.toFixed(1).padStart(5)}  ${flag(r)}`);
+  if (r >= 3)
+    console.log(
+      `  neutral-${String(s).padEnd(4)} L ${Lof(s).toFixed(2)}  ${r.toFixed(1).padStart(5)}  ${flag(r)}`,
+    );
 }

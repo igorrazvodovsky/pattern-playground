@@ -23,8 +23,7 @@
        steps rather than scaling an increment. */
     background: oklch(
       calc(var(--l50) - (var(--l50) - var(--l200)) * var(--intensity))
-      calc(var(--c200-neutral) * var(--intensity))
-      var(--h)
+        calc(var(--c200-neutral) * var(--intensity)) var(--h)
     );
     border-radius: 2px;
     transition: background 200ms ease;

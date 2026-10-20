@@ -70,9 +70,7 @@ const EntityComments: React.FC<CustomAttributeProps> = ({ item, entityType, scop
 
 /** The quoted excerpt with its source line. */
 const QuoteContent: React.FC<CustomAttributeProps> = ({ item, attribute }) => {
-  const content = getValueAtPath(item, attribute.path) as
-    | { plainText?: string }
-    | undefined;
+  const content = getValueAtPath(item, attribute.path) as { plainText?: string } | undefined;
   const source = getValueAtPath(item, 'sourceDocument');
   if (!content?.plainText) return null;
 
@@ -101,7 +99,7 @@ const ReferenceMetadata: React.FC<CustomAttributeProps> = ({ item }) => {
     'skills',
   ]);
   const entries = Object.entries(metadata).filter(
-    ([key, value]) => !claimed.has(key) && value != null
+    ([key, value]) => !claimed.has(key) && value != null,
   );
   if (entries.length === 0) return null;
 

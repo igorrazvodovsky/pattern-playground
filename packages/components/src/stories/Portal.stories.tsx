@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useEffect, useRef, useState } from "react";
-import { portal, type PortalHandle } from "../utility/portal";
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useEffect, useRef, useState } from 'react';
+import { portal, type PortalHandle } from '../utility/portal';
 
 const meta = {
-  title: "Utilities/Portal",
+  title: 'Utilities/Portal',
 } satisfies Meta;
 
 export default meta;
@@ -34,14 +34,14 @@ function EscapeTheClip() {
   return (
     <div className="flow">
       <button className="button" type="button" onClick={toggle}>
-        {portaled ? "Restore into container" : "Portal out of container"}
+        {portaled ? 'Restore into container' : 'Portal out of container'}
       </button>
 
       <div
         style={{
-          height: "6rem",
-          overflow: "hidden",
-          position: "relative",
+          height: '6rem',
+          overflow: 'hidden',
+          position: 'relative',
         }}
       >
         <div
@@ -49,27 +49,26 @@ function EscapeTheClip() {
           style={
             portaled
               ? {
-                  position: "fixed",
-                  inset: "0",
-                  margin: "auto",
-                  width: "16rem",
-                  height: "6rem",
-                  display: "grid",
-                  placeItems: "center",
-                  background: "pink",
-                  boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
+                  position: 'fixed',
+                  inset: '0',
+                  margin: 'auto',
+                  width: '16rem',
+                  height: '6rem',
+                  display: 'grid',
+                  placeItems: 'center',
+                  background: 'pink',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.25)',
                   zIndex: 9999,
                 }
               : {
-                  width: "16rem",
-                  height: "8rem",
-                  display: "grid",
-                  placeItems: "center",
-                  background: "green",
+                  width: '16rem',
+                  height: '8rem',
+                  display: 'grid',
+                  placeItems: 'center',
+                  background: 'green',
                 }
           }
-        >
-        </div>
+        ></div>
       </div>
     </div>
   );

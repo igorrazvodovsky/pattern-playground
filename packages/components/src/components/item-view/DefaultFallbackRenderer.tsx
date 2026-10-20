@@ -64,36 +64,38 @@ export const DefaultFallbackRenderer = ({
   return (
     <div className="flow" data-content-type={contentType} data-scope={scope}>
       {/* Header with title and description */}
-      <header>
-        {description && <p className="text-secondary">{description}</p>}
-      </header>
+      <header>{description && <p className="text-secondary">{description}</p>}</header>
 
       {scope === 'maxi' && (
         <main className="flow">
           {!description && (
             <section className="flow">
               <h2>Overview</h2>
-              <p>This is a {item.type} item with ID {item.id}.</p>
+              <p>
+                This is a {item.type} item with ID {item.id}.
+              </p>
             </section>
           )}
 
           {item.metadata && Object.keys(item.metadata).length > 0 && (
-            <section className="flow">
-              {renderMetadata()}
-            </section>
+            <section className="flow">{renderMetadata()}</section>
           )}
         </main>
       )}
 
       {/* Placeholder actions for generic items in drawer view */}
       {scope === 'mid' && (
-        <pp-list className='borderless'>
+        <pp-list className="borderless">
           <pp-list-item>
             <iconify-icon className="icon" data-slot="prefix" icon="ik:pen"></iconify-icon>
             Edit
           </pp-list-item>
           <pp-list-item type="checkbox" checked>
-            <iconify-icon className="icon" data-slot="prefix" icon="ik:circle-dotted"></iconify-icon>
+            <iconify-icon
+              className="icon"
+              data-slot="prefix"
+              icon="ik:circle-dotted"
+            ></iconify-icon>
             Selected
           </pp-list-item>
           <pp-list-item>

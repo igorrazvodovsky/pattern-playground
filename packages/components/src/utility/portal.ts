@@ -71,9 +71,10 @@ export function portal(element: HTMLElement, options: PortalOptions = {}): Porta
 
   // Mark the original position with a comment node so we can restore into it even
   // if surrounding siblings change while the element is elsewhere.
-  const placeholder = restorable && element.parentNode
-    ? element.parentNode.insertBefore(document.createComment('portal'), element)
-    : null;
+  const placeholder =
+    restorable && element.parentNode
+      ? element.parentNode.insertBefore(document.createComment('portal'), element)
+      : null;
 
   root.appendChild(element);
 

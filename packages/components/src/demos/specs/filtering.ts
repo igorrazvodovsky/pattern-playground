@@ -17,7 +17,11 @@ import {
 import type { ActionDefinition, SpecSetup } from '../../catalog/SpecDemo';
 import type { AICommandResult } from '../../components/command-menu';
 import { generateFilterSuggestions } from '../../components/filter/adapters/ai-filter-adapter';
-import { TASK_FILTER_PATHS, filterValueOptions, taskFilterCategories } from '../../components/filter/filter-options';
+import {
+  TASK_FILTER_PATHS,
+  filterValueOptions,
+  taskFilterCategories,
+} from '../../components/filter/filter-options';
 import { createTask } from '../../components/task/task-utils';
 import { filterClauses, type ValueGlyph } from './shared/filter-clauses';
 import spec from './filtering.json' with { type: 'json' };
@@ -30,9 +34,9 @@ const MIN_PROMPT = 3;
 
 // Dates are offered as phrases rather than as days.
 const VALUES: Record<string, { value: string; search: string }[]> = Object.fromEntries(
-  taskFilterCategories.map(category => [
+  taskFilterCategories.map((category) => [
     category.id,
-    category.children.map(child => ({ value: child.value, search: child.searchableText })),
+    category.children.map((child) => ({ value: child.value, search: child.searchableText })),
   ]),
 );
 
@@ -49,37 +53,42 @@ const DATES: Record<string, ValueIcon> = {
 };
 const VALUE_ICONS: Record<string, Record<string, ValueIcon>> = {
   'status.label': {
-    Backlog: 'status-backlog',
-    Todo: 'status-todo',
+    'Backlog': 'status-backlog',
+    'Todo': 'status-todo',
     'In Progress': 'status-in-progress',
     'In Review': 'status-in-review',
-    Done: 'status-done',
-    Cancelled: 'status-cancelled',
+    'Done': 'status-done',
+    'Cancelled': 'status-cancelled',
   },
-  'priority.label': { Urgent: 'priority-urgent', High: 'priority-high', Medium: 'priority-medium', Low: 'priority-low' },
-  tags: {
+  'priority.label': {
+    Urgent: 'priority-urgent',
+    High: 'priority-high',
+    Medium: 'priority-medium',
+    Low: 'priority-low',
+  },
+  'tags': {
     'Waste Reduction': 'label-waste-reduction',
-    Audit: 'label-audit',
-    Sourcing: 'label-sourcing',
-    Recycling: 'label-recycling',
-    Data: 'label-data',
-    Assessment: 'label-assessment',
-    Design: 'label-design',
+    'Audit': 'label-audit',
+    'Sourcing': 'label-sourcing',
+    'Recycling': 'label-recycling',
+    'Data': 'label-data',
+    'Assessment': 'label-assessment',
+    'Design': 'label-design',
     'Take-back': 'label-take-back',
-    Logistics: 'label-logistics',
-    Optimization: 'label-optimization',
-    Policy: 'label-policy',
-    Advocacy: 'label-advocacy',
-    Marketing: 'label-marketing',
-    Refurbishment: 'label-refurbishment',
-    Research: 'label-research',
-    Innovation: 'label-innovation',
-    Training: 'label-training',
-    Education: 'label-education',
+    'Logistics': 'label-logistics',
+    'Optimization': 'label-optimization',
+    'Policy': 'label-policy',
+    'Advocacy': 'label-advocacy',
+    'Marketing': 'label-marketing',
+    'Refurbishment': 'label-refurbishment',
+    'Research': 'label-research',
+    'Innovation': 'label-innovation',
+    'Training': 'label-training',
+    'Education': 'label-education',
   },
-  dueDate: DATES,
-  createdAt: DATES,
-  updatedAt: DATES,
+  'dueDate': DATES,
+  'createdAt': DATES,
+  'updatedAt': DATES,
 };
 
 const glyphsFor = (path: string): ValueGlyph[] | null => {
@@ -90,37 +99,50 @@ const glyphsFor = (path: string): ValueGlyph[] | null => {
         : { value: name, icon: 'unassigned', avatar: null },
     );
   const icons = VALUE_ICONS[path];
-  return icons ? Object.entries(icons).map(([value, icon]) => ({ value, icon, avatar: null })) : null;
+  return icons
+    ? Object.entries(icons).map(([value, icon]) => ({ value, icon, avatar: null }))
+    : null;
 };
 
-const iconOf = (path: string, value: string) => glyphsFor(path)?.find(glyph => glyph.value === value)?.icon ?? null;
+const iconOf = (path: string, value: string) =>
+  glyphsFor(path)?.find((glyph) => glyph.value === value)?.icon ?? null;
 
 const label = (path: string) => attributeLabelFromBinding(taskBinding, path);
 const { keeping, chip, applyEdit, removeFilter } = filterClauses(
   tasks,
   taskBinding,
-  path => (VALUES[path] ?? []).map(each => each.value),
+  (path) => (VALUES[path] ?? []).map((each) => each.value),
   glyphsFor,
 );
 
 // Built from the data, so the chips name values the list actually carries.
 const filters: AttributeFilter[] = [
-  { id: 'default-status', path: 'status.label', operator: 'is any of', values: ['Todo', 'In Progress'] },
+  {
+    id: 'default-status',
+    path: 'status.label',
+    operator: 'is any of',
+    values: ['Todo', 'In Progress'],
+  },
   {
     id: 'default-priority',
     path: 'priority.label',
     operator: 'is any of',
-    values: filterPriorities.slice(0, 2).map(priority => priority.value),
+    values: filterPriorities.slice(0, 2).map((priority) => priority.value),
   },
   {
     id: 'default-assignee',
     path: 'assignee.name',
     operator: 'is any of',
-    values: users.slice(1, 3).map(user => user.name),
+    values: users.slice(1, 3).map((user) => user.name),
   },
 ];
 
-const CARD = resolveAttributeSelection(taskBinding, ['title', 'status.label', 'assignee.name', 'dueDate']);
+const CARD = resolveAttributeSelection(taskBinding, [
+  'title',
+  'status.label',
+  'assignee.name',
+  'dueDate',
+]);
 const [TITLE, ...BADGES] = CARD;
 
 const derive = ({ filters: current }: Record<string, unknown>) => {
@@ -128,18 +150,25 @@ const derive = ({ filters: current }: Record<string, unknown>) => {
   return {
     filtered: conditions.length > 0,
     clauses: conditions.map(chip),
-    tasks: applyFilters(tasks, conditions, taskBinding).map(task => ({
+    tasks: applyFilters(tasks, conditions, taskBinding).map((task) => ({
       id: task.id,
       title: String(getValueAtPath(task, TITLE.path) ?? ''),
-      attributes: BADGES.filter(attribute => getValueAtPath(task, attribute.path) != null).map(attribute => ({
-        label: label(attribute.path),
-        value: formatBoundValue(getValueAtPath(task, attribute.path), attribute),
-      })),
+      attributes: BADGES.filter((attribute) => getValueAtPath(task, attribute.path) != null).map(
+        (attribute) => ({
+          label: label(attribute.path),
+          value: formatBoundValue(getValueAtPath(task, attribute.path), attribute),
+        }),
+      ),
     })),
   };
 };
 
-type Interpretation = { prompt: string; pending?: true; result?: AICommandResult; error?: string } | null;
+type Interpretation = {
+  prompt: string;
+  pending?: true;
+  result?: AICommandResult;
+  error?: string;
+} | null;
 
 const SUGGESTED = 'suggested';
 const CREATE_TASK = 'create-task';
@@ -148,19 +177,21 @@ const matches = (query: string, scope: string | null) => {
   const typed = query.trim().toLowerCase();
   const has = (text: string) => text.toLowerCase().includes(typed);
   const valuesOf = (path: string) =>
-    (VALUES[path] ?? []).map(each => ({
+    (VALUES[path] ?? []).map((each) => ({
       value: JSON.stringify([path, each.value]),
       label: each.value,
       search: each.search,
       icon: iconOf(path, each.value),
     }));
   if (scope) {
-    return [{ heading: label(scope), options: valuesOf(scope).filter(option => has(option.search)) }];
+    return [
+      { heading: label(scope), options: valuesOf(scope).filter((option) => has(option.search)) },
+    ];
   }
   return [
     {
       heading: 'Attributes',
-      options: TASK_FILTER_PATHS.filter(path => has(label(path))).map(path => ({
+      options: TASK_FILTER_PATHS.filter((path) => has(label(path))).map((path) => ({
         value: path,
         label: label(path),
         narrows: true,
@@ -172,10 +203,14 @@ const matches = (query: string, scope: string | null) => {
       options:
         typed.length < 2
           ? []
-          : TASK_FILTER_PATHS.flatMap(path =>
+          : TASK_FILTER_PATHS.flatMap((path) =>
               valuesOf(path)
-                .filter(option => has(option.search))
-                .map(option => ({ value: option.value, label: `${label(path)}: ${option.label}`, icon: option.icon })),
+                .filter((option) => has(option.search))
+                .map((option) => ({
+                  value: option.value,
+                  label: `${label(path)}: ${option.label}`,
+                  icon: option.icon,
+                })),
             ),
     },
   ];
@@ -186,17 +221,18 @@ const scopeOf = (scope: unknown) => (typeof scope === 'string' && scope !== '' ?
 const unmatched = ({ query, scope }: Record<string, unknown>) => {
   const typed = String(query ?? '').trim();
   if (typed.length < MIN_PROMPT || scopeOf(scope)) return null;
-  const found = matches(typed, null).some(group => group.options.length > 0);
+  const found = matches(typed, null).some((group) => group.options.length > 0);
   return found ? null : typed;
 };
 
-const confidence = (result: AICommandResult) => (result.confidence < 85 ? ` (${result.confidence}% match)` : '');
+const confidence = (result: AICommandResult) =>
+  result.confidence < 85 ? ` (${result.confidence}% match)` : '';
 
 const field = ({ query, scope, interpretation }: Record<string, unknown>) => {
   const typed = String(query ?? '');
   const within = scopeOf(scope);
   const asked = interpretation as Interpretation;
-  const groups = matches(typed, within).map(group => ({
+  const groups = matches(typed, within).map((group) => ({
     heading: group.heading,
     options: group.options.map(({ value, label: text, ...rest }) => ({
       value,
@@ -216,17 +252,22 @@ const field = ({ query, scope, interpretation }: Record<string, unknown>) => {
           ? [
               {
                 value: SUGGESTED,
-                label: (suggested.length === 1 ? suggested[0].label : `Apply ${suggested.length} suggestions`) + confidence(result),
+                label:
+                  (suggested.length === 1
+                    ? suggested[0].label
+                    : `Apply ${suggested.length} suggestions`) + confidence(result),
                 narrows: null,
                 icon: null,
               },
             ]
           : []),
-        ...(unread.length > 0 ? [{ value: CREATE_TASK, label: 'Create a task from this', narrows: null, icon: null }] : []),
+        ...(unread.length > 0
+          ? [{ value: CREATE_TASK, label: 'Create a task from this', narrows: null, icon: null }]
+          : []),
       ],
     });
   }
-  const nothing = groups.every(group => group.options.length === 0);
+  const nothing = groups.every((group) => group.options.length === 0);
   return {
     groups,
     placeholder: within ? `${label(within)}…` : 'Filter…',
@@ -249,10 +290,12 @@ const pick = ({ filters: current, toasts, picked, interpretation }: Record<strin
   const asked = interpretation as Interpretation;
   const shown = (toasts ?? []) as unknown[];
   if (picked === SUGGESTED) {
-    const added = (asked?.result?.suggestedItems ?? []).flatMap(item => {
+    const added = (asked?.result?.suggestedItems ?? []).flatMap((item) => {
       const { path, operator, values } = item.metadata ?? {};
       if (typeof path !== 'string' || !Array.isArray(values)) return [];
-      return [{ id: nanoid(), path, operator: operator as FilterOperator, values: values.map(String) }];
+      return [
+        { id: nanoid(), path, operator: operator as FilterOperator, values: values.map(String) },
+      ];
     });
     return { filters: [...conditions, ...added], toasts: shown };
   }
@@ -262,14 +305,19 @@ const pick = ({ filters: current, toasts, picked, interpretation }: Record<strin
       title: task.title,
       specification: task.specification,
       status: task.status?.label ?? '',
-      history: task.history.map(entry => ({
+      history: task.history.map((entry) => ({
         id: entry.id,
         title: entry.action,
         by: entry.actor,
         time: formatTime(entry.timestamp),
       })),
     };
-    const toast = { id: `task-${++toastCount}`, message: `Task created: ${task.title}`, actionLabel: 'Open', task: view };
+    const toast = {
+      id: `task-${++toastCount}`,
+      message: `Task created: ${task.title}`,
+      actionLabel: 'Open',
+      task: view,
+    };
     return { filters: conditions, toasts: [...shown, toast] };
   }
   try {
@@ -287,7 +335,9 @@ const interpret: ActionDefinition = {
 };
 
 const interpretHandler = (store: StateStore, connected: () => boolean) => {
-  const available = Object.fromEntries(Object.entries(VALUES).map(([path, values]) => [path, values.map(each => each.value)]));
+  const available = Object.fromEntries(
+    Object.entries(VALUES).map(([path, values]) => [path, values.map((each) => each.value)]),
+  );
   let timer: ReturnType<typeof setTimeout> | undefined;
   let latest = 0;
   return {
@@ -304,7 +354,8 @@ const interpretHandler = (store: StateStore, connected: () => boolean) => {
           const result = await generateFilterSuggestions(prompt, TASK_FILTER_PATHS, available);
           if (connected() && ask === latest) store.set(path, { prompt, result });
         } catch (error) {
-          if (connected() && ask === latest) store.set(path, { prompt, error: (error as Error).message });
+          if (connected() && ask === latest)
+            store.set(path, { prompt, error: (error as Error).message });
         }
       }, PAUSE);
     },

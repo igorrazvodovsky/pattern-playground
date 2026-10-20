@@ -55,33 +55,33 @@ export interface Project {
 export interface Task {
   // Core identification
   id: string;
-  
+
   // Content - supporting both old patterns
-  title: string;           // Primary display name
-  specification: string;   // Detailed specification (can be same as title for simple tasks)
-  description?: string;    // Optional longer description
-  
+  title: string; // Primary display name
+  specification: string; // Detailed specification (can be same as title for simple tasks)
+  description?: string; // Optional longer description
+
   // Status and workflow
-  status: TaskStatus;      // Rich status object with display properties
-  history: TaskHistoryEntry[];  // Execution history for TaskView
-  
-  // Assignment and organization  
+  status: TaskStatus; // Rich status object with display properties
+  history: TaskHistoryEntry[]; // Execution history for TaskView
+
+  // Assignment and organization
   assignee?: User;
   priority?: TaskPriority;
   labels?: TaskLabel[];
   project?: Project;
-  
+
   // Progress tracking
-  progress?: number;       // 0-100 percentage
-  
+  progress?: number; // 0-100 percentage
+
   // Temporal
   createdAt: Date;
   updatedAt?: Date;
   dueDate?: Date;
-  
+
   // Updated by tracking
   updatedBy?: User;
-  
+
   // ItemView metadata
   metadata?: {
     tags?: string[];
@@ -92,23 +92,25 @@ export interface Task {
 // Helper type for creating new tasks (minimal required fields)
 export interface CreateTaskInput {
   specification: string;
-  title?: string;  // Falls back to specification if not provided
+  title?: string; // Falls back to specification if not provided
   assignee?: string; // User ID
-  priority?: string; // Priority ID  
-  project?: string;  // Project ID
+  priority?: string; // Priority ID
+  project?: string; // Project ID
   dueDate?: Date;
 }
 
 // Type guards and utilities
 export const isTask = (obj: unknown): obj is Task => {
   if (typeof obj !== 'object' || obj === null) return false;
-  
+
   const record = obj as Record<string, unknown>;
-  return typeof record.id === 'string' &&
-         typeof record.title === 'string' &&
-         typeof record.specification === 'string' &&
-         typeof record.status === 'object' &&
-         Array.isArray(record.history);
+  return (
+    typeof record.id === 'string' &&
+    typeof record.title === 'string' &&
+    typeof record.specification === 'string' &&
+    typeof record.status === 'object' &&
+    Array.isArray(record.history)
+  );
 };
 
 // Simple status values for backward compatibility

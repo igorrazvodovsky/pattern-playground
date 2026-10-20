@@ -4,14 +4,17 @@ import type { AIAssistantPlugin, AIAssistantPluginOptions } from '../AIAssistant
 
 interface AIAssistantToolbarProps {
   options: AIAssistantPluginOptions;
-  onAction: (action: string, selectedText: string, range: { from: number; to: number }) => Promise<void>;
+  onAction: (
+    action: string,
+    selectedText: string,
+    range: { from: number; to: number },
+  ) => Promise<void>;
 }
 
 export function AIAssistantToolbar({ options, onAction }: AIAssistantToolbarProps) {
   const { editor, eventBus } = useEditorContext();
   const aiAssistantPlugin = usePlugin<AIAssistantPlugin>('ai-assistant');
   const [isProcessing, setIsProcessing] = useState(false);
-
 
   // Listen to processing events
   useEffect(() => {
@@ -29,25 +32,28 @@ export function AIAssistantToolbar({ options, onAction }: AIAssistantToolbarProp
     };
   }, [eventBus]);
 
-  const handleAction = useCallback(async (action: string) => {
-    if (!editor) return;
-    
-    const { from, to } = editor.state.selection;
-    const currentSelectedText = editor.state.doc.textBetween(from, to);
-    
-    if (!currentSelectedText) {
-      // If no selection, show a message or select all content
-      const allText = editor.state.doc.textContent;
-      if (allText) {
-        editor.commands.selectAll();
-        await onAction(action, allText, { from: 0, to: editor.state.doc.content.size });
+  const handleAction = useCallback(
+    async (action: string) => {
+      if (!editor) return;
+
+      const { from, to } = editor.state.selection;
+      const currentSelectedText = editor.state.doc.textBetween(from, to);
+
+      if (!currentSelectedText) {
+        // If no selection, show a message or select all content
+        const allText = editor.state.doc.textContent;
+        if (allText) {
+          editor.commands.selectAll();
+          await onAction(action, allText, { from: 0, to: editor.state.doc.content.size });
+        }
+        return;
       }
-      return;
-    }
-    
-    setIsProcessing(true);
-    await onAction(action, currentSelectedText, { from, to });
-  }, [editor, onAction]);
+
+      setIsProcessing(true);
+      await onAction(action, currentSelectedText, { from, to });
+    },
+    [editor, onAction],
+  );
 
   const handleCancelOperation = useCallback(() => {
     if (aiAssistantPlugin && aiAssistantPlugin.isStreaming()) {
@@ -82,7 +88,7 @@ export function AIAssistantToolbar({ options, onAction }: AIAssistantToolbarProp
               <span className="toolbar-button-label">Explain</span>
             </button>
           )}
-          
+
           {options.enableSummarize && (
             <button
               type="button"

@@ -2,7 +2,7 @@ import type {
   SlotRegistry as ISlotRegistry,
   SlotId,
   SlotComponent,
-  SlotRegistrationOptions
+  SlotRegistrationOptions,
 } from '../../editor/types';
 
 interface RegisteredComponent extends SlotComponent {
@@ -17,18 +17,18 @@ export class SlotRegistry implements ISlotRegistry {
   static readonly DEFAULT_OPTIONS = {
     priority: 50,
     position: 'end' as const,
-    condition: () => true
+    condition: () => true,
   } as const;
 
   register(
     slotId: SlotId,
     component: SlotComponent,
     // Modern destructuring with default values
-    { 
-      priority = SlotRegistry.DEFAULT_OPTIONS.priority, 
-      condition = SlotRegistry.DEFAULT_OPTIONS.condition, 
-      position = SlotRegistry.DEFAULT_OPTIONS.position 
-    }: SlotRegistrationOptions = {}
+    {
+      priority = SlotRegistry.DEFAULT_OPTIONS.priority,
+      condition = SlotRegistry.DEFAULT_OPTIONS.condition,
+      position = SlotRegistry.DEFAULT_OPTIONS.position,
+    }: SlotRegistrationOptions = {},
   ): void {
     // Initialize slot if needed
     if (!this.#slots.has(slotId)) {
@@ -45,10 +45,10 @@ export class SlotRegistry implements ISlotRegistry {
     };
 
     const components = this.#slots.get(slotId)!;
-    
+
     // Use modern array methods for finding and replacing
-    const existingIndex = components.findIndex(comp => comp.pluginId === component.pluginId);
-    
+    const existingIndex = components.findIndex((comp) => comp.pluginId === component.pluginId);
+
     if (existingIndex !== -1) {
       // Replace existing registration
       components[existingIndex] = registeredComponent;
@@ -73,14 +73,14 @@ export class SlotRegistry implements ISlotRegistry {
 
   getComponents(slotId: SlotId): SlotComponent[] {
     const components = this.#slots.get(slotId) ?? [];
-    
+
     // Use modern array methods and destructuring
     return components
       .filter(({ options: { condition } }) => condition())
-      .map(({ pluginId, render, cleanup }) => ({ 
-        pluginId, 
+      .map(({ pluginId, render, cleanup }) => ({
+        pluginId,
         render: this.#wrapRenderWithMetrics(render),
-        cleanup 
+        cleanup,
       }));
   }
 
@@ -91,7 +91,7 @@ export class SlotRegistry implements ISlotRegistry {
     }
 
     // Use modern findIndex and optional chaining
-    const index = components.findIndex(c => c.pluginId === pluginId);
+    const index = components.findIndex((c) => c.pluginId === pluginId);
     if (index !== -1) {
       const { options } = components[index];
       components[index] = {
@@ -109,7 +109,7 @@ export class SlotRegistry implements ISlotRegistry {
 
     // Use modern array methods for filtering
     const filtered = components.filter(({ pluginId: id }) => id !== pluginId);
-    
+
     if (filtered.length === 0) {
       this.#slots.delete(slotId);
     } else {
@@ -142,15 +142,17 @@ export class SlotRegistry implements ISlotRegistry {
     }
 
     // Use toSorted() for immutable sorting (when available) or fallback
-    const sortedComponents = components.toSorted?.((a, b) => {
-      const { priority: priorityA } = a.options;
-      const { priority: priorityB } = b.options;
-      return priorityB - priorityA;
-    }) ?? components.sort((a, b) => {
-      const { priority: priorityA } = a.options;
-      const { priority: priorityB } = b.options;
-      return priorityB - priorityA;
-    });
+    const sortedComponents =
+      components.toSorted?.((a, b) => {
+        const { priority: priorityA } = a.options;
+        const { priority: priorityB } = b.options;
+        return priorityB - priorityA;
+      }) ??
+      components.sort((a, b) => {
+        const { priority: priorityA } = a.options;
+        const { priority: priorityB } = b.options;
+        return priorityB - priorityA;
+      });
 
     this.#slots.set(slotId, sortedComponents);
   }
@@ -171,29 +173,27 @@ export class SlotRegistry implements ISlotRegistry {
   // Get components by plugin with modern filtering
   getComponentsByPlugin(pluginId: string): Array<{ slotId: SlotId; component: SlotComponent }> {
     const results: Array<{ slotId: SlotId; component: SlotComponent }> = [];
-    
+
     for (const [slotId, components] of this.#slots.entries()) {
       const pluginComponents = components.filter(({ pluginId: id }) => id === pluginId);
-      
+
       results.push(
-        ...pluginComponents.map(component => ({
+        ...pluginComponents.map((component) => ({
           slotId,
           component: {
             pluginId: component.pluginId,
             render: component.render,
-            cleanup: component.cleanup
-          }
-        }))
+            cleanup: component.cleanup,
+          },
+        })),
       );
     }
-    
+
     return results;
   }
 
   // Performance monitoring wrapper
-  #wrapRenderWithMetrics(
-    originalRender: () => React.ReactNode
-  ): () => React.ReactNode {
+  #wrapRenderWithMetrics(originalRender: () => React.ReactNode): () => React.ReactNode {
     return () => {
       const startTime = performance.now();
       const result = originalRender();
@@ -220,7 +220,7 @@ export class SlotRegistry implements ISlotRegistry {
       const pluginIds = components.map(({ pluginId }) => pluginId);
       slotDetails[slotId] = {
         componentCount: components.length,
-        pluginIds
+        pluginIds,
       };
       totalComponents += components.length;
     }
@@ -228,7 +228,7 @@ export class SlotRegistry implements ISlotRegistry {
     return {
       totalSlots: this.#slots.size,
       totalComponents,
-      slotDetails
+      slotDetails,
     };
   }
 
@@ -238,7 +238,7 @@ export class SlotRegistry implements ISlotRegistry {
       slotId: SlotId;
       component: SlotComponent;
       options?: SlotRegistrationOptions;
-    }>
+    }>,
   ): void {
     // Use modern array methods for batch processing
     const groupedBySlot = registrations.reduce((acc, { slotId, component, options }) => {

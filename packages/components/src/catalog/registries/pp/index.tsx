@@ -1,12 +1,39 @@
-import { Children, Fragment, Suspense, useCallback, useContext, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from 'react';
+import {
+  Children,
+  Fragment,
+  Suspense,
+  useCallback,
+  useContext,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+  type RefObject,
+} from 'react';
 import { createPortal } from 'react-dom';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import clsx from 'clsx';
 import { catalog, toastDuration, type iconNames, type purposes } from '../../catalog';
 import type { MapComponent, MapFocusDetail, MapSelectDetail } from '../../../components/map/map';
 import type { ToastHandle } from '../../../components/toast/toast';
-import { Combobox, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxList } from '../../../components/combobox';
-import { captureOpener, focusDemoIfOpenerGone, settleFocus, useReturnFocus, type Opener } from '../../behaviour/dialog-focus';
+import {
+  Combobox,
+  ComboboxGroup,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from '../../../components/combobox';
+import {
+  captureOpener,
+  focusDemoIfOpenerGone,
+  settleFocus,
+  useReturnFocus,
+  type Opener,
+} from '../../behaviour/dialog-focus';
 import { useCandidateList } from '../../behaviour/candidate-list';
 import { useDisclosureOpen, useDisclosureState } from '../../behaviour/disclosure-state';
 import { attributeGlyphs } from '../../../utility/attribute-icons';
@@ -37,7 +64,11 @@ type PpModal = HTMLElement & { open: () => void; close: () => void };
 
 // An open waits a task, so that a window closing in the same state change has
 // closed and handed its focus back before this one takes focus.
-const syncModal = (modal: RefObject<PpModal | null>, open: boolean | null | undefined, onOpen: () => void) => {
+const syncModal = (
+  modal: RefObject<PpModal | null>,
+  open: boolean | null | undefined,
+  onOpen: () => void,
+) => {
   let timer: number | undefined;
   let cancelled = false;
   void customElements.whenDefined('pp-modal').then(() => {
@@ -59,7 +90,12 @@ const syncModal = (modal: RefObject<PpModal | null>, open: boolean | null | unde
   };
 };
 
-const space = { none: '0', s: 'var(--space-xs)', m: 'var(--space-s)', l: 'var(--space-m)' } as const;
+const space = {
+  none: '0',
+  s: 'var(--space-xs)',
+  m: 'var(--space-s)',
+  l: 'var(--space-m)',
+} as const;
 const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
 // A grid rather than .flow, whose --flow-space would also set the field's
 // distance from the field before it.
@@ -68,67 +104,67 @@ const fieldLayout: CSSProperties = { display: 'grid', gap: space.s };
 // distance from the card before it, and cards in a Stack would touch.
 const bodyLayout: CSSProperties = { display: 'grid', rowGap: space.s };
 export const icons: Record<(typeof iconNames)[number], string> = {
-  archive: 'ik:archives',
-  ascending: 'ik:sort-low-to-high',
-  attach: 'ik:clip',
-  back: 'ik:arrow-left',
-  cancel: 'ik:cross',
-  cards: 'ik:grid',
-  clear: 'ik:eraser',
-  columns: 'ik:columns',
-  confirm: 'ik:checkmark',
-  decrease: 'ik:arrow-down-right',
-  delete: 'ik:trash',
+  'archive': 'ik:archives',
+  'ascending': 'ik:sort-low-to-high',
+  'attach': 'ik:clip',
+  'back': 'ik:arrow-left',
+  'cancel': 'ik:cross',
+  'cards': 'ik:grid',
+  'clear': 'ik:eraser',
+  'columns': 'ik:columns',
+  'confirm': 'ik:checkmark',
+  'decrease': 'ik:arrow-down-right',
+  'delete': 'ik:trash',
   'delete-confirm': 'ik:trash-fill',
-  descending: 'ik:sort-high-to-low',
-  detail: 'ik:columns',
-  document: 'ik:doc-text',
-  example: 'ik:text-format',
-  external: 'ik:open-in-new-window',
-  filter: 'ik:filter',
-  full: 'ik:fullscreen',
-  generated: 'ik:sparkles',
-  group: 'ik:layers',
-  guide: 'ik:book-open',
-  history: 'ik:history',
+  'descending': 'ik:sort-high-to-low',
+  'detail': 'ik:columns',
+  'document': 'ik:doc-text',
+  'example': 'ik:text-format',
+  'external': 'ik:open-in-new-window',
+  'filter': 'ik:filter',
+  'full': 'ik:fullscreen',
+  'generated': 'ik:sparkles',
+  'group': 'ik:layers',
+  'guide': 'ik:book-open',
+  'history': 'ik:history',
   'in-place': 'ik:view-list',
-  increase: 'ik:arrow-up-right',
-  link: 'ik:link',
-  material: 'ik:layers',
-  mention: 'ik:at',
-  more: 'ik:plus',
-  move: 'ik:arrow-left-right',
-  next: 'ik:chevron-right',
-  notifications: 'ik:bell',
-  open: 'ik:folder-opened',
-  ownership: 'ik:crown',
-  part: 'ik:puzzle',
-  people: 'ik:group',
-  person: 'ik:user',
-  popover: 'ik:message',
-  previous: 'ik:chevron-left',
-  product: 'ik:cardboard',
-  project: 'ik:folder',
-  publish: 'ik:earth-americas',
-  quote: 'ik:quotation-marks',
-  reasoning: 'ik:light-bulb',
+  'increase': 'ik:arrow-up-right',
+  'link': 'ik:link',
+  'material': 'ik:layers',
+  'mention': 'ik:at',
+  'more': 'ik:plus',
+  'move': 'ik:arrow-left-right',
+  'next': 'ik:chevron-right',
+  'notifications': 'ik:bell',
+  'open': 'ik:folder-opened',
+  'ownership': 'ik:crown',
+  'part': 'ik:puzzle',
+  'people': 'ik:group',
+  'person': 'ik:user',
+  'popover': 'ik:message',
+  'previous': 'ik:chevron-left',
+  'product': 'ik:cardboard',
+  'project': 'ik:folder',
+  'publish': 'ik:earth-americas',
+  'quote': 'ik:quotation-marks',
+  'reasoning': 'ik:light-bulb',
   'remove-person': 'ik:remove-user',
-  restore: 'ik:rotate-ccw',
-  rows: 'ik:view-list',
-  saved: 'ik:bookmark',
-  search: 'ik:search',
-  send: 'ik:carriage-return',
-  service: 'ik:wrench',
-  settings: 'ik:sliders',
-  show: 'ik:eye',
+  'restore': 'ik:rotate-ccw',
+  'rows': 'ik:view-list',
+  'saved': 'ik:bookmark',
+  'search': 'ik:search',
+  'send': 'ik:carriage-return',
+  'service': 'ik:wrench',
+  'settings': 'ik:sliders',
+  'show': 'ik:eye',
   'side-by-side': 'ik:columns',
-  sort: 'ik:swap-vertical',
-  suggest: 'ik:light-bulb',
-  summary: 'ik:view-module',
-  table: 'ik:spreadsheet',
-  transfer: 'ik:crown',
-  unchanged: 'ik:minus',
-  web: 'ik:globe',
+  'sort': 'ik:swap-vertical',
+  'suggest': 'ik:light-bulb',
+  'summary': 'ik:view-module',
+  'table': 'ik:spreadsheet',
+  'transfer': 'ik:crown',
+  'unchanged': 'ik:minus',
+  'web': 'ik:globe',
   ...attributeGlyphs,
   // Values from fixed lists.
   'date-in-3-days': 'ik:calendar',
@@ -186,7 +222,8 @@ const cardAttributes = (attributes: ReactNode) =>
   attributes && <div className="card__attributes badges">{attributes}</div>;
 
 const cardDetail = (expanded: boolean | null | undefined, detail: ReactNode) =>
-  expanded && detail && (
+  expanded &&
+  detail && (
     <div className="detail flow pad">
       <Subsection>{detail}</Subsection>
     </div>
@@ -206,10 +243,13 @@ export const { registry } = defineRegistry(catalog, {
                 alignItems: props.align ?? 'center',
               },
             }
-          : { className: 'flow', style: { '--flow-space': space[props.gap ?? 'm'] } as CSSProperties };
+          : {
+              className: 'flow',
+              style: { '--flow-space': space[props.gap ?? 'm'] } as CSSProperties,
+            };
       const attributes = {
         ...layout,
-        className: clsx(layout.className, props.dropTarget && 'view-family__pane') || undefined,
+        'className': clsx(layout.className, props.dropTarget && 'view-family__pane') || undefined,
         'data-drop-over': over || undefined,
       };
       return props.label ? (
@@ -226,14 +266,18 @@ export const { registry } = defineRegistry(catalog, {
     // A repeat reaches the registry as one child that renders every item, so
     // it cannot be split into list items; a single child gets a plain grid.
     Grid: ({ props, children }) => {
-      const style = { '--layout-grid-min': columnWidth[props.minColumnWidth ?? 'm'] } as CSSProperties;
+      const style = {
+        '--layout-grid-min': columnWidth[props.minColumnWidth ?? 'm'],
+      } as CSSProperties;
       return Children.count(children) < 2 ? (
         <div className="cards layout-grid" style={style}>
           {children}
         </div>
       ) : (
         <ul className="cards layout-grid" style={style}>
-          {Children.map(children, child => <li>{child}</li>)}
+          {Children.map(children, (child) => (
+            <li>{child}</li>
+          ))}
         </ul>
       );
     },
@@ -242,7 +286,10 @@ export const { registry } = defineRegistry(catalog, {
     // width, so a card with a detail slot pads its body rather than itself.
     Card: ({ props, children, slots, emit }) => {
       const titleButton = usePressableTitle(props, emit);
-      const surface = clsx('card', props.emphasis && props.emphasis !== 'full' && `card--${props.emphasis}`);
+      const surface = clsx(
+        'card',
+        props.emphasis && props.emphasis !== 'full' && `card--${props.emphasis}`,
+      );
       const dragRef = useRef<HTMLElement>(null);
       const dragging = useDragRow(dragRef, props.dragId, props.dragId != null) || undefined;
       const Heading = useHeading();
@@ -256,8 +303,7 @@ export const { registry } = defineRegistry(catalog, {
       );
       const heading = props.icon ? (
         <>
-          <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />{' '}
-          {title}
+          <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" /> {title}
         </>
       ) : (
         title
@@ -265,7 +311,13 @@ export const { registry } = defineRegistry(catalog, {
       const attributes = cardAttributes(slots?.attributes);
       const detail = cardDetail(props.expanded, slots?.detail);
       return slots?.suffix || slots?.actions ? (
-        <article ref={dragRef} className={surface} data-selected={selected} data-popover-host="" data-dragging={dragging}>
+        <article
+          ref={dragRef}
+          className={surface}
+          data-selected={selected}
+          data-popover-host=""
+          data-dragging={dragging}
+        >
           <div className="card__header">
             {props.title && <Heading className="label card__title">{heading}</Heading>}
             {slots.suffix && <div className="flex">{slots.suffix}</div>}
@@ -283,7 +335,13 @@ export const { registry } = defineRegistry(catalog, {
           {detail}
         </article>
       ) : slots?.detail ? (
-        <article ref={dragRef} className={surface} data-selected={selected} data-popover-host="" data-dragging={dragging}>
+        <article
+          ref={dragRef}
+          className={surface}
+          data-selected={selected}
+          data-popover-host=""
+          data-dragging={dragging}
+        >
           <div className="pad" style={bodyLayout}>
             {props.title && <Heading className="card__title">{heading}</Heading>}
             {attributes}
@@ -292,7 +350,14 @@ export const { registry } = defineRegistry(catalog, {
           {detail}
         </article>
       ) : (
-        <article ref={dragRef} className={clsx(surface, 'pad')} data-selected={selected} data-popover-host="" data-dragging={dragging} style={bodyLayout}>
+        <article
+          ref={dragRef}
+          className={clsx(surface, 'pad')}
+          data-selected={selected}
+          data-popover-host=""
+          data-dragging={dragging}
+          style={bodyLayout}
+        >
           {props.title && <Heading className="card__title">{heading}</Heading>}
           {attributes}
           <Subsection>{children}</Subsection>
@@ -315,7 +380,9 @@ export const { registry } = defineRegistry(catalog, {
       const room = useSplitRoom(ref, props.room, bindings?.room);
       return (
         <div ref={ref} className={room ? 'view-family__panes' : 'view-family__trio-stack'}>
-          {Children.map(children, child => <div className="view-family__pane">{child}</div>)}
+          {Children.map(children, (child) => (
+            <div className="view-family__pane">{child}</div>
+          ))}
         </div>
       );
     },
@@ -336,12 +403,20 @@ export const { registry } = defineRegistry(catalog, {
       if (props.size === 'small') text = <small>{text}</small>;
       return (
         <p
-          className={clsx(purpose ? [purpose, 'flex'] : props.pending ? ['muted', 'flex'] : props.muted && 'muted')}
+          className={clsx(
+            purpose
+              ? [purpose, 'flex']
+              : props.pending
+                ? ['muted', 'flex']
+                : props.muted && 'muted',
+          )}
           style={props.size === 'large' ? { fontSize: 'larger' } : undefined}
           role={props.status ? 'status' : undefined}
         >
           {props.pending && <pp-spinner aria-hidden="true" />}
-          {purpose && <iconify-icon className="icon" icon={purposeIcons[purpose]} aria-hidden="true" />}
+          {purpose && (
+            <iconify-icon className="icon" icon={purposeIcons[purpose]} aria-hidden="true" />
+          )}
           {text}
           {children && <> {children}</>}
         </p>
@@ -352,7 +427,11 @@ export const { registry } = defineRegistry(catalog, {
     // longer than a line would wrap below the icon, since .flex wraps.
     Callout: ({ props, slots }) => (
       <div className={clsx('callout', 'flex', props.purpose ?? 'layer')}>
-        <iconify-icon className="icon" icon={purposeIcons[props.purpose ?? 'info']} aria-hidden="true" />
+        <iconify-icon
+          className="icon"
+          icon={purposeIcons[props.purpose ?? 'info']}
+          aria-hidden="true"
+        />
         <span style={{ flex: 1 }}>
           {props.title && <strong>{props.title}. </strong>}
           {props.text}
@@ -376,7 +455,9 @@ export const { registry } = defineRegistry(catalog, {
     // Each Section brings its content already in the panel pp-sections would
     // otherwise wrap it in, so the element leaves those nodes where React put
     // them.
-    Sections: ({ props, children }) => <pp-sections affordance={props.affordance}>{children}</pp-sections>,
+    Sections: ({ props, children }) => (
+      <pp-sections affordance={props.affordance}>{children}</pp-sections>
+    ),
 
     Section: ({ props, children }) => {
       const Heading = useHeading();
@@ -405,7 +486,7 @@ export const { registry } = defineRegistry(catalog, {
           ref={ref}
           className={inBoard ? 'board__column' : 'layer borderless'}
           open={open}
-          onToggle={event => change(event.currentTarget.open)}
+          onToggle={(event) => change(event.currentTarget.open)}
           data-drop-over={over || undefined}
         >
           <summary>
@@ -418,20 +499,24 @@ export const { registry } = defineRegistry(catalog, {
 
     BulletList: ({ props }) => (
       <ul>
-        {props.items.map((item, index) => <li key={index}>{item}</li>)}
+        {props.items.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
       </ul>
     ),
 
     DescriptionList: ({ props }) => (
       <dl className={clsx('description-list', props.draggable && 'description-list--draggable')}>
-        {props.items.map(item => props.draggable ? (
-          <DraggableRow key={item.label} id={item.id} label={item.label} value={item.value} />
-        ) : (
-          <Fragment key={item.label}>
-            <dt>{item.label}</dt>
-            <dd>{item.value}</dd>
-          </Fragment>
-        ))}
+        {props.items.map((item) =>
+          props.draggable ? (
+            <DraggableRow key={item.label} id={item.id} label={item.label} value={item.value} />
+          ) : (
+            <Fragment key={item.label}>
+              <dt>{item.label}</dt>
+              <dd>{item.value}</dd>
+            </Fragment>
+          ),
+        )}
       </dl>
     ),
 
@@ -443,7 +528,10 @@ export const { registry } = defineRegistry(catalog, {
           <thead>
             <tr>
               {props.columns.map((column, index) => (
-                <th key={index} className={column.align === 'end' ? 'pp-table-align-right' : undefined}>
+                <th
+                  key={index}
+                  className={column.align === 'end' ? 'pp-table-align-right' : undefined}
+                >
                   {column.label}
                 </th>
               ))}
@@ -472,18 +560,35 @@ export const { registry } = defineRegistry(catalog, {
     Message: ({ props, children }) => {
       const tracing = useMarkTracing(props.parts);
       return (
-        <div className={clsx('message', props.from === 'actor' ? 'message--outbound' : 'message--inbound')}>
+        <div
+          className={clsx(
+            'message',
+            props.from === 'actor' ? 'message--outbound' : 'message--inbound',
+          )}
+        >
           <div className="message__content">
-            <div className={clsx('message__body', props.from === 'actor' && props.parts.length > 0 && 'layer')}>
+            <div
+              className={clsx(
+                'message__body',
+                props.from === 'actor' && props.parts.length > 0 && 'layer',
+              )}
+            >
               {props.parts.map((part, index) => {
                 if (typeof part === 'string') return part;
                 const { dimmed, linkedTo, handlers } = tracing(index);
                 // The note's tooltip opens on focus too, so a mark with a
                 // note takes focus for actors on a keyboard.
                 const mark = (
-                  <mark key={index} tabIndex={part.note ? 0 : undefined} data-dimmed={dimmed || undefined} {...handlers}>
+                  <mark
+                    key={index}
+                    tabIndex={part.note ? 0 : undefined}
+                    data-dimmed={dimmed || undefined}
+                    {...handlers}
+                  >
                     {part.text}
-                    {linkedTo.length > 0 && <span className="visually-hidden">, linked to: {linkedTo.join('; ')}</span>}
+                    {linkedTo.length > 0 && (
+                      <span className="visually-hidden">, linked to: {linkedTo.join('; ')}</span>
+                    )}
                   </mark>
                 );
                 if (!part.note) return mark;
@@ -512,7 +617,7 @@ export const { registry } = defineRegistry(catalog, {
                 aria-label={props.label ?? undefined}
                 placeholder={props.placeholder ?? undefined}
                 value={value ?? ''}
-                onChange={event => setValue(event.target.value)}
+                onChange={(event) => setValue(event.target.value)}
               />
             </pp-input>
           )}
@@ -529,7 +634,11 @@ export const { registry } = defineRegistry(catalog, {
     Timeline: ({ props, children }) => (
       <ol
         className="stepper"
-        style={props.density === 'compact' ? ({ '--_circle-size': '0.5rem' } as CSSProperties) : undefined}
+        style={
+          props.density === 'compact'
+            ? ({ '--_circle-size': '0.5rem' } as CSSProperties)
+            : undefined
+        }
       >
         {children}
       </ol>
@@ -539,8 +648,16 @@ export const { registry } = defineRegistry(catalog, {
       const [open, setOpen] = useDisclosureState(props.open, bindings?.open);
       let title = (
         <>
-          {typeof props.by === 'string' && <><strong>{props.by}</strong> </>}
-          {props.by && typeof props.by === 'object' && <><a href={props.by.href}>{props.by.name}</a> </>}
+          {typeof props.by === 'string' && (
+            <>
+              <strong>{props.by}</strong>{' '}
+            </>
+          )}
+          {props.by && typeof props.by === 'object' && (
+            <>
+              <a href={props.by.href}>{props.by.name}</a>{' '}
+            </>
+          )}
           {props.title}
         </>
       );
@@ -549,9 +666,11 @@ export const { registry } = defineRegistry(catalog, {
         <li className={clsx('stepper__item', props.from === 'actor' && 'layer')}>
           <div className={clsx('stepper__content', !props.expandable && 'flow')}>
             {props.expandable ? (
-              <details open={open} onToggle={event => setOpen(event.currentTarget.open)}>
+              <details open={open} onToggle={(event) => setOpen(event.currentTarget.open)}>
                 {/* summary lays its children out as a row, so the title stays one child */}
-                <summary><span>{title}</span></summary>
+                <summary>
+                  <span>{title}</span>
+                </summary>
                 <div className="flow">{children}</div>
               </details>
             ) : (
@@ -581,19 +700,28 @@ export const { registry } = defineRegistry(catalog, {
         const list = item?.closest('pp-list');
         if (!bound || !props.checkbox || !item || !list) return;
         const onSelect = (event: Event) => {
-          if ((event as CustomEvent<{ item: HTMLElement }>).detail.item === item) setChecked(item.checked);
+          if ((event as CustomEvent<{ item: HTMLElement }>).detail.item === item)
+            setChecked(item.checked);
         };
         list.addEventListener('pp-select', onSelect);
         return () => list.removeEventListener('pp-select', onSelect);
       }, [bound, props.checkbox, setChecked]);
       const label = props.struck ? <s>{props.label}</s> : props.label;
       return (
-        <pp-list-item ref={ref} type={props.checkbox ? 'checkbox' : undefined} checked={Boolean(props.checkbox && checked)}>
-          {props.icon && <iconify-icon icon={icons[props.icon]} data-slot="prefix" aria-hidden="true" />}
+        <pp-list-item
+          ref={ref}
+          type={props.checkbox ? 'checkbox' : undefined}
+          checked={Boolean(props.checkbox && checked)}
+        >
+          {props.icon && (
+            <iconify-icon icon={icons[props.icon]} data-slot="prefix" aria-hidden="true" />
+          )}
           {props.description ? (
             <span>
               {label}
-              <small className="muted" style={{ display: 'block' }}>{props.description}</small>
+              <small className="muted" style={{ display: 'block' }}>
+                {props.description}
+              </small>
             </span>
           ) : (
             label
@@ -629,8 +757,17 @@ export const { registry } = defineRegistry(catalog, {
         </Heading>
       );
       return (
-        <div role="listitem" onPointerEnter={() => emit('focus')} onPointerLeave={() => emit('blur')}>
-          <article className="card" data-selected={props.selected ? 'true' : undefined} data-focused={props.focused ? 'true' : undefined} data-popover-host="">
+        <div
+          role="listitem"
+          onPointerEnter={() => emit('focus')}
+          onPointerLeave={() => emit('blur')}
+        >
+          <article
+            className="card"
+            data-selected={props.selected ? 'true' : undefined}
+            data-focused={props.focused ? 'true' : undefined}
+            data-popover-host=""
+          >
             {slots?.suffix && (
               <div className="card__header">
                 {title}
@@ -666,20 +803,22 @@ export const { registry } = defineRegistry(catalog, {
     Badge: ({ props, emit }) => {
       const Root = props.pressable ? 'button' : props.icon ? 'span' : 'strong';
       return (
-      <Root
-        type={props.pressable ? 'button' : undefined}
-        onClick={props.pressable ? () => void emit('press') : undefined}
-        className={clsx(
-          'badge',
-          props.pill && 'badge--pill',
-          props.pulse && 'badge--pulse',
-          props.tone && props.tone !== 'neutral' && `badge--${props.tone}`,
-        )}
-      >
-        {props.label && <span className="badge__label">{props.label}</span>}
-        {props.icon && <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />}
-        {props.text}
-      </Root>
+        <Root
+          type={props.pressable ? 'button' : undefined}
+          onClick={props.pressable ? () => void emit('press') : undefined}
+          className={clsx(
+            'badge',
+            props.pill && 'badge--pill',
+            props.pulse && 'badge--pulse',
+            props.tone && props.tone !== 'neutral' && `badge--${props.tone}`,
+          )}
+        >
+          {props.label && <span className="badge__label">{props.label}</span>}
+          {props.icon && (
+            <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />
+          )}
+          {props.text}
+        </Root>
       );
     },
 
@@ -704,7 +843,12 @@ export const { registry } = defineRegistry(catalog, {
       return (
         <span className="tag-group">
           {tag}
-          <button ref={removeRef} type="button" className="tag tag-group__remove" onClick={() => emit('remove')}>
+          <button
+            ref={removeRef}
+            type="button"
+            className="tag tag-group__remove"
+            onClick={() => emit('remove')}
+          >
             <iconify-icon icon={icons.cancel} aria-hidden="true" />
             <span className="visually-hidden">{props.removeLabel}</span>
           </button>
@@ -712,15 +856,23 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    FilterTag: context => (
-      <FilterTag {...context} glyph={context.props.icon ? icons[context.props.icon] : null} iconFor={name => icons[name]} />
+    FilterTag: (context) => (
+      <FilterTag
+        {...context}
+        glyph={context.props.icon ? icons[context.props.icon] : null}
+        iconFor={(name) => icons[name]}
+      />
     ),
 
     // The popup is portaled to <body>: the reference sits in a paragraph,
     // which cannot hold the preview's blocks.
     Reference: ({ props, children, slots, bindings, emit }) => {
       const [shown, setShown] = useBoundProp(props.preview, bindings?.preview);
-      const { triggerRef, contentRef, trigger, content, close } = usePreview(shown ?? false, setShown, props.expanded ?? false);
+      const { triggerRef, contentRef, trigger, content, close } = usePreview(
+        shown ?? false,
+        setShown,
+        props.expanded ?? false,
+      );
       const [anchor, setAnchor] = useState<HTMLButtonElement | null>(null);
       const setTrigger = useCallback(
         (element: HTMLButtonElement | null) => {
@@ -747,14 +899,32 @@ export const { registry } = defineRegistry(catalog, {
             {props.label}
           </button>
           {createPortal(
-            <pp-popup anchor={anchor ?? undefined} active={shown ?? false} placement="bottom-start" distance={8} flip shift top-layer>
-              <div ref={contentRef} className="popover" role="dialog" aria-label={props.label} {...content}>
+            <pp-popup
+              anchor={anchor ?? undefined}
+              active={shown ?? false}
+              placement="bottom-start"
+              distance={8}
+              flip
+              shift
+              top-layer
+            >
+              <div
+                ref={contentRef}
+                className="popover"
+                role="dialog"
+                aria-label={props.label}
+                {...content}
+              >
                 <div className="popover__header">
                   <div className="flow">
                     <Heading className="label">
                       {props.icon && (
                         <>
-                          <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />{' '}
+                          <iconify-icon
+                            className="icon"
+                            icon={icons[props.icon]}
+                            aria-hidden="true"
+                          />{' '}
                         </>
                       )}
                       {props.label}
@@ -792,7 +962,9 @@ export const { registry } = defineRegistry(catalog, {
         opener.current = captureOpener();
         if (!mayTakeFocus(popup.current)) return;
         const frame = requestAnimationFrame(() => {
-          const target = panel.current?.querySelector<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+          const target = panel.current?.querySelector<HTMLElement>(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+          );
           (target ?? panel.current)?.focus();
         });
         return () => cancelAnimationFrame(frame);
@@ -805,7 +977,11 @@ export const { registry } = defineRegistry(catalog, {
           const active = document.activeElement;
           // Not settleFocus: the panel still counts as an open window here.
           const back = opener.current;
-          if (back && (!active || active === document.body || panel.current?.contains(active)) && !focusDemoIfOpenerGone(back)) {
+          if (
+            back &&
+            (!active || active === document.body || panel.current?.contains(active)) &&
+            !focusDemoIfOpenerGone(back)
+          ) {
             back.element?.focus();
           }
         }
@@ -852,9 +1028,21 @@ export const { registry } = defineRegistry(catalog, {
     Menu: ({ props, children }) => {
       const { trigger, list } = useMenuFocusHandoff(props.focusNext);
       return (
-        <pp-dropdown hoist placement={props.align === 'end' ? 'bottom-end' : undefined} stay-open-on-select={props.multiple ?? false}>
-          <button ref={trigger} type="button" className="button button--plain" data-slot="trigger" title={props.label}>
-            {props.icon && <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />}
+        <pp-dropdown
+          hoist
+          placement={props.align === 'end' ? 'bottom-end' : undefined}
+          stay-open-on-select={props.multiple ?? false}
+        >
+          <button
+            ref={trigger}
+            type="button"
+            className="button button--plain"
+            data-slot="trigger"
+            title={props.label}
+          >
+            {props.icon && (
+              <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />
+            )}
             <span className="visually-hidden">{props.label}</span>
           </button>
           <pp-popup>
@@ -875,7 +1063,14 @@ export const { registry } = defineRegistry(catalog, {
         disabled={props.disabled ?? false}
         onClick={() => !props.disabled && emit('press')}
       >
-        {props.icon && <iconify-icon data-slot="prefix" className="icon" icon={icons[props.icon]} aria-hidden="true" />}
+        {props.icon && (
+          <iconify-icon
+            data-slot="prefix"
+            className="icon"
+            icon={icons[props.icon]}
+            aria-hidden="true"
+          />
+        )}
         {props.label}
       </pp-list-item>
     ),
@@ -891,7 +1086,7 @@ export const { registry } = defineRegistry(catalog, {
         <pp-breadcrumbs role="navigation" aria-label={props.label}>
           {first && <Crumb key={first.id} label={first.label} onPick={() => pick(first.id)} />}
           {first && <CrumbOverflow items={props.items} onPick={pick} />}
-          {middle.map(item => (
+          {middle.map((item) => (
             <Crumb key={item.id} label={item.label} onPick={() => pick(item.id)} />
           ))}
           <span className="crumb">
@@ -909,7 +1104,11 @@ export const { registry } = defineRegistry(catalog, {
       // pp-map redraws its pins and refits the view whenever it is handed a
       // new array, so the array changes only with the places.
       const locations = useMemo(
-        () => props.locations.map(({ description, ...location }) => ({ ...location, description: description ?? undefined })),
+        () =>
+          props.locations.map(({ description, ...location }) => ({
+            ...location,
+            description: description ?? undefined,
+          })),
         [props.locations],
       );
       useEffect(() => {
@@ -951,13 +1150,18 @@ export const { registry } = defineRegistry(catalog, {
         <button
           ref={ref}
           type={props.submit ? 'submit' : 'button'}
-          className={clsx('button', props.variant && props.variant !== 'default' && `button--${props.variant}`)}
+          className={clsx(
+            'button',
+            props.variant && props.variant !== 'default' && `button--${props.variant}`,
+          )}
           disabled={props.disabled ?? undefined}
           aria-expanded={props.expanded ?? undefined}
           data-autofocus={props.initialFocus || undefined}
           onClick={() => emit('press')}
         >
-          {props.icon && <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />}
+          {props.icon && (
+            <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />
+          )}
           {props.hideLabel ? <span className="visually-hidden">{props.label}</span> : props.label}
         </button>
       );
@@ -975,7 +1179,7 @@ export const { registry } = defineRegistry(catalog, {
               placeholder={props.placeholder ?? undefined}
               data-autofocus={props.initialFocus || undefined}
               value={value}
-              onChange={event => setValue(event.target.value)}
+              onChange={(event) => setValue(event.target.value)}
             />
           </pp-input>
           {error && fieldError(errorProps, error)}
@@ -1001,7 +1205,7 @@ export const { registry } = defineRegistry(catalog, {
               rows={3}
               placeholder={props.placeholder ?? undefined}
               value={value}
-              onChange={event => setValue(event.target.value)}
+              onChange={(event) => setValue(event.target.value)}
             />
           </div>
         </div>
@@ -1016,13 +1220,15 @@ export const { registry } = defineRegistry(catalog, {
         <div style={fieldLayout}>
           <label htmlFor={id}>{props.label}</label>
           <pp-select invalid={Boolean(error)}>
-            <select
-              {...control}
-              value={value}
-              onChange={event => setValue(event.target.value)}
-            >
-              <option value="" disabled>{props.placeholder ?? ''}</option>
-              {props.options.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
+            <select {...control} value={value} onChange={(event) => setValue(event.target.value)}>
+              <option value="" disabled>
+                {props.placeholder ?? ''}
+              </option>
+              {props.options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
             {error && fieldError(errorProps, error)}
           </pp-select>
@@ -1050,9 +1256,16 @@ export const { registry } = defineRegistry(catalog, {
               <ComboboxList {...list}>
                 {groups.map((group, index) => (
                   <ComboboxGroup key={group.heading ?? index} heading={group.heading ?? undefined}>
-                    {group.options.map(option => (
+                    {group.options.map((option) => (
                       <ComboboxItem key={option.value} value={option.value} onSelect={pick}>
-                        {option.icon && <iconify-icon slot="prefix" className="icon" icon={icons[option.icon]} aria-hidden="true" />}
+                        {option.icon && (
+                          <iconify-icon
+                            slot="prefix"
+                            className="icon"
+                            icon={icons[option.icon]}
+                            aria-hidden="true"
+                          />
+                        )}
                         {option.label}
                       </ComboboxItem>
                     ))}
@@ -1073,7 +1286,7 @@ export const { registry } = defineRegistry(catalog, {
         <div>
           <fieldset style={fieldLayout}>
             <legend>{props.label}</legend>
-            {props.options.map(option => (
+            {props.options.map((option) => (
               <label key={option.value} className="form-control">
                 <input
                   type="radio"
@@ -1094,18 +1307,20 @@ export const { registry } = defineRegistry(catalog, {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const selected = value ?? [];
       const toggle = (option: string, checked: boolean) =>
-        setValue(checked ? [...selected, option] : selected.filter(each => each !== option));
+        setValue(checked ? [...selected, option] : selected.filter((each) => each !== option));
       return (
         <div>
           <fieldset style={fieldLayout}>
-            <legend className={props.hideLabel ? 'visually-hidden' : undefined}>{props.label}</legend>
+            <legend className={props.hideLabel ? 'visually-hidden' : undefined}>
+              {props.label}
+            </legend>
             <div className="inline-flow">
-              {props.options.map(option => (
+              {props.options.map((option) => (
                 <label key={option.value} className="form-control tag">
                   <input
                     type="checkbox"
                     checked={selected.includes(option.value)}
-                    onChange={event => toggle(option.value, event.target.checked)}
+                    onChange={(event) => toggle(option.value, event.target.checked)}
                   />
                   {option.label}
                 </label>
@@ -1130,7 +1345,9 @@ export const { registry } = defineRegistry(catalog, {
             max={props.max}
             step={props.step ?? 1}
             value={value ?? props.min}
-            onInput={event => setValue((event.currentTarget as HTMLElement & { value: number }).value)}
+            onInput={(event) =>
+              setValue((event.currentTarget as HTMLElement & { value: number }).value)
+            }
           >
             {props.showBounds && <span data-slot="prefix">{props.min}</span>}
             {props.showBounds && <span data-slot="suffix">{props.max}</span>}
@@ -1143,7 +1360,11 @@ export const { registry } = defineRegistry(catalog, {
       const [checked, setChecked] = useBoundProp(props.checked, bindings?.checked);
       return (
         <label className="form-control">
-          <input type="checkbox" checked={checked ?? false} onChange={event => setChecked(event.target.checked)} />
+          <input
+            type="checkbox"
+            checked={checked ?? false}
+            onChange={(event) => setChecked(event.target.checked)}
+          />
           {props.label}
         </label>
       );
@@ -1153,10 +1374,10 @@ export const { registry } = defineRegistry(catalog, {
     Form: ({ props, children, emit }) => (
       <form
         className="flow"
-        style={{ '--flow-space': 'var(--space-l)', maxInlineSize: '36rem' } as CSSProperties}
+        style={{ '--flow-space': 'var(--space-l)', 'maxInlineSize': '36rem' } as CSSProperties}
         aria-label={props.label ?? undefined}
         noValidate
-        onSubmit={event => void submitForm(event, emit)}
+        onSubmit={(event) => void submitForm(event, emit)}
       >
         {children}
       </form>
@@ -1192,7 +1413,9 @@ export const { registry } = defineRegistry(catalog, {
             onClose={onClose}
           >
             <header className="modal__header">
-              <h2 className="modal__title" id={titleId}>{props.title}</h2>
+              <h2 className="modal__title" id={titleId}>
+                {props.title}
+              </h2>
               {slots?.suffix && (
                 <div className="modal__header-actions">
                   <div className="button-group">{slots.suffix}</div>
@@ -1238,9 +1461,16 @@ export const { registry } = defineRegistry(catalog, {
 
       return createPortal(
         <pp-modal ref={modal}>
-          <dialog className="drawer drawer--right" data-modal="false" aria-labelledby={titleId} onClose={onClose}>
+          <dialog
+            className="drawer drawer--right"
+            data-modal="false"
+            aria-labelledby={titleId}
+            onClose={onClose}
+          >
             <header className="modal__header">
-              <h2 className="modal__title" id={titleId}>{props.title}</h2>
+              <h2 className="modal__title" id={titleId}>
+                {props.title}
+              </h2>
               {slots?.suffix && (
                 <div className="modal__header-actions">
                   <div className="button-group">{slots.suffix}</div>
@@ -1268,40 +1498,49 @@ export const { registry } = defineRegistry(catalog, {
       const shown = useRef(new Map<string, Promise<ToastHandle>>());
 
       useEffect(() => {
-        const listed = new Set(props.toasts.map(toast => toast.id));
+        const listed = new Set(props.toasts.map((toast) => toast.id));
         for (const [id, handle] of shown.current) {
           if (listed.has(id)) continue;
           shown.current.delete(id);
-          void handle.then(h => h.dismiss());
+          void handle.then((h) => h.dismiss());
         }
         for (const toast of props.toasts) {
           if (shown.current.has(toast.id)) continue;
           const handle = import('../../../components/toast/toast').then(({ PpToast }) =>
             toast.actionLabel
-              ? PpToast.open(`${toast.message} — ${toast.actionLabel}`, () => pressLatest.current(toast), toastDuration.withAction)
+              ? PpToast.open(
+                  `${toast.message} — ${toast.actionLabel}`,
+                  () => pressLatest.current(toast),
+                  toastDuration.withAction,
+                )
               : PpToast.open(toast.message, undefined, toastDuration.plain),
           );
           shown.current.set(toast.id, handle);
-          void handle.then(h => h.closed).then(() => {
-            if (shown.current.get(toast.id) !== handle) return;
-            shown.current.delete(toast.id);
-            dismiss(toast.id);
-          });
+          void handle
+            .then((h) => h.closed)
+            .then(() => {
+              if (shown.current.get(toast.id) !== handle) return;
+              shown.current.delete(toast.id);
+              dismiss(toast.id);
+            });
         }
       }, [props.toasts, dismiss]);
 
       // Switching library unmounts this: close what is showing but leave the
       // list alone, so the other library shows the same toasts.
-      useEffect(() => () => {
-        const handles = [...shown.current.values()];
-        shown.current.clear();
-        for (const handle of handles) void handle.then(h => h.dismiss());
-      }, []);
+      useEffect(
+        () => () => {
+          const handles = [...shown.current.values()];
+          shown.current.clear();
+          for (const handle of handles) void handle.then((h) => h.dismiss());
+        },
+        [],
+      );
 
       return null;
     },
 
-    MentionEditor: context => (
+    MentionEditor: (context) => (
       <Suspense fallback={null}>
         <PpMentionEditor {...context} />
       </Suspense>

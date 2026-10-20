@@ -41,14 +41,7 @@ export {
   applyFilters,
 } from './filtering';
 
-export {
-  productBinding,
-  projectBinding,
-  taskBinding,
-  quoteBinding,
-  referenceBinding,
-  userBinding,
-};
+export { productBinding, projectBinding, taskBinding, quoteBinding, referenceBinding, userBinding };
 
 /** Every entity binding, keyed by entity type. */
 export const bindings: Record<string, EntityBinding> = {

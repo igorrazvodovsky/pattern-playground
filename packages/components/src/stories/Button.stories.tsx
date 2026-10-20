@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { action } from 'storybook/actions';
 
 interface ButtonArgs {
@@ -9,7 +9,7 @@ interface ButtonArgs {
 }
 
 const meta = {
-  title: "Components/Button",
+  title: 'Components/Button',
   argTypes: {
     label: {
       control: { type: 'text' },
@@ -43,7 +43,9 @@ export const Default: Story = {
     iconPosition: 'none',
   },
   render: (args) => {
-    const classes = ['button', args.variant !== 'default' ? `button--${args.variant}` : ''].filter(Boolean).join(' ');
+    const classes = ['button', args.variant !== 'default' ? `button--${args.variant}` : '']
+      .filter(Boolean)
+      .join(' ');
     const icon = <iconify-icon className="icon" icon="ik:circle-dotted" />;
     return (
       <button className={classes} disabled={args.disabled} onClick={action('click')}>
@@ -61,7 +63,9 @@ export const Variants: Story = {
       <button className="button button--primary">Primary</button>
       <button className="button button--danger">Danger</button>
       <button className="button button--plain">Plain</button>
-      <button className="button" disabled>Disabled</button>
+      <button className="button" disabled>
+        Disabled
+      </button>
     </div>
   ),
 };
@@ -76,7 +80,8 @@ export const Prefixes: Story = {
         With suffix <iconify-icon className="icon" icon="ik:circle-dotted"></iconify-icon>
       </button>
       <button className="button">
-        <iconify-icon className="icon" icon="ik:circle-dotted"></iconify-icon> With both <iconify-icon className="icon" icon="ik:circle-dotted"></iconify-icon>
+        <iconify-icon className="icon" icon="ik:circle-dotted"></iconify-icon> With both{' '}
+        <iconify-icon className="icon" icon="ik:circle-dotted"></iconify-icon>
       </button>
       <button className="button">
         With keyboard shortcut <kbd>ESC</kbd>
@@ -95,7 +100,7 @@ export const Toggle: Story = {
 };
 
 export const IconButton: Story = {
-  args: { label: "Button" },
+  args: { label: 'Button' },
   render: (args) => (
     <button className="button">
       <iconify-icon className="icon" icon="ik:circle-dotted"></iconify-icon>

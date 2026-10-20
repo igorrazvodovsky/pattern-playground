@@ -12,7 +12,11 @@
         "from": "actor",
         "parts": [
           "Summarise this text: \"",
-          { "text": "Leonardo da Vinci was an Italian polymath of the Renaissance", "note": null, "link": "polymath" },
+          {
+            "text": "Leonardo da Vinci was an Italian polymath of the Renaissance",
+            "note": null,
+            "link": "polymath"
+          },
           " whose ",
           {
             "text": "areas of interest included invention, painting, sculpting, architecture, science, music, mathematics, engineering, literature, anatomy, geology, astronomy, botany, writing, history, and cartography",

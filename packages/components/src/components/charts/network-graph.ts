@@ -77,15 +77,15 @@ function curvedEdgePath(x1: number, y1: number, x2: number, y2: number): string 
 }
 
 export class NetworkGraph extends ChartComponent {
-  static tagName = 'pp-network-graph';
+  static 'tagName' = 'pp-network-graph';
 
-  static props: ElenaProp[] = [
+  static 'props': ElenaProp[] = [
     ...ChartComponent.props,
     'trail-length',
     { name: 'anchors', reflect: false },
   ];
 
-  data: NetworkGraphData = { nodes: [], edges: [] };
+  'data': NetworkGraphData = { nodes: [], edges: [] };
   /** How many recently visited nodes the trail keeps; 0 disables it. */
   'trail-length' = 8;
   /**
@@ -93,30 +93,30 @@ export class NetworkGraph extends ChartComponent {
    * pull each category's nodes toward a home region, so the families of a
    * mixed graph settle into recognisable neighbourhoods.
    */
-  anchors: Record<string, [number, number]> = {};
+  'anchors': Record<string, [number, number]> = {};
 
   // The viewBox absorbs container resizes, so margins have no meaning here.
-  margin = { top: 0, right: 0, bottom: 0, left: 0 };
+  'margin' = { top: 0, right: 0, bottom: 0, left: 0 };
 
   // Layout is cached by data/anchors identity: prop changes that don't touch
   // either (width/height from the ResizeObserver, trail-length) must not
   // re-run the simulation or rebuild the DOM.
-  private layout?: Layout;
-  private layoutData?: NetworkGraphData;
-  private layoutAnchors?: Record<string, [number, number]>;
-  private builtLayout?: Layout;
+  private 'layout'?: Layout;
+  private 'layoutData'?: NetworkGraphData;
+  private 'layoutAnchors'?: Record<string, [number, number]>;
+  private 'builtLayout'?: Layout;
 
   // Hover state lives outside Elena's reactive cycle — highlighting toggles
   // classes on the existing DOM, never re-renders it.
-  private hoveredId: string | null = null;
+  private 'hoveredId': string | null = null;
   // An outside pointer (e.g. a linked list of the same items) gets its own
   // slot so the two sources can't clear each other; own hover wins meanwhile.
-  private externalId: string | null = null;
-  private trail: string[] = [];
-  private nodeEls = new Map<string, SVGGElement>();
-  private edgeEls: Array<{ el: SVGPathElement; source: string; target: string }> = [];
+  private 'externalId': string | null = null;
+  private 'trail': string[] = [];
+  private 'nodeEls' = new Map<string, SVGGElement>();
+  private 'edgeEls': Array<{ el: SVGPathElement; source: string; target: string }> = [];
 
-  connectedCallback() {
+  'connectedCallback'() {
     super.connectedCallback();
     this.svg.classList.add('network-graph__svg');
     this.svg.parentElement?.classList.add('network-graph');
@@ -125,15 +125,15 @@ export class NetworkGraph extends ChartComponent {
     this.svg.setAttribute('role', 'group');
   }
 
-  protected validateData(): boolean {
+  protected 'validateData'(): boolean {
     return isNetworkGraphData(this.data) && this.data.nodes.length > 0;
   }
 
-  protected setupScales(): void {
+  protected 'setupScales'(): void {
     // no-op — a network graph has no cartesian scales
   }
 
-  protected renderD3Content(): void {
+  protected 'renderD3Content'(): void {
     if (!this.validateData() || this.loading) {
       this.clearChart();
       this.builtLayout = undefined;
@@ -152,9 +152,9 @@ export class NetworkGraph extends ChartComponent {
     this.builtLayout = this.layout;
   }
 
-  private computeLayout(
+  private 'computeLayout'(
     data: NetworkGraphData,
-    anchors: Record<string, [number, number]>
+    anchors: Record<string, [number, number]>,
   ): Layout {
     const layoutEdges = data.edges.filter((e) => e.layout !== false);
     const degrees = new Map<string, number>();
@@ -181,18 +181,25 @@ export class NetworkGraph extends ChartComponent {
         'link',
         forceLink<SimNode, SimulationLinkDatum<SimNode>>(links)
           .id((d) => d.node.id)
-          .distance(80)
+          .distance(80),
       )
       .force('charge', forceManyBody<SimNode>().strength(-120))
       .force('center', forceCenter<SimNode>(LAYOUT_WIDTH / 2, LAYOUT_HEIGHT / 2))
-      .force('collide', forceCollide<SimNode>().radius((d) => d.radius + 4))
+      .force(
+        'collide',
+        forceCollide<SimNode>().radius((d) => d.radius + 4),
+      )
       .force(
         'cx',
-        forceX<SimNode>((d) => anchors[d.node.category ?? '']?.[0] ?? LAYOUT_WIDTH / 2).strength(0.05)
+        forceX<SimNode>((d) => anchors[d.node.category ?? '']?.[0] ?? LAYOUT_WIDTH / 2).strength(
+          0.05,
+        ),
       )
       .force(
         'cy',
-        forceY<SimNode>((d) => anchors[d.node.category ?? '']?.[1] ?? LAYOUT_HEIGHT / 2).strength(0.05)
+        forceY<SimNode>((d) => anchors[d.node.category ?? '']?.[1] ?? LAYOUT_HEIGHT / 2).strength(
+          0.05,
+        ),
       )
       .stop()
       .tick(300);
@@ -242,7 +249,7 @@ export class NetworkGraph extends ChartComponent {
     };
   }
 
-  protected renderChart(): void {
+  protected 'renderChart'(): void {
     const layout = this.layout;
     if (!layout) return;
     const NS = 'http://www.w3.org/2000/svg';
@@ -304,11 +311,12 @@ export class NetworkGraph extends ChartComponent {
 
     this.applyHighlight();
     this.setChartLabel(
-      this.title || `Network graph of ${layout.nodes.length} items and ${layout.edges.length} relationships`
+      this.title ||
+        `Network graph of ${layout.nodes.length} items and ${layout.edges.length} relationships`,
     );
     this.syncDataTable(
       layout.nodes.map((n) => [n.node.label, n.node.category ?? '', n.degree]),
-      this.title || 'Network graph data'
+      this.title || 'Network graph data',
     );
   }
 
@@ -318,12 +326,12 @@ export class NetworkGraph extends ChartComponent {
    * lasts; pass null to clear. Doesn't touch the trail, so sweeping down a
    * dense outside list can't flush it.
    */
-  setExternalHighlight(id: string | null): void {
+  'setExternalHighlight'(id: string | null): void {
     this.externalId = id;
     this.applyHighlight();
   }
 
-  private handleNodeEnter(node: NetworkGraphNode): void {
+  private 'handleNodeEnter'(node: NetworkGraphNode): void {
     this.hoveredId = node.id;
     const max = this['trail-length'];
     if (max > 0 && this.trail[this.trail.length - 1] !== node.id) {
@@ -332,33 +340,39 @@ export class NetworkGraph extends ChartComponent {
       if (this.trail.length > max) this.trail = this.trail.slice(this.trail.length - max);
     }
     this.applyHighlight();
-    this.dispatchEvent(new CustomEvent('pp-node-hover', {
-      detail: { node },
-      bubbles: true,
-      composed: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('pp-node-hover', {
+        detail: { node },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
-  private handleNodeLeave(node: NetworkGraphNode): void {
+  private 'handleNodeLeave'(node: NetworkGraphNode): void {
     this.hoveredId = null;
     this.applyHighlight();
-    this.dispatchEvent(new CustomEvent('pp-node-hover-end', {
-      detail: { node },
-      bubbles: true,
-      composed: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('pp-node-hover-end', {
+        detail: { node },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
-  private handleNodeActivate(node: NetworkGraphNode, originalEvent: Event): void {
-    this.dispatchEvent(new CustomEvent('pp-node-click', {
-      detail: { node, originalEvent },
-      bubbles: true,
-      composed: true,
-    }));
+  private 'handleNodeActivate'(node: NetworkGraphNode, originalEvent: Event): void {
+    this.dispatchEvent(
+      new CustomEvent('pp-node-click', {
+        detail: { node, originalEvent },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   /** Trail nodes reachable from the active node by hopping only through other visited nodes. */
-  private reachableTrail(activeId: string, adjacency: Map<string, Set<string>>): Set<string> {
+  private 'reachableTrail'(activeId: string, adjacency: Map<string, Set<string>>): Set<string> {
     const trailSet = new Set(this.trail);
     const reachable = new Set<string>();
     const queue = [activeId];
@@ -374,13 +388,15 @@ export class NetworkGraph extends ChartComponent {
     return reachable;
   }
 
-  private applyHighlight(): void {
+  private 'applyHighlight'(): void {
     const layout = this.layout;
     if (!layout || this.nodeEls.size === 0) return;
 
     const activeId = this.hoveredId ?? this.externalId;
     const neighbors = activeId ? (layout.adjacency.get(activeId) ?? new Set<string>()) : null;
-    const reachable = activeId ? this.reachableTrail(activeId, layout.adjacency) : new Set<string>();
+    const reachable = activeId
+      ? this.reachableTrail(activeId, layout.adjacency)
+      : new Set<string>();
 
     this.svg.classList.toggle('network-graph__svg--hovering', activeId !== null);
 

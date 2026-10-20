@@ -38,15 +38,15 @@ export class ReferencesPlugin extends BasePlugin {
 
   async onInstall(context: EditorContext): Promise<void> {
     await super.onInstall(context);
-    
+
     // Subscribe to selection events for quote references
     if (this.options.enableQuoteReferences) {
       context.eventBus.on('selection:change', (payload) => {
         const hasSelection = payload.from !== payload.to;
-        context.eventBus.emit('references:selection-changed', { 
-          hasSelection, 
+        context.eventBus.emit('references:selection-changed', {
+          hasSelection,
           selectedText: payload.content,
-          range: { from: payload.from, to: payload.to }
+          range: { from: payload.from, to: payload.to },
         });
       });
     }
@@ -59,31 +59,37 @@ export class ReferencesPlugin extends BasePlugin {
 
   registerUI(slots: SlotRegistry): void {
     // Register bubble menu component
-    slots.register('bubble-menu', {
-      pluginId: this.id,
-      render: () => (
-        <ReferencesBubbleMenu 
-          data={this.options.data}
-          onReferenceSelect={this.options.onReferenceSelect}
-          enableQuoteReferences={this.options.enableQuoteReferences}
-        />
-      ),
-    }, {
-      priority: 70,
-      condition: () => this.isActive,
-    });
+    slots.register(
+      'bubble-menu',
+      {
+        pluginId: this.id,
+        render: () => (
+          <ReferencesBubbleMenu
+            data={this.options.data}
+            onReferenceSelect={this.options.onReferenceSelect}
+            enableQuoteReferences={this.options.enableQuoteReferences}
+          />
+        ),
+      },
+      {
+        priority: 70,
+        condition: () => this.isActive,
+      },
+    );
 
     // Register toolbar component
     if (this.options.enableAtMentions) {
-      slots.register('toolbar', {
-        pluginId: this.id,
-        render: () => (
-          <ReferencesToolbar />
-        ),
-      }, {
-        priority: 60,
-        condition: () => this.isActive,
-      });
+      slots.register(
+        'toolbar',
+        {
+          pluginId: this.id,
+          render: () => <ReferencesToolbar />,
+        },
+        {
+          priority: 60,
+          condition: () => this.isActive,
+        },
+      );
     }
   }
 
@@ -96,11 +102,8 @@ export class ReferencesPlugin extends BasePlugin {
           HTMLAttributes: {
             class: 'reference-mention reference',
           },
-          suggestion: createReferenceSuggestion(
-            this.options.data, 
-            this.options.onReferenceSelect
-          ),
-        })
+          suggestion: createReferenceSuggestion(this.options.data, this.options.onReferenceSelect),
+        }),
       );
     }
 
@@ -116,7 +119,7 @@ export class ReferencesPlugin extends BasePlugin {
 
   public addReference(reference: SelectedReference): void {
     if (!this.context?.editor) return;
-    
+
     this.context.editor.commands.createQuoteReference({
       id: reference.id,
       label: reference.label,
@@ -127,7 +130,7 @@ export class ReferencesPlugin extends BasePlugin {
 
   public convertSelectionToQuote(selectedText: string): void {
     if (!this.context?.editor) return;
-    
+
     const quoteId = `quote-${Date.now()}`;
     const quoteData = {
       id: quoteId,
@@ -135,8 +138,8 @@ export class ReferencesPlugin extends BasePlugin {
       metadata: {
         sourceText: selectedText,
         createdAt: new Date().toISOString(),
-        type: 'quote'
-      }
+        type: 'quote',
+      },
     };
 
     this.context.editor.commands.convertSelectionToQuoteReference(quoteData);
@@ -144,7 +147,7 @@ export class ReferencesPlugin extends BasePlugin {
       id: quoteId,
       label: quoteData.label,
       type: 'quote',
-      metadata: quoteData.metadata
+      metadata: quoteData.metadata,
     });
   }
 }

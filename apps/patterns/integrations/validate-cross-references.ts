@@ -107,7 +107,8 @@ function fileExists(path: string): boolean {
 function walk(dir: string, exts: readonly string[]): string[] {
   const results: string[] = [];
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    if (entry.name === '.obsidian' || entry.name === 'node_modules' || entry.name === 'dist') continue;
+    if (entry.name === '.obsidian' || entry.name === 'node_modules' || entry.name === 'dist')
+      continue;
     const full = join(dir, entry.name);
     if (entry.isDirectory()) {
       results.push(...walk(full, exts));
@@ -390,7 +391,9 @@ function checkWorldConcepts(logger: AstroIntegrationLogger): Violation[] {
   const listed = new Map<string, Set<string>>();
   for (const { file, content, fm } of frontmatterFiles(conceptsDir)) {
     const id = fileStem(file);
-    const actions = (Array.isArray(fm.actions) ? fm.actions : []).filter((a): a is string => typeof a === 'string');
+    const actions = (Array.isArray(fm.actions) ? fm.actions : []).filter(
+      (a): a is string => typeof a === 'string',
+    );
     listed.set(id, new Set(actions));
     for (const action of actions) {
       if (!(action in actionTypes)) continue;
@@ -437,7 +440,9 @@ function checkWorldConcepts(logger: AstroIntegrationLogger): Violation[] {
     });
   }
 
-  logger.info(`Checked ${checked} world↔concept assignment(s) against ${concepts.size} concept entries.`);
+  logger.info(
+    `Checked ${checked} world↔concept assignment(s) against ${concepts.size} concept entries.`,
+  );
   return violations;
 }
 
@@ -447,7 +452,10 @@ function checkPatternRefs(logger: AstroIntegrationLogger): Violation[] {
   const uses = collectRefs(walkMdx(storyMdxDir), PATTERN_REF_RE, 'slug');
   const violations: Violation[] = [];
   for (const use of uses) {
-    const stem = use.value.replace(/^\//, '').replace(/^patterns\//, '').replace(/#.*$/, '');
+    const stem = use.value
+      .replace(/^\//, '')
+      .replace(/^patterns\//, '')
+      .replace(/#.*$/, '');
     if (stems.has(stem)) continue;
     const suggestion = nearest(stem, stems);
     violations.push({
@@ -486,7 +494,9 @@ function checkIntraSiteLinks(logger: AstroIntegrationLogger): Violation[] {
         (suggestion ? ` — did you mean "/patterns/${suggestion}"?` : '.'),
     });
   }
-  logger.info(`Checked ${uses.length} intra-site /patterns/ link(s) against ${stems.size} content stems.`);
+  logger.info(
+    `Checked ${uses.length} intra-site /patterns/ link(s) against ${stems.size} content stems.`,
+  );
 
   const concepts = contentStems('concepts');
   const conceptUses = [
@@ -507,7 +517,9 @@ function checkIntraSiteLinks(logger: AstroIntegrationLogger): Violation[] {
         (suggestion ? ` — did you mean "/concepts/${suggestion}"?` : '.'),
     });
   }
-  logger.info(`Checked ${conceptUses.length} intra-site /concepts/ link(s) against ${concepts.size} concept entries.`);
+  logger.info(
+    `Checked ${conceptUses.length} intra-site /concepts/ link(s) against ${concepts.size} concept entries.`,
+  );
   return violations;
 }
 
@@ -524,13 +536,13 @@ function checkSequenceRefs(logger: AstroIntegrationLogger): Violation[] {
     if (typeof step.rule === 'string') slugs.push(step.rule);
     for (const c of Array.isArray(step.constituents) ? step.constituents : []) {
       if (typeof c === 'string') slugs.push(c);
-      else if (c && typeof (c as { slug?: unknown }).slug === 'string') slugs.push((c as { slug: string }).slug);
+      else if (c && typeof (c as { slug?: unknown }).slug === 'string')
+        slugs.push((c as { slug: string }).slug);
     }
     return slugs;
   };
 
   for (const { file, content, fm } of frontmatterFiles(sequencesDir)) {
-
     const report = (slug: string, field: string) => {
       checked++;
       if (stems.has(slug)) return;
@@ -564,7 +576,10 @@ function checkSequenceRefs(logger: AstroIntegrationLogger): Violation[] {
       }
     }
 
-    for (const connection of (Array.isArray(fm.connections) ? fm.connections : []) as Record<string, unknown>[]) {
+    for (const connection of (Array.isArray(fm.connections) ? fm.connections : []) as Record<
+      string,
+      unknown
+    >[]) {
       if (typeof connection.via === 'string') report(connection.via, 'connection via');
       if (typeof connection.at !== 'string') continue;
       const [subId, position] = connection.at.split('/');

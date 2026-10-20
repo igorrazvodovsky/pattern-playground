@@ -11,7 +11,7 @@ import {
   timelineGroupingSchema,
   Deduction,
   DeductionRequest,
-  deductionSchema
+  deductionSchema,
 } from '../schemas.js';
 import { PromptTemplateBuilder, PROMPT_CONFIGS } from './promptTemplates.js';
 
@@ -59,14 +59,14 @@ export class OpenAIService {
     return {
       model,
       reasoning: { effort: config.openai.reasoningEffort },
-      store: false
+      store: false,
     } as const;
   }
 
   async generateSuggestions(
     prompt: string,
     context: AISuggestionRequest['context'],
-    signal?: AbortSignal
+    signal?: AbortSignal,
   ): Promise<AISuggestionData> {
     const { type, availableOptions } = context;
 
@@ -75,17 +75,20 @@ export class OpenAIService {
     /* JSON mode rather than a schema: each suggestion carries open-ended
        metadata whose keys depend on the suggestion type, which Structured
        Outputs cannot express. The parse below validates the shape instead. */
-    const response = await this.client.responses.create({
-      ...this.base(config.openai.model),
-      instructions: systemPrompt,
-      /* JSON mode on this API checks the input, not the instructions, for the
+    const response = await this.client.responses.create(
+      {
+        ...this.base(config.openai.model),
+        instructions: systemPrompt,
+        /* JSON mode on this API checks the input, not the instructions, for the
          word "json". */
-      input: `Generate ${type} suggestions as JSON for: "${prompt}"`,
-      /* Reasoning tokens count against this ceiling, so it leaves room for
+        input: `Generate ${type} suggestions as JSON for: "${prompt}"`,
+        /* Reasoning tokens count against this ceiling, so it leaves room for
          them as well as the reply. */
-      max_output_tokens: 2000,
-      text: { format: { type: 'json_object' } }
-    }, { signal });
+        max_output_tokens: 2000,
+        text: { format: { type: 'json_object' } },
+      },
+      { signal },
+    );
 
     logger.info(`OpenAI ${type} suggestion response received`);
 
@@ -102,7 +105,7 @@ export class OpenAIService {
    */
   async groupTimeline(
     request: TimelineGroupingRequest,
-    signal?: AbortSignal
+    signal?: AbortSignal,
   ): Promise<TimelineGrouping> {
     const { records, subject } = request;
 
@@ -140,7 +143,7 @@ export class OpenAIService {
       '  something its episodes do not already say one by one. The reader sees',
       '  a stretch at exactly one grain at a time, so a sentence that only',
       '  echoes the grain below it tells them nothing.',
-      '- Use plain past-tense prose. No markdown, no bullet points.'
+      '- Use plain past-tense prose. No markdown, no bullet points.',
     ].join('\n');
 
     const lines = records
@@ -151,16 +154,19 @@ export class OpenAIService {
       })
       .join('\n');
 
-    const response = await this.client.responses.parse({
-      /* The fast model, not the configured default: this call sits in front of
+    const response = await this.client.responses.parse(
+      {
+        /* The fast model, not the configured default: this call sits in front of
          a view the reader is waiting on, and segmenting a list they can
          already see is not work the larger model does better. */
-      ...this.base(config.openai.fastModel),
-      instructions: systemPrompt,
-      input: `${subject ? `${subject}\n\n` : ''}${lines}`,
-      max_output_tokens: 4000,
-      text: { format: zodTextFormat(timelineGroupingSchema, 'timeline_grouping') }
-    }, { signal });
+        ...this.base(config.openai.fastModel),
+        instructions: systemPrompt,
+        input: `${subject ? `${subject}\n\n` : ''}${lines}`,
+        max_output_tokens: 4000,
+        text: { format: zodTextFormat(timelineGroupingSchema, 'timeline_grouping') },
+      },
+      { signal },
+    );
 
     logger.info(`OpenAI timeline grouping received for ${records.length} records`);
     return outputParsed(response);
@@ -177,10 +183,7 @@ export class OpenAIService {
    * name and one clause — because a proposal that arrived as a full card would
    * be dressed as something the model knows.
    */
-  async deduceConnections(
-    request: DeductionRequest,
-    signal?: AbortSignal
-  ): Promise<Deduction> {
+  async deduceConnections(request: DeductionRequest, signal?: AbortSignal): Promise<Deduction> {
     const { focus, neighbourhood, subject } = request;
 
     const systemPrompt = [
@@ -204,7 +207,7 @@ export class OpenAIService {
       '  "would", "typically", "suggests" rather than asserting.',
       '- anchorId must be the id of the focus or of one of the neighbours you',
       '  were given, whichever the proposed component would hang under.',
-      '- Plain prose. No markdown, no bullet points.'
+      '- Plain prose. No markdown, no bullet points.',
     ].join('\n');
 
     const attributes = focus.attributes
@@ -219,35 +222,45 @@ export class OpenAIService {
       `Focus: ${focus.id} — ${focus.name} (${focus.type})`,
       focus.description,
       attributes ? `Attributes:\n${attributes}` : '',
-      neighbours ? `Modelled neighbourhood:\n${neighbours}` : 'Modelled neighbourhood: none.'
+      neighbours ? `Modelled neighbourhood:\n${neighbours}` : 'Modelled neighbourhood: none.',
     ]
       .filter(Boolean)
       .join('\n');
 
-    const response = await this.client.responses.parse({
-      /* The fast model, as with timeline grouping: the reader is waiting on
+    const response = await this.client.responses.parse(
+      {
+        /* The fast model, as with timeline grouping: the reader is waiting on
          this, and it is the band they are meant to trust least. */
-      ...this.base(config.openai.fastModel),
-      instructions: systemPrompt,
-      input: userPrompt,
-      max_output_tokens: 2000,
-      text: { format: zodTextFormat(deductionSchema, 'deduction') }
-    }, { signal });
+        ...this.base(config.openai.fastModel),
+        instructions: systemPrompt,
+        input: userPrompt,
+        max_output_tokens: 2000,
+        text: { format: zodTextFormat(deductionSchema, 'deduction') },
+      },
+      { signal },
+    );
 
     logger.info(`OpenAI deduction received for ${focus.name}`);
     return outputParsed(response);
   }
 
-  async *generateTextLensStream(request: TextLensRequest, signal?: AbortSignal): AsyncGenerator<StreamChunk> {
+  async *generateTextLensStream(
+    request: TextLensRequest,
+    signal?: AbortSignal,
+  ): AsyncGenerator<StreamChunk> {
     const zoomPrompt = this.createZoomPrompt(request);
 
     try {
-      yield* this.streamText({
-        instructions: "You are a text transformation specialist. Provide direct text transformations without introductions, acknowledgments, or explanations. Begin immediately with the transformed content.",
-        input: zoomPrompt
-      }, signal);
+      yield* this.streamText(
+        {
+          instructions:
+            'You are a text transformation specialist. Provide direct text transformations without introductions, acknowledgments, or explanations. Begin immediately with the transformed content.',
+          input: zoomPrompt,
+        },
+        signal,
+      );
     } catch (error) {
-      logger.error("Error in text lens streaming:", error);
+      logger.error('Error in text lens streaming:', error);
       throw error;
     }
   }
@@ -259,14 +272,17 @@ export class OpenAIService {
    */
   private async *streamText(
     prompt: { instructions: string; input: string },
-    signal?: AbortSignal
+    signal?: AbortSignal,
   ): AsyncGenerator<StreamChunk> {
-    const stream = await this.client.responses.create({
-      ...this.base(config.openai.model),
-      ...prompt,
-      max_output_tokens: 2000,
-      stream: true
-    }, { signal });
+    const stream = await this.client.responses.create(
+      {
+        ...this.base(config.openai.model),
+        ...prompt,
+        max_output_tokens: 2000,
+        stream: true,
+      },
+      { signal },
+    );
 
     for await (const event of stream) {
       switch (event.type) {
@@ -276,7 +292,9 @@ export class OpenAIService {
         case 'response.refusal.done':
           throw new Error(`Model refused: ${event.refusal}`);
         case 'response.incomplete':
-          throw new Error(`OpenAI response incomplete: ${event.response.incomplete_details?.reason ?? 'unknown reason'}`);
+          throw new Error(
+            `OpenAI response incomplete: ${event.response.incomplete_details?.reason ?? 'unknown reason'}`,
+          );
         case 'response.failed':
           throw new Error(event.response.error?.message ?? 'OpenAI response failed');
         case 'error':
@@ -287,7 +305,7 @@ export class OpenAIService {
 
   private createSystemPrompt(
     type: string,
-    availableOptions: Record<string, (string | number | boolean)[]>
+    availableOptions: Record<string, (string | number | boolean)[]>,
   ): string {
     const config = PROMPT_CONFIGS[type];
     return PromptTemplateBuilder.buildSystemPrompt(type, availableOptions, config);
@@ -296,42 +314,43 @@ export class OpenAIService {
   private parseAndTransformResponse(
     content: string,
     type: string,
-    availableOptions: Record<string, (string | number | boolean)[]>
+    availableOptions: Record<string, (string | number | boolean)[]>,
   ): AISuggestionData {
     try {
       const parsedContent = JSON.parse(content);
 
       if (!parsedContent.suggestions || !Array.isArray(parsedContent.suggestions)) {
-        throw new Error("Invalid response structure: missing suggestions array");
+        throw new Error('Invalid response structure: missing suggestions array');
       }
 
-      const transformedSuggestions = parsedContent.suggestions.map((suggestion: unknown, index: number) => {
-        const suggestionRecord = suggestion as Record<string, unknown>;
-        return {
-          id: suggestionRecord.id || `${type}-${Date.now()}-${index}`,
-          label: suggestionRecord.label || suggestionRecord.value || `Suggestion ${index + 1}`,
-          value: suggestionRecord.value,
-          confidence: Math.min(100, Math.max(0, (suggestionRecord.confidence as number) || 70)),
-          metadata: suggestionRecord.metadata || {}
-        };
-      });
+      const transformedSuggestions = parsedContent.suggestions.map(
+        (suggestion: unknown, index: number) => {
+          const suggestionRecord = suggestion as Record<string, unknown>;
+          return {
+            id: suggestionRecord.id || `${type}-${Date.now()}-${index}`,
+            label: suggestionRecord.label || suggestionRecord.value || `Suggestion ${index + 1}`,
+            value: suggestionRecord.value,
+            confidence: Math.min(100, Math.max(0, (suggestionRecord.confidence as number) || 70)),
+            metadata: suggestionRecord.metadata || {},
+          };
+        },
+      );
 
       return {
         suggestions: transformedSuggestions,
         explanation: parsedContent.explanation || `AI generated ${type} suggestions`,
         confidence: Math.min(100, Math.max(0, parsedContent.confidence || 70)),
-        unmatchedCriteria: parsedContent.unmatchedCriteria || []
+        unmatchedCriteria: parsedContent.unmatchedCriteria || [],
       };
-
     } catch (parseError) {
-      logger.error("Failed to parse OpenAI response:", parseError);
+      logger.error('Failed to parse OpenAI response:', parseError);
       return this.generateFallbackSuggestions(type, availableOptions);
     }
   }
 
   private generateFallbackSuggestions(
     type: string,
-    availableOptions: Record<string, (string | number | boolean)[]>
+    availableOptions: Record<string, (string | number | boolean)[]>,
   ): AISuggestionData {
     const suggestions: AISuggestionData['suggestions'] = [];
 
@@ -342,7 +361,7 @@ export class OpenAIService {
           label: String(option),
           value: option,
           confidence: 50,
-          metadata: { category, fallback: true }
+          metadata: { category, fallback: true },
         });
       });
     });
@@ -351,7 +370,7 @@ export class OpenAIService {
       suggestions: suggestions.slice(0, 5),
       explanation: `Fallback ${type} suggestions (AI service unavailable)`,
       confidence: 50,
-      unmatchedCriteria: []
+      unmatchedCriteria: [],
     };
   }
 
@@ -377,7 +396,7 @@ export class OpenAIService {
 
   async *generateExplanationStream(
     request: ExplanationRequest,
-    signal?: AbortSignal
+    signal?: AbortSignal,
   ): AsyncGenerator<StreamChunk> {
     const systemPrompt = `You are an expert explainer. Provide clear, concise explanations for the given text.
 If references are provided, incorporate them into your explanation to provide richer context.`;
@@ -387,7 +406,7 @@ If references are provided, incorporate them into your explanation to provide ri
     try {
       yield* this.streamText({ instructions: systemPrompt, input: userPrompt }, signal);
     } catch (error) {
-      logger.error("Error in explanation streaming:", error);
+      logger.error('Error in explanation streaming:', error);
       throw error;
     }
   }
@@ -416,7 +435,9 @@ If references are provided, incorporate them into your explanation to provide ri
 /** The reply's text, or an error saying why there is none. */
 function outputText(response: Response): string {
   if (response.status === 'incomplete') {
-    throw new Error(`OpenAI response incomplete: ${response.incomplete_details?.reason ?? 'unknown reason'}`);
+    throw new Error(
+      `OpenAI response incomplete: ${response.incomplete_details?.reason ?? 'unknown reason'}`,
+    );
   }
   if (!response.output_text) {
     throw new Error('Empty response from OpenAI');
@@ -427,7 +448,9 @@ function outputText(response: Response): string {
 /** The reply parsed against its schema, or an error saying why there is none. */
 function outputParsed<T>(response: ParsedResponse<T>): T {
   if (response.status === 'incomplete') {
-    throw new Error(`OpenAI response incomplete: ${response.incomplete_details?.reason ?? 'unknown reason'}`);
+    throw new Error(
+      `OpenAI response incomplete: ${response.incomplete_details?.reason ?? 'unknown reason'}`,
+    );
   }
   const refusal = response.output
     .flatMap((item) => (item.type === 'message' ? item.content : []))

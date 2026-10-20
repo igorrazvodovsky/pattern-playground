@@ -94,13 +94,13 @@ pp-dialog [cmdk-root] {
   /* border-radius: var(--radius-s); */
 }
 
-[cmdk-item]:hover:not([aria-disabled="true"]),
-[cmdk-item][aria-selected="true"]:not([aria-disabled="true"]) {
+[cmdk-item]:hover:not([aria-disabled='true']),
+[cmdk-item][aria-selected='true']:not([aria-disabled='true']) {
   background-color: var(--c-neutral-50);
   color: var(--c-neutral-1000);
 }
 
-[cmdk-item][aria-disabled="true"] {
+[cmdk-item][aria-disabled='true'] {
   outline: none;
   opacity: 0.5;
   cursor: not-allowed;

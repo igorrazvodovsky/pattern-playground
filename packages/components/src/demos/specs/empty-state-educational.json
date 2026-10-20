@@ -9,7 +9,13 @@
       },
       "slots": { "actions": ["show-me-how", "learn-more"] }
     },
-    "show-me-how": { "type": "Button", "props": { "label": "Show me how", "icon": "guide", "variant": "primary" } },
-    "learn-more": { "type": "Button", "props": { "label": "Learn more", "icon": "external", "variant": "plain" } }
+    "show-me-how": {
+      "type": "Button",
+      "props": { "label": "Show me how", "icon": "guide", "variant": "primary" }
+    },
+    "learn-more": {
+      "type": "Button",
+      "props": { "label": "Learn more", "icon": "external", "variant": "plain" }
+    }
   }
 }

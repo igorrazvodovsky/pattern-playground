@@ -74,7 +74,7 @@
     --tag-bg: oklch(from var(--c-background) calc(l - 0.05) c h);
   }
 
-  input:where(.chip[type="checkbox"]) {
+  input:where(.chip[type='checkbox']) {
     --color: oklch(from var(--c-accent) l c h / 60%);
 
     color: oklch(0% 0 110deg / 90%);
@@ -102,14 +102,18 @@
 
     &::before {
       color: oklch(0% 0 110deg / 60%);
-      content: "";
+      content: '';
       display: inline-block;
       width: 0.75em;
       aspect-ratio: 1;
-      background: linear-gradient(currentcolor 0 0),
-        linear-gradient(currentcolor 0 0);
-      background-position: 50% 50%, 50% 50%, 50% 50%;
-      background-size: 0 0, 0 0;
+      background: linear-gradient(currentcolor 0 0), linear-gradient(currentcolor 0 0);
+      background-position:
+        50% 50%,
+        50% 50%,
+        50% 50%;
+      background-size:
+        0 0,
+        0 0;
       background-repeat: no-repeat;
       background-color: var(--color);
       border-radius: 50%;
@@ -118,14 +122,21 @@
       left: 1.125em;
       translate: -50% -50%;
       rotate: 45deg;
-      transition: width 0.2s, background-size 0.4s;
+      transition:
+        width 0.2s,
+        background-size 0.4s;
     }
 
     &:checked {
       &::before {
         width: 200%;
-        background-position: 50% 50%, 50% 50%, 50% 50%;
-        background-size: 0.825em 0.1em, 0.1em 0.825em;
+        background-position:
+          50% 50%,
+          50% 50%,
+          50% 50%;
+        background-size:
+          0.825em 0.1em,
+          0.1em 0.825em;
       }
 
       border-color: transparent;
@@ -145,7 +156,7 @@
   }
 
   @media print {
-    input:where(.chip[type="checkbox"]) {
+    input:where(.chip[type='checkbox']) {
       &,
       &::before,
       &::after {
@@ -156,7 +167,7 @@
   }
 
   @media (prefers-reduced-motion) {
-    input:where(.chip[type="checkbox"]) {
+    input:where(.chip[type='checkbox']) {
       &,
       &::before,
       &::after {
@@ -172,7 +183,7 @@ high-contrast styles:
 - No crosses (they are removed as backgrounds)
 */
   @media (prefers-contrast: more) {
-    input:where(.chip[type="checkbox"]) {
+    input:where(.chip[type='checkbox']) {
       &::before {
         background: highlight;
       }

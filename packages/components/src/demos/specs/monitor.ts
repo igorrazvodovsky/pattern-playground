@@ -39,11 +39,14 @@ const byCycle = (delta: number, up: string, down: string, same: string) =>
   delta > 0 ? up : delta < 0 ? down : same;
 
 const flags = detectProblems(products);
-const inProduction = products.filter(item => item.metadata.availability.status === 'In Production').length;
-const flaggedItems = new Set(flags.flatMap(flag => flag.itemIds)).size;
-const categories = new Set(products.map(item => item.metadata.category)).size;
+const inProduction = products.filter(
+  (item) => item.metadata.availability.status === 'In Production',
+).length;
+const flaggedItems = new Set(flags.flatMap((flag) => flag.itemIds)).size;
+const categories = new Set(products.map((item) => item.metadata.category)).size;
 const averageCarbon = Math.round(
-  products.reduce((sum, item) => sum + item.metadata.sustainability.carbonFootprint, 0) / products.length,
+  products.reduce((sum, item) => sum + item.metadata.sustainability.carbonFootprint, 0) /
+    products.length,
 );
 const { metrics } = snapshot;
 

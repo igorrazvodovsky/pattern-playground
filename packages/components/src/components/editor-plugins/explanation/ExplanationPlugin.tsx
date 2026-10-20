@@ -1,7 +1,10 @@
 import { BasePlugin } from '../core/Plugin';
 import type { PluginCapabilities, EditorContext, SlotRegistry } from '../../editor/types';
 import type { SelectedReference } from '../../reference/types';
-import { explanationService, type ExplanationCallbacks } from '../../../services/explanation-service';
+import {
+  explanationService,
+  type ExplanationCallbacks,
+} from '../../../services/explanation-service';
 import { ExplanationBubbleMenu } from './components/ExplanationBubbleMenu';
 import type { Extension } from '@tiptap/core';
 
@@ -45,7 +48,7 @@ export class ExplanationPlugin extends BasePlugin {
       context.eventBus.emit('explanation:selection-changed', {
         hasSelection,
         selectedText: payload.content,
-        range: { from: payload.from, to: payload.to }
+        range: { from: payload.from, to: payload.to },
       });
     });
   }
@@ -57,19 +60,23 @@ export class ExplanationPlugin extends BasePlugin {
 
   registerUI(slots: SlotRegistry): void {
     // Register bubble menu component
-    slots.register('bubble-menu', {
-      pluginId: this.id,
-      render: () => (
-        <ExplanationBubbleMenu
-          options={this.options}
-          onExplain={this.handleExplain.bind(this)}
-          isExplaining={this.isExplaining}
-        />
-      ),
-    }, {
-      priority: 70,
-      condition: () => this.isActive,
-    });
+    slots.register(
+      'bubble-menu',
+      {
+        pluginId: this.id,
+        render: () => (
+          <ExplanationBubbleMenu
+            options={this.options}
+            onExplain={this.handleExplain.bind(this)}
+            isExplaining={this.isExplaining}
+          />
+        ),
+      },
+      {
+        priority: 70,
+        condition: () => this.isActive,
+      },
+    );
   }
 
   getExtensions(): Extension[] {
@@ -77,21 +84,25 @@ export class ExplanationPlugin extends BasePlugin {
     return [];
   }
 
-  private async handleExplain(selectedText: string, range: { from: number; to: number }): Promise<void> {
+  private async handleExplain(
+    selectedText: string,
+    range: { from: number; to: number },
+  ): Promise<void> {
     if (!this.context?.editor || !selectedText.trim() || this.isExplaining) return;
 
     this.isExplaining = true;
 
     try {
       // Collect references if enabled
-      const references = this.options.includeReferences ?
-        await this.collectReferencesInRange(range) : undefined;
+      const references = this.options.includeReferences
+        ? await this.collectReferencesInRange(range)
+        : undefined;
 
       // Emit explanation start event
       this.emit('explanation:started', {
         text: selectedText,
         references,
-        range
+        range,
       });
 
       const callbacks: ExplanationCallbacks = {
@@ -105,15 +116,17 @@ export class ExplanationPlugin extends BasePlugin {
         onError: (error: string) => {
           this.isExplaining = false;
           this.emit('explanation:error', { error });
-        }
+        },
       };
 
       // Stream explanation
-      await explanationService.streamExplanation({
-        text: selectedText,
-        references
-      }, callbacks);
-
+      await explanationService.streamExplanation(
+        {
+          text: selectedText,
+          references,
+        },
+        callbacks,
+      );
     } catch (error) {
       this.isExplaining = false;
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
@@ -122,7 +135,10 @@ export class ExplanationPlugin extends BasePlugin {
     }
   }
 
-  private async collectReferencesInRange(range: { from: number; to: number }): Promise<SelectedReference[]> {
+  private async collectReferencesInRange(range: {
+    from: number;
+    to: number;
+  }): Promise<SelectedReference[]> {
     if (!this.context?.editor) return [];
 
     const references: SelectedReference[] = [];
@@ -137,7 +153,7 @@ export class ExplanationPlugin extends BasePlugin {
             id: node.attrs.id || `ref-${Date.now()}`,
             label: node.attrs.label || node.attrs.name || 'Unknown Reference',
             type: node.attrs.type || 'document',
-            metadata: node.attrs.metadata || {}
+            metadata: node.attrs.metadata || {},
           };
           references.push(ref);
         } catch (error) {
@@ -175,8 +191,16 @@ export class ExplanationPlugin extends BasePlugin {
 // Add explanation events to the event payload type (will be merged with existing events)
 declare module '../../editor/types' {
   interface EventPayload {
-    'explanation:selection-changed': { hasSelection: boolean; selectedText: string; range: { from: number; to: number } };
-    'explanation:started': { text: string; references?: SelectedReference[]; range: { from: number; to: number } };
+    'explanation:selection-changed': {
+      hasSelection: boolean;
+      selectedText: string;
+      range: { from: number; to: number };
+    };
+    'explanation:started': {
+      text: string;
+      references?: SelectedReference[];
+      range: { from: number; to: number };
+    };
     'explanation:chunk': { content: string };
     'explanation:complete': Record<string, never>;
     'explanation:error': { error: string };

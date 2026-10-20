@@ -79,15 +79,15 @@
     cursor: pointer;
   }
 
-  pp-table th[aria-sort]:not([aria-sort="none"]) {
+  pp-table th[aria-sort]:not([aria-sort='none']) {
     color: var(--c-body);
   }
 
-  pp-table[density="condensed"] {
+  pp-table[density='condensed'] {
     --_td-padding: calc(var(--space-m) * 0.5);
   }
 
-  pp-table[density="relaxed"] {
+  pp-table[density='relaxed'] {
     --_td-padding: calc(var(--space-m) * 1.1);
   }
 
@@ -141,11 +141,11 @@
       background: color-mix(in oklch, var(--c-background) 95%, var(--c-body) 5%);
     }
 
-    pp-table tbody tr[data-focused="true"] > td:first-child {
+    pp-table tbody tr[data-focused='true'] > td:first-child {
       background: color-mix(in oklch, var(--c-background) 94%, var(--c-accent) 6%);
     }
 
-    pp-table tbody tr[data-selected="true"] > td:first-child {
+    pp-table tbody tr[data-selected='true'] > td:first-child {
       background: color-mix(in oklch, var(--c-background) 88%, var(--c-accent) 12%);
     }
   }

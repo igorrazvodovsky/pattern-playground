@@ -9,7 +9,13 @@
     },
     "card": {
       "type": "Card",
-      "props": { "title": { "$item": "name" }, "icon": { "$item": "icon" }, "opens": true, "selected": { "$item": "open" }, "expanded": { "$item": "open" } },
+      "props": {
+        "title": { "$item": "name" },
+        "icon": { "$item": "icon" },
+        "opens": true,
+        "selected": { "$item": "open" },
+        "expanded": { "$item": "open" }
+      },
       "slots": { "detail": ["detail"] },
       "children": ["badges"],
       "on": {

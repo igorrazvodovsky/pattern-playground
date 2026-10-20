@@ -24,6 +24,7 @@ if (!svg) throw new Error(`<Figure name="${name}">: no figures/${name}/${name}.s
 
 const inlined = svg.replace('<svg ', '<svg width="100%" aria-hidden="true" focusable="false" ');
 ---
+
 <figure>
   <Fragment set:html={inlined} />
   {caption && <figcaption>{caption}</figcaption>}

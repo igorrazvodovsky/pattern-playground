@@ -12,10 +12,7 @@ const CommentingToolbar: React.FC = () => {
   };
 
   return (
-    <button
-      className="button button--small"
-      onClick={handleShowThreads}
-    >
+    <button className="button button--small" onClick={handleShowThreads}>
       <iconify-icon className="icon" icon="ik:chats"></iconify-icon>
       Comments
     </button>

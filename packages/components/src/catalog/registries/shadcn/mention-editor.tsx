@@ -19,7 +19,11 @@ const bare = 'min-h-16 w-full bg-transparent px-2 py-1.5 text-base outline-none 
 const textClass =
   '[&_p]:mb-0 [&_p:first-child]:mt-0 [&_p+p]:mt-3 [&_p.is-editor-empty:first-child]:before:pointer-events-none [&_p.is-editor-empty:first-child]:before:float-left [&_p.is-editor-empty:first-child]:before:h-0 [&_p.is-editor-empty:first-child]:before:text-muted-foreground [&_p.is-editor-empty:first-child]:before:content-[attr(data-placeholder)]';
 
-export function MentionEditor({ props, bindings, emit }: ComponentContext<Catalog, 'MentionEditor'>) {
+export function MentionEditor({
+  props,
+  bindings,
+  emit,
+}: ComponentContext<Catalog, 'MentionEditor'>) {
   const [content, setContent] = useBoundProp(props.content, bindings?.content);
   const [, setQuery] = useBoundProp(props.query, bindings?.query);
   const [scope, setScope] = useBoundProp(props.scope, bindings?.scope);
@@ -34,7 +38,7 @@ export function MentionEditor({ props, bindings, emit }: ComponentContext<Catalo
     scope: scope ?? null,
     setScope,
     groups: props.candidates,
-    onOpen: mention => {
+    onOpen: (mention) => {
       setOpened(mention.id);
       emit('open');
     },
@@ -60,12 +64,15 @@ export function MentionEditor({ props, bindings, emit }: ComponentContext<Catalo
             {groups.map((group, index) => (
               <div key={group.heading ?? index} role="presentation">
                 {group.heading && (
-                  <div aria-hidden="true" className="px-2 py-1.5 text-xs font-medium text-muted-foreground">
+                  <div
+                    aria-hidden="true"
+                    className="px-2 py-1.5 text-xs font-medium text-muted-foreground"
+                  >
                     {group.heading}
                   </div>
                 )}
                 <div role="group" aria-label={group.heading ?? undefined}>
-                  {group.options.map(candidate => {
+                  {group.options.map((candidate) => {
                     const Icon = candidate.icon ? icons[candidate.icon] : null;
                     return (
                       <div
@@ -73,9 +80,13 @@ export function MentionEditor({ props, bindings, emit }: ComponentContext<Catalo
                         {...option(candidate)}
                         className="relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none aria-selected:bg-accent aria-selected:text-accent-foreground"
                       >
-                        {Icon && <Icon aria-hidden="true" className="size-4 text-muted-foreground" />}
+                        {Icon && (
+                          <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
+                        )}
                         {candidate.label}
-                        {isKind(candidate) && <ChevronRight aria-hidden="true" className="ml-auto size-4 opacity-50" />}
+                        {isKind(candidate) && (
+                          <ChevronRight aria-hidden="true" className="ml-auto size-4 opacity-50" />
+                        )}
                       </div>
                     );
                   })}

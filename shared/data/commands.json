@@ -8,11 +8,46 @@
     "searchableText": "search find locate query",
     "shortcut": ["⌘", "S"],
     "children": [
-      { "id": "search-documents", "name": "Documents", "type": "command", "icon": "ik:doc-text", "description": "Search through documents and files", "searchableText": "search documents files" },
-      { "id": "search-projects", "name": "Projects", "type": "command", "icon": "ik:folder", "description": "Search within projects and workspaces", "searchableText": "search projects" },
-      { "id": "search-tasks", "name": "Tasks", "type": "command", "icon": "ik:checkmark-in-square", "description": "Search tasks and to-do items", "searchableText": "search tasks todos" },
-      { "id": "search-people", "name": "People", "type": "command", "icon": "ik:group", "description": "Search for team members and contacts", "searchableText": "search people users team" },
-      { "id": "search-messages", "name": "Messages", "type": "command", "icon": "ik:comment", "description": "Search conversations and messages", "searchableText": "search messages chat" }
+      {
+        "id": "search-documents",
+        "name": "Documents",
+        "type": "command",
+        "icon": "ik:doc-text",
+        "description": "Search through documents and files",
+        "searchableText": "search documents files"
+      },
+      {
+        "id": "search-projects",
+        "name": "Projects",
+        "type": "command",
+        "icon": "ik:folder",
+        "description": "Search within projects and workspaces",
+        "searchableText": "search projects"
+      },
+      {
+        "id": "search-tasks",
+        "name": "Tasks",
+        "type": "command",
+        "icon": "ik:checkmark-in-square",
+        "description": "Search tasks and to-do items",
+        "searchableText": "search tasks todos"
+      },
+      {
+        "id": "search-people",
+        "name": "People",
+        "type": "command",
+        "icon": "ik:group",
+        "description": "Search for team members and contacts",
+        "searchableText": "search people users team"
+      },
+      {
+        "id": "search-messages",
+        "name": "Messages",
+        "type": "command",
+        "icon": "ik:comment",
+        "description": "Search conversations and messages",
+        "searchableText": "search messages chat"
+      }
     ]
   },
   {
@@ -24,11 +59,46 @@
     "searchableText": "create new add make",
     "shortcut": ["⌘", "N"],
     "children": [
-      { "id": "create-material", "name": "Material", "type": "command", "icon": "ik:cardboard", "description": "Add a new material to inventory", "searchableText": "create material resource" },
-      { "id": "create-product", "name": "Product", "type": "command", "icon": "ik:cube", "description": "Create a new product in the catalog", "searchableText": "create product item" },
-      { "id": "create-waste-stream", "name": "Waste Stream", "type": "command", "icon": "ik:trash", "description": "Define a new waste stream for tracking", "searchableText": "create waste stream outflow" },
-      { "id": "create-shipment", "name": "Shipment", "type": "command", "icon": "ik:truck-delivery", "description": "Create a new shipment for logistics", "searchableText": "create shipment logistics" },
-      { "id": "create-bunny", "name": "Bunny", "type": "command", "icon": "ik:paw", "description": "Create an adorable bunny (Easter egg)", "searchableText": "create bunny easter egg" }
+      {
+        "id": "create-material",
+        "name": "Material",
+        "type": "command",
+        "icon": "ik:cardboard",
+        "description": "Add a new material to inventory",
+        "searchableText": "create material resource"
+      },
+      {
+        "id": "create-product",
+        "name": "Product",
+        "type": "command",
+        "icon": "ik:cube",
+        "description": "Create a new product in the catalog",
+        "searchableText": "create product item"
+      },
+      {
+        "id": "create-waste-stream",
+        "name": "Waste Stream",
+        "type": "command",
+        "icon": "ik:trash",
+        "description": "Define a new waste stream for tracking",
+        "searchableText": "create waste stream outflow"
+      },
+      {
+        "id": "create-shipment",
+        "name": "Shipment",
+        "type": "command",
+        "icon": "ik:truck-delivery",
+        "description": "Create a new shipment for logistics",
+        "searchableText": "create shipment logistics"
+      },
+      {
+        "id": "create-bunny",
+        "name": "Bunny",
+        "type": "command",
+        "icon": "ik:paw",
+        "description": "Create an adorable bunny (Easter egg)",
+        "searchableText": "create bunny easter egg"
+      }
     ]
   },
   {
@@ -39,11 +109,46 @@
     "description": "Modify settings and preferences",
     "searchableText": "change modify edit update settings",
     "children": [
-      { "id": "change-theme", "name": "Theme", "type": "command", "icon": "ik:palette", "description": "Switch between light and dark themes", "searchableText": "change theme appearance" },
-      { "id": "change-settings", "name": "Settings", "type": "command", "icon": "ik:gear", "description": "Modify application settings and preferences", "searchableText": "change settings preferences" },
-      { "id": "change-profile", "name": "Profile", "type": "command", "icon": "ik:user", "description": "Update your profile information", "searchableText": "change profile account" },
-      { "id": "change-workspace", "name": "Workspace", "type": "command", "icon": "ik:cityscape", "description": "Switch to a different workspace", "searchableText": "change workspace environment" },
-      { "id": "change-language", "name": "Language", "type": "command", "icon": "ik:translate", "description": "Change the interface language", "searchableText": "change language locale" }
+      {
+        "id": "change-theme",
+        "name": "Theme",
+        "type": "command",
+        "icon": "ik:palette",
+        "description": "Switch between light and dark themes",
+        "searchableText": "change theme appearance"
+      },
+      {
+        "id": "change-settings",
+        "name": "Settings",
+        "type": "command",
+        "icon": "ik:gear",
+        "description": "Modify application settings and preferences",
+        "searchableText": "change settings preferences"
+      },
+      {
+        "id": "change-profile",
+        "name": "Profile",
+        "type": "command",
+        "icon": "ik:user",
+        "description": "Update your profile information",
+        "searchableText": "change profile account"
+      },
+      {
+        "id": "change-workspace",
+        "name": "Workspace",
+        "type": "command",
+        "icon": "ik:cityscape",
+        "description": "Switch to a different workspace",
+        "searchableText": "change workspace environment"
+      },
+      {
+        "id": "change-language",
+        "name": "Language",
+        "type": "command",
+        "icon": "ik:translate",
+        "description": "Change the interface language",
+        "searchableText": "change language locale"
+      }
     ]
   }
 ]

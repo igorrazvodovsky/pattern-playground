@@ -29,22 +29,33 @@ const titleOf = (id: string) => concepts.find((c) => c.id === id)?.data.title ??
 const worldActions = worldActionsByConcept().get(entry.id) ?? new Set<string>();
 
 const patterns = (await getCollection('patterns'))
-  .flatMap((p) => actsOnOf(p.data.acts_on).filter((ref) => ref.concept === entry.id).map((ref) => ({ p, note: ref.note })))
+  .flatMap((p) =>
+    actsOnOf(p.data.acts_on)
+      .filter((ref) => ref.concept === entry.id)
+      .map((ref) => ({ p, note: ref.note })),
+  )
   .sort((a, b) => a.p.data.title.localeCompare(b.p.data.title));
 ---
+
 <ArticleShell title={data.title} dates={entry} pagefind={pagefind} pageType="concept">
   <p>{data.purpose}</p>
 
   <dl class="description-list">
     <dt>Operational principle</dt>
-    <dd><Label text={data.principle} /></dd>
+    <dd>
+      <Label text={data.principle} />
+    </dd>
 
     {data.state && data.state.length > 0 && (
       <>
         <dt>State</dt>
         <dd>
           <ul>
-            {data.state.map((relation) => <li><code>{relation}</code></li>)}
+            {data.state.map((relation) => (
+              <li>
+                <code>{relation}</code>
+              </li>
+            ))}
           </ul>
         </dd>
       </>
@@ -57,7 +68,10 @@ const patterns = (await getCollection('patterns'))
           <li>
             <code>{action}</code>
             {worldActions.has(action) && (
-              <small class="muted" title="Instantiated in the fixture world (shared/world)"> · in the world</small>
+              <small class="muted" title="Instantiated in the fixture world (shared/world)">
+                {' '}
+                · in the world
+              </small>
             )}
           </li>
         ))}
@@ -69,7 +83,11 @@ const patterns = (await getCollection('patterns'))
         <dt>Misfits</dt>
         <dd>
           <ul>
-            {data.misfits.map((misfit) => <li><Label text={misfit} /></li>)}
+            {data.misfits.map((misfit) => (
+              <li>
+                <Label text={misfit} />
+              </li>
+            ))}
           </ul>
         </dd>
       </>
@@ -87,7 +105,10 @@ const patterns = (await getCollection('patterns'))
         <dt>Depends on</dt>
         <dd>
           {data.depends_on.map((id, i) => (
-            <>{i > 0 && ', '}<a href={panePath('concept', id)}>{titleOf(id)}</a></>
+            <>
+              {i > 0 && ', '}
+              <a href={panePath('concept', id)}>{titleOf(id)}</a>
+            </>
           ))}
         </dd>
       </>
@@ -110,7 +131,12 @@ const patterns = (await getCollection('patterns'))
         {patterns.map(({ p, note }) => (
           <li>
             <a href={panePath('pattern', p.id)}>{p.data.title}</a>
-            {note && <Fragment> — <Label text={note} /></Fragment>}
+            {note && (
+              <Fragment>
+                {' '}
+                — <Label text={note} />
+              </Fragment>
+            )}
           </li>
         ))}
       </ul>

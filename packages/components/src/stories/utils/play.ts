@@ -4,7 +4,10 @@ import { expect, userEvent, waitFor, within } from 'storybook/test';
  * Focuses the named button in the story canvas and presses Enter on it.
  * Returns the button so a play function can check focus comes back to it.
  */
-export async function openWithKeyboard(canvasElement: HTMLElement, name: string): Promise<HTMLElement> {
+export async function openWithKeyboard(
+  canvasElement: HTMLElement,
+  name: string,
+): Promise<HTMLElement> {
   const trigger = within(canvasElement).getByRole('button', { name });
   trigger.focus();
   expect(trigger).toHaveFocus();
@@ -18,7 +21,9 @@ export async function openWithKeyboard(canvasElement: HTMLElement, name: string)
  * accessible name, so the role query only resolves once it is open and named.
  */
 export async function findOpenModal(title: string): Promise<HTMLDialogElement> {
-  const surface = await within(document.body).findByRole('dialog', { name: title }) as HTMLDialogElement;
+  const surface = (await within(document.body).findByRole('dialog', {
+    name: title,
+  })) as HTMLDialogElement;
   await waitFor(() => expect(surface).toHaveAttribute('open'));
   return surface;
 }

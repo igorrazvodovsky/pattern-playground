@@ -21,14 +21,7 @@ export type { DateInput } from './date.js';
 
 export { documentLocale, resolveLocale } from './locale.js';
 
-export {
-  formatDate,
-  formatDateTime,
-  formatTime,
-  isoDate,
-  isoDateTime,
-  toDate,
-} from './date.js';
+export { formatDate, formatDateTime, formatTime, isoDate, isoDateTime, toDate } from './date.js';
 
 export {
   formatCompact,

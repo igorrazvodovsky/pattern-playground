@@ -3,7 +3,12 @@ import type { iconNames } from '../catalog';
 
 type Group = {
   heading: string | null;
-  options: { value: string; label: string; narrows?: boolean | null; icon?: (typeof iconNames)[number] | null }[];
+  options: {
+    value: string;
+    label: string;
+    narrows?: boolean | null;
+    icon?: (typeof iconNames)[number] | null;
+  }[];
 };
 type Scope = { value: string | null | undefined; set: (next: string | null) => void };
 
@@ -30,7 +35,7 @@ export function useCandidateList(
     moving.current = true;
     queueMicrotask(() => (moving.current = false));
   };
-  const groups = groupsProp.filter(group => group.options.length > 0);
+  const groups = groupsProp.filter((group) => group.options.length > 0);
   const open = wanted && groups.length > 0;
 
   // cmdk's input always reports its list as open and is labelled by cmdk's
@@ -62,7 +67,7 @@ export function useCandidateList(
       value: highlighted || (refusals % 2 ? ' ' : ''),
       onValueChange: (next: string) => {
         if (moving.current) setHighlighted(next);
-        else if (next) setRefusals(count => count + 1);
+        else if (next) setRefusals((count) => count + 1);
       },
       onKeyDown: (event: KeyboardEvent) => {
         if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) move();
@@ -93,9 +98,14 @@ export function useCandidateList(
     },
     // Otherwise a press in the list blurs the field, which closes the list
     // before the press lands.
-    list: { onMouseDown: (event: MouseEvent) => event.preventDefault(), onPointerMoveCapture: move },
+    list: {
+      onMouseDown: (event: MouseEvent) => event.preventDefault(),
+      onPointerMoveCapture: move,
+    },
     pick: (picked: string) => {
-      const option = groups.flatMap(group => group.options).find(candidate => candidate.value === picked);
+      const option = groups
+        .flatMap((group) => group.options)
+        .find((candidate) => candidate.value === picked);
       if (option?.narrows && scope) {
         scope.set(picked);
         setValue('');

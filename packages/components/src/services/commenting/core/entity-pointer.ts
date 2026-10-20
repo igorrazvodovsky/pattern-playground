@@ -7,7 +7,7 @@ export class EntityPointer extends BaseCommentPointer {
 
   constructor(
     readonly entityType: string,
-    readonly entityId: string
+    readonly entityId: string,
   ) {
     super();
     this.id = `${entityType}-${entityId}`;
@@ -17,7 +17,7 @@ export class EntityPointer extends BaseCommentPointer {
     return JSON.stringify({
       type: this.type,
       entityType: this.entityType,
-      entityId: this.entityId
+      entityId: this.entityId,
     });
   }
 
@@ -27,8 +27,8 @@ export class EntityPointer extends BaseCommentPointer {
       excerpt: `${this.entityType} entity`,
       metadata: {
         entityType: this.entityType,
-        entityId: this.entityId
-      }
+        entityId: this.entityId,
+      },
     };
   }
 

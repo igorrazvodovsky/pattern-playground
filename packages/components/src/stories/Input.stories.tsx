@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 interface InputArgs {
   label: string;
@@ -9,7 +9,7 @@ interface InputArgs {
 }
 
 const meta = {
-  title: "Components/Input",
+  title: 'Components/Input',
   argTypes: {
     label: {
       control: { type: 'text' },
@@ -99,7 +99,11 @@ export const WithHelpText: Story = {
     <div className="flow">
       <label htmlFor="email-input">Email</label>
       <pp-input>
-        <input id="email-input" aria-describedby="email-help" placeholder="e.g. jane.doe@example.com" />
+        <input
+          id="email-input"
+          aria-describedby="email-help"
+          placeholder="e.g. jane.doe@example.com"
+        />
       </pp-input>
       <small id="email-help">We'll only use this to send you account notifications.</small>
     </div>

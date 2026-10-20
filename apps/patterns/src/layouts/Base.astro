@@ -24,6 +24,7 @@ interface Props {
 const { title, slug, panePath, paneKind = 'Pattern', corner = 'patterns' } = Astro.props;
 const nav = await buildNavTree();
 ---
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -33,7 +34,9 @@ const nav = await buildNavTree();
          pattern-graph.css) ahead of the main bundle, unwrapped from "lib",
          which would fix "components" before "lib" and invert precedence.
          is:inline keeps this tag first. Must match the statement in lib.css. -->
-    <style is:inline>@layer lib, shadcn, reset, theme, global, layout, components, utilities, states;</style>
+    <style is:inline>
+      @layer lib, shadcn, reset, theme, global, layout, components, utilities, states;
+    </style>
     <meta name="color-scheme" content="light dark" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} — Pattern Playground</title>
@@ -42,14 +45,26 @@ const nav = await buildNavTree();
     <link rel="stylesheet" href="/pagefind/pagefind-component-ui.css" />
     <script src="/pagefind/pagefind-component-ui.js" type="module" is:inline></script>
     <style is:global>
-      html, body { height: 100%; margin: 0; }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
     </style>
   </head>
   <body>
     <div class="shell" data-slot="shell">
       {/* One persist key per corner: the island survives swaps within a corner
           and is replaced when the actor crosses into the other. */}
-      <Nav client:load transition:persist={`app-nav-${corner}`} corner={corner} shared={nav.shared} patterns={nav.patterns} sequences={nav.sequences} concepts={nav.concepts} />
+      <Nav
+        client:load
+        transition:persist={`app-nav-${corner}`}
+        corner={corner}
+        shared={nav.shared}
+        patterns={nav.patterns}
+        sequences={nav.sequences}
+        concepts={nav.concepts}
+      />
       <main class="shell__main" data-slot="shell-main">
         {slug ? (
           <div class="stack" style="--pane-n: 1">

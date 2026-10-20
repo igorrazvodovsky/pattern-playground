@@ -1,7 +1,16 @@
 import {
-  userViews, projectViews, rawTaskViews, documentViews, commentViews, quoteViews,
-  materialViews, componentViews, productViews, serviceViews,
-  transactionViews, lifecycleEventViews,
+  userViews,
+  projectViews,
+  rawTaskViews,
+  documentViews,
+  commentViews,
+  quoteViews,
+  materialViews,
+  componentViews,
+  productViews,
+  serviceViews,
+  transactionViews,
+  lifecycleEventViews,
 } from './world-views';
 import referenceContentData from './reference-content.json' with { type: 'json' };
 import commandsData from './commands.json' with { type: 'json' };
@@ -46,7 +55,7 @@ export const tasks = transformTasksData(
   projects,
   filterStatusesData,
   filterPrioritiesData,
-  filterLabelsData
+  filterLabelsData,
 );
 
 // Create finder utilities using generic functions
@@ -56,11 +65,11 @@ export const getDocumentById = createFinder(documents);
 export const getReferenceContentById = createFinder(referenceContent);
 
 export const getDocumentContentText = (documentId: string, sectionId?: string) => {
-  const doc = documents.find(doc => doc.id === documentId);
+  const doc = documents.find((doc) => doc.id === documentId);
   if (!doc) return '';
 
   if (sectionId) {
-    const section = doc.sections?.find(section => section.id === sectionId);
+    const section = doc.sections?.find((section) => section.id === sectionId);
     return section?.text || '';
   }
 
@@ -68,11 +77,11 @@ export const getDocumentContentText = (documentId: string, sectionId?: string) =
 };
 
 export const getDocumentContentRich = (documentId: string, sectionId?: string) => {
-  const doc = documents.find(doc => doc.id === documentId);
+  const doc = documents.find((doc) => doc.id === documentId);
   if (!doc) return null;
 
   if (sectionId) {
-    const section = doc.sections?.find(section => section.id === sectionId);
+    const section = doc.sections?.find((section) => section.id === sectionId);
     if (section) {
       // For sections, we need to extract the relevant rich content portion
       // For now, return the full document rich content - this could be enhanced
@@ -108,12 +117,12 @@ export type { ActionDescription, ActionProvenance } from './actions';
 export type { ActionRecord, Fact, ParticipantValue, Rule } from './action-types';
 
 // Type exports for better type safety
-export type User = typeof users[0];
-export type Project = typeof projects[0];
-export type Document = typeof documents[0];
-export type Command = typeof commands[0];
-export type RecentItem = typeof recentItems[0];
-export type ReuseListing = typeof reuseListings[0];
+export type User = (typeof users)[0];
+export type Project = (typeof projects)[0];
+export type Document = (typeof documents)[0];
+export type Command = (typeof commands)[0];
+export type RecentItem = (typeof recentItems)[0];
+export type ReuseListing = (typeof reuseListings)[0];
 // Import unified Task types
 export type {
   Task,
@@ -121,7 +130,7 @@ export type {
   TaskStatus,
   TaskPriority,
   TaskLabel,
-  CreateTaskInput
+  CreateTaskInput,
 } from './task-types';
 
 // Attribute bindings: entity types described declaratively for item views
@@ -158,11 +167,11 @@ export type {
   TransformedTask,
   TaskStatus as TaskStatusTransformed,
   TaskPriority as TaskPriorityTransformed,
-  TaskLabel as TaskLabelTransformed
+  TaskLabel as TaskLabelTransformed,
 } from './transformations/tasks';
-export type Transaction = typeof transactions[0];
-export type Comment = typeof comments[0];
-export type Quote = typeof quotes[0];
+export type Transaction = (typeof transactions)[0];
+export type Comment = (typeof comments)[0];
+export type Quote = (typeof quotes)[0];
 
 // Content structure types
 export interface RichContent {
@@ -174,8 +183,12 @@ export interface RichContent {
 }
 
 // Circular economy types
-export type { MaterialView as Material, ComponentView as Component,
-  ProductView as Product, ServiceView as Service } from './world-views';
+export type {
+  MaterialView as Material,
+  ComponentView as Component,
+  ProductView as Product,
+  ServiceView as Service,
+} from './world-views';
 
 // Circular economy utility functions
 export const getProductById = createFinder(products);
@@ -192,25 +205,81 @@ interface ReferenceableItem {
 }
 
 const referenceSources = [
-  { type: 'user', id: 'users', name: 'Users', icon: 'ik:group', childIcon: 'ik:user',
-    searchableText: 'users people team members', list: users },
-  { type: 'document', id: 'documents', name: 'Documents', icon: 'ik:doc-text', childIcon: 'ik:doc-text',
-    searchableText: 'documents files content', list: documents },
-  { type: 'project', id: 'projects', name: 'Projects', icon: 'ik:folder', childIcon: 'ik:folder',
-    searchableText: 'projects workspaces', list: projects },
-  { type: 'quote', id: 'quotes', name: 'Quotes', icon: 'ik:quotation-marks',
-    searchableText: 'quotes selections excerpts text', list: quotes },
-  { type: 'material', id: 'materials', name: 'Materials', icon: 'ik:cube',
-    searchableText: 'materials substances raw supplies circular economy', list: materials },
-  { type: 'component', id: 'components', name: 'Components', icon: 'ik:gear',
-    searchableText: 'components parts assemblies hardware pieces', list: components },
-  { type: 'product', id: 'products', name: 'Products', icon: 'ik:cardboard',
-    searchableText: 'products items goods merchandise finished', list: products },
-  { type: 'service', id: 'services', name: 'Services', icon: 'ik:wrench',
-    searchableText: 'services maintenance repair support circular', list: services },
+  {
+    type: 'user',
+    id: 'users',
+    name: 'Users',
+    icon: 'ik:group',
+    childIcon: 'ik:user',
+    searchableText: 'users people team members',
+    list: users,
+  },
+  {
+    type: 'document',
+    id: 'documents',
+    name: 'Documents',
+    icon: 'ik:doc-text',
+    childIcon: 'ik:doc-text',
+    searchableText: 'documents files content',
+    list: documents,
+  },
+  {
+    type: 'project',
+    id: 'projects',
+    name: 'Projects',
+    icon: 'ik:folder',
+    childIcon: 'ik:folder',
+    searchableText: 'projects workspaces',
+    list: projects,
+  },
+  {
+    type: 'quote',
+    id: 'quotes',
+    name: 'Quotes',
+    icon: 'ik:quotation-marks',
+    searchableText: 'quotes selections excerpts text',
+    list: quotes,
+  },
+  {
+    type: 'material',
+    id: 'materials',
+    name: 'Materials',
+    icon: 'ik:cube',
+    searchableText: 'materials substances raw supplies circular economy',
+    list: materials,
+  },
+  {
+    type: 'component',
+    id: 'components',
+    name: 'Components',
+    icon: 'ik:gear',
+    searchableText: 'components parts assemblies hardware pieces',
+    list: components,
+  },
+  {
+    type: 'product',
+    id: 'products',
+    name: 'Products',
+    icon: 'ik:cardboard',
+    searchableText: 'products items goods merchandise finished',
+    list: products,
+  },
+  {
+    type: 'service',
+    id: 'services',
+    name: 'Services',
+    icon: 'ik:wrench',
+    searchableText: 'services maintenance repair support circular',
+    list: services,
+  },
 ] as const satisfies ReadonlyArray<{
-  type: string; id: string; name: string; icon: string; childIcon?: string;
-  searchableText: string; list: ReadonlyArray<ReferenceableItem>;
+  type: string;
+  id: string;
+  name: string;
+  icon: string;
+  childIcon?: string;
+  searchableText: string;
+  list: ReadonlyArray<ReferenceableItem>;
 }>;
 
 type ReferenceSource = (typeof referenceSources)[number];
@@ -230,7 +299,7 @@ const toReferenceCategory = (source: ReferenceSource) => ({
   name: source.name,
   icon: source.icon,
   searchableText: source.searchableText,
-  children: source.list.map(item => toReferenceItem(source, item)),
+  children: source.list.map((item) => toReferenceItem(source, item)),
 });
 
 // Reference data using unified SearchableParent format (same as commands)
@@ -241,8 +310,8 @@ export const basicReferenceCategories = [toReferenceCategory(referenceSources[0]
 
 // The menu item for one referenced entity, looked up by reference type.
 export const resolveReferenceData = (id: string, type: string) => {
-  const source = referenceSources.find(s => s.type === type);
-  const item = source?.list.find(i => i.id === id);
+  const source = referenceSources.find((s) => s.type === type);
+  const item = source?.list.find((i) => i.id === id);
   return source && item ? toReferenceItem(source, item) : null;
 };
 
@@ -251,7 +320,7 @@ export const resolveReferenceData = (id: string, type: string) => {
 // the date lists share one JSON across three categories, so the JSON itself
 // cannot know which filter type it belongs to.
 const withFilterType = <T extends object>(children: T[], filterType: string) =>
-  children.map(child => ({ ...child, filterType }));
+  children.map((child) => ({ ...child, filterType }));
 
 export const filterCategories = [
   {
@@ -259,21 +328,21 @@ export const filterCategories = [
     name: 'Status',
     icon: 'ik:flag',
     searchableText: 'status state condition',
-    children: withFilterType(filterStatusesData, 'Status')
+    children: withFilterType(filterStatusesData, 'Status'),
   },
   {
     id: 'Priority',
     name: 'Priority',
     icon: 'ik:signal-3',
     searchableText: 'priority importance urgency',
-    children: withFilterType(filterPrioritiesData, 'Priority')
+    children: withFilterType(filterPrioritiesData, 'Priority'),
   },
   {
     id: 'Labels',
     name: 'Labels',
     icon: 'ik:tag',
     searchableText: 'labels tags categories',
-    children: withFilterType(filterLabelsData, 'Labels')
+    children: withFilterType(filterLabelsData, 'Labels'),
   },
   {
     id: 'Assignee',
@@ -281,14 +350,14 @@ export const filterCategories = [
     icon: 'ik:user',
     searchableText: 'assignee assigned person owner',
     children: [
-      ...users.map(user => ({
+      ...users.map((user) => ({
         id: `assignee-${user.id}`,
         name: user.name,
         icon: 'ik:user',
         searchableText: user.name.toLowerCase(),
         filterType: 'Assignee',
         value: user.name,
-        metadata: user.metadata
+        metadata: user.metadata,
       })),
       {
         id: 'assignee-none',
@@ -296,29 +365,29 @@ export const filterCategories = [
         icon: 'ik:remove-user',
         searchableText: 'no assignee unassigned',
         filterType: 'Assignee',
-        value: 'No assignee'
-      }
-    ]
+        value: 'No assignee',
+      },
+    ],
   },
   {
     id: 'Due date',
     name: 'Due date',
     icon: 'ik:calendar',
     searchableText: 'due date deadline schedule',
-    children: withFilterType(filterDatesData, 'Due date')
+    children: withFilterType(filterDatesData, 'Due date'),
   },
   {
     id: 'Created date',
     name: 'Created date',
     icon: 'ik:calendar-add',
     searchableText: 'created date when made',
-    children: withFilterType(filterDatesData, 'Created date')
+    children: withFilterType(filterDatesData, 'Created date'),
   },
   {
     id: 'Updated date',
     name: 'Updated date',
     icon: 'ik:calendar-available',
     searchableText: 'updated date last modified',
-    children: withFilterType(filterDatesData, 'Updated date')
+    children: withFilterType(filterDatesData, 'Updated date'),
   },
 ];

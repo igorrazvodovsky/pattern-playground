@@ -35,9 +35,9 @@ const ANNOTATION_MARKS = new Set(['comment', 'quote']);
 type JSONNode = { marks?: Array<{ type: string }>; content?: JSONNode[] } & Record<string, unknown>;
 
 function stripAnnotationMarks<T extends JSONNode>(nodes: T[]): T[] {
-  return nodes.map(node => {
+  return nodes.map((node) => {
     const { marks, content, ...rest } = node;
-    const kept = marks?.filter(mark => !ANNOTATION_MARKS.has(mark.type));
+    const kept = marks?.filter((mark) => !ANNOTATION_MARKS.has(mark.type));
     return {
       ...rest,
       ...(kept && kept.length > 0 ? { marks: kept } : {}),
@@ -54,7 +54,7 @@ export class QuoteService {
 
   constructor() {
     // Initialize with existing quote data
-    this.quotes = new Map(quotes.map(quote => [quote.id, quote as QuoteObject]));
+    this.quotes = new Map(quotes.map((quote) => [quote.id, quote as QuoteObject]));
   }
 
   /**
@@ -65,7 +65,7 @@ export class QuoteService {
     slice: Slice,
     sourceRange: { from: number; to: number },
     userId: string,
-    documentId: string
+    documentId: string,
   ): QuoteObject {
     if (slice.content.size === 0) {
       throw new Error('Cannot create quote from an empty passage');
@@ -84,15 +84,15 @@ export class QuoteService {
         sourceRange,
         createdAt: new Date().toISOString(),
         createdBy: userId,
-        selectedText
+        selectedText,
       },
       content: {
         plainText: selectedText,
         richContent: {
           type: 'doc',
-          content: stripAnnotationMarks(slice.toJSON()?.content ?? [])
-        }
-      }
+          content: stripAnnotationMarks(slice.toJSON()?.content ?? []),
+        },
+      },
     };
 
     // Add to internal collection
@@ -127,7 +127,7 @@ export class QuoteService {
    * Get quote by ID
    */
   getQuoteById(id: string): QuoteObject | undefined {
-    return this.quotes.get(id) || getQuoteById(id) as QuoteObject;
+    return this.quotes.get(id) || (getQuoteById(id) as QuoteObject);
   }
 
   /**
@@ -157,4 +157,3 @@ export function getQuoteService(): QuoteService {
   }
   return quoteServiceInstance;
 }
-

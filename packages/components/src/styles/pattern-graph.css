@@ -12,61 +12,71 @@
 
   /* Edge types — only on the active edge, so the resting view stays quiet */
 
-  pp-network-graph .network-graph__edge--active[data-edge-type="complements"] {
+  pp-network-graph .network-graph__edge--active[data-edge-type='complements'] {
     stroke-dasharray: 4 2;
   }
 
-  pp-network-graph .network-graph__edge--active[data-edge-type="tangential"] {
+  pp-network-graph .network-graph__edge--active[data-edge-type='tangential'] {
     stroke-dasharray: 2 3;
   }
 
-  pp-network-graph .network-graph__edge--active[data-edge-type="alternative"] {
+  pp-network-graph .network-graph__edge--active[data-edge-type='alternative'] {
     stroke-dasharray: 6 2 1 2;
   }
 
-  pp-network-graph .network-graph__edge--active[data-edge-type="enables"],
-  pp-network-graph .network-graph__edge--active[data-edge-type="instantiates"] {
+  pp-network-graph .network-graph__edge--active[data-edge-type='enables'],
+  pp-network-graph .network-graph__edge--active[data-edge-type='instantiates'] {
     stroke-dasharray: 8 3;
   }
 
-  pp-network-graph .network-graph__edge--active[data-edge-type="enacts"] {
+  pp-network-graph .network-graph__edge--active[data-edge-type='enacts'] {
     stroke-dasharray: 1 2;
   }
 
   /* Activity theory levels — the scheme the page currently reads by */
 
-  pp-network-graph[data-color-mode="at-level"] [data-at-level="operation"] .network-graph__circle {
+  pp-network-graph[data-color-mode='at-level'] [data-at-level='operation'] .network-graph__circle {
     fill: oklch(55% 0.13 155deg);
   }
 
-  pp-network-graph[data-color-mode="at-level"] [data-at-level="action"] .network-graph__circle {
+  pp-network-graph[data-color-mode='at-level'] [data-at-level='action'] .network-graph__circle {
     fill: oklch(58% 0.123 235deg);
   }
 
-  pp-network-graph[data-color-mode="at-level"] [data-at-level="activity"] .network-graph__circle {
+  pp-network-graph[data-color-mode='at-level'] [data-at-level='activity'] .network-graph__circle {
     fill: oklch(62% 0.15 55deg);
   }
 
-  pp-network-graph[data-color-mode="at-level"] [data-at-level="cross-cutting"] .network-graph__circle {
-    fill: oklch(55% 0.10 300deg);
+  pp-network-graph[data-color-mode='at-level']
+    [data-at-level='cross-cutting']
+    .network-graph__circle {
+    fill: oklch(55% 0.1 300deg);
   }
 
   /* Mediation — the same graph read a second way. Switching `data-color-mode`
      on the element is the whole of it; there is no control for it on the page. */
 
-  pp-network-graph[data-color-mode="mediation"] [data-mediation="individual"] .network-graph__circle {
-    fill: oklch(55% 0.10 240deg);
+  pp-network-graph[data-color-mode='mediation']
+    [data-mediation='individual']
+    .network-graph__circle {
+    fill: oklch(55% 0.1 240deg);
   }
 
-  pp-network-graph[data-color-mode="mediation"] [data-mediation="coordination"] .network-graph__circle {
+  pp-network-graph[data-color-mode='mediation']
+    [data-mediation='coordination']
+    .network-graph__circle {
     fill: oklch(62% 0.139 65deg);
   }
 
-  pp-network-graph[data-color-mode="mediation"] [data-mediation="networking"] .network-graph__circle {
+  pp-network-graph[data-color-mode='mediation']
+    [data-mediation='networking']
+    .network-graph__circle {
     fill: oklch(58% 0.105 180deg);
   }
 
-  pp-network-graph[data-color-mode="mediation"] .network-graph__node:not([data-mediation]) .network-graph__circle {
+  pp-network-graph[data-color-mode='mediation']
+    .network-graph__node:not([data-mediation])
+    .network-graph__circle {
     fill: oklch(55% 0.05 300deg);
   }
 

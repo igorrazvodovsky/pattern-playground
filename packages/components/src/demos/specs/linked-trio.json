@@ -8,7 +8,12 @@
     },
     "map-above": {
       "type": "Map",
-      "props": { "label": "Map", "locations": { "$state": "/locations" }, "selected": { "$bindState": "/selected" }, "focused": { "$bindState": "/focused" } },
+      "props": {
+        "label": "Map",
+        "locations": { "$state": "/locations" },
+        "selected": { "$bindState": "/selected" },
+        "focused": { "$bindState": "/focused" }
+      },
       "visible": { "$state": "/room", "not": true }
     },
     "list": {
@@ -19,9 +24,52 @@
     },
     "item": {
       "type": "Item",
-      "props": { "title": { "$item": "name" }, "opens": true, "selected": { "$cond": { "$item": "id", "eq": { "$state": "/selected" } }, "$then": true, "$else": false }, "focused": { "$cond": { "$item": "id", "eq": { "$state": "/focused" } }, "$then": true, "$else": false }, "expanded": { "$cond": { "$state": "/room" }, "$then": null, "$else": { "$cond": { "$item": "id", "eq": { "$state": "/selected" } }, "$then": true, "$else": false } } },
+      "props": {
+        "title": { "$item": "name" },
+        "opens": true,
+        "selected": {
+          "$cond": { "$item": "id", "eq": { "$state": "/selected" } },
+          "$then": true,
+          "$else": false
+        },
+        "focused": {
+          "$cond": { "$item": "id", "eq": { "$state": "/focused" } },
+          "$then": true,
+          "$else": false
+        },
+        "expanded": {
+          "$cond": { "$state": "/room" },
+          "$then": null,
+          "$else": {
+            "$cond": { "$item": "id", "eq": { "$state": "/selected" } },
+            "$then": true,
+            "$else": false
+          }
+        }
+      },
       "slots": { "attributes": ["item-attributes"], "detail": ["in-place"] },
-      "on": { "open": [{ "action": "setState", "params": { "statePath": "/selected", "value": { "$cond": { "$item": "id", "eq": { "$state": "/selected" } }, "$then": null, "$else": { "$item": "id" } } } }], "focus": [{ "action": "setState", "params": { "statePath": "/focused", "value": { "$value": { "$item": "id" } } } }], "blur": [{ "action": "setState", "params": { "statePath": "/focused", "value": null } }] }
+      "on": {
+        "open": [
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/selected",
+              "value": {
+                "$cond": { "$item": "id", "eq": { "$state": "/selected" } },
+                "$then": null,
+                "$else": { "$item": "id" }
+              }
+            }
+          }
+        ],
+        "focus": [
+          {
+            "action": "setState",
+            "params": { "statePath": "/focused", "value": { "$value": { "$item": "id" } } }
+          }
+        ],
+        "blur": [{ "action": "setState", "params": { "statePath": "/focused", "value": null } }]
+      }
     },
     "item-attributes": {
       "type": "Stack",
@@ -36,7 +84,13 @@
     "in-place": {
       "type": "Stack",
       "props": { "gap": "m" },
-      "children": ["in-place-badges", "in-place-price", "in-place-description", "in-place-attributes", "in-place-listed"]
+      "children": [
+        "in-place-badges",
+        "in-place-price",
+        "in-place-description",
+        "in-place-attributes",
+        "in-place-listed"
+      ]
     },
     "in-place-badges": {
       "type": "Stack",
@@ -71,11 +125,21 @@
     "hint": {
       "type": "Text",
       "props": { "text": "Pick an item in either view to see its detail.", "muted": true },
-      "visible": { "$and": [{ "$state": "/room", "not": true }, { "$state": "/selected", "not": true }] }
+      "visible": {
+        "$and": [
+          { "$state": "/room", "not": true },
+          { "$state": "/selected", "not": true }
+        ]
+      }
     },
     "map-beside": {
       "type": "Map",
-      "props": { "label": "Map", "locations": { "$state": "/locations" }, "selected": { "$bindState": "/selected" }, "focused": { "$bindState": "/focused" } },
+      "props": {
+        "label": "Map",
+        "locations": { "$state": "/locations" },
+        "selected": { "$bindState": "/selected" },
+        "focused": { "$bindState": "/focused" }
+      },
       "visible": { "$state": "/room" }
     },
     "pane": {
@@ -104,7 +168,13 @@
     "detail-body": {
       "type": "Stack",
       "props": { "gap": "m" },
-      "children": ["detail-badges", "detail-price", "detail-description", "detail-attributes", "detail-listed"]
+      "children": [
+        "detail-badges",
+        "detail-price",
+        "detail-description",
+        "detail-attributes",
+        "detail-listed"
+      ]
     },
     "detail-badges": {
       "type": "Stack",

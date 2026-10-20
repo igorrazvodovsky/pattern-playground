@@ -1,14 +1,14 @@
-import { useRef, useState, useEffect } from "react";
-import { motion } from "motion/react";
+import { useRef, useState, useEffect } from 'react';
+import { motion } from 'motion/react';
 
 interface AnimateChangeInHeightProps {
   children: React.ReactNode;
   className?: string;
 }
 
-export const AnimateChangeInHeight: React.FC<AnimateChangeInHeightProps> = ({children,}) => {
+export const AnimateChangeInHeight: React.FC<AnimateChangeInHeightProps> = ({ children }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [height, setHeight] = useState<number | "auto">("auto");
+  const [height, setHeight] = useState<number | 'auto'>('auto');
 
   useEffect(() => {
     if (containerRef.current) {
@@ -27,10 +27,10 @@ export const AnimateChangeInHeight: React.FC<AnimateChangeInHeightProps> = ({chi
 
   return (
     <motion.div
-      className={"overflow-hidden"}
+      className={'overflow-hidden'}
       style={{ height }}
       animate={{ height }}
-      transition={{ duration: 0.1, damping: 0.2, ease: "easeIn" }}
+      transition={{ duration: 0.1, damping: 0.2, ease: 'easeIn' }}
     >
       <div ref={containerRef}>{children}</div>
     </motion.div>

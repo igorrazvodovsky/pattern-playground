@@ -21,7 +21,7 @@ const FormattingToolbar: React.FC<FormattingToolbarProps> = ({ editor }) => {
       >
         <strong>B</strong>
       </button>
-      
+
       <button
         onClick={() => editor.chain().focus().toggleItalic().run()}
         disabled={!editor.can().chain().focus().toggleItalic().run()}
@@ -31,7 +31,7 @@ const FormattingToolbar: React.FC<FormattingToolbarProps> = ({ editor }) => {
       >
         <em>I</em>
       </button>
-      
+
       <button
         onClick={() => editor.chain().focus().toggleStrike().run()}
         disabled={!editor.can().chain().focus().toggleStrike().run()}
@@ -42,7 +42,9 @@ const FormattingToolbar: React.FC<FormattingToolbarProps> = ({ editor }) => {
         <s>S</s>
       </button>
 
-      <span className="divider" aria-hidden="true">|</span>
+      <span className="divider" aria-hidden="true">
+        |
+      </span>
 
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
@@ -52,7 +54,7 @@ const FormattingToolbar: React.FC<FormattingToolbarProps> = ({ editor }) => {
       >
         H1
       </button>
-      
+
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
         className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
@@ -61,7 +63,7 @@ const FormattingToolbar: React.FC<FormattingToolbarProps> = ({ editor }) => {
       >
         H2
       </button>
-      
+
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
         className={editor.isActive('heading', { level: 3 }) ? 'is-active' : ''}
@@ -71,7 +73,9 @@ const FormattingToolbar: React.FC<FormattingToolbarProps> = ({ editor }) => {
         H3
       </button>
 
-      <span className="divider" aria-hidden="true">|</span>
+      <span className="divider" aria-hidden="true">
+        |
+      </span>
 
       <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -81,7 +85,7 @@ const FormattingToolbar: React.FC<FormattingToolbarProps> = ({ editor }) => {
       >
         •
       </button>
-      
+
       <button
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         className={editor.isActive('orderedList') ? 'is-active' : ''}
@@ -91,7 +95,9 @@ const FormattingToolbar: React.FC<FormattingToolbarProps> = ({ editor }) => {
         1.
       </button>
 
-      <span className="divider" aria-hidden="true">|</span>
+      <span className="divider" aria-hidden="true">
+        |
+      </span>
 
       <button
         onClick={() => editor.chain().focus().toggleBlockquote().run()}

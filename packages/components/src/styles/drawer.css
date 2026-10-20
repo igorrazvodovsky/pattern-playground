@@ -128,11 +128,15 @@
     }
 
     dialog.drawer--left {
-      box-shadow: var(--shadow-xl), 2px 0 8px oklch(0% 0 0deg / 10%);
+      box-shadow:
+        var(--shadow-xl),
+        2px 0 8px oklch(0% 0 0deg / 10%);
     }
 
     dialog.drawer--right {
-      box-shadow: var(--shadow-xl), -2px 0 8px oklch(0% 0 0deg / 10%);
+      box-shadow:
+        var(--shadow-xl),
+        -2px 0 8px oklch(0% 0 0deg / 10%);
     }
   }
 }

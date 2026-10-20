@@ -1,4 +1,3 @@
-
 pp-range {
   --range-fill: var(--c-accent-600);
   --range-track-color: var(--c-border);
@@ -14,16 +13,16 @@ pp-range {
   font-size: var(--text-s);
   vertical-align: middle;
 
-  > [data-slot="prefix"] {
+  > [data-slot='prefix'] {
     order: -1;
   }
 
-  > [data-slot="suffix"] {
+  > [data-slot='suffix'] {
     order: 1;
   }
 
-  > [data-slot="prefix"],
-  > [data-slot="suffix"] {
+  > [data-slot='prefix'],
+  > [data-slot='suffix'] {
     display: inline-flex;
     flex: 0 0 auto;
     align-items: center;
@@ -90,7 +89,9 @@ pp-range {
     border-radius: var(--radius-circle);
     background: var(--range-fill);
     cursor: grab;
-    transition: var(--transition-fast) transform, var(--transition-fast) box-shadow;
+    transition:
+      var(--transition-fast) transform,
+      var(--transition-fast) box-shadow;
   }
 
   .range__control:active::-webkit-slider-thumb {
@@ -106,7 +107,9 @@ pp-range {
     border-radius: var(--radius-circle);
     background: var(--range-fill);
     cursor: grab;
-    transition: var(--transition-fast) transform, var(--transition-fast) box-shadow;
+    transition:
+      var(--transition-fast) transform,
+      var(--transition-fast) box-shadow;
   }
 
   .range__control:active::-moz-range-thumb {
@@ -181,14 +184,14 @@ pp-range {
   }
 
   /* Sizes */
-  &[size="small"] {
+  &[size='small'] {
     --range-track-height: calc(var(--space-xs) * 0.75);
     --range-thumb-size: 0.75rem;
 
     font-size: var(--text-xs);
   }
 
-  &[size="large"] {
+  &[size='large'] {
     --range-track-height: calc(var(--space-xs) * 1.5);
     --range-thumb-size: 1.25rem;
 

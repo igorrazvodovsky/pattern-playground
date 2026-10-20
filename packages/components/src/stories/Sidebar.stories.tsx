@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { faker } from '@faker-js/faker';
-import { navItems as NAV_ITEMS, teamItems as TEAM_ITEMS } from '@shared/data/nav-items.json' with { type: 'json' };
+import {
+  navItems as NAV_ITEMS,
+  teamItems as TEAM_ITEMS,
+} from '@shared/data/nav-items.json' with { type: 'json' };
 import {
   SidebarProvider,
   Sidebar,
@@ -50,15 +53,10 @@ export function DemoSidebar({ collapsible, variant, side }: SidebarArgs) {
             <SidebarMenu>
               {NAV_ITEMS.map((item) => (
                 <SidebarMenuItem key={item.label}>
-                  <SidebarMenuButton
-                    isActive={item.isActive}
-                    tooltip={item.label}
-                  >
+                  <SidebarMenuButton isActive={item.isActive} tooltip={item.label}>
                     <iconify-icon className="icon" icon={item.icon} />
                     <span>{item.label}</span>
-                    {item.badge !== undefined && (
-                      <SidebarMenuBadge>{item.badge}</SidebarMenuBadge>
-                    )}
+                    {item.badge !== undefined && <SidebarMenuBadge>{item.badge}</SidebarMenuBadge>}
                   </SidebarMenuButton>
                   {item.isActive && (
                     <SidebarMenuAction showOnHover aria-label="More options">
@@ -158,7 +156,7 @@ export function DemoMain({ title, children, triggerAtEnd = false }: DemoMainProp
 }
 
 const meta = {
-  title: "Components/Sidebar",
+  title: 'Components/Sidebar',
   tags: [
     'activity-level:operation',
     'atomic:composition',
@@ -222,8 +220,8 @@ export const IconCollapsible: Story = {
       <DemoSidebar {...args} />
       <DemoMain title="Icon collapsible">
         <p className="story-shell-note">
-          Collapse the sidebar with the trigger or Cmd/Ctrl+/. Once collapsed to
-          icons, hovering a menu item shows its label as a tooltip.
+          Collapse the sidebar with the trigger or Cmd/Ctrl+/. Once collapsed to icons, hovering a
+          menu item shows its label as a tooltip.
         </p>
       </DemoMain>
     </>
@@ -247,9 +245,8 @@ export const Inset: Story = {
       <DemoSidebar {...args} />
       <DemoMain title="Inset variant">
         <p className="story-shell-note">
-          The inset variant is the one case where the rail reaches into the
-          frame: it rounds and insets the main column to match its own floating
-          edge.
+          The inset variant is the one case where the rail reaches into the frame: it rounds and
+          insets the main column to match its own floating edge.
         </p>
       </DemoMain>
     </>
@@ -275,7 +272,9 @@ export const Controlled: Story = {
     return (
       <div>
         <div className="story-shell-controls">
-          <span>Controlled: open = <i>{String(open)}</i></span>
+          <span>
+            Controlled: open = <i>{String(open)}</i>
+          </span>
           <button className="button button--plain" onClick={() => setOpen((v) => !v)}>
             Toggle from outside
           </button>
@@ -298,8 +297,8 @@ export const Mobile: Story = {
       <DemoSidebar {...args} />
       <DemoMain title="Mobile">
         <p className="story-shell-note">
-          On narrow viewports the sidebar leaves the frame entirely and renders
-          as a Dialog sheet over it — the shell reverts to a single column.
+          On narrow viewports the sidebar leaves the frame entirely and renders as a Dialog sheet
+          over it — the shell reverts to a single column.
         </p>
       </DemoMain>
     </>

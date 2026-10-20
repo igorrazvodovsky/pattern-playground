@@ -11,12 +11,7 @@ import { ItemInteraction } from '../item-view';
 import type { BoundEntity } from '../item-view';
 import type { ReferenceCategory, SelectedReference, ReferenceType } from './types';
 import { getQuoteService } from '../../services/commenting/quote-service';
-import {
-  resolveReferenceData,
-  getProductById,
-  getProjectById,
-  getUserById,
-} from '@shared/data';
+import { resolveReferenceData, getProductById, getProjectById, getUserById } from '@shared/data';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -27,7 +22,7 @@ declare module '@tiptap/core' {
       convertSelectionToQuoteReference: (quoteData: {
         id: string;
         label: string;
-        metadata?: Record<string, unknown>
+        metadata?: Record<string, unknown>;
       }) => ReturnType;
 
       /**
@@ -37,16 +32,19 @@ declare module '@tiptap/core' {
         id: string;
         label: string;
         type: string;
-        metadata?: Record<string, unknown>
+        metadata?: Record<string, unknown>;
       }) => ReturnType;
     };
   }
 }
 
-const privateComponentData = new WeakMap<HTMLDivElement, {
-  abortController: AbortController;
-  virtualElement: VirtualElement | null;
-}>();
+const privateComponentData = new WeakMap<
+  HTMLDivElement,
+  {
+    abortController: AbortController;
+    virtualElement: VirtualElement | null;
+  }
+>();
 
 interface ReferencePickerPopupProps {
   data: ReferenceCategory[];
@@ -66,14 +64,16 @@ const ReferencePickerPopup: React.FC<ReferencePickerPopupProps> = ({
   query,
   onSelect,
   onClose,
-  placement = 'bottom-start'
+  placement = 'bottom-start',
 }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   const isSingleCategory = data.length === 1;
-  const [mode, setMode] = useState<'global' | 'contextual'>(isSingleCategory ? 'contextual' : 'global');
+  const [mode, setMode] = useState<'global' | 'contextual'>(
+    isSingleCategory ? 'contextual' : 'global',
+  );
   const [selectedCategory, setSelectedCategory] = useState<ReferenceCategory | null>(
-    isSingleCategory ? data.at(0) ?? null : null
+    isSingleCategory ? (data.at(0) ?? null) : null,
   );
 
   const floatingRef = useRef<HTMLDivElement>(null);
@@ -111,16 +111,12 @@ const ReferencePickerPopup: React.FC<ReferencePickerPopupProps> = ({
     if (floatingRef.current) {
       privateComponentData.set(floatingRef.current, {
         abortController,
-        virtualElement: anchor
+        virtualElement: anchor,
       });
     }
 
     updatePosition();
-    const cleanup = autoUpdate(
-      anchor,
-      floatingRef.current,
-      updatePosition
-    );
+    const cleanup = autoUpdate(anchor, floatingRef.current, updatePosition);
 
     return () => {
       cleanup();
@@ -175,7 +171,7 @@ const ReferencePickerPopup: React.FC<ReferencePickerPopupProps> = ({
         onBack={handleBack}
       />
     </div>,
-    document.body
+    document.body,
   );
 };
 
@@ -202,31 +198,35 @@ export const Reference = Mention.extend({
       ...(this as any).parent?.(),
 
       // Convert selected text to quote reference
-      convertSelectionToQuoteReference: (quoteData: { id: string; label: string; metadata?: Record<string, unknown> }) => ({ commands, state }: any) => {
-        const { from, to } = state.selection;
-        if (from === to) return false;
+      convertSelectionToQuoteReference:
+        (quoteData: { id: string; label: string; metadata?: Record<string, unknown> }) =>
+        ({ commands, state }: any) => {
+          const { from, to } = state.selection;
+          if (from === to) return false;
 
-        return commands.insertContentAt(
-          { from, to },
-          {
-            type: 'reference',
-            attrs: {
-              id: quoteData.id,
-              label: quoteData.label,
-              type: 'quote',
-              metadata: quoteData.metadata
-            }
-          }
-        );
-      },
+          return commands.insertContentAt(
+            { from, to },
+            {
+              type: 'reference',
+              attrs: {
+                id: quoteData.id,
+                label: quoteData.label,
+                type: 'quote',
+                metadata: quoteData.metadata,
+              },
+            },
+          );
+        },
 
       // Create quote reference at current position
-      createQuoteReference: (attrs: { id: string; label: string; type: string; metadata?: Record<string, unknown> }) => ({ commands }: any) => {
-        return commands.insertContent({
-          type: 'reference',
-          attrs
-        });
-      }
+      createQuoteReference:
+        (attrs: { id: string; label: string; type: string; metadata?: Record<string, unknown> }) =>
+        ({ commands }: any) => {
+          return commands.insertContent({
+            type: 'reference',
+            attrs,
+          });
+        },
     };
   },
 
@@ -294,7 +294,11 @@ export const Reference = Mention.extend({
         const nodeEnd = pos + node.nodeSize;
 
         // Check if the reference is within the selection range
-        return (from <= pos && to >= nodeEnd) || (from > pos && from < nodeEnd) || (to > pos && to < nodeEnd);
+        return (
+          (from <= pos && to >= nodeEnd) ||
+          (from > pos && from < nodeEnd) ||
+          (to > pos && to < nodeEnd)
+        );
       };
 
       // Initial setup
@@ -317,18 +321,20 @@ export const Reference = Mention.extend({
       // Try to resolve full reference data dynamically
       const resolvedData = resolveReferenceData(node.attrs.id, node.attrs.type);
 
-      const referenceData: SelectedReference = resolvedData ? {
-        id: resolvedData.id,
-        label: resolvedData.name,
-        type: resolvedData.type as ReferenceType,
-        metadata: resolvedData.metadata,
-      } : {
-        // Fallback to node attributes if resolution fails
-        id: node.attrs.id,
-        label: node.attrs.label,
-        type: node.attrs.type as ReferenceType,
-        metadata: node.attrs.metadata ? structuredClone(node.attrs.metadata) : undefined,
-      };
+      const referenceData: SelectedReference = resolvedData
+        ? {
+            id: resolvedData.id,
+            label: resolvedData.name,
+            type: resolvedData.type as ReferenceType,
+            metadata: resolvedData.metadata,
+          }
+        : {
+            // Fallback to node attributes if resolution fails
+            id: node.attrs.id,
+            label: node.attrs.label,
+            type: node.attrs.type as ReferenceType,
+            metadata: node.attrs.metadata ? structuredClone(node.attrs.metadata) : undefined,
+          };
 
       // Entity-type routing: a reference to an entity whose type has its own
       // attribute binding escalates through that binding — a product mention
@@ -407,7 +413,7 @@ interface ReferenceCommandAttrs {
 
 export function createReferenceSuggestion(
   data: ReferenceCategory[],
-  onReferenceSelect?: (reference: SelectedReference) => void
+  onReferenceSelect?: (reference: SelectedReference) => void,
 ) {
   return {
     items: () => {
@@ -422,7 +428,9 @@ export function createReferenceSuggestion(
           virtualElement = {
             getBoundingClientRect: () => {
               const rect = props.clientRect ? props.clientRect() : null;
-              return rect || { x: 0, y: 0, width: 0, height: 0, bottom: 0, top: 0, left: 0, right: 0 };
+              return (
+                rect || { x: 0, y: 0, width: 0, height: 0, bottom: 0, top: 0, left: 0, right: 0 }
+              );
             },
           };
 
@@ -454,7 +462,9 @@ export function createReferenceSuggestion(
           if (virtualElement) {
             virtualElement.getBoundingClientRect = () => {
               const rect = props.clientRect ? props.clientRect() : null;
-              return rect || { x: 0, y: 0, width: 0, height: 0, bottom: 0, top: 0, left: 0, right: 0 };
+              return (
+                rect || { x: 0, y: 0, width: 0, height: 0, bottom: 0, top: 0, left: 0, right: 0 }
+              );
             };
           }
 

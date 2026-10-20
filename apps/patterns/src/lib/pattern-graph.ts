@@ -16,7 +16,7 @@ import type { NetworkGraphData, NetworkGraphNode } from '@components/charts/base
 interface NodeMeta {
   'activity-level': string;
   'lifecycle-stage': string | null;
-  mediation: string | null;
+  'mediation': string | null;
 }
 
 interface GraphNodeData {
@@ -117,9 +117,7 @@ export async function mountPatternGraph(root: ParentNode = document): Promise<vo
     subscribed = true;
     subscribePatternGraphHover(({ path }) => {
       if (!live?.el.isConnected) return;
-      live.el.setExternalHighlight(
-        path ? (live.idByPath.get(normalisePath(path)) ?? null) : null
-      );
+      live.el.setExternalHighlight(path ? (live.idByPath.get(normalisePath(path)) ?? null) : null);
     });
   }
 

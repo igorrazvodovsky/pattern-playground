@@ -9,6 +9,9 @@
       },
       "slots": { "actions": ["request-access"] }
     },
-    "request-access": { "type": "Button", "props": { "label": "Request access", "variant": "primary" } }
+    "request-access": {
+      "type": "Button",
+      "props": { "label": "Request access", "variant": "primary" }
+    }
   }
 }

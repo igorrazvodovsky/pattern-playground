@@ -26,10 +26,10 @@ export const usePressableTitle = (
   useFocusHandoff(null, ref, Boolean(props.opens) && props.title != null);
   return {
     ref,
-    type: 'button' as const,
+    'type': 'button' as const,
     'aria-pressed': props.selected == null || props.expanded != null ? undefined : props.selected,
     'aria-expanded': props.expanded ?? undefined,
-    onClick: () => void emit('open'),
+    'onClick': () => void emit('open'),
     ...(focusEvents && { onFocus: () => void emit('focus'), onBlur: () => void emit('blur') }),
   };
 };

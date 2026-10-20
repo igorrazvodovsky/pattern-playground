@@ -19,7 +19,11 @@
 import { select, type Selection } from 'd3-selection';
 import { scaleLinear, scaleSqrt, type ScaleLinear, type ScalePower } from 'd3-scale';
 import { extent } from 'd3-array';
-import type { ScatterPlotData, ScatterPlotDataPoint, ChartDimensions } from '../base/chart-types.js';
+import type {
+  ScatterPlotData,
+  ScatterPlotDataPoint,
+  ChartDimensions,
+} from '../base/chart-types.js';
 /** viewBox the parent D3Component draws into; scales are authored in this space. */
 const VIEWBOX_WIDTH = 600;
 const VIEWBOX_HEIGHT = 300;
@@ -36,7 +40,7 @@ export interface ScatterPlotConfig {
 export const defaultScatterPlotConfig: ScatterPlotConfig = {
   pointRadius: 5,
   showSize: false,
-  sizeRange: [3, 18]
+  sizeRange: [3, 18],
 };
 
 /**
@@ -55,7 +59,7 @@ const CATEGORY_COLORS = [
   'var(--c-cat-5)',
   'var(--c-cat-6)',
   'var(--c-cat-7)',
-  'var(--c-cat-8)'
+  'var(--c-cat-8)',
 ];
 
 /**
@@ -90,7 +94,10 @@ export function buildCategoryColorMap(data: ScatterPlotData): Map<string, string
   return map;
 }
 
-function resolvePointColor(point: ScatterPlotDataPoint, categoryColors: Map<string, string>): string {
+function resolvePointColor(
+  point: ScatterPlotDataPoint,
+  categoryColors: Map<string, string>,
+): string {
   if (point.color) return point.color;
   if (point.category != null && categoryColors.has(point.category)) {
     return categoryColors.get(point.category)!;
@@ -108,15 +115,15 @@ function resolvePointColor(point: ScatterPlotDataPoint, categoryColors: Map<stri
 export function createScatterPlotScales(
   data: ScatterPlotData,
   dimensions: ChartDimensions,
-  config: ScatterPlotConfig
+  config: ScatterPlotConfig,
 ): ScatterPlotScales {
   const { margin } = dimensions;
   const chartWidth = VIEWBOX_WIDTH - margin.left - margin.right;
   const chartHeight = VIEWBOX_HEIGHT - margin.top - margin.bottom;
   const inset = 8; // keep edge points off the axes
 
-  const xValues = data.data.map(d => d.x);
-  const yValues = data.data.map(d => d.y);
+  const xValues = data.data.map((d) => d.x);
+  const yValues = data.data.map((d) => d.y);
 
   const [xMin = 0, xMax = 0] = extent(xValues);
   const [yMin = 0, yMax = 0] = extent(yValues);
@@ -136,7 +143,7 @@ export function createScatterPlotScales(
 
   if (config.showSize) {
     const sizeValues = data.data
-      .map(d => d.size)
+      .map((d) => d.size)
       .filter((v): v is number => typeof v === 'number');
     if (sizeValues.length > 0) {
       const [sMin = 0, sMax = 0] = extent(sizeValues);
@@ -151,7 +158,7 @@ export function createScatterPlotScales(
 function radiusFor(
   point: ScatterPlotDataPoint,
   scales: ScatterPlotScales,
-  config: ScatterPlotConfig
+  config: ScatterPlotConfig,
 ): number {
   if (scales.size && typeof point.size === 'number') {
     return scales.size(point.size);
@@ -163,7 +170,7 @@ export function renderScatterPlot(
   container: Selection<SVGGElement, unknown, null, undefined>,
   data: ScatterPlotData,
   dimensions: ChartDimensions,
-  config: Partial<ScatterPlotConfig> = {}
+  config: Partial<ScatterPlotConfig> = {},
 ): ScatterPlotRenderResult {
   const mergedConfig = { ...defaultScatterPlotConfig, ...config };
   const scales = createScatterPlotScales(data, dimensions, mergedConfig);
@@ -182,10 +189,7 @@ export function renderScatterPlot(
 
   points.exit().remove();
 
-  const entering = points
-    .enter()
-    .append('circle')
-    .attr('class', 'scatter-point');
+  const entering = points.enter().append('circle').attr('class', 'scatter-point');
 
   const allPoints = entering.merge(points);
 
@@ -196,10 +200,10 @@ export function renderScatterPlot(
   // invisible. Rendering the final state synchronously is correct and can't
   // strand the data.
   allPoints
-    .attr('cx', d => scales.x(d.x))
-    .attr('cy', d => scales.y(d.y))
-    .attr('r', d => radiusFor(d, scales, mergedConfig))
-    .attr('fill', d => resolvePointColor(d, categoryColors))
+    .attr('cx', (d) => scales.x(d.x))
+    .attr('cy', (d) => scales.y(d.y))
+    .attr('r', (d) => radiusFor(d, scales, mergedConfig))
+    .attr('fill', (d) => resolvePointColor(d, categoryColors))
     .attr('fill-opacity', 0.72)
     .attr('stroke', 'var(--c-background)')
     .attr('stroke-width', 1)
@@ -212,7 +216,7 @@ export function updateScatterPlot(
   renderResult: ScatterPlotRenderResult,
   data: ScatterPlotData,
   dimensions: ChartDimensions,
-  config: Partial<ScatterPlotConfig> = {}
+  config: Partial<ScatterPlotConfig> = {},
 ): ScatterPlotRenderResult {
   return renderScatterPlot(renderResult.container, data, dimensions, config);
 }
@@ -221,7 +225,7 @@ export function addScatterPlotInteractions(
   renderResult: ScatterPlotRenderResult,
   onHover?: (data: ScatterPlotDataPoint, event: MouseEvent) => void,
   onLeave?: () => void,
-  onClick?: (data: ScatterPlotDataPoint, event: MouseEvent) => void
+  onClick?: (data: ScatterPlotDataPoint, event: MouseEvent) => void,
 ): void {
   if (onHover) {
     renderResult.points.on('mouseenter', function (event, d) {

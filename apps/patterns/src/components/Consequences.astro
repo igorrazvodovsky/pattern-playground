@@ -22,7 +22,7 @@
  */
 import Label from './Label.astro';
 
-type Clause = string | { clause: string; 'sets-up'?: string[] };
+type Clause = string | { 'clause': string; 'sets-up'?: string[] };
 
 interface Props {
   resulting?: Clause[];
@@ -37,7 +37,9 @@ const clauses = resulting.map((c) => (typeof c === 'string' ? c : c.clause));
     <h2>Consequences</h2>
     <ul>
       {clauses.map((clause) => (
-        <li><Label text={clause} /></li>
+        <li>
+          <Label text={clause} />
+        </li>
       ))}
     </ul>
   </section>

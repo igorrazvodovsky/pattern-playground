@@ -13,6 +13,7 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 ---
+
 <Base title={entry.data.title} slug={entry.id}>
   <PatternArticle entry={entry} />
 </Base>

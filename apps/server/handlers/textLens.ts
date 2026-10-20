@@ -7,12 +7,16 @@ import logger from '../logger.js';
 
 export class TextLensHandler {
   static async handleTextLens(req: Request, res: Response): Promise<void> {
-    logger.debug("Received text lens request:", req.body);
+    logger.debug('Received text lens request:', req.body);
     const validatedRequest = textLensRequestSchema.parse(req.body);
-    logger.info(`Processing text lens: ${validatedRequest.direction} ${validatedRequest.intensity}%`);
+    logger.info(
+      `Processing text lens: ${validatedRequest.direction} ${validatedRequest.intensity}%`,
+    );
 
     await withTimeout(30000, (timeout) =>
-      streamSSE(res, timeout, (signal) => openaiService.generateTextLensStream(validatedRequest, signal))
+      streamSSE(res, timeout, (signal) =>
+        openaiService.generateTextLensStream(validatedRequest, signal),
+      ),
     );
   }
 }

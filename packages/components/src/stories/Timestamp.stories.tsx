@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { formatDateTime, isoDateTime } from '@shared/format';
 import '../jsx-types';
 
@@ -14,12 +14,13 @@ const Stamp = ({ at }: { at: string }) => (
 );
 
 const meta = {
-  title: "Components/Timestamp",
+  title: 'Components/Timestamp',
   tags: ['activity-level:operation', 'atomic:primitive', 'role:component', 'mediation:individual'],
   parameters: {
     docs: {
       description: {
-        component: 'Says when something happened in terms the actor can hold — `20 minutes ago` — without costing them the actual instant.',
+        component:
+          'Says when something happened in terms the actor can hold — `20 minutes ago` — without costing them the actual instant.',
       },
     },
   },
@@ -32,7 +33,8 @@ export const Basic: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'The author (or server) writes the `<time>` child with the absolute value, meaningful before the element upgrades; the element rewrites it to relative text and keeps it ticking.',
+        story:
+          'The author (or server) writes the `<time>` child with the absolute value, meaningful before the element upgrades; the element rewrites it to relative text and keeps it ticking.',
       },
     },
   },
@@ -42,11 +44,21 @@ export const Basic: Story = {
 export const AcrossThreshold: Story = {
   render: () => (
     <ul>
-      <li><Stamp at={ago(40 * 1000)} /></li>
-      <li><Stamp at={ago(5 * HOUR)} /></li>
-      <li><Stamp at={ago(3 * DAY)} /></li>
-      <li><Stamp at={ago(8 * DAY)} /></li>
-      <li><Stamp at={ago(273 * DAY)} /></li>
+      <li>
+        <Stamp at={ago(40 * 1000)} />
+      </li>
+      <li>
+        <Stamp at={ago(5 * HOUR)} />
+      </li>
+      <li>
+        <Stamp at={ago(3 * DAY)} />
+      </li>
+      <li>
+        <Stamp at={ago(8 * DAY)} />
+      </li>
+      <li>
+        <Stamp at={ago(273 * DAY)} />
+      </li>
     </ul>
   ),
 };
@@ -63,7 +75,8 @@ export const ChildOmitted: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Fallback: with no `<time>` child the element creates one. Nothing renders until upgrade, so prefer the composed form wherever the markup is authored.',
+        story:
+          'Fallback: with no `<time>` child the element creates one. Nothing renders until upgrade, so prefer the composed form wherever the markup is authored.',
       },
     },
   },

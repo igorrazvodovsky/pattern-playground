@@ -9,7 +9,13 @@
     "full-view-body": {
       "type": "Stack",
       "props": { "gap": "m" },
-      "children": ["full-view-badges", "full-view-price", "full-view-description", "full-view-attributes", "full-view-listed"]
+      "children": [
+        "full-view-badges",
+        "full-view-price",
+        "full-view-description",
+        "full-view-attributes",
+        "full-view-listed"
+      ]
     },
     "full-view-badges": {
       "type": "Stack",

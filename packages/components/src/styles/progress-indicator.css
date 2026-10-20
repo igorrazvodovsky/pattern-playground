@@ -42,7 +42,7 @@
   }
 
   &:not(:has(.stepper__icon))::before {
-    content: "";
+    content: '';
     flex: 0 0 var(--_circle-size);
     height: var(--_circle-size);
     border-radius: 50%;
@@ -69,7 +69,7 @@
 
   &:not(:last-child) {
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       left: 1rem;
       top: calc(var(--_circle-size) + var(--_spacing) + 1rem + 0.5rem);

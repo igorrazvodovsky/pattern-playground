@@ -46,10 +46,14 @@ export const KeyboardNavigation: Story = {
     input.focus();
 
     // Arrowing moves the active option; the input keeps focus throughout.
-    const firstActive = canvas.getAllByRole('option').find((o) => o.getAttribute('aria-selected') === 'true');
+    const firstActive = canvas
+      .getAllByRole('option')
+      .find((o) => o.getAttribute('aria-selected') === 'true');
     await userEvent.keyboard('{ArrowDown}');
     await waitFor(() => {
-      const active = canvas.getAllByRole('option').find((o) => o.getAttribute('aria-selected') === 'true');
+      const active = canvas
+        .getAllByRole('option')
+        .find((o) => o.getAttribute('aria-selected') === 'true');
       expect(active).not.toBe(firstActive);
     });
     expect(input).toHaveFocus();
@@ -59,14 +63,21 @@ export const KeyboardNavigation: Story = {
     // actions.
     await userEvent.clear(input);
     await userEvent.type(input, 'Change');
-    await waitFor(() => expect(canvas.getByRole('option', { name: 'Change…' })).toHaveAttribute('aria-selected', 'true'));
+    await waitFor(() =>
+      expect(canvas.getByRole('option', { name: 'Change…' })).toHaveAttribute(
+        'aria-selected',
+        'true',
+      ),
+    );
     await userEvent.keyboard('{Enter}');
     await waitFor(() => expect(canvas.getByPlaceholderText('Change…')).toBeVisible());
     expect(canvas.getByRole('option', { name: /Theme/ })).toBeVisible();
 
     // Escape steps back out of the context before it dismisses anything.
     await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(canvas.getByPlaceholderText('Type a command or search...')).toBeVisible());
+    await waitFor(() =>
+      expect(canvas.getByPlaceholderText('Type a command or search...')).toBeVisible(),
+    );
   },
 };
 
@@ -99,13 +110,17 @@ export const Dialog: Story = {
 
     return (
       <>
-        <p>Press <kbd>/</kbd> to open the command menu.</p>
+        <p>
+          Press <kbd>/</kbd> to open the command menu.
+        </p>
         <pp-modal>
           <dialog id="cmd">
-            <CommandMenu onClose={() => {
-              const modal = document.querySelector('pp-modal dialog') as HTMLDialogElement;
-              modal?.close();
-            }} />
+            <CommandMenu
+              onClose={() => {
+                const modal = document.querySelector('pp-modal dialog') as HTMLDialogElement;
+                modal?.close();
+              }}
+            />
           </dialog>
         </pp-modal>
       </>
@@ -114,9 +129,8 @@ export const Dialog: Story = {
   parameters: {
     docs: {
       description: {
-        story: `Command menu in a modal dialog. Press "/" to open it and test the hierarchical navigation and search functionality.`
-      }
-    }
-  }
+        story: `Command menu in a modal dialog. Press "/" to open it and test the hierarchical navigation and search functionality.`,
+      },
+    },
+  },
 };
-

@@ -11,7 +11,7 @@ interface CommentsPanelProps {
 }
 
 function entriesKey(entries: ThreadListEntry[]): string {
-  return entries.map(entry => `${entry.key}\u0000${entry.excerpt}`).join('\u0001');
+  return entries.map((entry) => `${entry.key}\u0000${entry.excerpt}`).join('\u0001');
 }
 
 // The editor's threads in the shared thread list. Renders in a drawer, which
@@ -24,7 +24,7 @@ export const CommentsPanel: React.FC<CommentsPanelProps> = ({ editor, plugin, cu
   useEffect(() => {
     const refresh = () => {
       const next = plugin.getThreadEntries();
-      setEntries(current => entriesKey(current) === entriesKey(next) ? current : next);
+      setEntries((current) => (entriesKey(current) === entriesKey(next) ? current : next));
     };
     const onUpdate = ({ transaction }: { transaction: Transaction }) => {
       if (plugin.affectsThreadEntries(transaction)) refresh();

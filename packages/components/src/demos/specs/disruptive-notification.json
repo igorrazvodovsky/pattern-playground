@@ -9,7 +9,9 @@
     "delete-document": {
       "type": "Button",
       "props": { "label": "Delete document…" },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/confirming", "value": true } } }
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/confirming", "value": true } }
+      }
     },
 
     "confirm-dialog": {
@@ -25,12 +27,16 @@
     "confirm": {
       "type": "Button",
       "props": { "label": "Delete", "variant": "danger" },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/confirming", "value": false } } }
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/confirming", "value": false } }
+      }
     },
     "cancel": {
       "type": "Button",
       "props": { "label": "Cancel", "initialFocus": true },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/confirming", "value": false } } }
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/confirming", "value": false } }
+      }
     }
   }
 }

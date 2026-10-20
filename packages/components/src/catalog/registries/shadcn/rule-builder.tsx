@@ -54,8 +54,14 @@ const isFlat = (group: RuleGroup) => group.head.value?.[0] === 'all' && !group.i
 // parent at a glance. The pill repeats the head's first word; the rail
 // carries the colour down the group's extent.
 const tone = {
-  all: { rail: 'border-sky-400/70', pill: 'bg-sky-100 text-sky-900 dark:bg-sky-900/50 dark:text-sky-100' },
-  any: { rail: 'border-violet-400/70', pill: 'bg-violet-100 text-violet-900 dark:bg-violet-900/50 dark:text-violet-100' },
+  all: {
+    rail: 'border-sky-400/70',
+    pill: 'bg-sky-100 text-sky-900 dark:bg-sky-900/50 dark:text-sky-100',
+  },
+  any: {
+    rail: 'border-violet-400/70',
+    pill: 'bg-violet-100 text-violet-900 dark:bg-violet-900/50 dark:text-violet-100',
+  },
 } as const;
 
 const toneOf = (group: RuleGroup) => tone[group.head.value?.[0] === 'any' ? 'any' : 'all'];
@@ -64,7 +70,10 @@ const Head = ({ group, send }: { group: RuleGroup; send: Send }) => (
   <span className="inline-flex items-baseline gap-2">
     <span
       aria-hidden="true"
-      className={clsx('rounded-full px-2 py-0.5 text-xs font-medium uppercase tracking-wide', toneOf(group).pill)}
+      className={clsx(
+        'rounded-full px-2 py-0.5 text-xs font-medium uppercase tracking-wide',
+        toneOf(group).pill,
+      )}
     >
       {group.head.value?.[0] === 'any' ? 'Any' : 'All'}
     </span>
@@ -92,7 +101,7 @@ const Group = ({ group, send }: { group: RuleGroup; send: Send }) => (
 
 const GroupItems = ({ group, send }: { group: RuleGroup; send: Send }) => (
   <ul className={clsx('ml-2 flex flex-col gap-1 border-l-2 pl-4', toneOf(group).rail)}>
-    {group.items.map(item =>
+    {group.items.map((item) =>
       isGroup(item) ? (
         <Group key={item.id} group={item} send={send} />
       ) : (
@@ -109,7 +118,15 @@ const GroupItems = ({ group, send }: { group: RuleGroup; send: Send }) => (
   </ul>
 );
 
-export const RuleBuilder = ({ label, tree, send }: { label: string; tree: RuleTree; send: Send }) => {
+export const RuleBuilder = ({
+  label,
+  tree,
+  send,
+}: {
+  label: string;
+  tree: RuleTree;
+  send: Send;
+}) => {
   const { lead, where, tail } = tree;
   if (isFlat(where)) {
     return (
@@ -124,7 +141,11 @@ export const RuleBuilder = ({ label, tree, send }: { label: string; tree: RuleTr
         ))}
         <SentenceSlot slot={where.addCondition} send={send} />
         <SentenceSlot slot={where.addGroup} send={send} />
-        {tail && <>, <Parts parts={tail} send={send} /></>}
+        {tail && (
+          <>
+            , <Parts parts={tail} send={send} />
+          </>
+        )}
       </p>
     );
   }

@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: "Components/Keyboard key",
+  title: 'Components/Keyboard key',
 } satisfies Meta;
 
 export default meta;
@@ -9,24 +9,32 @@ type Story = StoryObj;
 
 export const KeyboardKey: Story = {
   render: () => (
-    <>Please press <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>W</kbd> to achieve expected results.</>
+    <>
+      Please press <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>W</kbd> to achieve expected results.
+    </>
   ),
 };
 
 export const InAList: Story = {
   render: () => (
-    <pp-list style={{maxWidth: '320px'}}>
+    <pp-list style={{ maxWidth: '320px' }}>
       <pp-list-item>
         Copy
-        <span data-slot="suffix"><kbd>⌘</kbd> <kbd>C</kbd></span>
+        <span data-slot="suffix">
+          <kbd>⌘</kbd> <kbd>C</kbd>
+        </span>
       </pp-list-item>
       <pp-list-item>
         Paste
-        <span data-slot="suffix"><kbd>⌘</kbd> <kbd>V</kbd></span>
+        <span data-slot="suffix">
+          <kbd>⌘</kbd> <kbd>V</kbd>
+        </span>
       </pp-list-item>
       <pp-list-item>
         Find
-        <span data-slot="suffix"><kbd>⌘</kbd> <kbd>F</kbd></span>
+        <span data-slot="suffix">
+          <kbd>⌘</kbd> <kbd>F</kbd>
+        </span>
       </pp-list-item>
     </pp-list>
   ),

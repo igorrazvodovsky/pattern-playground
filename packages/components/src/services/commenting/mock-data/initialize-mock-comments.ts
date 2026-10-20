@@ -8,43 +8,48 @@ const MOCK_THREADS = [
     entityId: 'quote-reshaping-ecosystems',
     comments: [
       {
-        content: 'This quote perfectly captures the urgency of climate action. The pace of change is unprecedented.',
+        content:
+          'This quote perfectly captures the urgency of climate action. The pace of change is unprecedented.',
         authorId: 'user-1',
-        timestamp: '2024-01-16T10:00:00Z'
+        timestamp: '2024-01-16T10:00:00Z',
       },
       {
-        content: 'We should reference this in our biodiversity impact assessment. The ecosystem displacement data supports this.',
+        content:
+          'We should reference this in our biodiversity impact assessment. The ecosystem displacement data supports this.',
         authorId: 'user-5',
-        timestamp: '2024-01-16T11:30:00Z'
-      }
-    ]
+        timestamp: '2024-01-16T11:30:00Z',
+      },
+    ],
   },
   {
     entityType: 'quote',
     entityId: 'quote-habitat-displacement',
     comments: [
       {
-        content: 'The Arctic species migration patterns are particularly concerning. We\'re seeing unprecedented northward movement.',
+        content:
+          "The Arctic species migration patterns are particularly concerning. We're seeing unprecedented northward movement.",
         authorId: 'user-3',
-        timestamp: '2024-01-17T09:15:00Z'
-      }
-    ]
+        timestamp: '2024-01-17T09:15:00Z',
+      },
+    ],
   },
   {
     entityType: 'quote',
     entityId: 'quote-coral-reef-crisis',
     comments: [
       {
-        content: 'The Great Barrier Reef has already lost 50% of its coral cover. This needs immediate attention in our marine conservation strategy.',
+        content:
+          'The Great Barrier Reef has already lost 50% of its coral cover. This needs immediate attention in our marine conservation strategy.',
         authorId: 'user-2',
-        timestamp: '2024-01-18T14:20:00Z'
+        timestamp: '2024-01-18T14:20:00Z',
       },
       {
-        content: 'We should coordinate with the marine biology team on restoration efforts. Temperature monitoring is critical.',
+        content:
+          'We should coordinate with the marine biology team on restoration efforts. Temperature monitoring is critical.',
         authorId: 'user-4',
-        timestamp: '2024-01-18T15:45:00Z'
-      }
-    ]
+        timestamp: '2024-01-18T15:45:00Z',
+      },
+    ],
   },
   {
     entityType: 'document',
@@ -53,21 +58,21 @@ const MOCK_THREADS = [
       {
         content: 'This document needs to incorporate the latest IPCC findings from 2024.',
         authorId: 'user-1',
-        timestamp: '2024-01-15T08:00:00Z'
-      }
-    ]
+        timestamp: '2024-01-15T08:00:00Z',
+      },
+    ],
   },
   {
     entityType: 'task',
     entityId: 'task-1',
     comments: [
       {
-        content: 'Let\'s prioritize the carbon emissions data collection first.',
+        content: "Let's prioritize the carbon emissions data collection first.",
         authorId: 'user-2',
-        timestamp: '2024-01-19T10:00:00Z'
-      }
-    ]
-  }
+        timestamp: '2024-01-19T10:00:00Z',
+      },
+    ],
+  },
 ];
 
 /**
@@ -76,13 +81,13 @@ const MOCK_THREADS = [
  */
 export async function initializeMockComments(): Promise<void> {
   const commentService = getCommentService();
-  
+
   // Check if we already have comments (to avoid re-initializing)
   const storageKey = 'mock-comments-initialized';
   if (localStorage.getItem(storageKey) === 'true') {
     return;
   }
-  
+
   try {
     for (const thread of MOCK_THREADS) {
       const pointer = new EntityPointer(thread.entityType, thread.entityId);

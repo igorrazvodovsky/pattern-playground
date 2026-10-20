@@ -6,7 +6,11 @@
       "props": { "affordance": "tab-bar" },
       "children": ["overview", "details", "references"]
     },
-    "overview": { "type": "Section", "props": { "title": "Overview" }, "children": ["overview-text"] },
+    "overview": {
+      "type": "Section",
+      "props": { "title": "Overview" },
+      "children": ["overview-text"]
+    },
     "overview-text": {
       "type": "Text",
       "props": {
@@ -20,10 +24,16 @@
         "text": "The mechanics: specifications, constraints, and the nuanced decisions that shape implementation."
       }
     },
-    "references": { "type": "Section", "props": { "title": "References" }, "children": ["references-text"] },
+    "references": {
+      "type": "Section",
+      "props": { "title": "References" },
+      "children": ["references-text"]
+    },
     "references-text": {
       "type": "Text",
-      "props": { "text": "Source material, prior art, and external standards that informed the design." }
+      "props": {
+        "text": "Source material, prior art, and external standards that informed the design."
+      }
     }
   }
 }

@@ -1,14 +1,48 @@
 {
-  "name": { "subject": ["user", "project", "task", "document", "material", "component", "product", "service"], "object": "value", "cardinality": "one" },
+  "name": {
+    "subject": [
+      "user",
+      "project",
+      "task",
+      "document",
+      "material",
+      "component",
+      "product",
+      "service"
+    ],
+    "object": "value",
+    "cardinality": "one"
+  },
   "role": { "subject": ["user"], "object": "value", "cardinality": "one" },
   "email": { "subject": ["user"], "object": "value", "cardinality": "one" },
   "photo": { "subject": ["user"], "object": "value", "cardinality": "one" },
   "timezone": { "subject": ["user"], "object": "value", "cardinality": "one" },
   "language": { "subject": ["user"], "object": "value", "cardinality": "one" },
-  "search": { "subject": ["user", "project", "document", "quote", "material", "component", "product", "service"], "object": "value", "cardinality": "one" },
+  "search": {
+    "subject": [
+      "user",
+      "project",
+      "document",
+      "quote",
+      "material",
+      "component",
+      "product",
+      "service"
+    ],
+    "object": "value",
+    "cardinality": "one"
+  },
   "signedIn": { "subject": ["user"], "cardinality": "one" },
-  "blurb": { "subject": ["project", "task", "document", "material", "component", "product", "service"], "object": "value", "cardinality": "one" },
-  "icon": { "subject": ["project", "material", "component", "product", "service"], "object": "value", "cardinality": "one" },
+  "blurb": {
+    "subject": ["project", "task", "document", "material", "component", "product", "service"],
+    "object": "value",
+    "cardinality": "one"
+  },
+  "icon": {
+    "subject": ["project", "material", "component", "product", "service"],
+    "object": "value",
+    "cardinality": "one"
+  },
   "status": { "subject": ["project", "task"], "object": "value", "cardinality": "one" },
   "phase": { "subject": ["project"], "object": "value", "cardinality": "one" },
   "partners": { "subject": ["project"], "object": "value", "cardinality": "one" },
@@ -24,7 +58,11 @@
   "project": { "subject": ["task"], "object": "id", "cardinality": "one" },
   "dueDate": { "subject": ["task"], "object": "value", "cardinality": "one" },
   "progress": { "subject": ["task"], "object": "value", "cardinality": "one" },
-  "createdBy": { "subject": ["task", "project", "document", "quote"], "object": "id", "cardinality": "one" },
+  "createdBy": {
+    "subject": ["task", "project", "document", "quote"],
+    "object": "id",
+    "cardinality": "one"
+  },
   "notified": { "subject": ["user"], "object": "id", "cardinality": "many" },
   "documentType": { "subject": ["document"], "object": "value", "cardinality": "one" },
   "content": { "subject": ["document"], "object": "value", "cardinality": "one" },
@@ -46,7 +84,11 @@
   "resolvedBy": { "subject": ["comment"], "object": "id", "cardinality": "one" },
   "source": { "subject": ["quote"], "object": "id", "cardinality": "one" },
   "range": { "subject": ["quote"], "object": "value", "cardinality": "one" },
-  "category": { "subject": ["material", "component", "product", "service"], "object": "value", "cardinality": "one" },
+  "category": {
+    "subject": ["material", "component", "product", "service"],
+    "object": "value",
+    "cardinality": "one"
+  },
   "subcategory": { "subject": ["material", "product"], "object": "value", "cardinality": "one" },
   "recycledContent": { "subject": ["material"], "object": "value", "cardinality": "one" },
   "carbonFootprint": { "subject": ["material"], "object": "value", "cardinality": "one" },
@@ -62,9 +104,17 @@
   "hierarchy": { "subject": ["component"], "object": "value", "cardinality": "one" },
   "partOf": { "subject": ["component"], "object": "id", "cardinality": "one" },
   "madeOf": { "subject": ["component"], "object": "id", "cardinality": "many" },
-  "specifications": { "subject": ["component", "product"], "object": "value", "cardinality": "one" },
+  "specifications": {
+    "subject": ["component", "product"],
+    "object": "value",
+    "cardinality": "one"
+  },
   "lifecycle": { "subject": ["component", "product"], "object": "value", "cardinality": "one" },
-  "sustainability": { "subject": ["component", "product", "service"], "object": "value", "cardinality": "one" },
+  "sustainability": {
+    "subject": ["component", "product", "service"],
+    "object": "value",
+    "cardinality": "one"
+  },
   "assembledFrom": { "subject": ["product"], "object": "id", "cardinality": "many" },
   "keyMaterial": { "subject": ["product"], "object": "id", "cardinality": "many" },
   "circular": { "subject": ["product"], "object": "value", "cardinality": "one" },

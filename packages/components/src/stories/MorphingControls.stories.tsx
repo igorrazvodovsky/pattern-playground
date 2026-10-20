@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import { FollowUnfollowDemo, MultiStateCloseDemo } from "../demos/morphing-controls";
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { FollowUnfollowDemo, MultiStateCloseDemo } from '../demos/morphing-controls';
 
 const meta = {
-  title: "Components/Morphing controls",
+  title: 'Components/Morphing controls',
 } satisfies Meta;
 
 export default meta;

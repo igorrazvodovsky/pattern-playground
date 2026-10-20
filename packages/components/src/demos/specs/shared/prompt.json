@@ -28,11 +28,21 @@
     },
     "add-context": {
       "type": "Button",
-      "props": { "label": "Add context from the web", "icon": "web", "hideLabel": true, "variant": "plain" }
+      "props": {
+        "label": "Add context from the web",
+        "icon": "web",
+        "hideLabel": true,
+        "variant": "plain"
+      }
     },
     "suggest": {
       "type": "Button",
-      "props": { "label": "Get suggestions", "icon": "suggest", "hideLabel": true, "variant": "plain" }
+      "props": {
+        "label": "Get suggestions",
+        "icon": "suggest",
+        "hideLabel": true,
+        "variant": "plain"
+      }
     },
     "attach": {
       "type": "Button",
@@ -40,7 +50,12 @@
     },
     "mention": {
       "type": "Button",
-      "props": { "label": "Reference materials", "icon": "mention", "hideLabel": true, "variant": "plain" }
+      "props": {
+        "label": "Reference materials",
+        "icon": "mention",
+        "hideLabel": true,
+        "variant": "plain"
+      }
     },
     "send": {
       "type": "Button",

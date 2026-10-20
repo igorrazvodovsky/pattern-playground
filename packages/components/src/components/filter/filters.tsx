@@ -1,10 +1,14 @@
-import type { Dispatch, SetStateAction } from "react";
-import type { EntityBinding } from "@shared/data/bindings";
-import { taskBinding, findAttribute, attributeLabelFromBinding } from "@shared/data/bindings";
-import { FilterValueDropdown, FilterOperatorDropdown, FilterValueDateDropdown } from "./filter-components";
-import type { Filter } from "./filter-types";
-import { attributeGlyph } from "../../utility/attribute-icons";
-import { updateFilterOperator, updateFilterValue, removeFilterById } from "./filter-utils";
+import type { Dispatch, SetStateAction } from 'react';
+import type { EntityBinding } from '@shared/data/bindings';
+import { taskBinding, findAttribute, attributeLabelFromBinding } from '@shared/data/bindings';
+import {
+  FilterValueDropdown,
+  FilterOperatorDropdown,
+  FilterValueDateDropdown,
+} from './filter-components';
+import type { Filter } from './filter-types';
+import { attributeGlyph } from '../../utility/attribute-icons';
+import { updateFilterOperator, updateFilterValue, removeFilterById } from './filter-utils';
 
 export default function Filters({
   filters,
@@ -64,7 +68,8 @@ export default function Filters({
                 onClick={() => handleRemoveFilter(filter.id)}
                 className="tag tag-group__remove"
               >
-                <iconify-icon icon="ik:cross"></iconify-icon><span className="visually-hidden">Clear filter</span>
+                <iconify-icon icon="ik:cross"></iconify-icon>
+                <span className="visually-hidden">Clear filter</span>
               </button>
             </div>
           );

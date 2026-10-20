@@ -1,6 +1,10 @@
 // Main components
 export { default as Filters } from './filters';
-export { FilterOperatorDropdown, FilterValueDropdown, FilterValueDateDropdown } from './filter-components';
+export {
+  FilterOperatorDropdown,
+  FilterValueDropdown,
+  FilterValueDateDropdown,
+} from './filter-components';
 export { AnimateChangeInHeight } from './animate-change-in-height';
 
 // Types

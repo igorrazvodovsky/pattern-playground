@@ -37,7 +37,7 @@ export function TableRenderer<T extends BoundEntity>(props: RendererProps<T>) {
                 const content = formatAttributeValue(
                   getAttributeValue(item, column.path),
                   column.path,
-                  binding
+                  binding,
                 );
                 return (
                   <td key={column.path} className={numericClass(column)}>

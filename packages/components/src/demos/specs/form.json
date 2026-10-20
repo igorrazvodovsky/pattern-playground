@@ -12,7 +12,11 @@
             "action": "notify",
             "params": {
               "statePath": "/notice",
-              "message": { "$cond": { "$state": "/validation/valid" }, "$then": "Profile saved.", "$else": "" }
+              "message": {
+                "$cond": { "$state": "/validation/valid" },
+                "$then": "Profile saved.",
+                "$else": ""
+              }
             }
           }
         ]

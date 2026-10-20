@@ -67,8 +67,12 @@ export function subSequenceRef(sequence: SequenceEntry, rest: string[]): Ref | u
   if (!sub) return undefined;
   const page = panePath('sequence', sequence.id);
   const index = n === undefined ? -1 : Number(n) - 1;
-  if (!(index >= 0 && index < sub.steps.length)) return { label: sub.title, href: `${page}#${subId}` };
-  return { label: `${sub.title}, step ${index + 1}`, href: `${page}#${positionAnchor(subId, index)}` };
+  if (!(index >= 0 && index < sub.steps.length))
+    return { label: sub.title, href: `${page}#${subId}` };
+  return {
+    label: `${sub.title}, step ${index + 1}`,
+    href: `${page}#${positionAnchor(subId, index)}`,
+  };
 }
 
 // A `to`/`from` target: `<sequence>[/<sub-sequence>[/<step>]]`. The sequence may
@@ -84,7 +88,10 @@ export function farRef(sequences: SequenceEntry[], ref: string): Ref {
   if (rest.length === 0) return { label: title, href: panePath('sequence', head) };
   const within = subSequenceRef(sequence, rest);
   return within
-    ? { label: `${title}, ${within.label.charAt(0).toLowerCase()}${within.label.slice(1)}`, href: within.href }
+    ? {
+        label: `${title}, ${within.label.charAt(0).toLowerCase()}${within.label.slice(1)}`,
+        href: within.href,
+      }
     : { label: `${title} (${rest.join(' / ')})`, href: panePath('sequence', head) };
 }
 
@@ -161,6 +168,7 @@ let appearancesCache: { key: string; index: Map<string, Appearance[]> } | undefi
 export async function sequenceAppearances(): Promise<Map<string, Appearance[]>> {
   const sequences = (await getCollection('sequences')).sort(bySequenceOrder);
   const key = sequences.map((s) => `${s.id}@${s.digest ?? ''}`).join(' ');
-  if (appearancesCache?.key !== key) appearancesCache = { key, index: appearancesBySlug(sequences) };
+  if (appearancesCache?.key !== key)
+    appearancesCache = { key, index: appearancesBySlug(sequences) };
   return appearancesCache.index;
 }

@@ -6,8 +6,10 @@ import collection from '../../icons/iconoteka.generated.json' with { type: 'json
 // so the picks come from the collection, not from all of Iconoteka.
 const iconNames = Object.keys(collection.icons);
 
-const regularIconNames = iconNames.filter(name => !/-(thin|ultralight|light|medium|semibold|bold|fill)$/.test(name));
-const filledIconNames = iconNames.filter(name => name.endsWith('-fill'));
+const regularIconNames = iconNames.filter(
+  (name) => !/-(thin|ultralight|light|medium|semibold|bold|fill)$/.test(name),
+);
+const filledIconNames = iconNames.filter((name) => name.endsWith('-fill'));
 
 export function getRandomIcon() {
   return `${collection.prefix}:${faker.helpers.arrayElement(regularIconNames)}`;

@@ -24,13 +24,19 @@ const updated = entry.data.updated ? asBadge(entry.data.updated) : null;
     year — a search for `2025` would return most of the corpus. The dates are
     chrome about the page, not part of what the page says. */}
 <small class="muted" data-pagefind-ignore>
-  Added <time datetime={added.iso} data-relative>{added.text}</time>
-</small> 
+  Added{' '}
+  <time datetime={added.iso} data-relative>
+    {added.text}
+  </time>
+</small>
 {updated && (
   <>
     &#32;·&#32;
     <small class="muted" data-pagefind-ignore>
-      Last updated <time datetime={updated.iso} data-relative>{updated.text}</time>
+      Last updated{' '}
+      <time datetime={updated.iso} data-relative>
+        {updated.text}
+      </time>
     </small>
   </>
 )}

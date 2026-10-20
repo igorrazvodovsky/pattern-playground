@@ -14,8 +14,9 @@ export function detectProblems(items: Product[]): ProblemFlag[] {
   const flags: ProblemFlag[] = [];
 
   const missingPassport = items.filter(
-    (item) => !(item.metadata as { circular?: { materialPassport?: string | null } })
-      .circular?.materialPassport
+    (item) =>
+      !(item.metadata as { circular?: { materialPassport?: string | null } }).circular
+        ?.materialPassport,
   );
   if (missingPassport.length > 0) {
     flags.push({

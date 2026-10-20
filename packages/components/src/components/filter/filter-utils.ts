@@ -2,11 +2,9 @@ import type { Filter, FilterOperator } from './filter-types';
 export const updateFilterById = (
   filters: Filter[],
   filterId: string,
-  updates: Partial<Filter>
+  updates: Partial<Filter>,
 ): Filter[] => {
-  return filters.map((f) =>
-    f.id === filterId ? { ...f, ...updates } : f
-  );
+  return filters.map((f) => (f.id === filterId ? { ...f, ...updates } : f));
 };
 
 export const removeFilterById = (filters: Filter[], filterId: string): Filter[] => {
@@ -16,7 +14,7 @@ export const removeFilterById = (filters: Filter[], filterId: string): Filter[] 
 export const updateFilterOperator = (
   filters: Filter[],
   filterId: string,
-  operator: FilterOperator
+  operator: FilterOperator,
 ): Filter[] => {
   return updateFilterById(filters, filterId, { operator });
 };
@@ -24,7 +22,7 @@ export const updateFilterOperator = (
 export const updateFilterValue = (
   filters: Filter[],
   filterId: string,
-  values: string[]
+  values: string[],
 ): Filter[] => {
   return updateFilterById(filters, filterId, { values });
 };

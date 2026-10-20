@@ -19,7 +19,11 @@ const bySequence = new Map<string, { title: string; entries: typeof appearances 
 for (const appearance of appearances) {
   const group = bySequence.get(appearance.sequenceId);
   if (group) group.entries.push(appearance);
-  else bySequence.set(appearance.sequenceId, { title: appearance.sequenceTitle, entries: [appearance] });
+  else
+    bySequence.set(appearance.sequenceId, {
+      title: appearance.sequenceTitle,
+      entries: [appearance],
+    });
 }
 
 const KIND_PREFIX: Record<AppearanceKind, string> = {
@@ -36,7 +40,12 @@ const KIND_PREFIX: Record<AppearanceKind, string> = {
       <dd>
         <a href={panePath('sequence', id)}>{group.title}</a>
         {group.entries.map((a, i) => (
-          <>{i === 0 ? ': ' : '; '}<a href={`${panePath('sequence', id)}#${a.anchor}`}>{a.subTitle}, step {a.stepNumber}</a></>
+          <>
+            {i === 0 ? ': ' : '; '}
+            <a href={`${panePath('sequence', id)}#${a.anchor}`}>
+              {a.subTitle}, step {a.stepNumber}
+            </a>
+          </>
         ))}
       </dd>
     ))}
@@ -48,13 +57,23 @@ const KIND_PREFIX: Record<AppearanceKind, string> = {
     <h2>Appears in</h2>
     {[...bySequence].map(([id, group]) => (
       <div class="flow">
-        <h3><a href={panePath('sequence', id)}>{group.title}</a></h3>
+        <h3>
+          <a href={panePath('sequence', id)}>{group.title}</a>
+        </h3>
         <ul>
           {group.entries.map((a) => (
             <li>
-              <a href={`${panePath('sequence', id)}#${a.anchor}`}>{a.subTitle}, step {a.stepNumber}</a>
-              {' — '}{KIND_PREFIX[a.kind]}{a.step}
-              {a.note && <Fragment>: <Label text={a.note} /></Fragment>}
+              <a href={`${panePath('sequence', id)}#${a.anchor}`}>
+                {a.subTitle}, step {a.stepNumber}
+              </a>
+              {' — '}
+              {KIND_PREFIX[a.kind]}
+              {a.step}
+              {a.note && (
+                <Fragment>
+                  : <Label text={a.note} />
+                </Fragment>
+              )}
             </li>
           ))}
         </ul>

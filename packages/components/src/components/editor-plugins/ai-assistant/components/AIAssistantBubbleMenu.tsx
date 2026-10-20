@@ -4,7 +4,11 @@ import type { AIAssistantPluginOptions } from '../AIAssistantPlugin';
 
 interface AIAssistantBubbleMenuProps {
   options: AIAssistantPluginOptions;
-  onAction: (action: string, selectedText: string, range: { from: number; to: number }) => Promise<void>;
+  onAction: (
+    action: string,
+    selectedText: string,
+    range: { from: number; to: number },
+  ) => Promise<void>;
 }
 
 export function AIAssistantBubbleMenu({ options, onAction }: AIAssistantBubbleMenuProps) {
@@ -41,23 +45,25 @@ export function AIAssistantBubbleMenu({ options, onAction }: AIAssistantBubbleMe
     };
   }, [eventBus]);
 
-  const handleAction = useCallback(async (action: string) => {
-    if (!hasSelection || !selectedText || isProcessing) return;
+  const handleAction = useCallback(
+    async (action: string) => {
+      if (!hasSelection || !selectedText || isProcessing) return;
 
-    // Get current selection at action time to ensure accuracy
-    const { from, to } = editor?.state.selection || { from: 0, to: 0 };
-    const currentSelectedText = editor ? editor.state.doc.textBetween(from, to) : selectedText;
-    const currentRange = { from, to };
+      // Get current selection at action time to ensure accuracy
+      const { from, to } = editor?.state.selection || { from: 0, to: 0 };
+      const currentSelectedText = editor ? editor.state.doc.textBetween(from, to) : selectedText;
+      const currentRange = { from, to };
 
-    if (!currentSelectedText || currentSelectedText.trim().length === 0) {
-      return;
-    }
+      if (!currentSelectedText || currentSelectedText.trim().length === 0) {
+        return;
+      }
 
-    setIsProcessing(true);
-    // Use the plugin architecture as designed
-    await onAction(action, currentSelectedText, currentRange);
-  }, [hasSelection, selectedText, isProcessing, onAction, editor]);
-
+      setIsProcessing(true);
+      // Use the plugin architecture as designed
+      await onAction(action, currentSelectedText, currentRange);
+    },
+    [hasSelection, selectedText, isProcessing, onAction, editor],
+  );
 
   // Don't render if no selection or plugin is not active
   if (!hasSelection || selectedText.length === 0) {

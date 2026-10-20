@@ -14,7 +14,7 @@ pp-popup:not([active]) {
   display: none;
 }
 
-pp-popup[strategy="fixed"],
+pp-popup[strategy='fixed'],
 pp-popup[top-layer] {
   position: fixed;
 }

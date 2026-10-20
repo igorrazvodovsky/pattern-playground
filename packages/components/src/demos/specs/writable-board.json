@@ -10,14 +10,20 @@
           "action": "setState",
           "params": {
             "statePath": "/derived",
-            "value": { "$computed": "derive", "args": { "items": { "$state": "/items" }, "groupBy": { "$state": "/groupBy" } } }
+            "value": {
+              "$computed": "derive",
+              "args": { "items": { "$state": "/items" }, "groupBy": { "$state": "/groupBy" } }
+            }
           }
         },
         "/groupBy": {
           "action": "setState",
           "params": {
             "statePath": "/derived",
-            "value": { "$computed": "derive", "args": { "items": { "$state": "/items" }, "groupBy": { "$state": "/groupBy" } } }
+            "value": {
+              "$computed": "derive",
+              "args": { "items": { "$state": "/items" }, "groupBy": { "$state": "/groupBy" } }
+            }
           }
         }
       }
@@ -38,7 +44,11 @@
       "type": "MenuItem",
       "props": {
         "label": { "$item": "label" },
-        "checked": { "$cond": { "$item": "path", "eq": { "$state": "/groupBy" } }, "$then": true, "$else": false }
+        "checked": {
+          "$cond": { "$item": "path", "eq": { "$state": "/groupBy" } },
+          "$then": true,
+          "$else": false
+        }
       },
       "on": {
         "press": {
@@ -51,7 +61,11 @@
       "type": "Menu",
       "props": {
         "label": "Lay groups out as",
-        "icon": { "$cond": { "$state": "/axis", "eq": "lanes" }, "$then": "columns", "$else": "rows" }
+        "icon": {
+          "$cond": { "$state": "/axis", "eq": "lanes" },
+          "$then": "columns",
+          "$else": "rows"
+        }
       },
       "visible": { "$state": "/derived/grouped" },
       "children": ["axis-sections", "axis-lanes"]
@@ -61,9 +75,15 @@
       "props": {
         "label": "Rows",
         "icon": "rows",
-        "checked": { "$cond": { "$state": "/axis", "eq": "sections" }, "$then": true, "$else": false }
+        "checked": {
+          "$cond": { "$state": "/axis", "eq": "sections" },
+          "$then": true,
+          "$else": false
+        }
       },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/axis", "value": "sections" } } }
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/axis", "value": "sections" } }
+      }
     },
     "axis-lanes": {
       "type": "MenuItem",
@@ -72,7 +92,9 @@
         "icon": "columns",
         "checked": { "$cond": { "$state": "/axis", "eq": "lanes" }, "$then": true, "$else": false }
       },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/axis", "value": "lanes" } } }
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/axis", "value": "lanes" } }
+      }
     },
 
     "board": {
@@ -108,7 +130,12 @@
               "statePath": "/toasts",
               "value": {
                 "$computed": "moveToast",
-                "args": { "items": { "$state": "/items" }, "id": { "$state": "/dropped" }, "group": { "$item": "key" }, "groupBy": { "$state": "/groupBy" } }
+                "args": {
+                  "items": { "$state": "/items" },
+                  "id": { "$state": "/dropped" },
+                  "group": { "$item": "key" },
+                  "groupBy": { "$state": "/groupBy" }
+                }
               }
             }
           },
@@ -118,7 +145,12 @@
               "statePath": "/items",
               "value": {
                 "$computed": "move",
-                "args": { "items": { "$state": "/items" }, "id": { "$state": "/dropped" }, "group": { "$item": "key" }, "groupBy": { "$state": "/groupBy" } }
+                "args": {
+                  "items": { "$state": "/items" },
+                  "id": { "$state": "/dropped" },
+                  "group": { "$item": "key" },
+                  "groupBy": { "$state": "/groupBy" }
+                }
               }
             }
           }
@@ -151,7 +183,12 @@
     },
     "move-menu": {
       "type": "Menu",
-      "props": { "label": { "$item": "moveLabel" }, "icon": "move", "align": "end", "focusNext": { "$item": "moveLabel" } },
+      "props": {
+        "label": { "$item": "moveLabel" },
+        "icon": "move",
+        "align": "end",
+        "focusNext": { "$item": "moveLabel" }
+      },
       "visible": { "$item": "movable" },
       "repeat": { "statePath": { "$item": "destinations" }, "key": "group" },
       "children": ["destination"]
@@ -167,7 +204,12 @@
               "statePath": "/toasts",
               "value": {
                 "$computed": "moveToast",
-                "args": { "items": { "$state": "/items" }, "id": { "$item": "id" }, "group": { "$item": "group" }, "groupBy": { "$state": "/groupBy" } }
+                "args": {
+                  "items": { "$state": "/items" },
+                  "id": { "$item": "id" },
+                  "group": { "$item": "group" },
+                  "groupBy": { "$state": "/groupBy" }
+                }
               }
             }
           },
@@ -177,7 +219,12 @@
               "statePath": "/items",
               "value": {
                 "$computed": "move",
-                "args": { "items": { "$state": "/items" }, "id": { "$item": "id" }, "group": { "$item": "group" }, "groupBy": { "$state": "/groupBy" } }
+                "args": {
+                  "items": { "$state": "/items" },
+                  "id": { "$item": "id" },
+                  "group": { "$item": "group" },
+                  "groupBy": { "$state": "/groupBy" }
+                }
               }
             }
           }
@@ -193,7 +240,10 @@
           "action": "setState",
           "params": {
             "statePath": "/items",
-            "value": { "$computed": "undoMove", "args": { "items": { "$state": "/items" }, "toast": { "$state": "/pressed" } } }
+            "value": {
+              "$computed": "undoMove",
+              "args": { "items": { "$state": "/items" }, "toast": { "$state": "/pressed" } }
+            }
           }
         }
       }

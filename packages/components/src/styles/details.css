@@ -45,7 +45,7 @@
   }
 
   summary::before {
-    content: "";
+    content: '';
     flex: none;
     order: var(--_marker-order, 0);
     margin-inline-start: var(--_marker-push, 0);

@@ -20,7 +20,7 @@ export function setPatternGraphHover(path: string | null): void {
   document.dispatchEvent(
     new CustomEvent<PatternGraphHoverDetail>(PATTERN_GRAPH_HOVER_EVENT, {
       detail: { path },
-    })
+    }),
   );
 }
 
@@ -34,7 +34,7 @@ let subscriber: ((detail: PatternGraphHoverDetail) => void) | null = null;
 let bound = false;
 
 export function subscribePatternGraphHover(
-  fn: (detail: PatternGraphHoverDetail) => void
+  fn: (detail: PatternGraphHoverDetail) => void,
 ): () => void {
   subscriber = fn;
   if (!bound) {

@@ -5,7 +5,12 @@ import type { Axis, AxisDomain, AxisScale } from 'd3-axis';
 import { format } from 'd3-format';
 import type { ScaleBand, ScaleLinear } from 'd3-scale';
 import type { ElenaProp } from '../base/d3-component.js';
-import type { ScaleConsumer, TickInfo, ChartScale, ScaleCoordinator } from '../services/scale-coordinator.js';
+import type {
+  ScaleConsumer,
+  TickInfo,
+  ChartScale,
+  ScaleCoordinator,
+} from '../services/scale-coordinator.js';
 
 /**
  * @summary A configurable chart axis component that works with D3 scales
@@ -29,9 +34,9 @@ import type { ScaleConsumer, TickInfo, ChartScale, ScaleCoordinator } from '../s
  * @cssproperty --grid-opacity - Opacity of the grid lines
  */
 export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
-  static tagName = 'pp-chart-axis';
+  static 'tagName' = 'pp-chart-axis';
 
-  static props: ElenaProp[] = [
+  static 'props': ElenaProp[] = [
     'orientation',
     'label',
     'tick-count',
@@ -43,26 +48,26 @@ export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
     { name: 'coordinator', reflect: false },
   ];
 
-  orientation: 'top' | 'bottom' | 'left' | 'right' = 'bottom';
-  label = '';
+  'orientation': 'top' | 'bottom' | 'left' | 'right' = 'bottom';
+  'label' = '';
   'tick-count' = 5;
-  tickFormat: ((d: AxisDomain) => string) | string = '';
-  grid = false;
-  width = 0;
-  height = 0;
-  scale: ScaleBand<string> | ScaleLinear<number, number> | null = null;
-  coordinator: ScaleCoordinator | null = null;
+  'tickFormat': ((d: AxisDomain) => string) | string = '';
+  'grid' = false;
+  'width' = 0;
+  'height' = 0;
+  'scale': ScaleBand<string> | ScaleLinear<number, number> | null = null;
+  'coordinator': ScaleCoordinator | null = null;
 
   /** The owned scaffold, built once on first connect. */
-  private svg!: SVGSVGElement;
-  private axisGroup!: SVGGElement;
+  private 'svg'!: SVGSVGElement;
+  private 'axisGroup'!: SVGGElement;
 
-  connectedCallback() {
+  'connectedCallback'() {
     super.connectedCallback();
     this.ensureScaffold();
   }
 
-  private ensureScaffold() {
+  private 'ensureScaffold'() {
     if (this.svg) return;
     const NS = 'http://www.w3.org/2000/svg';
 
@@ -84,7 +89,7 @@ export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
     this.axisGroup = group;
   }
 
-  updated() {
+  'updated'() {
     if (!this.svg) return;
     this.svg.setAttribute('width', String(this.width));
     this.svg.setAttribute('height', String(this.height));
@@ -92,68 +97,68 @@ export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
     this.renderAxis();
   }
 
-  private renderAxis() {
+  private 'renderAxis'() {
     if (!this.scale || !this.axisGroup) {
       return;
     }
 
     try {
+      select(this.axisGroup).selectAll('*').remove();
 
-    select(this.axisGroup).selectAll('*').remove();
+      // D3 axis types are generic, so the scale is handled as AxisScale.
+      const axisScale = this.scale as AxisScale<AxisDomain>;
+      let axis: Axis<AxisDomain>;
+      switch (this.orientation) {
+        case 'bottom':
+          axis = axisBottom(axisScale);
+          break;
+        case 'top':
+          axis = axisTop(axisScale);
+          break;
+        case 'left':
+          axis = axisLeft(axisScale);
+          break;
+        case 'right':
+          axis = axisRight(axisScale);
+          break;
+        default:
+          axis = axisBottom(axisScale);
+      }
 
-    // D3 axis types are generic, so the scale is handled as AxisScale.
-    const axisScale = this.scale as AxisScale<AxisDomain>;
-    let axis: Axis<AxisDomain>;
-    switch (this.orientation) {
-      case 'bottom':
-        axis = axisBottom(axisScale);
-        break;
-      case 'top':
-        axis = axisTop(axisScale);
-        break;
-      case 'left':
-        axis = axisLeft(axisScale);
-        break;
-      case 'right':
-        axis = axisRight(axisScale);
-        break;
-      default:
-        axis = axisBottom(axisScale);
-    }
+      if ('ticks' in this.scale && this['tick-count']) {
+        axis.ticks(this['tick-count']);
+      }
 
-    if ('ticks' in this.scale && this['tick-count']) {
-      axis.ticks(this['tick-count']);
-    }
-
-    if (this.tickFormat) {
-      if (typeof this.tickFormat === 'function') {
-        axis.tickFormat(this.tickFormat);
-      } else if (typeof this.tickFormat === 'string' && this.tickFormat.trim()) {
-        try {
-          const formatter = format(this.tickFormat);
-          // Wrapper that handles both string and number domains
-          axis.tickFormat((domainValue: AxisDomain) => {
-            if (typeof domainValue === 'number') {
-              return formatter(domainValue);
-            }
-            return String(domainValue);
-          });
-        } catch {
-          console.warn('Unable to parse tick format string:', this.tickFormat);
+      if (this.tickFormat) {
+        if (typeof this.tickFormat === 'function') {
+          axis.tickFormat(this.tickFormat);
+        } else if (typeof this.tickFormat === 'string' && this.tickFormat.trim()) {
+          try {
+            const formatter = format(this.tickFormat);
+            // Wrapper that handles both string and number domains
+            axis.tickFormat((domainValue: AxisDomain) => {
+              if (typeof domainValue === 'number') {
+                return formatter(domainValue);
+              }
+              return String(domainValue);
+            });
+          } catch {
+            console.warn('Unable to parse tick format string:', this.tickFormat);
+          }
         }
       }
-    }
 
-    select(this.axisGroup).call(axis);
-    this.styleAxis();
-    this.generateTickInfo();
+      select(this.axisGroup).call(axis);
+      this.styleAxis();
+      this.generateTickInfo();
 
-    this.dispatchEvent(new CustomEvent('pp-axis-render', {
-      detail: { orientation: this.orientation },
-      bubbles: true,
-      composed: true
-    }));
-
+      this.dispatchEvent(
+        new CustomEvent('pp-axis-render', {
+          detail: { orientation: this.orientation },
+          bubbles: true,
+          composed: true,
+        }),
+      );
     } catch (error) {
       console.error('Chart axis: Error rendering axis:', error);
       // Clear the axis group on error to prevent partial renders
@@ -163,58 +168,62 @@ export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
     }
   }
 
-  private styleAxis() {
+  private 'styleAxis'() {
     const axisSelection = select(this.axisGroup);
 
-    axisSelection.select('.domain')
+    axisSelection
+      .select('.domain')
       .attr('stroke', 'var(--c-border)')
       .attr('stroke-width', 1)
       .attr('fill', 'none');
 
-    axisSelection.selectAll('.tick line')
-      .attr('stroke', 'var(--c-border)')
-      .attr('stroke-width', 1);
+    axisSelection.selectAll('.tick line').attr('stroke', 'var(--c-border)').attr('stroke-width', 1);
 
-    axisSelection.selectAll('.tick text')
+    axisSelection
+      .selectAll('.tick text')
       .attr('fill', 'var(--c-bodyDimmed)')
       .attr('font-size', 'var(--text-s)')
       .attr('font-family', 'var(--font)');
 
     if (this.orientation === 'left') {
-      axisSelection.selectAll('.tick text')
+      axisSelection
+        .selectAll('.tick text')
         .attr('text-anchor', 'end')
         .attr('x', -12)
         .attr('dy', '0.32em');
     } else if (this.orientation === 'right') {
-      axisSelection.selectAll('.tick text')
+      axisSelection
+        .selectAll('.tick text')
         .attr('text-anchor', 'start')
         .attr('x', 12)
         .attr('dy', '0.32em');
     } else if (this.orientation === 'top') {
-      axisSelection.selectAll('.tick text')
+      axisSelection
+        .selectAll('.tick text')
         .attr('text-anchor', 'middle')
         .attr('y', -12)
         .attr('dy', '0');
     } else {
-      axisSelection.selectAll('.tick text')
+      axisSelection
+        .selectAll('.tick text')
         .attr('text-anchor', 'middle')
         .attr('y', 12)
         .attr('dy', '0.71em');
     }
   }
 
-  setScale(scale: ScaleBand<string> | ScaleLinear<number, number>) {
+  'setScale'(scale: ScaleBand<string> | ScaleLinear<number, number>) {
     this.scale = scale;
   }
 
-  getDimensions() {
+  'getDimensions'() {
     return {
       width: this.width,
-      height: this.height
+      height: this.height,
     };
   }
 
-  updateScale(axis: 'x' | 'y', scale: ChartScale): void {
+  'updateScale'(axis: 'x' | 'y', scale: ChartScale): void {
     // Only react to the coordinator axis this orientation belongs to.
     const axisType = this.orientation === 'bottom' || this.orientation === 'top' ? 'x' : 'y';
     if (axis === axisType) {
@@ -224,7 +233,7 @@ export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
   }
 
   /** Publish tick positions to the coordinator so the grid can align to them. */
-  private generateTickInfo(): void {
+  private 'generateTickInfo'(): void {
     if (!this.scale || !this.coordinator) return;
 
     const axisType = this.orientation === 'bottom' || this.orientation === 'top' ? 'x' : 'y';
@@ -234,7 +243,7 @@ export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
       // Band scale: ticks at band centres.
       const bandScale = this.scale as ScaleBand<string>;
       const domain = bandScale.domain();
-      domain.forEach(value => {
+      domain.forEach((value) => {
         const position = bandScale(value);
         if (position !== undefined) {
           ticks.push({ value, position: position + bandScale.bandwidth() / 2 });
@@ -243,7 +252,7 @@ export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
     } else {
       const linearScale = this.scale as ScaleLinear<number, number>;
       const tickValues = linearScale.ticks(this['tick-count']);
-      tickValues.forEach(value => {
+      tickValues.forEach((value) => {
         const position = linearScale(value);
         if (position !== undefined) {
           ticks.push({ value, position });
@@ -254,12 +263,12 @@ export class PpChartAxis extends Elena(HTMLElement) implements ScaleConsumer {
     this.coordinator.updateTicks(axisType, ticks);
   }
 
-  setCoordinator(coordinator: ScaleCoordinator): void {
+  'setCoordinator'(coordinator: ScaleCoordinator): void {
     this.coordinator = coordinator;
     coordinator.registerConsumer(this);
   }
 
-  removeCoordinator(): void {
+  'removeCoordinator'(): void {
     if (this.coordinator) {
       this.coordinator.unregisterConsumer(this);
       this.coordinator = null;

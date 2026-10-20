@@ -112,9 +112,9 @@ describe('resolveGrouping', () => {
     const resolved = resolveGrouping(
       grouping(
         { title: 'First', episodes: [episode('E1', 'r0'), episode('E2', 'r2')] },
-        { title: 'Second', episodes: [episode('E3', 'r4')] }
+        { title: 'Second', episodes: [episode('E3', 'r4')] },
       ),
-      records
+      records,
     )!;
 
     expect(resolved.from).toBe(0);
@@ -138,17 +138,13 @@ describe('resolveGrouping', () => {
     const resolved = resolveGrouping(
       grouping(
         { title: 'First', episodes: [episode('E1', 'r0'), episode('E2', 'r3')] },
-        { title: 'Second', episodes: [episode('E3', 'r5')] }
+        { title: 'Second', episodes: [episode('E3', 'r5')] },
       ),
-      records
+      records,
     )!;
 
     const leaves = resolved.children![0].children![0].children!;
-    expect(leaves.map((leaf) => leaf.sentence)).toEqual([
-      'record 0',
-      'record 1',
-      'record 2',
-    ]);
+    expect(leaves.map((leaf) => leaf.sentence)).toEqual(['record 0', 'record 1', 'record 2']);
     expect(leaves.every((leaf) => leaf.title === undefined)).toBe(true);
     expect(leaves.map((leaf) => leaf.id)).toEqual(['r0', 'r1', 'r2']);
   });
@@ -158,9 +154,9 @@ describe('resolveGrouping', () => {
       grouping(
         { title: 'First', episodes: [episode('E1', 'r0')] },
         { title: 'Second', episodes: [episode('E2', 'r2')] },
-        { title: 'Third', episodes: [episode('E3', 'r4')] }
+        { title: 'Third', episodes: [episode('E3', 'r4')] },
       ),
-      records
+      records,
     )!;
 
     expect(resolved.id).toBe('run');
@@ -174,7 +170,7 @@ describe('resolveGrouping', () => {
         title: 'Only',
         episodes: [episode('E1', 'r0'), episode('Invented', 'r99'), episode('E2', 'r3')],
       }),
-      records
+      records,
     )!;
 
     expect(resolved.children!.map((span) => span.title)).toEqual(['E1', 'E2']);
@@ -192,7 +188,7 @@ describe('resolveGrouping', () => {
           episode('E3', 'r4'),
         ],
       }),
-      records
+      records,
     )!;
 
     expect(resolved.children!.map((span) => span.title)).toEqual(['E1', 'E2', 'E3']);
@@ -204,7 +200,7 @@ describe('resolveGrouping', () => {
         title: 'Only',
         episodes: [episode('E1', 'r0'), episode('E2', 'r4'), episode('Last', 'r5')],
       }),
-      records
+      records,
     )!;
 
     // `Last` opens on the final record and so stands for it alone. A stretch
@@ -222,7 +218,7 @@ describe('resolveGrouping', () => {
         title: 'Only',
         episodes: [episode('Late start', 'r2'), episode('E2', 'r4')],
       }),
-      records
+      records,
     )!;
 
     const [first] = resolved.children!;
@@ -234,9 +230,9 @@ describe('resolveGrouping', () => {
     const resolved = resolveGrouping(
       grouping(
         { title: 'Same', episodes: [episode('E1', 'r0')] },
-        { title: 'Same', episodes: [episode('E2', 'r3')] }
+        { title: 'Same', episodes: [episode('E2', 'r3')] },
       ),
-      records
+      records,
     )!;
 
     // One phase spanning the run, holding both episodes — and with the run
@@ -251,9 +247,9 @@ describe('resolveGrouping', () => {
       grouping(
         { title: 'A', episodes: [episode('E1', 'r0')] },
         { title: 'B', episodes: [episode('E2', 'r2')] },
-        { title: 'A', episodes: [episode('E3', 'r4')] }
+        { title: 'A', episodes: [episode('E3', 'r4')] },
       ),
-      records
+      records,
     )!;
 
     expect(resolved.children).toHaveLength(3);
@@ -261,7 +257,7 @@ describe('resolveGrouping', () => {
 
   it('refuses a grouping that would leave one level or none', () => {
     expect(
-      resolveGrouping(grouping({ title: 'Only', episodes: [episode('E1', 'r0')] }), records)
+      resolveGrouping(grouping({ title: 'Only', episodes: [episode('E1', 'r0')] }), records),
     ).toBeNull();
 
     expect(resolveGrouping(grouping({ title: 'Empty', episodes: [] }), records)).toBeNull();
@@ -272,15 +268,15 @@ describe('resolveGrouping', () => {
     expect(
       resolveGrouping(
         grouping({ title: 'Only', episodes: [episode('E1', 'x'), episode('E2', 'y')] }),
-        records
-      )
+        records,
+      ),
     ).toBeNull();
   });
 
   it('survives a reply missing the arrays it promised', () => {
     expect(resolveGrouping({} as TimelineGrouping, records)).toBeNull();
     expect(
-      resolveGrouping({ phases: [{ title: 'A', summary: 'a' }] } as TimelineGrouping, records)
+      resolveGrouping({ phases: [{ title: 'A', summary: 'a' }] } as TimelineGrouping, records),
     ).toBeNull();
   });
 });

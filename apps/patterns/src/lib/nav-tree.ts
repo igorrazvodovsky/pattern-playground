@@ -61,8 +61,11 @@ export async function buildNavTree(): Promise<NavTree> {
   const patterns = await getCollection('patterns');
   const sequences = await getCollection('sequences');
   const concepts = CONCEPTS_ENABLED ? await getCollection('concepts') : [];
-  const key = [...patterns, ...sequences, ...concepts].map((e) => `${e.id}@${e.digest ?? ''}`).join(' ');
-  if (navCache?.key !== key) navCache = { key, tree: assembleNavTree(patterns, sequences, concepts) };
+  const key = [...patterns, ...sequences, ...concepts]
+    .map((e) => `${e.id}@${e.digest ?? ''}`)
+    .join(' ');
+  if (navCache?.key !== key)
+    navCache = { key, tree: assembleNavTree(patterns, sequences, concepts) };
   return navCache.tree;
 }
 
@@ -71,7 +74,6 @@ function assembleNavTree(
   sequenceEntries: CollectionEntry<'sequences'>[],
   conceptEntries: CollectionEntry<'concepts'>[],
 ): NavTree {
-
   const leavesWhere = (test: (p: PatternEntry) => boolean): NavLeaf[] =>
     patterns
       .filter(test)
@@ -89,11 +91,14 @@ function assembleNavTree(
 
   const branchFor = (key: string): NavBranch => {
     const members = patterns.filter((p) => groupPath(p)[0] === key);
-    const overview = leavesWhere((p) => members.includes(p) && p.data.role === 'collection')
-      .map((leaf): NavLeaf => ({ ...leaf, label: 'Overview' }));
+    const overview = leavesWhere((p) => members.includes(p) && p.data.role === 'collection').map(
+      (leaf): NavLeaf => ({ ...leaf, label: 'Overview' }),
+    );
     const subgroups = [...new Set(members.map((p) => groupPath(p)[1]).filter(Boolean))];
     const rest: NavTreeNode[] = [
-      ...leavesWhere((p) => members.includes(p) && p.data.role !== 'collection' && !groupPath(p)[1]),
+      ...leavesWhere(
+        (p) => members.includes(p) && p.data.role !== 'collection' && !groupPath(p)[1],
+      ),
       ...subgroups.map((sub): NavBranch => ({
         label: humaniseSlug(sub),
         children: leavesWhere((p) => members.includes(p) && groupPath(p)[1] === sub),
@@ -106,7 +111,9 @@ function assembleNavTree(
     label: 'Patterns',
     children: [
       ...leavesWhere((p) => roleGroupOf(p) === null && !inBranch(p)),
-      ...Object.keys(BRANCH_GROUPS).map(branchFor).filter((b) => b.children.length > 0),
+      ...Object.keys(BRANCH_GROUPS)
+        .map(branchFor)
+        .filter((b) => b.children.length > 0),
     ].sort(byLabel),
   };
 

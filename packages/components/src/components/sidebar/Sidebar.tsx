@@ -1,11 +1,4 @@
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Dialog } from '@base-ui/react/dialog';
 import { Tooltip } from '@base-ui/react/tooltip';
 import { useRender } from '@base-ui/react/use-render';
@@ -152,7 +145,10 @@ export function Sidebar({
     return (
       <Dialog.Root open={openMobile} onOpenChange={(open) => setOpenMobile(open)}>
         <Dialog.Portal>
-          <Dialog.Backdrop data-slot="sidebar-mobile-backdrop" className="sidebar-mobile-backdrop" />
+          <Dialog.Backdrop
+            data-slot="sidebar-mobile-backdrop"
+            className="sidebar-mobile-backdrop"
+          />
           <Dialog.Popup
             data-slot="sidebar"
             data-sidebar="sidebar"
@@ -162,9 +158,7 @@ export function Sidebar({
             {...props}
           >
             <Dialog.Title className="visually-hidden">Navigation sidebar</Dialog.Title>
-            <Dialog.Description className="visually-hidden">
-              Site navigation
-            </Dialog.Description>
+            <Dialog.Description className="visually-hidden">Site navigation</Dialog.Description>
             <div data-slot="sidebar-inner" className="sidebar__inner">
               {children}
             </div>
@@ -261,13 +255,7 @@ export function SidebarRail({ className, ...props }: React.ComponentProps<'butto
 // Nothing sidebar-specific, and nothing React needs to do. Static markup should
 // write the class rather than mount an island for one element.
 export function SidebarInset({ className, ...props }: React.ComponentProps<'main'>) {
-  return (
-    <main
-      data-slot="shell-main"
-      className={clsx('shell__main', className)}
-      {...props}
-    />
-  );
+  return <main data-slot="shell-main" className={clsx('shell__main', className)} {...props} />;
 }
 
 // ---------------------------------------------------------------------------
@@ -361,7 +349,7 @@ export function SidebarGroupLabel({ render, className, ...props }: SidebarGroupL
     props: {
       'data-slot': 'sidebar-group-label',
       'data-sidebar': 'group-label',
-      className: clsx('sidebar-group-label', className),
+      'className': clsx('sidebar-group-label', className),
       ...props,
     },
     defaultTagName: 'span',
@@ -386,7 +374,7 @@ export function SidebarGroupAction({
       'data-slot': 'sidebar-group-action',
       'data-sidebar': 'group-action',
       ...(showOnHover ? { 'data-show-on-hover': '' } : {}),
-      className: clsx('sidebar-group-action', className),
+      'className': clsx('sidebar-group-action', className),
       ...props,
     },
     defaultTagName: 'button',
@@ -461,7 +449,7 @@ export function SidebarMenuButton({
       'data-sidebar': 'menu-button',
       ...(isActive ? { 'data-active': '' } : {}),
       'data-size': size,
-      className: clsx('sidebar-menu-button', className),
+      'className': clsx('sidebar-menu-button', className),
       ...props,
     },
     defaultTagName: 'button',
@@ -477,10 +465,7 @@ export function SidebarMenuButton({
       {element}
       <Tooltip.Portal>
         <Tooltip.Positioner side="right" align="center">
-          <Tooltip.Popup
-            hidden={tooltipHidden}
-            className="sidebar-tooltip-popup"
-          >
+          <Tooltip.Popup hidden={tooltipHidden} className="sidebar-tooltip-popup">
             {tooltipContent}
           </Tooltip.Popup>
         </Tooltip.Positioner>
@@ -511,7 +496,7 @@ export function SidebarMenuAction({
       'data-slot': 'sidebar-menu-action',
       'data-sidebar': 'menu-action',
       ...(showOnHover ? { 'data-show-on-hover': '' } : {}),
-      className: clsx('sidebar-menu-action', className),
+      'className': clsx('sidebar-menu-action', className),
       ...props,
     },
     defaultTagName: 'button',
@@ -606,7 +591,7 @@ export function SidebarMenuSubButton({
       'data-sidebar': 'menu-sub-button',
       ...(isActive ? { 'data-active': '' } : {}),
       'data-size': size,
-      className: clsx('sidebar-menu-sub-button', className),
+      'className': clsx('sidebar-menu-sub-button', className),
       ...props,
     },
     defaultTagName: 'a',

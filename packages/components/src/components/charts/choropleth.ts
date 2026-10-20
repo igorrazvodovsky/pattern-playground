@@ -64,42 +64,42 @@ const ACCENT_RAMP = [
 const NO_DATA_FILL = 'var(--c-neutral-100)';
 
 export class Choropleth extends ChartComponent {
-  static tagName = 'pp-choropleth';
+  static 'tagName' = 'pp-choropleth';
 
-  static props: ElenaProp[] = [
+  static 'props': ElenaProp[] = [
     ...ChartComponent.props,
     'projection',
     'color-steps',
     'show-legend',
   ];
 
-  data: ChoroplethData = { geometry: { type: 'FeatureCollection', features: [] }, values: [] };
-  projection: MapProjectionName = 'naturalEarth';
+  'data': ChoroplethData = { geometry: { type: 'FeatureCollection', features: [] }, values: [] };
+  'projection': MapProjectionName = 'naturalEarth';
   'color-steps' = 5;
   'show-legend' = false;
 
   /** A choropleth has generous margins by default so coastlines aren't clipped. */
-  margin = { top: 8, right: 8, bottom: 8, left: 8 };
+  'margin' = { top: 8, right: 8, bottom: 8, left: 8 };
 
   /** Keyboard navigation moves through `data.values`. */
-  protected itemNavigationName = 'Map';
+  protected 'itemNavigationName' = 'Map';
 
-  protected validateData(): boolean {
+  protected 'validateData'(): boolean {
     return isChoroplethData(this.data) && this.data.geometry.features.length > 0;
   }
 
   /** Scales are built inline in renderChart; nothing to precompute here. */
-  protected setupScales(): void {}
+  protected 'setupScales'(): void {}
 
   /** Read a region's join key from a feature (`id` by default). */
-  private featureKeyOf(feature: GeoJSON.Feature): string | undefined {
+  private 'featureKeyOf'(feature: GeoJSON.Feature): string | undefined {
     const key = this.data.featureKey ?? 'id';
     const raw = key === 'id' ? feature.id : feature.properties?.[key];
     return raw == null ? undefined : String(raw);
   }
 
   /** The colour range: `color-steps` swatches sampled evenly from the accent ramp. */
-  private colorRange(): string[] {
+  private 'colorRange'(): string[] {
     const steps = Math.max(2, Math.min(this['color-steps'], ACCENT_RAMP.length));
     return Array.from({ length: steps }, (_, i) => {
       const t = steps === 1 ? 0 : i / (steps - 1);
@@ -107,7 +107,7 @@ export class Choropleth extends ChartComponent {
     });
   }
 
-  protected renderChart(): void {
+  protected 'renderChart'(): void {
     if (!this.contentGroup || !this.validateData()) return;
 
     const { geometry, values } = this.data;
@@ -120,8 +120,10 @@ export class Choropleth extends ChartComponent {
     // is already translated by the margins, so we fit the inner extent.
     const innerWidth = VIEWBOX_WIDTH - this.margin.left - this.margin.right;
     const innerHeight = VIEWBOX_HEIGHT - this.margin.top - this.margin.bottom;
-    const projection: GeoProjection = PROJECTIONS[this.projection]()
-      .fitSize([innerWidth, innerHeight], geometry);
+    const projection: GeoProjection = PROJECTIONS[this.projection]().fitSize(
+      [innerWidth, innerHeight],
+      geometry,
+    );
     const path = geoPath(projection);
 
     // Colour scale over the value domain.
@@ -156,27 +158,36 @@ export class Choropleth extends ChartComponent {
 
     // Interactions dispatch typed events for consumers.
     regions
-      .on('mouseenter', (event: MouseEvent, f) => this.emitForFeature('pp-choropleth-hover', f, event))
-      .on('mouseleave', () => this.dispatchEvent(
-        new CustomEvent('pp-choropleth-hover-end', { bubbles: true, composed: true }),
-      ))
+      .on('mouseenter', (event: MouseEvent, f) =>
+        this.emitForFeature('pp-choropleth-hover', f, event),
+      )
+      .on('mouseleave', () =>
+        this.dispatchEvent(
+          new CustomEvent('pp-choropleth-hover-end', { bubbles: true, composed: true }),
+        ),
+      )
       .on('click', (event: MouseEvent, f) => this.emitForFeature('pp-choropleth-click', f, event));
 
     if (this['show-legend']) this.renderLegend(container, range, min, max);
 
     // Accessibility: title + aria summary.
     const regionCount = values.length;
-    this.setChartLabel(this.title || `Choropleth with ${regionCount} region${regionCount === 1 ? '' : 's'}`);
-    this.syncDataTable(values.map((item) => [this.regionLabel(item), item.value]), 'Map data');
+    this.setChartLabel(
+      this.title || `Choropleth with ${regionCount} region${regionCount === 1 ? '' : 's'}`,
+    );
+    this.syncDataTable(
+      values.map((item) => [this.regionLabel(item), item.value]),
+      'Map data',
+    );
   }
 
-  private datumForFeature(feature: GeoJSON.Feature): ChoroplethDataPoint | undefined {
+  private 'datumForFeature'(feature: GeoJSON.Feature): ChoroplethDataPoint | undefined {
     const key = this.featureKeyOf(feature);
     if (key == null) return undefined;
     return this.data.values.find((v) => String(v.id) === key);
   }
 
-  private regionLabel(datum: ChoroplethDataPoint): string {
+  private 'regionLabel'(datum: ChoroplethDataPoint): string {
     if (datum.label) return datum.label;
     const feature = this.data.geometry.features.find(
       (f) => this.featureKeyOf(f) === String(datum.id),
@@ -186,7 +197,7 @@ export class Choropleth extends ChartComponent {
   }
 
   /** Tooltip text for any region — value if it has data, otherwise just its name. */
-  private regionTooltip(feature: GeoJSON.Feature): string {
+  private 'regionTooltip'(feature: GeoJSON.Feature): string {
     const datum = this.datumForFeature(feature);
     if (datum) {
       const unit = this.data.valueLabel ? ` ${this.data.valueLabel}` : '';
@@ -196,38 +207,40 @@ export class Choropleth extends ChartComponent {
     return typeof name === 'string' ? name : '';
   }
 
-  private emitForFeature(name: string, feature: GeoJSON.Feature, originalEvent: Event): void {
+  private 'emitForFeature'(name: string, feature: GeoJSON.Feature, originalEvent: Event): void {
     const datum = this.datumForFeature(feature);
     if (datum) this.emitRegionEvent(name, datum, originalEvent);
   }
 
-  private emitRegionEvent(name: string, data: ChoroplethDataPoint, originalEvent: Event): void {
-    this.dispatchEvent(new CustomEvent(name, {
-      detail: { data, originalEvent },
-      bubbles: true,
-      composed: true,
-    }));
+  private 'emitRegionEvent'(name: string, data: ChoroplethDataPoint, originalEvent: Event): void {
+    this.dispatchEvent(
+      new CustomEvent(name, {
+        detail: { data, originalEvent },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
-  protected itemCount(): number {
+  protected 'itemCount'(): number {
     return this.data.values.length;
   }
 
-  protected describeItem(index: number): string {
+  protected 'describeItem'(index: number): string {
     const datum = this.data.values[index];
     const unit = this.data.valueLabel ? ` ${this.data.valueLabel}` : '';
     return `${this.regionLabel(datum)}: ${datum.value}${unit}`;
   }
 
-  protected activateItem(index: number, event: KeyboardEvent): void {
+  protected 'activateItem'(index: number, event: KeyboardEvent): void {
     this.emitRegionEvent('pp-choropleth-click', this.data.values[index], event);
   }
 
-  protected onItemFocus(index: number): void {
+  protected 'onItemFocus'(index: number): void {
     this.emitRegionEvent('pp-choropleth-focus', this.data.values[index], new Event('focus'));
   }
 
-  private renderLegend(
+  private 'renderLegend'(
     container: ReturnType<typeof select<SVGGElement, unknown>>,
     range: string[],
     min: number,
@@ -239,7 +252,10 @@ export class Choropleth extends ChartComponent {
     const x = 0;
     const y = VIEWBOX_HEIGHT - this.margin.top - this.margin.bottom - legendHeight;
 
-    const legend = container.append('g').attr('class', 'map-legend').attr('transform', `translate(${x}, ${y})`);
+    const legend = container
+      .append('g')
+      .attr('class', 'map-legend')
+      .attr('transform', `translate(${x}, ${y})`);
 
     legend
       .selectAll('rect')

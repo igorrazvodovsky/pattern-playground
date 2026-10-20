@@ -33,7 +33,9 @@ const text = (value: string) => {
 
 const popup = (location: Place) =>
   `<span class="block text-sm font-medium">${text(location.name)}</span>` +
-  (location.description ? `<span class="block text-xs text-muted-foreground">${text(location.description)}</span>` : '');
+  (location.description
+    ? `<span class="block text-xs text-muted-foreground">${text(location.description)}</span>`
+    : '');
 
 const pinLabel = (location: Place) =>
   location.description ? `${location.name} — ${location.description}` : location.name;
@@ -96,7 +98,7 @@ export const LocationMap = ({
     const instance = map.current;
     if (!instance) return;
     if (locations.length > 0) {
-      instance.fitBounds(L.latLngBounds(locations.map(l => [l.lat, l.lng] as [number, number])), {
+      instance.fitBounds(L.latLngBounds(locations.map((l) => [l.lat, l.lng] as [number, number])), {
         padding: [32, 32],
         maxZoom: 16,
         animate: false,
@@ -117,7 +119,7 @@ export const LocationMap = ({
       el?.setAttribute('aria-label', pinLabel(location));
       el?.addEventListener('focus', () => latest.current.onFocusChange(location.id));
       el?.addEventListener('blur', () => latest.current.onFocusChange(null));
-      el?.addEventListener('keydown', event => {
+      el?.addEventListener('keydown', (event) => {
         if (event.key !== 'Enter' && event.key !== ' ') return;
         event.preventDefault();
         select.current(location.id);

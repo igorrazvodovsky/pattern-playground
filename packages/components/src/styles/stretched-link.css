@@ -18,7 +18,7 @@
 
 @layer utilities {
   .stretched-link::before {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0;
 

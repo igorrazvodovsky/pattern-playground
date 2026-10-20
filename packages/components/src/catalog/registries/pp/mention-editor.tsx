@@ -8,7 +8,11 @@ import '../../../jsx-types';
 
 // The list takes the combobox's attributes for its look only: focus stays in
 // the editor, which reads the list through aria-activedescendant.
-export function MentionEditor({ props, bindings, emit }: ComponentContext<Catalog, 'MentionEditor'>) {
+export function MentionEditor({
+  props,
+  bindings,
+  emit,
+}: ComponentContext<Catalog, 'MentionEditor'>) {
   const [content, setContent] = useBoundProp(props.content, bindings?.content);
   const [, setQuery] = useBoundProp(props.query, bindings?.query);
   const [scope, setScope] = useBoundProp(props.scope, bindings?.scope);
@@ -22,7 +26,7 @@ export function MentionEditor({ props, bindings, emit }: ComponentContext<Catalo
     scope: scope ?? null,
     setScope,
     groups: props.candidates,
-    onOpen: mention => {
+    onOpen: (mention) => {
       setOpened(mention.id);
       emit('open');
     },
@@ -48,7 +52,7 @@ export function MentionEditor({ props, bindings, emit }: ComponentContext<Catalo
                     </div>
                   )}
                   <div cmdk-group-items="" role="group" aria-label={group.heading ?? undefined}>
-                    {group.options.map(candidate => (
+                    {group.options.map((candidate) => (
                       <div key={candidate.id} cmdk-item="" {...option(candidate)}>
                         <span className="combobox-item__check" />
                         {candidate.icon && (

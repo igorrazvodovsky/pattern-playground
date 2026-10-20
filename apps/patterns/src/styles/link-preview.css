@@ -102,7 +102,6 @@
   .link-preview a:hover {
     text-decoration-color: oklch(from var(--c-body) l c h / 75%);
   }
-
 }
 
 @media (prefers-reduced-motion: reduce) {

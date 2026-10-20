@@ -26,14 +26,17 @@ export const CheckboxField = ({
       <Checkbox.Root
         id={id}
         checked={checked}
-        onCheckedChange={next => onChange(next === true)}
+        onCheckedChange={(next) => onChange(next === true)}
         className="peer size-4 shrink-0 rounded-[4px] border border-input shadow-xs transition-shadow outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:bg-input/30 dark:data-[state=checked]:bg-primary"
       >
         <Checkbox.Indicator className="grid place-content-center text-current transition-none">
           <Checkmark aria-hidden="true" className="size-3.5" />
         </Checkbox.Indicator>
       </Checkbox.Root>
-      <label htmlFor={id} className="flex items-center gap-2 text-sm leading-none font-normal select-none">
+      <label
+        htmlFor={id}
+        className="flex items-center gap-2 text-sm leading-none font-normal select-none"
+      >
         {icon}
         {label}
       </label>

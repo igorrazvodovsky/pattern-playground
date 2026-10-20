@@ -133,7 +133,8 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
   /* Flush stack: a run of cards reads as one grouped surface. Neighbours square
      off their touching corners; the -1px overlap collapses the doubled border
      between them to a single hairline. */
-  :is(.cards--flush, .cards--list) > *, :is(.cards--flush, .cards--list) {
+  :is(.cards--flush, .cards--list) > *,
+  :is(.cards--flush, .cards--list) {
     &:not(:last-of-type) .card {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;

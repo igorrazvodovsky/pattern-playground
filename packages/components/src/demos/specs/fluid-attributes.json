@@ -8,7 +8,10 @@
       "watch": {
         "/view": {
           "action": "setState",
-          "params": { "statePath": "/derived", "value": { "$computed": "derive", "args": { "view": { "$state": "/view" } } } }
+          "params": {
+            "statePath": "/derived",
+            "value": { "$computed": "derive", "args": { "view": { "$state": "/view" } } }
+          }
         },
         "/room": { "action": "setState", "params": { "statePath": "/detailOpen", "value": false } }
       }
@@ -29,7 +32,11 @@
       "type": "MenuItem",
       "props": {
         "label": { "$item": "label" },
-        "checked": { "$cond": { "$item": "path", "eq": { "$state": "/derived/sortField" } }, "$then": true, "$else": false }
+        "checked": {
+          "$cond": { "$item": "path", "eq": { "$state": "/derived/sortField" } },
+          "$then": true,
+          "$else": false
+        }
       },
       "on": {
         "press": {
@@ -42,7 +49,11 @@
       "type": "Menu",
       "props": {
         "label": "Sort order",
-        "icon": { "$cond": { "$state": "/view/sort/order", "eq": "asc" }, "$then": "ascending", "$else": "descending" }
+        "icon": {
+          "$cond": { "$state": "/view/sort/order", "eq": "asc" },
+          "$then": "ascending",
+          "$else": "descending"
+        }
       },
       "children": ["order-ascending", "order-descending"]
     },
@@ -51,18 +62,36 @@
       "props": {
         "label": "Ascending",
         "icon": "ascending",
-        "checked": { "$cond": { "$state": "/view/sort/order", "eq": "asc" }, "$then": true, "$else": false }
+        "checked": {
+          "$cond": { "$state": "/view/sort/order", "eq": "asc" },
+          "$then": true,
+          "$else": false
+        }
       },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/view/sort/order", "value": "asc" } } }
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": { "statePath": "/view/sort/order", "value": "asc" }
+        }
+      }
     },
     "order-descending": {
       "type": "MenuItem",
       "props": {
         "label": "Descending",
         "icon": "descending",
-        "checked": { "$cond": { "$state": "/view/sort/order", "eq": "desc" }, "$then": true, "$else": false }
+        "checked": {
+          "$cond": { "$state": "/view/sort/order", "eq": "desc" },
+          "$then": true,
+          "$else": false
+        }
       },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/view/sort/order", "value": "desc" } } }
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": { "statePath": "/view/sort/order", "value": "desc" }
+        }
+      }
     },
     "attributes-menu": {
       "type": "Menu",
@@ -81,7 +110,10 @@
           "action": "setState",
           "params": {
             "statePath": "/view/shown",
-            "value": { "$computed": "toggleShown", "args": { "shown": { "$state": "/view/shown" }, "path": { "$item": "path" } } }
+            "value": {
+              "$computed": "toggleShown",
+              "args": { "shown": { "$state": "/view/shown" }, "path": { "$item": "path" } }
+            }
           }
         }
       }
@@ -111,7 +143,11 @@
             "statePath": "/view/filters",
             "value": {
               "$computed": "applyEdit",
-              "args": { "filters": { "$state": "/view/filters" }, "id": { "$item": "id" }, "edit": { "$state": "/filterEdit" } }
+              "args": {
+                "filters": { "$state": "/view/filters" },
+                "id": { "$item": "id" },
+                "edit": { "$state": "/filterEdit" }
+              }
             }
           }
         },
@@ -119,7 +155,10 @@
           "action": "setState",
           "params": {
             "statePath": "/view/filters",
-            "value": { "$computed": "removeFilter", "args": { "filters": { "$state": "/view/filters" }, "id": { "$item": "id" } } }
+            "value": {
+              "$computed": "removeFilter",
+              "args": { "filters": { "$state": "/view/filters" }, "id": { "$item": "id" } }
+            }
           }
         }
       }
@@ -132,14 +171,22 @@
     },
     "overview": {
       "type": "Stack",
-      "props": { "gap": "m", "label": "Overview", "dropTarget": true, "dropped": { "$bindState": "/dropped" } },
+      "props": {
+        "gap": "m",
+        "label": "Overview",
+        "dropTarget": true,
+        "dropped": { "$bindState": "/dropped" }
+      },
       "children": ["cards", "no-cards"],
       "on": {
         "drop": {
           "action": "setState",
           "params": {
             "statePath": "/view/shown",
-            "value": { "$computed": "surface", "args": { "shown": { "$state": "/view/shown" }, "path": { "$state": "/dropped" } } }
+            "value": {
+              "$computed": "surface",
+              "args": { "shown": { "$state": "/view/shown" }, "path": { "$state": "/dropped" } }
+            }
           }
         }
       }
@@ -164,13 +211,30 @@
       "props": {
         "title": { "$item": "name" },
         "opens": true,
-        "selected": { "$cond": { "$item": "id", "eq": { "$state": "/selected" } }, "$then": true, "$else": false }
+        "selected": {
+          "$cond": { "$item": "id", "eq": { "$state": "/selected" } },
+          "$then": true,
+          "$else": false
+        }
       },
       "slots": { "attributes": ["card-attributes"] },
       "on": {
         "open": [
-          { "action": "setState", "params": { "statePath": "/selected", "value": { "$value": { "$item": "id" } } } },
-          { "action": "setState", "params": { "statePath": "/detailOpen", "value": { "$cond": { "$state": "/room", "not": true }, "$then": true, "$else": false } } }
+          {
+            "action": "setState",
+            "params": { "statePath": "/selected", "value": { "$value": { "$item": "id" } } }
+          },
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/detailOpen",
+              "value": {
+                "$cond": { "$state": "/room", "not": true },
+                "$then": true,
+                "$else": false
+              }
+            }
+          }
         ]
       }
     },
@@ -182,7 +246,11 @@
     },
     "card-attribute": {
       "type": "Badge",
-      "props": { "label": { "$item": "label" }, "text": { "$item": "value" }, "pressable": { "$item": "pressable" } },
+      "props": {
+        "label": { "$item": "label" },
+        "text": { "$item": "value" },
+        "pressable": { "$item": "pressable" }
+      },
       "on": {
         "press": {
           "action": "setState",
@@ -190,7 +258,11 @@
             "statePath": "/view/filters",
             "value": {
               "$computed": "filterBy",
-              "args": { "filters": { "$state": "/view/filters" }, "path": { "$item": "path" }, "value": { "$item": "value" } }
+              "args": {
+                "filters": { "$state": "/view/filters" },
+                "path": { "$item": "path" },
+                "value": { "$item": "value" }
+              }
             }
           }
         }

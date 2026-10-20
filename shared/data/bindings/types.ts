@@ -64,15 +64,7 @@ export type AttributeRole =
   | 'footer'; // provenance meta (created, updated, listed) in a muted end line
 
 export type AttributeValueType =
-  | 'string'
-  | 'number'
-  | 'currency'
-  | 'date'
-  | 'status'
-  | 'image'
-  | 'link'
-  | 'progress'
-  | 'custom'; // rendered by a registered component, never generically
+  'string' | 'number' | 'currency' | 'date' | 'status' | 'image' | 'link' | 'progress' | 'custom'; // rendered by a registered component, never generically
 
 export interface AttributeBinding {
   /** Dot-path into the entity, e.g. 'pricing.msrp'. Resolution descends

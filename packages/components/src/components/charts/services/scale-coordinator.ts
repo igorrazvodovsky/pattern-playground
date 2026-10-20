@@ -78,7 +78,7 @@ export class ScaleCoordinator {
         this.yScale = scale;
       }
 
-      this.consumers.forEach(consumer => {
+      this.consumers.forEach((consumer) => {
         try {
           consumer.updateScale(axis, scale);
         } catch (error) {
@@ -99,7 +99,7 @@ export class ScaleCoordinator {
   updateTicks(axis: 'x' | 'y', ticks: TickInfo[]): void {
     this.tickCache.set(axis, ticks);
 
-    this.consumers.forEach(consumer => {
+    this.consumers.forEach((consumer) => {
       if (consumer.updateTicks) {
         consumer.updateTicks(axis, ticks);
       }
@@ -118,28 +118,34 @@ export class ScaleCoordinator {
           return;
         }
 
-        domain.forEach(value => {
+        domain.forEach((value) => {
           try {
             const position = scale(value);
             if (position !== undefined) {
               ticks.push({ value, position: position + scale.bandwidth() / 2 });
             }
           } catch (error) {
-            console.warn(`Scale coordinator: Error getting position for value '${value}' on ${axis} axis:`, error);
+            console.warn(
+              `Scale coordinator: Error getting position for value '${value}' on ${axis} axis:`,
+              error,
+            );
           }
         });
       } else {
         // Linear scale - use scale.ticks() for optimal tick positions
         try {
           const tickValues = scale.ticks ? scale.ticks(5) : [];
-          tickValues.forEach(value => {
+          tickValues.forEach((value) => {
             try {
               const position = scale(value);
               if (position !== undefined) {
                 ticks.push({ value, position });
               }
             } catch (error) {
-              console.warn(`Scale coordinator: Error getting position for tick value ${value} on ${axis} axis:`, error);
+              console.warn(
+                `Scale coordinator: Error getting position for tick value ${value} on ${axis} axis:`,
+                error,
+              );
             }
           });
         } catch (error) {
@@ -166,7 +172,7 @@ export class ScaleCoordinator {
       type,
       domain,
       range,
-      axis
+      axis,
     };
   }
 

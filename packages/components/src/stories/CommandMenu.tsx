@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useEffect } from 'react'
+import { useMemo, useCallback, useEffect } from 'react';
 
 import {
   Combobox,
@@ -6,20 +6,19 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-} from "../components/combobox";
-import {
-  AIFallbackHandler,
-  useAICommand,
-  type AICommandResult
-} from "../components/command-menu";
+} from '../components/combobox';
+import { AIFallbackHandler, useAICommand, type AICommandResult } from '../components/command-menu';
 
-import { useHierarchicalNavigation, type SearchableItem } from '../hooks/use-hierarchical-navigation';
+import {
+  useHierarchicalNavigation,
+  type SearchableItem,
+} from '../hooks/use-hierarchical-navigation';
 import type { CommandParent, CommandChild } from '../types/hierarchical-navigation';
 import { createSortedSearchFunction, sortByRelevance } from '../utility/hierarchical-search';
 
 import {
   createAISuggestionService,
-  createCommandSuggestionRequest
+  createCommandSuggestionRequest,
 } from '../services/ai-suggestion-service';
 import { convertToAICommandResult } from '../components/command-menu/adapters/ai-command-adapter';
 
@@ -34,12 +33,10 @@ interface CommandOption extends CommandParent {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-interface CommandChildOption extends CommandChild {
-}
+interface CommandChildOption extends CommandChild {}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-interface RecentItem extends SearchableItem {
-}
+interface RecentItem extends SearchableItem {}
 
 const commandData: CommandOption[] = commands as CommandOption[];
 
@@ -50,37 +47,48 @@ function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
     data: commandData,
     searchFunction: createSortedSearchFunction(
       (commands, query) => sortByRelevance(commands, query),
-      (actions, query) => sortByRelevance(actions, query)
+      (actions, query) => sortByRelevance(actions, query),
     ),
     onSelectChild: () => {
       onClose?.();
     },
     onClose,
-    placeholder: "Type a command or search...",
-    contextPlaceholder: (command) => command.name
+    placeholder: 'Type a command or search...',
+    contextPlaceholder: (command) => command.name,
   });
 
   const aiService = useMemo(() => createAISuggestionService(), []);
-  const availableActions = useMemo(() =>
-    Object.fromEntries(
-      commandData.map(cmd => [cmd.name, cmd.children?.map(child => child.name) || []])
-    ), []
+  const availableActions = useMemo(
+    () =>
+      Object.fromEntries(
+        commandData.map((cmd) => [cmd.name, cmd.children?.map((child) => child.name) || []]),
+      ),
+    [],
   );
 
-  const handleAIRequest = useCallback(async (prompt: string): Promise<AICommandResult> => {
-    const request = createCommandSuggestionRequest(prompt, availableActions);
-    const result = await aiService.generateSuggestions(request);
-    return convertToAICommandResult(result);
-  }, [aiService, availableActions]);
+  const handleAIRequest = useCallback(
+    async (prompt: string): Promise<AICommandResult> => {
+      const request = createCommandSuggestionRequest(prompt, availableActions);
+      const result = await aiService.generateSuggestions(request);
+      return convertToAICommandResult(result);
+    },
+    [aiService, availableActions],
+  );
 
-  const { aiState, handleAIRequest: handleAICommandRequest, handleApplyAIResult, handleEditPrompt, clearResultsIfInputChanged } = useAICommand({
-    onAIRequest: handleAIRequest
+  const {
+    aiState,
+    handleAIRequest: handleAICommandRequest,
+    handleApplyAIResult,
+    handleEditPrompt,
+    clearResultsIfInputChanged,
+  } = useAICommand({
+    onAIRequest: handleAIRequest,
   });
 
   const filteredRecentItems = useMemo(() => {
     if (!state.searchInput.trim()) return recentItemsData;
     const processedQuery = state.searchInput.toLowerCase();
-    return recentItemsData.filter(item => {
+    return recentItemsData.filter((item) => {
       const searchText = item.searchableText || item.name;
       return searchText.toLowerCase().includes(processedQuery);
     });
@@ -90,7 +98,9 @@ function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
     if (state.mode === 'contextual') {
       return (results.contextualItems?.length || 0) > 0;
     }
-    return results.parents.length > 0 || results.children.length > 0 || filteredRecentItems.length > 0;
+    return (
+      results.parents.length > 0 || results.children.length > 0 || filteredRecentItems.length > 0
+    );
   }, [state.mode, results, filteredRecentItems]);
 
   const handleApplyAICommands = useCallback(() => {
@@ -100,7 +110,12 @@ function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
   }, [handleApplyAIResult, actions, onClose]);
 
   useEffect(() => {
-    if (state.searchInput && state.mode === 'global' && state.searchInput.length >= MIN_AI_TRIGGER_LENGTH && !hasResults) {
+    if (
+      state.searchInput &&
+      state.mode === 'global' &&
+      state.searchInput.length >= MIN_AI_TRIGGER_LENGTH &&
+      !hasResults
+    ) {
       handleAICommandRequest(state.searchInput);
     }
   }, [state.searchInput, state.mode, hasResults, handleAICommandRequest]);
@@ -161,7 +176,10 @@ function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
                   {results.parents.length > 0 && (
                     <ComboboxGroup heading="Commands">
                       {results.parents.map((command) => (
-                        <ComboboxItem key={command.id} onSelect={() => actions.selectContext(command)}>
+                        <ComboboxItem
+                          key={command.id}
+                          onSelect={() => actions.selectContext(command)}
+                        >
                           <iconify-icon icon={command.icon as string} slot="prefix"></iconify-icon>
                           {command.name}
                           {command.shortcut && (
@@ -179,7 +197,10 @@ function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
                   {results.children.length > 0 && (
                     <ComboboxGroup heading="Actions">
                       {results.children.map(({ parent, child }) => (
-                        <ComboboxItem key={`${parent.id}-${child.id}`} onSelect={() => actions.selectChild(child, parent)}>
+                        <ComboboxItem
+                          key={`${parent.id}-${child.id}`}
+                          onSelect={() => actions.selectChild(child, parent)}
+                        >
                           <iconify-icon icon={child.icon as string} slot="prefix"></iconify-icon>
                           {parent.name} {child.name}
                         </ComboboxItem>
@@ -193,7 +214,7 @@ function CommandMenu({ onClose }: { onClose?: () => void } = {}) {
         </ComboboxList>
       </Combobox>
     </>
-  )
+  );
 }
 
-export default CommandMenu
+export default CommandMenu;

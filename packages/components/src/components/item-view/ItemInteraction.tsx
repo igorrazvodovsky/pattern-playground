@@ -107,7 +107,7 @@ export const ItemInteraction = ({
   const [activeScope, setActiveScope] = useState<ActiveScope>(
     initialScope === 'mini' || initialScope === 'mid' || initialScope === 'maxi'
       ? initialScope
-      : null
+      : null,
   );
   const [anchor, setAnchor] = useState<HTMLSpanElement | null>(null);
   // The popover is portaled to `document.body`: its content is a block-level
@@ -137,9 +137,9 @@ export const ItemInteraction = ({
   const available = useMemo<ViewScope[]>(
     () =>
       (['mini', 'mid', 'maxi'] as const).filter(
-        (scope) => !binding || binding.scopes[scope].length > 0
+        (scope) => !binding || binding.scopes[scope].length > 0,
       ),
-    [binding]
+    [binding],
   );
 
   const changeScope = useCallback(
@@ -147,7 +147,7 @@ export const ItemInteraction = ({
       setActiveScope(scope);
       if (scope) onScopeChange?.(scope);
     },
-    [onScopeChange]
+    [onScopeChange],
   );
 
   const clearTimers = useCallback(() => {
@@ -217,7 +217,7 @@ export const ItemInteraction = ({
       if (scope === 'mid' || scope === 'maxi') setPreferredWorkingRung(scope);
       changeScope(scope);
     },
-    [clearTimers, changeScope, setPreferredWorkingRung]
+    [clearTimers, changeScope, setPreferredWorkingRung],
   );
 
   const dismiss = useCallback(() => {
@@ -257,8 +257,16 @@ export const ItemInteraction = ({
   // → `onClose`, and drops the state back to the bare trigger.
   useEffect(() => {
     if (activeScope !== 'mid' && activeScope !== 'maxi') return;
-    const { itemViewContext, available, item, itemLabel, contentType, onInteraction, selectRung, anchor } =
-      latest.current;
+    const {
+      itemViewContext,
+      available,
+      item,
+      itemLabel,
+      contentType,
+      onInteraction,
+      selectRung,
+      anchor,
+    } = latest.current;
     const title = itemLabel;
     const content = (
       <ItemViewProvider
@@ -372,7 +380,7 @@ export const ItemInteraction = ({
               </div>
             </div>
           </pp-popup>,
-          document.body
+          document.body,
         )}
     </>
   );

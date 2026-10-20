@@ -91,14 +91,37 @@
 
   /* Default node colouring — the shared categorical palette, by category order */
 
-  .network-graph__node[data-category-index="1"] .network-graph__circle { fill: var(--chart-color-1); }
-  .network-graph__node[data-category-index="2"] .network-graph__circle { fill: var(--chart-color-2); }
-  .network-graph__node[data-category-index="3"] .network-graph__circle { fill: var(--chart-color-3); }
-  .network-graph__node[data-category-index="4"] .network-graph__circle { fill: var(--chart-color-4); }
-  .network-graph__node[data-category-index="5"] .network-graph__circle { fill: var(--chart-color-5); }
-  .network-graph__node[data-category-index="6"] .network-graph__circle { fill: var(--chart-color-6); }
-  .network-graph__node[data-category-index="7"] .network-graph__circle { fill: var(--chart-color-7); }
-  .network-graph__node[data-category-index="8"] .network-graph__circle { fill: var(--chart-color-8); }
+  .network-graph__node[data-category-index='1'] .network-graph__circle {
+    fill: var(--chart-color-1);
+  }
+
+  .network-graph__node[data-category-index='2'] .network-graph__circle {
+    fill: var(--chart-color-2);
+  }
+
+  .network-graph__node[data-category-index='3'] .network-graph__circle {
+    fill: var(--chart-color-3);
+  }
+
+  .network-graph__node[data-category-index='4'] .network-graph__circle {
+    fill: var(--chart-color-4);
+  }
+
+  .network-graph__node[data-category-index='5'] .network-graph__circle {
+    fill: var(--chart-color-5);
+  }
+
+  .network-graph__node[data-category-index='6'] .network-graph__circle {
+    fill: var(--chart-color-6);
+  }
+
+  .network-graph__node[data-category-index='7'] .network-graph__circle {
+    fill: var(--chart-color-7);
+  }
+
+  .network-graph__node[data-category-index='8'] .network-graph__circle {
+    fill: var(--chart-color-8);
+  }
 
   /* Labels */
 

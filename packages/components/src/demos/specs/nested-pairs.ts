@@ -38,10 +38,11 @@ const materialById = (id: string) => materials.find((candidate) => candidate.id 
 
 // Some references point at entities the collection doesn't carry; a dangling
 // id is dropped rather than rendered as an empty rung.
-const resolve = <T,>(ids: string[], lookup: (id: string) => T | undefined): T[] =>
+const resolve = <T>(ids: string[], lookup: (id: string) => T | undefined): T[] =>
   ids.map(lookup).filter((entity): entity is T => entity !== undefined);
 
-const assemblyOf = (product: ProductView) => resolve(product.metadata.assemblyComponents, componentById);
+const assemblyOf = (product: ProductView) =>
+  resolve(product.metadata.assemblyComponents, componentById);
 
 const overview = (label: string, items: Node[]) => (items.length > 0 ? [{ label, items }] : []);
 
@@ -96,7 +97,10 @@ const componentNode = (component: ComponentView): Node => {
     // Two nested overviews rather than one: a component's detail decomposes
     // both downward into sub-assemblies and sideways into what it is made of.
     nested: [
-      ...overview('Assembled from', resolve(metadata.childComponents, componentById).map(componentNode)),
+      ...overview(
+        'Assembled from',
+        resolve(metadata.childComponents, componentById).map(componentNode),
+      ),
       ...overview('Made of', resolve(metadata.materials, materialById).map(materialNode)),
     ],
     open: false,

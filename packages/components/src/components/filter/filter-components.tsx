@@ -1,8 +1,8 @@
-import React from "react";
-import type { EntityBinding, FilterOperator } from "@shared/data/bindings";
-import { taskBinding, findAttribute, filterOperatorsFor } from "@shared/data/bindings";
-import { filterValueOptions, type FilterOption } from "./filter-options";
-import { AnimateChangeInHeight } from "./animate-change-in-height";
+import React from 'react';
+import type { EntityBinding, FilterOperator } from '@shared/data/bindings';
+import { taskBinding, findAttribute, filterOperatorsFor } from '@shared/data/bindings';
+import { filterValueOptions, type FilterOption } from './filter-options';
+import { AnimateChangeInHeight } from './animate-change-in-height';
 import {
   Combobox,
   ComboboxEmpty,
@@ -10,8 +10,8 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-} from "../combobox";
-import { useDropdownState } from "./hooks/use-dropdown-state";
+} from '../combobox';
+import { useDropdownState } from './hooks/use-dropdown-state';
 import '../../icons/register-icons';
 import '../dropdown/dropdown.ts';
 import '../list/list.ts';
@@ -75,9 +75,7 @@ export const FilterValueDropdown = ({
   } = useDropdownState();
 
   const options = filterValueOptions[path] ?? [];
-  const nonSelectedFilterValues = options.filter(
-    (option) => !filterValues.includes(option.name)
-  );
+  const nonSelectedFilterValues = options.filter((option) => !filterValues.includes(option.name));
 
   const optionFor = (value: string): FilterOption | undefined =>
     options.find((option) => option.name === value);
@@ -105,10 +103,7 @@ export const FilterValueDropdown = ({
       onPp-show={handleDropdownShow}
       onPp-hide={handleDropdownHide}
     >
-      <button
-        data-slot="trigger"
-        className="tag"
-      >
+      <button data-slot="trigger" className="tag">
         {hasValueVisuals && (
           <span className="avatar-group">
             {filterValues?.slice(0, 3).map((value) => {
@@ -127,9 +122,7 @@ export const FilterValueDropdown = ({
             })}
           </span>
         )}
-        {filterValues?.length === 1
-          ? filterValues?.[0]
-          : `${filterValues?.length} selected`}
+        {filterValues?.length === 1 ? filterValues?.[0] : `${filterValues?.length} selected`}
       </button>
 
       <pp-popup>
@@ -155,11 +148,15 @@ export const FilterValueDropdown = ({
                       onSelect={() => handleValueRemove(value)}
                     >
                       {avatarFor(value) ? (
-                        <img className="avatar" data-size="xsmall" slot="prefix" src={avatarFor(value)} alt="" />
+                        <img
+                          className="avatar"
+                          data-size="xsmall"
+                          slot="prefix"
+                          src={avatarFor(value)}
+                          alt=""
+                        />
                       ) : (
-                        iconFor(value) && (
-                          <iconify-icon icon={iconFor(value)} slot="prefix" />
-                        )
+                        iconFor(value) && <iconify-icon icon={iconFor(value)} slot="prefix" />
                       )}
                       {value}
                     </ComboboxItem>
@@ -176,18 +173,18 @@ export const FilterValueDropdown = ({
                           onSelect={(currentValue: string) => handleValueAdd(currentValue)}
                         >
                           {filter.avatar ? (
-                            <img className="avatar" data-size="xsmall" slot="prefix" src={filter.avatar} alt="" />
+                            <img
+                              className="avatar"
+                              data-size="xsmall"
+                              slot="prefix"
+                              src={filter.avatar}
+                              alt=""
+                            />
                           ) : (
                             filter.icon && <iconify-icon icon={filter.icon} slot="prefix" />
                           )}
-                          <span>
-                            {filter.name}
-                          </span>
-                          {filter.label && (
-                            <span slot="suffix">
-                              {filter.label}
-                            </span>
-                          )}
+                          <span>{filter.name}</span>
+                          {filter.label && <span slot="suffix">{filter.label}</span>}
                         </ComboboxItem>
                       ))}
                     </ComboboxGroup>

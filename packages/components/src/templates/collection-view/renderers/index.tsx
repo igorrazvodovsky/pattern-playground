@@ -51,7 +51,7 @@ export function ViewSpecRenderer<T extends BoundEntity>(props: RendererProps<T>)
   // BoundEntity-typed entry serves any T. (Two-step cast: the coupling
   // callbacks make the two signatures formally non-overlapping.)
   const Renderer = REPRESENTATIONS[type] as unknown as (
-    props: RendererProps<T>
+    props: RendererProps<T>,
   ) => React.JSX.Element;
 
   if (!groupBy || type === 'map' || type === 'plot') {

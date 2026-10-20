@@ -17,13 +17,12 @@ interface CommentComposerProps {
   autoFocus?: boolean;
 }
 
-
 export const CommentComposer: React.FC<CommentComposerProps> = ({
-  placeholder = "Write a comment...",
+  placeholder = 'Write a comment...',
   currentUser,
   onSubmit,
   isSubmitting = false,
-  autoFocus = true
+  autoFocus = true,
 }) => {
   const [isEmpty, setIsEmpty] = useState(true);
 
@@ -48,7 +47,7 @@ export const CommentComposer: React.FC<CommentComposerProps> = ({
     autofocus: autoFocus,
     editorProps: {
       attributes: {
-        class: 'comment-editor',
+        'class': 'comment-editor',
         'aria-label': 'Comment',
         'data-placeholder': placeholder,
       },
@@ -67,7 +66,7 @@ export const CommentComposer: React.FC<CommentComposerProps> = ({
 
     const commentContent: RichContent = {
       plainText: plainText.trim(),
-      richContent
+      richContent,
     };
 
     onSubmit(commentContent);
@@ -76,20 +75,20 @@ export const CommentComposer: React.FC<CommentComposerProps> = ({
     setIsEmpty(true);
   }, [editor, isEmpty, onSubmit]);
 
-
-  const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
-    if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
-      event.preventDefault();
-      handleSubmit();
-    }
-  }, [handleSubmit]);
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
+        event.preventDefault();
+        handleSubmit();
+      }
+    },
+    [handleSubmit],
+  );
 
   if (!editor) {
     return (
       <div className="comment-composer comment-composer--loading">
-        <div className="comment-composer__placeholder">
-          Loading editor...
-        </div>
+        <div className="comment-composer__placeholder">Loading editor...</div>
       </div>
     );
   }
@@ -99,10 +98,16 @@ export const CommentComposer: React.FC<CommentComposerProps> = ({
       <img
         className="avatar"
         data-size="small"
-        src={getUserById(currentUser)?.metadata?.photoUrl || `https://i.pravatar.cc/150?seed=${currentUser}`}
+        src={
+          getUserById(currentUser)?.metadata?.photoUrl ||
+          `https://i.pravatar.cc/150?seed=${currentUser}`
+        }
         alt={getUserById(currentUser)?.name || currentUser}
       />
-      <div className="message-composer__input comment__input" style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+      <div
+        className="message-composer__input comment__input"
+        style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}
+      >
         <EditorContent
           editor={editor}
           className="comment-composer__editor "

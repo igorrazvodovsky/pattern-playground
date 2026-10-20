@@ -158,7 +158,7 @@ export function makeSpec(options: MakeSpecOptions): ViewSpec {
 export function runSpec<T extends BoundEntity>(
   items: T[],
   spec: ViewSpec,
-  binding: EntityBinding = productBinding
+  binding: EntityBinding = productBinding,
 ): T[] {
   const queried = applyFilters(items, spec.query, binding);
   const { sortBy } = spec.arrangement;
@@ -169,7 +169,7 @@ export function runSpec<T extends BoundEntity>(
 export function groupItems<T extends BoundEntity>(
   items: T[],
   groupBy: AttributePath,
-  binding: EntityBinding = productBinding
+  binding: EntityBinding = productBinding,
 ): Map<string, T[]> {
   const groups = new Map<string, T[]>();
   for (const item of items) {

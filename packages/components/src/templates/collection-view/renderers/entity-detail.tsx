@@ -31,9 +31,7 @@ export function EntityDetail({ item, binding, shownAttributes, children }: Entit
   // The heading's icon comes from the binding's thumbnail attribute whether
   // or not the selection names it — a detail identifies its item.
   const thumbnailAttribute = firstOfRole(binding.attributes, 'thumbnail');
-  const thumbnailValue = thumbnailAttribute
-    ? getValueAtPath(item, thumbnailAttribute.path)
-    : null;
+  const thumbnailValue = thumbnailAttribute ? getValueAtPath(item, thumbnailAttribute.path) : null;
 
   const descriptionAttribute = firstOfRole(resolved, 'description');
   const descriptionValue = descriptionAttribute
@@ -45,18 +43,12 @@ export function EntityDetail({ item, binding, shownAttributes, children }: Entit
       {titleValue != null && (
         <h4 className="label flex">
           {typeof thumbnailValue === 'string' && thumbnailValue !== '' && (
-            <iconify-icon
-              className="icon"
-              icon={thumbnailValue}
-              aria-hidden="true"
-            ></iconify-icon>
+            <iconify-icon className="icon" icon={thumbnailValue} aria-hidden="true"></iconify-icon>
           )}
           {String(titleValue)}
         </h4>
       )}
-      {descriptionValue != null && (
-        <p className="description">{String(descriptionValue)}</p>
-      )}
+      {descriptionValue != null && <p className="description">{String(descriptionValue)}</p>}
       {rows.length > 0 && (
         <dl className="description-list">
           {rows.map((attribute) => (
@@ -66,7 +58,7 @@ export function EntityDetail({ item, binding, shownAttributes, children }: Entit
                 {formatAttributeValue(
                   getAttributeValue(item, attribute.path),
                   attribute.path,
-                  binding
+                  binding,
                 )}
               </dd>
             </React.Fragment>

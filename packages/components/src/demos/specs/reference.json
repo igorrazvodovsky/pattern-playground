@@ -12,7 +12,11 @@
         "scope": { "$bindState": "/scope" },
         "candidates": {
           "$computed": "candidates",
-          "args": { "query": { "$state": "/query" }, "scope": { "$state": "/scope" }, "sources": { "$state": "/sources" } }
+          "args": {
+            "query": { "$state": "/query" },
+            "scope": { "$state": "/scope" },
+            "sources": { "$state": "/sources" }
+          }
         },
         "opened": { "$bindState": "/opened" }
       },
@@ -22,7 +26,10 @@
             "action": "setState",
             "params": {
               "statePath": "/detail",
-              "value": { "$computed": "view", "args": { "id": { "$state": "/opened" }, "views": { "$state": "/views" } } }
+              "value": {
+                "$computed": "view",
+                "args": { "id": { "$state": "/opened" }, "views": { "$state": "/views" } }
+              }
             }
           },
           { "action": "setState", "params": { "statePath": "/detailOpen", "value": true } }
@@ -38,7 +45,13 @@
     "detail-body": {
       "type": "Stack",
       "props": { "gap": "m" },
-      "children": ["detail-badges", "detail-price", "detail-description", "detail-attributes", "detail-listed"]
+      "children": [
+        "detail-badges",
+        "detail-price",
+        "detail-description",
+        "detail-attributes",
+        "detail-listed"
+      ]
     },
     "detail-badges": {
       "type": "Stack",

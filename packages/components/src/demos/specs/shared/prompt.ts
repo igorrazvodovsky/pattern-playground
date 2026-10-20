@@ -8,22 +8,28 @@ import spec from './prompt.json' with { type: 'json' };
 export const materials: MentionPart[] = materialCategory.children.map(toMention);
 
 export const material = (id: string): MentionPart => {
-  const found = materials.find(item => item.id === id);
+  const found = materials.find((item) => item.id === id);
   if (!found) throw new Error(`No document ${id}`);
   return found;
 };
 
-export const candidates: ComputedFunction = args => {
+export const candidates: ComputedFunction = (args) => {
   const query = mentionQuery(args.query);
   const all = Array.isArray(args.materials) ? (args.materials as MentionPart[]) : [];
   const options = all
     .filter(matchesQuery(query))
     .slice(0, maxMentionMatches)
-    .map(item => ({ ...item, icon: 'document' }));
+    .map((item) => ({ ...item, icon: 'document' }));
   return [{ heading: 'Documents', options }];
 };
 
-export const promptDemo = ({ content, placeholder }: { content: Paragraph[]; placeholder: string }) => ({
+export const promptDemo = ({
+  content,
+  placeholder,
+}: {
+  content: Paragraph[];
+  placeholder: string;
+}) => ({
   spec: spec as Spec,
   setup: {
     initialState: { content, placeholder, query: null, materials },

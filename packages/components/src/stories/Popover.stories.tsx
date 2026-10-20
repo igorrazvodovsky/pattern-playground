@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { faker } from '@faker-js/faker';
 import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { useEffect, useRef, useState } from 'react';
 import '../jsx-types';
 
 const meta = {
-  title: "Components/Popover",
-  tags: ["activity-level:operation", "atomic:primitive", "mediation:individual"],
+  title: 'Components/Popover',
+  tags: ['activity-level:operation', 'atomic:primitive', 'mediation:individual'],
 } satisfies Meta;
 
 export default meta;
@@ -15,7 +15,9 @@ type Story = StoryObj;
 export const Popover: Story = {
   render: () => (
     <>
-      <button className="button" popoverTarget="popover-1">Click me</button>
+      <button className="button" popoverTarget="popover-1">
+        Click me
+      </button>
       <div id="popover-1" popover="auto">
         <strong>Popover header</strong>
         <p>{faker.hacker.phrase()}</p>
@@ -42,7 +44,7 @@ export const Popover: Story = {
  * the platform (outside click, Escape) and reports it as `pp-hide`.
  */
 export const AnchoredPanel: Story = {
-  name: "Anchored panel",
+  name: 'Anchored panel',
   render: function AnchoredPanelStory() {
     const [anchor, setAnchor] = useState<HTMLButtonElement | null>(null);
     const [open, setOpen] = useState(false);
@@ -117,7 +119,9 @@ export const KeyboardOperation: Story = {
   name: 'Keyboard operation',
   render: () => (
     <>
-      <button className="button" popoverTarget="popover-keyboard">Click me</button>
+      <button className="button" popoverTarget="popover-keyboard">
+        Click me
+      </button>
       <div id="popover-keyboard" popover="auto">
         <strong>Popover header</strong>
         <p>Enter on the button opens and closes this.</p>
@@ -149,7 +153,7 @@ export const Tooltip: Story = {
 };
 
 export const TooltipOnIcon: Story = {
-  name: "Tooltip on icon",
+  name: 'Tooltip on icon',
   render: () => (
     <pp-tooltip content="Delete this item permanently">
       <button className="button button--plain">

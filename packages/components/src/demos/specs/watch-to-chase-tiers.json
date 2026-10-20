@@ -27,7 +27,10 @@
     },
     "ambient-note": {
       "type": "Text",
-      "props": { "text": "The ambient tier deliberately shows one number. Everything else is an inward step away.", "muted": true }
+      "props": {
+        "text": "The ambient tier deliberately shows one number. Everything else is an inward step away.",
+        "muted": true
+      }
     },
 
     "glance": {
@@ -43,7 +46,12 @@
     },
     "back-to-tag": {
       "type": "Button",
-      "props": { "label": "Back to the summary", "icon": "back", "variant": "plain", "focusOnShow": true },
+      "props": {
+        "label": "Back to the summary",
+        "icon": "back",
+        "variant": "plain",
+        "focusOnShow": true
+      },
       "on": {
         "press": [{ "action": "setState", "params": { "statePath": "/atGlance", "value": false } }]
       }
@@ -56,7 +64,11 @@
     },
     "tile": {
       "type": "Card",
-      "props": { "title": { "$item": "title" }, "opens": { "$item": "opens" }, "focusOnShow": { "$item": "open" } },
+      "props": {
+        "title": { "$item": "title" },
+        "opens": { "$item": "opens" },
+        "focusOnShow": { "$item": "open" }
+      },
       "children": ["tile-figure"],
       "on": {
         "open": [
@@ -67,7 +79,11 @@
     },
     "tile-figure": {
       "type": "Stat",
-      "props": { "value": { "$item": "value" }, "detail": { "$item": "detail" }, "alert": { "$item": "alert" } }
+      "props": {
+        "value": { "$item": "value" },
+        "detail": { "$item": "detail" },
+        "alert": { "$item": "alert" }
+      }
     },
 
     "slices": {
@@ -97,7 +113,12 @@
     },
     "back-to-tiles": {
       "type": "Button",
-      "props": { "label": "Back to the tiles", "icon": "back", "variant": "plain", "focusOnShow": true },
+      "props": {
+        "label": "Back to the tiles",
+        "icon": "back",
+        "variant": "plain",
+        "focusOnShow": true
+      },
       "on": {
         "press": [
           { "action": "setState", "params": { "statePath": "/inSlice", "value": false } },
@@ -157,7 +178,12 @@
     },
     "back-to-slice": {
       "type": "Button",
-      "props": { "label": "Back to the slice", "icon": "back", "variant": "plain", "focusOnShow": true },
+      "props": {
+        "label": "Back to the slice",
+        "icon": "back",
+        "variant": "plain",
+        "focusOnShow": true
+      },
       "on": {
         "press": [
           { "action": "setState", "params": { "statePath": "/inItem", "value": false } },
@@ -173,7 +199,13 @@
     "full-view-body": {
       "type": "Stack",
       "props": { "gap": "m" },
-      "children": ["full-view-badges", "full-view-price", "full-view-description", "full-view-attributes", "full-view-listed"]
+      "children": [
+        "full-view-badges",
+        "full-view-price",
+        "full-view-description",
+        "full-view-attributes",
+        "full-view-listed"
+      ]
     },
     "full-view-badges": {
       "type": "Stack",

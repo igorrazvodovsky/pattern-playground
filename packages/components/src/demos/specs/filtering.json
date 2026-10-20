@@ -8,14 +8,23 @@
       "watch": {
         "/filters": {
           "action": "setState",
-          "params": { "statePath": "/derived", "value": { "$computed": "derive", "args": { "filters": { "$state": "/filters" } } } }
+          "params": {
+            "statePath": "/derived",
+            "value": { "$computed": "derive", "args": { "filters": { "$state": "/filters" } } }
+          }
         },
         "/filterQuery": [
           {
             "action": "interpret",
             "params": {
               "statePath": "/interpretation",
-              "prompt": { "$computed": "unmatched", "args": { "query": { "$state": "/filterQuery" }, "scope": { "$state": "/filterScope" } } }
+              "prompt": {
+                "$computed": "unmatched",
+                "args": {
+                  "query": { "$state": "/filterQuery" },
+                  "scope": { "$state": "/filterScope" }
+                }
+              }
             }
           },
           {
@@ -24,7 +33,11 @@
               "statePath": "/field",
               "value": {
                 "$computed": "field",
-                "args": { "query": { "$state": "/filterQuery" }, "scope": { "$state": "/filterScope" }, "interpretation": { "$state": "/interpretation" } }
+                "args": {
+                  "query": { "$state": "/filterQuery" },
+                  "scope": { "$state": "/filterScope" },
+                  "interpretation": { "$state": "/interpretation" }
+                }
               }
             }
           }
@@ -35,7 +48,11 @@
             "statePath": "/field",
             "value": {
               "$computed": "field",
-              "args": { "query": { "$state": "/filterQuery" }, "scope": { "$state": "/filterScope" }, "interpretation": { "$state": "/interpretation" } }
+              "args": {
+                "query": { "$state": "/filterQuery" },
+                "scope": { "$state": "/filterScope" },
+                "interpretation": { "$state": "/interpretation" }
+              }
             }
           }
         },
@@ -45,7 +62,11 @@
             "statePath": "/field",
             "value": {
               "$computed": "field",
-              "args": { "query": { "$state": "/filterQuery" }, "scope": { "$state": "/filterScope" }, "interpretation": { "$state": "/interpretation" } }
+              "args": {
+                "query": { "$state": "/filterQuery" },
+                "scope": { "$state": "/filterScope" },
+                "interpretation": { "$state": "/interpretation" }
+              }
             }
           }
         }
@@ -83,7 +104,11 @@
             "statePath": "/filters",
             "value": {
               "$computed": "editFilter",
-              "args": { "filters": { "$state": "/filters" }, "id": { "$item": "id" }, "edit": { "$state": "/filterEdit" } }
+              "args": {
+                "filters": { "$state": "/filters" },
+                "id": { "$item": "id" },
+                "edit": { "$state": "/filterEdit" }
+              }
             }
           }
         },
@@ -91,16 +116,26 @@
           "action": "setState",
           "params": {
             "statePath": "/filters",
-            "value": { "$computed": "removeFilter", "args": { "filters": { "$state": "/filters" }, "id": { "$item": "id" } } }
+            "value": {
+              "$computed": "removeFilter",
+              "args": { "filters": { "$state": "/filters" }, "id": { "$item": "id" } }
+            }
           }
         }
       }
     },
     "clear-filters": {
       "type": "Button",
-      "props": { "label": "Clear filters", "icon": "cancel", "hideLabel": true, "focusNext": "Add a filter" },
+      "props": {
+        "label": "Clear filters",
+        "icon": "cancel",
+        "hideLabel": true,
+        "focusNext": "Add a filter"
+      },
       "visible": { "$state": "/derived/filtered" },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/filters", "value": [] } } }
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/filters", "value": [] } }
+      }
     },
     "filter-add": {
       "type": "Stack",
@@ -109,11 +144,19 @@
     },
     "filter-button": {
       "type": "Button",
-      "props": { "label": "Add a filter", "icon": "filter", "hideLabel": true, "expanded": { "$state": "/filterOpen" } },
+      "props": {
+        "label": "Add a filter",
+        "icon": "filter",
+        "hideLabel": true,
+        "expanded": { "$state": "/filterOpen" }
+      },
       "on": {
         "press": {
           "action": "setState",
-          "params": { "statePath": "/filterOpen", "value": { "$cond": { "$state": "/filterOpen" }, "$then": false, "$else": true } }
+          "params": {
+            "statePath": "/filterOpen",
+            "value": { "$cond": { "$state": "/filterOpen" }, "$then": false, "$else": true }
+          }
         }
       }
     },
@@ -149,8 +192,14 @@
               }
             }
           },
-          { "action": "setState", "params": { "statePath": "/filters", "value": { "$state": "/picked/filters" } } },
-          { "action": "setState", "params": { "statePath": "/toasts", "value": { "$state": "/picked/toasts" } } },
+          {
+            "action": "setState",
+            "params": { "statePath": "/filters", "value": { "$state": "/picked/filters" } }
+          },
+          {
+            "action": "setState",
+            "params": { "statePath": "/toasts", "value": { "$state": "/picked/toasts" } }
+          },
           { "action": "setState", "params": { "statePath": "/filterQuery", "value": "" } },
           { "action": "setState", "params": { "statePath": "/filterOpen", "value": false } }
         ]
@@ -199,23 +248,46 @@
       "props": { "toasts": { "$bindState": "/toasts" }, "pressed": { "$bindState": "/pressed" } },
       "on": {
         "action": [
-          { "action": "setState", "params": { "statePath": "/task", "value": { "$state": "/pressed/task" } } },
+          {
+            "action": "setState",
+            "params": { "statePath": "/task", "value": { "$state": "/pressed/task" } }
+          },
           { "action": "setState", "params": { "statePath": "/taskOpen", "value": true } }
         ]
       }
     },
     "task-drawer": {
       "type": "Drawer",
-      "props": { "title": { "$cond": { "$state": "/task" }, "$then": { "$state": "/task/title" }, "$else": "Task" }, "open": { "$bindState": "/taskOpen" } },
+      "props": {
+        "title": {
+          "$cond": { "$state": "/task" },
+          "$then": { "$state": "/task/title" },
+          "$else": "Task"
+        },
+        "open": { "$bindState": "/taskOpen" }
+      },
       "children": ["task-status", "task-specification", "task-history"]
     },
     "task-status": {
       "type": "Badge",
-      "props": { "label": "Status", "text": { "$cond": { "$state": "/task" }, "$then": { "$state": "/task/status" }, "$else": "" } }
+      "props": {
+        "label": "Status",
+        "text": {
+          "$cond": { "$state": "/task" },
+          "$then": { "$state": "/task/status" },
+          "$else": ""
+        }
+      }
     },
     "task-specification": {
       "type": "Text",
-      "props": { "text": { "$cond": { "$state": "/task" }, "$then": { "$state": "/task/specification" }, "$else": "" } }
+      "props": {
+        "text": {
+          "$cond": { "$state": "/task" },
+          "$then": { "$state": "/task/specification" },
+          "$else": ""
+        }
+      }
     },
     "task-history": {
       "type": "Timeline",
@@ -225,7 +297,11 @@
     },
     "task-event": {
       "type": "TimelineEntry",
-      "props": { "title": { "$item": "title" }, "by": { "$item": "by" }, "time": { "$item": "time" } }
+      "props": {
+        "title": { "$item": "title" },
+        "by": { "$item": "by" },
+        "time": { "$item": "time" }
+      }
     }
   }
 }

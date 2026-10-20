@@ -13,7 +13,7 @@ export function createDrawerDOM(
   closable: boolean = true,
   reactContainerId: string = '',
   modal: boolean = true,
-  actionsContainerId: string = ''
+  actionsContainerId: string = '',
 ): HTMLDialogElement {
   const dialog = document.createElement('dialog');
   dialog.className = `drawer drawer--${position}`;
@@ -26,7 +26,7 @@ export function createDrawerDOM(
   }
 
   if (className) {
-    dialog.classList.add(...className.split(' ').filter(c => c.trim()));
+    dialog.classList.add(...className.split(' ').filter((c) => c.trim()));
   }
 
   // Build header if needed
@@ -42,33 +42,33 @@ export function createDrawerDOM(
   // Build content container
   const contentDiv = document.createElement('div');
   contentDiv.className = 'drawer__content';
-  
+
   if (reactContainerId) {
     const reactContainer = document.createElement('div');
     reactContainer.id = reactContainerId;
     reactContainer.className = 'react-modal-content';
     contentDiv.appendChild(reactContainer);
   }
-  
+
   dialog.appendChild(contentDiv);
   return dialog;
 }
 
 export function createDialogDOM(
-  modalId: string, 
-  size: ModalSize, 
-  className: string, 
-  title?: string, 
+  modalId: string,
+  size: ModalSize,
+  className: string,
+  title?: string,
   closable: boolean = true,
   reactContainerId: string = '',
-  actionsContainerId: string = ''
+  actionsContainerId: string = '',
 ): HTMLDialogElement {
   const dialog = document.createElement('dialog');
   dialog.className = `dialog dialog--${size}`;
   dialog.id = modalId;
 
   if (className) {
-    dialog.classList.add(...className.split(' ').filter(c => c.trim()));
+    dialog.classList.add(...className.split(' ').filter((c) => c.trim()));
   }
 
   // Build header if needed
@@ -84,14 +84,14 @@ export function createDialogDOM(
   // Build content container
   const contentDiv = document.createElement('div');
   contentDiv.className = 'dialog__content';
-  
+
   if (reactContainerId) {
     const reactContainer = document.createElement('div');
     reactContainer.id = reactContainerId;
     reactContainer.className = 'react-modal-content';
     contentDiv.appendChild(reactContainer);
   }
-  
+
   dialog.appendChild(contentDiv);
   return dialog;
 }
@@ -100,7 +100,7 @@ export function buildModalHeaderDOM(
   title?: string,
   closable: boolean = true,
   actionsContainerId: string = '',
-  titleId: string = ''
+  titleId: string = '',
 ): HTMLElement {
   const header = document.createElement('header');
   header.className = 'modal__header';
@@ -131,13 +131,13 @@ export function buildModalHeaderDOM(
     closeButton.className = 'modal__close';
     closeButton.setAttribute('data-close', '');
     closeButton.setAttribute('aria-label', 'Close modal');
-    
+
     const icon = document.createElement('iconify-icon');
     icon.setAttribute('icon', 'ik:cross');
     closeButton.appendChild(icon);
-    
+
     header.appendChild(closeButton);
   }
-  
+
   return header;
 }

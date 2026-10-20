@@ -14,9 +14,9 @@ import { Elena } from '@elenajs/core';
  */
 
 export class PpListItem extends Elena(HTMLElement) {
-  static tagName = 'pp-list-item';
+  static 'tagName' = 'pp-list-item';
 
-  static props = [
+  static 'props' = [
     'type',
     'checked',
     'value',
@@ -26,30 +26,30 @@ export class PpListItem extends Elena(HTMLElement) {
     'submenu-placement',
   ];
 
-  type: 'normal' | 'checkbox' | 'radio' = 'normal';
-  checked = false;
-  value = '';
-  disabled = false;
+  'type': 'normal' | 'checkbox' | 'radio' = 'normal';
+  'checked' = false;
+  'value' = '';
+  'disabled' = false;
 
   // Submenu properties
   'has-submenu' = false;
   'submenu-open' = false;
   'submenu-placement': 'right-start' | 'left-start' = 'right-start';
 
-  private initialized = false;
-  private check: HTMLElement | null = null;
-  private chevron: HTMLElement | null = null;
+  private 'initialized' = false;
+  private 'check': HTMLElement | null = null;
+  private 'chevron': HTMLElement | null = null;
 
   // Elena's updated() carries no changed-props map, so each watched prop
   // keeps its previous value here; undefined means the first update hasn't
   // run yet and every handler fires once to establish initial state.
-  private prevChecked?: boolean;
-  private prevDisabled?: boolean;
-  private prevType?: string;
-  private prevHasSubmenu?: boolean;
-  private prevSubmenuOpen?: boolean;
+  private 'prevChecked'?: boolean;
+  private 'prevDisabled'?: boolean;
+  private 'prevType'?: string;
+  private 'prevHasSubmenu'?: boolean;
+  private 'prevSubmenuOpen'?: boolean;
 
-  connectedCallback() {
+  'connectedCallback'() {
     super.connectedCallback();
     if (document.readyState !== 'loading') {
       this.init();
@@ -60,7 +60,7 @@ export class PpListItem extends Elena(HTMLElement) {
     }
   }
 
-  private init() {
+  private 'init'() {
     if (this.initialized) return;
     this.initialized = true;
     this.addEventListener('click', this.handleHostClick);
@@ -71,13 +71,15 @@ export class PpListItem extends Elena(HTMLElement) {
     if (!this.check) {
       this.check = document.createElement('span');
       this.check.className = 'list-item__check';
-      this.check.innerHTML = '<iconify-icon class="icon" icon="ik:checkmark" aria-hidden="true"></iconify-icon>';
+      this.check.innerHTML =
+        '<iconify-icon class="icon" icon="ik:checkmark" aria-hidden="true"></iconify-icon>';
       this.prepend(this.check);
     }
     if (!this.chevron) {
       this.chevron = document.createElement('span');
       this.chevron.className = 'list-item__chevron';
-      this.chevron.innerHTML = '<iconify-icon class="icon" icon="ik:chevron-right" aria-hidden="true"></iconify-icon>';
+      this.chevron.innerHTML =
+        '<iconify-icon class="icon" icon="ik:chevron-right" aria-hidden="true"></iconify-icon>';
       this.append(this.chevron);
     }
 
@@ -92,7 +94,7 @@ export class PpListItem extends Elena(HTMLElement) {
     }
   }
 
-  disconnectedCallback() {
+  'disconnectedCallback'() {
     super.disconnectedCallback();
     this.removeEventListener('click', this.handleHostClick);
     this.removeEventListener('mouseover', this.handleMouseOver);
@@ -100,31 +102,31 @@ export class PpListItem extends Elena(HTMLElement) {
     this.removeEventListener('blur', this.handleBlur);
   }
 
-  private handleHostClick = (event: MouseEvent) => {
+  private 'handleHostClick' = (event: MouseEvent) => {
     if (this.disabled) {
       event.preventDefault();
       event.stopImmediatePropagation();
     }
   };
 
-  private handleMouseOver = () => {
+  private 'handleMouseOver' = () => {
     if (!this.disabled) {
       this.focus();
     }
   };
 
-  private handleFocus = () => {
+  private 'handleFocus' = () => {
     // Announce focus to screen readers
     if (!this.disabled) {
       this.setAttribute('data-focused', 'true');
     }
   };
 
-  private handleBlur = () => {
+  private 'handleBlur' = () => {
     this.removeAttribute('data-focused');
   };
 
-  updated() {
+  'updated'() {
     if (this.prevChecked !== this.checked) {
       this.prevChecked = this.checked;
       this.handleCheckedChange();
@@ -147,10 +149,13 @@ export class PpListItem extends Elena(HTMLElement) {
     }
   }
 
-  handleCheckedChange() {
+  'handleCheckedChange'() {
     if (this.checked && this.type !== 'checkbox' && this.type !== 'radio') {
       this.checked = false;
-      console.error('The checked attribute can only be used on list items with type="checkbox" or type="radio"', this);
+      console.error(
+        'The checked attribute can only be used on list items with type="checkbox" or type="radio"',
+        this,
+      );
       return;
     }
 
@@ -161,11 +166,11 @@ export class PpListItem extends Elena(HTMLElement) {
     }
   }
 
-  handleDisabledChange() {
+  'handleDisabledChange'() {
     this.setAttribute('aria-disabled', this.disabled ? 'true' : 'false');
   }
 
-  handleTypeChange() {
+  'handleTypeChange'() {
     if (this.type === 'checkbox') {
       this.setAttribute('role', 'menuitemcheckbox');
       this.setAttribute('aria-checked', this.checked ? 'true' : 'false');
@@ -178,7 +183,7 @@ export class PpListItem extends Elena(HTMLElement) {
     }
   }
 
-  handleSubmenuChange() {
+  'handleSubmenuChange'() {
     if (this['has-submenu']) {
       this.setAttribute('aria-haspopup', 'true');
       this.setAttribute('aria-expanded', this['submenu-open'] ? 'true' : 'false');
@@ -188,29 +193,31 @@ export class PpListItem extends Elena(HTMLElement) {
     }
   }
 
-  handleSubmenuOpenChange() {
+  'handleSubmenuOpenChange'() {
     if (this['has-submenu']) {
       this.setAttribute('aria-expanded', this['submenu-open'] ? 'true' : 'false');
 
       // Emit custom events for submenu state changes
       const eventType = this['submenu-open'] ? 'pp-submenu-open' : 'pp-submenu-close';
-      this.dispatchEvent(new CustomEvent(eventType, {
-        bubbles: true,
-        composed: true,
-        detail: { item: this }
-      }));
+      this.dispatchEvent(
+        new CustomEvent(eventType, {
+          bubbles: true,
+          composed: true,
+          detail: { item: this },
+        }),
+      );
     }
   }
 
   /** Returns a text label based on the item's label content (unmarked children). */
-  getTextLabel() {
+  'getTextLabel'() {
     return [...this.childNodes]
-      .filter(node => {
+      .filter((node) => {
         if (node.nodeType === Node.TEXT_NODE) return true;
         if (!(node instanceof HTMLElement)) return false;
         return !node.hasAttribute('data-slot') && node !== this.check && node !== this.chevron;
       })
-      .map(node => node.textContent ?? '')
+      .map((node) => node.textContent ?? '')
       .join('')
       .trim();
   }
@@ -219,6 +226,6 @@ export class PpListItem extends Elena(HTMLElement) {
 // Component registration is handled by the centralized registry
 declare global {
   interface HTMLElementTagNameMap {
-    "pp-list-item": PpListItem;
+    'pp-list-item': PpListItem;
   }
 }

@@ -12,8 +12,7 @@ import darkTheme from './theme-dark';
 // Docs pages draw their chrome from a theme object, not CSS, so the OS
 // preference is read once at load — same limitation as the manager theme.
 const prefersDark =
-  typeof window !== 'undefined' &&
-  window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+  typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches;
 
 const preview: Preview = {
   /* Modal surfaces mount on document.body, outside the story canvas, and the
@@ -56,19 +55,16 @@ const preview: Preview = {
     options: {
       storySort: {
         method: 'alphabetical',
-        order: [
-          'Introduction',
-          'Foundations', ['Overview', 'Principles', '*'],
-          '*'],
+        order: ['Introduction', 'Foundations', ['Overview', 'Principles', '*'], '*'],
       },
     },
 
     a11y: {
-      test: 'error'
-    }
+      test: 'error',
+    },
   },
 
-  tags: ['autodocs']
+  tags: ['autodocs'],
 };
 
 export default preview;

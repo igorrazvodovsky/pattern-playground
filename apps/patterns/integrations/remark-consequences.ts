@@ -38,7 +38,13 @@ const RESOURCES_HEADING = 'Resources & references';
 const TODO_HEADING = 'To-do';
 /** The sections that may follow the connections passage, in the order the
  * rule lists them. The passage goes before whichever comes first. */
-const TAIL_HEADINGS = ['In practice', 'Related components', 'Research on this pattern', RESOURCES_HEADING, TODO_HEADING];
+const TAIL_HEADINGS = [
+  'In practice',
+  'Related components',
+  'Research on this pattern',
+  RESOURCES_HEADING,
+  TODO_HEADING,
+];
 
 function headingText(node: RootContent): string {
   if (node.type !== 'heading') return '';
@@ -52,8 +58,17 @@ function isH2(node: RootContent, text: string): boolean {
   return node.type === 'heading' && node.depth === 2 && headingText(node) === text;
 }
 
-function jsx(name: string, attributes: MdxJsxAttribute[] = [], children: RootContent[] = []): MdxJsxFlowElement {
-  return { type: 'mdxJsxFlowElement', name, attributes, children: children as MdxJsxFlowElement['children'] };
+function jsx(
+  name: string,
+  attributes: MdxJsxAttribute[] = [],
+  children: RootContent[] = [],
+): MdxJsxFlowElement {
+  return {
+    type: 'mdxJsxFlowElement',
+    name,
+    attributes,
+    children: children as MdxJsxFlowElement['children'],
+  };
 }
 
 function stringAttr(name: string, value: string): MdxJsxAttribute {
@@ -71,7 +86,12 @@ function boolAttr(name: string, value: boolean): MdxJsxAttribute {
         estree: {
           type: 'Program',
           sourceType: 'module',
-          body: [{ type: 'ExpressionStatement', expression: { type: 'Literal', value, raw: String(value) } }],
+          body: [
+            {
+              type: 'ExpressionStatement',
+              expression: { type: 'Literal', value, raw: String(value) },
+            },
+          ],
         },
       },
     },
@@ -136,7 +156,11 @@ const DINKUS = '❖';
 function renderDinkuses(tree: Root): void {
   tree.children = tree.children.map((n) =>
     n.type === 'thematicBreak'
-      ? ({ type: 'paragraph', data: { hProperties: { className: ['dinkus'] } }, children: [{ type: 'text', value: DINKUS }] } as RootContent)
+      ? ({
+          type: 'paragraph',
+          data: { hProperties: { className: ['dinkus'] } },
+          children: [{ type: 'text', value: DINKUS }],
+        } as RootContent)
       : n,
   );
 }
@@ -191,7 +215,8 @@ export default function remarkConsequences() {
     const filePath = file.path ?? '';
     if (!/[\\/]content[\\/]patterns[\\/]/.test(filePath)) return;
     const slug = path.basename(filePath).replace(/\.mdx?$/, '');
-    const fm = (file.data as { astro?: { frontmatter?: Record<string, unknown> } }).astro?.frontmatter ?? {};
+    const fm =
+      (file.data as { astro?: { frontmatter?: Record<string, unknown> } }).astro?.frontmatter ?? {};
     const situation = fm.situation as { initiating?: unknown; resulting?: unknown } | undefined;
 
     const todo = liftTodo(tree);
@@ -212,7 +237,10 @@ export default function remarkConsequences() {
       if (at === -1) tree.children.push(related);
       else tree.children.splice(at, 0, related);
       if (typeof situation?.initiating === 'string') {
-        const opening = jsx('Situation', [situationAttr('text', 'initiating'), stringAttr('end', 'initiating')]);
+        const opening = jsx('Situation', [
+          situationAttr('text', 'initiating'),
+          stringAttr('end', 'initiating'),
+        ]);
         tree.children.splice(openingIndex(tree), 0, opening);
       }
     } else {
@@ -223,7 +251,8 @@ export default function remarkConsequences() {
         else tree.children.splice(at, 0, consequences);
       }
       tree.children.push(jsx('SequenceAppearances', [stringAttr('slug', slug)]));
-      if (fm.showRelated !== false) tree.children.push(jsx('RelatedPatterns', [stringAttr('slug', slug)]));
+      if (fm.showRelated !== false)
+        tree.children.push(jsx('RelatedPatterns', [stringAttr('slug', slug)]));
     }
 
     if (todo.length > 0) tree.children.push(jsx('Residue', [], todo));

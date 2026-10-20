@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 interface ToolbarArgs {
   showFilter: boolean;
@@ -8,7 +8,7 @@ interface ToolbarArgs {
 }
 
 const meta = {
-  title: "Components/Toolbar",
+  title: 'Components/Toolbar',
   argTypes: {
     showFilter: {
       control: { type: 'boolean' },
@@ -62,18 +62,28 @@ export const Toolbar: Story = {
           <pp-dropdown>
             <button className="button" data-slot="trigger">
               A→Z
-              <iconify-icon className="icon" icon="ik:chevron-down" aria-hidden="true"></iconify-icon>
+              <iconify-icon
+                className="icon"
+                icon="ik:chevron-down"
+                aria-hidden="true"
+              ></iconify-icon>
             </button>
             <pp-popup>
               <pp-list>
-                <pp-list-item type="checkbox" defaultChecked>Sorting criteria 1</pp-list-item>
+                <pp-list-item type="checkbox" defaultChecked>
+                  Sorting criteria 1
+                </pp-list-item>
                 <pp-list-item>Sorting criteria 2</pp-list-item>
                 <pp-list-item>Sorting criteria 3</pp-list-item>
               </pp-list>
             </pp-popup>
           </pp-dropdown>
           <button className="button" aria-label="Sort ascending">
-            <iconify-icon className="icon" icon="ik:sort-low-to-high" aria-hidden="true"></iconify-icon>
+            <iconify-icon
+              className="icon"
+              icon="ik:sort-low-to-high"
+              aria-hidden="true"
+            ></iconify-icon>
           </button>
         </div>
       )}

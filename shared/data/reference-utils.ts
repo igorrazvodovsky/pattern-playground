@@ -5,5 +5,5 @@ import { referenceCategories } from './index';
 export const materialCategory = {
   id: 'documents',
   name: 'Documents',
-  children: referenceCategories.find(cat => cat.id === 'documents')?.children || []
+  children: referenceCategories.find((cat) => cat.id === 'documents')?.children || [],
 };

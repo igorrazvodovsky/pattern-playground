@@ -8,7 +8,7 @@ export function addDescribedBy(el: Element, id: string) {
 }
 
 export function removeDescribedBy(el: Element, id: string) {
-  const ids = (el.getAttribute('aria-describedby') ?? '').split(/\s+/).filter(t => t && t !== id);
+  const ids = (el.getAttribute('aria-describedby') ?? '').split(/\s+/).filter((t) => t && t !== id);
   if (ids.length) el.setAttribute('aria-describedby', ids.join(' '));
   else el.removeAttribute('aria-describedby');
 }

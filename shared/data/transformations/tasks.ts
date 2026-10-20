@@ -101,9 +101,9 @@ export const transformTasksData = (
   projects: Project[],
   filterStatusesData: FilterStatus[],
   filterPrioritiesData: FilterPriority[],
-  filterLabelsData: FilterLabel[]
+  filterLabelsData: FilterLabel[],
 ): TransformedTask[] => {
-  return tasksData.map(task => ({
+  return tasksData.map((task) => ({
     id: task.id,
     title: task.title,
     specification: task.specification,
@@ -111,7 +111,7 @@ export const transformTasksData = (
 
     // Convert to rich objects
     status: (() => {
-      const status = filterStatusesData.find(s => s.id === task.statusId);
+      const status = filterStatusesData.find((s) => s.id === task.statusId);
       return {
         id: task.statusId,
         label: status?.name || task.statusId,
@@ -119,32 +119,40 @@ export const transformTasksData = (
       };
     })(),
 
-    priority: task.priorityId ? (() => {
-      const priority = filterPrioritiesData.find(p => p.id === task.priorityId);
-      return {
-        id: task.priorityId,
-        label: priority?.name || task.priorityId,
-        value: priority?.value || 'medium',
-      };
-    })() : undefined,
+    priority: task.priorityId
+      ? (() => {
+          const priority = filterPrioritiesData.find((p) => p.id === task.priorityId);
+          return {
+            id: task.priorityId,
+            label: priority?.name || task.priorityId,
+            value: priority?.value || 'medium',
+          };
+        })()
+      : undefined,
 
-    assignee: task.assigneeId ? users.find(user => user.id === task.assigneeId) : undefined,
+    assignee: task.assigneeId ? users.find((user) => user.id === task.assigneeId) : undefined,
 
-    labels: task.labelIds ? task.labelIds.map(labelId => {
-      const label = filterLabelsData.find(l => l.id === labelId);
-      return label ? {
-        id: labelId,
-        label: label.name,  // Using 'name' field from labels.json
-      } : null;
-    }).filter((label): label is TaskLabel => label !== null) : undefined,
+    labels: task.labelIds
+      ? task.labelIds
+          .map((labelId) => {
+            const label = filterLabelsData.find((l) => l.id === labelId);
+            return label
+              ? {
+                  id: labelId,
+                  label: label.name, // Using 'name' field from labels.json
+                }
+              : null;
+          })
+          .filter((label): label is TaskLabel => label !== null)
+      : undefined,
 
-    project: task.projectId ? projects.find(project => project.id === task.projectId) : undefined,
+    project: task.projectId ? projects.find((project) => project.id === task.projectId) : undefined,
 
     // Progress and history from JSON
     progress: task.progress || 0,
-    history: task.history.map(entry => ({
+    history: task.history.map((entry) => ({
       ...entry,
-      timestamp: new Date(entry.timestamp)
+      timestamp: new Date(entry.timestamp),
     })),
 
     // Temporal fields
@@ -152,14 +160,18 @@ export const transformTasksData = (
     updatedAt: task.updatedDate ? new Date(task.updatedDate) : undefined,
     dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
 
-    updatedBy: task.updatedBy ? users.find(user => user.id === task.updatedBy) : undefined,
+    updatedBy: task.updatedBy ? users.find((user) => user.id === task.updatedBy) : undefined,
 
     // Metadata for ItemView
     metadata: {
-      tags: task.labelIds ? task.labelIds.map(labelId => {
-        const label = filterLabelsData.find(l => l.id === labelId);
-        return label?.name;
-      }).filter((name): name is string => name !== undefined) : []
-    }
+      tags: task.labelIds
+        ? task.labelIds
+            .map((labelId) => {
+              const label = filterLabelsData.find((l) => l.id === labelId);
+              return label?.name;
+            })
+            .filter((name): name is string => name !== undefined)
+        : [],
+    },
   }));
 };

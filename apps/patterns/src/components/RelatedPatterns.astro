@@ -46,7 +46,10 @@ interface Edge {
 }
 
 /** A line's text and whether it is quoted from the far page. */
-interface Gloss { text: string; far: boolean }
+interface Gloss {
+  text: string;
+  far: boolean;
+}
 
 interface PatternNode {
   id: string;
@@ -73,37 +76,46 @@ const SYMMETRIC = new Set(['complements', 'tangential', 'alternative', 'related'
 
 // Human-readable section labels for outgoing and incoming edges.
 const OUTGOING_LABELS: Record<string, string> = {
-  precedes:     'Precedes',
-  enables:      'Enables',
+  precedes: 'Precedes',
+  enables: 'Enables',
   instantiates: 'Instantiates',
-  enacts:       'Enacts',
-  surveys:      'Surveys',
-  hosts:        'Hosts',
-  serves:       'Serves',
-  complements:  'Complements',
-  tangential:   'Tangential to',
-  alternative:  'Alternatives',
-  related:      'Related to',
+  enacts: 'Enacts',
+  surveys: 'Surveys',
+  hosts: 'Hosts',
+  serves: 'Serves',
+  complements: 'Complements',
+  tangential: 'Tangential to',
+  alternative: 'Alternatives',
+  related: 'Related to',
 };
 
 const INCOMING_LABELS: Record<string, string> = {
-  precedes:     'Preceded by',
-  enables:      'Enabled by',
+  precedes: 'Preceded by',
+  enables: 'Enabled by',
   instantiates: 'Instantiated by',
-  enacts:       'Enacted by',
-  surveys:      'Surveyed by',
-  hosts:        'Hosted by',
-  serves:       'Served by',
+  enacts: 'Enacted by',
+  surveys: 'Surveyed by',
+  hosts: 'Hosted by',
+  serves: 'Served by',
 };
 
 // Collect outgoing and incoming edges for this pattern, grouped by peer: a
 // symmetric pair may be authored from both endpoints as two edges.
-interface GroupEntry { node: PatternNode; label?: string; far?: boolean }
+interface GroupEntry {
+  node: PatternNode;
+  label?: string;
+  far?: boolean;
+}
 const outgoing: Record<string, Map<string, Edge[]>> = {};
 const incoming: Record<string, Map<string, Edge[]>> = {};
 
-const add = (groups: Record<string, Map<string, Edge[]>>, type: string, peerId: string, edge: Edge) => {
-  const byPeer = groups[type] ??= new Map();
+const add = (
+  groups: Record<string, Map<string, Edge[]>>,
+  type: string,
+  peerId: string,
+  edge: Edge,
+) => {
+  const byPeer = (groups[type] ??= new Map());
   byPeer.set(peerId, [...(byPeer.get(peerId) ?? []), edge]);
 };
 
@@ -127,7 +139,8 @@ const sentenceEnd = (edge: Edge) => edge.glossFrom?.split(':')[0] ?? 'source';
 // A sentence lifted from the opening's first line starts lowercase, after the
 // renderer's ellipsis; standing alone it takes a capital. A `sets-up` clause
 // is a fragment, like a note, and keeps its case.
-const capitalise = (text: string) => text.replace(/^(\[?)([a-z])/, (_, bracket, c) => bracket + c.toUpperCase());
+const capitalise = (text: string) =>
+  text.replace(/^(\[?)([a-z])/, (_, bracket, c) => bracket + c.toUpperCase());
 
 // The near side wins, so the link reads in this page's voice: this page's
 // note, then its own sentence, then the far page's sentence (quoted), then
@@ -142,8 +155,13 @@ function pickLabel(pair: Edge[]): Gloss | undefined {
     farNote.push(nearEnd === 'source' ? edge.incomingNote : edge.label);
     const own = edge.situation && edge.glossFrom ? capitalise(edge.situation) : edge.situation;
     const other = edge.farSituation && capitalise(edge.farSituation);
-    if (sentenceEnd(edge) === nearEnd) { near.push(own); farSentence.push(other); }
-    else { near.push(other); farSentence.push(own); }
+    if (sentenceEnd(edge) === nearEnd) {
+      near.push(own);
+      farSentence.push(other);
+    } else {
+      near.push(other);
+      farSentence.push(own);
+    }
   }
   const nearText = near.find((l) => l !== undefined);
   if (nearText !== undefined) return { text: nearText, far: false };
@@ -156,7 +174,11 @@ function pickLabel(pair: Edge[]): Gloss | undefined {
 // A sentence quoted on this page may link this page, where the link goes
 // nowhere, and the neighbour it sits beside, whose title is already the link.
 const unlink = (text: string, ids: string[]) =>
-  ids.reduce((t, id) => t.replace(new RegExp(String.raw`\[([^\]]+)\]\(/patterns/${id}(?:[/#?][^)]*)?\)`, 'g'), '$1'), text);
+  ids.reduce(
+    (t, id) =>
+      t.replace(new RegExp(String.raw`\[([^\]]+)\]\(/patterns/${id}(?:[/#?][^)]*)?\)`, 'g'), '$1'),
+    text,
+  );
 
 const entriesOf = (byPeer: Map<string, Edge[]>): GroupEntry[] =>
   [...byPeer].map(([peerId, pair]) => {
@@ -165,7 +187,15 @@ const entriesOf = (byPeer: Map<string, Edge[]>): GroupEntry[] =>
   });
 
 // Build ordered sections: directed outgoing, then symmetric, then incoming.
-const DIRECTED_OUT_ORDER = ['precedes', 'enables', 'instantiates', 'hosts', 'serves', 'enacts', 'surveys'];
+const DIRECTED_OUT_ORDER = [
+  'precedes',
+  'enables',
+  'instantiates',
+  'hosts',
+  'serves',
+  'enacts',
+  'surveys',
+];
 const SYMMETRIC_ORDER = ['complements', 'tangential', 'alternative', 'related'];
 const DIRECTED_IN_ORDER = ['precedes', 'enables', 'instantiates', 'hosts', 'serves', 'enacts'];
 
@@ -237,8 +267,12 @@ const inline = (title: string) =>
 
 {hasRelated && narrated && (
   <section class="connections flow" aria-label="Connections">
-    <h2 id="connections" class="section-mark">Continuation</h2>
-    <div class="connections__narrated flow"><Situation text={resulting} end="resulting" /></div>
+    <h2 id="connections" class="section-mark">
+      Continuation
+    </h2>
+    <div class="connections__narrated flow">
+      <Situation text={resulting} end="resulting" />
+    </div>
     {(hasAppearances || (showIndex && sections.length > 0)) && (
       <details class="connections__formal">
         <summary>All connections</summary>
@@ -250,9 +284,28 @@ const inline = (title: string) =>
                 {lines.map(({ nodes: peers, label, far, fresh }) => (
                   <dd>
                     {peers.map((node, i) => (
-                      <>{i > 0 && ', '}<a href={node.path}>{i > 0 ? inline(node.title) : node.title}</a></>
+                      <>
+                        {i > 0 && ', '}
+                        <a href={node.path}>{i > 0 ? inline(node.title) : node.title}</a>
+                      </>
                     ))}
-                    {label && fresh && <> — <span class="connections__sentence"><Label text={quote(unlink(label, peers.map((n) => n.id)), far)} /></span></>}
+                    {label && fresh && (
+                      <>
+                        {' '}
+                        —{' '}
+                        <span class="connections__sentence">
+                          <Label
+                            text={quote(
+                              unlink(
+                                label,
+                                peers.map((n) => n.id),
+                              ),
+                              far,
+                            )}
+                          />
+                        </span>
+                      </>
+                    )}
                   </dd>
                 ))}
               </>
@@ -275,7 +328,12 @@ const inline = (title: string) =>
           {entries.map(({ node, label, far }) => (
             <li>
               <a href={node.path}>{node.title}</a>
-              {label && <> — <Label text={quote(unlink(label, [node.id]), far)} /></>}
+              {label && (
+                <>
+                  {' '}
+                  — <Label text={quote(unlink(label, [node.id]), far)} />
+                </>
+              )}
             </li>
           ))}
         </ul>

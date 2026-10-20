@@ -1,9 +1,15 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { action } from 'storybook/actions';
 import { useModalService } from '../hooks/use-modal-service';
 import { modalService } from '../services/modal-service';
 import { expect, userEvent, waitFor, within } from 'storybook/test';
-import { closeWithEscape, expectFocusInside, expectFocusTrapped, findOpenModal, openWithKeyboard } from './utils/play';
+import {
+  closeWithEscape,
+  expectFocusInside,
+  expectFocusTrapped,
+  findOpenModal,
+  openWithKeyboard,
+} from './utils/play';
 
 interface DrawerArgs {
   title: string;
@@ -12,12 +18,12 @@ interface DrawerArgs {
 }
 
 const meta = {
-  title: "Components/Drawer",
+  title: 'Components/Drawer',
   tags: [
     'activity-level:action',
     'atomic:component',
     'lifecycle:application',
-    'mediation:individual'
+    'mediation:individual',
   ],
   parameters: {
     layout: 'centered',
@@ -34,7 +40,8 @@ const meta = {
     },
     modal: {
       control: { type: 'boolean' },
-      description: 'Modal blocks the page behind a scrim; non-modal is a side peek the page stays interactive beneath',
+      description:
+        'Modal blocks the page behind a scrim; non-modal is a side peek the page stays interactive beneath',
     },
   },
 } satisfies Meta<DrawerArgs>;
@@ -53,11 +60,13 @@ export const Default: Story = {
           <div>
             <p>Drawer content. Drawers are great for forms, details, and secondary content.</p>
             <footer style={{ marginTop: '20px' }}>
-              <button className="button" data-close data-autofocus>Close</button>
+              <button className="button" data-close data-autofocus>
+                Close
+              </button>
             </footer>
           </div>,
-          { title, position, modal }
-        )
+          { title, position, modal },
+        );
       }}
     >
       Open {position} drawer
@@ -76,13 +85,15 @@ export const RightDrawer: Story = {
             <p>This is a right-side drawer content.</p>
             <p>Drawers are great for forms, details, and secondary content.</p>
             <footer style={{ marginTop: '20px' }}>
-              <button className="button" data-autofocus>Save</button>
+              <button className="button" data-autofocus>
+                Save
+              </button>
             </footer>
           </div>,
           {
             title: 'Right Drawer',
-            position: 'right'
-          }
+            position: 'right',
+          },
         );
       };
 
@@ -117,13 +128,15 @@ export const LeftDrawer: Story = {
             <p>This is a left-side drawer content.</p>
             <p>Left drawers are often used for navigation or filters.</p>
             <footer style={{ marginTop: '20px' }}>
-              <button className="button" data-close data-autofocus>Close</button>
+              <button className="button" data-close data-autofocus>
+                Close
+              </button>
             </footer>
           </div>,
           {
             title: 'Left Drawer',
-            position: 'left'
-          }
+            position: 'left',
+          },
         );
       };
 
@@ -154,16 +167,21 @@ export const NonModal: Story = {
         openDrawer(
           <div>
             <p>A non-modal side peek: no scrim, and the page behind stays live.</p>
-            <p>Because nothing is made inert, you can keep clicking, scrolling, and dragging in the underlying view while this stays open.</p>
+            <p>
+              Because nothing is made inert, you can keep clicking, scrolling, and dragging in the
+              underlying view while this stays open.
+            </p>
             <footer style={{ marginTop: '20px' }}>
-              <button className="button" data-close data-autofocus>Close</button>
+              <button className="button" data-close data-autofocus>
+                Close
+              </button>
             </footer>
           </div>,
           {
             title: 'Side peek',
             position: 'right',
-            modal: false
-          }
+            modal: false,
+          },
         );
       };
 
@@ -205,15 +223,17 @@ export const KeyboardOperation: Story = {
       return (
         <button
           className="button"
-          onClick={() => openDrawer(
-            <div className="flow">
-              <p>Escape closes this.</p>
-              <footer>
-                <button className="button">Confirm</button>
-              </footer>
-            </div>,
-            { title: args.title, position: args.position, modal: args.modal }
-          )}
+          onClick={() =>
+            openDrawer(
+              <div className="flow">
+                <p>Escape closes this.</p>
+                <footer>
+                  <button className="button">Confirm</button>
+                </footer>
+              </div>,
+              { title: args.title, position: args.position, modal: args.modal },
+            )
+          }
         >
           Open drawer
         </button>

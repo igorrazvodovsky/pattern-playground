@@ -13,7 +13,7 @@ export const useNavStore = create<NavState>()(
     (set, get) => ({
       openGroups: {},
       setOpen: (label, open) =>
-        set(state => ({ openGroups: { ...state.openGroups, [label]: open } })),
+        set((state) => ({ openGroups: { ...state.openGroups, [label]: open } })),
       isOpen: (label) => get().openGroups[label] ?? false,
     }),
     {
@@ -24,8 +24,8 @@ export const useNavStore = create<NavState>()(
       // the initial state and is ignored — no version/migrate needed.
       // partialize keeps the persisted shape to just the serialisable keys.
       partialize: (state) => ({ openGroups: state.openGroups }),
-    }
-  )
+    },
+  ),
 );
 
 export function useNavHydration() {

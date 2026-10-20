@@ -21,21 +21,49 @@
 
     "delete": {
       "type": "Button",
-      "props": { "label": "Delete", "icon": "delete", "hideLabel": true, "variant": "plain", "focusNext": "Cancel" },
+      "props": {
+        "label": "Delete",
+        "icon": "delete",
+        "hideLabel": true,
+        "variant": "plain",
+        "focusNext": "Cancel"
+      },
       "visible": { "$item": "armed", "not": true },
       "on": { "press": { "action": "arm", "params": { "item": { "$item": "" } } } }
     },
     "cancel": {
       "type": "Button",
-      "props": { "label": "Cancel", "icon": "cancel", "hideLabel": true, "variant": "plain", "focusNext": "Delete" },
+      "props": {
+        "label": "Cancel",
+        "icon": "cancel",
+        "hideLabel": true,
+        "variant": "plain",
+        "focusNext": "Delete"
+      },
       "visible": { "$item": "armed" },
-      "on": { "press": { "action": "setState", "params": { "statePath": { "$item": "armed" }, "value": false } } }
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": { "statePath": { "$item": "armed" }, "value": false }
+        }
+      }
     },
     "confirm": {
       "type": "Button",
-      "props": { "label": "Confirm", "icon": "delete-confirm", "hideLabel": true, "variant": "plain", "focusNext": "Delete" },
+      "props": {
+        "label": "Confirm",
+        "icon": "delete-confirm",
+        "hideLabel": true,
+        "variant": "plain",
+        "focusNext": "Delete"
+      },
       "visible": { "$item": "armed" },
-      "on": { "press": { "action": "removeState", "params": { "statePath": "/items", "index": { "$index": true } } } }
+      "on": {
+        "press": {
+          "action": "removeState",
+          "params": { "statePath": "/items", "index": { "$index": true } }
+        }
+      }
     },
 
     "empty-state": {
@@ -47,7 +75,12 @@
     "reset": {
       "type": "Button",
       "props": { "label": "Reset", "variant": "plain" },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/items", "value": { "$state": "/listings" } } } }
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": { "statePath": "/items", "value": { "$state": "/listings" } }
+        }
+      }
     }
   }
 }

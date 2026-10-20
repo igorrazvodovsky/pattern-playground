@@ -128,7 +128,7 @@
   }
 
   .fisheye__card::before {
-    content: "";
+    content: '';
     position: absolute;
     inset-inline-start: calc(var(--_rail-x) - var(--_indent) - 0.25rem);
     inset-block-start: 50%;
@@ -141,16 +141,16 @@
 
   /* Distance from the lens, carried by the dots alone: accent at the centre,
      fading to neutral as it goes out. Nothing else is coloured. */
-  [data-ring="0"] {
+  [data-ring='0'] {
     --_rail: var(--c-accent-300);
   }
 
-  [data-ring="1"] {
+  [data-ring='1'] {
     --_rail: var(--c-neutral-300);
   }
 
-  [data-ring="2"],
-  [data-ring="3"] {
+  [data-ring='2'],
+  [data-ring='3'] {
     --_rail: var(--c-neutral-200);
   }
 
@@ -206,7 +206,7 @@
     line-clamp: 2;
   }
 
-  [data-ring="1"] .fisheye__sentence {
+  [data-ring='1'] .fisheye__sentence {
     -webkit-line-clamp: 1;
     line-clamp: 1;
   }
@@ -273,7 +273,7 @@
       display: none;
     }
 
-    [data-ring="1"] .fisheye__sentence {
+    [data-ring='1'] .fisheye__sentence {
       display: none;
     }
   }

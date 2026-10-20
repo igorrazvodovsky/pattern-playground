@@ -10,12 +10,12 @@
      inner controls (badge menus, header corner controls) above the overlay. */
 
   /* Propagated designation: selection is staked, focus is transient */
-  .card[data-selected="true"] {
+  .card[data-selected='true'] {
     border-color: var(--c-accent);
     box-shadow: 0 0 0 1px var(--c-accent);
   }
 
-  .card[data-focused="true"] {
+  .card[data-focused='true'] {
     background-color: oklch(from var(--c-accent) l c h / 8%);
   }
 
@@ -26,21 +26,21 @@
      carries `container-type` and so is its own stacking context — a z-index on
      the card can't escape it. */
   :is(.cards--flush, .cards--list)
-    > *:has(> .card:is([data-selected="true"], [data-focused="true"], :hover, :focus-within)) {
+    > *:has(> .card:is([data-selected='true'], [data-focused='true'], :hover, :focus-within)) {
     position: relative;
     z-index: 1;
   }
 
-  tr[data-selected="true"] > td {
+  tr[data-selected='true'] > td {
     background-color: oklch(from var(--c-accent) l c h / 12%);
   }
 
-  tr[data-focused="true"] > td {
+  tr[data-focused='true'] > td {
     background-color: oklch(from var(--c-accent) l c h / 6%);
   }
 
   /* Drag in flight, and the lane currently offering to receive it */
-  [data-dragging="true"],
+  [data-dragging='true'],
   [data-dragging] {
     opacity: 0.5;
   }
@@ -112,7 +112,7 @@
   }
 
   /* A view that has visibly decoupled from the propagation it belongs to */
-  .view-family__pane[data-decoupled="true"] {
+  .view-family__pane[data-decoupled='true'] {
     opacity: 0.45;
     filter: grayscale(1);
   }
