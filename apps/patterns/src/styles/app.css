@@ -446,8 +446,6 @@
    scope proximity. */
 @scope (.content-inset, .pane article:not(.demo-block *)) to (.demo-block, pp-toc) {
   ul {
-    /* A thin space after the ordinary one; ::marker takes no padding, so the
-       gap between dash and text is set in the string itself. */
     list-style: "- \2009";
     list-style-position: outside;
   }
@@ -456,6 +454,10 @@
     margin-inline-start: 0;
     padding-inline-start: 0;
     list-style: decimal;
+  }
+
+  li {
+    text-wrap: balance;
   }
 
   li + li {
@@ -491,20 +493,9 @@
     font-size: 16px;
   }
 
-  /* Alexander's section mark: splits the upward context paragraph from the
-     problem, and the solution from the downward paragraph. On a shaped page
-     the mark carries its part's name instead of a glyph, and every h2 in the
-     article takes the same form: a label at body size, light and centred, so
-     a heading reads as a mark in the run of prose rather than a break in it,
-     and the table of contents sees the same word the page shows. Lighter than
-     the dimmed body token on purpose; the words are short and known. Unshaped
-     pages keep the glyph for the marks they still draw with `* * *`. The
-     To-do residue keeps its code face. Articles only: the home page and other
-     plain content pages keep the default headings. The scope root is the
-     article itself on a pane, so both forms are matched. */
   .dinkus,
   .section-mark,
-  :is(:scope:is(article), :scope article) h2:not(.residue *) {
+  :is(:scope:is(article), :scope article) h2 {
     text-align: center;
     color: oklch(from var(--c-body) l c h / 50%);
     max-width: 40rem;
@@ -515,7 +506,7 @@
   }
 
   .section-mark,
-  :is(:scope:is(article), :scope article) h2:not(.residue *) {
+  :is(:scope:is(article), :scope article) h2 {
     font-size: inherit;
     font-weight: 500;
     line-height: inherit;
@@ -523,9 +514,6 @@
     text-transform: uppercase;
   }
 
-  /* Below the centred mark the levels read by position and weight, not size:
-     the h3 sits left on the text's measure at body size and medium weight,
-     the h4 the same in italic at normal weight. */
   :is(:scope:is(article), :scope article) h3:not(.residue *),
   :is(:scope:is(article), :scope article) h4:not(.residue *) {
     font-size: inherit;
@@ -542,9 +530,6 @@
   }
 }
 
-/* Content (non-stack) prose measure — also a donut so a future demo on a
-   content page stays unaffected. The structural rules for .content-inset (its
-   margins, the home grid/rail) live outside the scope, below. */
 @scope (.content-inset) to (.demo-block, pp-toc) {
   p, blockquote, ul, ol {
     max-width: 40rem;
@@ -654,15 +639,6 @@ main.shell__main:has(> .content-inset) {
   font-style: italic;
 }
 
-/* A seed's title wears the provisional mark the library gives a proposed name
-   (certainty.css): a dashed underline, the same channel as the graph's dashed
-   seed node. The mark is on the title alone, as the book's asterisks are. */
-article h1[data-proposed] {
-  text-decoration: underline dashed var(--c-neutral-400);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.2em;
-}
-
 /* The library's `details` is a bordered card; here it's an inline fold, as on
    sequence pages. */
 .connections__formal {
@@ -702,6 +678,14 @@ article h1[data-proposed] {
 .residue :is(h3, p, li) {
   font-size: inherit;
   color: inherit;
+}
+
+/* The To-do heading takes the section-mark form, so it is set in the prose
+   face like the other marks rather than the residue's code face. */
+.residue h2 {
+  --font: var(--font-prose);
+
+  font-size-adjust: none;
 }
 
 /* The "- " marker in the code face is a wider glyph plus a full cell of space,

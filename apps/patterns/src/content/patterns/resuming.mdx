@@ -1,0 +1,86 @@
+---
+title: Resuming
+added: 2026-10-11
+updated: 2026-10-20
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+activityLevel: action
+mediation: individual
+description: "Letting the actor pick a long task back up after a gap, with what they have done found again, shown, and the next step in reach."
+situation:
+  initiating: >-
+    … the actor is partway through a task in a [wizard](/patterns/wizard) or a long form
+    that will not finish in one sitting: it needs information they do not have to hand,
+    or more time than they have now, or they cannot safely continue where they are. People
+    leave such tasks in proportion to their length, and most of them come back to nothing,
+    so what they entered goes with them.
+  resulting: >-
+    What the system keeps is not the question here. [Saving](/patterns/saving) asks whether
+    the actor manages persistence at all; this pattern assumes the work is kept, silently or
+    on request, and asks how the actor finds it again and takes it up. Whichever way it is
+    kept, [status feedback](/patterns/status-feedback) owes the actor a report that it was,
+    at the moment they leave and when they return. [Draft and publish](/patterns/draft-and-publish)
+    looks alike but answers a different question, whether the work is ready for others; a
+    half-finished application is not a draft of anything, it is an unfinished task…
+relationships:
+  related:
+    - to: saving
+      note: "saving asks whether the actor manages persistence; resuming asks how they find kept work again"
+    - to: draft-and-publish
+      note: "draft and publish marks readiness for others; resuming is about taking an unfinished task back up"
+  complements:
+    - to: status-feedback
+      note: "a kept task is only as safe as the actor's knowledge that it was kept"
+---
+
+* * *
+
+**A task that runs over more than one sitting is left and returned to, and the return is where it fails. After a gap of hours or weeks the actor remembers little of what they entered or where they were, and if the interface does not carry that for them, they start over or give up. Keeping the entries is the easy half; most systems that keep them still put the actor back at the start, or behind a login they never made, with no sign of what is already done.**
+
+Keeping the work is not the hard part. Changes can be stored as they are made, against an account, an anonymous session reachable by link, or the browser itself, and none of those needs a button. What decides whether the actor can resume is three other things, and every instance settles them differently.
+
+*Where the way back lives.* Work stored on the device returns only on that device and that browser, which fails the actor who started on a phone and sits down at a laptop, or whose browser cleared its data. Work stored against a session needs a key the actor can get back to: a link they are shown and told to keep, an emailed link, a link plus a security answer, an access code. Work stored against an account returns anywhere, but asks the actor to make an account before they have any reason to. The more portable the way back, the more it asks of the actor at the moment of leaving, and that moment is also the one at which they are least inclined to do anything extra.
+
+*How long it is kept.* Long enough to be useful and no longer. The form may change underneath a half-finished entry, and what was entered is the actor's data, not the system's.
+
+*What a partial save demands.* Nothing. Work kept partway is kept as it is, without validation; a save that refuses incomplete entries is not a save of unfinished work.
+
+What is known comes from interruption research at the scale of seconds and from a few long-gap studies, below. The short-gap work shows that resuming costs more the longer the gap, and that cues in the environment carrying the task's state cut that cost. At the scale of a week nothing of the task survives in memory, so the interface carries all of it, and a cue showing recent work in order roughly doubled how well people picked a task back up.
+
+Therefore,
+
+**Keep what the actor has entered as they enter it, without validating it, and give them a way back that survives the gap: on the device for a short gap, by a link or code for a longer one, by their account where they have one. When they return, show what they have already done, in their own entries and in order, and put them at the point where they stopped, or at an overview from which that point is one step away. Ask again only for what must not be kept.**
+
+Where leaving is a decision the actor makes rather than a tab they closed, give that decision a place: a control that says the work is kept, shows or sends the way back, and lets them note what comes next. An actor who stopped on purpose resumes more easily than one who was cut off. The control adds nothing where the way back is an account the actor is already in, and it should never be the only way the work is kept; a closed tab is also a way of leaving.
+
+## In practice
+
+### The return
+
+What the actor sees on return is the pattern. Three forms recur:
+
+- *Back at the point.* The task reopens where they stopped, with what came before marked done. Right when the remaining steps depend on the earlier ones and the actor is unlikely to revisit them.
+- *The overview.* A list of the task's parts, each marked done, in progress, or not started, with the next one offered. Right when parts can be done in any order, or when enough time has passed that the actor needs to see the whole before trusting it.
+- *The summary.* The entries themselves, in order, with each linked to where it can be changed. Right after a long gap, and the same view as a [review before submitting](/patterns/review-before-submitting); the two often share one screen.
+
+### The way back
+
+- *Device.* Nothing to show the actor and nothing to ask; the work is simply there on return. Say so when they leave, and say where it will not be.
+- *Link or code.* Shown on screen with an instruction to keep it, or sent by email or message. An emailed link is the common choice for public services, often paired with a security answer the actor set, since the link alone is not enough when it may be forwarded.
+- *Account.* The work follows the actor. Where the task is what brings them to the system, asking for an account first is a cost; offer it as the way to keep the work, after some has been entered, rather than as the price of starting.
+
+## Research on this pattern
+
+Why the return has to show what is done: resuming a suspended task costs more the longer the gap, and the cost is reduced by cues in the environment that carry the task's state ([Altmann & Trafton 2002](https://doi.org/10.1016/s0364-0213(01)00058-1); [Trafton & Monk 2007](https://doi.org/10.1518/155723408x299852); [Monk, Trafton & Boehm-Davis 2008](https://doi.org/10.1037/a0014402)). Those studies work at seconds to a minute; at hours or weeks nothing of the task survives in memory, so the interface carries all of it. Programmers resuming after a day did about twice as well with a cue showing their recent work in order ([Parnin & DeLine 2010](https://doi.org/10.1145/1753326.1753342)).
+
+Why the population is real: in a field study of office work about a quarter of interrupted tasks were not picked up again the same day ([Mark, González & Harris 2005](https://doi.org/10.1145/1054972.1055017)), and workers resuming relied mostly on what was visible on screen rather than on memory ([Iqbal & Horvitz 2007](https://doi.org/10.1145/1240624.1240730)).
+
+Why the return shows the entries themselves: a history of what was done lets people rebuild the context of a suspended activity, and its form matters, since the same study compared animation against still images and the size and crop of each ([Rule, Tabard & Hollan 2017](https://doi.org/10.1080/07370024.2017.1300063)). People resuming a task after two days with a visual history of what they had done took less time to get back to it than those left to search for it ([Hu & Lee 2020](https://doi.org/10.1145/3313831.3376753)).
+
+## To-do
+
+- Whether a way back without a visible save control reduces break-off, or only moves it to the return.
+- Whether the title should name the return rather than the save, now that the save is not the move.

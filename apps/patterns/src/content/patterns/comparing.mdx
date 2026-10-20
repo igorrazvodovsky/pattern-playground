@@ -1,7 +1,7 @@
 ---
 title: Comparing
 added: 2026-08-29
-updated:
+updated: 2026-10-20
 role: pattern
 seed: true
 evidence:
@@ -9,49 +9,45 @@ evidence:
 group: evaluation
 activityLevel: action
 mediation: individual
-description: "Putting the difference between designated items on screen as its own representation, instead of leaving the actor to scan two full renderings and hold the distinction in their head."
+description: "Showing the differences between two or more items directly, aligned on what they share, so the actor does not have to look back and forth and remember what differs."
 situation:
   initiating: >-
-    the actor holds two or more things — versions of one item, instances of a kind,
-    subsets of a collection — and the question is the difference between them; the
-    tool renders each fully, so the comparison happens by eye, back and forth,
-    with the distinction assembled and held in the actor's head
-  resulting:
-    - >-
-      the difference is a representation of its own — shared features recede, distinctions
-      stay salient — so the comparison is read rather than performed
-    - >-
-      what is compared is an editorial claim: the bases of comparison someone chose decide
-      which differences can be seen at all, and a basis left out is a difference that
-      cannot surface
-    - >-
-      versions of one thing and instances of a kind compare differently — a version diff
-      can assume shared structure and show only the delta, while instances need their
-      common attributes aligned before any difference reads
+    … the actor has two or more things in front of them, designated by [selection](/patterns/selection) or by the system: versions of one item, instances of a kind, subsets of a collection. The question is what differs between them. In [making sense at scale](/sequences/making-sense-at-scale) this is the optional step that shows the difference directly, built inside whichever lens is in use when the actor asks for it; [change review](/patterns/change-review) and [reconciliation](/patterns/reconciliation) are built on its version case, with one of the versions a proposal or a colleague's work, and [version history](/patterns/version-history) uses the same case to set a past state against the present. Comparing gives all of these the difference as something to read rather than something to perform, by drawing it where the actor's eye would otherwise have to carry it.
+  resulting: >-
+    The difference is now read rather than performed. Where one of the versions is a change proposed to something that already exists, build [change review](/patterns/change-review) on the version case, shared structure assumed and only the delta drawn, and add acceptance part by part. Where the versions are two people's divergent work on the same thing, build [reconciliation](/patterns/reconciliation) on it and add the pick between them. [Version history](/patterns/version-history) sets a past version beside the current one the same way before it is restored. Keep the bases of comparison in view, since a basis that was left out is a difference that cannot surface, and where the set allows it let the actor add one. Where the compared things are instances of a kind rather than versions of one thing, align their common attributes first, because until they are aligned no difference reads…
 relationships:
-  complements:
-    - to: selection
-      note: "the items compared are first designated; comparing consumes a selection of two or more"
-disclosure: >-
-  Seeded during the making-sense-at-scale sequence sitting. Needs its
-  classification sitting: whether it joins composing views' framing cluster beside
-  sorting, grouping, and filtering, or stays a lens-region step, is open.
+  enables:
+    - change-review
+    - reconciliation
+  composed-of:
+    - selection
 ---
 
-The actor holds two or more things — versions of one item, instances of a kind, subsets of a collection — and the question is the difference. Most tools answer by rendering each thing fully and leaving the comparison to the eye: two windows, two printouts, back and forth, the distinction assembled in the actor's head and lost when attention moves.
+* * *
 
-Comparing gives the difference its own representation. Shared features recede, distinctions stay salient, and the magnitude of each discrepancy is readable — the comparison is read, not performed.
+**When two things are shown in full and the comparison is left to the actor, the actor looks back and forth and keeps one in memory while reading the other. They find the differences they were already looking for and miss most of the others. A difference they do find is easily lost once their attention moves on.**
 
-## Three ways to show a difference
+There are three ways to show a difference, and they can be combined. *Juxtaposition* places the things side by side, aligned so that matching parts sit level with each other. It is the cheapest to build, but the actor still has to carry each difference from one side to the other. *Superposition* overlays the things in one space, so a difference shows as an offset. It works only when the things share a layout or a set of axes. *Explicit encoding* computes the difference and draws it directly, as a diff, a change column or a highlighted region. It asks the least of the actor and depends most on the system deciding what counts as a change. Studies of chart arrangements find that the choice changes how accurately people compare, and that no single arrangement is best for every task.
 
-The visual-comparison literature names three families, combinable:
+Versions of one thing and instances of a kind need different preparation. Versions share their structure, so a version diff can assume that structure and show only what changed. Instances first have to be lined up on the attributes they have in common. People notice differences along shared attributes much more readily than differences that have no counterpart on the other side, so a comparison table with consistent rows does much of the work before any difference is highlighted. Such tables work best with a handful of items. A larger set needs narrowing, summarising or stepping through before a direct comparison helps.
 
-- *Juxtaposition* — the things side by side, alignment doing the work. The cheapest form and the weakest: the actor still carries the difference between glances.
-- *Superposition* — the things overlaid in one space, difference read as displacement. Works where the compared things share a coordinate system.
-- *Explicit encoding* — the difference computed and drawn as its own object: a diff, a delta column, a changed-region highlight. The strongest form and the most editorial, since something decided what counts as a change.
+Every comparison also runs on bases someone chose: which attributes, at what level of detail, and what counts as the same. A difference along a basis that was left out cannot appear. That choice is the main cost of the pattern.
+
+Therefore,
+
+**Give the difference a representation of its own. Show the compared things in one view, aligned on what they share. Keep shared parts quiet and draw each difference so that it is visible and its size can be read. Where the things are instances rather than versions, align them on their common attributes first. Show which bases the comparison uses, and let the actor add one where the set allows.**
+
+A stronger encoding hides more of what it was not set up to show. A diff that highlights changed lines says nothing about a change in meaning that left the text untouched. Offer the comparison when the actor asks for it, and leave it out where the questions are about the items themselves rather than the differences between them.
 
 ## Resources & references
 
-- Gleicher, Albers, Walker, Berman, Hansen & Roberts (2011) [Visual comparison for information visualization](https://journals.sagepub.com/doi/10.1177/1473871611416549) — the juxtaposition / superposition / explicit-encoding taxonomy
-- Burghardt (2009) *Working Through Screens*, F5 "Comparative representations" — comparison as manual juxtaposition in unsupported practice, and the case for purpose-built comparative displays
-- [Supporting sensemaking of large language model outputs at scale](https://arxiv.org/abs/2401.13726) (CHI 2024) — computed similarities and differences across many generated responses as the thing that made the task tractable
+- Gleicher (2018) [Considerations for visualizing comparison](https://par.nsf.gov/servlets/purl/10062070): the juxtaposition, superposition and explicit-encoding families, what makes a comparison hard (many items, large items, complex relationships), and the ways of coping with each
+- Ondov, Jardine, Elmqvist & Franconeri (2019) [Face to face: evaluating visual comparison](https://cs.au.dk/~elm/pdf/face2face.pdf): how side-by-side, mirrored, overlaid and animated arrangements change what people can compare accurately
+- Gentner & Markman (1994) [Structural alignment in comparison: no difference without similarity](https://groups.psych.northwestern.edu/gentner/newpdfpapers/GentnerMarkman94.pdf): differences along shared structure are noticed far more readily than differences outside it, which is why instances need aligning first
+- Burghardt (2009) *Working Through Screens*, F5 "Comparative representations": comparison as manual juxtaposition in unsupported practice, and the case for purpose-built comparative displays
+- Nielsen Norman Group, [Comparison tables for products, services, and features](https://www.nngroup.com/articles/comparison-tables/): the everyday instance case, with offerings aligned on shared attributes
+
+## To-do
+
+- Whether the step joins the framing/sense-making cluster beside sorting, grouping and filtering
+- Whether the choosing and exposing the bases of comparison deserves a pattern of its own

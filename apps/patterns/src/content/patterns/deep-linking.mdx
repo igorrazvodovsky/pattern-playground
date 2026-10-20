@@ -1,7 +1,7 @@
 ---
 title: Deep linking
 added: 2025-10-16
-updated: 2026-08-10
+updated: 2026-10-19
 role: pattern
 evidence:
   - literature
@@ -9,42 +9,39 @@ activityLevel: operation
 mediation: individual
 situation:
   initiating: >-
-    a state worth returning to takes several moves to reconstruct — a filtered view, an open
-    item, a position in a space — and the only record of how to get back is in the actor's head;
-    there is nothing to bookmark, send, or come back to
-  resulting:
-    - >-
-      any state worth naming has a name that restores it, so returning, sharing and bookmarking
-      cost nothing beyond keeping the link
-    - >-
-      addressable state is state that has left the actor's control: a link travels, and whoever
-      holds it reaches what it points at
-    - >-
-      the links are now a contract — states that were named have to keep resolving — which
-      constrains how freely what sits behind them can be reorganised
+    … [structuring the space](/sequences/structuring-the-space) has produced a layout, and the actor can stand in a state that took several moves to reach: a context switched to, an item opened, a list narrowed, a step reached in [step by step](/patterns/step-by-step), a position and scale in a [pan and zoom](/patterns/pan-and-zoom) space. That state is one another actor should see as it is in [working on the same thing](/sequences/working-on-the-same-thing), one a notification should bring the actor back to in [attention and tempo](/sequences/attention-and-tempo), or one the actor returns to after an absence in [memory and continuity](/sequences/memory-and-continuity). Deep linking gives all three the same thing, a name for the state that brings it back.
+  resulting: >-
+    Give any state worth naming a name that restores it, so that returning, bookmarking and resuming cost nothing beyond keeping the link. Addressable state has left the actor's control: a link travels, and whoever holds it reaches what it points at, so decide with [sharing](/patterns/sharing) who may open it, and give the holder a [link preview](/patterns/link-preview) of what they are about to open, scrolled to the part the address points inside. Treat the links as a contract: keep every state that was named resolving, and reorganise the space behind them with that in mind when it grows past its model. Give a [comment](/patterns/commenting) an address of its own, and each message in a thread. Let the address carry what [progressive disclosure](/patterns/progressive-disclosure) has revealed, since that is state that narrows the view. Where a view changes in place rather than by navigation, decide here which changes become a Back step…
 relationships:
   enacts:
     - to: shareability
       note: a link can only carry state that has a name, and deep linking is where the name comes from
   related:
-    - to: commenting
-      note: Comments get unique URLs
-    - to: progressive-disclosure
-      note: URL state tracks what's expanded/revealed
+    - commenting
+    - progressive-disclosure
 ---
-Getting to a particular state takes a few moves: narrow the list this way, open that item, scroll to the part that matters. Once the actor is standing there, the only record of how they got there is in their head. There is nothing to bookmark, nothing to send to a colleague, and coming back tomorrow means walking the same path again.
 
-## Forces
+## Problem
 
-- *Legible names vs. stable names* — a name made from what something is called tells whoever holds the link what they are about to open, and breaks the day it gets renamed. A name made from an identifier never breaks and says nothing.
-- *Restoring the view vs. handing over the sender's settings* — the more of the state a link carries, the closer the recipient's screen is to the sender's, and the more of the sender's private arrangement arrives uninvited.
-- *Naming states vs. rearranging freely* — a state with an address is a promise to keep answering it. Reorganising later breaks links held by people who aren't there to say so.
+**People can only bookmark, share, and return to an interface state if it has a dedicated URL. Without a URL, users cannot reference a specific view directly—they must reconstruct it manually each time or give someone else step-by-step instructions to reproduce it.**
 
-## Solution
+### Forces
 
-Give every state worth returning to an address of its own, and keep that address current as the actor works, so the state can be bookmarked, sent, or resumed without being rebuilt. The address has to work in both directions: opening it reconstructs the state, otherwise it only looks addressable.
+- *Legible names vs. stable names*: a name made from what something is called tells whoever holds the link what they are about to open, and breaks the day it gets renamed. A name made from an identifier never breaks and says nothing.
+- *Restoring the view vs. handing over the sender's settings*: the more of the state a link carries, the closer the recipient's screen is to the sender's, and the more of the sender's private arrangement arrives uninvited.
+- *Naming states vs. rearranging freely*: a state with an address is a promise to keep answering it. Reorganising later breaks links held by people who are not there to say so.
 
-## Choosing where state goes
+An address is the only thing [shareability](/patterns/shareability) has to carry, so a state without one cannot be shared however good the sharing controls are. The evidence here is the web's own: addresses that kept resolving over decades and the ones that did not.
+
+Therefore,
+
+**Give every state worth returning to an address of its own, and keep that address current as the actor works, so the state can be bookmarked, sent, or resumed without being rebuilt.**
+
+What the actor set once for themselves, a theme, a density, a collapsed sidebar, is the class of state to leave out. It belongs to the person, in [settings](/patterns/settings), rather than to the view, and having someone else's arrangement imposed on arrival is a surprise, not context.
+
+## In practice
+
+### Where state goes
 
 An address has three jobs to hand out. Which one a value takes follows from what the value means to the actor, not from how much state there is.
 
@@ -82,9 +79,7 @@ Most states worth sending use all three at once — the board, how it is current
 /board/sprint-3?filter=assigned-to-me#card-1234
 ```
 
-What the actor set once for themselves — theme, density, a collapsed sidebar — is the class of state to leave out. It belongs to the person rather than to the view, and having someone else's arrangement imposed on arrival is a surprise, not context.
-
-## Names that survive renaming
+### Names that survive renaming
 
 A readable address tells whoever holds it what it points at before they open it: `/products/modern-wristwatch` is legible in a chat message in a way `/products/4815` is not. But a name taken from a title breaks when the title changes, and titles change.
 
@@ -98,15 +93,15 @@ The number is what resolves; the wording is there for whoever reads the link. A 
 
 Where the state has no natural name — a filter combination, a canvas position — a short code standing in for the whole arrangement keeps the address manageable, at two costs: the recipient can no longer read what they are about to open, and the link dies with whatever record the code stands for.
 
-## Which changes deserve a Back step
+### Which changes deserve a Back step
 
-Keeping the address current as the actor works is what makes any moment sendable. Not every change is a step in a journey, though. Filters adjusted one after another, a slider dragged, a default filled in on arrival — if each becomes a step, Back stops meaning "the view I was just in" and starts meaning "the keystroke before this one", and leaving the page takes a dozen presses.
+Not every change is a step in a journey. Filters adjusted one after another, a slider dragged, a default filled in on arrival — if each becomes a step, Back stops meaning "the view I was just in" and starts meaning "the keystroke before this one", and leaving the page takes a dozen presses.
 
 Count it as a step when it is somewhere the actor would expect Back to return them from: opening an item, running a search, moving to the next page of results. Let corrections, defaults, and rapid intermediate adjustments overwrite the current step instead of adding one.
 
 Whichever way it goes, going back has to put the actor back — the view rebuilt from the address rather than from whatever happened to be left in memory. And a change the actor would call navigation should read as navigation to someone who isn't watching the screen: when the view is replaced in place, arriving needs announcing, the way a fresh page announces itself.
 
-## Exposing the link
+### Exposing the link
 
 The address bar is the sharing control most of the time, and copying from it is what people already do — which is why it has to keep up with the view rather than lag a step behind.
 

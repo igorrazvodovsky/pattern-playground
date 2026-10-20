@@ -1,8 +1,9 @@
 ---
 title: Wizard
 added: 2025-11-21
-updated: 2026-10-10
+updated: 2026-10-20
 role: pattern
+kind: element
 evidence:
   - observed
   - literature
@@ -13,85 +14,77 @@ mediation: individual
 fun: 😐 2/5. Necessary infrastructure.
 situation:
   initiating: >-
-    a [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed. This works well for most tasks, but falls short when a complex, unfamiliar workflow has strict dependencies—where early decisions dictate which questions exist later, and the task must be completed from start to finish before anything can take effect. When users encounter a process so rarely that they have no existing mental model, presenting every field at once causes cognitive overload. A wizard shapes this kind of task into a guided, step-by-step sequence. It is the standard approach for initial [onboarding](/patterns/onboarding) setup and first-time [settings](/patterns/settings) configuration where users need to make choices before fully understanding what each control means. When this sequence also defines how users navigate through the interface, [step by step](/patterns/step-by-step) provides the navigational backbone; this pattern defines the structure and pacing of the task itself.
-  resulting: >-
-    Because a wizard isolates focus to one step at a time and hides the rest of the interface, users must be able to change earlier decisions without losing entered progress; non-destructive [undo](/patterns/undo) and safe backward navigation are fundamental requirements. Throughout the flow, continuous [status feedback](/patterns/status-feedback) keeps users oriented with clear progress indicators, inline field validation, and confirmation states. When users have varying goals and do not benefit from a rigid sequence, [next best action](/patterns/next-best-action) recommends optimal steps dynamically instead of locking users into a fixed path, while an interactive [agent](/patterns/agent) can handle complex dependencies through conversation, allowing users to ask clarifying questions about earlier decisions at any time. Similar sequential structures appear in other contexts: configuring a reusable [template](/patterns/template) through guided prompts, or paginating through a structured [prompt scaffold](/patterns/prompt-scaffolding). Unlike an enterprise [workflow](/patterns/workflow), which coordinates asynchronous tasks and business processes across multiple people and systems, a wizard guides a single user through an isolated, synchronous task.
+    … the actor is about to start a task in [making changes](/sequences/making-changes), or in the first encounter of [learning](/sequences/learning), that they meet so rarely they have no model of it, and whose early answers decide which questions exist later; [onboarding](/patterns/onboarding) runs its first-time setup this way for the same reason, since the actor has to choose before understanding what each control means. A [form](/patterns/form) would put every field on one page, and most tasks are better served by one. A wizard gives these sequences a task the actor can finish without a model of it, by applying [progressive disclosure](/patterns/progressive-disclosure) one decision at a time and letting each answer remove the questions that no longer apply; [step by step](/patterns/step-by-step) gives it its navigation when the sequence also decides how the actor moves through the interface.
+  resulting: |-
+    Each part of the instruction is a smaller pattern, and they follow the actor's path through the steps. Throughout, let [status feedback](/patterns/status-feedback) say where the actor is, what failed, and at the end what the submission produced. In each step, pre-fill with [good defaults](/patterns/good-defaults) whatever the system can guess or remembers from last time, which is also most of the faster path for returning actors. Put [help](/patterns/help) beside the fields it explains, so guidance never takes the actor out of the step. Check each step's inputs with [validation](/patterns/validation) at the field, before the actor can advance, so an early mistake does not carry into the steps that depend on it. Make going back free, since the flow hides everything but the current step: give it a non-destructive [undo](/patterns/undo) and a Back that keeps every answer. Where the flow runs longer than one sitting, give it [resuming](/patterns/resuming), and ask before any exit that would discard what was entered. End with a [review before submitting](/patterns/review-before-submitting), every answer in one place and each linked back to its step, so the actor checks the whole before committing it…
 relationships:
   precedes:
     - undo
   complements:
     - status-feedback
-    - undo
+  composed-of:
+    - validation
+    - resuming
+    - review-before-submitting
+    - help
+    - good-defaults
   alternative:
     - next-best-action
     - form
     - agent
   enacts:
     - to: temporality
-      note: paces a task into an ordered sequence of steps, one commitment at a time
+      note: paces a task into an ordered sequence of steps
 ---
 
 * * *
 
-**Some tasks involve complex, interdependent decisions: choices made early on determine which questions or steps exist later. When users encounter an unfamiliar or high-stakes process rarely, presenting all fields at once creates cognitive overload, forcing them to figure out which questions apply and in what order to answer them.**
+**People cannot fill in a page of fields whose later questions depend on answers they have not yet given, and when they meet such a task rarely they have no model to fill it by: they guess at which questions apply, answer ones that will be removed, and give up.**
 
-A wizard works best when two specific conditions are met:
+A wizard works when two conditions are met:
 
-1. **Conditional dependencies**: Later steps depend directly on choices made in earlier steps. What the user selects first dictates which questions or configurations are relevant downstream.
-2. **Task unfamiliarity**: Users perform the task infrequently (such as account setup, compliance configuration, or complex provisioning) and lack an established mental model. Presenting one decision at a time provides clarity and reduces anxiety.
+1. *Conditional dependencies*: later steps depend directly on choices made in earlier steps. What the actor selects first decides which questions or configurations are relevant downstream.
+2. *Task unfamiliarity*: actors perform the task infrequently (account setup, compliance configuration, complex provisioning) and have no established mental model. Presenting one decision at a time gives them clarity and reduces anxiety.
 
-If neither condition applies, a standard single-page form is almost always superior. Simply paginating a long form across multiple screens without real dependencies frustrates users: it hides the total effort required, prevents users from scanning ahead or referencing previous inputs, and adds unnecessary clicks and page transitions.
+The sequence takes one of a few forms depending on how the dependencies hold: fixed, branching, grouped under milestones, or with optional steps at the end (each is described under In practice). What stays constant across them is the gate between steps and the one purpose per step.
 
-Even when a wizard is justified, it introduces clear trade-offs:
-- **Higher interaction cost**: Every step introduces separate navigation clicks, validation delays, and page transitions.
-- **Loss of context and visibility**: Information entered on earlier steps is hidden from view, making comparison, cross-checking, and copy-pasting across steps difficult.
-- **Interruption risk**: If users abandon the flow mid-way, their progress is lost unless the system explicitly supports draft saving.
-- **Rigid sequence**: The interface dictates the order of execution. Experienced users who know their inputs cannot jump straight to relevant fields.
-- **Poor fit for exploratory tasks**: Open-ended, iterative activities (such as editing media or composing documents) cannot be forced into a wizard.
+Whatever its form, a wizard costs more than a single page. The costs are the same whether or not the wizard is justified:
+
+- *Higher interaction cost*: every step adds navigation clicks, validation delays and page transitions.
+- *Loss of context and visibility*: what was entered on earlier steps is hidden, so comparing, cross-checking and copying across steps is hard.
+- *Interruption risk*: an actor who leaves partway loses their progress unless the system keeps it.
+- *Rigid sequence*: the interface dictates the order. Experienced actors who know their inputs cannot jump straight to the fields that matter.
+- *Poor fit for exploratory tasks*: open-ended, iterative work, such as editing media or composing a document, cannot be forced into a sequence.
+
+Where neither condition holds, these costs buy nothing: paginating a long form without real dependencies hides the total effort, stops the actor scanning ahead or checking earlier inputs, and adds clicks and page transitions for nothing.
 
 Therefore,
 
-**Structure the complex task as a linear, gated sequence of focused steps, where each step handles a single clear purpose and earlier answers prune irrelevant questions downstream. Show overall progress and remaining steps, validate inputs inline before allowing users to advance, preserve entered state through forward and backward navigation, and present a consolidated review before final submission. Never use a wizard when a single page would suffice, and always provide an accelerated path for experienced users.**
+**Structure the task as a gated sequence of focused steps, each with one purpose and everything it needs on the screen, and let earlier answers remove the questions that no longer apply, with no more than one or two points at which the sequence branches. Show where the actor is and what remains; in each step pre-fill what the system can guess, put guidance beside the fields, and check the inputs before letting the actor advance; keep everything entered when they go back or leave; and end with a review of every answer, each linked back to its step, before the final commitment.**
 
-### Accommodating returning users
+Use a wizard only where a single page would not do. If a step needs tabs, accordions or long scrolling to hold its contents, it has more than one purpose and should be split. Beyond two branch points the step count jumps with each answer, and the actor loses track of how far they are. The pacing that reassures on first use slows the actor down by the fifth, so give returning actors a faster path than the steps.
 
-A flow that feels reassuring on first use becomes tedious friction by the fifth. Once users understand the task, paging through sequential screens slows them down. Support repeat and power users by:
-- Pre-filling reasonable defaults or remembering previous choices.
-- Offering a single-page form or "expert mode" for direct data entry.
-- Providing templates, clone actions, or bulk-import tools.
-- Supplying a command-line interface or API for programmatic execution in technical products (as seen in cloud provisioning consoles).
+## In practice
 
-## Variants
+### Forms
 
-- **Linear (fixed)**: A strict, identical step sequence for all users. Use only when technical prerequisites strictly require an ordered progression (for example, uploading a file before mapping its data fields); otherwise, a single-page form is better.
-- **Conditional (branching)**: Earlier answers dynamically add, remove, or modify subsequent steps, ensuring users only see relevant screens.
-- **Progressive (dynamic)**: The total step count is not fixed up front. Steps appear or adapt dynamically based on user choices, pruning unneeded branches as the flow unfolds.
-- **Sub-steps (hierarchical)**: Complex steps are grouped into logical sub-steps under a parent milestone, collapsing completed milestones to maintain focus.
-- **Optional steps**: Non-essential configuration grouped toward the end of the flow, with an option to skip directly to review once required steps are complete.
+- *Fixed*: the same steps in the same order for everyone. Justified only when a technical prerequisite forces the order, such as uploading a file before mapping its fields; otherwise a single-page form is better.
+- *Branching*: earlier answers add, remove or change later steps, so the actor sees only the steps that apply. When the step count is not known up front, the progress indicator shows milestones rather than a count.
+- *Grouped*: a long step splits into sub-steps under a milestone, and finished milestones collapse.
+- *Optional steps*: non-essential configuration placed at the end, with a way to skip straight to the review once the required steps are done.
 
-## Components
+### Faster paths for returning actors
 
-- **Progress indicator (stepper)**: Shows the current position, completed steps, and remaining steps with descriptive labels. Gives users a clear sense of scope and remaining effort.
-- **Step validation**: Inline validation that checks inputs before allowing progression to the next step, preventing early errors from cascading into downstream steps.
-- **Navigation controls**: A clear primary action ("Next" or "Continue"), a secondary backward action ("Back"), and a clear exit action ("Cancel" or "Save & exit"). The "Back" action must navigate non-destructively without clearing entered data.
-- **State persistence (draft saving)**: Automatically saves entered data across steps and browser sessions, providing a clear "Save & finish later" option for lengthy workflows.
-- **Review step**: A consolidated summary screen displaying all gathered inputs prior to final commitment, with direct "Edit" links back to each step. The final submission button should clearly state the action taken ("Create account", "Deploy cluster", "Place order").
-- **Completion step**: Dedicated feedback showing the outcome (success or failure) once submitted. For long-running operations, display progress indicators and provide immediate links to the newly created asset or next task.
-- **Contextual help**: Inline explanatory text and field tooltips placed alongside inputs, allowing users to review guidance without leaving their current step or opening intrusive modals.
-
-## Constraints & best practices
-
-- **One purpose per step**: Keep each step concise and focused on a single topic. If a step requires tabs, accordions, or excessive vertical scrolling to fit its contents, the chunking is too broad.
-- **Self-contained steps**: Ensure users have all the necessary context on the current screen. Avoid forcing users to recall details from earlier steps or navigate away to find information. Pre-fill data already known to the system.
-- **Shallow branching**: Limit decision points to roughly one or two key branches, and avoid deep nesting. Excessive branching causes progress indicators to jump unpredictably and disorients users.
-- **Clean exit & confirmation**: Provide a clear way to cancel or pause. If canceling will discard unsaved data, prompt the user with an explicit confirmation dialog before losing progress.
-- **Non-destructive backtracking**: Going back must never erase previously entered inputs. Users should be able to inspect earlier choices and return forward without retyping.
+- Previous choices remembered and offered as the defaults.
+- A single-page or expert mode that shows every field at once.
+- A template or clone of an earlier run to start from.
+- In technical systems, a command line or API for the same task.
 
 ## Research on this pattern
 
-- **Single-page vs. multi-page performance**: In a controlled clinical trial comparing single-page, multi-page, and conversational forms ([Schnall et al., 2021](https://doi.org/10.2196/25787)), the single-page form significantly outperformed the multi-page version across all usability metrics: higher System Usability Scale scores (76 vs. 67), faster completion times, lower error rates (31% of users experienced medium-severity errors vs. 69% in the multi-page version), and higher user preference. Participants emphasized the value of seeing all information at once.
-- **Cognitive workload of form chunking**: Neuroimaging research ([Pušnik et al., 2016](https://doi.org/10.1145/2858036.2858236)) using functional near-infrared spectroscopy (fNIRS) found that dividing a form into sub-forms actually increased mental workload compared to a unified layout.
-- **Implications for practitioners**: These empirical findings highlight that arbitrarily chunking forms into wizards does not automatically reduce cognitive load. A wizard is only justified when real conditional dependencies or extreme unfamiliarity outweigh the usability benefits of full-page visibility.
+- *Single-page vs. multi-page performance*: In a controlled clinical trial comparing single-page, multi-page, and conversational forms ([Schnall et al., 2021](https://doi.org/10.2196/25787)), the single-page form significantly outperformed the multi-page version across all usability metrics: higher System Usability Scale scores (76 vs. 67), faster completion times, lower error rates (31% of users experienced medium-severity errors vs. 69% in the multi-page version), and higher user preference. Participants emphasized the value of seeing all information at once.
+- *Cognitive workload of form chunking*: Neuroimaging research ([Pušnik et al., 2016](https://doi.org/10.1145/2858036.2858236)) using functional near-infrared spectroscopy (fNIRS) found that dividing a form into sub-forms actually increased mental workload compared to a unified layout.
+- *Implications for practitioners*: These empirical findings highlight that arbitrarily chunking forms into wizards does not automatically reduce cognitive load. A wizard is only justified when real conditional dependencies or extreme unfamiliarity outweigh the usability benefits of full-page visibility.
 
 ## Resources & references
 

@@ -1,7 +1,7 @@
 ---
 title: Form
 added: 2025-07-08
-updated: 2026-06-22
+updated: 2026-10-19
 role: pattern
 group: application
 activityLevel: action
@@ -11,65 +11,60 @@ description: The structured collection of input from the actor.
 realised_by: [components-form--docs]
 situation:
   initiating: >-
-    a stretch of activity in which the system needs structured information from
-    the actor that can't be inferred from prior context
-  resulting:
-    - >-
-      a guided collection surface where fields are committed one at a time and
-      the whole set can be reviewed before submission
-decision-trees:
-  - id: form-control
-    chart-index: 1 # second <Diagram> — "Choosing a control"
-    leaves:
-      "Tabs": components-tabs
-      "Checkbox": primitives-checkbox
-      "Dropdown": actions-coordination-dropdown
+    … in [making changes](/sequences/making-changes) the actor has reached the point of saying what the change is, and [editing in place](/patterns/editing-in-place) does not fit: the fields only make sense together, need more room than the display offers, apply to a set rather than the item in view, or have to be reviewed as a whole before they take effect. A form gives the sequence a surface of its own on which the whole change is composed and checked before any of it takes effect. The rule editor in [delegating work](/sequences/delegating-work) uses the same parts for a set of fields that stays open.
+  resulting: >-
+    Give the actor a surface of their own on which fields are filled one at a time and the whole set is committed in one act; where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting). Treat each field as an act of [data entry](/patterns/data-entry), and make a field that accepts only a fixed set of values a [bounded choice](/patterns/bounded-choice). Let the surface host the moves that act on a field: [good defaults](/patterns/good-defaults) arrive pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finish or supply a value as the actor types, and [validation](/patterns/validation) answers an input the system cannot accept at the field that produced it and holds submission until it is fixed. Let [status feedback](/patterns/status-feedback) report what the submission did. Split a long form by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, by [sections](/patterns/sections) into separately disclosed parts, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another the form has become a [wizard](/patterns/wizard). A form holds pending state until it is submitted, so decide with [saving](/patterns/saving) what happens to a half-filled one. Let [localization](/patterns/localization) decide which formats its fields accept.
+
+    Fields can also be asked and answered turn by turn inside a [conversation](/patterns/conversation), and a conversation that settles around well-structured data may in turn become a form. Within a conversation, each field renders in its message as an [inline interface](/patterns/inline-interface). [Settings](/patterns/settings) are forms by another name, kept open rather than submitted. Disabling the submit button until the form is valid hides the problem validation exists to explain, so the [disabled state](/patterns/state-disabled) is weighed against letting the actor submit and be told…
 relationships:
   enacts:
     - to: formality
       note: demands the structure of the answer up front, before the actor says anything
   hosts:
-    - to: data-entry
-      note: each field is a site of the entry move; the form is one of its surfaces.
-    - to: good-defaults
-      note: fields arrive pre-filled with likely values, removing entry entirely.
+    - data-entry
+    - good-defaults
+  composed-of:
+    - review-before-submitting
   complements:
-    - to: conversation
-      note: may resolve into a form when a dialogue stabilises around structured data collection.
-    - to: localization
-      note: locale-aware parsing and format tolerance for input.
-    - to: status-feedback
-      note: validation and system status during and after entry.
-    - to: saving
-      note: autosave and manual save strategies for in-progress and committed input.
+    - conversation
+    - localization
+    - status-feedback
+    - saving
   tangential:
-    - to: state-disabled
-      note: alternatives to disabling form elements.
+    - state-disabled
   related:
     - inline-interface
 ---
 
-The structured collection of input from the actor, balancing guidance with the freedom to express complex or messy information. Each field is an act of [data entry](/patterns/data-entry), each constrained field a [bounded choice](/patterns/bounded-choice). The whole commits the actor to the system's shape up front: a question of [formality](/patterns/formality). For the form *mechanism* see <ComponentRef id="components-form--docs">corresponding component</ComponentRef>.
+* * *
+
+**People answer related questions as a set only when they can see them as one. Asked for the answers one at a time, wherever each happens to be displayed, they lose the relation between them, have no room to answer, and never get a moment at which the whole can be checked before it takes effect.**
+
+A form gathers input on a surface of its own, which is also its cost: the actor leaves the thing they were working on, translates their situation into the system's fields, and commits to the system's shape before saying anything, a question of [formality](/patterns/formality). The structure that makes the input usable is the same structure that makes it hard to express what the fields did not anticipate. When the system can parse raw input against the form's schema, an image, a pasted text, a voice note, the actor's work shifts from entry to checking pre-filled answers; that shift, and the trust it asks for, belong to [data entry](/patterns/data-entry#ai--verification). Every field is a question somebody should be able to justify. For the mechanism see the <ComponentRef id="components-form--docs">form component</ComponentRef>.
+
+Therefore,
+
+**Collect the related inputs on one surface, each as a labelled field with the room it needs, with the constraints the system has shown rather than discovered on submission, and a single act that commits the set.**
+
+Ask for nothing the system can infer, and let every field answer the question of why it is there. A form that has grown past one screen is a sign that it wants splitting or that some of its questions do not need asking.
 
 <Demo name="form" surface="white" label="A standard form" />
 
-## Forms and conversation
+## In practice
 
-Forms can be embedded in a <ComponentRef id="components-messaging--docs">messaging</ComponentRef> interface for a more [conversational](/patterns/conversation) interaction; a [conversation](/patterns/conversation) may in turn resolve into a form once a dialogue stabilises around well-structured data collection. The two are endpoints of one continuum — how much of the structure the actor supplies, and how much the system does.
+### Fields and groups
 
-Distributed across the exchange, the form's fields are asked and answered turn by turn, each control rendered inline in a message — the form instance of the [inline interface](/patterns/inline-interface).
+A question that takes several controls, a radio group, an address, a day-month-year date, is bound into one labelled group. That binding is anatomy of the form component rather than a move of its own, and is distinct from sections (disclosure) and grouping (comparison).
+
+### The form as conversation
 
 <Demo name="conversational-form" surface="border" label="A form conducted as a conversation" />
-
-## Forms and AI
-
-A form makes the actor translate their situation into the system's fields. When the system can parse raw input — an image, a PDF, pasted text, a voice dump — against the form's schema, that labour inverts: the actor's job shifts from *entry* to *verification*, reviewing pre-filled answers rather than supplying them. That shift, and the trust loop it requires, belong to [data entry](/patterns/data-entry#ai--verification).
-
-{/* TODO (Fieldset gap): binding several controls into one labelled question — radio group, address block, day/month/year — has no mechanism yet, and is distinct from Sections (disclosure) and Grouping (comparison). Build it as the Form component's sub-mechanism; keep "composite field" as a named force until it earns a node. See plans/active/2026-05-workspace-split.md, "Decomposition: worked examples and learnings". */}
-
-{/* Decision trees relocated (the originals routed between mechanisms, not this umbrella's child moves): control-cardinality tree → bounded-choice.mdx; input-selection tree → Form component page (Storybook). A move-routing tree for the umbrella itself (one field or many? linear or single-page? rigid or forgiving?) could be authored here later. */}
 
 ## Resources & references
 
 - [Luke Wroblewski / Unstructured Input in AI Apps](https://lukew.com/ff/entry.asp?2120)
 - [The Question Protocol: How to Make Sure Every Form Field Is Necessary](https://www.uxmatters.com/mt/archives/2010/06/the-question-protocol-how-to-make-sure-every-form-field-is-necessary.php)
+
+## To-do
+
+- The labelled group of several controls (radio group, address, date) has no mechanism in the form component yet; build it there, and keep "composite field" as a named force until it earns a node.

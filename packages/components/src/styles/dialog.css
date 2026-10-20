@@ -3,7 +3,7 @@
     grid-template-rows: auto 1fr auto;
     align-items: start;
     gap: var(--space-xl);
-    max-inline-size: 60ch;
+    max-inline-size: 40rem;
     max-block-size: calc(100vh - var(--space-xl));
     overflow: hidden;
     border-radius: var(--radius-m);

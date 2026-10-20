@@ -511,26 +511,19 @@
       "path": "/patterns/change-review",
       "role": "pattern",
       "situation": {
-        "initiating": "the system proposes changes to something that already exists and matters; without the change itself made legible, the actor's only moves are accepting blind or rejecting whole",
-        "resulting": [
-          {
-            "clause": "the delta is a reviewable object — what was, what would be, side by side or in place — so judgement lands on the change rather than on re-reading the whole, and an approval has something concrete to act on",
-            "setsUp": [
-              "approval-gate"
-            ]
-          },
-          {
-            "clause": "the diff's granularity becomes the decision's granularity: whatever the review can show separately is what can be accepted or rejected separately"
-          },
-          {
-            "clause": "reviewing deltas narrows attention to what changed, so consequences in the unchanged surroundings are exactly what the review doesn't show"
-          }
-        ]
+        "initiating": "… someone other than the actor has proposed changes to something that already exists and that the actor is responsible for. In [delegating work](/sequences/delegating-work) the result of a run arrives as changes to existing content, [generated content](/patterns/generated-content) the actor has to check rather than write. In [working on the same thing](/sequences/working-on-the-same-thing) a colleague's edits, made in a separate draft under [draft and publish](/patterns/draft-and-publish), come back to be merged. A [dry run](/patterns/dry-run) produces a before and after across many cases. In each of these, if the actor can see only the changed result, they can either accept all of it without checking or reject all of it. Change review shows what is there now next to what would replace it, so the actor can check the change and accept it in parts.",
+        "resulting": "The change can now be decided on part by part. Draw it with [comparing](/patterns/comparing)'s version case: the shared structure is assumed and only the difference is shown. Where the system proposed the change and applying it has consequences, an [approval gate](/patterns/approval-gate) can act on the review, so that the approval refers to a specific change. [Commenting](/patterns/commenting) attaches discussion to particular changes rather than to the document as a whole, and where colleagues review each other's work, [status feedback](/patterns/status-feedback) records the outcome in a set form. Rejecting a proposed change is [undo](/patterns/undo) before the change is applied; changes that have been accepted and applied still need undo afterwards. Change review differs from [plan preview](/patterns/plan-preview), which shows what the system intends to do before the work rather than the change after it, and from [review before submitting](/patterns/review-before-submitting), which shows the actor their own answers rather than a change someone else proposes…"
       },
       "seed": true,
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -734,18 +727,8 @@
       "path": "/patterns/comparing",
       "role": "pattern",
       "situation": {
-        "initiating": "the actor holds two or more things — versions of one item, instances of a kind, subsets of a collection — and the question is the difference between them; the tool renders each fully, so the comparison happens by eye, back and forth, with the distinction assembled and held in the actor's head",
-        "resulting": [
-          {
-            "clause": "the difference is a representation of its own — shared features recede, distinctions stay salient — so the comparison is read rather than performed"
-          },
-          {
-            "clause": "what is compared is an editorial claim: the bases of comparison someone chose decide which differences can be seen at all, and a basis left out is a difference that cannot surface"
-          },
-          {
-            "clause": "versions of one thing and instances of a kind compare differently — a version diff can assume shared structure and show only the delta, while instances need their common attributes aligned before any difference reads"
-          }
-        ]
+        "initiating": "… the actor has two or more things in front of them, designated by [selection](/patterns/selection) or by the system: versions of one item, instances of a kind, subsets of a collection. The question is what differs between them. In [making sense at scale](/sequences/making-sense-at-scale) this is the optional step that shows the difference directly, built inside whichever lens is in use when the actor asks for it; [change review](/patterns/change-review) and [reconciliation](/patterns/reconciliation) are built on its version case, with one of the versions a proposal or a colleague's work, and [version history](/patterns/version-history) uses the same case to set a past state against the present. Comparing gives all of these the difference as something to read rather than something to perform, by drawing it where the actor's eye would otherwise have to carry it.",
+        "resulting": "The difference is now read rather than performed. Where one of the versions is a change proposed to something that already exists, build [change review](/patterns/change-review) on the version case, shared structure assumed and only the delta drawn, and add acceptance part by part. Where the versions are two people's divergent work on the same thing, build [reconciliation](/patterns/reconciliation) on it and add the pick between them. [Version history](/patterns/version-history) sets a past version beside the current one the same way before it is restored. Keep the bases of comparison in view, since a basis that was left out is a difference that cannot surface, and where the set allows it let the actor add one. Where the compared things are instances of a kind rather than versions of one thing, align their common attributes first, because until they are aligned no difference reads…"
       },
       "group": "evaluation",
       "seed": true,
@@ -925,18 +908,8 @@
       "path": "/patterns/deep-linking",
       "role": "pattern",
       "situation": {
-        "initiating": "a state worth returning to takes several moves to reconstruct — a filtered view, an open item, a position in a space — and the only record of how to get back is in the actor's head; there is nothing to bookmark, send, or come back to",
-        "resulting": [
-          {
-            "clause": "any state worth naming has a name that restores it, so returning, sharing and bookmarking cost nothing beyond keeping the link"
-          },
-          {
-            "clause": "addressable state is state that has left the actor's control: a link travels, and whoever holds it reaches what it points at"
-          },
-          {
-            "clause": "the links are now a contract — states that were named have to keep resolving — which constrains how freely what sits behind them can be reorganised"
-          }
-        ]
+        "initiating": "… [structuring the space](/sequences/structuring-the-space) has produced a layout, and the actor can stand in a state that took several moves to reach: a context switched to, an item opened, a list narrowed, a step reached in [step by step](/patterns/step-by-step), a position and scale in a [pan and zoom](/patterns/pan-and-zoom) space. That state is one another actor should see as it is in [working on the same thing](/sequences/working-on-the-same-thing), one a notification should bring the actor back to in [attention and tempo](/sequences/attention-and-tempo), or one the actor returns to after an absence in [memory and continuity](/sequences/memory-and-continuity). Deep linking gives all three the same thing, a name for the state that brings it back.",
+        "resulting": "Give any state worth naming a name that restores it, so that returning, bookmarking and resuming cost nothing beyond keeping the link. Addressable state has left the actor's control: a link travels, and whoever holds it reaches what it points at, so decide with [sharing](/patterns/sharing) who may open it, and give the holder a [link preview](/patterns/link-preview) of what they are about to open, scrolled to the part the address points inside. Treat the links as a contract: keep every state that was named resolving, and reorganise the space behind them with that in mind when it grows past its model. Give a [comment](/patterns/commenting) an address of its own, and each message in a thread. Let the address carry what [progressive disclosure](/patterns/progressive-disclosure) has revealed, since that is state that narrows the view. Where a view changes in place rather than by navigation, decide here which changes become a Back step…"
       },
       "evidence": [
         {
@@ -1371,12 +1344,8 @@
       "path": "/patterns/form",
       "role": "pattern",
       "situation": {
-        "initiating": "a stretch of activity in which the system needs structured information from the actor that can't be inferred from prior context",
-        "resulting": [
-          {
-            "clause": "a guided collection surface where fields are committed one at a time and the whole set can be reviewed before submission"
-          }
-        ]
+        "initiating": "… in [making changes](/sequences/making-changes) the actor has reached the point of saying what the change is, and [editing in place](/patterns/editing-in-place) does not fit: the fields only make sense together, need more room than the display offers, apply to a set rather than the item in view, or have to be reviewed as a whole before they take effect. A form gives the sequence a surface of its own on which the whole change is composed and checked before any of it takes effect. The rule editor in [delegating work](/sequences/delegating-work) uses the same parts for a set of fields that stays open.",
+        "resulting": "Give the actor a surface of their own on which fields are filled one at a time and the whole set is committed in one act; where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting). Treat each field as an act of [data entry](/patterns/data-entry), and make a field that accepts only a fixed set of values a [bounded choice](/patterns/bounded-choice). Let the surface host the moves that act on a field: [good defaults](/patterns/good-defaults) arrive pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finish or supply a value as the actor types, and [validation](/patterns/validation) answers an input the system cannot accept at the field that produced it and holds submission until it is fixed. Let [status feedback](/patterns/status-feedback) report what the submission did. Split a long form by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, by [sections](/patterns/sections) into separately disclosed parts, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another the form has become a [wizard](/patterns/wizard). A form holds pending state until it is submitted, so decide with [saving](/patterns/saving) what happens to a half-filled one. Let [localization](/patterns/localization) decide which formats its fields accept.\nFields can also be asked and answered turn by turn inside a [conversation](/patterns/conversation), and a conversation that settles around well-structured data may in turn become a form. Within a conversation, each field renders in its message as an [inline interface](/patterns/inline-interface). [Settings](/patterns/settings) are forms by another name, kept open rather than submitted. Disabling the submit button until the form is valid hides the problem validation exists to explain, so the [disabled state](/patterns/state-disabled) is weighed against letting the actor submit and be told…"
       },
       "group": "application",
       "realisedBy": [
@@ -1564,8 +1533,8 @@
       "path": "/patterns/hub-and-spoke",
       "role": "pattern",
       "situation": {
-        "initiating": "the work has been divided into contexts in [structuring the space](/sequences/structuring-the-space), and this context has been recognised as one that holds sections differing in kind. Or the context began as one [flat surface](/patterns/flat-navigation) and its tools have outgrown the screen. The switcher over a set of [workspaces](/patterns/workspace) is usually built this way too, the list of workspaces being the hub and each workspace a spoke. Within such a context the question is how the sections are reached from one another, and the first thing to settle is whether they need to be.",
-        "resulting": "What the hub reports across the spokes is a [purpose-keyed view](/patterns/purpose-keyed-view) in its own right, designed for the actor's recurring question and not inherited from the topology. For actors who know their destination, a [command menu](/patterns/command-menu) and [searching](/patterns/searching) reach a spoke without the hub, and [deep linking](/patterns/deep-linking) reaches it from outside the structure altogether. When cross-spoke traffic becomes general, give up the pattern rather than patch it: [fully connected](/patterns/fully-connected) puts every section one move from every other, at the cost of chrome on every page, and a persistent tab bar is already that [hybrid](/patterns/hybrid-patterns), a hub that never leaves the screen. When the sections nest rather than sit beside each other, a [multilevel tree](/patterns/multilevel-tree) holds the depth. Two neighbours share the look but not the ground: [overview and detail](/patterns/overview-detail) shows one collection at two levels of detail, where a hub routes between sections with no model in common, and a [pyramid](/patterns/pyramid) is the hub for items that form a sequence"
+        "initiating": "… the work has been divided into contexts in [structuring the space](/sequences/structuring-the-space), and this context holds sections that differ in kind and are used one at a time; or it began as one [flat surface](/patterns/flat-navigation) and its tools have outgrown the screen. The switcher over a set of [workspaces](/patterns/workspace) is the same case, the list of workspaces being the hub and each workspace a spoke. A hub gives the sequence its simplest answer: one list that every section is reached from, and sections that need to know nothing of each other.",
+        "resulting": "Design what the hub reports across the spokes as a [purpose-keyed view](/patterns/purpose-keyed-view) in its own right, built for the actor's recurring question rather than inherited from the topology; [making sense at scale](/sequences/making-sense-at-scale) takes that up. Give actors who know their destination a [command menu](/patterns/command-menu) and [searching](/patterns/searching) that reach a spoke without the hub, and let [deep linking](/patterns/deep-linking) reach one from outside the structure altogether. When cross-spoke traffic becomes general, give up the pattern rather than patch it: [fully connected](/patterns/fully-connected) puts every section one move from every other, at the cost of chrome on every page, and a persistent tab bar is already that [hybrid](/patterns/hybrid-patterns), a hub that never leaves the screen. Where the sections nest rather than sit beside each other, hold the depth in a [multilevel tree](/patterns/multilevel-tree). Two neighbours share the look but not the ground: [overview and detail](/patterns/overview-detail) shows one collection at two levels of detail, where a hub routes between sections with no model in common, and a [pyramid](/patterns/pyramid) is the hub for items that form a sequence…"
       },
       "group": "navigation",
       "evidence": [
@@ -1574,6 +1543,9 @@
         },
         {
           "kind": "literature"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -2440,18 +2412,8 @@
       "path": "/patterns/reconciliation",
       "role": "pattern",
       "situation": {
-        "initiating": "two lines of work were allowed to diverge — a branch, a draft, an offline stretch — and both changed the same thing; merging silently would discard one intent without anyone deciding, and refusing to merge stops the work",
-        "resulting": [
-          {
-            "clause": "the collision is a first-class object: both versions visible and comparable, the choice recorded — never a conflicted copy dropped beside the original with no way to compare"
-          },
-          {
-            "clause": "the surface exists only at the return of deliberate divergence: a live ground merges concurrent edits silently, and a collision surfacing mid-flow says the boundary was drawn wrong, not that this surface is missing"
-          },
-          {
-            "clause": "what the mechanism can show separately is what a person can pick separately: reconciliation's grain is set by the parting's grain"
-          }
-        ]
+        "initiating": "… in [working on the same thing](/sequences/working-on-the-same-thing) two lines of work were allowed to part under [draft and publish](/patterns/draft-and-publish), as a branch, a draft or a stretch offline, and now one of them returns. [Change review](/patterns/change-review) shows what comes back and lets the reviewer accept it, and the two are used together at the return; but where both sides changed the same thing, merging silently would discard one intent without anyone deciding, and refusing to merge stops the work. Reconciliation gives the sequence the collision as something a person can settle, by showing both versions and holding reintegration until one is picked.",
+        "resulting": "The collision is now a thing with a record. Show the colliding versions with [comparing](/patterns/comparing)'s version case, so that the pick is made on the difference rather than on two full copies. The version not picked is a removal, so give it [undo](/patterns/undo) as its recovery, and where the work keeps a [version history](/patterns/version-history) keep the unpicked version in it; restoring an old version over a colleague's later work is itself a collision for reconciliation to settle rather than an overwrite. Reconciliation is not change review, though both are built on the same comparison: the review accepts or rejects what one side did, and reconciliation chooses between two sides that both did something…"
       },
       "group": "coordination",
       "seed": true,
@@ -2518,6 +2480,45 @@
       "evidence": [
         {
           "kind": "observed"
+        }
+      ]
+    },
+    {
+      "id": "resuming",
+      "title": "Resuming",
+      "category": "Actions",
+      "path": "/patterns/resuming",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor is partway through a task in a [wizard](/patterns/wizard) or a long form that will not finish in one sitting: it needs information they do not have to hand, or more time than they have now, or they cannot safely continue where they are. People leave such tasks in proportion to their length, and most of them come back to nothing, so what they entered goes with them.",
+        "resulting": "What the system keeps is not the question here. [Saving](/patterns/saving) asks whether the actor manages persistence at all; this pattern assumes the work is kept, silently or on request, and asks how the actor finds it again and takes it up. Whichever way it is kept, [status feedback](/patterns/status-feedback) owes the actor a report that it was, at the moment they leave and when they return. [Draft and publish](/patterns/draft-and-publish) looks alike but answers a different question, whether the work is ready for others; a half-finished application is not a draft of anything, it is an unfinished task…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
+      "id": "review-before-submitting",
+      "title": "Review before submitting",
+      "category": "Actions",
+      "path": "/patterns/review-before-submitting",
+      "role": "pattern",
+      "situation": {
+        "initiating": "the actor has entered answers over several steps or down a long form, and the next action commits them: an order is placed, an application sent, an account or resource created. Most of what they entered is out of view, and some of it cannot be changed once committed"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -3129,7 +3130,7 @@
         "initiating": "a recently committed action whose consequences the actor wants to retract",
         "resulting": [
           {
-            "clause": "a reverse path that returns the structure to its prior state, with a window in which the retraction is offered"
+            "clause": "a reverse path that returns the structure to its prior state"
           }
         ]
       }
@@ -3235,8 +3236,8 @@
       "path": "/patterns/wizard",
       "role": "pattern",
       "situation": {
-        "initiating": "a [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed. This works well for most tasks, but falls short when a complex, unfamiliar workflow has strict dependencies—where early decisions dictate which questions exist later, and the task must be completed from start to finish before anything can take effect. When users encounter a process so rarely that they have no existing mental model, presenting every field at once causes cognitive overload. A wizard shapes this kind of task into a guided, step-by-step sequence. It is the standard approach for initial [onboarding](/patterns/onboarding) setup and first-time [settings](/patterns/settings) configuration where users need to make choices before fully understanding what each control means. When this sequence also defines how users navigate through the interface, [step by step](/patterns/step-by-step) provides the navigational backbone; this pattern defines the structure and pacing of the task itself.",
-        "resulting": "Because a wizard isolates focus to one step at a time and hides the rest of the interface, users must be able to change earlier decisions without losing entered progress; non-destructive [undo](/patterns/undo) and safe backward navigation are fundamental requirements. Throughout the flow, continuous [status feedback](/patterns/status-feedback) keeps users oriented with clear progress indicators, inline field validation, and confirmation states. When users have varying goals and do not benefit from a rigid sequence, [next best action](/patterns/next-best-action) recommends optimal steps dynamically instead of locking users into a fixed path, while an interactive [agent](/patterns/agent) can handle complex dependencies through conversation, allowing users to ask clarifying questions about earlier decisions at any time. Similar sequential structures appear in other contexts: configuring a reusable [template](/patterns/template) through guided prompts, or paginating through a structured [prompt scaffold](/patterns/prompt-scaffolding). Unlike an enterprise [workflow](/patterns/workflow), which coordinates asynchronous tasks and business processes across multiple people and systems, a wizard guides a single user through an isolated, synchronous task."
+        "initiating": "… the actor is about to start a task in [making changes](/sequences/making-changes), or in the first encounter of [learning](/sequences/learning), that they meet so rarely they have no model of it, and whose early answers decide which questions exist later; [onboarding](/patterns/onboarding) runs its first-time setup this way for the same reason, since the actor has to choose before understanding what each control means. A [form](/patterns/form) would put every field on one page, and most tasks are better served by one. A wizard gives these sequences a task the actor can finish without a model of it, by applying [progressive disclosure](/patterns/progressive-disclosure) one decision at a time and letting each answer remove the questions that no longer apply; [step by step](/patterns/step-by-step) gives it its navigation when the sequence also decides how the actor moves through the interface.",
+        "resulting": "Each part of the instruction is a smaller pattern, and they follow the actor's path through the steps. Throughout, let [status feedback](/patterns/status-feedback) say where the actor is, what failed, and at the end what the submission produced. In each step, pre-fill with [good defaults](/patterns/good-defaults) whatever the system can guess or remembers from last time, which is also most of the faster path for returning actors. Put [help](/patterns/help) beside the fields it explains, so guidance never takes the actor out of the step. Check each step's inputs with [validation](/patterns/validation) at the field, before the actor can advance, so an early mistake does not carry into the steps that depend on it. Make going back free, since the flow hides everything but the current step: give it a non-destructive [undo](/patterns/undo) and a Back that keeps every answer. Where the flow runs longer than one sitting, give it [resuming](/patterns/resuming), and ask before any exit that would discard what was entered. End with a [review before submitting](/patterns/review-before-submitting), every answer in one place and each linked back to its step, so the actor checks the whole before committing it.\n\nWhere actors have different goals and gain nothing from a fixed order, let [next best action](/patterns/next-best-action) recommend the next step instead of prescribing it, or let an [agent](/patterns/agent) take the actor through the same dependencies in conversation, where an earlier decision can be asked about at any point. The same sequential structure appears when a reusable [template](/patterns/template) is configured through guided prompts, and a [prompt scaffold](/patterns/prompt-scaffolding) paged one part at a time takes the actor through its parts in a fixed order, as a wizard does. A [workflow](/patterns/workflow) coordinates asynchronous tasks across people and systems; a wizard takes one actor through one task in a single sitting…"
       },
       "group": "application",
       "evidence": [
@@ -3891,7 +3892,9 @@
       "target": "autocomplete",
       "type": "hosts",
       "incomingNote": "form fields are where the completion surface most commonly lives",
-      "extractedFrom": "frontmatter:hosted-by"
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "Let the surface host the moves that act on a field: [good defaults](/patterns/good-defaults) arrive pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finish or supply a value as the actor types, and [validation](/patterns/validation) answers an input the system cannot accept at the field that produced it and holds submission until it is fixed.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "autocomplete",
@@ -3996,7 +3999,9 @@
       "target": "autofill",
       "type": "hosts",
       "incomingNote": "form fields are the surface where autofill most commonly appears",
-      "extractedFrom": "frontmatter:hosted-by"
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "Let the surface host the moves that act on a field: [good defaults](/patterns/good-defaults) arrive pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finish or supply a value as the actor types, and [validation](/patterns/validation) answers an input the system cannot accept at the field that produced it and holds submission until it is fixed.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "block-based-editor",
@@ -4087,7 +4092,9 @@
       "target": "form",
       "type": "enables",
       "label": "committing a value from a set the actor didn't author; the move behind a form's selects, radios, and checkboxes.",
-      "extractedFrom": "frontmatter:enables"
+      "extractedFrom": "frontmatter:enables",
+      "situation": "Treat each field as an act of [data entry](/patterns/data-entry), and make a field that accepts only a fixed set of values a [bounded choice](/patterns/bounded-choice).",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "bounded-choice",
@@ -4121,42 +4128,64 @@
       "source": "generated-content",
       "target": "change-review",
       "type": "precedes",
-      "incomingNote": "the proposed change is generated output aimed at existing content",
-      "extractedFrom": "frontmatter:follows"
+      "extractedFrom": "frontmatter:follows",
+      "situation": "In [delegating work](/sequences/delegating-work) the result of a run arrives as changes to existing content, [generated content](/patterns/generated-content) the actor has to check rather than write.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "draft-and-publish",
+      "target": "change-review",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "In [working on the same thing](/sequences/working-on-the-same-thing) a colleague's edits, made in a separate draft under [draft and publish](/patterns/draft-and-publish), come back to be merged.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "change-review",
+      "target": "approval-gate",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where the system proposed the change and applying it has consequences, an [approval gate](/patterns/approval-gate) can act on the review, so that the approval refers to a specific change.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "change-review",
       "target": "undo",
       "type": "complements",
-      "label": "rejecting a proposed change is recovery moved before the commit",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "change-review",
-      "target": "draft-and-publish",
-      "type": "complements",
-      "label": "the proposal holds in a draft state while the review decides what publishes",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Rejecting a proposed change is [undo](/patterns/undo) before the change is applied; changes that have been accepted and applied still need undo afterwards.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "change-review",
       "target": "commenting",
       "type": "complements",
-      "label": "review talk anchors to the delta rather than to the document at large",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Commenting](/patterns/commenting) attaches discussion to particular changes rather than to the document as a whole, and where colleagues review each other's work, [status feedback](/patterns/status-feedback) records the outcome in a set form.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "comparing",
+      "target": "change-review",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Where one of the versions is a change proposed to something that already exists, build [change review](/patterns/change-review) on the version case, shared structure assumed and only the delta drawn, and add acceptance part by part.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Draw it with [comparing](/patterns/comparing)'s version case: the shared structure is assumed and only the difference is shown."
     },
     {
       "source": "change-review",
       "target": "plan-preview",
       "type": "related",
-      "label": "the plan is the intention before the work; the change review is the delta after it",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "Change review differs from [plan preview](/patterns/plan-preview), which shows what the system intends to do before the work rather than the change after it, and from [review before submitting](/patterns/review-before-submitting), which shows the actor their own answers rather than a change someone else proposes",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "change-review",
       "target": "agency",
       "type": "enacts",
-      "label": "the actor disposes over each change instead of inheriting the batch",
+      "label": "the actor decides on each change rather than accepting the whole batch",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -4455,10 +4484,20 @@
     },
     {
       "source": "comparing",
-      "target": "selection",
-      "type": "complements",
-      "label": "the items compared are first designated; comparing consumes a selection of two or more",
-      "extractedFrom": "frontmatter:complements"
+      "target": "reconciliation",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "Where the versions are two people's divergent work on the same thing, build [reconciliation](/patterns/reconciliation) on it and add the pick between them.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Show the colliding versions with [comparing](/patterns/comparing)'s version case, so that the pick is made on the difference rather than on two full copies."
+    },
+    {
+      "source": "selection",
+      "target": "comparing",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the actor has two or more things in front of them, designated by [selection](/patterns/selection) or by the system: versions of one item, instances of a kind, subsets of a collection.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "conversation-quality",
@@ -4615,7 +4654,8 @@
       "type": "hosts",
       "incomingNote": "one of the surfaces that host the entry move — structured, multi-field, committed up front. [Conversation](/patterns/conversation) and the [inline interface](/patterns/inline-interface) are others.",
       "extractedFrom": "frontmatter:hosted-by",
-      "label": "each field is a site of the entry move; the form is one of its surfaces."
+      "situation": "Treat each field as an act of [data entry](/patterns/data-entry), and make a field that accepts only a fixed set of values a [bounded choice](/patterns/bounded-choice).",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "data-entry",
@@ -4727,15 +4767,17 @@
       "source": "deep-linking",
       "target": "commenting",
       "type": "related",
-      "label": "Comments get unique URLs",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "Give a [comment](/patterns/commenting) an address of its own, and each message in a thread.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "deep-linking",
       "target": "progressive-disclosure",
       "type": "related",
-      "label": "URL state tracks what's expanded/revealed",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "Let the address carry what [progressive disclosure](/patterns/progressive-disclosure) has revealed, since that is state that narrows the view.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "agent",
@@ -4930,7 +4972,9 @@
       "target": "form",
       "type": "complements",
       "label": "the two ends of where a change happens — form gathers input on a surface of its own, editing in place puts it on the artefact",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "in [making changes](/sequences/making-changes) the actor has reached the point of saying what the change is, and [editing in place](/patterns/editing-in-place) does not fit: the fields only make sense together, need more room than the display offers, apply to a set rather than the item in view, or have to be reviewed as a whole before they take effect.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "editing-in-place",
@@ -5241,50 +5285,66 @@
       "source": "form",
       "target": "good-defaults",
       "type": "hosts",
-      "label": "fields arrive pre-filled with likely values, removing entry entirely.",
       "extractedFrom": "frontmatter:hosts",
-      "incomingNote": "form fields are the primary surface where defaults are encountered"
+      "incomingNote": "form fields are the primary surface where defaults are encountered",
+      "situation": "Let the surface host the moves that act on a field: [good defaults](/patterns/good-defaults) arrive pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finish or supply a value as the actor types, and [validation](/patterns/validation) answers an input the system cannot accept at the field that produced it and holds submission until it is fixed.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "review-before-submitting",
+      "target": "form",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Give the actor a surface of their own on which fields are filled one at a time and the whole set is committed in one act; where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting).",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "form",
       "target": "conversation",
       "type": "complements",
-      "label": "may resolve into a form when a dialogue stabilises around structured data collection.",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Fields can also be asked and answered turn by turn inside a [conversation](/patterns/conversation), and a conversation that settles around well-structured data may in turn become a form.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "form",
       "target": "localization",
       "type": "complements",
-      "label": "locale-aware parsing and format tolerance for input.",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Let [localization](/patterns/localization) decide which formats its fields accept.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "form",
       "target": "status-feedback",
       "type": "complements",
-      "label": "validation and system status during and after entry.",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Let [status feedback](/patterns/status-feedback) report what the submission did.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "form",
       "target": "saving",
       "type": "complements",
-      "label": "autosave and manual save strategies for in-progress and committed input.",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A form holds pending state until it is submitted, so decide with [saving](/patterns/saving) what happens to a half-filled one.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "form",
       "target": "state-disabled",
       "type": "tangential",
-      "label": "alternatives to disabling form elements.",
-      "extractedFrom": "frontmatter:tangential"
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "Disabling the submit button until the form is valid hides the problem validation exists to explain, so the [disabled state](/patterns/state-disabled) is weighed against letting the actor submit and be told",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "form",
       "target": "inline-interface",
       "type": "related",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "Within a conversation, each field renders in its message as an [inline interface](/patterns/inline-interface).",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "formality",
@@ -5557,7 +5617,7 @@
       "target": "purpose-keyed-view",
       "type": "precedes",
       "extractedFrom": "frontmatter:precedes",
-      "situation": "What the hub reports across the spokes is a [purpose-keyed view](/patterns/purpose-keyed-view) in its own right, designed for the actor's recurring question and not inherited from the topology.",
+      "situation": "Design what the hub reports across the spokes as a [purpose-keyed view](/patterns/purpose-keyed-view) in its own right, built for the actor's recurring question rather than inherited from the topology; [making sense at scale](/sequences/making-sense-at-scale) takes that up.",
       "glossFrom": "source:resulting"
     },
     {
@@ -5565,7 +5625,7 @@
       "target": "command-menu",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "For actors who know their destination, a [command menu](/patterns/command-menu) and [searching](/patterns/searching) reach a spoke without the hub, and [deep linking](/patterns/deep-linking) reaches it from outside the structure altogether.",
+      "situation": "Give actors who know their destination a [command menu](/patterns/command-menu) and [searching](/patterns/searching) that reach a spoke without the hub, and let [deep linking](/patterns/deep-linking) reach one from outside the structure altogether.",
       "glossFrom": "source:resulting"
     },
     {
@@ -5573,7 +5633,7 @@
       "target": "deep-linking",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "For actors who know their destination, a [command menu](/patterns/command-menu) and [searching](/patterns/searching) reach a spoke without the hub, and [deep linking](/patterns/deep-linking) reaches it from outside the structure altogether.",
+      "situation": "Give actors who know their destination a [command menu](/patterns/command-menu) and [searching](/patterns/searching) that reach a spoke without the hub, and let [deep linking](/patterns/deep-linking) reach one from outside the structure altogether.",
       "glossFrom": "source:resulting"
     },
     {
@@ -5581,7 +5641,7 @@
       "target": "searching",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "For actors who know their destination, a [command menu](/patterns/command-menu) and [searching](/patterns/searching) reach a spoke without the hub, and [deep linking](/patterns/deep-linking) reaches it from outside the structure altogether.",
+      "situation": "Give actors who know their destination a [command menu](/patterns/command-menu) and [searching](/patterns/searching) that reach a spoke without the hub, and let [deep linking](/patterns/deep-linking) reach one from outside the structure altogether.",
       "glossFrom": "source:resulting"
     },
     {
@@ -5590,7 +5650,7 @@
       "type": "enables",
       "extractedFrom": "frontmatter:enables",
       "incomingNote": "Workspaces often implement hub and spoke navigation, where a workspace switcher or dashboard (hub) provides access to individual workspaces (spokes). See [Information Architecture foundation](/patterns/information-architecture) for the structural pattern behind it.",
-      "situation": "The switcher over a set of [workspaces](/patterns/workspace) is usually built this way too, the list of workspaces being the hub and each workspace a spoke.",
+      "situation": "The switcher over a set of [workspaces](/patterns/workspace) is the same case, the list of workspaces being the hub and each workspace a spoke.",
       "glossFrom": "source:initiating"
     },
     {
@@ -5606,7 +5666,7 @@
       "target": "multilevel-tree",
       "type": "alternative",
       "extractedFrom": "frontmatter:alternative",
-      "situation": "When the sections nest rather than sit beside each other, a [multilevel tree](/patterns/multilevel-tree) holds the depth.",
+      "situation": "Where the sections nest rather than sit beside each other, hold the depth in a [multilevel tree](/patterns/multilevel-tree).",
       "glossFrom": "source:resulting"
     },
     {
@@ -5778,7 +5838,9 @@
       "target": "form",
       "type": "related",
       "label": "fields distributed across an exchange; the form↔conversation move.",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "Within a conversation, each field renders in its message as an [inline interface](/patterns/inline-interface).",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "inline-interface",
@@ -6043,7 +6105,9 @@
       "target": "deep-linking",
       "type": "complements",
       "label": "when a link targets a specific section, the preview can scroll to and highlight the anchored fragment",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Addressable state has left the actor's control: a link travels, and whoever holds it reaches what it points at, so decide with [sharing](/patterns/sharing) who may open it, and give the holder a [link preview](/patterns/link-preview) of what they are about to open, scrolled to the part the address points inside.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "link-preview",
@@ -6342,7 +6406,7 @@
       "target": "hub-and-spoke",
       "type": "alternative",
       "extractedFrom": "frontmatter:alternative",
-      "situation": "When the sections nest rather than sit beside each other, a [multilevel tree](/patterns/multilevel-tree) holds the depth.",
+      "situation": "Where the sections nest rather than sit beside each other, hold the depth in a [multilevel tree](/patterns/multilevel-tree).",
       "glossFrom": "target:resulting"
     },
     {
@@ -6546,7 +6610,7 @@
       "type": "enables",
       "incomingNote": "often employs wizards for initial setup and configuration",
       "extractedFrom": "frontmatter:composed-of",
-      "situation": "It is the standard approach for initial [onboarding](/patterns/onboarding) setup and first-time [settings](/patterns/settings) configuration where users need to make choices before fully understanding what each control means.",
+      "situation": "the actor is about to start a task in [making changes](/sequences/making-changes), or in the first encounter of [learning](/sequences/learning), that they meet so rarely they have no model of it, and whose early answers decide which questions exist later; [onboarding](/patterns/onboarding) runs its first-time setup this way for the same reason, since the actor has to choose before understanding what each control means.",
       "glossFrom": "source:initiating"
     },
     {
@@ -6682,7 +6746,9 @@
       "target": "deep-linking",
       "type": "complements",
       "label": "encode position and zoom in URLs for sharing",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[structuring the space](/sequences/structuring-the-space) has produced a layout, and the actor can stand in a state that took several moves to reach: a context switched to, an item opened, a list narrowed, a step reached in [step by step](/patterns/step-by-step), a position and scale in a [pan and zoom](/patterns/pan-and-zoom) space.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "pan-and-zoom",
@@ -6815,7 +6881,9 @@
       "target": "form",
       "type": "enables",
       "label": "a form revealing depth only as it becomes relevant.",
-      "extractedFrom": "frontmatter:enables"
+      "extractedFrom": "frontmatter:enables",
+      "situation": "Split a long form by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, by [sections](/patterns/sections) into separately disclosed parts, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another the form has become a [wizard](/patterns/wizard).",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "wizard",
@@ -6823,7 +6891,7 @@
       "type": "instantiates",
       "incomingNote": "the wizard applies disclosure across discrete gated steps, revealing complexity gradually",
       "extractedFrom": "frontmatter:instances",
-      "situation": "a [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed.",
+      "situation": "A wizard gives these sequences a task the actor can finish without a model of it, by applying [progressive disclosure](/patterns/progressive-disclosure) one decision at a time and letting each answer remove the questions that no longer apply; [step by step](/patterns/step-by-step) gives it its navigation when the sequence also decides how the actor moves through the interface.",
       "glossFrom": "source:initiating"
     },
     {
@@ -6923,7 +6991,7 @@
       "type": "related",
       "label": "paginated scaffolds are the wizard applied to prompting",
       "extractedFrom": "frontmatter:related",
-      "situation": "Similar sequential structures appear in other contexts: configuring a reusable [template](/patterns/template) through guided prompts, or paginating through a structured [prompt scaffold](/patterns/prompt-scaffolding).",
+      "situation": "The same sequential structure appears when a reusable [template](/patterns/template) is configured through guided prompts, and a [prompt scaffold](/patterns/prompt-scaffolding) paged one part at a time takes the actor through its parts in a fixed order, as a wizard does.",
       "glossFrom": "target:resulting"
     },
     {
@@ -7183,25 +7251,28 @@
       "glossFrom": "target:resulting"
     },
     {
-      "source": "reconciliation",
-      "target": "draft-and-publish",
-      "type": "complements",
-      "label": "the parting whose return reconciliation guards",
-      "extractedFrom": "frontmatter:complements"
+      "source": "draft-and-publish",
+      "target": "reconciliation",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "in [working on the same thing](/sequences/working-on-the-same-thing) two lines of work were allowed to part under [draft and publish](/patterns/draft-and-publish), as a branch, a draft or a stretch offline, and now one of them returns.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "reconciliation",
-      "target": "comparing",
+      "target": "change-review",
       "type": "complements",
-      "label": "showing the colliding versions is comparing's version case put to work",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Change review](/patterns/change-review) shows what comes back and lets the reviewer accept it, and the two are used together at the return; but where both sides changed the same thing, merging silently would discard one intent without anyone deciding, and refusing to merge stops the work.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "reconciliation",
       "target": "undo",
       "type": "related",
-      "label": "the version not picked is a removal; undo is its recovery",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "The version not picked is a removal, so give it [undo](/patterns/undo) as its recovery, and where the work keeps a [version history](/patterns/version-history) keep the unpicked version in it; restoring an old version over a colleague's later work is itself a collision for reconciliation to settle rather than an overwrite.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "reference-material",
@@ -7265,6 +7336,42 @@
       "type": "enacts",
       "label": "the actor disposes of output by re-asking rather than accepting what arrived",
       "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "resuming",
+      "target": "saving",
+      "type": "related",
+      "label": "saving asks whether the actor manages persistence; resuming asks how they find kept work again",
+      "extractedFrom": "frontmatter:related",
+      "situation": "[Saving](/patterns/saving) asks whether the actor manages persistence at all; this pattern assumes the work is kept, silently or on request, and asks how the actor finds it again and takes it up.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "resuming",
+      "target": "draft-and-publish",
+      "type": "related",
+      "label": "draft and publish marks readiness for others; resuming is about taking an unfinished task back up",
+      "extractedFrom": "frontmatter:related",
+      "situation": "[Draft and publish](/patterns/draft-and-publish) looks alike but answers a different question, whether the work is ready for others; a half-finished application is not a draft of anything, it is an unfinished task",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "resuming",
+      "target": "status-feedback",
+      "type": "complements",
+      "label": "a kept task is only as safe as the actor's knowledge that it was kept",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Whichever way it is kept, [status feedback](/patterns/status-feedback) owes the actor a report that it was, at the moment they leave and when they return.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "review-before-submitting",
+      "target": "change-review",
+      "type": "related",
+      "label": "change review shows a change the system proposes to existing content; review before submitting shows the actor their own answers",
+      "extractedFrom": "frontmatter:related",
+      "situation": "Change review differs from [plan preview](/patterns/plan-preview), which shows what the system intends to do before the work rather than the change after it, and from [review before submitting](/patterns/review-before-submitting), which shows the actor their own answers rather than a change someone else proposes",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "rule-composition",
@@ -7418,7 +7525,9 @@
       "target": "form",
       "type": "enables",
       "label": "splitting a long form into adaptive, separately disclosed parts.",
-      "extractedFrom": "frontmatter:enables"
+      "extractedFrom": "frontmatter:enables",
+      "situation": "Split a long form by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, by [sections](/patterns/sections) into separately disclosed parts, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another the form has become a [wizard](/patterns/wizard).",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "sections",
@@ -7612,16 +7721,16 @@
       "target": "form",
       "type": "complements",
       "label": "settings are essentially configuration forms requiring similar patterns (validation, feedback, submission)",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Settings](/patterns/settings) are forms by another name, kept open rather than submitted.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "settings",
       "target": "wizard",
       "type": "complements",
       "label": "may guide actors through initial settings configuration during setup",
-      "extractedFrom": "frontmatter:complements",
-      "situation": "It is the standard approach for initial [onboarding](/patterns/onboarding) setup and first-time [settings](/patterns/settings) configuration where users need to make choices before fully understanding what each control means.",
-      "glossFrom": "target:initiating"
+      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "settings",
@@ -7829,7 +7938,9 @@
       "target": "form",
       "type": "enables",
       "label": "a form split into one-question-per-page steps (the question-pages pattern)",
-      "extractedFrom": "frontmatter:enables"
+      "extractedFrom": "frontmatter:enables",
+      "situation": "Split a long form by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, by [sections](/patterns/sections) into separately disclosed parts, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another the form has become a [wizard](/patterns/wizard).",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "wizard",
@@ -7837,7 +7948,7 @@
       "type": "instantiates",
       "incomingNote": "Wizard is the canonical instantiation of step-by-step navigation",
       "extractedFrom": "frontmatter:instances",
-      "situation": "When this sequence also defines how users navigate through the interface, [step by step](/patterns/step-by-step) provides the navigational backbone; this pattern defines the structure and pacing of the task itself.",
+      "situation": "A wizard gives these sequences a task the actor can finish without a model of it, by applying [progressive disclosure](/patterns/progressive-disclosure) one decision at a time and letting each answer remove the questions that no longer apply; [step by step](/patterns/step-by-step) gives it its navigation when the sequence also decides how the actor moves through the interface.",
       "glossFrom": "source:initiating"
     },
     {
@@ -7845,7 +7956,9 @@
       "target": "deep-linking",
       "type": "complements",
       "label": "enables returning to specific steps via URL",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[structuring the space](/sequences/structuring-the-space) has produced a layout, and the actor can stand in a state that took several moves to reach: a context switched to, an item opened, a list narrowed, a step reached in [step by step](/patterns/step-by-step), a position and scale in a [pan and zoom](/patterns/pan-and-zoom) space.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "step-by-step",
@@ -7971,7 +8084,7 @@
       "type": "complements",
       "label": "when templates are generated through step-by-step choices",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Similar sequential structures appear in other contexts: configuring a reusable [template](/patterns/template) through guided prompts, or paginating through a structured [prompt scaffold](/patterns/prompt-scaffolding).",
+      "situation": "The same sequential structure appears when a reusable [template](/patterns/template) is configured through guided prompts, and a [prompt scaffold](/patterns/prompt-scaffolding) paged one part at a time takes the actor through its parts in a fixed order, as a wizard does.",
       "glossFrom": "target:resulting"
     },
     {
@@ -8152,14 +8265,9 @@
       "target": "validation",
       "type": "hosts",
       "incomingNote": "the form is the surface that hosts fieldwise messages and wires them to submission",
-      "extractedFrom": "frontmatter:hosted-by"
-    },
-    {
-      "source": "validation",
-      "target": "data-entry",
-      "type": "complements",
-      "label": "a forgiving format prevents errors this move would otherwise have to report",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "Let the surface host the moves that act on a field: [good defaults](/patterns/good-defaults) arrive pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finish or supply a value as the actor types, and [validation](/patterns/validation) answers an input the system cannot accept at the field that produced it and holds submission until it is fixed.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "validation",
@@ -8202,7 +8310,8 @@
       "label": "showing a past version against the current one is comparing's version case",
       "extractedFrom": "frontmatter:complements",
       "situation": "The actor wants to know how it differs from now, which is [comparing](/patterns/comparing)'s version case: shared structure can be assumed and only the difference shown.",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "[Version history](/patterns/version-history) sets a past version beside the current one the same way before it is restored."
     },
     {
       "source": "version-history",
@@ -8220,7 +8329,8 @@
       "label": "restoring a version over someone else's later work is a collision to reconcile, not an overwrite",
       "extractedFrom": "frontmatter:related",
       "situation": "Where several people work on the same thing, restoring an old version over a colleague's recent work is a collision, and that belongs to [reconciliation](/patterns/reconciliation) rather than a silent overwrite.",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "The version not picked is a removal, so give it [undo](/patterns/undo) as its recovery, and where the work keeps a [version history](/patterns/version-history) keep the unpicked version in it; restoring an old version over a colleague's later work is itself a collision for reconciliation to settle rather than an overwrite."
     },
     {
       "source": "version-history",
@@ -8228,7 +8338,7 @@
       "type": "related",
       "label": "earlier versions recover removed content, and are also where removed content persists",
       "extractedFrom": "frontmatter:related",
-      "situation": "Version history also changes what [deletion](/patterns/deletion) means inside the work: a removed passage can be recovered from an earlier state, which lowers the stakes of removing it, while the history itself becomes a place where removed content persists...",
+      "situation": "Version history also changes what [deletion](/patterns/deletion) means inside the work: a removed passage can be recovered from an earlier state, which lowers the stakes of removing it, while the history itself becomes a place where removed content persists",
       "glossFrom": "source:resulting"
     },
     {
@@ -8243,7 +8353,7 @@
       "target": "undo",
       "type": "precedes",
       "extractedFrom": "frontmatter:precedes",
-      "situation": "Because a wizard isolates focus to one step at a time and hides the rest of the interface, users must be able to change earlier decisions without losing entered progress; non-destructive [undo](/patterns/undo) and safe backward navigation are fundamental requirements.",
+      "situation": "Make going back free, since the flow hides everything but the current step: give it a non-destructive [undo](/patterns/undo) and a Back that keeps every answer.",
       "glossFrom": "source:resulting"
     },
     {
@@ -8251,23 +8361,56 @@
       "target": "status-feedback",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Throughout the flow, continuous [status feedback](/patterns/status-feedback) keeps users oriented with clear progress indicators, inline field validation, and confirmation states.",
+      "situation": "Throughout, let [status feedback](/patterns/status-feedback) say where the actor is, what failed, and at the end what the submission produced.",
       "glossFrom": "source:resulting"
     },
     {
-      "source": "wizard",
-      "target": "undo",
-      "type": "complements",
-      "extractedFrom": "frontmatter:complements",
-      "situation": "Because a wizard isolates focus to one step at a time and hides the rest of the interface, users must be able to change earlier decisions without losing entered progress; non-destructive [undo](/patterns/undo) and safe backward navigation are fundamental requirements.",
-      "glossFrom": "source:resulting"
+      "source": "validation",
+      "target": "wizard",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Check each step's inputs with [validation](/patterns/validation) at the field, before the actor can advance, so an early mistake does not carry into the steps that depend on it.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "resuming",
+      "target": "wizard",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the actor is partway through a task in a [wizard](/patterns/wizard) or a long form that will not finish in one sitting: it needs information they do not have to hand, or more time than they have now, or they cannot safely continue where they are.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Where the flow runs longer than one sitting, give it [resuming](/patterns/resuming), and ask before any exit that would discard what was entered."
+    },
+    {
+      "source": "review-before-submitting",
+      "target": "wizard",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "End with a [review before submitting](/patterns/review-before-submitting), every answer in one place and each linked back to its step, so the actor checks the whole before committing it.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "help",
+      "target": "wizard",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Put [help](/patterns/help) beside the fields it explains, so guidance never takes the actor out of the step.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "good-defaults",
+      "target": "wizard",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "In each step, pre-fill with [good defaults](/patterns/good-defaults) whatever the system can guess or remembers from last time, which is also most of the faster path for returning actors.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "wizard",
       "target": "next-best-action",
       "type": "alternative",
       "extractedFrom": "frontmatter:alternative",
-      "situation": "When users have varying goals and do not benefit from a rigid sequence, [next best action](/patterns/next-best-action) recommends optimal steps dynamically instead of locking users into a fixed path, while an interactive [agent](/patterns/agent) can handle complex dependencies through conversation, allowing users to ask clarifying questions about earlier decisions at any time.",
+      "situation": "Where actors have different goals and gain nothing from a fixed order, let [next best action](/patterns/next-best-action) recommend the next step instead of prescribing it, or let an [agent](/patterns/agent) take the actor through the same dependencies in conversation, where an earlier decision can be asked about at any point.",
       "glossFrom": "source:resulting"
     },
     {
@@ -8275,22 +8418,23 @@
       "target": "form",
       "type": "alternative",
       "extractedFrom": "frontmatter:alternative",
-      "situation": "a [form](/patterns/form) collects related inputs on a single page, using [progressive disclosure](/patterns/progressive-disclosure) to reveal secondary fields as needed.",
-      "glossFrom": "source:initiating"
+      "situation": "A [form](/patterns/form) would put every field on one page, and most tasks are better served by one.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Split a long form by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, by [sections](/patterns/sections) into separately disclosed parts, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another the form has become a [wizard](/patterns/wizard)."
     },
     {
       "source": "wizard",
       "target": "agent",
       "type": "alternative",
       "extractedFrom": "frontmatter:alternative",
-      "situation": "When users have varying goals and do not benefit from a rigid sequence, [next best action](/patterns/next-best-action) recommends optimal steps dynamically instead of locking users into a fixed path, while an interactive [agent](/patterns/agent) can handle complex dependencies through conversation, allowing users to ask clarifying questions about earlier decisions at any time.",
+      "situation": "Where actors have different goals and gain nothing from a fixed order, let [next best action](/patterns/next-best-action) recommend the next step instead of prescribing it, or let an [agent](/patterns/agent) take the actor through the same dependencies in conversation, where an earlier decision can be asked about at any point.",
       "glossFrom": "source:resulting"
     },
     {
       "source": "wizard",
       "target": "temporality",
       "type": "enacts",
-      "label": "paces a task into an ordered sequence of steps, one commitment at a time",
+      "label": "paces a task into an ordered sequence of steps",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -8327,7 +8471,7 @@
       "type": "tangential",
       "label": "a wizard scripts the actor's path through one task; a workflow externalises a procedure for the system or for others to run",
       "extractedFrom": "frontmatter:tangential",
-      "situation": "Unlike an enterprise [workflow](/patterns/workflow), which coordinates asynchronous tasks and business processes across multiple people and systems, a wizard guides a single user through an isolated, synchronous task.",
+      "situation": "A [workflow](/patterns/workflow) coordinates asynchronous tasks across people and systems; a wizard takes one actor through one task in a single sitting",
       "glossFrom": "target:resulting"
     },
     {
@@ -8453,13 +8597,6 @@
       "target": "approval-gate",
       "type": "precedes",
       "situation": "crossing a bound is a designed event rather than a failure: the work pauses and control returns to the actor for renewal, escalation, or takeback",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "change-review",
-      "target": "approval-gate",
-      "type": "precedes",
-      "situation": "the delta is a reviewable object — what was, what would be, side by side or in place — so judgement lands on the change rather than on re-reading the whole, and an approval has something concrete to act on",
       "extractedFrom": "situation:resulting"
     },
     {
