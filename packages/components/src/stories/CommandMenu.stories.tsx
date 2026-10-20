@@ -88,6 +88,10 @@ export const Dialog: Story = {
     await userEvent.keyboard('/');
     const dialog = canvasElement.querySelector('pp-modal dialog') as HTMLDialogElement;
     await waitFor(() => expect(dialog).toHaveAttribute('open'));
+    // The dialog fades in from opacity 0, and an element under a transparent
+    // ancestor does not count as visible. Under load the fade can still be at
+    // its first frame when the visibility check runs, so wait for it to end.
+    await waitFor(() => expect(getComputedStyle(dialog).opacity).toBe('1'));
     const input = await canvas.findByPlaceholderText('Type a command or search...');
     const unfiltered = canvas.getAllByRole('option').length;
     await userEvent.type(input, 'new');
