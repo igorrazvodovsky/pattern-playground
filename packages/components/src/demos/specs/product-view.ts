@@ -8,6 +8,7 @@ import {
   type EntityBinding,
 } from '@shared/data/bindings';
 import type { Product } from '@shared/data/types';
+import { toMapLocations } from '../../templates/collection-view/data';
 
 // How the specs that show products read the product binding. A card shows a
 // few attributes as labelled values; a view at one rung of the ladder is laid
@@ -80,3 +81,13 @@ export const itemView = (rung: Rung, binding: EntityBinding = productBinding, om
 
 /** The item's full view: every attribute the maxi scope carries. */
 export const fullView = itemView('maxi');
+
+/** The products as places for the catalog's Map, from the binding's internal coordinates and site name. */
+export const mapLocations = (items: Product[]) =>
+  toMapLocations(items, productBinding).map(location => ({
+    id: String(location.id),
+    name: location.name,
+    lat: location.lat,
+    lng: location.lng,
+    description: location.description ?? null,
+  }));

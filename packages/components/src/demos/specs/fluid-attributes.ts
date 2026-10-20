@@ -138,7 +138,7 @@ export default {
       view,
       derived: derive({ view }),
       selected: CATALOGUE[0].id,
-      room: true,
+      room: false,
       detailOpen: false,
       dropped: null,
       filterEdit: null,

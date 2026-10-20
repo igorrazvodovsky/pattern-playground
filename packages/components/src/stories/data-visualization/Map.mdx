@@ -17,13 +17,17 @@ This is the located-point sibling of the <PatternRef slug="data-visualization">c
 
 <Story of={MapStories.Default} />
 
-Each place is a pin the reader can click or tab to. Selecting one frames it, opens its popup, and emits `pp-map-select` — the map's single output, whichever route drove the choice.
+Each place is a pin the reader can click or tab to. Selecting one frames it, opens its popup, and emits `pp-map-select`, whichever route drove the choice.
 
 ### A place already in focus
 
 <Story of={MapStories.Preselected} />
 
 Setting `selected-id` opens the view on a specific place. Use it when the map arrives already answering a question — a search result, a row the reader clicked through from a table.
+
+### Focus from another view
+
+When the map sits beside another view of the same places, such as a list, it can follow where the actor is looking without being chosen. The map emits `pp-map-focus` when the pointer comes over a pin or a pin takes keyboard focus, with `location: null` when it leaves. Setting `focused-id` marks a pin more lightly than the selection and leaves the view where it is, so a list row under the pointer can light its pin while the selection stays put.
 
 ### A single point
 
@@ -55,7 +59,7 @@ A map is a picture, and a picture excludes anyone who cannot see it. Here the pi
 
 ### Screen reader support
 - Each pin is a `button` (Leaflet's keyboard markers) with an `aria-label` of its name and detail line.
-- The selected pin carries `aria-current`, so its state is announced, not only shown.
+- The selected pin carries `aria-current`, so its state is announced, not only shown. The focused mark is visual only. It mirrors the control the actor is on in the other view, which assistive technology already reports.
 - Each pin also opens a native popup on activation, giving a pointer user the same name and detail.
 
 ### Keyboard navigation

@@ -51,7 +51,7 @@ export default {
       })),
       selected: ids[0],
       layout: 'in-place',
-      room: true,
+      room: false,
       popoverOpen: false,
       pageOpen: false,
     },

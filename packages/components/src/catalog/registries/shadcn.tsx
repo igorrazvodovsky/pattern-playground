@@ -1,4 +1,4 @@
-import { Fragment, Suspense, useContext, useId, useRef, type CSSProperties } from 'react';
+import { Children, Fragment, Suspense, useContext, useId, useRef, type CSSProperties } from 'react';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import { createPortal } from 'react-dom';
 import { Checkbox, Collapsible, Dialog, DropdownMenu, Popover, RadioGroup, Select, Slider, Toast, ToggleGroup, Tooltip } from 'radix-ui';
@@ -408,12 +408,29 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
+    // shadcn has no panes. One row of equal grid columns, as shadcn's
+    // dashboard blocks set views beside each other, when there is room,
+    // otherwise a column. Each child sits in a pane that is a demo
+    // container of its own, so blocks inside lay out for the pane's width; a
+    // hidden child leaves its pane empty, and an empty pane takes no place.
+    Panes: ({ props, children, bindings }) => {
+      const ref = useRef<HTMLDivElement>(null);
+      const room = useSplitRoom(ref, props.room, bindings?.room);
+      return (
+        <div
+          ref={ref}
+          className={room ? 'grid auto-cols-[minmax(0,1fr)] grid-flow-col items-start gap-4' : 'flex flex-col gap-4'}
+        >
+          {Children.map(children, child => <div className="@container/demo min-w-0 empty:hidden">{child}</div>)}
+        </div>
+      );
+    },
+
     // shadcn has no split view. Two grid columns, the main one wider, as
     // shadcn's dashboard blocks set a list beside its detail.
     Split: ({ props, children, bindings }) => {
       const ref = useRef<HTMLDivElement>(null);
-      const [, setRoom] = useBoundProp(props.room, bindings?.room);
-      const room = useSplitRoom(ref, setRoom);
+      const room = useSplitRoom(ref, props.room, bindings?.room);
       return (
         <div
           ref={ref}
@@ -784,6 +801,71 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
+    // shadcn/ui ItemGroup, from its published classes. Its items are set
+    // apart by separators (Item, below), as shadcn groups related items.
+    ItemGroup: ({ props, children }) => (
+      <div role="list" aria-label={props.label ?? undefined} data-slot="item-group" className="group/item-group flex flex-col">
+        {children}
+      </div>
+    ),
+
+    // shadcn/ui Item, from its published classes: an ItemContent holding the
+    // ItemTitle, as a heading at the demo's current level (heading-level.ts),
+    // and the attributes beneath it. In a group each item is a list item led
+    // by an ItemSeparator, but for the first: a repeat reaches the group as
+    // one child, so the group cannot place the separators itself. An item
+    // that opens takes the hover a linked Item takes, and its title button's
+    // ::after covers the row, with focus shown on the cover as on a Card. A
+    // focused item takes that hover's background. shadcn has no selected item; a selected one takes the primary colour on
+    // its border and a ring of it, as a selected Card does. The detail goes
+    // under a rule across the row, as an ItemFooter spans it, and is
+    // positioned so it paints above the cover.
+    Item: ({ props, slots, emit }) => {
+      const Heading = useHeading();
+      const detail = props.expanded && slots?.detail;
+      return (
+        <div role="listitem" className="group/row" onPointerEnter={() => emit('focus')} onPointerLeave={() => emit('blur')}>
+          <div data-slot="item-separator" role="none" className="h-px shrink-0 bg-border group-first/row:hidden" />
+          <div
+            data-slot="item"
+            className={clsx(
+              'group/item flex flex-wrap items-center gap-4 rounded-md border p-4 text-sm transition-colors duration-100',
+              props.opens && 'relative',
+              props.opens && !detail && 'hover:bg-accent/50',
+              props.focused && 'bg-accent/50',
+              props.selected ? 'border-primary ring-1 ring-primary' : 'border-transparent',
+            )}
+          >
+            <div data-slot="item-content" className="flex flex-1 flex-col gap-1">
+              <Heading data-slot="item-title" className="flex w-fit items-center gap-2 text-sm leading-snug font-medium">
+                {props.opens ? (
+                  <button
+                    type="button"
+                    className="cursor-pointer text-left outline-none after:absolute after:inset-0 after:rounded-md focus-visible:after:ring-[3px] focus-visible:after:ring-ring/50"
+                    aria-pressed={props.selected == null || props.expanded != null ? undefined : props.selected}
+                    aria-expanded={props.expanded ?? undefined}
+                    onClick={() => emit('open')}
+                    onFocus={() => emit('focus')}
+                    onBlur={() => emit('blur')}
+                  >
+                    {props.title}
+                  </button>
+                ) : (
+                  props.title
+                )}
+              </Heading>
+              {slots?.attributes && <div className="flex flex-wrap items-center gap-2">{slots.attributes}</div>}
+            </div>
+            {detail && (
+              <div data-slot="item-footer" className="relative flex basis-full flex-col gap-3 border-t pt-4">
+                <Subsection>{slots.detail}</Subsection>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    },
+
     // The figure of shadcn's dashboard section cards: large, semibold, with
     // tabular figures; the verdict and the muted detail as its card footer
     // sets them, a step below the figure. The card holding it takes the
@@ -887,6 +969,7 @@ export const { registry } = defineRegistry(catalog, {
     // map. The pin the actor chose is written to the bound path, then an event.
     Map: ({ props, bindings, emit }) => {
       const [selected, setSelected] = useBoundProp(props.selected, bindings?.selected);
+      const [focused, setFocused] = useBoundProp(props.focused, bindings?.focused);
       return (
         <LocationMap
           label={props.label}
@@ -896,6 +979,8 @@ export const { registry } = defineRegistry(catalog, {
             setSelected(id);
             emit('select');
           }}
+          focused={focused ?? null}
+          onFocusChange={setFocused}
         />
       );
     },

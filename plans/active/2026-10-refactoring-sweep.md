@@ -314,6 +314,24 @@ Kept on purpose:
   attributes, header and `pp-toc` pair; `PatternArticle` and `SequenceArticle`
   fill its `meta` slot and body. The commented-out badges are now source
   comments, so they no longer ship in every page's HTML.
+- [ ] *Item and Card in the pp registry.* The pp `Item` repeats the pp
+  `Card`'s title button (the same `aria-pressed`/`aria-expanded` expression),
+  its `card__attributes badges` row and its `.detail flow pad` block, so a fix
+  to one misses the other. Item already differs: it has no `focusOnShow`, and
+  its title is `label flex` rather than `label card__title`. Share the title
+  and detail parts, or render Item as a Card inside a list item.
+- [ ] *Detail without what the row shows, written twice.* `InPlaceDetail` in
+  `templates/collection-view/renderers/entity-detail.tsx` has no user since
+  the linked-trio demo became a spec, which builds the same view with
+  `itemView('mid', undefined, attributes)` from `specs/product-view.ts`.
+  Decide whether the template keeps it for collection views or it goes.
+- [ ] *Product readout repeated in specs.* The readout of a product at one
+  rung (badges, price, description, `DescriptionList`, listed) is the same
+  five elements in `linked-trio.json` (twice) and `overview-detail.json`
+  (three times), differing only in the state path they read. A JSON spec
+  cannot reuse a subtree, so a change to the layout is made in every copy.
+  Options: a catalog type that renders the readout from one prop, or
+  generating the subtree from `product-view.ts` when the spec loads.
 
 ## 4. Template extractions
 
@@ -325,15 +343,14 @@ Design calls; one sitting each.
   and `alert`), placed in a Card titled by its label with the trend as a
   Badge in the card's suffix. `alert` now sits on `.stat` rather than on the
   card.
-- [ ] *Entity card list.* `cards--list > EntityCard` is written out four times
-  across demos (twice in `coordinated-views.tsx`, once each in `filtering.tsx`
-  and `WritableBoardDemo.tsx`); `CardRenderer` can't be reused because it needs a full spec.
-  Also a shared overview-attributes constant (`['name','category','pricing.msrp']`
-  in three demos, a `listedAt` variant in two). In specs, an entity card is a
-  Card titled by the item's name with its attributes as labelled Badges, and
-  the item's full view is a Card holding its badges, price, description and a
-  `DescriptionList` of the rest, laid out by role in `specs/product-view.ts`,
-  as `ItemView` lays out its maxi scope.
+- [ ] *Overview attributes repeated.* The list `['name','category','pricing.msrp']`
+  is written out in the overview-detail and linked-trio specs. No demo writes
+  out `cards--list > EntityCard` any more: in specs, an entity card is a Card
+  titled by the item's name with its attributes as labelled Badges (in a list
+  of rows, an `Item` with the same Badges), and the item's full view is a Card
+  holding its badges, price, description and a `DescriptionList` of the rest,
+  laid out by role in `specs/product-view.ts`, as `ItemView` lays out its maxi
+  scope.
 - [ ] *Slice attributes formatted two ways.* `specs/problem-checklist.ts` and
   `specs/watch-to-chase-tiers.ts` show the same three attributes on a flag's
   items (`category`, `pricing.msrp`, `listedAt`), but the first formats them
@@ -456,11 +473,10 @@ Design calls; one sitting each.
   `components/filter/filters.tsx`) has no user and no story. Decide whether
   it takes `FilterTag`'s props and becomes the component the pp registry
   draws, or goes.
-- [ ] *Overview plus detail.* `coordinated-views.tsx` still lays out its split
-  with its own `useFitsWidth` fallback and puts `aria-label` on a plain `div`.
-  The overview-detail layout and fluid-attributes demos render through the
-  catalog's `Split`, which writes its room to state
-  (`registries/split-room.ts`).
+- [x] *Overview plus detail.* The linked-trio demo is a spec. Its three
+  panes are the catalog's `Panes`, which writes its room to state as `Split`
+  does (`registries/split-room.ts`), and its list is an `ItemGroup` of
+  `Item` rows (shadcn's Item; the library's list of cards).
 - [ ] *`top-layer=""` no longer turns the top layer on.* pp-popup's
   `top-layer` and `light-dismiss` are boolean properties, and the element
   coerces by the type the property holds, so React's `top-layer=""` sets them

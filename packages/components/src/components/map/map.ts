@@ -48,6 +48,16 @@ export interface MapSelectDetail {
   source: 'marker' | 'api';
 }
 
+/**
+ * Emitted as `pp-map-focus` when the pointer comes over a pin or a pin takes
+ * keyboard focus, and with `location: null` when it leaves. Focus is transient,
+ * unlike selection: the map marks the pin it reports only while `focused-id`
+ * says so, so a page that couples views decides what is focused.
+ */
+export interface MapFocusDetail {
+  location: MapLocation | null;
+}
+
 
 /** A design-system pin drawn from CSS rather than Leaflet's bundled PNG. */
 function pinIcon(selected: boolean): L.DivIcon {
@@ -70,6 +80,7 @@ export class MapComponent extends Elena(HTMLElement) {
     'tile-url',
     'attribution',
     'selected-id',
+    'focused-id',
     'label',
   ];
 
@@ -90,6 +101,9 @@ export class MapComponent extends Elena(HTMLElement) {
   /** The active location's id; empty string means no selection. */
   'selected-id': string | number = '';
 
+  /** The focused location's id, marked more lightly than the selection; empty string means none. */
+  'focused-id': string | number = '';
+
   /** Accessible name for the map region. */
   label = 'Location map';
 
@@ -107,6 +121,7 @@ export class MapComponent extends Elena(HTMLElement) {
   private prevTileUrl?: string;
   private prevAttribution?: string;
   private prevSelectedId?: string | number;
+  private prevFocusedId?: string | number;
 
   connectedCallback() {
     // Leaflet needs a real container in the document tree before the first
@@ -177,6 +192,7 @@ export class MapComponent extends Elena(HTMLElement) {
     this.prevTileUrl = this['tile-url'];
     this.prevAttribution = this.attribution;
     this.prevSelectedId = this['selected-id'];
+    this.prevFocusedId = this['focused-id'];
 
     this.renderMarkers();
     this.fitView();
@@ -209,6 +225,10 @@ export class MapComponent extends Elena(HTMLElement) {
       // them all; one that changes later moves the map to it.
       this.syncSelection(!placesChanged);
     }
+    if (this['focused-id'] !== this.prevFocusedId) {
+      this.prevFocusedId = this['focused-id'];
+      this.syncFocus();
+    }
   }
 
   /** Rebuild every marker from `locations`. */
@@ -225,6 +245,8 @@ export class MapComponent extends Elena(HTMLElement) {
       });
       marker.bindPopup(this.popupHtml(loc));
       marker.on('click', () => this.select(loc, 'marker'));
+      marker.on('mouseover', () => this.reportFocus(loc));
+      marker.on('mouseout', () => this.reportFocus(null));
       marker.addTo(this.map);
       this.markersById.set(String(loc.id), marker);
 
@@ -237,6 +259,9 @@ export class MapComponent extends Elena(HTMLElement) {
       if (el) {
         el.setAttribute('aria-label', this.markerLabel(loc));
         if (selected) el.setAttribute('aria-current', 'true');
+        el.classList.toggle('pp-map__pin--focused', this.isFocused(loc));
+        el.addEventListener('focus', () => this.reportFocus(loc));
+        el.addEventListener('blur', () => this.reportFocus(null));
         el.addEventListener('keydown', (event) => {
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
@@ -283,6 +308,28 @@ export class MapComponent extends Elena(HTMLElement) {
     return this['selected-id'] !== '' && String(loc.id) === String(this['selected-id']);
   }
 
+  private isFocused(loc: MapLocation): boolean {
+    return this['focused-id'] !== '' && String(loc.id) === String(this['focused-id']);
+  }
+
+  private reportFocus(loc: MapLocation | null): void {
+    this.dispatchEvent(
+      new CustomEvent<MapFocusDetail>('pp-map-focus', {
+        detail: { location: loc },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
+  /** Mark the pin `focused-id` names. */
+  private syncFocus(): void {
+    for (const loc of this.locations) {
+      const el = this.markersById.get(String(loc.id))?.getElement();
+      el?.classList.toggle('pp-map__pin--focused', this.isFocused(loc));
+    }
+  }
+
   /** Select a location and let the change flow out through `selected-id`. */
   private select(loc: MapLocation, source: MapSelectDetail['source']): void {
     if (this.isSelected(loc)) return;
@@ -319,6 +366,8 @@ export class MapComponent extends Elena(HTMLElement) {
       const marker = this.markersById.get(String(loc.id));
       if (pan) this.map.panTo([loc.lat, loc.lng]);
       marker?.openPopup();
+    } else {
+      this.map?.closePopup();
     }
   }
 }

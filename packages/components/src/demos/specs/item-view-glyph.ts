@@ -1,8 +1,7 @@
 import type { Spec } from '@json-render/core';
 import { products } from '@shared/data';
-import { productBinding } from '@shared/data/bindings';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { toMapLocations } from '../../templates/collection-view/data';
+import { mapLocations } from './product-view';
 import spec from './item-view-glyph.json' with { type: 'json' };
 
 // The spec places the glyph rung on a map: every product as a pin among its
@@ -14,13 +13,7 @@ export default {
   spec: spec as Spec,
   setup: {
     initialState: {
-      locations: toMapLocations(products, productBinding).map(location => ({
-        id: String(location.id),
-        name: location.name,
-        lat: location.lat,
-        lng: location.lng,
-        description: location.description ?? null,
-      })),
+      locations: mapLocations(products),
       selected: products[0].id,
     },
   } satisfies SpecSetup,

@@ -5,7 +5,8 @@ import { CARTO_ATTRIBUTION, CARTO_TILE_URL } from '../../components/map/tiles';
 // Map for the shadcn registry. shadcn/ui has no map, so this one puts
 // Leaflet, the base map pp-map also draws on, in a frame with shadcn's card
 // border and radius. The pins are dots in the theme's primary colour, and the
-// selected one is larger with a ring; the popup text is in shadcn's
+// selected one is larger with a ring, and a focused one a little larger with
+// a fainter ring; the popup text is in shadcn's
 // typography. Keyboard and assistive technology work as in pp-map: every pin
 // is a focusable button named by its place, Enter or Space selects it, and
 // the selected pin is marked current.
@@ -27,7 +28,7 @@ export interface Place {
 
 const pin = L.divIcon({
   className: 'group',
-  html: '<span class="block size-full rounded-full border-2 border-background bg-primary shadow-md transition-transform group-aria-[current=true]:scale-140 group-aria-[current=true]:ring-2 group-aria-[current=true]:ring-ring"></span>',
+  html: '<span class="block size-full rounded-full border-2 border-background bg-primary shadow-md transition-transform group-aria-[current=true]:scale-140 group-aria-[current=true]:ring-2 group-aria-[current=true]:ring-ring group-data-[focused=true]:scale-125 group-data-[focused=true]:ring-2 group-data-[focused=true]:ring-ring/50"></span>',
   iconSize: [16, 16],
   iconAnchor: [8, 8],
   popupAnchor: [0, -10],
@@ -51,11 +52,17 @@ export const LocationMap = ({
   locations,
   selected,
   onSelect,
+  focused,
+  onFocusChange,
 }: {
   label: string;
   locations: Place[];
   selected: string | null;
   onSelect: (id: string) => void;
+  /** The place marked more lightly, for focus that moves without being staked. */
+  focused: string | null;
+  /** Called with a place's id when the pointer comes over its pin or the pin takes keyboard focus, and with null when it leaves. */
+  onFocusChange: (id: string | null) => void;
 }) => {
   const canvas = useRef<HTMLDivElement>(null);
   const map = useRef<L.Map | null>(null);
@@ -64,8 +71,8 @@ export const LocationMap = ({
   // are all in view; only a selection set from state later moves the map.
   const pressed = useRef<string | null>(null);
   const framed = useRef<Place[] | null>(null);
-  const latest = useRef({ selected, onSelect });
-  latest.current = { selected, onSelect };
+  const latest = useRef({ selected, onSelect, onFocusChange });
+  latest.current = { selected, onSelect, onFocusChange };
   // Pressing the pin that is already selected changes nothing, as in pp-map.
   const select = useRef((id: string) => {
     if (id === latest.current.selected) return;
@@ -116,9 +123,13 @@ export const LocationMap = ({
       const marker = L.marker([location.lat, location.lng], { icon: pin, title: location.name })
         .bindPopup(popup(location))
         .on('click', () => select.current(location.id))
+        .on('mouseover', () => latest.current.onFocusChange(location.id))
+        .on('mouseout', () => latest.current.onFocusChange(null))
         .addTo(instance);
       const el = marker.getElement();
       el?.setAttribute('aria-label', pinLabel(location));
+      el?.addEventListener('focus', () => latest.current.onFocusChange(location.id));
+      el?.addEventListener('blur', () => latest.current.onFocusChange(null));
       el?.addEventListener('keydown', event => {
         if (event.key !== 'Enter' && event.key !== ' ') return;
         event.preventDefault();
@@ -136,13 +147,26 @@ export const LocationMap = ({
       marker.setZIndexOffset(id === selected ? 1000 : 0);
     }
     const marker = selected ? markers.current.get(selected) : undefined;
-    if (!marker) return;
+    if (!marker) {
+      map.current?.closePopup();
+      return;
+    }
     const placesChanged = framed.current !== locations;
     framed.current = locations;
     if (!placesChanged && pressed.current !== selected) map.current?.panTo(marker.getLatLng());
     pressed.current = null;
     marker.openPopup();
   }, [selected, locations]);
+
+  // Marked by an attribute the pin's dot styles from; the popup stays with the
+  // selection.
+  useEffect(() => {
+    for (const [id, marker] of markers.current) {
+      const el = marker.getElement();
+      if (id === focused) el?.setAttribute('data-focused', 'true');
+      else el?.removeAttribute('data-focused');
+    }
+  }, [focused, locations]);
 
   return (
     <div role="group" aria-label={label} className="h-80 overflow-hidden rounded-xl border">

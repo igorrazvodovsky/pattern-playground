@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import clsx from 'clsx';
 import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes } from '../catalog';
-import type { MapComponent, MapSelectDetail } from '../../components/map/map';
+import type { MapComponent, MapFocusDetail, MapSelectDetail } from '../../components/map/map';
 import type { ToastHandle } from '../../components/toast/toast';
 import { Combobox, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxList } from '../../components/combobox';
 import { captureOpener, focusDemoIfOpenerGone, settleFocus, useReturnFocus, type Opener } from './dialog-focus';
@@ -282,11 +282,25 @@ export const { registry } = defineRegistry(catalog, {
     // when split and there is room, otherwise a column.
     Split: ({ props, children, bindings }) => {
       const ref = useRef<HTMLDivElement>(null);
-      const [, setRoom] = useBoundProp(props.room, bindings?.room);
-      const room = useSplitRoom(ref, setRoom);
+      const room = useSplitRoom(ref, props.room, bindings?.room);
       return (
         <div ref={ref} className={props.split && room ? 'odi' : 'flow'}>
           {children}
+        </div>
+      );
+    },
+
+    // The library's coordinated panes (.view-family__panes in view-family.css)
+    // when there is room, otherwise a column. Each child sits in a pane that
+    // is a container of its own (.view-family__pane), so blocks inside lay out
+    // for the pane's width; a hidden child leaves its pane empty, and an
+    // empty pane takes no place.
+    Panes: ({ props, children, bindings }) => {
+      const ref = useRef<HTMLDivElement>(null);
+      const room = useSplitRoom(ref, props.room, bindings?.room);
+      return (
+        <div ref={ref} className={room ? 'view-family__panes' : 'view-family__trio-stack'}>
+          {Children.map(children, child => <div className="view-family__pane">{child}</div>)}
         </div>
       );
     },
@@ -615,6 +629,56 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
+    // The library's list of cards (.cards--list in card.css), whose rows
+    // share their borders. Each Item is its own list item: a repeat reaches
+    // the group as one child, so the group cannot wrap the rows itself.
+    ItemGroup: ({ props, children }) => (
+      <div role="list" aria-label={props.label ?? undefined} className="cards cards--list">
+        {children}
+      </div>
+    ),
+
+    // A card in the list of cards: the title as a heading at the demo's
+    // current level (heading-level.ts), in a .stretched-link button when the
+    // item opens, and the library's attribute row. A selected item takes the
+    // ring the library's collection views give the picked item
+    // (view-family.css), and a focused one the lighter tint it gives the
+    // focused item. The detail is the library's inline detail (.card >
+    // .detail), positioned so it paints above the stretched link.
+    Item: ({ props, slots, emit }) => {
+      const Heading = useHeading();
+      const title = props.opens ? (
+        <button
+          type="button"
+          className="stretched-link"
+          aria-pressed={props.selected == null || props.expanded != null ? undefined : props.selected}
+          aria-expanded={props.expanded ?? undefined}
+          onClick={() => emit('open')}
+          onFocus={() => emit('focus')}
+          onBlur={() => emit('blur')}
+        >
+          {props.title}
+        </button>
+      ) : (
+        props.title
+      );
+      return (
+        <div role="listitem" onPointerEnter={() => emit('focus')} onPointerLeave={() => emit('blur')}>
+          <article className="card" data-selected={props.selected ? 'true' : undefined} data-focused={props.focused ? 'true' : undefined}>
+            <div className="flow pad">
+              <Heading className="label flex">{title}</Heading>
+              {slots?.attributes && <div className="card__attributes badges">{slots.attributes}</div>}
+            </div>
+            {props.expanded && slots?.detail && (
+              <div className="detail flow pad">
+                <Subsection>{slots.detail}</Subsection>
+              </div>
+            )}
+          </article>
+        </div>
+      );
+    },
+
     // The library's stat readout. An alert figure takes the danger colour
     // (stat.css).
     Stat: ({ props }) => (
@@ -860,6 +924,7 @@ export const { registry } = defineRegistry(catalog, {
     // pin the actor chose as pp-map-select.
     Map: ({ props, bindings, emit }) => {
       const [selected, setSelected] = useBoundProp(props.selected, bindings?.selected);
+      const [focused, setFocused] = useBoundProp(props.focused, bindings?.focused);
       const ref = useRef<MapComponent | null>(null);
       // pp-map redraws its pins and refits the view whenever it is handed a
       // new array, so the array changes only with the places.
@@ -873,6 +938,19 @@ export const { registry } = defineRegistry(catalog, {
       useEffect(() => {
         if (ref.current) ref.current['selected-id'] = selected ?? '';
       }, [selected]);
+      useEffect(() => {
+        if (ref.current) ref.current['focused-id'] = focused ?? '';
+      }, [focused]);
+      useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+        const onFocus = (event: Event) => {
+          const { location } = (event as CustomEvent<MapFocusDetail>).detail;
+          setFocused(location ? String(location.id) : null);
+        };
+        el.addEventListener('pp-map-focus', onFocus);
+        return () => el.removeEventListener('pp-map-focus', onFocus);
+      }, [setFocused]);
       useEffect(() => {
         const el = ref.current;
         if (!el) return;

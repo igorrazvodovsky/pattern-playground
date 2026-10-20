@@ -150,6 +150,14 @@ export const catalog = defineCatalog(schema, {
       description:
         'Lays its first two shown children side by side, a wider main view and a narrower pane beside it, when `split` is true and the Split is wide enough for both (about 40rem); otherwise it lays its children out in one column. Show only the children that belong to the layout in force. Bind `room` with $bindState: the Split writes whether it is wide enough, whether or not it is split, and again whenever its width crosses the line, so a spec can offer the split only while it fits.',
     },
+    Panes: {
+      props: z.object({
+        room: z.boolean().nullable(),
+      }),
+      slots: ['default'],
+      description:
+        'Lays its shown children side by side as equal panes when it is wide enough for them (about 40rem), each pane laying out its content for its own width; otherwise it lays them out in one column. Use it for views of one model that the actor reads together, such as a list, a map and a detail. Show only the children that belong to the layout in force. Bind `room` with $bindState: the Panes write whether they are wide enough, and again whenever their width crosses the line, so a spec can lay out the narrow column differently, such as putting a map above the list it marks.',
+    },
     Card: {
       props: z.object({
         title: z.string().nullable(),
@@ -337,6 +345,26 @@ export const catalog = defineCatalog(schema, {
       description:
         'One row in a List, with optional secondary text in `description`. `checkbox` makes the row a checkbox, and `checked` says whether it is ticked. Bind `checked` with $bindItem inside a repeat, or $bindState, so that ticking the row writes to state; a checkbox row with a plain `checked` is for display: the library may still tick it on a press, but state does not change. `struck` strikes the label through, for a row that is still shown but no longer counts. The `suffix` slot holds trailing controls or indicators.',
     },
+    ItemGroup: {
+      props: z.object({
+        label: z.string().nullable(),
+      }),
+      slots: ['default'],
+      description:
+        'A list of Item children, each one item of a collection, set close together as rows. `label` names the list for assistive technology, such as one of several views of the collection.',
+    },
+    Item: {
+      props: z.object({
+        title: z.string(),
+        opens: z.boolean().nullable(),
+        selected: z.boolean().nullable(),
+        focused: z.boolean().nullable(),
+        expanded: z.boolean().nullable(),
+      }),
+      slots: ['attributes', 'detail'],
+      description:
+        'One item of a collection as a row in an ItemGroup: its `title`, and in the `attributes` slot a few of its attributes as labelled Badges. With `opens` the actor can pick the item: its title is a button, pressing anywhere on the row presses it, and it emits `open`. `selected` marks the one item among its peers that the actor picked, such as the item other views are showing: the row is set apart, and on a row that opens the title reads as pressed. The `detail` slot holds what the row opens into, such as the item\'s readout under its summary, and shows while `expanded` is true, set off by a rule and not covered by the press; with `expanded` the title reads as expanded or collapsed rather than pressed. The row emits `focus` when the pointer comes over it or its title takes keyboard focus, and `blur` when it leaves, for focus that moves without being staked; `focused` marks the row more lightly than `selected`, such as the item another view has the pointer over.',
+    },
     Stat: {
       props: z.object({
         value: z.string(),
@@ -397,9 +425,10 @@ export const catalog = defineCatalog(schema, {
           }),
         ),
         selected: z.string().nullable(),
+        focused: z.string().nullable(),
       }),
       description:
-        'Places on a map the actor can pan and zoom, each a pin at its `lat` and `lng`, read by assistive technology as `label`. The map first frames every pin. A pin is named by its `name` and `description`; pressing it, or Enter or Space when it has focus, selects it, marks it apart from the others and shows its name and description beside it. `selected` is the selected place\'s `id`. Bind it with $bindState: the map writes it when the actor selects a pin, then emits `select`, and setting it moves the map to that place.',
+        'Places on a map the actor can pan and zoom, each a pin at its `lat` and `lng`, read by assistive technology as `label`. The map first frames every pin. A pin is named by its `name` and `description`; pressing it, or Enter or Space when it has focus, selects it, marks it apart from the others and shows its name and description beside it. `selected` is the selected place\'s `id`. Bind it with $bindState: the map writes it when the actor selects a pin, then emits `select`, and setting it moves the map to that place. `focused` is the `id` of a place marked more lightly, for focus that moves without being staked, such as the item another view has the pointer over. Bind it with $bindState: the map writes a place\'s `id` when the pointer comes over its pin or the pin takes keyboard focus, and null when it leaves; setting it marks the pin and does not move the map.',
     },
     Button: {
       props: z.object({
