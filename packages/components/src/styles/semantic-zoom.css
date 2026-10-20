@@ -26,12 +26,6 @@
     text-align: start;
   }
 
-  .avatar-group__more {
-    font-size: var(--text-s);
-    font-weight: var(--font-weight-semibold);
-    color: var(--c-bodyDimmed);
-  }
-
   /* Semantic-zoom timeline dot alignment. The shared stepper (progress-indicator
      .css, same layer) drops its dot 0.5em to meet taller multi-line content;
      these rows are a single tight heading, so the dot centres on the text line

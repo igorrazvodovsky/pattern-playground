@@ -64,3 +64,14 @@ export const AvatarGroup: Story = {
     </div>
   ),
 };
+
+export const AvatarGroupOverflow: Story = {
+  render: () => (
+    <div className="avatar-group">
+      <img className="avatar" src="https://i.pravatar.cc/150?img=13" alt="First member" />
+      <img className="avatar" src="https://i.pravatar.cc/150?img=16" alt="Second member" />
+      <img className="avatar" src="https://i.pravatar.cc/150?img=17" alt="Third member" />
+      <span className="avatar avatar-group__more" role="img" aria-label="4 more">+4</span>
+    </div>
+  ),
+};
