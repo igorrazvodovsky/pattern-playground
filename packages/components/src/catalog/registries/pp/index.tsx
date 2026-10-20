@@ -43,10 +43,14 @@ import { useDisclosureDrop, useDragRow, useStackDrop } from '../../behaviour/dra
 import { MenuMultiple } from '../../behaviour/menu-multiple';
 import { Crumb, CrumbOverflow } from './crumb';
 import { DraggableRow } from './draggable-row';
-import { FilterTag } from './filter-tag';
+import { FilterTag } from '../../../components/filter/filter-tag';
 import { errorPrefix, useBoundField, useField, type FieldErrorProps } from '../../behaviour/field';
 import { submitForm } from '../../behaviour/form-submit';
-import { useFocusHandoff, useMenuFocusHandoff } from '../../behaviour/focus-handoff';
+import {
+  useFocusHandoff,
+  useGroupFocusHandoff,
+  useMenuFocusHandoff,
+} from '../../behaviour/focus-handoff';
 import { useFocusOnShow } from '../../behaviour/focus-on-show';
 import { usePressableTitle } from '../../behaviour/pressable-title';
 import { PpMentionEditor } from './mention-editor-lazy';
@@ -857,13 +861,31 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    FilterTag: (context) => (
-      <FilterTag
-        {...context}
-        glyph={context.props.icon ? icons[context.props.icon] : null}
-        iconFor={(name) => icons[name]}
-      />
-    ),
+    FilterTag: ({ props, bindings, emit }) => {
+      const [, setEdit] = useBoundProp(props.edit, bindings?.edit);
+      const { group } = useGroupFocusHandoff(props.focusNext);
+      return (
+        <FilterTag
+          ref={group}
+          label={props.label}
+          icon={props.icon && icons[props.icon]}
+          operator={props.operator}
+          operators={props.operators}
+          values={props.values}
+          options={props.options}
+          glyphs={props.glyphs?.map((each) => ({
+            ...each,
+            icon: each.icon && icons[each.icon],
+          }))}
+          removeLabel={props.removeLabel}
+          onChange={(change) => {
+            setEdit(change);
+            void emit('change');
+          }}
+          onRemove={() => void emit('remove')}
+        />
+      );
+    },
 
     // The popup is portaled to <body>: the reference sits in a paragraph,
     // which cannot hold the preview's blocks.

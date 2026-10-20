@@ -1,6 +1,4 @@
-import { useBoundProp, type ComponentContext } from '@json-render/react';
-import type { Catalog, iconNames } from '../../catalog';
-import type { FilterEdit } from '../../filter-edit';
+import type { Ref } from 'react';
 import {
   Combobox,
   ComboboxEmpty,
@@ -8,25 +6,44 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-} from '../../../components/combobox';
-import { AnimateChangeInHeight } from '../../../components/filter/animate-change-in-height';
-import { useDropdownState } from '../../../components/filter/hooks/use-dropdown-state';
-import { useGroupFocusHandoff } from '../../behaviour/focus-handoff';
-import '../../../jsx-types';
+} from '../combobox';
+import { AnimateChangeInHeight } from './animate-change-in-height';
+import { useDropdownState } from './hooks/use-dropdown-state';
+import '../../jsx-types';
 
-type Glyph = NonNullable<ComponentContext<Catalog, 'FilterTag'>['props']['glyphs']>[number];
+/** A change the actor makes to the condition, short of removing it. */
+export interface FilterChange {
+  kind: 'operator' | 'add' | 'remove';
+  value: string;
+}
 
-// A value's picture: the person's photo or initial, or its icon in the same
-// round frame, so that several overlap as an avatar group.
-function ValueGlyph({
-  glyph,
-  iconFor,
-  slot,
-}: {
-  glyph: Glyph;
-  iconFor: (name: (typeof iconNames)[number]) => string;
-  slot?: string;
-}) {
+/** A value's picture: an icon, or a person's photo or initial. */
+export interface FilterGlyph {
+  value: string;
+  icon?: string | null;
+  avatar?: { name: string; image?: string | null } | null;
+}
+
+export interface FilterTagProps {
+  /** The attribute the condition is on. */
+  label: string;
+  /** The attribute's icon, as an iconify name. */
+  icon?: string | null;
+  operator: string;
+  operators: string[];
+  /** The chosen values. */
+  values: string[];
+  /** Every value the actor can choose from. */
+  options: string[];
+  glyphs?: FilterGlyph[] | null;
+  removeLabel?: string | null;
+  onChange: (change: FilterChange) => void;
+  onRemove: () => void;
+  ref?: Ref<HTMLDivElement>;
+}
+
+// Several overlap as an avatar group, so an icon takes the same round frame.
+function ValueGlyph({ glyph, slot }: { glyph: FilterGlyph; slot?: string }) {
   if (glyph.avatar?.image)
     return (
       <img className="avatar" data-size="xsmall" slot={slot} src={glyph.avatar.image} alt="" />
@@ -35,23 +52,25 @@ function ValueGlyph({
     <span className="avatar" data-size="xsmall" slot={slot} aria-hidden="true">
       {glyph.avatar
         ? glyph.avatar.name.charAt(0)
-        : glyph.icon && <iconify-icon icon={iconFor(glyph.icon)} />}
+        : glyph.icon && <iconify-icon icon={glyph.icon} />}
     </span>
   );
 }
 
+/** One condition of a filter, edited in place: attribute, operator, values, remove. */
 export function FilterTag({
-  props,
-  bindings,
-  emit,
-  glyph,
-  iconFor,
-}: ComponentContext<Catalog, 'FilterTag'> & {
-  glyph: string | null;
-  iconFor: (name: (typeof iconNames)[number]) => string;
-}) {
-  const [, setEdit] = useBoundProp(props.edit, bindings?.edit);
-  const { group } = useGroupFocusHandoff(props.focusNext);
+  label,
+  icon,
+  operator,
+  operators,
+  values,
+  options,
+  glyphs,
+  removeLabel,
+  onChange,
+  onRemove,
+  ref,
+}: FilterTagProps) {
   const {
     commandInput,
     setCommandInput,
@@ -61,44 +80,40 @@ export function FilterTag({
     handleDropdownHide,
     clearInputAndHide,
   } = useDropdownState();
-  const send = (edit: FilterEdit) => {
-    setEdit(edit);
-    void emit('change');
-  };
-  const pick = (kind: FilterEdit['kind'], value: string) => {
-    send({ kind, value });
+  const pick = (kind: FilterChange['kind'], value: string) => {
+    onChange({ kind, value });
     clearInputAndHide();
   };
-  const unchosen = props.options.filter((option) => !props.values.includes(option));
+  const unchosen = options.filter((option) => !values.includes(option));
   const glyphOf = (value: string) =>
-    props.glyphs?.find((each) => each.value === value && (each.icon || each.avatar));
-  const chosenGlyphs = props.values.flatMap((value) => glyphOf(value) ?? []).slice(0, 3);
+    glyphs?.find((each) => each.value === value && (each.icon || each.avatar));
+  const chosenGlyphs = values.flatMap((value) => glyphOf(value) ?? []).slice(0, 3);
   const prefix = (value: string) => {
     const found = glyphOf(value);
-    return found && <ValueGlyph glyph={found} iconFor={iconFor} slot="prefix" />;
+    return found && <ValueGlyph glyph={found} slot="prefix" />;
   };
 
   return (
-    <div ref={group} className="tag-group">
+    <div ref={ref} className="tag-group">
       <div className="tag">
-        {glyph && <iconify-icon className="icon" icon={glyph} aria-hidden="true" />}
-        {props.label}
+        {icon && <iconify-icon className="icon" icon={icon} aria-hidden="true" />}
+        {label}
       </div>
 
       <pp-dropdown placement="bottom-start">
         <button type="button" data-slot="trigger" className="tag">
-          {props.operator}
+          {operator}
         </button>
         <pp-popup>
           <pp-list>
-            {props.operators.map((operator) => (
+            {operators.map((each) => (
               <pp-list-item
-                key={operator}
+                key={each}
                 type="radio"
-                checked={operator === props.operator}
-                onClick={() => send({ kind: 'operator', value: operator })}
+                checked={each === operator}
+                onClick={() => onChange({ kind: 'operator', value: each })}
               >
-                {operator}
+                {each}
               </pp-list-item>
             ))}
           </pp-list>
@@ -115,18 +130,18 @@ export function FilterTag({
           {chosenGlyphs.length > 0 && (
             <span className="avatar-group">
               {chosenGlyphs.map((each) => (
-                <ValueGlyph key={each.value} glyph={each} iconFor={iconFor} />
+                <ValueGlyph key={each.value} glyph={each} />
               ))}
             </span>
           )}
-          {props.values.length === 1 ? props.values[0] : `${props.values.length} selected`}
+          {values.length === 1 ? values[0] : `${values.length} selected`}
         </button>
         <pp-popup>
           <div>
             <AnimateChangeInHeight>
               <Combobox>
                 <ComboboxInput
-                  placeholder={props.label}
+                  placeholder={label}
                   value={commandInput}
                   onInputCapture={(event) => setCommandInput(event.currentTarget.value)}
                   ref={commandInputRef}
@@ -134,7 +149,7 @@ export function FilterTag({
                 <ComboboxList>
                   <ComboboxEmpty>No results found.</ComboboxEmpty>
                   <ComboboxGroup>
-                    {props.values.map((value) => (
+                    {values.map((value) => (
                       <ComboboxItem
                         key={value}
                         value={value}
@@ -168,9 +183,9 @@ export function FilterTag({
         </pp-popup>
       </pp-dropdown>
 
-      <button type="button" className="tag tag-group__remove" onClick={() => void emit('remove')}>
+      <button type="button" className="tag tag-group__remove" onClick={onRemove}>
         <iconify-icon icon="ik:cross" aria-hidden="true" />
-        <span className="visually-hidden">{props.removeLabel ?? 'Clear filter'}</span>
+        <span className="visually-hidden">{removeLabel ?? 'Clear filter'}</span>
       </button>
     </div>
   );
