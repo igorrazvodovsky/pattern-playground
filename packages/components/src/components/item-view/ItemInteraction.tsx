@@ -363,11 +363,9 @@ export const ItemInteraction = ({
               onMouseLeave={scheduleClose}
               onKeyDown={(event) => event.key === 'Escape' && dismiss()}
             >
-              {/* A real header, not a floating corner control: the summary's
-                  own heading is the title on the leading edge, the rung buttons
-                  the actions on the trailing one. The popover wants its controls
-                  always legible, so it takes this instead of the quiet
-                  `.detail__toolbar` the card and page hosts share. */}
+              {/* A real header: the summary's own heading is the title on the
+                  leading edge, the rung buttons the actions on the trailing
+                  one, so the controls stay legible. */}
               <div className="popover__header">
                 <ItemView
                   item={item}

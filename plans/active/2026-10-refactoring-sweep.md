@@ -32,8 +32,8 @@ json-render 0.21.1 and its documentation. Its items are in §3 and §5.
    and demo actions moved out of the catalog 2026-10-20; done).
 4. Template extractions (stat tile, card list, overview-plus-detail) — these are
    design calls, one sitting each.
-5. Conventions (done 2026-10-18; the story tags and the TemplateField
-   invalid state with its demo's `alert()` remain).
+5. Conventions (done 2026-10-18; the story tags and the pp registry's inline
+   styles remain).
 
 ## 1. Bugs
 
@@ -493,22 +493,18 @@ Design calls; one sitting each.
   Survey Analysis). The reference spec shows each item's current name, so the
   note now asks technical questions of a supply chain analyst. Rewrite the
   note's sentences or its ids so the two agree.
-- [ ] *TemplateField has no consumer.* The prompt-template spec fills its
-  blanks through slots in `catalog/behaviour/mention-editor.ts`, so
-  `components/template-field/` (a Tiptap node whose blank turns into an input
-  when pressed, with fill, clear and validate commands) is no longer used. The
-  slots keep `.template-field` and `--filled` from `styles/reference.css`;
-  `--selected`, `--editing`, `--invalid`, `__label` and `__error` styled only
-  the component. `styles/tiptap.css`, whose import is commented out, holds a
-  second full set of `.template-field*` rules that would fight the slots'
-  `--filled` and `:focus-within` if switched back on. Delete the component,
-  those rules and the tiptap.css block, or keep the component for a story.
-- [ ] *`.message-composer__feedback` has no consumer.* The prompt-quality-feedback
-  spec shows its verdict as a Text with a purpose after the composer, so the
-  feedback line in `styles/messages.css` (with its badge and spinner spacing)
-  is no longer used, nor are its animation and reduced-motion rules in
-  `styles/tiptap.css`, whose import is commented out. Delete both, or have the
-  pp Composer draw a feedback line if the catalog gains one.
+- [x] *TemplateField had no consumer.* The prompt-template spec fills its
+  blanks through slots in `catalog/behaviour/mention-editor.ts`. Done
+  2026-10-20: `components/template-field/` is deleted, with the rules in
+  `styles/reference.css` that only it used (`--selected`, `--editing`,
+  `--invalid`, `__label`, `__error`) and the `.template-field*` block in
+  `styles/tiptap.css`. The slots keep `.template-field`, `--filled`,
+  `:focus-within` and the input rules.
+- [x] *`.message-composer__feedback` had no consumer.* The
+  prompt-quality-feedback spec shows its verdict as a Text with a purpose.
+  Done 2026-10-20: the feedback line is deleted from `styles/messages.css`,
+  and its `rise-in` animation and reduced-motion entries from
+  `styles/tiptap.css`.
 - [x] *Three copies of per-path timers.* `specs/shared/notify.ts`,
   `specs/shared/settle.ts` and `specs/shared/arm.ts` each kept a map of timers
   by state path. Done 2026-10-20: all three schedule through `keyedTimers` in
@@ -558,6 +554,11 @@ Design calls; one sitting each.
   `components/filter/filters.tsx`) has no user and no story. Decide whether
   it takes `FilterTag`'s props and becomes the component the pp registry
   draws, or goes.
+
+  Decided 2026-10-20: the library chip takes `FilterTag`'s props and becomes
+  the component the pp registry draws. `FilterTag` is the reference for the
+  props; the task-fixture coupling in `filter-components.tsx` goes, and the
+  chip gets a story.
 - [x] *Overview plus detail.* The linked-trio demo is a spec. Its three
   panes are the catalog's `Panes`, which writes its room to state as `Split`
   does (`behaviour/split-room.ts`), and its list is an `ItemGroup` of
@@ -582,14 +583,11 @@ Design calls; one sitting each.
   problem anywhere; showing the popover with the anchor as `source` does not
   help, since Chrome counts only a `popovertarget` button as the invoker for
   light dismiss.
-- [ ] *`BackButton` and `.detail__toolbar` have no consumer.* The
-  overview-detail layout demo is a spec, so `BackButton` in
-  `demos/scaffold.tsx` is no longer imported, and the `.detail__toolbar` rules
-  in `styles/view-family.css` (the corner control, faded until the detail is
-  hovered) have no markup; `ItemInteraction.tsx` names the class only in a
-  comment. The spec's layout menu sits in the card's or popover's `suffix`
-  instead. Delete them, or have a pp `Card` or `Popover` draw its suffix as
-  that corner control.
+- [x] *`BackButton` and `.detail__toolbar` had no consumer.* The
+  overview-detail spec's layout menu sits in the card's or popover's `suffix`.
+  Done 2026-10-20: `demos/scaffold.tsx` and the `.detail__toolbar` rules in
+  `styles/view-family.css` are deleted, and the comment in
+  `ItemInteraction.tsx` no longer names the class.
 - [ ] *The in-place detail sits under the card's press.* In
   `specs/overview-detail.json` the in-place detail is the card's default
   content, so the card's press covers it and the actor cannot select its
@@ -677,14 +675,9 @@ Design calls; one sitting each.
   should draw from the library rather than fill gaps locally, so this is a
   library gap: a row utility with a gap and alignment, a grid with a column
   width, and a field layout. Once those exist, the registry uses them.
-- [ ] *TemplateField invalid state is unreachable.* `--invalid` and
-  `__error` render only for a required field that is `filled` with an empty
-  value, but submitting an empty value sets `filled: false`. Decide what should
-  trigger the state (the demo's Validate button is the obvious candidate),
-  then wire it.
-- [ ] *`alert()` in the prompt demo.* `PromptTemplateDemo`'s Validate reports
-  through `alert()`, which blocks the page. Show the result in the demo instead;
-  this pairs with the TemplateField item above.
+- [x] *TemplateField invalid state and the prompt demo's `alert()`.* Both
+  closed 2026-10-20 without a change: `PromptTemplateDemo` no longer exists,
+  and TemplateField is deleted (see §4).
 - [x] *Arrow keys in a dropdown started from the wrong row.* ArrowUp on a
   `pp-dropdown` trigger focuses the last item, but once the popup had
   animated in, the dropdown made the first item current again. Focus and the
