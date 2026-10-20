@@ -18,10 +18,10 @@ fixture's own bookkeeping (catalogue, ledger, lifecycle assessment) carries no
 concept: the catalogue holds generic concepts only, and those three are demo
 material. The partition table below is now the world's own. What remains is authoring work: `acts_on` sittings on the
 pattern pages the partition reaches, the conversation-for-action entry, and the
-quarry. The 2025 attempt (root `concepts/`, now thirty-six pages nothing
-builds) stays until the quarry is worked; the grounded, not-concept and
-conversational pages have been read and deleted, and the conversation for
-action entry exists.
+`acts_on` sittings on the pattern pages the partition reaches. The 2025
+attempt (root `concepts/` and the paused dress-shop plan) was quarried and
+deleted on 2026-10-18 to 2026-10-20; what it yielded is recorded under *The
+quarry* below, and the conversation for action entry came out of it.
 
 The shape was checked against the concept-design papers in the vault
 (`Resources/Papers/`); no research gate, since that line is already read.
@@ -54,10 +54,9 @@ Earlier work tried the idea twice and stopped both times:
   Notification, Label, Session), a Winograd & Flores conversational cluster
   (Commitment, ConditionOfSatisfaction, Conversation, Trigger), a commerce
   cluster, and one agentic entry. They were moved out of Storybook in May
-  2026 and left unread by any build. The paused plan
-  [2025-dress_shop_concepts.md](../paused/2025-dress_shop_concepts.md)
-  holds a further batch from the dress-shop case. `role:concept` was reserved
-  in the role model and never committed.
+  2026 and left unread by any build. A paused plan held a further batch
+  from the dress-shop case in Jackson's formal syntax. `role:concept` was
+  reserved in the role model and never committed.
 - The world re-grounding (August 2026) took the ontology under concepts —
   individuals, values, actions, facts, and `when`/`where`/`then` rules — and
   deliberately left concepts out: action names stay flat, and
@@ -299,9 +298,9 @@ Two things the partition surfaces, which a flat vocabulary hides:
 
 ### The quarry
 
-The forty 2025 pages and the dress-shop batch, by disposition. None is
-migrated as it stands: each surviving entry is re-authored into the shape
-above, one at a time.
+The 2025 pages and the dress-shop batch, by disposition, as worked. None was
+migrated as it stood: what survived was re-authored into the shape above,
+and the rest is recorded here so it is not re-opened.
 
 - *Grounded now* (the world instantiates them): Comment → Commenting,
   Notification → Notifying, Task → Task tracking and Staging, Todo → Task
@@ -329,12 +328,16 @@ above, one at a time.
   files are deleted.
 - *Generic candidates with no world instance*: Bookmark, Label, Form,
   Template, TemplateLibrary, User, UserProfile, Authentication,
-  Password, Session. Listed as candidates; an entry is authored when a
+  Password, Session. Candidates by name only; an entry is authored when a
   pattern page needs to name it, not before. `tag` is the likely first
-  claimant (Labelling).
+  claimant (Labelling). The files held nothing to lift: seven were empty,
+  and User, UserProfile and Password were the source paper's own worked
+  examples in its sync notation, copied in with the registration syncs.
 - *Commerce cluster* (Account, Catalogue, Currency, Inventory, Order, Quote,
-  ShoppingCart, Subscription): candidates with no claimant in the corpus. The
-  fixture's catalogue actions are its own domain, not an instance of Catalogue.
+  ShoppingCart, Subscription): candidates by name, no claimant in the
+  language. Seven files were empty and ShoppingCart was a list of actions.
+  The fixture's catalogue actions are its own domain, not an instance of
+  Catalogue.
 - *Conversational cluster* (Winograd & Flores): worked 2026-10-20. The
   thirteen pages were the book modelled chapter by chapter, a third of it
   theory (Domain, Interpretation, StructuralCoupling,
@@ -355,21 +358,28 @@ above, one at a time.
   sitting, rather than the entry waiting on it. The dress-shop batch has the
   same material in Jackson's formal syntax and is deleted with the root
   directory.
+- *Agentic*. The agent's own activities (intending, searching, reading,
+  finding, drafting) are concepts in the source's own terms, and the
+  `concept` field is where the agent trace plan's grouping of its actions
+  goes when it names them. The world ontology's legibility trigger is
+  answered here rather than there: the partition is adopted because the
+  catalogue needs it, not because the vocabulary crossed a threshold. The
+  one authored page, ContinuousOperation, was not an activity but a
+  scheduled recurring run (start, pause, resume, stop, a cadence, a beat
+  that requests execution), which is a generic concept in its own right
+  (cron, scheduled agents, automation platforms) and is a candidate,
+  Scheduling, with no claimant yet. The old overview's agent taxonomy
+  (autonomous, chatbot, task-execution, collaborative) named further
+  candidates: intent recognition, clarification, handoff, takeback. None
+  is authored until a page claims it.
 - *Version control* (Repository, Commit, WorkingArea, Branch, Head, Tag and
-  four data classifications): no disposition yet. The likely reading is
-  domain material for a future versioning concept, which Document keeping's
-  first misfit already points at. Decide before deleting.
-- *Agentic* (ContinuousOperation): superseded by the agent trace plan's
-  activities. Intending, Searching, Reading, Finding and Drafting are
-  concepts in the source's own terms, and the `concept` field is where that
-  plan's grouping of its actions goes. The world ontology's legibility
-  trigger is answered here rather than there: the partition is adopted
-  because the catalogue needs it, not because the vocabulary crossed a
-  threshold.
-- `syncs/user-registration/`: deleted.
+  four data classifications): every file was empty. Versioning is a
+  candidate, which Document keeping's first misfit already points at.
+- `syncs/user-registration/`: the source paper's registration example,
+  deleted.
 
-Root `concepts/` is deleted once the quarry is worked; until then it stays
-as it is.
+Root `concepts/` and the paused dress-shop plan were deleted when the quarry
+was worked (2026-10-20).
 
 ## What the concept-design papers settle
 
@@ -436,9 +446,6 @@ Remaining:
   for *Making Software Meaningful* (one gesture, several concepts; the
   grant/revoke asymmetry; the concept behind an unchanged action) are what
   those sittings write.
-- Work the rest of the quarry per the dispositions above (the grounded,
-  not-concept and conversational pages are done); then delete root
-  `concepts/` and the paused dress-shop plan.
 - The entry name `acts_on` is confirmed by two pages; revisit only if a
   sitting finds it reads wrongly.
 
