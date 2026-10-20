@@ -12,7 +12,7 @@ export const Basic: Story = {
     <pp-breadcrumbs role="navigation">
       <a href="">
         <span className="crumbicon">
-          <iconify-icon icon="ph:house"></iconify-icon>
+          <iconify-icon icon="ik:house"></iconify-icon>
         </span>
         <span className="visually-hidden home-label">Home</span>
       </a>
@@ -36,7 +36,7 @@ export const LongPath: Story = {
       <pp-breadcrumbs role="navigation">
         <a href="">
           <span className="crumbicon">
-            <iconify-icon icon="ph:house"></iconify-icon>
+            <iconify-icon icon="ik:house"></iconify-icon>
           </span>
           <span className="visually-hidden home-label">Home</span>
         </a>
@@ -75,7 +75,7 @@ export const Advanced: Story = {
     <pp-breadcrumbs role="navigation">
       <a href="">
         <span className="crumbicon">
-          <iconify-icon icon="ph:house"></iconify-icon>
+          <iconify-icon icon="ik:house"></iconify-icon>
         </span>
         <span className="visually-hidden home-label">Home</span>
       </a>
@@ -83,7 +83,7 @@ export const Advanced: Story = {
       <span className="crumb">
         <a href="#">Section B</a>
         <span className="crumbicon">
-          <iconify-icon icon="ph:caret-down"></iconify-icon>
+          <iconify-icon icon="ik:chevron-down"></iconify-icon>
           <select
             className="disguised-select"
             aria-label="Navigate to another section"
@@ -100,7 +100,7 @@ export const Advanced: Story = {
       <span className="crumb">
         <a href="#" aria-current="page">Subsection C</a>
         <span className="crumbicon">
-          <iconify-icon icon="ph:caret-down"></iconify-icon>
+          <iconify-icon icon="ik:chevron-down"></iconify-icon>
           <select
             className="disguised-select"
             aria-label="Navigate to another sub collection"

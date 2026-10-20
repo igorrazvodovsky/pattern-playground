@@ -4,7 +4,7 @@ import { findAttribute, taskBinding } from '@shared/data/bindings';
 import { attributeGlyph } from '../../../utility/attribute-icons';
 
 function getFilterIcon(path: string): string {
-  return attributeGlyph(findAttribute(taskBinding, path)?.icon) ?? 'ph:sparkle';
+  return attributeGlyph(findAttribute(taskBinding, path)?.icon) ?? 'ik:sparkles';
 }
 
 export function convertGenericSuggestionToAICommandResult(suggestionResult: AISuggestionResult): AICommandResult {
@@ -13,7 +13,7 @@ export function convertGenericSuggestionToAICommandResult(suggestionResult: AISu
       id: suggestion.id,
       label: suggestion.label,
       value: suggestion.value,
-      icon: suggestion.metadata?.path ? getFilterIcon(String(suggestion.metadata.path)) : 'ph:sparkle',
+      icon: suggestion.metadata?.path ? getFilterIcon(String(suggestion.metadata.path)) : 'ik:sparkles',
       metadata: suggestion.metadata
     })),
     confidence: suggestionResult.confidence,

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import 'iconify-icon';
+import '../icons/register-icons';
 import '../jsx-types';
 
 const meta = {
@@ -56,7 +56,7 @@ export const Stat: Story = {
         verdict="Two resolved since last week"
         detail="Oldest has been open 12 days"
         delta="2"
-        deltaIcon="ph:arrow-down-right"
+        deltaIcon="ik:arrow-down-right"
         trend="success"
       />
       <StatTile
@@ -72,7 +72,7 @@ export const Stat: Story = {
         verdict="Backlog growing"
         detail="4 waiting on supplier data"
         delta="3"
-        deltaIcon="ph:arrow-up-right"
+        deltaIcon="ik:arrow-up-right"
         trend="danger"
         alert
       />

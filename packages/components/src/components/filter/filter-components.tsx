@@ -12,7 +12,7 @@ import {
   ComboboxList,
 } from "../combobox";
 import { useDropdownState } from "./hooks/use-dropdown-state";
-import 'iconify-icon';
+import '../../icons/register-icons';
 import '../dropdown/dropdown.ts';
 import '../list/list.ts';
 import '../list-item/list-item.ts';

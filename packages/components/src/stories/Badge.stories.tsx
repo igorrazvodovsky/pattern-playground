@@ -71,7 +71,7 @@ export const WithButton: Story = {
         Requests<strong className="badge badge--pill badge--info">12</strong>
       </button>
       <button className="button">
-        <iconify-icon className="icon" icon="ph:circle-dashed"></iconify-icon>
+        <iconify-icon className="icon" icon="ik:circle-dotted"></iconify-icon>
         <span className="visually-hidden">Icon button</span>
         <sup className="badge badge--pill badge--danger"></sup>
       </button>
@@ -198,28 +198,28 @@ export const WithIcon: Story = {
   render: () => (
     <div className="inline-flow">
       <span className="badge badge--pill">
-        <iconify-icon className="icon" icon="ph:arrows-vertical" slot="icon"></iconify-icon>3
+        <iconify-icon className="icon" icon="ik:arrow-up-down" slot="icon"></iconify-icon>3
       </span>
       <span className="badge badge--pill">
-        <iconify-icon className="icon" icon="ph-angle" slot="icon"></iconify-icon>45°
+        <iconify-icon className="icon" icon="ik:angle" slot="icon"></iconify-icon>45°
       </span>
       <span className="badge badge--pill">
-        <iconify-icon className="icon" icon="ph:house" slot="icon"></iconify-icon>Stockholm
+        <iconify-icon className="icon" icon="ik:house" slot="icon"></iconify-icon>Stockholm
       </span>
       <span className="badge badge--info badge--pill">
-        <iconify-icon className="icon" icon="ph:circle" slot="icon"></iconify-icon>Confirmed
+        <iconify-icon className="icon" icon="ik:circle" slot="icon"></iconify-icon>Confirmed
       </span>
       <span className="badge badge--info badge--pill">
-        <iconify-icon className="icon" icon="ph:circle-half-fill" slot="icon"></iconify-icon>Processing
+        <iconify-icon className="icon" icon="ik:circle-half-left-fill" slot="icon"></iconify-icon>Processing
       </span>
       <span className="badge badge--warning badge--pill">
-        <iconify-icon className="icon" icon="ph:circle-dashed" slot="icon"></iconify-icon>Attention
+        <iconify-icon className="icon" icon="ik:circle-dotted" slot="icon"></iconify-icon>Attention
       </span>
       <span className="badge badge--success badge--pill">
-        <iconify-icon className="icon" icon="ph:circle-fill" slot="icon"></iconify-icon>Completed
+        <iconify-icon className="icon" icon="ik:circle-fill" slot="icon"></iconify-icon>Completed
       </span>
       <span className="badge badge--warning badge--pill">
-        <iconify-icon className="icon" icon="ph:x-circle" slot="icon"></iconify-icon>Cancelled
+        <iconify-icon className="icon" icon="ik:cross-in-circle" slot="icon"></iconify-icon>Cancelled
       </span>
     </div>
   ),
@@ -230,13 +230,13 @@ export const IconOnly: Story = {
     <div className="inline-flow">
       <span>
         <strong className="badge badge--accent badge--pill">
-          <iconify-icon className="icon" icon="ph:heart-fill" slot="icon"></iconify-icon>
+          <iconify-icon className="icon" icon="ik:heart-fill" slot="icon"></iconify-icon>
           <span className="visually-hidden">Heart</span>
         </strong>
       </span>
       <span>
         <strong className="badge badge--success badge--pill">
-          <iconify-icon className="icon" icon="ph:check-fat-fill" slot="icon"></iconify-icon>
+          <iconify-icon className="icon" icon="ik:checkmark-in-circle-fill" slot="icon"></iconify-icon>
           <span className="visually-hidden">Success</span>
         </strong>
       </span>
@@ -249,7 +249,7 @@ export const IconOnlyInAGroup: Story = {
     <div className="flex">
       <span className="badge">1.7"</span>
       <span className="badge">
-        <iconify-icon className="icon" icon="ph:arrows-out-line-horizontal" slot="icon"></iconify-icon>
+        <iconify-icon className="icon" icon="ik:unfold-horizontal" slot="icon"></iconify-icon>
         <span className="visually-hidden">Heart</span>
       </span>
       <span className="badge">4</span>

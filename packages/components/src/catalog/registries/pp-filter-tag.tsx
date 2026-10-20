@@ -130,7 +130,7 @@ export function FilterTag({
       </pp-dropdown>
 
       <button type="button" className="tag tag-group__remove" onClick={() => void emit('remove')}>
-        <iconify-icon icon="ph:x" aria-hidden="true" />
+        <iconify-icon icon="ik:cross" aria-hidden="true" />
         <span className="visually-hidden">{props.removeLabel ?? 'Clear filter'}</span>
       </button>
     </div>

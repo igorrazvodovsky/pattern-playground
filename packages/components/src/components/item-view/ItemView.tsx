@@ -10,7 +10,7 @@ import {
 import type { ItemViewProps } from './types';
 import { useEntityBinding, useItemViewContext } from './provider';
 import { DefaultFallbackRenderer } from './DefaultFallbackRenderer';
-import 'iconify-icon';
+import '../../icons/register-icons';
 import '../../jsx-types';
 
 type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;

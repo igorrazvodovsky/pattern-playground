@@ -6,7 +6,7 @@
  */
 
 import { componentRegistry } from './component-registry.js';
-import 'iconify-icon';
+import '../icons/register-icons.js';
 
 // Import all component classes
 import { PpInput } from './input/input.js';

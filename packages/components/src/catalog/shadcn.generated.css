@@ -1076,14 +1076,8 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
   }
-.fill-current {
-    fill: currentColor;
-  }
 .fill-foreground {
     fill: var(--foreground);
-  }
-.fill-primary {
-    fill: var(--primary);
   }
 .object-cover {
     object-fit: cover;

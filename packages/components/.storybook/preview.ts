@@ -2,7 +2,7 @@
 import '../src/styles/main.css';
 import '../src/styles/docs.css';
 import '../src/main.ts';
-import 'iconify-icon';
+import '../src/icons/register-icons';
 import { faker } from '@faker-js/faker';
 import { PatternRef } from '../src/stories/utils/PatternRef';
 import { modalService } from '../src/services/modal-service';

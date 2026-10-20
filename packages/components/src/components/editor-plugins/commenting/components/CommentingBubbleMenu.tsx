@@ -19,7 +19,7 @@ const CommentingBubbleMenu: React.FC = () => {
       onClick={handleCreateComment}
       title={`Comment (${shortcut})`}
     >
-      <iconify-icon className="icon" icon="ph:chat-circle"></iconify-icon>
+      <iconify-icon className="icon" icon="ik:comment"></iconify-icon>
       <span className="visually-hidden">Comment</span>
     </button>
   );

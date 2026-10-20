@@ -60,7 +60,7 @@ export const HumanToHumanChat: Story = {
       <div className="message-composer">
         <pp-input>
           <input aria-label="Message" placeholder="Type a message" />
-          <iconify-icon className="icon" icon="ph:arrow-elbow-down-left" data-slot="suffix"></iconify-icon>
+          <iconify-icon className="icon" icon="ik:carriage-return" data-slot="suffix"></iconify-icon>
         </pp-input>
       </div>
     </div>
@@ -107,7 +107,7 @@ export const HumanToHumanComments: StoryObj<MessagingArgs> = {
           <img className="avatar" data-size="small" src="https://i.pravatar.cc/150?img=16" alt="You" />
           <pp-input>
             <input aria-label="Message" placeholder="Type a message" />
-            <iconify-icon className="icon" icon="ph:arrow-elbow-down-left" data-slot="suffix"></iconify-icon>
+            <iconify-icon className="icon" icon="ik:carriage-return" data-slot="suffix"></iconify-icon>
           </pp-input>
         </div>
       </div>
@@ -158,7 +158,7 @@ export const InlineInterface: Story = {
                 <span data-slot="suffix">100</span>
               </pp-range>
               <button className="button button--plain">
-                <iconify-icon className="icon" icon="ph:check"></iconify-icon><span className="visually-hidden">Send amount</span>
+                <iconify-icon className="icon" icon="ik:checkmark"></iconify-icon><span className="visually-hidden">Send amount</span>
               </button>
             </div>
           </div>
@@ -185,16 +185,16 @@ export const InlineInterface: Story = {
         </pp-input>
         <div className="message-composer__actions">
           <button className="button button--plain">
-            <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="visually-hidden">Search the web</span>
+            <iconify-icon className="icon" icon="ik:globe"></iconify-icon><span className="visually-hidden">Search the web</span>
           </button>
           <button className="button button--plain">
-            <iconify-icon className="icon" icon="ph:lightbulb"></iconify-icon><span className="visually-hidden">Think it through</span>
+            <iconify-icon className="icon" icon="ik:light-bulb"></iconify-icon><span className="visually-hidden">Think it through</span>
           </button>
           <button className="button button--plain">
-            <iconify-icon className="icon" icon="ph:paperclip"></iconify-icon><span className="visually-hidden">Attach a file</span>
+            <iconify-icon className="icon" icon="ik:clip"></iconify-icon><span className="visually-hidden">Attach a file</span>
           </button>
           <button className="button button--plain">
-            <iconify-icon className="icon" icon="ph:plus"></iconify-icon><span className="visually-hidden">More options</span>
+            <iconify-icon className="icon" icon="ik:plus"></iconify-icon><span className="visually-hidden">More options</span>
           </button>
         </div>
       </div>
@@ -234,16 +234,16 @@ export const HumanToLLM: Story = {
         </pp-input>
         <div className="message-composer__actions">
           <button className="button button--plain">
-            <iconify-icon className="icon" icon="ph:globe"></iconify-icon><span className="visually-hidden">Action</span>
+            <iconify-icon className="icon" icon="ik:globe"></iconify-icon><span className="visually-hidden">Action</span>
           </button>
           <button className="button button--plain">
-            <iconify-icon className="icon" icon="ph:lightbulb"></iconify-icon><span className="visually-hidden">Action</span>
+            <iconify-icon className="icon" icon="ik:light-bulb"></iconify-icon><span className="visually-hidden">Action</span>
           </button>
           <button className="button button--plain">
-            <iconify-icon className="icon" icon="ph:paperclip"></iconify-icon><span className="visually-hidden">Action</span>
+            <iconify-icon className="icon" icon="ik:clip"></iconify-icon><span className="visually-hidden">Action</span>
           </button>
           <button className="button button--plain">
-            <iconify-icon className="icon" icon="ph:plus"></iconify-icon><span className="visually-hidden">Edit</span>
+            <iconify-icon className="icon" icon="ik:plus"></iconify-icon><span className="visually-hidden">Edit</span>
           </button>
         </div>
       </div>

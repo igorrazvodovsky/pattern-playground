@@ -178,7 +178,7 @@ export const CommentingIntegration: React.FC<CommentingIntegrationProps> = ({
                 onClick={handleQuote}
                 title="Make this passage a quote other documents can refer to. The words stay here."
               >
-                <iconify-icon className="icon" icon="ph:quotes"></iconify-icon>
+                <iconify-icon className="icon" icon="ik:quotation-marks"></iconify-icon>
                 Turn into quote
               </button>
             )}

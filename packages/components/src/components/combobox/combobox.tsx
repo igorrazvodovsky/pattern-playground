@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import { Command as ComboboxPrimitive } from "cmdk"
-import { Icon } from '@iconify/react'
 
 interface SlotProps {
   slot?: string;
@@ -72,7 +71,7 @@ const ComboboxInput = React.forwardRef<
   ComboboxInputProps
 >(({ placeholder = "Search, commands, etc.", ...props }, ref) => (
   <div cmdk-input-wrapper="">
-    <Icon icon="ph:magnifying-glass" className="icon" aria-hidden="true" />
+    <iconify-icon icon="ik:search" className="icon" aria-hidden="true"></iconify-icon>
     <ComboboxPrimitive.Input
       ref={ref}
       placeholder={placeholder}
@@ -149,7 +148,7 @@ const ComboboxItem = React.forwardRef<
       {...props}
     >
       <span className="combobox-item__check">
-        <Icon icon="ph:check" aria-hidden="true" />
+        <iconify-icon icon="ik:checkmark" aria-hidden="true"></iconify-icon>
       </span>
 
       {prefix.length > 0 && (

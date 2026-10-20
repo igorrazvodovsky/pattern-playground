@@ -1,20 +1,18 @@
 import { faker } from '@faker-js/faker';
-import { icons as phosphorIcons } from '@iconify-json/ph';
+import collection from '../../icons/iconoteka.generated.json' with { type: 'json' };
 
 // Picks go through faker, so the seed the Storybook preview sets before each
-// story makes them repeat from load to load.
-const iconNames = Object.keys(phosphorIcons.icons);
-const excludedSuffixes = ['-thin', '-light', '-bold', '-duotone', '-fill'];
+// story makes them repeat from load to load. Only bundled icons can render,
+// so the picks come from the collection, not from all of Iconoteka.
+const iconNames = Object.keys(collection.icons);
 
-const regularIconNames = iconNames.filter(name =>
-  !excludedSuffixes.some(suffix => name.endsWith(suffix))
-);
+const regularIconNames = iconNames.filter(name => !/-(thin|ultralight|light|medium|semibold|bold|fill)$/.test(name));
 const filledIconNames = iconNames.filter(name => name.endsWith('-fill'));
 
 export function getRandomIcon() {
-  return "ph:" + faker.helpers.arrayElement(regularIconNames);
+  return `${collection.prefix}:${faker.helpers.arrayElement(regularIconNames)}`;
 }
 
 export function getRandomFilledIcon() {
-  return "ph:" + faker.helpers.arrayElement(filledIconNames);
+  return `${collection.prefix}:${faker.helpers.arrayElement(filledIconNames)}`;
 }

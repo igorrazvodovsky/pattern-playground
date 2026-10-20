@@ -25,7 +25,7 @@ import { convertToAICommandResult } from '../components/command-menu/adapters/ai
 
 import { commands, recentItems } from '@shared/data';
 
-import 'iconify-icon';
+import '../icons/register-icons';
 import '../jsx-types';
 const MIN_AI_TRIGGER_LENGTH = 3;
 

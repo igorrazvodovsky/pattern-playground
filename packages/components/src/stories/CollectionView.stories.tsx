@@ -38,11 +38,11 @@ interface ViewOption {
 }
 
 const VIEW_OPTIONS: ViewOption[] = [
-  { key: 'cards', label: 'Cards', icon: 'ph:squares-four', type: 'card', layout: 'grid' },
-  { key: 'list', label: 'List', icon: 'ph:list', type: 'card', layout: 'list' },
-  { key: 'table', label: 'Table', icon: 'ph:table', type: 'table' },
-  { key: 'map', label: 'Map', icon: 'ph:map-trifold', type: 'map' },
-  { key: 'plot', label: 'Plot', icon: 'ph:chart-scatter', type: 'plot' },
+  { key: 'cards', label: 'Cards', icon: 'ik:grid', type: 'card', layout: 'grid' },
+  { key: 'list', label: 'List', icon: 'ik:list', type: 'card', layout: 'list' },
+  { key: 'table', label: 'Table', icon: 'ik:spreadsheet', type: 'table' },
+  { key: 'map', label: 'Map', icon: 'ik:map', type: 'map' },
+  { key: 'plot', label: 'Plot', icon: 'ik:chart-bubble', type: 'plot' },
 ];
 
 interface Grouping {
@@ -62,7 +62,7 @@ interface Collection {
 const COLLECTIONS: Record<string, Collection> = {
   products: {
     label: 'Products',
-    icon: 'ph:package',
+    icon: 'ik:cardboard',
     items: products,
     binding: productBinding,
     groupings: [
@@ -72,7 +72,7 @@ const COLLECTIONS: Record<string, Collection> = {
   },
   tasks: {
     label: 'Tasks',
-    icon: 'ph:check-square',
+    icon: 'ik:checkmark-in-square',
     items: tasks,
     binding: taskBinding,
     groupings: [
@@ -81,7 +81,7 @@ const COLLECTIONS: Record<string, Collection> = {
   },
   projects: {
     label: 'Projects',
-    icon: 'ph:folder-open',
+    icon: 'ik:folder-opened',
     items: projects,
     binding: projectBinding,
     groupings: [
@@ -140,7 +140,7 @@ function CollectionViewTemplate() {
           <button className="button" data-slot="trigger">
             <iconify-icon className="icon" icon={collection.icon}></iconify-icon>
             {collection.label}
-            <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon>
+            <iconify-icon className="icon" icon="ik:chevron-down" aria-hidden="true"></iconify-icon>
           </button>
           <pp-popup>
             <pp-list>
@@ -161,7 +161,7 @@ function CollectionViewTemplate() {
           <button className="button" data-slot="trigger">
             <iconify-icon className="icon" icon={view.icon}></iconify-icon>
             {view.label}
-            <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon>
+            <iconify-icon className="icon" icon="ik:chevron-down" aria-hidden="true"></iconify-icon>
           </button>
           <pp-popup>
             <pp-list>
@@ -180,7 +180,7 @@ function CollectionViewTemplate() {
         </pp-dropdown>
         <pp-dropdown>
           <button className="button" data-slot="trigger">
-            <iconify-icon className="icon" icon="ph:stack" aria-hidden="true"></iconify-icon>
+            <iconify-icon className="icon" icon="ik:layers" aria-hidden="true"></iconify-icon>
             {grouping ? (
               <span>
                 Grouped by <strong>{grouping.label.toLowerCase()}</strong>

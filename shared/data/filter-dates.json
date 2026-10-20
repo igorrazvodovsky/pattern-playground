@@ -4,7 +4,7 @@
     "name": "in the past",
     "value": "in the past",
     "type": "date",
-    "icon": "ph:clock-counter-clockwise",
+    "icon": "ik:history",
     "description": "Items with dates in the past",
     "searchableText": "past date overdue"
   },
@@ -13,7 +13,7 @@
     "name": "24 hours from now",
     "value": "24 hours from now",
     "type": "date",
-    "icon": "ph:clock",
+    "icon": "ik:time",
     "description": "Items due within 24 hours",
     "searchableText": "24 hours today tomorrow date"
   },
@@ -22,7 +22,7 @@
     "name": "3 days from now",
     "value": "3 days from now",
     "type": "date",
-    "icon": "ph:calendar",
+    "icon": "ik:calendar",
     "description": "Items due within 3 days",
     "searchableText": "3 days date soon"
   },
@@ -31,7 +31,7 @@
     "name": "1 week from now",
     "value": "1 week from now",
     "type": "date",
-    "icon": "ph:calendar-check",
+    "icon": "ik:calendar-available",
     "description": "Items due within 1 week",
     "searchableText": "1 week date next week"
   },
@@ -40,7 +40,7 @@
     "name": "1 month from now",
     "value": "1 month from now",
     "type": "date",
-    "icon": "ph:calendar-star",
+    "icon": "ik:calendar-personal",
     "description": "Items due within 1 month",
     "searchableText": "1 month date next month"
   },
@@ -49,7 +49,7 @@
     "name": "3 months from now",
     "value": "3 months from now",
     "type": "date",
-    "icon": "ph:calendar-x",
+    "icon": "ik:calendar-busy",
     "description": "Items due within 3 months",
     "searchableText": "3 months date quarter"
   }

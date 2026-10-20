@@ -133,7 +133,7 @@ export function buildModalHeaderDOM(
     closeButton.setAttribute('aria-label', 'Close modal');
     
     const icon = document.createElement('iconify-icon');
-    icon.setAttribute('icon', 'ph:x');
+    icon.setAttribute('icon', 'ik:cross');
     closeButton.appendChild(icon);
     
     header.appendChild(closeButton);

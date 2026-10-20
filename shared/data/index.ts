@@ -192,21 +192,21 @@ interface ReferenceableItem {
 }
 
 const referenceSources = [
-  { type: 'user', id: 'users', name: 'Users', icon: 'ph:users', childIcon: 'ph:user',
+  { type: 'user', id: 'users', name: 'Users', icon: 'ik:group', childIcon: 'ik:user',
     searchableText: 'users people team members', list: users },
-  { type: 'document', id: 'documents', name: 'Documents', icon: 'ph:file-text', childIcon: 'ph:file-text',
+  { type: 'document', id: 'documents', name: 'Documents', icon: 'ik:doc-text', childIcon: 'ik:doc-text',
     searchableText: 'documents files content', list: documents },
-  { type: 'project', id: 'projects', name: 'Projects', icon: 'ph:folder', childIcon: 'ph:folder',
+  { type: 'project', id: 'projects', name: 'Projects', icon: 'ik:folder', childIcon: 'ik:folder',
     searchableText: 'projects workspaces', list: projects },
-  { type: 'quote', id: 'quotes', name: 'Quotes', icon: 'ph:quotes',
+  { type: 'quote', id: 'quotes', name: 'Quotes', icon: 'ik:quotation-marks',
     searchableText: 'quotes selections excerpts text', list: quotes },
-  { type: 'material', id: 'materials', name: 'Materials', icon: 'ph:cube',
+  { type: 'material', id: 'materials', name: 'Materials', icon: 'ik:cube',
     searchableText: 'materials substances raw supplies circular economy', list: materials },
-  { type: 'component', id: 'components', name: 'Components', icon: 'ph:gear',
+  { type: 'component', id: 'components', name: 'Components', icon: 'ik:gear',
     searchableText: 'components parts assemblies hardware pieces', list: components },
-  { type: 'product', id: 'products', name: 'Products', icon: 'ph:package',
+  { type: 'product', id: 'products', name: 'Products', icon: 'ik:cardboard',
     searchableText: 'products items goods merchandise finished', list: products },
-  { type: 'service', id: 'services', name: 'Services', icon: 'ph:wrench',
+  { type: 'service', id: 'services', name: 'Services', icon: 'ik:wrench',
     searchableText: 'services maintenance repair support circular', list: services },
 ] as const satisfies ReadonlyArray<{
   type: string; id: string; name: string; icon: string; childIcon?: string;
@@ -257,34 +257,34 @@ export const filterCategories = [
   {
     id: 'Status',
     name: 'Status',
-    icon: 'ph:flag',
+    icon: 'ik:flag',
     searchableText: 'status state condition',
     children: withFilterType(filterStatusesData, 'Status')
   },
   {
     id: 'Priority',
     name: 'Priority',
-    icon: 'ph:cell-signal-high',
+    icon: 'ik:signal-3',
     searchableText: 'priority importance urgency',
     children: withFilterType(filterPrioritiesData, 'Priority')
   },
   {
     id: 'Labels',
     name: 'Labels',
-    icon: 'ph:tag',
+    icon: 'ik:tag',
     searchableText: 'labels tags categories',
     children: withFilterType(filterLabelsData, 'Labels')
   },
   {
     id: 'Assignee',
     name: 'Assignee',
-    icon: 'ph:user',
+    icon: 'ik:user',
     searchableText: 'assignee assigned person owner',
     children: [
       ...users.map(user => ({
         id: `assignee-${user.id}`,
         name: user.name,
-        icon: 'ph:user',
+        icon: 'ik:user',
         searchableText: user.name.toLowerCase(),
         filterType: 'Assignee',
         value: user.name,
@@ -293,7 +293,7 @@ export const filterCategories = [
       {
         id: 'assignee-none',
         name: 'No assignee',
-        icon: 'ph:user-minus',
+        icon: 'ik:remove-user',
         searchableText: 'no assignee unassigned',
         filterType: 'Assignee',
         value: 'No assignee'
@@ -303,21 +303,21 @@ export const filterCategories = [
   {
     id: 'Due date',
     name: 'Due date',
-    icon: 'ph:calendar',
+    icon: 'ik:calendar',
     searchableText: 'due date deadline schedule',
     children: withFilterType(filterDatesData, 'Due date')
   },
   {
     id: 'Created date',
     name: 'Created date',
-    icon: 'ph:calendar-plus',
+    icon: 'ik:calendar-add',
     searchableText: 'created date when made',
     children: withFilterType(filterDatesData, 'Created date')
   },
   {
     id: 'Updated date',
     name: 'Updated date',
-    icon: 'ph:calendar-check',
+    icon: 'ik:calendar-available',
     searchableText: 'updated date last modified',
     children: withFilterType(filterDatesData, 'Updated date')
   },

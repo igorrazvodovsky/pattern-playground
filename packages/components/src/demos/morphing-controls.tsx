@@ -8,7 +8,7 @@ export function FollowUnfollowDemo() {
     <button className="button" onClick={() => setFollowing((f) => !f)}>
       <iconify-icon
         className="icon"
-        icon={following ? 'ph:user-check' : 'ph:user-plus'}
+        icon={following ? 'ik:user-check' : 'ik:add-user'}
       />
       {following ? 'Following' : 'Follow'}
     </button>
@@ -21,7 +21,7 @@ export function MultiStateCloseDemo() {
   if (confirming) {
     return (
       <button className="button button--danger" onClick={() => setConfirming(false)}>
-        <iconify-icon className="icon" icon="ph:check" />
+        <iconify-icon className="icon" icon="ik:checkmark" />
         Confirm
       </button>
     );
@@ -29,7 +29,7 @@ export function MultiStateCloseDemo() {
 
   return (
     <button className="button" aria-label="Close" onClick={() => setConfirming(true)}>
-      <iconify-icon className="icon" icon="ph:x" />
+      <iconify-icon className="icon" icon="ik:cross" />
     </button>
   );
 }

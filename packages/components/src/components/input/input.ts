@@ -67,7 +67,7 @@ export class PpInput extends Elena(HTMLElement) {
       button.className = 'input__clear';
       button.setAttribute('aria-label', 'Clear');
       button.tabIndex = -1;
-      button.innerHTML = '<iconify-icon icon="ph:x-circle-fill"></iconify-icon>';
+      button.innerHTML = '<iconify-icon icon="ik:cross-in-circle-fill"></iconify-icon>';
       button.addEventListener('click', this.handleClear);
       this.append(button);
       this.clearButton = button;

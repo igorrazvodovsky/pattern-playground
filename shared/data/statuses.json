@@ -4,7 +4,7 @@
     "name": "Backlog",
     "value": "Backlog",
     "type": "status",
-    "icon": "ph:circle-dashed",
+    "icon": "ik:circle-dotted",
     "description": "Items waiting to be prioritized",
     "searchableText": "backlog status waiting"
   },
@@ -13,7 +13,7 @@
     "name": "Todo",
     "value": "Todo",
     "type": "status",
-    "icon": "ph:circle",
+    "icon": "ik:circle",
     "description": "Items ready to be worked on",
     "searchableText": "todo status ready"
   },
@@ -22,7 +22,7 @@
     "name": "In Progress",
     "value": "In Progress",
     "type": "status",
-    "icon": "ph:circle-half-tilt",
+    "icon": "ik:circle-half-left",
     "description": "Items currently being worked on",
     "searchableText": "in progress status working active"
   },
@@ -31,7 +31,7 @@
     "name": "In Review",
     "value": "In Review",
     "type": "status",
-    "icon": "ph:eye",
+    "icon": "ik:eye",
     "description": "Items under review",
     "searchableText": "in review status reviewing"
   },
@@ -40,7 +40,7 @@
     "name": "Done",
     "value": "Done",
     "type": "status",
-    "icon": "ph:check-circle",
+    "icon": "ik:checkmark-in-circle",
     "description": "Completed items",
     "searchableText": "done status completed finished"
   },
@@ -49,7 +49,7 @@
     "name": "Cancelled",
     "value": "Cancelled",
     "type": "status",
-    "icon": "ph:x-circle",
+    "icon": "ik:cross-in-circle",
     "description": "Cancelled items",
     "searchableText": "cancelled status cancelled stopped"
   }

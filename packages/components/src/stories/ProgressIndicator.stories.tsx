@@ -13,7 +13,7 @@ export const Basic = {
     <ol className="stepper">
       <li className="stepper__item stepper__item--done">
         <i className="stepper__icon">
-          <iconify-icon icon="ph:check-bold"></iconify-icon>
+          <iconify-icon icon="ik:checkmark-bold"></iconify-icon>
         </i>
         <div className="stepper__content">
           <h4>Step 1</h4>
@@ -28,7 +28,7 @@ export const Basic = {
       </li>
       <li className="stepper__item stepper__item--previous">
         <i className="stepper__icon">
-          <iconify-icon icon="ph:number-three-bold" aria-hidden="true"></iconify-icon>
+          <iconify-icon icon="ik:3-in-circle-bold" aria-hidden="true"></iconify-icon>
         </i>
         <div className="stepper__content">
           <h4>Step 3</h4>
@@ -46,7 +46,7 @@ export const Basic = {
       </li>
       <li className="stepper__item stepper__item--current" aria-current="step">
         <i className="stepper__icon">
-          <iconify-icon icon="ph:circle-fill" aria-hidden="true"></iconify-icon>
+          <iconify-icon icon="ik:circle-fill" aria-hidden="true"></iconify-icon>
         </i>
         <div className="stepper__content">
           <h4>Step 5</h4>
@@ -64,7 +64,7 @@ export const Basic = {
       </li>
       <li className="stepper__item stepper__item--danger">
         <i className="stepper__icon">
-          <iconify-icon icon="ph:exclamation-mark-bold"></iconify-icon>
+          <iconify-icon icon="ik:priority-high-bold"></iconify-icon>
         </i>
         <div className="stepper__content">
           <h4>Step 7</h4>

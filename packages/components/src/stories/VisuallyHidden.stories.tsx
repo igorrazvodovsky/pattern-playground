@@ -13,7 +13,7 @@ const meta = {
   },
   render: () => (
     <button className="button" type="button">
-      <iconify-icon className="icon" icon="ph:bell" aria-hidden="true" />
+      <iconify-icon className="icon" icon="ik:bell" aria-hidden="true" />
       <span className="visually-hidden">Notifications</span>
     </button>
   ),

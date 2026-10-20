@@ -1,6 +1,6 @@
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'iconoteka-react';
 import { EditorContent } from '@tiptap/react';
 import { useBoundProp, type ComponentContext } from '@json-render/react';
 import type { Catalog } from '../catalog';

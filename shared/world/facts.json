@@ -335,7 +335,7 @@
     {
       "relation": "icon",
       "subject": "PRJ-1",
-      "object": "ph:recycle-fill"
+      "object": "ik:recycle"
     },
     {
       "relation": "status",
@@ -400,7 +400,7 @@
     {
       "relation": "icon",
       "subject": "PRJ-4",
-      "object": "ph:t-shirt-fill"
+      "object": "ik:tshirt-fill"
     },
     {
       "relation": "createdBy",
@@ -495,7 +495,7 @@
     {
       "relation": "icon",
       "subject": "PRJ-2",
-      "object": "ph:wrench-fill"
+      "object": "ik:wrench-fill"
     },
     {
       "relation": "status",
@@ -595,7 +595,7 @@
     {
       "relation": "icon",
       "subject": "PRJ-3",
-      "object": "ph:package-fill"
+      "object": "ik:cardboard-fill"
     },
     {
       "relation": "status",
@@ -695,7 +695,7 @@
     {
       "relation": "icon",
       "subject": "PRJ-5",
-      "object": "ph:drop-fill"
+      "object": "ik:droplet-fill"
     },
     {
       "relation": "status",
@@ -865,7 +865,7 @@
     {
       "relation": "icon",
       "subject": "PRJ-6",
-      "object": "ph:windmill-fill"
+      "object": "ik:wind-turbine"
     },
     {
       "relation": "status",
@@ -965,7 +965,7 @@
     {
       "relation": "icon",
       "subject": "PRJ-7",
-      "object": "ph:leaf-fill"
+      "object": "ik:leaf-fill"
     },
     {
       "relation": "status",
@@ -3471,7 +3471,7 @@
     {
       "relation": "icon",
       "subject": "MAT-ALU-001",
-      "object": "ph:cube"
+      "object": "ik:cube"
     },
     {
       "relation": "category",
@@ -3559,7 +3559,7 @@
     {
       "relation": "icon",
       "subject": "MAT-STL-002",
-      "object": "ph:cube"
+      "object": "ik:cube"
     },
     {
       "relation": "category",
@@ -3646,7 +3646,7 @@
     {
       "relation": "icon",
       "subject": "MAT-PLA-003",
-      "object": "ph:leaf"
+      "object": "ik:leaf"
     },
     {
       "relation": "category",
@@ -3734,7 +3734,7 @@
     {
       "relation": "icon",
       "subject": "MAT-PET-004",
-      "object": "ph:recycle"
+      "object": "ik:recycle"
     },
     {
       "relation": "category",
@@ -3822,7 +3822,7 @@
     {
       "relation": "icon",
       "subject": "MAT-FIB-005",
-      "object": "ph:plant"
+      "object": "ik:houseplant"
     },
     {
       "relation": "category",
@@ -3909,7 +3909,7 @@
     {
       "relation": "icon",
       "subject": "MAT-BAM-006",
-      "object": "ph:tree"
+      "object": "ik:tree"
     },
     {
       "relation": "category",
@@ -3997,7 +3997,7 @@
     {
       "relation": "icon",
       "subject": "MAT-MYC-007",
-      "object": "ph:mushroom"
+      "object": "ik:microbe"
     },
     {
       "relation": "category",
@@ -4084,7 +4084,7 @@
     {
       "relation": "icon",
       "subject": "MAT-GAL-008",
-      "object": "ph:shield-check"
+      "object": "ik:security-on"
     },
     {
       "relation": "category",
@@ -4171,7 +4171,7 @@
     {
       "relation": "icon",
       "subject": "MAT-LIT-009",
-      "object": "ph:battery-high"
+      "object": "ik:battery-3"
     },
     {
       "relation": "category",
@@ -4258,7 +4258,7 @@
     {
       "relation": "icon",
       "subject": "MAT-TEX-010",
-      "object": "ph:tshirt"
+      "object": "ik:tshirt"
     },
     {
       "relation": "category",
@@ -4346,7 +4346,7 @@
     {
       "relation": "icon",
       "subject": "CMP-BAT-001",
-      "object": "ph:battery-charging"
+      "object": "ik:battery-charging"
     },
     {
       "relation": "category",
@@ -4443,7 +4443,7 @@
     {
       "relation": "icon",
       "subject": "CMP-BAT-002",
-      "object": "ph:circle-dashed"
+      "object": "ik:circle-dotted"
     },
     {
       "relation": "category",
@@ -4543,7 +4543,7 @@
     {
       "relation": "icon",
       "subject": "CMP-BAT-003",
-      "object": "ph:battery-high"
+      "object": "ik:battery-3"
     },
     {
       "relation": "category",
@@ -4636,7 +4636,7 @@
     {
       "relation": "icon",
       "subject": "CMP-ELE-001",
-      "object": "ph:cpu"
+      "object": "ik:microchip"
     },
     {
       "relation": "category",
@@ -4731,7 +4731,7 @@
     {
       "relation": "icon",
       "subject": "CMP-ELE-002",
-      "object": "ph:gauge"
+      "object": "ik:speedometer"
     },
     {
       "relation": "category",
@@ -4826,7 +4826,7 @@
     {
       "relation": "icon",
       "subject": "CMP-ELE-003",
-      "object": "ph:thermometer"
+      "object": "ik:temperature"
     },
     {
       "relation": "category",
@@ -4921,7 +4921,7 @@
     {
       "relation": "icon",
       "subject": "CMP-MEC-001",
-      "object": "ph:package"
+      "object": "ik:cardboard"
     },
     {
       "relation": "category",
@@ -5012,7 +5012,7 @@
     {
       "relation": "icon",
       "subject": "CMP-MOT-001",
-      "object": "ph:engine"
+      "object": "ik:car-service"
     },
     {
       "relation": "category",
@@ -5110,7 +5110,7 @@
     {
       "relation": "icon",
       "subject": "CMP-MOT-002",
-      "object": "ph:gear"
+      "object": "ik:gear"
     },
     {
       "relation": "category",
@@ -5206,7 +5206,7 @@
     {
       "relation": "icon",
       "subject": "CMP-MOT-003",
-      "object": "ph:circle"
+      "object": "ik:circle"
     },
     {
       "relation": "category",
@@ -5302,7 +5302,7 @@
     {
       "relation": "icon",
       "subject": "CMP-MOT-004",
-      "object": "ph:house"
+      "object": "ik:house"
     },
     {
       "relation": "category",
@@ -5393,7 +5393,7 @@
     {
       "relation": "icon",
       "subject": "PRD-LAP-001",
-      "object": "ph:laptop"
+      "object": "ik:laptop"
     },
     {
       "relation": "category",
@@ -5534,7 +5534,7 @@
     {
       "relation": "icon",
       "subject": "PRD-PKG-002",
-      "object": "ph:package"
+      "object": "ik:cardboard"
     },
     {
       "relation": "category",
@@ -5660,7 +5660,7 @@
     {
       "relation": "icon",
       "subject": "PRD-EBK-002",
-      "object": "ph:bicycle"
+      "object": "ik:bicycle"
     },
     {
       "relation": "category",
@@ -5810,7 +5810,7 @@
     {
       "relation": "icon",
       "subject": "PRD-TEX-002",
-      "object": "ph:coat-hanger"
+      "object": "ik:hanger"
     },
     {
       "relation": "category",
@@ -5940,7 +5940,7 @@
     {
       "relation": "icon",
       "subject": "PRD-FUR-001",
-      "object": "ph:desk"
+      "object": "ik:work-table"
     },
     {
       "relation": "category",
@@ -6089,7 +6089,7 @@
     {
       "relation": "icon",
       "subject": "PRD-EBK-001",
-      "object": "ph:bicycle"
+      "object": "ik:bicycle"
     },
     {
       "relation": "category",
@@ -6248,7 +6248,7 @@
     {
       "relation": "icon",
       "subject": "PRD-TEX-001",
-      "object": "ph:t-shirt"
+      "object": "ik:tshirt"
     },
     {
       "relation": "category",
@@ -6386,7 +6386,7 @@
     {
       "relation": "icon",
       "subject": "PRD-PHN-001",
-      "object": "ph:device-mobile"
+      "object": "ik:mobile"
     },
     {
       "relation": "category",
@@ -6537,7 +6537,7 @@
     {
       "relation": "icon",
       "subject": "PRD-PWR-001",
-      "object": "ph:solar-panel"
+      "object": "ik:solar-power"
     },
     {
       "relation": "category",
@@ -6688,7 +6688,7 @@
     {
       "relation": "icon",
       "subject": "PRD-FUR-002",
-      "object": "ph:chair"
+      "object": "ik:chair"
     },
     {
       "relation": "category",
@@ -6826,7 +6826,7 @@
     {
       "relation": "icon",
       "subject": "PRD-PKG-001",
-      "object": "ph:package"
+      "object": "ik:cardboard"
     },
     {
       "relation": "category",
@@ -6968,7 +6968,7 @@
     {
       "relation": "icon",
       "subject": "PRD-TRK-001",
-      "object": "ph:truck"
+      "object": "ik:truck-delivery"
     },
     {
       "relation": "category",
@@ -7119,7 +7119,7 @@
     {
       "relation": "icon",
       "subject": "PRD-TEX-003",
-      "object": "ph:hoodie"
+      "object": "ik:tshirt"
     },
     {
       "relation": "category",
@@ -7251,7 +7251,7 @@
     {
       "relation": "icon",
       "subject": "SVC-MNT-001",
-      "object": "ph:wrench"
+      "object": "ik:wrench"
     },
     {
       "relation": "category",
@@ -7391,7 +7391,7 @@
     {
       "relation": "icon",
       "subject": "SVC-RPR-001",
-      "object": "ph:battery-charging"
+      "object": "ik:battery-charging"
     },
     {
       "relation": "category",
@@ -7537,7 +7537,7 @@
     {
       "relation": "icon",
       "subject": "SVC-UPG-001",
-      "object": "ph:arrow-circle-up"
+      "object": "ik:arrow-in-circle-up"
     },
     {
       "relation": "category",
@@ -7668,7 +7668,7 @@
     {
       "relation": "icon",
       "subject": "SVC-EOL-001",
-      "object": "ph:recycle"
+      "object": "ik:recycle"
     },
     {
       "relation": "category",
@@ -7835,7 +7835,7 @@
     {
       "relation": "icon",
       "subject": "SVC-RMF-001",
-      "object": "ph:hammer"
+      "object": "ik:wrench"
     },
     {
       "relation": "category",
@@ -7964,7 +7964,7 @@
     {
       "relation": "icon",
       "subject": "SVC-DIG-001",
-      "object": "ph:qr-code"
+      "object": "ik:qr-code"
     },
     {
       "relation": "category",
@@ -8119,7 +8119,7 @@
     {
       "relation": "icon",
       "subject": "SVC-CON-001",
-      "object": "ph:lightbulb"
+      "object": "ik:light-bulb"
     },
     {
       "relation": "category",

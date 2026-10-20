@@ -5,99 +5,97 @@ import { Collapsible, Dialog, DropdownMenu, Popover, RadioGroup, Select, Slider,
 import { Command } from 'cmdk';
 import clsx from 'clsx';
 import {
-  Archive,
-  ArrowDownUp,
-  ArrowDownWideNarrow,
+  Archives,
+  SwapVertical,
+  SortHighToLow,
   ArrowLeft,
   ArrowLeftRight,
   ArrowUp,
-  ArrowUpNarrowWide,
-  AtSign,
-  Award,
+  SortLowToHigh,
+  At,
+  Verified,
   Bell,
   BookOpen,
   Bookmark,
   Calendar,
-  CalendarCheck,
-  CalendarPlus,
-  CaseSensitive,
-  Check,
+  CalendarAvailable,
+  CalendarAdd,
+  TextFormat,
+  Checkmark,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
   Circle,
-  CircleCheck,
-  CircleDashed,
-  Columns2,
-  CircleX,
-  CornerDownLeft,
-  DollarSign,
+  CheckmarkInCircle,
+  CircleDotted,
+  Columns,
+  CrossInCircle,
+  CarriageReturn,
+  Dollar,
   Crown,
   Eraser,
   Eye,
-  ExternalLink,
-  FileText,
+  OpenInNewWindow,
+  DocText,
   Folder,
-  FolderOpen,
+  FolderOpened,
   Globe,
-  Group,
-  History,
-  IdCard,
-  Info,
-  LayoutGrid,
   Layers,
-  Lightbulb,
+  History,
+  Id,
+  Information,
+  Grid,
+  LightBulb,
   Link,
-  ListFilter,
-  LoaderCircle,
-  Maximize2,
-  MessageSquare,
+  Filter,
+  Loader75,
+  MaximizeDiagonal,
+  Message,
   Minus,
-  Package,
-  PanelRight,
-  Paperclip,
+  Cardboard,
+  Clip,
   Plus,
   Puzzle,
-  Quote,
-  Rows3,
+  QuotationMarks,
+  ViewList,
   Search,
-  SignalHigh,
-  SlidersHorizontal,
-  Store,
-  Table2,
+  Signal3,
+  Sliders,
+  Shop,
+  Spreadsheet,
   Sparkles,
   Tag,
-  Trash2,
-  TrendingDown,
-  TrendingUp,
-  TriangleAlert,
-  Undo2,
+  Trash,
+  TrendDown,
+  TrendUp,
+  Warning,
+  RotateCcw,
   User,
-  UserMinus,
-  Users,
+  RemoveUser,
+  Group,
   Wrench,
-  X,
-  Signal,
-  SignalLow,
-  SignalMedium,
-  CircleAlert,
-  Contrast,
-  CalendarHeart,
-  CalendarX,
-  ChartColumn,
+  Cross,
+  Signal1,
+  Signal2,
+  Alert,
+  CircleHalfLeft,
+  CalendarPersonal,
+  CalendarBusy,
+  BarChart,
   ChartPie,
-  ClipboardList,
-  Clock,
-  FlaskConical,
-  GraduationCap,
+  Clipboard,
+  Time,
+  TestTube,
+  College,
   Megaphone,
-  Paintbrush,
+  Freehand,
   Presentation,
   Recycle,
   Scroll,
-  Truck,
-  Undo,
-} from 'lucide-react';
+  TruckDelivery,
+  ArrowHookLeftUp,
+  type IconComponent,
+} from 'iconoteka-react';
 import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes, type tones } from '../catalog';
 import { useCandidateList } from './candidate-list';
 import { captureOpener, settleFocus, useReturnFocus, type Opener } from './dialog-focus';
@@ -160,65 +158,65 @@ const gap = { none: 'gap-0', s: 'gap-2', m: 'gap-3', l: 'gap-4' } as const;
 const align = { start: 'items-start', center: 'items-center', baseline: 'items-baseline', stretch: 'items-stretch' } as const;
 const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
 
-export const icons: Record<(typeof iconNames)[number], typeof X> = {
-  archive: Archive,
-  ascending: ArrowUpNarrowWide,
-  attach: Paperclip,
+export const icons: Record<(typeof iconNames)[number], IconComponent> = {
+  archive: Archives,
+  ascending: SortLowToHigh,
+  attach: Clip,
   back: ArrowLeft,
-  cancel: X,
-  cards: LayoutGrid,
+  cancel: Cross,
+  cards: Grid,
   clear: Eraser,
-  columns: Columns2,
-  confirm: Check,
-  decrease: TrendingDown,
-  delete: Trash2,
-  'delete-confirm': Trash2,
-  descending: ArrowDownWideNarrow,
-  detail: PanelRight,
-  document: FileText,
-  example: CaseSensitive,
-  external: ExternalLink,
-  filter: ListFilter,
-  full: Maximize2,
+  columns: Columns,
+  confirm: Checkmark,
+  decrease: TrendDown,
+  delete: Trash,
+  'delete-confirm': Trash,
+  descending: SortHighToLow,
+  detail: Columns,
+  document: DocText,
+  example: TextFormat,
+  external: OpenInNewWindow,
+  filter: Filter,
+  full: MaximizeDiagonal,
   generated: Sparkles,
-  group: Group,
+  group: Layers,
   guide: BookOpen,
   history: History,
-  'in-place': Rows3,
-  increase: TrendingUp,
+  'in-place': ViewList,
+  increase: TrendUp,
   link: Link,
   material: Layers,
-  mention: AtSign,
+  mention: At,
   more: Plus,
   move: ArrowLeftRight,
   next: ChevronRight,
   notifications: Bell,
-  open: FolderOpen,
+  open: FolderOpened,
   ownership: Crown,
   part: Puzzle,
-  people: Users,
+  people: Group,
   person: User,
-  popover: MessageSquare,
+  popover: Message,
   previous: ChevronLeft,
-  product: Package,
+  product: Cardboard,
   project: Folder,
   publish: Globe,
-  quote: Quote,
-  reasoning: Lightbulb,
-  'remove-person': UserMinus,
-  restore: Undo2,
-  rows: Rows3,
+  quote: QuotationMarks,
+  reasoning: LightBulb,
+  'remove-person': RemoveUser,
+  restore: RotateCcw,
+  rows: ViewList,
   saved: Bookmark,
   search: Search,
-  send: CornerDownLeft,
+  send: CarriageReturn,
   service: Wrench,
-  settings: SlidersHorizontal,
+  settings: Sliders,
   show: Eye,
-  'side-by-side': Columns2,
-  sort: ArrowDownUp,
-  suggest: Lightbulb,
-  summary: IdCard,
-  table: Table2,
+  'side-by-side': Columns,
+  sort: SwapVertical,
+  suggest: LightBulb,
+  summary: Id,
+  table: Spreadsheet,
   transfer: Crown,
   unchanged: Minus,
   web: Globe,
@@ -226,62 +224,62 @@ export const icons: Record<(typeof iconNames)[number], typeof X> = {
   assignee: User,
   availability: Circle,
   category: Tag,
-  certifications: Award,
-  channels: Store,
-  created: CalendarPlus,
+  certifications: Verified,
+  channels: Shop,
+  created: CalendarAdd,
   due: Calendar,
   labels: Tag,
-  price: DollarSign,
-  priority: SignalHigh,
+  price: Dollar,
+  priority: Signal3,
   regions: Globe,
   repairability: Wrench,
-  status: CircleDashed,
-  updated: CalendarCheck,
+  status: CircleDotted,
+  updated: CalendarAvailable,
   upgradeability: ArrowUp,
   // Values from fixed lists.
   'date-in-3-days': Calendar,
-  'date-in-3-months': CalendarX,
-  'date-in-a-day': Clock,
-  'date-in-a-month': CalendarHeart,
-  'date-in-a-week': CalendarCheck,
+  'date-in-3-months': CalendarBusy,
+  'date-in-a-day': Time,
+  'date-in-a-month': CalendarPersonal,
+  'date-in-a-week': CalendarAvailable,
   'date-past': History,
   'label-advocacy': Megaphone,
   'label-assessment': ChartPie,
-  'label-audit': ClipboardList,
-  'label-data': ChartColumn,
-  'label-design': Paintbrush,
+  'label-audit': Clipboard,
+  'label-data': BarChart,
+  'label-design': Freehand,
   'label-education': BookOpen,
-  'label-innovation': Lightbulb,
-  'label-logistics': Truck,
+  'label-innovation': LightBulb,
+  'label-logistics': TruckDelivery,
   'label-marketing': Presentation,
-  'label-optimization': TrendingUp,
+  'label-optimization': TrendUp,
   'label-policy': Scroll,
   'label-recycling': Recycle,
   'label-refurbishment': Wrench,
-  'label-research': FlaskConical,
+  'label-research': TestTube,
   'label-sourcing': Search,
-  'label-take-back': Undo,
-  'label-training': GraduationCap,
-  'label-waste-reduction': Trash2,
-  'priority-high': Signal,
-  'priority-low': SignalLow,
-  'priority-medium': SignalMedium,
-  'priority-urgent': CircleAlert,
-  'status-backlog': CircleDashed,
-  'status-cancelled': CircleX,
-  'status-done': CircleCheck,
-  'status-in-progress': Contrast,
+  'label-take-back': ArrowHookLeftUp,
+  'label-training': College,
+  'label-waste-reduction': Trash,
+  'priority-high': Signal3,
+  'priority-low': Signal1,
+  'priority-medium': Signal2,
+  'priority-urgent': Alert,
+  'status-backlog': CircleDotted,
+  'status-cancelled': CrossInCircle,
+  'status-done': CheckmarkInCircle,
+  'status-in-progress': CircleHalfLeft,
   'status-in-review': Eye,
   'status-todo': Circle,
-  'unassigned': UserMinus,
+  'unassigned': RemoveUser,
 };
 
 type Purpose = (typeof purposes)[number];
-const purposeIcons: Record<Purpose, typeof X> = {
-  info: Info,
-  success: CircleCheck,
-  warning: TriangleAlert,
-  danger: CircleX,
+const purposeIcons: Record<Purpose, IconComponent> = {
+  info: Information,
+  success: CheckmarkInCircle,
+  warning: Warning,
+  danger: CrossInCircle,
 };
 const purposeText: Record<Purpose, string> = {
   info: 'text-blue-700 dark:text-blue-300',
@@ -475,7 +473,7 @@ export const { registry } = defineRegistry(catalog, {
         props.text
       );
       const purpose = props.pending ? null : props.purpose;
-      const Icon = props.pending ? LoaderCircle : purpose ? purposeIcons[purpose] : null;
+      const Icon = props.pending ? Loader75 : purpose ? purposeIcons[purpose] : null;
       if (props.inline) {
         return (
           <span className={clsx(props.muted && 'text-muted-foreground')}>
@@ -941,7 +939,7 @@ export const { registry } = defineRegistry(catalog, {
       const removeRef = useFocusHandoff(props.focusNext);
       const openRef = useRef<HTMLButtonElement>(null);
       useFocusOnShow(openRef, props.focusOnShow);
-      const Icon = props.pending ? LoaderCircle : props.icon ? icons[props.icon] : null;
+      const Icon = props.pending ? Loader75 : props.icon ? icons[props.icon] : null;
       const Root = props.opens ? 'button' : 'span';
       return (
         <Root
@@ -963,7 +961,7 @@ export const { registry } = defineRegistry(catalog, {
               onClick={() => emit('remove')}
               className="-mr-1 rounded-sm p-0.5 opacity-70 outline-none hover:bg-foreground/10 hover:opacity-100 focus-visible:ring-[3px] focus-visible:ring-ring/50 [&>svg]:size-3"
             >
-              <X aria-hidden="true" />
+              <Cross aria-hidden="true" />
             </button>
           )}
         </Root>
@@ -1138,7 +1136,7 @@ export const { registry } = defineRegistry(catalog, {
         >
           <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
             <DropdownMenu.ItemIndicator>
-              {multiple ? <Check aria-hidden="true" className="size-4" /> : <Circle aria-hidden="true" className="size-2 fill-current" />}
+              {multiple ? <Checkmark aria-hidden="true" className="size-4" /> : <Circle variant="fill" aria-hidden="true" className="size-2" />}
             </DropdownMenu.ItemIndicator>
           </span>
           {Icon && <Icon aria-hidden="true" className="text-muted-foreground" />}
@@ -1254,7 +1252,7 @@ export const { registry } = defineRegistry(catalog, {
                       className="relative flex w-full cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
                     >
                       <span className="absolute right-2 flex size-3.5 items-center justify-center">
-                        <Select.ItemIndicator><Check aria-hidden="true" className="size-4" /></Select.ItemIndicator>
+                        <Select.ItemIndicator><Checkmark aria-hidden="true" className="size-4" /></Select.ItemIndicator>
                       </span>
                       <Select.ItemText>{option.label}</Select.ItemText>
                     </Select.Item>
@@ -1341,7 +1339,7 @@ export const { registry } = defineRegistry(catalog, {
                   className="aspect-square size-4 shrink-0 rounded-full border border-input text-primary shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-input/30"
                 >
                   <RadioGroup.Indicator className="relative flex items-center justify-center">
-                    <Circle aria-hidden="true" className="absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 fill-primary" />
+                    <Circle variant="fill" aria-hidden="true" className="absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 text-primary" />
                   </RadioGroup.Indicator>
                 </RadioGroup.Item>
                 <label htmlFor={`${id}-${option.value}`} className={clsx(label, 'font-normal')}>{option.label}</label>
@@ -1480,7 +1478,7 @@ export const { registry } = defineRegistry(catalog, {
                 <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">{slots.actions}</div>
               )}
               <Dialog.Close className="absolute top-4 right-4 rounded-xs opacity-70 transition-opacity outline-none hover:opacity-100 focus-visible:ring-[3px] focus-visible:ring-ring/50">
-                <X aria-hidden="true" className="size-4" />
+                <Cross aria-hidden="true" className="size-4" />
                 <span className="sr-only">Close</span>
               </Dialog.Close>
             </Dialog.Content>
@@ -1517,7 +1515,7 @@ export const { registry } = defineRegistry(catalog, {
               </div>
               <div className="flex flex-col gap-4 overflow-y-auto px-4 pb-4 text-sm">{children}</div>
               <Dialog.Close className="absolute top-4 right-4 rounded-xs opacity-70 transition-opacity outline-none hover:opacity-100 focus-visible:ring-[3px] focus-visible:ring-ring/50">
-                <X aria-hidden="true" className="size-4" />
+                <Cross aria-hidden="true" className="size-4" />
                 <span className="sr-only">Close</span>
               </Dialog.Close>
             </Dialog.Content>
@@ -1551,7 +1549,7 @@ export const { registry } = defineRegistry(catalog, {
                 aria-label="Close"
                 className="absolute top-1 right-1 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity outline-none group-hover:opacity-100 hover:text-foreground focus-visible:opacity-100 focus-visible:ring-[3px] focus-visible:ring-ring/50"
               >
-                <X aria-hidden="true" className="size-4" />
+                <Cross aria-hidden="true" className="size-4" />
               </Toast.Close>
             </Toast.Root>
           ))}

@@ -67,7 +67,7 @@ export const userViews: UserView[] = ofKind('user').map(id => ({
   id,
   name: oneString(id, 'name'),
   type: 'user',
-  icon: 'ph:user-fill',
+  icon: 'ik:user-fill',
   description: oneString(id, 'role'),
   searchableText: oneString(id, 'search'),
   metadata: {
@@ -209,10 +209,10 @@ export interface DocumentView {
 // Uploaded files take an icon for their format; written documents take the
 // generic page icon.
 const fileIcons: Record<string, string> = {
-  spreadsheet: 'ph:file-xls-fill',
-  pdf: 'ph:file-pdf-fill',
-  presentation: 'ph:file-ppt-fill',
-  document: 'ph:file-doc-fill',
+  spreadsheet: 'ik:doc-table-fill',
+  pdf: 'ik:doc-media-fill',
+  presentation: 'ik:presentation-fill',
+  document: 'ik:doc-font-fill',
 };
 
 const actionsAbout = (documentId: string, name: string) =>
@@ -233,7 +233,7 @@ export const documentViews: DocumentView[] = ofKind('document').map(id => {
     id,
     name: oneString(id, 'name'),
     type: 'document',
-    icon: fileIcons[documentType] ?? 'ph:file-text-fill',
+    icon: fileIcons[documentType] ?? 'ik:doc-text-fill',
     description: oneString(id, 'blurb'),
     searchableText: oneString(id, 'search'),
     metadata: {
@@ -279,7 +279,7 @@ export const quoteViews: QuoteView[] = ofKind('quote').map(id => {
     id,
     name: text,
     type: 'quote',
-    icon: 'ph:quotes',
+    icon: 'ik:quotation-marks',
     description: `Quote from ${documentName(source)}`,
     searchableText: oneString(id, 'search'),
     metadata: {

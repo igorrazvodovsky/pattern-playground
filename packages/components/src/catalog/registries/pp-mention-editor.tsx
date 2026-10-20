@@ -59,7 +59,7 @@ export function MentionEditor({ props, bindings, emit }: ComponentContext<Catalo
                         <span className="combobox-item__label">{candidate.label}</span>
                         {isKind(candidate) && (
                           <span className="combobox-item__suffix">
-                            <iconify-icon icon="ph:caret-right" aria-hidden="true" />
+                            <iconify-icon icon="ik:chevron-right" aria-hidden="true" />
                           </span>
                         )}
                       </div>

@@ -3,7 +3,7 @@
     "id": "MAT-PET-004",
     "name": "rPET (Recycled PET)",
     "type": "material",
-    "icon": "ph:recycle",
+    "icon": "ik:recycle",
     "description": "Recently accessed material",
     "searchableText": "rpet recycled pet material recent"
   },
@@ -11,7 +11,7 @@
     "id": "PRD-EBK-001",
     "name": "Urban Commuter E-Bike",
     "type": "product",
-    "icon": "ph:bicycle",
+    "icon": "ik:bicycle",
     "description": "Recently accessed product",
     "searchableText": "urban commuter e-bike product recent"
   },
@@ -19,7 +19,7 @@
     "id": "CMP-BAT-003",
     "name": "Battery Pack Assembly",
     "type": "component",
-    "icon": "ph:battery-high",
+    "icon": "ik:battery-3",
     "description": "Recently accessed component",
     "searchableText": "battery pack assembly component recent"
   },
@@ -27,7 +27,7 @@
     "id": "doc-1",
     "name": "Material Flow Analysis Report",
     "type": "document",
-    "icon": "ph:file-text",
+    "icon": "ik:doc-text",
     "description": "Recently accessed document",
     "searchableText": "material flow analysis report document recent"
   },
@@ -35,7 +35,7 @@
     "id": "PRJ-1",
     "name": "Urban Composting Initiative",
     "type": "project",
-    "icon": "ph:folder",
+    "icon": "ik:folder",
     "description": "Recently accessed project",
     "searchableText": "urban composting initiative project recent"
   }

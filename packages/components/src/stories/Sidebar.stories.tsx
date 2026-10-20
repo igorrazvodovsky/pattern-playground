@@ -38,7 +38,7 @@ export function DemoSidebar({ collapsible, variant, side }: SidebarArgs) {
     <Sidebar collapsible={collapsible} variant={variant} side={side}>
       <SidebarHeader>
         <div className="story-shell-brand">
-          <iconify-icon className="icon" icon="ph:hexagon" />
+          <iconify-icon className="icon" icon="ik:hexagon" />
           <span>Acme Corp</span>
         </div>
       </SidebarHeader>
@@ -62,7 +62,7 @@ export function DemoSidebar({ collapsible, variant, side }: SidebarArgs) {
                   </SidebarMenuButton>
                   {item.isActive && (
                     <SidebarMenuAction showOnHover aria-label="More options">
-                      <iconify-icon className="icon" icon="ph:dots-three" />
+                      <iconify-icon className="icon" icon="ik:more" />
                     </SidebarMenuAction>
                   )}
                   {item.subItems && (
@@ -118,7 +118,7 @@ export function DemoSidebar({ collapsible, variant, side }: SidebarArgs) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton>
-              <iconify-icon className="icon" icon="ph:user-circle" />
+              <iconify-icon className="icon" icon="ik:user-in-circle" />
               <span>Account</span>
             </SidebarMenuButton>
           </SidebarMenuItem>

@@ -1,5 +1,5 @@
 import { DropdownMenu } from 'radix-ui';
-import { Check, Plus, SquarePlus, X } from 'lucide-react';
+import { Checkmark, Plus, AddInSquare, Cross } from 'iconoteka-react';
 import type { RulePart, RuleSlot } from '../rule-parts';
 import { scopedPortal } from './shadcn-portal';
 
@@ -31,7 +31,7 @@ export const SentenceSlot = ({ slot, send, labelled }: { slot: RuleSlot; send: S
   if (slot.kind === 'remove') {
     return (
       <button type="button" className={slotIcon} aria-label={slot.name} onClick={() => send('remove', slot.id, null)}>
-        <X aria-hidden="true" className="size-3.5" />
+        <Cross aria-hidden="true" className="size-3.5" />
       </button>
     );
   }
@@ -46,7 +46,7 @@ export const SentenceSlot = ({ slot, send, labelled }: { slot: RuleSlot; send: S
         aria-label={labelled ? undefined : slot.name}
         onClick={() => send('add', slot.id, only.value)}
       >
-        <SquarePlus aria-hidden="true" className="size-3.5" />
+        <AddInSquare aria-hidden="true" className="size-3.5" />
         {labelled && slot.label}
       </button>
     );
@@ -88,7 +88,7 @@ export const SentenceSlot = ({ slot, send, labelled }: { slot: RuleSlot; send: S
                     }}
                   >
                     <span className={menuIndicator}>
-                      <DropdownMenu.ItemIndicator><Check aria-hidden="true" /></DropdownMenu.ItemIndicator>
+                      <DropdownMenu.ItemIndicator><Checkmark aria-hidden="true" /></DropdownMenu.ItemIndicator>
                     </span>
                     {option.label}
                   </DropdownMenu.CheckboxItem>
@@ -98,7 +98,7 @@ export const SentenceSlot = ({ slot, send, labelled }: { slot: RuleSlot; send: S
                   {slot.options?.map(option => (
                     <DropdownMenu.RadioItem key={option.value} value={option.value} className={menuItem}>
                       <span className={menuIndicator}>
-                        <DropdownMenu.ItemIndicator><Check aria-hidden="true" /></DropdownMenu.ItemIndicator>
+                        <DropdownMenu.ItemIndicator><Checkmark aria-hidden="true" /></DropdownMenu.ItemIndicator>
                       </span>
                       {option.label}
                     </DropdownMenu.RadioItem>

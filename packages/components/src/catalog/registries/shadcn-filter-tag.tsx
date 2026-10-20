@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useBoundProp, type ComponentContext } from '@json-render/react';
 import { DropdownMenu, Popover } from 'radix-ui';
 import { Command } from 'cmdk';
-import { Check, Search, X, type LucideIcon } from 'lucide-react';
+import { Checkmark, Search, Cross, type IconComponent } from 'iconoteka-react';
 import type { Catalog, iconNames } from '../catalog';
 import type { FilterEdit } from '../filter-edit';
 import { useGroupFocusHandoff } from './focus-handoff';
@@ -24,7 +24,7 @@ const item =
 const indicator = 'pointer-events-none absolute left-2 flex size-3.5 items-center justify-center';
 
 type ValueGlyphData = NonNullable<ComponentContext<Catalog, 'FilterTag'>['props']['glyphs']>[number];
-type IconFor = (name: (typeof iconNames)[number]) => LucideIcon;
+type IconFor = (name: (typeof iconNames)[number]) => IconComponent;
 
 // A value's picture, as shadcn's Avatar draws one: the photo, or the
 // initial on a muted disc; an icon stands in the same frame.
@@ -53,7 +53,7 @@ export function FilterTag({
   emit,
   Glyph,
   iconFor,
-}: ComponentContext<Catalog, 'FilterTag'> & { Glyph: LucideIcon | null; iconFor: IconFor }) {
+}: ComponentContext<Catalog, 'FilterTag'> & { Glyph: IconComponent | null; iconFor: IconFor }) {
   const [, setEdit] = useBoundProp(props.edit, bindings?.edit);
   const { group, parts: [operatorList, valueList] } = useGroupFocusHandoff(props.focusNext, 2);
   const [open, setOpen] = useState(false);
@@ -96,7 +96,7 @@ export function FilterTag({
               >
                 <span className={indicator}>
                   <DropdownMenu.ItemIndicator>
-                    <Check aria-hidden="true" className="size-4" />
+                    <Checkmark aria-hidden="true" className="size-4" />
                   </DropdownMenu.ItemIndicator>
                 </span>
                 {operator}
@@ -141,7 +141,7 @@ export function FilterTag({
                   {props.values.map(value => (
                     <Command.Item key={value} value={value} onSelect={() => pick('remove', value)} className={item}>
                       <span className={indicator}>
-                        <Check aria-hidden="true" className="size-4" />
+                        <Checkmark aria-hidden="true" className="size-4" />
                       </span>
                       {prefix(value)}
                       {value}
@@ -170,7 +170,7 @@ export function FilterTag({
         onClick={() => void emit('remove')}
         className={`${segment} ${pressable} px-1.5 text-muted-foreground [&>svg]:size-3.5`}
       >
-        <X aria-hidden="true" />
+        <Cross aria-hidden="true" />
       </button>
     </div>
   );

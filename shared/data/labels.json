@@ -4,7 +4,7 @@
     "name": "Waste Reduction",
     "value": "Waste Reduction",
     "type": "label",
-    "icon": "ph:trash",
+    "icon": "ik:trash",
     "description": "Initiatives to reduce waste",
     "searchableText": "waste reduction label efficiency"
   },
@@ -13,7 +13,7 @@
     "name": "Audit",
     "value": "Audit",
     "type": "label",
-    "icon": "ph:clipboard-text",
+    "icon": "ik:clipboard",
     "description": "Auditing processes and results",
     "searchableText": "audit label inspection"
   },
@@ -22,7 +22,7 @@
     "name": "Sourcing",
     "value": "Sourcing",
     "type": "label",
-    "icon": "ph:magnifying-glass",
+    "icon": "ik:search",
     "description": "Sourcing of sustainable materials",
     "searchableText": "sourcing label procurement materials"
   },
@@ -31,7 +31,7 @@
     "name": "Recycling",
     "value": "Recycling",
     "type": "label",
-    "icon": "ph:recycle",
+    "icon": "ik:recycle",
     "description": "Recycling and reprocessing activities",
     "searchableText": "recycling label reprocessing"
   },
@@ -40,7 +40,7 @@
     "name": "Data",
     "value": "Data",
     "type": "label",
-    "icon": "ph:chart-bar",
+    "icon": "ik:bar-chart",
     "description": "Data analysis and reporting",
     "searchableText": "data label analysis reporting"
   },
@@ -49,7 +49,7 @@
     "name": "Assessment",
     "value": "Assessment",
     "type": "label",
-    "icon": "ph:chart-pie-slice",
+    "icon": "ik:chart-pie",
     "description": "Assessment and evaluation",
     "searchableText": "assessment label evaluation"
   },
@@ -58,7 +58,7 @@
     "name": "Design",
     "value": "Design",
     "type": "label",
-    "icon": "ph:paint-brush",
+    "icon": "ik:freehand",
     "description": "Design and planning",
     "searchableText": "design label planning"
   },
@@ -67,7 +67,7 @@
     "name": "Take-back",
     "value": "Take-back",
     "type": "label",
-    "icon": "ph:arrow-u-down-left",
+    "icon": "ik:arrow-hook-left-up",
     "description": "Product take-back programs",
     "searchableText": "take-back label returns"
   },
@@ -76,7 +76,7 @@
     "name": "Logistics",
     "value": "Logistics",
     "type": "label",
-    "icon": "ph:truck",
+    "icon": "ik:truck-delivery",
     "description": "Supply chain and reverse logistics",
     "searchableText": "logistics label supply chain transport"
   },
@@ -85,7 +85,7 @@
     "name": "Optimization",
     "value": "Optimization",
     "type": "label",
-    "icon": "ph:chart-line-up",
+    "icon": "ik:trend-up",
     "description": "Optimization and efficiency improvements",
     "searchableText": "optimization label efficiency"
   },
@@ -94,7 +94,7 @@
     "name": "Policy",
     "value": "Policy",
     "type": "label",
-    "icon": "ph:scroll",
+    "icon": "ik:scroll",
     "description": "Policy and advocacy work",
     "searchableText": "policy label advocacy regulations"
   },
@@ -103,7 +103,7 @@
     "name": "Advocacy",
     "value": "Advocacy",
     "type": "label",
-    "icon": "ph:megaphone",
+    "icon": "ik:megaphone",
     "description": "Advocacy and outreach",
     "searchableText": "advocacy label outreach"
   },
@@ -112,7 +112,7 @@
     "name": "Marketing",
     "value": "Marketing",
     "type": "label",
-    "icon": "ph:projector-screen",
+    "icon": "ik:presentation",
     "description": "Marketing and communications",
     "searchableText": "marketing label communications"
   },
@@ -121,7 +121,7 @@
     "name": "Refurbishment",
     "value": "Refurbishment",
     "type": "label",
-    "icon": "ph:wrench",
+    "icon": "ik:wrench",
     "description": "Product repair and refurbishment",
     "searchableText": "refurbishment label repair reuse"
   },
@@ -130,7 +130,7 @@
     "name": "Research",
     "value": "Research",
     "type": "label",
-    "icon": "ph:flask",
+    "icon": "ik:test-tube",
     "description": "Research and development",
     "searchableText": "research label development"
   },
@@ -139,7 +139,7 @@
     "name": "Innovation",
     "value": "Innovation",
     "type": "label",
-    "icon": "ph:lightbulb",
+    "icon": "ik:light-bulb",
     "description": "Research and development of new solutions",
     "searchableText": "innovation label research development"
   },
@@ -148,7 +148,7 @@
     "name": "Training",
     "value": "Training",
     "type": "label",
-    "icon": "ph:student",
+    "icon": "ik:college",
     "description": "Training and education",
     "searchableText": "training label education"
   },
@@ -157,7 +157,7 @@
     "name": "Education",
     "value": "Education",
     "type": "label",
-    "icon": "ph:book-open",
+    "icon": "ik:book-open",
     "description": "Education and awareness",
     "searchableText": "education label awareness"
   }

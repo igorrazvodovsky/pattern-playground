@@ -49,7 +49,7 @@ export const Default: Story = {
   render: (args) => (
     <pp-input>
       {(args.addon === 'prefix' || args.addon === 'both') && (
-        <iconify-icon className="icon" icon="ph:magnifying-glass" data-slot="prefix" />
+        <iconify-icon className="icon" icon="ik:search" data-slot="prefix" />
       )}
       <input
         aria-label={args.label}
@@ -58,7 +58,7 @@ export const Default: Story = {
         disabled={args.disabled}
       />
       {(args.addon === 'suffix' || args.addon === 'both') && (
-        <iconify-icon className="icon" icon="ph:x" data-slot="suffix" />
+        <iconify-icon className="icon" icon="ik:cross" data-slot="suffix" />
       )}
     </pp-input>
   ),
@@ -132,30 +132,30 @@ export const Addons: Story = {
   render: () => (
     <>
       <pp-input>
-        <iconify-icon className="icon" icon="ph:circle-dashed" data-slot="prefix"></iconify-icon>
+        <iconify-icon className="icon" icon="ik:circle-dotted" data-slot="prefix"></iconify-icon>
         <input aria-label="Icon prefix" defaultValue="Value" />
       </pp-input>
       <br />
       <pp-input>
         <input aria-label="Search" defaultValue="Value" />
-        <iconify-icon className="icon" icon="ph:magnifying-glass" data-slot="suffix"></iconify-icon>
+        <iconify-icon className="icon" icon="ik:search" data-slot="suffix"></iconify-icon>
       </pp-input>
       <br />
       <pp-input>
-        <iconify-icon className="icon" icon="ph:chat" data-slot="prefix"></iconify-icon>
+        <iconify-icon className="icon" icon="ik:message" data-slot="prefix"></iconify-icon>
         <input aria-label="Message" defaultValue="Value" />
-        <iconify-icon className="icon" icon="ph:arrow-elbow-down-left" data-slot="suffix"></iconify-icon>
+        <iconify-icon className="icon" icon="ik:carriage-return" data-slot="suffix"></iconify-icon>
       </pp-input>
       <br />
       <pp-input>
-        <iconify-icon className="icon" icon="ph:currency-dollar" data-slot="prefix"></iconify-icon>
+        <iconify-icon className="icon" icon="ik:dollar" data-slot="prefix"></iconify-icon>
         <input aria-label="Amount" defaultValue="100" />
       </pp-input>
       <br />
       <pp-input>
         <input aria-label="Quantity" defaultValue="1" />
         <small data-slot="suffix">+112.00 €/ pc.</small>
-        <iconify-icon className="icon" icon="ph:caret-down" data-slot="suffix"></iconify-icon>
+        <iconify-icon className="icon" icon="ik:chevron-down" data-slot="suffix"></iconify-icon>
       </pp-input>
     </>
   ),

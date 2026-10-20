@@ -18,7 +18,7 @@ export const Dropdown: Story = {
     <pp-dropdown>
       <button className="button" data-slot="trigger">
         Dropdown
-        <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon>
+        <iconify-icon className="icon" icon="ik:chevron-down" aria-hidden="true"></iconify-icon>
       </button>
       <pp-popup>
         <pp-list>
@@ -52,7 +52,7 @@ export const DropdownWithSubmenus: Story = {
     <pp-dropdown>
       <button className="button" data-slot="trigger">
         Dropdown with Submenus
-        <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon>
+        <iconify-icon className="icon" icon="ik:chevron-down" aria-hidden="true"></iconify-icon>
       </button>
       <pp-popup>
         <pp-list>

@@ -7,7 +7,7 @@ import { modalService } from '../../services/modal-service';
 import { previewTiming } from './preview-timing';
 import { useWorkingRungStore } from './working-rung-store';
 import type { ItemInteractionProps, ViewScope } from './types';
-import 'iconify-icon';
+import '../../icons/register-icons';
 import '../../jsx-types';
 
 /**
@@ -46,9 +46,9 @@ type EscalationScope = 'mini' | 'mid' | 'maxi';
 
 /** The escalation rungs, in ladder order. */
 const RUNGS: { scope: EscalationScope; label: string; icon: string }[] = [
-  { scope: 'mini', label: 'Summary', icon: 'ph:cards' },
-  { scope: 'mid', label: 'Detail', icon: 'ph:square-split-horizontal' },
-  { scope: 'maxi', label: 'Full', icon: 'ph:frame-corners' },
+  { scope: 'mini', label: 'Summary', icon: 'ik:view-module' },
+  { scope: 'mid', label: 'Detail', icon: 'ik:columns' },
+  { scope: 'maxi', label: 'Full', icon: 'ik:fullscreen' },
 ];
 
 interface RungToolbarProps {

@@ -226,7 +226,7 @@ export function SidebarTrigger({
     >
       {children ?? (
         <>
-          <iconify-icon className="icon" icon="ph:sidebar-simple" />
+          <iconify-icon className="icon" icon="ik:menu" />
           <span className="visually-hidden">Toggle Sidebar</span>
         </>
       )}

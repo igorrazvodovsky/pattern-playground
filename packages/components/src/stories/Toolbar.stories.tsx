@@ -43,17 +43,17 @@ export const Toolbar: Story = {
     <div className="toolbar">
       <pp-input>
         <input aria-label="Search" placeholder={searchPlaceholder} />
-        <iconify-icon className="icon" icon="ph:magnifying-glass" data-slot="suffix"></iconify-icon>
+        <iconify-icon className="icon" icon="ik:search" data-slot="suffix"></iconify-icon>
       </pp-input>
       {showFilter && (
         <button className="button">
-          <iconify-icon className="icon" icon="ph:funnel-simple"></iconify-icon>
+          <iconify-icon className="icon" icon="ik:filter"></iconify-icon>
           Filter
         </button>
       )}
       {showGrouping && (
         <button className="button">
-          <iconify-icon className="icon" icon="ph:stack"></iconify-icon>
+          <iconify-icon className="icon" icon="ik:layers"></iconify-icon>
           Grouped by <strong>size</strong>
         </button>
       )}
@@ -62,7 +62,7 @@ export const Toolbar: Story = {
           <pp-dropdown>
             <button className="button" data-slot="trigger">
               A→Z
-              <iconify-icon className="icon" icon="ph:caret-down" aria-hidden="true"></iconify-icon>
+              <iconify-icon className="icon" icon="ik:chevron-down" aria-hidden="true"></iconify-icon>
             </button>
             <pp-popup>
               <pp-list>
@@ -73,7 +73,7 @@ export const Toolbar: Story = {
             </pp-popup>
           </pp-dropdown>
           <button className="button" aria-label="Sort ascending">
-            <iconify-icon className="icon" icon="ph:sort-ascending" aria-hidden="true"></iconify-icon>
+            <iconify-icon className="icon" icon="ik:sort-low-to-high" aria-hidden="true"></iconify-icon>
           </button>
         </div>
       )}

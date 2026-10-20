@@ -1,4 +1,3 @@
-import { Icon } from "@iconify/react"
 import type { Dispatch, SetStateAction } from "react";
 import type { EntityBinding } from "@shared/data/bindings";
 import { taskBinding, findAttribute, attributeLabelFromBinding } from "@shared/data/bindings";
@@ -38,7 +37,7 @@ export default function Filters({
           return (
             <div key={filter.id} className="tag-group">
               <div className="tag">
-                {glyph && <Icon icon={glyph} className="icon" />}
+                {glyph && <iconify-icon icon={glyph} className="icon"></iconify-icon>}
                 {attributeLabelFromBinding(binding, filter.path)}
               </div>
               <FilterOperatorDropdown
@@ -65,7 +64,7 @@ export default function Filters({
                 onClick={() => handleRemoveFilter(filter.id)}
                 className="tag tag-group__remove"
               >
-                <Icon icon="ph:x" /><span className="visually-hidden">Clear filter</span>
+                <iconify-icon icon="ik:cross"></iconify-icon><span className="visually-hidden">Clear filter</span>
               </button>
             </div>
           );

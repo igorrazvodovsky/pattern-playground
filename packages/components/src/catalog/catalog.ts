@@ -30,7 +30,7 @@ const avatar = z.object({ name: z.string(), image: z.string().nullable() });
 const slot = z.object({ slot: z.string(), label: z.string(), required: z.boolean().nullable(), value: z.string() });
 
 // Icons are named by meaning; each registry maps a name to its own icon set.
-// A spec that named Phosphor glyphs would be tied to the library that ships them.
+// A spec that named Iconoteka glyphs would be tied to the library that ships them.
 // Attribute icons share the entity bindings' names, so a spec can pass a
 // binding's icon straight through.
 const interfaceIcons = [

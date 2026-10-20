@@ -138,7 +138,7 @@ export const WithPrefixAndSuffix: Story = {
       value={250}
       hide-value
     >
-      <iconify-icon icon="ph:currency-gbp" data-slot="prefix" />
+      <iconify-icon icon="ik:sterling" data-slot="prefix" />
       <small data-slot="suffix">£1000</small>
     </pp-range>
   ),

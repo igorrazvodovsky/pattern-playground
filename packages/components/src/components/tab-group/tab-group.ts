@@ -266,7 +266,7 @@ export class PpTabGroup extends Elena(HTMLElement) {
     button.type = 'button';
     button.className = `tab-group__scroll-button tab-group__scroll-button--${direction}`;
     button.setAttribute('aria-label', direction === 'start' ? 'Scroll to start' : 'Scroll to end');
-    button.innerHTML = `<iconify-icon class="icon" icon="ph:caret-${direction === 'start' ? 'left' : 'right'}"></iconify-icon>`;
+    button.innerHTML = `<iconify-icon class="icon" icon="${direction === 'start' ? 'ik:chevron-left' : 'ik:chevron-right'}"></iconify-icon>`;
     button.addEventListener('click', direction === 'start' ? this.handleScrollToStart : this.handleScrollToEnd);
     return button;
   }

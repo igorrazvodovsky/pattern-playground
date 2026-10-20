@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { Tldraw, type TLComponents } from 'tldraw'
-import 'iconify-icon'
+import '../icons/register-icons'
 import { lifecycleEvents, users, type User } from '@shared/data'
 import { formatDate, formatDateTime } from '@shared/format'
 
@@ -284,13 +284,13 @@ const TIMELINE_RUNGS = ['Stages', 'Flows', 'Detail'] as const
 // One icon per lifecycle stage, so the coarsest rung reads as a sequence of
 // recognisable phases rather than a list of labels.
 const STAGE_ICONS: Record<string, string> = {
-	Materials: 'ph:cube',
-	Manufacture: 'ph:factory',
-	Distribution: 'ph:truck',
-	Use: 'ph:hand',
-	Maintenance: 'ph:wrench',
-	Recovery: 'ph:recycle',
-	'End of life': 'ph:trash',
+	Materials: 'ik:cube',
+	Manufacture: 'ik:factory',
+	Distribution: 'ik:truck-delivery',
+	Use: 'ik:hand',
+	Maintenance: 'ik:wrench',
+	Recovery: 'ik:recycle',
+	'End of life': 'ik:trash',
 }
 
 function formatCo2e(value: number): string {

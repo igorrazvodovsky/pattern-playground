@@ -117,9 +117,9 @@ export const CommentComposer: React.FC<CommentComposerProps> = ({
           aria-label="Submit comment"
         >
           {isSubmitting ? (
-            <iconify-icon icon="ph:spinner" />
+            <iconify-icon icon="ik:loader-75" />
           ) : (
-            <iconify-icon icon="ph:arrow-elbow-down-left" />
+            <iconify-icon icon="ik:carriage-return" />
           )}
         </button>
       </div>

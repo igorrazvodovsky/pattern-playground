@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useId, useLayoutEffect, useState, type ReactNode } from 'react';
 import { Accordion, Tabs } from 'radix-ui';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'iconoteka-react';
 import { Subsection, useHeading } from './heading-level';
 
 // Radix wants every tab trigger inside one list ahead of the panels, while

@@ -8,7 +8,7 @@ import {
   ComboboxItem,
   ComboboxList,
 } from "../components/combobox";
-import 'iconify-icon';
+import '../icons/register-icons';
 import '../jsx-types';
 
 const meta = {
@@ -19,20 +19,20 @@ export default meta;
 type Story = StoryObj;
 
 const statusOptions = [
-  { value: 'backlog', label: 'Backlog', icon: 'ph:circle' },
-  { value: 'todo', label: 'To do', icon: 'ph:circle-dashed' },
-  { value: 'in-progress', label: 'In progress', icon: 'ph:circle-half' },
-  { value: 'in-review', label: 'In review', icon: 'ph:circle-wavy' },
-  { value: 'done', label: 'Done', icon: 'ph:check-circle' },
-  { value: 'cancelled', label: 'Cancelled', icon: 'ph:x-circle' },
+  { value: 'backlog', label: 'Backlog', icon: 'ik:circle' },
+  { value: 'todo', label: 'To do', icon: 'ik:circle-dotted' },
+  { value: 'in-progress', label: 'In progress', icon: 'ik:circle-half-left' },
+  { value: 'in-review', label: 'In review', icon: 'ik:12-pointed-star' },
+  { value: 'done', label: 'Done', icon: 'ik:checkmark-in-circle' },
+  { value: 'cancelled', label: 'Cancelled', icon: 'ik:cross-in-circle' },
 ];
 
 const priorityOptions = [
-  { value: 'urgent', label: 'Urgent', icon: 'ph:warning-octagon' },
-  { value: 'high', label: 'High', icon: 'ph:arrow-up' },
-  { value: 'medium', label: 'Medium', icon: 'ph:minus' },
-  { value: 'low', label: 'Low', icon: 'ph:arrow-down' },
-  { value: 'none', label: 'No priority', icon: 'ph:dot' },
+  { value: 'urgent', label: 'Urgent', icon: 'ik:warning-diamond' },
+  { value: 'high', label: 'High', icon: 'ik:arrow-up' },
+  { value: 'medium', label: 'Medium', icon: 'ik:minus' },
+  { value: 'low', label: 'Low', icon: 'ik:arrow-down' },
+  { value: 'none', label: 'No priority', icon: 'ik:circle-dotted' },
 ];
 
 export const Default: Story = {

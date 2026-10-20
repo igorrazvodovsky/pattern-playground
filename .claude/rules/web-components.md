@@ -31,3 +31,8 @@ Project conventions:
 - JS hooks are descriptive `data-*` attributes — never CSS classes, never
   `role`/`aria-*` (ESLint enforces). Styling hooks are classes; an undefined
   custom tag is never a styling hook.
+- Icons are `<iconify-icon icon="ik:…">`, named after Iconoteka icons with
+  underscores as hyphens (`ik:cross-in-circle`). A weight suffix (`-thin`,
+  `-ultralight`, `-light`, `-medium`, `-semibold`, `-bold`) and then `-fill`
+  pick the other variants (`ik:trash-light-fill`). Only icons named in source are bundled, so run
+  `npm run build:icons` after using a new one — the unit tests fail until then.

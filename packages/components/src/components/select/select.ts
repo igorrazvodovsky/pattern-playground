@@ -55,7 +55,7 @@ export class PpSelect extends Elena(HTMLElement) {
       this.caret = document.createElement('span');
       this.caret.className = 'select__caret';
       this.caret.setAttribute('aria-hidden', 'true');
-      this.caret.innerHTML = '<iconify-icon icon="ph:caret-down"></iconify-icon>';
+      this.caret.innerHTML = '<iconify-icon icon="ik:chevron-down"></iconify-icon>';
       this.append(this.caret);
     }
     this.wireDescriptions();

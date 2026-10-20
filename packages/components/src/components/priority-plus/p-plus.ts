@@ -145,7 +145,7 @@ function priorityPlus(targetElem: HTMLElement) {
             class="button ${cn(El.ToggleBtn)}"
             aria-expanded="false"
             aria-label="Show more actions"
-          ><iconify-icon class="icon" icon="ph:dots-three"></iconify-icon>
+          ><iconify-icon class="icon" icon="ik:more"></iconify-icon>
           </button>
           <pp-popup>
             <pp-list

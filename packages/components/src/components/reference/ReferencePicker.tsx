@@ -14,7 +14,7 @@ import type {
   SelectedReference,
   ReferencePickerProps
 } from './types';
-import 'iconify-icon';
+import '../../icons/register-icons';
 import '../../jsx-types';
 
 export const ReferencePicker = ({
@@ -120,7 +120,7 @@ export const ReferencePicker = ({
                       />
                       {category.name}
                       <iconify-icon
-                        icon="ph:caret-right"
+                        icon="ik:chevron-right"
                         slot="suffix"
                       />
                     </ComboboxItem>

@@ -2,12 +2,12 @@
   "navItems": [
     {
       "label": "Dashboard",
-      "icon": "ph:squares-four",
+      "icon": "ik:grid",
       "isActive": true
     },
     {
       "label": "Projects",
-      "icon": "ph:folder",
+      "icon": "ik:folder",
       "badge": 4,
       "subItems": [
         { "label": "All projects" },
@@ -17,25 +17,25 @@
     },
     {
       "label": "Tasks",
-      "icon": "ph:check-square",
+      "icon": "ik:checkmark-in-square",
       "badge": 12
     },
     {
       "label": "Messages",
-      "icon": "ph:chat",
+      "icon": "ik:message",
       "badge": 3
     },
     {
       "label": "Analytics",
-      "icon": "ph:chart-bar"
+      "icon": "ik:bar-chart"
     },
     {
       "label": "Settings",
-      "icon": "ph:gear"
+      "icon": "ik:gear"
     }
   ],
   "teamItems": [
-    { "label": "Meridian Solutions", "icon": "ph:users" },
-    { "label": "Kova Industries", "icon": "ph:buildings" }
+    { "label": "Meridian Solutions", "icon": "ik:group" },
+    { "label": "Kova Industries", "icon": "ik:cityscape" }
   ]
 }

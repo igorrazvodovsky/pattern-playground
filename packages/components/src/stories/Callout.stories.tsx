@@ -8,12 +8,12 @@ interface CalloutArgs {
 }
 
 const purposeIcons: Record<CalloutPurpose, string> = {
-  neutral: 'ph:info',
-  accent: 'ph:star',
-  info: 'ph:info',
-  success: 'ph:check-circle',
-  warning: 'ph:warning',
-  danger: 'ph:x-circle',
+  neutral: 'ik:information',
+  accent: 'ik:star',
+  info: 'ik:information',
+  success: 'ik:checkmark-in-circle',
+  warning: 'ik:warning',
+  danger: 'ik:cross-in-circle',
 };
 
 const meta = {

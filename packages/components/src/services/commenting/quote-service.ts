@@ -20,7 +20,7 @@ export interface QuoteObject {
   id: string;
   name: string;
   type: 'quote';
-  icon: 'ph:quotes';
+  icon: 'ik:quotation-marks';
   description: string;
   searchableText: string;
   metadata: QuoteMetadata;
@@ -76,7 +76,7 @@ export class QuoteService {
       id: `quote-${crypto.randomUUID()}`,
       name: this.generateName(selectedText),
       type: 'quote',
-      icon: 'ph:quotes',
+      icon: 'ik:quotation-marks',
       description: `Quote from ${this.getDocumentName(documentId) || 'document'}`,
       searchableText: this.generateSearchableText(selectedText, documentId),
       metadata: {

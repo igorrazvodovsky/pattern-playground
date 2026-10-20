@@ -47,7 +47,7 @@ const assigneeRecords: ValueRecord[] = [
     id: `assignee-${user.id}`,
     name: user.name,
     value: user.name,
-    icon: 'ph:user',
+    icon: 'ik:user',
     avatar: user.metadata.photoUrl,
     searchableText: user.name.toLowerCase(),
   })),
@@ -55,7 +55,7 @@ const assigneeRecords: ValueRecord[] = [
     id: 'assignee-none',
     name: 'No assignee',
     value: 'No assignee',
-    icon: 'ph:user-minus',
+    icon: 'ik:remove-user',
     searchableText: 'no assignee unassigned',
   },
 ];

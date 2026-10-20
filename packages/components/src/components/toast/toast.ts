@@ -36,7 +36,7 @@ export class PpToast extends HTMLElementBase {
     body.appendChild(message);
 
     const closeIcon = document.createElement('iconify-icon');
-    closeIcon.setAttribute('icon', 'ph:x');
+    closeIcon.setAttribute('icon', 'ik:cross');
     closeIcon.className = 'icon';
     const closeButton = document.createElement('button');
     closeButton.className = 'toast-close';

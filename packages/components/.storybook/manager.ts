@@ -46,19 +46,19 @@ function injectLink() {
   const a = document.createElement('a');
   a.id = LINK_ID;
   a.href = PATTERN_SITE_URL;
-  // Inline ph:graph SVG — keeps iconify (and its runtime icon API) out of
-  // the manager bundle while matching the site sidebar's icon.
+  // Iconoteka's sitemap icon, inlined to keep iconify and the icon collection
+  // out of the manager bundle.
   const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   icon.setAttribute('width', '16');
   icon.setAttribute('height', '16');
-  icon.setAttribute('viewBox', '0 0 256 256');
+  icon.setAttribute('viewBox', '0 0 24 24');
   icon.setAttribute('aria-hidden', 'true');
   icon.style.cssText = 'flex-shrink:0';
   const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
   path.setAttribute('fill', 'currentColor');
   path.setAttribute(
     'd',
-    'M200 152a31.84 31.84 0 0 0-19.53 6.68l-23.11-18A31.65 31.65 0 0 0 160 128c0-.74 0-1.48-.08-2.21l13.23-4.41A32 32 0 1 0 168 104c0 .74 0 1.48.08 2.21l-13.23 4.41A32 32 0 0 0 128 96a32.6 32.6 0 0 0-5.27.44L115.89 81A32 32 0 1 0 96 88a32.6 32.6 0 0 0 5.27-.44l6.84 15.4a31.92 31.92 0 0 0-8.57 39.64l-25.71 22.84a32.06 32.06 0 1 0 10.63 12l25.71-22.84a31.91 31.91 0 0 0 37.36-1.24l23.11 18A31.65 31.65 0 0 0 168 184a32 32 0 1 0 32-32m0-64a16 16 0 1 1-16 16a16 16 0 0 1 16-16M80 56a16 16 0 1 1 16 16a16 16 0 0 1-16-16M56 208a16 16 0 1 1 16-16a16 16 0 0 1-16 16m56-80a16 16 0 1 1 16 16a16 16 0 0 1-16-16m88 72a16 16 0 1 1 16-16a16 16 0 0 1-16 16'
+    'M3.975 15.3L3.975 13.875C3.975 12.35 5.2 11.125 6.725 11.125L11.125 11.125L11.125 8.7L9.15 8.7L9.15 3L14.85 3L14.85 8.7L12.875 8.7L12.875 11.125L17.275 11.125C18.8 11.125 20.025 12.35 20.025 13.875L20.025 15.3L22 15.3L22 21L16.3 21L16.3 15.3L18.275 15.3L18.275 13.875C18.275 13.325 17.825 12.875 17.275 12.875L12.875 12.875L12.875 15.3L14.85 15.3L14.85 21L9.15 21L9.15 15.3L11.125 15.3L11.125 12.875L6.725 12.875C6.175 12.875 5.725 13.325 5.725 13.875L5.725 15.3L7.7 15.3L7.7 21L2 21L2 15.3ZM10.875 4.725L10.875 6.975L13.125 6.975L13.125 4.725ZM3.725 17.025L3.725 19.275L5.975 19.275L5.975 17.025ZM10.875 17.025L10.875 19.275L13.125 19.275L13.125 17.025L10.875 17.025ZM18.025 17.025L18.025 19.275L20.275 19.275L20.275 17.025Z'
   );
   icon.appendChild(path);
   const label = document.createTextNode('Patterns');

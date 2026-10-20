@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, type ReactNode } from 'react';
 import { DropdownMenu } from 'radix-ui';
-import { ChevronRight, MoreHorizontal } from 'lucide-react';
+import { ChevronRight, More } from 'iconoteka-react';
 import clsx from 'clsx';
 import { observeTrailFit } from '../../utility/trail-fit';
 import { useFocusHandoff, useMenuFocusHandoff } from './focus-handoff';
@@ -76,7 +76,7 @@ export const CrumbOverflow = ({
             aria-label="Hidden items"
             className="flex size-9 items-center justify-center rounded-md outline-none hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
           >
-            <MoreHorizontal aria-hidden="true" className="size-4" />
+            <More aria-hidden="true" className="size-4" />
           </DropdownMenu.Trigger>
           <DropdownMenu.Portal container={scopedPortal()}>
             <DropdownMenu.Content

@@ -41,7 +41,7 @@ export function ExplanationDrawer({
         <h3>Explanation</h3>
         {error && (
           <div className="callout danger flex">
-            <iconify-icon className="icon" icon="ph:x-circle" aria-hidden="true"></iconify-icon>
+            <iconify-icon className="icon" icon="ik:cross-in-circle" aria-hidden="true"></iconify-icon>
             <span>Failed to generate explanation: {error}</span>
           </div>
         )}

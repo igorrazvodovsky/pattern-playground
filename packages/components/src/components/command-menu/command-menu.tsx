@@ -10,7 +10,7 @@ import {
 import { AIFallbackHandler } from './ai-fallback-handler';
 import { useCommandComposition } from './hooks/use-command-composition';
 import type { CommandMenuProps } from './command-menu-types';
-import 'iconify-icon';
+import '../../icons/register-icons';
 
 export function CommandMenu({
   data,

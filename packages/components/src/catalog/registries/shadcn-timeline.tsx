@@ -1,6 +1,6 @@
 import { createContext, useContext, useId, type ReactNode } from 'react';
 import { Collapsible } from 'radix-ui';
-import { ChevronRight, LoaderCircle } from 'lucide-react';
+import { ChevronRight, Loader75 } from 'iconoteka-react';
 import clsx from 'clsx';
 
 // shadcn/ui has no timeline, so this one is drawn from Tailwind classes in
@@ -78,7 +78,7 @@ export const TimelineEntry = ({ title, by, time, fromActor, pending, expandable,
         <>
           <span aria-hidden="true" className="absolute top-5 bottom-0 left-[5px] w-px bg-border group-last/entry:hidden" />
           {pending ? (
-            <LoaderCircle aria-hidden="true" className="mt-0.5 size-3 shrink-0 animate-spin text-muted-foreground motion-reduce:animate-none" />
+            <Loader75 aria-hidden="true" className="mt-0.5 size-3 shrink-0 animate-spin text-muted-foreground motion-reduce:animate-none" />
           ) : (
             <span aria-hidden="true" className={clsx('shrink-0 rounded-full bg-muted-foreground/40', compact ? 'mt-1.5 ml-[2px] size-2' : 'mt-1 size-3')} />
           )}

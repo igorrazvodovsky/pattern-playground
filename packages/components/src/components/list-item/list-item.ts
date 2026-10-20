@@ -71,13 +71,13 @@ export class PpListItem extends Elena(HTMLElement) {
     if (!this.check) {
       this.check = document.createElement('span');
       this.check.className = 'list-item__check';
-      this.check.innerHTML = '<iconify-icon class="icon" icon="ph:check" aria-hidden="true"></iconify-icon>';
+      this.check.innerHTML = '<iconify-icon class="icon" icon="ik:checkmark" aria-hidden="true"></iconify-icon>';
       this.prepend(this.check);
     }
     if (!this.chevron) {
       this.chevron = document.createElement('span');
       this.chevron.className = 'list-item__chevron';
-      this.chevron.innerHTML = '<iconify-icon class="icon" icon="ph:caret-right" aria-hidden="true"></iconify-icon>';
+      this.chevron.innerHTML = '<iconify-icon class="icon" icon="ik:chevron-right" aria-hidden="true"></iconify-icon>';
       this.append(this.chevron);
     }
 

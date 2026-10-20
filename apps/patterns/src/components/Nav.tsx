@@ -37,7 +37,7 @@ interface NavNodeProps {
 }
 
 const Chevron = () =>
-  React.createElement('iconify-icon', { icon: 'ph:caret-down', className: 'sidebar-collapsible-chevron' });
+  React.createElement('iconify-icon', { icon: 'ik:chevron-down', className: 'sidebar-collapsible-chevron' });
 
 function NavNode({ node, currentPath, isOpen, setOpen, hydrated }: NavNodeProps) {
   if (isBranch(node)) {
@@ -175,7 +175,7 @@ export function Nav({ shared, patterns, sequences }: NavTree) {
                   render={<button type="button" onClick={openSearch} />}
                   tooltip="Search"
                 >
-                  <iconify-icon className="icon" icon="ph:magnifying-glass" />
+                  <iconify-icon className="icon" icon="ik:search" />
                   Search
                   <span className="muted" aria-hidden="true">
                     <kbd>⌘</kbd><kbd>K</kbd>
@@ -188,7 +188,7 @@ export function Nav({ shared, patterns, sequences }: NavTree) {
                   isActive={isActivePath('/', currentPath)}
                   tooltip="Introduction"
                 >
-                  <iconify-icon className="icon" icon="ph:house" />
+                  <iconify-icon className="icon" icon="ik:house" />
                   Introduction
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -230,7 +230,7 @@ export function Nav({ shared, patterns, sequences }: NavTree) {
                 render={<a href={STORYBOOK_URL} />}
                 tooltip="Components (Storybook)"
               >
-                {React.createElement('iconify-icon', { icon: 'ph:puzzle-piece' })}
+                {React.createElement('iconify-icon', { icon: 'ik:puzzle' })}
                 <span>Components</span>
               </SidebarMenuButton>
             </SidebarMenuItem>

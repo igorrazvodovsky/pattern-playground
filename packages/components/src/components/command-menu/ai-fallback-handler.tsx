@@ -1,6 +1,5 @@
 import React from 'react';
 import { ComboboxEmpty, ComboboxGroup, ComboboxItem } from '../combobox';
-import { Icon } from '@iconify/react';
 import type { AIFallbackHandlerProps } from './ai-command-types';
 import { PpToast } from '../toast/toast';
 import { modalService } from '../../services/modal-service';
@@ -52,7 +51,7 @@ export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
       <>
         <ComboboxGroup>
           <ComboboxItem disabled>
-            <Icon icon="ph:sparkle" slot="prefix" />
+            <iconify-icon icon="ik:sparkles" slot="prefix"></iconify-icon>
             <span className="shimmer">{aiProcessingMessage}</span>
           </ComboboxItem>
         </ComboboxGroup>
@@ -74,7 +73,7 @@ export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
               {result.suggestedItems.length === 1 ? (
                 // Display single match as regular result
                 [
-                  <Icon key="prefix" icon="ph:sparkle" slot="prefix" />,
+                  <iconify-icon key="prefix" icon="ik:sparkles" slot="prefix"></iconify-icon>,
                   <span key="content">
                     {result.suggestedItems[0].label}
                   </span>,
@@ -87,7 +86,7 @@ export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
               ) : (
                 // Display multiple matches as AI suggestion
                 [
-                  <Icon key="prefix" icon="ph:sparkle" slot="prefix" />,
+                  <iconify-icon key="prefix" icon="ik:sparkles" slot="prefix"></iconify-icon>,
                   <span key="content">
                     Apply {result.suggestedItems.length} suggestions
                   </span>,
@@ -104,7 +103,7 @@ export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
           {/* Only show "no results" if there are truly no suggested items */}
           {result.suggestedItems.length === 0 && result.unmatchedCriteria && result.unmatchedCriteria.length > 0 && (
             <ComboboxItem onSelect={handleCreateNewItem}>
-              <Icon icon="ph:sparkle" slot="prefix" />
+              <iconify-icon icon="ik:sparkles" slot="prefix"></iconify-icon>
               Create new task
             </ComboboxItem>
           )}
@@ -112,7 +111,7 @@ export const AIFallbackHandler: React.FC<AIFallbackHandlerProps> = ({
           {/* Show partial match indicator when there are both matches and unmatched criteria */}
           {result.suggestedItems.length > 0 && result.unmatchedCriteria && result.unmatchedCriteria.length > 0 && (
             <ComboboxItem onSelect={handleCreateNewItem}>
-              <Icon icon="ph:warning" slot="prefix" />
+              <iconify-icon icon="ik:warning" slot="prefix"></iconify-icon>
               <span>
                 Partial match - couldn't understand: {result.unmatchedCriteria.join(', ')}
               </span>

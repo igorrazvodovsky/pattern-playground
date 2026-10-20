@@ -43,7 +43,7 @@ export const Default: Story = {
       {args.label}
       {args.removable && (
         <button aria-label={`Remove ${args.label}`}>
-          <iconify-icon className="icon" icon="ph:x" />
+          <iconify-icon className="icon" icon="ik:cross" />
         </button>
       )}
     </span>
@@ -74,13 +74,13 @@ export const Removable: Story = {
       <span className="tag">
         Tag
         <button aria-label="Remove tag">
-          <iconify-icon className="icon" icon="ph:x"></iconify-icon>
+          <iconify-icon className="icon" icon="ik:cross"></iconify-icon>
         </button>
       </span>
       <span className="tag tag--pill">
         Tag
         <button aria-label="Remove tag">
-          <iconify-icon className="icon" icon="ph:x"></iconify-icon>
+          <iconify-icon className="icon" icon="ik:cross"></iconify-icon>
         </button>
       </span>
     </div>
@@ -121,7 +121,7 @@ export const Disabled: Story = {
       <span className="tag">
         Tag
         <button disabled aria-label="Remove tag">
-          <iconify-icon className="icon" icon="ph:x"></iconify-icon>
+          <iconify-icon className="icon" icon="ik:cross"></iconify-icon>
         </button>
       </span>
       <label className="form-control tag">

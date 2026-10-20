@@ -95,7 +95,7 @@ export function AIAssistantBubbleMenu({ options, onAction }: AIAssistantBubbleMe
           onClick={() => handleAction('zoom-in')}
           title="Condense selected text (zoom in)"
         >
-          <iconify-icon icon="ph:magnifying-glass-plus"></iconify-icon>
+          <iconify-icon icon="ik:zoom-in"></iconify-icon>
         </button>
       )}
       {options.enableZoomOut && (
@@ -105,7 +105,7 @@ export function AIAssistantBubbleMenu({ options, onAction }: AIAssistantBubbleMe
           onClick={() => handleAction('zoom-out')}
           title="Expand selected text (zoom out)"
         >
-          <iconify-icon icon="ph:magnifying-glass-minus"></iconify-icon>
+          <iconify-icon icon="ik:zoom-out"></iconify-icon>
           <span className="visually-hidden">Expand</span>
         </button>
       )}

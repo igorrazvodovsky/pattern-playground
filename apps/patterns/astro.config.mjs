@@ -81,7 +81,7 @@ export default defineConfig({
         // Pattern demos, mounted client-side via lib/demo-registry.ts
         path.resolve(__dirname, '../../packages/components/src/demos/**/*.{ts,tsx}'),
         // Switchable demos' catalog and registries (json-render, the shadcn
-        // kit, radix-ui, lucide), loaded through the demo registry's spec map
+        // kit, radix-ui, iconoteka-react), loaded through the demo registry's spec map
         path.resolve(__dirname, '../../packages/components/src/catalog/**/*.{ts,tsx}'),
         // Component library (register-all.ts) and the shared modules the site
         // imports via @components/*
