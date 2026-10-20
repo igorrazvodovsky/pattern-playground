@@ -54,6 +54,7 @@ Plain, design-practitioner language in everything written here — pattern conte
 ```bash
 npm run lint               # ESLint (workspace root)
 npm run lint:styles        # Stylelint
+npm run format             # Prettier (format:check to list differences)
 npm run test               # lint + Stylelint + one-shot run of every Vitest project
 npm run test-storybook     # Storybook Vitest project only (stories, headless Chromium)
 npm run test-unit          # unit Vitest project only (node, src/**/*.test.ts)
