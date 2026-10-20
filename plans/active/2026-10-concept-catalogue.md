@@ -18,9 +18,10 @@ fixture's own bookkeeping (catalogue, ledger, lifecycle assessment) carries no
 concept: the catalogue holds generic concepts only, and those three are demo
 material. The partition table below is now the world's own. What remains is authoring work: `acts_on` sittings on the
 pattern pages the partition reaches, the conversation-for-action entry, and the
-quarry. The 2025 attempt (root `concepts/`, now fifty-six pages nothing
-builds) stays until the quarry is worked; the five grounded pages have been
-read and deleted.
+quarry. The 2025 attempt (root `concepts/`, now thirty-six pages nothing
+builds) stays until the quarry is worked; the grounded, not-concept and
+conversational pages have been read and deleted, and the conversation for
+action entry exists.
 
 The shape was checked against the concept-design papers in the vault
 (`Resources/Papers/`); no research gate, since that line is already read.
@@ -316,9 +317,16 @@ above, one at a time.
   action sitting below, not for Task tracking. The five files are deleted.
 - *Not concepts* (data-model or substrate material the world ontology
   already covers): Entity, Attribute, Item, Collection, Representation,
-  Reference, Event, EventLog. Dropped; anything they say about
-  individuals, facts, or the log belongs in the ontology spec if it is not
-  there.
+  Reference, Event, EventLog. Worked 2026-10-20: read against
+  [world-ontology.md](../../docs/specs/world-ontology.md). Entity and
+  Attribute are individuals, kinds and the relations registry; Item and
+  Collection are kinds and many-cardinality facts; Reference is a fact whose
+  object is an id, with the inverse derived; Event and EventLog are the
+  action record and the replayed log; Representation is the derived view
+  layer, which the spec places outside the world. The one thing the spec
+  did not say, which Entity's cascade-on-remove sync raised, is that the
+  world never removes an individual; a sentence now says so. The eight
+  files are deleted.
 - *Generic candidates with no world instance*: Bookmark, Label, Form,
   Template, TemplateLibrary, User, UserProfile, Authentication,
   Password, Session. Listed as candidates; an entry is authored when a
@@ -327,19 +335,26 @@ above, one at a time.
 - *Commerce cluster* (Account, Catalogue, Currency, Inventory, Order, Quote,
   ShoppingCart, Subscription): candidates with no claimant in the corpus. The
   fixture's catalogue actions are its own domain, not an instance of Catalogue.
-- *Conversational cluster* (Winograd & Flores): the conversation for action
-  is a concept in the strict sense — request, promise, counter, decline,
-  report complete, declare satisfied, as actions over a conversation
-  individual — and the delegating-work sequence acts on it; so does the
-  agent trace plan, whose delegating and reporting-back steps are its
-  opening and closing actions. Commitment and ConditionOfSatisfaction fold into it.
-  Trigger, Intervention and Breakdown are synchronisations, not concepts.
-  Domain, Interpretation, StructuralCoupling and InnovationViaConversation
-  are theory and get no entry. The dress-shop batch is quarry for this one
-  sitting, and so is what the deleted Task page held about delegated work:
-  a requester and a fulfiller, a clarifying state between them, blocking and
-  resuming, reporting progress, and failing as distinct from completing.
-  Second sitting, joint with the agent trace plan.
+- *Conversational cluster* (Winograd & Flores): worked 2026-10-20. The
+  thirteen pages were the book modelled chapter by chapter, a third of it
+  theory (Domain, Interpretation, StructuralCoupling,
+  InnovationViaConversation) and a third the dress shop's own domain; only
+  Conversation and ConditionOfSatisfaction had a concept's shape, and
+  Delegation and Planning listed qualities (trust, oversight) as state. Too
+  little per file to lift, so the directory was deleted whole and the entry
+  written fresh from the book's structure:
+  [conversation-for-action](../../apps/patterns/src/content/concepts/conversation-for-action.mdx),
+  with request, promise, counter, decline, withdraw, reportComplete,
+  declareSatisfied and declareUnsatisfied as actions, breakdown and the
+  implied promise as misfits, and the world's abbreviated loop
+  (`completeTask` plus its notification) named in the body. Its name is a
+  noun phrase because "conversing for action" reads badly. No world action
+  carries it yet, so nothing validates its actions. The entry was decoupled
+  from the agent trace plan: that plan names its delegating and
+  reporting-back actions against this entry when it reaches its vocabulary
+  sitting, rather than the entry waiting on it. The dress-shop batch has the
+  same material in Jackson's formal syntax and is deleted with the root
+  directory.
 - *Version control* (Repository, Commit, WorkingArea, Branch, Head, Tag and
   four data classifications): no disposition yet. The likely reading is
   domain material for a future versioning concept, which Document keeping's
@@ -421,11 +436,9 @@ Remaining:
   for *Making Software Meaningful* (one gesture, several concepts; the
   grant/revoke asymmetry; the concept behind an unchanged action) are what
   those sittings write.
-- Conversation for action, joint with the agent trace plan's vocabulary
-  sitting; the dress-shop batch is quarry for it.
-- Work the rest of the quarry per the dispositions above (the grounded
-  pages are done); then delete root `concepts/` and the paused dress-shop
-  plan.
+- Work the rest of the quarry per the dispositions above (the grounded,
+  not-concept and conversational pages are done); then delete root
+  `concepts/` and the paused dress-shop plan.
 - The entry name `acts_on` is confirmed by two pages; revisit only if a
   sitting finds it reads wrongly.
 
