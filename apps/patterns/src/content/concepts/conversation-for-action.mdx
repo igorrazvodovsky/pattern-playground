@@ -1,0 +1,64 @@
+---
+title: Conversation for action
+added: 2026-10-20
+purpose: Bring a request made of another party to a close that both sides have agreed.
+principle: >-
+  If a requester asks a performer for something and says what would count as
+  done, and the performer promises it, the conversation stays open until the
+  performer reports it done and the requester declares the condition met.
+state:
+  - "requester: Conversation -> one Party"
+  - "performer: Conversation -> one Party"
+  - "condition: Conversation -> one Text"
+  - "by: Conversation -> opt Date"
+  - "status: Conversation -> one Status"
+actions: [request, promise, counter, decline, withdraw, reportComplete, declareSatisfied, declareUnsatisfied]
+misfits:
+  - The condition is agreed in words and judged by one side; the requester can declare unsatisfied what the performer reported done, and nothing in the concept settles who is right.
+  - The loop closes only by explicit acts, so a promise nobody follows up and a report nobody declares on stay open, and a system fills with conversations no one is in.
+  - Most systems run the loop with the promise left out; an assignee field records that the requester chose someone, not that the performer agreed, and the first the performer hears of it is a notification.
+aliases: [request and promise, commitment loop, action workflow, delegation]
+appears_in:
+  - GitHub pull-request review
+  - Jira and Linear, as reporter and assignee with reopen
+  - expense and leave approval flows
+  - coding agents such as Claude Code, asked for something and reporting back
+---
+
+Conversation for action is the structure under every request made of
+another party: ask, agree, do, report, accept. Its state is the conversation,
+not the work. What the performer produces lives elsewhere, in a document or a
+task; what this concept holds is who asked whom for what, what would count as
+done, and how far the two have got towards settling it. The requester and the
+performer are both of kind `Party`, which is supplied where the concept is
+used, so either side can be a person, a team, a role or a system. The loop
+has exits before satisfaction: the performer can decline or counter, the
+requester can withdraw, and the requester can declare the reported work
+unsatisfactory, which sends it back to the performer.
+
+Three variants matter to design:
+
+- *Explicit or implied promise.* In the full form the performer promises, and
+  until then the request is only a request. Most systems collapse this: being
+  assigned is taken as having agreed. The third misfit is the cost, and the
+  design question is whether to give the performer a way to say no, or to
+  offer a different time, before the work is counted as theirs.
+- *Who closes.* In the full form the performer reports and the requester
+  declares. Many systems let the performer mark the work done and treat that
+  as the end, which hands the declaration to the wrong side; the reopen
+  button is where the requester's declaration reappears. [Task
+  tracking](/concepts/task-tracking) and [Staging](/concepts/staging) run this
+  abbreviated loop in the fixture world: `completeTask` is the performer's
+  report, and the notification it fires to whoever created the task is the
+  only trace of the declaration arm.
+- *Negotiation present or absent.* Counter and decline make the opening a
+  negotiation rather than an order. Where one side is a system acting on
+  instruction, the arm is usually missing, and whether to give an agent a way
+  to counter (a different scope, a question before promising) is a design
+  decision rather than a given.
+
+Breakdown is the concept's native failure: a conversation that cannot reach
+satisfaction, because the condition turned out to be impossible, the parties
+read it differently, or one of them left. Nothing here repairs it; a repair is
+a further conversation about the first, and the systems that handle it well
+make the broken one easy to find and refer to.

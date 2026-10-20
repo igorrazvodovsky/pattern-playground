@@ -1,0 +1,119 @@
+---
+// The one rendering of a concept entry, shared by the full page
+// (pages/concepts/[id].astro) and the pane partial (pages/concepts/[id]/pane.astro)
+// so the two cannot drift. The frontmatter carries the definition in Jackson's
+// shape (purpose, operational principle, state, actions); the body carries the
+// variants that matter to design. The patterns that act on the concept are the
+// inverse of their `acts_on` and are rendered, never authored.
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import ArticleShell from './ArticleShell.astro';
+import Label from './Label.astro';
+import { panePath } from '../lib/pane-path';
+import { actsOnOf, worldActionsByConcept } from '../lib/concept';
+import { humaniseSlug } from '../lib/sequence';
+
+interface Props {
+  entry: CollectionEntry<'concepts'>;
+  // False for the pane fragment (see ArticleShell).
+  pagefind?: boolean;
+}
+
+const { entry, pagefind = true } = Astro.props;
+const { Content } = await render(entry);
+const data = entry.data;
+
+const concepts = await getCollection('concepts');
+// The validator gates dangling ids at build time; the fallback matches ActsOn.astro.
+const titleOf = (id: string) => concepts.find((c) => c.id === id)?.data.title ?? humaniseSlug(id);
+
+const worldActions = worldActionsByConcept().get(entry.id) ?? new Set<string>();
+
+const patterns = (await getCollection('patterns'))
+  .flatMap((p) => actsOnOf(p.data.acts_on).filter((ref) => ref.concept === entry.id).map((ref) => ({ p, note: ref.note })))
+  .sort((a, b) => a.p.data.title.localeCompare(b.p.data.title));
+---
+<ArticleShell title={data.title} dates={entry} pagefind={pagefind} pageType="concept">
+  <p>{data.purpose}</p>
+
+  <dl class="description-list">
+    <dt>Operational principle</dt>
+    <dd><Label text={data.principle} /></dd>
+
+    {data.state && data.state.length > 0 && (
+      <>
+        <dt>State</dt>
+        <dd>
+          <ul>
+            {data.state.map((relation) => <li><code>{relation}</code></li>)}
+          </ul>
+        </dd>
+      </>
+    )}
+
+    <dt>Actions</dt>
+    <dd>
+      <ul>
+        {data.actions.map((action) => (
+          <li>
+            <code>{action}</code>
+            {worldActions.has(action) && (
+              <small class="muted" title="Instantiated in the fixture world (shared/world)"> · in the world</small>
+            )}
+          </li>
+        ))}
+      </ul>
+    </dd>
+
+    {data.misfits && data.misfits.length > 0 && (
+      <>
+        <dt>Misfits</dt>
+        <dd>
+          <ul>
+            {data.misfits.map((misfit) => <li><Label text={misfit} /></li>)}
+          </ul>
+        </dd>
+      </>
+    )}
+
+    {data.aliases && data.aliases.length > 0 && (
+      <>
+        <dt>Also called</dt>
+        <dd>{data.aliases.join(', ')}</dd>
+      </>
+    )}
+
+    {data.depends_on && data.depends_on.length > 0 && (
+      <>
+        <dt>Depends on</dt>
+        <dd>
+          {data.depends_on.map((id, i) => (
+            <>{i > 0 && ', '}<a href={panePath('concept', id)}>{titleOf(id)}</a></>
+          ))}
+        </dd>
+      </>
+    )}
+
+    {data.appears_in && data.appears_in.length > 0 && (
+      <>
+        <dt>Appears in</dt>
+        <dd>{data.appears_in.join(', ')}</dd>
+      </>
+    )}
+  </dl>
+
+  <Content />
+
+  {patterns.length > 0 && (
+    <section class="flow" aria-label="Patterns that act on this concept">
+      <h2>Patterns that act on it</h2>
+      <ul>
+        {patterns.map(({ p, note }) => (
+          <li>
+            <a href={panePath('pattern', p.id)}>{p.data.title}</a>
+            {note && <Fragment> — <Label text={note} /></Fragment>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</ArticleShell>

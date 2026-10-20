@@ -3,9 +3,9 @@ title: "World re-grounding: individuals, values, actions, facts"
 status: "completed"
 kind: "exec-spec"
 created: "2026-08"
-last_reviewed: "2026-08-20"
+last_reviewed: "2026-10-20"
 area: "shared-data"
-promoted_to: "docs/specs/world-ontology.md (the settled ontology), shared/world/ (the authored substrate), scripts/world/replay.ts (replay, registry and rule enforcement; --check in the lint gate), scripts/world/verify-views.ts (the twelve equivalence comparisons), .claude/rules/mock-data.md (The world), docs/specs/workspace-layout.md (shared/)"
+promoted_to: "docs/specs/world-ontology.md (the settled ontology), shared/world/ (the authored substrate), scripts/world/replay.ts (replay, registry and rule enforcement; --check in the lint gate), .claude/rules/mock-data.md (The world), docs/specs/workspace-layout.md (shared/)"
 superseded_by: ""
 ---
 # World re-grounding: individuals, values, actions, facts

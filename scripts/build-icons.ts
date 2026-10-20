@@ -30,7 +30,7 @@ const componentsDir = resolve(root, 'packages/components');
 export const OUTPUT = resolve(componentsDir, 'src/icons/iconoteka.generated.json');
 export const PREFIX = 'ik';
 
-const SOURCE_DIRS = ['packages/components/src', 'packages/components/.storybook', 'apps/patterns/src', 'shared', 'concepts'];
+const SOURCE_DIRS = ['packages/components/src', 'packages/components/.storybook', 'apps/patterns/src', 'shared'];
 const SOURCE_FILE = /\.(ts|tsx|js|mjs|json|md|mdx|astro|html)$/;
 const WEIGHT_SUFFIX = /-(thin|ultralight|light|medium|semibold|bold)$/;
 const NAME = new RegExp(`(?<![\\w-])${PREFIX}:([a-z0-9]+(?:-[a-z0-9]+)*)`, 'g');

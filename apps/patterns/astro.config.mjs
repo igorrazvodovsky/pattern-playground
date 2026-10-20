@@ -9,6 +9,7 @@ import remarkConsequences from './integrations/remark-consequences.ts';
 import validateCrossReferences from './integrations/validate-cross-references.ts';
 import watchDepRegistry from './integrations/watch-dep-registry.ts';
 import forceMdxInvalidation from './integrations/force-mdx-invalidation.ts';
+import conceptsDevOnly from './integrations/concepts-dev-only.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -45,7 +46,9 @@ export default defineConfig({
     // below collapses mid-session — the failure mode the comment there describes.
     // Dev-only: force SSR invalidation of MDX renders, which Astro stops doing
     // after some minutes of uptime (see the plugin's comment for the evidence).
-    plugins: [watchDepRegistry(), forceMdxInvalidation()],
+    // Build-only while the concept catalogue is unpublished: keeps its files
+    // out of the client bundle (see the plugin's comment).
+    plugins: [watchDepRegistry(), forceMdxInvalidation(), conceptsDevOnly()],
     resolve: {
       alias: {
         '@components': path.resolve(__dirname, '../../packages/components/src/components'),

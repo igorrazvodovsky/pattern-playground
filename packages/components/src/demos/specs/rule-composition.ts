@@ -1,8 +1,9 @@
 import type { Spec, StateStore } from '@json-render/core';
+import { z } from 'zod';
 import { filterLabels, filterPriorities, filterStatuses, nameOf, users } from '@shared/data';
 import type { RuleSlot, RuleSlotOption } from '../../catalog/rule-parts';
-import type { RuleGroup, RuleLine, RuleTree } from '../../catalog/registries/shadcn-rule-builder';
-import type { SpecSetup } from '../../catalog/SpecDemo';
+import type { RuleGroup, RuleLine, RuleTree } from '../../catalog/registries/shadcn/rule-builder';
+import type { ActionDefinition, SpecSetup } from '../../catalog/SpecDemo';
 import spec from './rule-composition.json' with { type: 'json' };
 
 // A saved search over the world's tasks, composed as one statement. The
@@ -245,6 +246,11 @@ const applyEdit = (rule: Rule, edit: Edit, nextId: () => string): Rule => {
   return { where: changeItem(rule.where, itemId, part, edit.value as string[]) };
 };
 
+const editRule: ActionDefinition = {
+  params: z.object({ edit: z.unknown() }),
+  description: 'Apply an edit written by a RuleBuilder ({ kind, slotId, value }) to the draft rule.',
+};
+
 const handlers = (store: StateStore) => {
   let next = 1;
   return {
@@ -259,6 +265,7 @@ export default {
   spec: spec as Spec,
   setup: {
     initialState: { rule: initialRule, edit: null },
+    actions: { editRule },
     handlers,
     functions: {
       ruleTree: ({ rule }) => toTree(rule as Rule),

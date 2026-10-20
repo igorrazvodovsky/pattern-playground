@@ -18,7 +18,10 @@ separately.
   `{id, kind}` pair in `individuals.json` and nothing more; every property it
   appears to have is a fact. The kind is not a fact, because it is what the id
   refers to rather than something that happened to it. Individuals are never
-  interpreted or decomposed: an id is matched by identity alone.
+  interpreted or decomposed: an id is matched by identity alone. Nothing
+  removes one either: no action type retires an individual, so an id once
+  introduced stays reachable, and the facts about it go only when an action
+  retracts them one at a time.
 - *Values* — data interpreted by structure and content: strings, numbers,
   booleans, dates, and larger structured objects such as a document body or a
   product specification. Values have no identity and are stored inline where
@@ -76,6 +79,16 @@ trusted alone.
 
 Records may carry two conventional value participants: `label`, the actor's
 own short description of the act, and `note`, a longer remark.
+
+A workspace action type also names its `concept`: the id of the entry in the
+concept catalogue (`apps/patterns/src/content/concepts/`) the action belongs
+to. This is the paper's partition of the action vocabulary into functional
+concerns, carried as metadata on flat names. The fixture's own bookkeeping
+(the circular-economy catalogue, the ledger, the lifecycle assessment) carries
+no `concept`: those actions are demo material, not generic concepts, and the
+catalogue does not hold them. Replay does not read the field; the site's
+cross-reference validator checks it against the catalogue in both directions
+([patterns-and-concepts.md](../language/patterns-and-concepts.md)).
 
 ## What is a fact and what is derived
 
@@ -172,15 +185,16 @@ tracked in the plan, not here.
 
 ## Divergences from the source
 
-- *Concepts are not adopted.* The paper partitions actions into concepts, each
-  a functional concern owning its facts, with synchronizations defined over
-  concept actions. Here action names stay flat and un-namespaced, and rules
-  reference action types directly. The partition is structural for executable
-  systems; this world is data with no control flow, which is what makes the
-  flat vocabulary defensible. If the world becomes executable — demos firing
-  actions through a runtime, an agent operating it — concepts stop being
-  optional. A second trigger is the action vocabulary growing past easy
-  legibility.
+- *Concepts are a partition, not a namespace.* The paper partitions actions
+  into concepts, each a functional concern owning its facts, with
+  synchronizations defined over concept actions. Here the partition is
+  adopted as a `concept` field on each action type (§Action types), but action
+  names stay flat and un-namespaced, rules reference action types directly,
+  and nothing executes. Facts follow their actions into a concept;
+  individuals are assigned to none. Where the world's authors merged several
+  concerns into one action (`createTask` assigns, labels, prioritises and
+  schedules in one act), the merge stands and the concept entry records it as
+  a move taken.
 - *No runtime precondition engine.* Action signatures declare required facts
   and replay enforces them while generating `facts.json`, but no machinery
   checks preconditions when a demo fires a simulated action. The world is

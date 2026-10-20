@@ -2,6 +2,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { panePath } from './pane-path';
 import { bySequenceOrder, humaniseSlug } from './sequence';
+import { CONCEPTS_ENABLED } from './site';
 
 export type NavLeaf = { label: string; href: string };
 export type NavBranch = { label: string; children: NavTreeNode[] };
@@ -13,6 +14,10 @@ export interface NavTree {
   shared: NavGroup[];
   patterns: NavGroup;
   sequences: NavGroup;
+  // The concept catalogue. A parallel catalogue, not part of the language, so
+  // it is rendered in its own corner of the site (Nav.tsx `corner`), never as
+  // a group among the language's.
+  concepts: NavGroup;
 }
 
 type PatternEntry = CollectionEntry<'patterns'>;
@@ -55,14 +60,16 @@ let navCache: { key: string; tree: NavTree } | undefined;
 export async function buildNavTree(): Promise<NavTree> {
   const patterns = await getCollection('patterns');
   const sequences = await getCollection('sequences');
-  const key = [...patterns, ...sequences].map((e) => `${e.id}@${e.digest ?? ''}`).join(' ');
-  if (navCache?.key !== key) navCache = { key, tree: assembleNavTree(patterns, sequences) };
+  const concepts = CONCEPTS_ENABLED ? await getCollection('concepts') : [];
+  const key = [...patterns, ...sequences, ...concepts].map((e) => `${e.id}@${e.digest ?? ''}`).join(' ');
+  if (navCache?.key !== key) navCache = { key, tree: assembleNavTree(patterns, sequences, concepts) };
   return navCache.tree;
 }
 
 function assembleNavTree(
   patterns: PatternEntry[],
   sequenceEntries: CollectionEntry<'sequences'>[],
+  conceptEntries: CollectionEntry<'concepts'>[],
 ): NavTree {
 
   const leavesWhere = (test: (p: PatternEntry) => boolean): NavLeaf[] =>
@@ -112,5 +119,12 @@ function assembleNavTree(
       .map((s): NavLeaf => ({ label: s.data.title, href: panePath('sequence', s.id) })),
   };
 
-  return { shared, patterns: patternsGroup, sequences: sequencesGroup };
+  const conceptsGroup: NavGroup = {
+    label: 'Concepts',
+    children: conceptEntries
+      .map((c): NavLeaf => ({ label: c.data.title, href: panePath('concept', c.id) }))
+      .sort(byLabel),
+  };
+
+  return { shared, patterns: patternsGroup, sequences: sequencesGroup, concepts: conceptsGroup };
 }

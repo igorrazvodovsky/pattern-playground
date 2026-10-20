@@ -473,6 +473,10 @@ realised_by: [actions-application-form--docs]
 
 Coverage is deliberately partial until the backfill sitting runs (plans/active/2026-07-realised-by-backfill.md): form is the type specimen; the ~50 pages with ComponentRef mentions each owe a judgement call — realisation or citation — not a mechanical sweep.
 
+## Concept reference (cross-dataset)
+
+*A acts on K*: pattern A is a move on concept K, an entry in the concept catalogue (`apps/patterns/src/content/concepts/`). The same construction as realisation, pointing the other way from the pattern: no edge type, one authorable home in frontmatter `acts_on` (concept ids, or `{concept, note}` where the move is on one action or one arm of the concept), validated at build time against the collection, kept out of the pattern graph, rendered beside the epistemic status and never in the related-patterns index. Concepts are not graph nodes and never appear in `relationships:`. The field is sparse by design: most patterns are moves over structure with no functional concern behind them. See [patterns-and-concepts.md](patterns-and-concepts.md).
+
 ## Open questions
 
 1. ~~*Situations as authoring burden*~~ — answered 2026-07-25 by the backfill sitting, and reframed in answering: situations *are* written unprompted, but they land as edge notes rather than in the block, because a note is the nearest surface when no block exists. See the changelog entry for the evidence (22 judgements recovered from notes) and the two practices it recommends — a thin block on every new page, and a periodic sweep of noted directed edges. What stays open is narrower and belongs to the next sweep: whether pages that now *have* blocks accrete clauses into them, or whether the note reflex survives the block.

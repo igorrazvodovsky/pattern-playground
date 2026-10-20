@@ -119,8 +119,10 @@ promotion is trigger-gated.
 A demo can also be a spec: `demos/specs/<slug>.json` describes the demo as
 data against the component catalog, and `demos/specs/<slug>.ts` beside it,
 when the demo needs one, supplies what JSON cannot carry: initial state
-(fixtures enter here, never through the spec), action handlers, and
-`$computed` functions for the demo's own logic. A static spec has no module.
+(fixtures enter here, never through the spec), the actions the spec can bind
+beyond json-render's built-ins (each with its params, description and
+handler), and `$computed` functions for the demo's own logic. The catalog
+declares components only. A static spec has no module.
 A module can also build its spec in TypeScript, from a factory another spec
 shares, with no JSON of its own. Code and JSON that several specs share live
 in `demos/specs/shared/`, so that every file directly in `demos/specs/`,
@@ -132,11 +134,14 @@ names the move owns the spec, and other pages borrow it by slug.
 
 The unit tests check every spec against the catalog and its own setup
 (`catalog/specs.test.ts`): types, props and their literal values, slots,
-actions and their handlers, `$computed` names, and directives.
+actions against the module's declarations and handlers (including literal
+params), `$computed` names, and directives.
 
-The catalog, the registries that render it (`registries/pp.tsx` for this
-library, `registries/shadcn.tsx` for shadcn/ui), `SpecDemo.tsx`, and the
-shadcn stylesheet build live in `packages/components/src/catalog/`. The site
+The catalog, the registries that render it (`registries/pp/` for this
+library, `registries/shadcn/` for shadcn/ui), `SpecDemo.tsx`, and the
+shadcn stylesheet build live in `packages/components/src/catalog/`.
+Library-neutral hooks live in `catalog/behaviour/`; each registry folder holds
+its library's markup and styles. The site
 finds specs by glob in `apps/patterns/src/lib/demo-registry.ts`, so a new spec
 needs no registration; MDX writes `<Demo spec="<slug>">`, and the demo frame
 offers a switch between the libraries listed in `lib/demo-libraries.ts`.
@@ -145,7 +150,7 @@ A demo is its own interface with mock data, so its headings do not continue
 the page's outline. Every demo frame is a region named "Demo", described by
 its label, and a spec demo's titles start at a fixed level (h3) inside it.
 Titled types (Card, EmptyState, Section) render their titles at the current
-level and their content one level deeper (`registries/heading-level.ts`).
+level and their content one level deeper (`behaviour/heading-level.ts`).
 Card and EmptyState titles are headings in every registry, even where the
 library publishes them as plain text (shadcn's), and keep their look at any
 level (`.card__title` and `.empty-state__title` in this library). A Section's

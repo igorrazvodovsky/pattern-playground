@@ -2,7 +2,7 @@ import type { Spec } from '@json-render/core';
 import { components, materials, products } from '@shared/data';
 import type { ComponentView, MaterialView, ProductView } from '@shared/data/world-views';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { toggleHandler } from './shared/toggle';
+import { toggle, toggleHandler } from './shared/toggle';
 import spec from './nested-pairs.json' with { type: 'json' };
 
 // Nesting rather than several overviews sharing one detail, because only
@@ -139,6 +139,7 @@ export default {
   spec: spec as Spec,
   setup: {
     initialState: { products: assembled },
+    actions: { toggle },
     handlers: toggleHandler,
   } satisfies SpecSetup,
 };

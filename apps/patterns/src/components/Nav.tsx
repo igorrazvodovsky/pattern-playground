@@ -17,7 +17,7 @@ import { useNavStore, useNavHydration } from '../lib/nav-store';
 import { useActivePath, isActivePath } from '../lib/active-path';
 
 import type { NavBranch, NavTree, NavTreeNode } from '../lib/nav-tree';
-import { STORYBOOK_URL } from '../lib/site';
+import { CONCEPTS_ENABLED, STORYBOOK_URL } from '../lib/site';
 
 function isBranch(node: NavTreeNode): node is NavBranch {
   return 'children' in node;
@@ -137,15 +137,46 @@ function SiteHeader({ hydrated }: { hydrated: boolean }) {
   );
 }
 
-// The persistent sidebar island. `transition:persist`ed in Base.astro, so it
-// hydrates once and survives ClientRouter swaps instead of re-hydrating per
-// navigation. The page content is a static sibling (not a child) of this
-// island; active-link state comes from the runtime URL via useActivePath, not a
-// prop, since a persisted island never re-renders on navigation.
-export function Nav({ shared, patterns, sequences }: NavTree) {
+// The site has two corners, each with its own sidebar: the pattern language
+// (the default) and the concept catalogue, a parallel catalogue reached from
+// the language's footer the way the component catalogue is. Each corner's
+// footer points at the other two.
+export type NavCorner = 'patterns' | 'concepts';
+
+interface NavProps extends NavTree {
+  corner?: NavCorner;
+}
+
+const CORNER = {
+  patterns: { word: 'pattern', home: '/', homeLabel: 'Introduction' },
+  concepts: { word: 'concept', home: '/concepts', homeLabel: 'Overview' },
+} as const;
+
+function CornerLink({ href, icon, label, external }: { href: string; icon: string; label: string; external?: boolean }) {
+  return (
+    <SidebarMenuItem>
+      <SidebarMenuButton render={<a href={href} />} tooltip={label}>
+        {React.createElement('iconify-icon', { icon })}
+        <span>{label}</span>
+        {external && React.createElement('iconify-icon', { icon: 'ik:open-in-new-window', className: 'muted' })}
+      </SidebarMenuButton>
+    </SidebarMenuItem>
+  );
+}
+
+// The persistent sidebar island. `transition:persist`ed in Base.astro under a
+// key per corner, so it hydrates once per corner and survives ClientRouter
+// swaps within it instead of re-hydrating per navigation. The page content is
+// a static sibling (not a child) of this island; active-link state comes from
+// the runtime URL via useActivePath, not a prop, since a persisted island
+// never re-renders on navigation.
+export function Nav({ shared, patterns, sequences, concepts, corner = 'patterns' }: NavProps) {
   const { isOpen, setOpen } = useNavStore();
   const hydrated = useNavHydration();
   const currentPath = useActivePath();
+  const { word, home, homeLabel } = CORNER[corner];
+  const groups: NavTreeNode[] =
+    corner === 'concepts' ? [concepts] : [...shared, sequences, patterns];
 
   return (
     <SidebarProvider renderWrapper={false}>
@@ -162,8 +193,8 @@ export function Nav({ shared, patterns, sequences }: NavTree) {
           </div>
           <SidebarGroup>
             <h1 className="sidebar-logo">
-              <a href="/">
-                <i className="muted">pattern</i>
+              <a href={home}>
+                <i className="muted">{word}</i>
                 <span className="sidebar-logo-suffix"> playground</span>
               </a>
             </h1>
@@ -184,15 +215,15 @@ export function Nav({ shared, patterns, sequences }: NavTree) {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  render={<a href="/" />}
-                  isActive={isActivePath('/', currentPath)}
-                  tooltip="Introduction"
+                  render={<a href={home} />}
+                  isActive={isActivePath(home, currentPath)}
+                  tooltip={homeLabel}
                 >
                   <iconify-icon className="icon" icon="ik:house" />
-                  Introduction
+                  {homeLabel}
                 </SidebarMenuButton>
               </SidebarMenuItem>
-              {shared.map((group) => (
+              {groups.filter((group) => isBranch(group) && group.children.length > 0).map((group) => (
                 <NavNode
                   key={group.label}
                   node={group}
@@ -202,38 +233,16 @@ export function Nav({ shared, patterns, sequences }: NavTree) {
                   hydrated={hydrated}
                 />
               ))}
-              {sequences.children.length > 0 && (
-                <NavNode
-                  node={sequences}
-                  currentPath={currentPath}
-                  isOpen={isOpen}
-                  setOpen={setOpen}
-                  hydrated={hydrated}
-                />
-              )}
-              {patterns.children.length > 0 && (
-                <NavNode
-                  node={patterns}
-                  currentPath={currentPath}
-                  isOpen={isOpen}
-                  setOpen={setOpen}
-                  hydrated={hydrated}
-                />
-              )}
             </SidebarMenu>
           </SidebarGroup>
         </SidebarContent>
+        {/* The other two corners. Patterns and concepts are in-site; components
+            are the Storybook catalogue, so that one leaves the site. */}
         <SidebarFooter>
           <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                render={<a href={STORYBOOK_URL} />}
-                tooltip="Components (Storybook)"
-              >
-                {React.createElement('iconify-icon', { icon: 'ik:puzzle' })}
-                <span>Components</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+            {corner !== 'patterns' && <CornerLink href="/" icon="ik:sitemap" label="Patterns" />}
+            {CONCEPTS_ENABLED && corner !== 'concepts' && <CornerLink href="/concepts" icon="ik:base-shapes" label="Concepts" />}
+            <CornerLink href={STORYBOOK_URL} icon="ik:puzzle" label="Components" external />
           </SidebarMenu>
         </SidebarFooter>
       </Sidebar>

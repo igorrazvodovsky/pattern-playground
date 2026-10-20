@@ -36,7 +36,6 @@ packages/
     │   │   ├── activities/         Motive-driven compositions
     │   │   ├── foundations/        Material substrate docs + unmigrated language entries
     │   │   ├── qualities/          Substrate docs + serves as link target (pending cross-ref migration)
-    │   │   ├── concepts/           Concept design vocabulary
     │   │   ├── data-visualization/ Charts and data encoding
     │   │   ├── data/               Shared mock data (JSON)
     │   │   └── utils/              Storybook utility components

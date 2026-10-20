@@ -5,6 +5,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Active
 
+- [Concept catalogue](active/2026-10-concept-catalogue.md) — Jackson's concepts as a third collection beside patterns and sequences; wired 2026-10-18 with eleven entries (generic concepts only; the fixture's own bookkeeping has none), `acts_on` on patterns and `concept` on the workspace action types; the 2025 quarry worked and deleted 2026-10-20; remaining: `acts_on` sittings on seven pattern pages
 - [Generated demos](active/2026-10-generated-demos.md) — outline, needs iteration, research-gated: a control on the demo frame that asks a model for a variant of a spec demo, written against the catalog, the demo's own state and actions, and the pattern's text; the spec lint as the gate; tests whether a pattern's text is enough to reproduce its move in an interface someone else composed
 - [A brushing demo for coordinated views](active/2026-10-brushing-demo.md) — outline, needs iteration: the coordinated-views page names brushing but no demo shows it; a scatter plot in the catalog for both libraries, a brush drawn on it with a keyboard equivalent, and a spec coupling it to a list
 - [Refactoring sweep](active/2026-10-refactoring-sweep.md) — survey of refactoring opportunities across the code workspaces (2026-10-17): four bugs fixed at the start, then a queue of dead code, consolidation, template extractions, and convention fixes
@@ -91,7 +92,6 @@ them.
 - [Collaboration MDX enhancements](paused/2025-collaboration-mdx-enhancements.md)
 - [Conversational design patterns](paused/2025-conversational-design-patterns.md)
 - [Document control patterns](paused/2025-document-control-patterns.md)
-- [Dress shop concepts](paused/2025-dress_shop_concepts.md)
 - [Dropdown improvements](paused/2025-dropdown-improvements.md)
 - [ESLint warnings resolution](paused/2025-eslint-warnings-resolution-plan.md)
 - [Fuse.js search implementation](paused/2025-fuse-js-search-implementation.md)

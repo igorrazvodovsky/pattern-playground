@@ -1,5 +1,6 @@
 import type { Spec, StateStore } from '@json-render/core';
-import type { SpecSetup } from '../../catalog/SpecDemo';
+import { z } from 'zod';
+import type { ActionDefinition, SpecSetup } from '../../catalog/SpecDemo';
 import {
   ancestorsOf,
   childrenOf,
@@ -155,6 +156,12 @@ const deductionRequest = (anchor: ProcessNode, proposal: Proposal | null) => ({
   subject: SUBJECT,
 });
 
+const deduce: ActionDefinition = {
+  params: z.object({ statePath: z.string(), focus: z.string(), proposal: z.unknown().nullable() }),
+  description:
+    'Ask a model which components that the model does not contain likely belong near `focus`, the id of a modelled component, or near `proposal`, a component it proposed earlier ({ name, rationale, anchorId }), which is then the subject. Writes { status: loading } to `statePath` at once, then { status: ready, proposals, revealed } when the answer comes, raising `revealed` by one every moment until every proposal shows, or { status: absent } when the model does not answer. A later dispatch replaces an earlier one, whose answer is dropped.',
+};
+
 // Proposals arrive one at a time: a tier that fills all at once reads as settled.
 const deduceHandler = (store: StateStore, connected: () => boolean) => {
   let controller: AbortController | undefined;
@@ -235,6 +242,7 @@ export default {
   spec: spec as Spec,
   setup: {
     initialState: { ...start, picked: null, view: derive(start) },
+    actions: { deduce },
     handlers: deduceHandler,
     functions: {
       derive,

@@ -1,7 +1,7 @@
 import type { Spec } from '@json-render/core';
 import { nameOf, users } from '@shared/data';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { armHandler } from './shared/arm';
+import { arm, armHandler } from './shared/arm';
 import spec from './consequence-ladder.json' with { type: 'json' };
 
 export default {
@@ -24,6 +24,7 @@ export default {
       toasts: [],
       pressed: null,
     },
+    actions: { arm },
     handlers: armHandler,
   } satisfies SpecSetup,
 };

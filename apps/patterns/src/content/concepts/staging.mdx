@@ -1,0 +1,49 @@
+---
+title: Staging
+added: 2026-10-18
+purpose: Move an item through an ordered set of states so everyone can see where it stands.
+principle: >-
+  If an item is given a state from an agreed sequence, anyone looking at it sees
+  that state and what comes next; when a member moves it on, the previous state
+  is replaced and the item is found among its new peers.
+state:
+  - "status: Item -> one Status"
+  - "phase: Project -> one Phase"
+  - "progress: Task -> opt Progress"
+actions: [setPhase, changeStatus, updateProgress, completeTask]
+misfits:
+  - An item that fits none of the agreed states is forced into the nearest one, and the sequence stops meaning what it says.
+  - Moving an item on says nothing about why; the reason has to be recorded somewhere else or is lost.
+  - Two sequences on one item (a project's phase and its status) can disagree, and nothing in the concept reconciles them.
+  - Where members can edit the sequence itself, items standing in a removed state have nowhere to stand.
+aliases: [status, workflow state, phase, pipeline stage]
+appears_in:
+  - Trello
+  - Jira
+  - Linear
+  - GitHub issues and pull requests
+---
+
+Staging is defined once and applied to whatever kind of item has an ordered
+life. In the fixture world it is applied twice: `setPhase` moves a project
+through design, implementation, installation, operations and outreach, and
+`changeStatus` moves a task through backlog, to do, in progress, in review and
+done. The two actions keep their names; they are one concept with the kind
+supplied where it is used.
+
+Completing is the terminal move. `completeTask` is staging's last step for a
+task, and it is the action the world's notification rule fires on, so whoever
+asked for the task hears that it is done. A project's completion is recorded by
+[Running a project](/concepts/running-a-project) rather than here, since it
+closes the project's own record (outcome, date, kilograms recycled) and not
+only its state.
+
+Progress is a finer-grained reading of the same life: a number within a state,
+not a state of its own. The world lets `changeStatus` reset it so a task does
+not carry its old progress into a new state.
+
+Two further settings vary between systems. The sequence may be fixed or
+members may add, remove and reorder its states (a GitHub pull request against
+a Trello board). And an item may be free to move to any state or allowed
+only the next permitted ones. The world fixes both: its sequences are given,
+and any state may follow any other.

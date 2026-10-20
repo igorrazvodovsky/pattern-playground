@@ -3237,7 +3237,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… the actor is about to start a task in [making changes](/sequences/making-changes), or in the first encounter of [learning](/sequences/learning), that they meet so rarely they have no model of it, and whose early answers decide which questions exist later; [onboarding](/patterns/onboarding) runs its first-time setup this way for the same reason, since the actor has to choose before understanding what each control means. A [form](/patterns/form) would put every field on one page, and most tasks are better served by one. A wizard gives these sequences a task the actor can finish without a model of it, by applying [progressive disclosure](/patterns/progressive-disclosure) one decision at a time and letting each answer remove the questions that no longer apply; [step by step](/patterns/step-by-step) gives it its navigation when the sequence also decides how the actor moves through the interface.",
-        "resulting": "Each part of the instruction is a smaller pattern, and they follow the actor's path through the steps. Throughout, let [status feedback](/patterns/status-feedback) say where the actor is, what failed, and at the end what the submission produced. In each step, pre-fill with [good defaults](/patterns/good-defaults) whatever the system can guess or remembers from last time, which is also most of the faster path for returning actors. Put [help](/patterns/help) beside the fields it explains, so guidance never takes the actor out of the step. Check each step's inputs with [validation](/patterns/validation) at the field, before the actor can advance, so an early mistake does not carry into the steps that depend on it. Make going back free, since the flow hides everything but the current step: give it a non-destructive [undo](/patterns/undo) and a Back that keeps every answer. Where the flow runs longer than one sitting, give it [resuming](/patterns/resuming), and ask before any exit that would discard what was entered. End with a [review before submitting](/patterns/review-before-submitting), every answer in one place and each linked back to its step, so the actor checks the whole before committing it.\n\nWhere actors have different goals and gain nothing from a fixed order, let [next best action](/patterns/next-best-action) recommend the next step instead of prescribing it, or let an [agent](/patterns/agent) take the actor through the same dependencies in conversation, where an earlier decision can be asked about at any point. The same sequential structure appears when a reusable [template](/patterns/template) is configured through guided prompts, and a [prompt scaffold](/patterns/prompt-scaffolding) paged one part at a time takes the actor through its parts in a fixed order, as a wizard does. A [workflow](/patterns/workflow) coordinates asynchronous tasks across people and systems; a wizard takes one actor through one task in a single sitting…"
+        "resulting": "Each part of the instruction is a smaller pattern, and they follow the actor's path through the steps. Throughout, let [status feedback](/patterns/status-feedback) say where the actor is, what failed, and at the end what the submission produced. In each step, pre-fill with [good defaults](/patterns/good-defaults) whatever the system can guess or remembers from last time, which is also most of the faster path for returning actors. Put [help](/patterns/help) beside the fields it explains, so guidance never takes the actor out of the step. Check each step's inputs with [validation](/patterns/validation) at the field, before the actor can advance, so an early mistake does not carry into the steps that depend on it. Make going back free, since the flow hides everything but the current step: give it a non-destructive [undo](/patterns/undo) and a Back that keeps every answer. Where the flow runs longer than one sitting, give it [resuming](/patterns/resuming), and ask before any exit that would discard what was entered. End with a [review before submitting](/patterns/review-before-submitting), every answer in one place and each linked back to its step, so the actor checks the whole before committing it…"
       },
       "group": "application",
       "evidence": [
@@ -6990,9 +6990,7 @@
       "target": "wizard",
       "type": "related",
       "label": "paginated scaffolds are the wizard applied to prompting",
-      "extractedFrom": "frontmatter:related",
-      "situation": "The same sequential structure appears when a reusable [template](/patterns/template) is configured through guided prompts, and a [prompt scaffold](/patterns/prompt-scaffolding) paged one part at a time takes the actor through its parts in a fixed order, as a wizard does.",
-      "glossFrom": "target:resulting"
+      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "prompt-scaffolding",
@@ -8083,9 +8081,7 @@
       "target": "wizard",
       "type": "complements",
       "label": "when templates are generated through step-by-step choices",
-      "extractedFrom": "frontmatter:complements",
-      "situation": "The same sequential structure appears when a reusable [template](/patterns/template) is configured through guided prompts, and a [prompt scaffold](/patterns/prompt-scaffolding) paged one part at a time takes the actor through its parts in a fixed order, as a wizard does.",
-      "glossFrom": "target:resulting"
+      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "template",
@@ -8386,7 +8382,7 @@
       "target": "wizard",
       "type": "enables",
       "extractedFrom": "frontmatter:composed-of",
-      "situation": "End with a [review before submitting](/patterns/review-before-submitting), every answer in one place and each linked back to its step, so the actor checks the whole before committing it.",
+      "situation": "End with a [review before submitting](/patterns/review-before-submitting), every answer in one place and each linked back to its step, so the actor checks the whole before committing it",
       "glossFrom": "target:resulting"
     },
     {
@@ -8409,9 +8405,7 @@
       "source": "wizard",
       "target": "next-best-action",
       "type": "alternative",
-      "extractedFrom": "frontmatter:alternative",
-      "situation": "Where actors have different goals and gain nothing from a fixed order, let [next best action](/patterns/next-best-action) recommend the next step instead of prescribing it, or let an [agent](/patterns/agent) take the actor through the same dependencies in conversation, where an earlier decision can be asked about at any point.",
-      "glossFrom": "source:resulting"
+      "extractedFrom": "frontmatter:alternative"
     },
     {
       "source": "wizard",
@@ -8426,9 +8420,7 @@
       "source": "wizard",
       "target": "agent",
       "type": "alternative",
-      "extractedFrom": "frontmatter:alternative",
-      "situation": "Where actors have different goals and gain nothing from a fixed order, let [next best action](/patterns/next-best-action) recommend the next step instead of prescribing it, or let an [agent](/patterns/agent) take the actor through the same dependencies in conversation, where an earlier decision can be asked about at any point.",
-      "glossFrom": "source:resulting"
+      "extractedFrom": "frontmatter:alternative"
     },
     {
       "source": "wizard",
@@ -8470,9 +8462,7 @@
       "target": "wizard",
       "type": "tangential",
       "label": "a wizard scripts the actor's path through one task; a workflow externalises a procedure for the system or for others to run",
-      "extractedFrom": "frontmatter:tangential",
-      "situation": "A [workflow](/patterns/workflow) coordinates asynchronous tasks across people and systems; a wizard takes one actor through one task in a single sitting",
-      "glossFrom": "target:resulting"
+      "extractedFrom": "frontmatter:tangential"
     },
     {
       "source": "workflow",

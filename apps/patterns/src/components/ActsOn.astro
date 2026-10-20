@@ -1,0 +1,34 @@
+---
+// Renders a pattern's `acts_on`: the concepts this pattern is a move on. A
+// cross-dataset reference like realisation, so it sits in the header meta
+// beside the epistemic status rather than in the related-patterns index.
+// Concept ids are resolved to titles here; the cross-reference validator gates
+// dangling ids at build time, so an unresolved id means the build was skipped.
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Label from './Label.astro';
+import { actsOnOf } from '../lib/concept';
+import { panePath } from '../lib/pane-path';
+import { humaniseSlug } from '../lib/sequence';
+import { CONCEPTS_ENABLED } from '../lib/site';
+
+interface Props {
+  entry: CollectionEntry<'patterns'>;
+}
+
+const { entry } = Astro.props;
+const refs = CONCEPTS_ENABLED ? actsOnOf(entry.data.acts_on) : [];
+const concepts = refs.length > 0 ? await getCollection('concepts') : [];
+const titleOf = (id: string) => concepts.find((c) => c.id === id)?.data.title ?? humaniseSlug(id);
+---
+{refs.length > 0 && (
+  <p class="muted" data-pagefind-ignore>
+    Acts on{' '}
+    {refs.map((ref, i) => (
+      <>
+        {i > 0 && '; '}
+        <a href={panePath('concept', ref.concept)}>{titleOf(ref.concept)}</a>
+        {ref.note && <Fragment> (<Label text={ref.note} />)</Fragment>}
+      </>
+    ))}
+  </p>
+)}

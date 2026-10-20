@@ -37,7 +37,14 @@ vocabulary the rest of the log uses.
 
 - Decide the agent-action vocabulary: which action names, what participants
   each carries, whether an agent is an individual of kind `user` or a kind of
-  its own.
+  its own. Each action type names its `concept`
+  ([patterns-and-concepts.md](../../docs/language/patterns-and-concepts.md));
+  the delegating and reporting-back steps are the `request` and
+  `reportComplete` actions of the
+  [conversation for action](../../apps/patterns/src/content/concepts/conversation-for-action.mdx)
+  entry, which exists and waits for them, and the agent's own steps
+  (intending, searching, reading, drafting) get entries of their own when
+  they are named here.
 - Author a fixture trace that lives inside the shared world — an agent
   researching something the world already cares about (the biodiversity
   metrics thread on the Life Cycle Assessment document is a candidate), not a

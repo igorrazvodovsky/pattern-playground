@@ -1,6 +1,6 @@
 import type { Spec } from '@json-render/core';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { isSlot, type Paragraph, type SlotPart } from '../../catalog/registries/mention-editor';
+import { isSlot, type Paragraph, type SlotPart } from '../../catalog/behaviour/mention-editor';
 import { candidates, material, materials } from './shared/prompt';
 import spec from './prompt-template.json' with { type: 'json' };
 

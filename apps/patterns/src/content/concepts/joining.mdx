@@ -1,0 +1,28 @@
+---
+title: Joining
+added: 2026-10-18
+purpose: Make a person a member of a space, with a role and a level of access.
+principle: >-
+  If a person joins a workspace, they have a profile in it and can be found by
+  the other members; if a member joins a project, they can see it and act in it
+  at the access level they were given.
+state:
+  - "role: User -> one Role"
+  - "accessLevel: User -> one AccessLevel"
+  - "member: Project -> set User"
+actions: [joinWorkspace, joinProject]
+misfits:
+  - Leaving has no action, so a member who has gone stays a member.
+  - Access level is held on the member, not on the membership, so one person cannot have different access on different projects.
+aliases: [membership, onboarding, access]
+appears_in:
+  - Slack workspaces and channels
+  - GitHub organisations and repositories
+  - Notion workspaces
+---
+
+Joining is applied at two scales in the fixture world: the workspace, where a
+person arrives with a profile, and a project, where a member is added with an
+access level. The second misfit is a merge the world took: access rides on the
+member rather than on the pair of member and project, which is simpler and
+wrong as soon as one person needs different access in two places.

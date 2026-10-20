@@ -1,0 +1,23 @@
+---
+title: Signing in
+added: 2026-10-18
+purpose: Mark that a member is present, so what they do is theirs and what happens meanwhile can be told to them later.
+principle: >-
+  If a member signs in, the system treats their acts as theirs until they are
+  gone; while they are present, notices reach them directly, and while they are
+  not, notices wait.
+state:
+  - "signedIn: User"
+actions: [signIn]
+misfits:
+  - Signing out has no action, so presence is a fact that is set and never cleared.
+  - A member signed in on two devices is one presence, and nothing says which device a notice reaches.
+aliases: [login, session, presence]
+appears_in:
+  - Every system with an account
+---
+
+One action and one unary fact, and a concept only because the per-actor time
+ceiling in the fixture world hangs on it: nothing a member does is replayed
+before they signed in. Authentication, the checking of who a person is, is a
+different concept and has no entry; the world assumes it.

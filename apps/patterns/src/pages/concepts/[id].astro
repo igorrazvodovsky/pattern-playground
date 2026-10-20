@@ -1,0 +1,30 @@
+---
+// A concept hosts the stack as pane 0, so following a pattern that acts on it
+// opens the pattern beside it; `panePath` is how the stack learns pane 0 is
+// not a pattern.
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ConceptArticle from '../../components/ConceptArticle.astro';
+import { panePath } from '../../lib/pane-path';
+import { CONCEPTS_ENABLED } from '../../lib/site';
+
+export async function getStaticPaths() {
+  if (!CONCEPTS_ENABLED) return [];
+  const entries = await getCollection('concepts');
+  return entries.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+---
+<Base
+  title={entry.data.title}
+  slug={entry.id}
+  panePath={panePath('concept', entry.id)}
+  paneKind="Concept"
+  corner="concepts"
+>
+  <ConceptArticle entry={entry} />
+</Base>

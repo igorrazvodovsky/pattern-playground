@@ -9,7 +9,7 @@ paths:
 These rules apply to pattern language content in `apps/patterns/src/content/`.
 For component Storybook documentation, see `.claude/rules/documentation.md`.
 
-Sequence files (`apps/patterns/src/content/sequences/`) follow their own schema and authoring bar — [`docs/specs/sequences.md`](../../docs/specs/sequences.md) — not the pattern shape below. The writing-style and link-format sections of this rule still apply to them.
+Sequence files (`apps/patterns/src/content/sequences/`) follow their own schema and authoring bar — [`docs/specs/sequences.md`](../../docs/specs/sequences.md) — not the pattern shape below. Concept files (`apps/patterns/src/content/concepts/`) likewise follow their own shape — [`docs/language/patterns-and-concepts.md`](../../docs/language/patterns-and-concepts.md): frontmatter definition, short body on the variants that matter to design, no situation block, no relationships. The writing-style and link-format sections of this rule still apply to both; a concept is linked as `/concepts/<id>`.
 
 ## Frontmatter (replaces `<Meta>` tags)
 

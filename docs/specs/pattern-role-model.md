@@ -21,7 +21,6 @@ and graph metadata. The two-language framing behind it is
   implementation substrate in the components package.
 - A `foundation` is theory, model, principle, or material substrate. Foundations
   are bilingual in the same way as qualities.
-- A `concept` is a software concept vocabulary entry.
 
 Compositional complexity is component-catalogue metadata: `atomic:*` story tags
 in Storybook, with no counterpart in pattern frontmatter. It does not decide
@@ -136,7 +135,10 @@ in CSF story files.
 Explicit role tags cover `role:component`, `role:pattern`, `role:collection`,
 `role:quality`, and `role:foundation` in frontmatter (`role:umbrella` is a
 deprecated alias of `role:collection`, still accepted by the extractor).
-`role:concept` and `role:example` remain uncommitted.
+`role:example` remains uncommitted. `role:concept` was retired rather than
+committed: concepts are a parallel catalogue with their own collection
+([patterns-and-concepts.md](../language/patterns-and-concepts.md)), reached
+by reference, as components are, and never nodes of the language.
 
 Use [`docs/language/pattern-definition.md`](../language/pattern-definition.md)
 as the operational test when assigning or changing a role. The extractor reports

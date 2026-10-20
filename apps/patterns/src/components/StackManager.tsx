@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useRef } from 'react';
 import { findOpenPane, singlePaneQuery, stackablePath, useStackStore, type Pane } from '../lib/stack-store';
 import { addDescribedBy, removeDescribedBy } from '../lib/describedby';
-import { panePath, paneIndexOf, paneKindOf } from '../lib/pane-path';
+import { PANE_LABEL, panePath, paneIndexOf, paneKindOf } from '../lib/pane-path';
 import { mountDemos, unmountDetachedDemos } from '../lib/demo-registry';
 
 interface StackManagerProps {
@@ -340,7 +340,7 @@ export function StackManager({ slug, title, path }: StackManagerProps) {
       {panes.slice(1).map((pane, i) => {
         const paneIndex = i + 1;
         const isActive = paneIndex === activeIndex;
-        const kind = paneKindOf(pane.path) === 'sequence' ? 'Sequence' : 'Pattern';
+        const kind = PANE_LABEL[paneKindOf(pane.path)];
         return (
           <section
             // Index as well as path: a shared URL can list the same page twice.

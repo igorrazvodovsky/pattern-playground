@@ -1,0 +1,32 @@
+---
+title: Running a project
+added: 2026-10-18
+purpose: Hold a bounded piece of shared work from its start to its outcome, so members and their tasks have a place to belong to.
+principle: >-
+  If a member starts a project, it exists with a name and a purpose and others
+  can join it and work in it; when the work is done, whoever closes it records
+  the outcome and the project is kept as a finished thing.
+state:
+  - "name: Project -> one Name"
+  - "blurb: Project -> one Text"
+  - "createdBy: Project -> one User"
+  - "partners: Project -> opt Count"
+  - "completedAt: Project -> opt Date"
+  - "recycledKg: Project -> opt Quantity"
+actions: [createProject, setPartners, completeProject]
+misfits:
+  - A project that is never closed stays active, and the difference between a live project and an abandoned one is invisible.
+  - Closing records the outcome in the project's own terms (here, kilograms recycled), so the concept is less generic than it looks.
+aliases: [project, workspace area, initiative]
+appears_in:
+  - Basecamp
+  - Asana
+  - Linear projects
+---
+
+A project's state in the fixture world is held by [Staging](/concepts/staging)
+(its phase), its membership by [Joining](/concepts/joining), and its work by
+[Task tracking](/concepts/task-tracking). What remains here is the project's own record:
+that it started, who started it, how many partner organisations it has, and
+how it ended. `completeProject` closes the record and clears the phase in the
+same act, which is a small merge with staging's terminal move.

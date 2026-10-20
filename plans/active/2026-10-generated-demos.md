@@ -26,10 +26,10 @@ The prerequisites are now in place:
 - The catalog has 51 types, and every pattern-page demo but nine is a spec.
 - `catalog.prompt({ directives })` describes the types, the built-in actions,
   and the directives in `catalog/directives.ts`. Measured on 2026-10-20 it is
-  about 65,000 characters.
+  79,877 characters (82,022 before the demo actions left the catalog).
 - `catalog/specs.test.ts` checks a spec against the catalog and against the
-  module that sets it up: types, props and literal values, slots, actions and
-  their handlers, `$computed` names, directives.
+  module that sets it up: types, props and literal values, slots, actions
+  against the module's declarations and handlers (with literal params), `$computed` names, directives.
 - `apps/server` already streams model output to the site as server-sent
   events (`services/streaming.ts`), through OpenAI.
 
@@ -85,7 +85,7 @@ specs fail the lint by definition.
   directives and the user prompt with `buildUserPrompt` (state as context);
   streams patches over the existing SSE helper.
 - Prompt material per demo: the module's initial state (or its shape), the
-  catalog actions it handles, and its `$computed` functions with a sentence
+  actions it declares, and its `$computed` functions with a sentence
   each. Those functions have no descriptions today, so a model cannot use
   them; either each module describes its functions, or generated specs may
   not use `$computed`. Declaring them in the catalog is not enough: in
@@ -94,9 +94,11 @@ specs fail the lint by definition.
   them. The descriptions have to reach the model through `customRules`, or
   the generic functions become directives, whose descriptions the prompt
   does carry.
-- Actions per demo: if the sweep's *Demo actions in the shared catalog*
-  item lands, each module declares its own actions, and the prompt for a
-  demo names only those.
+- Actions per demo: each module declares the actions its spec can bind
+  (`SpecSetup.actions`: params and a description beside the handler), and
+  the catalog declares none, so the prompt for a demo names only that
+  module's actions. `catalog.prompt()` does not list them; they reach the
+  model through `customRules` or the user prompt.
 - A catalog per demo, if the prompt is cut (§Research gate). json-render has
   no `pick`, `extend` or merge on a catalog. A smaller catalog is a second
   `defineCatalog` call over a chosen part of `catalog.data.components`, as

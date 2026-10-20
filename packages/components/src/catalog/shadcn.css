@@ -14,8 +14,8 @@
 @import 'tailwindcss' source(none);
 
 /* Classes come from the shadcn registry and the components beside it
-   (registries/shadcn*.tsx); nothing else in the repository is scanned. */
-@source './registries/shadcn*.tsx';
+   (registries/shadcn/); nothing else in the repository is scanned. */
+@source './registries/shadcn/*.tsx';
 
 /* shadcn's semantic colours, defined on the scope root rather than :root: the
    library already owns --accent and --border. light-dark() follows the site's

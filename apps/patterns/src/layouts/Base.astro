@@ -6,7 +6,7 @@ import '../styles/app.css';
 import '../styles/stack.css';
 import '../styles/link-preview.css';
 import '../styles/sequence.css';
-import { Nav } from '../components/Nav';
+import { Nav, type NavCorner } from '../components/Nav';
 import { StackManager } from '../components/StackManager';
 import { buildNavTree } from '../lib/nav-tree';
 
@@ -18,8 +18,10 @@ interface Props {
   panePath?: string;
   // What pane 0 is, for its region label.
   paneKind?: string;
+  // Which corner of the site the page belongs to; decides the sidebar.
+  corner?: NavCorner;
 }
-const { title, slug, panePath, paneKind = 'Pattern' } = Astro.props;
+const { title, slug, panePath, paneKind = 'Pattern', corner = 'patterns' } = Astro.props;
 const nav = await buildNavTree();
 ---
 <!doctype html>
@@ -45,7 +47,9 @@ const nav = await buildNavTree();
   </head>
   <body>
     <div class="shell" data-slot="shell">
-      <Nav client:load transition:persist="app-nav" shared={nav.shared} patterns={nav.patterns} sequences={nav.sequences} />
+      {/* One persist key per corner: the island survives swaps within a corner
+          and is replaced when the actor crosses into the other. */}
+      <Nav client:load transition:persist={`app-nav-${corner}`} corner={corner} shared={nav.shared} patterns={nav.patterns} sequences={nav.sequences} concepts={nav.concepts} />
       <main class="shell__main" data-slot="shell-main">
         {slug ? (
           <div class="stack" style="--pane-n: 1">

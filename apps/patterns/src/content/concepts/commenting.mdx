@@ -1,0 +1,60 @@
+---
+title: Commenting
+added: 2026-10-18
+purpose: Let people attach remarks to a passage of shared material and settle them.
+principle: >-
+  If a member marks a passage and writes a remark, others see the remark beside
+  the passage and can reply; once the matter is settled, whoever resolves the
+  thread takes it out of view without deleting it.
+state:
+  - "author: Comment -> one User"
+  - "about: Comment -> one Item"
+  - "anchor: Comment -> opt Range"
+  - "thread: Comment -> one Thread"
+  - "replyTo: Comment -> opt Comment"
+  - "resolvedBy: Comment -> opt User"
+actions: [addComment, replyToComment, resolveThread]
+misfits:
+  - A thread whose passage is deleted keeps its remarks and loses its place.
+  - Resolving hides a thread from the people who have not read it yet, and what was settled there is invisible to anyone reading only the material.
+  - A passage that starts being referred to, not only discussed, is a weak object; a highlight with a thread has no identity of its own.
+  - A remark edited after it has been answered changes what the replies were answering, unless the edit is marked.
+  - A remark outlives its author's membership; the thread keeps it and `author` names someone who has left.
+aliases: [discussion, annotation, review comment, thread]
+appears_in:
+  - Google Docs
+  - Figma
+  - GitHub pull-request review
+  - Notion
+---
+
+Commenting is the concept behind every "leave a note here" gesture. The remark
+belongs to a place in the material rather than to the whole of it, it is
+visible to the other people working on that material, and it has a lifecycle
+of its own: open, answered, settled. The last point is what separates
+commenting from chat beside a document. A chat message is never resolved; a
+comment is.
+
+Three variants matter to design, and each is a different setting of the state
+above:
+
+- *Anchored or whole.* `anchor` is optional. A comment with a range sits
+  beside the passage it names; a comment without one is about the item as a
+  whole. The two read differently and resolve differently, since a
+  whole-item comment has no passage to lose.
+- *Resolved or deleted.* Resolving records who settled the thread and takes it
+  out of view; the remarks survive. A system that deletes instead has a
+  different concept, a note that can be torn off, and loses the record of what
+  was agreed.
+- *Flat or threaded.* `replyTo` is what makes a thread a conversation rather
+  than a list. Without it every comment is a top-level remark and the
+  thread is just a grouping.
+
+In the fixture world a comment also carries a type and a priority
+(`commentType`, `commentPriority`), which is a small merge: classifying a
+remark rides on the act of making it. The world's one rule over this concept
+is a synchronisation with [Notifying](/concepts/notifying): whoever wrote a
+document hears about a new comment on it, and replies notify nobody, since the
+thread is already in view. Systems that let a remark name a person (an
+@-mention) add a second trigger: the named person is told whether or not the
+material is theirs.

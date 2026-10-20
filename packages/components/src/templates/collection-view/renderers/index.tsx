@@ -23,7 +23,7 @@ import { TableRenderer } from './table';
 
 export type { ItemCoupling, RendererProps } from './shared';
 export { EntityCard } from './entity-card';
-export { EntityDetail, InPlaceDetail } from './entity-detail';
+export { EntityDetail } from './entity-detail';
 export { BoardLanes, CardRenderer, MapRenderer, PlotRenderer, TableRenderer };
 export { pickPlotAxes } from './plot';
 

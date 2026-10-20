@@ -1,6 +1,6 @@
 // Client-side supply line for pane content. Fetches the prerendered pane
-// partial (pages/patterns/[slug]/pane.astro or pages/sequences/[id]/pane.astro)
-// and extracts its contract: the fragment's root <article> and the <h1> inside
+// partial (pages/patterns/[slug]/pane.astro, pages/sequences/[id]/pane.astro
+// or pages/concepts/[id]/pane.astro) and extracts its contract: the fragment's root <article> and the <h1> inside
 // it. Shared by the stacked panes (stack-store) and the link-preview popover,
 // with one in-flight-deduping cache between them, keyed by pane path.
 

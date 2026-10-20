@@ -1,7 +1,7 @@
 import type { Spec } from '@json-render/core';
 import { reuseListings } from '@shared/data';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { armHandler } from './shared/arm';
+import { arm, armHandler } from './shared/arm';
 import spec from './inline-confirmation.json' with { type: 'json' };
 
 // A spec cannot carry time, so `arm` sets the flag and schedules its reversion.
@@ -14,6 +14,7 @@ export default {
   spec: spec as Spec,
   setup: {
     initialState: { listings, items: listings },
+    actions: { arm },
     handlers: armHandler,
   } satisfies SpecSetup,
 };
