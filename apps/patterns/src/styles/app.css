@@ -332,11 +332,50 @@
   }
 
   /* Alexander's section mark: splits the upward context paragraph from the
-     problem, and the solution from the downward paragraph. */
-  .dinkus {
+     problem, and the solution from the downward paragraph. On a shaped page
+     the mark carries its part's name instead of a glyph, and every h2 in the
+     article takes the same form: a label at body size, light and centred, so
+     a heading reads as a mark in the run of prose rather than a break in it,
+     and the table of contents sees the same word the page shows. Lighter than
+     the dimmed body token on purpose; the words are short and known. Unshaped
+     pages keep the glyph for the marks they still draw with `* * *`. The
+     To-do residue keeps its code face. */
+  .dinkus,
+  .section-mark,
+  h2:not(.residue *) {
     text-align: center;
-    color: var(--c-bodyDimmed);
+    color: oklch(from var(--c-body) l c h / 50%);
+  }
+
+  .dinkus {
     user-select: none;
+  }
+
+  .section-mark,
+  h2:not(.residue *) {
+    font-size: inherit;
+    font-weight: 500;
+    line-height: inherit;
+    letter-spacing: var(--letter-spacing-looser);
+    text-transform: uppercase;
+  }
+
+  /* Below the centred mark the levels read by position and weight, not size:
+     the h3 sits left on the text's measure at body size and medium weight,
+     the h4 the same in italic at normal weight. */
+  h3:not(.residue *),
+  h4:not(.residue *) {
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  h3:not(.residue *) {
+    font-weight: 500;
+  }
+
+  h4:not(.residue *) {
+    font-weight: inherit;
+    font-style: italic;
   }
 }
 
