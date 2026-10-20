@@ -124,8 +124,8 @@ function markOpenLinks(stackEl: HTMLElement, panes: Pane[]) {
 // React 19 compares the dangerouslySetInnerHTML object by identity, so an
 // unmemoised article would have its HTML rewritten on every StackManager
 // render, wiping mounted demos, link marks, and anything else scripts added.
-const PaneArticle = memo(function PaneArticle({ html }: { html: string }) {
-  return <article className="pane-article" dangerouslySetInnerHTML={{ __html: html }} />;
+const PaneArticle = memo(function PaneArticle({ html, pageType }: { html: string; pageType?: string }) {
+  return <article className="pane-article" data-page-type={pageType} dangerouslySetInnerHTML={{ __html: html }} />;
 });
 
 // Markup twin of the static pane-0 spine in Base.astro. No click handler: every
@@ -364,7 +364,7 @@ export function StackManager({ slug, title, path }: StackManagerProps) {
                 </article>
               )}
               {pane.status === 'ready' && (
-                <PaneArticle html={pane.html} />
+                <PaneArticle html={pane.html} pageType={pane.pageType} />
               )}
             </div>
           </section>

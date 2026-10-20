@@ -28,7 +28,7 @@ const { Content } = await render(entry);
     <span class="badge role">{entry.data.role}</span>
     {entry.data.activityLevel && <span class="badge">{entry.data.activityLevel}</span>}
     {entry.data.mediation && <span class="badge">{entry.data.mediation}</span>} */}
-<ArticleShell title={entry.data.title} seed={entry.data.seed === true} dates={entry} pagefind={pagefind}>
+<ArticleShell title={entry.data.title} seed={entry.data.seed === true} dates={entry} pagefind={pagefind} pageType={entry.data.role}>
   <EpistemicStatus slot="meta" entry={entry} />
   {/* Consequences, SequenceAppearances, RelatedPatterns and Residue are not
       authored: integrations/remark-consequences.ts injects them into the body

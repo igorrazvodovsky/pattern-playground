@@ -17,12 +17,16 @@ interface Props {
   // the pagefind attributes keeps it out of the search index (the full page
   // carries them, so indexing stays one entry per article).
   pagefind: boolean;
+  // The page's type (a pattern role, or `sequence`). The pane around the
+  // article takes its tint from it (app.css §Site tint).
+  pageType: string;
 }
 
-const { title, seed = false, dates, pagefind } = Astro.props;
+const { title, seed = false, dates, pagefind, pageType } = Astro.props;
 ---
 <article
   class="flow"
+  data-page-type={pageType}
   data-pagefind-body={pagefind ? '' : undefined}
   data-pagefind-meta={pagefind ? `title:${title}` : undefined}
 >

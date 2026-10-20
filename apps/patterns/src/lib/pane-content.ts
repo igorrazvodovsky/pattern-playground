@@ -4,7 +4,7 @@
 // it. Shared by the stacked panes (stack-store) and the link-preview popover,
 // with one in-flight-deduping cache between them, keyed by pane path.
 
-export type PaneContent = { path: string; title: string; html: string };
+export type PaneContent = { path: string; title: string; html: string; pageType?: string };
 
 const cache = new Map<string, Promise<PaneContent>>();
 
@@ -16,7 +16,8 @@ async function fetchPaneContent(path: string): Promise<PaneContent> {
   const article = doc.querySelector('article');
   if (!article) throw new Error(`pane fragment has no <article>: ${path}`);
   const title = article.querySelector('h1')?.textContent?.trim() ?? path;
-  return { path, title, html: article.innerHTML };
+  // Only the article's inner HTML is kept, so its type travels separately.
+  return { path, title, html: article.innerHTML, pageType: article.dataset.pageType };
 }
 
 export function getPaneContent(path: string): Promise<PaneContent> {
