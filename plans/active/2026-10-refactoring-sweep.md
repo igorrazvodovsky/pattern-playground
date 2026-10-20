@@ -3,7 +3,7 @@ title: Refactoring sweep
 status: active
 kind: work-queue
 created: 2026-10-17
-last_reviewed: 2026-10-18
+last_reviewed: 2026-10-20
 area: packages/components, apps/patterns, apps/server, scripts, shared, utils
 promoted_to:
 superseded_by:
@@ -20,11 +20,16 @@ stories, demos and styles; the patterns site and server; scripts, `shared/` and
 Line numbers are as of the survey date. Claims not marked *checked* come from
 the survey and should be confirmed before acting.
 
+A second survey on 2026-10-20 covered the switchable demos only: the catalog,
+both registries, the spec modules, and their mounting in the site, read against
+json-render 0.21.1 and its documentation. Its items are in §3 and §5.
+
 ## Order
 
 1. Bugs (done 2026-10-17; focus after a toast's Undo remains).
 2. Dead-code sweep (done 2026-10-17; three keep-or-retire decisions remain).
-3. Consolidation (done 2026-10-18; the command menu question remains).
+3. Consolidation (first pass done 2026-10-18; the command menu question and
+   the switchable-demo items remain).
 4. Template extractions (stat tile, card list, overview-plus-detail) — these are
    design calls, one sitting each.
 5. Conventions (done 2026-10-18; the story tags and the TemplateField
@@ -308,10 +313,23 @@ Kept on purpose:
 - [ ] *Modules beside static specs* (checked). A spec with nothing to set up
   still needs its own `demos/specs/<slug>.ts`, which only imports the JSON and
   exports `{ spec, setup: {} }`, plus a line in `demo-registry.ts`'s `specs`
-  map. Six such modules exist (the inline and callout notifications, the four
-  empty states), and every static demo migrated adds one. The registry could
-  import the JSON when no module exists and default `setup` to `{}`;
-  `verify-demo-registry.mjs` would then check against both file kinds.
+  map. Seven such modules exist (status-feedback, the inline and callout
+  notifications, the four empty states), and every static demo migrated adds
+  one. The registry could import the JSON when no module exists and default
+  `setup` to `{}`.
+
+  Sharper form (checked 2026-10-20): `catalog/specs.test.ts` already finds
+  spec modules with `import.meta.glob`. The same glob in `demo-registry.ts`,
+  lazy rather than eager, would replace the hand-kept `specs` map, and
+  `verify-demo-registry.mjs` could list the spec files instead of parsing the
+  map with a regex. The glob needs `demos/specs/` to hold only specs and
+  their modules, so the shared helpers (`arm`, `notify`, `settle`, `toggle`,
+  `selection`, `product-view`, `filter-clauses`) and the slice variants that
+  reuse another spec's JSON would move to a folder of their own or be named
+  so the glob skips them. The libraries are also listed in three places: the
+  `Library` type and `libraryLabels` in `Demo.astro`, and the `registries`
+  map in `demo-registry.ts`. One manifest of name, label and loader would
+  serve all three.
 - [x] *tldraw math nodes.* Left as they are. `src/tldraw/` is tldraw's workflow
   starter kit (its formatting, `WorkflowValue`, the same node set including
   Earthquake), and keeping the nodes as written keeps them comparable with
@@ -330,19 +348,55 @@ Kept on purpose:
   its `card__attributes badges` row and its `.detail flow pad` block, so a fix
   to one misses the other. Item already differs: it has no `focusOnShow`, and
   its title is `label flex` rather than `label card__title`. Share the title
-  and detail parts, or render Item as a Card inside a list item.
+  and detail parts, or render Item as a Card inside a list item. The shadcn
+  registry has the same pair; see *Catalog semantics written per registry*.
 - [ ] *Detail without what the row shows, written twice.* `InPlaceDetail` in
   `templates/collection-view/renderers/entity-detail.tsx` has no user since
   the linked-trio demo became a spec, which builds the same view with
   `itemView('mid', undefined, attributes)` from `specs/product-view.ts`.
   Decide whether the template keeps it for collection views or it goes.
-- [ ] *Product readout repeated in specs.* The readout of a product at one
-  rung (badges, price, description, `DescriptionList`, listed) is the same
-  five elements in `linked-trio.json` (twice) and `overview-detail.json`
-  (three times), differing only in the state path they read. A JSON spec
-  cannot reuse a subtree, so a change to the layout is made in every copy.
-  Options: a catalog type that renders the readout from one prop, or
-  generating the subtree from `product-view.ts` when the spec loads.
+- [ ] *Catalog semantics written per registry* (checked 2026-10-20). What a
+  catalog prop means for assistive technology and focus is written out again
+  in each registry. The rule for `aria-pressed` and `aria-expanded` on a title
+  that opens (`opens`, `selected`, `expanded`) appears four times: Card and
+  Item in `registries/pp.tsx` and in `registries/shadcn.tsx`. Each field
+  (Input, Select, Textarea, Combobox and the rest) repeats in both libraries
+  the bound value, the field error, the id, `aria-describedby` and the error's
+  alert role. A copy that drifts would show as a difference between the
+  libraries when it is a defect, which weakens the test switchable demos run.
+  The registries already share hooks for focus hand-off, disclosure state,
+  candidate lists and field validation; extending that to the rest
+  (`usePressableTitle(props, emit)`, `useField(props, bindings)` and similar)
+  would write each meaning once and leave each library its markup and styles.
+  This settles *Item and Card in the pp registry* too. A folder split would
+  show the boundary: `catalog/behaviour/` for the library-neutral hooks,
+  `registries/pp/` and `registries/shadcn/` for each library, where today
+  `registries/` holds all three.
+- [ ] *`@json-render/shadcn` for two components* (checked 2026-10-20). The
+  shadcn registry takes only `Stack` and `Checkbox` from the kit; every other
+  type is built from shadcn's class lists. The kit exports its components as
+  one object, so it does not tree-shake, and it brings embla-carousel, vaul,
+  tailwind-merge and class-variance-authority, which nothing else imports.
+  `catalog/shadcn.css` also scans the kit's `dist` as a Tailwind source:
+  without that line the sheet drops from 13.9 KB to 10.7 KB gzipped (91 KB to
+  65 KB raw), less the few classes Stack and Checkbox would bring back once
+  written by hand. Build the two from shadcn's classes, drop the dependency,
+  and replace the hand-kept `@source` lines for the registry files with one
+  glob.
+- [ ] *Demo actions in the shared catalog* (checked 2026-10-20). Four of the
+  catalog's seven actions are used by one spec each (`toggle` by nested-pairs,
+  `editRule` by rule-composition, `interpret` by filtering, `deduce` by
+  contextual-navigation), and the other three by two specs at most. The
+  `actionsSuppliedBySpecs` no-ops exist only because the catalog declares
+  actions: `defineRegistry` requires a handler for each declared action in its
+  types, and makes `actions` optional when there are none. At runtime
+  `JSONUIProvider` takes handlers under any name. Each action's definition
+  (params and description) could move beside its handler, the catalog would
+  hold components only, and the generated-demos plan would get the per-demo
+  action list it needs for its prompts. `specs.test.ts` would then check a
+  spec's actions against its module rather than the catalog. Confirm first
+  that both registries type-check with `actions` left out, and that a handler
+  declared only in a module still fires.
 
 ## 4. Template extractions
 
@@ -458,22 +512,34 @@ Design calls; one sitting each.
   line below its icon. shadcn keeps the icon beside the text. The
   prompt-quality-feedback messages are short enough to fit one line for now.
   The library needs a row whose text shrinks and wraps beside its icon.
-- [ ] *Full-view spec elements, six times.* `specs/investigate.json`,
-  `specs/watch-to-chase-tiers.json` and `specs/item-view-full.json` each hold
-  the same full-view elements (a Card with badges, price, description, a
-  `DescriptionList` and the listed line), differing only in reading `$item`
-  or `$state`, and `specs/item-view-transitions.json` holds the same body
-  twice more, for the detail drawer and the full dialog; `specs/reference.json`
-  holds the detail body once more, and `specs/overview-detail.json` holds it
-  three times (in place, the detail its pane and popover share, the page). A
-  JSON spec cannot
-  import, so a change to the full view has to be made in all of them. The modules beside the specs could build these
-  elements once in TypeScript, for a given state path, and merge them into
-  each spec. The same goes for repeated conditions and handlers inside one
-  spec: `specs/overview-detail.json` writes the rule for when the in-place
-  layout is in force three times (and its complement twice), and its four
-  layout menu items repeat the same three actions, differing only in the
-  layout.
+- [ ] *Product readout repeated in specs.* The readout of a product at one
+  rung (a Card with badges, price, description, a `DescriptionList` and the
+  listed line) is written out in many specs, differing only in the state path
+  it reads or in reading `$item` rather than `$state`.
+  `specs/investigate.json`, `specs/watch-to-chase-tiers.json` and
+  `specs/item-view-full.json` hold it once each;
+  `specs/item-view-transitions.json` twice, for the detail drawer and the full
+  dialog; `specs/reference.json` once; `specs/linked-trio.json` twice; and
+  `specs/overview-detail.json` three times (in place, the detail its pane and
+  popover share, the page). A change to the readout has to be made in every
+  copy. The same goes for repeated conditions and handlers inside one spec:
+  `specs/overview-detail.json` writes the rule for when the in-place layout
+  is in force three times (and its complement twice), and its four layout
+  menu items repeat the same three actions, differing only in the layout.
+
+  json-render 0.21.1 has no way to reuse a subtree: inside a spec only
+  `repeat` stamps out elements, `$template` interpolates strings only, and
+  directives produce prop values, not elements (checked 2026-10-20). So the
+  fix is one of two, and each goes against an earlier decision:
+  - A catalog type that renders the readout from one prop. This puts a
+    domain-level type in the catalog, which the switchable-demos plan chose
+    not to do: types are named at component altitude.
+  - The modules beside the specs build the elements once in TypeScript, for
+    a given state path, and merge them into each spec. The JSON is then no
+    longer the whole spec, and a generated spec cannot use the shared part.
+
+  Decide which, together with *Item layout by role, twice*, since
+  `product-view.ts` is where the TypeScript form would live.
 - [ ] *Filter chip, twice.* The chip that edits one filter condition
   (attribute, operator, values, remove) is written in
   `components/filter/filter-components.tsx`, tied to the task fixtures, and
@@ -585,6 +651,14 @@ Design calls; one sitting each.
   neither the dropdown's close-on-select nor the submenu re-emit ran. It now
   bubbles; the submenu popup stops the original and re-emits it from the
   dropdown, and focus returns to the trigger as it does for top-level items.
+- [ ] *Inline styles in the pp registry* (checked 2026-10-20).
+  `registries/pp.tsx` sets spacing and layout in 16 `style={…}` props: the
+  Stack's gap and row layout, the Grid's column width, the field and card
+  body grids. The switchable-demos plan noted them against
+  `.claude/rules/styling.md`, and nothing tracked them since. The registry
+  should draw from the library rather than fill gaps locally, so this is a
+  library gap: a row utility with a gap and alignment, a grid with a column
+  width, and a field layout. Once those exist, the registry uses them.
 - [ ] *TemplateField invalid state is unreachable.* `--invalid` and
   `__error` render only for a required field that is `filled` with an empty
   value, but submitting an empty value sets `filled: false`. Decide what should

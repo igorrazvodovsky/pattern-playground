@@ -88,13 +88,38 @@ specs fail the lint by definition.
   catalog actions it handles, and its `$computed` functions with a sentence
   each. Those functions have no descriptions today, so a model cannot use
   them; either each module describes its functions, or generated specs may
-  not use `$computed`.
+  not use `$computed`. Declaring them in the catalog is not enough: in
+  json-render 0.21.1, `catalog.prompt()` lists `catalog.data.functions` by
+  name only and drops their descriptions, although the documentation shows
+  them. The descriptions have to reach the model through `customRules`, or
+  the generic functions become directives, whose descriptions the prompt
+  does carry.
+- Actions per demo: if the sweep's *Demo actions in the shared catalog*
+  item lands, each module declares its own actions, and the prompt for a
+  demo names only those.
+- A catalog per demo, if the prompt is cut (§Research gate). json-render has
+  no `pick`, `extend` or merge on a catalog. A smaller catalog is a second
+  `defineCatalog` call over a chosen part of `catalog.data.components`, as
+  the shadcn kit's documentation does with its own definitions.
 - The pattern's text: its situations and its *Therefore* paragraph, read
   from the content collection, so the model is asked for the move rather than
   for a copy of the markup.
 - Client: the control in `Demo.astro`, a generation state in
   `mountSpecDemos`, `SpecDemo` rendering a spec that changes under it.
-- `lintSpec` as a shared module, with `specs.test.ts` calling it.
+- `lintSpec` as a shared module, with `specs.test.ts` calling it. It cannot
+  be replaced by json-render's own checks: `validateSpec` checks structure
+  only, and `catalog.validate` does not check props per component type in a
+  catalog of more than one type, and leaves `on` and `watch` out of its
+  result.
+- A state-path check in `lintSpec`. A spec that reads a path the module never
+  provides renders without complaint. The check compares the top-level path
+  of every `$state`, `$bindState`, `repeat.statePath`, `watch` key and
+  `${/…}` reference inside a `$template` with the module's initial state and
+  the paths that `setState`, `pushState` and `removeState` write. A probe on
+  2026-10-20 that left out `$template` references found no authored spec
+  reading a path its module does not provide; `$template` references were
+  not checked. The check is there for generated specs, where a misnamed path
+  is the likeliest mistake.
 
 ## Research gate
 
