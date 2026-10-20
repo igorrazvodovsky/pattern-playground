@@ -8,8 +8,15 @@ import {
   type EntityBinding,
   type FilterOperator,
 } from '@shared/data/bindings';
+import type { iconNames } from '../../catalog/catalog';
 import type { FilterEdit } from '../../catalog/filter-edit';
 import { getUniqueAttributeValues } from '../../templates/collection-view/FilterOperations';
+
+export type ValueGlyph = {
+  value: string;
+  icon: (typeof iconNames)[number] | null;
+  avatar: { name: string; image: string | null } | null;
+};
 
 const NEGATING = new Set<FilterOperator>(['is not', 'do not include', 'exclude all of', 'exclude if any of']);
 export const KEEPS: FilterOperator[] = ['is', 'is any of', 'include', 'include any of'];
@@ -20,6 +27,8 @@ export const filterClauses = (
   binding: EntityBinding,
   /** The values a condition on `path` can take, where the data records them rather than the collection. */
   optionsFor: (path: string) => string[] = path => getUniqueAttributeValues(items, path, binding),
+  /** The pictures of a condition's values on `path`, for the values that have one. */
+  glyphsFor: (path: string) => ValueGlyph[] | null = () => null,
 ) => {
   // A value picked or pressed is a value as shown, so a numeric attribute also
   // offers the membership operators, which the operator table leaves out.
@@ -53,6 +62,7 @@ export const filterClauses = (
     operators: operatorsFor(filter),
     values: filter.values,
     options: optionsFor(filter.path),
+    glyphs: glyphsFor(filter.path),
   });
 
   const applyEdit = ({ filters, id, edit }: Record<string, unknown>) => {

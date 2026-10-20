@@ -15,8 +15,8 @@ const interpretation = { prompt: 'urgent things due today for me', result };
 test('field offers the suggestion and a task', () => {
   const field = f.field({ query: 'urgent things due today for me', scope: null, interpretation }) as { groups: { heading: string; options: { label: string }[] }[]; note: string };
   expect(field.groups.at(-1)).toEqual({ heading: 'Suggested', options: [
-    { value: 'suggested', label: 'Apply 2 suggestions (70% match)', narrows: null },
-    { value: 'create-task', label: 'Create a task from this', narrows: null },
+    { value: 'suggested', label: 'Apply 2 suggestions (70% match)', narrows: null, icon: null },
+    { value: 'create-task', label: 'Create a task from this', narrows: null, icon: null },
   ] });
   expect(field.note).toBe('Partly understood: could not read for me.');
 });

@@ -24,6 +24,8 @@ const fieldValidation =
   'List `checks` ({ type: required | email | minLength | …, message }) to validate the bound value: they run when validateForm is dispatched, usually from a Form\'s `submit`, and again on each change once the field has been checked, so the message goes as soon as the value is fixed. The first failing check\'s message shows beneath the field, as `error` does, and `error` wins when both are set. A field that is hidden, by its own `visible` or a container\'s, is left out of validateForm.';
 const options = z.array(z.object({ value: z.string(), label: z.string() }));
 const mention = z.object({ id: z.string(), label: z.string(), type: z.string() });
+// A person's picture; without an image, their initial stands in.
+const avatar = z.object({ name: z.string(), image: z.string().nullable() });
 // A blank in a template's text.
 const slot = z.object({ slot: z.string(), label: z.string(), required: z.boolean().nullable(), value: z.string() });
 
@@ -46,6 +48,7 @@ const interfaceIcons = [
   'delete-confirm',
   'descending',
   'detail',
+  'document',
   'example',
   'external',
   'filter',
@@ -64,11 +67,16 @@ const interfaceIcons = [
   'next',
   'notifications',
   'open',
+  'ownership',
   'part',
+  'people',
+  'person',
   'popover',
   'previous',
   'product',
+  'project',
   'publish',
+  'quote',
   'reasoning',
   'remove-person',
   'restore',
@@ -76,6 +84,7 @@ const interfaceIcons = [
   'saved',
   'search',
   'send',
+  'service',
   'settings',
   'show',
   'side-by-side',
@@ -88,7 +97,47 @@ const interfaceIcons = [
   'web',
 ] as const;
 
-export const iconNames = [...interfaceIcons, ...attributeIcons] as const;
+// A value an attribute takes from a fixed list, such as a task's status or
+// one of its labels, so that each value has a name of its own.
+const valueIcons = [
+  'date-in-3-days',
+  'date-in-3-months',
+  'date-in-a-day',
+  'date-in-a-month',
+  'date-in-a-week',
+  'date-past',
+  'label-advocacy',
+  'label-assessment',
+  'label-audit',
+  'label-data',
+  'label-design',
+  'label-education',
+  'label-innovation',
+  'label-logistics',
+  'label-marketing',
+  'label-optimization',
+  'label-policy',
+  'label-recycling',
+  'label-refurbishment',
+  'label-research',
+  'label-sourcing',
+  'label-take-back',
+  'label-training',
+  'label-waste-reduction',
+  'priority-high',
+  'priority-low',
+  'priority-medium',
+  'priority-urgent',
+  'status-backlog',
+  'status-cancelled',
+  'status-done',
+  'status-in-progress',
+  'status-in-review',
+  'status-todo',
+  'unassigned',
+] as const;
+
+export const iconNames = [...interfaceIcons, ...attributeIcons, ...valueIcons] as const;
 
 // Set by the pattern, not a library default: a toast that offers an action
 // has to stay long enough for the actor to notice it, decide and act.
@@ -155,7 +204,7 @@ export const catalog = defineCatalog(schema, {
       }),
       slots: ['default', 'attributes', 'suffix', 'actions', 'detail'],
       description:
-        'A bounded surface that groups related content. `icon` leads the title, named by meaning, such as the kind of item the card stands for. The `attributes` slot follows the title, for a few of the item\'s attributes as labelled Badges, laid out in a row; Badges there that are `pressable` stay separate presses. The `suffix` slot sits beside the title, for a short status such as a Badge, or a control that acts on the card. The `actions` slot holds the buttons that act on what the card shows, below its content. With `opens` the card stands for something the actor can open, such as the items behind a summary: its title is a button, pressing anywhere on the card presses it, and it emits `open`. A card that opens needs a `title`. Controls in `suffix` and `actions`, and pressable Badges in `attributes`, stay separate presses; anything else in the card is covered by the press, so put controls in those slots. The `detail` slot holds what the card opens into, such as the item\'s full readout under its summary, and shows while `expanded` is true: it sits last in the card, set off by a rule, and is not covered by the press, so the actor can read and select its text and use the controls in it, other cards among them. On a card that opens, `expanded` makes the title read as expanded or collapsed rather than pressed; set `selected` with it to set the card apart while it is expanded. `selected` marks the one card among its peers that the actor picked, such as the item another view is showing: the card is set apart, and on a card that opens the title reads as pressed. `focusOnShow` works as on a Button, for the title: set it on the card the actor opened, so that it takes focus when they come back to it. With `dragId` the card can be dragged, carrying that id, onto a Stack or Disclosure that is a `dropTarget`; give the actor another way to do what the drop does, such as a Menu in the card\'s `actions`. `emphasis` sets how much weight the card carries among its peers: `full` (the default) is the solid surface, `reduced` drops the border to a dashed line and the ground to transparent, and `faint` also dims the text. Use the lower steps for content the system is less sure of, or that matters less, so that the actor can tell from the card alone how far to rely on it; let what the card says fall with it, such as leaving out the attributes.',
+        'A bounded surface that groups related content. `icon` leads the title, named by meaning, such as the kind of item the card stands for. The `attributes` slot follows the title, for a few of the item\'s attributes as labelled Badges, laid out in a row; Badges there that are `pressable` stay separate presses. The `suffix` slot sits beside the title, for a short status such as a Badge, or a control that acts on the card. The `actions` slot holds the buttons that act on what the card shows, below its content. With `opens` the card stands for something the actor can open, such as the items behind a summary: its title is a button, pressing anywhere on the card presses it, and it emits `open`. A card that opens needs a `title`. Controls in `suffix` and `actions`, and pressable Badges in `attributes`, stay separate presses; anything else in the card is covered by the press, so put controls in those slots. The `detail` slot holds what the card opens into, such as the item\'s full readout under its summary, and shows while `expanded` is true: it sits last in the card, set off by a rule, and is not covered by the press, so the actor can read and select its text and use the controls in it, other cards among them. On a card that opens, `expanded` makes the title read as expanded or collapsed rather than pressed; set `selected` with it to set the card apart while it is expanded. `selected` marks the one card among its peers that the actor picked, such as the item another view is showing: the card is set apart, and on a card that opens the title reads as pressed. `focusOnShow` works as on a Button, for the title: set it on the card the actor opened, so that it takes focus when they come back to it. With `dragId` the card can be dragged, carrying that id, onto a Stack or Disclosure that is a `dropTarget`; give the actor another way to do what the drop does, such as a Menu in the card\'s `suffix`. `emphasis` sets how much weight the card carries among its peers: `full` (the default) is the solid surface, `reduced` drops the border to a dashed line and the ground to transparent, and `faint` also dims the text. Use the lower steps for content the system is less sure of, or that matters less, so that the actor can tell from the card alone how far to rely on it; let what the card says fall with it, such as leaving out the attributes.',
     },
     Text: {
       props: z.object({
@@ -321,6 +370,7 @@ export const catalog = defineCatalog(schema, {
     ListItem: {
       props: z.object({
         label: z.string(),
+        icon: z.enum(iconNames).nullable(),
         description: z.string().nullable(),
         checkbox: z.boolean().nullable(),
         checked: z.boolean().nullable(),
@@ -328,7 +378,7 @@ export const catalog = defineCatalog(schema, {
       }),
       slots: ['default', 'suffix'],
       description:
-        'One row in a List, with optional secondary text in `description`. `checkbox` makes the row a checkbox, and `checked` says whether it is ticked. Bind `checked` with $bindItem inside a repeat, or $bindState, so that ticking the row writes to state; a checkbox row with a plain `checked` is for display: the library may still tick it on a press, but state does not change. `struck` strikes the label through, for a row that is still shown but no longer counts. The `suffix` slot holds trailing controls or indicators.',
+        'One row in a List, with optional secondary text in `description`. `icon` leads the label, named by meaning, such as the kind of item the row stands for. `checkbox` makes the row a checkbox, and `checked` says whether it is ticked. Bind `checked` with $bindItem inside a repeat, or $bindState, so that ticking the row writes to state; a checkbox row with a plain `checked` is for display: the library may still tick it on a press, but state does not change. `struck` strikes the label through, for a row that is still shown but no longer counts. The `suffix` slot holds trailing controls or indicators.',
     },
     ItemGroup: {
       props: z.object({
@@ -348,9 +398,9 @@ export const catalog = defineCatalog(schema, {
         expanded: z.boolean().nullable(),
         focusOnShow: z.boolean().nullable(),
       }),
-      slots: ['attributes', 'suffix', 'detail'],
+      slots: ['titleSuffix', 'attributes', 'suffix', 'detail'],
       description:
-        'One item of a collection as a row in an ItemGroup: its `title`, a sentence or two about it in `description`, and in the `attributes` slot a few of its attributes as labelled Badges. The `suffix` slot sits at the end of the row, for a short status such as a Badge, or a control that acts on the item. With `opens` the actor can pick the item: its title is a button, pressing anywhere on the row presses it, and it emits `open`; controls in `suffix`, and pressable Badges in `attributes`, stay separate presses. `focusOnShow` works as on a Card. `selected` marks the one item among its peers that the actor picked, such as the item other views are showing: the row is set apart, and on a row that opens the title reads as pressed. The `detail` slot holds what the row opens into, such as the item\'s readout under its summary, and shows while `expanded` is true, set off by a rule and not covered by the press; with `expanded` the title reads as expanded or collapsed rather than pressed. The row emits `focus` when the pointer comes over it or its title takes keyboard focus, and `blur` when it leaves, for focus that moves without being staked; `focused` marks the row more lightly than `selected`, such as the item another view has the pointer over.',
+        'One item of a collection as a row in an ItemGroup: its `title`, a sentence or two about it in `description`, and in the `attributes` slot a few of its attributes as labelled Badges. The `titleSuffix` slot follows the title text, for a short count or status that belongs to the title, such as a Badge with the number of items it stands for. The `suffix` slot sits at the end of the row, for a short status such as a Badge, or a control that acts on the item. With `opens` the actor can pick the item: its title is a button, pressing anywhere on the row presses it, and it emits `open`; controls in `suffix`, and pressable Badges in `attributes`, stay separate presses. `focusOnShow` works as on a Card. `selected` marks the one item among its peers that the actor picked, such as the item other views are showing: the row is set apart, and on a row that opens the title reads as pressed. The `detail` slot holds what the row opens into, such as the item\'s readout under its summary, and shows while `expanded` is true, set off by a rule and not covered by the press; with `expanded` the title reads as expanded or collapsed rather than pressed. The row emits `focus` when the pointer comes over it or its title takes keyboard focus, and `blur` when it leaves, for focus that moves without being staked; `focused` marks the row more lightly than `selected`, such as the item another view has the pointer over.',
     },
     Stat: {
       props: z.object({
@@ -392,12 +442,13 @@ export const catalog = defineCatalog(schema, {
     Reference: {
       props: z.object({
         label: z.string(),
+        icon: z.enum(iconNames).nullable(),
         preview: z.boolean().nullable(),
         expanded: z.boolean().nullable(),
       }),
       slots: ['default', 'suffix'],
       description:
-        'An item named inline in running text, such as a product a sentence mentions; it sits as a child of a Text, with an inline Text after it for the rest of the sentence. `label` is the item\'s name. Pointing at the reference or focusing it shows a preview of the item after a short pause, and the preview stays while the pointer moves into it, so that the actor can use the controls there; Tab from the reference moves into an open preview. Leaving both, or Escape, closes it. The preview is headed by `label`, and the children follow as its body, such as the item\'s key figure as a Text and its attributes as Badges. The `suffix` slot sits beside the heading, for controls that show the item in another way. Bind `preview` with $bindState: the reference writes whether the preview shows, and setting it false closes the preview. Pressing the reference emits `open`, for a fuller view of the item. `expanded` says that view is showing: the reference is marked expanded, and pointing at it shows no preview meanwhile.',
+        'An item named inline in running text, such as a product a sentence mentions; it sits as a child of a Text, with an inline Text after it for the rest of the sentence. `label` is the item\'s name. Pointing at the reference or focusing it shows a preview of the item after a short pause, and the preview stays while the pointer moves into it, so that the actor can use the controls there; Tab from the reference moves into an open preview. Leaving both, or Escape, closes it. The preview is headed by `label`, led by `icon` when there is one, named by meaning, such as the kind of item, and the children follow as its body, such as the item\'s key figure as a Text and its attributes as Badges. The `suffix` slot sits beside the heading, for controls that show the item in another way. Bind `preview` with $bindState: the reference writes whether the preview shows, and setting it false closes the preview. Pressing the reference emits `open`, for a fuller view of the item. `expanded` says that view is showing: the reference is marked expanded, and pointing at it shows no preview meanwhile.',
     },
     Breadcrumbs: {
       props: z.object({
@@ -497,12 +548,14 @@ export const catalog = defineCatalog(schema, {
         groups: z.array(
           z.object({
             heading: z.string().nullable(),
-            options: z.array(z.object({ value: z.string(), label: z.string(), narrows: z.boolean().nullable() })),
+            options: z.array(
+              z.object({ value: z.string(), label: z.string(), narrows: z.boolean().nullable(), icon: z.enum(iconNames).nullable() }),
+            ),
           }),
         ),
       }),
       description:
-        'A text field with a list of candidates beneath it, which the actor can pick from instead of typing the rest. The list shows `groups` exactly as given, in order, each under its `heading` if it has one, and filters nothing itself: which candidates show for what has been typed is the spec\'s decision, usually a $computed over the bound value. A group with no options is left out, and with none to show the list stays closed. The list opens when the field takes focus or the actor types, and closes on Escape, when focus leaves, or when a candidate is picked; nothing is highlighted until the actor moves to a candidate with the arrow keys or the pointer, so Enter picks the highlighted candidate and otherwise leaves what was typed. Picking writes the candidate\'s `value` to `value`, then emits `select`. With `hideLabel` the label is read by assistive technology only. Bind `value` with $bindState. A candidate with `narrows` is a kind of value rather than a value, such as an attribute whose values the actor picks from next: picking it writes its `value` to `scope` instead (bind it with $bindState), empties the field and keeps the list open, so the actor goes on within that kind. Backspace in the empty field sets `scope` back to null, and so does closing the list. Which candidates show within a scope is the spec\'s decision, as before.',
+        'A text field with a list of candidates beneath it, which the actor can pick from instead of typing the rest. The list shows `groups` exactly as given, in order, each under its `heading` if it has one, and filters nothing itself: which candidates show for what has been typed is the spec\'s decision, usually a $computed over the bound value. A group with no options is left out, and with none to show the list stays closed. The list opens when the field takes focus or the actor types, and closes on Escape, when focus leaves, or when a candidate is picked; nothing is highlighted until the actor moves to a candidate with the arrow keys or the pointer, so Enter picks the highlighted candidate and otherwise leaves what was typed. Picking writes the candidate\'s `value` to `value`, then emits `select`. With `hideLabel` the label is read by assistive technology only. Bind `value` with $bindState. A candidate\'s `icon` leads its label, named by meaning, such as the icon of the attribute it stands for. A candidate with `narrows` is a kind of value rather than a value, such as an attribute whose values the actor picks from next: picking it writes its `value` to `scope` instead (bind it with $bindState), empties the field and keeps the list open, so the actor goes on within that kind. Backspace in the empty field sets `scope` back to null, and so does closing the list. Which candidates show within a scope is the spec\'s decision, as before.',
     },
     SelectableTags: {
       props: z.object({
@@ -578,11 +631,12 @@ export const catalog = defineCatalog(schema, {
         label: z.string(),
         icon: z.enum(iconNames).nullable(),
         multiple: z.boolean().nullable(),
+        align: z.enum(['start', 'end']).nullable(),
         focusNext: z.string().nullable(),
       }),
       slots: ['default'],
       description:
-        'A button that opens a short list of choices, for a setting that is changed now and then rather than kept in view. `label` names the button for assistive technology; `icon` is what it shows, named by meaning. Its children are MenuItem elements, in order. One choice is in force at a time, and the list closes when a choice is made. With `multiple` any number are, each ticked or cleared on its own, and the list stays open while the actor goes through it. Either way it closes on Escape, or when focus leaves it. `focusNext` works as on a Button, for when a choice removes the menu, or what it sits in, while focus is on it or in its list.',
+        'A button that opens a short list of choices, for a setting that is changed now and then rather than kept in view. `label` names the button for assistive technology; `icon` is what it shows, named by meaning. Its children are MenuItem elements, in order. One choice is in force at a time, and the list closes when a choice is made. With `multiple` any number are, each ticked or cleared on its own, and the list stays open while the actor goes through it. Either way it closes on Escape, or when focus leaves it. The list opens below the button, lined up with its start edge; `align: end` lines it up with the end edge instead, for a menu at the end of what it sits in, such as a Card\'s `suffix`. `focusNext` works as on a Button, for when a choice removes the menu, or what it sits in, while focus is on it or in its list.',
     },
     MenuItem: {
       props: z.object({
@@ -617,12 +671,15 @@ export const catalog = defineCatalog(schema, {
         operators: z.array(z.string()),
         values: z.array(z.string()),
         options: z.array(z.string()),
+        glyphs: z
+          .array(z.object({ value: z.string(), icon: z.enum(iconNames).nullable(), avatar: avatar.nullable() }))
+          .nullable(),
         removeLabel: z.string().nullable(),
         focusNext: z.string().nullable(),
         edit: z.unknown().nullable(),
       }),
       description:
-        'One condition of a filter, shown as a chip the actor edits in place: `label` names the attribute, led by `icon` when the attribute has one, named by meaning, then come the `operator`, the chosen `values` (the value itself, or how many are chosen), and a button that removes the condition. Pressing the operator opens `operators`, the current one ticked. Pressing the values opens a list the actor can search, with the chosen values first and ticked, then the rest of `options`; picking one adds it or takes it away, and the list closes. Bind `edit` with $bindState: before emitting `change`, the chip writes { kind: operator | add | remove, value } there, and the spec applies it. The remove button, named by `removeLabel` (Clear filter by default), emits `remove`; `focusNext` works as on a Button. Lay several out in a horizontal Stack.',
+        'One condition of a filter, shown as a chip the actor edits in place: `label` names the attribute, led by `icon` when the attribute has one, named by meaning, then come the `operator`, the chosen `values` (the value itself, or how many are chosen), and a button that removes the condition. Pressing the operator opens `operators`, the current one ticked. Pressing the values opens a list the actor can search, with the chosen values first and ticked, then the rest of `options`; picking one adds it or takes it away, and the list closes. `glyphs` gives the values that have one a small picture: an `icon`, named by meaning, such as a status or a label from a fixed list, or an `avatar` for a person. The chip shows the glyphs of up to three chosen values, overlapping, and the list puts each value\'s glyph before it. Bind `edit` with $bindState: before emitting `change`, the chip writes { kind: operator | add | remove, value } there, and the spec applies it. The remove button, named by `removeLabel` (Clear filter by default), emits `remove`; `focusNext` works as on a Button. Lay several out in a horizontal Stack.',
     },
     // A composite: the library has to supply the whole thing. Its input is
     // already data (a tree of sentence parts), so it can be named here, but a
@@ -651,13 +708,18 @@ export const catalog = defineCatalog(schema, {
         candidates: z.array(
           z.object({
             heading: z.string().nullable(),
-            options: z.array(z.union([mention, z.object({ id: z.string(), label: z.string(), narrows: z.literal(true) })])),
+            options: z.array(
+              z.union([
+                mention.extend({ icon: z.enum(iconNames).nullable() }),
+                z.object({ id: z.string(), label: z.string(), narrows: z.literal(true), icon: z.enum(iconNames).nullable() }),
+              ]),
+            ),
           }),
         ),
         opened: z.string().nullable(),
       }),
       description:
-        'A text the actor writes in, read by assistive technology as `label`, that can name items inline as mentions. `content` is its paragraphs, in order, each a list of plain runs (strings) and mentions ({ id, label, type }); a mention shows its `label`. Bind `content` with $bindState: the editor writes it as the actor types. Content can also hold slots ({ slot, label, required, value }), blanks in a template whose wording is already written: each is a field inside the text that shows its `label` until it holds a `value`, and the actor fills it in place. Tab moves through the slots and mentions in reading order, and Enter in a slot goes to the next slot. What the actor writes goes to the slot\'s `value`. `required` marks a slot the request cannot go without; the editor does not check it, and the actor can delete a slot like any other part of the text, so a spec that needs it checks against the template it started from and says what is missing when the actor sends. To fill or empty every slot at once, set `content`. Typing @ starts a mention: the editor writes what follows the @ to `query` (bind it with $bindState; it is null when no mention is being typed), and shows `candidates` in a list beneath the caret, in order, each group under its `heading`. The list filters nothing itself: which candidates show for the query is the spec\'s decision, usually a $computed over `query` and `scope`. A candidate is either an item ({ id, label, type }) or a kind of item ({ id, label, narrows: true }). The first candidate is highlighted; the arrow keys move the highlight, Enter or Tab picks it, and Escape closes the list and leaves the text. Picking an item puts the mention in place of what was typed. Picking a kind writes its `id` to `scope` (bind it with $bindState) and clears what was typed after the @, so the actor goes on typing within that kind; Backspace with nothing typed sets `scope` back to null, and so does closing the list. Pressing a mention writes its `id` to `opened` (bind it with $bindState), then emits `open`, for a fuller view of the item.',
+        'A text the actor writes in, read by assistive technology as `label`, that can name items inline as mentions. `content` is its paragraphs, in order, each a list of plain runs (strings) and mentions ({ id, label, type }); a mention shows its `label`. Bind `content` with $bindState: the editor writes it as the actor types. Content can also hold slots ({ slot, label, required, value }), blanks in a template whose wording is already written: each is a field inside the text that shows its `label` until it holds a `value`, and the actor fills it in place. Tab moves through the slots and mentions in reading order, and Enter in a slot goes to the next slot. What the actor writes goes to the slot\'s `value`. `required` marks a slot the request cannot go without; the editor does not check it, and the actor can delete a slot like any other part of the text, so a spec that needs it checks against the template it started from and says what is missing when the actor sends. To fill or empty every slot at once, set `content`. Typing @ starts a mention: the editor writes what follows the @ to `query` (bind it with $bindState; it is null when no mention is being typed), and shows `candidates` in a list beneath the caret, in order, each group under its `heading`. The list filters nothing itself: which candidates show for the query is the spec\'s decision, usually a $computed over `query` and `scope`. A candidate is either an item ({ id, label, type, icon }) or a kind of item ({ id, label, narrows: true, icon }); its `icon` leads its label, named by meaning, such as the icon for the kind. The first candidate is highlighted; the arrow keys move the highlight, Enter or Tab picks it, and Escape closes the list and leaves the text. Picking an item puts the mention in place of what was typed. Picking a kind writes its `id` to `scope` (bind it with $bindState) and clears what was typed after the @, so the actor goes on typing within that kind; Backspace with nothing typed sets `scope` back to null, and so does closing the list. Pressing a mention writes its `id` to `opened` (bind it with $bindState), then emits `open`, for a fuller view of the item.',
     },
   },
   actions: {

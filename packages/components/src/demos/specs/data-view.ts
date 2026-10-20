@@ -5,6 +5,7 @@ import { products } from '@shared/data';
 import {
   applyFilters,
   attributeLabelFromBinding,
+  findAttribute,
   isNumericValueType,
   productBinding,
   resolveAttributeSelection,
@@ -183,7 +184,12 @@ const candidates = ({ query, scope }: Record<string, unknown>) => {
   return [
     {
       heading: 'Attributes',
-      options: FILTERABLE.filter(path => matches(label(path))).map(path => ({ value: path, label: label(path), narrows: true })),
+      options: FILTERABLE.filter(path => matches(label(path))).map(path => ({
+        value: path,
+        label: label(path),
+        narrows: true,
+        icon: findAttribute(productBinding, path)?.icon ?? null,
+      })),
     },
     {
       heading: 'Values',

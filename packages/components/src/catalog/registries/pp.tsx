@@ -66,7 +66,7 @@ const fieldLayout: CSSProperties = { display: 'grid', gap: space.s };
 // A grid for the same reason: --flow-space on a card would also set its
 // distance from the card before it, and cards in a Stack would touch.
 const bodyLayout: CSSProperties = { display: 'grid', rowGap: space.s };
-const icons: Record<(typeof iconNames)[number], string> = {
+export const icons: Record<(typeof iconNames)[number], string> = {
   archive: 'ph:archive-box',
   ascending: 'ph:sort-ascending',
   attach: 'ph:paperclip',
@@ -81,6 +81,7 @@ const icons: Record<(typeof iconNames)[number], string> = {
   'delete-confirm': 'ph:trash-simple-fill',
   descending: 'ph:sort-descending',
   detail: 'ph:square-split-horizontal',
+  document: 'ph:file-text',
   example: 'ph:text-aa',
   external: 'ph:arrow-square-out',
   filter: 'ph:funnel-simple',
@@ -99,11 +100,16 @@ const icons: Record<(typeof iconNames)[number], string> = {
   next: 'ph:caret-right',
   notifications: 'ph:bell',
   open: 'ph:folder-open',
+  ownership: 'ph:crown-simple',
   part: 'ph:puzzle-piece',
+  people: 'ph:users',
+  person: 'ph:user',
   popover: 'ph:chat-teardrop',
   previous: 'ph:caret-left',
   product: 'ph:package',
+  project: 'ph:folder-simple',
   publish: 'ph:globe-hemisphere-west',
+  quote: 'ph:quotes',
   reasoning: 'ph:lightbulb',
   'remove-person': 'ph:user-minus',
   restore: 'ph:arrow-arc-left',
@@ -111,6 +117,7 @@ const icons: Record<(typeof iconNames)[number], string> = {
   saved: 'ph:bookmark-simple',
   search: 'ph:magnifying-glass',
   send: 'ph:arrow-elbow-down-left',
+  service: 'ph:wrench',
   settings: 'ph:sliders-horizontal',
   show: 'ph:eye',
   'side-by-side': 'ph:columns',
@@ -122,6 +129,42 @@ const icons: Record<(typeof iconNames)[number], string> = {
   unchanged: 'ph:minus',
   web: 'ph:globe',
   ...attributeGlyphs,
+  // Values from fixed lists.
+  'date-in-3-days': 'ph:calendar',
+  'date-in-3-months': 'ph:calendar-x',
+  'date-in-a-day': 'ph:clock',
+  'date-in-a-month': 'ph:calendar-star',
+  'date-in-a-week': 'ph:calendar-check',
+  'date-past': 'ph:clock-counter-clockwise',
+  'label-advocacy': 'ph:megaphone',
+  'label-assessment': 'ph:chart-pie-slice',
+  'label-audit': 'ph:clipboard-text',
+  'label-data': 'ph:chart-bar',
+  'label-design': 'ph:paint-brush',
+  'label-education': 'ph:book-open',
+  'label-innovation': 'ph:lightbulb',
+  'label-logistics': 'ph:truck',
+  'label-marketing': 'ph:projector-screen',
+  'label-optimization': 'ph:chart-line-up',
+  'label-policy': 'ph:scroll',
+  'label-recycling': 'ph:recycle',
+  'label-refurbishment': 'ph:wrench',
+  'label-research': 'ph:flask',
+  'label-sourcing': 'ph:magnifying-glass',
+  'label-take-back': 'ph:arrow-u-down-left',
+  'label-training': 'ph:student',
+  'label-waste-reduction': 'ph:trash',
+  'priority-high': 'ph:cell-signal-full',
+  'priority-low': 'ph:cell-signal-low',
+  'priority-medium': 'ph:cell-signal-medium',
+  'priority-urgent': 'ph:warning-circle',
+  'status-backlog': 'ph:circle-dashed',
+  'status-cancelled': 'ph:x-circle',
+  'status-done': 'ph:check-circle',
+  'status-in-progress': 'ph:circle-half-tilt',
+  'status-in-review': 'ph:eye',
+  'status-todo': 'ph:circle',
+  'unassigned': 'ph:user-minus',
 };
 const purposeIcons: Record<(typeof purposes)[number], string> = {
   info: 'ph:info',
@@ -548,6 +591,7 @@ export const { registry } = defineRegistry(catalog, {
       const label = props.struck ? <s>{props.label}</s> : props.label;
       return (
         <pp-list-item ref={ref} type={props.checkbox ? 'checkbox' : undefined} checked={Boolean(props.checkbox && checked)}>
+          {props.icon && <iconify-icon icon={icons[props.icon]} data-slot="prefix" aria-hidden="true" />}
           {props.description ? (
             <span>
               {label}
@@ -575,7 +619,7 @@ export const { registry } = defineRegistry(catalog, {
       useFocusOnShow(openRef, props.focusOnShow);
       useFocusHandoff(null, openRef, Boolean(props.opens));
       const Heading = useHeading();
-      const title = props.opens ? (
+      const opener = props.opens ? (
         <button
           ref={openRef}
           type="button"
@@ -591,18 +635,24 @@ export const { registry } = defineRegistry(catalog, {
       ) : (
         props.title
       );
+      const title = (
+        <Heading className="label card__title flex">
+          {opener}
+          {slots?.titleSuffix}
+        </Heading>
+      );
       return (
         <div role="listitem" onPointerEnter={() => emit('focus')} onPointerLeave={() => emit('blur')}>
           <article className="card" data-selected={props.selected ? 'true' : undefined} data-focused={props.focused ? 'true' : undefined} data-popover-host="">
             {slots?.suffix && (
               <div className="card__header">
-                <Heading className="label flex">{title}</Heading>
+                {title}
                 <div className="flex">{slots.suffix}</div>
               </div>
             )}
             {(!slots?.suffix || props.description || slots?.attributes) && (
               <div className="flow pad">
-                {!slots?.suffix && <Heading className="label flex">{title}</Heading>}
+                {!slots?.suffix && title}
                 {props.description && <p>{props.description}</p>}
                 {slots?.attributes && <div className="card__attributes badges">{slots.attributes}</div>}
               </div>
@@ -628,8 +678,10 @@ export const { registry } = defineRegistry(catalog, {
       </div>
     ),
 
+    // A badge with an icon, such as a trend, reads quiet, as in the shadcn
+    // registry; a toned badge without one is a solid fill.
     Badge: ({ props, emit }) => {
-      const Root = props.pressable ? 'button' : 'strong';
+      const Root = props.pressable ? 'button' : props.icon ? 'span' : 'strong';
       return (
       <Root
         type={props.pressable ? 'button' : undefined}
@@ -677,7 +729,9 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    FilterTag: context => <FilterTag {...context} glyph={context.props.icon ? icons[context.props.icon] : null} />,
+    FilterTag: context => (
+      <FilterTag {...context} glyph={context.props.icon ? icons[context.props.icon] : null} iconFor={name => icons[name]} />
+    ),
 
     // The popup is portaled to <body>: the reference sits in a paragraph,
     // which cannot hold the preview's blocks.
@@ -714,7 +768,14 @@ export const { registry } = defineRegistry(catalog, {
               <div ref={contentRef} className="popover" role="dialog" aria-label={props.label} {...content}>
                 <div className="popover__header">
                   <div className="flow">
-                    <Heading className="label">{props.label}</Heading>
+                    <Heading className="label">
+                      {props.icon && (
+                        <>
+                          <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />{' '}
+                        </>
+                      )}
+                      {props.label}
+                    </Heading>
                     <Subsection>{children}</Subsection>
                   </div>
                   {slots?.suffix && <div className="button-group">{slots.suffix}</div>}
@@ -808,7 +869,7 @@ export const { registry } = defineRegistry(catalog, {
     Menu: ({ props, children }) => {
       const { trigger, list } = useMenuFocusHandoff(props.focusNext);
       return (
-        <pp-dropdown placement="bottom-end" hoist stay-open-on-select={props.multiple ?? false}>
+        <pp-dropdown hoist placement={props.align === 'end' ? 'bottom-end' : undefined} stay-open-on-select={props.multiple ?? false}>
           <button ref={trigger} type="button" className="button button--plain" data-slot="trigger" title={props.label}>
             {props.icon && <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />}
             <span className="visually-hidden">{props.label}</span>
@@ -1017,6 +1078,7 @@ export const { registry } = defineRegistry(catalog, {
                   <ComboboxGroup key={group.heading ?? index} heading={group.heading ?? undefined}>
                     {group.options.map(option => (
                       <ComboboxItem key={option.value} value={option.value} onSelect={pick}>
+                        {option.icon && <iconify-icon slot="prefix" className="icon" icon={icons[option.icon]} aria-hidden="true" />}
                         {option.label}
                       </ComboboxItem>
                     ))}

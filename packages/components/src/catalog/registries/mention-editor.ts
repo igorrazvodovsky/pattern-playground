@@ -5,6 +5,7 @@ import StarterKit from '@tiptap/starter-kit';
 import { Placeholder } from '@tiptap/extensions';
 import Mention from '@tiptap/extension-mention';
 import type { SuggestionKeyDownProps, SuggestionProps } from '@tiptap/suggestion';
+import type { iconNames } from '../catalog';
 
 // A MentionEditor's behaviour on Tiptap, shared by the registries so that only
 // the markup differs.
@@ -16,8 +17,9 @@ import type { SuggestionKeyDownProps, SuggestionProps } from '@tiptap/suggestion
 export type MentionPart = { id: string; label: string; type: string };
 export type SlotPart = { slot: string; label: string; required: boolean | null; value: string };
 export type Paragraph = (string | MentionPart | SlotPart)[];
-export type KindCandidate = { id: string; label: string; narrows: true };
-export type MentionCandidate = MentionPart | KindCandidate;
+type CandidateIcon = (typeof iconNames)[number] | null;
+export type KindCandidate = { id: string; label: string; narrows: true; icon?: CandidateIcon };
+export type MentionCandidate = (MentionPart & { icon?: CandidateIcon }) | KindCandidate;
 export type MentionGroup = { heading: string | null; options: MentionCandidate[] };
 
 export const isKind = (candidate: MentionCandidate): candidate is KindCandidate => 'narrows' in candidate;

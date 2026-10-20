@@ -53,6 +53,7 @@
       "type": "ListItem",
       "props": {
         "label": { "$item": "name" },
+        "icon": "project",
         "checkbox": { "$state": "/editing" },
         "checked": { "$bindItem": "selected" }
       }

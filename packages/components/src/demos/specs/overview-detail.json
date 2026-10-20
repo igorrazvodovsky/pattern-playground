@@ -8,7 +8,7 @@
     },
     "layout-menu": {
       "type": "Menu",
-      "props": { "label": "View settings", "icon": "settings", "focusNext": { "$item": "name" } },
+      "props": { "label": "View settings", "icon": "settings", "align": "end", "focusNext": { "$item": "name" } },
       "children": ["layout-in-place", "layout-side-by-side", "layout-popover", "layout-new-page"]
     },
     "layout-in-place": {

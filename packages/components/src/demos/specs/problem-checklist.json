@@ -17,7 +17,7 @@
     "flag": {
       "type": "Item",
       "props": { "title": { "$item": "title" }, "description": { "$item": "reason" }, "opens": true, "focusOnShow": { "$item": "open" } },
-      "slots": { "suffix": ["flag-count", "not-useful"] },
+      "slots": { "titleSuffix": ["flag-count"], "suffix": ["not-useful"] },
       "on": {
         "open": [
           { "action": "setState", "params": { "statePath": { "$item": "open" }, "value": true } },

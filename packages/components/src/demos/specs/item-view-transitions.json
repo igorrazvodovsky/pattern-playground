@@ -11,6 +11,7 @@
       "type": "Reference",
       "props": {
         "label": { "$state": "/product/name" },
+        "icon": "product",
         "preview": { "$bindState": "/preview" },
         "expanded": { "$cond": { "$or": [{ "$state": "/detailOpen" }, { "$state": "/fullOpen" }] }, "$then": true, "$else": false }
       },

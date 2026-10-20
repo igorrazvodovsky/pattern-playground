@@ -5,6 +5,7 @@ import { filterPriorities, tasks, users } from '@shared/data';
 import {
   applyFilters,
   attributeLabelFromBinding,
+  findAttribute,
   formatBoundValue,
   getValueAtPath,
   resolveAttributeSelection,
@@ -15,9 +16,9 @@ import {
 import type { SpecSetup } from '../../catalog/SpecDemo';
 import type { AICommandResult } from '../../components/command-menu';
 import { generateFilterSuggestions } from '../../components/filter/adapters/ai-filter-adapter';
-import { TASK_FILTER_PATHS, taskFilterCategories } from '../../components/filter/filter-options';
+import { TASK_FILTER_PATHS, filterValueOptions, taskFilterCategories } from '../../components/filter/filter-options';
 import { createTask } from '../../components/task/task-utils';
-import { filterClauses } from './filter-clauses';
+import { filterClauses, type ValueGlyph } from './filter-clauses';
 import spec from './filtering.json' with { type: 'json' };
 
 // Watches rewrite `/derived` and `/field` because a repeat reads a list from
@@ -34,9 +35,71 @@ const VALUES: Record<string, { value: string; search: string }[]> = Object.fromE
   ]),
 );
 
+// Values from fixed lists are named by meaning; an assignee shows as their
+// avatar.
+type ValueIcon = NonNullable<ValueGlyph['icon']>;
+const DATES: Record<string, ValueIcon> = {
+  'in the past': 'date-past',
+  '24 hours from now': 'date-in-a-day',
+  '3 days from now': 'date-in-3-days',
+  '1 week from now': 'date-in-a-week',
+  '1 month from now': 'date-in-a-month',
+  '3 months from now': 'date-in-3-months',
+};
+const VALUE_ICONS: Record<string, Record<string, ValueIcon>> = {
+  'status.label': {
+    Backlog: 'status-backlog',
+    Todo: 'status-todo',
+    'In Progress': 'status-in-progress',
+    'In Review': 'status-in-review',
+    Done: 'status-done',
+    Cancelled: 'status-cancelled',
+  },
+  'priority.label': { Urgent: 'priority-urgent', High: 'priority-high', Medium: 'priority-medium', Low: 'priority-low' },
+  tags: {
+    'Waste Reduction': 'label-waste-reduction',
+    Audit: 'label-audit',
+    Sourcing: 'label-sourcing',
+    Recycling: 'label-recycling',
+    Data: 'label-data',
+    Assessment: 'label-assessment',
+    Design: 'label-design',
+    'Take-back': 'label-take-back',
+    Logistics: 'label-logistics',
+    Optimization: 'label-optimization',
+    Policy: 'label-policy',
+    Advocacy: 'label-advocacy',
+    Marketing: 'label-marketing',
+    Refurbishment: 'label-refurbishment',
+    Research: 'label-research',
+    Innovation: 'label-innovation',
+    Training: 'label-training',
+    Education: 'label-education',
+  },
+  dueDate: DATES,
+  createdAt: DATES,
+  updatedAt: DATES,
+};
+
+const glyphsFor = (path: string): ValueGlyph[] | null => {
+  if (path === 'assignee.name')
+    return (filterValueOptions[path] ?? []).map(({ name, avatar }) =>
+      avatar
+        ? { value: name, icon: null, avatar: { name, image: avatar } }
+        : { value: name, icon: 'unassigned', avatar: null },
+    );
+  const icons = VALUE_ICONS[path];
+  return icons ? Object.entries(icons).map(([value, icon]) => ({ value, icon, avatar: null })) : null;
+};
+
+const iconOf = (path: string, value: string) => glyphsFor(path)?.find(glyph => glyph.value === value)?.icon ?? null;
+
 const label = (path: string) => attributeLabelFromBinding(taskBinding, path);
-const { keeping, chip, applyEdit, removeFilter } = filterClauses(tasks, taskBinding, path =>
-  (VALUES[path] ?? []).map(each => each.value),
+const { keeping, chip, applyEdit, removeFilter } = filterClauses(
+  tasks,
+  taskBinding,
+  path => (VALUES[path] ?? []).map(each => each.value),
+  glyphsFor,
 );
 
 // Built from the data, so the chips name values the list actually carries.
@@ -84,14 +147,24 @@ const matches = (query: string, scope: string | null) => {
   const typed = query.trim().toLowerCase();
   const has = (text: string) => text.toLowerCase().includes(typed);
   const valuesOf = (path: string) =>
-    (VALUES[path] ?? []).map(each => ({ value: JSON.stringify([path, each.value]), label: each.value, search: each.search }));
+    (VALUES[path] ?? []).map(each => ({
+      value: JSON.stringify([path, each.value]),
+      label: each.value,
+      search: each.search,
+      icon: iconOf(path, each.value),
+    }));
   if (scope) {
     return [{ heading: label(scope), options: valuesOf(scope).filter(option => has(option.search)) }];
   }
   return [
     {
       heading: 'Attributes',
-      options: TASK_FILTER_PATHS.filter(path => has(label(path))).map(path => ({ value: path, label: label(path), narrows: true })),
+      options: TASK_FILTER_PATHS.filter(path => has(label(path))).map(path => ({
+        value: path,
+        label: label(path),
+        narrows: true,
+        icon: findAttribute(taskBinding, path)?.icon ?? null,
+      })),
     },
     {
       heading: 'Values',
@@ -101,7 +174,7 @@ const matches = (query: string, scope: string | null) => {
           : TASK_FILTER_PATHS.flatMap(path =>
               valuesOf(path)
                 .filter(option => has(option.search))
-                .map(option => ({ value: option.value, label: `${label(path)}: ${option.label}` })),
+                .map(option => ({ value: option.value, label: `${label(path)}: ${option.label}`, icon: option.icon })),
             ),
     },
   ];
@@ -124,7 +197,12 @@ const field = ({ query, scope, interpretation }: Record<string, unknown>) => {
   const asked = interpretation as Interpretation;
   const groups = matches(typed, within).map(group => ({
     heading: group.heading,
-    options: group.options.map(({ value, label: text, ...rest }) => ({ value, label: text, narrows: 'narrows' in rest ? true : null })),
+    options: group.options.map(({ value, label: text, ...rest }) => ({
+      value,
+      label: text,
+      narrows: 'narrows' in rest ? true : null,
+      icon: 'icon' in rest ? rest.icon : null,
+    })),
   }));
   const result = asked?.result;
   const suggested = result?.suggestedItems ?? [];
@@ -139,10 +217,11 @@ const field = ({ query, scope, interpretation }: Record<string, unknown>) => {
                 value: SUGGESTED,
                 label: (suggested.length === 1 ? suggested[0].label : `Apply ${suggested.length} suggestions`) + confidence(result),
                 narrows: null,
+                icon: null,
               },
             ]
           : []),
-        ...(unread.length > 0 ? [{ value: CREATE_TASK, label: 'Create a task from this', narrows: null }] : []),
+        ...(unread.length > 0 ? [{ value: CREATE_TASK, label: 'Create a task from this', narrows: null, icon: null }] : []),
       ],
     });
   }

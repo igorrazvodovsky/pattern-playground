@@ -21,7 +21,10 @@ export const material = (id: string): MentionPart => {
 export const candidates: ComputedFunction = args => {
   const query = typeof args.query === 'string' ? args.query.trim().toLocaleLowerCase() : '';
   const all = Array.isArray(args.materials) ? (args.materials as MentionPart[]) : [];
-  const options = all.filter(item => item.label.toLocaleLowerCase().includes(query)).slice(0, maxMatches);
+  const options = all
+    .filter(item => item.label.toLocaleLowerCase().includes(query))
+    .slice(0, maxMatches)
+    .map(item => ({ ...item, icon: 'document' }));
   return [{ heading: 'Documents', options }];
 };
 

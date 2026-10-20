@@ -3,6 +3,7 @@ import { EditorContent } from '@tiptap/react';
 import { useBoundProp, type ComponentContext } from '@json-render/react';
 import type { Catalog } from '../catalog';
 import { isKind, useMentionEditor } from './mention-editor';
+import { icons } from './pp';
 import '../../jsx-types';
 
 // The list takes the combobox's attributes for its look only: focus stays in
@@ -50,6 +51,11 @@ export function MentionEditor({ props, bindings, emit }: ComponentContext<Catalo
                     {group.options.map(candidate => (
                       <div key={candidate.id} cmdk-item="" {...option(candidate)}>
                         <span className="combobox-item__check" />
+                        {candidate.icon && (
+                          <span className="combobox-item__prefix">
+                            <iconify-icon icon={icons[candidate.icon]} aria-hidden="true" />
+                          </span>
+                        )}
                         <span className="combobox-item__label">{candidate.label}</span>
                         {isKind(candidate) && (
                           <span className="combobox-item__suffix">

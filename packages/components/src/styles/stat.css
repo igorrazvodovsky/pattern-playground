@@ -1,11 +1,12 @@
 /* Stat — a stat readout inside a standard card: a headline figure, a one-line
    verdict, a supporting detail. The card, its header, and the trend badge are
-   all catalogue primitives; only the figure scale, the vertical rhythm, and
-   the quieter label of a card that holds a stat are set here. */
+   all catalogue primitives; only the figure scale and the vertical rhythm are
+   set here. */
 
 @layer components {
   .stat {
     display: grid;
+    gap: var(--space-3xs);
   }
 
   .stat :where(p) {
@@ -30,35 +31,15 @@
   }
 
   .stat__verdict {
-    margin-block-start: var(--space-s);
-    font-weight: var(--font-weight-semibold);
-  }
-
-  .stat__verdict + p {
     margin-block-start: var(--space-2xs);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
   }
 
   /* The flagged figure reads as alert; a trend badge beside it still says
      which way the count moved. */
   .stat[data-alert] .stat__value {
     color: var(--c-body-danger);
-  }
-
-  /* The card's title names the figure, so it steps down to a dimmed label.
-     Only the card the stat sits in directly is matched, not a card that
-     holds stat tiles. */
-  .card:has(> .pad > .stat) > .card__header {
-    flex-wrap: nowrap;
-    align-items: start;
-    padding-block-end: 0;
-  }
-
-  .card:has(> .pad > .stat) > .card__header .label,
-  .card:has(> .stat) > .card__title {
-    font-size: var(--text-s);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-caption);
-    color: var(--c-bodyDimmed);
   }
 
   /* Stands in for the header's padding. */

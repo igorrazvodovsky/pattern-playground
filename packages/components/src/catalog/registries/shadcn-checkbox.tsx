@@ -1,4 +1,4 @@
-import { useId } from 'react';
+import { useId, type ReactNode } from 'react';
 import { Checkbox } from 'radix-ui';
 import { Check } from 'lucide-react';
 
@@ -10,10 +10,13 @@ import { Check } from 'lucide-react';
 
 export const CheckboxField = ({
   label,
+  icon,
   checked,
   onChange,
 }: {
   label: string;
+  /** Leads the label, inside it, so pressing the icon ticks the box too. */
+  icon?: ReactNode;
   checked: boolean;
   onChange: (checked: boolean) => void;
 }) => {
@@ -31,6 +34,7 @@ export const CheckboxField = ({
         </Checkbox.Indicator>
       </Checkbox.Root>
       <label htmlFor={id} className="flex items-center gap-2 text-sm leading-none font-normal select-none">
+        {icon}
         {label}
       </label>
     </div>

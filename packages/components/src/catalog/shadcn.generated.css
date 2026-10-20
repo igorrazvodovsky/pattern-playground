@@ -6,6 +6,7 @@
       --tw-translate-x: 0;
       --tw-translate-y: 0;
       --tw-translate-z: 0;
+      --tw-space-x-reverse: 0;
       --tw-divide-x-reverse: 0;
       --tw-border-style: solid;
       --tw-divide-y-reverse: 0;
@@ -854,6 +855,11 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .gap-x-3 {
     column-gap: calc(var(--spacing) * 3);
   }
+:where(.-space-x-1 > :not(:last-child)) {
+    --tw-space-x-reverse: 0;
+    margin-inline-start: calc(calc(var(--spacing) * -1) * var(--tw-space-x-reverse));
+    margin-inline-end: calc(calc(var(--spacing) * -1) * calc(1 - var(--tw-space-x-reverse)));
+  }
 .gap-y-0\.5 {
     row-gap: calc(var(--spacing) * .5);
   }
@@ -1079,6 +1085,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .fill-primary {
     fill: var(--primary);
   }
+.object-cover {
+    object-fit: cover;
+  }
 .p-0 {
     padding: 0;
   }
@@ -1223,6 +1232,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .text-xs {
     font-size: var(--text-xs);
     line-height: var(--tw-leading, var(--text-xs--line-height));
+  }
+.text-\[0\.625rem\] {
+    font-size: .625rem;
   }
 .leading-8 {
     --tw-leading: calc(var(--spacing) * 8);
@@ -1396,6 +1408,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .ring-2 {
     --tw-ring-shadow: var(--tw-ring-inset, ) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+.ring-background {
+    --tw-ring-color: var(--background);
   }
 .ring-primary {
     --tw-ring-color: var(--primary);
@@ -2178,6 +2193,11 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   initial-value: 0;
 }
 @property --tw-translate-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-space-x-reverse {
   syntax: "*";
   inherits: false;
   initial-value: 0;

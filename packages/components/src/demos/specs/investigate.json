@@ -9,7 +9,7 @@
 
     "categories": {
       "type": "Grid",
-      "props": { "minColumnWidth": "s" },
+      "props": { "minColumnWidth": "m" },
       "visible": { "$state": "/inCategory", "not": true },
       "repeat": { "statePath": "/categories", "key": "id" },
       "children": ["category"]

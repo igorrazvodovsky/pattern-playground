@@ -137,7 +137,7 @@
     "card": {
       "type": "Card",
       "props": { "title": { "$item": "name" }, "dragId": { "$item": "id" } },
-      "slots": { "attributes": ["card-attributes"], "actions": ["move-menu"] }
+      "slots": { "attributes": ["card-attributes"], "suffix": ["move-menu"] }
     },
     "card-attributes": {
       "type": "Stack",
@@ -151,7 +151,7 @@
     },
     "move-menu": {
       "type": "Menu",
-      "props": { "label": { "$item": "moveLabel" }, "icon": "move", "focusNext": { "$item": "moveLabel" } },
+      "props": { "label": { "$item": "moveLabel" }, "icon": "move", "align": "end", "focusNext": { "$item": "moveLabel" } },
       "visible": { "$item": "movable" },
       "repeat": { "statePath": { "$item": "destinations" }, "key": "group" },
       "children": ["destination"]

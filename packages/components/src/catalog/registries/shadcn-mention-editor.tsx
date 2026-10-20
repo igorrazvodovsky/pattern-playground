@@ -7,6 +7,7 @@ import type { Catalog } from '../catalog';
 import { useInComposer } from './composer-field';
 import { isKind, useMentionEditor } from './mention-editor';
 import { scopedPortal } from './shadcn-portal';
+import { icons } from './shadcn';
 
 // shadcn/ui has no rich text editor, so the field takes Textarea's classes.
 // The list takes the Command list's classes but is not cmdk: focus stays in
@@ -64,16 +65,20 @@ export function MentionEditor({ props, bindings, emit }: ComponentContext<Catalo
                   </div>
                 )}
                 <div role="group" aria-label={group.heading ?? undefined}>
-                  {group.options.map(candidate => (
-                    <div
-                      key={candidate.id}
-                      {...option(candidate)}
-                      className="relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none aria-selected:bg-accent aria-selected:text-accent-foreground"
-                    >
-                      {candidate.label}
-                      {isKind(candidate) && <ChevronRight aria-hidden="true" className="ml-auto size-4 opacity-50" />}
-                    </div>
-                  ))}
+                  {group.options.map(candidate => {
+                    const Icon = candidate.icon ? icons[candidate.icon] : null;
+                    return (
+                      <div
+                        key={candidate.id}
+                        {...option(candidate)}
+                        className="relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none aria-selected:bg-accent aria-selected:text-accent-foreground"
+                      >
+                        {Icon && <Icon aria-hidden="true" className="size-4 text-muted-foreground" />}
+                        {candidate.label}
+                        {isKind(candidate) && <ChevronRight aria-hidden="true" className="ml-auto size-4 opacity-50" />}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             ))}

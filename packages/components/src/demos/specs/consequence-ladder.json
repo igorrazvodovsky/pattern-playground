@@ -17,7 +17,7 @@
 
     "project": {
       "type": "Card",
-      "props": { "title": { "$state": "/project" } },
+      "props": { "title": { "$state": "/project" }, "icon": "project" },
       "visible": { "$state": "/archived", "not": true },
       "children": ["project-text"],
       "slots": { "suffix": ["project-badge"], "actions": ["archive"] }
@@ -46,7 +46,7 @@
 
     "member": {
       "type": "Card",
-      "props": { "title": { "$state": "/member/name" } },
+      "props": { "title": { "$state": "/member/name" }, "icon": "person" },
       "visible": { "$state": "/removed", "not": true },
       "children": ["member-text"],
       "slots": { "suffix": ["member-badge"], "actions": ["remove", "cancel-remove", "confirm-remove"] }
@@ -89,7 +89,7 @@
 
     "draft": {
       "type": "Card",
-      "props": { "title": { "$state": "/draft" } },
+      "props": { "title": { "$state": "/draft" }, "icon": "document" },
       "visible": { "$state": "/published", "not": true },
       "children": ["draft-text"],
       "slots": { "suffix": ["draft-badge"], "actions": ["publish"] }
@@ -106,7 +106,7 @@
     },
     "published-draft": {
       "type": "Card",
-      "props": { "title": { "$state": "/draft" } },
+      "props": { "title": { "$state": "/draft" }, "icon": "document" },
       "visible": { "$state": "/published" },
       "children": ["published-text"],
       "slots": { "suffix": ["published-badge"] }
@@ -119,7 +119,7 @@
 
     "ownership": {
       "type": "Card",
-      "props": { "title": "Ownership" },
+      "props": { "title": "Ownership", "icon": "ownership" },
       "visible": { "$state": "/transferred", "not": true },
       "children": ["ownership-text"],
       "slots": { "suffix": ["ownership-badge"], "actions": ["transfer"] }
@@ -136,7 +136,7 @@
     },
     "transferred-ownership": {
       "type": "Card",
-      "props": { "title": "Ownership" },
+      "props": { "title": "Ownership", "icon": "ownership" },
       "visible": { "$state": "/transferred" },
       "children": ["transferred-text"],
       "slots": { "suffix": ["transferred-badge"] }

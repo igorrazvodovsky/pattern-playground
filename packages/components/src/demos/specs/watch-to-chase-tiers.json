@@ -50,7 +50,7 @@
     },
     "tiles": {
       "type": "Grid",
-      "props": { "minColumnWidth": "s" },
+      "props": { "minColumnWidth": "m" },
       "repeat": { "statePath": "/tiles", "key": "id" },
       "children": ["tile"]
     },

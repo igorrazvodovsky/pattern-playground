@@ -100,16 +100,23 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
     font-weight: 500;
   }
 
-  /* .card__title is for a title at another heading level, such as a card
-     nested in a card. */
   .card :is(h2, h3) {
     font-size: 1.25rem;
   }
 
+  /* A card's own title reads at body size, whatever its heading level, so a
+     collection of cards stays compact. */
   .card .card__title {
-    font-size: 1.25rem;
-    font-weight: var(--font-weight-bold);
+    font-size: 1rem;
+    font-weight: 500;
     line-height: var(--line-height-heading);
+  }
+
+  /* A long title wraps its own text rather than pushing the header's
+     controls onto a line of their own. */
+  .card__header > .card__title {
+    flex: 1 1 0;
+    min-width: 0;
   }
 
   /* An eyebrow line above the card's title. */

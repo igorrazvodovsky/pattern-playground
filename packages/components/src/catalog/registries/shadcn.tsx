@@ -36,6 +36,8 @@ import {
   Eraser,
   Eye,
   ExternalLink,
+  FileText,
+  Folder,
   FolderOpen,
   Globe,
   Group,
@@ -56,6 +58,7 @@ import {
   Paperclip,
   Plus,
   Puzzle,
+  Quote,
   Rows3,
   Search,
   SignalHigh,
@@ -71,8 +74,29 @@ import {
   Undo2,
   User,
   UserMinus,
+  Users,
   Wrench,
   X,
+  Signal,
+  SignalLow,
+  SignalMedium,
+  CircleAlert,
+  Contrast,
+  CalendarHeart,
+  CalendarX,
+  ChartColumn,
+  ChartPie,
+  ClipboardList,
+  Clock,
+  FlaskConical,
+  GraduationCap,
+  Megaphone,
+  Paintbrush,
+  Presentation,
+  Recycle,
+  Scroll,
+  Truck,
+  Undo,
 } from 'lucide-react';
 import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes, type tones } from '../catalog';
 import { useCandidateList } from './candidate-list';
@@ -136,7 +160,7 @@ const gap = { none: 'gap-0', s: 'gap-2', m: 'gap-3', l: 'gap-4' } as const;
 const align = { start: 'items-start', center: 'items-center', baseline: 'items-baseline', stretch: 'items-stretch' } as const;
 const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
 
-const icons: Record<(typeof iconNames)[number], typeof X> = {
+export const icons: Record<(typeof iconNames)[number], typeof X> = {
   archive: Archive,
   ascending: ArrowUpNarrowWide,
   attach: Paperclip,
@@ -151,6 +175,7 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   'delete-confirm': Trash2,
   descending: ArrowDownWideNarrow,
   detail: PanelRight,
+  document: FileText,
   example: CaseSensitive,
   external: ExternalLink,
   filter: ListFilter,
@@ -169,11 +194,16 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   next: ChevronRight,
   notifications: Bell,
   open: FolderOpen,
+  ownership: Crown,
   part: Puzzle,
+  people: Users,
+  person: User,
   popover: MessageSquare,
   previous: ChevronLeft,
   product: Package,
+  project: Folder,
   publish: Globe,
+  quote: Quote,
   reasoning: Lightbulb,
   'remove-person': UserMinus,
   restore: Undo2,
@@ -181,6 +211,7 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   saved: Bookmark,
   search: Search,
   send: CornerDownLeft,
+  service: Wrench,
   settings: SlidersHorizontal,
   show: Eye,
   'side-by-side': Columns2,
@@ -207,6 +238,42 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
   status: CircleDashed,
   updated: CalendarCheck,
   upgradeability: ArrowUp,
+  // Values from fixed lists.
+  'date-in-3-days': Calendar,
+  'date-in-3-months': CalendarX,
+  'date-in-a-day': Clock,
+  'date-in-a-month': CalendarHeart,
+  'date-in-a-week': CalendarCheck,
+  'date-past': History,
+  'label-advocacy': Megaphone,
+  'label-assessment': ChartPie,
+  'label-audit': ClipboardList,
+  'label-data': ChartColumn,
+  'label-design': Paintbrush,
+  'label-education': BookOpen,
+  'label-innovation': Lightbulb,
+  'label-logistics': Truck,
+  'label-marketing': Presentation,
+  'label-optimization': TrendingUp,
+  'label-policy': Scroll,
+  'label-recycling': Recycle,
+  'label-refurbishment': Wrench,
+  'label-research': FlaskConical,
+  'label-sourcing': Search,
+  'label-take-back': Undo,
+  'label-training': GraduationCap,
+  'label-waste-reduction': Trash2,
+  'priority-high': Signal,
+  'priority-low': SignalLow,
+  'priority-medium': SignalMedium,
+  'priority-urgent': CircleAlert,
+  'status-backlog': CircleDashed,
+  'status-cancelled': CircleX,
+  'status-done': CircleCheck,
+  'status-in-progress': Contrast,
+  'status-in-review': Eye,
+  'status-todo': Circle,
+  'unassigned': UserMinus,
 };
 
 type Purpose = (typeof purposes)[number];
@@ -732,9 +799,12 @@ export const { registry } = defineRegistry(catalog, {
       const [bound, setBound] = useBoundProp(props.checked, bindings?.checked);
       const [local, setLocal] = useState(Boolean(props.checked));
       const checked = bindings?.checked ? (bound ?? false) : local;
+      const Icon = props.icon ? icons[props.icon] : null;
+      const glyph = Icon && <Icon aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />;
       return (
         <li className="flex min-h-11 items-center justify-between gap-3 px-3 py-1.5 text-sm">
-          <span className={clsx(props.struck && 'text-muted-foreground line-through')}>
+          <span className={clsx(glyph && !props.checkbox && 'flex items-center gap-2', props.struck && 'text-muted-foreground line-through')}>
+            {!props.checkbox && glyph}
             {props.description
               ? (
                 <span className="flex flex-col gap-0.5">
@@ -743,7 +813,7 @@ export const { registry } = defineRegistry(catalog, {
                 </span>
               )
               : props.checkbox
-              ? <CheckboxField label={props.label} checked={checked} onChange={bindings?.checked ? setBound : setLocal} />
+              ? <CheckboxField label={props.label} icon={glyph} checked={checked} onChange={bindings?.checked ? setBound : setLocal} />
               : props.label}
           </span>
           {children}
@@ -799,6 +869,7 @@ export const { registry } = defineRegistry(catalog, {
                 ) : (
                   props.title
                 )}
+                {slots?.titleSuffix}
               </Heading>
               {props.description && (
                 <p data-slot="item-description" className="text-sm leading-normal font-normal text-balance text-muted-foreground">
@@ -899,7 +970,9 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    FilterTag: context => <FilterTag {...context} Glyph={context.props.icon ? icons[context.props.icon] : null} />,
+    FilterTag: context => (
+      <FilterTag {...context} Glyph={context.props.icon ? icons[context.props.icon] : null} iconFor={name => icons[name]} />
+    ),
 
     Map: ({ props, bindings, emit }) => {
       const [selected, setSelected] = useBoundProp(props.selected, bindings?.selected);
@@ -925,6 +998,7 @@ export const { registry } = defineRegistry(catalog, {
       const [shown, setShown] = useBoundProp(props.preview, bindings?.preview);
       const { triggerRef, contentRef, trigger, content, close } = usePreview(shown ?? false, setShown, props.expanded ?? false);
       const Heading = useHeading();
+      const Glyph = props.icon ? icons[props.icon] : null;
       return (
         <Popover.Root open={shown ?? false} onOpenChange={open => !open && close()}>
           <Popover.Anchor asChild>
@@ -961,7 +1035,10 @@ export const { registry } = defineRegistry(catalog, {
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex min-w-0 flex-col gap-2">
-                  <Heading className="leading-none font-semibold">{props.label}</Heading>
+                  <Heading className={clsx('leading-none font-semibold', Glyph && 'flex items-center gap-2')}>
+                    {Glyph && <Glyph aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />}
+                    {props.label}
+                  </Heading>
                   <Subsection>{children}</Subsection>
                 </div>
                 {slots?.suffix && <div className="-mt-2 -mr-2 flex shrink-0 gap-1">{slots.suffix}</div>}
@@ -1031,7 +1108,7 @@ export const { registry } = defineRegistry(catalog, {
           <DropdownMenu.Portal container={scopedPortal()}>
             <DropdownMenu.Content
               ref={list}
-              align="end"
+              align={props.align ?? 'start'}
               sideOffset={4}
               className="z-50 max-h-(--radix-dropdown-menu-content-available-height) min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md"
             >
@@ -1226,16 +1303,20 @@ export const { registry } = defineRegistry(catalog, {
                     heading={group.heading ?? undefined}
                     className="overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground"
                   >
-                    {group.options.map(option => (
-                      <Command.Item
-                        key={option.value}
-                        value={option.value}
-                        onSelect={pick}
-                        className="relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground"
-                      >
-                        {option.label}
-                      </Command.Item>
-                    ))}
+                    {group.options.map(option => {
+                      const Icon = option.icon ? icons[option.icon] : null;
+                      return (
+                        <Command.Item
+                          key={option.value}
+                          value={option.value}
+                          onSelect={pick}
+                          className="relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground"
+                        >
+                          {Icon && <Icon aria-hidden="true" className="size-4 text-muted-foreground" />}
+                          {option.label}
+                        </Command.Item>
+                      );
+                    })}
                   </Command.Group>
                 ))}
               </Command.List>

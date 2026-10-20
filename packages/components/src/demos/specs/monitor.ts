@@ -17,9 +17,10 @@ interface Figure {
   unit?: string;
   verdict: string;
   detail: string;
+  alert?: boolean;
 }
 
-const tile = ({ label, current, previous, upIsGood, unit, verdict, detail }: Figure) => {
+const tile = ({ label, current, previous, upIsGood, unit, verdict, detail, alert }: Figure) => {
   const delta = current - previous;
   return {
     label,
@@ -27,7 +28,8 @@ const tile = ({ label, current, previous, upIsGood, unit, verdict, detail }: Fig
     unit: unit ?? null,
     verdict,
     detail,
-    trend: String(Math.abs(delta)),
+    alert: alert ?? false,
+    trend: `${delta > 0 ? '+' : delta < 0 ? '−' : '±'}${Math.abs(delta)}`,
     trendIcon: delta > 0 ? 'increase' : delta < 0 ? 'decrease' : 'unchanged',
     trendTone: delta === 0 ? 'neutral' : delta > 0 === upIsGood ? 'success' : 'danger',
   };
@@ -86,6 +88,7 @@ const tiles = [
     current: flaggedItems,
     previous: metrics.flagged,
     upIsGood: false,
+    alert: flaggedItems > 0,
     verdict: byCycle(
       flaggedItems - metrics.flagged,
       `${flaggedItems - metrics.flagged} more than last cycle`,

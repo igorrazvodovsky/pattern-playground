@@ -72,6 +72,7 @@
         "operators": { "$item": "operators" },
         "values": { "$item": "values" },
         "options": { "$item": "options" },
+        "glyphs": { "$item": "glyphs" },
         "focusNext": "Clear filter",
         "edit": { "$bindState": "/filterEdit" }
       },

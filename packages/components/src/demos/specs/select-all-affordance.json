@@ -86,6 +86,7 @@
       "type": "ListItem",
       "props": {
         "label": { "$item": "name" },
+        "icon": "project",
         "checkbox": true,
         "checked": { "$bindItem": "selected" }
       }

@@ -3,7 +3,7 @@ import { useBoundProp, type ComponentContext } from '@json-render/react';
 import { DropdownMenu, Popover } from 'radix-ui';
 import { Command } from 'cmdk';
 import { Check, Search, X, type LucideIcon } from 'lucide-react';
-import type { Catalog } from '../catalog';
+import type { Catalog, iconNames } from '../catalog';
 import type { FilterEdit } from '../filter-edit';
 import { useGroupFocusHandoff } from './focus-handoff';
 import { scopedPortal } from './shadcn-portal';
@@ -23,7 +23,37 @@ const item =
   'relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground';
 const indicator = 'pointer-events-none absolute left-2 flex size-3.5 items-center justify-center';
 
-export function FilterTag({ props, bindings, emit, Glyph }: ComponentContext<Catalog, 'FilterTag'> & { Glyph: LucideIcon | null }) {
+type ValueGlyphData = NonNullable<ComponentContext<Catalog, 'FilterTag'>['props']['glyphs']>[number];
+type IconFor = (name: (typeof iconNames)[number]) => LucideIcon;
+
+// A value's picture, as shadcn's Avatar draws one: the photo, or the
+// initial on a muted disc; an icon stands in the same frame.
+function ValueGlyph({ glyph, iconFor }: { glyph: ValueGlyphData; iconFor: IconFor }) {
+  const frame = 'flex size-4 shrink-0 items-center justify-center overflow-hidden rounded-full bg-background ring-1 ring-background';
+  if (glyph.avatar?.image) return <img className={`${frame} object-cover`} src={glyph.avatar.image} alt="" />;
+  if (glyph.avatar)
+    return (
+      <span aria-hidden="true" className={`${frame} bg-muted text-[0.625rem] text-muted-foreground`}>
+        {glyph.avatar.name.charAt(0)}
+      </span>
+    );
+  const Icon = glyph.icon ? iconFor(glyph.icon) : null;
+  return (
+    Icon && (
+      <span aria-hidden="true" className={frame}>
+        <Icon className="size-3.5 text-muted-foreground" />
+      </span>
+    )
+  );
+}
+
+export function FilterTag({
+  props,
+  bindings,
+  emit,
+  Glyph,
+  iconFor,
+}: ComponentContext<Catalog, 'FilterTag'> & { Glyph: LucideIcon | null; iconFor: IconFor }) {
   const [, setEdit] = useBoundProp(props.edit, bindings?.edit);
   const { group, parts: [operatorList, valueList] } = useGroupFocusHandoff(props.focusNext, 2);
   const [open, setOpen] = useState(false);
@@ -38,6 +68,12 @@ export function FilterTag({ props, bindings, emit, Glyph }: ComponentContext<Cat
     setSearch('');
   };
   const unchosen = props.options.filter(option => !props.values.includes(option));
+  const glyphOf = (value: string) => props.glyphs?.find(each => each.value === value && (each.icon || each.avatar));
+  const chosenGlyphs = props.values.flatMap(value => glyphOf(value) ?? []).slice(0, 3);
+  const prefix = (value: string) => {
+    const found = glyphOf(value);
+    return found && <ValueGlyph glyph={found} iconFor={iconFor} />;
+  };
 
   return (
     <div ref={group} className="inline-flex items-stretch divide-x overflow-visible rounded-md border bg-background text-foreground shadow-xs">
@@ -78,6 +114,13 @@ export function FilterTag({ props, bindings, emit, Glyph }: ComponentContext<Cat
         }}
       >
         <Popover.Trigger className={`${segment} ${pressable}`}>
+          {chosenGlyphs.length > 0 && (
+            <span className="flex -space-x-1">
+              {chosenGlyphs.map(each => (
+                <ValueGlyph key={each.value} glyph={each} iconFor={iconFor} />
+              ))}
+            </span>
+          )}
           {props.values.length === 1 ? props.values[0] : `${props.values.length} selected`}
         </Popover.Trigger>
         <Popover.Portal container={scopedPortal()}>
@@ -100,6 +143,7 @@ export function FilterTag({ props, bindings, emit, Glyph }: ComponentContext<Cat
                       <span className={indicator}>
                         <Check aria-hidden="true" className="size-4" />
                       </span>
+                      {prefix(value)}
                       {value}
                     </Command.Item>
                   ))}
@@ -108,6 +152,7 @@ export function FilterTag({ props, bindings, emit, Glyph }: ComponentContext<Cat
                   <Command.Group className="border-t p-1">
                     {unchosen.map(value => (
                       <Command.Item key={value} value={value} onSelect={() => pick('add', value)} className={item}>
+                        {prefix(value)}
                         {value}
                       </Command.Item>
                     ))}

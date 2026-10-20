@@ -1,6 +1,10 @@
 import { useLayoutEffect, useRef, useState, type KeyboardEvent, type MouseEvent } from 'react';
+import type { iconNames } from '../catalog';
 
-type Group = { heading: string | null; options: { value: string; label: string; narrows?: boolean | null }[] };
+type Group = {
+  heading: string | null;
+  options: { value: string; label: string; narrows?: boolean | null; icon?: (typeof iconNames)[number] | null }[];
+};
 type Scope = { value: string | null | undefined; set: (next: string | null) => void };
 
 // A Combobox's behaviour on cmdk, shared by the registries so that only the
