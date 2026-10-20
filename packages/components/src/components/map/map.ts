@@ -9,8 +9,8 @@
  * It wraps Leaflet. Leaflet reads `document`, injects its own control DOM, and
  * ships a stylesheet that targets `.leaflet-*` in the light tree, so this
  * element lives in the light DOM. Elena supplies props and lifecycle only —
- * there is no template. The map canvas is created imperatively once on first
- * connect, and Leaflet owns everything inside it. Author-provided children are
+ * there is no template. The map canvas is created imperatively on connect, and
+ * Leaflet owns everything inside it; a map moved in the page is rebuilt. Author-provided children are
  * not part of the contract.
  *
  * @example
@@ -23,6 +23,9 @@ import { Elena } from '@elenajs/core';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { CARTO_ATTRIBUTION, CARTO_TILE_URL } from './tiles.js';
+
+// Longer than any Leaflet zoom animation.
+const RETIRE_AFTER_MS = 1000;
 
 type ElenaProp = string | { name: string; reflect?: boolean };
 
@@ -115,6 +118,8 @@ export class MapComponent extends Elena(HTMLElement) {
       this.append(this.canvas);
     }
     super.connectedCallback();
+    // Elena runs firstUpdated once; a map moved in the page is rebuilt here.
+    if (!this.map && this.hasAttribute('hydrated')) this.buildMap();
     if (document.readyState !== 'loading') {
       this.init();
       return;
@@ -127,11 +132,25 @@ export class MapComponent extends Elena(HTMLElement) {
     this.resizeObserver?.disconnect();
     if (this.rafHandle) cancelAnimationFrame(this.rafHandle);
     // A zoom animation finishes on a timer that remove() does not cancel, and
-    // the timer then reads the removed panes. Wait for it.
+    // the timer then reads the removed panes. Wait for it, or for long enough
+    // in case the animation never ends, and leave its canvas to it, so a map
+    // rebuilt on reconnect gets a fresh one.
     const map = this.map;
-    if (this.zooming) map?.once('zoomend', () => map.remove());
-    else map?.remove();
+    if (map && this.zooming) {
+      const canvas = this.canvas;
+      const retire = () => {
+        clearTimeout(fallback);
+        map.remove();
+        canvas?.remove();
+      };
+      const fallback = setTimeout(retire, RETIRE_AFTER_MS);
+      map.once('zoomend', retire);
+      this.canvas = undefined;
+    } else {
+      map?.remove();
+    }
     this.map = undefined;
+    this.zooming = false;
   }
 
   private init(): void {
@@ -139,8 +158,12 @@ export class MapComponent extends Elena(HTMLElement) {
     if (!this.hasAttribute('aria-label')) this.setAttribute('aria-label', this.label);
   }
 
-  /** Build the Leaflet map once the canvas node exists. */
   firstUpdated(): void {
+    this.buildMap();
+  }
+
+  /** Build the Leaflet map once the canvas node exists. */
+  private buildMap(): void {
     if (!this.canvas) return;
 
     this.map = L.map(this.canvas, { zoomControl: true, attributionControl: true });

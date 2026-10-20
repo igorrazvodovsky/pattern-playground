@@ -224,6 +224,10 @@ export class PPModal extends HTMLElement {
       this.closingHere = false;
       return;
     }
+    // The close event is queued, so the dialog can be open again by the time
+    // it arrives: reopened in the same task it was closed in. That close has
+    // been handled, and the dialog now open is not closing.
+    if (this.modal?.open) return;
     this.dispatchClose();
     this.finishClose();
   }

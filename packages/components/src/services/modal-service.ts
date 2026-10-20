@@ -216,7 +216,10 @@ export class ModalService {
           console.error('Modal content error:', error);
           // Could send to error reporting service
         },
-        children: content
+        // Content still loading (a lazy component) suspends here, not the
+        // whole root, so the surface opens at once and fills in when it
+        // arrives, rather than waiting on it and timing out.
+        children: React.createElement(React.Suspense, { fallback: null }, content)
       }
     );
   }
