@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import type { RulePart, RuleSlot } from '../rule-parts';
-import { Parts, SentenceSlot, type Send } from './shadcn-parts';
+import type { RulePart, RuleSlot } from '../../rule-parts';
+import { Parts, SentenceSlot, type Send } from './parts';
 
 // A rule as one statement whose condition may hold groups. The spec's module
 // derives the tree (lead words, the condition group, an optional tail); this

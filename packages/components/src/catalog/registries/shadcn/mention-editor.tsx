@@ -3,11 +3,11 @@ import clsx from 'clsx';
 import { ChevronRight } from 'lucide-react';
 import { EditorContent } from '@tiptap/react';
 import { useBoundProp, type ComponentContext } from '@json-render/react';
-import type { Catalog } from '../catalog';
+import type { Catalog } from '../../catalog';
 import { useInComposer } from './composer-field';
-import { isKind, useMentionEditor } from './mention-editor';
-import { scopedPortal } from './shadcn-portal';
-import { icons } from './shadcn';
+import { isKind, useMentionEditor } from '../../behaviour/mention-editor';
+import { scopedPortal } from './portal';
+import { icons } from './index';
 
 // shadcn/ui has no rich text editor, so the field takes Textarea's classes.
 // The list takes the Command list's classes but is not cmdk: focus stays in

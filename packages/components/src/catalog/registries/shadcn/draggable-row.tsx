@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import clsx from 'clsx';
-import { useDragRow } from './drag-drop';
+import { useDragRow } from '../../behaviour/drag-drop';
 
 // Every class used here must be visible to Tailwind: catalog/shadcn.css lists
 // this file as a source.

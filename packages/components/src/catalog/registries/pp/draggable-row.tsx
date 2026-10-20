@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { useDragRow } from './drag-drop';
+import { useDragRow } from '../../behaviour/drag-drop';
 
 export const DraggableRow = ({ id, label, value }: { id: string | null | undefined; label: string; value: string }) => {
   const ref = useRef<HTMLDivElement>(null);

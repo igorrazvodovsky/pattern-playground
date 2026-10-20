@@ -2,9 +2,9 @@ import { useLayoutEffect, useRef, type ReactNode } from 'react';
 import { DropdownMenu } from 'radix-ui';
 import { ChevronRight, MoreHorizontal } from 'lucide-react';
 import clsx from 'clsx';
-import { observeTrailFit } from '../../utility/trail-fit';
-import { useFocusHandoff, useMenuFocusHandoff } from './focus-handoff';
-import { scopedPortal } from './shadcn-portal';
+import { observeTrailFit } from '../../../utility/trail-fit';
+import { useFocusHandoff, useMenuFocusHandoff } from '../../behaviour/focus-handoff';
+import { scopedPortal } from './portal';
 
 // Every class used here must be visible to Tailwind: catalog/shadcn.css lists
 // this file as a source.

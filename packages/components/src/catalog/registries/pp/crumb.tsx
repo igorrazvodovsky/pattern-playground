@@ -1,5 +1,5 @@
-import { useFocusHandoff, useMenuFocusHandoff } from './focus-handoff';
-import '../../jsx-types';
+import { useFocusHandoff, useMenuFocusHandoff } from '../../behaviour/focus-handoff';
+import '../../../jsx-types';
 
 // Picking an item makes it the current one, which ends the trail without a
 // link, so a picked link hands focus on.

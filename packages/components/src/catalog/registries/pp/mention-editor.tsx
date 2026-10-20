@@ -1,10 +1,10 @@
 import { createPortal } from 'react-dom';
 import { EditorContent } from '@tiptap/react';
 import { useBoundProp, type ComponentContext } from '@json-render/react';
-import type { Catalog } from '../catalog';
-import { isKind, useMentionEditor } from './mention-editor';
-import { icons } from './pp';
-import '../../jsx-types';
+import type { Catalog } from '../../catalog';
+import { isKind, useMentionEditor } from '../../behaviour/mention-editor';
+import { icons } from './index';
+import '../../../jsx-types';
 
 // The list takes the combobox's attributes for its look only: focus stays in
 // the editor, which reads the list through aria-activedescendant.

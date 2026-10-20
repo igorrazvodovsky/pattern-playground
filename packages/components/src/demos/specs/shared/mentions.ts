@@ -1,4 +1,4 @@
-import type { MentionPart } from '../../../catalog/registries/mention-editor';
+import type { MentionPart } from '../../../catalog/behaviour/mention-editor';
 
 // How a reference category's items become mentions, and how the @ list
 // matches them against what was typed after the @.

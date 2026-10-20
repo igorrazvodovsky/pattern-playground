@@ -1,33 +1,34 @@
-import { Children, Fragment, Suspense, useCallback, useContext, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type RefObject } from 'react';
+import { Children, Fragment, Suspense, useCallback, useContext, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import clsx from 'clsx';
-import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes } from '../catalog';
-import type { MapComponent, MapFocusDetail, MapSelectDetail } from '../../components/map/map';
-import type { ToastHandle } from '../../components/toast/toast';
-import { Combobox, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxList } from '../../components/combobox';
-import { captureOpener, focusDemoIfOpenerGone, settleFocus, useReturnFocus, type Opener } from './dialog-focus';
-import { useCandidateList } from './candidate-list';
-import { useDisclosureOpen, useDisclosureState } from './disclosure-state';
-import { attributeGlyphs } from '../../utility/attribute-icons';
-import { BoardAxis } from './board-axis';
-import { useDisclosureDrop, useDragRow, useStackDrop } from './drag-drop';
-import { MenuMultiple } from './menu-multiple';
-import { Crumb, CrumbOverflow } from './pp-crumb';
-import { DraggableRow } from './pp-draggable-row';
-import { FilterTag } from './pp-filter-tag';
-import { useFieldError } from './field-validation';
-import { submitForm } from './form-submit';
-import { useFocusHandoff, useMenuFocusHandoff } from './focus-handoff';
-import { useFocusOnShow } from './focus-on-show';
+import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes } from '../../catalog';
+import type { MapComponent, MapFocusDetail, MapSelectDetail } from '../../../components/map/map';
+import type { ToastHandle } from '../../../components/toast/toast';
+import { Combobox, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxList } from '../../../components/combobox';
+import { captureOpener, focusDemoIfOpenerGone, settleFocus, useReturnFocus, type Opener } from '../../behaviour/dialog-focus';
+import { useCandidateList } from '../../behaviour/candidate-list';
+import { useDisclosureOpen, useDisclosureState } from '../../behaviour/disclosure-state';
+import { attributeGlyphs } from '../../../utility/attribute-icons';
+import { BoardAxis } from '../../behaviour/board-axis';
+import { useDisclosureDrop, useDragRow, useStackDrop } from '../../behaviour/drag-drop';
+import { MenuMultiple } from '../../behaviour/menu-multiple';
+import { Crumb, CrumbOverflow } from './crumb';
+import { DraggableRow } from './draggable-row';
+import { FilterTag } from './filter-tag';
+import { errorPrefix, useBoundField, useField, type FieldErrorProps } from '../../behaviour/field';
+import { submitForm } from '../../behaviour/form-submit';
+import { useFocusHandoff, useMenuFocusHandoff } from '../../behaviour/focus-handoff';
+import { useFocusOnShow } from '../../behaviour/focus-on-show';
+import { usePressableTitle } from '../../behaviour/pressable-title';
 import { PpMentionEditor } from './mention-editor-lazy';
-import { Subsection, useHeading } from './heading-level';
-import { popoverHost, useMayTakeFocus } from './popover-host';
-import { usePreview } from './preview';
-import { useSplitRoom } from './split-room';
-import { useToastList } from './toast-list';
-import { TracingProvider, useMarkTracing, useTracingState } from './mark-tracing';
-import '../../jsx-types';
+import { Subsection, useHeading } from '../../behaviour/heading-level';
+import { popoverHost, useMayTakeFocus } from '../../behaviour/popover-host';
+import { usePreview } from '../../behaviour/preview';
+import { useSplitRoom } from '../../behaviour/split-room';
+import { useToastList } from '../../behaviour/toast-list';
+import { TracingProvider, useMarkTracing, useTracingState } from '../../behaviour/mark-tracing';
+import '../../../jsx-types';
 
 // The catalog rendered with the project's own library: pp-* elements and the
 // CSS layer's classes, the same markup the hand-written demos use.
@@ -173,13 +174,23 @@ const purposeIcons: Record<(typeof purposes)[number], string> = {
   danger: 'ph:x-circle',
 };
 
-// An alert, so that it is read out when a submit sets it: the press leaves
-// focus on the button.
-const fieldError = (id: string, message: string) => (
-  <small id={id} data-slot="error" role="alert">
-    <span className="visually-hidden">Error:</span> {message}
+const fieldError = (props: FieldErrorProps, message: string) => (
+  <small {...props} data-slot="error">
+    <span className="visually-hidden">{errorPrefix}</span> {message}
   </small>
 );
+
+// The parts a Card and an Item row share: the attributes row under the title,
+// and the detail the surface opens into, set off by its rule.
+const cardAttributes = (attributes: ReactNode) =>
+  attributes && <div className="card__attributes badges">{attributes}</div>;
+
+const cardDetail = (expanded: boolean | null | undefined, detail: ReactNode) =>
+  expanded && detail && (
+    <div className="detail flow pad">
+      <Subsection>{detail}</Subsection>
+    </div>
+  );
 
 export const { registry } = defineRegistry(catalog, {
   components: {
@@ -230,23 +241,14 @@ export const { registry } = defineRegistry(catalog, {
     // The inline detail sets its own inset and its rule runs the card's full
     // width, so a card with a detail slot pads its body rather than itself.
     Card: ({ props, children, slots, emit }) => {
-      const openRef = useRef<HTMLButtonElement>(null);
-      useFocusOnShow(openRef, props.focusOnShow);
-      useFocusHandoff(null, openRef, Boolean(props.opens && props.title));
+      const titleButton = usePressableTitle(props, emit);
       const surface = clsx('card', props.emphasis && props.emphasis !== 'full' && `card--${props.emphasis}`);
       const dragRef = useRef<HTMLElement>(null);
       const dragging = useDragRow(dragRef, props.dragId, props.dragId != null) || undefined;
       const Heading = useHeading();
       const selected = props.selected ? 'true' : undefined;
       const title = props.opens ? (
-        <button
-          ref={openRef}
-          type="button"
-          className="stretched-link"
-          aria-pressed={props.selected == null || props.expanded != null ? undefined : props.selected}
-          aria-expanded={props.expanded ?? undefined}
-          onClick={() => emit('open')}
-        >
+        <button {...titleButton} className="stretched-link">
           {props.title}
         </button>
       ) : (
@@ -260,12 +262,8 @@ export const { registry } = defineRegistry(catalog, {
       ) : (
         title
       );
-      const attributes = slots?.attributes && <div className="card__attributes badges">{slots.attributes}</div>;
-      const detail = props.expanded && slots?.detail && (
-        <div className="detail flow pad">
-          <Subsection>{slots.detail}</Subsection>
-        </div>
-      );
+      const attributes = cardAttributes(slots?.attributes);
+      const detail = cardDetail(props.expanded, slots?.detail);
       return slots?.suffix || slots?.actions ? (
         <article ref={dragRef} className={surface} data-selected={selected} data-popover-host="" data-dragging={dragging}>
           <div className="card__header">
@@ -615,21 +613,10 @@ export const { registry } = defineRegistry(catalog, {
     ),
 
     Item: ({ props, slots, emit }) => {
-      const openRef = useRef<HTMLButtonElement>(null);
-      useFocusOnShow(openRef, props.focusOnShow);
-      useFocusHandoff(null, openRef, Boolean(props.opens));
+      const titleButton = usePressableTitle(props, emit, { focusEvents: true });
       const Heading = useHeading();
       const opener = props.opens ? (
-        <button
-          ref={openRef}
-          type="button"
-          className="stretched-link"
-          aria-pressed={props.selected == null || props.expanded != null ? undefined : props.selected}
-          aria-expanded={props.expanded ?? undefined}
-          onClick={() => emit('open')}
-          onFocus={() => emit('focus')}
-          onBlur={() => emit('blur')}
-        >
+        <button {...titleButton} className="stretched-link">
           {props.title}
         </button>
       ) : (
@@ -654,14 +641,10 @@ export const { registry } = defineRegistry(catalog, {
               <div className="flow pad">
                 {!slots?.suffix && title}
                 {props.description && <p>{props.description}</p>}
-                {slots?.attributes && <div className="card__attributes badges">{slots.attributes}</div>}
+                {cardAttributes(slots?.attributes)}
               </div>
             )}
-            {props.expanded && slots?.detail && (
-              <div className="detail flow pad">
-                <Subsection>{slots.detail}</Subsection>
-              </div>
-            )}
+            {cardDetail(props.expanded, slots?.detail)}
           </article>
         </div>
       );
@@ -981,25 +964,21 @@ export const { registry } = defineRegistry(catalog, {
     },
 
     Input: ({ props, bindings }) => {
-      const [value, setValue] = useBoundProp(props.value, bindings?.value);
-      const error = useFieldError(bindings?.value, value, props.checks, props.error);
-      const id = useId();
+      const { id, value, setValue, error, control, errorProps } = useField(props, bindings);
       const field = (
         <>
           <pp-input invalid={Boolean(error)}>
             <input
-              id={id}
+              {...control}
               type={props.type ?? 'text'}
               aria-label={props.hideLabel ? props.label : undefined}
-              aria-describedby={error ? `${id}-error` : undefined}
-              data-invalid={error ? '' : undefined}
               placeholder={props.placeholder ?? undefined}
               data-autofocus={props.initialFocus || undefined}
-              value={value ?? ''}
+              value={value}
               onChange={event => setValue(event.target.value)}
             />
           </pp-input>
-          {error && fieldError(`${id}-error`, error)}
+          {error && fieldError(errorProps, error)}
         </>
       );
       return (
@@ -1012,17 +991,16 @@ export const { registry } = defineRegistry(catalog, {
 
     // .grow-wrap sizes itself from a copy of the text in data-replicated-value.
     Textarea: ({ props, bindings }) => {
-      const [value, setValue] = useBoundProp(props.value, bindings?.value);
-      const id = useId();
+      const { id, value, setValue } = useBoundField(props, bindings);
       return (
         <div style={fieldLayout}>
           <label htmlFor={id}>{props.label}</label>
-          <div className="grow-wrap" data-replicated-value={value ?? ''}>
+          <div className="grow-wrap" data-replicated-value={value}>
             <textarea
               id={id}
               rows={3}
               placeholder={props.placeholder ?? undefined}
-              value={value ?? ''}
+              value={value}
               onChange={event => setValue(event.target.value)}
             />
           </div>
@@ -1033,24 +1011,20 @@ export const { registry } = defineRegistry(catalog, {
     // The empty value is a disabled first option, so the select shows nothing
     // chosen when nothing is, and it cannot be chosen again.
     Select: ({ props, bindings }) => {
-      const [value, setValue] = useBoundProp(props.value, bindings?.value);
-      const error = useFieldError(bindings?.value, value, props.checks, props.error);
-      const id = useId();
+      const { id, value, setValue, error, control, errorProps } = useField(props, bindings);
       return (
         <div style={fieldLayout}>
           <label htmlFor={id}>{props.label}</label>
           <pp-select invalid={Boolean(error)}>
             <select
-              id={id}
-              aria-describedby={error ? `${id}-error` : undefined}
-              data-invalid={error ? '' : undefined}
-              value={value ?? ''}
+              {...control}
+              value={value}
               onChange={event => setValue(event.target.value)}
             >
               <option value="" disabled>{props.placeholder ?? ''}</option>
               {props.options.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
             </select>
-            {error && fieldError(`${id}-error`, error)}
+            {error && fieldError(errorProps, error)}
           </pp-select>
         </div>
       );
@@ -1302,7 +1276,7 @@ export const { registry } = defineRegistry(catalog, {
         }
         for (const toast of props.toasts) {
           if (shown.current.has(toast.id)) continue;
-          const handle = import('../../components/toast/toast').then(({ PpToast }) =>
+          const handle = import('../../../components/toast/toast').then(({ PpToast }) =>
             toast.actionLabel
               ? PpToast.open(`${toast.message} — ${toast.actionLabel}`, () => pressLatest.current(toast), toastDuration.withAction)
               : PpToast.open(toast.message, undefined, toastDuration.plain),

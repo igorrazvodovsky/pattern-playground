@@ -1,7 +1,7 @@
 import { DropdownMenu } from 'radix-ui';
 import { Check, Plus, SquarePlus, X } from 'lucide-react';
-import type { RulePart, RuleSlot } from '../rule-parts';
-import { scopedPortal } from './shadcn-portal';
+import type { RulePart, RuleSlot } from '../../rule-parts';
+import { scopedPortal } from './portal';
 
 // The sentence slot (a word that opens a menu) that the shadcn registry's rule
 // composites are built from, with shadcn's menu classes.

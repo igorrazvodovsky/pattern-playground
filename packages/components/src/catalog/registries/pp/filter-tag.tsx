@@ -1,6 +1,6 @@
 import { useBoundProp, type ComponentContext } from '@json-render/react';
-import type { Catalog, iconNames } from '../catalog';
-import type { FilterEdit } from '../filter-edit';
+import type { Catalog, iconNames } from '../../catalog';
+import type { FilterEdit } from '../../filter-edit';
 import {
   Combobox,
   ComboboxEmpty,
@@ -8,11 +8,11 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-} from '../../components/combobox';
-import { AnimateChangeInHeight } from '../../components/filter/animate-change-in-height';
-import { useDropdownState } from '../../components/filter/hooks/use-dropdown-state';
-import { useGroupFocusHandoff } from './focus-handoff';
-import '../../jsx-types';
+} from '../../../components/combobox';
+import { AnimateChangeInHeight } from '../../../components/filter/animate-change-in-height';
+import { useDropdownState } from '../../../components/filter/hooks/use-dropdown-state';
+import { useGroupFocusHandoff } from '../../behaviour/focus-handoff';
+import '../../../jsx-types';
 
 type Glyph = NonNullable<ComponentContext<Catalog, 'FilterTag'>['props']['glyphs']>[number];
 

@@ -3,10 +3,10 @@ import { useBoundProp, type ComponentContext } from '@json-render/react';
 import { DropdownMenu, Popover } from 'radix-ui';
 import { Command } from 'cmdk';
 import { Check, Search, X, type LucideIcon } from 'lucide-react';
-import type { Catalog, iconNames } from '../catalog';
-import type { FilterEdit } from '../filter-edit';
-import { useGroupFocusHandoff } from './focus-handoff';
-import { scopedPortal } from './shadcn-portal';
+import type { Catalog, iconNames } from '../../catalog';
+import type { FilterEdit } from '../../filter-edit';
+import { useGroupFocusHandoff } from '../../behaviour/focus-handoff';
+import { scopedPortal } from './portal';
 
 // shadcn has no filter chip, so its segments are joined as shadcn's Button
 // Group joins buttons.

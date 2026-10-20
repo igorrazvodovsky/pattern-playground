@@ -1,7 +1,7 @@
 import type { Spec, StateStore } from '@json-render/core';
 import { filterLabels, filterPriorities, filterStatuses, nameOf, users } from '@shared/data';
 import type { RuleSlot, RuleSlotOption } from '../../catalog/rule-parts';
-import type { RuleGroup, RuleLine, RuleTree } from '../../catalog/registries/shadcn-rule-builder';
+import type { RuleGroup, RuleLine, RuleTree } from '../../catalog/registries/shadcn/rule-builder';
 import type { SpecSetup } from '../../catalog/SpecDemo';
 import spec from './rule-composition.json' with { type: 'json' };
 

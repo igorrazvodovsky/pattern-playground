@@ -28,8 +28,9 @@ json-render 0.21.1 and its documentation. Its items are in §3 and §5.
 
 1. Bugs (done 2026-10-17; focus after a toast's Undo remains).
 2. Dead-code sweep (done 2026-10-17; three keep-or-retire decisions remain).
-3. Consolidation (first pass done 2026-10-18; the command menu question and
-   the switchable-demo items remain).
+3. Consolidation (first pass done 2026-10-18; registry semantics shared
+   2026-10-20; the command menu question and the remaining switchable-demo
+   items remain).
 4. Template extractions (stat tile, card list, overview-plus-detail) — these are
    design calls, one sitting each.
 5. Conventions (done 2026-10-18; the story tags and the TemplateField
@@ -53,7 +54,7 @@ json-render 0.21.1 and its documentation. Its items are in §3 and §5.
   Tab started from the top of the page. A timer did the same: an armed pair
   reverting took focus with it. Both registries and the old React demos had the
   defect. Each Button in both registries now hands focus on when it unmounts
-  while focused (`catalog/registries/focus-handoff.ts`). The catalog's
+  while focused (`catalog/behaviour/focus-handoff.ts`). The catalog's
   `focusNext` prop names the label of the Button that takes it: the first one
   after where the lost button was, else the last one before it. A swap names
   its replacement (Delete names Cancel, Cancel names Delete), and a row removal
@@ -110,7 +111,7 @@ json-render 0.21.1 and its documentation. Its items are in §3 and §5.
   focus that way or more quietly.
 - [x] *Hidden fields still count in `validateForm`.* A field's `checks`
   register with json-render's validation provider when it mounts
-  (`catalog/registries/field-validation.ts`), and json-render has no way to
+  (`catalog/behaviour/field-validation.ts`), and json-render has no way to
   unregister them. Fixed 2026-10-20: a hidden element unmounts, and a field
   that unmounts registers empty checks under its path, so `validateForm`
   passes it. A field inside a hidden container or a repeat is covered the
@@ -344,44 +345,50 @@ Kept on purpose:
   attributes, header and `pp-toc` pair; `PatternArticle` and `SequenceArticle`
   fill its `meta` slot and body. The commented-out badges are now source
   comments, so they no longer ship in every page's HTML.
-- [ ] *Item and Card in the pp registry.* The pp `Item` repeats the pp
-  `Card`'s title button (the same `aria-pressed`/`aria-expanded` expression),
-  its `card__attributes badges` row and its `.detail flow pad` block, so a fix
-  to one misses the other. Item already differs: it has no `focusOnShow`, and
-  its title is `label flex` rather than `label card__title`. Share the title
-  and detail parts, or render Item as a Card inside a list item. The shadcn
-  registry has the same pair; see *Catalog semantics written per registry*.
+- [x] *Item and Card in the pp registry.* Done 2026-10-20 with *Catalog
+  semantics written per registry*: both take their title button from
+  `usePressableTitle`, and in pp they share `cardAttributes` and `cardDetail`
+  for the attributes row and the detail block. Item keeps its own title
+  heading (`label card__title flex`, which holds the `titleSuffix`).
 - [ ] *Detail without what the row shows, written twice.* `InPlaceDetail` in
   `templates/collection-view/renderers/entity-detail.tsx` has no user since
   the linked-trio demo became a spec, which builds the same view with
   `itemView('mid', undefined, attributes)` from `specs/shared/product-view.ts`.
   Decide whether the template keeps it for collection views or it goes.
-- [ ] *Catalog semantics written per registry* (checked 2026-10-20). What a
-  catalog prop means for assistive technology and focus is written out again
-  in each registry. The rule for `aria-pressed` and `aria-expanded` on a title
-  that opens (`opens`, `selected`, `expanded`) appears four times: Card and
-  Item in `registries/pp.tsx` and in `registries/shadcn.tsx`. Each field
-  (Input, Select, Textarea, Combobox and the rest) repeats in both libraries
-  the bound value, the field error, the id, `aria-describedby` and the error's
-  alert role. A copy that drifts would show as a difference between the
-  libraries when it is a defect, which weakens the test switchable demos run.
-  The registries already share hooks for focus hand-off, disclosure state,
-  candidate lists and field validation; extending that to the rest
-  (`usePressableTitle(props, emit)`, `useField(props, bindings)` and similar)
-  would write each meaning once and leave each library its markup and styles.
-  This settles *Item and Card in the pp registry* too. A folder split would
-  show the boundary: `catalog/behaviour/` for the library-neutral hooks,
-  `registries/pp/` and `registries/shadcn/` for each library, where today
-  `registries/` holds all three.
+- [x] *Catalog semantics written per registry* (done 2026-10-20). The rule
+  for `aria-pressed` and `aria-expanded` on a title that opens was written out
+  four times (Card and Item in each registry), and each text field repeated
+  its bound value, error, id, `aria-describedby` and alert role in both
+  libraries. `usePressableTitle(props, emit)` now returns the title button's
+  ref and attributes, with focus on show and focus hand-off, and emits
+  `focus` and `blur` for an Item. `useField(props, bindings)` returns the
+  bound value, the error, the control's attributes and the error's id and
+  role, for Input and Select; each library keeps its error element, and
+  `errorPrefix` is the announced "Error:". Textarea takes `useBoundField`,
+  the value and id alone, so that another field's error on the same path
+  does not mark it. `aria-invalid` stays with each
+  library, since `pp-input` and `pp-select` set it on their control from
+  their own `invalid`. The folder split followed: the library-neutral hooks
+  are in `catalog/behaviour/`, each library in `registries/pp/` and
+  `registries/shadcn/` (its registry in `index.tsx`, its parts without the
+  library prefix, its own lazy mention editor, and in shadcn the
+  `composer-field` context its Composer uses). `catalog/shadcn.css`
+  scans `registries/shadcn/*.tsx`; the generated sheet is unchanged. Checked
+  in the browser in both libraries: a failed submit on the form spec, pressed
+  and expanded titles on overview-detail, Item focus and blur on
+  coordinated-views, and the mention editors on prompt. Other components
+  still write their semantics per registry (Button's hidden label, the
+  Dialog and Drawer descriptions); extend the hooks when one drifts.
 - [x] *`@json-render/shadcn` for two components* (checked 2026-10-20). The
   shadcn registry took only `Stack` and `Checkbox` from the kit, which does
   not tree-shake and brought embla-carousel, vaul, tailwind-merge and
   class-variance-authority with it. Done 2026-10-20: Stack is a flex box with
   shadcn's gaps (a labelled one is a `section`, and `align: baseline` now
   keeps its label, gap and drop target), and a checkbox row uses the same
-  `CheckboxField` (`registries/shadcn-checkbox.tsx`) as the catalog's
+  `CheckboxField` (now `registries/shadcn/checkbox.tsx`) as the catalog's
   Checkbox, so its label is no longer set in medium weight. The dependency is
-  gone, and `catalog/shadcn.css` scans `registries/shadcn*.tsx` with one glob.
+  gone, and `catalog/shadcn.css` scans the shadcn registry's files with one
+  glob (now `registries/shadcn/*.tsx`).
   The sheet went from 13.9 KB to 10.7 KB gzipped; every class the registry
   names is still in it. Checked in the browser under shadcn: bound and unbound
   checkbox rows, labelled and drop-target Stacks.
@@ -440,7 +447,7 @@ Design calls; one sitting each.
   serve both; decide together with `ItemView`'s shape, which is still
   provisional.
 - [ ] *Hover bridge, twice.* `components/item-view/ItemInteraction.tsx` and
-  `catalog/registries/preview.ts` each implement the reference's preview
+  `catalog/behaviour/preview.ts` each implement the reference's preview
   (open after a pause, close after a grace that arriving on the preview
   cancels). Both read `previewTiming`, but only the hook moves the keyboard
   into the preview and back. `ItemInteraction` also keeps the working-rung
@@ -453,7 +460,7 @@ Design calls; one sitting each.
   same item) would send focus to the wrong one. A stable key the spec gives
   the control would avoid it; change both together.
 - [ ] *Leaflet setup, twice.* `components/map/map.ts` and
-  `catalog/registries/shadcn-map.tsx` share the tiles (`map/tiles.ts`), but
+  `catalog/registries/shadcn/map.tsx` share the tiles (`map/tiles.ts`), but
   each creates the Leaflet map, fits the view without animation, defers
   removing the map while a zoom runs, names each pin, selects it on Enter or
   Space, marks the selected one current, and pans to a selection only when
@@ -464,7 +471,7 @@ Design calls; one sitting each.
 - [ ] *Mention editor, twice.* `components/reference/Reference.tsx` (with
   `ReferenceEditor` and `ReferencePicker`, still used by the prompt,
   bubble-menu, block-based-editor and dynamic-hyperlinks demos) and
-  `catalog/registries/mention-editor.ts` each set up Tiptap's mention
+  `catalog/behaviour/mention-editor.ts` each set up Tiptap's mention
   extension and its @ list, both picking a kind and then an item. They differ
   in what they hold: the component looks entities up in `@shared/data` from
   its node view, escalates through `ItemInteraction`, and keeps the picker's
@@ -485,7 +492,7 @@ Design calls; one sitting each.
   note now asks technical questions of a supply chain analyst. Rewrite the
   note's sentences or its ids so the two agree.
 - [ ] *TemplateField has no consumer.* The prompt-template spec fills its
-  blanks through slots in `catalog/registries/mention-editor.ts`, so
+  blanks through slots in `catalog/behaviour/mention-editor.ts`, so
   `components/template-field/` (a Tiptap node whose blank turns into an input
   when pressed, with fill, clear and validate commands) is no longer used. The
   slots keep `.template-field` and `--filled` from `styles/reference.css`;
@@ -542,7 +549,7 @@ Design calls; one sitting each.
 - [ ] *Filter chip, twice.* The chip that edits one filter condition
   (attribute, operator, values, remove) is written in
   `components/filter/filter-components.tsx`, tied to the task fixtures, and
-  in `catalog/registries/pp-filter-tag.tsx`, the catalog's `FilterTag`, which
+  in `catalog/registries/pp/filter-tag.tsx`, the catalog's `FilterTag`, which
   takes everything as props. Every demo that filters is now a spec and edits
   conditions through `FilterTag`, with operators and options from
   `demos/specs/shared/filter-clauses.ts`, so the library chip (`Filters` in
@@ -551,7 +558,7 @@ Design calls; one sitting each.
   draws, or goes.
 - [x] *Overview plus detail.* The linked-trio demo is a spec. Its three
   panes are the catalog's `Panes`, which writes its room to state as `Split`
-  does (`registries/split-room.ts`), and its list is an `ItemGroup` of
+  does (`behaviour/split-room.ts`), and its list is an `ItemGroup` of
   `Item` rows (shadcn's Item; the library's list of cards).
 - [x] *`top-layer=""` no longer turned the top layer on.* React's
   `top-layer=""` set pp-popup's boolean property to an empty string, which
@@ -661,7 +668,7 @@ Design calls; one sitting each.
   bubbles; the submenu popup stops the original and re-emits it from the
   dropdown, and focus returns to the trigger as it does for top-level items.
 - [ ] *Inline styles in the pp registry* (checked 2026-10-20).
-  `registries/pp.tsx` sets spacing and layout in 16 `style={…}` props: the
+  `registries/pp/index.tsx` sets spacing and layout in 16 `style={…}` props: the
   Stack's gap and row layout, the Grid's column width, the field and card
   body grids. The switchable-demos plan noted them against
   `.claude/rules/styling.md`, and nothing tracked them since. The registry

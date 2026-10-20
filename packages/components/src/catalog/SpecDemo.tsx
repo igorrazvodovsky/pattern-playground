@@ -2,8 +2,8 @@ import { useCallback, useEffect, useRef } from 'react';
 import { JSONUIProvider, Renderer, type ComponentRegistry, type ComponentRenderer } from '@json-render/react';
 import type { ComputedFunction, Spec, StateStore } from '@json-render/core';
 import { directives } from './directives';
-import { DemoRoot } from './registries/dialog-focus';
-import { DemoSettled } from './registries/focus-on-show';
+import { DemoRoot } from './behaviour/dialog-focus';
+import { DemoSettled } from './behaviour/focus-on-show';
 
 // Renders a demo spec (demos/specs/<slug>.json) through one registry. The
 // state store is created by the caller and outlives this component, so

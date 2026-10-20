@@ -98,36 +98,37 @@ import {
   Truck,
   Undo,
 } from 'lucide-react';
-import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes, type tones } from '../catalog';
-import { useCandidateList } from './candidate-list';
-import { captureOpener, settleFocus, useReturnFocus, type Opener } from './dialog-focus';
-import { useFieldError } from './field-validation';
-import { submitForm } from './form-submit';
-import { useFocusHandoff, useMenuFocusHandoff } from './focus-handoff';
-import { useFocusOnShow } from './focus-on-show';
-import { scopedPortal } from './shadcn-portal';
-import { CheckboxField } from './shadcn-checkbox';
+import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes, type tones } from '../../catalog';
+import { useCandidateList } from '../../behaviour/candidate-list';
+import { captureOpener, settleFocus, useReturnFocus, type Opener } from '../../behaviour/dialog-focus';
+import { errorPrefix, useBoundField, useField, type FieldErrorProps } from '../../behaviour/field';
+import { submitForm } from '../../behaviour/form-submit';
+import { useFocusHandoff, useMenuFocusHandoff } from '../../behaviour/focus-handoff';
+import { useFocusOnShow } from '../../behaviour/focus-on-show';
+import { usePressableTitle } from '../../behaviour/pressable-title';
+import { scopedPortal } from './portal';
+import { CheckboxField } from './checkbox';
 import { ComposerField } from './composer-field';
 import { ShadcnMentionEditor } from './mention-editor-lazy';
-import type { Send } from './shadcn-parts';
-import { LocationMap } from './shadcn-map';
-import { RuleBuilder, type RuleTree } from './shadcn-rule-builder';
-import { Subsection, useHeading } from './heading-level';
-import { Section, Sections } from './shadcn-sections';
-import { Timeline, TimelineEntry } from './shadcn-timeline';
-import { useDisclosureOpen, useDisclosureState } from './disclosure-state';
-import { BoardAxis } from './board-axis';
-import { useDisclosureDrop, useDragRow, useStackDrop } from './drag-drop';
-import { MenuMultiple } from './menu-multiple';
-import { Crumb, CrumbOverflow, Trail } from './shadcn-crumb';
-import { DraggableRow } from './shadcn-draggable-row';
-import { FilterTag } from './shadcn-filter-tag';
-import { popoverHost, useMayTakeFocus } from './popover-host';
-import { usePreview } from './preview';
-import { useSplitRoom } from './split-room';
-import { useToastList } from './toast-list';
-import { TracingProvider, useMarkTracing, useTracingState } from './mark-tracing';
-import sheetUrl from '../shadcn.generated.css?url';
+import type { Send } from './parts';
+import { LocationMap } from './map';
+import { RuleBuilder, type RuleTree } from './rule-builder';
+import { Subsection, useHeading } from '../../behaviour/heading-level';
+import { Section, Sections } from './sections';
+import { Timeline, TimelineEntry } from './timeline';
+import { useDisclosureOpen, useDisclosureState } from '../../behaviour/disclosure-state';
+import { BoardAxis } from '../../behaviour/board-axis';
+import { useDisclosureDrop, useDragRow, useStackDrop } from '../../behaviour/drag-drop';
+import { MenuMultiple } from '../../behaviour/menu-multiple';
+import { Crumb, CrumbOverflow, Trail } from './crumb';
+import { DraggableRow } from './draggable-row';
+import { FilterTag } from './filter-tag';
+import { popoverHost, useMayTakeFocus } from '../../behaviour/popover-host';
+import { usePreview } from '../../behaviour/preview';
+import { useSplitRoom } from '../../behaviour/split-room';
+import { useToastList } from '../../behaviour/toast-list';
+import { TracingProvider, useMarkTracing, useTracingState } from '../../behaviour/mark-tracing';
+import sheetUrl from '../../shadcn.generated.css?url';
 
 // The catalog rendered with shadcn/ui. Every type is built from shadcn's own
 // class lists over Radix primitives, which is how shadcn is meant to be used:
@@ -324,9 +325,9 @@ const buttonSize = { default: 'h-9 px-4 py-2 has-[>svg]:px-3', icon: 'size-9' } 
 const markClass = 'rounded-sm bg-yellow-200/70 px-1 text-foreground dark:bg-yellow-800/60';
 
 const label = 'flex items-center gap-2 text-sm leading-none font-medium select-none';
-const fieldError = (id: string, message: string) => (
-  <p id={id} role="alert" className="text-sm text-destructive">
-    <span className="sr-only">Error:</span> {message}
+const fieldError = (props: FieldErrorProps, message: string) => (
+  <p {...props} className="text-sm text-destructive">
+    <span className="sr-only">{errorPrefix}</span> {message}
   </p>
 );
 const invalidRing = 'aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40';
@@ -367,9 +368,7 @@ export const { registry } = defineRegistry(catalog, {
     // In a card that opens, the title button's ::after covers the card, so
     // the suffix, actions, attribute buttons and detail are raised above it.
     Card: ({ props, children, slots, emit }) => {
-      const openRef = useRef<HTMLButtonElement>(null);
-      useFocusOnShow(openRef, props.focusOnShow);
-      useFocusHandoff(null, openRef, Boolean(props.opens && props.title));
+      const titleButton = usePressableTitle(props, emit);
       const Heading = useHeading();
       const above = props.opens && 'relative z-10';
       const Icon = props.icon ? icons[props.icon] : null;
@@ -402,12 +401,8 @@ export const { registry } = defineRegistry(catalog, {
                   {Icon && <Icon aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />}
                   {props.opens ? (
                     <button
-                      ref={openRef}
-                      type="button"
+                      {...titleButton}
                       className="cursor-pointer text-left outline-none after:absolute after:inset-0 after:rounded-xl hover:underline focus-visible:after:ring-[3px] focus-visible:after:ring-ring/50"
-                      aria-pressed={props.selected == null || props.expanded != null ? undefined : props.selected}
-                      aria-expanded={props.expanded ?? undefined}
-                      onClick={() => emit('open')}
                     >
                       {props.title}
                     </button>
@@ -832,9 +827,7 @@ export const { registry } = defineRegistry(catalog, {
     // reaches the group as one child, so the group cannot place them. As on
     // a Card, the title button's ::after covers the row.
     Item: ({ props, slots, emit }) => {
-      const openRef = useRef<HTMLButtonElement>(null);
-      useFocusOnShow(openRef, props.focusOnShow);
-      useFocusHandoff(null, openRef, Boolean(props.opens));
+      const titleButton = usePressableTitle(props, emit, { focusEvents: true });
       const Heading = useHeading();
       const detail = props.expanded && slots?.detail;
       return (
@@ -855,14 +848,8 @@ export const { registry } = defineRegistry(catalog, {
               <Heading data-slot="item-title" className="flex w-fit items-center gap-2 text-sm leading-snug font-medium">
                 {props.opens ? (
                   <button
-                    ref={openRef}
-                    type="button"
+                    {...titleButton}
                     className="cursor-pointer text-left outline-none after:absolute after:inset-0 after:rounded-md focus-visible:after:ring-[3px] focus-visible:after:ring-ring/50"
-                    aria-pressed={props.selected == null || props.expanded != null ? undefined : props.selected}
-                    aria-expanded={props.expanded ?? undefined}
-                    onClick={() => emit('open')}
-                    onFocus={() => emit('focus')}
-                    onBlur={() => emit('blur')}
                   >
                     {props.title}
                   </button>
@@ -1173,43 +1160,38 @@ export const { registry } = defineRegistry(catalog, {
     },
 
     Input: ({ props, bindings }) => {
-      const [value, setValue] = useBoundProp(props.value, bindings?.value);
-      const error = useFieldError(bindings?.value, value, props.checks, props.error);
-      const id = useId();
+      const { id, value, setValue, error, control, errorProps } = useField(props, bindings);
       return (
         <div className="flex flex-col gap-2">
           {!props.hideLabel && <label htmlFor={id} className={label}>{props.label}</label>}
           <input
-            id={id}
+            {...control}
             type={props.type ?? 'text'}
             aria-label={props.hideLabel ? props.label : undefined}
             aria-invalid={error ? true : undefined}
-            aria-describedby={error ? `${id}-error` : undefined}
-            data-invalid={error ? '' : undefined}
             placeholder={props.placeholder ?? undefined}
             data-autofocus={props.initialFocus || undefined}
-            value={value ?? ''}
+            value={value}
             onChange={event => setValue(event.target.value)}
             className={clsx(
               'flex h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30',
               invalidRing,
             )}
           />
-          {error && fieldError(`${id}-error`, error)}
+          {error && fieldError(errorProps, error)}
         </div>
       );
     },
 
     Textarea: ({ props, bindings }) => {
-      const [value, setValue] = useBoundProp(props.value, bindings?.value);
-      const id = useId();
+      const { id, value, setValue } = useBoundField(props, bindings);
       return (
         <div className="flex flex-col gap-2">
           <label htmlFor={id} className={label}>{props.label}</label>
           <textarea
             id={id}
             placeholder={props.placeholder ?? undefined}
-            value={value ?? ''}
+            value={value}
             onChange={event => setValue(event.target.value)}
             className="flex field-sizing-content min-h-16 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30"
           />
@@ -1218,18 +1200,14 @@ export const { registry } = defineRegistry(catalog, {
     },
 
     Select: ({ props, bindings }) => {
-      const [value, setValue] = useBoundProp(props.value, bindings?.value);
-      const error = useFieldError(bindings?.value, value, props.checks, props.error);
-      const id = useId();
+      const { id, value, setValue, error, control, errorProps } = useField(props, bindings);
       return (
         <div className="flex flex-col gap-2">
           <label htmlFor={id} className={label}>{props.label}</label>
-          <Select.Root value={value ?? ''} onValueChange={setValue}>
+          <Select.Root value={value} onValueChange={setValue}>
             <Select.Trigger
-              id={id}
+              {...control}
               aria-invalid={error ? true : undefined}
-              aria-describedby={error ? `${id}-error` : undefined}
-              data-invalid={error ? '' : undefined}
               className={clsx(
                 "flex h-9 w-fit items-center justify-between gap-2 rounded-md border border-input bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 data-[placeholder]:text-muted-foreground dark:bg-input/30 dark:hover:bg-input/50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
                 invalidRing,
@@ -1263,7 +1241,7 @@ export const { registry } = defineRegistry(catalog, {
               </Select.Content>
             </Select.Portal>
           </Select.Root>
-          {error && fieldError(`${id}-error`, error)}
+          {error && fieldError(errorProps, error)}
         </div>
       );
     },

@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useId, useLayoutEffect, useState, type ReactNode } from 'react';
 import { Accordion, Tabs } from 'radix-ui';
 import { ChevronDown } from 'lucide-react';
-import { Subsection, useHeading } from './heading-level';
+import { Subsection, useHeading } from '../../behaviour/heading-level';
 
 // Radix wants every tab trigger inside one list ahead of the panels, while
 // the catalog gives each Section its own title, so each Section registers its

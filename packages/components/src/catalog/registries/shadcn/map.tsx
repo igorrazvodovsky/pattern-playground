@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import * as L from 'leaflet';
-import { CARTO_ATTRIBUTION, CARTO_TILE_URL } from '../../components/map/tiles';
+import { CARTO_ATTRIBUTION, CARTO_TILE_URL } from '../../../components/map/tiles';
 
 // Leaflet's own stylesheet is not imported here. pp-map imports it, and every
 // page that registers the library has it; an import from this lazily loaded
