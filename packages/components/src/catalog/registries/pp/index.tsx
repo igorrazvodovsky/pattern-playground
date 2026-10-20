@@ -2,7 +2,7 @@ import { Children, Fragment, Suspense, useCallback, useContext, useEffect, useId
 import { createPortal } from 'react-dom';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import clsx from 'clsx';
-import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes } from '../../catalog';
+import { catalog, toastDuration, type iconNames, type purposes } from '../../catalog';
 import type { MapComponent, MapFocusDetail, MapSelectDetail } from '../../../components/map/map';
 import type { ToastHandle } from '../../../components/toast/toast';
 import { Combobox, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxList } from '../../../components/combobox';
@@ -1315,5 +1315,4 @@ export const { registry } = defineRegistry(catalog, {
       </p>
     ),
   },
-  actions: actionsSuppliedBySpecs,
 });

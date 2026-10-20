@@ -1,6 +1,6 @@
 import type { Spec } from '@json-render/core';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { notifyHandler } from './shared/notify';
+import { notify, notifyHandler } from './shared/notify';
 import spec from './form.json' with { type: 'json' };
 
 export default {
@@ -11,6 +11,7 @@ export default {
       validation: { valid: false, errors: {} },
       notice: '',
     },
+    actions: { notify },
     handlers: notifyHandler,
   } satisfies SpecSetup,
 };

@@ -1,10 +1,18 @@
 import type { StateStore } from '@json-render/core';
+import { z } from 'zod';
+import type { ActionDefinition } from '../../../catalog/SpecDemo';
 import { confirmationWindow } from '../../../catalog/catalog';
 import { keyedTimers } from './timers';
 
 // A spec cannot schedule a state change, so the `armed` flag is reverted here.
 // An item in a list is found again by its id: its path is index-based, and a
 // row deleted above it would shift it before the timer fires.
+
+export const arm: ActionDefinition = {
+  params: z.object({ item: z.string() }),
+  description:
+    'Arm a confirmation on one item: sets its `armed` field and clears it again after a few seconds. `item` is the item\'s state path ({ "$item": "" } inside a repeat). Cancel and confirm need no custom action: setState on `armed`, removeState on the item.',
+};
 
 export const armHandler = (store: StateStore, connected: () => boolean) => {
   const schedule = keyedTimers(connected);

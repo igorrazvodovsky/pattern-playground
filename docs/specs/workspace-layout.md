@@ -119,8 +119,10 @@ promotion is trigger-gated.
 A demo can also be a spec: `demos/specs/<slug>.json` describes the demo as
 data against the component catalog, and `demos/specs/<slug>.ts` beside it,
 when the demo needs one, supplies what JSON cannot carry: initial state
-(fixtures enter here, never through the spec), action handlers, and
-`$computed` functions for the demo's own logic. A static spec has no module.
+(fixtures enter here, never through the spec), the actions the spec can bind
+beyond json-render's built-ins (each with its params, description and
+handler), and `$computed` functions for the demo's own logic. The catalog
+declares components only. A static spec has no module.
 A module can also build its spec in TypeScript, from a factory another spec
 shares, with no JSON of its own. Code and JSON that several specs share live
 in `demos/specs/shared/`, so that every file directly in `demos/specs/`,
@@ -132,7 +134,8 @@ names the move owns the spec, and other pages borrow it by slug.
 
 The unit tests check every spec against the catalog and its own setup
 (`catalog/specs.test.ts`): types, props and their literal values, slots,
-actions and their handlers, `$computed` names, and directives.
+actions against the module's declarations and handlers (including literal
+params), `$computed` names, and directives.
 
 The catalog, the registries that render it (`registries/pp/` for this
 library, `registries/shadcn/` for shadcn/ui), `SpecDemo.tsx`, and the

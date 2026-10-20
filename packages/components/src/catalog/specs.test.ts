@@ -3,7 +3,9 @@ import { createStateStore, validateSpec, type Spec } from '@json-render/core';
 import type { z } from 'zod';
 import { catalog } from './catalog';
 import { directives } from './directives';
-import type { SpecSetup } from './SpecDemo';
+import type { ActionDefinition, SpecSetup } from './SpecDemo';
+import { notify, notifyHandler } from '../demos/specs/shared/notify';
+import { settle, settleHandler } from '../demos/specs/shared/settle';
 
 // Specs are cast `as Spec`, and json-render renders an unknown prop, action
 // or function without complaint, so this is where those mistakes surface. Per
@@ -41,7 +43,6 @@ const builtInKeys = new Set([
 const conditionKeys = new Set(['$state', '$item', '$index', '$and', '$or']);
 const directiveByKey = new Map(directives.map(directive => [directive.name, directive]));
 const builtInActions = new Set((catalog.schema.builtInActions ?? []).map(action => action.name));
-const catalogActions = new Set(catalog.actionNames);
 
 interface ComponentEntry { props: z.ZodObject; slots?: string[] }
 const components = catalog.data.components as unknown as Record<string, ComponentEntry>;
@@ -73,10 +74,47 @@ const walk = (value: unknown, found: Found) => {
   }
 };
 
+// Each key is one the shape names, and a literal value fits it. A value
+// holding an expression resolves only at render time, so it is not parsed.
+const shapeProblems = (
+  shape: Record<string, z.ZodType>,
+  values: Record<string, unknown>,
+  unknownKey: (key: string) => string,
+  prefix = '',
+): string[] =>
+  Object.entries(values).flatMap(([key, value]) => {
+    const schema = shape[key];
+    if (!schema) return [unknownKey(key)];
+    if (hasExpression(value)) return [];
+    const parsed = schema.safeParse(value);
+    return parsed.success ? [] : [`${prefix}${key}: ${parsed.error.issues.map(issue => issue.message).join('; ')}`];
+  });
+
+// A param the binding leaves out must be one the action declares optional.
+// Asking the schema whether it accepts undefined is not enough: z.unknown()
+// does, and a handler would then write undefined.
+const isOptional = (schema: z.ZodType) => schema.def.type === 'optional' || schema.def.type === 'default';
+
+const paramProblems = (name: string, definition: ActionDefinition, params: Record<string, unknown> = {}): string[] => {
+  const shape = definition.params.shape as Record<string, z.ZodType>;
+  const missing = Object.entries(shape)
+    .filter(([param, schema]) => !(param in params) && !isOptional(schema))
+    .map(([param]) => `action ${name} needs param ${param}`);
+  return [...missing, ...shapeProblems(shape, params, param => `action ${name} has no param ${param}`, `${name} `)];
+};
+
 const lintSpec = (spec: Spec, setup: SpecSetup = {}): string[] => {
   const problems = validateSpec(spec).issues.map(issue => `${issue.elementKey ?? 'spec'}: ${issue.message}`);
+  const actions = setup.actions ?? {};
   const handlers = setup.handlers?.(createStateStore(setup.initialState ?? {}), () => false) ?? {};
   const functions = setup.functions ?? {};
+
+  for (const name of Object.keys(actions)) {
+    if (!handlers[name]) problems.push(`setup: action ${name} has no handler`);
+  }
+  for (const name of Object.keys(handlers)) {
+    if (!actions[name]) problems.push(`setup: handler ${name} is not a declared action`);
+  }
 
   for (const [key, element] of Object.entries(spec.elements)) {
     const at = (message: string) => problems.push(`${key}: ${message}`);
@@ -87,16 +125,9 @@ const lintSpec = (spec: Spec, setup: SpecSetup = {}): string[] => {
     }
     const found: Found = { keys: new Set(), computed: new Set(), directives: [] };
 
-    const shape = entry.props.shape as Record<string, z.ZodType>;
-    for (const [name, value] of Object.entries(element.props ?? {})) {
-      walk(value, found);
-      const schema = shape[name];
-      if (!schema) at(`${element.type} has no prop ${name}`);
-      else if (!hasExpression(value)) {
-        const parsed = schema.safeParse(value);
-        if (!parsed.success) at(`${name}: ${parsed.error.issues.map(issue => issue.message).join('; ')}`);
-      }
-    }
+    const props = element.props ?? {};
+    Object.values(props).forEach(value => walk(value, found));
+    shapeProblems(entry.props.shape as Record<string, z.ZodType>, props, name => `${element.type} has no prop ${name}`).forEach(at);
 
     const where = { keys: new Set<string>(), computed: new Set<string>(), directives: [] } as Found;
     walk(element.visible, where);
@@ -113,8 +144,9 @@ const lintSpec = (spec: Spec, setup: SpecSetup = {}): string[] => {
     for (const binding of [...bindingsOf(element.on as never), ...bindingsOf(element_.watch)]) {
       walk(binding.params, found);
       if (builtInActions.has(binding.action)) continue;
-      if (!catalogActions.has(binding.action)) at(`action ${binding.action} is not in the catalog`);
-      else if (!handlers[binding.action]) at(`action ${binding.action} has no handler in the module`);
+      const action = actions[binding.action];
+      if (!action) at(`action ${binding.action} is not declared in the module`);
+      else paramProblems(binding.action, action, binding.params).forEach(at);
     }
 
     for (const name of found.computed) {
@@ -160,12 +192,33 @@ describe('the lint', () => {
       specWith({ root: { type: 'Card', props: { title: 'A' }, slots: { footer: ['b'] }, children: [] }, b: button() }),
       'Card has no slot footer',
     ],
-    ['action', specWith({ root: button({ on: { press: { action: 'launch' } } }) }), 'action launch is not in the catalog'],
-    ['watch action', specWith({ root: button({ watch: { '/a': { action: 'launch' } } }) }), 'action launch is not in the catalog'],
+    ['action', specWith({ root: button({ on: { press: { action: 'launch' } } }) }), 'action launch is not declared'],
+    ['watch action', specWith({ root: button({ watch: { '/a': { action: 'launch' } } }) }), 'action launch is not declared'],
+    ['handler', specWith({ root: button() }), 'setup: action notify has no handler', { actions: { notify } }],
+    ['declaration', specWith({ root: button() }), 'setup: handler notify is not a declared action', { handlers: notifyHandler }],
     [
-      'handler',
-      specWith({ root: button({ on: { press: { action: 'notify', params: { statePath: '/n', message: 'Hi' } } } }) }),
-      'action notify has no handler',
+      'param name',
+      specWith({ root: button({ on: { press: { action: 'notify', params: { statePath: '/n', message: 'Hi', tone: 'calm' } } } }) }),
+      'action notify has no param tone',
+      { actions: { notify }, handlers: notifyHandler },
+    ],
+    [
+      'missing param',
+      specWith({ root: button({ on: { press: { action: 'notify', params: { message: 'Hi' } } } }) }),
+      'action notify needs param statePath',
+      { actions: { notify }, handlers: notifyHandler },
+    ],
+    [
+      'missing unknown param',
+      specWith({ root: button({ on: { press: { action: 'settle', params: { statePath: '/n' } } } }) }),
+      'action settle needs param value',
+      { actions: { settle }, handlers: settleHandler },
+    ],
+    [
+      'param value',
+      specWith({ root: button({ on: { press: { action: 'notify', params: { statePath: 3, message: 'Hi' } } } }) }),
+      'notify statePath:',
+      { actions: { notify }, handlers: notifyHandler },
     ],
     [
       'function',

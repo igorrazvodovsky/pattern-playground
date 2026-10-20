@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { JSONUIProvider, Renderer, type ComponentRegistry, type ComponentRenderer } from '@json-render/react';
 import type { ComputedFunction, Spec, StateStore } from '@json-render/core';
+import type { z } from 'zod';
 import { directives } from './directives';
 import { DemoRoot } from './behaviour/dialog-focus';
 import { DemoSettled } from './behaviour/focus-on-show';
@@ -11,12 +12,20 @@ import { DemoSettled } from './behaviour/focus-on-show';
 
 export type ActionHandler = (params: Record<string, unknown>) => unknown;
 
+/** An action a spec can bind besides json-render's built-ins: what it takes and what it does. */
+export interface ActionDefinition {
+  params: z.ZodObject;
+  description: string;
+}
+
 /** What the module beside a spec contributes: everything a JSON spec cannot carry. */
 export interface SpecSetup {
   /** State the spec reads. Fixtures enter the demo here, never through the spec. */
   initialState?: Record<string, unknown>;
+  /** The actions the spec can bind besides the built-ins, each named and described. */
+  actions?: Record<string, ActionDefinition>;
   /**
-   * Handlers for the catalog actions the spec binds. A handler that changes
+   * Handlers for `actions`, one under each name. A handler that changes
    * state later (on a timer) checks `connected` first: handlers live outside
    * the React tree, so unmounting the demo does not stop them.
    */

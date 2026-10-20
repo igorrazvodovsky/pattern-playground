@@ -98,7 +98,7 @@ import {
   Truck,
   Undo,
 } from 'lucide-react';
-import { catalog, actionsSuppliedBySpecs, toastDuration, type iconNames, type purposes, type tones } from '../../catalog';
+import { catalog, toastDuration, type iconNames, type purposes, type tones } from '../../catalog';
 import { useCandidateList } from '../../behaviour/candidate-list';
 import { captureOpener, settleFocus, useReturnFocus, type Opener } from '../../behaviour/dialog-focus';
 import { errorPrefix, useBoundField, useField, type FieldErrorProps } from '../../behaviour/field';
@@ -1559,5 +1559,4 @@ export const { registry } = defineRegistry(catalog, {
       return <RuleBuilder label={props.label} tree={props.tree as RuleTree} send={send} />;
     },
   },
-  actions: actionsSuppliedBySpecs,
 });

@@ -1,4 +1,5 @@
 import type { Spec, StateStore } from '@json-render/core';
+import { z } from 'zod';
 import { nanoid } from 'nanoid';
 import { formatTime } from '@shared/format';
 import { filterPriorities, tasks, users } from '@shared/data';
@@ -13,7 +14,7 @@ import {
   type AttributeFilter,
   type FilterOperator,
 } from '@shared/data/bindings';
-import type { SpecSetup } from '../../catalog/SpecDemo';
+import type { ActionDefinition, SpecSetup } from '../../catalog/SpecDemo';
 import type { AICommandResult } from '../../components/command-menu';
 import { generateFilterSuggestions } from '../../components/filter/adapters/ai-filter-adapter';
 import { TASK_FILTER_PATHS, filterValueOptions, taskFilterCategories } from '../../components/filter/filter-options';
@@ -279,6 +280,12 @@ const pick = ({ filters: current, toasts, picked, interpretation }: Record<strin
   }
 };
 
+const interpret: ActionDefinition = {
+  params: z.object({ statePath: z.string(), prompt: z.string().nullable() }),
+  description:
+    'Ask a model what `prompt`, something the actor typed, describes in the collection the demo shows, once the actor pauses. Every dispatch clears `statePath` at once; a non-empty `prompt` then writes { prompt, pending: true } there when the request goes, and { prompt, result } or { prompt, error } when it comes back. A later dispatch replaces an earlier one, whose answer is dropped. Dispatch it from a `watch` on what the actor types, with a null `prompt` when what they typed already matches something.',
+};
+
 const interpretHandler = (store: StateStore, connected: () => boolean) => {
   const available = Object.fromEntries(Object.entries(VALUES).map(([path, values]) => [path, values.map(each => each.value)]));
   let timer: ReturnType<typeof setTimeout> | undefined;
@@ -324,6 +331,7 @@ export default {
       task: null,
       taskOpen: false,
     },
+    actions: { interpret },
     handlers: interpretHandler,
     functions: {
       derive,

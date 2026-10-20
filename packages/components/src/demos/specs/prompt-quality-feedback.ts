@@ -1,6 +1,6 @@
 import type { Spec } from '@json-render/core';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { settleHandler } from './shared/settle';
+import { settle, settleHandler } from './shared/settle';
 import spec from './prompt-quality-feedback.json' with { type: 'json' };
 
 // The "checking" line is not announced; the verdict empties meanwhile, so each
@@ -33,6 +33,7 @@ export default {
   spec: spec as Spec,
   setup: {
     initialState: { text: initial, checked: initial },
+    actions: { settle },
     handlers: settleHandler,
     functions: {
       verdict: args => current(args)?.text ?? '',

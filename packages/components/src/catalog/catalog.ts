@@ -722,55 +722,10 @@ export const catalog = defineCatalog(schema, {
         'A text the actor writes in, read by assistive technology as `label`, that can name items inline as mentions. `content` is its paragraphs, in order, each a list of plain runs (strings) and mentions ({ id, label, type }); a mention shows its `label`. Bind `content` with $bindState: the editor writes it as the actor types. Content can also hold slots ({ slot, label, required, value }), blanks in a template whose wording is already written: each is a field inside the text that shows its `label` until it holds a `value`, and the actor fills it in place. Tab moves through the slots and mentions in reading order, and Enter in a slot goes to the next slot. What the actor writes goes to the slot\'s `value`. `required` marks a slot the request cannot go without; the editor does not check it, and the actor can delete a slot like any other part of the text, so a spec that needs it checks against the template it started from and says what is missing when the actor sends. To fill or empty every slot at once, set `content`. Typing @ starts a mention: the editor writes what follows the @ to `query` (bind it with $bindState; it is null when no mention is being typed), and shows `candidates` in a list beneath the caret, in order, each group under its `heading`. The list filters nothing itself: which candidates show for the query is the spec\'s decision, usually a $computed over `query` and `scope`. A candidate is either an item ({ id, label, type, icon }) or a kind of item ({ id, label, narrows: true, icon }); its `icon` leads its label, named by meaning, such as the icon for the kind. The first candidate is highlighted; the arrow keys move the highlight, Enter or Tab picks it, and Escape closes the list and leaves the text. Picking an item puts the mention in place of what was typed. Picking a kind writes its `id` to `scope` (bind it with $bindState) and clears what was typed after the @, so the actor goes on typing within that kind; Backspace with nothing typed sets `scope` back to null, and so does closing the list. Pressing a mention writes its `id` to `opened` (bind it with $bindState), then emits `open`, for a fuller view of the item.',
     },
   },
-  actions: {
-    arm: {
-      params: z.object({ item: z.string() }),
-      description:
-        'Arm a confirmation on one item: sets its `armed` field and clears it again after a few seconds. `item` is the item\'s state path ({ "$item": "" } inside a repeat). Cancel and confirm need no custom action: setState on `armed`, removeState on the item.',
-    },
-    toggle: {
-      params: z.object({ item: z.string() }),
-      description:
-        'Open one item among its peers, or close it if it is open: sets its `open` field and clears `open` on the other items in the same list, so each list keeps one current item. An item that closes also closes every item open inside it, so it opens again on its summary. `item` is the item\'s state path ({ "$item": "" } inside a repeat).',
-    },
-    editRule: {
-      params: z.object({ edit: z.unknown() }),
-      description: 'Apply an edit written by a RuleBuilder ({ kind, slotId, value }) to the draft rule.',
-    },
-    settle: {
-      params: z.object({ statePath: z.string(), value: z.unknown() }),
-      description:
-        'Write `value` to `statePath` once the actor pauses: each dispatch for the same path restarts the wait. Dispatch it from a `watch` on what the actor is changing, to act on their input when they stop rather than on every keystroke.',
-    },
-    interpret: {
-      params: z.object({ statePath: z.string(), prompt: z.string().nullable() }),
-      description:
-        'Ask a model what `prompt`, something the actor typed, describes in the collection the demo shows, once the actor pauses. Every dispatch clears `statePath` at once; a non-empty `prompt` then writes { prompt, pending: true } there when the request goes, and { prompt, result } or { prompt, error } when it comes back. A later dispatch replaces an earlier one, whose answer is dropped. Dispatch it from a `watch` on what the actor types, with a null `prompt` when what they typed already matches something.',
-    },
-    deduce: {
-      params: z.object({ statePath: z.string(), focus: z.string(), proposal: z.unknown().nullable() }),
-      description:
-        'Ask a model which components that the model does not contain likely belong near `focus`, the id of a modelled component, or near `proposal`, a component it proposed earlier ({ name, rationale, anchorId }), which is then the subject. Writes { status: loading } to `statePath` at once, then { status: ready, proposals, revealed } when the answer comes, raising `revealed` by one every moment until every proposal shows, or { status: absent } when the model does not answer. A later dispatch replaces an earlier one, whose answer is dropped.',
-    },
-    notify: {
-      params: z.object({ statePath: z.string(), message: z.string() }),
-      description:
-        'Write a short message to `statePath` and clear it again after a few seconds. Pair with a Text that has `status` and reads that path.',
-    },
-  },
+  // Actions are demo behaviour, not library behaviour: the module beside each
+  // spec declares and handles its own (SpecSetup). The key stays, empty,
+  // because the registries' prop types are inferred from a catalog that has it.
+  actions: {},
 });
 
 export type Catalog = typeof catalog;
-
-// Actions are demo behaviour, not library behaviour: the module beside each
-// spec supplies the handlers (SpecDemo passes them to the provider). Registries
-// still have to name every catalog action, so they share these no-ops.
-export const actionsSuppliedBySpecs = {
-  arm: async () => {},
-  toggle: async () => {},
-  editRule: async () => {},
-  settle: async () => {},
-  interpret: async () => {},
-  deduce: async () => {},
-  notify: async () => {},
-};
