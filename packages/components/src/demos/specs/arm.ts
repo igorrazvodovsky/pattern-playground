@@ -1,14 +1,13 @@
 import type { StateStore } from '@json-render/core';
 import { confirmationWindow } from '../../catalog/catalog';
+import { keyedTimers } from './timers';
 
 // A spec cannot schedule a state change, so the `armed` flag is reverted here.
 // An item in a list is found again by its id: its path is index-based, and a
 // row deleted above it would shift it before the timer fires.
 
-type Timer = ReturnType<typeof setTimeout>;
-
 export const armHandler = (store: StateStore, connected: () => boolean) => {
-  const timers = new Map<string, Timer>();
+  const schedule = keyedTimers(connected);
 
   const locate = (path: string, id: unknown) => {
     if (id === undefined) return path;
@@ -29,12 +28,8 @@ export const armHandler = (store: StateStore, connected: () => boolean) => {
       const path = String(item);
       const id = store.get(`${path}/id`);
       const key = id === undefined ? path : String(id);
-      clearTimeout(timers.get(key));
       setArmed(path, id, true);
-      timers.set(key, setTimeout(() => {
-        timers.delete(key);
-        if (connected()) setArmed(path, id, false);
-      }, confirmationWindow));
+      schedule(key, confirmationWindow, () => setArmed(path, id, false));
     },
   };
 };

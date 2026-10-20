@@ -42,8 +42,11 @@ pp-popup[top-layer]:not(:popover-open) {
   display: none;
 }
 
+/* `translate` undoes popover.css's slide-in for `[popover]`: Floating UI
+   places this box, so nothing else may move it. */
 pp-popup[top-layer]:popover-open {
   display: block;
+  translate: none;
 }
 
 /* When a list is the popup's content, conform it to the popup's auto-size */

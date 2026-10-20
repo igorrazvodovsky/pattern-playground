@@ -47,6 +47,10 @@ export const AnchoredPanel: Story = {
     const [anchor, setAnchor] = useState<HTMLButtonElement | null>(null);
     const [open, setOpen] = useState(false);
     const popupRef = useRef<HTMLElement>(null);
+    // A press on the button first light-dismisses the open panel (pointerdown),
+    // then clicks. Toggling the state then would reopen it, so the press is
+    // read as open or close from the state it found.
+    const openAtPress = useRef<boolean | null>(null);
 
     useEffect(() => {
       const popup = popupRef.current;
@@ -64,7 +68,11 @@ export const AnchoredPanel: Story = {
           className="button"
           ref={setAnchor}
           aria-expanded={open}
-          onClick={() => setOpen((current) => !current)}
+          onPointerDown={() => (openAtPress.current = open)}
+          onClick={() => {
+            setOpen(!(openAtPress.current ?? open));
+            openAtPress.current = null;
+          }}
         >
           Open panel
         </button>
@@ -77,8 +85,8 @@ export const AnchoredPanel: Story = {
           distance={8}
           flip
           shift
-          top-layer=""
-          light-dismiss=""
+          top-layer
+          light-dismiss
         >
           <div className="popover" role="dialog" aria-label="Panel">
             <dl className="description-list">

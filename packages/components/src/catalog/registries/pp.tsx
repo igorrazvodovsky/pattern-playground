@@ -764,7 +764,7 @@ export const { registry } = defineRegistry(catalog, {
             {props.label}
           </button>
           {createPortal(
-            <pp-popup anchor={anchor ?? undefined} active={shown ?? false} placement="bottom-start" distance={8} flip shift top-layer="">
+            <pp-popup anchor={anchor ?? undefined} active={shown ?? false} placement="bottom-start" distance={8} flip shift top-layer>
               <div ref={contentRef} className="popover" role="dialog" aria-label={props.label} {...content}>
                 <div className="popover__header">
                   <div className="flow">

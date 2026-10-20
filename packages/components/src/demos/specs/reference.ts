@@ -11,6 +11,7 @@ import { bindings, referenceBinding } from '@shared/data/bindings';
 import type { iconNames } from '../../catalog/catalog';
 import type { SpecSetup } from '../../catalog/SpecDemo';
 import type { MentionPart, Paragraph } from '../../catalog/registries/mention-editor';
+import { matchesQuery, maxMentionMatches, mentionQuery, toMention } from './mentions';
 import { itemView } from './product-view';
 import spec from './reference.json' with { type: 'json' };
 
@@ -35,12 +36,10 @@ const sources: Source[] = referenceCategories.map(category => ({
   keywords: category.searchableText,
   icon: kindIcons[category.id]?.[0] ?? null,
   itemIcon: kindIcons[category.id]?.[1] ?? null,
-  options: category.children.map(item => ({ id: item.id, label: item.name, type: item.type })),
+  options: category.children.map(toMention),
 }));
 
 const withIcon = (source: Source) => (option: MentionPart) => ({ ...option, icon: source.itemIcon });
-
-const maxMatches = 8;
 
 const finders: Record<string, (id: string) => object | undefined> = {
   user: getUserById,
@@ -103,19 +102,19 @@ export default {
     },
     functions: {
       candidates: args => {
-        const query = typeof args.query === 'string' ? args.query.trim().toLocaleLowerCase() : '';
+        const query = mentionQuery(args.query);
         const groups = (Array.isArray(args.sources) ? args.sources : []).filter(isSource);
-        const named = (label: string) => label.toLocaleLowerCase().includes(query);
+        const named = matchesQuery(query);
         const scoped = groups.find(group => group.kind === args.scope);
         if (scoped)
-          return [{ heading: scoped.heading, options: scoped.options.filter(option => named(option.label)).map(withIcon(scoped)) }];
+          return [{ heading: scoped.heading, options: scoped.options.filter(named).map(withIcon(scoped)) }];
         const kinds = groups
           .filter(group => !query || group.keywords.split(' ').some(word => word.startsWith(query)))
           .map(group => ({ id: group.kind, label: group.heading, narrows: true as const, icon: group.icon }));
         if (!query) return [{ heading: null, options: kinds }];
-        let left = maxMatches;
+        let left = maxMentionMatches;
         const items = groups.map(group => {
-          const options = group.options.filter(option => named(option.label)).slice(0, left).map(withIcon(group));
+          const options = group.options.filter(named).slice(0, left).map(withIcon(group));
           left -= options.length;
           return { heading: group.heading, options };
         });

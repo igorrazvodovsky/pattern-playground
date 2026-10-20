@@ -323,8 +323,8 @@ Kept on purpose:
   lazy rather than eager, would replace the hand-kept `specs` map, and
   `verify-demo-registry.mjs` could list the spec files instead of parsing the
   map with a regex. The glob needs `demos/specs/` to hold only specs and
-  their modules, so the shared helpers (`arm`, `notify`, `settle`, `toggle`,
-  `selection`, `product-view`, `filter-clauses`) and the slice variants that
+  their modules, so the shared helpers (`arm`, `notify`, `settle`, `timers`,
+  `mentions`, `toggle`, `selection`, `product-view`, `filter-clauses`) and the slice variants that
   reuse another spec's JSON would move to a folder of their own or be named
   so the glob skips them. The libraries are also listed in three places: the
   `Library` type and `libraryLabels` in `Demo.astro`, and the `registries`
@@ -417,13 +417,12 @@ Design calls; one sitting each.
   holding its badges, price, description and a `DescriptionList` of the rest,
   laid out by role in `specs/product-view.ts`, as `ItemView` lays out its maxi
   scope.
-- [ ] *Slice attributes formatted two ways.* `specs/problem-checklist.ts` and
-  `specs/watch-to-chase-tiers.ts` show the same three attributes on a flag's
-  items (`category`, `pricing.msrp`, `listedAt`), but the first formats them
-  with `AttributeUtils.formatAttributeValue`, which shows a missing value as
-  N/A, and the second with `cardAttributes` from `specs/product-view.ts`, which
-  leaves it out. Move problem-checklist onto `cardAttributes` and share the
-  attribute list.
+- [x] *Slice attributes formatted two ways.* `specs/problem-checklist.ts` and
+  `specs/watch-to-chase-tiers.ts` showed the same three attributes on a flag's
+  items, one through `AttributeUtils` (a missing value shown as N/A) and the
+  other through `cardAttributes`. Done 2026-10-20: both read
+  `sliceAttributes` from `specs/product-view.ts`, so the checklist's badges
+  now take the binding's labels (Price, Listed) and leave a missing value out.
 - [ ] *Item layout by role, twice.* `specs/product-view.ts`, shared by the
   investigate, watch-to-chase, item-view-full, item-view-transitions and
   reference specs (the last lays out users and projects through their own
@@ -472,14 +471,12 @@ Design calls; one sitting each.
   candidates as data, reports a pressed mention, and keeps focus in the editor
   with the list read through `aria-activedescendant`. Migrating those four
   demos to specs would retire the component's copy.
-- [ ] *Mention candidates filtered twice.* `specs/reference.ts` and
-  `specs/prompt.ts` each turn a reference category's children into mentions
-  (`{ id, label: item.name, type: item.type }`), cap the list at eight, and
-  match a lowercased label against the trimmed, lowercased query. A change to
-  the matching rule (prefix rather than substring, say) has to be made in both.
-  A helper beside `catalog/registries/mention-editor.ts`, or in the specs
-  folder, would serve both; `reference.ts` keeps its kind-then-item steps on
-  top.
+- [x] *Mention candidates filtered twice.* `specs/reference.ts` and
+  `specs/prompt.ts` each turned a category's children into mentions, capped
+  the list at eight and matched the label against the query. Done
+  2026-10-20: both use `specs/mentions.ts` (`toMention`, `mentionQuery`,
+  `matchesQuery`, `maxMentionMatches`); `reference.ts` keeps its
+  kind-then-item steps on top.
 - [ ] *Stale labels in the reference note.* `sustainability-meeting-content`
   in `shared/data/reference-content.json` stores labels that no longer match
   the ids they point at (`user-2` is stored as David Chen, `PRJ-1` as Customer
@@ -502,11 +499,10 @@ Design calls; one sitting each.
   is no longer used, nor are its animation and reduced-motion rules in
   `styles/tiptap.css`, whose import is commented out. Delete both, or have the
   pp Composer draw a feedback line if the catalog gains one.
-- [ ] *Three copies of per-path timers.* `specs/notify.ts`, `specs/settle.ts`
-  and `specs/arm.ts` each keep a map of timers by state path, clear the old
-  timer, and check `connected()` before the delayed write. A shared helper
-  would keep a fix to one (such as clearing timers when the demo goes) from
-  missing the others.
+- [x] *Three copies of per-path timers.* `specs/notify.ts`, `specs/settle.ts`
+  and `specs/arm.ts` each kept a map of timers by state path. Done
+  2026-10-20: all three schedule through `keyedTimers` in `specs/timers.ts`,
+  which replaces a pending write and skips it once the demo has gone.
 - [ ] *A purpose Text wraps its icon above long text in pp.* The pp registry
   lays a Text with a purpose out with `.flex`, which wraps in a demo host
   narrower than 40rem, so a message longer than one line drops onto the next
@@ -555,16 +551,26 @@ Design calls; one sitting each.
   panes are the catalog's `Panes`, which writes its room to state as `Split`
   does (`registries/split-room.ts`), and its list is an `ItemGroup` of
   `Item` rows (shadcn's Item; the library's list of cards).
-- [ ] *`top-layer=""` no longer turns the top layer on.* pp-popup's
-  `top-layer` and `light-dismiss` are boolean properties, and the element
-  coerces by the type the property holds, so React's `top-layer=""` sets them
-  to an empty string, which reads as false: the popup stays in the page, under
-  any clipping ancestor, and does not close on an outside click or Escape.
-  `CommentPopover.tsx` and the catalog's pp Popover pass `{true}` and work.
-  Still on `=""`: the pp registry's Reference preview, `ItemInteraction.tsx`'s
-  summary, and `Popover.stories.tsx`. Check each still behaves once fixed,
-  since the Reference preview and the summary have only ever run outside the
-  top layer.
+- [x] *`top-layer=""` no longer turned the top layer on.* React's
+  `top-layer=""` set pp-popup's boolean property to an empty string, which
+  reads as false. Done 2026-10-20: the pp registry's Reference preview,
+  `ItemInteraction.tsx`'s summary and `Popover.stories.tsx` pass booleans, and
+  `jsx-types.ts` types both props as `boolean`, so `=""` no longer
+  type-checks. Checked in the browser: the story's panel opens in the top
+  layer and closes on an outside click; the Reference preview (the
+  item-view-transitions demo) and the summary (the Item view Escalation
+  story) open in the top layer, stay open while the pointer is on them, and
+  close when it leaves. Two faults surfaced once the top layer was really on.
+  `popover.css`'s slide-in `translate` for `[popover]:popover-open` reached
+  pp-popup and was cancelled only by the popup's position correction;
+  `popup.css` now sets `translate: none` on an open top-layer pp-popup. And
+  the Popover story's button could not close its panel: pointerdown
+  light-dismissed it, and the click's toggle reopened it in the same React
+  batch. The story now reads the press against the state found at
+  pointerdown. A trigger that toggles a `light-dismiss` popup has the same
+  problem anywhere; showing the popover with the anchor as `source` does not
+  help, since Chrome counts only a `popovertarget` button as the invoker for
+  light dismiss.
 - [ ] *`BackButton` and `.detail__toolbar` have no consumer.* The
   overview-detail layout demo is a spec, so `BackButton` in
   `demos/scaffold.tsx` is no longer imported, and the `.detail__toolbar` rules

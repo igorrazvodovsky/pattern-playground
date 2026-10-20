@@ -24,6 +24,9 @@ export const cardAttributes = (paths: string[]) => {
     present(item, selection).map(attribute => ({ path: attribute.path, label: label(attribute), value: format(item, attribute) }));
 };
 
+// What a flag's slice shows of each item it flags.
+export const sliceAttributes = cardAttributes(['category', 'pricing.msrp', 'listedAt']);
+
 export const attributeLabel = (path: string) => label(resolveAttributeSelection(productBinding, [path])[0]);
 
 export const attributeValue = (path: string) => {

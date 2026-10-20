@@ -97,12 +97,11 @@ declare module 'react' {
         shift?: boolean;
         sync?: 'width' | 'height' | 'both';
         'auto-size'?: 'horizontal' | 'vertical' | 'both';
-        /** Promote into the browser's top layer (native popover). Pass `true`,
-         *  not `""` — React assigns this as a property and an empty string is
-         *  falsy, so the HTML boolean-attribute idiom silently does nothing. */
-        'top-layer'?: boolean | string;
+        /** Promote into the browser's top layer (native popover). Boolean only:
+         *  React assigns this as a property, and an empty string is falsy. */
+        'top-layer'?: boolean;
         /** With `top-layer`: outside click and Escape close it, then `pp-hide` fires. */
-        'light-dismiss'?: boolean | string;
+        'light-dismiss'?: boolean;
       };
       'pp-p-plus': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
       'pp-breadcrumbs': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {

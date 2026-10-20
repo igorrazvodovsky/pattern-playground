@@ -345,7 +345,7 @@ export const ItemInteraction = ({
             distance={8}
             flip
             shift
-            top-layer=""
+            top-layer
           >
             <div
               className="popover"
