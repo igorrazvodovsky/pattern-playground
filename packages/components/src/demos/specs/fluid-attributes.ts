@@ -144,9 +144,6 @@ export default {
       filterEdit: null,
     },
     functions: {
-      // An action's `$item` names the item's path; inside `$computed` it is the value.
-      value: ({ value }) => value,
-      includes: ({ list: values, value }) => list(values).includes(String(value)),
       nameOf: ({ id }) => CATALOGUE.find(item => item.id === id)?.name ?? '',
       derive,
       surface,

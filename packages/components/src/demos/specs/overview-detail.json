@@ -132,7 +132,7 @@
       "children": ["card-attributes", "in-place", "popover"],
       "on": {
         "open": [
-          { "action": "setState", "params": { "statePath": "/selected", "value": { "$computed": "value", "args": { "value": { "$item": "id" } } } } },
+          { "action": "setState", "params": { "statePath": "/selected", "value": { "$value": { "$item": "id" } } } },
           { "action": "setState", "params": { "statePath": "/popoverOpen", "value": { "$cond": { "$state": "/layout", "eq": "popover" }, "$then": true, "$else": false } } },
           { "action": "setState", "params": { "statePath": "/pageOpen", "value": { "$cond": { "$state": "/layout", "eq": "new-page" }, "$then": true, "$else": false } } }
         ]

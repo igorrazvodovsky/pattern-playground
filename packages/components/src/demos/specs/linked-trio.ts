@@ -52,10 +52,5 @@ export default {
       focused: null,
       room: false,
     },
-    functions: {
-      // An action's `$item` names the item's path; inside `$computed` it is the value.
-      value: ({ value }) => value,
-      toggle: ({ selected, id }) => (selected === id ? null : id),
-    },
   } satisfies SpecSetup,
 };

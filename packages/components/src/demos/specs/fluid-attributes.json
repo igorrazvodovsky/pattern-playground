@@ -34,7 +34,7 @@
       "on": {
         "press": {
           "action": "setState",
-          "params": { "statePath": "/view/sort/field", "value": { "$computed": "value", "args": { "value": { "$item": "path" } } } }
+          "params": { "statePath": "/view/sort/field", "value": { "$value": { "$item": "path" } } }
         }
       }
     },
@@ -74,7 +74,7 @@
       "type": "MenuItem",
       "props": {
         "label": { "$item": "label" },
-        "checked": { "$computed": "includes", "args": { "list": { "$state": "/view/shown" }, "value": { "$item": "path" } } }
+        "checked": { "$includes": { "$state": "/view/shown" }, "value": { "$item": "path" } }
       },
       "on": {
         "press": {
@@ -169,7 +169,7 @@
       "slots": { "attributes": ["card-attributes"] },
       "on": {
         "open": [
-          { "action": "setState", "params": { "statePath": "/selected", "value": { "$computed": "value", "args": { "value": { "$item": "id" } } } } },
+          { "action": "setState", "params": { "statePath": "/selected", "value": { "$value": { "$item": "id" } } } },
           { "action": "setState", "params": { "statePath": "/detailOpen", "value": { "$cond": { "$state": "/room", "not": true }, "$then": true, "$else": false } } }
         ]
       }

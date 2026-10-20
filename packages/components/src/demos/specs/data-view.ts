@@ -189,7 +189,6 @@ const deriveWith = (controls: DataViewControls) => ({ view, query }: Record<stri
   };
 };
 
-const list = (value: unknown) => (Array.isArray(value) ? (value as string[]) : []);
 const framing = (view: unknown) => view as ViewSpec;
 
 /**
@@ -262,14 +261,6 @@ export function dataViewDemo({
         filterEdit: null,
       },
       functions: {
-        // An action's `$item` names the item's path; inside `$computed` it is the value.
-        value: ({ value }) => value,
-        includes: ({ list: values, value }) => list(values).includes(String(value)),
-        excludes: ({ list: values, value }) => !list(values).includes(String(value)),
-        toggleIn: ({ list: values, value }) => {
-          const current = list(values);
-          return current.includes(String(value)) ? current.filter(each => each !== value) : [...current, String(value)];
-        },
         derive,
         candidates,
         placeholder: ({ scope }) => (typeof scope === 'string' && scope !== '' ? `${label(scope)}…` : 'Filter products…'),

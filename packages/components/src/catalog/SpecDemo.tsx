@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { JSONUIProvider, Renderer, type ComponentRegistry, type ComponentRenderer } from '@json-render/react';
 import type { ComputedFunction, Spec, StateStore } from '@json-render/core';
+import { directives } from './directives';
 import { DemoRoot } from './registries/dialog-focus';
 import { DemoSettled } from './registries/focus-on-show';
 
@@ -21,7 +22,10 @@ export interface SpecSetup {
    * unmounted when its pane goes, so nothing else stops the write.
    */
   handlers?: (store: StateStore, connected: () => boolean) => Record<string, ActionHandler>;
-  /** Named functions for `$computed` props. */
+  /**
+   * Named functions for `$computed` props, for the demo's own logic. Generic
+   * values (counts, joined text, list membership) are directives (./directives).
+   */
   functions?: Record<string, ComputedFunction>;
 }
 
@@ -65,7 +69,7 @@ export function SpecDemo({ spec, registry, registryName, store, handlers, functi
     <div ref={root} data-registry={registryName} tabIndex={-1}>
       <DemoRoot value={root}>
         <DemoSettled value={settled}>
-          <JSONUIProvider registry={registry} store={store} handlers={handlers} functions={functions}>
+          <JSONUIProvider registry={registry} store={store} handlers={handlers} functions={functions} directives={directives}>
             <Renderer spec={spec} registry={registry} fallback={Unsupported} />
           </JSONUIProvider>
         </DemoSettled>

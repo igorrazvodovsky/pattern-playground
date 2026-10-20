@@ -43,7 +43,7 @@
       "on": {
         "press": {
           "action": "setState",
-          "params": { "statePath": "/groupBy", "value": { "$computed": "value", "args": { "value": { "$item": "path" } } } }
+          "params": { "statePath": "/groupBy", "value": { "$value": { "$item": "path" } } }
         }
       }
     },
@@ -87,7 +87,7 @@
       "props": {
         "title": { "$item": "key" },
         "count": { "$item": "count" },
-        "open": { "$computed": "excludes", "args": { "list": { "$state": "/closed" }, "value": { "$item": "key" } } },
+        "open": { "$excludes": { "$state": "/closed" }, "value": { "$item": "key" } },
         "dropTarget": true,
         "dropped": { "$bindState": "/dropped" }
       },
@@ -98,7 +98,7 @@
           "action": "setState",
           "params": {
             "statePath": "/closed",
-            "value": { "$computed": "toggleIn", "args": { "list": { "$state": "/closed" }, "value": { "$item": "key" } } }
+            "value": { "$toggleIn": { "$state": "/closed" }, "value": { "$item": "key" } }
           }
         },
         "drop": [

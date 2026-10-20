@@ -17,7 +17,7 @@ import spec from './problem-checklist.json' with { type: 'json' };
 //
 // What JSON cannot do is run the detection rules and format the slice. Both
 // happen here, once: each flag arrives with its count and its items' attributes
-// already formatted, and `mutedNote` counts the muted rules.
+// already formatted.
 
 const SLICE_ATTRIBUTES = ['category', 'pricing.msrp', 'listedAt'];
 
@@ -39,15 +39,9 @@ const flags = detectProblems(products).map(flag => ({
     })),
 }));
 
-const mutedNote = ({ muted }: Record<string, unknown>) => {
-  const count = (muted as unknown[]).length;
-  return `${count} rule${count > 1 ? 's' : ''} muted. Feedback recorded.`;
-};
-
 export default {
   spec: spec as Spec,
   setup: {
     initialState: { flags, inSlice: false, muted: [] },
-    functions: { mutedNote },
   } satisfies SpecSetup,
 };

@@ -28,7 +28,7 @@
             "action": "setState",
             "params": {
               "statePath": "/question",
-              "value": { "$computed": "deletionQuestion", "args": { "item": { "$item": "" } } }
+              "value": { "$concat": ["Are you sure you want to delete ", { "$item": "name" }, "? This action cannot be undone."] }
             }
           },
           { "action": "setState", "params": { "statePath": "/confirming", "value": true } }

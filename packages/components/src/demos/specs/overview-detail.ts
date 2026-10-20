@@ -56,8 +56,6 @@ export default {
       pageOpen: false,
     },
     functions: {
-      // An action's `$item` names the item's path; inside `$computed` it is the value.
-      value: ({ value }) => value,
       step,
     },
   } satisfies SpecSetup,

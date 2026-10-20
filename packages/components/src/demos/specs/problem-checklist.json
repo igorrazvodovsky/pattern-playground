@@ -52,7 +52,7 @@
     },
     "muted-note": {
       "type": "Text",
-      "props": { "text": { "$computed": "mutedNote", "args": { "muted": { "$state": "/muted" } } }, "muted": true },
+      "props": { "text": { "$concat": [{ "$pluralize": { "$count": { "$state": "/muted" } }, "one": "rule", "other": "rules" }, " muted. Feedback recorded."] }, "muted": true },
       "visible": [{ "$state": "/muted/0" }, { "$state": "/inSlice", "not": true }]
     },
 

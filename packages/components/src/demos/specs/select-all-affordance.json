@@ -26,7 +26,7 @@
       "props": {
         "text": {
           "$computed": "summary",
-          "args": { "items": { "$state": "/items" }, "escalated": { "$state": "/selection/escalated" } }
+          "args": { "items": { "$state": "/items" }, "escalated": { "$state": "/selection/escalated" }, "matching": { "$state": "/matching" } }
         },
         "muted": true,
         "status": true
@@ -64,7 +64,7 @@
     "escalation": {
       "type": "Callout",
       "props": {
-        "text": { "$computed": "pageNote", "args": { "items": { "$state": "/items" } } },
+        "text": { "$concat": ["All ", { "$count": { "$state": "/items" } }, " items on this page are selected."] },
         "purpose": "info"
       },
       "visible": [{ "$state": "/selection/all" }, { "$state": "/selection/escalated", "not": true }],
@@ -72,7 +72,7 @@
     },
     "escalate": {
       "type": "Button",
-      "props": { "label": { "$computed": "escalateLabel" }, "variant": "plain", "focusNext": "Clear" },
+      "props": { "label": { "$concat": ["Select all ", { "$format": "number", "value": { "$state": "/matching" } }, " matching items"] }, "variant": "plain", "focusNext": "Clear" },
       "on": { "press": { "action": "setState", "params": { "statePath": "/selection/escalated", "value": true } } }
     },
 

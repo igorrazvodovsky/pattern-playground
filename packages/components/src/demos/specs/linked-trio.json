@@ -21,7 +21,7 @@
       "type": "Item",
       "props": { "title": { "$item": "name" }, "opens": true, "selected": { "$cond": { "$item": "id", "eq": { "$state": "/selected" } }, "$then": true, "$else": false }, "focused": { "$cond": { "$item": "id", "eq": { "$state": "/focused" } }, "$then": true, "$else": false }, "expanded": { "$cond": { "$state": "/room" }, "$then": null, "$else": { "$cond": { "$item": "id", "eq": { "$state": "/selected" } }, "$then": true, "$else": false } } },
       "slots": { "attributes": ["item-attributes"], "detail": ["in-place"] },
-      "on": { "open": [{ "action": "setState", "params": { "statePath": "/selected", "value": { "$computed": "toggle", "args": { "selected": { "$state": "/selected" }, "id": { "$item": "id" } } } } }], "focus": [{ "action": "setState", "params": { "statePath": "/focused", "value": { "$computed": "value", "args": { "value": { "$item": "id" } } } } }], "blur": [{ "action": "setState", "params": { "statePath": "/focused", "value": null } }] }
+      "on": { "open": [{ "action": "setState", "params": { "statePath": "/selected", "value": { "$cond": { "$item": "id", "eq": { "$state": "/selected" } }, "$then": null, "$else": { "$item": "id" } } } }], "focus": [{ "action": "setState", "params": { "statePath": "/focused", "value": { "$value": { "$item": "id" } } } }], "blur": [{ "action": "setState", "params": { "statePath": "/focused", "value": null } }] }
     },
     "item-attributes": {
       "type": "Stack",

@@ -95,14 +95,13 @@ the survey and should be confirmed before acting.
   removed card, a Reset that hides itself, a dialog whose opener is gone), the
   whole demo draws the 2px focus outline. Decide whether the root should show
   focus that way or more quietly.
-- [ ] *Hidden fields still count in `validateForm`.* A field's `checks`
+- [x] *Hidden fields still count in `validateForm`.* A field's `checks`
   register with json-render's validation provider when it mounts
   (`catalog/registries/field-validation.ts`), and json-render has no way to
-  unregister them. A field that a spec hides with `visible`, or swaps out in a
-  later step, still runs its checks on submit: the form stays invalid and
-  nothing on screen says why. The form spec hides no fields, so nothing breaks
-  today. Before a spec does, either get an unregister into json-render or
-  validate only the fields that are mounted.
+  unregister them. Fixed 2026-10-20: a hidden element unmounts, and a field
+  that unmounts registers empty checks under its path, so `validateForm`
+  passes it. A field inside a hidden container or a repeat is covered the
+  same way.
 - [ ] *Sections whose parts change after mount.* `pp-sections` rewrites the
   children React renders for it: it prepends its own tablist, sets ids and roles
   on the headings and panels, and in details mode moves each heading's text

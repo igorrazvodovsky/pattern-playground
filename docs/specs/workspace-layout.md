@@ -119,9 +119,16 @@ promotion is trigger-gated.
 A demo can also be a spec: `demos/specs/<slug>.json` describes the demo as
 data against the component catalog, and `demos/specs/<slug>.ts` beside it
 supplies what JSON cannot carry: initial state (fixtures enter here, never
-through the spec), action handlers, and `$computed` functions. A spec reads
+through the spec), action handlers, and `$computed` functions for the demo's
+own logic. Values any demo could need (counts, text joined from state,
+formatted numbers, list membership, an item's value in action params) are
+directives in `catalog/directives.ts`, available to every spec. A spec reads
 state only. Ownership is the same as for `demos/<slug>.tsx`: the pattern that
 names the move owns the spec, and other pages borrow it by slug.
+
+The unit tests check every spec module against the catalog and its own setup
+(`catalog/specs.test.ts`): types, props and their literal values, slots,
+actions and their handlers, `$computed` names, and directives.
 
 The catalog, the registries that render it (`registries/pp.tsx` for this
 library, `registries/shadcn.tsx` for shadcn/ui), `SpecDemo.tsx`, and the

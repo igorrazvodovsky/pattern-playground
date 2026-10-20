@@ -42,7 +42,9 @@ If Chromium is missing after installing or updating Playwright, run `npx playwri
   `error`. This is where anything touching the DOM belongs.
 - `unit` — node environment, `src/**/*.test.ts`. For logic that needs no
   browser: type guards, pure services, parsers. Import `describe`/`it`/`expect`
-  from `vitest` rather than relying on globals.
+  from `vitest` rather than relying on globals. It includes the spec lint
+  (`src/catalog/specs.test.ts`), which checks every switchable demo's spec
+  against the component catalog and the module beside it.
 
 Aliases (`@shared`) are declared at the top of `vitest.config.ts` so
 both projects resolve them; Storybook additionally sets them in

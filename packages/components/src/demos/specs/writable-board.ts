@@ -159,13 +159,6 @@ export default {
       pressed: null,
     },
     functions: {
-      // An action's `$item` names the item's path; inside `$computed` it is the value.
-      value: ({ value }) => value,
-      excludes: ({ list, value }) => !(Array.isArray(list) && list.includes(value)),
-      toggleIn: ({ list, value }) => {
-        const current = Array.isArray(list) ? (list as string[]) : [];
-        return current.includes(String(value)) ? current.filter(each => each !== value) : [...current, String(value)];
-      },
       derive,
       move,
       moveToast,

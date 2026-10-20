@@ -138,7 +138,7 @@
       "type": "Button",
       "props": { "label": { "$item": "name" }, "variant": "plain" },
       "on": {
-        "press": { "action": "setState", "params": { "statePath": "/focus", "value": { "$computed": "value", "args": { "value": { "$item": "id" } } } } }
+        "press": { "action": "setState", "params": { "statePath": "/focus", "value": { "$value": { "$item": "id" } } } }
       }
     },
     "structure-type": {
@@ -175,8 +175,8 @@
       "children": ["row-eyebrow", "row-body", "row-attributes"],
       "on": {
         "open": [
-          { "action": "setState", "params": { "statePath": "/focus", "value": { "$computed": "value", "args": { "value": { "$item": "target" } } } } },
-          { "action": "setState", "params": { "statePath": "/proposed", "value": { "$computed": "value", "args": { "value": { "$item": "proposal" } } } } }
+          { "action": "setState", "params": { "statePath": "/focus", "value": { "$value": { "$item": "target" } } } },
+          { "action": "setState", "params": { "statePath": "/proposed", "value": { "$value": { "$item": "proposal" } } } }
         ]
       }
     },

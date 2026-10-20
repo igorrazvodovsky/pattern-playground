@@ -11,8 +11,15 @@ import { runValidation, type ValidationCheck } from '@json-render/core';
 //
 // The checks register under the field's bound state path, which outlives a
 // switch of library: the other registry's field picks up the same result.
-// json-render has no way to unregister them, so a field that a spec hides
-// still counts in validateForm.
+// json-render has no way to unregister them, so a field that leaves the page
+// (a spec hides it, or the part it sits in) registers no checks in their
+// place, and validateForm passes it. Its message stays, for the field that
+// takes its place when the library switches. React runs every effect's
+// cleanup in a commit before any effect, so that field registers its checks
+// after this one has cleared them. Two fields mounted at once on the same
+// path would clear each other's checks; no spec binds a path twice.
+
+const noChecks = { checks: [] };
 
 export const useFieldError = (
   path: string | undefined,
@@ -25,7 +32,7 @@ export const useFieldError = (
     [path, checks],
   );
   const { errors, validate } = useFieldValidation(path ?? '', config);
-  const { customFunctions } = useValidation();
+  const { customFunctions, registerField } = useValidation();
   const { getSnapshot } = useStateStore();
   const failing = errors.length > 0;
 
@@ -36,6 +43,15 @@ export const useFieldError = (
     // Re-run on a change of value only.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
+
+  // On a boolean, not on `config`: resolved props give `checks` a new
+  // identity on each render, and clearing then re-registering every time
+  // would change the provider's state on every render.
+  const hasChecks = Boolean(path && config);
+  useEffect(() => {
+    if (!path || !hasChecks) return;
+    return () => registerField(path, noChecks);
+  }, [path, hasChecks, registerField]);
 
   return error || errors[0] || null;
 };

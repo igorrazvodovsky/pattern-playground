@@ -49,7 +49,7 @@
       },
       "on": {
         "press": [
-          { "action": "setState", "params": { "statePath": "/activeView", "value": { "$computed": "value", "args": { "value": { "$item": "id" } } } } },
+          { "action": "setState", "params": { "statePath": "/activeView", "value": { "$value": { "$item": "id" } } } },
           { "action": "setState", "params": { "statePath": "/view", "value": { "$computed": "savedView", "args": { "id": { "$item": "id" } } } } }
         ]
       }
@@ -168,10 +168,7 @@
       "type": "MenuItem",
       "props": {
         "label": { "$item": "label" },
-        "checked": {
-          "$computed": "includes",
-          "args": { "list": { "$state": "/view/representation/shownAttributes" }, "value": { "$item": "path" } }
-        }
+        "checked": { "$includes": { "$state": "/view/representation/shownAttributes" }, "value": { "$item": "path" } }
       },
       "on": {
         "press": {
@@ -334,7 +331,7 @@
       "props": {
         "title": { "$item": "key" },
         "count": { "$item": "count" },
-        "open": { "$computed": "excludes", "args": { "list": { "$state": "/closed" }, "value": { "$item": "key" } } }
+        "open": { "$excludes": { "$state": "/closed" }, "value": { "$item": "key" } }
       },
       "visible": { "$state": "/derived/grouped" },
       "children": ["items"],
@@ -343,7 +340,7 @@
           "action": "setState",
           "params": {
             "statePath": "/closed",
-            "value": { "$computed": "toggleIn", "args": { "list": { "$state": "/closed" }, "value": { "$item": "key" } } }
+            "value": { "$toggleIn": { "$state": "/closed" }, "value": { "$item": "key" } }
           }
         }
       }

@@ -26,7 +26,7 @@ const purpose = z.enum(purposes);
 // when the form is submitted and again as the actor corrects the field.
 const checks = z.array(ValidationCheckSchema).nullable();
 const fieldValidation =
-  'List `checks` ({ type: required | email | minLength | …, message }) to validate the bound value: they run when validateForm is dispatched, usually from a Form\'s `submit`, and again on each change once the field has been checked, so the message goes as soon as the value is fixed. The first failing check\'s message shows beneath the field, as `error` does, and `error` wins when both are set.';
+  'List `checks` ({ type: required | email | minLength | …, message }) to validate the bound value: they run when validateForm is dispatched, usually from a Form\'s `submit`, and again on each change once the field has been checked, so the message goes as soon as the value is fixed. The first failing check\'s message shows beneath the field, as `error` does, and `error` wins when both are set. A field that is hidden, by its own `visible` or a container\'s, is left out of validateForm.';
 const options = z.array(z.object({ value: z.string(), label: z.string() }));
 // An item named in text: what it is called, and what kind of item it is.
 const mention = z.object({ id: z.string(), label: z.string(), type: z.string() });

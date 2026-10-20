@@ -12,26 +12,25 @@ import spec from './select-all-affordance.json' with { type: 'json' };
 // matching set. A watch on the rows rewrites `/selection` in one action:
 // whether any or all rows are ticked, and the escalation reset to false. One
 // action, because a watch's later actions are dropped once the first one
-// changes state. The counts and the wording that names them are functions
-// here, because a spec can read one value but cannot fold over a list.
-
-const MATCHING = 1234;
+// changes state. Counting the ticked rows and the wording that depends on it
+// are functions here, because a spec can count a list but cannot filter it.
 
 const summary = (args: Record<string, unknown>) => {
   const count = selectedCount(args);
   const visible = rowsArg(args).length;
+  const matching = formatNumber(Number(args.matching));
   // The watch resets `/selection` a render after the rows change, so the
   // escalation counts only while every row is still ticked; the live summary
   // never reads out the matching set for a page that has just lost a row.
-  if (args.escalated && count === visible) return `All ${formatNumber(MATCHING)} matching items selected`;
+  if (args.escalated && count === visible) return `All ${matching} matching items selected`;
   if (count > 0) return `${count} of ${visible} on this page selected`;
-  return `Showing ${visible} of ${formatNumber(MATCHING)}`;
+  return `Showing ${visible} of ${matching}`;
 };
 
 export default {
   spec: spec as Spec,
   setup: {
-    initialState: { items: rows, selection: { any: false, all: false, escalated: false } },
+    initialState: { items: rows, matching: 1234, selection: { any: false, all: false, escalated: false } },
     functions: {
       selectAll: withAll(true),
       clearAll: withAll(false),
@@ -41,8 +40,6 @@ export default {
         escalated: false,
       }),
       summary,
-      pageNote: args => `All ${rowsArg(args).length} items on this page are selected.`,
-      escalateLabel: () => `Select all ${formatNumber(MATCHING)} matching items`,
     },
   } satisfies SpecSetup,
 };

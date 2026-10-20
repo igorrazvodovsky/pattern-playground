@@ -271,8 +271,6 @@ export default {
     handlers: deduceHandler,
     functions: {
       derive,
-      // An action's `$item` names the item's path; inside `$computed` it is the value.
-      value: ({ value }) => value,
     },
   } satisfies SpecSetup,
 };
