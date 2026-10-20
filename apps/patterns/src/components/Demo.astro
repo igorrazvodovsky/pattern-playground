@@ -3,8 +3,9 @@
 // edge sits at --demo-w); lib/demo-expander.ts turns a drag into --demo-w on the
 // pane. The widen button lives in the footer, not over the demo: a corner button
 // collides with a demo's own chrome (a canvas's tool panels), and a demo
-// captures pointer events on its own root.
-type Library = 'pp' | 'shadcn';
+// captures pointer events on its own root. The frame is a region so that a
+// demo's own headings sit inside a boundary assistive technology announces.
+import { libraryLabels, type Library } from '../lib/demo-libraries';
 
 interface Props {
   // Registry name of a client-mounted demo (lib/demo-registry.ts). When given,
@@ -14,7 +15,8 @@ interface Props {
   // Props forwarded to the mounted component, serialised as JSON in a data
   // attribute and parsed by the registry.
   props?: Record<string, unknown>;
-  // A switchable demo: the slug of a spec in packages/components/src/demos/specs/.
+  // A switchable demo: the slug of a spec in packages/components/src/demos/specs/
+  // (<slug>.json, <slug>.ts, or both).
   // The frame renders a <div data-demo-spec> mount point and a footer control
   // for switching the component library the spec renders through.
   spec?: string;
@@ -33,11 +35,6 @@ interface Props {
   resizable?: boolean;
 }
 
-const libraryLabels: Record<Library, string> = {
-  pp: "playground's own",
-  shadcn: "shadcn",
-};
-
 const {
   name, props, spec, label, surface = 'border', expandable, resizable,
   registries = Object.keys(libraryLabels) as Library[],
@@ -46,13 +43,16 @@ const {
 // A starting library the switch does not offer would strand the demo there.
 const registry = requestedRegistry && registries.includes(requestedRegistry) ? requestedRegistry : registries[0];
 
+// Labels are captions, too long for a region's name, so they describe it instead.
+const labelId = label ? `demo-label-${crypto.randomUUID().slice(0, 8)}` : undefined;
+
 const surfaceClass = {
   gray: 'layer gray',
   white: 'layer border',
   border: 'border',
 } as const;
 ---
-<div class="demo-block">
+<section class="demo-block" aria-label="Demo" aria-describedby={labelId}>
   <div
     class={`demo-block__content ${surfaceClass[surface]}`}
     data-resizable={resizable || undefined}
@@ -78,7 +78,7 @@ const surfaceClass = {
   </div>
   {(label || expandable || spec) && (
     <div class="demo-block__footer">
-      {label && <span class="demo-block__label">{label}</span>}
+      {label && <span class="demo-block__label" id={labelId}>{label}</span>}
       {spec && registries.length > 1 && (
         <div class="demo-registry-switch" role="group" aria-label="Component library">
           {registries.map(r => (
@@ -105,4 +105,4 @@ const surfaceClass = {
       )}
     </div>
   )}
-</div>
+</section>

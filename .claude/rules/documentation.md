@@ -29,9 +29,6 @@ Titles are important: the docs id derived from a title
 against Storybook's `index.json` by the cross-reference validator. Retitling an
 entry means sweeping its referers (see `.claude/rules/pattern-content.md`).
 
-`scripts/check-story-buckets.mjs` enforces this closed set — every title's
-first segment must be one of the buckets above.
-
 ## Documentation format
 - Use `.mdx` format for Storybook documentation with rich interactive content
 - Include Meta component for proper Storybook integration: `<Meta title="Category/Name" />`

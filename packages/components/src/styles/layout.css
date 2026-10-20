@@ -25,13 +25,31 @@
     padding: 0;
   }
 
-  .layout-grid > * {
+  .flex-layout-grid {
+    --flex-grid-min: 24ch;
+    --flex-grid-gap: var(--space-m);
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--flex-grid-gap);
+
+    > * {
+      /* TODO: */
+      flex: 1 1 var(--flex-grid-min);
+    }
+  }
+
+  :is(.layout-grid, .flex-layout-grid) > * {
     container: var(--grid-item-container, grid-item) / inline-size;
   }
 
   .cards > * {
     container: var(--grid-item-container, grid-item) / inline-size;
     display: grid;
+  }
+
+  .cards > :empty {
+    display: none;
   }
 
   hr {
@@ -42,9 +60,10 @@
     margin: 0;
   }
 
+  /* --flex-gap widens or narrows one row without a class of its own. */
   .flex {
     display: flex;
-    gap: 0.5ch;
+    gap: var(--flex-gap, 0.5ch);
     align-items: center;
   }
 
@@ -112,6 +131,10 @@
 }
 
 /* TODO: */
+
+/* .flex-layout-grid > *:has(.card > *:nth-child(2)) {
+  --flex-grid-min: calc(24ch * 2 + var(--space-m));
+} */
 
 .attribute-list {
   display: flex;

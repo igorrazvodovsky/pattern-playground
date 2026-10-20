@@ -52,6 +52,17 @@ strong {
     max-width: none;
     text-wrap: balance;
   }
+
+  > iconify-icon {
+    font-size: 3rem;
+  }
+
+  /* The size and weight an h3 takes, at any heading level. */
+  .empty-state__title {
+    font-size: 1.17em;
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-heading);
+  }
 }
 
 mark {

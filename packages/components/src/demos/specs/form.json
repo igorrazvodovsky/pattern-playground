@@ -1,0 +1,112 @@
+{
+  "root": "profile-form",
+  "elements": {
+    "profile-form": {
+      "type": "Form",
+      "props": { "label": "Profile" },
+      "children": ["name", "email", "role", "experience", "bio", "newsletter", "submit-row"],
+      "on": {
+        "submit": [
+          { "action": "validateForm", "params": { "statePath": "/validation" } },
+          {
+            "action": "notify",
+            "params": {
+              "statePath": "/notice",
+              "message": { "$cond": { "$state": "/validation/valid" }, "$then": "Profile saved.", "$else": "" }
+            }
+          }
+        ]
+      }
+    },
+
+    "name": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "m", "align": "start" },
+      "children": ["first-name", "last-name"]
+    },
+    "first-name": {
+      "type": "Input",
+      "props": {
+        "label": "First name",
+        "value": { "$bindState": "/profile/firstName" },
+        "checks": [{ "type": "required", "message": "Enter your first name." }]
+      }
+    },
+    "last-name": {
+      "type": "Input",
+      "props": {
+        "label": "Last name",
+        "value": { "$bindState": "/profile/lastName" },
+        "checks": [{ "type": "required", "message": "Enter your last name." }]
+      }
+    },
+    "email": {
+      "type": "Input",
+      "props": {
+        "label": "Email address",
+        "type": "email",
+        "value": { "$bindState": "/profile/email" },
+        "checks": [
+          { "type": "required", "message": "Enter your email address." },
+          { "type": "email", "message": "Enter an email address in the form name@example.com." }
+        ]
+      }
+    },
+    "role": {
+      "type": "Select",
+      "props": {
+        "label": "Role",
+        "placeholder": "Choose a role",
+        "options": [
+          { "value": "designer", "label": "Designer" },
+          { "value": "engineer", "label": "Engineer" },
+          { "value": "product", "label": "Product manager" },
+          { "value": "researcher", "label": "Researcher" }
+        ],
+        "value": { "$bindState": "/profile/role" },
+        "checks": [{ "type": "required", "message": "Choose the role closest to yours." }]
+      }
+    },
+    "experience": {
+      "type": "RadioGroup",
+      "props": {
+        "label": "Experience level",
+        "options": [
+          { "value": "junior", "label": "Junior (0–2 years)" },
+          { "value": "mid", "label": "Mid (2–5 years)" },
+          { "value": "senior", "label": "Senior (5+ years)" }
+        ],
+        "value": { "$bindState": "/profile/experience" }
+      }
+    },
+    "bio": {
+      "type": "Textarea",
+      "props": {
+        "label": "Bio (optional)",
+        "placeholder": "Tell us a little about yourself",
+        "value": { "$bindState": "/profile/bio" }
+      }
+    },
+    "newsletter": {
+      "type": "Checkbox",
+      "props": {
+        "label": "Send me occasional product updates",
+        "checked": { "$bindState": "/profile/newsletter" }
+      }
+    },
+
+    "submit-row": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "m" },
+      "children": ["save", "saved-notice"]
+    },
+    "save": {
+      "type": "Button",
+      "props": { "label": "Save profile", "variant": "primary", "submit": true }
+    },
+    "saved-notice": {
+      "type": "Text",
+      "props": { "text": { "$state": "/notice" }, "muted": true, "status": true }
+    }
+  }
+}

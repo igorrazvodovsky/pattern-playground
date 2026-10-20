@@ -9,6 +9,166 @@
 }
 
 @layer theme {
+  /* Site tint. The site chrome and prose take a light wash of one hue on
+     their neutral surfaces and text; demos stay on the library's own neutrals
+     so they read as they would in a real interface.
+
+     The library assembles each colour token on :root, so overriding a chroma
+     scalar further down changes nothing. Instead the tokens are re-declared
+     here on every scope, with --_tint switching the site's adjustments on
+     (shell, and the preview and search overlays that live outside it) or off
+     (demo). Lightness and dark-mode rewiring still come from the shared
+     ladder. -0 is held below pure white in light mode, since L 100% cannot
+     carry any chroma. */
+  :is(.shell, .link-preview, pagefind-modal) {
+    --site-tint-h: 75;
+    --_tint: 1;
+    --_dir: 1;
+
+    /* Lightness steps read smaller near black, so dark mode takes them
+       larger. */
+    @media (prefers-color-scheme: dark) {
+      --_dir: -1.8;
+    }
+  }
+
+  /* Every page type shares the one hue and differs in how deep its surface
+     sits and how much colour it carries, so panes of different types read as
+     shades of the same paper when they sit side by side in a stack.
+     --_depth moves the surface away from the page colour (darker in light
+     mode, lighter in dark, by --_dir); --_sat scales the surface chroma.
+     Types without an entry keep the pattern surface. */
+  .pane:has(> .pane-body > article[data-page-type='sequence']) {
+    --_depth: 1.5%;
+    --_sat: 1.4;
+  }
+
+  .pane:has(> .pane-body > article[data-page-type='quality']) {
+    --_depth: -1%;
+    --_sat: 0.5;
+  }
+
+  .pane:has(> .pane-body > article[data-page-type='foundation']) {
+    --_depth: 2.5%;
+    --_sat: 1.2;
+  }
+
+  .pane:has(> .pane-body > article[data-page-type='collection']) {
+    --_depth: 1%;
+    --_sat: 1.9;
+  }
+
+  /* The link preview is a card lifted off the page, and the home page is
+     the entrance rather than a sheet in the stack. Both sit a step lighter
+     than any pane, almost white in light mode, and carry less colour than
+     the paper. On the home page the sidebar follows. */
+  :is(.link-preview, .shell:has(> main.shell__main > .content-inset)) {
+    --_depth: -1.5%;
+    --_sat: 0.4;
+
+    @media (prefers-color-scheme: dark) {
+      --_depth: 2%;
+    }
+  }
+
+  .demo-block__content {
+    --site-tint-h: var(--h);
+    --_tint: 0;
+  }
+
+  :is(.shell, .pane, .link-preview, pagefind-modal, .demo-block__content) {
+    --_th: var(--site-tint-h, var(--h));
+    --_tc-surface: calc(0.012 * var(--_tint) * var(--_sat, 1));
+    --_tc-text: calc(0.014 * var(--_tint));
+    --c-neutral-0: oklch(
+      calc(min(var(--l0), 100% - 1.5% * var(--_tint)) - var(--_dir, 1) * var(--_depth, 0%) * var(--_tint))
+      calc(var(--c0-neutral) + var(--_tc-surface))
+      var(--_th)
+    );
+    --c-neutral-50: oklch(var(--l50) calc(var(--c50-neutral) + var(--_tc-surface)) var(--_th));
+    --c-neutral-100: oklch(var(--l100) calc(var(--c100-neutral) + var(--_tc-surface)) var(--_th));
+    --c-neutral-200: oklch(var(--l200) calc(var(--c200-neutral) + var(--_tc-surface)) var(--_th));
+    --c-neutral-300: oklch(var(--l300) calc(var(--c300-neutral) + var(--_tc-surface)) var(--_th));
+    --c-neutral-400: oklch(var(--l400) calc(var(--c400-neutral) + var(--_tc-text)) var(--_th));
+    --c-neutral-500: oklch(var(--l500) calc(var(--c500-neutral) + var(--_tc-text)) var(--_th));
+    --c-neutral-600: oklch(var(--l600) calc(var(--c600-neutral) + var(--_tc-text)) var(--_th));
+    --c-neutral-700: oklch(var(--l700) calc(var(--c700-neutral) + var(--_tc-text)) var(--_th));
+    --c-neutral-800: oklch(var(--l800) calc(var(--c800-neutral) + var(--_tc-text)) var(--_th));
+    --c-neutral-900: oklch(var(--l900) calc(var(--c900-neutral) + var(--_tc-text)) var(--_th));
+    --c-neutral-950: oklch(var(--l950) calc(var(--c950-neutral) + var(--_tc-text)) var(--_th));
+
+    /* The far end of the ladder, used for ink washes (code, docs panels).
+       Pure black or white would pull the paper grey, so on the site it is a
+       warm ink and a warm off-white. */
+    --c-neutral-1000: light-dark(
+      oklch(calc(20% * var(--_tint)) calc(0.03 * var(--_tint)) var(--_th)),
+      oklch(calc(100% - 3% * var(--_tint)) calc(0.015 * var(--_tint)) var(--_th))
+    );
+    --c-background: var(--c-neutral-0);
+    --c-body: var(--c-neutral-900);
+    --c-bodyDimmed: oklch(from var(--c-neutral-900) l c h / 78%);
+    --c-placeholder: oklch(from var(--c-neutral-900) l c h / 50%);
+    --c-border: oklch(from var(--c-neutral-900) l c h / 20%);
+    --c-fieldBorder: var(--c-neutral-300);
+    --border: 1px solid var(--c-border);
+
+    /* The accent moves from the library's screen blue toward a deeper ink
+       blue, which sits better on warm paper. Only the hue changes, so the
+       per-step chroma tuning still holds. */
+    --_ih: calc(var(--h) + 25 * var(--_tint));
+    --c-accent-50: oklch(var(--l50) var(--accent-c50) var(--_ih));
+    --c-accent-100: oklch(var(--l100) var(--accent-c100) var(--_ih));
+    --c-accent-200: oklch(var(--l200) var(--accent-c200) var(--_ih));
+    --c-accent-300: oklch(var(--l300) var(--accent-c300) var(--_ih));
+    --c-accent-400: oklch(var(--l400) var(--accent-c400) var(--_ih));
+    --c-accent-500: oklch(var(--l500) var(--accent-c500) var(--_ih));
+    --c-accent-600: oklch(var(--l600) var(--accent-c600) var(--_ih));
+    --c-accent-700: oklch(var(--l700) var(--accent-c700) var(--_ih));
+    --c-accent-800: oklch(var(--l800) var(--accent-c800) var(--_ih));
+    --c-accent-900: oklch(var(--l900) var(--accent-c900) var(--_ih));
+    --c-accent-950: oklch(var(--l950) var(--accent-c950) var(--_ih));
+    --c-accent: var(--c-accent-500);
+    --c-body-accent: var(--c-accent-700);
+    --c-background-accent: oklch(var(--l500) var(--accent-c500) var(--_ih) / 10%);
+    --c-background-accent-strong: oklch(var(--l500) var(--accent-c500) var(--_ih) / 18%);
+    --c-border-accent: oklch(var(--l600) var(--accent-c600) var(--_ih) / 35%);
+    --outline-color: var(--c-accent-600);
+    --focus-ring-color: var(--c-accent-600);
+
+    /* Shadows take a little of the paper's hue in light mode, so an edge
+       reads as shade on paper rather than grey. Dark mode keeps black. */
+    --_shadow-c-base: calc(55% - 15% * var(--_tint)) calc(0.03 * var(--_tint)) var(--_th);
+    --shadow-xs: 0 1px 2px light-dark(oklch(var(--_shadow-c-base) / 5%), oklch(0% 0 0deg / 25%));
+    --shadow-s: 0 1px 2px light-dark(oklch(var(--_shadow-c-base) / 10%), oklch(0% 0 0deg / 35%));
+    --shadow-m: 0 2px 4px light-dark(oklch(var(--_shadow-c-base) / 10%), oklch(0% 0 0deg / 35%));
+    --shadow-l: 0 2px 8px light-dark(oklch(var(--_shadow-c-base) / 20%), oklch(0% 0 0deg / 50%));
+    --shadow-xl: 0 4px 16px light-dark(oklch(var(--_shadow-c-base) / 30%), oklch(0% 0 0deg / 60%));
+
+    /* Text colour is inherited from <body>, which resolved it from the
+       untinted root tokens, so each scope picks it up again. */
+    color: var(--c-body);
+  }
+
+  /* The search modal draws from its own variables, set on :root by its
+     stylesheet; mapping them here puts it on the site's paper. */
+  pagefind-modal {
+    --pf-background: var(--c-background);
+    --pf-text: var(--c-body);
+    --pf-text-secondary: var(--c-bodyDimmed);
+    --pf-text-muted: var(--c-neutral-600);
+    --pf-mark: var(--c-body);
+    --pf-border: var(--c-neutral-200);
+    --pf-border-focus: var(--c-neutral-400);
+    --pf-hover: var(--c-neutral-50);
+    --pf-outline-focus: var(--c-accent-500);
+  }
+
+  /* A borderless demo has no surface of its own, so the tinted pane would
+     show through. Give it the untinted page surface. */
+  .demo-block__content:not(.layer) {
+    background: var(--c-background);
+  }
+
   :is(.content-inset, .pane article:not(.demo-block *)) {
     --font: 'Alegreya Sans', system-ui, sans-serif;
 
@@ -186,7 +346,8 @@
   .demo-block__footer {
     display: flex;
 
-    /* align-items: center; */
+    /* Top-aligned so a multi-line label does not stretch the controls. */
+    align-items: start;
     gap: var(--space-s, 0.5rem);
     margin-block-start: var(--space-s, 0.5rem);
     font-size: 0.875em;
@@ -285,8 +446,6 @@
    scope proximity. */
 @scope (.content-inset, .pane article:not(.demo-block *)) to (.demo-block, pp-toc) {
   ul {
-    /* A thin space after the ordinary one; ::marker takes no padding, so the
-       gap between dash and text is set in the string itself. */
     list-style: "- \2009";
     list-style-position: outside;
   }
@@ -295,6 +454,10 @@
     margin-inline-start: 0;
     padding-inline-start: 0;
     list-style: decimal;
+  }
+
+  li {
+    text-wrap: balance;
   }
 
   li + li {
@@ -330,21 +493,46 @@
     font-size: 16px;
   }
 
-  /* Alexander's section mark: splits the upward context paragraph from the
-     problem, and the solution from the downward paragraph. */
-  .dinkus {
+  .dinkus,
+  .section-mark,
+  :is(:scope:is(article), :scope article) h2 {
     text-align: center;
-    color: var(--c-bodyDimmed);
+    color: oklch(from var(--c-body) l c h / 50%);
+    max-width: 40rem;
+  }
+
+  .dinkus {
     user-select: none;
+  }
+
+  .section-mark,
+  :is(:scope:is(article), :scope article) h2 {
+    font-size: inherit;
+    font-weight: 500;
+    line-height: inherit;
+    letter-spacing: var(--letter-spacing-looser);
+    text-transform: uppercase;
+  }
+
+  :is(:scope:is(article), :scope article) h3:not(.residue *),
+  :is(:scope:is(article), :scope article) h4:not(.residue *) {
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  :is(:scope:is(article), :scope article) h3:not(.residue *) {
+    font-weight: 500;
+  }
+
+  :is(:scope:is(article), :scope article) h4:not(.residue *) {
+    font-weight: inherit;
+    font-style: italic;
   }
 }
 
-/* Content (non-stack) prose measure — also a donut so a future demo on a
-   content page stays unaffected. The structural rules for .content-inset (its
-   margins, the home grid/rail) live outside the scope, below. */
 @scope (.content-inset) to (.demo-block, pp-toc) {
   p, blockquote, ul, ol {
-    max-width: 60ch;
+    max-width: 40rem;
   }
 
   p {
@@ -470,6 +658,15 @@ main.shell__main:has(> .content-inset) {
   margin-block-start: var(--space-s);
 }
 
+/* The titles carry the scan; the sentence beside each stays a step back. */
+.connections__index dd > a {
+  color: var(--c-body);
+}
+
+.connections__sentence {
+  color: var(--c-bodyDimmed);
+}
+
 .residue {
   --font: var(--font-code);
 
@@ -481,6 +678,14 @@ main.shell__main:has(> .content-inset) {
 .residue :is(h3, p, li) {
   font-size: inherit;
   color: inherit;
+}
+
+/* The To-do heading takes the section-mark form, so it is set in the prose
+   face like the other marks rather than the residue's code face. */
+.residue h2 {
+  --font: var(--font-prose);
+
+  font-size-adjust: none;
 }
 
 /* The "- " marker in the code face is a wider glyph plus a full cell of space,

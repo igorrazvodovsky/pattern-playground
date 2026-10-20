@@ -14,6 +14,12 @@ pp-dialog [cmdk-root] {
   min-width: 24rem;
 }
 
+/* A popover caps its own width, so a combobox inside it fits that width
+   rather than spilling past its edge. */
+.popover [cmdk-root] {
+  min-width: 0;
+}
+
 [cmdk-root]:focus {
   outline: none;
 }

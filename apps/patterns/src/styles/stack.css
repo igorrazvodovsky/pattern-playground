@@ -51,11 +51,11 @@
        by side. The shadow falls on the leading (left) edge, onto the pane below.
        The two values differ only in alpha so the toggle — which fires
        continuously during scroll — fades instead of snapping. */
-    box-shadow: -4px 0 12px -6px oklch(0% 0 0deg / 0%);
+    box-shadow: -4px 0 12px -6px light-dark(oklch(var(--_shadow-c-base) / 0%), oklch(0% 0 0deg / 0%));
     transition: box-shadow 150ms var(--ease-out-3);
 
     &[data-overlapping] {
-      box-shadow: -4px 0 12px -6px oklch(0% 0 0deg / 18%);
+      box-shadow: -4px 0 12px -6px light-dark(oklch(var(--_shadow-c-base) / 26%), oklch(0% 0 0deg / 18%));
     }
   }
 

@@ -227,7 +227,7 @@ export class PpPopup extends Elena(HTMLElement) {
   private handleBeforeToggle = (event: Event) => {
     const { newState } = event as ToggleEvent;
     if (newState === 'closed' && this.active) {
-      this.dispatchEvent(new Event('pp-hide', { bubbles: true, composed: true }));
+      this.dispatchEvent(new CustomEvent('pp-hide', { bubbles: true, composed: true }));
     }
   };
 
@@ -365,7 +365,7 @@ export class PpPopup extends Elena(HTMLElement) {
       }
     });
 
-    const repositionEvent = new Event('pp-reposition', { bubbles: true, cancelable: false, composed: true });
+    const repositionEvent = new CustomEvent('pp-reposition', { bubbles: true, cancelable: false, composed: true });
     this.dispatchEvent(repositionEvent);
 
   }

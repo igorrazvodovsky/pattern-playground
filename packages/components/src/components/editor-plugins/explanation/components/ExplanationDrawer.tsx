@@ -16,53 +16,51 @@ export function ExplanationDrawer({
   references
 }: ExplanationDrawerProps) {
   return (
-    <div className="explanation-drawer">
-      <div className="explanation-drawer__section">
-        <h3>Selected Text</h3>
-        <blockquote className=" callout layer">
+    <div className="flow">
+      <section className="flow">
+        <h3>Selected text</h3>
+        <blockquote className="callout layer">
           "{text}"
         </blockquote>
-      </div>
+      </section>
 
       {references && references.length > 0 && (
-        <div className="explanation-drawer__section">
+        <section className="flow">
           <h3>References</h3>
-          <ul className="explanation-drawer__references">
+          <ul className="flex wrap">
             {references.map(ref => (
-              <li key={ref.id} className="reference-item">
-                <span className="reference-item__type">{ref.type}</span>
-                <span className="reference-item__label">{ref.label}</span>
+              <li key={ref.id} className="badge">
+                <span className="badge__label">{ref.type}</span>{ref.label}
               </li>
             ))}
           </ul>
-        </div>
+        </section>
       )}
 
-      <div className="explanation-drawer__section">
+      <section className="flow">
         <h3>Explanation</h3>
         {error && (
-          <div className="explanation-drawer__error">
-            <span className="error-icon">⚠️</span>
+          <div className="callout danger flex">
+            <iconify-icon className="icon" icon="ph:x-circle" aria-hidden="true"></iconify-icon>
             <span>Failed to generate explanation: {error}</span>
           </div>
         )}
         {!error && isLoading && !explanation && (
-          <div className="explanation-drawer__loading">
-            <span className="loading-spinner">⏳</span>
-            <span>Generating explanation...</span>
-          </div>
+          <p className="flex muted">
+            <pp-spinner></pp-spinner> Generating explanation…
+          </p>
         )}
         {!error && explanation && (
-          <div className="explanation-drawer__content">
+          <>
             <p>{explanation}</p>
             {isLoading && (
-              <span className="explanation-drawer__streaming-indicator">
-                ⏳ Streaming...
-              </span>
+              <p className="flex muted">
+                <pp-spinner></pp-spinner> Streaming…
+              </p>
             )}
-          </div>
+          </>
         )}
-      </div>
+      </section>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import '../src/styles/main.css';
 import '../src/styles/docs.css';
 import '../src/main.ts';
 import 'iconify-icon';
+import { faker } from '@faker-js/faker';
 import { PatternRef } from '../src/stories/utils/PatternRef';
 import { modalService } from '../src/services/modal-service';
 import lightTheme from './theme';
@@ -20,9 +21,12 @@ const preview: Preview = {
      dialog and never closes it leaves it in the top layer, which makes every
      later story's canvas inert — clicks and focus stop landing. Clear the
      board before each story rather than asking each play function to tidy up
-     after itself. */
+     after itself.
+     Faker is reseeded too, so stories that call it while rendering show the
+     same text on every load. */
   beforeEach: () => {
     modalService.closeAll();
+    faker.seed(1);
   },
 
   parameters: {

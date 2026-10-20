@@ -1,59 +1,62 @@
 ---
 title: Change review
 added: 2026-08-07
-updated:
+updated: 2026-10-20
 role: pattern
 seed: true
 evidence:
   - observed
-disclosure: "Seeded from looking at different AI pattern libraries and sorting them out. It’s not quite ready yet because I haven’t had a chance to consider it closely."
+  - literature
+  - used
 activityLevel: action
+description: "Showing a change someone else proposes to existing content as what is there now next to what would replace it, so the actor can check it and accept it in parts."
 situation:
   initiating: >-
-    the system proposes changes to something that already exists and matters; without the
-    change itself made legible, the actor's only moves are accepting blind or rejecting
-    whole
-  resulting:
-    - clause: >-
-        the delta is a reviewable object — what was, what would be, side by side or in
-        place — so judgement lands on the change rather than on re-reading the whole, and
-        an approval has something concrete to act on
-      sets-up: [approval-gate]
-    - >-
-      the diff's granularity becomes the decision's granularity: whatever the review can
-      show separately is what can be accepted or rejected separately
-    - >-
-      reviewing deltas narrows attention to what changed, so consequences in the unchanged
-      surroundings are exactly what the review doesn't show
+    … someone other than the actor has proposed changes to something that already exists and that the actor is responsible for. In [delegating work](/sequences/delegating-work) the result of a run arrives as changes to existing content, [generated content](/patterns/generated-content) the actor has to check rather than write. In [working on the same thing](/sequences/working-on-the-same-thing) a colleague's edits, made in a separate draft under [draft and publish](/patterns/draft-and-publish), come back to be merged. A [dry run](/patterns/dry-run) produces a before and after across many cases. In each of these, if the actor can see only the changed result, they can either accept all of it without checking or reject all of it. Change review shows what is there now next to what would replace it, so the actor can check the change and accept it in parts.
+  resulting: >-
+    The change can now be decided on part by part. Draw it with [comparing](/patterns/comparing)'s version case: the shared structure is assumed and only the difference is shown. Where the system proposed the change and applying it has consequences, an [approval gate](/patterns/approval-gate) can act on the review, so that the approval refers to a specific change. [Commenting](/patterns/commenting) attaches discussion to particular changes rather than to the document as a whole, and where colleagues review each other's work, [status feedback](/patterns/status-feedback) records the outcome in a set form. Rejecting a proposed change is [undo](/patterns/undo) before the change is applied; changes that have been accepted and applied still need undo afterwards. Change review differs from [plan preview](/patterns/plan-preview), which shows what the system intends to do before the work rather than the change after it, and from [review before submitting](/patterns/review-before-submitting), which shows the actor their own answers rather than a change someone else proposes…
 relationships:
   follows:
-    - to: generated-content
-      note: the proposed change is generated output aimed at existing content
+    - generated-content
+    - draft-and-publish
+  precedes:
+    - approval-gate
   complements:
-    - to: undo
-      note: rejecting a proposed change is recovery moved before the commit
-    - to: draft-and-publish
-      note: the proposal holds in a draft state while the review decides what publishes
-    - to: commenting
-      note: review talk anchors to the delta rather than to the document at large
+    - undo
+    - commenting
+  composed-of:
+    - comparing
   related:
-    - to: plan-preview
-      note: the plan is the intention before the work; the change review is the delta after it
+    - plan-preview
   enacts:
     - to: agency
-      note: the actor disposes over each change instead of inheriting the batch
+      note: the actor decides on each change rather than accepting the whole batch
 ---
-A proposed change to an existing document, dataset, or codebase is shown as a change — what was, what would be — so the actor can judge and accept it in parts rather than take or leave the whole.
 
-## Forms
+* * *
 
-Recurring forms: side-by-side and inline diffs, per-change accept/reject, track-changes marking in prose, and review queues where accumulated proposals wait for a pass.
+**When the actor is asked to accept changes to content they are responsible for and sees only the changed version, they either re-read all of it and may still miss what changed, or accept it without checking. They need to see the change on its own: what was there, what would replace it, and in parts small enough to accept or reject one at a time. Without that, the decision is in effect made by whoever proposed the change.**
+
+Two needs pull against each other here. The change is recorded in the units of the mechanism that produced it, such as lines of text, files or fields, but the actor judges it in units of meaning, and pieces that only make sense together are hard to accept or reject one at a time. Checking is only manageable if the review shows just what changed, but whether a change is right often depends on content around it that did not change.
+
+The same arrangement appears wherever one person is responsible for a piece of work and another proposes changes to it. Copy-editors return manuscripts with each edit marked and questions in the margin, and the author accepts or rejects each one. Lawyers exchange marked-up versions of a contract. UK government departments publish Keeling schedules that show an existing act as it would read after a bill amends it. Architects mark the altered areas of a drawing with revision clouds. Wikipedia holds some edits back until a reviewer has checked the difference. In software it appears as tracked changes, suggestion mode, pull-request review, and accepting or rejecting individual changes in AI editors and coding agents.
+
+Who proposed the change affects what the review is for. When the system made the change, the actor did not see the work being done, and the review is their main chance to check it. When a colleague made it, the review is where the two versions are reconciled.
+
+Code review is where this situation has been studied most. Understanding the change takes most of a reviewer's effort, and changes split into related parts are easier to understand than changes split by file or line.
+
+Therefore,
+
+**Show the proposed change separately from the content it would alter: what is there now next to what would replace it, side by side or inline. Split it into parts the actor can judge on their own, show enough of the unchanged content around each part to judge it, and let the actor accept or reject each part separately.**
+
+Some problems are outside what any view of the change can show. The faults code reviewers most often miss are omissions: places that should have changed but did not. Whatever the review leaves out, the actor will not check, so where omissions matter, the review needs a check over the whole content alongside it. An "accept all" control is useful once the actor has looked through the change, but if it is the first option offered, people use it instead of reviewing.
 
 ## Resources & references
 
-- [AI UX Playground — Smart Diff](https://www.aiuxplayground.com/pattern/smart-diff)
-- Long pre-AI lineage: version-control code review and word-processor track changes are this pattern without the machine author.
+- AI UX Playground, [Smart Diff](https://www.aiuxplayground.com/pattern/smart-diff): AI edits grouped by meaning and accepted or rejected before they take effect
+- Ink & Switch (2024), [AI bots in version control](https://www.inkandswitch.com/patchwork/notebook/2024-version-control/07/): a bot's edits placed on a branch, highlighted in a diff and merged in part or in full, with a comment giving the reason for each edit
+- Laban, Vig, Hearst, Xiong & Wu (2024), [Beyond the chat: executable and verifiable text-editing with LLMs](https://doi.org/10.1145/3654777.3676419), UIST '24: each suggested edit shown in the document with its own accept and dismiss controls
+- Bacchelli & Bird (2013), [Expectations, outcomes, and challenges of modern code review](https://doi.org/10.1109/ICSE.2013.6606617), ICSE '13: understanding the change is most of a reviewer's work, and review tools support it poorly
+- Barnett, Bird, Brunet & Lahiri (2015), [Helping developers help themselves: automatic decomposition of code review changesets](https://doi.org/10.1109/ICSE.2015.35), ICSE '15: splitting a change into related parts helps reviewers understand it
+- Rahman, Codabux & Roy (2026), [Breaking the alphabet: rethinking file ordering in code review](https://arxiv.org/abs/2609.04207), ICSE '26: reviewers struggle to notice omissions and to see enough of the surrounding code
 
-## To-do
-
-The attention-narrowing force (unchanged context escapes review) has code-review literature behind it worth importing. Whether per-hunk acceptance granularity deserves its own force treatment is open.

@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import {
-  ItemViewFullDemo,
-  ItemViewSummaryDemo,
-  ItemViewTransitionsDemo,
-} from "../demos/item-view";
+import { ProductItemView, ItemViewSummaryDemo } from "../demos/item-view";
+import { ItemInteraction } from "../components/item-view/ItemInteraction";
+import { products } from "../templates/collection-view/data";
 import { centeredLayout, centeredLayoutNarrow } from "./utils/decorators";
 
 const meta = {
@@ -17,7 +15,8 @@ export default meta;
 type Story = StoryObj;
 
 export const FullView: Story = {
-  render: () => <ItemViewFullDemo />,
+  // The story stands in for the page, so the item view renders the page title.
+  render: () => <ProductItemView scope="maxi" heading={2} />,
 };
 
 export const Summary: Story = {
@@ -27,7 +26,19 @@ export const Summary: Story = {
 
 export const Escalation: Story = {
   decorators: [centeredLayoutNarrow],
-  render: () => <ItemViewTransitionsDemo />,
+  render: () => (
+    <p>
+      The refurbishment log flags the{" "}
+      <ItemInteraction
+        item={products[0]}
+        contentType="product"
+        className="reference-mention reference"
+      >
+        {products[0].name}
+      </ItemInteraction>{" "}
+      for a battery-module swap before the autumn fleet handover.
+    </p>
+  ),
   parameters: {
     docs: {
       description: {

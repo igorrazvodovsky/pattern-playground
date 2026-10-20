@@ -1,0 +1,13 @@
+{
+  "root": "empty",
+  "elements": {
+    "empty": {
+      "type": "EmptyState",
+      "props": {
+        "title": "Nothing to report",
+        "description": "We’ll keep you updated on any new developments.",
+        "icon": "notifications"
+      }
+    }
+  }
+}

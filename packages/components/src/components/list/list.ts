@@ -85,14 +85,11 @@ export class PpList extends Elena(HTMLElement) {
   }
 
   private handleClick = (event: MouseEvent) => {
-    const listItemTypes = ['menuitem', 'menuitemcheckbox', 'menuitemradio'];
+    const item = event.composedPath().find(
+      (el): el is PpListItem => el instanceof HTMLElement && this.isListItem(el),
+    );
 
-    const target = event.composedPath().find((el): el is Element => el instanceof Element && listItemTypes.includes(el.getAttribute('role') || ''));
-
-    if (!target) return;
-
-    // This isn't true. But we use it for TypeScript checks below.
-    const item = target as PpListItem;
+    if (!item) return;
 
     // Handle submenu items - toggle open/close instead of selecting
     if (item['has-submenu']) {
@@ -117,12 +114,12 @@ export class PpList extends Elena(HTMLElement) {
 
   private handleKeyDown = (event: KeyboardEvent) => {
     const items = this.getAllItems();
-    const activeItem = this.getCurrentItem();
+    const activeItem = this.getActiveItem();
     const currentIndex = activeItem ? items.indexOf(activeItem) : 0;
 
     // Make a selection when pressing enter or space
     if (event.key === 'Enter' || event.key === ' ') {
-      const item = this.getCurrentItem();
+      const item = activeItem;
       event.preventDefault();
       event.stopPropagation();
 
@@ -255,10 +252,7 @@ export class PpList extends Elena(HTMLElement) {
   };
 
   private isListItem(item: HTMLElement) {
-    return (
-      item.tagName.toLowerCase() === 'pp-list-item' ||
-      ['menuitem', 'menuitemcheckbox', 'menuitemradio'].includes(item.getAttribute('role') ?? '')
-    );
+    return item.localName === 'pp-list-item';
   }
 
   // Gets all child list items, ignoring dividers, headers, and other elements.
@@ -269,6 +263,13 @@ export class PpList extends Elena(HTMLElement) {
       }
       return true;
     }) as PpListItem[];
+  }
+
+  // Focus can move without setCurrentItem, so keyboard input follows focus first.
+  private getActiveItem() {
+    const focused = this.getAllItems().find(item => item === document.activeElement);
+    if (focused && focused !== this.getCurrentItem()) this.setCurrentItem(focused);
+    return focused ?? this.getCurrentItem();
   }
 
   // Gets the current list item, which is the list item that has `tabindex="0"` within the roving tab index.

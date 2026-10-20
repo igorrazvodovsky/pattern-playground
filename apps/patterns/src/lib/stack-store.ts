@@ -9,6 +9,7 @@ export type Pane = {
   path: string;
   title: string;
   html: string;
+  pageType?: string;
   status: 'loading' | 'ready' | 'error';
   hash?: string;
 };

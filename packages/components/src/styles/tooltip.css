@@ -7,6 +7,13 @@ pp-tooltip {
   display: contents;
 }
 
+/* Marked text that opens a tooltip says so, as an abbreviation does. */
+pp-tooltip > mark {
+  text-decoration: underline dotted;
+  text-underline-offset: 0.2em;
+  cursor: help;
+}
+
 pp-tooltip > pp-popup {
   z-index: var(--layer-tooltip);
 }

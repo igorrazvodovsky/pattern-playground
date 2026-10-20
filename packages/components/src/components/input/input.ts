@@ -10,7 +10,10 @@ import { Elena } from '@elenajs/core';
  * inside it. Leading/trailing adornments are children marked
  * `data-slot="prefix"` / `data-slot="suffix"`. Label association, validation,
  * and form participation are the native input's own. With `clearable`, the
- * element appends a clear button it owns. Styles: `src/styles/input.css`.
+ * element appends a clear button it owns. The error message is a following
+ * sibling marked `data-slot="error"`, which the author links with
+ * `aria-describedby`.
+ * Styles: `src/styles/input.css`.
  */
 
 export interface InputProps {
@@ -20,9 +23,10 @@ export interface InputProps {
 export class PpInput extends Elena(HTMLElement) {
   static tagName = 'pp-input';
 
-  static props = ['clearable'];
+  static props = ['clearable', 'invalid'];
 
   clearable = false;
+  invalid = false;
 
   private clearButton: HTMLButtonElement | null = null;
 
@@ -56,6 +60,7 @@ export class PpInput extends Elena(HTMLElement) {
 
   private init() {
     this.reflectEmptiness();
+    this.reflectInvalid();
     if (this.clearable && !this.clearButton) {
       const button = document.createElement('button');
       button.type = 'button';
@@ -67,6 +72,15 @@ export class PpInput extends Elena(HTMLElement) {
       this.append(button);
       this.clearButton = button;
     }
+  }
+
+  updated() {
+    this.reflectInvalid();
+  }
+
+  private reflectInvalid() {
+    if (this.invalid) this.input?.setAttribute('aria-invalid', 'true');
+    else this.input?.removeAttribute('aria-invalid');
   }
 
   private reflectEmptiness() {

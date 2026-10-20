@@ -1,0 +1,64 @@
+{
+  "root": "products",
+  "elements": {
+    "products": {
+      "type": "Stack",
+      "props": { "gap": "s", "label": "Products" },
+      "repeat": { "statePath": "/products", "key": "id" },
+      "children": ["card"]
+    },
+    "card": {
+      "type": "Card",
+      "props": { "title": { "$item": "name" }, "icon": { "$item": "icon" }, "opens": true, "selected": { "$item": "open" }, "expanded": { "$item": "open" } },
+      "slots": { "detail": ["detail"] },
+      "children": ["badges"],
+      "on": {
+        "open": { "action": "toggle", "params": { "item": { "$item": "" } } }
+      }
+    },
+    "badges": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "repeat": { "statePath": { "$item": "badges" } },
+      "children": ["badge"]
+    },
+    "badge": {
+      "type": "Badge",
+      "props": { "label": { "$item": "label" }, "text": { "$item": "value" } }
+    },
+    "detail": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["description", "rows", "overviews"]
+    },
+    "description": {
+      "type": "Text",
+      "props": { "text": { "$item": "description" } }
+    },
+    "rows": {
+      "type": "DescriptionList",
+      "props": { "items": { "$item": "rows" } }
+    },
+    "overviews": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "repeat": { "statePath": { "$item": "nested" }, "key": "label" },
+      "children": ["overview"]
+    },
+    "overview": {
+      "type": "Stack",
+      "props": { "gap": "s" },
+      "children": ["overview-label", "pair"]
+    },
+    "overview-label": {
+      "type": "Text",
+      "props": { "text": { "$item": "label" }, "size": "small", "muted": true }
+    },
+    "pair": {
+      "type": "Stack",
+      "props": { "gap": "s", "label": { "$item": "label" } },
+      "repeat": { "statePath": { "$item": "items" }, "key": "id" },
+      "children": ["card"]
+    }
+  }
+}

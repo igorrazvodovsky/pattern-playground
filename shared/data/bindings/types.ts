@@ -1,3 +1,25 @@
+// Named by meaning rather than glyph: a binding is data and outlives any icon
+// set, so each library maps the name to a glyph of its own.
+export const attributeIcons = [
+  'assignee',
+  'availability',
+  'category',
+  'certifications',
+  'channels',
+  'created',
+  'due',
+  'labels',
+  'price',
+  'priority',
+  'regions',
+  'repairability',
+  'status',
+  'updated',
+  'upgradeability',
+] as const;
+
+export type AttributeIcon = (typeof attributeIcons)[number];
+
 /**
  * Attribute bindings, after Meridian (Min & Xia, UIST '25): each entity type
  * carries a declarative description of its attributes — what each one *is*
@@ -67,7 +89,7 @@ export interface AttributeBinding {
       reader. Defaults to GBP. See Storybook `Foundations/Figures`. */
   currency?: string;
   /** Facet presentation: the icon a filter UI shows for this attribute. */
-  icon?: string;
+  icon?: AttributeIcon;
   /** The value is a list (labels, certifications, regions); valueType
       describes the elements. Cardinality, not valueType, is what picks the
       include/exclude operator family. */

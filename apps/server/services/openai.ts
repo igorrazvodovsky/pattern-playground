@@ -1,4 +1,6 @@
 import { OpenAI } from 'openai';
+import { zodTextFormat } from 'openai/helpers/zod';
+import type { ParsedResponse, Response } from 'openai/resources/responses/responses';
 import config from '../config.js';
 import logger from '../logger.js';
 import {
@@ -6,8 +8,10 @@ import {
   ExplanationRequest,
   TimelineGrouping,
   TimelineGroupingRequest,
+  timelineGroupingSchema,
   Deduction,
-  DeductionRequest
+  DeductionRequest,
+  deductionSchema
 } from '../schemas.js';
 import { PromptTemplateBuilder, PROMPT_CONFIGS } from './promptTemplates.js';
 
@@ -15,11 +19,6 @@ type JsonPrimitive = string | number | boolean | null;
 type JsonObject = { [key: string]: JsonValue };
 type JsonArray = JsonValue[];
 type JsonValue = JsonPrimitive | JsonObject | JsonArray;
-
-export interface OpenAIServiceConfig {
-  apiKey: string;
-  model: string;
-}
 
 export interface AISuggestionRequest {
   prompt: string;
@@ -50,15 +49,18 @@ export interface StreamChunk {
 export class OpenAIService {
   private client: OpenAI;
 
-  constructor(config?: OpenAIServiceConfig) {
-    const serviceConfig = config || {
-      apiKey: process.env.OPENAI_API_KEY!,
-      model: process.env.OPENAI_MODEL || 'gpt-4-turbo'
-    };
+  constructor() {
+    this.client = new OpenAI({ apiKey: config.openai.apiKey });
+  }
 
-    this.client = new OpenAI({
-      apiKey: serviceConfig.apiKey
-    });
+  /* Settings every call shares. Each call is a single turn with nothing to
+     continue from, so the response is not stored on OpenAI's side. */
+  private base(model: string) {
+    return {
+      model,
+      reasoning: { effort: config.openai.reasoningEffort },
+      store: false
+    } as const;
   }
 
   async generateSuggestions(
@@ -70,28 +72,24 @@ export class OpenAIService {
 
     const systemPrompt = this.createSystemPrompt(type, availableOptions);
 
-    const response = await this.client.chat.completions.create({
-      model: config.openai.model,
-      messages: [
-        {
-          role: 'system',
-          content: systemPrompt
-        },
-        {
-          role: 'user',
-          content: `Generate ${type} suggestions for: "${prompt}"`
-        }
-      ],
-      max_completion_tokens: 1000,
-      response_format: { type: "json_object" }
+    /* JSON mode rather than a schema: each suggestion carries open-ended
+       metadata whose keys depend on the suggestion type, which Structured
+       Outputs cannot express. The parse below validates the shape instead. */
+    const response = await this.client.responses.create({
+      ...this.base(config.openai.model),
+      instructions: systemPrompt,
+      /* JSON mode on this API checks the input, not the instructions, for the
+         word "json". */
+      input: `Generate ${type} suggestions as JSON for: "${prompt}"`,
+      /* Reasoning tokens count against this ceiling, so it leaves room for
+         them as well as the reply. */
+      max_output_tokens: 2000,
+      text: { format: { type: 'json_object' } }
     }, { signal });
 
     logger.info(`OpenAI ${type} suggestion response received`);
 
-    const content = response.choices?.[0]?.message?.content;
-    if (!content) {
-      throw new Error("Empty response from OpenAI");
-    }
+    const content = outputText(response);
 
     return this.parseAndTransformResponse(content, type, availableOptions);
   }
@@ -153,29 +151,19 @@ export class OpenAIService {
       })
       .join('\n');
 
-    const response = await this.client.chat.completions.create({
+    const response = await this.client.responses.parse({
       /* The fast model, not the configured default: this call sits in front of
          a view the reader is waiting on, and segmenting a list they can
          already see is not work the larger model does better. */
-      model: config.openai.fastModel,
-      messages: [
-        { role: 'system', content: systemPrompt },
-        {
-          role: 'user',
-          content: `${subject ? `${subject}\n\n` : ''}${lines}`
-        }
-      ],
-      max_completion_tokens: 1200,
-      response_format: { type: 'json_object' }
+      ...this.base(config.openai.fastModel),
+      instructions: systemPrompt,
+      input: `${subject ? `${subject}\n\n` : ''}${lines}`,
+      max_output_tokens: 4000,
+      text: { format: zodTextFormat(timelineGroupingSchema, 'timeline_grouping') }
     }, { signal });
 
-    const content = response.choices?.[0]?.message?.content;
-    if (!content) {
-      throw new Error('Empty response from OpenAI');
-    }
-
     logger.info(`OpenAI timeline grouping received for ${records.length} records`);
-    return JSON.parse(content) as TimelineGrouping;
+    return outputParsed(response);
   }
 
   /**
@@ -236,48 +224,64 @@ export class OpenAIService {
       .filter(Boolean)
       .join('\n');
 
-    const response = await this.client.chat.completions.create({
+    const response = await this.client.responses.parse({
       /* The fast model, as with timeline grouping: the reader is waiting on
          this, and it is the band they are meant to trust least. */
-      model: config.openai.fastModel,
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt }
-      ],
-      max_completion_tokens: 600,
-      response_format: { type: 'json_object' }
+      ...this.base(config.openai.fastModel),
+      instructions: systemPrompt,
+      input: userPrompt,
+      max_output_tokens: 2000,
+      text: { format: zodTextFormat(deductionSchema, 'deduction') }
     }, { signal });
 
-    const content = response.choices?.[0]?.message?.content;
-    if (!content) {
-      throw new Error('Empty response from OpenAI');
-    }
-
     logger.info(`OpenAI deduction received for ${focus.name}`);
-    return JSON.parse(content) as Deduction;
+    return outputParsed(response);
   }
 
   async *generateTextLensStream(request: TextLensRequest, signal?: AbortSignal): AsyncGenerator<StreamChunk> {
     const zoomPrompt = this.createZoomPrompt(request);
 
     try {
-      const stream = await this.client.responses.create({
-        model: config.openai.model,
+      yield* this.streamText({
         instructions: "You are a text transformation specialist. Provide direct text transformations without introductions, acknowledgments, or explanations. Begin immediately with the transformed content.",
-        input: zoomPrompt,
-        stream: true
-      }, signal ? { signal } : {});
-
-      for await (const chunk of stream) {
-        const chunkData = chunk as unknown as StreamChunk;
-        const content = chunkData.text || "";
-        if (content) {
-          yield { text: content };
-        }
-      }
+        input: zoomPrompt
+      }, signal);
     } catch (error) {
       logger.error("Error in text lens streaming:", error);
       throw error;
+    }
+  }
+
+  /**
+   * Stream the model's reply as text. Only `output_text.delta` events carry
+   * new text; the rest report progress, or a failure that would otherwise end
+   * the stream as an empty success.
+   */
+  private async *streamText(
+    prompt: { instructions: string; input: string },
+    signal?: AbortSignal
+  ): AsyncGenerator<StreamChunk> {
+    const stream = await this.client.responses.create({
+      ...this.base(config.openai.model),
+      ...prompt,
+      max_output_tokens: 2000,
+      stream: true
+    }, { signal });
+
+    for await (const event of stream) {
+      switch (event.type) {
+        case 'response.output_text.delta':
+          if (event.delta) yield { text: event.delta };
+          break;
+        case 'response.refusal.done':
+          throw new Error(`Model refused: ${event.refusal}`);
+        case 'response.incomplete':
+          throw new Error(`OpenAI response incomplete: ${event.response.incomplete_details?.reason ?? 'unknown reason'}`);
+        case 'response.failed':
+          throw new Error(event.response.error?.message ?? 'OpenAI response failed');
+        case 'error':
+          throw new Error(event.message);
+      }
     }
   }
 
@@ -381,22 +385,7 @@ If references are provided, incorporate them into your explanation to provide ri
     const userPrompt = this.buildExplanationPrompt(request);
 
     try {
-      const stream = await this.client.chat.completions.create({
-        model: config.openai.model,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt }
-        ],
-        stream: true,
-        max_completion_tokens: 1000
-      }, { signal });
-
-      for await (const chunk of stream) {
-        const content = chunk.choices[0]?.delta?.content;
-        if (content) {
-          yield { text: content };
-        }
-      }
+      yield* this.streamText({ instructions: systemPrompt, input: userPrompt }, signal);
     } catch (error) {
       logger.error("Error in explanation streaming:", error);
       throw error;
@@ -422,6 +411,34 @@ If references are provided, incorporate them into your explanation to provide ri
 
     return prompt;
   }
+}
+
+/** The reply's text, or an error saying why there is none. */
+function outputText(response: Response): string {
+  if (response.status === 'incomplete') {
+    throw new Error(`OpenAI response incomplete: ${response.incomplete_details?.reason ?? 'unknown reason'}`);
+  }
+  if (!response.output_text) {
+    throw new Error('Empty response from OpenAI');
+  }
+  return response.output_text;
+}
+
+/** The reply parsed against its schema, or an error saying why there is none. */
+function outputParsed<T>(response: ParsedResponse<T>): T {
+  if (response.status === 'incomplete') {
+    throw new Error(`OpenAI response incomplete: ${response.incomplete_details?.reason ?? 'unknown reason'}`);
+  }
+  const refusal = response.output
+    .flatMap((item) => (item.type === 'message' ? item.content : []))
+    .find((part) => part.type === 'refusal');
+  if (refusal) {
+    throw new Error(`Model refused: ${refusal.refusal}`);
+  }
+  if (response.output_parsed == null) {
+    throw new Error('Empty response from OpenAI');
+  }
+  return response.output_parsed;
 }
 
 export const openaiService = new OpenAIService();

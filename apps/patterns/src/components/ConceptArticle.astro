@@ -32,7 +32,7 @@ const patterns = (await getCollection('patterns'))
   .flatMap((p) => actsOnOf(p.data.acts_on).filter((ref) => ref.concept === entry.id).map((ref) => ({ p, note: ref.note })))
   .sort((a, b) => a.p.data.title.localeCompare(b.p.data.title));
 ---
-<ArticleShell title={data.title} dates={entry} pagefind={pagefind}>
+<ArticleShell title={data.title} dates={entry} pagefind={pagefind} pageType="concept">
   <p>{data.purpose}</p>
 
   <dl class="description-list">

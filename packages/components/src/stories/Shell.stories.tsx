@@ -4,8 +4,6 @@ import { SidebarProvider } from '../components/sidebar';
 // Borrowed so the two entries can't drift into two different sidebars.
 import { DemoSidebar, DemoMain, type SidebarArgs } from './Sidebar.stories';
 
-faker.seed(7);
-
 const RAIL: SidebarArgs = { collapsible: 'offcanvas', variant: 'sidebar', side: 'left' };
 
 const meta = {

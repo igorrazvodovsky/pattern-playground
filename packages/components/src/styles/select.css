@@ -71,7 +71,7 @@ pp-select {
   > [data-slot="error"] {
     display: none;
     margin-block-start: var(--space-xs);
-    color: var(--c-danger, var(--c-body));
+    color: var(--c-danger-700);
     font-size: var(--text-xs);
   }
 
@@ -80,11 +80,11 @@ pp-select {
   }
 
   &[invalid] > select:not(:disabled) {
-    border-color: var(--c-danger, var(--c-active-border));
+    border-color: var(--c-danger-600);
   }
 
   &[invalid] > select:focus:not(:disabled) {
-    box-shadow: 0 0 0 var(--focus-ring-width) var(--c-danger, var(--focus-ring-color));
+    box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--c-danger-600) l c h / 30%);
   }
 
   /* Sizes */

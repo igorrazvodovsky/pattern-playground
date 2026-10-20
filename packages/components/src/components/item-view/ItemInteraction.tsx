@@ -4,6 +4,7 @@ import { resolveEntityTitle } from '@shared/data/bindings';
 import { ItemView } from './ItemView';
 import { ItemViewProvider, useEntityBinding, useItemViewContext } from './provider';
 import { modalService } from '../../services/modal-service';
+import { previewTiming } from './preview-timing';
 import { useWorkingRungStore } from './working-rung-store';
 import type { ItemInteractionProps, ViewScope } from './types';
 import 'iconify-icon';
@@ -39,9 +40,6 @@ import '../../jsx-types';
  * choice or a dismissal moves off them.
  */
 
-const HOVER_OPEN_DELAY = 350;
-const HOVER_CLOSE_GRACE = 150;
-
 /** The rungs the reader can escalate to; `micro` (the bare inline trigger) is
     not a destination — the reader returns to it by dismissing the overlay. */
 type EscalationScope = 'mini' | 'mid' | 'maxi';
@@ -61,15 +59,14 @@ interface RungToolbarProps {
 }
 
 /**
- * The level-of-detail control every view carries — the ladder equivalent of
- * `OverviewDetailDemo`'s layout `DetailToolbar`: the rung is re-chosen from
- * inside the thing being presented. It renders a button per rung the reader can
- * move *to* — the current rung is omitted, since the container already says
- * where you are and re-selecting it is a no-op. Deliberately not a dropdown: a
- * menu's list escapes its container into the top layer, which fights both the
- * popover's hover-close and a modal's focus/dismiss handling — a direct button
- * has none of that. The caller places it (a corner in the popover, the header
- * beside the close button in a drawer or dialog).
+ * The level-of-detail control every view carries: the rung is re-chosen from
+ * inside the thing being presented. It renders a button per rung the reader
+ * can move *to* — the current rung is omitted, since the container already
+ * says where you are and re-selecting it is a no-op. Deliberately not a
+ * dropdown: this popover closes when the pointer leaves it, and a menu's list
+ * escapes into the top layer, outside the popover, so moving onto the list
+ * would close the popover. The caller places it (a corner in the popover, the
+ * header beside the close button in a drawer or dialog).
  */
 function RungToolbar({ current, available, onSelect }: RungToolbarProps) {
   const rungs = RUNGS.filter((rung) => rung.scope !== current && available.includes(rung.scope));
@@ -172,7 +169,7 @@ export const ItemInteraction = ({
     if (!enableEscalation) return;
     if (activeScopeRef.current === 'mid' || activeScopeRef.current === 'maxi') return;
     clearTimers();
-    const delay = scopeConfig.mini?.delay ?? HOVER_OPEN_DELAY;
+    const delay = scopeConfig.mini?.delay ?? previewTiming.open;
     openTimer.current = window.setTimeout(() => {
       openTimer.current = null;
       if (activeScopeRef.current === 'mid' || activeScopeRef.current === 'maxi') return;
@@ -189,7 +186,7 @@ export const ItemInteraction = ({
     }
     closeTimer.current = window.setTimeout(() => {
       setActiveScope((current) => (current === 'mini' ? null : current));
-    }, HOVER_CLOSE_GRACE);
+    }, previewTiming.close);
   }, []);
 
   const holdSummary = useCallback(() => {
@@ -240,6 +237,7 @@ export const ItemInteraction = ({
     contentType,
     onInteraction,
     selectRung,
+    anchor,
   });
   latest.current = {
     itemViewContext,
@@ -249,16 +247,17 @@ export const ItemInteraction = ({
     contentType,
     onInteraction,
     selectRung,
+    anchor,
   };
 
   // Drawer (mid) and dialog (maxi) are imperative surfaces reconciled from
   // state. Effect cleanup closes the current one via `closeModal`, which tears
-  // down without dispatching `modal:close`, so a rung switch (mid → maxi) is
-  // silent; a user dismissal runs through the web component, fires `modal:close`
+  // down without dispatching `pp-modal-close`, so a rung switch (mid → maxi) is
+  // silent; a user dismissal runs through the web component, fires `pp-modal-close`
   // → `onClose`, and drops the state back to the bare trigger.
   useEffect(() => {
     if (activeScope !== 'mid' && activeScope !== 'maxi') return;
-    const { itemViewContext, available, item, itemLabel, contentType, onInteraction, selectRung } =
+    const { itemViewContext, available, item, itemLabel, contentType, onInteraction, selectRung, anchor } =
       latest.current;
     const title = itemLabel;
     const content = (
@@ -280,6 +279,7 @@ export const ItemInteraction = ({
     const headerActions = (
       <RungToolbar current={activeScope} available={available} onSelect={selectRung} />
     );
+    // What held focus at opening may be in the surface this one replaced.
     const id =
       activeScope === 'mid'
         ? modalService.openDrawer(content, {
@@ -287,12 +287,14 @@ export const ItemInteraction = ({
             title,
             headerActions,
             modal: false,
+            returnFocus: anchor,
             onClose: () => setActiveScope(null),
           })
         : modalService.openDialog(content, {
             size: 'large',
             title,
             headerActions,
+            returnFocus: anchor,
             onClose: () => setActiveScope(null),
           });
     return () => modalService.closeModal(id);
@@ -343,7 +345,7 @@ export const ItemInteraction = ({
             distance={8}
             flip
             shift
-            top-layer=""
+            top-layer
           >
             <div
               className="popover"

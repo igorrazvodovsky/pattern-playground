@@ -1,9 +1,10 @@
 import type { AICommandResult } from '../../command-menu/ai-command-types';
 import { type AISuggestionResult, createFilterSuggestionRequest, createAISuggestionService } from '../../../services/ai-suggestion-service';
 import { findAttribute, taskBinding } from '@shared/data/bindings';
+import { attributeGlyph } from '../../../utility/attribute-icons';
 
 function getFilterIcon(path: string): string {
-  return findAttribute(taskBinding, path)?.icon ?? 'ph:sparkle';
+  return attributeGlyph(findAttribute(taskBinding, path)?.icon) ?? 'ph:sparkle';
 }
 
 export function convertGenericSuggestionToAICommandResult(suggestionResult: AISuggestionResult): AICommandResult {

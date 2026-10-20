@@ -1,0 +1,15 @@
+{
+  "root": "empty",
+  "elements": {
+    "empty": {
+      "type": "EmptyState",
+      "props": {
+        "title": "Get insights by connecting your data",
+        "description": "Don’t worry—no coding needed. We’ll walk you through it step by step."
+      },
+      "slots": { "actions": ["show-me-how", "learn-more"] }
+    },
+    "show-me-how": { "type": "Button", "props": { "label": "Show me how", "icon": "guide", "variant": "primary" } },
+    "learn-more": { "type": "Button", "props": { "label": "Learn more", "icon": "external", "variant": "plain" } }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "root": "conversation",
+  "elements": {
+    "conversation": {
+      "type": "Messages",
+      "props": {},
+      "children": ["ask-summary", "answer-summary"]
+    },
+    "ask-summary": {
+      "type": "Message",
+      "props": {
+        "from": "actor",
+        "parts": [
+          "Summarise this text: \"",
+          { "text": "Leonardo da Vinci was an Italian polymath of the Renaissance", "note": null, "link": "polymath" },
+          " whose ",
+          {
+            "text": "areas of interest included invention, painting, sculpting, architecture, science, music, mathematics, engineering, literature, anatomy, geology, astronomy, botany, writing, history, and cartography",
+            "note": null,
+            "link": "talents"
+          },
+          ". He is widely considered one of the most diversely talented individuals ever to have lived.\""
+        ]
+      }
+    },
+    "answer-summary": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": [
+          "Leonardo da Vinci was a ",
+          { "text": "Renaissance polymath", "note": null, "link": "polymath" },
+          " known for his ",
+          { "text": "wide-ranging talents", "note": null, "link": "talents" },
+          " in ",
+          { "text": "science and the arts", "note": null, "link": "talents" },
+          "."
+        ]
+      }
+    }
+  }
+}

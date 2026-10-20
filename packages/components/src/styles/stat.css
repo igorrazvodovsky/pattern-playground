@@ -9,8 +9,9 @@
     gap: var(--space-3xs);
   }
 
-  .stat p {
+  .stat :where(p) {
     margin: 0;
+    line-height: var(--line-height-caption);
   }
 
   /* One ratio-step above the top of the type scale — the figure is the tile's
@@ -19,11 +20,13 @@
     font-size: calc(var(--text-xl) * 1.23);
     line-height: 1.1;
     letter-spacing: var(--letter-spacing-dense);
+    font-variant-numeric: tabular-nums;
   }
 
   .stat__unit {
     font-size: var(--text-s);
     font-weight: var(--font-weight-normal);
+    letter-spacing: var(--letter-spacing-normal);
     color: var(--c-bodyDimmed);
   }
 
@@ -33,9 +36,14 @@
     line-height: var(--line-height-tight);
   }
 
-  /* The flagged tile: the figure itself reads as alert, its trend badge still
-     says which way the count moved. */
-  .card[data-alert] .stat__value {
+  /* The flagged figure reads as alert; a trend badge beside it still says
+     which way the count moved. */
+  .stat[data-alert] .stat__value {
     color: var(--c-body-danger);
+  }
+
+  /* Stands in for the header's padding. */
+  .card > .card__title + .stat {
+    margin-block-start: var(--space-s);
   }
 }

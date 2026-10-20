@@ -12,7 +12,7 @@ const deductions = new BoundedCache<Deduction>();
 
 /* Bumped whenever the prompt changes shape: a reply written against an older
    contract is not a cache hit, it is a wrong answer served fast. */
-const PROMPT_VERSION = 1;
+const PROMPT_VERSION = 2;
 
 function cacheKey(body: unknown): string {
   /* The model is part of the key: swapping it changes the answer, and a

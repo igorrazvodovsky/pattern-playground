@@ -51,7 +51,7 @@ Item representation is the combination of a ladder rung and a UI element. The tw
 
 The lowest level: it doesn't even identify the entity by name, and it is only legible in relation to others — a glyph on its own means little.
 
-<Demo name="item-view-glyph" surface="white" label="Glyph as map pin: the same entity the other rungs render, located among its population." />
+<Demo spec="item-view-glyph" surface="white" label="Glyph as map pin: the same entity the other rungs render, located among its population." />
 
 ### Reference
 
@@ -61,7 +61,7 @@ The lowest level: it doesn't even identify the entity by name, and it is only le
 
 An inline @mention that opens to richer detail on demand, rendered as a <ComponentRef id="components-reference--docs">reference</ComponentRef>:
 
-<Demo name="reference" surface="white" label="Reference as @mention" />
+<Demo spec="reference" surface="white" label="Reference as @mention" />
 
 ### Summary
 
@@ -71,7 +71,7 @@ An inline @mention that opens to richer detail on demand, rendered as a <Compone
 
 As a row in a <ComponentRef id="components-table--docs">table</ComponentRef>:
 
-<Demo name="item-view-row" label="Summary as table row" />
+<Demo spec="item-view-row" label="Summary as table row" />
 
 ### Detail
 
@@ -85,7 +85,7 @@ As a row in a <ComponentRef id="components-table--docs">table</ComponentRef>:
 - Data: all data, history, relationships
 - Interaction: editing, analysis, management
 
-<Demo name="item-view-full" label="Full view" />
+<Demo spec="item-view-full" label="Full view" />
 
 ## UI element
 
@@ -104,7 +104,7 @@ Item views support fluid navigation up and down the ladder:
 - *Detail → full:* navigate from the modal to the entity page
 - *Full → collection:* return to the parent [data view](/patterns/data-view), its framing preserved
 
-<Demo name="item-view-transitions" label="Fluid navigation up and down the ladder: hover the reference for its summary, then use the view-settings menu on any rung to move between summary (popover), detail (drawer) and full (dialog), in either direction." />
+<Demo spec="item-view-transitions" label="Fluid navigation up and down the ladder: hover the reference for its summary, then use the buttons on any rung to move between summary (popover), detail (drawer) and full (dialog), in either direction." />
 
 ## Related components
 

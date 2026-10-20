@@ -13,7 +13,7 @@ export const PriorityPlus: Story = {
   args: {},
   render: () => (
     <pp-p-plus>
-      <div style={{ display: 'flex', gap: '1ch', alignItems: 'center' }}>
+      <div className="flex">
         <button className="button">
           <iconify-icon className="icon" icon={getRandomIcon()} data-slot="prefix"></iconify-icon>
           {faker.word.verb() + ' ' + faker.word.noun()}

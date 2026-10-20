@@ -7,6 +7,9 @@
  * edges are shown as their computed inverse ("preceded by", "enabled by", etc.).
  * Symmetric edges (complements, tangential, alternative, related) are shown once
  * per page in the direction they are declared (either outgoing or incoming).
+ * Beside each connection sits this page's note or edge sentence; where it has
+ * none, the far page's sentence is quoted, in quotation marks, so a sentence
+ * written for another page's reader is read as that page's words.
  */
 
 import graphData from '../data/pattern-graph.json';
@@ -37,7 +40,13 @@ interface Edge {
    * that links the target, or a resulting clause with `sets-up` — prose for
    * judgement, never matched on (relationship-vocabulary.md §Situations). */
   situation?: string;
+  glossFrom?: string;
+  /** The other endpoint's sentence, when both pages link each other. */
+  farSituation?: string;
 }
+
+/** A line's text and whether it is quoted from the far page. */
+interface Gloss { text: string; far: boolean }
 
 interface PatternNode {
   id: string;
@@ -87,30 +96,16 @@ const INCOMING_LABELS: Record<string, string> = {
   serves:       'Served by',
 };
 
-// Collect outgoing and incoming edges for this pattern.
-interface GroupEntry { node: PatternNode; label?: string }
-const outgoing: Record<string, GroupEntry[]> = {};
-const incoming: Record<string, GroupEntry[]> = {};
-const seenSymmetric = new Set<string>(); // `targetId|type` to deduplicate symmetric
+// Collect outgoing and incoming edges for this pattern, grouped by peer: a
+// symmetric pair may be authored from both endpoints as two edges.
+interface GroupEntry { node: PatternNode; label?: string; far?: boolean }
+const outgoing: Record<string, Map<string, Edge[]>> = {};
+const incoming: Record<string, Map<string, Edge[]>> = {};
 
-// Per-direction notes: a symmetric edge may be authored from both endpoints, each
-// with its own note. Show the *near-side* note — the one authored by the page being
-// viewed — so the link reads in the local pattern's voice (as cross-references do in
-// a pattern language). Falls back to the other side's note when only one is authored.
-// Both maps are built up front so label selection is independent of edge iteration
-// order: near = authored by this page, far = authored by the other endpoint. A
-// gloss derived from the source's situation prose stands in where no note is.
-const nearSymLabel = new Map<string, string>();
-const farSymLabel = new Map<string, string>();
-for (const edge of edges) {
-  const gloss = edge.label ?? edge.situation;
-  if (!SYMMETRIC.has(edge.type) || !gloss) continue;
-  if (edge.source === slug) {
-    nearSymLabel.set([slug, edge.target].sort().join('|') + '|' + edge.type, gloss);
-  } else if (edge.target === slug) {
-    farSymLabel.set([slug, edge.source].sort().join('|') + '|' + edge.type, gloss);
-  }
-}
+const add = (groups: Record<string, Map<string, Edge[]>>, type: string, peerId: string, edge: Edge) => {
+  const byPeer = groups[type] ??= new Map();
+  byPeer.set(peerId, [...(byPeer.get(peerId) ?? []), edge]);
+};
 
 for (const edge of edges) {
   const isOut = edge.source === slug;
@@ -118,29 +113,56 @@ for (const edge of edges) {
   if (!isOut && !isIn) continue;
 
   const peerId = isOut ? edge.target : edge.source;
-  const peer = nodes[peerId];
-  if (!peer) continue;
+  if (!nodes[peerId]) continue;
 
-  if (SYMMETRIC.has(edge.type)) {
-    // For symmetric: show once, keyed by the alphabetically-first of the two IDs.
-    const symKey = [slug, peerId].sort().join('|') + '|' + edge.type;
-    if (seenSymmetric.has(symKey)) continue;
-    seenSymmetric.add(symKey);
-
-    if (!outgoing[edge.type]) outgoing[edge.type] = [];
-    outgoing[edge.type].push({ node: peer, label: nearSymLabel.get(symKey) ?? farSymLabel.get(symKey) });
-  } else if (isOut) {
-    // Directed edge, read forward: prefer the outgoing note; a derived situation
-    // (the source's resulting-context clause) stands in when no note is authored.
-    if (!outgoing[edge.type]) outgoing[edge.type] = [];
-    outgoing[edge.type].push({ node: peer, label: edge.label ?? edge.situation ?? edge.incomingNote });
-  } else {
-    // Directed edge, read in reverse: prefer the target-authored incoming note.
-    if (!INCOMING_LABELS[edge.type]) continue;
-    if (!incoming[edge.type]) incoming[edge.type] = [];
-    incoming[edge.type].push({ node: peer, label: edge.incomingNote ?? edge.situation ?? edge.label });
-  }
+  // Symmetric edges read the same from either end, so they list as outgoing.
+  if (SYMMETRIC.has(edge.type) || isOut) add(outgoing, edge.type, peerId, edge);
+  else if (INCOMING_LABELS[edge.type]) add(incoming, edge.type, peerId, edge);
 }
+
+// Which page's prose a derived sentence came from; a `sets-up` clause carries
+// no `glossFrom` and is the source's.
+const sentenceEnd = (edge: Edge) => edge.glossFrom?.split(':')[0] ?? 'source';
+
+// A sentence lifted from the opening's first line starts lowercase, after the
+// renderer's ellipsis; standing alone it takes a capital. A `sets-up` clause
+// is a fragment, like a note, and keeps its case.
+const capitalise = (text: string) => text.replace(/^(\[?)([a-z])/, (_, bracket, c) => bracket + c.toUpperCase());
+
+// The near side wins, so the link reads in this page's voice: this page's
+// note, then its own sentence, then the far page's sentence (quoted), then
+// its note. A note is written to read from both pages and is never quoted.
+function pickLabel(pair: Edge[]): Gloss | undefined {
+  const near: (string | undefined)[] = [];
+  const farSentence: (string | undefined)[] = [];
+  const farNote: (string | undefined)[] = [];
+  for (const edge of pair) {
+    const nearEnd = edge.source === slug ? 'source' : 'target';
+    near.push(nearEnd === 'source' ? edge.label : edge.incomingNote);
+    farNote.push(nearEnd === 'source' ? edge.incomingNote : edge.label);
+    const own = edge.situation && edge.glossFrom ? capitalise(edge.situation) : edge.situation;
+    const other = edge.farSituation && capitalise(edge.farSituation);
+    if (sentenceEnd(edge) === nearEnd) { near.push(own); farSentence.push(other); }
+    else { near.push(other); farSentence.push(own); }
+  }
+  const nearText = near.find((l) => l !== undefined);
+  if (nearText !== undefined) return { text: nearText, far: false };
+  const quoted = farSentence.find((l) => l !== undefined);
+  if (quoted !== undefined) return { text: quoted, far: true };
+  const note = farNote.find((l) => l !== undefined);
+  return note === undefined ? undefined : { text: note, far: false };
+}
+
+// A sentence quoted on this page may link this page, where the link goes
+// nowhere, and the neighbour it sits beside, whose title is already the link.
+const unlink = (text: string, ids: string[]) =>
+  ids.reduce((t, id) => t.replace(new RegExp(String.raw`\[([^\]]+)\]\(/patterns/${id}(?:[/#?][^)]*)?\)`, 'g'), '$1'), text);
+
+const entriesOf = (byPeer: Map<string, Edge[]>): GroupEntry[] =>
+  [...byPeer].map(([peerId, pair]) => {
+    const gloss = pickLabel(pair);
+    return { node: nodes[peerId], label: gloss && unlink(gloss.text, [slug]), far: gloss?.far };
+  });
 
 // Build ordered sections: directed outgoing, then symmetric, then incoming.
 const DIRECTED_OUT_ORDER = ['precedes', 'enables', 'instantiates', 'hosts', 'serves', 'enacts', 'surveys'];
@@ -151,25 +173,53 @@ type Section = { heading: string; entries: GroupEntry[] };
 const sections: Section[] = [];
 
 for (const type of DIRECTED_OUT_ORDER) {
-  if (outgoing[type]?.length) {
-    sections.push({ heading: OUTGOING_LABELS[type], entries: outgoing[type] });
+  if (outgoing[type]?.size) {
+    sections.push({ heading: OUTGOING_LABELS[type], entries: entriesOf(outgoing[type]) });
   }
 }
 for (const type of SYMMETRIC_ORDER) {
-  if (outgoing[type]?.length) {
-    sections.push({ heading: OUTGOING_LABELS[type], entries: outgoing[type] });
+  if (outgoing[type]?.size) {
+    sections.push({ heading: OUTGOING_LABELS[type], entries: entriesOf(outgoing[type]) });
   }
 }
 for (const type of DIRECTED_IN_ORDER) {
-  if (incoming[type]?.length) {
-    sections.push({ heading: INCOMING_LABELS[type], entries: incoming[type] });
+  if (incoming[type]?.size) {
+    sections.push({ heading: INCOMING_LABELS[type], entries: entriesOf(incoming[type]) });
   }
 }
 
+// One sentence often links several neighbours, or one neighbour under two
+// types. In the folded index, entries sharing a sentence share a line; in
+// either render, a sentence already shown is not repeated.
+type Line = { nodes: PatternNode[]; label?: string; far?: boolean; fresh: boolean };
+const shown = new Set<string>();
+const indexLines = sections.map(({ heading, entries }) => {
+  const lines: Line[] = [];
+  for (const { node, label, far } of entries) {
+    const line = label && lines.find((l) => l.label === label);
+    if (line) line.nodes.push(node);
+    else lines.push({ nodes: [node], label, far, fresh: !label || !shown.has(label) });
+  }
+  for (const { label } of entries) if (label) shown.add(label);
+  return { heading, lines };
+});
+shown.clear();
+const listSections = sections.map(({ heading, entries }) => ({
+  heading,
+  entries: entries.map(({ node, label, far }) => {
+    const fresh = label && !shown.has(label);
+    if (label) shown.add(label);
+    return { node, label: fresh ? label : undefined, far };
+  }),
+}));
+
+// A far page's sentence is shown as its words, in quotation marks.
+const quote = (text: string, far?: boolean) => (far ? `“${text}”` : text);
+
 // The connections passage is the resulting situation (`situation.resulting`
 // as prose, passed in by integrations/remark-consequences.ts). When it is
-// present the prose carries the glosses, and the index below it lists titles
-// only, one line per type, folded away by default: the prose is the reading
+// present the index below it is folded away by default, one group per type
+// and one line per connection with its sentence: the prose is the reading
 // surface and the index is the record.
 const narrated = typeof resulting === 'string';
 // The passage is authored prose and renders on any page that has one; the
@@ -179,31 +229,35 @@ const showIndex = index && !isQuality;
 // On a narrated page the sequence appearances fold into the same index.
 const hasAppearances = narrated && ((await sequenceAppearances()).get(slug)?.length ?? 0) > 0;
 
-// Titles read mid-sentence in the index ("Precedes undo"), so drop the leading
-// capital unless the title opens with an acronym.
+// Titles after the first on a shared line read mid-sentence ("Command menu,
+// searching"), so drop the leading capital unless the title opens with an acronym.
 const inline = (title: string) =>
   /^[A-Z][A-Z]/.test(title) ? title : title.charAt(0).toLowerCase() + title.slice(1);
 ---
 
 {hasRelated && narrated && (
   <section class="connections flow" aria-label="Connections">
-    <p class="dinkus" aria-hidden="true">❖</p>
-    <h2 class="visually-hidden">Connections</h2>
+    <h2 id="connections" class="section-mark">Continuation</h2>
     <div class="connections__narrated flow"><Situation text={resulting} end="resulting" /></div>
     {(hasAppearances || (showIndex && sections.length > 0)) && (
       <details class="connections__formal">
         <summary>All connections</summary>
         {showIndex && sections.length > 0 && (
-          <ul class="connections__index">
-            {sections.map(({ heading, entries }) => (
-              <li>
-                {heading}{' '}
-                {entries.map(({ node }, i) => (
-                  <>{i > 0 && ', '}<a href={node.path}>{inline(node.title)}</a></>
+          <dl class="description-list description-list--stacked connections__index">
+            {indexLines.map(({ heading, lines }) => (
+              <>
+                <dt>{heading}</dt>
+                {lines.map(({ nodes: peers, label, far, fresh }) => (
+                  <dd>
+                    {peers.map((node, i) => (
+                      <>{i > 0 && ', '}<a href={node.path}>{i > 0 ? inline(node.title) : node.title}</a></>
+                    ))}
+                    {label && fresh && <> — <span class="connections__sentence"><Label text={quote(unlink(label, peers.map((n) => n.id)), far)} /></span></>}
+                  </dd>
                 ))}
-              </li>
+              </>
             ))}
-          </ul>
+          </dl>
         )}
         {hasAppearances && <SequenceAppearances slug={slug} compact />}
       </details>
@@ -214,14 +268,14 @@ const inline = (title: string) =>
 {hasRelated && !narrated && (
   <section class="flow" aria-label="Related patterns">
     <h2>Related patterns</h2>
-    {sections.map(({ heading, entries }) => (
+    {listSections.map(({ heading, entries }) => (
       <div class="flow">
         <h3>{heading}</h3>
         <ul>
-          {entries.map(({ node, label }) => (
+          {entries.map(({ node, label, far }) => (
             <li>
               <a href={node.path}>{node.title}</a>
-              {label && <> — <Label text={label} /></>}
+              {label && <> — <Label text={quote(unlink(label, [node.id]), far)} /></>}
             </li>
           ))}
         </ul>

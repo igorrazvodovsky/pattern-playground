@@ -2,7 +2,7 @@
    interaction states the family demos layer onto existing blocks (.card,
    .board, pp-table). The blocks keep their own skins; this file only adds
    what coupling and selection need. Demo-specific skins live in their own
-   files (fisheye.css, certainty.css, semantic-zoom.css, stat.css). */
+   files (fisheye.css, semantic-zoom.css, stat.css). */
 
 @layer components {
   /* The whole-card hit target is the `.stretched-link` utility (stretched-link
@@ -152,9 +152,12 @@
     }
   }
 
+  /* Whoever lays the panes out decides when there is room; below that they
+     go into .view-family__trio-stack instead. */
   .view-family__panes {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
     gap: var(--space-s);
     align-items: start;
   }
@@ -173,5 +176,9 @@
      adapt to the pane's width, not the whole demo's. */
   .view-family__pane {
     container: demo / inline-size;
+  }
+
+  .view-family__pane:empty {
+    display: none;
   }
 }

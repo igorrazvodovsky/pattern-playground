@@ -14,7 +14,10 @@ export type {
   AttributeSelection,
   BoundEntity,
   EntityBinding,
+  AttributeIcon,
 } from './types';
+
+export { attributeIcons } from './types';
 
 export {
   getValueAtPath,

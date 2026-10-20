@@ -8,17 +8,18 @@ import { createRoot, type Root } from 'react-dom/client';
 export class PPModal extends HTMLElement {
   private modal: HTMLDialogElement | null = null;
   private triggers: HTMLElement[] = [];
-  private closeButtons: HTMLElement[] = [];
   private lastFocusedElement: HTMLElement | null = null;
+  // Set by closeModal, so the native close event it causes is not handled twice.
+  private closingHere = false;
   private reactRoot: Root | null = null;
   private reactContainer: HTMLElement | null = null;
 
   constructor() {
     super();
     this.handleTriggerClick = this.handleTriggerClick.bind(this);
-    this.handleCloseClick = this.handleCloseClick.bind(this);
     this.handleKeydown = this.handleKeydown.bind(this);
-    this.handleBackdropClick = this.handleBackdropClick.bind(this);
+    this.handleDialogClick = this.handleDialogClick.bind(this);
+    this.handleNativeClose = this.handleNativeClose.bind(this);
   }
 
   connectedCallback() {
@@ -36,7 +37,6 @@ export class PPModal extends HTMLElement {
   private init() {
     this.findModalElement();
     this.findTriggerElements();
-    this.findCloseElements();
     this.setupEventListeners();
     this.setupAccessibility();
   }
@@ -45,26 +45,11 @@ export class PPModal extends HTMLElement {
     this.modal = this.querySelector('dialog');
   }
 
+  // Buttons inside the dialog are never triggers, or a dialog with actions
+  // would reopen itself on every click.
   private findTriggerElements() {
-    // Find buttons that should open the modal
-    this.triggers = Array.from(this.querySelectorAll<HTMLElement>('button:not([data-close])'));
-    
-    // Also look for elements with data-trigger attribute
-    const dataTriggers = Array.from(this.querySelectorAll<HTMLElement>('[data-trigger]'));
-    this.triggers.push(...dataTriggers);
-  }
-
-  private findCloseElements() {
-    // Find close buttons within the modal
-    if (this.modal) {
-      this.closeButtons = Array.from(this.modal.querySelectorAll<HTMLElement>('button[data-close], .close-button'));
-      
-      // If no explicit close buttons found, look for buttons in header
-      if (this.closeButtons.length === 0) {
-        const headerButtons = Array.from(this.modal.querySelectorAll<HTMLElement>('header button'));
-        this.closeButtons.push(...headerButtons);
-      }
-    }
+    const triggers = this.querySelectorAll<HTMLElement>('button:not([data-close]), [data-trigger]');
+    this.triggers = Array.from(triggers).filter(el => !this.modal?.contains(el) || el.hasAttribute('data-trigger'));
   }
 
   private setupEventListeners() {
@@ -73,17 +58,13 @@ export class PPModal extends HTMLElement {
       trigger.addEventListener('click', this.handleTriggerClick);
     });
 
-    // Close buttons
-    this.closeButtons.forEach(button => {
-      button.addEventListener('click', this.handleCloseClick);
-    });
-
     // Keyboard events
     document.addEventListener('keydown', this.handleKeydown);
 
-    // Backdrop clicks
+    // Close buttons, backdrop clicks, and closes the browser makes itself
     if (this.modal) {
-      this.modal.addEventListener('click', this.handleBackdropClick);
+      this.modal.addEventListener('click', this.handleDialogClick);
+      this.modal.addEventListener('close', this.handleNativeClose);
     }
   }
 
@@ -107,9 +88,19 @@ export class PPModal extends HTMLElement {
     this.openModal();
   }
 
-  private handleCloseClick(event: Event) {
-    event.preventDefault();
-    this.closeModal();
+  // Matched at click time so content rendered into the dialog later can carry
+  // its own close buttons.
+  private handleDialogClick(event: MouseEvent) {
+    if (!this.modal) return;
+    const button = (event.target as Element).closest('button');
+    if (button && this.modal.contains(button)) {
+      if (button.matches('[data-close]')) {
+        event.preventDefault();
+        this.closeModal();
+      }
+      return;
+    }
+    this.handleBackdropClick(event);
   }
 
   private handleKeydown(event: KeyboardEvent) {
@@ -117,8 +108,10 @@ export class PPModal extends HTMLElement {
 
     switch (event.key) {
       case 'Escape':
+        // An Escape a widget on the page has already handled was meant for it.
+        if (event.defaultPrevented) break;
         event.preventDefault();
-        this.closeModal();
+        if (this.closedBy !== 'none') this.closeModal();
         break;
       case 'Tab':
         // A non-modal side peek leaves the page reachable — don't trap.
@@ -129,6 +122,7 @@ export class PPModal extends HTMLElement {
 
   private handleBackdropClick(event: MouseEvent) {
     if (!this.modal || event.target !== this.modal) return;
+    if (this.closedBy !== 'any') return;
     
     // Check if click is on backdrop (outside modal content)
     const rect = this.modal.getBoundingClientRect();
@@ -142,6 +136,11 @@ export class PPModal extends HTMLElement {
     if (isOutside) {
       this.closeModal();
     }
+  }
+
+  private get closedBy(): 'any' | 'closerequest' | 'none' {
+    const value = this.modal?.getAttribute('closedby');
+    return value === 'closerequest' || value === 'none' ? value : 'any';
   }
 
   /**
@@ -167,6 +166,10 @@ export class PPModal extends HTMLElement {
       }
     }
 
+    // A close event that never arrived (the element left the page mid-close)
+    // must not swallow the next one.
+    this.closingHere = false;
+
     if (this.isModal) {
       this.modal.showModal();
     } else {
@@ -182,23 +185,48 @@ export class PPModal extends HTMLElement {
     this.focusModal();
 
     // Emit custom event
-    this.dispatchEvent(new CustomEvent('modal:open', {
+    this.dispatchEvent(new CustomEvent('pp-modal-open', {
       bubbles: true,
+      composed: true,
       detail: { modal: this.modal }
     }));
   }
 
   private closeModal() {
-    if (!this.modal) return;
+    // With closedby="any" the browser may already have closed the dialog for
+    // this click, and handled that close.
+    if (!this.modal?.open) return;
 
     // Emit close event before cleanup (for service to listen)
-    this.dispatchEvent(new CustomEvent('modal:close', {
+    this.dispatchClose();
+    this.closingHere = true;
+    this.modal.close();
+    this.finishClose();
+  }
+
+  // The browser, or a caller's own dialog.close(), can close the dialog
+  // without going through closeModal.
+  private handleNativeClose() {
+    if (this.closingHere) {
+      this.closingHere = false;
+      return;
+    }
+    // The close event is queued, so the dialog may have been reopened in the
+    // same task; that close has already been handled.
+    if (this.modal?.open) return;
+    this.dispatchClose();
+    this.finishClose();
+  }
+
+  private dispatchClose() {
+    this.dispatchEvent(new CustomEvent('pp-modal-close', {
       bubbles: true,
+      composed: true,
       detail: { modal: this.modal }
     }));
+  }
 
-    this.modal.close();
-
+  private finishClose() {
     // Update trigger states
     this.triggers.forEach(trigger => {
       trigger.setAttribute('aria-expanded', 'false');
@@ -220,7 +248,13 @@ export class PPModal extends HTMLElement {
   private focusModal() {
     if (!this.modal) return;
 
-    // Try to focus the first focusable element or the modal itself
+    // data-autofocus is for frameworks that will not render autofocus.
+    const marked = this.modal.querySelector<HTMLElement>('[autofocus], [data-autofocus]');
+    if (marked) {
+      marked.focus();
+      return;
+    }
+
     const focusableElements = this.modal.querySelectorAll(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     );
@@ -255,6 +289,12 @@ export class PPModal extends HTMLElement {
         firstElement.focus();
       }
     }
+  }
+
+  // For a caller whose opener is not the focused element, such as a surface
+  // replacing another. Call before opening.
+  public setReturnFocus(element: HTMLElement): void {
+    this.lastFocusedElement = element;
   }
 
   /**
@@ -324,14 +364,11 @@ export class PPModal extends HTMLElement {
       trigger.removeEventListener('click', this.handleTriggerClick);
     });
 
-    this.closeButtons.forEach(button => {
-      button.removeEventListener('click', this.handleCloseClick);
-    });
-
     document.removeEventListener('keydown', this.handleKeydown);
 
     if (this.modal) {
-      this.modal.removeEventListener('click', this.handleBackdropClick);
+      this.modal.removeEventListener('click', this.handleDialogClick);
+      this.modal.removeEventListener('close', this.handleNativeClose);
     }
   }
 

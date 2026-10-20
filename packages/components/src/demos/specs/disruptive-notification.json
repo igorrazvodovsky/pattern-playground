@@ -1,0 +1,36 @@
+{
+  "root": "disruptive-notification-demo",
+  "elements": {
+    "disruptive-notification-demo": {
+      "type": "Stack",
+      "props": {},
+      "children": ["delete-document", "confirm-dialog"]
+    },
+    "delete-document": {
+      "type": "Button",
+      "props": { "label": "Delete document…" },
+      "on": { "press": { "action": "setState", "params": { "statePath": "/confirming", "value": true } } }
+    },
+
+    "confirm-dialog": {
+      "type": "Dialog",
+      "props": {
+        "title": "Delete document",
+        "description": { "$state": "/question" },
+        "open": { "$bindState": "/confirming" },
+        "alert": true
+      },
+      "slots": { "actions": ["confirm", "cancel"] }
+    },
+    "confirm": {
+      "type": "Button",
+      "props": { "label": "Delete", "variant": "danger" },
+      "on": { "press": { "action": "setState", "params": { "statePath": "/confirming", "value": false } } }
+    },
+    "cancel": {
+      "type": "Button",
+      "props": { "label": "Cancel", "initialFocus": true },
+      "on": { "press": { "action": "setState", "params": { "statePath": "/confirming", "value": false } } }
+    }
+  }
+}

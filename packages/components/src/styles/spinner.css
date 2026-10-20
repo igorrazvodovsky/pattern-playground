@@ -20,6 +20,13 @@ pp-spinner::after {
   animation: pp-spinner-spin var(--speed) linear infinite;
 }
 
+/* Without the spin, the arc still reads as busy. */
+@media (prefers-reduced-motion: reduce) {
+  pp-spinner::after {
+    animation: none;
+  }
+}
+
 /* Three turns per cycle matches the old SVG's 1080° sweep per `--speed`. */
 @keyframes pp-spinner-spin {
   to {

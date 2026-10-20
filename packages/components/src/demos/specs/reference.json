@@ -1,0 +1,71 @@
+{
+  "root": "reference",
+  "elements": {
+    "reference": { "type": "Stack", "props": { "gap": "m" }, "children": ["note", "detail"] },
+    "note": {
+      "type": "MentionEditor",
+      "props": {
+        "label": "Meeting note",
+        "placeholder": "Type @ to reference a person, project, document or product",
+        "content": { "$bindState": "/content" },
+        "query": { "$bindState": "/query" },
+        "scope": { "$bindState": "/scope" },
+        "candidates": {
+          "$computed": "candidates",
+          "args": { "query": { "$state": "/query" }, "scope": { "$state": "/scope" }, "sources": { "$state": "/sources" } }
+        },
+        "opened": { "$bindState": "/opened" }
+      },
+      "on": {
+        "open": [
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/detail",
+              "value": { "$computed": "view", "args": { "id": { "$state": "/opened" }, "views": { "$state": "/views" } } }
+            }
+          },
+          { "action": "setState", "params": { "statePath": "/detailOpen", "value": true } }
+        ]
+      }
+    },
+
+    "detail": {
+      "type": "Drawer",
+      "props": { "title": { "$state": "/detail/name" }, "open": { "$bindState": "/detailOpen" } },
+      "children": ["detail-body"]
+    },
+    "detail-body": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["detail-badges", "detail-price", "detail-description", "detail-attributes", "detail-listed"]
+    },
+    "detail-badges": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "repeat": { "statePath": "/detail/badges" },
+      "children": ["detail-badge"]
+    },
+    "detail-badge": { "type": "Badge", "props": { "text": { "$item": "text" } } },
+    "detail-price": {
+      "type": "Text",
+      "props": { "text": { "$state": "/detail/price" }, "size": "large" },
+      "visible": { "$state": "/detail/price" }
+    },
+    "detail-description": {
+      "type": "Text",
+      "props": { "text": { "$state": "/detail/description" } },
+      "visible": { "$state": "/detail/description" }
+    },
+    "detail-attributes": {
+      "type": "DescriptionList",
+      "props": { "items": { "$state": "/detail/rows" } },
+      "visible": { "$state": "/detail/hasRows" }
+    },
+    "detail-listed": {
+      "type": "Text",
+      "props": { "text": { "$state": "/detail/listed" }, "muted": true },
+      "visible": { "$state": "/detail/listed" }
+    }
+  }
+}

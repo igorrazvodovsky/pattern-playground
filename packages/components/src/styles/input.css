@@ -42,6 +42,15 @@ pp-input {
     box-shadow: 0 0 0 var(--focus-ring-width) var(--input-focus-ring-color);
   }
 
+  &[invalid]:not(:has(input:disabled)) {
+    border-color: var(--c-danger-600);
+  }
+
+  &[invalid]:focus-within:not(:has(input:disabled)) {
+    border-color: var(--c-danger-600);
+    box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--c-danger-600) l c h / 30%);
+  }
+
   &:has(input:disabled) {
     background-color: var(--c-disabled-bg);
     border-color: var(--c-disabled-border);
@@ -190,4 +199,15 @@ pp-input {
       width: calc(1em + var(--space-l) * 2);
     }
   }
+}
+
+pp-input + [data-slot="error"] {
+  display: none;
+  margin-block-start: var(--space-xs);
+  color: var(--c-danger-700);
+  font-size: var(--text-xs);
+}
+
+pp-input[invalid] + [data-slot="error"] {
+  display: block;
 }

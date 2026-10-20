@@ -3,7 +3,7 @@
 ## Development commands
 
 ### Frontend (root directory)
-- `npm run lint` — run ESLint (plus the seed-staleness check)
+- `npm run lint` — run ESLint, after the repository checks in `scripts/` (seed staleness, plan promotions, style boundary, demo registry, world replay)
 - `npm run lint:styles` — run Stylelint
 - `npm run test` — full gate: lint, Stylelint, and a one-shot run of every Vitest project (needs Chromium)
 - `npm run storybook` — start Storybook on port 6006
@@ -42,7 +42,9 @@ If Chromium is missing after installing or updating Playwright, run `npx playwri
   `error`. This is where anything touching the DOM belongs.
 - `unit` — node environment, `src/**/*.test.ts`. For logic that needs no
   browser: type guards, pure services, parsers. Import `describe`/`it`/`expect`
-  from `vitest` rather than relying on globals.
+  from `vitest` rather than relying on globals. It includes the spec lint
+  (`src/catalog/specs.test.ts`), which checks every switchable demo's spec
+  against the component catalog and the module beside it.
 
 Aliases (`@shared`) are declared at the top of `vitest.config.ts` so
 both projects resolve them; Storybook additionally sets them in

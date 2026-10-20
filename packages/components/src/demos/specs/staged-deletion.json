@@ -1,0 +1,94 @@
+{
+  "root": "staged-demo",
+  "elements": {
+    "staged-demo": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["listings", "empty-state", "session-actions", "saved-notice"],
+      "watch": {
+        "/items": {
+          "action": "setState",
+          "params": {
+            "statePath": "/changed",
+            "value": { "$computed": "anyStaged", "args": { "items": { "$state": "/items" } } }
+          }
+        }
+      }
+    },
+
+    "listings": {
+      "type": "List",
+      "props": { "borderless": true },
+      "repeat": { "statePath": "/items", "key": "id" },
+      "children": ["listing"]
+    },
+    "listing": {
+      "type": "ListItem",
+      "props": { "label": { "$item": "name" }, "struck": { "$item": "deleted" } },
+      "slots": { "suffix": ["delete", "restore"] }
+    },
+    "delete": {
+      "type": "Button",
+      "props": { "label": "Delete", "icon": "delete", "hideLabel": true, "variant": "plain", "focusNext": "Restore" },
+      "visible": { "$item": "deleted", "not": true },
+      "on": { "press": { "action": "setState", "params": { "statePath": { "$item": "deleted" }, "value": true } } }
+    },
+    "restore": {
+      "type": "Button",
+      "props": { "label": "Restore", "icon": "restore", "hideLabel": true, "variant": "plain", "focusNext": "Delete" },
+      "visible": { "$item": "deleted" },
+      "on": { "press": { "action": "setState", "params": { "statePath": { "$item": "deleted" }, "value": false } } }
+    },
+
+    "empty-state": {
+      "type": "Text",
+      "props": { "text": "No items left.", "muted": true },
+      "visible": { "$state": "/items/0", "not": true },
+      "children": ["reset"]
+    },
+    "reset": {
+      "type": "Button",
+      "props": { "label": "Reset", "variant": "plain" },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/items", "value": { "$state": "/listings" } } },
+          { "action": "setState", "params": { "statePath": "/saved", "value": { "$state": "/listings" } } }
+        ]
+      }
+    },
+
+    "session-actions": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "visible": { "$state": "/changed" },
+      "children": ["save", "cancel"]
+    },
+    "save": {
+      "type": "Button",
+      "props": { "label": "Save changes", "variant": "primary" },
+      "on": {
+        "press": [
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/saved",
+              "value": { "$computed": "withoutStaged", "args": { "items": { "$state": "/items" } } }
+            }
+          },
+          { "action": "setState", "params": { "statePath": "/items", "value": { "$state": "/saved" } } },
+          { "action": "notify", "params": { "statePath": "/notice", "message": "Changes saved" } }
+        ]
+      }
+    },
+    "cancel": {
+      "type": "Button",
+      "props": { "label": "Cancel" },
+      "on": { "press": { "action": "setState", "params": { "statePath": "/items", "value": { "$state": "/saved" } } } }
+    },
+
+    "saved-notice": {
+      "type": "Text",
+      "props": { "text": { "$state": "/notice" }, "muted": true, "status": true }
+    }
+  }
+}

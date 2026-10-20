@@ -1,0 +1,79 @@
+{
+  "root": "workspace-demo",
+  "elements": {
+    "workspace-demo": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["delete-workspace", "deleted-state", "confirm-dialog"],
+      "watch": {
+        "/confirming": { "action": "setState", "params": { "statePath": "/confirmation", "value": { "typed": "", "attempted": false } } }
+      }
+    },
+
+    "delete-workspace": {
+      "type": "Button",
+      "props": { "label": "Delete workspace", "variant": "danger" },
+      "visible": { "$state": "/exists" },
+      "on": { "press": { "action": "setState", "params": { "statePath": "/confirming", "value": true } } }
+    },
+    "deleted-state": {
+      "type": "Text",
+      "props": { "text": "Workspace deleted.", "muted": true },
+      "visible": { "$state": "/exists", "not": true },
+      "children": ["restore"]
+    },
+    "restore": {
+      "type": "Button",
+      "props": { "label": "Restore", "variant": "plain", "focusNext": "Delete workspace" },
+      "on": { "press": { "action": "setState", "params": { "statePath": "/exists", "value": true } } }
+    },
+
+    "confirm-dialog": {
+      "type": "Dialog",
+      "props": {
+        "title": "Delete workspace",
+        "description": { "$template": "Deleting ${/workspace} will permanently remove:" },
+        "open": { "$bindState": "/confirming" },
+        "alert": true
+      },
+      "children": ["removed", "confirmation"],
+      "slots": { "actions": ["confirm", "cancel"] }
+    },
+    "removed": {
+      "type": "BulletList",
+      "props": { "items": { "$state": "/removes" } }
+    },
+    "confirmation": {
+      "type": "Input",
+      "props": {
+        "label": { "$template": "Type ${/workspace} to confirm" },
+        "value": { "$bindState": "/confirmation/typed" },
+        "error": {
+          "$cond": { "$and": [{ "$state": "/confirmation/attempted" }, { "$state": "/confirmation/typed", "neq": { "$state": "/workspace" } }] },
+          "$then": { "$template": "Type ${/workspace} exactly as shown to delete the workspace." },
+          "$else": null
+        },
+        "initialFocus": true
+      }
+    },
+    "confirm": {
+      "type": "Button",
+      "props": {
+        "label": "Delete workspace",
+        "variant": "danger"
+      },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/confirmation/attempted", "value": true } },
+          { "action": "setState", "params": { "statePath": "/exists", "value": { "$cond": { "$state": "/confirmation/typed", "eq": { "$state": "/workspace" } }, "$then": false, "$else": true } } },
+          { "action": "setState", "params": { "statePath": "/confirming", "value": { "$cond": { "$state": "/confirmation/typed", "eq": { "$state": "/workspace" } }, "$then": false, "$else": true } } }
+        ]
+      }
+    },
+    "cancel": {
+      "type": "Button",
+      "props": { "label": "Cancel" },
+      "on": { "press": { "action": "setState", "params": { "statePath": "/confirming", "value": false } } }
+    }
+  }
+}

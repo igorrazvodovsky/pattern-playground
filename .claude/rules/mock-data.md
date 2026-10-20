@@ -8,10 +8,15 @@ paths:
 # Mock data
 
 ## Best practices
-- *Centralized data directory*: Store all shared mock data in `src/stories/data/` as JSON files
-- *JSON imports*: Use the import syntax with type assertion for JSON files:
+- *Shared data*: Mock data used by more than one story or demo lives in
+  `shared/data/` and is imported from `@shared/data`:
   ```typescript
-  import mockData from '../data/mockData.json' with { type: 'json' };
+  import { tasks, projects } from '@shared/data';
+  ```
+- *Story-only data*: A JSON file that only one story uses can sit in
+  `src/stories/data/`, imported with a type assertion:
+  ```typescript
+  import locationData from '../data/map-locations.json' with { type: 'json' };
   ```
 
 ## When to extract to JSON
@@ -35,6 +40,6 @@ them with faker. Nothing under `apps/` or `packages/` imports `shared/world`
 directly.
 
 ## When to use existing data files
-- *Check first*: Before creating new mock data, check if suitable data exists in `src/stories/data/`
-- *Reuse across stories*: Import existing JSON files to maintain consistency across Storybook stories
+- *Check first*: Before creating new mock data, check the exports of `@shared/data`
+- *Reuse across stories*: Import existing data to keep stories consistent with each other and with the pattern-site demos
 - *Extend existing*: If close match exists, consider extending an existing file rather than creating new one

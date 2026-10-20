@@ -89,3 +89,34 @@ export const Grouped: Story = {
     </div>
   ),
 };
+
+export const Stacked: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'When each value is a sentence, a label column would squeeze it into a narrow strip. `.description-list--stacked` puts each label above its values instead, in small caps, so a long list of explained links stays easy to scan by group.',
+      },
+    },
+  },
+  render: () => (
+    <dl className="description-list description-list--stacked">
+      <dt>Before this</dt>
+      <dd>
+        <a href="#">Choose a plan</a> — the plan decides which options the setup offers.
+      </dd>
+      <dt>Works alongside</dt>
+      <dd>
+        <a href="#">Progress summary</a> — keeps the person oriented while the steps change.
+      </dd>
+      <dd>
+        <a href="#">Undo</a> — going back must not cost what was already entered.
+      </dd>
+      <dt>Instead of this</dt>
+      <dd>
+        <a href="#">Single form</a> — when the questions do not depend on each other, one page is
+        faster to fill in and to check.
+      </dd>
+    </dl>
+  ),
+};

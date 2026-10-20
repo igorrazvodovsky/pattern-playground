@@ -1,0 +1,131 @@
+{
+  "root": "conversation",
+  "elements": {
+    "conversation": {
+      "type": "Messages",
+      "props": {},
+      "children": [
+        "ask-name",
+        "name",
+        "ask-plans",
+        "plans",
+        "ask-amount",
+        "amount",
+        "ask-date",
+        "date",
+        "date-reading",
+        "composer"
+      ]
+    },
+
+    "ask-name": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": ["Standard message input handles everything that would be handled by input and textarea elements. E.g.: What's your name?"]
+      }
+    },
+    "name": {
+      "type": "Message",
+      "props": { "from": "actor", "parts": ["Igors"] }
+    },
+
+    "ask-plans": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": ["Single and multiple selections can be handled using the appropriate controls. E.g.: What do you want to do today?"]
+      }
+    },
+    "plans": {
+      "type": "Message",
+      "props": { "from": "actor", "parts": [] },
+      "children": ["plans-choice"]
+    },
+    "plans-choice": {
+      "type": "SelectableTags",
+      "props": {
+        "label": "What do you want to do today?",
+        "hideLabel": true,
+        "options": [
+          { "value": "a", "label": "Option A" },
+          { "value": "b", "label": "Option B" },
+          { "value": "c", "label": "Option C" }
+        ],
+        "value": { "$bindState": "/answers/plans" }
+      }
+    },
+
+    "ask-amount": {
+      "type": "Message",
+      "props": { "from": "other", "parts": ["How much? Select from a range."] }
+    },
+    "amount": {
+      "type": "Message",
+      "props": { "from": "actor", "parts": [] },
+      "children": ["amount-row"]
+    },
+    "amount-row": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "m" },
+      "children": ["amount-slider", "amount-send"]
+    },
+    "amount-slider": {
+      "type": "Slider",
+      "props": {
+        "label": "Amount",
+        "hideLabel": true,
+        "min": 0,
+        "max": 100,
+        "showBounds": true,
+        "value": { "$bindState": "/answers/amount" }
+      }
+    },
+    "amount-send": {
+      "type": "Button",
+      "props": { "label": "Send amount", "icon": "confirm", "hideLabel": true, "variant": "plain" }
+    },
+
+    "ask-date": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": ["What about dates? This is also an example of (successful) validation."]
+      }
+    },
+    "date": {
+      "type": "Message",
+      "props": { "from": "actor", "parts": ["December 16 two years ago."] }
+    },
+    "date-reading": {
+      "type": "Message",
+      "props": { "from": "other", "parts": ["Got it! ", { "$state": "/dateReading" }, "."] }
+    },
+
+    "composer": {
+      "type": "Composer",
+      "props": {
+        "label": "Message",
+        "placeholder": "Write a message…",
+        "value": { "$bindState": "/draft" }
+      },
+      "slots": { "actions": ["search-web", "think", "attach", "more"] }
+    },
+    "search-web": {
+      "type": "Button",
+      "props": { "label": "Search the web", "icon": "web", "hideLabel": true, "variant": "plain" }
+    },
+    "think": {
+      "type": "Button",
+      "props": { "label": "Think it through", "icon": "reasoning", "hideLabel": true, "variant": "plain" }
+    },
+    "attach": {
+      "type": "Button",
+      "props": { "label": "Attach a file", "icon": "attach", "hideLabel": true, "variant": "plain" }
+    },
+    "more": {
+      "type": "Button",
+      "props": { "label": "More options", "icon": "more", "hideLabel": true, "variant": "plain" }
+    }
+  }
+}

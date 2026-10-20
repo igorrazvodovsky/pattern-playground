@@ -1,5 +1,9 @@
+import { useCallback, useEffect, useRef } from 'react';
 import { JSONUIProvider, Renderer, type ComponentRegistry, type ComponentRenderer } from '@json-render/react';
 import type { ComputedFunction, Spec, StateStore } from '@json-render/core';
+import { directives } from './directives';
+import { DemoRoot } from './registries/dialog-focus';
+import { DemoSettled } from './registries/focus-on-show';
 
 // Renders a demo spec (demos/specs/<slug>.json) through one registry. The
 // state store is created by the caller and outlives this component, so
@@ -11,9 +15,13 @@ export type ActionHandler = (params: Record<string, unknown>) => unknown;
 export interface SpecSetup {
   /** State the spec reads. Fixtures enter the demo here, never through the spec. */
   initialState?: Record<string, unknown>;
-  /** Handlers for the catalog actions the spec binds, given the demo's store. */
-  handlers?: (store: StateStore) => Record<string, ActionHandler>;
-  /** Named functions for `$computed` props. */
+  /**
+   * Handlers for the catalog actions the spec binds. A handler that changes
+   * state later (on a timer) checks `connected` first: handlers live outside
+   * the React tree, so unmounting the demo does not stop them.
+   */
+  handlers?: (store: StateStore, connected: () => boolean) => Record<string, ActionHandler>;
+  /** Named functions for `$computed` props. Generic values belong in ./directives. */
   functions?: Record<string, ComputedFunction>;
 }
 
@@ -36,11 +44,27 @@ const Unsupported: ComponentRenderer = ({ element }) => (
 );
 
 export function SpecDemo({ spec, registry, registryName, store, handlers, functions }: SpecDemoProps) {
+  // Unsettled while a render through a new registry mounts, so `focusOnShow`
+  // controls take focus only when they appear later. Recorded only after a
+  // commit, so a render React throws away changes nothing.
+  const settledWith = useRef<ComponentRegistry | null>(null);
+  useEffect(() => {
+    settledWith.current = registry;
+  });
+  const settled = useCallback(() => settledWith.current === registry, [registry]);
+  const root = useRef<HTMLDivElement>(null);
+
   return (
-    <div data-registry={registryName}>
-      <JSONUIProvider registry={registry} store={store} handlers={handlers} functions={functions}>
-        <Renderer spec={spec} registry={registry} fallback={Unsupported} />
-      </JSONUIProvider>
+    // Focusable from script only: a dialog whose opener is gone, or a focused
+    // Button that disappears with nowhere to go, hands focus back here.
+    <div ref={root} data-registry={registryName} tabIndex={-1}>
+      <DemoRoot value={root}>
+        <DemoSettled value={settled}>
+          <JSONUIProvider registry={registry} store={store} handlers={handlers} functions={functions} directives={directives}>
+            <Renderer spec={spec} registry={registry} fallback={Unsupported} />
+          </JSONUIProvider>
+        </DemoSettled>
+      </DemoRoot>
     </div>
   );
 }

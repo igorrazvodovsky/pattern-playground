@@ -6,7 +6,7 @@ import {
   ComboboxList,
   ComboboxEmpty
 } from '../combobox';
-import { useHierarchicalNavigation } from '../../hooks/useHierarchicalNavigation';
+import { useHierarchicalNavigation } from '../../hooks/use-hierarchical-navigation';
 import { createSortedSearchFunction, sortByRelevance } from '../../utility/hierarchical-search';
 import type {
   ReferenceCategory,

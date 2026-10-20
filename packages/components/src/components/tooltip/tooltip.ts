@@ -225,7 +225,7 @@ export class PpTooltip extends Elena(HTMLElement) {
       }
 
       // Show
-      this.dispatchEvent(new Event('pp-show', { bubbles: true, cancelable: false, composed: true }))
+      this.dispatchEvent(new CustomEvent('pp-show', { bubbles: true, cancelable: false, composed: true }))
       if ('CloseWatcher' in window) {
         this.closeWatcher?.destroy();
         this.closeWatcher = new CloseWatcher();
@@ -242,10 +242,10 @@ export class PpTooltip extends Elena(HTMLElement) {
       const { keyframes, options } = getAnimation('tooltip.show');
       await animateTo(this.popup, keyframes, options);
       this.popup.reposition();
-      this.dispatchEvent(new Event('pp-after-show', { bubbles: true, cancelable: false, composed: true }))
+      this.dispatchEvent(new CustomEvent('pp-after-show', { bubbles: true, cancelable: false, composed: true }))
     } else {
       // Hide
-      this.dispatchEvent(new Event('pp-hide', { bubbles: true, cancelable: false, composed: true }))
+      this.dispatchEvent(new CustomEvent('pp-hide', { bubbles: true, cancelable: false, composed: true }))
       this.closeWatcher?.destroy();
       document.removeEventListener('keydown', this.handleDocumentKeyDown);
 
@@ -254,7 +254,7 @@ export class PpTooltip extends Elena(HTMLElement) {
       await animateTo(this.popup, keyframes, options);
       this.popup.active = false;
       this.body.hidden = true;
-      this.dispatchEvent(new Event('pp-after-hide', { bubbles: true, cancelable: false, composed: true }))
+      this.dispatchEvent(new CustomEvent('pp-after-hide', { bubbles: true, cancelable: false, composed: true }))
 
     }
   }

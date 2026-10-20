@@ -1,0 +1,13 @@
+{
+  "root": "products",
+  "elements": {
+    "products": {
+      "type": "Map",
+      "props": {
+        "label": "Products by location",
+        "locations": { "$state": "/locations" },
+        "selected": { "$bindState": "/selected" }
+      }
+    }
+  }
+}

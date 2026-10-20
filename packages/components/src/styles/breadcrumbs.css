@@ -6,6 +6,10 @@ pp-breadcrumbs {
   --_crumb-radius: 0.3rem;
   --_crumb-ink: CanvasText;
 
+  /* Width comes from the container, never the items, or the trail could
+     never overflow. */
+  flex: 1 1 0;
+  min-inline-size: 0;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
@@ -111,17 +115,42 @@ pp-breadcrumbs {
     z-index: 1;
   }
 
-  /* Elide the middle of the trail on narrow viewports */
-  @media (width <= 768px) {
+  > .crumb--overflow {
+    display: none;
+  }
+
+  /* Set by the element when the items overflow its width. */
+  &[collapsed] {
     > a:not(:last-child, :first-child),
-    > .crumb:not(:last-child, :first-child) {
+    > .crumb:not(:last-child, :first-child, .crumb--overflow) {
       display: none;
     }
 
-    > a:not(:last-child)::after,
-    > .crumb:not(:last-child)::after {
+    &:has(> .crumb--overflow ~ :not(:last-child)) > .crumb--overflow {
+      display: inline-flex;
+    }
+
+    &:not(:has(> .crumb--overflow)) > :is(a, .crumb):not(:last-child)::after {
       content: "...";
       margin-inline: var(--_separator-space);
+    }
+  }
+
+  /* Still too wide after the middle items fold. */
+  &[collapsed="all"] {
+    > :is(a, .crumb):first-child:not(:last-child) {
+      display: none;
+    }
+
+    > .crumb--overflow {
+      display: inline-flex;
+    }
+
+    > :is(a, .crumb):last-child {
+      display: block;
+      min-inline-size: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }

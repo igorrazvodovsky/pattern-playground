@@ -1,0 +1,72 @@
+{
+  "root": "prompt",
+  "elements": {
+    "prompt": { "type": "Stack", "props": { "gap": "s" }, "children": ["conversation", "missing"] },
+    "conversation": { "type": "Messages", "props": {}, "children": ["composer"] },
+    "composer": {
+      "type": "Composer",
+      "props": { "label": null, "placeholder": null, "value": null },
+      "slots": {
+        "field": ["editor"],
+        "actions": ["example", "clear", "mention"],
+        "send": ["send"]
+      }
+    },
+    "editor": {
+      "type": "MentionEditor",
+      "props": {
+        "label": "Prompt",
+        "placeholder": null,
+        "content": { "$bindState": "/content" },
+        "query": { "$bindState": "/query" },
+        "scope": null,
+        "candidates": {
+          "$computed": "candidates",
+          "args": { "query": { "$state": "/query" }, "materials": { "$state": "/materials" } }
+        },
+        "opened": null
+      }
+    },
+    "example": {
+      "type": "Button",
+      "props": { "label": "Fill in an example", "icon": "example", "hideLabel": true, "variant": "plain" },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/content", "value": { "$state": "/example" } } },
+          { "action": "setState", "params": { "statePath": "/sent", "value": false } }
+        ]
+      }
+    },
+    "clear": {
+      "type": "Button",
+      "props": { "label": "Clear the template", "icon": "clear", "hideLabel": true, "variant": "plain" },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/content", "value": { "$state": "/template" } } },
+          { "action": "setState", "params": { "statePath": "/sent", "value": false } }
+        ]
+      }
+    },
+    "mention": {
+      "type": "Button",
+      "props": { "label": "Reference materials", "icon": "mention", "hideLabel": true, "variant": "plain" }
+    },
+    "send": {
+      "type": "Button",
+      "props": { "label": "Send", "icon": "send", "hideLabel": true },
+      "on": { "press": { "action": "setState", "params": { "statePath": "/sent", "value": true } } }
+    },
+    "missing": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$computed": "missing",
+          "args": { "content": { "$state": "/content" }, "sent": { "$state": "/sent" } }
+        },
+        "size": "small",
+        "muted": true,
+        "status": true
+      }
+    }
+  }
+}

@@ -56,10 +56,12 @@
   }
 
   /* Controls inside the covered region stay operable above the overlay. Badge
-     menus and buttons in the attributes row, and any corner control in the
-     header (the hit target itself excepted — its own ::before is the overlay). */
+     menus and buttons in the attributes row, any corner control in the header
+     (the hit target itself excepted — its own ::before is the overlay), and
+     the actions in the footer. */
   .card:has(.stretched-link) .card__attributes :is(button, pp-dropdown),
-  .card:has(.stretched-link) .card__header :is(button, pp-dropdown):not(.stretched-link) {
+  .card:has(.stretched-link) .card__header :is(button, pp-dropdown):not(.stretched-link),
+  .card:has(.stretched-link) .card__footer :is(button, pp-dropdown) {
     position: relative;
     z-index: 1;
   }

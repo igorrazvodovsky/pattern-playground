@@ -50,6 +50,15 @@
   padding-inline: 0;
 }
 
+/* While one link is traced, runs on other links drop their highlight. */
+.message__body mark {
+  transition: var(--transition-fast) background;
+}
+
+.message__body mark[data-dimmed] {
+  background: none;
+}
+
 .drawer .message__body,
 .popover .message__body {
   padding-block: 0;
@@ -158,11 +167,16 @@
 .message-composer__actions,
 .message-composer__input {
   flex: 1 0 100%;
+  min-inline-size: 0;
 }
 
 .message-composer__actions {
   display: flex;
   gap: var(--space-xs);
+}
+
+.message-composer__send {
+  margin-inline-start: auto;
 }
 
 .message-composer__feedback {

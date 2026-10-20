@@ -1,12 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { icons as phosphorIcons } from '@iconify-json/ph';
-
-const filledIconNames = Object.keys(phosphorIcons.icons).filter(name => name.endsWith('-fill'));
-
-function getRandomFilledIcon() {
-  const randomIndex = Math.floor(Math.random() * filledIconNames.length);
-  return "ph:" + filledIconNames[randomIndex];
-}
+import { getRandomFilledIcon } from './utils/icons.ts';
 
 interface AvatarProps {
   size?: 'xsmall' | 'small' | 'medium' | 'large';
@@ -68,6 +61,17 @@ export const AvatarGroup: Story = {
       <img className="avatar" src="https://i.pravatar.cc/150?img=13" alt="First member" />
       <img className="avatar" src="https://i.pravatar.cc/150?img=16" alt="Second member" />
       <img className="avatar" src="https://i.pravatar.cc/150?img=17" alt="Third member" />
+    </div>
+  ),
+};
+
+export const AvatarGroupOverflow: Story = {
+  render: () => (
+    <div className="avatar-group">
+      <img className="avatar" src="https://i.pravatar.cc/150?img=13" alt="First member" />
+      <img className="avatar" src="https://i.pravatar.cc/150?img=16" alt="Second member" />
+      <img className="avatar" src="https://i.pravatar.cc/150?img=17" alt="Third member" />
+      <span className="avatar avatar-group__more" role="img" aria-label="4 more">+4</span>
     </div>
   ),
 };

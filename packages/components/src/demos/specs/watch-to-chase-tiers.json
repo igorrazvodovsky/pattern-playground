@@ -1,0 +1,209 @@
+{
+  "root": "watch-to-chase",
+  "elements": {
+    "watch-to-chase": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["ambient", "glance", "slices"]
+    },
+
+    "ambient": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$state": "/atGlance", "not": true },
+      "children": ["ambient-controls", "ambient-note"]
+    },
+    "ambient-controls": {
+      "type": "Stack",
+      "props": { "direction": "horizontal" },
+      "children": ["ambient-tag"]
+    },
+    "ambient-tag": {
+      "type": "Tag",
+      "props": { "label": { "$state": "/ambient" }, "opens": true, "focusOnShow": true },
+      "on": {
+        "open": [{ "action": "setState", "params": { "statePath": "/atGlance", "value": true } }]
+      }
+    },
+    "ambient-note": {
+      "type": "Text",
+      "props": { "text": "The ambient tier deliberately shows one number. Everything else is an inward step away.", "muted": true }
+    },
+
+    "glance": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": [{ "$state": "/atGlance" }, { "$state": "/inSlice", "not": true }],
+      "children": ["glance-controls", "tiles"]
+    },
+    "glance-controls": {
+      "type": "Stack",
+      "props": { "direction": "horizontal" },
+      "children": ["back-to-tag"]
+    },
+    "back-to-tag": {
+      "type": "Button",
+      "props": { "label": "Back to the summary", "icon": "back", "variant": "plain", "focusOnShow": true },
+      "on": {
+        "press": [{ "action": "setState", "params": { "statePath": "/atGlance", "value": false } }]
+      }
+    },
+    "tiles": {
+      "type": "Grid",
+      "props": { "minColumnWidth": "m" },
+      "repeat": { "statePath": "/tiles", "key": "id" },
+      "children": ["tile"]
+    },
+    "tile": {
+      "type": "Card",
+      "props": { "title": { "$item": "title" }, "opens": { "$item": "opens" }, "focusOnShow": { "$item": "open" } },
+      "children": ["tile-figure"],
+      "on": {
+        "open": [
+          { "action": "setState", "params": { "statePath": { "$item": "open" }, "value": true } },
+          { "action": "setState", "params": { "statePath": "/inSlice", "value": true } }
+        ]
+      }
+    },
+    "tile-figure": {
+      "type": "Stat",
+      "props": { "value": { "$item": "value" }, "detail": { "$item": "detail" }, "alert": { "$item": "alert" } }
+    },
+
+    "slices": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$state": "/inSlice" },
+      "repeat": { "statePath": "/tiles", "key": "id" },
+      "children": ["slice"]
+    },
+    "slice": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$item": "open" },
+      "children": ["slice-view", "item-views"]
+    },
+
+    "slice-view": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$state": "/inItem", "not": true },
+      "children": ["slice-controls", "slice-reason", "slice-items"]
+    },
+    "slice-controls": {
+      "type": "Stack",
+      "props": { "direction": "horizontal" },
+      "children": ["back-to-tiles"]
+    },
+    "back-to-tiles": {
+      "type": "Button",
+      "props": { "label": "Back to the tiles", "icon": "back", "variant": "plain", "focusOnShow": true },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/inSlice", "value": false } },
+          { "action": "setState", "params": { "statePath": { "$item": "open" }, "value": false } }
+        ]
+      }
+    },
+    "slice-reason": {
+      "type": "Callout",
+      "props": { "title": { "$item": "title" }, "text": { "$item": "reason" }, "purpose": "info" }
+    },
+    "slice-items": {
+      "type": "ItemGroup",
+      "props": { "label": { "$item": "title" } },
+      "repeat": { "statePath": { "$item": "items" }, "key": "id" },
+      "children": ["slice-item"]
+    },
+    "slice-item": {
+      "type": "Item",
+      "props": { "title": { "$item": "name" }, "opens": true, "focusOnShow": { "$item": "open" } },
+      "slots": { "attributes": ["slice-item-attributes"] },
+      "on": {
+        "open": [
+          { "action": "setState", "params": { "statePath": { "$item": "open" }, "value": true } },
+          { "action": "setState", "params": { "statePath": "/inItem", "value": true } }
+        ]
+      }
+    },
+    "slice-item-attributes": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "repeat": { "statePath": { "$item": "attributes" } },
+      "children": ["attribute"]
+    },
+    "attribute": {
+      "type": "Badge",
+      "props": { "label": { "$item": "label" }, "text": { "$item": "value" } }
+    },
+
+    "item-views": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$state": "/inItem" },
+      "repeat": { "statePath": { "$item": "items" }, "key": "id" },
+      "children": ["item-view"]
+    },
+    "item-view": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$item": "open" },
+      "children": ["item-controls", "full-view"]
+    },
+    "item-controls": {
+      "type": "Stack",
+      "props": { "direction": "horizontal" },
+      "children": ["back-to-slice"]
+    },
+    "back-to-slice": {
+      "type": "Button",
+      "props": { "label": "Back to the slice", "icon": "back", "variant": "plain", "focusOnShow": true },
+      "on": {
+        "press": [
+          { "action": "setState", "params": { "statePath": "/inItem", "value": false } },
+          { "action": "setState", "params": { "statePath": { "$item": "open" }, "value": false } }
+        ]
+      }
+    },
+    "full-view": {
+      "type": "Card",
+      "props": { "title": { "$item": "name" } },
+      "children": ["full-view-body"]
+    },
+    "full-view-body": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["full-view-badges", "full-view-price", "full-view-description", "full-view-attributes", "full-view-listed"]
+    },
+    "full-view-badges": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "repeat": { "statePath": { "$item": "badges" } },
+      "children": ["full-view-badge"]
+    },
+    "full-view-badge": {
+      "type": "Badge",
+      "props": { "text": { "$item": "text" } }
+    },
+    "full-view-price": {
+      "type": "Text",
+      "props": { "text": { "$item": "price" }, "size": "large" },
+      "visible": { "$item": "price" }
+    },
+    "full-view-description": {
+      "type": "Text",
+      "props": { "text": { "$item": "description" } },
+      "visible": { "$item": "description" }
+    },
+    "full-view-attributes": {
+      "type": "DescriptionList",
+      "props": { "items": { "$item": "rows" } },
+      "visible": { "$item": "hasRows" }
+    },
+    "full-view-listed": {
+      "type": "Text",
+      "props": { "text": { "$item": "listed" }, "muted": true },
+      "visible": { "$item": "listed" }
+    }
+  }
+}

@@ -33,19 +33,19 @@
   box-shadow: 0 0.5rem 1rem oklch(0% 0 0deg / 15%);
   border-radius: var(--radius-m);
   will-change: transform;
-  animation: fade-in 0.2s ease, slide-in 0.2s ease;
+  animation: toast-fade-in 0.2s ease, toast-slide-in 0.2s ease;
 
   /* Re-enable pointer events for toast interactions */
   pointer-events: auto;
 }
 
-@keyframes fade-in {
+@keyframes toast-fade-in {
   from {
     opacity: 0;
   }
 }
 
-@keyframes fade-out {
+@keyframes toast-fade-out {
   to {
     opacity: 0;
     transform: translateY(var(--_travel-distance, 10px));
@@ -53,10 +53,10 @@
 }
 
 .toast.fade-out {
-  animation: fade-out 0.2s ease forwards;
+  animation: toast-fade-out 0.2s ease forwards;
 }
 
-@keyframes slide-in {
+@keyframes toast-slide-in {
   from {
     transform: translateY(var(--_travel-distance, 10px));
   }

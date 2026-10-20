@@ -87,7 +87,7 @@ export const DisabledChecked: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+    <div className="flex">
       <input type="checkbox" role="switch" className="switch switch--small" aria-label="Small" />
       <input type="checkbox" role="switch" className="switch" aria-label="Medium" />
       <input type="checkbox" role="switch" className="switch switch--large" aria-label="Large" />

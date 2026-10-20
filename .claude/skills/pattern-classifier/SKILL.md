@@ -31,9 +31,9 @@ This library is *design repertoire* — generative interaction patterns between 
 
 ### The pattern test
 
-`pattern-definition.md` carries the operational test. In short: a pattern is a named, evidence-seeking interaction move that resolves a recurring human situation by balancing forces in a stated context, abstracting practice at a reusable level, producing a centre or affordance, carrying rationale and consequences, and linking to other patterns. Most components are *not* patterns. A complete interaction contract (semantics, keyboard behaviour, focus model, state behaviour, use context) is pattern-grade content, but it enters the language as the pattern or patterns it bundles, each named by what the actor is doing — the control stays a component. A contract usually compresses several patterns; see the decomposition rule in `pattern-role-model.md`.
+`pattern-definition.md` carries the definition and its three tests. Most components are *not* patterns. A complete interaction contract (semantics, keyboard behaviour, focus model, state behaviour, use context) is pattern-grade content, but it enters the language as the pattern or patterns it bundles, each named by what the actor is doing — the control stays a component. A contract usually compresses several patterns; see the decomposition rule in `pattern-role-model.md`.
 
-The definition is *evidence-seeking*, not evidence-proven. Seeds are fine as long as their maturity is legible. A seed names a suspected recurrence; a mature pattern has examples, rationale, consequences, and relationships that survive use.
+Seeds are fine as long as the difference is visible (`seed`, `evidence`, `disclosure`). A seed names a suspected recurrence; an established pattern has instances, rationale, consequences, and situations that survive use.
 
 ### Where non-patterns go
 
@@ -90,7 +90,7 @@ Write a one-sentence relational definition: what does this pattern *do* in the r
 
 If the pattern resists a clean one-sentence definition, it may be multiple patterns or an aspect of an existing one.
 
-Then run the minimum-pattern test from `pattern-definition.md`: can the page answer most of the eight questions (recurring situation, problem/tension, forces, invariant core, abstraction level, centre/affordance produced, evidence, contextual variables)? If most answers are missing, the candidate is a seed — record it as such; don't dress it up.
+Then run the three tests from `pattern-definition.md`: can it generate an instance you have not seen; does it have an initiating and a resulting situation; can it say how sure it is and what would count against it? If the candidate fails the first it is a component or an observation; if it passes the first but not the other two, it is a seed — record it as such; 
 
 ### Map against existing patterns
 

@@ -237,7 +237,7 @@ recorded here because the gate's verdict changes which answer is comfortable.
 Three other challenges from the same chapter were considered and deliberately
 left out, so a later reader knows they were seen and not missed:
 
-- *Provenance and the latency test* (§§6, 12) — the minimum pattern test asks
+- *Provenance and the latency test* (§§6, 12) — the pattern definition's tests ask
   what a page must contain, never where the pattern came from or whether it was
   already half-happening in the field. Only 52 of 119 pages carry `evidence:`.
 - *Project language as an artefact* (§3, claim 12) — "for any new building

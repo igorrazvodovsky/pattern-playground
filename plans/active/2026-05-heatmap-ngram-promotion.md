@@ -29,7 +29,7 @@ and they sit at three different altitudes:
   decoration plugin (`HeatmapExtension`, `heatmapPluginKey`, `setHeatmapSpans`).
   A genuine, reusable editor capability — structurally a sibling of the
   extensions under `components/editor-plugins/`.
-- `useHeatmap.ts` (25), `useSelectionPopup.ts` (69) — React adapters that bind
+- `use-heatmap.ts` (25), `use-selection-popup.ts` (69) — React adapters that bind
   the engine and the extension into React state. Reusable in principle, but the
   most demo-shaped of the set.
 - `DynamicHyperlinksDemo.tsx` (149) — the wiring: editor + `documents.json`
@@ -108,13 +108,13 @@ Out of scope:
 ### Phase B — Move the engine
 
 - Move `ngram.ts` (+ owned types) to its Phase-A home.
-- Update `useHeatmap.ts` / `useSelectionPopup.ts` imports.
+- Update `use-heatmap.ts` / `use-selection-popup.ts` imports.
 - Add the export entry.
 
 ### Phase C — Move the extension
 
 - Move `HeatmapPlugin.ts` to `components/editor-plugins/heatmap/`, add `index.ts`.
-- Update `useHeatmap.ts` / `DynamicHyperlinksDemo.tsx` imports.
+- Update `use-heatmap.ts` / `DynamicHyperlinksDemo.tsx` imports.
 - Add the export entry.
 
 ### Phase D — Rewire demo and verify

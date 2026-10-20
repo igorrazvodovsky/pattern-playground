@@ -1,0 +1,36 @@
+---
+title: Review before submitting
+added: 2026-10-11
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+  - used
+activityLevel: action
+mediation: individual
+description: "Showing the actor everything they have entered, in one place, before the act that commits it."
+situation:
+  initiating: >-
+    the actor has entered answers over several steps or down a long form, and the next action
+    commits them: an order is placed, an application sent, an account or resource created.
+    Most of what they entered is out of view, and some of it cannot be changed once committed
+relationships:
+  related:
+    - to: change-review
+      note: "change review shows a change the system proposes to existing content; review before submitting shows the actor their own answers"
+---
+
+Before the final action, the system shows every answer the actor has given on one screen, grouped as they were asked. Each answer has an Edit link that goes to the place it was entered and returns the actor to the review afterwards. The button that commits names what happens ("Create account", "Deploy cluster", "Place order") rather than "Submit" or "Finish".
+
+The closing step of a [wizard](/patterns/wizard) is the most common place for it, but a long single-page form can end with one too.
+
+## Resources & references
+
+- GOV.UK Design System / [Check answers](https://design-system.service.gov.uk/patterns/check-answers/)
+
+## To-do
+
+- What the review is for when nothing is irreversible, and whether it is then only friction.
+- How it relates to a pending state created by an explicit save, which [saving](/patterns/saving) names as what makes review before committing possible.
+- Whether the confirmation page that follows the commit is part of this move or one of its own.

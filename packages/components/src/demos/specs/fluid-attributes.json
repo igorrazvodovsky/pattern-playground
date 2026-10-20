@@ -1,0 +1,251 @@
+{
+  "root": "fluid-attributes",
+  "elements": {
+    "fluid-attributes": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["toolbar", "split", "drawer"],
+      "watch": {
+        "/view": {
+          "action": "setState",
+          "params": { "statePath": "/derived", "value": { "$computed": "derive", "args": { "view": { "$state": "/view" } } } }
+        },
+        "/room": { "action": "setState", "params": { "statePath": "/detailOpen", "value": false } }
+      }
+    },
+
+    "toolbar": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "children": ["sort-menu", "order-menu", "attributes-menu", "filters"]
+    },
+    "sort-menu": {
+      "type": "Menu",
+      "props": { "label": "Sort by", "icon": "sort" },
+      "repeat": { "statePath": "/derived/sortFields", "key": "path" },
+      "children": ["sort-field"]
+    },
+    "sort-field": {
+      "type": "MenuItem",
+      "props": {
+        "label": { "$item": "label" },
+        "checked": { "$cond": { "$item": "path", "eq": { "$state": "/derived/sortField" } }, "$then": true, "$else": false }
+      },
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": { "statePath": "/view/sort/field", "value": { "$value": { "$item": "path" } } }
+        }
+      }
+    },
+    "order-menu": {
+      "type": "Menu",
+      "props": {
+        "label": "Sort order",
+        "icon": { "$cond": { "$state": "/view/sort/order", "eq": "asc" }, "$then": "ascending", "$else": "descending" }
+      },
+      "children": ["order-ascending", "order-descending"]
+    },
+    "order-ascending": {
+      "type": "MenuItem",
+      "props": {
+        "label": "Ascending",
+        "icon": "ascending",
+        "checked": { "$cond": { "$state": "/view/sort/order", "eq": "asc" }, "$then": true, "$else": false }
+      },
+      "on": { "press": { "action": "setState", "params": { "statePath": "/view/sort/order", "value": "asc" } } }
+    },
+    "order-descending": {
+      "type": "MenuItem",
+      "props": {
+        "label": "Descending",
+        "icon": "descending",
+        "checked": { "$cond": { "$state": "/view/sort/order", "eq": "desc" }, "$then": true, "$else": false }
+      },
+      "on": { "press": { "action": "setState", "params": { "statePath": "/view/sort/order", "value": "desc" } } }
+    },
+    "attributes-menu": {
+      "type": "Menu",
+      "props": { "label": "Attributes on the cards", "icon": "show", "multiple": true },
+      "repeat": { "statePath": "/attributes", "key": "path" },
+      "children": ["attribute-option"]
+    },
+    "attribute-option": {
+      "type": "MenuItem",
+      "props": {
+        "label": { "$item": "label" },
+        "checked": { "$includes": { "$state": "/view/shown" }, "value": { "$item": "path" } }
+      },
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": {
+            "statePath": "/view/shown",
+            "value": { "$computed": "toggleShown", "args": { "shown": { "$state": "/view/shown" }, "path": { "$item": "path" } } }
+          }
+        }
+      }
+    },
+    "filters": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "repeat": { "statePath": "/derived/clauses", "key": "id" },
+      "children": ["filter"]
+    },
+    "filter": {
+      "type": "FilterTag",
+      "props": {
+        "label": { "$item": "label" },
+        "icon": { "$item": "icon" },
+        "operator": { "$item": "operator" },
+        "operators": { "$item": "operators" },
+        "values": { "$item": "values" },
+        "options": { "$item": "options" },
+        "focusNext": "Clear filter",
+        "edit": { "$bindState": "/filterEdit" }
+      },
+      "on": {
+        "change": {
+          "action": "setState",
+          "params": {
+            "statePath": "/view/filters",
+            "value": {
+              "$computed": "applyEdit",
+              "args": { "filters": { "$state": "/view/filters" }, "id": { "$item": "id" }, "edit": { "$state": "/filterEdit" } }
+            }
+          }
+        },
+        "remove": {
+          "action": "setState",
+          "params": {
+            "statePath": "/view/filters",
+            "value": { "$computed": "removeFilter", "args": { "filters": { "$state": "/view/filters" }, "id": { "$item": "id" } } }
+          }
+        }
+      }
+    },
+
+    "split": {
+      "type": "Split",
+      "props": { "split": true, "room": { "$bindState": "/room" } },
+      "children": ["overview", "detail"]
+    },
+    "overview": {
+      "type": "Stack",
+      "props": { "gap": "m", "label": "Overview", "dropTarget": true, "dropped": { "$bindState": "/dropped" } },
+      "children": ["cards", "no-cards"],
+      "on": {
+        "drop": {
+          "action": "setState",
+          "params": {
+            "statePath": "/view/shown",
+            "value": { "$computed": "surface", "args": { "shown": { "$state": "/view/shown" }, "path": { "$state": "/dropped" } } }
+          }
+        }
+      }
+    },
+    "cards": {
+      "type": "ItemGroup",
+      "props": { "label": "Items" },
+      "repeat": { "statePath": "/derived/cards", "key": "id" },
+      "children": ["card"]
+    },
+    "no-cards": {
+      "type": "EmptyState",
+      "props": {
+        "title": "No items match these filters",
+        "description": "Remove a filter, or widen one to more values, to see items again.",
+        "icon": "search"
+      },
+      "visible": { "$state": "/derived/empty" }
+    },
+    "card": {
+      "type": "Item",
+      "props": {
+        "title": { "$item": "name" },
+        "opens": true,
+        "selected": { "$cond": { "$item": "id", "eq": { "$state": "/selected" } }, "$then": true, "$else": false }
+      },
+      "slots": { "attributes": ["card-attributes"] },
+      "on": {
+        "open": [
+          { "action": "setState", "params": { "statePath": "/selected", "value": { "$value": { "$item": "id" } } } },
+          { "action": "setState", "params": { "statePath": "/detailOpen", "value": { "$cond": { "$state": "/room", "not": true }, "$then": true, "$else": false } } }
+        ]
+      }
+    },
+    "card-attributes": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "repeat": { "statePath": { "$item": "attributes" } },
+      "children": ["card-attribute"]
+    },
+    "card-attribute": {
+      "type": "Badge",
+      "props": { "label": { "$item": "label" }, "text": { "$item": "value" }, "pressable": { "$item": "pressable" } },
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": {
+            "statePath": "/view/filters",
+            "value": {
+              "$computed": "filterBy",
+              "args": { "filters": { "$state": "/view/filters" }, "path": { "$item": "path" }, "value": { "$item": "value" } }
+            }
+          }
+        }
+      }
+    },
+
+    "detail": {
+      "type": "Stack",
+      "props": { "label": "Detail" },
+      "visible": { "$state": "/room" },
+      "repeat": { "statePath": "/products", "key": "id" },
+      "children": ["detail-card"]
+    },
+    "detail-card": {
+      "type": "Card",
+      "props": { "title": { "$item": "name" } },
+      "visible": { "$item": "id", "eq": { "$state": "/selected" } },
+      "children": ["detail-description", "detail-rows"]
+    },
+    "detail-description": {
+      "type": "Text",
+      "props": { "text": { "$item": "description" }, "muted": true }
+    },
+    "detail-rows": {
+      "type": "DescriptionList",
+      "props": { "items": { "$item": "rows" }, "draggable": true }
+    },
+
+    "drawer": {
+      "type": "Drawer",
+      "props": {
+        "title": { "$computed": "nameOf", "args": { "id": { "$state": "/selected" } } },
+        "open": { "$bindState": "/detailOpen" }
+      },
+      "children": ["drawer-views"]
+    },
+    "drawer-views": {
+      "type": "Stack",
+      "props": {},
+      "repeat": { "statePath": "/products", "key": "id" },
+      "children": ["drawer-view"]
+    },
+    "drawer-view": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "visible": { "$item": "id", "eq": { "$state": "/selected" } },
+      "children": ["drawer-description", "drawer-rows"]
+    },
+    "drawer-description": {
+      "type": "Text",
+      "props": { "text": { "$item": "description" }, "muted": true }
+    },
+    "drawer-rows": {
+      "type": "DescriptionList",
+      "props": { "items": { "$item": "rows" }, "draggable": true }
+    }
+  }
+}

@@ -16,12 +16,27 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
     border-radius: var(--radius-m);
     position: relative;
     display: grid;
-    grid-template-columns: 1fr;
+
+    /* A plain 1fr track grows to its content's min-content width, so a wide
+       table would stretch the card instead of scrolling inside it. */
+    grid-template-columns: minmax(0, 1fr);
     align-content: baseline;
   }
 
   .card--plain {
     border: none;
+  }
+
+  /* For a card the actor should rely on less than its peers. */
+  .card--reduced,
+  .card--faint {
+    --card-bg: transparent;
+
+    border-style: dashed;
+  }
+
+  .card--faint {
+    color: var(--c-bodyDimmed);
   }
 
   .card:has(:where(.card__footer, footer)) {
@@ -58,9 +73,12 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
     align-items: center;
   }
 
+  /* The clip margin leaves room for a focused badge's outline. A plain
+     length, because Chrome drops a math function here. */
   .card__attributes {
     display: flex;
-    overflow: hidden;
+    overflow: clip;
+    overflow-clip-margin: 6px;
   }
 
   /* A control pinned to the card's top-right corner (a menu, a dismiss). */
@@ -84,6 +102,21 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
 
   .card :is(h2, h3) {
     font-size: 1.25rem;
+  }
+
+  /* A card's own title reads at body size, whatever its heading level, so a
+     collection of cards stays compact. */
+  .card .card__title {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: var(--line-height-heading);
+  }
+
+  /* A long title wraps its own text rather than pushing the header's
+     controls onto a line of their own. */
+  .card__header > .card__title {
+    flex: 1 1 0;
+    min-width: 0;
   }
 
   /* An eyebrow line above the card's title. */

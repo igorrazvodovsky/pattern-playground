@@ -1,0 +1,14 @@
+{
+  "root": "empty",
+  "elements": {
+    "empty": {
+      "type": "EmptyState",
+      "props": {
+        "title": "Pick a template to begin customising your workflow",
+        "description": "TODO: Replace with some cards"
+      },
+      "slots": { "actions": ["choose-template"] }
+    },
+    "choose-template": { "type": "Button", "props": { "label": "Choose a template", "icon": "open", "variant": "primary" } }
+  }
+}

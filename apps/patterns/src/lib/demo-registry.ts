@@ -10,77 +10,74 @@ import { createRoot, type Root } from 'react-dom/client';
 import type { Spec } from '@json-render/core';
 import type { ComponentRegistry } from '@json-render/react';
 import type { SpecSetup } from '@pkg/catalog/SpecDemo';
+import type { Library } from './demo-libraries';
 
 type DemoComponent = ComponentType<Record<string, unknown>>;
 type Loader = () => Promise<DemoComponent>;
 
 const demos: Record<string, Loader> = {
-  'consequence-ladder': () => import('@pkg/demos/action-consequences').then(m => m.ConsequenceLadderDemo),
-  'activity-log-basic': () => import('@pkg/demos/activity-log').then(m => m.ActivityLogBasicDemo),
-  'activity-log-llm-reasoning': () => import('@pkg/demos/activity-log').then(m => m.ActivityLogLLMReasoningDemo),
-  'fluid-attributes': () => import('@pkg/demos/attribute-visibility').then(m => m.FluidAttributesDemo),
-  'autocomplete': () => import('@pkg/demos/autocomplete').then(m => m.AutocompleteDemo),
   'block-based-editor': () => import('@pkg/demos/block-based-editor').then(m => m.BlockBasedEditorDemo),
   'commenting': () => import('@pkg/demos/bubble-menu').then(m => m.CommentingDemo),
   'dynamic-explanation': () => import('@pkg/demos/bubble-menu').then(m => m.DynamicExplanationDemo),
   'text-lens': () => import('@pkg/demos/bubble-menu').then(m => m.TextLensDemo),
-  'conversational-form': () => import('@pkg/demos/conversational-form').then(m => m.ConversationalFormDemo),
-  'linked-trio': () => import('@pkg/demos/coordinated-views').then(m => m.LinkedTrioDemo),
-  'cross-filtering': () => import('@pkg/demos/coordinated-views').then(m => m.CrossFilteringDemo),
-  'data-view': () => import('@pkg/demos/data-view').then(m => m.DataViewDemo),
-  'saved-views': () => import('@pkg/demos/data-view').then(m => m.SavedViewsDemo),
-  'writable-board': () => import('@pkg/demos/data-view').then(m => m.WritableBoardDemo),
-  'data-view-grouping-slice': () => import('@pkg/demos/data-view').then(m => m.DataViewGroupingSlice),
-  'data-view-sorting-slice': () => import('@pkg/demos/data-view').then(m => m.DataViewSortingSlice),
-  'dialog-deletion': () => import('@pkg/demos/deletion').then(m => m.DialogDeletionDemo),
-  'typed-confirmation': () => import('@pkg/demos/deletion').then(m => m.TypedConfirmationDemo),
-  'staged-deletion': () => import('@pkg/demos/deletion').then(m => m.StagedDeletionDemo),
   'dynamic-hyperlinks': () => import('@pkg/demos/dynamic-hyperlinks/DynamicHyperlinksDemo').then(m => m.DynamicHyperlinksDemo),
-  'filtering': () => import('@pkg/demos/filtering').then(m => m.FilteringDemo),
-  'contextual-navigation': () => import('@pkg/demos/focus-and-context').then(m => m.ContextualNavigationDemo),
-  'fisheye-timeline': () => import('@pkg/demos/focus-and-context').then(m => m.FisheyeTimelineDemo),
-  'form': () => import('@pkg/demos/form').then(m => m.FormDemo),
-  'item-view-full': () => import('@pkg/demos/item-view').then(m => m.ItemViewFullDemo),
-  'item-view-row': () => import('@pkg/demos/item-view').then(m => m.ItemViewRowDemo),
-  'item-view-glyph': () => import('@pkg/demos/item-view').then(m => m.ItemViewGlyphDemo),
-  'item-view-transitions': () => import('@pkg/demos/item-view').then(m => m.ItemViewTransitionsDemo),
-  'disruptive-notification': () => import('@pkg/demos/notification').then(m => m.DisruptiveNotificationDemo),
-  'overview-detail': () => import('@pkg/demos/overview-detail').then(m => m.OverviewDetailDemo),
-  'nested-pairs': () => import('@pkg/demos/overview-detail').then(m => m.NestedPairsDemo),
-  'problem-checklist': () => import('@pkg/demos/problem-curated-view').then(m => m.ProblemChecklistDemo),
-  'prompt-basic': () => import('@pkg/demos/prompt').then(m => m.PromptBasicDemo),
-  'prompt-template': () => import('@pkg/demos/prompt').then(m => m.PromptTemplateDemo),
-  'prompt-with-material-references': () => import('@pkg/demos/prompt').then(m => m.PromptWithMaterialReferencesDemo),
-  'prompt-quality-feedback': () => import('@pkg/demos/prompt').then(m => m.PromptQualityFeedbackDemo),
-  'monitor': () => import('@pkg/demos/purpose-keyed-view').then(m => m.MonitorDemo),
-  'investigate': () => import('@pkg/demos/purpose-keyed-view').then(m => m.InvestigateDemo),
-  'watch-to-chase-tiers': () => import('@pkg/demos/purpose-keyed-view').then(m => m.WatchToChaseTiersDemo),
-  'reference': () => import('@pkg/demos/reference').then(m => m.ReferenceDemo),
-  'mode-based-reveal': () => import('@pkg/demos/selection').then(m => m.ModeBasedRevealDemo),
-  'select-all-affordance': () => import('@pkg/demos/selection').then(m => m.SelectAllAffordanceDemo),
+  'fisheye-timeline': () => import('@pkg/demos/focus-and-context/fisheye').then(m => m.FisheyeTimelineDemo),
   'semantic-zoom': () => import('@pkg/demos/semantic-zoom').then(m => m.SemanticZoomDemo),
   'semantic-zoom-timeline': () => import('@pkg/demos/semantic-zoom').then(m => m.SemanticZoomTimelineDemo),
   'population-rung': () => import('@pkg/demos/semantic-zoom').then(m => m.PopulationRungDemo),
-  'toast': () => import('@pkg/demos/transient-feedback').then(m => m.ToastDemo),
-  'toast-with-undo': () => import('@pkg/demos/transient-feedback').then(m => m.ToastWithUndoDemo),
 };
 
-// Switchable demos (<Demo spec="…">): a JSON spec plus the module beside it,
-// rendered through one of the catalog's registries. Each registry is its own
+// Switchable demos (<Demo spec="…">): a spec in packages/components/src/demos/specs/,
+// rendered through one of the catalog's registries. A slug is a JSON spec, a
+// module (<slug>.ts) that supplies its setup, or both; the module wins, and a
+// JSON spec without one renders with nothing set up. Each registry is its own
 // chunk, and shadcn's carries its stylesheet, so a page loads a library only
 // when a demo renders through it.
 type SpecModule = { spec: Spec; setup: SpecSetup };
 
-const specs: Record<string, () => Promise<{ default: SpecModule }>> = {
-  'inline-confirmation': () => import('@pkg/demos/specs/inline-confirmation'),
-  'rule-composition': () => import('@pkg/demos/specs/rule-composition'),
-  'status-feedback': () => import('@pkg/demos/specs/status-feedback'),
+const slugOf = (file: string) => file.replace(/^.*\//, '').replace(/\.(json|ts)$/, '');
+const specModules = import.meta.glob<SpecModule>(
+  ['@pkg/demos/specs/*.ts', '!@pkg/demos/specs/*.test.ts'],
+  { import: 'default' },
+);
+const specJson = import.meta.glob<Spec>('@pkg/demos/specs/*.json', { import: 'default' });
+const moduleSlugs = new Set(Object.keys(specModules).map(slugOf));
+
+const specs: Record<string, () => Promise<SpecModule>> = {
+  ...Object.fromEntries(
+    Object.entries(specJson)
+      .filter(([file]) => !moduleSlugs.has(slugOf(file)))
+      .map(([file, load]) => [slugOf(file), async () => ({ spec: await load(), setup: {} })]),
+  ),
+  ...Object.fromEntries(Object.entries(specModules).map(([file, load]) => [slugOf(file), load])),
 };
 
-const registries: Record<string, () => Promise<ComponentRegistry>> = {
+const registries: Record<Library, () => Promise<ComponentRegistry>> = {
   pp: () => import('@pkg/catalog/registries/pp').then(m => m.registry),
   shadcn: () => import('@pkg/catalog/registries/shadcn').then(async m => (await m.stylesheet, m.registry)),
 };
+
+// Panes and pages leave as plain DOM, which React does not see, so the roots
+// inside them have to be unmounted by hand or their effects never clean up.
+const roots = new Map<HTMLElement, Root>();
+
+function mountRoot(el: HTMLElement): Root {
+  const root = createRoot(el);
+  roots.set(el, root);
+  return root;
+}
+
+// Deferred because the caller can be inside another root's effect, where React
+// cannot unmount a root synchronously.
+export function unmountDetachedDemos(): void {
+  queueMicrotask(() => {
+    for (const [el, root] of roots) {
+      if (el.isConnected) continue;
+      roots.delete(el);
+      root.unmount();
+    }
+  });
+}
 
 // Mount every unmounted [data-demo] under root. Mounting is marked on the live
 // element (data-demo-mounted), so re-runs — layout load, astro:page-load, a
@@ -104,7 +101,7 @@ export function mountDemos(root: ParentNode): void {
           el.removeAttribute('data-demo-mounted');
           return;
         }
-        createRoot(el).render(createElement(Component, props));
+        mountRoot(el).render(createElement(Component, props));
       },
       (err) => {
         el.removeAttribute('data-demo-mounted');
@@ -133,18 +130,19 @@ function mountSpecDemos(root: ParentNode): void {
     let render: ((registryName: string) => Promise<void>) | null = null;
 
     const ready = Promise.all([loadSpec(), import('@pkg/catalog/SpecDemo'), import('@json-render/core')]).then(
-      ([{ default: { spec, setup } }, { SpecDemo }, { createStateStore }]) => {
+      ([{ spec, setup }, { SpecDemo }, { createStateStore }]) => {
         if (!el.isConnected) {
           el.removeAttribute('data-demo-mounted');
           return;
         }
         const store = createStateStore(setup.initialState ?? {});
-        const handlers = setup.handlers?.(store);
-        reactRoot = createRoot(el);
+        const handlers = setup.handlers?.(store, () => el.isConnected);
+        reactRoot = mountRoot(el);
         render = async (registryName) => {
-          const loadRegistry = registries[registryName];
-          if (!loadRegistry) return console.warn(`[demo-registry] no registry "${registryName}"`);
-          const registry = await loadRegistry();
+          if (!Object.hasOwn(registries, registryName)) {
+            return console.warn(`[demo-registry] no registry "${registryName}"`);
+          }
+          const registry = await registries[registryName as Library]();
           if (!el.isConnected) return;
           el.dataset.demoRegistry = registryName;
           for (const option of options) {

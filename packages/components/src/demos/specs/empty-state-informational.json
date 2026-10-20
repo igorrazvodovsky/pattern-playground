@@ -1,0 +1,14 @@
+{
+  "root": "empty",
+  "elements": {
+    "empty": {
+      "type": "EmptyState",
+      "props": {
+        "title": "You don’t have access to this content",
+        "description": "Make sure the content exists. If it does, ask an admin for a permission to see the content."
+      },
+      "slots": { "actions": ["request-access"] }
+    },
+    "request-access": { "type": "Button", "props": { "label": "Request access", "variant": "primary" } }
+  }
+}

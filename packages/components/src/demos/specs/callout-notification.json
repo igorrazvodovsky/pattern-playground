@@ -1,0 +1,6 @@
+{
+  "root": "callout",
+  "elements": {
+    "callout": { "type": "Callout", "props": { "text": "This is a callout.", "purpose": "info" } }
+  }
+}

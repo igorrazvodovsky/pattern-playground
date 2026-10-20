@@ -21,6 +21,12 @@ Accept free-form text, giving the actor a place to supply information the system
 
 <Story of={ InputStories.WithHelpText } />
 
+## Invalid
+
+`invalid` marks a field whose value is wrong. The message goes beneath the field as a sibling marked `data-slot="error"`, linked from the input with `aria-describedby`, and says how to fix the value. Report an invalid value when the actor submits, not while they type, and keep the submit button enabled so that pressing it shows what is wrong.
+
+<Story of={ InputStories.Invalid } />
+
 ## Size
 TODO: small, medium, large
 

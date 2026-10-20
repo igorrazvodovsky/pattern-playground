@@ -19,7 +19,7 @@ interface Props {
 const { entry, pagefind = true } = Astro.props;
 const { Content } = await render(entry);
 ---
-<ArticleShell title={entry.data.title} dates={entry} pagefind={pagefind}>
+<ArticleShell title={entry.data.title} dates={entry} pagefind={pagefind} pageType="sequence">
   <details class="sequence-initiating muted">
     <summary>Prerequisites</summary>
     <p><Label text={entry.data.presupposes} /></p>
