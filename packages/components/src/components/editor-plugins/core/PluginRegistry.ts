@@ -38,6 +38,8 @@ export class PluginRegistry implements IPluginRegistry {
       console.warn(`[PluginRegistry] Conflicts detected for plugin '${plugin.id}':`, conflicts);
     }
 
+    if (process.env.NODE_ENV === 'development') this.warnMissingExtensions(plugin);
+
     // Avoid mutation with spread and modern array methods
     const allPlugins = Array.from(this.plugins.values()).concat([plugin]);
     this.loadOrder = this.calculateLoadOrder(allPlugins);
@@ -108,6 +110,23 @@ export class PluginRegistry implements IPluginRegistry {
 
   getState(pluginId: string): PluginState | undefined {
     return this.pluginStates.get(pluginId);
+  }
+
+  // The editor exists before plugins register, so a plugin's extensions are
+  // only present when the host created it with usePluginEditor and this plugin.
+  private warnMissingExtensions(plugin: Plugin): void {
+    const installed = new Set(
+      this.context.editor.extensionManager.extensions.map((extension) => extension.name),
+    );
+    const missing = (plugin.getExtensions?.() ?? [])
+      .map((extension) => extension.name)
+      .filter((name) => !installed.has(name));
+    if (missing.length > 0) {
+      console.warn(
+        `[PluginRegistry] Plugin '${plugin.id}' needs extensions the editor lacks: ` +
+          `${missing.join(', ')}. Create the editor with usePluginEditor and the same plugins.`,
+      );
+    }
   }
 
   private detectConflicts(plugin: Plugin): string[] {

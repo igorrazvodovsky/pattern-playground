@@ -1,7 +1,7 @@
 import { BasePlugin } from '../core/Plugin';
 import { prefersReducedMotion } from '../../../utility/animate.ts';
 import type { EditorContext, SlotRegistry, EventBus } from '../../editor/types';
-import type { Extension } from '@tiptap/core';
+import type { Extensions } from '@tiptap/core';
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model';
 import type { Transaction } from '@tiptap/pm/state';
 import { Reference, createReferenceSuggestion } from '../../reference/index.js';
@@ -17,6 +17,7 @@ import { getCommentService } from '../../../services/commenting/core/comment-ser
 import {
   addCommentMark,
   canComment,
+  Commenting,
   commentedSlice,
   findCommentRanges,
   findQuoteRanges,
@@ -96,12 +97,13 @@ export class EditorCommentingPlugin extends BasePlugin {
     }
   }
 
-  getExtensions(): Extension[] {
-    if (!this.config.referenceCategories) return [];
+  getExtensions(): Extensions {
+    const { referenceCategories } = this.config;
     return [
-      Reference.configure({
-        suggestion: createReferenceSuggestion(this.config.referenceCategories),
-      }) as Extension,
+      Commenting,
+      ...(referenceCategories
+        ? [Reference.configure({ suggestion: createReferenceSuggestion(referenceCategories) })]
+        : []),
     ];
   }
 

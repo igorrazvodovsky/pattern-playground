@@ -447,7 +447,8 @@ export interface CommentingOptions {
 }
 
 // The editor side of commenting: the comment and quote marks, and the one shortcut for
-// commenting on the selection. Hosts add this to the editor's extensions.
+// commenting on the selection. The commenting plugin installs it through
+// usePluginEditor; an editor without the plugin adds it to its extensions.
 // With no `onComment`, the shortcut asks a commenting plugin over the editor's
 // plugin event bus.
 export const Commenting = Extension.create<CommentingOptions>({

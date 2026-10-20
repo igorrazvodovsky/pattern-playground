@@ -66,7 +66,7 @@ interface Plugin {
   subscribeToEvents?(eventBus: EventBus): void;
   
   // Tiptap extensions
-  getExtensions?(): Extension[];
+  getExtensions?(): Extensions;
 }
 ```
 
@@ -137,10 +137,10 @@ export function myPlugin(options?: MyPluginOptions): MyPlugin {
 ### Step 4: Use in Editor
 
 ```tsx
-<EditorProvider>
-  <EditorPlugin plugin={myPlugin({ 
-    // options
-  })} />
+const plugins = useMemo(() => [myPlugin({ /* options */ })], []);
+const editor = usePluginEditor({ extensions: [StarterKit] }, plugins);
+
+<EditorProvider editor={editor} plugins={plugins}>
   <EditorLayout>
     <EditorContent />
   </EditorLayout>
@@ -263,10 +263,21 @@ this.emit('command:execute', {
 
 ### Adding Custom Extensions
 
-```typescript
-import { Node, Mark, Extension } from '@tiptap/core';
+A plugin's extensions are installed when the host creates its editor with
+`usePluginEditor(options, plugins)` and passes the same `plugins` array to
+`EditorProvider`. A plugin added later through `<EditorPlugin>` gets an
+editor that already exists, so its extensions are not installed; in
+development the plugin registry warns with the names that are missing.
 
-getExtensions(): Extension[] {
+When the host already has an extension of the same name, the host's copy is
+kept and the plugin's is skipped, configuration included. A kit whose child
+extensions overlap ones the editor already has is skipped whole, with a
+development warning.
+
+```typescript
+import { Node, type Extensions } from '@tiptap/core';
+
+getExtensions(): Extensions {
   const CustomNode = Node.create({
     name: 'customNode',
     group: 'block',

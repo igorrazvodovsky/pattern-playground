@@ -1,14 +1,13 @@
 import React from 'react';
-import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Highlight from '@tiptap/extension-highlight';
 import { Reference, createReferenceSuggestion } from '../components/reference/index.js';
 import { EditorProvider } from '../components/editor/EditorProvider.tsx';
+import { usePluginEditor } from '../components/editor/usePluginEditor.ts';
 import { EditorLayout } from '../components/editor/EditorLayout.tsx';
 import { EditorContent as PluginEditorContent } from '../components/editor/slots/EditorContent.tsx';
 import { EditorBubbleMenu } from '../components/editor/slots/EditorBubbleMenu.tsx';
 import { EditorToolbar } from '../components/editor/slots/EditorToolbar.tsx';
-import { Commenting } from '../components/commenting/tiptap/comment-mark.ts';
 import { formattingPlugin } from '../components/editor-plugins/formatting/FormattingPlugin.ts';
 import { commentingPlugin } from '../components/editor-plugins/commenting/CommentingPlugin.ts';
 import { CommentingIntegration } from '../components/editor-plugins/commenting/components/CommentingIntegration.tsx';
@@ -25,16 +24,19 @@ export const BasicDemo: React.FC = () => {
   const content = getDocumentContentText('doc-climate-change', 'ecological-timing');
   const plugins = React.useMemo(() => [formattingPlugin()], []);
 
-  const editor = useEditor({
-    extensions: [StarterKit, Highlight],
-    content: `<p>${content}</p>`,
-    editorProps: {
-      attributes: {
-        'aria-label': 'Document editor',
+  const editor = usePluginEditor(
+    {
+      extensions: [StarterKit, Highlight],
+      content: `<p>${content}</p>`,
+      editorProps: {
+        attributes: {
+          'aria-label': 'Document editor',
+        },
       },
+      immediatelyRender: false,
     },
-    immediatelyRender: false,
-  });
+    plugins,
+  );
 
   if (!editor) {
     return <div>Loading editor...</div>;
@@ -71,16 +73,19 @@ export const TextLensDemo: React.FC = () => {
     [],
   );
 
-  const editor = useEditor({
-    extensions: [StarterKit, Highlight],
-    content: `<p>${content} As temperatures rise, animals and plants are being pushed out of their natural habitats.</p>`,
-    editorProps: {
-      attributes: {
-        'aria-label': 'Document editor',
+  const editor = usePluginEditor(
+    {
+      extensions: [StarterKit, Highlight],
+      content: `<p>${content} As temperatures rise, animals and plants are being pushed out of their natural habitats.</p>`,
+      editorProps: {
+        attributes: {
+          'aria-label': 'Document editor',
+        },
       },
+      immediatelyRender: false,
     },
-    immediatelyRender: false,
-  });
+    plugins,
+  );
 
   if (!editor) {
     return <div>Loading editor...</div>;
@@ -111,6 +116,7 @@ export const CommentingDemo: React.FC = () => {
         currentUser: 'user-1',
         bubbleMenu: true,
         toolbar: true,
+        referenceCategories,
       }),
     ],
     [],
@@ -124,24 +130,20 @@ export const CommentingDemo: React.FC = () => {
     );
   }, []);
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Highlight,
-      Reference.configure({
-        suggestion: createReferenceSuggestion(referenceCategories),
-      }),
-      Commenting,
-    ],
-    content: richContent || '',
-    editorProps: {
-      attributes: {
-        'class': 'rich-editor',
-        'aria-label': 'Document editor',
+  const editor = usePluginEditor(
+    {
+      extensions: [StarterKit, Highlight],
+      content: richContent || '',
+      editorProps: {
+        attributes: {
+          'class': 'rich-editor',
+          'aria-label': 'Document editor',
+        },
       },
+      immediatelyRender: false,
     },
-    immediatelyRender: false,
-  });
+    plugins,
+  );
 
   if (!editor) {
     return <div>Loading editor...</div>;
@@ -175,23 +177,26 @@ export const DynamicExplanationDemo: React.FC = () => {
     [],
   );
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Highlight,
-      Reference.configure({
-        suggestion: createReferenceSuggestion(referenceCategories),
-      }),
-    ],
-    content: richContent || '',
-    editorProps: {
-      attributes: {
-        'class': 'rich-editor',
-        'aria-label': 'Document editor',
+  const editor = usePluginEditor(
+    {
+      extensions: [
+        StarterKit,
+        Highlight,
+        Reference.configure({
+          suggestion: createReferenceSuggestion(referenceCategories),
+        }),
+      ],
+      content: richContent || '',
+      editorProps: {
+        attributes: {
+          'class': 'rich-editor',
+          'aria-label': 'Document editor',
+        },
       },
+      immediatelyRender: false,
     },
-    immediatelyRender: false,
-  });
+    plugins,
+  );
 
   if (!editor) {
     return <div>Loading editor...</div>;

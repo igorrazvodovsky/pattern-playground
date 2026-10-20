@@ -19,8 +19,8 @@ interface CommentingIntegrationProps {
 
 // The commenting interface around an editor: the thread popover beside a
 // passage, and the drawer listing every thread. Must render inside
-// EditorProvider, with the commenting plugin registered and the Commenting
-// extension on the editor.
+// EditorProvider, with the commenting plugin registered and its extensions
+// on the editor (usePluginEditor installs them).
 export const CommentingIntegration: React.FC<CommentingIntegrationProps> = ({
   config,
   children,
