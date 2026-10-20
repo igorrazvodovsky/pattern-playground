@@ -34,41 +34,41 @@
 
   /* Every page type shares the one hue and differs in how deep its surface
      sits and how much colour it carries, so panes of different types read as
-     shades of the same paper when they sit side by side in a stack. A link
-     preview takes the shade of the page it previews.
+     shades of the same paper when they sit side by side in a stack.
      --_depth moves the surface away from the page colour (darker in light
      mode, lighter in dark, by --_dir); --_sat scales the surface chroma.
      Types without an entry keep the pattern surface. */
-  :is(
-    .pane:has(> .pane-body > article[data-page-type='sequence']),
-    .link-preview[data-page-type='sequence']
-  ) {
+  .pane:has(> .pane-body > article[data-page-type='sequence']) {
     --_depth: 1.5%;
     --_sat: 1.4;
   }
 
-  :is(
-    .pane:has(> .pane-body > article[data-page-type='quality']),
-    .link-preview[data-page-type='quality']
-  ) {
+  .pane:has(> .pane-body > article[data-page-type='quality']) {
     --_depth: -1%;
     --_sat: 0.5;
   }
 
-  :is(
-    .pane:has(> .pane-body > article[data-page-type='foundation']),
-    .link-preview[data-page-type='foundation']
-  ) {
+  .pane:has(> .pane-body > article[data-page-type='foundation']) {
     --_depth: 2.5%;
     --_sat: 1.2;
   }
 
-  :is(
-    .pane:has(> .pane-body > article[data-page-type='collection']),
-    .link-preview[data-page-type='collection']
-  ) {
+  .pane:has(> .pane-body > article[data-page-type='collection']) {
     --_depth: 1%;
     --_sat: 1.9;
+  }
+
+  /* The link preview is a card lifted off the page, and the home page is
+     the entrance rather than a sheet in the stack. Both sit a step lighter
+     than any pane, almost white in light mode, and carry less colour than
+     the paper. On the home page the sidebar follows. */
+  :is(.link-preview, .shell:has(> main.shell__main > .content-inset)) {
+    --_depth: -1.5%;
+    --_sat: 0.4;
+
+    @media (prefers-color-scheme: dark) {
+      --_depth: 2%;
+    }
   }
 
   .demo-block__content {
