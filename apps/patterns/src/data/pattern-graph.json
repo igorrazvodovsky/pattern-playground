@@ -721,9 +721,6 @@
         ]
       },
       "group": "coordination",
-      "actsOn": [
-        "commenting"
-      ],
       "evidence": [
         {
           "kind": "observed"
@@ -2045,9 +2042,6 @@
         "components-toast--docs",
         "components-callout--docs",
         "components-dialog--docs"
-      ],
-      "actsOn": [
-        "notifying"
       ],
       "evidence": [
         {

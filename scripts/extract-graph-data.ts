@@ -18,9 +18,6 @@ interface Node {
   /** Storybook docs ids from frontmatter `realised_by` — node metadata, never
    * edges (relationship-vocabulary.md §Component realisation). */
   realisedBy?: string[];
-  /** Concept ids from frontmatter `acts_on` — node metadata, never edges
-   * (docs/language/patterns-and-concepts.md). Notes stay on the page. */
-  actsOn?: string[];
   seed?: true;
   /** Normalised from the two-level authoring shape (bare kind or {kind, ref}) so
    * a consumer handles one form. `built` never appears in frontmatter — it is
@@ -806,16 +803,6 @@ for (const filePath of patternMdxFiles) {
       console.warn(`Realisation warning: ${filePath}: realised_by entries must be Storybook docs-id strings — non-strings ignored`);
     }
     if (realisedBy.length > 0) node.realisedBy = realisedBy;
-  }
-
-  if (Array.isArray(fm.acts_on)) {
-    const actsOn = fm.acts_on
-      .map((ref: unknown) => (typeof ref === 'string' ? ref : (ref as { concept?: unknown })?.concept))
-      .filter((v: unknown): v is string => typeof v === 'string');
-    if (actsOn.length !== fm.acts_on.length) {
-      console.warn(`Concept warning: ${filePath}: acts_on entries must be concept ids or {concept, note} — others ignored`);
-    }
-    if (actsOn.length > 0) node.actsOn = actsOn;
   }
 
   if (fm.seed === true) node.seed = true;

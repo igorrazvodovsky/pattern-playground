@@ -65,7 +65,7 @@ is the fixture world's synchronisation set.
   ([relationship-vocabulary.md](relationship-vocabulary.md) §Component
   realisation): never an edge, never a concept id in `relationships:`. The
   build-time validator resolves every id against the collection and fails on a
-  dangling one; the extractor emits it as node metadata (`actsOn`); the page
+  dangling one; the pattern graph does not carry it; the page
   renders it beside the epistemic status. A concept page lists the patterns
   that act on it from the inverse. Most patterns name no concept, and that is
   the expected shape.

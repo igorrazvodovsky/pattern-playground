@@ -475,7 +475,7 @@ Coverage is deliberately partial until the backfill sitting runs (plans/active/2
 
 ## Concept reference (cross-dataset)
 
-*A acts on K*: pattern A is a move on concept K, an entry in the concept catalogue (`apps/patterns/src/content/concepts/`). The same construction as realisation, pointing the other way from the pattern: no edge type, one authorable home in frontmatter `acts_on` (concept ids, or `{concept, note}` where the move is on one action or one arm of the concept), validated at build time against the collection, emitted as node metadata (`actsOn`), rendered beside the epistemic status and never in the related-patterns index. Concepts are not graph nodes and never appear in `relationships:`. The field is sparse by design: most patterns are moves over structure with no functional concern behind them. See [patterns-and-concepts.md](patterns-and-concepts.md).
+*A acts on K*: pattern A is a move on concept K, an entry in the concept catalogue (`apps/patterns/src/content/concepts/`). The same construction as realisation, pointing the other way from the pattern: no edge type, one authorable home in frontmatter `acts_on` (concept ids, or `{concept, note}` where the move is on one action or one arm of the concept), validated at build time against the collection, kept out of the pattern graph, rendered beside the epistemic status and never in the related-patterns index. Concepts are not graph nodes and never appear in `relationships:`. The field is sparse by design: most patterns are moves over structure with no functional concern behind them. See [patterns-and-concepts.md](patterns-and-concepts.md).
 
 ## Open questions
 
