@@ -1,8 +1,7 @@
-import { Children, Fragment, Suspense, useContext, useId, useRef, type CSSProperties } from 'react';
+import { Children, Fragment, Suspense, useContext, useId, useRef, useState, type CSSProperties } from 'react';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import { createPortal } from 'react-dom';
-import { Checkbox, Collapsible, Dialog, DropdownMenu, Popover, RadioGroup, Select, Slider, Toast, ToggleGroup, Tooltip } from 'radix-ui';
-import { shadcnComponents } from '@json-render/shadcn';
+import { Collapsible, Dialog, DropdownMenu, Popover, RadioGroup, Select, Slider, Toast, ToggleGroup, Tooltip } from 'radix-ui';
 import { Command } from 'cmdk';
 import clsx from 'clsx';
 import {
@@ -83,6 +82,7 @@ import { submitForm } from './form-submit';
 import { useFocusHandoff, useMenuFocusHandoff } from './focus-handoff';
 import { useFocusOnShow } from './focus-on-show';
 import { scopedPortal } from './shadcn-portal';
+import { CheckboxField } from './shadcn-checkbox';
 import { ComposerField } from './composer-field';
 import { ShadcnMentionEditor } from './mention-editor-lazy';
 import type { Send } from './shadcn-parts';
@@ -105,21 +105,17 @@ import { useToastList } from './toast-list';
 import { TracingProvider, useMarkTracing, useTracingState } from './mark-tracing';
 import sheetUrl from '../shadcn.generated.css?url';
 
-// The catalog rendered with shadcn/ui, through @json-render/shadcn. Where the
-// kit's component props line up with a catalog type, the kit renders it
-// (Stack, Checkbox). Where they do not, this file builds the type from
-// shadcn's own class lists, which is how shadcn is meant to be used: its
-// components are copied into a project, not imported. The kit's wrappers have
-// no icon button, no ghost button and no list, and its primitives are not
-// exported.
+// The catalog rendered with shadcn/ui. Every type is built from shadcn's own
+// class lists over Radix primitives, which is how shadcn is meant to be used:
+// its components are copied into a project, not imported.
 //
 // The stylesheet is linked by URL, not imported as a module: Astro hoists CSS
 // imported anywhere under a client script into every page's <head>, which
 // would load Tailwind on pages that never render a shadcn demo. Callers await
 // `stylesheet` before rendering so the first frame is styled.
 //
-// Every class used here, in shadcn-parts.tsx and in the composites beside it
-// must be visible to Tailwind: catalog/shadcn.css lists them as sources.
+// Tailwind scans this file and every registries/shadcn*.tsx beside it
+// (catalog/shadcn.css), so a class written elsewhere is not in the sheet.
 // Rebuild the sheet after changing classes:
 //   npm run build:shadcn-css
 
@@ -136,9 +132,9 @@ const loadStylesheet = (href: string) =>
 
 export const stylesheet = loadStylesheet(sheetUrl);
 
-const { Stack: KitStack, Checkbox: KitCheckbox } = shadcnComponents;
-
-const gap = { none: 'none', s: 'sm', m: 'md', l: 'lg' } as const;
+// shadcn has no stack component; its layouts are flex boxes with these gaps.
+const gap = { none: 'gap-0', s: 'gap-2', m: 'gap-3', l: 'gap-4' } as const;
+const align = { start: 'items-start', center: 'items-center', baseline: 'items-baseline', stretch: 'items-stretch' } as const;
 const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
 
 const icons: Record<(typeof iconNames)[number], typeof X> = {
@@ -215,7 +211,7 @@ const icons: Record<(typeof iconNames)[number], typeof X> = {
 };
 
 // Each purpose's icon and colour. Danger is shadcn's destructive; the others
-// take the tints the kit's Alert gives its success, warning and info types.
+// take the tints shadcn's Alert examples give success, warning and info.
 type Purpose = (typeof purposes)[number];
 const purposeIcons: Record<Purpose, typeof X> = {
   info: Info,
@@ -278,37 +274,28 @@ const invalidRing = 'aria-invalid:border-destructive aria-invalid:ring-destructi
 
 export const { registry } = defineRegistry(catalog, {
   components: {
-    // shadcn has no drop zone. A drop target is wrapped in a box that takes a
-    // dashed ring of the primary colour while a row is over it, as shadcn's
-    // file inputs mark a drop.
-    Stack: ({ props, children, ...context }) => {
-      const { ref, over } = useStackDrop(props, context.bindings, context.emit);
-      if (props.align === 'baseline') {
-        return <div className="flex flex-row flex-wrap items-baseline gap-2">{children}</div>;
-      }
-      const stack = (
-        <KitStack
-          {...context}
-          props={{
-            direction: props.direction === 'horizontal' ? 'horizontal' : 'vertical',
-            gap: gap[props.gap ?? 'm'],
-            align: props.align ?? (props.direction === 'horizontal' ? 'center' : 'stretch'),
-            justify: null,
-            className: null,
-          }}
+    // A Stack with a label is a section of that name, a region. shadcn has
+    // no drop zone: a drop target takes a dashed ring of the primary colour
+    // while a row is over it, as shadcn's file inputs mark a drop.
+    Stack: ({ props, children, bindings, emit }) => {
+      const { ref, over } = useStackDrop(props, bindings, emit);
+      const horizontal = props.direction === 'horizontal';
+      const Element = props.label ? 'section' : 'div';
+      return (
+        <Element
+          ref={ref}
+          aria-label={props.label ?? undefined}
+          className={clsx(
+            'flex',
+            horizontal ? 'flex-row flex-wrap' : 'flex-col',
+            gap[props.gap ?? 'm'],
+            align[props.align ?? (horizontal ? 'center' : 'stretch')],
+            props.dropTarget && 'rounded-lg',
+            over && 'outline-2 outline-offset-2 outline-primary outline-dashed',
+          )}
         >
           {children}
-        </KitStack>
-      );
-      // The kit's Stack takes no name, so a labelled one is wrapped in a
-      // section of that name, a region.
-      const named = props.label ? <section aria-label={props.label}>{stack}</section> : stack;
-      return props.dropTarget ? (
-        <div ref={ref} className={clsx('rounded-lg', over && 'outline-2 outline-offset-2 outline-primary outline-dashed')}>
-          {named}
-        </div>
-      ) : (
-        named
+        </Element>
       );
     },
 
@@ -321,8 +308,7 @@ export const { registry } = defineRegistry(catalog, {
       </div>
     ),
 
-    // The kit's Card has no CardAction or CardFooter, and its title is a div,
-    // so every card is built from shadcn's card classes: the title as a
+    // Every card is built from shadcn's card classes: the title as a
     // heading at the demo's current level (heading-level.ts) with
     // CardTitle's classes, the suffix in the header's action column, the
     // actions in the footer at the end. shadcn has no card that opens; the
@@ -483,8 +469,8 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui Alert's layout and its icon column, without the kit's
-    // role="alert": a callout is part of the content and is not announced.
+    // shadcn/ui Alert's layout and its icon column, without role="alert": a
+    // callout is part of the content and is not announced.
     Callout: ({ props, slots }) => {
       const Icon = purposeIcons[props.purpose ?? 'info'];
       return (
@@ -647,9 +633,7 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui Table, from its published classes rather than the kit's
-    // Table, whose cells take only strings and so cannot hold a Badge. The
-    // container scrolls a wide table sideways; it takes focus, with shadcn's
+    // shadcn/ui Table, from its published classes. The container scrolls a wide table sideways; it takes focus, with shadcn's
     // focus ring, so that it scrolls from the keyboard, and is a region named
     // by `label`. A header or cell set to `end` is right-aligned.
     Table: ({ props, children }) => (
@@ -809,14 +793,13 @@ export const { registry } = defineRegistry(catalog, {
       </ul>
     ),
 
-    // `struck` wraps the whole label, the kit's checkbox included, in a
-    // line-through span: the kit renders its own label and takes no class.
-    // A bound `checked` reaches the kit's checkbox with the row's bindings.
-    // The kit uses `name` as the checkbox's id and its label's `for`, so each
-    // row gets its own: two lists of the same rows on one page would otherwise
-    // share ids, and a label would tick the other list's row.
-    ListItem: ({ props, children, slots, ...context }) => {
-      const id = useId();
+    // `struck` strikes the whole label through, a checkbox's included. A
+    // checkbox row whose `checked` is not bound still ticks on a press, as
+    // the catalog allows, but only in the row: state does not change.
+    ListItem: ({ props, children, slots, bindings }) => {
+      const [bound, setBound] = useBoundProp(props.checked, bindings?.checked);
+      const [local, setLocal] = useState(Boolean(props.checked));
+      const checked = bindings?.checked ? (bound ?? false) : local;
       return (
         <li className="flex min-h-11 items-center justify-between gap-3 px-3 py-1.5 text-sm">
           <span className={clsx(props.struck && 'text-muted-foreground line-through')}>
@@ -828,7 +811,7 @@ export const { registry } = defineRegistry(catalog, {
                 </span>
               )
               : props.checkbox
-              ? <KitCheckbox {...context} props={{ label: props.label, name: id, checked: props.checked ?? false, checks: null, validateOn: null }} />
+              ? <CheckboxField label={props.label} checked={checked} onChange={bindings?.checked ? setBound : setLocal} />
               : props.label}
           </span>
           {children}
@@ -922,8 +905,7 @@ export const { registry } = defineRegistry(catalog, {
       </div>
     ),
 
-    // shadcn/ui Badge from its published classes, since the kit's Badge takes
-    // only text. Square unless `pill`. A badge with an icon is the outline
+    // shadcn/ui Badge from its published classes. Square unless `pill`. A badge with an icon is the outline
     // badge shadcn's dashboard cards draw a trend with, its tone as a text
     // tint; any other badge is filled with its tone's variant. shadcn has no
     // success variant, so success takes the green its Alert uses. An
@@ -954,9 +936,8 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui Badge (secondary), from its published classes rather than
-    // the kit's Badge, which takes only text and so cannot hold the remove
-    // button. overflow-hidden is dropped: it would clip the button's focus
+    // shadcn/ui Badge (secondary), from its published classes, holding the
+    // remove button. overflow-hidden is dropped: it would clip the button's focus
     // ring. shadcn has no busy state for a badge, so a pending tag spins
     // shadcn Spinner's icon in place of its own. The icon stays hidden from
     // assistive technology, where the label already says the tag is pending,
@@ -1001,7 +982,7 @@ export const { registry } = defineRegistry(catalog, {
     // chip. Led by the attribute's icon from this registry's set.
     FilterTag: context => <FilterTag {...context} Glyph={context.props.icon ? icons[context.props.icon] : null} />,
 
-    // Built for this registry from Leaflet (shadcn-map.tsx): the kit has no
+    // Built for this registry from Leaflet (shadcn-map.tsx): shadcn has no
     // map. The pin the actor chose is written to the bound path, then an event.
     Map: ({ props, bindings, emit }) => {
       const [selected, setSelected] = useBoundProp(props.selected, bindings?.selected);
@@ -1399,8 +1380,8 @@ export const { registry } = defineRegistry(catalog, {
     },
 
     // shadcn/ui ToggleGroup, multiple and outlined: Radix's toggle buttons,
-    // each pressed or not, in a group named by the label. The kit's own
-    // ToggleGroup joins the values into one string; this keeps them a list.
+    // each pressed or not, in a group named by the label, the values kept
+    // as a list.
     // Inside the actor's message, whose surface is the toggle's own accent,
     // the toggles sit on the background and a pressed one takes the primary
     // fill, so that the selection still shows.
@@ -1431,8 +1412,8 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui Slider over Radix, laid out as the kit lays it out: the label
-    // with the value across from it, and the track beneath, here between its
+    // shadcn/ui Slider over Radix: the label with the value across from it,
+    // and the track beneath, here between its
     // bounds. The track keeps a width of its own, so it holds inside a
     // message bubble that sizes to its content.
     Slider: ({ props, bindings }) => {
@@ -1469,25 +1450,9 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // shadcn/ui Checkbox: Radix's checkbox button beside a Label.
     Checkbox: ({ props, bindings }) => {
       const [checked, setChecked] = useBoundProp(props.checked, bindings?.checked);
-      const id = useId();
-      return (
-        <div className="flex items-center gap-3">
-          <Checkbox.Root
-            id={id}
-            checked={checked ?? false}
-            onCheckedChange={next => setChecked(next === true)}
-            className="peer size-4 shrink-0 rounded-[4px] border border-input shadow-xs transition-shadow outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:bg-input/30 dark:data-[state=checked]:bg-primary"
-          >
-            <Checkbox.Indicator className="grid place-content-center text-current transition-none">
-              <Check aria-hidden="true" className="size-3.5" />
-            </Checkbox.Indicator>
-          </Checkbox.Root>
-          <label htmlFor={id} className={clsx(label, 'font-normal')}>{props.label}</label>
-        </div>
-      );
+      return <CheckboxField label={props.label} checked={checked ?? false} onChange={setChecked} />;
     },
 
     // Submitting runs the spec's checks (form-submit.ts). A form is read
@@ -1566,8 +1531,7 @@ export const { registry } = defineRegistry(catalog, {
     },
 
     // shadcn/ui Sheet (side="right"), non-modal so the actor keeps editing the
-    // rule beside it. The kit's Drawer is a bottom sheet (vaul) whose open
-    // state is a path prop rather than a binding.
+    // rule beside it. shadcn's own Drawer is a bottom sheet.
     Drawer: ({ props, children, slots, bindings }) => {
       const [open, setOpen] = useBoundProp(props.open, bindings?.open);
       const opener = useRef<Opener | null>(null);
@@ -1651,7 +1615,7 @@ export const { registry } = defineRegistry(catalog, {
       </Suspense>
     ),
 
-    // Built for this registry: the kit has nothing like it, and the catalog
+    // Built for this registry: shadcn has nothing like it, and the catalog
     // can name the composite but not assemble it. The tree arrives as data and
     // edits leave as { kind, slotId, value } on the bound path, then an event.
     RuleBuilder: ({ props, bindings, emit }) => {

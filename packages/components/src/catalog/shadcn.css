@@ -13,19 +13,9 @@
 
 @import 'tailwindcss' source(none);
 
-/* Classes come from the shadcn kit's compiled components and from our own
-   registry wrappers; nothing else in the repository is scanned. */
-@source '../../../../node_modules/@json-render/shadcn/dist/index.mjs';
-@source './registries/shadcn.tsx';
-@source './registries/shadcn-crumb.tsx';
-@source './registries/shadcn-draggable-row.tsx';
-@source './registries/shadcn-filter-tag.tsx';
-@source './registries/shadcn-map.tsx';
-@source './registries/shadcn-mention-editor.tsx';
-@source './registries/shadcn-parts.tsx';
-@source './registries/shadcn-rule-builder.tsx';
-@source './registries/shadcn-sections.tsx';
-@source './registries/shadcn-timeline.tsx';
+/* Classes come from the shadcn registry and the components beside it
+   (registries/shadcn*.tsx); nothing else in the repository is scanned. */
+@source './registries/shadcn*.tsx';
 
 /* shadcn's semantic colours, defined on the scope root rather than :root: the
    library already owns --accent and --border. light-dark() follows the site's

@@ -372,17 +372,18 @@ Kept on purpose:
   show the boundary: `catalog/behaviour/` for the library-neutral hooks,
   `registries/pp/` and `registries/shadcn/` for each library, where today
   `registries/` holds all three.
-- [ ] *`@json-render/shadcn` for two components* (checked 2026-10-20). The
-  shadcn registry takes only `Stack` and `Checkbox` from the kit; every other
-  type is built from shadcn's class lists. The kit exports its components as
-  one object, so it does not tree-shake, and it brings embla-carousel, vaul,
-  tailwind-merge and class-variance-authority, which nothing else imports.
-  `catalog/shadcn.css` also scans the kit's `dist` as a Tailwind source:
-  without that line the sheet drops from 13.9 KB to 10.7 KB gzipped (91 KB to
-  65 KB raw), less the few classes Stack and Checkbox would bring back once
-  written by hand. Build the two from shadcn's classes, drop the dependency,
-  and replace the hand-kept `@source` lines for the registry files with one
-  glob.
+- [x] *`@json-render/shadcn` for two components* (checked 2026-10-20). The
+  shadcn registry took only `Stack` and `Checkbox` from the kit, which does
+  not tree-shake and brought embla-carousel, vaul, tailwind-merge and
+  class-variance-authority with it. Done 2026-10-20: Stack is a flex box with
+  shadcn's gaps (a labelled one is a `section`, and `align: baseline` now
+  keeps its label, gap and drop target), and a checkbox row uses the same
+  `CheckboxField` (`registries/shadcn-checkbox.tsx`) as the catalog's
+  Checkbox, so its label is no longer set in medium weight. The dependency is
+  gone, and `catalog/shadcn.css` scans `registries/shadcn*.tsx` with one glob.
+  The sheet went from 13.9 KB to 10.7 KB gzipped; every class the registry
+  names is still in it. Checked in the browser under shadcn: bound and unbound
+  checkbox rows, labelled and drop-target Stacks.
 - [ ] *Demo actions in the shared catalog* (checked 2026-10-20). Four of the
   catalog's seven actions are used by one spec each (`toggle` by nested-pairs,
   `editRule` by rule-composition, `interpret` by filtering, `deduce` by
