@@ -13,8 +13,8 @@ type Story = StoryObj;
 export const Default: Story = {
   render: () => (
     <form
-      className="flow"
-      style={{ 'maxInlineSize': '36rem', '--flow-space': '1rem' } as CSSProperties}
+      className="flow measure"
+      style={{ '--flow-space': '1rem' } as CSSProperties}
       onSubmit={(e) => {
         e.preventDefault();
         action('submit')(new FormData(e.currentTarget));

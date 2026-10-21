@@ -195,12 +195,12 @@ export function EarthquakeNodeComponent({ shape, node }: NodeComponentProps<Eart
         </div>
       </NodeRow>
       <NodeRow>
-        <div className="NodeValue" style={{ fontSize: '12px' }}>
+        <div className="NodeValue text-xs">
           <strong>Location:</strong> {isLoading ? '…' : earthquakeData!.location}
         </div>
       </NodeRow>
       <NodeRow>
-        <div className="NodeValue" style={{ fontSize: '12px' }}>
+        <div className="NodeValue text-xs">
           <strong>Time:</strong>{' '}
           {isLoading ? '…' : <pp-timestamp value={earthquakeData!.datetime}></pp-timestamp>}
         </div>

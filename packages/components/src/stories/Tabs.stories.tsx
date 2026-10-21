@@ -32,7 +32,7 @@ const manyTabs = Array.from({ length: 20 }, (_, i) => (
 
 const manyPanels = Array.from({ length: 20 }, (_, i) => (
   <pp-tab-panel key={i} name={i}>
-    <p style={{ margin: '1rem' }}>{faker.hacker.phrase()}</p>
+    <p className="pad">{faker.hacker.phrase()}</p>
   </pp-tab-panel>
 ));
 
@@ -75,10 +75,10 @@ export const WithIcons: Story = {
         </pp-tab>
       </div>
       <pp-tab-panel name="1">
-        <p style={{ margin: '1rem' }}>{faker.hacker.phrase()}</p>
+        <p className="pad">{faker.hacker.phrase()}</p>
       </pp-tab-panel>
       <pp-tab-panel name="2">
-        <p style={{ margin: '1rem' }}>{faker.hacker.phrase()}</p>
+        <p className="pad">{faker.hacker.phrase()}</p>
       </pp-tab-panel>
     </pp-tab-group>
   ),
@@ -90,8 +90,7 @@ export const WithIconsAndSubtitles: Story = {
       <div data-slot="nav">
         <pp-tab panel="1">
           <iconify-icon
-            style={{ fontSize: '1.5em' }}
-            className="icon"
+            className="icon text-xl"
             icon={getRandomIcon()}
             data-slot="icon"
           ></iconify-icon>
@@ -100,8 +99,7 @@ export const WithIconsAndSubtitles: Story = {
         </pp-tab>
         <pp-tab panel="2">
           <iconify-icon
-            style={{ fontSize: '1.5em' }}
-            className="icon"
+            className="icon text-xl"
             icon={getRandomIcon()}
             data-slot="icon"
           ></iconify-icon>
@@ -110,10 +108,10 @@ export const WithIconsAndSubtitles: Story = {
         </pp-tab>
       </div>
       <pp-tab-panel name="1">
-        <p style={{ margin: '1rem' }}>{faker.hacker.phrase()}</p>
+        <p className="pad">{faker.hacker.phrase()}</p>
       </pp-tab-panel>
       <pp-tab-panel name="2">
-        <p style={{ margin: '1rem' }}>{faker.hacker.phrase()}</p>
+        <p className="pad">{faker.hacker.phrase()}</p>
       </pp-tab-panel>
     </pp-tab-group>
   ),

@@ -57,9 +57,9 @@ export const Default: Story = {
       onClick={() => {
         action('drawer-opened')({ title, position, modal });
         modalService.openDrawer(
-          <div>
+          <div className="flow">
             <p>Drawer content. Drawers are great for forms, details, and secondary content.</p>
-            <footer style={{ marginTop: '20px' }}>
+            <footer>
               <button className="button" data-close data-autofocus>
                 Close
               </button>
@@ -81,10 +81,10 @@ export const RightDrawer: Story = {
 
       const openRightDrawer = () => {
         openDrawer(
-          <div>
+          <div className="flow">
             <p>This is a right-side drawer content.</p>
             <p>Drawers are great for forms, details, and secondary content.</p>
-            <footer style={{ marginTop: '20px' }}>
+            <footer>
               <button className="button" data-autofocus>
                 Save
               </button>
@@ -124,10 +124,10 @@ export const LeftDrawer: Story = {
 
       const openLeftDrawer = () => {
         openDrawer(
-          <div>
+          <div className="flow">
             <p>This is a left-side drawer content.</p>
             <p>Left drawers are often used for navigation or filters.</p>
-            <footer style={{ marginTop: '20px' }}>
+            <footer>
               <button className="button" data-close data-autofocus>
                 Close
               </button>
@@ -165,13 +165,13 @@ export const NonModal: Story = {
 
       const openPeek = () => {
         openDrawer(
-          <div>
+          <div className="flow">
             <p>A non-modal side peek: no scrim, and the page behind stays live.</p>
             <p>
               Because nothing is made inert, you can keep clicking, scrolling, and dragging in the
               underlying view while this stays open.
             </p>
-            <footer style={{ marginTop: '20px' }}>
+            <footer>
               <button className="button" data-close data-autofocus>
                 Close
               </button>

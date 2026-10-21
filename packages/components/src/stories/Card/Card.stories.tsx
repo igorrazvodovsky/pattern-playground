@@ -221,7 +221,7 @@ export const LayoutGrid: Story = {
       {cardsData.map((card, index) => (
         <li key={index}>
           <article className="card flow pad">
-            <div style={{ fontSize: 'var(--text-xl)' }}>
+            <div className="text-xl">
               <iconify-icon className="icon" icon={getRandomIcon()} slot="icon"></iconify-icon>
             </div>
             <a className="stretched-link" href="#">

@@ -63,7 +63,7 @@ export const AnchoredPanel: Story = {
     }, []);
 
     return (
-      <div style={{ blockSize: '10rem', overflow: 'auto', padding: '1rem' }} className="layer">
+      <div className="layer story-scroll-box">
         <p>A scrolling box, like a pane. The panel is not clipped by it.</p>
         <button
           type="button"
@@ -78,7 +78,7 @@ export const AnchoredPanel: Story = {
         >
           Open panel
         </button>
-        <div style={{ blockSize: '16rem' }} aria-hidden="true" />
+        <div className="story-spacer" aria-hidden="true" />
         <pp-popup
           ref={popupRef}
           anchor={anchor ?? undefined}

@@ -12,6 +12,12 @@
     padding: var(--space-s) var(--space-m);
   }
 
+  /* The text takes the width beside the icon: at its natural width a message
+     longer than a line would wrap below the icon, since .flex wraps. */
+  .callout__text {
+    flex: 1;
+  }
+
   .callout > :first-child {
     margin-block-start: 0;
   }

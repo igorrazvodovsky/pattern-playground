@@ -101,13 +101,8 @@ const space = {
   m: 'var(--space-s)',
   l: 'var(--space-m)',
 } as const;
+const gapClass = { none: 'gap-0', s: 'gap-xs', m: 'gap-s', l: 'gap-m' } as const;
 const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
-// A grid rather than .flow, whose --flow-space would also set the field's
-// distance from the field before it.
-const fieldLayout: CSSProperties = { display: 'grid', gap: space.s };
-// A grid for the same reason: --flow-space on a card would also set its
-// distance from the card before it, and cards in a Stack would touch.
-const bodyLayout: CSSProperties = { display: 'grid', rowGap: space.s };
 export const icons: Record<(typeof iconNames)[number], string> = {
   'archive': 'ik:archives',
   'ascending': 'ik:sort-low-to-high',
@@ -238,31 +233,27 @@ export const { registry } = defineRegistry(catalog, {
   components: {
     Stack: ({ props, children, bindings, emit }) => {
       const { ref, over } = useStackDrop(props, bindings, emit);
-      const layout: { className?: string; style: CSSProperties } =
-        props.direction === 'horizontal'
-          ? {
-              style: {
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: space[props.gap ?? 'm'],
-                alignItems: props.align ?? 'center',
-              },
-            }
-          : {
-              className: 'flow',
-              style: { '--flow-space': space[props.gap ?? 'm'] } as CSSProperties,
-            };
+      const gap = props.gap ?? 'm';
+      const horizontal = props.direction === 'horizontal';
       const attributes = {
-        ...layout,
-        'className': clsx(layout.className, props.dropTarget && 'view-family__pane') || undefined,
+        'className': clsx(
+          horizontal ? ['flex wrap', gapClass[gap], `items-${props.align ?? 'center'}`] : 'flow',
+          props.dropTarget && 'view-family__pane',
+        ),
         'data-drop-over': over || undefined,
       };
+      const flowSpace = horizontal ? undefined : space[gap];
       return props.label ? (
-        <section ref={ref} aria-label={props.label} {...attributes}>
+        <section
+          ref={ref}
+          aria-label={props.label}
+          {...attributes}
+          style={{ '--flow-space': flowSpace } as CSSProperties}
+        >
           {children}
         </section>
       ) : (
-        <div ref={ref} {...attributes}>
+        <div ref={ref} {...attributes} style={{ '--flow-space': flowSpace } as CSSProperties}>
           {children}
         </div>
       );
@@ -271,15 +262,13 @@ export const { registry } = defineRegistry(catalog, {
     // A repeat reaches the registry as one child that renders every item, so
     // it cannot be split into list items; a single child gets a plain grid.
     Grid: ({ props, children }) => {
-      const style = {
-        '--layout-grid-min': columnWidth[props.minColumnWidth ?? 'm'],
-      } as CSSProperties;
+      const min = columnWidth[props.minColumnWidth ?? 'm'];
       return Children.count(children) < 2 ? (
-        <div className="cards layout-grid" style={style}>
+        <div className="cards layout-grid" style={{ '--layout-grid-min': min } as CSSProperties}>
           {children}
         </div>
       ) : (
-        <ul className="cards layout-grid" style={style}>
+        <ul className="cards layout-grid" style={{ '--layout-grid-min': min } as CSSProperties}>
           {Children.map(children, (child) => (
             <li>{child}</li>
           ))}
@@ -347,7 +336,7 @@ export const { registry } = defineRegistry(catalog, {
           data-popover-host=""
           data-dragging={dragging}
         >
-          <div className="pad" style={bodyLayout}>
+          <div className="pad grid-stack">
             {props.title && <Heading className="card__title">{heading}</Heading>}
             {attributes}
             <Subsection>{children}</Subsection>
@@ -357,11 +346,10 @@ export const { registry } = defineRegistry(catalog, {
       ) : (
         <article
           ref={dragRef}
-          className={clsx(surface, 'pad')}
+          className={clsx(surface, 'pad grid-stack')}
           data-selected={selected}
           data-popover-host=""
           data-dragging={dragging}
-          style={bodyLayout}
         >
           {props.title && <Heading className="card__title">{heading}</Heading>}
           {attributes}
@@ -414,8 +402,8 @@ export const { registry } = defineRegistry(catalog, {
               : props.pending
                 ? ['muted', 'flex']
                 : props.muted && 'muted',
+            props.size === 'large' && 'text-larger',
           )}
-          style={props.size === 'large' ? { fontSize: 'larger' } : undefined}
           role={props.status ? 'status' : undefined}
         >
           {props.pending && <pp-spinner aria-hidden="true" />}
@@ -428,8 +416,6 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // The text takes the width beside the icon: at its natural width a message
-    // longer than a line would wrap below the icon, since .flex wraps.
     Callout: ({ props, slots }) => (
       <div className={clsx('callout', 'flex', props.purpose ?? 'layer')}>
         <iconify-icon
@@ -437,7 +423,7 @@ export const { registry } = defineRegistry(catalog, {
           icon={purposeIcons[props.purpose ?? 'info']}
           aria-hidden="true"
         />
-        <span style={{ flex: 1 }}>
+        <span className="callout__text">
           {props.title && <strong>{props.title}. </strong>}
           {props.text}
           {slots?.actions && <> {slots.actions}</>}
@@ -637,14 +623,7 @@ export const { registry } = defineRegistry(catalog, {
     },
 
     Timeline: ({ props, children }) => (
-      <ol
-        className="stepper"
-        style={
-          props.density === 'compact'
-            ? ({ '--_circle-size': '0.5rem' } as CSSProperties)
-            : undefined
-        }
-      >
+      <ol className="stepper" data-density={props.density === 'compact' ? 'compact' : undefined}>
         {children}
       </ol>
     ),
@@ -724,9 +703,7 @@ export const { registry } = defineRegistry(catalog, {
           {props.description ? (
             <span>
               {label}
-              <small className="muted" style={{ display: 'block' }}>
-                {props.description}
-              </small>
+              <small className="muted block">{props.description}</small>
             </span>
           ) : (
             label
@@ -1209,7 +1186,7 @@ export const { registry } = defineRegistry(catalog, {
         </>
       );
       return (
-        <div style={fieldLayout}>
+        <div className="grid-stack">
           {!props.hideLabel && <label htmlFor={id}>{props.label}</label>}
           {field}
         </div>
@@ -1220,7 +1197,7 @@ export const { registry } = defineRegistry(catalog, {
     Textarea: ({ props, bindings }) => {
       const { id, value, setValue } = useBoundField(props, bindings);
       return (
-        <div style={fieldLayout}>
+        <div className="grid-stack">
           <label htmlFor={id}>{props.label}</label>
           <div className="grow-wrap" data-replicated-value={value}>
             <textarea
@@ -1240,7 +1217,7 @@ export const { registry } = defineRegistry(catalog, {
     Select: ({ props, bindings }) => {
       const { id, value, setValue, error, control, errorProps } = useField(props, bindings);
       return (
-        <div style={fieldLayout}>
+        <div className="grid-stack">
           <label htmlFor={id}>{props.label}</label>
           <pp-select invalid={Boolean(error)}>
             <select {...control} value={value} onChange={(event) => setValue(event.target.value)}>
@@ -1343,7 +1320,7 @@ export const { registry } = defineRegistry(catalog, {
       );
       if (!props.popup) {
         return (
-          <div style={{ ...fieldLayout, justifyItems: 'start' }}>
+          <div className="grid-stack grid-stack--start">
             {!props.hideLabel && <label {...label}>{props.label}</label>}
             {field}
           </div>
@@ -1376,7 +1353,7 @@ export const { registry } = defineRegistry(catalog, {
       return (
         // The library resets a fieldset's margin, so the form's spacing goes on a wrapper.
         <div>
-          <fieldset style={fieldLayout}>
+          <fieldset className="grid-stack">
             <legend>{props.label}</legend>
             {props.options.map((option) => (
               <label key={option.value} className="form-control">
@@ -1402,7 +1379,7 @@ export const { registry } = defineRegistry(catalog, {
         setValue(checked ? [...selected, option] : selected.filter((each) => each !== option));
       return (
         <div>
-          <fieldset style={fieldLayout}>
+          <fieldset className="grid-stack">
             <legend className={props.hideLabel ? 'visually-hidden' : undefined}>
               {props.label}
             </legend>
@@ -1429,7 +1406,7 @@ export const { registry } = defineRegistry(catalog, {
     Slider: ({ props, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       return (
-        <div style={fieldLayout}>
+        <div className="grid-stack">
           {!props.hideLabel && <span aria-hidden="true">{props.label}</span>}
           <pp-range
             label={props.label}
@@ -1465,8 +1442,8 @@ export const { registry } = defineRegistry(catalog, {
     // A form is read most easily at about 36rem, however wide the demo is.
     Form: ({ props, children, emit }) => (
       <form
-        className="flow"
-        style={{ '--flow-space': 'var(--space-l)', 'maxInlineSize': '36rem' } as CSSProperties}
+        className="flow measure"
+        style={{ '--flow-space': 'var(--space-l)' } as CSSProperties}
         aria-label={props.label ?? undefined}
         noValidate
         onSubmit={(event) => void submitForm(event, emit)}

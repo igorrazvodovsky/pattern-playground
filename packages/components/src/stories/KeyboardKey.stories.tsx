@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
@@ -17,7 +18,7 @@ export const KeyboardKey: Story = {
 
 export const InAList: Story = {
   render: () => (
-    <pp-list style={{ maxWidth: '320px' }}>
+    <pp-list className="measure" style={{ '--measure': '20rem' } as CSSProperties}>
       <pp-list-item>
         Copy
         <span data-slot="suffix">

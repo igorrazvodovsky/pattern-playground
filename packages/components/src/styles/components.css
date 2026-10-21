@@ -87,6 +87,67 @@
     padding: var(--space-s) var(--space-m);
   }
 
+  /* A readable line length for a block that would otherwise take the full
+     width of its container; `--measure` sets another. */
+  .measure {
+    max-inline-size: var(--measure, 36rem);
+  }
+
+  /* Gap and cross-axis alignment for a `.flex` row, set on the row itself:
+     custom properties such as `--flex-gap` would reach nested rows too. */
+  .gap-0 {
+    gap: 0;
+  }
+
+  .gap-xs {
+    gap: var(--space-xs);
+  }
+
+  .gap-s {
+    gap: var(--space-s);
+  }
+
+  .gap-m {
+    gap: var(--space-m);
+  }
+
+  .items-start {
+    align-items: start;
+  }
+
+  .items-center {
+    align-items: center;
+  }
+
+  .items-baseline {
+    align-items: baseline;
+  }
+
+  /* One step up from the surrounding text, wherever it sits. */
+  .text-larger {
+    font-size: larger;
+  }
+
+  .text-xs {
+    font-size: var(--text-xs);
+  }
+
+  .text-s {
+    font-size: var(--text-s);
+  }
+
+  .text-m {
+    font-size: var(--text-m);
+  }
+
+  .text-l {
+    font-size: var(--text-l);
+  }
+
+  .text-xl {
+    font-size: var(--text-xl);
+  }
+
   /* Line-clamped body copy — the card's description, but usable anywhere prose
      needs a fixed number of lines with a legible measure. Many card demos and
      adapters reference `.description`. */

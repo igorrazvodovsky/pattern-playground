@@ -5,6 +5,11 @@
    (zoomed out), each flow dated (mid), each flow in full (zoomed in). */
 
 @layer components {
+  .semantic-zoom-demo {
+    position: relative;
+    block-size: var(--semantic-zoom-height, 480px);
+  }
+
   .person-card__header {
     border-radius: var(--radius-m);
     margin: var(--space-s) var(--space-s) 0;

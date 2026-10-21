@@ -130,6 +130,8 @@
 
 .reference-picker-popup {
   position: absolute;
+  left: var(--popup-x);
+  top: var(--popup-y);
   z-index: var(--layer-dropdown);
   min-width: 320px;
   max-width: 480px;

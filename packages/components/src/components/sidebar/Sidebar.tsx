@@ -107,6 +107,7 @@ export function SidebarProvider({
             data-slot="shell"
             // No rail widths here: an inline style outranks every layer, which
             // would make this the one frame an app couldn't resize in CSS.
+            // eslint-disable-next-line no-restricted-syntax -- forwards the caller's own style prop
             style={style}
             className={clsx('shell', className)}
             {...props}

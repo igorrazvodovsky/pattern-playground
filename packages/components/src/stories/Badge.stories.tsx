@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { faker } from '@faker-js/faker';
 import { getRandomIcon } from './utils/icons';
@@ -70,7 +71,7 @@ export const Size: Story = {
 export const WithButton: Story = {
   render: () => (
     // The counters overhang their buttons, so the row needs more than the default gap.
-    <div className="flex" style={{ '--flex-gap': 'var(--space-l)' } as React.CSSProperties}>
+    <div className="flex" style={{ '--flex-gap': 'var(--space-l)' } as CSSProperties}>
       <button className="button">
         Requests<strong className="badge badge--pill badge--info">12</strong>
       </button>
@@ -88,7 +89,7 @@ export const WithButton: Story = {
 
 export const WithList: Story = {
   render: () => (
-    <pp-list style={{ maxWidth: '240px' }}>
+    <pp-list className="measure" style={{ '--measure': '15rem' } as CSSProperties}>
       <pp-list-item>
         <iconify-icon className="icon" icon={getRandomIcon()} data-slot="prefix"></iconify-icon>
         {faker.hacker.verb()}

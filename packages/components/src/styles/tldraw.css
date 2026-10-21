@@ -187,11 +187,17 @@ body {
   }
 }
 
+.workflow-demo {
+  position: fixed;
+  inset: 0;
+}
+
 .OnCanvasComponentPicker {
   position: absolute;
   top: 0;
   left: 0;
   z-index: var(--tl-layer-overlays);
+  width: 235px; /* NODE_WIDTH_PX */
 
   --top: 66px;
 

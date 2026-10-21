@@ -104,16 +104,8 @@ export const CommentComposer: React.FC<CommentComposerProps> = ({
         }
         alt={getUserById(currentUser)?.name || currentUser}
       />
-      <div
-        className="message-composer__input comment__input"
-        style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}
-      >
-        <EditorContent
-          editor={editor}
-          className="comment-composer__editor "
-          // eslint-disable-next-line no-restricted-syntax -- dynamic layout value, see plans/tech-debt-tracker.md
-          style={{ flex: 1 }}
-        />
+      <div className="message-composer__input comment__input">
+        <EditorContent editor={editor} className="comment-composer__editor" />
         <button
           className={`button button--plain ${isEmpty || isSubmitting ? 'button--disabled' : ''}`}
           onClick={handleSubmit}

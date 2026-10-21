@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import '../jsx-types';
 
@@ -39,7 +40,8 @@ export const Spinner: Story = {
     <pp-spinner
       role="progressbar"
       aria-label="Loading"
-      style={{ fontSize: sizeMap[size] }}
+      className="story-font-size"
+      style={{ '--story-font-size': sizeMap[size] } as CSSProperties}
     ></pp-spinner>
   ),
 };

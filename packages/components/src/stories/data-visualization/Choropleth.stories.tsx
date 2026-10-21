@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type CSSProperties } from 'react';
 import { action } from 'storybook/actions';
 
 // Import the map component (this registers the custom element via register-all).
@@ -62,7 +62,7 @@ function ChoroplethWrapper({
   }, [data, projection, colorSteps, showLegend, title]);
 
   return (
-    <div style={{ width: '100%', height }}>
+    <div className="story-height" style={{ '--story-height': `${height}px` } as CSSProperties}>
       <pp-choropleth ref={mapRef} />
     </div>
   );

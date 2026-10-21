@@ -78,7 +78,7 @@ const options: Partial<TldrawOptions> = {
 
 export function WorkflowDemo() {
   return (
-    <div style={{ position: 'fixed', inset: 0 }}>
+    <div className="workflow-demo">
       <Tldraw
         licenseKey={tldrawLicenseKey}
         persistenceKey="workflow"

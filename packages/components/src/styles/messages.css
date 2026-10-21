@@ -179,6 +179,17 @@
   margin-inline-start: auto;
 }
 
+.comment__input {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.comment-composer__editor {
+  flex: 1;
+}
+
 .comment__input:not(.popover .comment__input) {
   border: var(--border);
   padding: var(--space-2xs) 0 var(--space-2xs) var(--space-s);

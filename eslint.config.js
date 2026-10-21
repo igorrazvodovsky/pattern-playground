@@ -107,12 +107,29 @@ export default [
           message:
             'Use data-* attributes or the tag name as JS hooks, not role. See .claude/rules/web-components.md',
         },
-        // No `style` prop on React components (`Foo`, `Foo.Bar`); lowercase
-        // names such as `div` or `motion.div` count as DOM elements.
+        // No inline styles on any element. A `style` prop may only hand runtime
+        // values to CSS as custom properties: an object literal, optionally
+        // cast, whose keys all start with `--`.
         {
-          selector:
-            "JSXOpeningElement:matches([name.name=/^[A-Z]/], [name.object.name=/^[A-Z]/]) > JSXAttribute[name.name='style']",
-          message: 'Use CSS classes, not inline styles. See .claude/rules/styling.md',
+          selector: [
+            "JSXAttribute[name.name='style']:has(> Literal)",
+            "JSXAttribute[name.name='style']:has(> JSXExpressionContainer[expression.type!=/^(ObjectExpression|TSAsExpression)$/])",
+            "JSXAttribute[name.name='style']:has(> JSXExpressionContainer[expression.type='TSAsExpression'][expression.expression.type!='ObjectExpression'])",
+            ...[
+              "JSXAttribute[name.name='style'] > JSXExpressionContainer > ObjectExpression",
+              "JSXAttribute[name.name='style'] > JSXExpressionContainer > TSAsExpression > ObjectExpression",
+            ].map(
+              (object) =>
+                `${object}:matches(${[
+                  ':has(> SpreadElement)',
+                  ':has(> Property[computed=true])',
+                  ":has(> Property[key.type='Identifier'])",
+                  ":has(> Property[key.type='Literal']:not([key.value=/^--/]))",
+                ].join(', ')})`,
+            ),
+          ].join(', '),
+          message:
+            'Use CSS classes, not inline styles; pass runtime values as custom properties. See .claude/rules/styling.md',
         },
         ...figuresRules,
       ],

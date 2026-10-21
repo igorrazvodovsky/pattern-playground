@@ -8,6 +8,11 @@
   padding: 0;
 }
 
+.stepper[data-density='compact'] {
+  --_circle-size: 0.5rem;
+  --_item-spacing: 0.25rem;
+}
+
 .stepper .stepper {
   --_line-width: 0;
   --_spacing: 0;

@@ -10,6 +10,18 @@
     margin-inline-start: var(--flow-space, var(--space-xs));
   }
 
+  /* Spacing between children as a grid gap rather than `.flow` margins: a
+     margin on the first child would also set its distance from whatever
+     precedes the stack. `.grid-stack--start` keeps children at their natural width. */
+  .grid-stack {
+    display: grid;
+    gap: var(--stack-gap, var(--space-xs));
+  }
+
+  .grid-stack--start {
+    justify-items: start;
+  }
+
   .layout-grid {
     --layout-grid-min: 24ch;
     --layout-grid-gap: var(--space-m);

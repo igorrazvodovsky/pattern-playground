@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
@@ -34,7 +35,7 @@ const longPath = ['Section', 'Collection', 'Group', 'Subgroup'];
 
 export const LongPath: Story = {
   render: () => (
-    <div style={{ inlineSize: '22rem' }}>
+    <div className="measure" style={{ '--measure': '22rem' } as CSSProperties}>
       <pp-breadcrumbs role="navigation">
         <a href="">
           <span className="crumbicon">

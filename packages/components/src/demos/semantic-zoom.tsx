@@ -56,7 +56,14 @@ const cards = [
 
 export function SemanticZoomDemo({ height = 480 }: { height?: number | string } = {}) {
   return (
-    <div style={{ height, position: 'relative' }}>
+    <div
+      className="semantic-zoom-demo"
+      style={
+        {
+          '--semantic-zoom-height': typeof height === 'number' ? `${height}px` : height,
+        } as React.CSSProperties
+      }
+    >
       <Tldraw
         licenseKey={tldrawLicenseKey}
         persistenceKey="semantic-zoom-demo"

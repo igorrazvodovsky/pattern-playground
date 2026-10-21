@@ -15,7 +15,6 @@ import {
   VecModel,
 } from 'tldraw';
 import { ConnectionShape, getConnectionTerminals } from '../connection/ConnectionShapeUtil';
-import { NODE_WIDTH_PX } from '../constants';
 import { getNodeDefinitions, NodeType } from '../nodes/nodeTypes';
 import { NodeDefinition } from '../nodes/types/shared';
 import { EditorAtom } from '../utils';
@@ -125,8 +124,6 @@ function OnCanvasComponentPickerDialog({
         <Dialog.Popup
           ref={setContainer}
           className={`OnCanvasComponentPicker OnCanvasComponentPicker_${location}`}
-          // eslint-disable-next-line no-restricted-syntax -- dynamic layout value, see plans/tech-debt-tracker.md
-          style={{ width: NODE_WIDTH_PX }}
         >
           <div className="OnCanvasComponentPicker-content">
             <Dialog.Title className="visually-hidden">Insert Node</Dialog.Title>

@@ -7,11 +7,6 @@ interface TimelineArgs {
   density: 'normal' | 'compact';
 }
 
-const densityVars: Record<TimelineArgs['density'], React.CSSProperties> = {
-  normal: {},
-  compact: { '--_circle-size': '0.75rem', '--_item-spacing': '0.25rem' } as React.CSSProperties,
-};
-
 const meta = {
   title: 'Components/Timeline',
   argTypes: {
@@ -45,7 +40,7 @@ export const Basic: Story = {
         };
       });
     return (
-      <ol className="stepper" style={densityVars[density]}>
+      <ol className="stepper" data-density={density}>
         {items.map((item, i) => (
           <li key={i} className="stepper__item">
             <div className="stepper__content">

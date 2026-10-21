@@ -7,6 +7,7 @@ paths:
 
 ## Core principles
 - Never use inline styles — all styling through CSS classes in `src/styles/` and shared tokens (CSS custom properties)
+- A value known only at runtime reaches CSS as a custom property: `style={{ '--x': value }}`, read by a class. ESLint rejects any other `style` prop
 - Component CSS is a layered file in `src/styles/` (`layer(components)`), scoped with `@scope (pp-tag-name)` where selector leakage is plausible. Components never carry their own stylesheets (`docs/specs/component-authoring.md`)
 - Ask before adding new styles — verify the approach aligns with existing conventions first
 - CSS classes are for styling only; JavaScript hooks use `data-*` attributes

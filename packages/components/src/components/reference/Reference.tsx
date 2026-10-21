@@ -154,10 +154,12 @@ const ReferencePickerPopup: React.FC<ReferencePickerPopupProps> = ({
     <div
       ref={floatingRef}
       className="reference-picker-popup"
-      style={{
-        left: `${position.x}px`,
-        top: `${position.y}px`,
-      }}
+      style={
+        {
+          '--popup-x': `${position.x}px`,
+          '--popup-y': `${position.y}px`,
+        } as React.CSSProperties
+      }
     >
       <ReferencePicker
         data={data}

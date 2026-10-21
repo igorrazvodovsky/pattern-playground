@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import {
   Combobox,
   ComboboxEmpty,
@@ -38,7 +38,7 @@ const priorityOptions = [
 
 export const Default: Story = {
   render: () => (
-    <div style={{ width: '240px' }}>
+    <div className="measure" style={{ '--measure': '15rem' } as CSSProperties}>
       <Combobox>
         <ComboboxInput placeholder="Set status…" />
         <ComboboxList>
@@ -67,7 +67,7 @@ export const Checked: Story = {
       );
 
     return (
-      <div style={{ width: '240px' }}>
+      <div className="measure" style={{ '--measure': '15rem' } as CSSProperties}>
         <Combobox>
           <ComboboxInput placeholder="Filter by priority…" />
           <ComboboxList>
@@ -94,7 +94,7 @@ export const Checked: Story = {
 
 export const Grouped: Story = {
   render: () => (
-    <div style={{ width: '240px' }}>
+    <div className="measure" style={{ '--measure': '15rem' } as CSSProperties}>
       <Combobox>
         <ComboboxInput placeholder="Search…" />
         <ComboboxList>
