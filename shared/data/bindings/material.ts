@@ -1,0 +1,67 @@
+import type { EntityBinding } from './types';
+
+/** What components are made of. Costs are stored in US dollars per kilogram. */
+export const materialBinding: EntityBinding = {
+  entityType: 'material',
+  attributes: [
+    { path: 'icon', role: 'thumbnail', valueType: 'image' },
+    { path: 'name', role: 'title', valueType: 'string' },
+    { path: 'description', role: 'description', valueType: 'string' },
+    { path: 'category', role: 'badge', valueType: 'string', icon: 'category' },
+    { path: 'subcategory', role: 'spec', valueType: 'string' },
+    { path: 'recycledContent', label: 'Recycled', role: 'spec', valueType: 'progress' },
+    {
+      path: 'carbonFootprint',
+      label: 'Carbon footprint',
+      role: 'spec',
+      valueType: 'number',
+      unit: 'kg CO2e/kg',
+    },
+    { path: 'recyclability', label: 'Recyclability', role: 'spec', valueType: 'string' },
+    {
+      path: 'certification',
+      label: 'Certification',
+      role: 'spec',
+      valueType: 'string',
+      icon: 'certifications',
+      many: true,
+    },
+    { path: 'supplier', label: 'Supplier', role: 'spec', valueType: 'string' },
+    {
+      path: 'cost',
+      label: 'Cost',
+      role: 'spec',
+      valueType: 'currency',
+      currency: 'USD',
+      unit: 'per kg',
+    },
+    { path: 'availability', label: 'Availability', role: 'spec', valueType: 'string' },
+    { path: 'leadTime', label: 'Lead time', role: 'spec', valueType: 'number', unit: 'days' },
+  ],
+  scopes: {
+    micro: ['icon', 'name'],
+    mini: ['icon', 'name', 'category', 'recycledContent'],
+    mid: [
+      'description',
+      'category',
+      'carbonFootprint',
+      'recyclability',
+      'certification',
+      'supplier',
+      'cost',
+    ],
+    maxi: [
+      'description',
+      'category',
+      'subcategory',
+      'recycledContent',
+      'carbonFootprint',
+      'recyclability',
+      'certification',
+      'supplier',
+      'cost',
+      'availability',
+      'leadTime',
+    ],
+  },
+};

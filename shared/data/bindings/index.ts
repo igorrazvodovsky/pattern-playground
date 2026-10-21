@@ -1,4 +1,6 @@
 import type { EntityBinding } from './types';
+import { componentBinding } from './component';
+import { materialBinding } from './material';
 import { productBinding } from './product';
 import { projectBinding } from './project';
 import { taskBinding } from './task';
@@ -41,10 +43,21 @@ export {
   applyFilters,
 } from './filtering';
 
-export { productBinding, projectBinding, taskBinding, quoteBinding, referenceBinding, userBinding };
+export {
+  componentBinding,
+  materialBinding,
+  productBinding,
+  projectBinding,
+  taskBinding,
+  quoteBinding,
+  referenceBinding,
+  userBinding,
+};
 
 /** Every entity binding, keyed by entity type. */
 export const bindings: Record<string, EntityBinding> = {
+  component: componentBinding,
+  material: materialBinding,
   product: productBinding,
   project: projectBinding,
   task: taskBinding,

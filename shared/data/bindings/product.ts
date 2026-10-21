@@ -1,7 +1,7 @@
 import type { EntityBinding } from './types';
 
 /**
- * The circular-economy products collection. Seeded from the retired
+ * The circular-economy products collection. Prices are stored in US dollars. Seeded from the retired
  * ProductAdapter's four scope renderings plus the collection-view label
  * curation ('pricing.msrp' → "Price", …), which lives here now;
  * `attributeLabel` in collection-view is a lookup over this binding.
@@ -25,10 +25,17 @@ export const productBinding: EntityBinding = {
       label: 'Price',
       role: 'key-attribute',
       valueType: 'currency',
+      currency: 'USD',
       icon: 'price',
     },
     { path: 'pricing.band', label: 'Price band', role: 'spec', valueType: 'string' },
-    { path: 'pricing.tradeInValue', label: 'Trade-in Value', role: 'spec', valueType: 'currency' },
+    {
+      path: 'pricing.tradeInValue',
+      label: 'Trade-in Value',
+      role: 'spec',
+      valueType: 'currency',
+      currency: 'USD',
+    },
     {
       path: 'availability.status',
       label: 'Availability',

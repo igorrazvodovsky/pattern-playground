@@ -20,9 +20,9 @@ const format = (item: object, attribute: AttributeBinding) =>
 const label = (attribute: AttributeBinding) =>
   attribute.label ?? deriveAttributeLabel(attribute.path);
 
-export const cardAttributes = (paths: string[]) => {
-  const selection = resolveAttributeSelection(productBinding, paths);
-  return (item: Product) =>
+export const cardAttributes = (paths: string[], binding: EntityBinding = productBinding) => {
+  const selection = resolveAttributeSelection(binding, paths);
+  return (item: object) =>
     present(item, selection).map((attribute) => ({
       path: attribute.path,
       label: label(attribute),

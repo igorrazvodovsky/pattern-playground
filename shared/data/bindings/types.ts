@@ -74,7 +74,8 @@ export interface AttributeBinding {
   label?: string;
   role: AttributeRole;
   valueType: AttributeValueType;
-  /** Static unit appended to the formatted value, e.g. 'kg CO2e'. */
+  /** Static unit appended to the formatted value, e.g. 'kg CO2e', or to a
+      currency amount, e.g. 'per kg'. */
   unit?: string;
   /** ISO 4217 code for `valueType: 'currency'`. The currency is a fact about
       the amount, so it belongs on the binding; how it renders belongs to the

@@ -1,21 +1,15 @@
 import type { Spec } from '@json-render/core';
 import { components, materials, products } from '@shared/data';
+import { componentBinding, materialBinding, productBinding } from '@shared/data/bindings';
 import type { ComponentView, MaterialView, ProductView } from '@shared/data/world-views';
 import type { SpecSetup } from '../../catalog/SpecDemo';
+import { cardAttributes } from './shared/product-view';
 import { toggle, toggleHandler } from './shared/toggle';
 import spec from './nested-pairs.json' with { type: 'json' };
 
 // Nesting rather than several overviews sharing one detail, because only
 // nesting stays legible in a narrow column. The spec is one pair that renders
 // itself again inside its own detail, so the whole tree is built here.
-
-// The data types component sustainability as an open record; these are the
-// fields it holds.
-interface ComponentSustainability {
-  carbonFootprint: number;
-  unit: string;
-  recycledContent: number;
-}
 
 interface Readout {
   label: string;
@@ -44,93 +38,74 @@ const resolve = <T>(ids: string[], lookup: (id: string) => T | undefined): T[] =
 const assemblyOf = (product: ProductView) =>
   resolve(product.metadata.assemblyComponents, componentById);
 
+// Each tier shows its own figures, read through its binding.
+const materialBadges = cardAttributes(['category', 'recycledContent'], materialBinding);
+const materialRows = cardAttributes(
+  ['carbonFootprint', 'recyclability', 'certification', 'supplier', 'cost'],
+  materialBinding,
+);
+const componentBadges = cardAttributes(
+  ['category', 'sustainability.recycledContent'],
+  componentBinding,
+);
+const componentRows = cardAttributes(
+  [
+    'sustainability.carbonFootprint',
+    'lifecycle.repairability',
+    'lifecycle.designLife',
+    'supplier',
+    'cost',
+  ],
+  componentBinding,
+);
+const productBadges = cardAttributes(['category', 'pricing.msrp'], productBinding);
+const productRows = cardAttributes(
+  ['condition', 'location.site', 'sustainability.carbonFootprint', 'lifecycle.repairability'],
+  productBinding,
+);
+
 const overview = (label: string, items: Node[]) => (items.length > 0 ? [{ label, items }] : []);
 
-const materialNode = (material: MaterialView): Node => {
-  const { metadata } = material;
-  return {
-    id: material.id,
-    name: material.name,
-    icon: 'material',
-    badges: [
-      { label: 'Category', value: metadata.category },
-      { label: 'Recycled', value: `${metadata.recycledContent}%` },
-    ],
-    description: material.description,
-    rows: [
-      { label: 'Carbon footprint', value: `${metadata.carbonFootprint} ${metadata.unit}` },
-      { label: 'Recyclability', value: metadata.recyclability },
-      { label: 'Certification', value: metadata.certification.join(', ') },
-      { label: 'Supplier', value: metadata.supplier },
-      { label: 'Cost', value: `${metadata.cost} ${metadata.costUnit}` },
-    ],
-    nested: [],
-    open: false,
-  };
-};
+const materialNode = (material: MaterialView): Node => ({
+  id: material.id,
+  name: material.name,
+  icon: 'material',
+  badges: materialBadges(material),
+  description: material.description,
+  rows: materialRows(material),
+  nested: [],
+  open: false,
+});
 
-const componentNode = (component: ComponentView): Node => {
-  const { metadata } = component;
-  const sustainability = metadata.sustainability as unknown as ComponentSustainability;
-  return {
-    id: component.id,
-    name: component.name,
-    icon: 'part',
-    badges: [
-      { label: 'Category', value: metadata.category },
-      { label: 'Recycled', value: `${sustainability.recycledContent}%` },
-    ],
-    description: component.description,
-    rows: [
-      {
-        label: 'Carbon footprint',
-        value: `${sustainability.carbonFootprint} ${sustainability.unit}`,
-      },
-      { label: 'Repairability', value: metadata.lifecycle.repairability },
-      {
-        label: 'Design life',
-        value: `${metadata.lifecycle.designLife} ${metadata.lifecycle.designLifeUnit}`,
-      },
-      { label: 'Supplier', value: metadata.supplier },
-      { label: 'Cost', value: `$${metadata.cost.toFixed(2)}` },
-    ],
-    // Two nested overviews rather than one: a component's detail decomposes
-    // both downward into sub-assemblies and sideways into what it is made of.
-    nested: [
-      ...overview(
-        'Assembled from',
-        resolve(metadata.childComponents, componentById).map(componentNode),
-      ),
-      ...overview('Made of', resolve(metadata.materials, materialById).map(materialNode)),
-    ],
-    open: false,
-  };
-};
+const componentNode = (component: ComponentView): Node => ({
+  id: component.id,
+  name: component.name,
+  icon: 'part',
+  badges: componentBadges(component),
+  description: component.description,
+  rows: componentRows(component),
+  // Two nested overviews rather than one: a component's detail decomposes
+  // both downward into sub-assemblies and sideways into what it is made of.
+  nested: [
+    ...overview(
+      'Assembled from',
+      resolve(component.metadata.childComponents, componentById).map(componentNode),
+    ),
+    ...overview('Made of', resolve(component.metadata.materials, materialById).map(materialNode)),
+  ],
+  open: false,
+});
 
-const productNode = (product: ProductView): Node => {
-  const { metadata } = product;
-  return {
-    id: product.id,
-    name: product.name,
-    icon: 'product',
-    badges: [
-      { label: 'Category', value: metadata.category },
-      { label: 'Price', value: `$${metadata.pricing.msrp.toFixed(2)}` },
-    ],
-    description: product.description,
-    rows: [
-      { label: 'Condition', value: metadata.condition },
-      { label: 'Site', value: metadata.location.site },
-      {
-        label: 'Carbon footprint',
-        value: `${metadata.sustainability.carbonFootprint} ${metadata.sustainability.unit}`,
-      },
-      { label: 'Repairability', value: metadata.lifecycle.repairability },
-    ],
-    nested: overview('Assembled from', assemblyOf(product).map(componentNode)),
-    open: false,
-  };
-};
+const productNode = (product: ProductView): Node => ({
+  id: product.id,
+  name: product.name,
+  icon: 'product',
+  badges: productBadges(product),
+  description: product.description,
+  rows: productRows(product),
+  nested: overview('Assembled from', assemblyOf(product).map(componentNode)),
+  open: false,
+});
 
 // Only three: a longer outer list would push the nested rungs below the fold.
 const assembled = products

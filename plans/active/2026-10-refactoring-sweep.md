@@ -625,12 +625,24 @@ Design calls; one sitting each.
   press in both overview-detail layouts that show it, the summary still opens,
   and in nested-pairs a card inside a detail opens on its own press. The menu in the suffix reads well
   beside a title that is announced as expanded.
-- [ ] *Component and material readouts formatted by hand.*
-  `specs/nested-pairs.ts` writes each tier's badges and rows by hand, products
-  among them, while `specs/shared/product-view.ts` reads products through the
-  product binding. Components and materials have no binding in
-  `shared/data/bindings`. Give them one, and the nested-pairs tiers can read
-  all three the way the other specs read products.
+- [x] *Component and material readouts formatted by hand.*
+  `specs/nested-pairs.ts` wrote each tier's badges and rows by hand, products
+  among them, while `specs/shared/product-view.ts` read products through the
+  product binding. Done 2026-10-21: `shared/data/bindings` has a
+  `componentBinding` and a `materialBinding`, registered in `bindings`, and
+  `cardAttributes` takes a binding (products by default). The nested-pairs
+  tiers name the paths they show and read labels, values and units through
+  their binding; the spec is unchanged. A currency attribute now takes a
+  `unit`, so a material's cost reads as "$4.20 per kg" rather than
+  "4.2 USD/kg". The product binding set no currency and fell back to pounds,
+  while every product stores its price in US dollars, so all product specs
+  showed dollar amounts as pounds; product prices and trade-in values are now
+  bound as USD, as are component and material costs. Units on the new
+  bindings are static, as on the product binding: every component and
+  material stores the same carbon, design-life and cost unit. A diff of the
+  demo's initial state before and after shows no other change than the
+  formatting of amounts. Checked in the
+  browser in both libraries on the overview-detail page, down to a material.
 - [ ] *One spec is not a tree.* `specs/nested-pairs.json` renders its pair
   again inside its own detail (`card` → `detail` → `overviews` → `pair` →
   `card`), and `card` has two parents. json-render's renderer follows it

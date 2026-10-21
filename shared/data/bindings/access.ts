@@ -121,10 +121,13 @@ const formatDateValue = (value: unknown): string => {
     caller's concern — a view skips them, a table prints a placeholder. */
 export function formatBoundValue(value: unknown, attribute: AttributeBinding): string {
   switch (attribute.valueType) {
-    case 'currency':
-      return typeof value === 'number'
-        ? formatCurrency(value, attribute.currency ?? 'GBP')
-        : String(value);
+    case 'currency': {
+      const amount =
+        typeof value === 'number'
+          ? formatCurrency(value, attribute.currency ?? 'GBP')
+          : String(value);
+      return attribute.unit ? `${amount} ${attribute.unit}` : amount;
+    }
     case 'date':
       return formatDateValue(value);
     case 'progress':
