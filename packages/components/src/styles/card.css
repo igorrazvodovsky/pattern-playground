@@ -158,8 +158,6 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
   .cards--list .card :is(img, figure) {
     grid-row: 1 / -1;
     aspect-ratio: 1 / 1;
-
-    /* TODO: sizing variable */
     width: 80px;
     padding: 0;
     margin: var(--space-s);
@@ -258,8 +256,7 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
 }
 
 /* Hover-revealed actions: a button row that stays quiet until the card is under
-   the pointer. Unlayered so it wins over the button skin without an !important.
-   TODO: a touch-device rule that keeps these always visible. */
+   the pointer. Unlayered so it wins over the button skin without an !important. */
 .hover-only-actions button {
   opacity: 0;
   transition: 120ms opacity ease-in-out;

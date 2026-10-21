@@ -1,5 +1,3 @@
-/* TODO: animate appearance/disappearance when standalone and in a group */
-
 @layer components {
   .badges {
     display: inline-flex;
@@ -84,7 +82,6 @@
     color: oklch(from var(--badge-color) l c h / 80%);
   }
 
-  /* TODO: ? */
   .badge i {
     display: flex;
   }

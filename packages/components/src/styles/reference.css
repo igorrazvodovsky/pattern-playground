@@ -90,7 +90,6 @@
   box-shadow: 0 0 0 3px var(--c-primary-100);
 }
 
-/* TODO: This doesn't work */
 .rich-editor .ProseMirror p.is-editor-empty:first-child::before {
   color: var(--c-neutral-500);
   content: attr(data-placeholder);

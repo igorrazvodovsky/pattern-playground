@@ -105,10 +105,11 @@
 }
 
 .stepper__item--current .stepper__icon {
-  background-color: var(--c-accent);
+  --l-threshold: 0.7;
+  --l: clamp(0, (l / var(--l-threshold) - 1) * -infinity, 1);
 
-  /* TODO: calculate color based on accent color */
-  color: white;
+  background-color: var(--c-accent);
+  color: oklch(from var(--c-accent) var(--l) 0 h / 90%);
 }
 
 .stepper__item--danger .stepper__icon {

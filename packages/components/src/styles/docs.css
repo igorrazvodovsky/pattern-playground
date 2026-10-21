@@ -9,8 +9,6 @@ body {
   max-width: unset !important;
 }
 
-/* TODO: */
-
 /* Monospaced elements keep the face code.css gives them — without the
    exclusion this forced Storybook's own source blocks (`pre.prismjs`, which
    holds no `code`) into the body font. */

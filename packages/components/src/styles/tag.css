@@ -9,13 +9,13 @@
   .tag:not(.token) {
     --tag-bg: var(--c-background);
 
-    /* TODO: */
+    /* The tag is a surface for what sits inside it: nested buttons shade their
+       hover from this. Purpose classes (.accent, .success…) override it from
+       the utilities layer. */
     --c-background: var(--c-neutral-50);
-    --tag-color: oklch(from var(--badge-bg) var(--l) 0 h / 90%);
+    --tag-color: var(--c-body);
     --tag-space-block: var(--space-s);
     --tag-space-inline: var(--space-m);
-    --l-threshold: 0.7;
-    --l: clamp(0, (l / var(--l-threshold) - 1) * -infinity, 1);
 
     color: var(--tag-color);
     background: var(--tag-bg);
@@ -33,7 +33,7 @@
     max-width: 100%;
     transition: var(--transition-fast) background;
 
-    /* TODO: */
+    /* Fixed so a tag lines up with buttons in a row. */
     height: 2rem;
   }
 
@@ -221,16 +221,15 @@ high-contrast styles:
     }
   }
 
-  /* TODO: */
   .tag-group .avatar-group {
-    margin-right: 0.5ch;
+    margin-inline-end: 0.5ch;
     height: 16px;
   }
 
+  /* Hovering the remove button shades every tag in the group, showing that the
+     whole filter is removed. */
   .tag-group:has(.tag-group__remove:hover) .tag {
-    /* TODO: Fix */
-
-    /* --tag-bg: oklch(from var(--c-background) calc(l - 0.05) c h); */
+    --tag-bg: oklch(from var(--c-background) calc(l - 0.05) c h);
   }
 
   /* for icon-only buttons */

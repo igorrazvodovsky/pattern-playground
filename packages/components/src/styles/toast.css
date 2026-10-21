@@ -1,5 +1,3 @@
-/* TODO: Alert types: info, warning, etc. */
-
 .toast-group {
   position: fixed;
   z-index: var(--layer-toast);
