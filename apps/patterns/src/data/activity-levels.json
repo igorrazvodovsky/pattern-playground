@@ -706,6 +706,11 @@
       "lifecycle-stage": "application",
       "mediation": "individual"
     },
+    "waiting": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "wizard": {
       "activity-level": "action",
       "lifecycle-stage": null,

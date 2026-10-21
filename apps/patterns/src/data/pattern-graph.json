@@ -3230,6 +3230,32 @@
       ]
     },
     {
+      "id": "waiting",
+      "title": "Waiting",
+      "category": "Operations",
+      "path": "/patterns/waiting",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor has asked for something and the result is not immediate: a file is uploading, a report is being built, a search is running against a slow source, a model is generating an answer. The gap is long enough to notice, and nothing in it tells the actor whether the system is working, has stalled, or has failed. When the work was handed to an agent, the gap is the liveness part of [delegation](/patterns/delegation)'s monitoring. And it is the case [live presentation](/patterns/live-presentation) does not cover: the result cannot be shown as it forms, or there is nothing of it to show yet.",
+        "resulting": "The gap now has a shape the actor can read: that the system is working, roughly how long remains, and whether they may go, so the system's [time](/patterns/temporality) is legible and the decision to stay or leave is the [actor's own](/patterns/agency). Which sign is shown is a [status feedback](/patterns/status-feedback) question, since the wait is one more state change to deliver, and this pattern is its duration-reporting shape. A wait the actor can see is a wait they can end, so [abort](/patterns/abort) belongs beside the sign for anything longer than a few seconds. Where the sign has said they may leave, the result arrives somewhere they are no longer looking, and [transient feedback](/patterns/transient-feedback) or a notification has to carry it back. The sign is only as honest as the estimate behind it, and a bar that sits at ninety percent for most of the wait teaches the actor to distrust every bar after it. It is not the deliberate delay that [cognitive forcing functions](/patterns/cognitive-forcing-functions) insert before a recommendation, which is friction the design chose rather than time the system needs…"
+      },
+      "realisedBy": [
+        "components-progress-indicator--docs"
+      ],
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "built"
+        }
+      ]
+    },
+    {
       "id": "wizard",
       "title": "Wizard",
       "category": "Actions",
@@ -8343,6 +8369,78 @@
       "type": "enacts",
       "label": "lets the actor return to an earlier state of the work after the session has ended",
       "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "waiting",
+      "target": "status-feedback",
+      "type": "instantiates",
+      "label": "the duration-reporting delivery shape of status feedback: a state change that is still in progress",
+      "extractedFrom": "frontmatter:instantiates",
+      "situation": "Which sign is shown is a [status feedback](/patterns/status-feedback) question, since the wait is one more state change to deliver, and this pattern is its duration-reporting shape.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "waiting",
+      "target": "live-presentation",
+      "type": "alternative",
+      "label": "live presentation shows the partial result instead of a sign that one is coming; waiting covers the gap where nothing of the result can be shown yet",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "And it is the case [live presentation](/patterns/live-presentation) does not cover: the result cannot be shown as it forms, or there is nothing of it to show yet.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "waiting",
+      "target": "abort",
+      "type": "complements",
+      "label": "a wait the actor can see is a wait they can end; abort gives the sign a way out",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A wait the actor can see is a wait they can end, so [abort](/patterns/abort) belongs beside the sign for anything longer than a few seconds.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "waiting",
+      "target": "transient-feedback",
+      "type": "complements",
+      "label": "when the actor has been told they may leave, the result lands out of view and transient feedback carries it back",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the sign has said they may leave, the result arrives somewhere they are no longer looking, and [transient feedback](/patterns/transient-feedback) or a notification has to carry it back.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "waiting",
+      "target": "cognitive-forcing-functions",
+      "type": "tangential",
+      "label": "its wait-before-reveal variants use a delay as friction the design chose, where waiting reports time the system needs",
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "It is not the deliberate delay that [cognitive forcing functions](/patterns/cognitive-forcing-functions) insert before a recommendation, which is friction the design chose rather than time the system needs",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "waiting",
+      "target": "delegation",
+      "type": "serves",
+      "label": "the liveness leg of delegation's monitoring station: whether the delegated work is still going and how far it has got",
+      "extractedFrom": "frontmatter:serves",
+      "situation": "When the work was handed to an agent, the gap is the liveness part of [delegation](/patterns/delegation)'s monitoring.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "waiting",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "makes the system's time legible to the actor: that work is happening, and how much of it remains",
+      "extractedFrom": "frontmatter:enacts",
+      "situation": "The gap now has a shape the actor can read: that the system is working, roughly how long remains, and whether they may go, so the system's [time](/patterns/temporality) is legible and the decision to stay or leave is the [actor's own](/patterns/agency).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "waiting",
+      "target": "agency",
+      "type": "enacts",
+      "label": "tells the actor whether they may leave and gives them the means to stop",
+      "extractedFrom": "frontmatter:enacts",
+      "situation": "The gap now has a shape the actor can read: that the system is working, roughly how long remains, and whether they may go, so the system's [time](/patterns/temporality) is legible and the decision to stay or leave is the [actor's own](/patterns/agency).",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "wizard",
