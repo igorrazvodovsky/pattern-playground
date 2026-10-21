@@ -265,9 +265,10 @@ this.emit('command:execute', {
 
 A plugin's extensions are installed when the host creates its editor with
 `usePluginEditor(options, plugins)` and passes the same `plugins` array to
-`EditorProvider`. A plugin added later through `<EditorPlugin>` gets an
-editor that already exists, so its extensions are not installed; in
-development the plugin registry warns with the names that are missing.
+`EditorProvider`. Plugins are declared up front: the editor's extensions
+are fixed when it is created. If a plugin reaches `EditorProvider` without
+going through `usePluginEditor`, the plugin registry warns in development
+with the extension names that are missing.
 
 When the host already has an extension of the same name, the host's copy is
 kept and the plugin's is skipped, configuration included. A kit whose child
@@ -435,10 +436,10 @@ Document your plugin thoroughly:
  * 
  * @example
  * ```tsx
- * <EditorPlugin plugin={spellCheckPlugin({
+ * const plugins = useMemo(() => [spellCheckPlugin({
  *   language: 'en-US',
  *   customDictionary: ['typescript', 'tiptap']
- * })} />
+ * })], []);
  * ```
  * 
  * @emits spell-check:error When spell check fails
