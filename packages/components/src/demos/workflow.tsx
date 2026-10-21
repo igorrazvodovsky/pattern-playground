@@ -89,8 +89,8 @@ export function WorkflowDemo() {
         overlayUtils={overlayUtils}
         components={components}
         onMount={(editor) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- tldraw debug access
-          (window as any).editor = editor;
+          // Exposed for debugging from the console.
+          Object.assign(window, { editor });
           if (!editor.getCurrentPageShapes().some((s) => s.type === 'node')) {
             editor.createShape({ type: 'node', x: 200, y: 200 });
           }

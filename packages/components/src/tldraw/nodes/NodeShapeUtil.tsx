@@ -5,10 +5,8 @@ import {
   HTMLContainer,
   RecordProps,
   Rectangle2d,
-  resizeBox,
   ShapeUtil,
   T,
-  TLResizeInfo,
   TLShape,
   useEditor,
   useValue,
@@ -98,11 +96,6 @@ export class NodeShapeUtil extends ShapeUtil<NodeShape> {
     return new Group2d({
       children: [bodyGeometry, ...portGeometries],
     });
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  override onResize(shape: any, info: TLResizeInfo<any>) {
-    return resizeBox(shape, info);
   }
 
   component(shape: NodeShape) {

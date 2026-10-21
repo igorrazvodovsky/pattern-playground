@@ -1,4 +1,4 @@
-import { Editor, getIndexBetween, getIndicesBetween, TLParentId } from 'tldraw';
+import { Editor, getIndexBetween, getIndicesBetween, TLParentId, TLShapePartial } from 'tldraw';
 
 /**
  * This function registers side effects that will make sure connection shapes are always below all
@@ -32,8 +32,7 @@ export function keepConnectionsAtBottom(editor: Editor) {
     const changedParentIds = pendingChangedParentIds;
     pendingChangedParentIds = new Set();
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const updates: any[] = [];
+    const updates: TLShapePartial[] = [];
 
     for (const parentId of changedParentIds) {
       // iterate through all the children of this parent. We want all the connections at the

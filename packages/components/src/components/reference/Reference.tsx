@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- Tiptap extension types require any; see plans/tech-debt-tracker.md */
 import { Mention } from '@tiptap/extension-mention';
+import type { MentionOptions } from '@tiptap/extension-mention';
 import { ReactRenderer } from '@tiptap/react';
 import { createPortal } from 'react-dom';
 import { computePosition, flip, offset, shift, autoUpdate } from '@floating-ui/dom';
@@ -182,27 +182,28 @@ export const Reference = Mention.extend({
 
   addOptions() {
     return {
-      ...(this as any).parent?.(),
+      // Mention defines addOptions, so the parent always returns its options.
+      ...(this.parent?.() as MentionOptions),
       HTMLAttributes: {
         class: 'reference-mention reference',
       },
-      renderText({ node }: any) {
+      renderText({ node }) {
         return `${node.attrs.label ?? node.attrs.id}`;
       },
-      renderHTML({ node }: any) {
-        return `${node.attrs.label ?? node.attrs.id}`;
+      renderHTML({ options, node }) {
+        return ['span', options.HTMLAttributes, `${node.attrs.label ?? node.attrs.id}`];
       },
     };
   },
 
   addCommands() {
     return {
-      ...(this as any).parent?.(),
+      ...this.parent?.(),
 
       // Convert selected text to quote reference
       convertSelectionToQuoteReference:
         (quoteData: { id: string; label: string; metadata?: Record<string, unknown> }) =>
-        ({ commands, state }: any) => {
+        ({ commands, state }) => {
           const { from, to } = state.selection;
           if (from === to) return false;
 
@@ -223,7 +224,7 @@ export const Reference = Mention.extend({
       // Create quote reference at current position
       createQuoteReference:
         (attrs: { id: string; label: string; type: string; metadata?: Record<string, unknown> }) =>
-        ({ commands }: any) => {
+        ({ commands }) => {
           return commands.insertContent({
             type: 'reference',
             attrs,
@@ -234,11 +235,11 @@ export const Reference = Mention.extend({
 
   addAttributes() {
     return {
-      ...(this as any).parent?.(),
+      ...this.parent?.(),
       type: {
         default: null,
-        parseHTML: (element: any) => element.getAttribute('data-reference-type'),
-        renderHTML: (attributes: any) => {
+        parseHTML: (element) => element.getAttribute('data-reference-type'),
+        renderHTML: (attributes) => {
           if (!attributes.type) {
             return {};
           }
@@ -249,11 +250,11 @@ export const Reference = Mention.extend({
       },
       metadata: {
         default: null,
-        parseHTML: (element: any) => {
+        parseHTML: (element) => {
           const metadata = element.getAttribute('data-metadata');
           return metadata ? structuredClone(JSON.parse(metadata)) : null;
         },
-        renderHTML: (attributes: any) => {
+        renderHTML: (attributes) => {
           if (!attributes.metadata) {
             return {};
           }
@@ -266,7 +267,7 @@ export const Reference = Mention.extend({
   },
 
   addNodeView() {
-    return ({ node, editor, getPos }: any) => {
+    return ({ node, editor, getPos }) => {
       const wrapper = document.createElement('span');
       wrapper.contentEditable = 'false';
 
@@ -292,6 +293,7 @@ export const Reference = Mention.extend({
         if (typeof getPos !== 'function') return false;
 
         const pos = getPos();
+        if (pos === undefined) return false;
         const { from, to } = editor.state.selection;
         const nodeEnd = pos + node.nodeSize;
 
@@ -386,7 +388,7 @@ export const Reference = Mention.extend({
       let renderer: ReactRenderer;
 
       // Defer ReactRenderer creation to avoid flushSync warnings
-      setTimeout(() => {
+      const mountTimer = setTimeout(() => {
         renderer = new ReactRenderer(ReferenceComponent, {
           editor,
         });
@@ -397,6 +399,8 @@ export const Reference = Mention.extend({
         dom: wrapper,
         destroy() {
           editor.off('selectionUpdate', handleSelectionUpdate);
+          // A view destroyed before the timer fires never mounts its renderer.
+          clearTimeout(mountTimer);
           if (renderer) {
             renderer.destroy();
           }

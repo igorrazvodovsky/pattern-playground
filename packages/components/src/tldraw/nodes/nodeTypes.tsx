@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- tldraw generic types require any; see plans/tech-debt-tracker.md */
 import { Editor, T, useEditor, WeakCache } from 'tldraw';
 import {
   NODE_HEADER_HEIGHT_PX,
@@ -12,12 +11,7 @@ import { ConditionalNodeDefinition } from './types/ConditionalNode';
 import { DivideNodeDefinition } from './types/DivideNode';
 import { EarthquakeNodeDefinition } from './types/EarthquakeNode';
 import { MultiplyNodeDefinition } from './types/MultiplyNode';
-import {
-  ExecutionResult,
-  InfoValues,
-  NodeDefinition,
-  NodeDefinitionConstructor,
-} from './types/shared';
+import { ExecutionResult, InfoValues, NodeDefinition } from './types/shared';
 import { SliderNodeDefinition } from './types/SliderNode';
 import { SubtractNodeDefinition } from './types/SubtractNode';
 
@@ -30,7 +24,7 @@ export const NodeDefinitions = {
   conditional: ConditionalNodeDefinition,
   slider: SliderNodeDefinition,
   earthquake: EarthquakeNodeDefinition,
-} satisfies Record<string, NodeDefinitionConstructor<any>>;
+};
 
 /**
  * A union type of all our node types.
@@ -45,15 +39,16 @@ export const NodeType = T.union(
   },
 );
 
-const nodeDefinitions = new WeakCache<
-  Editor,
-  { [K in keyof typeof NodeDefinitions]: InstanceType<(typeof NodeDefinitions)[K]> }
->();
+type NodeDefinitionInstances = {
+  [K in keyof typeof NodeDefinitions]: InstanceType<(typeof NodeDefinitions)[K]>;
+};
+
+const nodeDefinitions = new WeakCache<Editor, NodeDefinitionInstances>();
 export function getNodeDefinitions(editor: Editor) {
   return nodeDefinitions.get(editor, () => {
     return Object.fromEntries(
       Object.values(NodeDefinitions).map((value) => [value.type, new value(editor)]),
-    ) as any;
+    ) as NodeDefinitionInstances;
   });
 }
 
