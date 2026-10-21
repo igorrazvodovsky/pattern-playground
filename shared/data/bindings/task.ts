@@ -1,7 +1,9 @@
 import type { EntityBinding } from './types';
 
 /**
- * Tasks (the unified Task shape from task-types). Everything declarative the
+ * Tasks — the fixture world's task view (`transformations/tasks.ts`). The
+ * session task from `task-types.ts` renders through it too, because its field
+ * paths match. Everything declarative the
  * retired TaskAdapter rendered is an entry here; `history` and `comments`
  * are the behavioural residue — rendered by registered custom components
  * (the execution stepper, the comment thread), never generically.

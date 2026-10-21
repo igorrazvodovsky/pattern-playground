@@ -1,7 +1,7 @@
 import React from 'react';
 import type { CustomAttributeProps, CustomComponents } from './types';
 import { getValueAtPath, getUserById } from '@shared/data';
-import type { TaskHistoryEntry } from '@shared/data/task-types';
+import type { TaskHistoryEntry } from '@shared/data/transformations/tasks';
 import { isoDateTime } from '@shared/format';
 import '../../jsx-types';
 import { CommentThread } from '../commenting/core/CommentThread.js';

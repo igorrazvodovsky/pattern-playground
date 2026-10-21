@@ -115,7 +115,7 @@ export const transformTasksData = (
       return {
         id: task.statusId,
         label: status?.name || task.statusId,
-        value: status?.value || 'submitted',
+        value: status?.value || task.statusId,
       };
     })(),
 
