@@ -149,7 +149,12 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
 
   /* Row / list variant. A card inside `.cards--list` that carries media gains a
      leading column and lays the media out as a fixed square there; a card with
-     no media stays a single stacked column. */
+     no media stays a single stacked column. Set `--card-media-size` on the
+     collection or on one card to resize the square. */
+  .cards--list {
+    --card-media-size: 80px;
+  }
+
   .cards--list .card:has(> :is(img, figure)) {
     grid-template-columns: auto 1fr;
     grid-template-rows: auto auto auto auto;
@@ -158,7 +163,7 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
   .cards--list .card :is(img, figure) {
     grid-row: 1 / -1;
     aspect-ratio: 1 / 1;
-    width: 80px;
+    width: var(--card-media-size);
     padding: 0;
     margin: var(--space-s);
     margin-inline-end: 0;
