@@ -418,12 +418,13 @@ failed on the first new action that changed a view. It is gone from the
 
 Design calls; one sitting each.
 
-- [ ] *Stat tile.* `stories/Stat.stories.tsx` (`StatTile`). The story is
-  already titled `Templates/Stat`. The monitor and watch-to-chase demos are
-  now specs: the catalog has a `Stat` (the figure, its verdict and detail,
-  and `alert`), placed in a Card titled by its label with the trend as a
-  Badge in the card's suffix. `alert` now sits on `.stat` rather than on the
-  card.
+- [x] *Stat tile.* `stories/Stat.stories.tsx` (`StatTile`). The monitor and
+  watch-to-chase demos are specs: the catalog has a `Stat` (the figure, its
+  verdict and detail, and `alert`), placed in a Card titled by its label with
+  the trend as a Badge in the card's suffix. Closed 2026-10-21 without an
+  extraction: the `Templates/Stat` story writes the same arrangement in
+  markup, with `alert` on `.stat`, and there is no second consumer for a
+  component to serve.
 - [ ] *Overview attributes repeated.* The list
   `['name','category','pricing.msrp']` is written out in the overview-detail
   and linked-trio specs. No demo writes out `cards--list > EntityCard` any
@@ -439,9 +440,9 @@ Design calls; one sitting each.
   from `specs/shared/product-view.ts`, so the checklist's badges now take the
   binding's labels (Price, Listed) and leave a missing value out.
 - [x] *Item layout by role, twice.* `specs/shared/product-view.ts` copied part
-  of `ItemView`'s role layout to lay out a rung for the spec demos. Moved
-  2026-10-21 to `2026-10-item-view-in-specs.md`: one layout function beside
-  the bindings, read by `ItemView` and by an item view type in the catalog.
+  of `ItemView`'s role layout to lay out a rung for the spec demos. Done
+  2026-10-21: `layoutByRole` in `shared/data/bindings/layout.ts` is read by
+  `ItemView` and by the catalog's `ItemView` type.
 - [ ] *Hover bridge, twice.* `components/item-view/ItemInteraction.tsx` and
   `catalog/behaviour/preview.ts` each implement the reference's preview
   (open after a pause, close after a grace that arriving on the preview
@@ -555,10 +556,10 @@ Design calls; one sitting each.
   line never wrapped, so it needed nothing.
 - [x] *Product readout repeated in specs.* The readout of an item at one rung
   was written out about twelve times across the spec JSON, and json-render
-  has no way to reuse a subtree. Moved 2026-10-21 to
-  `2026-10-item-view-in-specs.md`: catalog types are a spec vocabulary, not
-  the Storybook catalogue, so the catalog takes an item view that lays out
-  any bound entity from its binding, and each readout becomes one element.
+  has no way to reuse a subtree. Done 2026-10-21: catalog types are a spec
+  vocabulary, not the Storybook catalogue, so the catalog takes an `ItemView`
+  type that lays out any bound entity from its binding, and each readout
+  becomes one element.
 - [x] *Filter chip, twice.* The chip that edits one filter condition was
   written in `components/filter/filter-components.tsx`, tied to the task
   fixtures, and in the pp registry's `FilterTag`. Done 2026-10-21: the
