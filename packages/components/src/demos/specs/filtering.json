@@ -94,7 +94,8 @@
         "values": { "$item": "values" },
         "options": { "$item": "options" },
         "glyphs": { "$item": "glyphs" },
-        "focusNext": "Clear filter",
+        "focusKey": "filter",
+        "focusNext": "filter",
         "edit": { "$bindState": "/filterEdit" }
       },
       "on": {
@@ -130,7 +131,7 @@
         "label": "Clear filters",
         "icon": "cancel",
         "hideLabel": true,
-        "focusNext": "Add a filter"
+        "focusNext": "filter-field"
       },
       "visible": { "$state": "/derived/filtered" },
       "on": {
@@ -143,6 +144,7 @@
         "label": "Add a filter",
         "hideLabel": true,
         "popup": true,
+        "focusKey": "filter-field",
         "icon": "filter",
         "placeholder": { "$state": "/field/placeholder" },
         "value": { "$bindState": "/filterQuery" },

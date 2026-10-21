@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext } from 'react';
-import { labelOf } from './focus-handoff';
+import { withFocusKey } from './focus-handoff';
 
 // A spec's `returnFocus` control is looked up in the demo that rendered the
 // window, which SpecDemo provides, because the window is portaled out of it.
@@ -40,13 +40,14 @@ export const settleFocus = (target: HTMLElement | null, opener: Opener | null) =
 
 export const DemoRoot = createContext<{ readonly current: HTMLElement | null } | null>(null);
 
-export const useReturnFocus = (label: string | null | undefined) => {
+export const useReturnFocus = (key: string | null | undefined) => {
   const demo = useContext(DemoRoot);
   return useCallback((): HTMLElement | null => {
-    if (!label || !demo?.current) return null;
+    if (!key || !demo?.current) return null;
     return (
-      [...demo.current.querySelectorAll('button')].find((button) => labelOf(button) === label) ??
-      null
+      withFocusKey(demo.current, key).find(
+        (element) => !element.matches(':disabled') && element.checkVisibility(),
+      ) ?? null
     );
-  }, [label, demo]);
+  }, [key, demo]);
 };

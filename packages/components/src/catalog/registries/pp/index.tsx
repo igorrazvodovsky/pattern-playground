@@ -815,7 +815,13 @@ export const { registry } = defineRegistry(catalog, {
         </>
       );
       const tag = props.opens ? (
-        <button ref={openRef} type="button" className="tag" onClick={() => emit('open')}>
+        <button
+          ref={openRef}
+          type="button"
+          className="tag"
+          data-focus-key={props.focusKey ?? undefined}
+          onClick={() => emit('open')}
+        >
           {content}
         </button>
       ) : (
@@ -829,6 +835,7 @@ export const { registry } = defineRegistry(catalog, {
             ref={removeRef}
             type="button"
             className="tag tag-group__remove"
+            data-focus-key={props.focusKey ?? undefined}
             onClick={() => emit('remove')}
           >
             <iconify-icon icon={icons.cancel} aria-hidden="true" />
@@ -855,6 +862,7 @@ export const { registry } = defineRegistry(catalog, {
             icon: each.icon && icons[each.icon],
           }))}
           removeLabel={props.removeLabel}
+          focusKey={props.focusKey}
           onChange={(change) => {
             setEdit(change);
             void emit('change');
@@ -888,6 +896,7 @@ export const { registry } = defineRegistry(catalog, {
             ref={setTrigger}
             type="button"
             className="reference-mention reference"
+            data-focus-key={props.focusKey ?? undefined}
             aria-haspopup="dialog"
             aria-expanded={props.expanded ?? false}
             {...trigger}
@@ -1039,6 +1048,7 @@ export const { registry } = defineRegistry(catalog, {
             className="button button--plain"
             data-slot="trigger"
             title={props.label}
+            data-focus-key={props.focusKey ?? undefined}
           >
             {props.icon && (
               <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />
@@ -1150,6 +1160,7 @@ export const { registry } = defineRegistry(catalog, {
         <button
           ref={ref}
           type={props.submit ? 'submit' : 'button'}
+          data-focus-key={props.focusKey ?? undefined}
           className={clsx(
             'button',
             props.variant && props.variant !== 'default' && `button--${props.variant}`,
@@ -1328,7 +1339,12 @@ export const { registry } = defineRegistry(catalog, {
       }
       return (
         <pp-dropdown ref={dropdown} hoist placement="bottom-start">
-          <button type="button" className="button" data-slot="trigger">
+          <button
+            type="button"
+            className="button"
+            data-slot="trigger"
+            data-focus-key={props.focusKey ?? undefined}
+          >
             {props.icon && (
               <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />
             )}

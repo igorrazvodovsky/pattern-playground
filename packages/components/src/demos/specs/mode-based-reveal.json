@@ -24,7 +24,7 @@
     },
     "select": {
       "type": "Button",
-      "props": { "label": "Select", "variant": "plain", "focusNext": "Done" },
+      "props": { "label": "Select", "variant": "plain", "focusKey": "select", "focusNext": "done" },
       "visible": { "$state": "/editing", "not": true },
       "on": {
         "press": { "action": "setState", "params": { "statePath": "/editing", "value": true } }
@@ -32,7 +32,7 @@
     },
     "done": {
       "type": "Button",
-      "props": { "label": "Done", "variant": "plain", "focusNext": "Select" },
+      "props": { "label": "Done", "variant": "plain", "focusKey": "done", "focusNext": "select" },
       "visible": { "$state": "/editing" },
       "on": {
         "press": [

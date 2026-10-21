@@ -15,7 +15,7 @@
 
     "delete-workspace": {
       "type": "Button",
-      "props": { "label": "Delete workspace", "variant": "danger" },
+      "props": { "label": "Delete workspace", "variant": "danger", "focusKey": "delete-workspace" },
       "visible": { "$state": "/exists" },
       "on": {
         "press": { "action": "setState", "params": { "statePath": "/confirming", "value": true } }
@@ -29,7 +29,7 @@
     },
     "restore": {
       "type": "Button",
-      "props": { "label": "Restore", "variant": "plain", "focusNext": "Delete workspace" },
+      "props": { "label": "Restore", "variant": "plain", "focusNext": "delete-workspace" },
       "on": {
         "press": { "action": "setState", "params": { "statePath": "/exists", "value": true } }
       }

@@ -16,6 +16,7 @@
       "props": {
         "label": { "$state": "/product/name" },
         "icon": "product",
+        "focusKey": "mention",
         "preview": { "$bindState": "/preview" },
         "expanded": {
           "$cond": { "$or": [{ "$state": "/detailOpen" }, { "$state": "/fullOpen" }] },
@@ -99,7 +100,7 @@
       "props": {
         "title": { "$state": "/product/name" },
         "open": { "$bindState": "/detailOpen" },
-        "returnFocus": { "$state": "/product/name" }
+        "returnFocus": "mention"
       },
       "slots": { "suffix": ["detail-to-summary", "detail-to-full"] },
       "children": ["detail-body"]
@@ -169,7 +170,7 @@
       "props": {
         "title": { "$state": "/product/name" },
         "open": { "$bindState": "/fullOpen" },
-        "returnFocus": { "$state": "/product/name" }
+        "returnFocus": "mention"
       },
       "slots": { "suffix": ["full-to-summary", "full-to-detail"] },
       "children": ["full-body"]

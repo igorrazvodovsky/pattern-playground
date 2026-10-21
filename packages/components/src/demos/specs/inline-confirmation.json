@@ -26,7 +26,8 @@
         "icon": "delete",
         "hideLabel": true,
         "variant": "plain",
-        "focusNext": "Cancel"
+        "focusKey": "delete",
+        "focusNext": "cancel"
       },
       "visible": { "$item": "armed", "not": true },
       "on": { "press": { "action": "arm", "params": { "item": { "$item": "" } } } }
@@ -38,7 +39,8 @@
         "icon": "cancel",
         "hideLabel": true,
         "variant": "plain",
-        "focusNext": "Delete"
+        "focusKey": "cancel",
+        "focusNext": "delete"
       },
       "visible": { "$item": "armed" },
       "on": {
@@ -55,7 +57,7 @@
         "icon": "delete-confirm",
         "hideLabel": true,
         "variant": "plain",
-        "focusNext": "Delete"
+        "focusNext": "delete"
       },
       "visible": { "$item": "armed" },
       "on": {

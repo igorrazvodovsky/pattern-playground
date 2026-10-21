@@ -37,6 +37,8 @@ export interface FilterTagProps {
   options: string[];
   glyphs?: FilterGlyph[] | null;
   removeLabel?: string | null;
+  /** Set on the remove button as `data-focus-key`, for a host that hands focus to it. */
+  focusKey?: string | null;
   onChange: (change: FilterChange) => void;
   onRemove: () => void;
   ref?: Ref<HTMLDivElement>;
@@ -67,6 +69,7 @@ export function FilterTag({
   options,
   glyphs,
   removeLabel,
+  focusKey,
   onChange,
   onRemove,
   ref,
@@ -183,7 +186,12 @@ export function FilterTag({
         </pp-popup>
       </pp-dropdown>
 
-      <button type="button" className="tag tag-group__remove" onClick={onRemove}>
+      <button
+        type="button"
+        className="tag tag-group__remove"
+        data-focus-key={focusKey ?? undefined}
+        onClick={onRemove}
+      >
         <iconify-icon icon="ik:cross" aria-hidden="true" />
         <span className="visually-hidden">{removeLabel ?? 'Clear filter'}</span>
       </button>

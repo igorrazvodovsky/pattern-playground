@@ -19,7 +19,7 @@
         "label": "View settings",
         "icon": "settings",
         "align": "end",
-        "focusNext": { "$item": "name" }
+        "focusNext": { "$item": "id" }
       },
       "children": ["layout-in-place", "layout-side-by-side", "layout-popover", "layout-new-page"]
     },
@@ -201,6 +201,7 @@
       "props": {
         "title": { "$item": "name" },
         "opens": true,
+        "focusKey": { "$item": "id" },
         "selected": {
           "$cond": { "$item": "id", "eq": { "$state": "/selected" } },
           "$then": true,
@@ -414,7 +415,8 @@
         "icon": "previous",
         "hideLabel": true,
         "variant": "plain",
-        "focusNext": "Previous item"
+        "focusKey": "pane-previous",
+        "focusNext": "pane-previous"
       },
       "on": {
         "press": [
@@ -438,7 +440,8 @@
         "icon": "next",
         "hideLabel": true,
         "variant": "plain",
-        "focusNext": "Next item"
+        "focusKey": "pane-next",
+        "focusNext": "pane-next"
       },
       "on": {
         "press": [

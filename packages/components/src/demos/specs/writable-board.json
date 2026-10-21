@@ -187,7 +187,8 @@
         "label": { "$item": "moveLabel" },
         "icon": "move",
         "align": "end",
-        "focusNext": { "$item": "moveLabel" }
+        "focusKey": { "$item": "id" },
+        "focusNext": { "$item": "id" }
       },
       "visible": { "$item": "movable" },
       "repeat": { "statePath": { "$item": "destinations" }, "key": "group" },

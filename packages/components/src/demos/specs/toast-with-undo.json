@@ -25,7 +25,8 @@
         "icon": "delete",
         "hideLabel": true,
         "variant": "plain",
-        "focusNext": "Delete"
+        "focusKey": "delete",
+        "focusNext": "delete"
       },
       "on": {
         "press": [

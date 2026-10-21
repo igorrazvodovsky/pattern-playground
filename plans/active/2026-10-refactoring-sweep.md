@@ -54,14 +54,14 @@ json-render 0.21.1 and its documentation. Its items are in §3 and §5.
   reverting took focus with it. Both registries and the old React demos had the
   defect. Each Button in both registries now hands focus on when it unmounts
   while focused (`catalog/behaviour/focus-handoff.ts`). The catalog's
-  `focusNext` prop names the label of the Button that takes it: the first one
-  after where the lost button was, else the last one before it. A swap names
+  `focusNext` prop names the `focusKey` of the control that takes it (see
+  *Controls named by label* in §4): the first one after where the lost button was, else the last one before it. A swap names
   its replacement (Delete names Cancel, Cancel names Delete), and a row removal
   names the same control, which lands on the next row, else the previous one.
   Without a name or a match, focus goes to the demo root, as it already did for
   a dialog whose opener is gone. Buttons inside a dialog are left to the
-  dialog. A unit test checks that every `focusNext` matches a Button label in
-  its spec.
+  dialog. A unit test checks that every `focusNext` matches a key in its
+  spec.
 - [x] *A pp Dialog closed by the browser could not be reopened* (checked).
   The registry set `open` back to false only on `pp-modal-close`, which
   pp-modal sent from its own close path. A close the browser made itself (a
@@ -461,11 +461,28 @@ Design calls; one sitting each.
   preference in a persisted store, where the item-view-transitions spec keeps
   it in demo state, and its rung icons repeat the registries' `summary`,
   `detail` and `full`. Decide whether `ItemInteraction` should use the hook.
-- [ ] *Controls named by label.* A Button's `focusNext` and a Dialog's or
-  Drawer's `returnFocus` find their control by its label, and take the first
-  match. Two controls with the same label in one demo (two references to the
-  same item) would send focus to the wrong one. A stable key the spec gives
-  the control would avoid it; change both together.
+- [x] *Controls named by label.* A Button's `focusNext` and a Dialog's or
+  Drawer's `returnFocus` found their control by its label, and
+  `returnFocus` took the first match, so two controls with the same label
+  in one demo (two references to the same item, a Delete and a confirming
+  Delete) could send focus to the wrong one. Done 2026-10-21: the catalog
+  has a `focusKey` on every type a name can land on (Button, Tag, FilterTag,
+  Menu, Reference, Combobox, Card, Item), rendered as `data-focus-key` on
+  the control that takes focus, and `focusNext` and `returnFocus` name a
+  key. Specs use the element's id as its key; a row's counterpart shares
+  one key through its `repeat`, and the overview-detail and writable-board
+  specs key their rows by item id, where they used to name the item's name
+  or move label. The positional rule for `focusNext` is unchanged.
+  `labelOf` is gone, and `returnFocus` skips a hidden or disabled match as
+  `focusNext` does. The spec test checks every name, expressions included,
+  against the keys in its spec that a control renders (a Tag needs `opens`
+  or `removeLabel`, a Combobox `popup`, a Card or Item `opens`), and that no two elements declare the same
+  literal key. Checked in the browser in both libraries: inline-confirmation
+  (Delete and Cancel swap, a confirmed row hands on to the next row's
+  Delete), item-view-transitions (the drawer, and the dialog opened from
+  it, return to the Reference), overview-detail (changing the layout from
+  an expanded row lands on that item's title) and writable-board (a moved
+  card's menu keeps focus).
 - [x] *Leaflet setup, twice.* `components/map/map.ts` and
   `catalog/registries/shadcn/map.tsx` each created the Leaflet map, framed it,
   deferred its removal while a zoom ran, named and keyed the pins, marked the

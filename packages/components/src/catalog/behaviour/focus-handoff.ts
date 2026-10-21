@@ -4,24 +4,27 @@ import { useCallback, useLayoutEffect, useRef, type RefObject } from 'react';
 // Tab would start from the top of the page. A button inside a dialog is left
 // alone, because the dialog returns focus itself.
 
-export const labelOf = (button: HTMLButtonElement) =>
-  button.getAttribute('aria-label') ?? button.textContent.trim();
+// A control a spec names has its `focusKey` in `data-focus-key`.
+export const withFocusKey = (root: ParentNode, key: string) =>
+  [...root.querySelectorAll<HTMLElement>('[data-focus-key]')].filter(
+    (element) => element.dataset.focusKey === key,
+  );
 
 const findTarget = (
   demo: HTMLElement,
   before: Element[],
   focusNext: string,
 ): HTMLElement | undefined => {
-  const candidates = [...demo.querySelectorAll('button')].filter(
-    (button) => labelOf(button) === focusNext && !button.disabled && button.checkVisibility(),
+  const candidates = withFocusKey(demo, focusNext).filter(
+    (element) => !element.matches(':disabled') && element.checkVisibility(),
   );
   const anchor = before.find((element) => element.isConnected);
-  const follows = (button: HTMLButtonElement) =>
-    !anchor || (anchor.compareDocumentPosition(button) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
+  const follows = (element: HTMLElement) =>
+    !anchor || (anchor.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
   return candidates.find(follows) ?? candidates.at(-1);
 };
 
-// Read when the element goes, so a label that changes while the element stays
+// Read when the element goes, so a key that changes while the element stays
 // does not count as the element going.
 const useLatest = (focusNext: string | null | undefined) => {
   const latest = useRef(focusNext);

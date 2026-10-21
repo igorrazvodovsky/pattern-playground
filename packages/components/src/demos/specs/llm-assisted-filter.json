@@ -16,7 +16,8 @@
         "label": "Things that are good for me",
         "icon": "generated",
         "removeLabel": "Clear filter",
-        "focusNext": "Reset"
+        "focusKey": "task-result",
+        "focusNext": "reset"
       },
       "visible": { "$state": "/applied" },
       "on": {
@@ -25,7 +26,12 @@
     },
     "reset": {
       "type": "Button",
-      "props": { "label": "Reset", "variant": "plain", "focusNext": "Clear filter" },
+      "props": {
+        "label": "Reset",
+        "variant": "plain",
+        "focusKey": "reset",
+        "focusNext": "task-result"
+      },
       "visible": { "$state": "/applied", "not": true },
       "on": {
         "press": { "action": "setState", "params": { "statePath": "/applied", "value": true } }

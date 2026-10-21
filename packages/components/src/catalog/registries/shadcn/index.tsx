@@ -1104,6 +1104,7 @@ export const { registry } = defineRegistry(catalog, {
         <Root
           ref={props.opens ? openRef : undefined}
           type={props.opens ? 'button' : undefined}
+          data-focus-key={(props.opens && props.focusKey) || undefined}
           onClick={props.opens ? () => emit('open') : undefined}
           className={clsx(
             'inline-flex w-fit shrink-0 items-center justify-center gap-1 rounded-md border border-transparent bg-secondary px-2 py-0.5 text-xs font-medium whitespace-nowrap text-secondary-foreground [&>svg]:pointer-events-none [&>svg]:size-3',
@@ -1123,6 +1124,7 @@ export const { registry } = defineRegistry(catalog, {
               ref={removeRef}
               type="button"
               aria-label={props.removeLabel}
+              data-focus-key={props.focusKey ?? undefined}
               onClick={() => emit('remove')}
               className="-mr-1 rounded-sm p-0.5 opacity-70 outline-none hover:bg-foreground/10 hover:opacity-100 focus-visible:ring-[3px] focus-visible:ring-ring/50 [&>svg]:size-3"
             >
@@ -1178,6 +1180,7 @@ export const { registry } = defineRegistry(catalog, {
               type="button"
               aria-haspopup="dialog"
               aria-expanded={props.expanded ?? false}
+              data-focus-key={props.focusKey ?? undefined}
               {...trigger}
               onClick={() => {
                 close();
@@ -1286,6 +1289,7 @@ export const { registry } = defineRegistry(catalog, {
             ref={trigger}
             aria-label={props.label}
             title={props.label}
+            data-focus-key={props.focusKey ?? undefined}
             className={clsx(buttonBase, buttonVariant.plain, buttonSize[Icon ? 'icon' : 'default'])}
           >
             {Icon ? <Icon aria-hidden="true" /> : props.label}
@@ -1344,6 +1348,7 @@ export const { registry } = defineRegistry(catalog, {
         <button
           ref={ref}
           type={props.submit ? 'submit' : 'button'}
+          data-focus-key={props.focusKey ?? undefined}
           className={clsx(
             buttonBase,
             buttonVariant[props.variant ?? 'default'],
@@ -1592,6 +1597,7 @@ export const { registry } = defineRegistry(catalog, {
         <Popover.Root open={shown} onOpenChange={show}>
           <Popover.Trigger
             aria-label={iconOnly ? props.label : undefined}
+            data-focus-key={props.focusKey ?? undefined}
             className={clsx(
               buttonBase,
               buttonVariant.default,

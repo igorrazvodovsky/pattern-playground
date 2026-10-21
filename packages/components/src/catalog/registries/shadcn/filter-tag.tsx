@@ -206,6 +206,7 @@ export function FilterTag({
       <button
         type="button"
         aria-label={props.removeLabel ?? 'Clear filter'}
+        data-focus-key={props.focusKey ?? undefined}
         onClick={() => void emit('remove')}
         className={`${segment} ${pressable} px-1.5 text-muted-foreground [&>svg]:size-3.5`}
       >

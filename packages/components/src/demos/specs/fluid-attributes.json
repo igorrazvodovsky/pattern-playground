@@ -133,7 +133,8 @@
         "operators": { "$item": "operators" },
         "values": { "$item": "values" },
         "options": { "$item": "options" },
-        "focusNext": "Clear filter",
+        "focusKey": "filter",
+        "focusNext": "filter",
         "edit": { "$bindState": "/filterEdit" }
       },
       "on": {
