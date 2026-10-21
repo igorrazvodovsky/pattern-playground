@@ -1,5 +1,9 @@
 import { useEffect, useId, useRef, useState, type MouseEvent } from 'react';
-import { Node as TiptapNode } from '@tiptap/core';
+import { Extension, Node as TiptapNode } from '@tiptap/core';
+import type { Node as PmNode } from '@tiptap/pm/model';
+import { Plugin, PluginKey, type EditorState } from '@tiptap/pm/state';
+import { Decoration, DecorationSet } from '@tiptap/pm/view';
+import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom';
 import { useEditor, type Editor, type JSONContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Placeholder } from '@tiptap/extensions';
@@ -11,30 +15,78 @@ import type { iconNames } from '../catalog';
 // the markup differs.
 //
 // Marks and blocks other than paragraphs are switched off, because the content
-// is written back to state as plain runs, mentions and slots, and anything
-// else would be lost on the way.
+// is written back to state as plain runs, mentions, keywords and slots, and
+// anything else would be lost on the way.
 
 export type MentionPart = { id: string; label: string; type: string };
 export type SlotPart = { slot: string; label: string; required: boolean | null; value: string };
-export type Paragraph = (string | MentionPart | SlotPart)[];
+/** A word of a formula's own vocabulary, such as an operator, held as one part. */
+export type KeywordPart = { keyword: string; label: string; type: string };
+export type Paragraph = (string | MentionPart | SlotPart | KeywordPart)[];
 type CandidateIcon = (typeof iconNames)[number] | null;
 export type KindCandidate = { id: string; label: string; narrows: true; icon?: CandidateIcon };
-export type MentionCandidate = (MentionPart & { icon?: CandidateIcon }) | KindCandidate;
+export type KeywordCandidate = MentionPart & {
+  keyword: true;
+  then?: string | null;
+  icon?: CandidateIcon;
+};
+type Part = Paragraph[number];
+/** Puts parts in place of what was typed, the caret between `before` and `after`. */
+export type InsertCandidate = {
+  id: string;
+  label: string;
+  icon?: CandidateIcon;
+  insert: { before: Part[]; after?: Part[] | null; line?: boolean | null };
+};
+/** Puts parts around the condition at the caret, in a formula. */
+export type WrapCandidate = {
+  id: string;
+  label: string;
+  icon?: CandidateIcon;
+  wrap: { before: Part[]; after: Part[] };
+};
+export type MentionCandidate =
+  | (MentionPart & { icon?: CandidateIcon })
+  | KindCandidate
+  | KeywordCandidate
+  | InsertCandidate
+  | WrapCandidate;
+type Pickable = Exclude<MentionCandidate, KindCandidate>;
 export type MentionGroup = { heading: string | null; options: MentionCandidate[] };
 
 export const isKind = (candidate: MentionCandidate): candidate is KindCandidate =>
   'narrows' in candidate;
+export const isKeywordCandidate = (candidate: MentionCandidate): candidate is KeywordCandidate =>
+  'keyword' in candidate;
+const isInsert = (candidate: MentionCandidate): candidate is InsertCandidate =>
+  'insert' in candidate;
+const isWrap = (candidate: MentionCandidate): candidate is WrapCandidate => 'wrap' in candidate;
 export const isSlot = (part: Paragraph[number]): part is SlotPart =>
   typeof part !== 'string' && 'slot' in part;
+const isKeyword = (part: Paragraph[number]): part is KeywordPart =>
+  typeof part !== 'string' && 'keyword' in part;
 
-const toDoc = (paragraphs: Paragraph[]): JSONContent => ({
-  type: 'doc',
-  content: paragraphs.map((parts) => {
-    const content = parts
-      .filter((part) => typeof part !== 'string' || part.length > 0)
-      .map((part) =>
-        typeof part === 'string'
-          ? { type: 'text', text: part }
+/** Where the list was opened, so the spec can offer what fits there. */
+export type ListContext = {
+  trigger: '@' | '/' | 'swap';
+  /** The mention heading the innermost bracket still open, in a formula. */
+  enclosing: string | null;
+  /** The mention straight before the list's place, past spaces between them. */
+  preceding: string | null;
+  /** The mention heading the condition at the list's place, in a formula. */
+  condition: string | null;
+  /** The keyword being swapped. */
+  keyword: string | null;
+};
+
+const toNodes = (parts: Part[]): JSONContent[] =>
+  parts
+    .filter((part) => typeof part !== 'string' || part.length > 0)
+    .map((part) =>
+      typeof part === 'string'
+        ? { type: 'text', text: part }
+        : isKeyword(part)
+          ? { type: 'keyword', attrs: { id: part.keyword, label: part.label, type: part.type } }
           : isSlot(part)
             ? {
                 type: 'slot',
@@ -46,7 +98,12 @@ const toDoc = (paragraphs: Paragraph[]): JSONContent => ({
                 },
               }
             : { type: 'mention', attrs: { id: part.id, label: part.label, type: part.type } },
-      );
+    );
+
+const toDoc = (paragraphs: Paragraph[]): JSONContent => ({
+  type: 'doc',
+  content: paragraphs.map((parts) => {
+    const content = toNodes(parts);
     return content.length > 0 ? { type: 'paragraph', content } : { type: 'paragraph' };
   }),
 });
@@ -58,6 +115,9 @@ const fromDoc = (doc: JSONContent): Paragraph[] =>
       if (node.type === 'mention') {
         const { id, label, type } = node.attrs ?? {};
         parts.push({ id: String(id), label: String(label), type: String(type) });
+      } else if (node.type === 'keyword') {
+        const { id, label, type } = node.attrs ?? {};
+        parts.push({ keyword: String(id), label: String(label), type: String(type) });
       } else if (node.type === 'slot') {
         const { slot, label, required, value } = node.attrs ?? {};
         parts.push({
@@ -77,9 +137,133 @@ const fromDoc = (doc: JSONContent): Paragraph[] =>
 
 const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
 
+// A formula reads brackets and mentions as one run across its paragraphs.
+// Mentions are atoms, so a bracket inside a label never counts.
+type Token = { pos: number; bracket: '(' | ')' } | { pos: number; mention: string };
+
+// A document never changes once made, so each is read once however many
+// times a keystroke asks: by the bracket marks, the list's context and a wrap.
+const read = new WeakMap<PmNode, Token[]>();
+
+const tokens = (doc: PmNode): Token[] => {
+  const cached = read.get(doc);
+  if (cached) return cached;
+  const found: Token[] = [];
+  doc.descendants((node, pos) => {
+    if (node.type.name === 'mention') found.push({ pos, mention: String(node.attrs.id) });
+    else if (node.isText) {
+      // By UTF-16 unit, as positions count, so an emoji before a bracket
+      // does not shift it.
+      const text = node.text ?? '';
+      for (let offset = 0; offset < text.length; offset++) {
+        const char = text[offset];
+        if (char === '(' || char === ')') found.push({ pos: pos + offset, bracket: char });
+      }
+    }
+  });
+  read.set(doc, found);
+  return found;
+};
+
+// The bracket beside the caret, before it or else after it, and its partner.
+const bracketPair = (state: EditorState): [number, number] | null => {
+  const { empty, from } = state.selection;
+  if (!empty) return null;
+  const brackets = tokens(state.doc).filter((token) => 'bracket' in token);
+  const at = brackets.findIndex((token) => token.pos === from - 1);
+  const index = at >= 0 ? at : brackets.findIndex((token) => token.pos === from);
+  if (index < 0) return null;
+  const opens = brackets[index].bracket === '(';
+  const step = opens ? 1 : -1;
+  let depth = 0;
+  for (let i = index; i >= 0 && i < brackets.length; i += step) {
+    depth += brackets[i].bracket === '(' ? step : -step;
+    if (depth === 0) return [brackets[index].pos, brackets[i].pos];
+  }
+  return null;
+};
+
+// The mention that heads the innermost bracket still open at the caret, as
+// Status heads "Status is none of (" — the last mention after the bracket before.
+const enclosingMention = (doc: PmNode, at: number): string | null => {
+  const open: (string | null)[] = [];
+  let last: string | null = null;
+  for (const token of tokens(doc)) {
+    if (token.pos >= at) break;
+    if ('mention' in token) last = token.mention;
+    else {
+      if (token.bracket === '(') open.push(last);
+      else open.pop();
+      last = null;
+    }
+  }
+  return open.at(-1) ?? null;
+};
+
+// The condition at a place: the call a mention heads, from the mention to the
+// bracket that closes it, as "Status is (Done)". It is the innermost call
+// the place is inside, or else one that ends just before it, past spaces.
+const conditionAt = (doc: PmNode, at: number) => {
+  const open: { head: { id: string; pos: number } | null }[] = [];
+  let last: { id: string; pos: number } | null = null;
+  let closed: { id: string; from: number; to: number } | null = null;
+  for (const token of tokens(doc)) {
+    if (token.pos >= at) break;
+    if ('mention' in token) last = { id: token.mention, pos: token.pos };
+    else {
+      if (token.bracket === '(') open.push({ head: last });
+      else {
+        const head = open.pop()?.head;
+        closed = head ? { id: head.id, from: head.pos, to: token.pos + 1 } : null;
+      }
+      last = null;
+    }
+  }
+  const inside = open.findLast((entry) => entry.head)?.head;
+  if (inside) {
+    let depth = 0;
+    for (const token of tokens(doc)) {
+      if (!('bracket' in token) || token.pos < inside.pos) continue;
+      depth += token.bracket === '(' ? 1 : -1;
+      if (depth === 0) return { id: inside.id, from: inside.pos, to: token.pos + 1 };
+    }
+    return null;
+  }
+  // Spaces only: a condition on the line before is not the one at a new line.
+  if (closed && /^[^\S\n]*$/.test(doc.textBetween(closed.to, at, '\n', '\ufffc'))) return closed;
+  return null;
+};
+
+// The mention straight before a place, past spaces between them, as Status
+// is before "is none of".
+const precedingMention = (doc: PmNode, at: number): string | null => {
+  let before = doc.resolve(at).nodeBefore;
+  if (before?.isText) {
+    if (before.text?.trim() !== '') return null;
+    before = doc.resolve(at - before.nodeSize).nodeBefore;
+  }
+  return before?.type.name === 'mention' ? String(before.attrs.id) : null;
+};
+
+const asKeyword = (part: MentionPart): KeywordPart => ({
+  keyword: part.id,
+  label: part.label,
+  type: part.type,
+});
+
 type Options = {
   label: string;
   placeholder: string;
+  /** A formula takes a mention straight after any character, and matches brackets. */
+  notation?: 'prose' | 'formula';
+  setContext?: (context: ListContext | null) => void;
+  /** Whether typing / opens the list, for what the spec offers to insert or do. */
+  commands?: boolean;
+  /** Words a formula turns into keywords when the actor finishes typing one. */
+  keywords?: MentionPart[];
+  /** A class for every keyword, or one chosen by the keyword's id. */
+  keywordClass?: string | ((keyword: string) => string);
+  bracketClass?: string;
   content: Paragraph[];
   setContent: (content: Paragraph[]) => void;
   setQuery: (query: string | null) => void;
@@ -102,12 +286,17 @@ export function useMentionEditor(options: Options) {
   const [host] = useState(() =>
     Object.assign(document.createElement('div'), { className: options.listHostClass }),
   );
+  // One list at a time: a mention or keyword being typed, or a keyword being
+  // swapped, in which case `anchor` is the keyword the list opened from.
   const [active, setActive] = useState<{
+    trigger: ListContext['trigger'];
     query: string;
-    command: (mention: MentionPart) => void;
+    pick: (option: Pickable) => void;
     clear: () => void;
+    anchor?: HTMLElement;
   } | null>(null);
   const [wanted, setHighlighted] = useState('');
+  const formula = options.notation === 'formula';
 
   const groups = options.groups.filter((group) => group.options.length > 0);
   const flat = groups.flatMap((group) => group.options);
@@ -120,14 +309,27 @@ export function useMentionEditor(options: Options) {
       options.setScope(option.id);
       active?.clear();
     } else {
-      active?.command(option);
+      active?.pick(option);
     }
     setHighlighted('');
+  };
+
+  const context = useRef<ListContext | null>(null);
+  const setContext = (next: ListContext | null) => {
+    if (same(next, context.current)) return;
+    context.current = next;
+    live.current.options.setContext?.(next);
   };
 
   // The editor is created once, so its callbacks read the latest render here.
   const live = useRef({ options, active, flat, highlighted, open, pick });
   live.current = { options, active, flat, highlighted, open, pick };
+
+  const closeSwap = () => {
+    setActive(null);
+    setHighlighted('');
+    setContext(null);
+  };
 
   const keyDown = ({ event }: SuggestionKeyDownProps) => {
     // Goes no further, so a dialog or pane around the demo stays open.
@@ -135,6 +337,10 @@ export function useMentionEditor(options: Options) {
       event.stopPropagation();
       return true;
     }
+    return navigate(event);
+  };
+
+  const navigate = (event: KeyboardEvent) => {
     const { options, active, flat, highlighted, open, pick } = live.current;
     if (event.key === 'Backspace' && options.scope && active?.query === '') {
       options.setScope(null);
@@ -324,6 +530,304 @@ export function useMentionEditor(options: Options) {
         },
     });
 
+  const createKeyword = () =>
+    TiptapNode.create({
+      name: 'keyword',
+      group: 'inline',
+      inline: true,
+      atom: true,
+      selectable: false,
+      addAttributes: () => ({
+        id: {
+          default: '',
+          parseHTML: (element) => element.getAttribute('data-keyword') ?? '',
+          renderHTML: (attributes) => ({ 'data-keyword': attributes.id }),
+        },
+        label: {
+          default: '',
+          parseHTML: (element) => element.textContent ?? '',
+          renderHTML: () => ({}),
+        },
+        type: {
+          default: '',
+          parseHTML: (element) => element.getAttribute('data-keyword-type') ?? '',
+          renderHTML: (attributes) => ({ 'data-keyword-type': attributes.type }),
+        },
+      }),
+      parseHTML: () => [{ tag: 'span[data-keyword]' }],
+      renderHTML: ({ node, HTMLAttributes }) => ['span', HTMLAttributes, String(node.attrs.label)],
+      renderText: ({ node }) => String(node.attrs.label),
+      addNodeView:
+        () =>
+        ({ node, editor, getPos }) => {
+          const id = String(node.attrs.id);
+          const { keywordClass } = live.current.options;
+          const dom = Object.assign(document.createElement('span'), {
+            className: typeof keywordClass === 'function' ? keywordClass(id) : (keywordClass ?? ''),
+            textContent: String(node.attrs.label),
+            contentEditable: 'false',
+            tabIndex: 0,
+          });
+          // A combobox, so the option highlighted in its list is announced.
+          dom.setAttribute('role', 'combobox');
+          dom.setAttribute('aria-label', String(node.attrs.label));
+          dom.setAttribute('aria-haspopup', 'listbox');
+          dom.setAttribute('aria-expanded', 'false');
+
+          // The list offers what can stand in the keyword's place, and picking
+          // one replaces this keyword and no other with the same id.
+          const swap = () => {
+            const pos = getPos();
+            if (pos === undefined) return;
+            // Moving the caret off a mention being typed ends its list, so the
+            // two lists never share the host.
+            if (live.current.active && !live.current.active.anchor)
+              editor.commands.setTextSelection(pos + 1);
+            const { doc } = editor.state;
+            setContext({
+              trigger: 'swap',
+              enclosing: enclosingMention(doc, pos),
+              preceding: precedingMention(doc, pos),
+              condition: conditionAt(doc, pos)?.id ?? null,
+              keyword: id,
+            });
+            setHighlighted(id);
+            setActive({
+              trigger: 'swap',
+              query: '',
+              anchor: dom,
+              clear: () => {},
+              pick: (option) => {
+                const at = getPos();
+                closeSwap();
+                if (at === undefined || !isKeywordCandidate(option)) return;
+                editor
+                  .chain()
+                  .focus()
+                  .insertContentAt({ from: at, to: at + 1 }, toNodes([asKeyword(option)]))
+                  .setTextSelection(at + 1)
+                  .run();
+              },
+            });
+          };
+          const isOpen = () => live.current.active?.anchor === dom;
+
+          dom.addEventListener('click', () => (isOpen() ? closeSwap() : swap()));
+          // Tabbing away closes the list; pressing an option keeps focus here.
+          dom.addEventListener('blur', () => {
+            if (isOpen()) closeSwap();
+          });
+          dom.addEventListener('keydown', (event) => {
+            if (!isOpen()) {
+              if (event.key !== 'Enter' && event.key !== ' ' && event.key !== 'ArrowDown') return;
+              event.preventDefault();
+              swap();
+              return;
+            }
+            if (event.key === 'Escape') {
+              event.preventDefault();
+              event.stopPropagation();
+              closeSwap();
+            } else if (navigate(event)) {
+              event.preventDefault();
+            }
+          });
+          return {
+            dom,
+            stopEvent: (event) => dom.contains(event.target as Node),
+            ignoreMutation: () => true,
+            destroy: () => {
+              if (isOpen()) closeSwap();
+            },
+          };
+        },
+    });
+
+  // A word the formula knows becomes its keyword once the actor types what
+  // ends it: a space, a bracket or a comma. The longest wording wins, and it
+  // may take in keywords already made from its first words, so "is not"
+  // becomes one operator after "is" became one on its own.
+  const createWords = () =>
+    Extension.create({
+      name: 'keywordWords',
+      addProseMirrorPlugins: () => [
+        new Plugin({
+          key: new PluginKey('keywordWords'),
+          props: {
+            handleTextInput: (view, from, to, text) => {
+              if (!/^[\s(),]$/.test(text)) return false;
+              // Words typed after @ or / are the list's query.
+              if (live.current.active && !live.current.active.anchor) return false;
+              const $from = view.state.doc.resolve(from);
+              // The line up to the caret, keywords read as their labels. Each
+              // character keeps where it starts, or null inside a label.
+              let before = '';
+              const starts: (number | null)[] = [];
+              let typed = false;
+              $from.parent.forEach((node, offset) => {
+                const pos = $from.start() + offset;
+                if (pos >= from) return;
+                const label = node.isText
+                  ? (node.text ?? '').slice(0, from - pos)
+                  : node.type.name === 'keyword'
+                    ? String(node.attrs.label)
+                    : '\ufffc';
+                before += label;
+                // By UTF-16 unit, as `before` and positions count.
+                for (let i = 0; i < label.length; i++)
+                  starts.push(node.isText ? pos + i : i === 0 ? pos : null);
+                typed = node.isText;
+              });
+              if (!typed) return false;
+              const lower = before.toLocaleLowerCase();
+              const found = [...(live.current.options.keywords ?? [])]
+                .sort((a, b) => b.label.length - a.label.length)
+                .find((keyword) => {
+                  const start = before.length - keyword.label.length;
+                  return (
+                    start >= 0 &&
+                    starts[start] !== null &&
+                    lower.endsWith(keyword.label.toLocaleLowerCase()) &&
+                    !/[\p{L}\p{N}_@/]/u.test(before[start - 1] ?? '')
+                  );
+                });
+              if (!found) return false;
+              const start = starts[before.length - found.label.length]!;
+              const { schema } = view.state;
+              view.dispatch(
+                view.state.tr.replaceWith(start, to, [
+                  schema.nodeFromJSON(toNodes([asKeyword(found)])[0]),
+                  schema.text(text),
+                ]),
+              );
+              return true;
+            },
+          },
+        }),
+      ],
+    });
+
+  const createBrackets = () =>
+    Extension.create({
+      name: 'brackets',
+      addProseMirrorPlugins: () => [
+        new Plugin({
+          key: new PluginKey('brackets'),
+          props: {
+            decorations: (state) => {
+              const pair = bracketPair(state);
+              const className = live.current.options.bracketClass;
+              if (!pair || !className) return null;
+              return DecorationSet.create(
+                state.doc,
+                pair.map((pos) => Decoration.inline(pos, pos + 1, { class: className })),
+              );
+            },
+          },
+        }),
+      ],
+    });
+
+  const insertion = (option: MentionPart | KeywordCandidate): JSONContent[] =>
+    toNodes(isKeywordCandidate(option) ? [asKeyword(option), option.then ?? ''] : [option]);
+
+  // Replaces what was typed, from the trigger on, with the picked candidate.
+  const apply = (editor: Editor, range: { from: number; to: number }, option: Pickable) => {
+    if (isWrap(option)) {
+      // Found before what was typed goes, so nothing is lost when there is
+      // no condition to wrap.
+      const found = conditionAt(editor.state.doc, range.from);
+      if (!found) return;
+      const typed = range.to - range.from;
+      const to = found.to > range.from ? found.to - typed : found.to;
+      editor.chain().focus().deleteRange(range).run();
+      // The caret goes after the wrapped condition, past both new parts.
+      const size = editor.state.doc.content.size;
+      editor
+        .chain()
+        .insertContentAt(to, toNodes(option.wrap.after))
+        .insertContentAt(found.from, toNodes(option.wrap.before))
+        .run();
+      editor
+        .chain()
+        .setTextSelection(to + editor.state.doc.content.size - size)
+        .run();
+      return;
+    }
+    if (isInsert(option)) {
+      const { before, after, line } = option.insert;
+      const chain = editor.chain().focus().deleteRange(range);
+      (line ? chain.splitBlock() : chain).insertContent(toNodes(before)).run();
+      const caret = editor.state.selection.from;
+      if (after?.length)
+        editor.chain().insertContentAt(caret, toNodes(after)).setTextSelection(caret).run();
+      return;
+    }
+    editor.chain().focus().insertContentAt(range, insertion(option)).run();
+  };
+
+  // @ names an item; / inserts or does what the spec offers.
+  const suggest = (char: '@' | '/') => ({
+    char,
+    // In a formula a mention follows a bracket or a comma as often as a space.
+    allowedPrefixes: formula ? null : [' '],
+    items: () => [],
+    render: () => {
+      let unmount: (() => void) | undefined;
+      const follow = (props: SuggestionProps) => {
+        const { doc } = props.editor.state;
+        live.current.options.setQuery(props.query);
+        const at = props.range.from;
+        setContext({
+          trigger: char,
+          enclosing: formula ? enclosingMention(doc, at) : null,
+          preceding: formula ? precedingMention(doc, at) : null,
+          condition: formula ? (conditionAt(doc, at)?.id ?? null) : null,
+          keyword: null,
+        });
+        setActive({
+          trigger: char,
+          query: props.query,
+          // Prose keeps Mention's own insertion, with a space after the mention.
+          pick: (option) => {
+            const plain = !isKeywordCandidate(option) && !isInsert(option) && !isWrap(option);
+            if (!formula && plain) return props.command(option);
+            apply(props.editor, props.range, option);
+          },
+          clear: () => {
+            if (props.range.to <= props.range.from + 1) return;
+            props.editor
+              .chain()
+              .focus()
+              .deleteRange({ from: props.range.from + 1, to: props.range.to })
+              .run();
+          },
+        });
+      };
+      return {
+        onStart: (props: SuggestionProps) => {
+          follow(props);
+          live.current.options.portal().append(host);
+          unmount = props.mount(host);
+        },
+        onUpdate: follow,
+        onKeyDown: keyDown,
+        onExit: () => {
+          unmount?.();
+          unmount = undefined;
+          live.current.options.setQuery(null);
+          live.current.options.setScope(null);
+          // A keyword's list may have opened as this one ended.
+          if (live.current.active?.anchor) return;
+          host.remove();
+          setActive(null);
+          setHighlighted('');
+          setContext(null);
+        },
+      };
+    },
+  });
+
   // So that state arriving back is not taken for a change from elsewhere.
   const written = useRef<Paragraph[] | null>(null);
 
@@ -350,48 +854,12 @@ export function useMentionEditor(options: Options) {
     }),
     Placeholder.configure({ placeholder: options.placeholder }),
     createSlot(),
+    ...(formula ? [createBrackets()] : []),
+    createKeyword(),
+    ...(formula ? [createWords()] : []),
     createMention().configure({
       renderText: ({ node }) => String(node.attrs.label),
-      suggestion: {
-        char: '@',
-        items: () => [],
-        render: () => {
-          let unmount: (() => void) | undefined;
-          const follow = (props: SuggestionProps) => {
-            live.current.options.setQuery(props.query);
-            setActive({
-              query: props.query,
-              command: (mention) => props.command(mention),
-              clear: () => {
-                if (props.range.to <= props.range.from + 1) return;
-                props.editor
-                  .chain()
-                  .focus()
-                  .deleteRange({ from: props.range.from + 1, to: props.range.to })
-                  .run();
-              },
-            });
-          };
-          return {
-            onStart: (props) => {
-              follow(props);
-              live.current.options.portal().append(host);
-              unmount = props.mount(host);
-            },
-            onUpdate: follow,
-            onKeyDown: keyDown,
-            onExit: () => {
-              unmount?.();
-              unmount = undefined;
-              host.remove();
-              setActive(null);
-              setHighlighted('');
-              live.current.options.setQuery(null);
-              live.current.options.setScope(null);
-            },
-          };
-        },
-      },
+      suggestions: [suggest('@'), ...(options.commands ? [suggest('/')] : [])],
     }),
   ]);
 
@@ -415,7 +883,10 @@ export function useMentionEditor(options: Options) {
     },
   });
 
+  // A component shown again after suspending sees the editor Tiptap destroyed
+  // while it was hidden, for one effect pass before the new one arrives.
   useEffect(() => {
+    if (editor.isDestroyed) return;
     if (same(options.content, written.current)) return;
     if (same(options.content, fromDoc(editor.getJSON()))) return;
     editor.commands.setContent(toDoc(options.content), { emitUpdate: false });
@@ -437,13 +908,58 @@ export function useMentionEditor(options: Options) {
     host.hidden = !open;
   }, [host, open]);
 
+  // A swapped keyword keeps focus while its list is open, so it carries the
+  // list's attributes in place of the editor.
+  const anchor = active?.anchor ?? null;
   useEffect(() => {
-    if (!dom) return;
-    if (open) dom.setAttribute('aria-controls', listId);
-    else dom.removeAttribute('aria-controls');
-    if (open && highlighted) dom.setAttribute('aria-activedescendant', `${listId}-${highlighted}`);
-    else dom.removeAttribute('aria-activedescendant');
-  }, [dom, open, highlighted, listId]);
+    const owner = anchor ?? dom;
+    if (!owner) return;
+    if (open) owner.setAttribute('aria-controls', listId);
+    else owner.removeAttribute('aria-controls');
+    if (open && highlighted)
+      owner.setAttribute('aria-activedescendant', `${listId}-${highlighted}`);
+    else owner.removeAttribute('aria-activedescendant');
+    anchor?.setAttribute('aria-expanded', String(open));
+    return () => {
+      owner.removeAttribute('aria-controls');
+      owner.removeAttribute('aria-activedescendant');
+      anchor?.setAttribute('aria-expanded', 'false');
+    };
+  }, [anchor, dom, open, highlighted, listId]);
+
+  useEffect(() => {
+    if (!anchor) return;
+    live.current.options.portal().append(host);
+    Object.assign(host.style, { width: 'max-content' });
+    const place = () =>
+      computePosition(anchor, host, {
+        placement: 'bottom-start',
+        middleware: [offset(4), flip()],
+      }).then(({ x, y, strategy }) =>
+        Object.assign(host.style, { position: strategy, left: `${x}px`, top: `${y}px` }),
+      );
+    const stop = autoUpdate(anchor, host, place);
+    const outside = (event: PointerEvent) => {
+      const target = event.target as Node;
+      if (!host.contains(target) && !anchor.contains(target)) closeSwap();
+    };
+    document.addEventListener('pointerdown', outside, true);
+    return () => {
+      stop();
+      document.removeEventListener('pointerdown', outside, true);
+      host.style.width = '';
+      // A click that closed this list may have started a mention's list.
+      if (!live.current.active || live.current.active.anchor) host.remove();
+    };
+    // closeSwap only sets state, so it need not re-run the effect.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [anchor, host]);
+
+  // A keyword with nothing to swap for, such as "not", opens no list.
+  useEffect(() => {
+    if (anchor && !open) closeSwap();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [anchor, open]);
 
   useEffect(() => {
     if (open && highlighted)

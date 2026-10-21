@@ -1,9 +1,21 @@
 import type { Spec, StateStore } from '@json-render/core';
 import { z } from 'zod';
-import { filterLabels, filterPriorities, filterStatuses, nameOf, users } from '@shared/data';
 import type { RuleSlot, RuleSlotOption } from '../../catalog/rule-parts';
 import type { RuleGroup, RuleLine, RuleTree } from '../../catalog/registries/shadcn/rule-builder';
 import type { ActionDefinition, SpecSetup } from '../../catalog/SpecDemo';
+import {
+  fieldLabels,
+  initialRule,
+  isGroup,
+  operatorOf,
+  operators,
+  options,
+  type Condition,
+  type Field,
+  type Group,
+  type Match,
+  type Rule,
+} from './shared/task-search';
 import spec from './rule-composition.json' with { type: 'json' };
 
 // A saved search over the world's tasks, composed as one statement. The
@@ -12,102 +24,9 @@ import spec from './rule-composition.json' with { type: 'json' };
 // the demo shows both: between lines, as the head of each group, and inside a
 // line, as the operator on its part ("is not", "is at least", "is any of").
 //
-// The spec carries the layout. What stays here is the rule model: deriving
-// the statement tree from it ($computed) and applying an edit (editRule).
-
-const ME = 'user-1';
-
-type Match = 'all' | 'any';
-
-type Field = 'status' | 'assignee' | 'priority' | 'label' | 'due';
-
-// A condition holds one value, or a set of them when its operator ranges over
-// a set ("is any of"). A set is the one place "or" (or "and", for "all of")
-// may join parts inside a line: the operator names the quantifier, and a
-// list of values is read as a list.
-interface Condition {
-  id: string;
-  field: Field;
-  op: string;
-  value: string | string[];
-}
-
-interface Group {
-  id: string;
-  match: Match;
-  items: (Condition | Group)[];
-}
-
-interface Rule {
-  where: Group;
-}
-
-const isGroup = (item: Condition | Group): item is Group => 'items' in item;
-
-const toOptions = (records: { id: string; name: string }[]): RuleSlotOption[] =>
-  records.map((record) => ({ value: record.id, label: record.name }));
-
-const options: Record<Field, RuleSlotOption[]> = {
-  status: toOptions(filterStatuses),
-  assignee: [
-    { value: ME, label: 'me' },
-    ...users
-      .filter((user) => user.id !== ME)
-      .map((user) => ({ value: user.id, label: nameOf(user.id) })),
-  ],
-  priority: toOptions(filterPriorities),
-  label: toOptions(filterLabels),
-  due: [
-    { value: '7', label: '7 days' },
-    { value: '30', label: '30 days' },
-    { value: '90', label: '90 days' },
-  ],
-};
-
-const fieldLabels: Record<Field, string> = {
-  status: 'status',
-  assignee: 'assignee',
-  priority: 'priority',
-  label: 'label',
-  due: 'due date',
-};
-
-interface Operator extends RuleSlotOption {
-  /** The operator ranges over a set of values, joined by this word in the sentence. */
-  join?: 'or' | 'and';
-}
-
-const oneOf: Operator[] = [
-  { value: 'is', label: 'is' },
-  { value: 'is-not', label: 'is not' },
-  { value: 'any-of', label: 'is any of', join: 'or' },
-  { value: 'none-of', label: 'is none of', join: 'or' },
-];
-
-const operators: Record<Field, Operator[]> = {
-  status: oneOf,
-  assignee: oneOf,
-  priority: [
-    { value: 'is', label: 'is' },
-    { value: 'at-least', label: 'is at least' },
-    { value: 'at-most', label: 'is at most' },
-  ],
-  label: [
-    { value: 'has', label: 'includes' },
-    { value: 'lacks', label: 'does not include' },
-    { value: 'has-any', label: 'includes any of', join: 'or' },
-    { value: 'has-all', label: 'includes all of', join: 'and' },
-    { value: 'has-none', label: 'includes none of', join: 'or' },
-  ],
-  due: [
-    { value: 'within', label: 'is within the next' },
-    { value: 'not-within', label: 'is not within the next' },
-  ],
-};
-
-const operatorOf = (condition: Condition) =>
-  operators[condition.field].find((op) => op.value === condition.op) ??
-  operators[condition.field][0];
+// The spec carries the layout, and shared/task-search the fields, operators,
+// values and starting search. What stays here is deriving the statement tree
+// from the rule ($computed) and applying an edit (editRule).
 
 const listLabel = (labels: string[], join: string) =>
   labels.length <= 1
@@ -117,26 +36,6 @@ const listLabel = (labels: string[], join: string) =>
 const matchLabels: Record<Match, string> = {
   all: 'all of the following hold',
   any: 'any of the following holds',
-};
-
-const initialRule: Rule = {
-  where: {
-    id: 'g0',
-    match: 'all',
-    items: [
-      { id: 'c0', field: 'status', op: 'none-of', value: ['status-done', 'status-cancelled'] },
-      {
-        id: 'g1',
-        match: 'any',
-        items: [
-          { id: 'c1', field: 'assignee', op: 'is', value: ME },
-          { id: 'c2', field: 'priority', op: 'at-least', value: 'priority-high' },
-          { id: 'c3', field: 'label', op: 'has-any', value: ['label-audit', 'label-assessment'] },
-        ],
-      },
-      { id: 'c4', field: 'due', op: 'within', value: '30' },
-    ],
-  },
 };
 
 // --- Rule → statement tree ----------------------------------------------

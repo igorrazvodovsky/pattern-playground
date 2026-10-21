@@ -61,15 +61,7 @@ relationships:
 
 The actor wants the system to pick out cases by criteria of their own. Sometimes the criteria narrow what is shown right now: a smart playlist, a saved search, a segment of customers, an issue list filtered three ways. Sometimes they stand as a rule the system acts on while the actor is away: a mail rule that files messages, an automation that turns the heating down, an agent's standing instruction about what not to touch. Rule composition is how the actor writes or changes the condition in either case. The condition is shown as one statement in plain language, built from parts the system offers, and the actor edits it in place.
 
-> Songs **where** genre *is* "country" **and** rating *is at least* *4 stars* **and** last played
-> *is not in the last* *2 weeks*.
-
-> **When** an email arrives **and** it is not from *someone in my contacts* **and** it contains
-> the phrase *"Canadian Pharmacy"*, label it *"likely spam"* and move it to *the trash*.
-
-The first narrows a library the actor can see. The second does the same work over mail that has not
-arrived yet, with an action attached. The composing surface is the same in both; what differs is the
-set of parts on offer and what the actor has to do to check the result.
+<Demo spec="rule-composition-formula" registries={["shadcn"]} surface="white" expandable />
 
 ## Selecting and acting
 

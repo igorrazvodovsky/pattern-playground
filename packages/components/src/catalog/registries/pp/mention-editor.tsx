@@ -17,8 +17,13 @@ export function MentionEditor({
   const [, setQuery] = useBoundProp(props.query, bindings?.query);
   const [scope, setScope] = useBoundProp(props.scope, bindings?.scope);
   const [, setOpened] = useBoundProp(props.opened, bindings?.opened);
+  const [, setContext] = useBoundProp(props.context, bindings?.context);
   const { editor, open, groups, host, list, option } = useMentionEditor({
     label: props.label,
+    notation: props.notation ?? 'prose',
+    setContext,
+    keywords: props.keywords ?? [],
+    commands: props.commands ?? false,
     placeholder: props.placeholder ?? '',
     content: content ?? [],
     setContent,

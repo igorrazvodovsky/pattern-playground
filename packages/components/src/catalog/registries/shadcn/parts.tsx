@@ -18,7 +18,7 @@ const menuIndicator =
   'pointer-events-none absolute left-2 flex size-3.5 items-center justify-center';
 
 // The sentence's slots: a choice is underlined wording that opens a menu.
-const slotTrigger =
+export const slotTrigger =
   'rounded-sm underline decoration-muted-foreground/50 decoration-dotted underline-offset-4 outline-none hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring/50 data-[state=open]:bg-accent';
 const slotIcon =
   'mx-0.5 inline-flex size-6 items-center justify-center rounded-md align-middle text-muted-foreground outline-none hover:bg-accent hover:text-accent-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 data-[state=open]:bg-accent';

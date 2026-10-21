@@ -53,7 +53,7 @@ const isFlat = (group: RuleGroup) => group.head.value?.[0] === 'all' && !group.i
 // One colour per combinator, so a nested "any" is told apart from its "all"
 // parent at a glance. The pill repeats the head's first word; the rail
 // carries the colour down the group's extent.
-const tone = {
+export const tone = {
   all: {
     rail: 'border-sky-400/70',
     pill: 'bg-sky-100 text-sky-900 dark:bg-sky-900/50 dark:text-sky-100',
