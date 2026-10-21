@@ -1,5 +1,44 @@
+/* Registered as lengths so em values compute once on pp-select and children
+   inherit px: an adornment with its own font size then lines up with the
+   select's padding. */
+@property --select-caret-w {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --select-adorn-gap {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --select-prefix-w {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --select-suffix-w {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0;
+}
+
 pp-select {
   --select-border-width: 1px;
+  --select-pad-x: var(--space-m);
+
+  /* Room the caret takes at the end, and the gap between an adornment and the
+     value. Adornment widths are measured by the element and set in px, so the
+     reservation holds whatever the adornment's own font size; the fallbacks
+     cover first paint, before measurement. */
+  --select-caret-w: 1.75em;
+  --select-adorn-gap: 0.5em;
+  --select-prefix-w: 1em;
+  --select-suffix-w: 1em;
+  --select-pad-start: var(--select-pad-x);
+  --select-pad-end: calc(var(--select-pad-x) + var(--select-caret-w));
 
   display: grid;
   grid-template-columns: 1fr;
@@ -15,8 +54,8 @@ pp-select {
     background-color: var(--c-background);
     border: var(--input-border);
     border-radius: var(--radius-m);
-    padding: calc(var(--space-s) - 1.5px) calc(var(--space-m) + 1.75em) calc(var(--space-s) - 1.5px)
-      var(--space-m);
+    padding-block: calc(var(--space-s) - 1.5px);
+    padding-inline: var(--select-pad-start) var(--select-pad-end);
     margin: 0;
     cursor: pointer;
     appearance: none;
@@ -56,9 +95,49 @@ pp-select {
     display: inline-flex;
     align-items: center;
     place-self: center end;
-    margin-inline-end: var(--space-m);
+    margin-inline-end: var(--select-pad-x);
     color: var(--c-secondary);
     pointer-events: none;
+  }
+
+  /* Adornments — overlaid on the control's cell and presentational, so clicks
+     reach the select. The element marks them aria-hidden and adds their text to
+     the select's description; a focusable child does not belong here. */
+  > [data-slot='prefix'],
+  > [data-slot='suffix'] {
+    z-index: 1;
+    grid-area: 1 / 1;
+    display: inline-flex;
+    align-items: center;
+    color: var(--c-secondary);
+    pointer-events: none;
+  }
+
+  > [data-slot='prefix'] {
+    place-self: center start;
+    margin-inline-start: var(--select-pad-x);
+  }
+
+  > [data-slot='suffix'] {
+    place-self: center end;
+    margin-inline-end: calc(var(--select-pad-x) + var(--select-caret-w));
+  }
+
+  &:has(> [data-slot='prefix']) {
+    --select-pad-start: calc(
+      var(--select-pad-x) + var(--select-prefix-w) + var(--select-adorn-gap)
+    );
+  }
+
+  &:has(> [data-slot='suffix']) {
+    --select-pad-end: calc(
+      var(--select-pad-x) + var(--select-caret-w) + var(--select-suffix-w) + var(--select-adorn-gap)
+    );
+  }
+
+  /* Overlays dim with the control they sit on. */
+  &:has(> select:disabled) > :is([data-slot='prefix'], [data-slot='suffix'], .select__caret) {
+    opacity: 0.5;
   }
 
   > [data-slot='hint'] {
@@ -92,23 +171,19 @@ pp-select {
 
   /* Sizes */
   &[size='small'] {
+    --select-pad-x: var(--space-s);
+
     > select {
       border-radius: var(--radius-s);
-      padding: 0 calc(var(--space-s) + 1.75em) 0 var(--space-s);
-    }
-
-    .select__caret {
-      margin-inline-end: var(--space-s);
+      padding-block: 0;
     }
   }
 
   &[size='large'] {
-    > select {
-      padding: 0 calc(var(--space-l) + 1.75em) 0 var(--space-l);
-    }
+    --select-pad-x: var(--space-l);
 
-    .select__caret {
-      margin-inline-end: var(--space-l);
+    > select {
+      padding-block: 0;
     }
   }
 }

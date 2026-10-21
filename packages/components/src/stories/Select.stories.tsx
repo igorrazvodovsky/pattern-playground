@@ -145,6 +145,41 @@ export const Sizes: Story = {
   ),
 };
 
+/**
+ * `data-slot="prefix"` and `data-slot="suffix"` children overlay the control
+ * as presentational adornments, the same contract as Input. They are not
+ * interactive: clicks pass through to the select.
+ */
+export const WithAdornments: Story = {
+  render: () => (
+    <div className="flow">
+      <pp-select>
+        <iconify-icon className="icon" icon="ik:globe" data-slot="prefix" />
+        <select aria-label="Region" defaultValue="eu">
+          <option value="eu">Europe</option>
+          <option value="na">North America</option>
+          <option value="ap">Asia Pacific</option>
+        </select>
+      </pp-select>
+      <pp-select size="small">
+        <iconify-icon className="icon" icon="ik:sort-high-to-low" data-slot="prefix" />
+        <select aria-label="Sort by" defaultValue="recent">
+          <option value="recent">Most recent</option>
+          <option value="name">Name</option>
+        </select>
+        <span data-slot="suffix">12</span>
+      </pp-select>
+      <pp-select size="large">
+        <select aria-label="Time zone" defaultValue="cet">
+          <option value="cet">Central European Time</option>
+          <option value="utc">Coordinated Universal Time</option>
+        </select>
+        <iconify-icon className="icon" icon="ik:calendar" data-slot="suffix" />
+      </pp-select>
+    </div>
+  ),
+};
+
 export const Disabled: Story = {
   render: () => (
     <>
