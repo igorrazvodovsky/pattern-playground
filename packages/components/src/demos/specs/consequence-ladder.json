@@ -41,7 +41,12 @@
     },
     "archive": {
       "type": "Button",
-      "props": { "label": "Archive", "icon": "archive", "focusNext": "remove" },
+      "props": {
+        "label": "Archive",
+        "icon": "archive",
+        "focusKey": "archive",
+        "focusNext": "remove"
+      },
       "on": {
         "press": [
           { "action": "setState", "params": { "statePath": "/archived", "value": true } },
@@ -53,7 +58,8 @@
                 "id": "$id",
                 "message": { "$template": "${/project} archived" },
                 "actionLabel": "Undo",
-                "undo": "/archived"
+                "undo": "/archived",
+                "focusNext": "archive"
               }
             }
           }
@@ -123,7 +129,8 @@
                 "id": "$id",
                 "message": { "$template": "${/member/name} removed" },
                 "actionLabel": "Undo",
-                "undo": "/removed"
+                "undo": "/removed",
+                "focusNext": "remove"
               }
             }
           }

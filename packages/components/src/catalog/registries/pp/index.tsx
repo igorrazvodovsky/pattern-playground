@@ -1606,7 +1606,7 @@ export const { registry } = defineRegistry(catalog, {
             toast.actionLabel
               ? PpToast.open(
                   `${toast.message} — ${toast.actionLabel}`,
-                  () => pressLatest.current(toast),
+                  () => void pressLatest.current(toast),
                   toastDuration.withAction,
                 )
               : PpToast.open(toast.message, undefined, toastDuration.plain),

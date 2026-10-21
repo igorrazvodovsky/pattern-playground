@@ -1943,7 +1943,7 @@ export const { registry } = defineRegistry(catalog, {
               {toast.actionLabel && (
                 <Toast.Action
                   altText={toast.actionLabel}
-                  onClick={() => press(toast)}
+                  onClick={() => void press(toast)}
                   className="inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium transition-colors outline-none hover:bg-secondary focus-visible:ring-[3px] focus-visible:ring-ring/50"
                 >
                   {toast.actionLabel}

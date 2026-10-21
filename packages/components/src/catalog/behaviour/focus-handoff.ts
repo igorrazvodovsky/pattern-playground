@@ -4,10 +4,18 @@ import { useCallback, useLayoutEffect, useRef, type RefObject } from 'react';
 // Tab would start from the top of the page. A button inside a dialog is left
 // alone, because the dialog returns focus itself.
 
-// A control a spec names has its `focusKey` in `data-focus-key`.
-export const withFocusKey = (root: ParentNode, key: string) =>
-  [...root.querySelectorAll<HTMLElement>('[data-focus-key]')].filter(
-    (element) => element.dataset.focusKey === key,
+// A control a spec names has its `focusKey` in `data-focus-key`. A key may hold
+// several names separated by spaces, so a row's control can answer both to the
+// name its peers share and to its item's own.
+const withFocusKey = (root: ParentNode, key: string) =>
+  [...root.querySelectorAll<HTMLElement>('[data-focus-key]')].filter((element) =>
+    element.dataset.focusKey?.split(/\s+/).includes(key),
+  );
+
+// Those with the key that can take focus now.
+export const focusableWithKey = (root: ParentNode, key: string) =>
+  withFocusKey(root, key).filter(
+    (element) => !element.matches(':disabled') && element.checkVisibility(),
   );
 
 const findTarget = (
@@ -15,9 +23,7 @@ const findTarget = (
   before: Element[],
   focusNext: string,
 ): HTMLElement | undefined => {
-  const candidates = withFocusKey(demo, focusNext).filter(
-    (element) => !element.matches(':disabled') && element.checkVisibility(),
-  );
+  const candidates = focusableWithKey(demo, focusNext);
   const anchor = before.find((element) => element.isConnected);
   const follows = (element: HTMLElement) =>
     !anchor || (anchor.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;

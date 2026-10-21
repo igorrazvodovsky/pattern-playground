@@ -26,7 +26,7 @@ json-render 0.21.1 and its documentation. Its items are in §3 and §5.
 
 ## Order
 
-1. Bugs (done 2026-10-17; focus after a toast's Undo remains).
+1. Bugs (done 2026-10-17; focus after a toast's Undo done 2026-10-21).
 2. Dead-code sweep (done 2026-10-17; the keep-or-retire decisions settled 2026-10-20).
 3. Consolidation (first pass done 2026-10-18; registry semantics shared
    and demo actions moved out of the catalog 2026-10-20; done).
@@ -99,11 +99,31 @@ json-render 0.21.1 and its documentation. Its items are in §3 and §5.
   stacked pane with its dialog open, or navigating away, removes the dialogs
   from `<body>`, and the pane mounts fresh when it comes back. Handlers keep
   their `connected` check, since they live outside the React tree.
-- [ ] *Focus after a toast's Undo.* The Toasts entry's action button is not a
-  catalog Button, so it does not hand focus on. In shadcn, Radix moves focus
-  to its toast viewport at the end of the page when the toast closes, so the
-  next Tab leaves the page. The pp toast has not been checked. Decide whether
-  Undo should return focus to the restored item.
+- [x] *Focus after a toast's Undo.* The Toasts entry's action button is not a
+  catalog Button, so it did not hand focus on. When the toast closed, pp
+  dropped focus to the body and Radix moved it to its toast viewport at the
+  end of the page, so in both the next Tab left the demo. Done 2026-10-21:
+  a toast may carry a `focusNext`, and after its action focus goes to the
+  control with that key, such as the item an Undo puts back, or else to the
+  demo. Pressing the action moves focus to the demo first, so Radix leaves
+  it alone as the toast closes, and a drawer the action opens records the
+  demo, not the departing toast, as its opener. Focus that the action moved
+  itself, as into that drawer, stays where it is; the hand-off waits a frame
+  and a task so a window pp opens a task late gets there first, and runs
+  even when the action fails. A `focusKey` may hold several names separated
+  by spaces, so a control in a row can share a name with its counterparts
+  and carry its item's id: toast-with-undo keys each Delete
+  `delete ${id}`, keeping the hand-off to the next row's Delete. The undo
+  toasts in toast-with-undo, writable-board and consequence-ladder name the
+  restored control (the row's Delete, the card's move menu, Archive or
+  Remove), and the Toasts schema declares the field. The spec test now reads
+  names in what an action pushes, counts a key by each literal name in it,
+  fails a name that holds a space, and checks literal names, not whole keys,
+  for duplicates; a toast a spec module builds is not checked. Checked in the browser in both
+  libraries on the deletion, action-consequences (both undos) and grouping
+  pages. Filtering's Open, which leads to a drawer, is not checked in the
+  browser. A toast's Close button still loses focus the same way, to the
+  body in pp and to the viewport in shadcn.
 - [ ] *Outline on the demo root.* When focus falls back to the demo root (a
   removed card, a Reset that hides itself, a dialog whose opener is gone), the
   whole demo draws the 2px focus outline. Decide whether the root should show

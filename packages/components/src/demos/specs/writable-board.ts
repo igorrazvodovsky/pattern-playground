@@ -104,6 +104,7 @@ const moveToast = ({ items, id, group, groupBy }: Record<string, unknown>) => {
     id: toastId,
     message: `Moved “${item.name}”: its ${attributeLabel(path).toLowerCase()} is now ${group}.`,
     actionLabel: 'Undo',
+    focusNext: id,
     item: id,
     path,
     from: groupOf(path, item),

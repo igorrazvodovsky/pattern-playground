@@ -14,6 +14,7 @@ interface DeletionToast {
   id: string;
   message: string;
   actionLabel: string;
+  focusNext: string;
   item: Listing;
 }
 
@@ -27,6 +28,7 @@ const deletionToast = ({ item }: Record<string, unknown>): DeletionToast => {
     id: `deletion-${++toastCount}`,
     message: `${listing.name} deleted`,
     actionLabel: 'Undo',
+    focusNext: listing.id,
     item: listing,
   };
 };
