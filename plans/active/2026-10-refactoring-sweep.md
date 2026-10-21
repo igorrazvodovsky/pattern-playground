@@ -588,13 +588,19 @@ Design calls; one sitting each.
   Done 2026-10-20: `demos/scaffold.tsx` and the `.detail__toolbar` rules in
   `styles/view-family.css` are deleted, and the comment in
   `ItemInteraction.tsx` no longer names the class.
-- [ ] *The in-place detail sits under the card's press.* In
-  `specs/overview-detail.json` the in-place detail is the card's default
-  content, so the card's press covers it and the actor cannot select its
-  text. The Card's `detail` slot, shown while `expanded`, keeps it clear of
-  the press, as `specs/nested-pairs.json` does. Moving it there also reads
-  the title as expanded rather than pressed, so check that the menu in the
-  card's suffix still makes sense beside it.
+- [x] *The in-place detail sits under the card's press.* In
+  `specs/overview-detail.json` the in-place detail was the card's default
+  content, so the card's press covered it and the actor could not select its
+  text. The spec moved it into the `detail` slot of an `Item` (b2b950b5), but
+  in pp the press still covered it: `.detail` was not positioned, so the
+  title's stretched `::before` painted over it, where shadcn's detail is
+  `relative`. Fixed 2026-10-21: `stretched-link.css` positions a card's
+  `> .detail` at `z-index: 0`, above the overlay and below the controls it
+  lifts to `z-index: 1`, so a suffix or badge menu still opens over an
+  expanded detail. Checked in the browser: the detail's text is clear of the
+  press in both overview-detail layouts that show it, the summary still opens,
+  and in nested-pairs a card inside a detail opens on its own press. The menu in the suffix reads well
+  beside a title that is announced as expanded.
 - [ ] *Component and material readouts formatted by hand.*
   `specs/nested-pairs.ts` writes each tier's badges and rows by hand, products
   among them, while `specs/shared/product-view.ts` reads products through the

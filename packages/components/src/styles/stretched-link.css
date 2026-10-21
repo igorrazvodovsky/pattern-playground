@@ -39,13 +39,22 @@
   /* Card affordances for a stretched hit target: the whole card lifts its
      border on hover and takes the focus ring when the link/button is focused.
      Keyed on the utility (or a direct card link, which composes it), so the
-     card reacts however the hit target was declared. */
-  .card:has(:is(.stretched-link, > a, .label a, .card__header a)):hover {
+     card reacts however the hit target was declared. Each selector looks only
+     outside the card's `.detail` (itself `.pad`), so a card whose detail holds
+     a pressable card does not read as pressable itself. */
+  .card:has(
+      > .stretched-link,
+      > a,
+      > :not(.detail) .stretched-link,
+      > .label a,
+      > :not(.detail) .label a,
+      > .card__header a
+    ):hover {
     border-color: var(--c-accent);
   }
 
-  .card:has(.stretched-link:focus-visible),
-  .card:has(:is(> a, .label a, .card__header a)):focus-within {
+  .card:has(> .stretched-link:focus-visible, > :not(.detail) .stretched-link:focus-visible),
+  .card:has(> a:focus, > .label a:focus, > :not(.detail) .label a:focus, > .card__header a:focus) {
     outline: 3px solid var(--c-accent);
     outline-offset: 2px;
   }
@@ -64,5 +73,15 @@
   .card:has(.stretched-link) .card__footer :is(button, pp-dropdown) {
     position: relative;
     z-index: 1;
+  }
+
+  /* A card's detail is lifted whole, so its text can be selected and its own
+     controls, other cards among them, used. At `z-index: 0` it paints above
+     the overlay, which comes earlier in the tree, and below the lifted
+     controls, so their menus open over it. Its own stacking context keeps a
+     nested card's lifted controls from painting over those menus too. */
+  .card:has(.stretched-link) > .detail {
+    position: relative;
+    z-index: 0;
   }
 }
