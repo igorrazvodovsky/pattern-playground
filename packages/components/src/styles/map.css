@@ -28,9 +28,9 @@ pp-map .pp-map__canvas {
 
 /* -----------------------------------------------------------------------------
    Pins — a CSS dot drawn from a divIcon, so no bundled marker PNG is needed and
-   the selected state is a class toggle, not a second image. The dot is a block
-   element (a span defaults to inline, which ignores width/height) filling the
-   icon box Leaflet sizes.
+   the selected and focused states are attributes the map sets on the pin, not
+   second images. The dot is a block element (a span defaults to inline, which
+   ignores width/height) filling the icon box Leaflet sizes.
    ----------------------------------------------------------------------------- */
 pp-map .pp-map__pin {
   background: transparent;
@@ -49,17 +49,13 @@ pp-map .pp-map__pin-dot {
   transition: scale var(--transition-fast, 120ms) ease;
 }
 
-pp-map .pp-map__pin--selected {
-  z-index: 1000 !important; /* lift the active pin above its neighbours */
-}
-
-pp-map .pp-map__pin--selected .pp-map__pin-dot {
+pp-map .pp-map__pin[aria-current='true'] .pp-map__pin-dot {
   background: var(--c-accent-700);
   scale: 1.4;
 }
 
 /* Lighter than the selection, which it never hides. */
-pp-map .pp-map__pin--focused:not(.pp-map__pin--selected) .pp-map__pin-dot {
+pp-map .pp-map__pin[data-focused='true']:not([aria-current='true']) .pp-map__pin-dot {
   scale: 1.25;
   outline: 2px solid var(--c-accent);
   outline-offset: 1px;

@@ -20,12 +20,10 @@
  */
 
 import { Elena } from '@elenajs/core';
-import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import type { DivIconOptions } from 'leaflet';
+import { escapeHtml, PlacesMap, type MapPlace } from './places-map.js';
 import { CARTO_ATTRIBUTION, CARTO_TILE_URL } from './tiles.js';
-
-// Longer than any Leaflet zoom animation.
-const RETIRE_AFTER_MS = 1000;
 
 type ElenaProp = string | { name: string; reflect?: boolean };
 
@@ -41,11 +39,9 @@ export interface MapLocation {
   description?: string;
 }
 
-/** Emitted as `pp-map-select` when the active location changes. */
+/** Emitted as `pp-map-select` when the actor picks a location on the map. */
 export interface MapSelectDetail {
   location: MapLocation;
-  /** What drove the selection. */
-  source: 'marker' | 'api';
 }
 
 /**
@@ -57,16 +53,31 @@ export interface MapFocusDetail {
   location: MapLocation | null;
 }
 
+type Place = MapPlace & { location: MapLocation };
+
+const toPlace = (location: MapLocation): Place => ({
+  id: String(location.id),
+  name: location.name,
+  lat: location.lat,
+  lng: location.lng,
+  description: location.description,
+  location,
+});
+
+const idOf = (id: string | number) => (id === '' ? null : String(id));
+
 /** A design-system pin drawn from CSS rather than Leaflet's bundled PNG. */
-function pinIcon(selected: boolean): L.DivIcon {
-  return L.divIcon({
-    className: `pp-map__pin${selected ? ' pp-map__pin--selected' : ''}`,
-    html: '<span class="pp-map__pin-dot"></span>',
-    iconSize: [20, 20],
-    iconAnchor: [10, 10],
-    popupAnchor: [0, -12],
-  });
-}
+const pin: DivIconOptions = {
+  className: 'pp-map__pin',
+  html: '<span class="pp-map__pin-dot"></span>',
+  iconSize: [20, 20],
+  iconAnchor: [10, 10],
+  popupAnchor: [0, -12],
+};
+
+const popup = ({ name, description }: Place) =>
+  `<strong>${escapeHtml(name)}</strong>` +
+  (description ? `<br><span class="pp-map__popup-desc">${escapeHtml(description)}</span>` : '');
 
 export class MapComponent extends Elena(HTMLElement) {
   static 'tagName' = 'pp-map';
@@ -105,21 +116,15 @@ export class MapComponent extends Elena(HTMLElement) {
   /** Accessible name for the map region. */
   'label' = 'Location map';
 
-  private 'map'?: L.Map;
-  private 'tileLayer'?: L.TileLayer;
-  private 'markersById' = new Map<string, L.Marker>();
-  private 'resizeObserver'?: ResizeObserver;
-  private 'rafHandle' = 0;
+  private 'map'?: PlacesMap<Place>;
   private 'canvas'?: HTMLElement;
-  private 'zooming' = false;
 
-  // Elena's updated() carries no changed-props map; previous values live here,
-  // seeded in firstUpdated() so handlers only run on later changes.
+  // Elena's updated() carries no changed-props map; previous values live here.
+  // The PlacesMap keeps its own for places, selection and focus.
   private 'prevLocations'?: MapLocation[];
+  private 'places': Place[] = [];
   private 'prevTileUrl'?: string;
   private 'prevAttribution'?: string;
-  private 'prevSelectedId'?: string | number;
-  private 'prevFocusedId'?: string | number;
 
   'connectedCallback'() {
     // Leaflet needs a real container in the document tree before the first
@@ -142,26 +147,12 @@ export class MapComponent extends Elena(HTMLElement) {
 
   'disconnectedCallback'() {
     super.disconnectedCallback();
-    this.resizeObserver?.disconnect();
-    if (this.rafHandle) cancelAnimationFrame(this.rafHandle);
-    // remove() does not cancel a zoom animation's timer, which then reads the
-    // removed panes. Retire the map and its canvas after the animation ends.
-    const map = this.map;
-    if (map && this.zooming) {
-      const canvas = this.canvas;
-      const retire = () => {
-        clearTimeout(fallback);
-        map.remove();
-        canvas?.remove();
-      };
-      const fallback = setTimeout(retire, RETIRE_AFTER_MS);
-      map.once('zoomend', retire);
-      this.canvas = undefined;
-    } else {
-      map?.remove();
-    }
+    // The canvas goes with the map, which may outlive this call by a running
+    // zoom; a reconnect builds both again.
+    const canvas = this.canvas;
+    this.map?.remove(() => canvas?.remove());
     this.map = undefined;
-    this.zooming = false;
+    this.canvas = undefined;
   }
 
   private 'init'(): void {
@@ -176,142 +167,36 @@ export class MapComponent extends Elena(HTMLElement) {
   /** Build the Leaflet map once the canvas node exists. */
   private 'buildMap'(): void {
     if (!this.canvas) return;
-
-    this.map = L.map(this.canvas, { zoomControl: true, attributionControl: true });
-    this.map
-      .on('zoomanim', () => (this.zooming = true))
-      .on('zoomend', () => (this.zooming = false));
-    this.tileLayer = L.tileLayer(this['tile-url'], {
-      attribution: this.attribution,
-      maxZoom: 19,
-    }).addTo(this.map);
-
-    this.prevLocations = this.locations;
-    this.prevTileUrl = this['tile-url'];
-    this.prevAttribution = this.attribution;
-    this.prevSelectedId = this['selected-id'];
-    this.prevFocusedId = this['focused-id'];
-
-    this.renderMarkers();
-    this.fitView();
-
-    // The container is often laid out (or resized) after init — in a Storybook
-    // panel, a tab, or a flex parent. Leaflet must be told, or tiles misalign.
-    this.rafHandle = requestAnimationFrame(() => this.map?.invalidateSize());
-    this.resizeObserver = new ResizeObserver(() => this.map?.invalidateSize());
-    this.resizeObserver.observe(this.canvas);
+    this.map = new PlacesMap<Place>(this.canvas, {
+      pin,
+      popup,
+      onPress: (place) => this.select(place.location),
+      onFocus: (place) => this.reportFocus(place?.location ?? null),
+    });
+    this.prevLocations = undefined;
+    this.prevTileUrl = CARTO_TILE_URL;
+    this.prevAttribution = CARTO_ATTRIBUTION;
+    this.updated();
   }
 
   'updated'(): void {
     if (!this.map) return;
-    const placesChanged = this.locations !== this.prevLocations;
-    if (placesChanged) {
-      this.prevLocations = this.locations;
-      this.renderMarkers();
-      this.fitView();
-    }
     if (this['tile-url'] !== this.prevTileUrl || this.attribution !== this.prevAttribution) {
       this.prevTileUrl = this['tile-url'];
       this.prevAttribution = this.attribution;
-      this.tileLayer?.remove();
-      this.tileLayer = L.tileLayer(this['tile-url'], {
-        attribution: this.attribution,
-        maxZoom: 19,
-      }).addTo(this.map);
+      this.map.setTiles(this['tile-url'], this.attribution);
     }
-    if (this['selected-id'] !== this.prevSelectedId) {
-      this.prevSelectedId = this['selected-id'];
-      // A selection that arrives with new places leaves the view framing
-      // them all; one that changes later moves the map to it.
-      this.syncSelection(!placesChanged);
+    if (this.locations !== this.prevLocations) {
+      this.prevLocations = this.locations;
+      this.places = this.locations.map(toPlace);
     }
-    if (this['focused-id'] !== this.prevFocusedId) {
-      this.prevFocusedId = this['focused-id'];
-      this.syncFocus();
-    }
-  }
-
-  /** Rebuild every marker from `locations`. */
-  private 'renderMarkers'(): void {
-    if (!this.map) return;
-    for (const marker of this.markersById.values()) marker.remove();
-    this.markersById.clear();
-
-    for (const loc of this.locations) {
-      const selected = this.isSelected(loc);
-      const marker = L.marker([loc.lat, loc.lng], {
-        icon: pinIcon(selected),
-        title: loc.name,
-      });
-      marker.bindPopup(this.popupHtml(loc));
-      marker.on('click', () => this.select(loc, 'marker'));
-      marker.on('mouseover', () => this.reportFocus(loc));
-      marker.on('mouseout', () => this.reportFocus(null));
-      marker.addTo(this.map);
-      this.markersById.set(String(loc.id), marker);
-
-      // Leaflet's keyboard option (on by default) makes each pin a focusable
-      // role="button". Give it an accessible name, reflect the selected state,
-      // and wire Enter/Space to selection ourselves — Leaflet doesn't activate
-      // divIcon markers from the keyboard — so a keyboard or screen-reader user
-      // can reach and choose places without a pointer.
-      const el = marker.getElement();
-      if (el) {
-        el.setAttribute('aria-label', this.markerLabel(loc));
-        if (selected) el.setAttribute('aria-current', 'true');
-        el.classList.toggle('pp-map__pin--focused', this.isFocused(loc));
-        el.addEventListener('focus', () => this.reportFocus(loc));
-        el.addEventListener('blur', () => this.reportFocus(null));
-        el.addEventListener('keydown', (event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            this.select(loc, 'marker');
-          }
-        });
-      }
-    }
-  }
-
-  /** Accessible name for a pin: the place name, plus its detail line if any. */
-  private 'markerLabel'(loc: MapLocation): string {
-    return loc.description ? `${loc.name} — ${loc.description}` : loc.name;
-  }
-
-  private 'popupHtml'(loc: MapLocation): string {
-    const name = this.escape(loc.name);
-    const desc = loc.description
-      ? `<br><span class="pp-map__popup-desc">${this.escape(loc.description)}</span>`
-      : '';
-    return `<strong>${name}</strong>${desc}`;
-  }
-
-  private 'escape'(value: string): string {
-    const el = document.createElement('div');
-    el.textContent = value;
-    return el.innerHTML;
-  }
-
-  /** Frame the view: all markers if any, else the given centre, else the world.
-      Never animated: a zoom transition left in flight when the host unmounts
-      makes Leaflet's transitionend handler read the removed pane and throw. */
-  private 'fitView'(): void {
-    if (!this.map) return;
-    if (this.center) {
-      this.map.setView(this.center, this.zoom, { animate: false });
-    } else if (this.locations.length > 0) {
-      const bounds = L.latLngBounds(this.locations.map((l) => [l.lat, l.lng] as [number, number]));
-      this.map.fitBounds(bounds, { padding: [32, 32], maxZoom: 16, animate: false });
-    } else {
-      this.map.setView([20, 0], 2, { animate: false });
-    }
-  }
-
-  private 'isSelected'(loc: MapLocation): boolean {
-    return this['selected-id'] !== '' && String(loc.id) === String(this['selected-id']);
-  }
-
-  private 'isFocused'(loc: MapLocation): boolean {
-    return this['focused-id'] !== '' && String(loc.id) === String(this['focused-id']);
+    this.map.update({
+      places: this.places,
+      selected: idOf(this['selected-id']),
+      focused: idOf(this['focused-id']),
+      center: this.center,
+      zoom: this.zoom,
+    });
   }
 
   private 'reportFocus'(loc: MapLocation | null): void {
@@ -324,52 +209,16 @@ export class MapComponent extends Elena(HTMLElement) {
     );
   }
 
-  private 'syncFocus'(): void {
-    for (const loc of this.locations) {
-      const el = this.markersById.get(String(loc.id))?.getElement();
-      el?.classList.toggle('pp-map__pin--focused', this.isFocused(loc));
-    }
-  }
-
   /** Select a location and let the change flow out through `selected-id`. */
-  private 'select'(loc: MapLocation, source: MapSelectDetail['source']): void {
-    if (this.isSelected(loc)) return;
+  private 'select'(loc: MapLocation): void {
     this['selected-id'] = loc.id;
-    // Selection is applied inline; the prev field is caught up so the microtask
-    // update cycle does not re-apply it as an 'api' change (which would pan).
-    this.prevSelectedId = loc.id;
-    // Don't wrench the view when the user clicked a marker already in frame.
-    this.syncSelection(source !== 'marker');
     this.dispatchEvent(
       new CustomEvent<MapSelectDetail>('pp-map-select', {
-        detail: { location: loc, source },
+        detail: { location: loc },
         bubbles: true,
         composed: true,
       }),
     );
-  }
-
-  /** Reflect the current `selected-id` onto the markers and the map view. */
-  private 'syncSelection'(pan: boolean): void {
-    const loc = this.locations.find((l) => this.isSelected(l));
-
-    // Repaint pin states.
-    for (const [id, marker] of this.markersById) {
-      const el = marker.getElement();
-      if (!el) continue;
-      const isSelected = this['selected-id'] !== '' && id === String(this['selected-id']);
-      el.classList.toggle('pp-map__pin--selected', isSelected);
-      if (isSelected) el.setAttribute('aria-current', 'true');
-      else el.removeAttribute('aria-current');
-    }
-
-    if (loc && this.map) {
-      const marker = this.markersById.get(String(loc.id));
-      if (pan) this.map.panTo([loc.lat, loc.lng]);
-      marker?.openPopup();
-    } else {
-      this.map?.closePopup();
-    }
   }
 }
 

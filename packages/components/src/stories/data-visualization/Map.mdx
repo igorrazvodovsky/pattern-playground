@@ -17,7 +17,7 @@ This is the located-point sibling of the <PatternRef slug="data-visualization">c
 
 <Story of={MapStories.Default} />
 
-Each place is a pin the reader can click or tab to. Selecting one frames it, opens its popup, and emits `pp-map-select`, whichever route drove the choice.
+Each place is a pin the reader can click or tab to. Selecting one opens its popup and emits `pp-map-select`; the map stays where it is, since the pin is already in view. A selection set through `selected-id` moves the map to the pin and emits nothing.
 
 ### A place already in focus
 
@@ -64,7 +64,7 @@ A map is a picture, and a picture excludes anyone who cannot see it. Here the pi
 
 ### Keyboard navigation
 - Tab: move between the pins; once the base map itself is focused, its own arrow-pan and zoom take over.
-- Enter / Space: select the focused pin — framing it and opening its popup (emits `pp-map-select`).
+- Enter / Space: select the focused pin and open its popup (emits `pp-map-select`).
 
 Given without a caption, the map still needs a text equivalent nearby — a table or list of the same places — for a reader who wants the data in reading order rather than by position.
 

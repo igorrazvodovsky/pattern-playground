@@ -461,15 +461,34 @@ Design calls; one sitting each.
   match. Two controls with the same label in one demo (two references to the
   same item) would send focus to the wrong one. A stable key the spec gives
   the control would avoid it; change both together.
-- [ ] *Leaflet setup, twice.* `components/map/map.ts` and
-  `catalog/registries/shadcn/map.tsx` share the tiles (`map/tiles.ts`), but
-  each creates the Leaflet map, fits the view without animation, defers
-  removing the map while a zoom runs, names each pin, selects it on Enter or
-  Space, marks the selected one current, and pans to a selection only when
-  it was set from state after the places were framed. Only the pin, the
-  popup and the frame belong to each library. A framework-free helper beside
-  `map.ts` that takes the pin and popup as arguments would serve both; a fix
-  to the keyboard handling or the unmount guard now has to be made twice.
+- [x] *Leaflet setup, twice.* `components/map/map.ts` and
+  `catalog/registries/shadcn/map.tsx` each created the Leaflet map, framed it,
+  deferred its removal while a zoom ran, named and keyed the pins, marked the
+  selected one and panned only to a selection set from state. Done
+  2026-10-21: both build on `PlacesMap` in `components/map/places-map.ts`,
+  which takes the pin's icon options and a popup function and owns the rest.
+  The host hands it places, selection and focus through one `update`, so the
+  rule for when to pan lives in one place. The selected and focused pins are
+  marked with `aria-current` and `data-focused` in both libraries, and lifted
+  with Leaflet's z-index offset; `map.css` selects the attributes, and the
+  `--selected` and `--focused` classes and the `!important` z-index are gone.
+  Two behaviours changed in pp-map. It framed the view after adding its pins,
+  and Leaflet creates a pin's element only once the map has a view, so places
+  present when the map was built, as after a move in the page, got no label
+  or key handling; they now do. The selected pin's popup opens only when the
+  selection changes, also on first build, so new places keep their frame;
+  shadcn used to reopen it on every change of places. A second press on the
+  selected pin before the host updates does nothing, so pp-map no longer
+  sends `pp-map-select` twice. `MapSelectDetail` lost its `source`, which
+  was always `'marker'`. The shadcn map's removal gained pp-map's fallback
+  timer. Checked in the browser in both libraries on the
+  coordinated-views demo: pins are labelled, a focused pin is marked, Enter
+  or Space selects without moving the map to the pin (a popup at the edge
+  still shifts the view to fit), a selection from the list pans, and
+  switching library during a zoom throws nothing. In pp, moving the element
+  in the page, also during a zoom, leaves one map with labelled pins, a
+  double Enter sends one event, and new places with the same selection are
+  framed with no popup.
 - [ ] *Mention editor, twice.* `components/reference/Reference.tsx` (with
   `ReferenceEditor` and `ReferencePicker`, still used by the prompt,
   bubble-menu, block-based-editor and dynamic-hyperlinks demos) and
