@@ -1,15 +1,13 @@
 import type { Spec } from '@json-render/core';
 import { products } from '@shared/data';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { cardAttributes } from './shared/product';
+import { overviewAttributes } from './shared/product';
 import spec from './overview-detail.json' with { type: 'json' };
 
 // Closing a popover belongs to the popover, so picking an item never toggles it.
 // `/layout` is what the actor chose; it differs from the layout in force when
 // side by side was chosen and the Split has no room (`/room`). In place, the
 // detail opens under the item's row, so it leaves out what the row shows.
-
-const overviewOf = cardAttributes(['category', 'pricing.msrp']);
 
 const ids = products.map((item) => item.id);
 
@@ -25,7 +23,7 @@ export default {
       products: products.map((item) => ({
         id: item.id,
         name: item.name,
-        attributes: overviewOf(item),
+        attributes: overviewAttributes(item),
         product: item,
       })),
       selected: ids[0],

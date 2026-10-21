@@ -425,14 +425,11 @@ Design calls; one sitting each.
   extraction: the `Templates/Stat` story writes the same arrangement in
   markup, with `alert` on `.stat`, and there is no second consumer for a
   component to serve.
-- [ ] *Overview attributes repeated.* The list
-  `['name','category','pricing.msrp']` is written out in the overview-detail
-  and linked-trio specs. No demo writes out `cards--list > EntityCard` any
-  more: in specs, an entity card is a Card titled by the item's name with its
-  attributes as labelled Badges (in a list of rows, an `Item` with the same
-  Badges), and the item's full view is a Card holding its badges, price,
-  description and a `DescriptionList` of the rest, laid out by role in
-  `specs/shared/product-view.ts`, as `ItemView` lays out its maxi scope.
+- [x] *Overview attributes repeated.* The list
+  `['category', 'pricing.msrp']` was written out in the overview-detail
+  and linked-trio specs. Done 2026-10-21: both read `overviewAttributes`
+  from `specs/shared/product.ts`. `nested-pairs.ts` keeps its own call, which
+  sits beside the component and material tiers built the same way.
 - [x] *Slice attributes formatted two ways.* `specs/problem-checklist.ts` and
   `specs/watch-to-chase-tiers.ts` showed the same three attributes on a flag's
   items, one through `AttributeUtils` (a missing value shown as N/A) and the

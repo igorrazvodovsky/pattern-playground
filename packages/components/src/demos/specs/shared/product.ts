@@ -29,6 +29,9 @@ export const cardAttributes = (paths: string[], binding: EntityBinding = product
     }));
 };
 
+// What an overview shows of each item beside its name.
+export const overviewAttributes = cardAttributes(['category', 'pricing.msrp']);
+
 // What a flag's slice shows of each item it flags.
 export const sliceAttributes = cardAttributes(['category', 'pricing.msrp', 'listedAt']);
 
