@@ -756,6 +756,9 @@
         "resulting": [
           {
             "clause": "a dialogue structure that carries context forward, lets either party take a turn, and accommodates repair when alignment slips"
+          },
+          {
+            "clause": "an exchange that keeps settling around the same well-structured data is a form asked one field at a time; when the fields stop varying, the form is the plainer surface"
           }
         ]
       },
@@ -1344,8 +1347,8 @@
       "path": "/patterns/form",
       "role": "pattern",
       "situation": {
-        "initiating": "… in [making changes](/sequences/making-changes) the actor has reached the point of saying what the change is, and [editing in place](/patterns/editing-in-place) does not fit: the fields only make sense together, need more room than the display offers, apply to a set rather than the item in view, or have to be reviewed as a whole before they take effect. A form gives the sequence a surface of its own on which the whole change is composed and checked before any of it takes effect. The rule editor in [delegating work](/sequences/delegating-work) uses the same parts for a set of fields that stays open.",
-        "resulting": "Give the actor a surface of their own on which fields are filled one at a time and the whole set is committed in one act; where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting). Treat each field as an act of [data entry](/patterns/data-entry), and make a field that accepts only a fixed set of values a [bounded choice](/patterns/bounded-choice). Let the surface host the moves that act on a field: [good defaults](/patterns/good-defaults) arrive pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finish or supply a value as the actor types, and [validation](/patterns/validation) answers an input the system cannot accept at the field that produced it and holds submission until it is fixed. Let [status feedback](/patterns/status-feedback) report what the submission did. Split a long form by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, by [sections](/patterns/sections) into separately disclosed parts, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another the form has become a [wizard](/patterns/wizard). A form holds pending state until it is submitted, so decide with [saving](/patterns/saving) what happens to a half-filled one. Let [localization](/patterns/localization) decide which formats its fields accept.\nFields can also be asked and answered turn by turn inside a [conversation](/patterns/conversation), and a conversation that settles around well-structured data may in turn become a form. Within a conversation, each field renders in its message as an [inline interface](/patterns/inline-interface). [Settings](/patterns/settings) are forms by another name, kept open rather than submitted. Disabling the submit button until the form is valid hides the problem validation exists to explain, so the [disabled state](/patterns/state-disabled) is weighed against letting the actor submit and be told…"
+        "initiating": "… in [making changes](/sequences/making-changes) the actor has reached the point of saying what the change is, and it takes several related answers: the fields only make sense together, need more room than the display offers, or apply to a set rather than the item in view. [Editing in place](/patterns/editing-in-place) handles the single value; a form is the surface for the set. The rule editor in [delegating work](/sequences/delegating-work) uses the same surface for a set of fields that stays open.",
+        "resulting": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it. Where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting), and let [status feedback](/patterns/status-feedback) report what the submission did. A form that has outgrown one screen is split by [sections](/patterns/sections) into parts, by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another it has become a [wizard](/patterns/wizard). A form holds pending state until it is committed, so decide with [saving](/patterns/saving) what happens to a half-filled one, and let [localization](/patterns/localization) decide which formats its fields accept…"
       },
       "group": "application",
       "realisedBy": [
@@ -2747,6 +2750,9 @@
             "clause": "the actor's overrides are recorded and the system holds to them, so an adaptation made once outlasts the session that made it"
           },
           {
+            "clause": "the surface is a form kept open rather than submitted: each field commits on its own, so there is no pending set, no review before it takes effect, and no single act to cancel"
+          },
+          {
             "clause": "the surface accumulates: every option added is one more thing to look past, and the ones nobody ever changes still cost the actors hunting for the ones they do"
           },
           {
@@ -3893,7 +3899,7 @@
       "type": "hosts",
       "incomingNote": "form fields are where the completion surface most commonly lives",
       "extractedFrom": "frontmatter:hosted-by",
-      "situation": "Let the surface host the moves that act on a field: [good defaults](/patterns/good-defaults) arrive pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finish or supply a value as the actor types, and [validation](/patterns/validation) answers an input the system cannot accept at the field that produced it and holds submission until it is fixed.",
+      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
       "glossFrom": "source:resulting"
     },
     {
@@ -4000,7 +4006,7 @@
       "type": "hosts",
       "incomingNote": "form fields are the surface where autofill most commonly appears",
       "extractedFrom": "frontmatter:hosted-by",
-      "situation": "Let the surface host the moves that act on a field: [good defaults](/patterns/good-defaults) arrive pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finish or supply a value as the actor types, and [validation](/patterns/validation) answers an input the system cannot accept at the field that produced it and holds submission until it is fixed.",
+      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
       "glossFrom": "source:resulting"
     },
     {
@@ -4093,7 +4099,7 @@
       "type": "enables",
       "label": "committing a value from a set the actor didn't author; the move behind a form's selects, radios, and checkboxes.",
       "extractedFrom": "frontmatter:enables",
-      "situation": "Treat each field as an act of [data entry](/patterns/data-entry), and make a field that accepts only a fixed set of values a [bounded choice](/patterns/bounded-choice).",
+      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
       "glossFrom": "target:resulting"
     },
     {
@@ -4514,6 +4520,13 @@
       "extractedFrom": "frontmatter:complements"
     },
     {
+      "source": "conversation",
+      "target": "form",
+      "type": "complements",
+      "label": "fields can be asked and answered turn by turn, each rendered in its message as an inline interface; a conversation that settles around well-structured data may become a form",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
       "source": "user-opening",
       "target": "conversation",
       "type": "enables",
@@ -4654,7 +4667,7 @@
       "type": "hosts",
       "incomingNote": "one of the surfaces that host the entry move — structured, multi-field, committed up front. [Conversation](/patterns/conversation) and the [inline interface](/patterns/inline-interface) are others.",
       "extractedFrom": "frontmatter:hosted-by",
-      "situation": "Treat each field as an act of [data entry](/patterns/data-entry), and make a field that accepts only a fixed set of values a [bounded choice](/patterns/bounded-choice).",
+      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
       "glossFrom": "source:resulting"
     },
     {
@@ -4973,7 +4986,7 @@
       "type": "complements",
       "label": "the two ends of where a change happens — form gathers input on a surface of its own, editing in place puts it on the artefact",
       "extractedFrom": "frontmatter:complements",
-      "situation": "in [making changes](/sequences/making-changes) the actor has reached the point of saying what the change is, and [editing in place](/patterns/editing-in-place) does not fit: the fields only make sense together, need more room than the display offers, apply to a set rather than the item in view, or have to be reviewed as a whole before they take effect.",
+      "situation": "[Editing in place](/patterns/editing-in-place) handles the single value; a form is the surface for the set.",
       "glossFrom": "target:initiating"
     },
     {
@@ -5282,44 +5295,19 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
-      "source": "form",
-      "target": "good-defaults",
-      "type": "hosts",
-      "extractedFrom": "frontmatter:hosts",
-      "incomingNote": "form fields are the primary surface where defaults are encountered",
-      "situation": "Let the surface host the moves that act on a field: [good defaults](/patterns/good-defaults) arrive pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finish or supply a value as the actor types, and [validation](/patterns/validation) answers an input the system cannot accept at the field that produced it and holds submission until it is fixed.",
-      "glossFrom": "source:resulting"
-    },
-    {
       "source": "review-before-submitting",
       "target": "form",
       "type": "enables",
       "extractedFrom": "frontmatter:composed-of",
-      "situation": "Give the actor a surface of their own on which fields are filled one at a time and the whole set is committed in one act; where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting).",
+      "situation": "Where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting), and let [status feedback](/patterns/status-feedback) report what the submission did.",
       "glossFrom": "target:resulting"
-    },
-    {
-      "source": "form",
-      "target": "conversation",
-      "type": "complements",
-      "extractedFrom": "frontmatter:complements",
-      "situation": "Fields can also be asked and answered turn by turn inside a [conversation](/patterns/conversation), and a conversation that settles around well-structured data may in turn become a form.",
-      "glossFrom": "source:resulting"
-    },
-    {
-      "source": "form",
-      "target": "localization",
-      "type": "complements",
-      "extractedFrom": "frontmatter:complements",
-      "situation": "Let [localization](/patterns/localization) decide which formats its fields accept.",
-      "glossFrom": "source:resulting"
     },
     {
       "source": "form",
       "target": "status-feedback",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Let [status feedback](/patterns/status-feedback) report what the submission did.",
+      "situation": "Where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting), and let [status feedback](/patterns/status-feedback) report what the submission did.",
       "glossFrom": "source:resulting"
     },
     {
@@ -5327,23 +5315,15 @@
       "target": "saving",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "A form holds pending state until it is submitted, so decide with [saving](/patterns/saving) what happens to a half-filled one.",
+      "situation": "A form holds pending state until it is committed, so decide with [saving](/patterns/saving) what happens to a half-filled one, and let [localization](/patterns/localization) decide which formats its fields accept",
       "glossFrom": "source:resulting"
     },
     {
       "source": "form",
-      "target": "state-disabled",
-      "type": "tangential",
-      "extractedFrom": "frontmatter:tangential",
-      "situation": "Disabling the submit button until the form is valid hides the problem validation exists to explain, so the [disabled state](/patterns/state-disabled) is weighed against letting the actor submit and be told",
-      "glossFrom": "source:resulting"
-    },
-    {
-      "source": "form",
-      "target": "inline-interface",
-      "type": "related",
-      "extractedFrom": "frontmatter:related",
-      "situation": "Within a conversation, each field renders in its message as an [inline interface](/patterns/inline-interface).",
+      "target": "localization",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A form holds pending state until it is committed, so decide with [saving](/patterns/saving) what happens to a half-filled one, and let [localization](/patterns/localization) decide which formats its fields accept",
       "glossFrom": "source:resulting"
     },
     {
@@ -5480,6 +5460,15 @@
       "type": "related",
       "label": "A weaker form of default (\"Did you mean X?\") or a dynamic default",
       "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "form",
+      "target": "good-defaults",
+      "type": "hosts",
+      "incomingNote": "form fields are the primary surface where defaults are encountered",
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "good-defaults",
@@ -5838,9 +5827,7 @@
       "target": "form",
       "type": "related",
       "label": "fields distributed across an exchange; the form↔conversation move.",
-      "extractedFrom": "frontmatter:related",
-      "situation": "Within a conversation, each field renders in its message as an [inline interface](/patterns/inline-interface).",
-      "glossFrom": "target:resulting"
+      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "inline-interface",
@@ -6882,7 +6869,7 @@
       "type": "enables",
       "label": "a form revealing depth only as it becomes relevant.",
       "extractedFrom": "frontmatter:enables",
-      "situation": "Split a long form by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, by [sections](/patterns/sections) into separately disclosed parts, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another the form has become a [wizard](/patterns/wizard).",
+      "situation": "A form that has outgrown one screen is split by [sections](/patterns/sections) into parts, by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another it has become a [wizard](/patterns/wizard).",
       "glossFrom": "target:resulting"
     },
     {
@@ -7524,7 +7511,7 @@
       "type": "enables",
       "label": "splitting a long form into adaptive, separately disclosed parts.",
       "extractedFrom": "frontmatter:enables",
-      "situation": "Split a long form by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, by [sections](/patterns/sections) into separately disclosed parts, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another the form has become a [wizard](/patterns/wizard).",
+      "situation": "A form that has outgrown one screen is split by [sections](/patterns/sections) into parts, by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another it has become a [wizard](/patterns/wizard).",
       "glossFrom": "target:resulting"
     },
     {
@@ -7718,10 +7705,8 @@
       "source": "settings",
       "target": "form",
       "type": "complements",
-      "label": "settings are essentially configuration forms requiring similar patterns (validation, feedback, submission)",
-      "extractedFrom": "frontmatter:complements",
-      "situation": "[Settings](/patterns/settings) are forms by another name, kept open rather than submitted.",
-      "glossFrom": "target:resulting"
+      "label": "settings are a form kept open rather than submitted: each field commits on its own, and nothing waits for a single act",
+      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "settings",
@@ -7937,7 +7922,7 @@
       "type": "enables",
       "label": "a form split into one-question-per-page steps (the question-pages pattern)",
       "extractedFrom": "frontmatter:enables",
-      "situation": "Split a long form by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, by [sections](/patterns/sections) into separately disclosed parts, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another the form has become a [wizard](/patterns/wizard).",
+      "situation": "A form that has outgrown one screen is split by [sections](/patterns/sections) into parts, by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another it has become a [wizard](/patterns/wizard).",
       "glossFrom": "target:resulting"
     },
     {
@@ -8262,7 +8247,7 @@
       "type": "hosts",
       "incomingNote": "the form is the surface that hosts fieldwise messages and wires them to submission",
       "extractedFrom": "frontmatter:hosted-by",
-      "situation": "Let the surface host the moves that act on a field: [good defaults](/patterns/good-defaults) arrive pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finish or supply a value as the actor types, and [validation](/patterns/validation) answers an input the system cannot accept at the field that produced it and holds submission until it is fixed.",
+      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
       "glossFrom": "source:resulting"
     },
     {
@@ -8414,7 +8399,7 @@
       "extractedFrom": "frontmatter:alternative",
       "situation": "A [form](/patterns/form) would put every field on one page, and most tasks are better served by one.",
       "glossFrom": "source:initiating",
-      "farSituation": "Split a long form by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, by [sections](/patterns/sections) into separately disclosed parts, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another the form has become a [wizard](/patterns/wizard)."
+      "farSituation": "A form that has outgrown one screen is split by [sections](/patterns/sections) into parts, by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another it has become a [wizard](/patterns/wizard)."
     },
     {
       "source": "wizard",
