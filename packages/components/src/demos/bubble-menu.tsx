@@ -154,10 +154,8 @@ export const CommentingDemo: React.FC = () => {
       <CommentingIntegration config={{ currentUser: 'user-1' }}>
         <EditorLayout>
           <EditorToolbar className="toolbar" />
-          <div className="rich-editor-container">
-            <PluginEditorContent />
-            <EditorBubbleMenu />
-          </div>
+          <PluginEditorContent />
+          <EditorBubbleMenu />
         </EditorLayout>
       </CommentingIntegration>
     </EditorProvider>
@@ -205,10 +203,8 @@ export const DynamicExplanationDemo: React.FC = () => {
   return (
     <EditorProvider editor={editor} plugins={plugins}>
       <EditorLayout>
-        <div className="rich-editor-container">
-          <PluginEditorContent />
-          <EditorBubbleMenu />
-        </div>
+        <PluginEditorContent />
+        <EditorBubbleMenu />
       </EditorLayout>
     </EditorProvider>
   );

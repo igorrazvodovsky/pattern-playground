@@ -32,8 +32,8 @@ json-render 0.21.1 and its documentation. Its items are in §3 and §5.
    and demo actions moved out of the catalog 2026-10-20; done).
 4. Template extractions (stat tile, card list, overview-plus-detail) — these are
    design calls, one sitting each.
-5. Conventions (done 2026-10-18; the story tags and the pp registry's inline
-   styles remain).
+5. Conventions (done 2026-10-18; the pp registry's inline styles done
+   2026-10-21; the story tags remain).
 
 ## 1. Bugs
 
@@ -149,13 +149,18 @@ json-render 0.21.1 and its documentation. Its items are in §3 and §5.
   browser made: it sent `pp-modal-close` and ran `finishClose` on an open
   dialog. Fixed in b8965c70: `handleNativeClose` ignores a `close` event while
   the dialog is open.
-- [ ] *Rest of `tiptap.css`.* Live classes still styled only there:
-  `reference-mention--quote` (`Reference.tsx`; quote styling is open in
-  [commenting open questions](2026-10-commenting-open-questions.md)),
-  `rich-editor--prompt` (`demos/prompt.tsx`), `rich-editor-container`
-  (`demos/bubble-menu.tsx`). Decide each, then delete the file; the remainder
-  is older copies of `reference.css` rules and dead `quote-demo-*` and
-  `.floating-menu` rules.
+- [x] *Rest of `tiptap.css`.* The file was outside the cascade, so none of
+  its classes were styled. Done 2026-10-21: the file and its commented-out
+  import are deleted. `rich-editor--prompt` had no consumer left once
+  `demos/prompt.tsx` went; the `rich-editor-container` wrappers in
+  `demos/bubble-menu.tsx` are removed. `Reference.tsx` still adds
+  `reference-mention--quote` to a quote reference, unstyled, for whatever
+  [commenting open questions](2026-10-commenting-open-questions.md) settles
+  about telling quotes apart. The file also held the only rules written for
+  comment marks (`mark[data-comment-id]` in `--c-accent-100`, faded when
+  `data-resolved`); since they never applied, open and resolved comments
+  have always shown the browser's plain `mark`. That goes with the same
+  open question.
 - [x] *AI services resolve the server endpoint inconsistently* (checked). Five
   copies of `get…Endpoint` disagreed on dev detection: two read
   `process.env.NODE_ENV`, which is undefined in the browser. Replaced by one
@@ -692,7 +697,7 @@ Design calls; one sitting each.
   neither the dropdown's close-on-select nor the submenu re-emit ran. It now
   bubbles; the submenu popup stops the original and re-emits it from the
   dropdown, and focus returns to the trigger as it does for top-level items.
-- [ ] *Inline styles in the pp registry* (checked 2026-10-20).
+- [x] *Inline styles in the pp registry* (checked 2026-10-20).
   `registries/pp/index.tsx` sets spacing and layout in 16 `style={…}` props: the
   Stack's gap and row layout, the Grid's column width, the field and card
   body grids. The switchable-demos plan noted them against
@@ -700,6 +705,13 @@ Design calls; one sitting each.
   should draw from the library rather than fill gaps locally, so this is a
   library gap: a row utility with a gap and alignment, a grid with a column
   width, and a field layout. Once those exist, the registry uses them.
+  Done 2026-10-21 (4488a46e): ESLint now rejects any `style` prop on any
+  element except an object of custom properties, and the registry, stories
+  and demos moved to classes. New utilities: `.measure`, `.grid-stack`, gap
+  and alignment classes for the horizontal Stack, and text sizes. The
+  registry keeps `--flow-space` and `--layout-grid-min` as custom
+  properties. `Sidebar.tsx` keeps one disable, since it forwards its
+  caller's `style`.
 - [x] *TemplateField invalid state and the prompt demo's `alert()`.* Both
   closed 2026-10-20 without a change: `PromptTemplateDemo` no longer exists,
   and TemplateField is deleted (see §4).
