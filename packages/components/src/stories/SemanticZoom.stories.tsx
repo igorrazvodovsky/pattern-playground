@@ -4,14 +4,7 @@ import { SemanticZoomDemo } from '../demos/semantic-zoom';
 
 const meta = {
   title: 'Components/Semantic zoom',
-  tags: [
-    '!autodocs',
-    'activity-level:action',
-    'atomic:component',
-    'role:component',
-    'lifecycle:evaluation',
-    'mediation:individual',
-  ],
+  tags: ['!autodocs', 'activity-level:action', 'lifecycle:evaluation', 'mediation:individual'],
   parameters: {
     layout: 'fullscreen',
   },

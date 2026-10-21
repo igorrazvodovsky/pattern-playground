@@ -8,12 +8,7 @@ const RAIL: SidebarArgs = { collapsible: 'offcanvas', variant: 'sidebar', side: 
 
 const meta = {
   title: 'Components/Shell',
-  tags: [
-    'activity-level:cross-cutting',
-    'atomic:composition',
-    'role:component',
-    'mediation:individual',
-  ],
+  tags: ['activity-level:cross-cutting', 'mediation:individual'],
   parameters: {
     layout: 'fullscreen',
     // Rendered inline, the Docs page is the viewport these stories measure

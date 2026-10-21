@@ -19,12 +19,7 @@ interface DrawerArgs {
 
 const meta = {
   title: 'Components/Drawer',
-  tags: [
-    'activity-level:action',
-    'atomic:component',
-    'lifecycle:application',
-    'mediation:individual',
-  ],
+  tags: ['activity-level:action', 'lifecycle:application', 'mediation:individual'],
   parameters: {
     layout: 'centered',
   },

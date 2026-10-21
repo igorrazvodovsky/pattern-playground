@@ -3,13 +3,7 @@ import { filterLabels, tasks } from '@shared/data';
 
 const meta = {
   title: 'Components/Dual listbox',
-  tags: [
-    'activity-level:action',
-    'atomic:pattern',
-    'role:component',
-    'lifecycle:coordination',
-    'mediation:coordination',
-  ],
+  tags: ['activity-level:action', 'lifecycle:coordination', 'mediation:coordination'],
   parameters: {
     docs: {
       description: {

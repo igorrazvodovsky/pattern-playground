@@ -5,13 +5,7 @@ import { expect, userEvent, waitFor, within } from 'storybook/test';
 
 const meta = {
   title: 'Components/Tabs',
-  tags: [
-    'autodocs',
-    'activity-level:operation',
-    'atomic:component',
-    'role:component',
-    'mediation:individual',
-  ],
+  tags: ['autodocs', 'activity-level:operation', 'mediation:individual'],
   parameters: {
     docs: {
       description: {

@@ -121,7 +121,7 @@ Stories:
 
 Documentation sections: definition (framed from the human situation), variants (hover vs click trigger), accessibility, relationship to Popover and Tooltip (the interactivity gradient), related patterns.
 
-Meta tags: `activity-level:operation`, `atomic:primitive`, `role:component`, `mediation:individual`.
+Meta tags: `activity-level:operation`, `mediation:individual`.
 
 ### 4. Refactor patterns app `link-preview.ts`
 

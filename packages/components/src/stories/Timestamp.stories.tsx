@@ -15,7 +15,7 @@ const Stamp = ({ at }: { at: string }) => (
 
 const meta = {
   title: 'Components/Timestamp',
-  tags: ['activity-level:operation', 'atomic:primitive', 'role:component', 'mediation:individual'],
+  tags: ['activity-level:operation', 'mediation:individual'],
   parameters: {
     docs: {
       description: {

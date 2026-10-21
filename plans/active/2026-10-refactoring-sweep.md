@@ -32,8 +32,8 @@ json-render 0.21.1 and its documentation. Its items are in §3 and §5.
    and demo actions moved out of the catalog 2026-10-20; done).
 4. Template extractions (stat tile, card list, overview-plus-detail) — these are
    design calls, one sitting each.
-5. Conventions (done 2026-10-18; the pp registry's inline styles done
-   2026-10-21; the story tags remain).
+5. Conventions (done 2026-10-18; the pp registry's inline styles and the
+   story tags done 2026-10-21).
 
 ## 1. Bugs
 
@@ -672,12 +672,12 @@ Design calls; one sitting each.
   demo dimensions, including the list widths: `centeredLayoutNarrow` would
   centre the lists, which they do not need. The
   keyboard play steps live in `stories/utils/play.ts`.
-- [ ] *Story tags.* 73 stories carry `atomic:*` tags and 66 a `role:component`
-  tag that `main.ts` does not register. Nothing reads either since the graph
-  became language-only, but `pattern-role-model.md` describes `atomic:*` as
-  catalogue metadata and `role:component` as how Storybook pages declare their
-  role. Decide whether they stay (and `role:component` is registered) or go
-  (and the spec changes).
+- [x] *Story tags.* 73 stories carried `atomic:*` tags and 66 a `role:component`
+  tag that `main.ts` did not register, and nothing read either since the graph
+  became language-only. Done 2026-10-21: both are removed from the stories and
+  `main.ts`, and `pattern-role-model.md` and `workspace-layout.md` no longer
+  describe them. The `activity-level:*`, `lifecycle:*` and `mediation:*` tags
+  stay. `role: component` in pattern-site frontmatter is unaffected.
 - [x] *`pp-modal` close hook.* Close buttons are found by `data-close` only.
   The fallback that let any header button close a dialog without one was
   removed on 2026-10-18. No caller relied on it, but a modalService surface

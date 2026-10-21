@@ -9,7 +9,7 @@ interface ToastArgs {
 
 const meta = {
   title: 'Components/Toast',
-  tags: ['activity-level:operation', 'atomic:primitive', 'mediation:individual'],
+  tags: ['activity-level:operation', 'mediation:individual'],
   argTypes: {
     message: {
       control: { type: 'text' },

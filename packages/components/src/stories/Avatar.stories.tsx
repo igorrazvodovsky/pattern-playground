@@ -8,13 +8,7 @@ interface AvatarProps {
 
 const meta = {
   title: 'Components/Avatar',
-  tags: [
-    'autodocs',
-    'activity-level:operation',
-    'atomic:component',
-    'role:component',
-    'mediation:individual',
-  ],
+  tags: ['autodocs', 'activity-level:operation', 'mediation:individual'],
   parameters: {
     docs: {
       description: {

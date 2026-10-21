@@ -157,12 +157,7 @@ export function DemoMain({ title, children, triggerAtEnd = false }: DemoMainProp
 
 const meta = {
   title: 'Components/Sidebar',
-  tags: [
-    'activity-level:operation',
-    'atomic:composition',
-    'role:component',
-    'mediation:individual',
-  ],
+  tags: ['activity-level:operation', 'mediation:individual'],
   parameters: {
     layout: 'fullscreen',
   },

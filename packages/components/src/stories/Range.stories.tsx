@@ -13,7 +13,7 @@ interface RangeArgs {
 
 const meta = {
   title: 'Components/Range',
-  tags: ['autodocs', 'activity-level:operation', 'atomic:primitive', 'mediation:individual'],
+  tags: ['autodocs', 'activity-level:operation', 'mediation:individual'],
   argTypes: {
     label: {
       control: { type: 'text' },

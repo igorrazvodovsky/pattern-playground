@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
   title: 'Components/Sections',
-  tags: ['autodocs', 'activity-level:operation', 'atomic:component', 'mediation:individual'],
+  tags: ['autodocs', 'activity-level:operation', 'mediation:individual'],
   parameters: {
     docs: {
       description: {

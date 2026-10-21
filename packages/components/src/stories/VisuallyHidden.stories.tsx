@@ -3,7 +3,7 @@ import '../jsx-types';
 
 const meta = {
   title: 'Utilities/Visually hidden',
-  tags: ['activity-level:operation', 'atomic:primitive', 'role:component', 'mediation:individual'],
+  tags: ['activity-level:operation', 'mediation:individual'],
   parameters: {
     docs: {
       description: {

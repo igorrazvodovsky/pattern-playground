@@ -3,13 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
   title: 'Components/List',
-  tags: [
-    'activity-level:action',
-    'atomic:component',
-    'role:component',
-    'lifecycle:evaluation',
-    'mediation:individual',
-  ],
+  tags: ['activity-level:action', 'lifecycle:evaluation', 'mediation:individual'],
   parameters: {
     docs: {
       description: {

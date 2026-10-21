@@ -44,7 +44,7 @@ Sections:
 - Design considerations (toast vs. callout vs. inline feedback — reference Notification decision tree)
 - Related patterns: Notification, Status feedback, Undo, Action consequences, Callout
 
-Meta tags: already set in Toast.stories.tsx — `activity-level:operation`, `atomic:primitive`, `mediation:individual`.
+Meta tags: already set in Toast.stories.tsx — `activity-level:operation`, `mediation:individual`.
 
 ### 3. Update Popover.stories.tsx
 

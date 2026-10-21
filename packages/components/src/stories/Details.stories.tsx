@@ -5,7 +5,7 @@ const body =
 
 const meta = {
   title: 'Components/Details',
-  tags: ['activity-level:operation', 'atomic:primitive', 'role:component', 'mediation:individual'],
+  tags: ['activity-level:operation', 'mediation:individual'],
   parameters: {
     docs: {
       description: {

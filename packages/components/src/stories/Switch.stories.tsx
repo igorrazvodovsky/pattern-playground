@@ -14,7 +14,7 @@ const sizeClass = (size: SwitchArgs['size']) =>
 
 const meta = {
   title: 'Components/Switch',
-  tags: ['autodocs', 'activity-level:operation', 'atomic:primitive', 'mediation:individual'],
+  tags: ['autodocs', 'activity-level:operation', 'mediation:individual'],
   argTypes: {
     label: {
       control: { type: 'text' },

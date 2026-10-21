@@ -6,7 +6,7 @@ import '../jsx-types';
 
 const meta = {
   title: 'Components/Popover',
-  tags: ['activity-level:operation', 'atomic:primitive', 'mediation:individual'],
+  tags: ['activity-level:operation', 'mediation:individual'],
 } satisfies Meta;
 
 export default meta;

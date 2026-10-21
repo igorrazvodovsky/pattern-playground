@@ -6,12 +6,7 @@ import { expect, userEvent, waitFor, within } from 'storybook/test';
 
 const meta = {
   title: 'Components/Dropdown',
-  tags: [
-    'activity-level:action',
-    'atomic:component',
-    'lifecycle:coordination',
-    'mediation:coordination',
-  ],
+  tags: ['activity-level:action', 'lifecycle:coordination', 'mediation:coordination'],
 } satisfies Meta;
 
 export default meta;

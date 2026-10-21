@@ -15,13 +15,7 @@ const sizeMap: Record<SpinnerArgs['size'], string> = {
 // !autodocs: single-story primitive with no component interface to document; the interactive Controls tab is sufficient.
 const meta = {
   title: 'Components/Spinner',
-  tags: [
-    '!autodocs',
-    'activity-level:operation',
-    'atomic:primitive',
-    'role:component',
-    'mediation:individual',
-  ],
+  tags: ['!autodocs', 'activity-level:operation', 'mediation:individual'],
   argTypes: {
     size: {
       control: { type: 'radio' },
