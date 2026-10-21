@@ -93,6 +93,12 @@
     flex-wrap: wrap;
   }
 
+  /* Keeps a row on one line, also in a narrow demo host: an icon stays beside
+     its text, and the text wraps within its own box. */
+  .nowrap {
+    flex-wrap: nowrap;
+  }
+
   .block {
     display: block;
   }

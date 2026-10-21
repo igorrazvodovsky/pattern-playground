@@ -537,12 +537,16 @@ Design calls; one sitting each.
   by state path. Done 2026-10-20: all three schedule through `keyedTimers` in
   `specs/shared/timers.ts`, which replaces a pending write and skips it once
   the demo has gone.
-- [ ] *A purpose Text wraps its icon above long text in pp.* The pp registry
-  lays a Text with a purpose out with `.flex`, which wraps in a demo host
-  narrower than 40rem, so a message longer than one line drops onto the next
-  line below its icon. shadcn keeps the icon beside the text. The
-  prompt-quality-feedback messages are short enough to fit one line for now.
-  The library needs a row whose text shrinks and wraps beside its icon.
+- [x] *A purpose Text wraps its icon above long text in pp.* The pp registry
+  laid a Text with a purpose out with `.flex`, which wraps in a demo host
+  narrower than 40rem, so a message longer than one line dropped onto the next
+  line below its icon, where shadcn keeps the icon beside the text. Done
+  2026-10-21: `layout.css` has a `.nowrap` modifier beside `.wrap`, which
+  keeps a `.flex` row on one line in any host, and the pp Text adds it with a
+  purpose or while pending; the text shrinks and wraps within its own box.
+  Checked in the browser on the prompt page in a 20rem host: a three-line
+  message keeps its icon beside it, centred as in shadcn. The combobox status
+  line never wrapped, so it needed nothing.
 - [ ] *Product readout repeated in specs.* The readout of a product at one
   rung (a Card with badges, price, description, a `DescriptionList` and the
   listed line) is written out in many specs, differing only in the state path

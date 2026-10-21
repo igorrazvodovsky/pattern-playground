@@ -398,9 +398,9 @@ export const { registry } = defineRegistry(catalog, {
         <p
           className={clsx(
             purpose
-              ? [purpose, 'flex']
+              ? [purpose, 'flex', 'nowrap']
               : props.pending
-                ? ['muted', 'flex']
+                ? ['muted', 'flex', 'nowrap']
                 : props.muted && 'muted',
             props.size === 'large' && 'text-larger',
           )}
