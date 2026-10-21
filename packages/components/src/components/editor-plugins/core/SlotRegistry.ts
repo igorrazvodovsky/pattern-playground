@@ -77,11 +77,7 @@ export class SlotRegistry implements ISlotRegistry {
     // Use modern array methods and destructuring
     return components
       .filter(({ options: { condition } }) => condition())
-      .map(({ pluginId, render, cleanup }) => ({
-        pluginId,
-        render: this.#wrapRenderWithMetrics(render),
-        cleanup,
-      }));
+      .map(({ pluginId, render, cleanup }) => ({ pluginId, render, cleanup }));
   }
 
   update(slotId: SlotId, pluginId: string, component: SlotComponent): void {
@@ -190,21 +186,6 @@ export class SlotRegistry implements ISlotRegistry {
     }
 
     return results;
-  }
-
-  // Performance monitoring wrapper
-  #wrapRenderWithMetrics(originalRender: () => React.ReactNode): () => React.ReactNode {
-    return () => {
-      const startTime = performance.now();
-      const result = originalRender();
-      // TODO: Use this timing data for performance monitoring
-      void (performance.now() - startTime);
-
-      // Update metrics using WeakMap (if we had a component reference)
-      // Slow render detection handled by metrics system
-
-      return result;
-    };
   }
 
   // Debug utilities for development

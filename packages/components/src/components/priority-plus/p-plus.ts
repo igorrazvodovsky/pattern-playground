@@ -349,8 +349,8 @@ function priorityPlus(targetElem: HTMLElement) {
     updateBtnDisplay(overflowCount > 0);
 
     if (overflowCount === 0) {
-      // TODO:
-      // setOverflowNavOpen(false);
+      // Nothing left to show, so an open overflow menu would hang empty.
+      void el.primary[El.ToggleBtn].closest('pp-dropdown')?.hide();
     }
 
     setPrimaryHidden(overflowCount === el.clone[El.NavItems].length);
