@@ -50,7 +50,7 @@ export interface ItemLayout {
   customs: AttributeBinding[];
 }
 
-const isPlainRecord = (value: unknown): value is Record<string, unknown> =>
+export const isPlainRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value) && !(value instanceof Date);
 
 /** A spec attribute resolving to a plain record gives one row per key, which

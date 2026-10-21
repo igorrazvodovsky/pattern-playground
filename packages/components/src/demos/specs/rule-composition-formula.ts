@@ -219,7 +219,7 @@ export default {
             options: group.options.filter(named),
           }));
         if (trigger === 'swap') {
-          if (keyword !== null && keyword in joins)
+          if (joinWords.some((word) => word.id === keyword))
             return [{ heading: 'Join', options: offer(joinWords, null) }];
           return field ? [fieldOperators(field)] : [];
         }

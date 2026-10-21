@@ -187,8 +187,6 @@ export const springOpen = 500;
 // How long an armed inline confirmation waits before it reverts.
 export const confirmationWindow = 4000;
 
-export { previewTiming } from '../components/item-view/preview-timing';
-
 export const catalog = defineCatalog(schema, {
   components: {
     Stack: {
@@ -334,13 +332,13 @@ export const catalog = defineCatalog(schema, {
     },
     ItemView: {
       props: z.object({
-        type: z.enum(entityTypes),
-        item: z.looseObject({ id: z.string() }),
+        type: z.enum(entityTypes).nullable(),
+        item: z.looseObject({ id: z.string() }).nullable(),
         scope: z.enum(['micro', 'mini', 'mid', 'maxi']),
         shownAttributes: z.union([z.literal('all'), z.array(z.string())]).nullable(),
       }),
       description:
-        "One item laid out from its binding, the description of its kind of item that says what each attribute is and how its value reads. `type` names the kind of item and `item` is the item as stored, such as a product held in state. `scope` sets how much of it shows: `micro` is its name as an inline token, `mini` a summary: its key figure, such as a price, then its states as Badges and its other attributes as labelled Badges; `mid` adds the description and lists the attributes that tell it apart as labelled rows, and `maxi` lists all of them. `shownAttributes` replaces the scope's set with attribute paths, role names such as `badge` or `spec`, or `all`; read it from state when the actor can change what shows, such as an attribute they surface, and use it to leave out what a view beside this one already shows. Above `micro` the item view shows no title: put it in a Card, Drawer, Dialog or Reference preview that names the item, as the body. An attribute only a component of its own can show, such as a comment thread, is shown by that component, and where the library has none the item view says so.",
+        "One item laid out from its binding, the description of its kind of item that says what each attribute is and how its value reads. `type` names the kind of item and `item` is the item as stored, such as a product held in state; while either is null, as before the actor picks the item a detail shows, nothing renders. `scope` sets how much of it shows: `micro` is its name as an inline token, `mini` a summary: its key figure, such as a price, then its states as Badges and its other attributes as labelled Badges; `mid` adds the description and lists the attributes that tell it apart as labelled rows, and `maxi` lists all of them. `shownAttributes` replaces the scope's set with attribute paths, role names such as `badge` or `spec`, or `all`; read it from state when the actor can change what shows, such as an attribute they surface, and use it to leave out what a view beside this one already shows. Above `micro` the item view shows no title: put it in a Card, Drawer, Dialog or Reference preview that names the item, as the body. An attribute only a component of its own can show, such as a comment thread, is shown by that component, and where the library has none the item view says so.",
     },
     Table: {
       props: z.object({

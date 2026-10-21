@@ -87,14 +87,7 @@
         "type": "product",
         "item": { "$item": "product" },
         "scope": "mid",
-        "shownAttributes": [
-          "availability.status",
-          "description",
-          "condition",
-          "location.site",
-          "sustainability.carbonFootprint",
-          "lifecycle.repairability"
-        ]
+        "shownAttributes": { "$state": "/inPlaceAttributes" }
       }
     },
     "hint": {

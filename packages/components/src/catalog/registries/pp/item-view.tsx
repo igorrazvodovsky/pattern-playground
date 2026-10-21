@@ -8,18 +8,19 @@ import { useItemViewContext } from '../../../components/item-view/provider';
 // leaves out one it has none for; the spec says so instead, as shadcn's does.
 export function ItemView({ props }: ComponentContext<Catalog, 'ItemView'>) {
   const { customComponents } = useItemViewContext();
-  const layout = specItemLayout(props.type, props.item, props.scope, props.shownAttributes);
-  if (!layout) return null;
+  const { type, item } = props;
+  const layout = specItemLayout(type, item, props.scope, props.shownAttributes);
+  if (!layout || !type || !item) return null;
   const missing = layout.customs.filter(
-    (attribute) => !customComponents[`${props.type}.${attribute.path}`],
+    (attribute) => !customComponents[`${type}.${attribute.path}`],
   );
   return (
     <>
       <BoundItemView
-        item={props.item}
-        contentType={props.type}
+        item={item}
+        contentType={type}
         scope={props.scope}
-        shownAttributes={specItemSelection(props.type, props.scope, props.shownAttributes)}
+        shownAttributes={specItemSelection(type, props.scope, props.shownAttributes)}
       />
       {missing.map((attribute) => (
         <p key={attribute.path} className="spec-demo__unsupported" role="note">

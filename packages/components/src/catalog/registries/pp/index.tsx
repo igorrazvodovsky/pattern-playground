@@ -516,7 +516,7 @@ export const { registry } = defineRegistry(catalog, {
     // Nothing renders until the spec names a kind of item that has a binding,
     // so an item that has not arrived yet leaves no fallback view behind.
     ItemView: (context) =>
-      Object.hasOwn(bindings, context.props.type) && context.props.item ? (
+      context.props.type && Object.hasOwn(bindings, context.props.type) && context.props.item ? (
         <Suspense fallback={null}>
           <PpItemView {...context} />
         </Suspense>

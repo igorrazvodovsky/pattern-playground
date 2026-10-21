@@ -36,7 +36,7 @@ export {
 
 export type { ItemLayout, LaidOutBadge, LaidOutPair, LaidOutText } from './layout';
 
-export { layoutByRole } from './layout';
+export { isPlainRecord, layoutByRole } from './layout';
 
 export type { AttributeFilter, FilterOperator } from './filtering';
 

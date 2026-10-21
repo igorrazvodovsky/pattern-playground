@@ -30,7 +30,14 @@ export const cardAttributes = (paths: string[], binding: EntityBinding = product
 };
 
 // What an overview shows of each item beside its name.
-export const overviewAttributes = cardAttributes(['category', 'pricing.msrp']);
+const overviewPaths = ['category', 'pricing.msrp'];
+export const overviewAttributes = cardAttributes(overviewPaths);
+
+// What a detail opened inside an overview's item shows: the item's mid view,
+// less what the item's row already shows.
+export const inPlaceAttributes = productBinding.scopes.mid.filter(
+  (path) => !overviewPaths.includes(path),
+);
 
 // What a flag's slice shows of each item it flags.
 export const sliceAttributes = cardAttributes(['category', 'pricing.msrp', 'listedAt']);

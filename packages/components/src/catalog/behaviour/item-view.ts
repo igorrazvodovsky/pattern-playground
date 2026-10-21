@@ -25,13 +25,13 @@ export const specItemSelection = (
 };
 
 export const specItemLayout = (
-  type: string,
+  type: string | null | undefined,
   item: object | null | undefined,
   scope: ItemScope,
   shownAttributes: AttributeSelection | null | undefined,
 ): ItemLayout | null => {
   // A spec can name the item before it arrives, such as a detail whose item
   // is picked later; nothing renders until both are there.
-  if (!item || !Object.hasOwn(bindings, type)) return null;
+  if (!item || !type || !Object.hasOwn(bindings, type)) return null;
   return layoutByRole(bindings[type], scope, item, specItemSelection(type, scope, shownAttributes));
 };

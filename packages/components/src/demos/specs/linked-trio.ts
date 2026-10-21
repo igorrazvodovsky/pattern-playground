@@ -1,7 +1,7 @@
 import type { Spec } from '@json-render/core';
 import { products } from '@shared/data';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { mapLocations, overviewAttributes } from './shared/product';
+import { mapLocations, inPlaceAttributes, overviewAttributes } from './shared/product';
 import spec from './linked-trio.json' with { type: 'json' };
 
 // Focus never moves the map, since the actor is only passing over the item.
@@ -19,6 +19,7 @@ export default {
   spec: spec as Spec,
   setup: {
     initialState: {
+      inPlaceAttributes,
       products: TRIO.map((item) => ({
         id: item.id,
         name: item.name,

@@ -1,7 +1,7 @@
 import type { Spec } from '@json-render/core';
 import { products } from '@shared/data';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { overviewAttributes } from './shared/product';
+import { inPlaceAttributes, overviewAttributes } from './shared/product';
 import spec from './overview-detail.json' with { type: 'json' };
 
 // Closing a popover belongs to the popover, so picking an item never toggles it.
@@ -20,6 +20,7 @@ export default {
   spec: spec as Spec,
   setup: {
     initialState: {
+      inPlaceAttributes,
       products: products.map((item) => ({
         id: item.id,
         name: item.name,

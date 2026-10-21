@@ -1,14 +1,19 @@
-import { deriveAttributeLabel, referenceBinding, type LaidOutPair } from '@shared/data/bindings';
+import {
+  deriveAttributeLabel,
+  isPlainRecord,
+  referenceBinding,
+  type LaidOutPair,
+} from '@shared/data/bindings';
 
-// The fields the reference binding names, which show in their own places.
+// The metadata fields the reference binding names, which show in their own
+// places. The title and subtitle read the reference's own label and type, so
+// a `type` in the metadata, such as a document's kind, stays.
+const ownFields = new Set(['label', 'type', 'metadata']);
 const claimed = new Set(
   referenceBinding.attributes
     .map((attribute) => attribute.path)
-    .filter((path) => path !== 'metadata'),
+    .filter((path) => !ownFields.has(path)),
 );
-
-const isPlainRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null && !Array.isArray(value);
 
 /** Leftover reference metadata: whatever the binding's named entries didn't
     claim, so a material or service reference still shows its attributes.

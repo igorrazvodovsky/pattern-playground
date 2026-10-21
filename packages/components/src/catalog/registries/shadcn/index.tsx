@@ -729,8 +729,9 @@ export const { registry } = defineRegistry(catalog, {
     // Laid out by layoutByRole, as in the pp registry; the slots map onto
     // this library's Badge, Text and DescriptionList markup.
     ItemView: ({ props }) => {
-      const layout = specItemLayout(props.type, props.item, props.scope, props.shownAttributes);
-      if (!layout) return null;
+      const { item } = props;
+      const layout = specItemLayout(props.type, item, props.scope, props.shownAttributes);
+      if (!layout || !item) return null;
       if (props.scope === 'micro') {
         return <span className={badgeClass('neutral', false)}>{layout.title}</span>;
       }
@@ -776,7 +777,7 @@ export const { registry } = defineRegistry(catalog, {
           {layout.customs.map((attribute) => {
             const render = customAttributes[`${props.type}.${attribute.path}`];
             return render ? (
-              <Fragment key={attribute.path}>{render(props.item)}</Fragment>
+              <Fragment key={attribute.path}>{render(item)}</Fragment>
             ) : (
               <p key={attribute.path} className="spec-demo__unsupported" role="note">
                 This library has no component for {attribute.label ?? attribute.path}.
