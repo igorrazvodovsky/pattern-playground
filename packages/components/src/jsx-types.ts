@@ -65,14 +65,18 @@ declare module 'react' {
         'no-scroll-controls'?: boolean;
       };
       'pp-list': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        type?: 'menu' | 'listbox';
         multiselectable?: boolean;
       };
+      /* Rung-2 composite: two pp-list listboxes and data-transfer buttons inside */
+      'pp-dual-listbox': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
       'pp-list-label': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
       'pp-list-item': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         type?: 'checkbox' | 'radio' | string;
         disabled?: boolean;
         defaultChecked?: boolean;
         checked?: boolean;
+        selected?: boolean;
         value?: string;
         onClick?: () => void;
       };

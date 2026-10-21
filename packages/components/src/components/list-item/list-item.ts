@@ -9,7 +9,9 @@ import { Elena } from '@elenajs/core';
  * the label as text or unmarked children; mark adornments with
  * `data-slot="prefix"` / `data-slot="suffix"` and a nested submenu list with
  * `data-slot="submenu"`. The element appends the check mark and submenu
- * chevron it owns, and manages roles and aria state.
+ * chevron it owns, and manages roles and aria state. Inside a
+ * `<pp-list type="listbox">` the row is an option, and `selected` carries its
+ * selection in place of `checked`.
  * Styles live in `src/styles/list-item.css`.
  */
 
@@ -19,6 +21,7 @@ export class PpListItem extends Elena(HTMLElement) {
   static 'props' = [
     'type',
     'checked',
+    'selected',
     'value',
     'disabled',
     'has-submenu',
@@ -28,6 +31,7 @@ export class PpListItem extends Elena(HTMLElement) {
 
   'type': 'normal' | 'checkbox' | 'radio' = 'normal';
   'checked' = false;
+  'selected' = false;
   'value' = '';
   'disabled' = false;
 
@@ -44,6 +48,7 @@ export class PpListItem extends Elena(HTMLElement) {
   // keeps its previous value here; undefined means the first update hasn't
   // run yet and every handler fires once to establish initial state.
   private 'prevChecked'?: boolean;
+  private 'prevSelected'?: boolean;
   private 'prevDisabled'?: boolean;
   private 'prevType'?: string;
   private 'prevHasSubmenu'?: boolean;
@@ -51,6 +56,11 @@ export class PpListItem extends Elena(HTMLElement) {
 
   'connectedCallback'() {
     super.connectedCallback();
+    // A row moved between lists lost its listeners on disconnect and may change role.
+    if (this.initialized) {
+      this.addListeners();
+      this.handleTypeChange();
+    }
     if (document.readyState !== 'loading') {
       this.init();
       return;
@@ -63,10 +73,7 @@ export class PpListItem extends Elena(HTMLElement) {
   private 'init'() {
     if (this.initialized) return;
     this.initialized = true;
-    this.addEventListener('click', this.handleHostClick);
-    this.addEventListener('mouseover', this.handleMouseOver);
-    this.addEventListener('focus', this.handleFocus);
-    this.addEventListener('blur', this.handleBlur);
+    this.addListeners();
 
     if (!this.check) {
       this.check = document.createElement('span');
@@ -94,6 +101,13 @@ export class PpListItem extends Elena(HTMLElement) {
     }
   }
 
+  private 'addListeners'() {
+    this.addEventListener('click', this.handleHostClick);
+    this.addEventListener('mouseover', this.handleMouseOver);
+    this.addEventListener('focus', this.handleFocus);
+    this.addEventListener('blur', this.handleBlur);
+  }
+
   'disconnectedCallback'() {
     super.disconnectedCallback();
     this.removeEventListener('click', this.handleHostClick);
@@ -110,7 +124,7 @@ export class PpListItem extends Elena(HTMLElement) {
   };
 
   private 'handleMouseOver' = () => {
-    if (!this.disabled) {
+    if (!this.disabled && !this.isOption()) {
       this.focus();
     }
   };
@@ -130,6 +144,10 @@ export class PpListItem extends Elena(HTMLElement) {
     if (this.prevChecked !== this.checked) {
       this.prevChecked = this.checked;
       this.handleCheckedChange();
+    }
+    if (this.prevSelected !== this.selected) {
+      this.prevSelected = this.selected;
+      this.handleSelectedChange();
     }
     if (this.prevDisabled !== this.disabled) {
       this.prevDisabled = this.disabled;
@@ -166,11 +184,26 @@ export class PpListItem extends Elena(HTMLElement) {
     }
   }
 
+  'handleSelectedChange'() {
+    if (this.isOption()) {
+      this.setAttribute('aria-selected', this.selected ? 'true' : 'false');
+    } else {
+      this.removeAttribute('aria-selected');
+    }
+  }
+
   'handleDisabledChange'() {
     this.setAttribute('aria-disabled', this.disabled ? 'true' : 'false');
   }
 
   'handleTypeChange'() {
+    if (this.isOption()) {
+      this.setAttribute('role', 'option');
+      this.removeAttribute('aria-checked');
+      this.handleSelectedChange();
+      return;
+    }
+    this.removeAttribute('aria-selected');
     if (this.type === 'checkbox') {
       this.setAttribute('role', 'menuitemcheckbox');
       this.setAttribute('aria-checked', this.checked ? 'true' : 'false');
@@ -207,6 +240,16 @@ export class PpListItem extends Elena(HTMLElement) {
         }),
       );
     }
+  }
+
+  /** True when the nearest list is a listbox, making this row an option. */
+  'isOption'() {
+    // The list may not be upgraded yet; its init re-runs handleTypeChange.
+    const list = this.closest('pp-list');
+    if (!list) return false;
+    return typeof list.isListbox === 'function'
+      ? list.isListbox()
+      : list.getAttribute('type') === 'listbox';
   }
 
   /** Returns a text label based on the item's label content (unmarked children). */

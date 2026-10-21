@@ -111,3 +111,20 @@ pp-list-item[has-submenu]:hover:not([aria-disabled='true']),
 pp-list-item[submenu-open] {
   background-color: var(--c-neutral-50);
 }
+
+/* Options mark their selection with the check column and an accent tint,
+   kept apart from the neutral hover tint */
+pp-list[type='listbox'] pp-list-item[selected] {
+  background-color: var(--c-accent-50);
+  color: var(--c-neutral-1000);
+
+  .list-item__check {
+    visibility: visible;
+  }
+}
+
+/* Hover no longer moves focus in a listbox, so keyboard focus needs its own mark */
+pp-list[type='listbox'] pp-list-item:focus-visible {
+  outline: var(--focus-ring) !important;
+  outline-offset: calc(var(--focus-ring-width) * -1);
+}

@@ -1,6 +1,7 @@
-import { Meta } from '@storybook/addon-docs/blocks';
+import { Canvas, Story, Meta } from '@storybook/addon-docs/blocks';
+import * as DualListboxStories from './DualListbox.stories.tsx';
 
-<Meta title="Components/Dual listbox" tags={['activity-level:action', 'atomic:pattern', 'role:component', 'lifecycle:coordination', 'mediation:coordination']} />
+<Meta of={ DualListboxStories } tags={['activity-level:action', 'atomic:pattern', 'role:component', 'lifecycle:coordination', 'mediation:coordination']} />
 
 {/* > 🤔 **Fun meter: 2/5**. Dependency.  */}
 
@@ -14,9 +15,15 @@ The control realises the staged-commit end of [Selection](/patterns/selection)'s
 
 Compared with a [multiselect](../?path=/docs/components-combobox--docs) (combobox with checked items), which commits items one at a time and never shows the full selected set beside the remaining pool, the dual listbox keeps both sides on screen. It earns its larger surface when the assignment is bulk, the cost of getting it wrong is high, or the actor needs to cross-reference ("am I leaving the right items behind?"). For lighter selection, prefer the combobox.
 
-{/* TODO: no implementation yet. Add a DualListbox.stories.tsx with a motivating
-    example — e.g. "assign labels to tasks" bulk dialog or "grant roles to users" — and switch
-    this Meta to `of={DualListboxStories}`. */}
+<Canvas>
+  <Story of={ DualListboxStories.Default } />
+</Canvas>
+
+## Behaviour
+
+Each side is a [list](../?path=/docs/components-list--docs) in listbox mode (`type="listbox" multiselectable`), so selection follows the listbox keys: click or Space toggles an option, Shift+arrow moves to the next option and toggles it, and Ctrl/Cmd+A selects or clears all. Pressing Enter in either list, or a transfer button, moves the selected options to the other side, and a double-click moves a single option. Each transfer button stays disabled while its list has no selection.
+
+Moved options are appended to the other list, and focus stays in the list they left, on the next remaining option, so the actor can keep working through the pool. Each move fires a `pp-transfer` event carrying the moved items and the direction. The control moves the existing option elements rather than copying them, so whatever owns the markup must not re-render the two lists while they are in use.
 
 ## Related
 

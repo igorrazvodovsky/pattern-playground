@@ -32,6 +32,7 @@
 @import url('tabs.css') layer(components);
 @import url('list.css') layer(components);
 @import url('list-item.css') layer(components);
+@import url('dual-listbox.css') layer(components);
 @import url('select.css') layer(components);
 @import url('popup.css') layer(components);
 @import url('tooltip.css') layer(components);

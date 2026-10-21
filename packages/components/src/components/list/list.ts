@@ -13,15 +13,20 @@ export interface ListSelectEventDetail {
  *
  * The element enhances the `<pp-list-item>`
  * children it is given — menu role, roving tabindex, keyboard navigation,
- * type-ahead, and submenu orchestration. Styles: `src/styles/list.css`.
+ * type-ahead, and submenu orchestration. With `type="listbox"` it is a
+ * listbox instead: items are options whose `selected` state persists, and
+ * `multiselectable` follows the APG keys (Space toggles, Shift+arrow moves and
+ * toggles the next option, Ctrl/Cmd+A selects all). Enter is left to bubble so a surrounding control
+ * can act on the selection. Styles: `src/styles/list.css`.
  */
 
 export class PpList extends Elena(HTMLElement) {
   static tagName = 'pp-list';
 
-  static props = ['label', 'multiselectable'];
+  static props = ['label', 'type', 'multiselectable'];
 
   label = '';
+  type: 'menu' | 'listbox' = 'menu';
   multiselectable = false;
 
   private openSubmenus: Set<PpListItem> = new Set();
@@ -60,8 +65,12 @@ export class PpList extends Elena(HTMLElement) {
   }
 
   private init() {
-    this.setAttribute('role', 'menu');
+    this.setAttribute('role', this.isListbox() ? 'listbox' : 'menu');
     this.setupAccessibility();
+    // Items not yet upgraded set their own role when they initialise.
+    this.getAllItems().forEach((item) => {
+      if (typeof item.handleTypeChange === 'function') item.handleTypeChange();
+    });
 
     const items = this.getAllItems();
     if (items.length > 0) {
@@ -74,7 +83,7 @@ export class PpList extends Elena(HTMLElement) {
       this.setAttribute('aria-label', this.label);
     }
 
-    if (this.multiselectable) {
+    if (this.multiselectable && this.isListbox()) {
       this.setAttribute('aria-multiselectable', 'true');
     } else {
       this.removeAttribute('aria-multiselectable');
@@ -104,20 +113,26 @@ export class PpList extends Elena(HTMLElement) {
       return;
     }
 
-    // Handle regular items
+    // toggleSelected dispatches its own pp-select. The second click of a
+    // double-click is skipped so it doesn't undo the first.
+    if (this.isListbox()) {
+      if (event.detail < 2) this.toggleSelected(item);
+      return;
+    }
+
     if (item.type === 'checkbox') {
       item.checked = !item.checked;
     }
 
-    this.dispatchEvent(
-      new CustomEvent('pp-select', { detail: { item }, bubbles: true, composed: true }),
-    );
+    this.dispatchSelect(item);
   };
 
   private handleKeyDown = (event: KeyboardEvent) => {
     const items = this.getAllItems();
     const activeItem = this.getActiveItem();
     const currentIndex = activeItem ? items.indexOf(activeItem) : 0;
+
+    if (this.isListbox() && this.handleListboxKey(event, items, activeItem)) return;
 
     // Make a selection when pressing enter or space
     if (event.key === 'Enter' || event.key === ' ') {
@@ -188,7 +203,13 @@ export class PpList extends Elena(HTMLElement) {
     }
 
     // Type-ahead navigation (find items by first letter)
-    else if (event.key.length === 1 && /[a-zA-Z0-9]/.test(event.key)) {
+    else if (
+      event.key.length === 1 &&
+      /[a-zA-Z0-9]/.test(event.key) &&
+      !event.ctrlKey &&
+      !event.metaKey &&
+      !event.altKey
+    ) {
       event.preventDefault();
       this.handleTypeAhead(event.key.toLowerCase());
     }
@@ -200,6 +221,70 @@ export class PpList extends Elena(HTMLElement) {
       announce('Navigation cancelled');
     }
   };
+
+  // Listbox keys that differ from the menu's; returns true when the event was handled.
+  private handleListboxKey(event: KeyboardEvent, items: PpListItem[], activeItem?: PpListItem) {
+    if (event.key === 'Enter') return true;
+
+    if (event.key === ' ') {
+      event.preventDefault();
+      if (activeItem) this.toggleSelected(activeItem);
+      return true;
+    }
+
+    if (!this.multiselectable) return false;
+
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'a') {
+      event.preventDefault();
+      const selectable = items.filter((item) => !item.disabled);
+      const select = selectable.some((item) => !item.selected);
+      selectable.forEach((item) => (item.selected = select));
+      announce(select ? `All ${selectable.length} selected` : 'Selection cleared');
+      this.dispatchSelect(activeItem);
+      return true;
+    }
+
+    if (event.shiftKey && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
+      event.preventDefault();
+      const index = activeItem ? items.indexOf(activeItem) : -1;
+      const next = items[event.key === 'ArrowDown' ? index + 1 : index - 1];
+      if (next) {
+        this.setCurrentItem(next);
+        next.focus();
+        this.toggleSelected(next);
+      }
+      return true;
+    }
+
+    return false;
+  }
+
+  // In a single-select listbox, selecting one option deselects the rest.
+  private toggleSelected(item: PpListItem) {
+    if (item.disabled) return;
+    const selected = !item.selected;
+    if (!this.multiselectable) {
+      this.getAllItems().forEach((other) => (other.selected = false));
+    }
+    item.selected = this.multiselectable ? selected : true;
+    announce(`${item.getTextLabel()} ${item.selected ? 'selected' : 'deselected'}`);
+    this.dispatchSelect(item);
+  }
+
+  private dispatchSelect(item?: PpListItem) {
+    if (!item) return;
+    this.dispatchEvent(
+      new CustomEvent('pp-select', { detail: { item }, bubbles: true, composed: true }),
+    );
+  }
+
+  isListbox() {
+    return this.type === 'listbox';
+  }
+
+  getSelectedItems() {
+    return this.getAllItems().filter((item) => item.selected);
+  }
 
   private handleTypeAhead(character: string) {
     const items = this.getAllItems();
@@ -228,6 +313,9 @@ export class PpList extends Elena(HTMLElement) {
   };
 
   private handleMouseOver = (event: MouseEvent) => {
+    // A listbox moves the current option on click and keys only; hover is styling.
+    if (this.isListbox()) return;
+
     const target = event.target as HTMLElement;
     const listItem = target.closest('pp-list-item') as PpListItem;
 
