@@ -2,10 +2,10 @@ import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import { ChevronRight } from 'iconoteka-react';
 import { EditorContent } from '@tiptap/react';
-import { useBoundProp, type ComponentContext } from '@json-render/react';
+import type { ComponentContext } from '@json-render/react';
 import type { Catalog } from '../../catalog';
 import { useInComposer } from './composer-field';
-import { isKind, useMentionEditor } from '../../behaviour/mention-editor';
+import { isKind, useMentionEditor, useMentionEditorProps } from '../../behaviour/mention-editor';
 import { scopedPortal } from './portal';
 import { slotTrigger } from './parts';
 import { tone } from './rule-builder';
@@ -41,30 +41,10 @@ export function MentionEditor({
   bindings,
   emit,
 }: ComponentContext<Catalog, 'MentionEditor'>) {
-  const [content, setContent] = useBoundProp(props.content, bindings?.content);
-  const [, setQuery] = useBoundProp(props.query, bindings?.query);
-  const [scope, setScope] = useBoundProp(props.scope, bindings?.scope);
-  const [, setOpened] = useBoundProp(props.opened, bindings?.opened);
-  const [, setContext] = useBoundProp(props.context, bindings?.context);
   const inComposer = useInComposer();
   const formula = props.notation === 'formula';
   const { editor, open, groups, host, list, option } = useMentionEditor({
-    label: props.label,
-    notation: props.notation ?? 'prose',
-    setContext,
-    keywords: props.keywords ?? [],
-    commands: props.commands ?? false,
-    placeholder: props.placeholder ?? '',
-    content: content ?? [],
-    setContent,
-    setQuery,
-    scope: scope ?? null,
-    setScope,
-    groups: props.candidates,
-    onOpen: (mention) => {
-      setOpened(mention.id);
-      emit('open');
-    },
+    ...useMentionEditorProps({ props, bindings, emit }),
     editorClass: clsx(inComposer ? bare : framed, textClass, formula ? formulaClass : proseClass),
     mentionClass: formula
       ? clsx(chip, 'mx-0.5 max-w-56 truncate bg-primary/10 text-primary hover:bg-primary/15')

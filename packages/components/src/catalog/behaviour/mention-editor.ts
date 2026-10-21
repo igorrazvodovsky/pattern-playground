@@ -9,7 +9,9 @@ import StarterKit from '@tiptap/starter-kit';
 import { Placeholder } from '@tiptap/extensions';
 import Mention from '@tiptap/extension-mention';
 import type { SuggestionKeyDownProps, SuggestionProps } from '@tiptap/suggestion';
-import type { iconNames } from '../catalog';
+import { useBoundProp, type ComponentContext } from '@json-render/react';
+import type { z } from 'zod';
+import type { Catalog, iconNames, listContext } from '../catalog';
 
 // A MentionEditor's behaviour on Tiptap, shared by the registries so that only
 // the markup differs.
@@ -66,18 +68,7 @@ export const isSlot = (part: Paragraph[number]): part is SlotPart =>
 const isKeyword = (part: Paragraph[number]): part is KeywordPart =>
   typeof part !== 'string' && 'keyword' in part;
 
-/** Where the list was opened, so the spec can offer what fits there. */
-export type ListContext = {
-  trigger: '@' | '/' | 'swap';
-  /** The mention heading the innermost bracket still open, in a formula. */
-  enclosing: string | null;
-  /** The mention straight before the list's place, past spaces between them. */
-  preceding: string | null;
-  /** The mention heading the condition at the list's place, in a formula. */
-  condition: string | null;
-  /** The keyword being swapped. */
-  keyword: string | null;
-};
+export type ListContext = z.infer<typeof listContext>;
 
 const toNodes = (parts: Part[]): JSONContent[] =>
   parts
@@ -183,43 +174,41 @@ const bracketPair = (state: EditorState): [number, number] | null => {
   return null;
 };
 
-// The mention that heads the innermost bracket still open at the caret, as
-// Status heads "Status is none of (" — the last mention after the bracket before.
-const enclosingMention = (doc: PmNode, at: number): string | null => {
-  const open: (string | null)[] = [];
-  let last: string | null = null;
-  for (const token of tokens(doc)) {
-    if (token.pos >= at) break;
-    if ('mention' in token) last = token.mention;
-    else {
-      if (token.bracket === '(') open.push(last);
-      else open.pop();
-      last = null;
-    }
-  }
-  return open.at(-1) ?? null;
-};
+// The brackets before a place, read in one pass: the mention heading each
+// bracket still open there (the last mention after the bracket before, or
+// none), and the call that closed last, from its mention to its bracket.
+type Head = { id: string; pos: number };
 
-// The condition at a place: the call a mention heads, from the mention to the
-// bracket that closes it, as "Status is (Done)". It is the innermost call
-// the place is inside, or else one that ends just before it, past spaces.
-const conditionAt = (doc: PmNode, at: number) => {
-  const open: { head: { id: string; pos: number } | null }[] = [];
-  let last: { id: string; pos: number } | null = null;
+const bracketsBefore = (doc: PmNode, at: number) => {
+  const open: (Head | null)[] = [];
+  let last: Head | null = null;
   let closed: { id: string; from: number; to: number } | null = null;
   for (const token of tokens(doc)) {
     if (token.pos >= at) break;
     if ('mention' in token) last = { id: token.mention, pos: token.pos };
     else {
-      if (token.bracket === '(') open.push({ head: last });
+      if (token.bracket === '(') open.push(last);
       else {
-        const head = open.pop()?.head;
+        const head = open.pop();
         closed = head ? { id: head.id, from: head.pos, to: token.pos + 1 } : null;
       }
       last = null;
     }
   }
-  const inside = open.findLast((entry) => entry.head)?.head;
+  return { open, closed };
+};
+
+// The mention that heads the innermost bracket still open at the caret, as
+// Status heads "Status is none of (".
+const enclosingMention = (doc: PmNode, at: number): string | null =>
+  bracketsBefore(doc, at).open.at(-1)?.id ?? null;
+
+// The condition at a place: the call a mention heads, from the mention to the
+// bracket that closes it, as "Status is (Done)". It is the innermost call
+// the place is inside, or else one that ends just before it, past spaces.
+const conditionAt = (doc: PmNode, at: number) => {
+  const { open, closed } = bracketsBefore(doc, at);
+  const inside = open.findLast((head) => head !== null);
   if (inside) {
     let depth = 0;
     for (const token of tokens(doc)) {
@@ -245,7 +234,22 @@ const precedingMention = (doc: PmNode, at: number): string | null => {
   return before?.type.name === 'mention' ? String(before.attrs.id) : null;
 };
 
-const asKeyword = (part: MentionPart): KeywordPart => ({
+// Where a list opens. Outside a formula there are no brackets or conditions to read.
+const contextAt = (
+  doc: PmNode,
+  at: number,
+  trigger: ListContext['trigger'],
+  keyword: string | null,
+  formula: boolean,
+): ListContext => ({
+  trigger,
+  enclosing: formula ? enclosingMention(doc, at) : null,
+  preceding: formula ? precedingMention(doc, at) : null,
+  condition: formula ? (conditionAt(doc, at)?.id ?? null) : null,
+  keyword,
+});
+
+export const asKeyword = (part: MentionPart): KeywordPart => ({
   keyword: part.id,
   label: part.label,
   type: part.type,
@@ -280,6 +284,38 @@ type Options = {
   /** A library whose styles are scoped places the list's host inside the scope. */
   portal: () => HTMLElement;
 };
+
+// The props every library binds the same way, so each registry adds only its
+// own classes and markup.
+export function useMentionEditorProps({
+  props,
+  bindings,
+  emit,
+}: Pick<ComponentContext<Catalog, 'MentionEditor'>, 'props' | 'bindings' | 'emit'>) {
+  const [content, setContent] = useBoundProp(props.content, bindings?.content);
+  const [, setQuery] = useBoundProp(props.query, bindings?.query);
+  const [scope, setScope] = useBoundProp(props.scope, bindings?.scope);
+  const [, setOpened] = useBoundProp(props.opened, bindings?.opened);
+  const [, setContext] = useBoundProp(props.context, bindings?.context);
+  return {
+    label: props.label,
+    notation: props.notation ?? 'prose',
+    setContext,
+    keywords: props.keywords ?? [],
+    commands: props.commands ?? false,
+    placeholder: props.placeholder ?? '',
+    content: content ?? [],
+    setContent,
+    setQuery,
+    scope: scope ?? null,
+    setScope,
+    groups: props.candidates,
+    onOpen: (mention: MentionPart) => {
+      setOpened(mention.id);
+      emit('open');
+    },
+  } satisfies Partial<Options>;
+}
 
 export function useMentionEditor(options: Options) {
   const listId = useId();
@@ -583,14 +619,7 @@ export function useMentionEditor(options: Options) {
             // two lists never share the host.
             if (live.current.active && !live.current.active.anchor)
               editor.commands.setTextSelection(pos + 1);
-            const { doc } = editor.state;
-            setContext({
-              trigger: 'swap',
-              enclosing: enclosingMention(doc, pos),
-              preceding: precedingMention(doc, pos),
-              condition: conditionAt(doc, pos)?.id ?? null,
-              keyword: id,
-            });
+            setContext(contextAt(editor.state.doc, pos, 'swap', id, true));
             setHighlighted(id);
             setActive({
               trigger: 'swap',
@@ -775,16 +804,8 @@ export function useMentionEditor(options: Options) {
     render: () => {
       let unmount: (() => void) | undefined;
       const follow = (props: SuggestionProps) => {
-        const { doc } = props.editor.state;
         live.current.options.setQuery(props.query);
-        const at = props.range.from;
-        setContext({
-          trigger: char,
-          enclosing: formula ? enclosingMention(doc, at) : null,
-          preceding: formula ? precedingMention(doc, at) : null,
-          condition: formula ? (conditionAt(doc, at)?.id ?? null) : null,
-          keyword: null,
-        });
+        setContext(contextAt(props.editor.state.doc, props.range.from, char, null, formula));
         setActive({
           trigger: char,
           query: props.query,

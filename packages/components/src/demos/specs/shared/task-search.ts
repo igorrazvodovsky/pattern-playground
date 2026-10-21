@@ -41,6 +41,10 @@ export interface Rule {
 
 export const isGroup = (item: Condition | Group): item is Group => 'items' in item;
 
+/** A condition's values as a list, whether it holds one or a set. */
+export const conditionValues = (condition: Condition) =>
+  Array.isArray(condition.value) ? condition.value : [condition.value];
+
 const toOptions = (records: { id: string; name: string }[]): RuleSlotOption[] =>
   records.map((record) => ({ value: record.id, label: record.name }));
 
@@ -58,6 +62,10 @@ export const options: Record<Field, RuleSlotOption[]> = {
 };
 
 export const fields = Object.keys(options) as Field[];
+
+/** The label of one of a field's values, or the value itself if it is not on offer. */
+export const optionLabel = (field: Field, value: string) =>
+  options[field].find((option) => option.value === value)?.label ?? value;
 
 export const fieldLabels: Record<Field, string> = {
   status: 'status',

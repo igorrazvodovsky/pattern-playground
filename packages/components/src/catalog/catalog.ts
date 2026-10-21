@@ -147,6 +147,28 @@ const valueIcons = [
 
 export const iconNames = [...interfaceIcons, ...attributeIcons, ...valueIcons] as const;
 
+// What a MentionEditor's list offers: each candidate has a label, led by an
+// icon, and an item candidate is a mention.
+const candidate = z.object({
+  id: z.string(),
+  label: z.string(),
+  icon: z.enum(iconNames).nullable(),
+});
+const mentionCandidate = mention.extend({ icon: z.enum(iconNames).nullable() });
+
+/** Where a MentionEditor's list was opened, so the spec can offer what fits there. */
+export const listContext = z.object({
+  trigger: z.enum(['@', '/', 'swap']),
+  /** The mention heading the innermost bracket still open, in a formula. */
+  enclosing: z.string().nullable(),
+  /** The mention straight before the list's place, past spaces between them. */
+  preceding: z.string().nullable(),
+  /** The mention heading the condition at the list's place, in a formula. */
+  condition: z.string().nullable(),
+  /** The keyword being swapped. */
+  keyword: z.string().nullable(),
+});
+
 // Set by the pattern, not a library default: a toast that offers an action
 // has to stay long enough for the actor to notice it, decide and act.
 export const toastDuration = { plain: 4000, withAction: 8000 } as const;
@@ -763,34 +785,19 @@ export const catalog = defineCatalog(schema, {
             options: z.array(
               z.union([
                 // Before the plain item, which would match a keyword and drop its fields.
-                mention.extend({
-                  keyword: z.literal(true),
-                  then: z.string().nullable(),
-                  icon: z.enum(iconNames).nullable(),
-                }),
-                mention.extend({ icon: z.enum(iconNames).nullable() }),
-                z.object({
-                  id: z.string(),
-                  label: z.string(),
-                  icon: z.enum(iconNames).nullable(),
+                mentionCandidate.extend({ keyword: z.literal(true), then: z.string().nullable() }),
+                mentionCandidate,
+                candidate.extend({
                   insert: z.object({
                     before: z.array(textPart),
                     after: z.array(textPart).nullable(),
                     line: z.boolean().nullable(),
                   }),
                 }),
-                z.object({
-                  id: z.string(),
-                  label: z.string(),
-                  icon: z.enum(iconNames).nullable(),
+                candidate.extend({
                   wrap: z.object({ before: z.array(textPart), after: z.array(textPart) }),
                 }),
-                z.object({
-                  id: z.string(),
-                  label: z.string(),
-                  narrows: z.literal(true),
-                  icon: z.enum(iconNames).nullable(),
-                }),
+                candidate.extend({ narrows: z.literal(true) }),
               ]),
             ),
           }),
@@ -799,15 +806,7 @@ export const catalog = defineCatalog(schema, {
         notation: z.enum(['prose', 'formula']).nullable(),
         keywords: z.array(mention).nullable(),
         commands: z.boolean().nullable(),
-        context: z
-          .object({
-            trigger: z.enum(['@', '/', 'swap']),
-            enclosing: z.string().nullable(),
-            preceding: z.string().nullable(),
-            condition: z.string().nullable(),
-            keyword: z.string().nullable(),
-          })
-          .nullable(),
+        context: listContext.nullable(),
       }),
       description:
         "A text the actor writes in, read by assistive technology as `label`, that can name items inline as mentions. `content` is its paragraphs, in order, each a list of plain runs (strings) and mentions ({ id, label, type }); a mention shows its `label`. Bind `content` with $bindState: the editor writes it as the actor types. Content can also hold slots ({ slot, label, required, value }), blanks in a template whose wording is already written: each is a field inside the text that shows its `label` until it holds a `value`, and the actor fills it in place. Tab moves through the slots and mentions in reading order, and Enter in a slot goes to the next slot. What the actor writes goes to the slot's `value`. `required` marks a slot the request cannot go without; the editor does not check it, and the actor can delete a slot like any other part of the text, so a spec that needs it checks against the template it started from and says what is missing when the actor sends. To fill or empty every slot at once, set `content`. Typing @ starts a mention: the editor writes what follows the @ to `query` (bind it with $bindState; it is null when no mention is being typed), and shows `candidates` in a list beneath the caret, in order, each group under its `heading`. The list filters nothing itself: which candidates show for the query is the spec's decision, usually a $computed over `query` and `scope`. A candidate is either an item ({ id, label, type, icon }) or a kind of item ({ id, label, narrows: true, icon }); its `icon` leads its label, named by meaning, such as the icon for the kind. The first candidate is highlighted; the arrow keys move the highlight, Enter or Tab picks it, and Escape closes the list and leaves the text. Picking an item puts the mention in place of what was typed. Picking a kind writes its `id` to `scope` (bind it with $bindState) and clears what was typed after the @, so the actor goes on typing within that kind; Backspace with nothing typed sets `scope` back to null, and so does closing the list. Pressing a mention writes its `id` to `opened` (bind it with $bindState), then emits `open`, for a fuller view of the item. With `commands`, typing / (after a space or at the start of a line, or after any character in a formula) opens the same list for what the spec offers to put in or do, and writes what follows the / to `query`. Besides items and keywords, a / list can offer two more kinds of candidate. An insert ({ id, label, icon, insert: { before, after, line } }) puts the parts in `before` in place of what was typed, with the caret after them, and the parts in `after` beyond the caret, such as a closing bracket; parts are those of `content`; `line` starts a new paragraph first. A wrap ({ id, label, icon, wrap: { before, after } }) works only in a formula: it removes what was typed and puts `before` and `after` around the condition there, such as not ( and ). `notation: formula` is for an expression built from mentions, such as a condition over named fields and values: @ starts a mention straight after any character, such as an opening bracket or a comma, and the bracket beside the caret is marked together with the bracket that pairs with it. A formula also has keywords, words of its own vocabulary such as operators and the words that join conditions: in `content` a keyword is { keyword, label, type }, where `keyword` is its id, and it shows its `label`. A keyword comes in two ways. A candidate with `keyword: true` ({ id, label, type, keyword: true, then, icon }) puts a keyword in place of what was typed, followed by the text in `then`, such as an opening bracket. And a word the actor types that matches the `label` of one of `keywords` ({ id, label, type }), in any case, becomes that keyword once the actor types a space, a bracket or a comma after it. Pressing a keyword, or Enter on it, opens the list beneath it with the keywords that can stand in its place, the current keyword highlighted; picking one replaces that keyword and no other, without its `then`. A swap list offers keyword candidates only. While a list is open, the editor writes where it was opened to `context` (bind it with $bindState; it is null when no list is open): `trigger` is @, / or swap; `enclosing` is the `id` of the mention heading the innermost bracket still open there, as a field heads \"Status is none of (\"; `preceding` is the `id` of the mention straight before it, past spaces, as the field before an operator; `condition` is the `id` of the mention heading the condition there, the call it starts from the mention to the bracket that closes it, which the place is inside or just after, and the one a wrap goes around; `keyword` is the `id` of the keyword being swapped. Each is null when there is none, and outside a formula `enclosing`, `preceding` and `condition` are always null. The candidates follow `context`, such as a field's values inside its bracket, its other operators in place of one, or the other joining words in place of AND.",

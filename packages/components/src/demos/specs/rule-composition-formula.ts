@@ -1,24 +1,25 @@
 import type { Spec } from '@json-render/core';
 import type { iconNames } from '../../catalog/catalog';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import type {
-  InsertCandidate,
-  KeywordCandidate,
-  KeywordPart,
-  ListContext,
-  MentionCandidate,
-  MentionPart,
-  WrapCandidate,
-  Paragraph,
+import {
+  asKeyword,
+  type InsertCandidate,
+  type KeywordCandidate,
+  type ListContext,
+  type MentionPart,
+  type WrapCandidate,
+  type Paragraph,
 } from '../../catalog/behaviour/mention-editor';
 import { matchesQuery, maxMentionMatches, mentionQuery } from './shared/mentions';
 import {
+  conditionValues,
   fieldLabels,
   fields,
   initialRule,
   isGroup,
   operatorOf,
   operators,
+  optionLabel,
   options,
   type Condition,
   type Field,
@@ -41,12 +42,15 @@ type Part = Paragraph[number];
 
 const capitalise = (text: string) => text.charAt(0).toLocaleUpperCase() + text.slice(1);
 
+// A field's name as it heads a condition or a list: "Due date".
+const fieldName = (field: Field) => capitalise(fieldLabels[field]);
+
 const fieldId = (field: Field) => `field-${field}`;
 const fieldOf = (id: string | null) => fields.find((field) => fieldId(field) === id);
 
 const fieldPart = (field: Field): MentionPart => ({
   id: fieldId(field),
-  label: capitalise(fieldLabels[field]),
+  label: fieldName(field),
   type: 'field',
 });
 
@@ -61,10 +65,11 @@ const valuesOf = (field: Field) =>
     icon: iconed.includes(field) ? (option.value as Icon) : null,
   }));
 
-const valuePart = (field: Field, id: string): MentionPart => {
-  const { label } = options[field].find((option) => option.value === id)!;
-  return { id, label, type: field };
-};
+const valuePart = (field: Field, id: string): MentionPart => ({
+  id,
+  label: optionLabel(field, id),
+  type: field,
+});
 
 // An operator reads as it does in the sentence: "is at least".
 const operatorPart = (op: Operator): MentionPart => ({
@@ -79,6 +84,7 @@ const joins: Record<Match, MentionPart> = {
   all: { id: 'all', label: 'AND', type: 'join' },
   any: { id: 'any', label: 'OR', type: 'join' },
 };
+const joinWords = Object.values(joins);
 const not: MentionPart = { id: 'not', label: 'not', type: 'negation' };
 
 const allOperators = [
@@ -89,12 +95,6 @@ const allOperators = [
   ).values(),
 ];
 
-const keyword = (part: MentionPart): KeywordPart => ({
-  keyword: part.id,
-  label: part.label,
-  type: part.type,
-});
-
 // A picked keyword brings what follows it, such as the space after "and".
 const offer = (parts: MentionPart[], then: string | null): KeywordCandidate[] =>
   parts.map((part) => ({ ...part, keyword: true, then, icon: null }));
@@ -102,13 +102,15 @@ const offer = (parts: MentionPart[], then: string | null): KeywordCandidate[] =>
 // --- Rule → formula -----------------------------------------------------
 
 const conditionParts = (condition: Condition): Part[] => {
-  const values = Array.isArray(condition.value) ? condition.value : [condition.value];
   return [
     fieldPart(condition.field),
     ' ',
-    keyword(operatorPart(operatorOf(condition))),
+    asKeyword(operatorPart(operatorOf(condition))),
     ' (',
-    ...values.flatMap((id, i) => [...(i > 0 ? [', '] : []), valuePart(condition.field, id)]),
+    ...conditionValues(condition).flatMap((id, i) => [
+      ...(i > 0 ? [', '] : []),
+      valuePart(condition.field, id),
+    ]),
     ')',
   ];
 };
@@ -117,7 +119,7 @@ const conditionParts = (condition: Condition): Part[] => {
 const groupParts = (group: Group): Part[] => [
   '(',
   ...group.items.flatMap((item, i) => [
-    ...(i > 0 ? [' ', keyword(joins[group.match]), ' '] : []),
+    ...(i > 0 ? [' ', asKeyword(joins[group.match]), ' '] : []),
     ...itemParts(item),
   ]),
   ')',
@@ -134,7 +136,7 @@ const indent = '    ';
 
 const toLines = (item: Condition | Group, lead: Part[]): Paragraph[] => {
   if (!isGroup(item)) return [[...lead, ...conditionParts(item)]];
-  const word = keyword(joins[item.match]);
+  const word = asKeyword(joins[item.match]);
   return item.items.map((inner, i) => [
     ...(i === 0 ? [...lead, '('] : [indent, word, ' ']),
     ...itemParts(inner),
@@ -144,7 +146,7 @@ const toLines = (item: Condition | Group, lead: Part[]): Paragraph[] => {
 
 const toFormula = (rule: Rule): Paragraph[] =>
   rule.where.items.flatMap((item, i) =>
-    toLines(item, i > 0 ? [keyword(joins[rule.where.match]), ' '] : []),
+    toLines(item, i > 0 ? [asKeyword(joins[rule.where.match]), ' '] : []),
   );
 
 // --- What the lists offer -----------------------------------------------
@@ -152,16 +154,19 @@ const toFormula = (rule: Rule): Paragraph[] =>
 // Naming a field puts in a whole condition on it, with the field's first
 // operator and the caret between its brackets, ready for values. The operator
 // is swapped in place, so the actor never has to type one.
-const conditionOn = (field: Field): InsertCandidate => ({
-  id: fieldId(field),
-  label: capitalise(fieldLabels[field]),
-  icon: null,
-  insert: {
-    before: [fieldPart(field), ' ', keyword(operatorPart(operators[field][0])), ' ('],
-    after: [')'],
-    line: null,
-  },
-});
+const conditionOn = (field: Field): InsertCandidate => {
+  const part = fieldPart(field);
+  return {
+    id: part.id,
+    label: part.label,
+    icon: null,
+    insert: {
+      before: [part, ' ', asKeyword(operatorPart(operators[field][0])), ' ('],
+      after: [')'],
+      line: null,
+    },
+  };
+};
 
 // What / offers: the joining words, and edits to the structure around the caret.
 const commands = (condition: string | null) => {
@@ -169,22 +174,22 @@ const commands = (condition: string | null) => {
     id: 'negate',
     label: 'Negate this condition',
     icon: null,
-    wrap: { before: [keyword(not), ' ('], after: [')'] },
+    wrap: { before: [asKeyword(not), ' ('], after: [')'] },
   };
   const newGroup: InsertCandidate = {
     id: 'new-group',
     label: 'Start a new group',
     icon: null,
-    insert: { before: [keyword(joins.all), ' '], after: null, line: true },
+    insert: { before: [asKeyword(joins.all), ' '], after: null, line: true },
   };
   return [
-    { heading: 'Join', options: [...offer(Object.values(joins), ' '), ...offer([not], ' (')] },
+    { heading: 'Join', options: [...offer(joinWords, ' '), ...offer([not], ' (')] },
     { heading: 'Structure', options: condition ? [negate, newGroup] : [newGroup] },
   ];
 };
 
 const fieldOperators = (field: Field) => ({
-  heading: `${capitalise(fieldLabels[field])} operators`,
+  heading: `${fieldName(field)} operators`,
   options: offer(operators[field].map(operatorPart), null),
 });
 
@@ -198,7 +203,7 @@ export default {
       content: toFormula(initialRule),
       query: null,
       context: null,
-      keywords: [...allOperators, ...Object.values(joins), not],
+      keywords: [...allOperators, ...joinWords, not],
     },
     functions: {
       candidates: (args) => {
@@ -208,17 +213,14 @@ export default {
         const named = matchesQuery(query);
         const field = fieldOf(preceding);
 
-        if (trigger === '/') {
-          const matches = (option: MentionCandidate) =>
-            option.label.toLocaleLowerCase().includes(query);
+        if (trigger === '/')
           return commands(condition).map((group) => ({
             ...group,
-            options: group.options.filter(matches),
+            options: group.options.filter(named),
           }));
-        }
         if (trigger === 'swap') {
-          if (Object.values(joins).some((item) => item.id === keyword))
-            return [{ heading: 'Join', options: offer(Object.values(joins), null) }];
+          if (keyword !== null && keyword in joins)
+            return [{ heading: 'Join', options: offer(joinWords, null) }];
           return field ? [fieldOperators(field)] : [];
         }
 
@@ -226,16 +228,14 @@ export default {
         if (within)
           return [
             {
-              heading: `${capitalise(fieldLabels[within])} values`,
+              heading: `${fieldName(within)} values`,
               options: valuesOf(within).filter(named).slice(0, maxMentionMatches),
             },
           ];
         return [
           {
             heading: 'Fields',
-            options: fields
-              .map(conditionOn)
-              .filter((option) => option.label.toLocaleLowerCase().includes(query)),
+            options: fields.map(conditionOn).filter(named),
           },
         ];
       },

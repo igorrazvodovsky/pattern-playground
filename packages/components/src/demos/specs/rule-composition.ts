@@ -4,11 +4,14 @@ import type { RuleSlot, RuleSlotOption } from '../../catalog/rule-parts';
 import type { RuleGroup, RuleLine, RuleTree } from '../../catalog/registries/shadcn/rule-builder';
 import type { ActionDefinition, SpecSetup } from '../../catalog/SpecDemo';
 import {
+  conditionValues,
   fieldLabels,
+  fields,
   initialRule,
   isGroup,
   operatorOf,
   operators,
+  optionLabel,
   options,
   type Condition,
   type Field,
@@ -51,7 +54,7 @@ const choice = (id: string, name: string, value: string, choices: RuleSlotOption
 
 const toLine = (condition: Condition): RuleLine => {
   const op = operatorOf(condition);
-  const values = Array.isArray(condition.value) ? condition.value : [condition.value];
+  const values = conditionValues(condition);
   const choices = options[condition.field];
   const name = `Change the ${fieldLabels[condition.field]}`;
   const valueSlot: RuleSlot = op.join
@@ -63,7 +66,7 @@ const toLine = (condition: Condition): RuleLine => {
         value: values,
         options: choices,
         label: listLabel(
-          values.map((v) => choices.find((c) => c.value === v)?.label ?? v),
+          values.map((v) => optionLabel(condition.field, v)),
           op.join,
         ),
       }
@@ -99,7 +102,7 @@ const toGroup = (group: Group, nested: boolean): RuleGroup => ({
     kind: 'add',
     name: 'Add a condition',
     label: 'Condition',
-    options: (Object.keys(fieldLabels) as Field[]).map((field) => ({
+    options: fields.map((field) => ({
       value: field,
       label: fieldLabels[field],
     })),
