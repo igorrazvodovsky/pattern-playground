@@ -57,7 +57,7 @@ import { usePressableTitle } from '../../behaviour/pressable-title';
 import { PpMentionEditor } from './mention-editor-lazy';
 import { Subsection, useHeading } from '../../behaviour/heading-level';
 import { popoverHost, useMayTakeFocus } from '../../behaviour/popover-host';
-import { usePreview } from '../../behaviour/preview';
+import { usePreview } from '../../../components/item-view/use-preview';
 import { useSplitRoom } from '../../behaviour/split-room';
 import { useToastList } from '../../behaviour/toast-list';
 import { TracingProvider, useMarkTracing, useTracingState } from '../../behaviour/mark-tracing';

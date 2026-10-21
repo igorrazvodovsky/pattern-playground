@@ -150,7 +150,7 @@ import { DescriptionRows } from './description-rows';
 import { DraggableRow } from './draggable-row';
 import { FilterTag } from './filter-tag';
 import { popoverHost, useMayTakeFocus } from '../../behaviour/popover-host';
-import { usePreview } from '../../behaviour/preview';
+import { usePreview } from '../../../components/item-view/use-preview';
 import { useSplitRoom } from '../../behaviour/split-room';
 import { useToastList } from '../../behaviour/toast-list';
 import { TracingProvider, useMarkTracing, useTracingState } from '../../behaviour/mark-tracing';

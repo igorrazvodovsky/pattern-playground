@@ -21,14 +21,6 @@ export interface BaseItem {
   metadata?: Record<string, unknown>;
 }
 
-export interface ViewScopeConfig {
-  scope: ViewScope;
-  trigger?: 'hover' | 'click' | 'focus' | 'keydown';
-  delay?: number;
-  placement?: 'top' | 'bottom' | 'left' | 'right';
-  mode?: InteractionMode;
-}
-
 export interface ItemInteractionProps {
   item: BoundEntity;
   /** The entity type — the key into the bindings map. */
@@ -39,7 +31,6 @@ export interface ItemInteractionProps {
   className?: string;
   initialScope?: ViewScope;
   enableEscalation?: boolean;
-  scopeConfig?: Partial<Record<ViewScope, ViewScopeConfig>>;
   onScopeChange?: (scope: ViewScope) => void;
   onInteraction?: (mode: InteractionMode, item: BoundEntity) => void;
 }

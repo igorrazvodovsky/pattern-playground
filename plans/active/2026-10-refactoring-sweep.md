@@ -440,14 +440,25 @@ Design calls; one sitting each.
   of `ItemView`'s role layout to lay out a rung for the spec demos. Done
   2026-10-21: `layoutByRole` in `shared/data/bindings/layout.ts` is read by
   `ItemView` and by the catalog's `ItemView` type.
-- [ ] *Hover bridge, twice.* `components/item-view/ItemInteraction.tsx` and
-  `catalog/behaviour/preview.ts` each implement the reference's preview
+- [x] *Hover bridge, twice.* `components/item-view/ItemInteraction.tsx` and
+  `catalog/behaviour/preview.ts` each implemented the reference's preview
   (open after a pause, close after a grace that arriving on the preview
-  cancels). Both read `previewTiming`, but only the hook moves the keyboard
-  into the preview and back. `ItemInteraction` also keeps the working-rung
-  preference in a persisted store, where the item-view-transitions spec keeps
-  it in demo state, and its rung icons repeat the registries' `summary`,
-  `detail` and `full`. Decide whether `ItemInteraction` should use the hook.
+  cancels), and only the hook moved the keyboard into the preview and back.
+  Done 2026-10-21: the hook moved to `components/item-view/use-preview.ts`,
+  since the catalog builds on the library and not the other way, and
+  `ItemInteraction` uses it for the summary. Three behaviours changed in
+  `ItemInteraction`. Tab from the trigger reaches the summary's rung buttons,
+  Shift+Tab returns, and Tab past the last closes it; before, the trigger's
+  blur closed the summary as focus left. Escape in the summary hands focus
+  back to the trigger. Focus that returns to the trigger as the drawer or
+  dialog closes no longer reopens the summary. `scopeConfig` and
+  `ViewScopeConfig` are gone; the only setting read was the summary's open
+  delay, and no caller passed it. The working-rung preference stays in its
+  persisted store, and the rung icons stay as they are: `ItemInteraction` is
+  a library component used by the editor's references, not a spec. Checked in
+  the browser on the Item view Escalation story (focus, Tab in and out,
+  Escape, Enter to the working view and back, the pointer crossing to the
+  summary and leaving) and on the item-view page's Reference.
 - [x] *Controls named by label.* A Button's `focusNext` and a Dialog's or
   Drawer's `returnFocus` found their control by its label, and
   `returnFocus` took the first match, so two controls with the same label

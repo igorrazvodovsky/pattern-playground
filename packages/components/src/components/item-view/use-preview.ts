@@ -1,5 +1,5 @@
 import { useEffect, useRef, type FocusEvent, type KeyboardEvent } from 'react';
-import { previewTiming } from '../catalog';
+import { previewTiming } from './preview-timing';
 
 // Focus coming back to the reference as the fuller view closes does not open
 // the preview: the actor has just left the item, not arrived on it.
@@ -9,12 +9,12 @@ import { previewTiming } from '../catalog';
 
 const focusable = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
-export const usePreview = (
+export const usePreview = <Trigger extends HTMLElement = HTMLButtonElement>(
   shown: boolean,
   setShown: (shown: boolean) => void,
   expanded: boolean,
 ) => {
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const triggerRef = useRef<Trigger | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const timer = useRef<number | undefined>(undefined);
   const expandedRef = useRef(expanded);

@@ -4,7 +4,7 @@ import { resolveEntityTitle } from '@shared/data/bindings';
 import { ItemView } from './ItemView';
 import { ItemViewProvider, useEntityBinding, useItemViewContext } from './provider';
 import { modalService } from '../../services/modal-service';
-import { previewTiming } from './preview-timing';
+import { usePreview } from './use-preview';
 import { useWorkingRungStore } from './working-rung-store';
 import type { ItemInteractionProps, ViewScope } from './types';
 import '../../icons/register-icons';
@@ -31,13 +31,12 @@ import '../../jsx-types';
  * is what makes the movement reversible: any rung can drop back to any lower
  * one, and a deliberate move to Detail or Full is what updates the preference.
  *
- * The one piece of net-new logic is the hover bridge. A hover-opened popover
- * that holds a control has to survive the pointer crossing the gap from the
- * trigger into it, so trigger and popover share the open state and leaving
- * either only schedules a close on a short grace that re-entering the other
- * cancels. The deeper rungs are opened states, not hover states: once the
- * drawer or dialog is up, hovering the trigger does nothing, and only a rung
- * choice or a dismissal moves off them.
+ * The summary's hover bridge is {@link usePreview}, shared with the catalog's
+ * Reference: leaving the trigger or the popover only schedules a close that
+ * arriving on the other cancels, and Tab moves between the trigger and the
+ * popover's controls. The deeper rungs are opened states, not hover states:
+ * once the drawer or dialog is up, hovering the trigger does nothing, and only
+ * a rung choice or a dismissal moves off them.
  */
 
 /** The rungs the reader can escalate to; `micro` (the bare inline trigger) is
@@ -100,7 +99,6 @@ export const ItemInteraction = ({
   className,
   enableEscalation = true,
   initialScope,
-  scopeConfig = {},
   onScopeChange,
   onInteraction,
 }: ItemInteractionProps) => {
@@ -116,10 +114,6 @@ export const ItemInteraction = ({
   // It is anchored by ref and lives in the top layer, so its DOM home is moot.
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-  const openTimer = useRef<number | null>(null);
-  const closeTimer = useRef<number | null>(null);
-  const activeScopeRef = useRef<ActiveScope>(activeScope);
-  activeScopeRef.current = activeScope;
 
   const binding = useEntityBinding(contentType);
   // The modal surfaces render in a separate React root, so the context that
@@ -150,55 +144,34 @@ export const ItemInteraction = ({
     [onScopeChange],
   );
 
-  const clearTimers = useCallback(() => {
-    if (openTimer.current) {
-      clearTimeout(openTimer.current);
-      openTimer.current = null;
-    }
-    if (closeTimer.current) {
-      clearTimeout(closeTimer.current);
-      closeTimer.current = null;
-    }
-  }, []);
-
-  // Hover/focus opens the summary after an intent delay — but only from the
-  // bare trigger; if a drawer or dialog is already up, hovering does nothing.
-  // A click both enters and focuses the trigger, so two calls can arrive
-  // back to back: clear the pending timer first so the click can cancel it.
-  const openSummarySoon = useCallback(() => {
-    if (!enableEscalation) return;
-    if (activeScopeRef.current === 'mid' || activeScopeRef.current === 'maxi') return;
-    clearTimers();
-    const delay = scopeConfig.mini?.delay ?? previewTiming.open;
-    openTimer.current = window.setTimeout(() => {
-      openTimer.current = null;
-      if (activeScopeRef.current === 'mid' || activeScopeRef.current === 'maxi') return;
-      changeScope('mini');
-    }, delay);
-  }, [enableEscalation, scopeConfig, changeScope, clearTimers]);
-
-  // Leaving the trigger or the popover schedules a close that re-entering the
-  // other cancels. Only the summary closes this way; an open drawer stays put.
-  const scheduleClose = useCallback(() => {
-    if (openTimer.current) {
-      clearTimeout(openTimer.current);
-      openTimer.current = null;
-    }
-    closeTimer.current = window.setTimeout(() => {
-      setActiveScope((current) => (current === 'mini' ? null : current));
-    }, previewTiming.close);
-  }, []);
-
-  const holdSummary = useCallback(() => {
-    clearTimers();
-  }, [clearTimers]);
+  // Only the summary is shown and hidden by the hover bridge; a hidden
+  // summary leaves an open drawer or dialog as it is.
+  const setSummaryShown = useCallback(
+    (shown: boolean) =>
+      shown
+        ? changeScope('mini')
+        : setActiveScope((current) => (current === 'mini' ? null : current)),
+    [changeScope],
+  );
+  const { triggerRef, contentRef, trigger, content, close } = usePreview<HTMLSpanElement>(
+    activeScope === 'mini',
+    setSummaryShown,
+    activeScope === 'mid' || activeScope === 'maxi',
+  );
+  const setTrigger = useCallback(
+    (element: HTMLSpanElement | null) => {
+      triggerRef.current = element;
+      setAnchor(element);
+    },
+    [triggerRef],
+  );
 
   // A click (or Enter/Space) is the active commit: skip the summary glance and
   // open a working view straight away — the preferred rung when this content
   // type has it, else the deepest working rung it does, else the summary.
   const openWorkingRung = useCallback(() => {
     if (!enableEscalation) return;
-    clearTimers();
+    close();
     const target: EscalationScope = available.includes(preferredWorkingRung)
       ? preferredWorkingRung
       : available.includes('maxi')
@@ -207,23 +180,22 @@ export const ItemInteraction = ({
           ? 'mid'
           : 'mini';
     changeScope(target);
-  }, [enableEscalation, clearTimers, changeScope, available, preferredWorkingRung]);
+  }, [enableEscalation, close, changeScope, available, preferredWorkingRung]);
 
   const selectRung = useCallback(
     (scope: EscalationScope) => {
-      clearTimers();
       // A deliberate move to a working rung is what forms the click habit; the
       // summary is the hover glance and never a preference.
       if (scope === 'mid' || scope === 'maxi') setPreferredWorkingRung(scope);
       changeScope(scope);
     },
-    [clearTimers, changeScope, setPreferredWorkingRung],
+    [changeScope, setPreferredWorkingRung],
   );
 
   const dismiss = useCallback(() => {
-    clearTimers();
+    close();
     changeScope(null);
-  }, [clearTimers, changeScope]);
+  }, [close, changeScope]);
 
   // Everything the overlay content is built from, kept fresh so the modal
   // effect can depend on `activeScope` alone — `item` is a new object each
@@ -308,8 +280,6 @@ export const ItemInteraction = ({
     return () => modalService.closeModal(id);
   }, [activeScope]);
 
-  useEffect(() => () => clearTimers(), [clearTimers]);
-
   if (!enableEscalation) {
     return <>{children}</>;
   }
@@ -317,18 +287,17 @@ export const ItemInteraction = ({
   return (
     <>
       <span
-        ref={setAnchor}
+        ref={setTrigger}
         className={className}
         role="button"
         tabIndex={0}
         aria-haspopup="dialog"
         aria-expanded={activeScope !== null}
-        onMouseEnter={openSummarySoon}
-        onMouseLeave={scheduleClose}
-        onFocus={openSummarySoon}
-        onBlur={scheduleClose}
+        {...trigger}
         onClick={openWorkingRung}
         onKeyDown={(event) => {
+          trigger.onKeyDown(event);
+          if (event.defaultPrevented) return;
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
             openWorkingRung();
@@ -356,12 +325,11 @@ export const ItemInteraction = ({
             top-layer
           >
             <div
+              ref={contentRef}
               className="popover"
               role="dialog"
               aria-label={itemLabel}
-              onMouseEnter={holdSummary}
-              onMouseLeave={scheduleClose}
-              onKeyDown={(event) => event.key === 'Escape' && dismiss()}
+              {...content}
             >
               {/* A real header: the summary's own heading is the title on the
                   leading edge, the rung buttons the actions on the trailing
