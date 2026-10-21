@@ -256,14 +256,18 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
 }
 
 /* Hover-revealed actions: a button row that stays quiet until the card is under
-   the pointer. Unlayered so it wins over the button skin without an !important. */
-.hover-only-actions button {
-  opacity: 0;
-  transition: 120ms opacity ease-in-out;
-}
+   the pointer or holds focus. Touch devices have no hover to reveal them, so the
+   hiding applies only where the primary pointer can hover. Unlayered so it wins
+   over the button skin without an !important. */
+@media (hover: hover) {
+  .hover-only-actions button {
+    opacity: 0;
+    transition: 120ms opacity ease-in-out;
+  }
 
-.hover-only-actions:hover button {
-  opacity: 1;
+  .hover-only-actions:is(:hover, :focus-within) button {
+    opacity: 1;
+  }
 }
 
 video {
