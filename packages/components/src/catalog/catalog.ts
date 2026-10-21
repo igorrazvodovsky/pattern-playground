@@ -1,7 +1,7 @@
 import { defineCatalog, ValidationCheckSchema } from '@json-render/core';
 import { schema } from '@json-render/react/schema';
 import { z } from 'zod';
-import { attributeIcons } from '@shared/data/bindings';
+import { attributeIcons, bindings } from '@shared/data/bindings';
 
 // The component vocabulary switchable demos are written in. Types are named at
 // component altitude (Card, List, Button), not after what a pattern uses them
@@ -11,6 +11,11 @@ import { attributeIcons } from '@shared/data/bindings';
 //
 // Cut to what the specs in demos/specs/ need. A type joins when a spec needs
 // it and every registry can render it, or says plainly that it cannot.
+//
+// A type is a word specs are written in, not an entry in the Storybook
+// catalogue. Map, Timeline, Reference and ItemView are generic views over
+// data: ItemView lays out any bound entity, so what differs between kinds of
+// item lives in the binding, not in more types.
 
 export const tones = ['neutral', 'accent', 'success', 'danger'] as const;
 const tone = z.enum(tones);
@@ -24,6 +29,8 @@ const fieldValidation =
   "List `checks` ({ type: required | email | minLength | …, message }) to validate the bound value: they run when validateForm is dispatched, usually from a Form's `submit`, and again on each change once the field has been checked, so the message goes as soon as the value is fixed. The first failing check's message shows beneath the field, as `error` does, and `error` wins when both are set. A field that is hidden, by its own `visible` or a container's, is left out of validateForm.";
 const options = z.array(z.object({ value: z.string(), label: z.string() }));
 const mention = z.object({ id: z.string(), label: z.string(), type: z.string() });
+// The kinds of item an ItemView lays out, one for each binding.
+const entityTypes = Object.keys(bindings) as [string, ...string[]];
 // A person's picture; without an image, their initial stands in.
 const avatar = z.object({ name: z.string(), image: z.string().nullable() });
 // A blank in a template's text.
@@ -324,6 +331,16 @@ export const catalog = defineCatalog(schema, {
       }),
       description:
         'Labels paired with their values, one pair to a row, read as content: the attributes of one item in its full view, or a spec sheet. For a few attributes on a summary, use labelled Badges instead. With `draggable` each row that has an `id` can be dragged, carrying that id, onto a Stack that is a `dropTarget`.',
+    },
+    ItemView: {
+      props: z.object({
+        type: z.enum(entityTypes),
+        item: z.looseObject({ id: z.string() }),
+        scope: z.enum(['micro', 'mini', 'mid', 'maxi']),
+        shownAttributes: z.union([z.literal('all'), z.array(z.string())]).nullable(),
+      }),
+      description:
+        "One item laid out from its binding, the description of its kind of item that says what each attribute is and how its value reads. `type` names the kind of item and `item` is the item as stored, such as a product held in state. `scope` sets how much of it shows: `micro` is its name as an inline token, `mini` a summary: its key figure, such as a price, then its states as Badges and its other attributes as labelled Badges; `mid` adds the description and lists the attributes that tell it apart as labelled rows, and `maxi` lists all of them. `shownAttributes` replaces the scope's set with attribute paths, role names such as `badge` or `spec`, or `all`; read it from state when the actor can change what shows, such as an attribute they surface, and use it to leave out what a view beside this one already shows. Above `micro` the item view shows no title: put it in a Card, Drawer or Dialog that names the item, as the body. An attribute only a component of its own can show, such as a comment thread, is shown by that component, and where the library has none the item view says so.",
     },
     Table: {
       props: z.object({

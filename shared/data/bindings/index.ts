@@ -24,6 +24,7 @@ export { attributeIcons } from './types';
 export {
   getValueAtPath,
   deriveAttributeLabel,
+  attributeLabel,
   attributeLabelFromBinding,
   findAttribute,
   resolveAttributeSelection,
@@ -32,6 +33,10 @@ export {
   formatBoundValue,
   resolveEntityTitle,
 } from './access';
+
+export type { ItemLayout, LaidOutBadge, LaidOutPair, LaidOutText } from './layout';
+
+export { layoutByRole } from './layout';
 
 export type { AttributeFilter, FilterOperator } from './filtering';
 

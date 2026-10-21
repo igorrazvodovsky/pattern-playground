@@ -43,42 +43,13 @@
       "children": ["detail-body"]
     },
     "detail-body": {
-      "type": "Stack",
-      "props": { "gap": "m" },
-      "children": [
-        "detail-badges",
-        "detail-price",
-        "detail-description",
-        "detail-attributes",
-        "detail-listed"
-      ]
-    },
-    "detail-badges": {
-      "type": "Stack",
-      "props": { "direction": "horizontal", "gap": "s" },
-      "repeat": { "statePath": "/detail/badges" },
-      "children": ["detail-badge"]
-    },
-    "detail-badge": { "type": "Badge", "props": { "text": { "$item": "text" } } },
-    "detail-price": {
-      "type": "Text",
-      "props": { "text": { "$state": "/detail/price" }, "size": "large" },
-      "visible": { "$state": "/detail/price" }
-    },
-    "detail-description": {
-      "type": "Text",
-      "props": { "text": { "$state": "/detail/description" } },
-      "visible": { "$state": "/detail/description" }
-    },
-    "detail-attributes": {
-      "type": "DescriptionList",
-      "props": { "items": { "$state": "/detail/rows" } },
-      "visible": { "$state": "/detail/hasRows" }
-    },
-    "detail-listed": {
-      "type": "Text",
-      "props": { "text": { "$state": "/detail/listed" }, "muted": true },
-      "visible": { "$state": "/detail/listed" }
+      "type": "ItemView",
+      "props": {
+        "type": { "$state": "/detail/type" },
+        "item": { "$state": "/detail/item" },
+        "scope": "mid",
+        "shownAttributes": { "$state": "/detail/shown" }
+      }
     }
   }
 }

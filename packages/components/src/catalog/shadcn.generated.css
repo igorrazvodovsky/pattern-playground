@@ -1443,6 +1443,10 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
       outline-offset: 2px;
       outline: 2px solid #0000;
     }}
+.outline {
+    outline-style: var(--tw-outline-style);
+    outline-width: 1px;
+  }
 .outline-2 {
     outline-style: var(--tw-outline-style);
     outline-width: 2px;

@@ -11,7 +11,7 @@ import type { SpecSetup } from '../../catalog/SpecDemo';
 import { getAvailableAttributes } from '../../templates/collection-view/AttributeUtils';
 import { sortItems } from '../../templates/collection-view/SortingUtils';
 import { filterClauses, KEEPS } from './shared/filter-clauses';
-import { attributeLabel, cardAttributes } from './shared/product-view';
+import { cardAttributes, productAttributeLabel } from './shared/product';
 import spec from './fluid-attributes.json' with { type: 'json' };
 
 // Filtering is keyed on the attribute's path, so an attribute is filterable
@@ -69,7 +69,7 @@ const derive = ({ view }: Record<string, unknown>) => {
     })),
     sortFields: [
       { path: 'name', label: 'Name' },
-      ...shown.map((path) => ({ path, label: attributeLabel(path) })),
+      ...shown.map((path) => ({ path, label: productAttributeLabel(path) })),
     ],
     clauses: filters.map(chip),
   };
@@ -129,7 +129,7 @@ export default {
         description: item.description,
         rows: valuesOf(item).map(({ path, label, value }) => ({ id: path, label, value })),
       })),
-      attributes: SURFACEABLE.map((path) => ({ path, label: attributeLabel(path) })),
+      attributes: SURFACEABLE.map((path) => ({ path, label: productAttributeLabel(path) })),
       view,
       derived: derive({ view }),
       selected: CATALOGUE[0].id,

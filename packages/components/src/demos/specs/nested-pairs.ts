@@ -3,7 +3,7 @@ import { components, materials, products } from '@shared/data';
 import { componentBinding, materialBinding, productBinding } from '@shared/data/bindings';
 import type { ComponentView, MaterialView, ProductView } from '@shared/data/world-views';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { cardAttributes } from './shared/product-view';
+import { cardAttributes } from './shared/product';
 import { toggle, toggleHandler } from './shared/toggle';
 import spec from './nested-pairs.json' with { type: 'json' };
 
@@ -21,8 +21,9 @@ interface Node {
   name: string;
   icon: 'product' | 'part' | 'material';
   badges: Readout[];
-  description: string;
-  rows: Readout[];
+  type: 'product' | 'component' | 'material';
+  item: object;
+  shown: string[];
   nested: { label: string; items: Node[] }[];
   open: boolean;
 }
@@ -38,31 +39,37 @@ const resolve = <T>(ids: string[], lookup: (id: string) => T | undefined): T[] =
 const assemblyOf = (product: ProductView) =>
   resolve(product.metadata.assemblyComponents, componentById);
 
-// Each tier shows its own figures, read through its binding.
+// Each tier shows its own figures, read through its binding: a few on the
+// card as labelled badges, and its description and the rest in the detail.
 const materialBadges = cardAttributes(['category', 'recycledContent'], materialBinding);
-const materialRows = cardAttributes(
-  ['carbonFootprint', 'recyclability', 'certification', 'supplier', 'cost'],
-  materialBinding,
-);
+const materialShown = [
+  'description',
+  'carbonFootprint',
+  'recyclability',
+  'certification',
+  'supplier',
+  'cost',
+];
 const componentBadges = cardAttributes(
   ['category', 'sustainability.recycledContent'],
   componentBinding,
 );
-const componentRows = cardAttributes(
-  [
-    'sustainability.carbonFootprint',
-    'lifecycle.repairability',
-    'lifecycle.designLife',
-    'supplier',
-    'cost',
-  ],
-  componentBinding,
-);
+const componentShown = [
+  'description',
+  'sustainability.carbonFootprint',
+  'lifecycle.repairability',
+  'lifecycle.designLife',
+  'supplier',
+  'cost',
+];
 const productBadges = cardAttributes(['category', 'pricing.msrp'], productBinding);
-const productRows = cardAttributes(
-  ['condition', 'location.site', 'sustainability.carbonFootprint', 'lifecycle.repairability'],
-  productBinding,
-);
+const productShown = [
+  'description',
+  'condition',
+  'location.site',
+  'sustainability.carbonFootprint',
+  'lifecycle.repairability',
+];
 
 const overview = (label: string, items: Node[]) => (items.length > 0 ? [{ label, items }] : []);
 
@@ -71,8 +78,9 @@ const materialNode = (material: MaterialView): Node => ({
   name: material.name,
   icon: 'material',
   badges: materialBadges(material),
-  description: material.description,
-  rows: materialRows(material),
+  type: 'material',
+  item: material,
+  shown: materialShown,
   nested: [],
   open: false,
 });
@@ -82,8 +90,9 @@ const componentNode = (component: ComponentView): Node => ({
   name: component.name,
   icon: 'part',
   badges: componentBadges(component),
-  description: component.description,
-  rows: componentRows(component),
+  type: 'component',
+  item: component,
+  shown: componentShown,
   // Two nested overviews rather than one: a component's detail decomposes
   // both downward into sub-assemblies and sideways into what it is made of.
   nested: [
@@ -101,8 +110,9 @@ const productNode = (product: ProductView): Node => ({
   name: product.name,
   icon: 'product',
   badges: productBadges(product),
-  description: product.description,
-  rows: productRows(product),
+  type: 'product',
+  item: product,
+  shown: productShown,
   nested: overview('Assembled from', assemblyOf(product).map(componentNode)),
   open: false,
 });

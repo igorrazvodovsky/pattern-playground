@@ -15,6 +15,7 @@ import {
   type RefObject,
 } from 'react';
 import { createPortal } from 'react-dom';
+import { bindings } from '@shared/data/bindings';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import clsx from 'clsx';
 import { catalog, toastDuration, type iconNames, type purposes } from '../../catalog';
@@ -60,6 +61,7 @@ import { usePreview } from '../../behaviour/preview';
 import { useSplitRoom } from '../../behaviour/split-room';
 import { useToastList } from '../../behaviour/toast-list';
 import { TracingProvider, useMarkTracing, useTracingState } from '../../behaviour/mark-tracing';
+import { PpItemView } from './item-view-lazy';
 import '../../../jsx-types';
 
 // The catalog rendered with the project's own library: pp-* elements and the
@@ -510,6 +512,15 @@ export const { registry } = defineRegistry(catalog, {
         )}
       </dl>
     ),
+
+    // Nothing renders until the spec names a kind of item that has a binding,
+    // so an item that has not arrived yet leaves no fallback view behind.
+    ItemView: (context) =>
+      Object.hasOwn(bindings, context.props.type) && context.props.item ? (
+        <Suspense fallback={null}>
+          <PpItemView {...context} />
+        </Suspense>
+      ) : null,
 
     // pp-table is the scroll container and takes focus, so it is a region
     // named by `label`.

@@ -45,12 +45,17 @@ export function deriveAttributeLabel(path: string): string {
   return spaced.charAt(0).toUpperCase() + spaced.slice(1);
 }
 
+/** An attribute's curated label, or one derived from its path. */
+export function attributeLabel(attribute: AttributeBinding): string {
+  return attribute.label ?? deriveAttributeLabel(attribute.path);
+}
+
 export function attributeLabelFromBinding(
   binding: EntityBinding | undefined,
   path: string,
 ): string {
   const entry = binding?.attributes.find((attribute) => attribute.path === path);
-  return entry?.label ?? deriveAttributeLabel(path);
+  return entry ? attributeLabel(entry) : deriveAttributeLabel(path);
 }
 
 export function findAttribute(binding: EntityBinding, path: string): AttributeBinding | undefined {

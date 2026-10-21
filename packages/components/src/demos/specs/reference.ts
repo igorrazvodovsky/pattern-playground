@@ -12,7 +12,6 @@ import type { iconNames } from '../../catalog/catalog';
 import type { SpecSetup } from '../../catalog/SpecDemo';
 import type { MentionPart, Paragraph } from '../../catalog/behaviour/mention-editor';
 import { matchesQuery, maxMentionMatches, mentionQuery, toMention } from './shared/mentions';
-import { itemView } from './shared/product-view';
 import spec from './reference.json' with { type: 'json' };
 
 type Icon = (typeof iconNames)[number];
@@ -59,28 +58,35 @@ const finders: Record<string, (id: string) => object | undefined> = {
 };
 
 // The generic reference binding names a few metadata fields and shows the
-// rest under `metadata`, one row per field.
+// rest under `metadata`, one row per field. A quote's comment thread does not
+// belong in a drawer opened from a note, so its detail leaves it out.
 const claimed = new Set(referenceBinding.attributes.map((attribute) => attribute.path));
+const shownFor: Record<string, string[]> = { quote: ['sourceDocument', 'createdAt'] };
 
 const detail = (mention: MentionPart) => {
-  const binding = bindings[mention.type];
   const found = finders[mention.type]?.(mention.id);
-  if (binding && found) return { name: mention.label, ...itemView('mid', binding)(found) };
+  if (bindings[mention.type] && found)
+    return {
+      name: mention.label,
+      type: mention.type,
+      item: found,
+      shown: shownFor[mention.type] ?? null,
+    };
   const item = referenceCategories
     .flatMap((category) => category.children)
     .find((child) => child.id === mention.id);
   const fields = Object.entries(item?.metadata ?? {});
   return {
     name: mention.label,
-    ...itemView(
-      'mid',
-      referenceBinding,
-    )({
+    type: 'reference',
+    item: {
+      id: mention.id,
       label: mention.label,
       type: mention.type,
       ...Object.fromEntries(fields.filter(([key]) => claimed.has(key))),
       metadata: Object.fromEntries(fields.filter(([key]) => !claimed.has(key))),
-    }),
+    },
+    shown: null,
   };
 };
 

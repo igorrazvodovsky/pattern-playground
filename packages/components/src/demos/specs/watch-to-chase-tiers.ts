@@ -2,12 +2,12 @@ import type { Spec } from '@json-render/core';
 import { products } from '@shared/data';
 import type { SpecSetup } from '../../catalog/SpecDemo';
 import { detectProblems } from '../problem-detection';
-import { fullView, sliceAttributes } from './shared/product-view';
+import { sliceAttributes } from './shared/product';
 import spec from './watch-to-chase-tiers.json' with { type: 'json' };
 
 // The tiles are one list so that a tile and its slice share an `open` field.
-// A spec cannot run the detection rules or read the product binding, so the
-// flags and each item's full view are worked out here.
+// A spec cannot run the detection rules, so the flags and the attributes each
+// slice row shows are worked out here.
 
 const flags = detectProblems(products);
 const flaggedCount = new Set(flags.flatMap((flag) => flag.itemIds)).size;
@@ -40,7 +40,7 @@ const tiles = [
         name: item.name,
         open: false,
         attributes: sliceAttributes(item),
-        ...fullView(item),
+        product: item,
       })),
   })),
 ];

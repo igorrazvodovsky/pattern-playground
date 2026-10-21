@@ -438,21 +438,10 @@ Design calls; one sitting each.
   other through `cardAttributes`. Done 2026-10-20: both read `sliceAttributes`
   from `specs/shared/product-view.ts`, so the checklist's badges now take the
   binding's labels (Price, Listed) and leave a missing value out.
-- [ ] *Item layout by role, twice.* `specs/shared/product-view.ts`, shared by
-  the investigate, watch-to-chase, item-view-full, item-view-transitions and
-  reference specs (the last lays out users and projects through their own
-  bindings), copies `ItemView`'s role filtering and its private `specRows` (a
-  record-valued attribute gives one row per key) to lay out a rung. A change
-  to how `ItemView` lays out a scope now has to be made in both. The copy is
-  also partial: `itemView` keeps the first key attribute, description and
-  footer, and has no output for subtitle, caption, tag, thumbnail or custom
-  roles. The product's scopes use none of them today, but one added there
-  would show in `ItemView` and be left out of the spec demos without a
-  warning. It also lays the summary out like the other rungs, where
-  `ItemView`'s mini scope shows non-badge attributes as labelled badges. A
-  `layoutByRole(binding, scope, item)` helper in `shared/data/bindings` would
-  serve both; decide together with `ItemView`'s shape, which is still
-  provisional.
+- [x] *Item layout by role, twice.* `specs/shared/product-view.ts` copied part
+  of `ItemView`'s role layout to lay out a rung for the spec demos. Moved
+  2026-10-21 to `2026-10-item-view-in-specs.md`: one layout function beside
+  the bindings, read by `ItemView` and by an item view type in the catalog.
 - [ ] *Hover bridge, twice.* `components/item-view/ItemInteraction.tsx` and
   `catalog/behaviour/preview.ts` each implement the reference's preview
   (open after a pause, close after a grace that arriving on the preview
@@ -564,34 +553,12 @@ Design calls; one sitting each.
   Checked in the browser on the prompt page in a 20rem host: a three-line
   message keeps its icon beside it, centred as in shadcn. The combobox status
   line never wrapped, so it needed nothing.
-- [ ] *Product readout repeated in specs.* The readout of a product at one
-  rung (a Card with badges, price, description, a `DescriptionList` and the
-  listed line) is written out in many specs, differing only in the state path
-  it reads or in reading `$item` rather than `$state`.
-  `specs/investigate.json`, `specs/watch-to-chase-tiers.json` and
-  `specs/item-view-full.json` hold it once each;
-  `specs/item-view-transitions.json` twice, for the detail drawer and the full
-  dialog; `specs/reference.json` once; `specs/linked-trio.json` twice; and
-  `specs/overview-detail.json` three times (in place, the detail its pane and
-  popover share, the page). A change to the readout has to be made in every
-  copy. The same goes for repeated conditions and handlers inside one spec:
-  `specs/overview-detail.json` writes the rule for when the in-place layout
-  is in force three times (and its complement twice), and its four layout
-  menu items repeat the same three actions, differing only in the layout.
-
-  json-render 0.21.1 has no way to reuse a subtree: inside a spec only
-  `repeat` stamps out elements, `$template` interpolates strings only, and
-  directives produce prop values, not elements (checked 2026-10-20). So the
-  fix is one of two, and each goes against an earlier decision:
-  - A catalog type that renders the readout from one prop. This puts a
-    domain-level type in the catalog, which the switchable-demos plan chose
-    not to do: types are named at component altitude.
-  - The modules beside the specs build the elements once in TypeScript, for
-    a given state path, and merge them into each spec. The JSON is then no
-    longer the whole spec, and a generated spec cannot use the shared part.
-
-  Decide which, together with *Item layout by role, twice*, since
-  `product-view.ts` is where the TypeScript form would live.
+- [x] *Product readout repeated in specs.* The readout of an item at one rung
+  was written out about twelve times across the spec JSON, and json-render
+  has no way to reuse a subtree. Moved 2026-10-21 to
+  `2026-10-item-view-in-specs.md`: catalog types are a spec vocabulary, not
+  the Storybook catalogue, so the catalog takes an item view that lays out
+  any bound entity from its binding, and each readout becomes one element.
 - [x] *Filter chip, twice.* The chip that edits one filter condition was
   written in `components/filter/filter-components.tsx`, tied to the task
   fixtures, and in the pp registry's `FilterTag`. Done 2026-10-21: the

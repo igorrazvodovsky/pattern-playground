@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
   type CSSProperties,
+  type ReactNode,
 } from 'react';
 import { defineRegistry, useBoundProp } from '@json-render/react';
 import { createPortal } from 'react-dom';
@@ -145,6 +146,7 @@ import { BoardAxis } from '../../behaviour/board-axis';
 import { useDisclosureDrop, useDragRow, useStackDrop } from '../../behaviour/drag-drop';
 import { MenuMultiple } from '../../behaviour/menu-multiple';
 import { Crumb, CrumbOverflow, Trail } from './crumb';
+import { DescriptionRows } from './description-rows';
 import { DraggableRow } from './draggable-row';
 import { FilterTag } from './filter-tag';
 import { popoverHost, useMayTakeFocus } from '../../behaviour/popover-host';
@@ -152,6 +154,8 @@ import { usePreview } from '../../behaviour/preview';
 import { useSplitRoom } from '../../behaviour/split-room';
 import { useToastList } from '../../behaviour/toast-list';
 import { TracingProvider, useMarkTracing, useTracingState } from '../../behaviour/mark-tracing';
+import { specItemLayout } from '../../behaviour/item-view';
+import { referenceMetadataEntries } from '../../../components/item-view/reference-metadata';
 import sheetUrl from '../../shadcn.generated.css?url';
 
 // The catalog rendered with shadcn/ui. Every type is built from shadcn's own
@@ -335,11 +339,26 @@ const badgeFill: Record<Tone, string> = {
   success: 'bg-green-700 text-white dark:bg-green-800',
   danger: 'bg-destructive text-white dark:bg-destructive/60',
 };
+const badgeBase =
+  'inline-flex w-fit shrink-0 items-center justify-center gap-1 border px-2 py-0.5 text-xs font-medium whitespace-nowrap [&>svg]:pointer-events-none [&>svg]:size-3';
 const badgeOutline: Record<Tone, string> = {
   neutral: 'text-foreground',
   accent: 'border-primary text-foreground',
   success: purposeText.success,
   danger: purposeText.danger,
+};
+// A filled badge, or an outlined one, as a Badge with an icon reads.
+const badgeClass = (tone: Tone, outline: boolean, pill?: boolean | null) =>
+  clsx(
+    badgeBase,
+    pill ? 'rounded-full' : 'rounded-md',
+    outline ? ['border-border', badgeOutline[tone]] : ['border-transparent', badgeFill[tone]],
+  );
+
+// The custom attributes this library can show in an ItemView, keyed
+// `type.path` as pp's registered components are.
+const customAttributes: Record<string, (item: object) => ReactNode> = {
+  'reference.metadata': (item) => <DescriptionRows rows={referenceMetadataEntries(item)} />,
 };
 
 // shadcn/ui Button (new-york, v4), variants and sizes as published.
@@ -698,17 +717,75 @@ export const { registry } = defineRegistry(catalog, {
           ))}
         </dl>
       ) : (
-        <dl className="grid grid-cols-1 text-sm @sm/demo:grid-cols-[max-content_1fr] [&>dd:not(:last-of-type)]:border-b @sm/demo:[&>dt:not(:last-of-type)]:border-b">
-          {props.items.map((item) => (
-            <Fragment key={item.label}>
-              <dt className="pt-2 font-medium text-muted-foreground @sm/demo:py-2 @sm/demo:pr-6">
-                {item.label}
-              </dt>
-              <dd className="pb-2 @sm/demo:py-2">{item.value}</dd>
-            </Fragment>
-          ))}
-        </dl>
+        <DescriptionRows
+          rows={props.items.map((item) => ({
+            key: item.label,
+            label: item.label,
+            text: item.value,
+          }))}
+        />
       ),
+
+    // Laid out by layoutByRole, as in the pp registry; the slots map onto
+    // this library's Badge, Text and DescriptionList markup.
+    ItemView: ({ props }) => {
+      const layout = specItemLayout(props.type, props.item, props.scope, props.shownAttributes);
+      if (!layout) return null;
+      if (props.scope === 'micro') {
+        return <span className={badgeClass('neutral', false)}>{layout.title}</span>;
+      }
+      const line = (entry: { key: string; text: string }, className: string) => (
+        <p key={entry.key} className={className}>
+          {entry.text}
+        </p>
+      );
+      const badges = layout.badges.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {layout.badges.map((badge) => (
+            <span key={badge.key} className={badgeClass('neutral', false)}>
+              {badge.label && <span className="opacity-70">{badge.label}</span>}
+              {badge.text}
+            </span>
+          ))}
+        </div>
+      );
+      // A summary leads with its key figure at body size and ends with its
+      // badges, as pp's does; a fuller view leads with the badges.
+      const mini = props.scope === 'mini';
+      return (
+        <div className={clsx('flex flex-col', mini ? 'gap-2' : 'gap-4')}>
+          {!mini && badges}
+          {layout.keyAttributes.map((entry) =>
+            line(entry, mini ? 'text-sm font-semibold' : 'text-2xl font-semibold tracking-tight'),
+          )}
+          {layout.subtitles.map((entry) => line(entry, 'text-sm text-muted-foreground'))}
+          {layout.descriptions.map((entry) => line(entry, 'text-sm'))}
+          {mini && badges}
+          {layout.captions.map((entry) => line(entry, 'text-sm text-muted-foreground'))}
+          {layout.rows.length > 0 && <DescriptionRows rows={layout.rows} />}
+          {layout.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {layout.tags.map((tag) => (
+                <span key={tag.key} className={badgeClass('neutral', true)}>
+                  {tag.text}
+                </span>
+              ))}
+            </div>
+          )}
+          {layout.footers.map((entry) => line(entry, 'text-sm text-muted-foreground'))}
+          {layout.customs.map((attribute) => {
+            const render = customAttributes[`${props.type}.${attribute.path}`];
+            return render ? (
+              <Fragment key={attribute.path}>{render(props.item)}</Fragment>
+            ) : (
+              <p key={attribute.path} className="spec-demo__unsupported" role="note">
+                This library has no component for {attribute.label ?? attribute.path}.
+              </p>
+            );
+          })}
+        </div>
+      );
+    },
 
     Breadcrumbs: ({ props, bindings, emit }) => {
       const [, setPicked] = useBoundProp(props.picked, bindings?.picked);
@@ -1079,9 +1156,7 @@ export const { registry } = defineRegistry(catalog, {
           className={clsx(
             props.pressable &&
               'cursor-pointer outline-none transition-[color,box-shadow] hover:opacity-90 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50',
-            'inline-flex w-fit shrink-0 items-center justify-center gap-1 border px-2 py-0.5 text-xs font-medium whitespace-nowrap [&>svg]:pointer-events-none [&>svg]:size-3',
-            props.pill ? 'rounded-full' : 'rounded-md',
-            Icon ? ['border-border', badgeOutline[tone]] : ['border-transparent', badgeFill[tone]],
+            badgeClass(tone, Boolean(Icon), props.pill),
             props.pulse && 'animate-pulse',
           )}
         >

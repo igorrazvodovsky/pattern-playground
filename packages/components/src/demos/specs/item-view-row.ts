@@ -1,7 +1,7 @@
 import type { Spec } from '@json-render/core';
 import { products } from '@shared/data';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { attributeValue } from './shared/product-view';
+import { attributeValue } from './shared/product';
 import spec from './item-view-row.json' with { type: 'json' };
 
 const category = attributeValue('category');

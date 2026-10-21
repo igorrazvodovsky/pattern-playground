@@ -35,15 +35,16 @@
     "detail": {
       "type": "Stack",
       "props": { "gap": "m" },
-      "children": ["description", "rows", "overviews"]
+      "children": ["readout", "overviews"]
     },
-    "description": {
-      "type": "Text",
-      "props": { "text": { "$item": "description" } }
-    },
-    "rows": {
-      "type": "DescriptionList",
-      "props": { "items": { "$item": "rows" } }
+    "readout": {
+      "type": "ItemView",
+      "props": {
+        "type": { "$item": "type" },
+        "item": { "$item": "item" },
+        "scope": "mid",
+        "shownAttributes": { "$item": "shown" }
+      }
     },
     "overviews": {
       "type": "Stack",

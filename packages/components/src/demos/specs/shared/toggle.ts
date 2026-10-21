@@ -4,13 +4,15 @@ import type { ActionDefinition } from '../../../catalog/SpecDemo';
 
 // A spec cannot write to an item's siblings, so closing the others happens
 // here. Closing an item also closes everything inside it, so it reopens at its
-// summary.
+// summary. An entry's `item` field holds the record it shows, such as a
+// product for an ItemView: it is data, not part of the tree, so it is passed
+// through as it is.
 
 const closeAll = (value: unknown): unknown => {
   if (Array.isArray(value)) return value.map(closeAll);
   if (value === null || typeof value !== 'object') return value;
   const copy = Object.fromEntries(
-    Object.entries(value).map(([key, field]) => [key, closeAll(field)]),
+    Object.entries(value).map(([key, field]) => [key, key === 'item' ? field : closeAll(field)]),
   );
   return 'open' in copy ? { ...copy, open: false } : copy;
 };
@@ -18,7 +20,7 @@ const closeAll = (value: unknown): unknown => {
 export const toggle: ActionDefinition = {
   params: z.object({ item: z.string() }),
   description:
-    'Open one item among its peers, or close it if it is open: sets its `open` field and clears `open` on the other items in the same list, so each list keeps one current item. An item that closes also closes every item open inside it, so it opens again on its summary. `item` is the item\'s state path ({ "$item": "" } inside a repeat).',
+    'Open one item among its peers, or close it if it is open: sets its `open` field and clears `open` on the other items in the same list, so each list keeps one current item. An item that closes also closes every item open inside it, so it opens again on its summary; an item\'s own `item` field, the record it shows, is left as it is. `item` is the item\'s state path ({ "$item": "" } inside a repeat).',
 };
 
 export const toggleHandler = (store: StateStore) => ({

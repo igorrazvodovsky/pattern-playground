@@ -82,45 +82,20 @@
       "props": { "label": { "$item": "label" }, "text": { "$item": "value" } }
     },
     "in-place": {
-      "type": "Stack",
-      "props": { "gap": "m" },
-      "children": [
-        "in-place-badges",
-        "in-place-price",
-        "in-place-description",
-        "in-place-attributes",
-        "in-place-listed"
-      ]
-    },
-    "in-place-badges": {
-      "type": "Stack",
-      "props": { "direction": "horizontal", "gap": "s" },
-      "repeat": { "statePath": { "$item": "inPlace/badges" } },
-      "children": ["in-place-badge"]
-    },
-    "in-place-badge": {
-      "type": "Badge",
-      "props": { "text": { "$item": "text" } }
-    },
-    "in-place-price": {
-      "type": "Text",
-      "props": { "text": { "$item": "inPlace/price" }, "size": "large" },
-      "visible": { "$item": "inPlace/price" }
-    },
-    "in-place-description": {
-      "type": "Text",
-      "props": { "text": { "$item": "inPlace/description" } },
-      "visible": { "$item": "inPlace/description" }
-    },
-    "in-place-attributes": {
-      "type": "DescriptionList",
-      "props": { "items": { "$item": "inPlace/rows" } },
-      "visible": { "$item": "inPlace/hasRows" }
-    },
-    "in-place-listed": {
-      "type": "Text",
-      "props": { "text": { "$item": "inPlace/listed" }, "muted": true },
-      "visible": { "$item": "inPlace/listed" }
+      "type": "ItemView",
+      "props": {
+        "type": "product",
+        "item": { "$item": "product" },
+        "scope": "mid",
+        "shownAttributes": [
+          "availability.status",
+          "description",
+          "condition",
+          "location.site",
+          "sustainability.carbonFootprint",
+          "lifecycle.repairability"
+        ]
+      }
     },
     "hint": {
       "type": "Text",
@@ -166,45 +141,8 @@
       "children": ["detail-body"]
     },
     "detail-body": {
-      "type": "Stack",
-      "props": { "gap": "m" },
-      "children": [
-        "detail-badges",
-        "detail-price",
-        "detail-description",
-        "detail-attributes",
-        "detail-listed"
-      ]
-    },
-    "detail-badges": {
-      "type": "Stack",
-      "props": { "direction": "horizontal", "gap": "s" },
-      "repeat": { "statePath": { "$item": "detail/badges" } },
-      "children": ["detail-badge"]
-    },
-    "detail-badge": {
-      "type": "Badge",
-      "props": { "text": { "$item": "text" } }
-    },
-    "detail-price": {
-      "type": "Text",
-      "props": { "text": { "$item": "detail/price" }, "size": "large" },
-      "visible": { "$item": "detail/price" }
-    },
-    "detail-description": {
-      "type": "Text",
-      "props": { "text": { "$item": "detail/description" } },
-      "visible": { "$item": "detail/description" }
-    },
-    "detail-attributes": {
-      "type": "DescriptionList",
-      "props": { "items": { "$item": "detail/rows" } },
-      "visible": { "$item": "detail/hasRows" }
-    },
-    "detail-listed": {
-      "type": "Text",
-      "props": { "text": { "$item": "detail/listed" }, "muted": true },
-      "visible": { "$item": "detail/listed" }
+      "type": "ItemView",
+      "props": { "type": "product", "item": { "$item": "product" }, "scope": "mid" }
     }
   }
 }

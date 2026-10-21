@@ -5,6 +5,7 @@ import type { TaskHistoryEntry } from '@shared/data/task-types';
 import { isoDateTime } from '@shared/format';
 import '../../jsx-types';
 import { CommentThread } from '../commenting/core/CommentThread.js';
+import { referenceMetadataEntries } from './reference-metadata';
 
 /**
  * The default custom-component registry: the behavioural residue the
@@ -82,40 +83,20 @@ const QuoteContent: React.FC<CustomAttributeProps> = ({ item, attribute }) => {
   );
 };
 
-/** Leftover reference metadata: whatever the binding's named entries didn't
-    claim, so a material or service reference still shows its attributes. */
+/** The reference metadata the binding's named entries didn't claim. */
 const ReferenceMetadata: React.FC<CustomAttributeProps> = ({ item }) => {
-  const metadata = (item as { metadata?: Record<string, unknown> }).metadata;
-  if (!metadata) return null;
-
-  const claimed = new Set([
-    'description',
-    'bio',
-    'role',
-    'email',
-    'department',
-    'location',
-    'joinDate',
-    'skills',
-  ]);
-  const entries = Object.entries(metadata).filter(
-    ([key, value]) => !claimed.has(key) && value != null,
-  );
+  const entries = referenceMetadataEntries(item);
   if (entries.length === 0) return null;
 
   return (
-    <div role="table" className="attribute-list">
-      {entries.map(([key, value]) => (
-        <div role="row" key={key}>
-          <div role="cell" className="attribute-list__label muted">
-            <div>{key}</div>
-          </div>
-          <div role="cell" className="attribute-list__value">
-            {typeof value === 'object' ? JSON.stringify(value) : String(value)}
-          </div>
-        </div>
+    <dl className="details-list">
+      {entries.map((entry) => (
+        <React.Fragment key={entry.key}>
+          <dt>{entry.label}</dt>
+          <dd>{entry.text}</dd>
+        </React.Fragment>
       ))}
-    </div>
+    </dl>
   );
 };
 

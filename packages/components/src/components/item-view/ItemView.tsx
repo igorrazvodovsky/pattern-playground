@@ -1,12 +1,6 @@
 import React from 'react';
 import type { AttributeBinding } from '@shared/data/bindings';
-import {
-  deriveAttributeLabel,
-  formatBoundValue,
-  getValueAtPath,
-  resolveAttributeSelection,
-  resolveEntityTitle,
-} from '@shared/data/bindings';
+import { layoutByRole, resolveAttributeSelection, resolveEntityTitle } from '@shared/data/bindings';
 import type { ItemViewProps } from './types';
 import { useEntityBinding, useItemViewContext } from './provider';
 import { DefaultFallbackRenderer } from './DefaultFallbackRenderer';
@@ -20,7 +14,8 @@ type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
  *
  * Everything type-specific is data: the entity's binding says what each
  * attribute is (role), how its value reads (valueType), and which attributes
- * each scope shows; this component only decides where each role lands.
+ * each scope shows; `layoutByRole` decides where each role lands, and this
+ * component renders the slots.
  * Attributes with `valueType: 'custom'` render through the registered
  * component for `entityType.path` — the behavioural residue.
  *
@@ -39,38 +34,6 @@ const Thumbnail: React.FC<{ value: unknown; title?: string }> = ({ value, title 
   return (
     <iconify-icon className="icon" icon={value} title={title} aria-hidden="true"></iconify-icon>
   );
-};
-
-const attributeLabel = (attribute: AttributeBinding): string =>
-  attribute.label ?? deriveAttributeLabel(attribute.path);
-
-/** A spec attribute resolving to a plain record renders one row per key —
-    how a dynamic group like a product's `specifications` stays declarative. */
-const specRows = (
-  attribute: AttributeBinding,
-  value: unknown,
-): { key: string; label: string; text: string }[] => {
-  if (
-    typeof value === 'object' &&
-    value !== null &&
-    !Array.isArray(value) &&
-    !(value instanceof Date)
-  ) {
-    return Object.entries(value as Record<string, unknown>)
-      .filter(([, entryValue]) => entryValue != null)
-      .map(([key, entryValue]) => ({
-        key: `${attribute.path}.${key}`,
-        label: deriveAttributeLabel(key),
-        text: formatBoundValue(entryValue, attribute),
-      }));
-  }
-  return [
-    {
-      key: attribute.path,
-      label: attributeLabel(attribute),
-      text: formatBoundValue(value, attribute),
-    },
-  ];
 };
 
 export const ItemView = ({
@@ -103,28 +66,15 @@ export const ItemView = ({
     );
   }
 
-  const shown = resolveAttributeSelection(binding, shownAttributes ?? binding.scopes[scope]);
-
-  const present = shown.filter(
-    (attribute) => attribute.valueType === 'custom' || getValueAtPath(item, attribute.path) != null,
-  );
-  const byRole = (role: AttributeBinding['role']) =>
-    present.filter((attribute) => attribute.role === role && attribute.valueType !== 'custom');
-
-  const title = resolveEntityTitle(item, binding);
-  const thumbnail = byRole('thumbnail')[0];
-  const badges = byRole('badge');
-  const keyAttributes = byRole('key-attribute');
-  const subtitles = byRole('subtitle');
-  const captions = byRole('caption');
-  const descriptions = byRole('description');
-  const tags = byRole('tag');
-  const rows = [...byRole('spec'), ...byRole('link')];
-  const footers = byRole('footer');
-  const customs = present.filter((attribute) => attribute.valueType === 'custom');
+  const layout = layoutByRole(binding, scope, item, shownAttributes);
+  const { title, badges, keyAttributes, subtitles, descriptions, captions, rows, tags, footers } =
+    layout;
 
   if (process.env.NODE_ENV !== 'production') {
-    for (const attribute of present) {
+    for (const attribute of resolveAttributeSelection(
+      binding,
+      shownAttributes ?? binding.scopes[scope],
+    )) {
       if (attribute.role === 'action' && attribute.valueType !== 'custom') {
         console.warn(
           `ItemView: action-role attribute '${attribute.path}' is behavioural and only renders through a registered custom component — give it valueType 'custom'`,
@@ -155,11 +105,18 @@ export const ItemView = ({
     );
   };
 
+  const thumbnail = <Thumbnail value={layout.thumbnail} />;
+  const text = (entry: { key: string; text: string }, className?: string) => (
+    <p key={entry.key} className={className}>
+      {entry.text}
+    </p>
+  );
+
   // Micro: the entity compressed to an inline token.
   if (scope === 'micro') {
     return (
       <span className="tag" data-content-type={contentType} data-scope={scope}>
-        {thumbnail && <Thumbnail value={getValueAtPath(item, thumbnail.path)} />}
+        {thumbnail}
         {title}
       </span>
     );
@@ -170,129 +127,80 @@ export const ItemView = ({
   // title role, so a binding can give a scope over to the content alone
   // (a quote's summary is its blockquote, not its name twice).
   if (scope === 'mini') {
-    const miniBadges = [...badges, ...rows];
-    const hasTitle = present.some((attribute) => attribute.role === 'title');
     return (
       <div className="flow" data-content-type={contentType} data-scope={scope}>
-        {hasTitle && (
+        {layout.hasTitle && (
           <h4 className="label flex">
-            {thumbnail && <Thumbnail value={getValueAtPath(item, thumbnail.path)} />}
+            {thumbnail}
             {title}
           </h4>
         )}
-        {keyAttributes.map((attribute) => (
-          <p key={attribute.path}>
-            <strong>{formatBoundValue(getValueAtPath(item, attribute.path), attribute)}</strong>
+        {keyAttributes.map((entry) => (
+          <p key={entry.key}>
+            <strong>{entry.text}</strong>
           </p>
         ))}
-        {subtitles.map((attribute) => (
-          <p key={attribute.path} className="muted">
-            {formatBoundValue(getValueAtPath(item, attribute.path), attribute)}
-          </p>
-        ))}
-        {descriptions.map((attribute) => (
-          <p key={attribute.path} className="description">
-            {formatBoundValue(getValueAtPath(item, attribute.path), attribute)}
-          </p>
-        ))}
-        {miniBadges.length > 0 && (
+        {subtitles.map((entry) => text(entry, 'muted'))}
+        {descriptions.map((entry) => text(entry, 'description'))}
+        {badges.length > 0 && (
           <div className="badges">
-            {miniBadges.map((attribute) => (
-              <span key={attribute.path} className="badge">
-                {attribute.role !== 'badge' && (
-                  <span className="badge__label">{attributeLabel(attribute)}</span>
-                )}
-                {formatBoundValue(getValueAtPath(item, attribute.path), attribute)}
+            {badges.map((badge) => (
+              <span key={badge.key} className="badge">
+                {badge.label && <span className="badge__label">{badge.label}</span>}
+                {badge.text}
               </span>
             ))}
           </div>
         )}
-        {footers.map((attribute) => (
-          <p key={attribute.path} className="muted">
-            {attributeLabel(attribute)}{' '}
-            {formatBoundValue(getValueAtPath(item, attribute.path), attribute)}
-          </p>
-        ))}
-        {customs.map(renderCustom)}
+        {footers.map((entry) => text(entry, 'muted'))}
+        {layout.customs.map(renderCustom)}
       </div>
     );
   }
 
   // Mid and maxi: badge row, description, spec rows, then the custom residue.
-  const allRows = rows.flatMap((attribute) =>
-    specRows(attribute, getValueAtPath(item, attribute.path)),
-  );
-
   return (
     <div className="flow" data-content-type={contentType} data-scope={scope}>
       {Heading ? <Heading>{title}</Heading> : null}
       {badges.length > 0 && (
         <header>
           <div className="badges">
-            {badges.map((attribute) => (
-              <span key={attribute.path} className="badge">
-                {formatBoundValue(getValueAtPath(item, attribute.path), attribute)}
+            {badges.map((badge) => (
+              <span key={badge.key} className="badge">
+                {badge.text}
               </span>
             ))}
           </div>
         </header>
       )}
-      {keyAttributes.map((attribute) => (
-        <p key={attribute.path}>
-          <strong>{formatBoundValue(getValueAtPath(item, attribute.path), attribute)}</strong>
-        </p>
-      ))}
-      {subtitles.map((attribute) => (
-        <p key={attribute.path} className="muted">
-          {formatBoundValue(getValueAtPath(item, attribute.path), attribute)}
-        </p>
-      ))}
-      {descriptions.map((attribute) => (
-        <p key={attribute.path} className="description">
-          {formatBoundValue(getValueAtPath(item, attribute.path), attribute)}
-        </p>
-      ))}
-      {captions.map((attribute) => (
-        <p key={attribute.path} className="muted">
-          {formatBoundValue(getValueAtPath(item, attribute.path), attribute)}
-        </p>
-      ))}
-      {allRows.length > 0 && (
-        <div role="table" className="attribute-list">
-          {allRows.map((row) => (
-            <div role="row" key={row.key}>
-              <div role="cell" className="attribute-list__label muted">
-                <div>{row.label}</div>
-              </div>
-              <div role="cell" className="attribute-list__value">
-                {row.text}
-              </div>
-            </div>
+      {keyAttributes.map((entry) => text(entry, 'text-larger'))}
+      {subtitles.map((entry) => text(entry, 'muted'))}
+      {/* Unclamped: a detail has room for the whole description. */}
+      {descriptions.map((entry) => text(entry))}
+      {captions.map((entry) => text(entry, 'muted'))}
+      {rows.length > 0 && (
+        <dl className="details-list">
+          {rows.map((row) => (
+            <React.Fragment key={row.key}>
+              <dt>{row.label}</dt>
+              <dd>{row.text}</dd>
+            </React.Fragment>
           ))}
-        </div>
+        </dl>
       )}
       {tags.length > 0 && (
         <div className="flex wrap">
-          {tags.flatMap((attribute) => {
-            const value = getValueAtPath(item, attribute.path);
-            const values = Array.isArray(value) ? value : [value];
-            return values.map((entry) => (
-              <span key={`${attribute.path}-${String(entry)}`} className="tag">
-                {String(entry)}
-              </span>
-            ));
-          })}
+          {tags.map((tag) => (
+            <span key={tag.key} className="tag">
+              {tag.text}
+            </span>
+          ))}
         </div>
       )}
       {/* Provenance meta before the custom sections: "Created …" reads as the
           record's own footer, not the comment thread's. */}
-      {footers.map((attribute) => (
-        <p key={attribute.path} className="muted">
-          {attributeLabel(attribute)}{' '}
-          {formatBoundValue(getValueAtPath(item, attribute.path), attribute)}
-        </p>
-      ))}
-      {customs.map(renderCustom)}
+      {footers.map((entry) => text(entry, 'muted'))}
+      {layout.customs.map(renderCustom)}
     </div>
   );
 };

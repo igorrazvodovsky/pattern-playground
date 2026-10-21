@@ -1,13 +1,13 @@
 import type { Spec } from '@json-render/core';
 import { products } from '@shared/data';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { cardAttributes, fullView } from './shared/product-view';
+import { cardAttributes } from './shared/product';
 import spec from './investigate.json' with { type: 'json' };
 
 // A repeat cannot follow a path chosen while the demo runs, so each category
 // and item is repeated once per view, shown only while its `open` is set. A
-// spec cannot group the collection or read the product binding, so both
-// happen here.
+// spec cannot group the collection, and a row's labelled badges are not an
+// item view's summary, so both are worked out here.
 
 const SUMMARY_ATTRIBUTES = ['condition', 'pricing.msrp'];
 const summaryOf = cardAttributes(SUMMARY_ATTRIBUTES);
@@ -27,7 +27,7 @@ const categories = [...new Set(products.map((item) => item.metadata.category))]
         category,
         open: false,
         attributes: summaryOf(item),
-        ...fullView(item),
+        product: item,
       })),
     };
   });
