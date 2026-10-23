@@ -9,20 +9,10 @@
 }
 
 @layer theme {
-  /* Site tint. The site chrome and prose take a light wash of one hue on
-     their neutral surfaces and text; demos stay on the library's own neutrals
-     so they read as they would in a real interface.
 
-     The library assembles each colour token on :root, so overriding a chroma
-     scalar further down changes nothing. Instead the tokens are re-declared
-     here on every scope, with --_tint switching the site's adjustments on
-     (shell, and the preview and search overlays that live outside it) or off
-     (demo). Lightness and dark-mode rewiring still come from the shared
-     ladder. -0 is held below pure white in light mode, since L 100% cannot
-     carry any chroma. */
   :is(.shell, .link-preview, pagefind-modal) {
     --site-tint-h: 75;
-    --_tint: 1;
+    --_tint: 0;
     --_dir: 1;
 
     /* Lightness steps read smaller near black, so dark mode takes them
