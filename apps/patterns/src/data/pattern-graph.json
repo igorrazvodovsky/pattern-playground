@@ -756,9 +756,6 @@
         "resulting": [
           {
             "clause": "a dialogue structure that carries context forward, lets either party take a turn, and accommodates repair when alignment slips"
-          },
-          {
-            "clause": "an exchange that keeps settling around the same well-structured data is a form asked one field at a time; when the fields stop varying, the form is the plainer surface"
           }
         ]
       },
@@ -1040,27 +1037,14 @@
       "path": "/patterns/dry-run",
       "role": "pattern",
       "situation": {
-        "initiating": "the actor has written something the system will apply to many cases: a rule, a replace-all, a bulk edit, a formula, a template; reading it does not tell them what it will do, and the cases it will meet are either out of view or have not arrived yet",
-        "resulting": [
-          {
-            "clause": "the actor judges what they wrote by its effect on cases they recognise, rather than by reading it"
-          },
-          {
-            "clause": "the cases shown decide what the actor learns, so a sample that misses the edge is a false reassurance"
-          },
-          {
-            "clause": "the run is a rehearsal, and cases that were not in the sample, or arrive later, can still go differently"
-          },
-          {
-            "clause": "the run produces a before-and-after over cases, which the actor may want to accept or reject one at a time rather than as a whole",
-            "setsUp": [
-              "change-review"
-            ]
-          }
-        ]
+        "initiating": "… the actor has written something that will act on many items at once: a rule made with [rule composition](/patterns/rule-composition), a step in a [workflow](/patterns/workflow), a find-and-replace, a batch rename, a mail merge, a formula filled down a column. Reading it does not tell them what it will do, and the items it will act on are out of sight or have not arrived yet. A filter shows its result as it is typed; a rule or a bulk edit shows nothing until it runs, and the first run is the real one. A dry run gives the rule and the workflow step that same check: it runs what was written against real items and shows what would change, without changing anything.",
+        "resulting": "The actor can now judge what they wrote by what it does to items they know, rather than by reading it. Where every item was in view, the dry run is a full before and after; hand it to [change review](/patterns/change-review) so the actor can accept or reject each change rather than all of them at once. Where the items arrive later, the dry run is a rehearsal, and a rule that passed it can still go wrong on an item the sample did not include; catching a rule after it goes wrong is a move of its own, not written here yet. [Plan preview](/patterns/plan-preview) is the nearby move where what is shown is the system's own plan rather than something the actor wrote, and a plan preview that runs its plan on a few items is both at once. [Filtering](/patterns/filtering) is not a dry run: a filter over a visible list shows its real result as it is typed, which is the check a dry run adds where the result cannot be seen…"
       },
       "seed": true,
       "evidence": [
+        {
+          "kind": "observed"
+        },
         {
           "kind": "literature"
         }
@@ -2748,9 +2732,6 @@
         "resulting": [
           {
             "clause": "the actor's overrides are recorded and the system holds to them, so an adaptation made once outlasts the session that made it"
-          },
-          {
-            "clause": "the surface is a form kept open rather than submitted: each field commits on its own, so there is no pending set, no review before it takes effect, and no single act to cancel"
           },
           {
             "clause": "the surface accumulates: every option added is one more thing to look past, and the ones nobody ever changes still cost the actors hunting for the ones they do"
@@ -4523,7 +4504,7 @@
       "source": "conversation",
       "target": "form",
       "type": "complements",
-      "label": "fields can be asked and answered turn by turn, each rendered in its message as an inline interface; a conversation that settles around well-structured data may become a form",
+      "label": "a conversation that settles around well-structured data may become a form",
       "extractedFrom": "frontmatter:complements"
     },
     {
@@ -4933,24 +4914,36 @@
     },
     {
       "source": "dry-run",
-      "target": "filtering",
-      "type": "complements",
-      "label": "a filter over a visible collection is a dry run that never stops; the result updates with each part and the check needs no separate step",
-      "extractedFrom": "frontmatter:complements"
+      "target": "change-review",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where every item was in view, the dry run is a full before and after; hand it to [change review](/patterns/change-review) so the actor can accept or reject each change rather than all of them at once.",
+      "glossFrom": "source:resulting",
+      "farSituation": "A [dry run](/patterns/dry-run) produces a before and after across many cases."
+    },
+    {
+      "source": "dry-run",
+      "target": "workflow",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "the actor has written something that will act on many items at once: a rule made with [rule composition](/patterns/rule-composition), a step in a [workflow](/patterns/workflow), a find-and-replace, a batch rename, a mail merge, a formula filled down a column.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "dry-run",
       "target": "plan-preview",
       "type": "complements",
-      "label": "plan preview shows the system's own plan before a one-off job, dry run shows what the actor's own artifact would do; the direction of authorship is reversed",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Plan preview](/patterns/plan-preview) is the nearby move where what is shown is the system's own plan rather than something the actor wrote, and a plan preview that runs its plan on a few items is both at once.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "dry-run",
-      "target": "action-consequences",
+      "target": "filtering",
       "type": "related",
-      "label": "the severity framework that says when a many-case action warrants a rehearsal before it commits",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "[Filtering](/patterns/filtering) is not a dry run: a filter over a visible list shows its real result as it is typed, which is the check a dry run adds where the result cannot be seen",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "dynamic-hyperlinks",
@@ -7705,7 +7698,7 @@
       "source": "settings",
       "target": "form",
       "type": "complements",
-      "label": "settings are a form kept open rather than submitted: each field commits on its own, and nothing waits for a single act",
+      "label": "settings are a form",
       "extractedFrom": "frontmatter:complements"
     },
     {
@@ -8642,13 +8635,6 @@
       "target": "user-opening",
       "type": "precedes",
       "situation": "the exchange is parked rather than ended: a saved state whose persistence the actor can see — something either opening now has to act on, re-entering with history rather than starting fresh",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "dry-run",
-      "target": "change-review",
-      "type": "precedes",
-      "situation": "the run produces a before-and-after over cases, which the actor may want to accept or reject one at a time rather than as a whole",
       "extractedFrom": "situation:resulting"
     },
     {
