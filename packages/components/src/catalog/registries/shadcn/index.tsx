@@ -431,7 +431,7 @@ export const { registry } = defineRegistry(catalog, {
         <div
           ref={dragRef}
           className={clsx(
-            'group/card flex flex-col gap-6 rounded-xl border py-6 text-card-foreground has-data-[slot=stat]:gap-2',
+            'group/card flex flex-col gap-4 rounded-xl border py-4 text-sm text-card-foreground has-data-[slot=card-footer]:pb-0 has-data-[slot=stat]:gap-2',
             props.emphasis && props.emphasis !== 'full'
               ? 'border-dashed bg-transparent'
               : 'bg-card shadow-sm',
@@ -444,17 +444,19 @@ export const { registry } = defineRegistry(catalog, {
           data-popover-host=""
         >
           {(props.title || slots?.suffix) && (
-            <div className="grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto]">
+            <div className="grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-4 has-data-[slot=card-action]:grid-cols-[1fr_auto]">
               {props.title && (
                 <Heading
                   data-slot="card-title"
                   className={clsx(
-                    'leading-none font-semibold group-has-data-[slot=stat]/card:text-sm group-has-data-[slot=stat]/card:leading-snug group-has-data-[slot=stat]/card:font-normal group-has-data-[slot=stat]/card:text-muted-foreground',
-                    Icon && 'flex items-center gap-2',
+                    'text-base leading-snug font-semibold group-has-data-[slot=stat]/card:text-sm group-has-data-[slot=stat]/card:leading-snug group-has-data-[slot=stat]/card:font-normal group-has-data-[slot=stat]/card:text-muted-foreground',
+                    Icon && 'flex items-start gap-2',
                   )}
                 >
                   {Icon && (
-                    <Icon aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />
+                    <span className="flex h-lh shrink-0 items-center">
+                      <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
+                    </span>
                   )}
                   {props.opens ? (
                     <button
@@ -481,7 +483,7 @@ export const { registry } = defineRegistry(catalog, {
               )}
             </div>
           )}
-          <div className="flex flex-1 flex-col gap-3 px-6">
+          <div className="flex flex-1 flex-col gap-3 px-4">
             {slots?.attributes && (
               <div
                 className={clsx(
@@ -495,12 +497,18 @@ export const { registry } = defineRegistry(catalog, {
             <Subsection>{children}</Subsection>
           </div>
           {slots?.actions && (
-            <div className={clsx('flex items-center justify-end gap-2 px-6', above)}>
+            <div
+              data-slot="card-footer"
+              className={clsx(
+                'flex items-center justify-end gap-2 rounded-b-xl border-t bg-muted/50 p-4 not-last:rounded-b-none',
+                above,
+              )}
+            >
               {slots.actions}
             </div>
           )}
           {props.expanded && slots?.detail && (
-            <div className="relative flex flex-col gap-3 border-t px-6 pt-6">
+            <div className="relative flex flex-col gap-3 border-t px-4 pt-4 group-has-data-[slot=card-footer]/card:pb-4">
               <Subsection>{slots.detail}</Subsection>
             </div>
           )}

@@ -36,7 +36,8 @@
     "project-text": {
       "type": "Text",
       "props": {
-        "text": "A side project that has gone quiet. Archiving clears it from the workspace; you can restore it whenever."
+        "text": "A side project that has gone quiet. Archiving clears it from the workspace; you can restore it whenever.",
+        "muted": true
       }
     },
     "archive": {
@@ -81,7 +82,8 @@
     "member-text": {
       "type": "Text",
       "props": {
-        "text": "Removing a member revokes their access. Re-inviting is a round trip, so the action pauses for a moment's confirmation."
+        "text": "Removing a member revokes their access. Re-inviting is a round trip, so the action pauses for a moment's confirmation.",
+        "muted": true
       }
     },
     "remove": {
@@ -149,7 +151,8 @@
     "draft-text": {
       "type": "Text",
       "props": {
-        "text": "Publishing makes this visible to the whole company. A dialog spells out who that reaches before you commit."
+        "text": "Publishing makes this visible to the whole company. A dialog spells out who that reaches before you commit.",
+        "muted": true
       }
     },
     "publish": {
@@ -169,7 +172,7 @@
     "published-badge": { "type": "Badge", "props": { "text": "Public" } },
     "published-text": {
       "type": "Text",
-      "props": { "text": { "$template": "Visible to everyone at ${/workspace}." } }
+      "props": { "text": { "$template": "Visible to everyone at ${/workspace}." }, "muted": true }
     },
 
     "ownership": {
@@ -183,7 +186,8 @@
     "ownership-text": {
       "type": "Text",
       "props": {
-        "text": "Handing over ownership is final for you. The dialog asks you to type the workspace name first."
+        "text": "Handing over ownership is final for you. The dialog asks you to type the workspace name first.",
+        "muted": true
       }
     },
     "transfer": {
@@ -206,7 +210,10 @@
     },
     "transferred-text": {
       "type": "Text",
-      "props": { "text": { "$template": "${/newOwner} controls this workspace now." } }
+      "props": {
+        "text": { "$template": "${/newOwner} controls this workspace now." },
+        "muted": true
+      }
     },
 
     "reset": {
