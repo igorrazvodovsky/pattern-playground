@@ -428,6 +428,26 @@
       ]
     },
     {
+      "id": "bookmarking",
+      "title": "Bookmarking",
+      "category": "Actions",
+      "path": "/patterns/bookmarking",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor is somewhere they expect to need again: a document, a view, a conversation, a position in a space. Getting here took moves they do not want to repeat, or a search whose terms they will have forgotten, and the system cannot know on its own that this place matters more than the others. [Deep linking](/patterns/deep-linking) has given the state a name that restores it; what is missing is a place of the actor's own to keep that name. Where the actor has marked nothing and the way back is simply what they touched lately, [recents](/patterns/recents) is the alternative, made by the system rather than by them.",
+        "resulting": "The actor now holds a set of places they chose, and the choosing is what makes it theirs: the mark says this one matters, which is the small act of [agency](/patterns/agency) at the centre of the move, and the set is a layer of the actor's own laid over the system's structure, which is where it touches [malleability](/patterns/malleability). The set grows and nobody prunes it, so the places behind the marks move and the marks go stale; a bookmark that no longer resolves is the common end of this pattern and the problem it opens. A set past a dozen wants organising, and [tags](/patterns/tag) give it structure the actor did not have to plan. A mark can be handed to someone else, and then it is a recommendation as well as a way back, which [sharing](/patterns/sharing) governs. The same move over a framing rather than an item is [data view](/patterns/data-view)'s saved view. Pointed into an exchange rather than at a place, the same move is close to [reference material](/patterns/reference-material). Marks are reached from wherever the actor happens to start, so the [command menu](/patterns/command-menu) is where they most often surface…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "bounded-autonomy",
       "title": "Bounded autonomy",
       "category": "Actions",
@@ -2406,6 +2426,26 @@
       ]
     },
     {
+      "id": "recents",
+      "title": "Recents",
+      "category": "Operations",
+      "path": "/patterns/recents",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor is coming back to something they had open a moment, an hour or a day ago: the file from this morning, the conversation from yesterday, the search they ran before lunch. They did not mark it, because at the time it was simply what they were doing, and now the way back is whatever they remember of where it was. [Deep linking](/patterns/deep-linking) has given each state a name that restores it, so a trace of names is possible. [Bookmarking](/patterns/bookmarking) is the alternative for the places the actor chose to keep; this move covers the far larger number they did not.",
+        "resulting": "The actor now has a short list of where they were, kept by the system and ordered by time, that they reach without having done anything to earn it. The list is a projection of the [activity log](/patterns/activity-log): the same record, read for return rather than for account, and shortened to what the actor would still recognise. It is shaped by use, which is what it does for [adaptation](/patterns/adaptation), and it decays, which is its claim on [temporality](/patterns/temporality): yesterday's items leave as today's arrive, and the list is only useful while it stays short. It surfaces where the actor starts: the [command menu](/patterns/command-menu) before anything is typed, and the [empty state](/patterns/state-empty) of a workspace with nothing open. In the field that [autocomplete](/patterns/autocomplete) completes, the actor's own recent entries beat anything guessed. The trace is also a record of the actor, which makes it a [privacy](/patterns/privacy) matter wherever the screen or the account is shared: a recent list on a shared device says what the last person did. One long task taken back up with its state is [resuming](/patterns/resuming), which keeps the state of a single piece of work rather than the names of many…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "reconciliation",
       "title": "Reconciliation",
       "category": "Actions",
@@ -4049,6 +4089,88 @@
       "type": "enacts",
       "label": "incremental formalisation — content carries only as much structure as currently serves, gained or shed in place, optional and reversible",
       "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "deep-linking",
+      "target": "bookmarking",
+      "type": "precedes",
+      "incomingNote": "a bookmark keeps a name for a state; deep linking is what gives the state a name to keep",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "[Deep linking](/patterns/deep-linking) has given the state a name that restores it; what is missing is a place of the actor's own to keep that name.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "bookmarking",
+      "target": "recents",
+      "type": "alternative",
+      "label": "two ways back to a place: a bookmark the actor made on purpose, or a trace the system kept of where they were",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where the actor has marked nothing and the way back is simply what they touched lately, [recents](/patterns/recents) is the alternative, made by the system rather than by them.",
+      "glossFrom": "source:initiating",
+      "farSituation": "[Bookmarking](/patterns/bookmarking) is the alternative for the places the actor chose to keep; this move covers the far larger number they did not."
+    },
+    {
+      "source": "bookmarking",
+      "target": "tag",
+      "type": "complements",
+      "label": "tags give a grown set of bookmarks structure without a plan",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A set past a dozen wants organising, and [tags](/patterns/tag) give it structure the actor did not have to plan.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "bookmarking",
+      "target": "sharing",
+      "type": "complements",
+      "label": "a shared bookmark is a recommendation as well as a way back",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A mark can be handed to someone else, and then it is a recommendation as well as a way back, which [sharing](/patterns/sharing) governs.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "bookmarking",
+      "target": "data-view",
+      "type": "related",
+      "label": "a saved view is bookmarking applied to a framing rather than to an item",
+      "extractedFrom": "frontmatter:related",
+      "situation": "The same move over a framing rather than an item is [data view](/patterns/data-view)'s saved view.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "bookmarking",
+      "target": "reference-material",
+      "type": "tangential",
+      "label": "pinned material in a prompt is a bookmark's cousin: kept by the actor for return, but into the exchange rather than to a place",
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "Pointed into an exchange rather than at a place, the same move is close to [reference material](/patterns/reference-material).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "command-menu",
+      "target": "bookmarking",
+      "type": "hosts",
+      "incomingNote": "the command menu is where bookmarks surface from wherever the actor starts",
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "Marks are reached from wherever the actor happens to start, so the [command menu](/patterns/command-menu) is where they most often surface",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "bookmarking",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the mark is the actor saying this one matters, and only they can say it",
+      "extractedFrom": "frontmatter:enacts",
+      "situation": "The actor now holds a set of places they chose, and the choosing is what makes it theirs: the mark says this one matters, which is the small act of [agency](/patterns/agency) at the centre of the move, and the set is a layer of the actor's own laid over the system's structure, which is where it touches [malleability](/patterns/malleability).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "bookmarking",
+      "target": "malleability",
+      "type": "enacts",
+      "label": "a set of bookmarks is the actor's own layer over the system's structure",
+      "extractedFrom": "frontmatter:enacts",
+      "situation": "The actor now holds a set of places they chose, and the choosing is what makes it theirs: the mark says this one matters, which is the small act of [agency](/patterns/agency) at the centre of the move, and the set is a layer of the actor's own laid over the system's structure, which is where it touches [malleability](/patterns/malleability).",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "bounded-autonomy",
@@ -7273,6 +7395,87 @@
       "extractedFrom": "frontmatter:alternative",
       "situation": "Two neighbours share the look but not the ground: [overview and detail](/patterns/overview-detail) shows one collection at two levels of detail, where a hub routes between sections with no model in common, and a [pyramid](/patterns/pyramid) is the hub for items that form a sequence",
       "glossFrom": "target:resulting"
+    },
+    {
+      "source": "deep-linking",
+      "target": "recents",
+      "type": "precedes",
+      "incomingNote": "a recent item is a kept name for a state; deep linking is what makes the state nameable",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "[Deep linking](/patterns/deep-linking) has given each state a name that restores it, so a trace of names is possible.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "recents",
+      "target": "activity-log",
+      "type": "related",
+      "label": "recents are the activity log read for return rather than for account: the same record, shortened and ordered by time",
+      "extractedFrom": "frontmatter:related",
+      "situation": "The list is a projection of the [activity log](/patterns/activity-log): the same record, read for return rather than for account, and shortened to what the actor would still recognise.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "command-menu",
+      "target": "recents",
+      "type": "hosts",
+      "incomingNote": "recents are what the command menu offers before anything is typed",
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "It surfaces where the actor starts: the [command menu](/patterns/command-menu) before anything is typed, and the [empty state](/patterns/state-empty) of a workspace with nothing open.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "state-empty",
+      "target": "recents",
+      "type": "hosts",
+      "incomingNote": "an empty workspace offers recent items as the way back in",
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "It surfaces where the actor starts: the [command menu](/patterns/command-menu) before anything is typed, and the [empty state](/patterns/state-empty) of a workspace with nothing open.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "recents",
+      "target": "autocomplete",
+      "type": "complements",
+      "label": "the actor's own recent entries are the completions that beat any guess",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "In the field that [autocomplete](/patterns/autocomplete) completes, the actor's own recent entries beat anything guessed.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "recents",
+      "target": "resuming",
+      "type": "tangential",
+      "label": "resuming returns the actor to one unfinished task with its state; recents return them to any of many places by name",
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "One long task taken back up with its state is [resuming](/patterns/resuming), which keeps the state of a single piece of work rather than the names of many",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "recents",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "the list is shaped by what the actor did, with no setting for them to maintain",
+      "extractedFrom": "frontmatter:enacts",
+      "situation": "It is shaped by use, which is what it does for [adaptation](/patterns/adaptation), and it decays, which is its claim on [temporality](/patterns/temporality): yesterday's items leave as today's arrive, and the list is only useful while it stays short.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "recents",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "a trace that decays: items leave as newer ones arrive",
+      "extractedFrom": "frontmatter:enacts",
+      "situation": "It is shaped by use, which is what it does for [adaptation](/patterns/adaptation), and it decays, which is its claim on [temporality](/patterns/temporality): yesterday's items leave as today's arrive, and the list is only useful while it stays short.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "recents",
+      "target": "privacy",
+      "type": "enacts",
+      "label": "a recent list is a record of the actor that anyone at the same screen can read",
+      "extractedFrom": "frontmatter:enacts",
+      "situation": "The trace is also a record of the actor, which makes it a [privacy](/patterns/privacy) matter wherever the screen or the account is shared: a recent list on a shared device says what the last person did.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "draft-and-publish",

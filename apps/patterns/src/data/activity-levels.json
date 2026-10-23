@@ -101,6 +101,11 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
+    "bookmarking": {
+      "activity-level": "action",
+      "lifecycle-stage": "seeking",
+      "mediation": "individual"
+    },
     "bounded-autonomy": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -529,6 +534,11 @@
     "pyramid": {
       "activity-level": "action",
       "lifecycle-stage": "seeking",
+      "mediation": "individual"
+    },
+    "recents": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
       "mediation": "individual"
     },
     "reconciliation": {

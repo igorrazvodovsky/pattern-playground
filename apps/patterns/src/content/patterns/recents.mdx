@@ -1,0 +1,113 @@
+---
+title: Recents
+added: 2026-10-23
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+disclosure: "Provisional title: the move has no settled gerund, and the word names the list rather than what the actor does with it. Written from the web revisitation studies and from current instances (recent files, recent chats, recent searches); the studies are about browsers, and the two decisions the page turns on, what counts as touching and how fast the list decays, have not been checked against anything. Not applied in design work."
+activityLevel: operation
+mediation: individual
+description: "Letting the actor get back to what they touched lately without having marked it, from a trace the system kept for them."
+situation:
+  initiating: >-
+    … the actor is coming back to something they had open a moment, an hour or a day ago:
+    the file from this morning, the conversation from yesterday, the search they ran before
+    lunch. They did not mark it, because at the time it was simply what they were doing, and
+    now the way back is whatever they remember of where it was. [Deep linking](/patterns/deep-linking)
+    has given each state a name that restores it, so a trace of names is possible.
+    [Bookmarking](/patterns/bookmarking) is the alternative for the places the actor chose to
+    keep; this move covers the far larger number they did not.
+  resulting: >-
+    The actor now has a short list of where they were, kept by the system and ordered by
+    time, that they reach without having done anything to earn it. The list is a projection of
+    the [activity log](/patterns/activity-log): the same record, read for return rather than for
+    account, and shortened to what the actor would still recognise. It is shaped by use, which
+    is what it does for [adaptation](/patterns/adaptation), and it decays, which is its claim on
+    [temporality](/patterns/temporality): yesterday's items leave as today's arrive, and the
+    list is only useful while it stays short. It surfaces where the actor starts: the
+    [command menu](/patterns/command-menu) before anything is typed, and the
+    [empty state](/patterns/state-empty) of a workspace with nothing open. In the field that
+    [autocomplete](/patterns/autocomplete) completes, the actor's own recent entries beat
+    anything guessed. The trace is also a record of the actor, which makes it a
+    [privacy](/patterns/privacy) matter wherever the screen or the account is shared: a recent
+    list on a shared device says what the last person did. One long task taken back up with
+    its state is [resuming](/patterns/resuming), which keeps the state of a single piece of
+    work rather than the names of many…
+relationships:
+  follows:
+    - to: deep-linking
+      note: "a recent item is a kept name for a state; deep linking is what makes the state nameable"
+  related:
+    - to: activity-log
+      note: "recents are the activity log read for return rather than for account: the same record, shortened and ordered by time"
+  hosted-by:
+    - to: command-menu
+      note: "recents are what the command menu offers before anything is typed"
+    - to: state-empty
+      note: "an empty workspace offers recent items as the way back in"
+  complements:
+    - to: autocomplete
+      note: "the actor's own recent entries are the completions that beat any guess"
+  tangential:
+    - to: resuming
+      note: "resuming returns the actor to one unfinished task with its state; recents return them to any of many places by name"
+  enacts:
+    - to: adaptation
+      note: "the list is shaped by what the actor did, with no setting for them to maintain"
+    - to: temporality
+      note: "a trace that decays: items leave as newer ones arrive"
+    - to: privacy
+      note: "a recent list is a record of the actor that anyone at the same screen can read"
+---
+
+* * *
+
+**Most of what the actor opens is something they opened before, and most of that was opened recently. They come back by memory: which folder it was in, what it was called, what they searched to find it. Memory fails in proportion to the time since, and when it fails the actor re-finds by search or by walking the structure again, paying a second time for what they already paid for once.**
+
+The numbers come from browsers and are old, but they have held. Over half of the pages people visit are pages they have visited before (Tauscher and Greenberg 1997), and in longer studies more than four fifths (Cockburn and McKenzie 2001). Most of those returns are close in time: within the hour, which the back button covers, or within the day, which is this move's territory; returns after a week are rare (Obendorf et al. 2007). A short list of the last few distinct places, ordered by recency, therefore covers a large share of all returns, which is why the same list appears in file pickers, launchers, search fields and the sidebars of every current assistant. Among completions, a person's own recent entries beat anything the system can guess, as [autocomplete](/patterns/autocomplete) already notes.
+
+The list costs the actor nothing, and that is its weakness as well as its strength. What counts as touching is a decision the actor never sees: a file opened by accident, a page reached through a preview, a conversation glanced at from a notification, all land in the list beside the things they meant to open. Decay is another decision they never see, and a list that keeps too much is as useless as one that keeps too little. The list is shaped by use, so the actor cannot keep an item in it or be sure it will still be there, and a list they have come to rely on can lose the one thing they wanted. And the trace is a record of them: on a shared screen or a shared account it tells the next person what the last one did.
+
+Therefore,
+
+**Keep a trace of the states the actor reached on purpose, ordered by when they last reached them, and offer it wherever they begin: the empty workspace, the command menu before a query, the search field before typing. Keep it short enough to scan and distinct, so a place opened ten times appears once. Count as touching what the actor would count: opening or editing, not a preview or a glance from a notification. Let the actor remove an item, and let them clear the trace, since it is a record of them and not of the system.**
+
+Do not turn recents into bookmarks on the actor's behalf. A list that keeps what the actor used most is a different thing, with a different decay, and the actor cannot tell from it what they chose. Where they want something kept, give them a mark of their own.
+
+## In practice
+
+### What counts as touching
+
+Opening and editing count. Creating counts. A preview, a hover, a glance from a notification and an item opened by a link the actor did not follow on purpose should not. Where the system cannot tell, prefer leaving an item out: an absence costs the actor one search, a wrong presence costs them trust in the list.
+
+### Decay
+
+- *By count.* The last ten or twenty distinct places. Simple, and the common choice for a menu.
+- *By time.* Everything from the last month, grouped by day. Right for a start page, where the grouping does the scanning for the actor.
+- *By frequency and recency together.* A score that weighs how often a place was reached against how long ago, the browser's "frecency". Keeps the places the actor keeps returning to from dropping off the list after one busy day, at the cost of a list the actor can no longer predict.
+
+### Where it surfaces
+
+The start of a workspace with nothing open, the command menu before a query, the search field before typing, the file picker, the "jump back in" row. Each is a place where the actor has not yet said what they want, and the trace is the best guess available.
+
+## Research on this pattern
+
+- Revisiting is most of browser use: [Tauscher and Greenberg (1997)](https://doi.org/10.1006/ijhc.1997.0125) found a revisit rate of 58 percent, and [Cockburn and McKenzie (2001)](https://doi.org/10.1006/ijhc.2000.0459) found 81 percent. The former also found that a short recency-ordered list of distinct pages predicts a large share of the next visit.
+- [Obendorf, Weinreich, Herder and Mayer (2007)](https://doi.org/10.1145/1240624.1240719): revisits cluster within the hour and within the day; a recents list serves the second band.
+- [Adar, Teevan and Dumais (2008)](https://doi.org/10.1145/1357054.1357241): revisitation rhythms differ by kind of page, so a single decay rule serves some kinds badly.
+- [Kaasten and Greenberg (2001)](https://doi.org/10.1145/634067.634209): a proposal to merge back, history and bookmarks into one recency-ordered list, the case for treating this move and bookmarking as one.
+- Untested here: what people count as having touched something, and whether a list they can edit is trusted more than one they cannot.
+
+## Resources & references
+
+- Bush (1945), [As we may think](https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/): the machine-kept record of where the reader went, beside the trail they build themselves.
+- Mozilla, [Frecency](https://developer.mozilla.org/en-US/docs/Mozilla/Tech/Places/Frecency_algorithm): the combined frequency-and-recency score behind the browser's address-bar suggestions.
+
+## To-do
+
+- The title. The move needs a name for what the actor does, and "recents" names the list.
+- Whether a frequency-weighted list is this move or a different one, since its decay is not by time.
+- What counts as touching, checked against how people actually read a recent list they did not expect an item in.
+- The shared-screen force needs instances: kiosks, shared accounts, a screen shared in a call.
