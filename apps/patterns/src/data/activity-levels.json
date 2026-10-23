@@ -56,11 +56,6 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
-    "ai-tuning": {
-      "activity-level": "activity",
-      "lifecycle-stage": null,
-      "mediation": "individual"
-    },
     "annotation": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -614,6 +609,11 @@
     "sorting": {
       "activity-level": "action",
       "lifecycle-stage": "seeking",
+      "mediation": "individual"
+    },
+    "standing-instructions": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
       "mediation": "individual"
     },
     "state-disabled": {

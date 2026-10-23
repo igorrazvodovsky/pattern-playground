@@ -1,0 +1,91 @@
+---
+title: Standing instructions
+added: 2026-10-23
+updated:
+role: pattern
+evidence:
+  - observed
+  - literature
+activityLevel: action
+lifecycle: application
+mediation: individual
+description: "Writing down, in the actor's own words, what the system should hold to in every session."
+situation:
+  initiating: >-
+    … the actor works with an agent or assistant across many sessions. Its default behaviour is
+    close but not right, and the same correction comes back each time: the spelling, the length,
+    the tool it should reach for, the thing it must never do. Saying it in the
+    [prompt](/patterns/prompt) fixes one run; saying it as an
+    [instructed revision](/patterns/instructed-revision) fixes one output. By the third time the
+    actor wants to say it once and have it hold.
+  resulting: >-
+    What should hold is written down in the actor's words and read at the start of every run, so a
+    correction made once stops recurring, and every piece of
+    [generated content](/patterns/generated-content) from then on carries its mark.
+    [Rule composition](/patterns/rule-composition) is the
+    other form a standing correction takes: a condition built from parts the system offers, exact
+    enough to run on its own, where an instruction is prose the system interprets. [Selective
+    memory](/patterns/selective-memory) is the neighbouring channel, written by the system rather
+    than the actor; the two need separate controls, or a fact the actor erased survives as behaviour
+    they once asked for. [Settings](/patterns/settings) hold the preferences that fit an enumerated
+    axis, and an instruction holds what no axis anticipated. A [workflow](/patterns/workflow) or a
+    skill is a procedure the actor invokes; an instruction is read whether or not anything invokes
+    it. The instruction accumulates and goes quiet: behaviour set months ago reads later as how the
+    system is, and a file that grew by one line per correction starts to contradict itself with
+    nothing to say which line wins. Reading it does not say what it will do, which is the gap a
+    [dry run](/patterns/dry-run) fills where the effect can be rehearsed. How far the system may act
+    on its own is not an instruction but a grant, and recurring renewals of the grant become
+    standing bounds the way recurring corrections become standing instructions; that is
+    [bounded autonomy](/patterns/bounded-autonomy)'s side of the same escalation…
+relationships:
+  follows:
+    - to: instructed-revision
+      note: the correction that keeps recurring is the one worth making standing
+  related:
+    - dry-run
+    - bounded-autonomy
+    - to: generated-content
+      note: a standing instruction shapes every output without appearing in any of them
+---
+
+* * *
+
+**The system does most things well enough, and a few things wrong in the same way every time. Each time, the actor corrects it. The correction works, and the next session starts from the same defaults, so the actor makes it again. Nobody notices the cost of one correction; the cost is that it never stops.**
+
+The defaults cannot be right for everyone, and the preferences that differ are mostly not the kind a settings screen anticipates. An actor who wants British spelling, no headings, one tool rather than another, or a house rule about how tests are run has no axis to set; they have a sentence. Writing that sentence once is cheap. What is not cheap is knowing it needs writing: people often cannot name a preference until they have corrected the same output three times, and a correction made in the flow of work does not announce itself as a candidate for keeping. Where the system writes its own account of the actor, the actor's handle on it is partial and the words are not theirs; where the actor writes, the words are theirs and the system's reading of them is what varies.
+
+Therefore,
+
+**Give the actor a place to write, in plain language, what should hold across sessions, and read it at the start of every run. Keep it as the text they wrote, where they can find and change it, rather than as an inference about them. Scope it by where it lives, so a rule for one project or one kind of file does not reach the rest. Make it easy to put a correction there from the place the correction was made.**
+
+The instruction is read by a system that interprets, so it holds in the way a note to a colleague holds, not the way a setting holds. Say what it is for as well as what to do, keep each entry short, and do not let it stand in for a rule that has to be exact.
+
+## In practice
+
+### Promoting correction to an instruction
+
+- The actor promotes it by command from the place they made it: a slash command, a phrase ("add this to the instructions"), or a tool that appends what they said to the file. 
+- The system saves on its own and shows a receipt ("Saved 2 memories"), which is [memory's](/patterns/selective-memory) territory unless the actor can read and edit what was saved as text. 
+- The system drafts an entry and the actor approves, edits or dismisses it before it takes effect
+
+## Research on this pattern
+
+Vaithilingam et al. call the artefact an intent specification ("cursorrules, CLAUDE.md files, user directives, AI memory of user intent"), a human-authored document that grounds the system's decisions, and show that as it grows new entries conflict with old ones and need something like impact analysis before they are committed. Neumann, Pi and Singh find that the actor's instructions sit at the bottom of a hierarchy they cannot inspect, and that people "consistently desire greater transparency and control" over it. Li et al.'s walkthrough of six assistants finds the same verb (delete, forget) producing local or global effects depending on which layer it reaches, and model customisation records complicating control further. Wang et al. compare labelling examples, writing rules and writing prompts as ways to teach a personal classifier: prompting performs best at first, all three stall at refinement, and people blend them, which is the evidence that instruction, composed rule and demonstration are three moves rather than one. Gao et al. show the system inferring a preference description from repeated edits and showing it for correction, the system-written counterpart of the actor's text.
+
+## Resources & references
+
+- Vaithilingam, Kim, Acosta-Parenteau, Lee, Mhedhbi, Glassman & Arawjo (2025) [Semantic Commit: Helping Users Update Intent Specifications for AI Memory at Scale](https://doi.org/10.1145/3746059.3747778), UIST '25 — intent specifications; conflicts at scale; impact analysis before a change lands
+- Neumann, Pi & Singh (2026) [Who Controls the Conversation? User Perspectives on Generative AI (LLM) System Prompts](https://doi.org/10.1145/3772318.3791726), CHI '26 — the instruction hierarchy; users want to see and control it
+- Li, Wu, Li, Gui & Luo (2026) [Privacy Control in Conversational LLM Platforms: A Walkthrough Study](https://arxiv.org/abs/2602.10684), CHI '26 — local versus global effect of the same control across layers
+- Wang, Yurechko, Dani, Chen & Zhang (2025) [End User Authoring of Personalized Content Classifiers: Comparing Example Labeling, Rule Writing, and LLM Prompting](https://arxiv.org/abs/2409.03247) — examples, rules and prompts as three teaching vocabularies people blend
+- Gao, Taymanov, Salinas, Mineiro & Misra (2024) [Aligning LLM Agents by Learning Latent Preference from User Edits](https://arxiv.org/abs/2404.15269), NeurIPS '24 — a preference description inferred from edits and shown for correction
+- [Claude Code: Manage Claude's memory](https://code.claude.com/docs/en/memory) — the file hierarchy, path-scoped rules, and the line between standing facts and procedures
+- [Cursor: Rules](https://cursor.com/docs/context/rules) — user, project and team rules; always, by relevance, by path, or by mention
+- [OpenAI: Projects in ChatGPT](https://help.openai.com/en/articles/10169521-projects-in-chatgpt) — project instructions replacing the global ones; project-only memory
+
+## To-do
+
+- Seed *tuning by demonstration*: the actor shows rather than says and the system generalises (Claude styles from a sample, Grammarly's voice profile, mark-as-spam loops). Distinct from this pattern and from instructed revision; Wang et al. and the edit-learning line are its literature.
+- Decide whether the proposed entry awaiting approval is a variant here or a seed of its own; evidence is three coding tools, one withdrawn.
+- The scoped container (Project, Gem, per-repository file) ships everywhere and has no node; workspace is the nearest neighbour.
+- A figure: the actor's text beneath layers they cannot see, read at the start of each run.

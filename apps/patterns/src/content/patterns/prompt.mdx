@@ -27,8 +27,8 @@ relationships:
       note: the prompt articulates the request the agent acts on
     - to: generated-content
       note: the input that leads to generated content.
-    - to: ai-tuning
-      note: lets the actor refine how the model gets prompted
+    - to: standing-instructions
+      note: the prompt says what this run needs; a standing instruction says what every run should hold to
   enables:
     - to: conversation
       note: the prompt is the turn-level move a conversation with an AI is built from

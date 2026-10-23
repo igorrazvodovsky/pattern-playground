@@ -16,7 +16,7 @@ relationships:
       note: every label and message is the system taking its turn in the exchange
   related:
     - transparent-reasoning
-    - ai-tuning
+    - standing-instructions
     - to: information-architecture
       note: IA owns the labelling vocabulary; prose owns how those labels get phrased and where they tolerate ambiguity.
     - data-entry
@@ -58,7 +58,7 @@ Yielding the stage is a rhetorical move. It move treats the reader as a competen
 
 >The tension: *system voice versus user voice*. Foregrounding the system's narration helps when the system's action is non-obvious, non-reversible, or requires the user's trust — an AI completion that needs to explain its own uncertainty, a background agent reporting what it did. Foregrounding gets in the way when the user is in flow, the action is obvious, or the narration is there to perform presence. [Transparent reasoning](/patterns/transparent-reasoning) is a case where system voice is load-bearing; most microcopy is a case where it isn't.
 
-For AI-participant systems, stance is not only a prose choice but a specifiable generation input — see § *Generated prose as a design surface* below and [AI tuning](/patterns/ai-tuning).
+For AI-participant systems, stance is not only a prose choice but a specifiable generation input — see § *Generated prose as a design surface* below and [standing instructions](/patterns/standing-instructions).
 
 ## Register and tone as prose decision
 
@@ -102,7 +102,7 @@ Microcopy touches several patterns without being owned by any. [Data entry](/pat
 The anchoring tension: *authored prose versus generated prose*. Most interfaces now hold both — authored microcopy beside model-generated completions, authored labels beside model-written summaries. Register drift between the two is a design risk: a warm empty state followed by a clinical AI completion reads as two interfaces stitched together. The design surface is the coherence between them, not either alone.
 
 {/* TODO: discuss specifiability of stance (hedge / assert / defer / initiate) as a tuning parameter */}
-{/* TODO: link to AI tuning's Voice and tone section as the agent-specific manifestation of this foundation */}
+{/* TODO: link to standing instructions' tone presets as the agent-specific manifestation of this foundation */}
 {/* TODO: treat transparent reasoning as a case where authored framing and generated content share a surface */}
 
 ## Resources & references

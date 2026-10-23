@@ -57,7 +57,7 @@ pattern.
 |---|---|---|---|
 | 1 | Clause composition — a condition assembled from clauses (field, operator, value), added and deleted, combined with and/or/not and a parsing order | `workflow` holds it only where the rule is a procedure handed over to run. `bounded-choice` holds one clause's value pick, not the assembly. `form` holds a fixed field set; here the field set is open and the actor adds to it. | *Residue.* |
 | 2 | The composed condition's meaning is visible only through its effects — preview by edge cases (newly matches, barely matches, barely fails) | `workflow` names the force and the affordance, scoped to procedures. `plan-preview` is one run's intention; `validation` is this input's correctness. | *Residue, shared force.* Needs one owner; `workflow` cites it. |
-| 3 | Exception lists — blacklist and whitelist as objects to review, clear, and start over from | `ai-tuning` (empty Filters section), `selective-memory` (per-item inspect and delete) | *Adjacent.* An exception is the escape from editing the rule, not an act of it. Edge, not absorption. |
+| 3 | Exception lists — blacklist and whitelist as objects to review, clear, and start over from | `standing-instructions` (the prose form of a standing correction), `selective-memory` (per-item inspect and delete) | *Adjacent.* An exception is the escape from editing the rule, not an act of it. Edge, not absorption. |
 | 4 | Entry from the misfire — adjust the rule in the context of the false positive that exposed it | delegating-work's tuning step; `instructed-revision`; `agent-repair` | *Not a chunk.* This is the node's initiating situation. |
 | 5 | Start from a generated or default rule rather than a blank canvas | `good-defaults`; `workflow`'s *First draft* section and its *blank canvas* force | *Owned.* Cite, do not restate. |
 | 6 | Rule as trigger plus method, shown together | `workflow` — the procedure side, and its formality spectrum | *Owned by workflow.* |
@@ -72,7 +72,7 @@ condition or a Linear filter bar. `workflow` cannot host it without lying.
 Beyond the filter: an autonomy bound (`bounded-autonomy`'s scope, spend, time and risk
 edges are clauses on authority, not a procedure), a saved search, an alert threshold, a
 spam rule, a firewall rule. The corpus reaches the same surface from three directions —
-filter composition in composing views, AI tuning in delegating work, bounds in governing
+filter composition in composing views, standing instructions in delegating work, bounds in governing
 autonomy — which is what fission from three directions looks like.
 
 ## Verdict: a node, narrower than the brief proposed
@@ -147,7 +147,7 @@ node and `workflow` now cites it.
 1. New `apps/patterns/src/content/patterns/rule-composition.mdx`. `seed: true`,
    `evidence: [literature]` (the product survey the disclosure asks for is still owed, so `observed` is not claimed), `activityLevel: action`, `lifecycle: application`.
    Edges authored here only, to keep one home per pair: `enables` to workflow, filtering and
-   ai-tuning (the three directions); `composed-of` bounded-choice; `complements`
+   standing-instructions (the three directions); `composed-of` bounded-choice; `complements`
    bounded-autonomy and good-defaults; `related` prompt-scaffolding and form; `enacts`
    malleability and formality. The disclosure names the actual weakness — the automation-rule
    and query-builder literatures have never cited each other, so treating them as one move is
@@ -156,7 +156,7 @@ node and `workflow` now cites it.
    the procedure-shaped half named as what stays; the notation sentence and the repair loop's
    effect-preview bullet cite the node; *Foreseeing effect* hands the force over.
 3. `filtering.mdx` — to-do half-closes; search stays open.
-4. `ai-tuning.mdx` — the empty Filters section gets its content pointer.
+4. `standing-instructions.mdx` — the composed rule named as the alternative form of a standing correction (edge authored from the rule-composition side).
 5. `bounded-autonomy.mdx` — bounds named as composed clauses.
 
 `npm run extract-graph` and `npm run build -w apps/patterns` both green; 135 nodes, 757 edges,

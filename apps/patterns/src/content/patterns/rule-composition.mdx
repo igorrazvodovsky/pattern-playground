@@ -35,8 +35,6 @@ relationships:
   enables:
     - to: workflow
       note: a trigger–action rule list is a list of composed rules; the workflow is the procedure, the rule is its unit
-    - to: ai-tuning
-      note: the tuning that survives the session is written as a rule, which is the form the correction takes
   composed-of:
     - to: bounded-choice
       note: bounded choice supplies each adjustable part of the statement — the field, the operator, and the value, all picked from sets the actor did not author
@@ -47,6 +45,9 @@ relationships:
       note: a generated starting rule beats the empty statement, and most composition is editing rather than authoring
     - to: filtering
       note: a filter is the selecting rule over a visible collection, where the result updates as each part changes and checking the rule needs no separate step
+  alternative:
+    - to: standing-instructions
+      note: a composed rule is built from parts the system offers and runs on its own; a standing instruction is prose the system interprets
   related:
     - to: prompt-scaffolding
       note: both give an unstructured intent a structure to be composed in; the scaffold shapes one request, rule composition shapes a condition that stands
@@ -178,9 +179,9 @@ Acting rules bring a distinction selecting rules never need:
 ## To-do
 
 - The move before this one: going from a case the system got wrong to the rule behind it,
-  including cases where nothing happened and there is no action to trace back from. Decide whether
-  that is a larger pattern composed of this one, possibly [AI tuning](/patterns/ai-tuning) widened
-  beyond agents, or a sequence of moves.
+  including cases where nothing happened and there is no action to trace back from.
+  [Standing instructions](/patterns/standing-instructions) carries the prose form of the same
+  escalation; decide whether the case-to-rule step is a pattern of its own or a sequence of moves.
 - Look at shipping examples of both kinds to see which parts of the solution they keep and which
   they drop: selecting (Finder smart folders, iTunes smart playlists, Notion and Linear filters,
   HubSpot segments) and acting (Gmail filters, Apple Mail rules, Shortcuts automations, Zapier's

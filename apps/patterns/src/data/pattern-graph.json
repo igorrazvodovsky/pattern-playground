@@ -202,28 +202,6 @@
       ]
     },
     {
-      "id": "ai-tuning",
-      "title": "AI tuning",
-      "category": "Activities",
-      "path": "/patterns/ai-tuning",
-      "role": "pattern",
-      "situation": {
-        "initiating": "the agent's default behaviour is close but not right, and the mismatch keeps recurring; correcting it turn by turn is work the actor repeats forever, so what they need is to change the standing behaviour rather than this instance of it",
-        "resulting": [
-          {
-            "clause": "the standing behaviour is the actor's to shape, so a correction made once holds across sessions instead of being re-issued each time"
-          },
-          {
-            "clause": "how far the system may act on its own is now something the actor set, which moves the responsibility for that boundary onto them"
-          },
-          {
-            "clause": "tuning accumulates and then goes quiet: behaviour configured months ago reads later as simply how the system is, including to the actor who configured it"
-          }
-        ]
-      },
-      "seed": true
-    },
-    {
       "id": "annotation",
       "title": "Annotation",
       "category": "Actions",
@@ -1000,7 +978,7 @@
       "seed": true,
       "evidence": [
         {
-          "kind": "observed"
+          "kind": "used"
         }
       ]
     },
@@ -1038,7 +1016,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… the actor has written something that will act on many items at once: a rule made with [rule composition](/patterns/rule-composition), a step in a [workflow](/patterns/workflow), a find-and-replace, a batch rename, a mail merge, a formula filled down a column. Reading it does not tell them what it will do, and the items it will act on are out of sight or have not arrived yet. A filter shows its result as it is typed; a rule or a bulk edit shows nothing until it runs, and the first run is the real one. A dry run gives the rule and the workflow step that same check: it runs what was written against real items and shows what would change, without changing anything.",
-        "resulting": "The actor can now judge what they wrote by what it does to items they know, rather than by reading it. Where every item was in view, the dry run is a full before and after; hand it to [change review](/patterns/change-review) so the actor can accept or reject each change rather than all of them at once. Where the items arrive later, the dry run is a rehearsal, and a rule that passed it can still go wrong on an item the sample did not include; catching a rule after it goes wrong is a move of its own, not written here yet. [Plan preview](/patterns/plan-preview) is the nearby move where what is shown is the system's own plan rather than something the actor wrote, and a plan preview that runs its plan on a few items is both at once. [Filtering](/patterns/filtering) is not a dry run: a filter over a visible list shows its real result as it is typed, which is the check a dry run adds where the result cannot be seen…"
+        "resulting": "The actor can now judge what they wrote by what it does to items they know, rather than by reading it. Where every item was in view, the dry run is a full before and after; hand it to [change review](/patterns/change-review) so the actor can accept or reject each change rather than all of them at once. Where the items arrive later, the dry run is a rehearsal, and a rule that passed it can still go wrong on an item the sample did not include; catching a rule after it goes wrong is a pattern of its own, not written here yet. [Plan preview](/patterns/plan-preview) is the neighbour where what is shown is the system's own plan rather than something the actor wrote, and a plan preview that runs its plan on a few items is both at once. [Filtering](/patterns/filtering) is not a dry run: a filter over a visible list shows its real result as it is typed, which is the check a dry run adds where the result cannot be seen…"
       },
       "seed": true,
       "evidence": [
@@ -2813,6 +2791,25 @@
       "group": "seeking"
     },
     {
+      "id": "standing-instructions",
+      "title": "Standing instructions",
+      "category": "Actions",
+      "path": "/patterns/standing-instructions",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor works with an agent or assistant across many sessions. Its default behaviour is close but not right, and the same correction comes back each time: the spelling, the length, the tool it should reach for, the thing it must never do. Saying it in the [prompt](/patterns/prompt) fixes one run; saying it as an [instructed revision](/patterns/instructed-revision) fixes one output. By the third time the actor wants to say it once and have it hold.",
+        "resulting": "What should hold is written down in the actor's words and read at the start of every run, so a correction made once stops recurring, and every piece of [generated content](/patterns/generated-content) from then on carries its mark. [Rule composition](/patterns/rule-composition) is the other form a standing correction takes: a condition built from parts the system offers, exact enough to run on its own, where an instruction is prose the system interprets. [Selective memory](/patterns/selective-memory) is the neighbouring channel, written by the system rather than the actor; the two need separate controls, or a fact the actor erased survives as behaviour they once asked for. [Settings](/patterns/settings) hold the preferences that fit an enumerated axis, and an instruction holds what no axis anticipated. A [workflow](/patterns/workflow) or a skill is a procedure the actor invokes; an instruction is read whether or not anything invokes it. The instruction accumulates and goes quiet: behaviour set months ago reads later as how the system is, and a file that grew by one line per correction starts to contradict itself with nothing to say which line wins. Reading it does not say what it will do, which is the gap a [dry run](/patterns/dry-run) fills where the effect can be rehearsed. How far the system may act on its own is not an instruction but a grant, and recurring renewals of the grant become standing bounds the way recurring corrections become standing instructions; that is [bounded autonomy](/patterns/bounded-autonomy)'s side of the same escalation…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "state-disabled",
       "title": "Disabled state",
       "category": "Operations",
@@ -3514,9 +3511,9 @@
     },
     {
       "source": "agent",
-      "target": "ai-tuning",
+      "target": "bounded-autonomy",
       "type": "precedes",
-      "label": "the agent's degree of freedom is a setting rather than a fixed property; tuning is the move that acts on it",
+      "label": "the agent's degree of freedom is a setting rather than a fixed property; bounded autonomy is where the actor sets it",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -3651,27 +3648,6 @@
       "target": "autofill",
       "type": "related",
       "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "ai-tuning",
-      "target": "delegation",
-      "type": "serves",
-      "label": "shaping initial behaviours at delegation's set-up, and repairing misfires during exception handling",
-      "extractedFrom": "frontmatter:serves"
-    },
-    {
-      "source": "ai-tuning",
-      "target": "agency",
-      "type": "enacts",
-      "label": "the actor sets how far the system can act on its own, then lets it run",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "ai-tuning",
-      "target": "localization",
-      "type": "complements",
-      "label": "locale as a generation parameter",
-      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "annotation",
@@ -4934,7 +4910,7 @@
       "target": "plan-preview",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "[Plan preview](/patterns/plan-preview) is the nearby move where what is shown is the system's own plan rather than something the actor wrote, and a plan preview that runs its plan on a few items is both at once.",
+      "situation": "[Plan preview](/patterns/plan-preview) is the neighbour where what is shown is the system's own plan rather than something the actor wrote, and a plan preview that runs its plan on a few items is both at once.",
       "glossFrom": "source:resulting"
     },
     {
@@ -5421,10 +5397,12 @@
     },
     {
       "source": "generated-content",
-      "target": "ai-tuning",
-      "type": "complements",
-      "label": "settings that influence how content is generated and presented.",
-      "extractedFrom": "frontmatter:complements"
+      "target": "standing-instructions",
+      "type": "related",
+      "label": "the output is where the actor notices that a standing instruction is missing or wrong",
+      "extractedFrom": "frontmatter:related",
+      "situation": "What should hold is written down in the actor's words and read at the start of every run, so a correction made once stops recurring, and every piece of [generated content](/patterns/generated-content) from then on carries its mark.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "good-defaults",
@@ -6179,13 +6157,6 @@
       "type": "enacts",
       "label": "translation quality decides whether the interface still teaches in the new language",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "localization",
-      "target": "ai-tuning",
-      "type": "complements",
-      "label": "locale as a generation parameter",
-      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "localization",
@@ -7009,10 +6980,12 @@
     },
     {
       "source": "prompt",
-      "target": "ai-tuning",
+      "target": "standing-instructions",
       "type": "precedes",
-      "label": "lets the actor refine how the model gets prompted",
-      "extractedFrom": "frontmatter:precedes"
+      "label": "the prompt says what this run needs; a standing instruction says what every run should hold to",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Saying it in the [prompt](/patterns/prompt) fixes one run; saying it as an [instructed revision](/patterns/instructed-revision) fixes one output.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "prompt",
@@ -7064,7 +7037,7 @@
     },
     {
       "source": "prose",
-      "target": "ai-tuning",
+      "target": "standing-instructions",
       "type": "related",
       "extractedFrom": "frontmatter:related"
     },
@@ -7359,13 +7332,6 @@
       "extractedFrom": "frontmatter:enables"
     },
     {
-      "source": "rule-composition",
-      "target": "ai-tuning",
-      "type": "enables",
-      "label": "the tuning that survives the session is written as a rule, which is the form the correction takes",
-      "extractedFrom": "frontmatter:enables"
-    },
-    {
       "source": "bounded-choice",
       "target": "rule-composition",
       "type": "enables",
@@ -7392,6 +7358,15 @@
       "type": "complements",
       "label": "a filter is the selecting rule over a visible collection, where the result updates as each part changes and checking the rule needs no separate step",
       "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "rule-composition",
+      "target": "standing-instructions",
+      "type": "alternative",
+      "label": "a composed rule is built from parts the system offers and runs on its own; a standing instruction is prose the system interprets",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "[Rule composition](/patterns/rule-composition) is the other form a standing correction takes: a condition built from parts the system offers, exact enough to run on its own, where an instruction is prose the system interprets.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "rule-composition",
@@ -7572,10 +7547,12 @@
     },
     {
       "source": "selective-memory",
-      "target": "ai-tuning",
+      "target": "standing-instructions",
       "type": "complements",
-      "label": "remembered facts and shaped behaviour are two channels of the same persistence",
-      "extractedFrom": "frontmatter:complements"
+      "label": "what the system remembers and what the actor instructed are two channels of the same persistence, and need separate controls or an erased fact survives as instructed behaviour",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Selective memory](/patterns/selective-memory) is the neighbouring channel, written by the system rather than the actor; the two need separate controls, or a fact the actor erased survives as behaviour they once asked for.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "selective-memory",
@@ -7717,10 +7694,12 @@
     },
     {
       "source": "settings",
-      "target": "ai-tuning",
+      "target": "standing-instructions",
       "type": "complements",
-      "label": "specialized settings for configuring AI behaviour",
-      "extractedFrom": "frontmatter:complements"
+      "label": "settings hold the preferences that fit an enumerated axis; a standing instruction holds what no axis anticipated",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Settings](/patterns/settings) hold the preferences that fit an enumerated axis, and an instruction holds what no axis anticipated.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "settings",
@@ -7812,6 +7791,40 @@
       "type": "complements",
       "label": "orders what filtering lets through",
       "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "instructed-revision",
+      "target": "standing-instructions",
+      "type": "precedes",
+      "incomingNote": "the correction that keeps recurring is the one worth making standing",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "Saying it in the [prompt](/patterns/prompt) fixes one run; saying it as an [instructed revision](/patterns/instructed-revision) fixes one output.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "standing-instructions",
+      "target": "dry-run",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "Reading it does not say what it will do, which is the gap a [dry run](/patterns/dry-run) fills where the effect can be rehearsed.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "standing-instructions",
+      "target": "bounded-autonomy",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "How far the system may act on its own is not an instruction but a grant, and recurring renewals of the grant become standing bounds the way recurring corrections become standing instructions; that is [bounded autonomy](/patterns/bounded-autonomy)'s side of the same escalation",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "standing-instructions",
+      "target": "generated-content",
+      "type": "related",
+      "label": "a standing instruction shapes every output without appearing in any of them",
+      "extractedFrom": "frontmatter:related",
+      "situation": "What should hold is written down in the actor's words and read at the start of every run, so a correction made once stops recurring, and every piece of [generated content](/patterns/generated-content) from then on carries its mark.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "state-disabled",
@@ -8430,10 +8443,12 @@
     },
     {
       "source": "workflow",
-      "target": "ai-tuning",
+      "target": "standing-instructions",
       "type": "complements",
-      "label": "a workflow builder is a tuning tool: editing the procedure is one of the ways an agent's behaviour gets progressively shaped",
-      "extractedFrom": "frontmatter:complements"
+      "label": "a workflow is a procedure the actor invokes; a standing instruction is read whether or not anything invokes it",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A [workflow](/patterns/workflow) or a skill is a procedure the actor invokes; an instruction is read whether or not anything invokes it.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "workflow",
