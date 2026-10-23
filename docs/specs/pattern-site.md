@@ -257,34 +257,11 @@ the column's width, hidden from assistive tech, with an optional caption.
   (a time limit, a fixed number of steps) stays out.
 - One stroke weight, 3.5 units, drawn `solid` or `dashed`, never tldraw's
   `draw` style. A change of weight, dash or colour carries a meaning. The time
-  line is the one thinner line.
+  line, with any ticks across it, is the one thinner line.
 - Figures are drawn about 700 units wide. The SVG scales to the column, so
   strokes show at the same weight only when drawings share a width.
 - As little height as the relation allows. Equal margins inside a sheet,
   equal gaps between rows and between objects.
-
-### Marks
-
-Abstract marks keep one meaning across figures, so none needs a legend.
-
-| Mark | Meaning |
-| --- | --- |
-| Thin line with an arrowhead | time, left to right |
-| Filled circle | the current state, or a case where it is now |
-| Dashed circle | an earlier state, kept as history |
-| The one solid arrow | the pattern's own action |
-| Pictogram, round head | a person |
-| Pictogram, square head | the system |
-| Sheet | the work; solid rows are done, dashed rows remain |
-| Small note tied to a sheet | what travels with the work |
-| Grey highlight on a row | a part in conflict |
-| Yellow highlight on a row | the outcome |
-| Green tick | a pick |
-| Background-filled wedge from a row | that part opened into the next level |
-
-Objects (a person, a sheet) suit relations of who holds what or what the work
-contains; a line suits time. Where a pattern already has a common drawn form,
-such as a flow diagram for a workflow, the figure uses it.
 
 ## Toolchain posture
 
