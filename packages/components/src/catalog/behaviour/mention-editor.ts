@@ -529,11 +529,15 @@ export function useMentionEditor(options: Options) {
                 .run();
           };
           input.addEventListener('keydown', (event) => {
+            // Enter and Escape confirm or cancel an IME candidate while composing.
+            // Safari can deliver the confirming Enter after compositionend, so
+            // isComposing is already false; keyCode 229 still marks it.
+            if (event.isComposing || event.keyCode === 229) return;
             if (event.key === 'Escape') {
               event.preventDefault();
               event.stopPropagation();
               leave();
-            } else if (event.key === 'Enter' && !event.isComposing) {
+            } else if (event.key === 'Enter') {
               event.preventDefault();
               const inputs = [
                 ...editor.view.dom.querySelectorAll<HTMLInputElement>('[data-slot-input]'),
