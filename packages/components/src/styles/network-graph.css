@@ -22,7 +22,7 @@
     width: 100%;
     height: auto;
     user-select: none;
-    max-height: calc(100vh - var(--space-2xl) * 2);
+    max-height: calc(100svh - var(--space-2xl) * 2);
     overflow: visible;
   }
 

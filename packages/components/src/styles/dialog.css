@@ -4,7 +4,7 @@
     align-items: start;
     gap: var(--space-xl);
     max-inline-size: 40rem;
-    max-block-size: calc(100vh - var(--space-xl));
+    max-block-size: calc(100dvh - var(--space-xl));
     overflow: hidden;
     border-radius: var(--radius-m);
     border: var(--border);
