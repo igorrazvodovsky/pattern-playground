@@ -103,9 +103,7 @@ Ensure all supporting documentation reflects the new structure:
 - Any hierarchy or navigation documentation
 
 **Verify Documentation Standards**
-- Ensure British spelling throughout (behaviour, organisation, colour)
-- Use sentence case for headings and titles
-- Follow project-specific documentation linking standards
+- Follow the voice rules in CLAUDE.md and the project-specific documentation linking standards
 
 ### Phase 5: Validation
 

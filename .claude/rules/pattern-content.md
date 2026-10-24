@@ -265,15 +265,10 @@ the renderer moves it after the page foot either way).
 
 - Frame descriptions from the *human situation inward*, not from the
   implementation outward. Start with what the actor is doing or experiencing.
-- Plain practitioner voice: ordinary words and direct statements. No dramatic
-  staging, compressed aphorisms, or literary borrowings.
 - Reserve "material" for design material: what an interface is built with.
   Name what the actor works on with the most concrete noun the context
   allows (the document, the selection, the collection, the sources), with
   "content" as a fallback.
-- British spelling (behaviour, organisation, colour).
-- Sentence case for headings and titles.
-- Prefer conciseness; each sentence should add new information.
 - Write the current state, never its history. No dates, "resolved to", "moved
   from" or other change-log copy in page bodies, to-dos included; `added` and
   `updated` in frontmatter are the only record, and git holds the rest.

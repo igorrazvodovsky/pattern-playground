@@ -10,6 +10,9 @@ Plain, design-practitioner language in everything written here — pattern conte
   "carry the argument", "the trap", "isn't just X — it's Y".
 - No punchy fragments for drama. Write complete sentences.
 - Do not build to a turn of phrase. State the claim directly.
+- Prefer conciseness: each sentence adds new information. Remove phrases that restate rather than extend, and do not over-explain implications.
+- British spelling (behaviour, organisation, colour).
+- Sentence case for headings and titles.
 
 ## Read first
 

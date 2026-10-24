@@ -61,11 +61,6 @@ When creating cross-references between documentation files:
 - *Internal Storybook links* (component → component, component → material foundation): keep `../?path=/docs/category-name--docs` format. URL transformation: Category/Name → category-name, spaces become hyphens, case is lowercased.
 - *Outbound to the pattern site* (qualities, non-material foundations, material foundation concept pages, patterns moved out of Storybook): use the `<PatternRef slug="...">` component. It's registered globally in `.storybook/preview.ts`, so no import is needed in MDX. It reads `STORYBOOK_PATTERN_SITE_URL` (default `http://localhost:4321`) so the link resolves in dev (separate origins) and prod (merged origin). Example: `<PatternRef slug="qualities/agency">Agency</PatternRef>`. Plain root-relative `[Agency](/patterns/qualities/agency)` links also work, but only in the merged prod build.
 
-## Writing style
-- Use British spelling throughout (behaviour, organisation, colour, etc.)
-- Always use sentence case for headings and titles
-- Prioritize conciseness - Each sentence should add new information. Remove elaborative phrases that restate rather than extend. Trust reader comprehension—avoid over-explaining implications. Edit ruthlessly to remove redundancy.
-
 ## Conceptual integrity
 When organizing concepts in the pattern library:
 - *Test boundaries* - Apply frameworks to edge cases to understand scope (e.g., "Does this apply to human-human collaboration or just human-AI?")
