@@ -1180,6 +1180,33 @@
       ]
     },
     {
+      "id": "error-recovery",
+      "title": "Error recovery",
+      "category": "Operations",
+      "path": "/patterns/error-recovery",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor has asked the system for something and the system cannot do it: the save did not go through, the page will not load, the service behind the button is down, the thing they followed a link to is gone or is not theirs to see. The fault is the system's, not a slip in what the actor entered, which is the case [validation](/patterns/validation) answers at the field. Where the request took long enough to need a sign, the sign of [waiting](/patterns/waiting) is still up, and the actor may have gone elsewhere on its word.",
+        "resulting": "The failure now has a report where the actor is looking, and the report says three things: that the request did not take, what did and did not change, and what the actor can do next. It is the failure-reporting shape of [status feedback](/patterns/status-feedback), beside validation's correction-demanding one, and it takes over the place the [waiting](/patterns/waiting) sign held, so no spinner outlives a dead request. Its first duty is to the actor's work: what they entered stays where they can reach it, which is the case [saving](/patterns/saving) makes for keeping a local copy and for interrupting when an automatic save fails. Where the request half took, the loose end is a committed change the actor did not want, and [undo](/patterns/undo) is the way back. When the actor was told they could leave and did, the failure has to travel after them as a [notification](/patterns/notification). A report that cannot be acted on from where it sits opens the recover purpose of [help](/patterns/help): the message is the first line of that help, and troubleshooting and a person stand behind it. The move is not [unavailable actions](/patterns/unavailable-actions), which withholds a request that cannot succeed before it is made; this pattern is for the failures that could not be foreseen, or were not. Nor is it [agent repair](/patterns/agent-repair), where the trouble is in the agent's understanding of the request rather than in carrying out one it understood…"
+      },
+      "realisedBy": [
+        "components-callout--docs",
+        "components-dialog--docs"
+      ],
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "built"
+        }
+      ]
+    },
+    {
       "id": "explanation",
       "title": "Explanation",
       "category": "Actions",
@@ -3277,7 +3304,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… the actor has asked for something and the result is not immediate: a file is uploading, a report is being built, a search is running against a slow source, a model is generating an answer. The gap is long enough to notice, and nothing in it tells the actor whether the system is working, has stalled, or has failed. When the work was handed to an agent, the gap is the liveness part of [delegation](/patterns/delegation)'s monitoring. And it is the case [live presentation](/patterns/live-presentation) does not cover: the result cannot be shown as it forms, or there is nothing of it to show yet.",
-        "resulting": "The gap now has a shape the actor can read: that the system is working, roughly how long remains, and whether they may go, so the system's [time](/patterns/temporality) is legible and the decision to stay or leave is the [actor's own](/patterns/agency). Which sign is shown is a [status feedback](/patterns/status-feedback) question, since the wait is one more state change to deliver, and this pattern is its duration-reporting shape. A wait the actor can see is a wait they can end, so [abort](/patterns/abort) belongs beside the sign for anything longer than a few seconds. Where the sign has said they may leave, the result arrives somewhere they are no longer looking, and [transient feedback](/patterns/transient-feedback) or a notification has to carry it back. The sign is only as honest as the estimate behind it, and a bar that sits at ninety percent for most of the wait teaches the actor to distrust every bar after it. It is not the deliberate delay that [cognitive forcing functions](/patterns/cognitive-forcing-functions) insert before a recommendation, which is friction the design chose rather than time the system needs…"
+        "resulting": "The gap now has a shape the actor can read: that the system is working, roughly how long remains, and whether they may go, so the system's [time](/patterns/temporality) is legible and the decision to stay or leave is the [actor's own](/patterns/agency). Which sign is shown is a [status feedback](/patterns/status-feedback) question, since the wait is one more state change to deliver, and this pattern is its duration-reporting shape. A wait the actor can see is a wait they can end, so [abort](/patterns/abort) belongs beside the sign for anything longer than a few seconds. Where the sign has said they may leave, the result arrives somewhere they are no longer looking, and [transient feedback](/patterns/transient-feedback) or a notification has to carry it back. A wait that fails becomes the report of [error recovery](/patterns/error-recovery), in the place the sign held. The sign is only as honest as the estimate behind it, and a bar that sits at ninety percent for most of the wait teaches the actor to distrust every bar after it. It is not the deliberate delay that [cognitive forcing functions](/patterns/cognitive-forcing-functions) insert before a recommendation, which is friction the design chose rather than time the system needs…"
       },
       "realisedBy": [
         "components-progress-indicator--docs"
@@ -5207,6 +5234,102 @@
       "type": "precedes",
       "label": "the inference produces an offer — content the suggestion surface presents for the actor to accept, reject, or modify",
       "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "error-recovery",
+      "target": "status-feedback",
+      "type": "instantiates",
+      "label": "the failure-reporting delivery shape of status feedback: a request that did not take, with its scope and a way on",
+      "extractedFrom": "frontmatter:instantiates",
+      "situation": "It is the failure-reporting shape of [status feedback](/patterns/status-feedback), beside validation's correction-demanding one, and it takes over the place the [waiting](/patterns/waiting) sign held, so no spinner outlives a dead request.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "waiting",
+      "target": "error-recovery",
+      "type": "precedes",
+      "incomingNote": "error recovery's report takes over the place the waiting sign held, and lands where the sign told the actor they could go",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "A wait that fails becomes the report of [error recovery](/patterns/error-recovery), in the place the sign held.",
+      "glossFrom": "source:resulting",
+      "farSituation": "It is the failure-reporting shape of [status feedback](/patterns/status-feedback), beside validation's correction-demanding one, and it takes over the place the [waiting](/patterns/waiting) sign held, so no spinner outlives a dead request."
+    },
+    {
+      "source": "error-recovery",
+      "target": "validation",
+      "type": "alternative",
+      "label": "validation reports a fault in what the actor entered; error recovery reports a fault in what the system did with a request it had accepted",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "The fault is the system's, not a slip in what the actor entered, which is the case [validation](/patterns/validation) answers at the field.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "error-recovery",
+      "target": "help",
+      "type": "precedes",
+      "label": "the report is the first line of help's recover purpose; troubleshooting and a person stand behind it",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "A report that cannot be acted on from where it sits opens the recover purpose of [help](/patterns/help): the message is the first line of that help, and troubleshooting and a person stand behind it.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "error-recovery",
+      "target": "saving",
+      "type": "complements",
+      "label": "a failed save is the case saving makes for a kept local copy and an interrupting report",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Its first duty is to the actor's work: what they entered stays where they can reach it, which is the case [saving](/patterns/saving) makes for keeping a local copy and for interrupting when an automatic save fails.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "error-recovery",
+      "target": "undo",
+      "type": "complements",
+      "label": "where a request half took, undo is the way back from the part that did",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the request half took, the loose end is a committed change the actor did not want, and [undo](/patterns/undo) is the way back.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "error-recovery",
+      "target": "notification",
+      "type": "complements",
+      "label": "when the actor left on the wait sign's word, the failure follows them as a notification",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "When the actor was told they could leave and did, the failure has to travel after them as a [notification](/patterns/notification).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "error-recovery",
+      "target": "unavailable-actions",
+      "type": "tangential",
+      "label": "unavailable actions withholds a request that cannot succeed before it is made; error recovery reports one that failed after",
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "The move is not [unavailable actions](/patterns/unavailable-actions), which withholds a request that cannot succeed before it is made; this pattern is for the failures that could not be foreseen, or were not.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "error-recovery",
+      "target": "agent-repair",
+      "type": "tangential",
+      "label": "agent repair mends the agent's understanding of a request; error recovery reports the failure of one it understood",
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "Nor is it [agent repair](/patterns/agent-repair), where the trouble is in the agent's understanding of the request rather than in carrying out one it understood",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "error-recovery",
+      "target": "agency",
+      "type": "enacts",
+      "label": "tells the actor what happened to their work and leaves the next move theirs",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "error-recovery",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "a report that names the cause in the actor's terms teaches them where the system's limits are",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "explanation",

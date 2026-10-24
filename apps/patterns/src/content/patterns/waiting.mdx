@@ -29,7 +29,8 @@ situation:
     actor can see is a wait they can end, so [abort](/patterns/abort) belongs beside the sign
     for anything longer than a few seconds. Where the sign has said they may leave, the result
     arrives somewhere they are no longer looking, and [transient feedback](/patterns/transient-feedback)
-    or a notification has to carry it back. The sign is only as honest as the estimate behind
+    or a notification has to carry it back. A wait that fails becomes the report of
+    [error recovery](/patterns/error-recovery), in the place the sign held. The sign is only as honest as the estimate behind
     it, and a bar that sits at ninety percent for most of the wait teaches the actor to
     distrust every bar after it. It is not the deliberate delay that
     [cognitive forcing functions](/patterns/cognitive-forcing-functions) insert before a
@@ -73,7 +74,7 @@ Therefore,
 
 **Match the sign to the length of the gap and to what the system actually knows. Under a second, show nothing. For a few seconds, show that the system is working, with a sign that moves so a stall is visible. Past that, show how far the work has got, in the system's own units where it has them (steps done, items processed, bytes sent) and as a time estimate only where the estimate is honest, and say whether the actor may leave. Put a way to stop beside any sign that will be up long enough to read. When the actor may leave, make sure the result reaches them where they went.**
 
-Do not let the sign outlive the request. A wait that has failed must become an error, and a wait that has ended must become the result, with no spinner left behind.
+Do not let the sign outlive the request. A wait that has failed must become an [error report](/patterns/error-recovery), and a wait that has ended must become the result, with no spinner left behind.
 
 ## In practice
 
@@ -116,6 +117,5 @@ A sign that frees the actor to leave takes on a debt: the result has to find the
 ## To-do
 
 - Whether the delegating-work step "keep the run's status visible at a glance" is this pattern or a monitoring move of its own: a run that waits for its next trigger is live without anyone waiting on it.
-- The failure boundary. What the sign becomes when the request dies has no page; the system-error pattern is unwritten.
 - Instances across the catalogue (uploads, exports, searches against slow sources, model generation) and which sign each ships.
 - A demo running the three signs over one request.

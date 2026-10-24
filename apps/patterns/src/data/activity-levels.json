@@ -261,6 +261,11 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
+    "error-recovery": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "explanation": {
       "activity-level": "action",
       "lifecycle-stage": null,
