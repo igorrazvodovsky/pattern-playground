@@ -6,7 +6,7 @@ created: "2026-03"
 last_reviewed: "2026-05-01"
 area: "metadata"
 promoted_to: ""
-superseded_by: ""
+superseded_by: "plans/active/2026-10-pattern-facets.md"
 ---
 # Add mediation type as a metadata dimension
 

@@ -1,0 +1,475 @@
+---
+title: "Scale facets for patterns, and grouping by them in the sidebar"
+status: active
+kind: exec-spec
+created: 2026-10-24
+last_reviewed: 2026-10-26
+area: metadata, patterns-site
+promoted_to: ""
+superseded_by: ""
+---
+# Scale facets for patterns, and grouping by them in the sidebar
+
+Outline, needs iteration. Research-gated: the scales below are a strawman.
+`activityLevel` and `agents` were gated on 2026-10-24, and `people`, `time` and
+`scope` on 2026-10-25, and `people` and `scope` are revised against it.
+
+Patterns are classified by `activityLevel` (Activity Theory altitude) and, on
+105 of them, by `mediation`. Neither reaches the sidebar: `activityLevel` colours
+the home-page graph and `mediation` sets a graph attribute. This plan adds three
+scale facets, each an ordered series of levels, and lets the actor group the
+sidebar's pattern list by any facet.
+
+The facets land in iterations (§Steps). The first adds `scope` alone, from
+schema to sidebar. The second adds `people` and `agents`, widens
+`activityLevel` to a range, and removes `mediation`. A facet for centres in
+time is not part of either (§Open questions).
+
+## The facets
+
+Each facet is an ordered scale. A pattern takes a range on it: one level, or a
+from–to pair of levels. All three have been applied to twenty patterns
+(§Pilot classifications). `scope` is fixed by its schema step in the first
+iteration; `people` and `agents` stay open to change until the second.
+
+A facet describes the centre the pattern makes, not the act of applying the
+pattern. A pattern is a rule for making a kind of centre, and a centre in this
+medium can live in the interface, in time, or in the state of an exchange
+([pattern-definition.md](../../docs/language/pattern-definition.md)
+§Definition). `scope` reads how far the centre reaches in the interface and
+`people` who shares it; a facet
+for centres in time is left for later (§Open questions).
+`agents` and `activityLevel` read how the centre divides and supports the work. Each
+application of a pattern makes a different instance, so a facet value
+describes the kind of centre, and a range covers the instances the page
+describes.
+
+Facets apply to design patterns only. Collections, foundations, qualities and
+anti-patterns are not rules for making a centre and take no facet values.
+
+- `people` — how many people the centre is shared between:
+  individual → pair → team → organisation → community. The people counted are
+  those who act on the centre or are addressed by it; someone who only sees it
+  is not counted, nor is the product's wider user base. Agents are not counted;
+  they are recorded in `agents`, so one person working with an agent is
+  `individual`, and a page that covers both a person-to-person and a
+  person-to-agent case takes the range of the people alone. Levels above pair are defined by how the
+  people relate, not by head count: a team is small enough that everyone knows
+  everyone and shares one goal; an organisation has roles, permissions, known
+  membership and explicit goals; a community has open, changing membership and
+  fewer shared goals. `people` replaces `mediation`.
+- `scope` — how far in the interface the centre reaches: where it is shown, or
+  where its work and its rules apply. Every design pattern takes a value; a
+  centre with no drawn surface still holds somewhere, as an agent's background
+  work lands in a document or an area and a standing instruction applies to an
+  area or a whole product.
+  element → component → view → area → product → ecosystem.
+  The logic follows *A Pattern Language*: a new level starts where the way of
+  making changes, larger levels contain smaller ones, and a centre between
+  others takes the level of what it connects. The levels are the medium's own:
+  - *element*: a single control or mark (field, button, cursor, badge).
+  - *component*: a part of a view with its own job, which keeps its kind when
+    moved to another view (inspector, toolbar, card, comment thread).
+  - *view*: what one surface shows at once, arranged for one activity (editor,
+    canvas, inbox, conversation).
+  - *area*: a part of a product that follows its own rules (settings, an admin
+    area, a project or workspace, one module of a suite).
+  - *product*: one maker designs its structure, its areas and the routes
+    between them (main navigation, product-wide search).
+  - *ecosystem*: no single maker; it forms piecemeal from many products,
+    platforms and conventions (handoff, share sheet, clipboard). Whose
+    ecosystem it is goes in `people`.
+
+  Two rules settle cases where the definition allows two answers. Where a
+  centre is shown in one place and applies over a larger one, it takes the
+  larger (a version-history panel applies to the whole document, so `view`).
+  A centre that is a structure takes the level of what contains it, while a
+  centre that sits between peers takes the level of the peers (a hub contains
+  its spokes as an `area`; a wizard between views is `view`).
+
+  This is also the first interface-composition entry for
+  [levels-of-scale](../../docs/language/properties/levels-of-scale.md).
+- `agents` — how much of the work an agent does without a person, in the
+  exchange the centre belongs to. Levels are named by the role the person takes:
+  none → operator (the agent acts only when the person
+  invokes it) → collaborator (they work on the same thing in turns) →
+  consultant (the agent works and asks the person at chosen points) → approver
+  (the agent proposes, the person approves or vetoes before it takes effect) →
+  observer (the agent acts, the person watches and can stop it). Every pattern
+  takes a value; "none" is a level, so patterns without an agent do not fall
+  into "Not classified". The facet records
+  the division of work the centre itself sets up: a centre that carries
+  signals about delegated work without dividing it (a notification, an
+  activity log) takes "none", and its link to delegation stays an edge. Where
+  the centre is the agent's configuration (standing instructions, memory), the
+  work it divides is keeping that configuration, so the value says who writes
+  and changes it, not the level at which the configured agent later runs.
+
+`activityLevel` takes a range as well. Its definition narrows to the level or
+levels of the actor's activity the centre supports when it works, with the
+actor the pattern serves as the subject.
+
+## Why `mediation` goes
+
+`mediation` has 83 `individual`, 22 `coordination`, and no `networking`
+entries. It is missing on the agent patterns (approval-gate, handoff,
+bounded-autonomy, plan-preview, change-review, regeneration, selective-memory)
+and on activity-feed and activity-log. The individual/coordination split did
+not fit a person working with an agent, which is the boundary case
+[2026-03-mediation-type.md](../paused/2026-03-mediation-type.md) left open.
+`people` and `agents` together take its place. That plan is marked superseded
+by this one and is deleted in the second iteration, when `mediation` leaves
+the schema.
+
+## Research gate: activity level and agent involvement (2026-10-24)
+
+The facet-scales research gate (2026-10-24) checked two questions before the
+pilot: whether `activityLevel` should take a range, and whether agent
+involvement can be an ordered facet. It read the Activity Theory canon in HCI
+(Kuutti 1996, the Activity Checklist 1999, Engeström 2000, Bødker 1987) and the
+levels-of-automation and agent-autonomy line (Parasuraman, Sheridan and Wickens
+2000; Beer et al. 2014 via Cila 2022; Morris et al. 2024; Feng, McDonald and
+Zhang 2025).
+
+Claims the decisions rely on:
+
+- An Activity Theory level is not a property of an artefact. It is fixed only
+  relative to a subject in a situation: what is an activity for a team member
+  is an action for the manager above them, actions collapse into operations
+  with practice, and operations come back up as actions when something breaks
+  (Kuutti; the Activity Checklist's broken-mailer example; Engeström).
+- What can be classified is the level of the actor's activity a technology is
+  designed to support. Kuutti's grid of operation-, action- and activity-level
+  support places one technology in several columns, and calls the columns
+  overlapping. A range fits this; one value simplifies it.
+- In Bødker's account the interface is "the artifact-bound conditions for how
+  actions can be done", and any part of it becomes the object of action when it
+  breaks down. A range that covered every level a pattern can surface at would
+  start at operation almost everywhere. The range therefore covers what the
+  centre supports when it works.
+- Automation and autonomy scales are ordinal, and the older line applies them
+  per function (information acquisition, analysis, decision, implementation;
+  or sense, plan, act), so a whole system has a profile rather than one level.
+  A single pattern usually acts on one stage, so one level or a short range per
+  pattern holds up.
+- Feng et al. name autonomy levels by the role the person takes (operator,
+  collaborator, consultant, approver, observer) and treat autonomy as a design
+  decision separate from capability. Unlike the activity level, it is decided
+  by design, so a pattern can carry it. Morris et al.'s scale starts at "no AI",
+  which is why `agents` has a "none" level.
+- The two literatures share no ancestor in the top of their citation lists:
+  one classifies the human's activity, the other the division of work between
+  the human and the system. That supports `agents` as its own facet rather than
+  a refinement of `activityLevel`.
+
+Deliberately not adopted:
+
+- Morris et al.'s level names. Their "AI as a consultant" is the person
+  consulting the AI; Feng's "consultant" is the agent consulting the person.
+  `agents` uses Feng's roles, named from the person's side, and the authoring
+  rule should say whose role a level names.
+- A per-function autonomy profile (four stages × levels) on each pattern. It
+  is the right shape for a system and too much apparatus for one pattern.
+- Recording movement between levels (automatisation, breakdown) as part of the
+  `activityLevel` range. Patterns whose job is that movement — mastery,
+  keyboard shortcuts, recovery from errors — get a range across the levels
+  they serve, not a separate marker, until the pilot shows they need one.
+
+## Research gate: time, people and scope (2026-10-25)
+
+The facet-scales research gate (2026-10-25) asked what the strawman scales for
+`time`, `people` and `scope` would get wrong. It read time-scale work (Newell's
+bands as reproduced by Anderson 2002; Lemke 2000), CSCW group-size work (Grudin
+1994, both papers; Grudin and Poltrock 2012; Clark and Carlson 1982; Korsgaard
+et al. 2022), interaction pattern-language organisation (van Welie and van der
+Veer 2003; Mullet 2002; Hübscher et al. 2011), and work on the application and
+artifact ecologies (Nouwens and Klokmose 2018; Jung et al. 2008; Bødker and
+Klokmose 2012; Lyle, Korsgaard and Bødker 2020). It also drew on the earlier
+persistence and umbrella-role gates.
+
+Claims the decisions rely on:
+
+- *Time.* Time bands of human action (Newell's biological, cognitive, rational
+  and social bands, ending at months) measure how long action takes. That is
+  the `activityLevel` axis, not the centre's lifetime. The facet's own
+  definition matches Lemke's heterochrony: an artifact made and read in seconds
+  takes part in a process lasting weeks. Lemke's longer timescales,
+  organisational (months to years) and biographical (decades), support
+  `project` and `lifetime` as levels.
+- *Time.* The memory-for-goals work suggests a candidate moment/session break:
+  a centre the actor can hold in mind, against one the interface must hold. The
+  model was tested only up to a few tens of seconds, so it gives the direction
+  of the break, not a value.
+- *Time.* "Moment" and "lifetime" are durations, while "session" and "project"
+  are units the centre attaches to and ends with. The persistence gate also
+  found that one centre can have different lifetimes for different parties,
+  which one range cannot express.
+- *People.* CSCW scales put an organisation level between team and community
+  (Grudin's rings: individual, small group, project, organisation; Kraut:
+  individual, dyad, small group or team, organisation, society). The breaks rest
+  on coordination. Past about seven people a group sets up subgroups and a
+  structure, and a community has fewer explicit shared goals than an
+  organisation. A dyad level supports `pair`. Korsgaard et al. separate a
+  collective from a fixed group by changing membership, not size.
+- *People.* These scales classify who uses a system. The people in one exchange
+  differ by role: an addressee, a participant, someone who only sees it (Clark
+  and Carlson); the person who benefits, the person who does the work
+  (Grudin). A head count needs a rule for which people it counts.
+- *Scope.* van Welie and van der Veer rejected screen extent as the scale of an
+  interaction pattern language ("a strict hierarchy based on the usage of
+  screen estate is not suitable") and used a scale of the actor's problem
+  instead. Its levels sit close to `activityLevel`.
+- *Scope.* The composition levels that recur are element, section or
+  component, screen or view, and application (Mullet; Park et al. 2026). None of
+  them includes flow. Where "flow" appears, it means a task sequence, so a
+  `flow` level would repeat `activityLevel` and `time`. Mullet also notes that
+  the middle levels are the hardest to name, and that moving an element within
+  the composition hierarchy should not change its type.
+- *Scope.* Application recurs as a level, but its boundary is fuzzy and it is
+  one historical way of packaging software (Nouwens and Klokmose), so `app`
+  holds only with a definition of where an application ends. An ecology is
+  bounded by whose it is, a person or a community, so an `ecosystem` level
+  carries a `people` value.
+- *Scope as the scale of the artifact.* Levels of design (conceptual,
+  interaction, presentation; Baxley's structure, behaviour, presentation) are
+  an axis separate from composition (Mullet; Hübscher et al.). What counts as
+  the artifact changes with the purpose of use: a device, an app, or a selection
+  of apps (Bødker and Klokmose). So the scale of the artifact is relative in the
+  same way the activity level is. Neither reading replaces the extent reading.
+
+Deliberately not adopted:
+
+- Newell's bands as the source for `time` levels, since they measure action
+  duration and stop at months.
+- Grudin's rings as a classification of patterns. They classify development
+  markets ("the principal customer or user").
+- Levels of design as a redefinition of `scope`. If the library wants that
+  axis, it is a separate facet.
+
+## Pilot classifications
+
+Values from the pilot, read from each page's situations and body as they stand
+and from the facet definitions above. Nothing is written to frontmatter until
+the schema exists. Ranges use `→` and include every level between their ends.
+The current column gives the `activityLevel` value in frontmatter now.
+
+The `scope` values apply the two rules now written into its definition
+(§Reading, *Where the definitions give two answers*).
+
+| Pattern | current | activityLevel | people | scope | agents | Note |
+|---|---|---|---|---|---|---|
+| undo | operation | operation → action | individual | view | none | Picking an action from a history to undo (selective undo) is an action. |
+| presence | operation | operation | pair → team | element → view | none | The cursor and selection are element-level; the avatar stack is a component that applies to the whole document. |
+| validation | operation | operation | individual | element | none | The error summary for long forms would add `component`; it is in the page's to-do, not its body. |
+| autocomplete | operation | operation | individual | element | none | The candidate list does not keep its kind away from its field, so it is part of the element. Generated completion belongs to ai-completion. |
+| commenting | action | action | pair → team | element → component | none | The anchor is element-level, the thread and the comment sidebar are components. |
+| notification | action | operation → action | individual | component → product | none | Toast, callout, dialog and panel are components; the page's global scope is product-wide. Inline notices are left out, as the page leaves the section empty. Noticing is operation, responding to a dialog is action. |
+| sharing | action | action | pair → organisation | view → area | none | A grant to a container's membership can admit an organisation, and a container's grant flows down to what it holds (area). |
+| handoff | action | action | individual → pair | view | consultant → observer | Escalation when the agent's confidence runs out is consultant, the scheduled return of unreviewed work approver, takeback mid-run observer. `pair` covers escalation to a human channel. |
+| approval-gate | action | action | individual | component → view | approver | A single proposed action is approved in a component; batch and diff review are views. |
+| resuming | action | action | individual | view | none | A wizard that connects several views is view-level by the connecting rule. |
+| version-history | action | action | individual → team | view | none | Shown in a panel, applies to the whole document. `team` covers restoring over a collaborator's work. |
+| standing-instructions | action | action | individual | area → product | operator | Scoped by where it lives: one project or the whole product. The actor writes it, or has it appended by command. The form where the system drafts and the actor approves would be approver; the range is not widened for it. |
+| selective-memory | action | action | individual | view → product | observer | Memory scoped per thread is view-level, product-wide memory product-level. The system keeps what it remembers, the actor inspects and erases. |
+| deep-linking | operation | operation → action | individual → pair | view | none | The centre is the address of a view; that the address works from outside the product is not a scope level. Keeping the address current is operation; bookmarking and sending are actions. |
+| workspace | activity | action → activity | individual → organisation | area | none | Personal, team and organisational workspaces. The switcher over workspaces belongs to hub-and-spoke. |
+| data-view | action | action | individual → team | view | none | Role views an administrator curates for a team bring in `team`. |
+| hub-and-spoke | action | action | individual | area → product | none | The structure contains its spokes: a settings area, or a banking app's home. The phone home screen, the page's purest form, sits between `product` and `ecosystem`. |
+| block-based-editor | action | operation → action | individual | component → view | none → collaborator | A block keeps its kind when moved, so it is a component; the document is the view. Passing a block to an LLM by command is operator; parallel editing with attribution is collaborator. Inserting a block is operation, composing the document is action. |
+| conversation | activity | action → activity | individual → pair | view | none → collaborator | `none` and `pair` are the person-to-person case; instruction-based dialogue is operator, question-driven dialogue collaborator. The group case (several people with an agent) is listed only as a to-do. |
+| activity-log | activity | action | individual → team | view → area | none | Reconstructing what happened is an action. The people whose events it records are not counted unless they read it; a project's log is read by the team. A document's log is view-level, a project's area-level. |
+
+### Reading
+
+Counts treat a ranged pattern as belonging to every level it spans, as the
+sidebar rule does, so a column's counts can add up to more than 20.
+
+*Spread.* `activityLevel`: `operation` 7, `action` 17 (11 as the only value),
+`activity` 2. `people`: `individual` 17, `pair` 10, `team` 7, `organisation`
+2, `community` 0. `scope`: `element` 4, `component` 5, `view` 14, `area` 7,
+`product` 4, `ecosystem` 0. `agents`: `none` 16 (14 as the only value),
+`operator` 3, `collaborator` 2, `consultant` 1, `approver` 2, `observer` 2.
+`community` and `ecosystem` are empty in this set; both are levels the
+library's coordination and cross-product patterns would need to fill before
+the sidebar shows them.
+
+*Overlap.* `scope` tracks `activityLevel` only in part. Five of the seven
+patterns that reach `operation` reach `element` or `component`, and workspace
+reaches `activity` at `area`. Against that, undo and deep-linking are
+operation at `view`, notification is operation up to `product`, and
+conversation reaches `activity` at `view`. Activity levels do not read as
+sizes of interface part.
+
+*Range width.* Of the 80 values, 29 are ranges. Two span four levels:
+workspace on `people` and notification on `scope`. Nine span three: presence
+and selective-memory on `scope`; sharing, version-history, data-view and
+activity-log on `people`; handoff, block-based-editor and conversation on
+`agents`. Notification's range reflects how much one page covers, and
+splitting the page would narrow it. The ranges do not yet suggest the facets
+are too coarse. The largest groups are `individual` and `action` (17 each),
+`none` (16, folded) and `view` (14).
+
+*Misfits settled.*
+- Standing-instructions and selective-memory set up the agent rather than
+  divide work with it. Under the `agents` definition, their centre is the
+  configuration and the work is keeping it, so standing-instructions is
+  `operator` (the actor writes) and selective-memory `observer` (the system
+  keeps, the actor watches and can erase). This keeps the contrast the two
+  pages draw, and neither lands in the folded "none" group.
+- Hub-and-spoke's ambiguity was on `time`, which is left out.
+- Deep-linking's centre is the address of a view, so its `scope` is `view`.
+
+*Where the definitions give two answers.* Three questions came up that the
+first definitions did not settle. The first two are settled by the rules now
+in the `scope` definition; the third is open until the second iteration.
+- `scope` is "where it is shown, or where its work and its rules apply". The
+  two differ for version-history (a panel, applying to the document),
+  presence (an avatar stack, applying to the document) and notification. The
+  table takes the larger.
+- "A centre between others takes the level of what it connects" and "larger
+  levels contain smaller ones" give different values for structures. A hub
+  connects views but contains them as an area. The table applies the
+  connecting rule only to centres that sit between peers, such as a wizard
+  between its steps, and the containing rule to structures.
+- A range includes every level between its ends, so a page whose forms sit at
+  non-adjacent `agents` levels is either over-claimed or cut down.
+  Standing-instructions is the case: its forms are operator and approver, and
+  a range would also claim collaborator and consultant. The table records the
+  main form and names the other in the note.
+
+*The "none" level of `agents`.* 16 of 20 take `none`, 14 of them as their only
+value. Four of the twenty pages are written for the agent case, more than the
+library's share, so the skew in the full library will be higher. Folding the
+"none" group in the sidebar, as the second iteration proposes, is necessary.
+
+*Whose activity.* On commenting, presence, sharing, handoff and conversation
+the parties' activities sit at the same level, so naming the subject did not
+change any value. Activity-log is where the people whose events it records and
+the person reading it differ, and the `people` counting rule settles it by
+leaving out those who do not read it.
+
+*Seeds.* Seven of the twenty are seeds: presence, sharing, handoff,
+approval-gate, resuming, version-history and selective-memory. Handoff,
+approval-gate and selective-memory are a paragraph or two each, so their
+values rest on a list of forms rather than a worked page, and they are the
+values most likely to change when the page is written. This bears on the open
+question of whether seeds take facet values.
+
+*Changes from current frontmatter.* Seven of the 20 change `activityLevel`.
+Undo, notification, deep-linking and block-based-editor widen to
+`operation → action`; workspace and conversation widen to
+`action → activity`; activity-log narrows from `activity` to `action`. Under
+the narrowed definition, `activity` survives only as the top of a range.
+
+*Changes from the first pass.* The first pass ran on the earlier scope ladder,
+before the facets were defined on the centre, and included `time`. Besides the
+new scope ladder: undo widens on `activityLevel`; sharing reaches
+`organisation`, and workspace takes `organisation` where it had `community`;
+data-view reaches `team`; standing-instructions and selective-memory move off
+`collaborator`; conversation starts at `none` and block-based-editor reaches
+`collaborator`.
+
+## Steps
+
+Done before the iterations:
+
+- *Pilot.* Twenty patterns classified against the centre-based definitions
+  and read above (§Pilot classifications, §Reading). The pilot rules are
+  written into the `people`, `scope` and `agents` definitions.
+- *Research gates* for all five scales, on 2026-10-24 and 2026-10-25 (above).
+
+### First iteration: `scope`
+
+1. *Schema.* Add `scope` to `apps/patterns/src/content.config.ts` as a level
+   or a two-level range, with a check that the range runs low to high. Build
+   the range type and the check as a shared helper, so the second iteration's
+   facets and the widened `activityLevel` reuse it. `mediation` and
+   `activityLevel` stay as they are.
+   Add `scope` to the classification-facets section of
+   [pattern-site.md](../../docs/specs/pattern-site.md), the authoring rule
+   (`.claude/rules/pattern-content.md`) and the pattern-classifier skill, and
+   add the scope ladder as the first interface-composition entry in
+   [levels-of-scale](../../docs/language/properties/levels-of-scale.md).
+2. *Classification sittings* for `scope`, one territory at a time, not as one
+   sweep. The pilot's `scope` values are written in the first sitting that
+   reaches each pattern.
+3. *Sidebar.* In `apps/patterns/src/lib/nav-tree.ts`, build one grouping of the
+   pattern list per facet, plus A–Z, at build time; the persisted Nav island
+   receives all of them and picks one client-side. The first iteration ships
+   A–Z and `scope`; later facets add a grouping without changing the
+   mechanism.
+   - The group-by control sits in the header of the `Patterns` branch, so it
+     reads as reordering only that list. The removal in `6ca4c6a5` was because
+     the footer placement read as reordering everything; the `Patterns` branch
+     that commit introduced makes the scoped placement possible now.
+   - Reuse what `54bece6a` built: the persisted projection key in
+     `nav-store.ts`, collapse state scoped per projection, and the
+     hydration-gated `pp-dropdown`.
+   - A–Z stays the default. Groups follow scale order, not the alphabet. A last
+     "Not classified" group holds patterns without a value, so coverage gaps
+     show.
+   - A ranged pattern is listed under every level it spans.
+   - The families in `BRANCH_GROUPS` (Navigation, Conversational primitives)
+     nest only in A–Z; in facet modes their members go under their own levels.
+   - Check the control against [grouping](../../apps/patterns/src/content/patterns/grouping.mdx),
+     since it is an instance of that pattern.
+
+### Second iteration: `people`, `agents` and `activityLevel`
+
+Outline; it is detailed once the first iteration is done.
+
+1. *Definitions.* Settle the remaining question about non-adjacent `agents`
+   levels (§Reading, *Where the definitions give two answers*) and the
+   overlap with the agency foundation (§Open questions).
+2. *Schema.* Add `people` and `agents`, and widen `activityLevel` to a range,
+   on the shared range type. Remove `mediation` from the schema, from
+   `scripts/extract-graph-data.ts`, and from
+   `apps/patterns/src/lib/pattern-graph.ts` and `pattern-graph.css`, and
+   delete [2026-03-mediation-type.md](../paused/2026-03-mediation-type.md).
+   Update the same docs as in the first iteration.
+3. *Classification sittings*, one territory at a time. The `mediation` value
+   is a hint for `people` where it exists, not a mapping.
+4. *Sidebar.* Add a grouping for each new facet. In the `agents` grouping the
+   "none" group starts folded, so the levels with an agent lead. "None" stays
+   a value, which keeps classified-as-none apart from not yet classified.
+
+## Open questions
+
+- What a `time` facet measures, for a later iteration. The strawman
+  (moment → session → project → lifetime) read how long the centre lasts, and
+  the 2026-10-25 gate found it mixes durations with units the centre ends
+  with. The alternative is a pace-layer reading: how fast the centre changes,
+  with slower layers constraining faster ones (Brand, after Duffy's shearing
+  layers; Taylor's specificity gradient applies it to software). That reading
+  has not been research-gated, and its layers would need defining apart from
+  `people` and `scope`, since slow layers also tend to be large and shared.
+  The constraint between layers may belong in edges rather than in a facet.
+  Persistence is one of the dimensions
+  [decision-dimensions.md](../../docs/language/decision-dimensions.md) lists as
+  absent from the library.
+
+- Whether seed pages take facet values. A seed names a suspected recurrence
+  and is not yet a claim that the rule makes the centre, so a value on it may
+  read as more certain than the page is.
+
+- Whether `agents` and the agency foundation share one vocabulary. The
+  foundation has its own spectrum (passive → reactive → semi-active →
+  proactive → co-operative) and a locus dimension (human-centric, shared,
+  system-centric) that overlap the facet. Two scales for the same thing should
+  not survive the schema change; which one gives way is a design call.
+- Whether ranges make the sidebar groups too large to navigate. The pilot's
+  range widths answer this before the first sidebar step.
+- Whether the sidebar waits for every pattern to have a `scope` value, or
+  ships while sittings continue and lets the "Not classified" group show the
+  gap.
+- Whether `lifecycle` (31 entries, no consumer) is retired in the same schema
+  change.
+- Whether the facets also project onto the home-page graph, as `activityLevel`
+  does.
+
+## Validation
+
+- `npm run test` passes, including the content schema.
+- In `npm run dev`, every grouping lists every pattern at least once, the
+  active pattern is marked in every group it appears in, and the chosen
+  grouping and its open groups survive navigation and reload.

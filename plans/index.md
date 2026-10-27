@@ -6,7 +6,7 @@ the plan contract and `docs/specs/` for settled specifications.
 ## Active
 
 - [Concept catalogue](active/2026-10-concept-catalogue.md) — Jackson's concepts as a third collection beside patterns and sequences, with `acts_on` on patterns
-- [Scale facets and sidebar grouping](active/2026-10-pattern-facets.md) — outline: ordered facets that take ranges (`people`, `time`, `scope`, `agents`, `activityLevel`), and grouping the sidebar's pattern list by facet
+- [Scale facets and sidebar grouping](active/2026-10-pattern-facets.md) — grouping the sidebar's pattern list by facet
 - [Generated demos](active/2026-10-generated-demos.md) — outline: a control on the demo frame that asks a model for a variant of a spec demo
 - [Recorded model replies on the published site](active/2026-10-recorded-model-replies.md) — outline: model replies recorded in development and replayed in the published build
 - [A brushing demo for coordinated views](active/2026-10-brushing-demo.md) — outline: a scatter plot with a brush, coupled to a list, for the coordinated-views page

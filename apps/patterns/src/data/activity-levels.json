@@ -351,6 +351,11 @@
       "lifecycle-stage": null,
       "mediation": null
     },
+    "information-environment": {
+      "activity-level": "activity",
+      "lifecycle-stage": null,
+      "mediation": null
+    },
     "inline-confirmation": {
       "activity-level": "operation",
       "lifecycle-stage": null,
@@ -665,6 +670,11 @@
       "activity-level": "action",
       "lifecycle-stage": "evaluation",
       "mediation": "individual"
+    },
+    "tool-ecology": {
+      "activity-level": "activity",
+      "lifecycle-stage": null,
+      "mediation": null
     },
     "transient-feedback": {
       "activity-level": "operation",

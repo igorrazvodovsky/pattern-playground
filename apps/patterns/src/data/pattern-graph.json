@@ -1590,6 +1590,18 @@
       "role": "foundation"
     },
     {
+      "id": "information-environment",
+      "title": "Information environment",
+      "category": "Activities",
+      "path": "/patterns/information-environment",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… an actor or a group works with information across many surfaces, channels, and moments, and needs to understand where things are, how they relate, and what can be done with them.",
+        "resulting": "The artifact's interior is the counterpart of its place among other tools, which is [tool ecology](/patterns/tool-ecology). The patterns between this one and the smaller ones it leads to are not yet written…"
+      },
+      "seed": true
+    },
+    {
       "id": "inline-confirmation",
       "title": "Inline confirmation",
       "category": "Operations",
@@ -3030,6 +3042,18 @@
         ]
       },
       "group": "evaluation"
+    },
+    {
+      "id": "tool-ecology",
+      "title": "Tool ecology",
+      "category": "Activities",
+      "path": "/patterns/tool-ecology",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… an actor, or a group of actors, already works with many tools, accounts and agents, and the artifact being made will join that set rather than replace it.",
+        "resulting": "The artifact's place among other tools is the counterpart of its interior, which is [information environment](/patterns/information-environment). The patterns between this one and the smaller ones it leads to are not yet written…"
+      },
+      "seed": true
     },
     {
       "id": "transient-feedback",
@@ -5766,6 +5790,15 @@
       "extractedFrom": "frontmatter:precedes"
     },
     {
+      "source": "information-environment",
+      "target": "tool-ecology",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The artifact's interior is the counterpart of its place among other tools, which is [tool ecology](/patterns/tool-ecology).",
+      "glossFrom": "source:resulting",
+      "farSituation": "The artifact's place among other tools is the counterpart of its interior, which is [information environment](/patterns/information-environment)."
+    },
+    {
       "source": "inline-confirmation",
       "target": "deletion",
       "type": "related",
@@ -8115,6 +8148,15 @@
       "type": "related",
       "label": "tone adjustment with cultural bounds",
       "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "tool-ecology",
+      "target": "information-environment",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The artifact's place among other tools is the counterpart of its interior, which is [information environment](/patterns/information-environment).",
+      "glossFrom": "source:resulting",
+      "farSituation": "The artifact's interior is the counterpart of its place among other tools, which is [tool ecology](/patterns/tool-ecology)."
     },
     {
       "source": "transient-feedback",
