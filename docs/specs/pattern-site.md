@@ -21,7 +21,7 @@ until it does), and `role` — the kind of thing the entry is, defined in
 entries are the exception, not the rule. Most components live only in Storybook.
 
 Everything else is optional and mutually independent: the classification facets
-(`activityLevel`, `lifecycle`, `group`, `domain` — see below), `mediation` (how
+(`activityLevel`, `scope`, `lifecycle`, `group`, `domain` — see below), `mediation` (how
 many actors the move sits between), `description` (the graph node tooltip and
 site meta), `tags`, the
 epistemic fields below, the `relationships`, `realised_by`, `situation`, and
@@ -124,21 +124,37 @@ An entry is classified by independent frontmatter _facets_, none of which is
 privileged by the filesystem (the content directory is flat). Each facet is a
 lens; navigation and the graph are _projections_ over them.
 
-The sidebar reads one facet, `role`: foundations and qualities get their own
-groups, everything else is one alphabetical list of patterns, with the authored
-sequences above it. The other facets project elsewhere — `activityLevel` colours
-the graph on the home page, `group` and `domain` reach the graph data through
-`scripts/extract-graph-data.ts`. The remaining `role:collection` entries are slated
-for dissolution (see [relationship-vocabulary.md](../language/relationship-vocabulary.md) §Retirement).
+The sidebar reads `role` and the scale facets. Foundations and qualities get their own groups, and the authored sequences sit above the pattern list. The other facets project elsewhere — `activityLevel` colours the graph on the home page, `group` and `domain` reach the graph data through `scripts/extract-graph-data.ts`. The remaining `role:collection` entries are slated for dissolution (see [relationship-vocabulary.md](../language/relationship-vocabulary.md) §Retirement).
 
 - `activityLevel` (`operation | action | activity`) — Activity Theory altitude:
   the altitude of the human activity the entry addresses. A
   _pattern-site-only_ classification.
+- `scope` (`role: pattern` only) — a scale facet: how far in the interface the centre the pattern makes reaches, where it is shown or where its work and its rules apply. A value is one level or a `[from, to]` pair running low to high, which covers every level between its ends (`scope: view`, `scope: [element, view]`). Seeds take values like other patterns. The levels:
+  - `element` — a single control or mark (field, button, cursor, badge).
+  - `component` — a part of a view with its own job, which keeps its kind when
+    moved to another view (inspector, toolbar, card, comment thread).
+  - `view` — what one surface shows at once, arranged for one activity (editor,
+    canvas, inbox, conversation).
+  - `area` — a part of a product that follows its own rules (settings, an admin
+    area, a project or workspace, one module of a suite).
+  - `product` — one maker designs its structure, its areas and the routes
+    between them (main navigation, product-wide search).
+  - `ecosystem` — no single maker; it forms piecemeal from many products,
+    platforms and conventions (handoff, share sheet, clipboard).
+
+  A centre with no drawn surface still takes a level: where its work lands or
+  where its rule applies. Where a centre is shown in one place and applies over
+  a larger one, it takes the larger (a version-history panel is `view`). A
+  centre that is a structure takes the level of what contains it, while a centre
+  between peers takes the level of the peers (a hub is `area`; a wizard between
+  views is `view`). Pilot values and the research behind the ladder:
+  [2026-10-pattern-facets.md](../../plans/active/2026-10-pattern-facets.md).
 - `lifecycle` — a stage in the Seek–Use–Share family (e.g. `seeking`,
   `coordination`, `evaluation`). Free-form; not derived from `activityLevel`.
 - `group` — a slash-delimited path recording a structural grouping verbatim
-  (e.g. `conversation/sequence-management`); it makes no semantic claim. No
-  longer read by the navigation; it survives only in the graph data. A
+  (e.g. `conversation/sequence-management`); it makes no semantic claim. The
+  navigation reads it only for the two families that nest in the sidebar
+  (`navigation`, `conversation`); the graph data carries all of it. A
   transitional scaffold carried over from the pre-flatten folder tree, slated
   for retirement.
 - `domain` — the domain corpus an entry belongs to (e.g. `data-visualization`).

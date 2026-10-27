@@ -3,7 +3,7 @@ title: "Scale facets for patterns, and grouping by them in the sidebar"
 status: active
 kind: exec-spec
 created: 2026-10-24
-last_reviewed: 2026-10-26
+last_reviewed: 2026-10-27
 area: metadata, patterns-site
 promoted_to: ""
 superseded_by: ""
@@ -45,7 +45,9 @@ describes the kind of centre, and a range covers the instances the page
 describes.
 
 Facets apply to design patterns only. Collections, foundations, qualities and
-anti-patterns are not rules for making a centre and take no facet values.
+anti-patterns are not rules for making a centre and take no facet values. Seeds
+take values like other patterns; their values are the likeliest to change when
+the page is written.
 
 - `people` — how many people the centre is shared between:
   individual → pair → team → organisation → community. The people counted are
@@ -380,7 +382,9 @@ Done before the iterations:
 
 ### First iteration: `scope`
 
-1. *Schema.* Add `scope` to `apps/patterns/src/content.config.ts` as a level
+Steps 1 and 3 are done; step 2 is next.
+
+1. *Schema.* Done. Add `scope` to `apps/patterns/src/content.config.ts` as a level
    or a two-level range, with a check that the range runs low to high. Build
    the range type and the check as a shared helper, so the second iteration's
    facets and the widened `activityLevel` reuse it. `mediation` and
@@ -390,10 +394,43 @@ Done before the iterations:
    (`.claude/rules/pattern-content.md`) and the pattern-classifier skill, and
    add the scope ladder as the first interface-composition entry in
    [levels-of-scale](../../docs/language/properties/levels-of-scale.md).
+   The range type is `apps/patterns/src/lib/facets.ts` (levels, the order
+   check and the level expander, with a unit test); `content.config.ts` builds
+   the schema from it and rejects a facet on any role but `pattern`.
 2. *Classification sittings* for `scope`, one territory at a time, not as one
    sweep. The pilot's `scope` values are written in the first sitting that
-   reaches each pattern.
-3. *Sidebar.* In `apps/patterns/src/lib/nav-tree.ts`, build one grouping of the
+   reaches each pattern. The first sitting is *Structuring the space*: it holds
+   three pilot patterns (workspace, deep-linking, hub-and-spoke), the
+   Navigation family, and the `area` and `product` levels where the two
+   tie-break rules matter most.
+   - *Territories.* Each design pattern has one home sitting: the first
+     sequence that reaches it. The patterns no sequence reaches form a last
+     sitting. The list is fixed before reading, at roughly 10 to 15 patterns
+     a sitting.
+   - *Two readers.* Each page is read in full: both situations, the body and
+     the forms it lists, not the description. Two readers classify the same
+     pages independently, with the same inputs: the `scope` definitions in
+     [pattern-site.md](../../docs/specs/pattern-site.md), the pilot values
+     as worked examples, and the instruction to give each value with one
+     sentence quoting the page that decides it. Neither sees the other's
+     values.
+   - *Comparison.* Where the readers agree, the value goes into frontmatter.
+     Where they disagree, the author decides between the two readings and
+     their quotes.
+   - *What a disagreement shows.* If the definitions do not settle the case,
+     the rule is tightened in the spec, and later sittings apply it. If the
+     page covers more than one centre (notification's four-level range), the
+     page is listed for a later edit and the value is not forced.
+   - *Record.* Each sitting adds a table under §Sittings: pattern, value, the
+     deciding quote, and whether the readers agreed or the author decided.
+     Frontmatter holds only the value.
+   - *Calibration.* The first two sittings use both readers on every
+     pattern. If the readers mostly agree, later sittings use one reader and
+     a second reader on a sample of each sitting. If they often disagree, the
+     definitions are revised before more values are written.
+   - Sittings run in order, never in parallel, so a rule tightened in one
+     applies to the next.
+3. *Sidebar.* Done. In `apps/patterns/src/lib/nav-tree.ts`, build one grouping of the
    pattern list per facet, plus A–Z, at build time; the persisted Nav island
    receives all of them and picks one client-side. The first iteration ships
    A–Z and `scope`; later facets add a grouping without changing the
@@ -405,12 +442,17 @@ Done before the iterations:
    - Reuse what `54bece6a` built: the persisted projection key in
      `nav-store.ts`, collapse state scoped per projection, and the
      hydration-gated `pp-dropdown`.
-   - A–Z stays the default. Groups follow scale order, not the alphabet. A last
-     "Not classified" group holds patterns without a value, so coverage gaps
-     show.
+   - A–Z stays the default. Groups follow scale order from large to small, the
+     making order of *A Pattern Language*'s summary, not the alphabet. Empty
+     levels are left out. A last "Not classified" group holds design patterns
+     without a value, so coverage gaps show. Collections, including the family
+     overview pages, are left out of facet groupings.
    - A ranged pattern is listed under every level it spans.
    - The families in `BRANCH_GROUPS` (Navigation, Conversational primitives)
-     nest only in A–Z; in facet modes their members go under their own levels.
+     nest under each level their members reach, holding the members at that
+     level. A family whose members share one level stays together.
+   - The trigger names the grouping when it is not A–Z.
+   - The grouping ships while the sittings continue.
    - Check the control against [grouping](../../apps/patterns/src/content/patterns/grouping.mdx),
      since it is an instance of that pattern.
 
@@ -433,6 +475,11 @@ Outline; it is detailed once the first iteration is done.
    "none" group starts folded, so the levels with an agent lead. "None" stays
    a value, which keeps classified-as-none apart from not yet classified.
 
+## Sittings
+
+One table per `scope` sitting, in the order they run (§Steps, first
+iteration, step 2). None has run yet.
+
 ## Open questions
 
 - What a `time` facet measures, for a later iteration. The strawman
@@ -448,20 +495,13 @@ Outline; it is detailed once the first iteration is done.
   [decision-dimensions.md](../../docs/language/decision-dimensions.md) lists as
   absent from the library.
 
-- Whether seed pages take facet values. A seed names a suspected recurrence
-  and is not yet a claim that the rule makes the centre, so a value on it may
-  read as more certain than the page is.
-
 - Whether `agents` and the agency foundation share one vocabulary. The
   foundation has its own spectrum (passive → reactive → semi-active →
   proactive → co-operative) and a locus dimension (human-centric, shared,
   system-centric) that overlap the facet. Two scales for the same thing should
   not survive the schema change; which one gives way is a design call.
-- Whether ranges make the sidebar groups too large to navigate. The pilot's
-  range widths answer this before the first sidebar step.
-- Whether the sidebar waits for every pattern to have a `scope` value, or
-  ships while sittings continue and lets the "Not classified" group show the
-  gap.
+- Whether ranges make the sidebar groups too large to navigate. `view` held
+  14 of the pilot's 20 and may pass 40 in the full library.
 - Whether `lifecycle` (31 entries, no consumer) is retired in the same schema
   change.
 - Whether the facets also project onto the home-page graph, as `activityLevel`
@@ -470,6 +510,7 @@ Outline; it is detailed once the first iteration is done.
 ## Validation
 
 - `npm run test` passes, including the content schema.
-- In `npm run dev`, every grouping lists every pattern at least once, the
+- In `npm run dev`, every grouping lists every design pattern at least once
+  (A–Z also lists the collections), the
   active pattern is marked in every group it appears in, and the chosen
   grouping and its open groups survive navigation and reload.

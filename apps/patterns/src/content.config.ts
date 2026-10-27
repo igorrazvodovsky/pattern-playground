@@ -1,9 +1,25 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { fileStem } from './lib/stem';
+import { SCOPE_LEVELS, isAscendingRange } from './lib/facets';
 
 const AUTHORABLE_EVIDENCE_KINDS = ['observed', 'literature', 'used'] as const;
 const EVIDENCE_BEARING_ROLES = ['pattern', 'collection'] as const;
+
+// A scale facet value: one level, or a `[from, to]` pair running low to high.
+function rangedFacet<const L extends readonly [string, ...string[]]>(levels: L) {
+  const level = z.enum(levels);
+  return z
+    .union([level, z.tuple([level, level])])
+    .refine((value) => isAscendingRange(value, levels), {
+      message:
+        `a range runs from the lower level to the higher, with different ends ` +
+        `(${levels.join(' → ')}); write a single level as a single value.`,
+    });
+}
+
+// Facets describe the centre a design pattern makes; the other roles take none.
+const FACETS = ['scope'] as const;
 
 const patterns = defineCollection({
   loader: glob({
@@ -22,6 +38,7 @@ const patterns = defineCollection({
       'group': z.string().optional(),
       'domain': z.string().optional(),
       'mediation': z.enum(['individual', 'coordination', 'networking']).optional(),
+      'scope': rangedFacet(SCOPE_LEVELS).optional(),
       'description': z.string().optional(),
       'tags': z.array(z.string()).optional(),
       'showRelated': z.boolean().optional(),
@@ -76,6 +93,18 @@ const patterns = defineCollection({
     .superRefine((data, ctx) => {
       const kinds: readonly string[] = AUTHORABLE_EVIDENCE_KINDS;
       const evidenceRoles: readonly string[] = EVIDENCE_BEARING_ROLES;
+
+      for (const facet of FACETS) {
+        if (data[facet] !== undefined && data.role !== 'pattern') {
+          ctx.addIssue({
+            code: 'custom',
+            path: [facet],
+            message:
+              `${facet} is only carried by role: pattern — a facet describes the ` +
+              `centre a design pattern makes, and a role: ${data.role} entry makes none.`,
+          });
+        }
+      }
 
       if (data.evidence !== undefined && !evidenceRoles.includes(data.role)) {
         ctx.addIssue({

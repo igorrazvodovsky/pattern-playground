@@ -3,16 +3,26 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import { panePath } from './pane-path';
 import { bySequenceOrder, humaniseSlug } from './sequence';
 import { CONCEPTS_ENABLED } from './site';
+import { SCOPE_LEVELS, levelsSpanned } from './facets';
 
 export type NavLeaf = { label: string; href: string };
 export type NavBranch = { label: string; children: NavTreeNode[] };
 export type NavTreeNode = NavLeaf | NavBranch;
 export type NavGroup = NavBranch;
 
+// One arrangement of the pattern list. The actor picks one in the sidebar; all
+// are built here so the persisted Nav island can switch without a rebuild.
+export interface NavGrouping {
+  id: string;
+  label: string;
+  children: NavTreeNode[];
+}
+
 export interface NavTree {
   // Role groups (foundations, qualities), listed above the patterns.
   shared: NavGroup[];
-  patterns: NavGroup;
+  // The first grouping is the default.
+  patterns: { label: string; groupings: NavGrouping[] };
   sequences: NavGroup;
   // The concept catalogue. A parallel catalogue, not part of the language, so
   // it is rendered in its own corner of the site (Nav.tsx `corner`), never as
@@ -22,15 +32,14 @@ export interface NavTree {
 
 type PatternEntry = CollectionEntry<'patterns'>;
 
-// The sidebar reads `role` and, for a few families, `group`. Foundations and
-// qualities are lifted into their own groups; everything else is one
-// alphabetical list, except the families named in BRANCH_GROUPS, which nest
-// under one branch each in it. The other facets — activityLevel, lifecycle,
-// domain, and the other `group` values — are lenses the graph and the
-// sequences project over, not navigation structure. An Activity-Theory
-// grouping used to be offered here as a switchable projection; it was removed
-// because it was not carrying navigation, and because a switcher sitting at the
-// root of the sidebar implied it reordered everything, not just the patterns.
+// The sidebar reads `role`, the scale facets and, for a few families, `group`.
+// Foundations and qualities are lifted into their own groups. The pattern list
+// below them is arranged by a grouping the actor picks: A–Z, or one per scale
+// facet, where the levels run from large to small and a ranged pattern is
+// listed under every level it spans. Facet groupings hold design patterns only,
+// since the other roles take no facet values. The remaining facets
+// (activityLevel, lifecycle, domain, the other `group` values) are lenses the
+// graph and the sequences project over, not navigation structure.
 function roleGroupOf(entry: PatternEntry): 'foundations' | 'qualities' | null {
   if (entry.data.role === 'foundation') return 'foundations';
   if (entry.data.role === 'quality') return 'qualities';
@@ -39,7 +48,9 @@ function roleGroupOf(entry: PatternEntry): 'foundations' | 'qualities' | null {
 
 // Families that nest under their own branch, keyed by the first segment of
 // `group`. A second segment (`conversation/sequence-management`) becomes a
-// sub-branch. A family's collection page opens its branch as the overview.
+// sub-branch. A family's collection page opens its branch as the overview. In a
+// facet grouping a family nests under each level its members reach, holding the
+// members at that level, so a family that sits at one level stays together.
 const BRANCH_GROUPS: Record<string, string> = {
   navigation: 'Navigation',
   conversation: 'Conversational primitives',
@@ -89,8 +100,17 @@ function assembleNavTree(
     ] satisfies NavGroup[]
   ).filter((g) => g.children.length > 0);
 
-  const branchFor = (key: string): NavBranch => {
-    const members = patterns.filter((p) => groupPath(p)[0] === key);
+  // The patterns that pass `test`, with family members nested in their branches.
+  const listOf = (test: (p: PatternEntry) => boolean): NavTreeNode[] =>
+    [
+      ...leavesWhere((p) => test(p) && !inBranch(p)),
+      ...Object.keys(BRANCH_GROUPS)
+        .map((key) => branchFor(key, test))
+        .filter((b) => b.children.length > 0),
+    ].sort(byLabel);
+
+  const branchFor = (key: string, test: (p: PatternEntry) => boolean): NavBranch => {
+    const members = patterns.filter((p) => test(p) && groupPath(p)[0] === key);
     const overview = leavesWhere((p) => members.includes(p) && p.data.role === 'collection').map(
       (leaf): NavLeaf => ({ ...leaf, label: 'Overview' }),
     );
@@ -107,14 +127,32 @@ function assembleNavTree(
     return { label: BRANCH_GROUPS[key], children: [...overview, ...rest] };
   };
 
-  const patternsGroup: NavGroup = {
+  const isDesignPattern = (p: PatternEntry) => p.data.role === 'pattern';
+
+  // Levels from large to small, then the patterns not yet classified, so the
+  // coverage gap shows. Empty levels are left out.
+  const byScope: NavTreeNode[] = [
+    ...[...SCOPE_LEVELS].reverse().map((level): NavBranch => ({
+      label: humaniseSlug(level),
+      children: listOf(
+        (p) =>
+          isDesignPattern(p) &&
+          p.data.scope !== undefined &&
+          levelsSpanned(p.data.scope, SCOPE_LEVELS).includes(level),
+      ),
+    })),
+    {
+      label: 'Not classified',
+      children: listOf((p) => isDesignPattern(p) && p.data.scope === undefined),
+    },
+  ].filter((g) => g.children.length > 0);
+
+  const patternsGroup = {
     label: 'Patterns',
-    children: [
-      ...leavesWhere((p) => roleGroupOf(p) === null && !inBranch(p)),
-      ...Object.keys(BRANCH_GROUPS)
-        .map(branchFor)
-        .filter((b) => b.children.length > 0),
-    ].sort(byLabel),
+    groupings: [
+      { id: 'a-z', label: 'A–Z', children: listOf((p) => roleGroupOf(p) === null) },
+      { id: 'scope', label: 'Scope', children: byScope },
+    ],
   };
 
   // A sequence is an authored walk over the patterns rather than another way of

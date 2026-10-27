@@ -2,8 +2,14 @@ import { useEffect, useState } from 'react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+// The pattern-list grouping when nothing is persisted, or when a persisted id
+// names a grouping that no longer exists.
+export const DEFAULT_GROUPING = 'a-z';
+
 type NavState = {
   openGroups: Record<string, boolean>;
+  grouping: string;
+  setGrouping: (grouping: string) => void;
   setOpen: (label: string, open: boolean) => void;
   isOpen: (label: string) => boolean;
 };
@@ -12,6 +18,8 @@ export const useNavStore = create<NavState>()(
   persist(
     (set, get) => ({
       openGroups: {},
+      grouping: DEFAULT_GROUPING,
+      setGrouping: (grouping) => set({ grouping }),
       setOpen: (label, open) =>
         set((state) => ({ openGroups: { ...state.openGroups, [label]: open } })),
       isOpen: (label) => get().openGroups[label] ?? false,
@@ -19,11 +27,11 @@ export const useNavStore = create<NavState>()(
     {
       name: 'nav-state',
       skipHydration: true,
-      // A stale payload carrying keys this store no longer defines (a removed
-      // projection id, collapse keys from a dropped group) shallow-merges over
-      // the initial state and is ignored — no version/migrate needed.
-      // partialize keeps the persisted shape to just the serialisable keys.
-      partialize: (state) => ({ openGroups: state.openGroups }),
+      // A stale payload shallow-merges over the initial state: one without
+      // `grouping` keeps the default, and collapse keys from a dropped group are
+      // ignored — no version/migrate needed. partialize keeps the persisted
+      // shape to just the serialisable keys.
+      partialize: (state) => ({ openGroups: state.openGroups, grouping: state.grouping }),
     },
   ),
 );

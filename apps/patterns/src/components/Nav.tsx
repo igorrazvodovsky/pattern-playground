@@ -10,13 +10,14 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarMenuAction,
   SidebarTrigger,
 } from '@components/sidebar';
 import { setPatternGraphHover } from '../lib/pattern-graph-hover';
-import { useNavStore, useNavHydration } from '../lib/nav-store';
+import { useNavStore, useNavHydration, DEFAULT_GROUPING } from '../lib/nav-store';
 import { useActivePath, isActivePath } from '../lib/active-path';
 
-import type { NavBranch, NavTree, NavTreeNode } from '../lib/nav-tree';
+import type { NavBranch, NavGrouping, NavTree, NavTreeNode } from '../lib/nav-tree';
 import { CONCEPTS_ENABLED, STORYBOOK_URL } from '../lib/site';
 
 function isBranch(node: NavTreeNode): node is NavBranch {
@@ -34,6 +35,17 @@ interface NavNodeProps {
   // survives ClientRouter navigations) opens groups on the client before React
   // hydrates the swapped-in page, throwing a hydration mismatch.
   hydrated: boolean;
+  // Collapse state is stored under the branch's label, prefixed by this. Facet
+  // groupings prefix their branches with the grouping id and the path, so the
+  // same family under two levels keeps two states.
+  keyPrefix?: string;
+  // Overrides the prefix handed to the children (the Patterns branch scopes its
+  // children by grouping while keeping its own key).
+  childKeyPrefix?: string;
+  // Muted text after the label (the Patterns branch names its grouping).
+  note?: string;
+  // A control beside the branch trigger, outside it so no button nests in another.
+  action?: React.ReactNode;
 }
 
 const Chevron = () =>
@@ -42,13 +54,25 @@ const Chevron = () =>
     className: 'sidebar-collapsible-chevron',
   });
 
-function NavNode({ node, currentPath, isOpen, setOpen, hydrated }: NavNodeProps) {
+function NavNode({
+  node,
+  currentPath,
+  isOpen,
+  setOpen,
+  hydrated,
+  keyPrefix = '',
+  childKeyPrefix,
+  note,
+  action,
+}: NavNodeProps) {
   if (isBranch(node)) {
+    const key = `${keyPrefix}${node.label}`;
+    const childPrefix = childKeyPrefix ?? (keyPrefix ? `${key}/` : '');
     return (
       <SidebarMenuItem>
         <Collapsible.Root
-          open={hydrated && isOpen(node.label)}
-          onOpenChange={(open) => setOpen(node.label, open)}
+          open={hydrated && isOpen(key)}
+          onOpenChange={(open) => setOpen(key, open)}
         >
           <SidebarMenuButton
             render={<Collapsible.Trigger />}
@@ -56,8 +80,14 @@ function NavNode({ node, currentPath, isOpen, setOpen, hydrated }: NavNodeProps)
             tooltip={node.label}
           >
             <Chevron />
-            <span>{node.label}</span>
+            <span>
+              {node.label}
+              {note && <span className="muted"> · {note}</span>}
+            </span>
           </SidebarMenuButton>
+          {/* Before the panel, so the control comes straight after its trigger in
+              focus order rather than after every link the branch holds. */}
+          {action}
           <Collapsible.Panel className="sidebar-collapsible-panel">
             <SidebarGroupContent className="sidebar-collapsible-group-content">
               <SidebarMenu>
@@ -69,6 +99,7 @@ function NavNode({ node, currentPath, isOpen, setOpen, hydrated }: NavNodeProps)
                     isOpen={isOpen}
                     setOpen={setOpen}
                     hydrated={hydrated}
+                    keyPrefix={childPrefix}
                   />
                 ))}
               </SidebarMenu>
@@ -144,6 +175,58 @@ function SiteHeader({ hydrated }: { hydrated: boolean }) {
   );
 }
 
+// The control that picks how the pattern list is grouped, beside the Patterns
+// trigger so it reads as arranging that list only.
+//
+// The dropdown is gated on `hydrated`: pp-dropdown, pp-list and pp-list-item
+// upgrade and mutate their own light DOM (role, tabindex, aria-*, generated
+// ids), which would race React's hydration if they were SSR'd. The server and
+// the first client render show only the trigger; the dropdown mounts after.
+// `hoist` lets the panel escape the sidebar's overflow container.
+function GroupingMenu({
+  groupings,
+  active,
+  onSelect,
+  hydrated,
+}: {
+  groupings: NavGrouping[];
+  active: string;
+  onSelect: (id: string) => void;
+  hydrated: boolean;
+}) {
+  // Selection runs through React's onClick, so pp-dropdown's own
+  // pp-select-driven close doesn't fire; close it on select.
+  const dropdownRef = React.useRef<(HTMLElement & { open?: boolean }) | null>(null);
+  const trigger = (
+    <SidebarMenuAction data-slot={hydrated ? 'trigger' : undefined} aria-label="Group patterns by">
+      <iconify-icon className="icon" icon="ik:view-list" />
+    </SidebarMenuAction>
+  );
+  if (!hydrated) return trigger;
+  return (
+    <pp-dropdown ref={dropdownRef} placement="bottom-end" hoist>
+      {trigger}
+      <pp-popup>
+        <pp-list>
+          {groupings.map(({ id, label }) => (
+            <pp-list-item
+              key={id}
+              type="radio"
+              checked={id === active}
+              onClick={() => {
+                onSelect(id);
+                if (dropdownRef.current) dropdownRef.current.open = false;
+              }}
+            >
+              {label}
+            </pp-list-item>
+          ))}
+        </pp-list>
+      </pp-popup>
+    </pp-dropdown>
+  );
+}
+
 // The site has two corners, each with its own sidebar: the pattern language
 // (the default) and the concept catalogue, a parallel catalogue reached from
 // the language's footer the way the component catalogue is. Each corner's
@@ -192,12 +275,21 @@ function CornerLink({
 // the runtime URL via useActivePath, not a prop, since a persisted island
 // never re-renders on navigation.
 export function Nav({ shared, patterns, sequences, concepts, corner = 'patterns' }: NavProps) {
-  const { isOpen, setOpen } = useNavStore();
+  const { isOpen, setOpen, grouping, setGrouping } = useNavStore();
   const hydrated = useNavHydration();
   const currentPath = useActivePath();
   const { word, home, homeLabel } = CORNER[corner];
+
+  // Until rehydration, render the default grouping so the first client render
+  // matches the server HTML (see `hydrated` on NavNodeProps); a persisted id
+  // naming a grouping that no longer exists falls back to the default too.
+  const { groupings } = patterns;
+  const active =
+    groupings.find((g) => hydrated && g.id === grouping) ??
+    groupings.find((g) => g.id === DEFAULT_GROUPING)!;
+  const patternsBranch: NavBranch = { label: patterns.label, children: active.children };
   const groups: NavTreeNode[] =
-    corner === 'concepts' ? [concepts] : [...shared, sequences, patterns];
+    corner === 'concepts' ? [concepts] : [...shared, sequences, patternsBranch];
 
   return (
     <SidebarProvider renderWrapper={false}>
@@ -247,16 +339,38 @@ export function Nav({ shared, patterns, sequences, concepts, corner = 'patterns'
               </SidebarMenuItem>
               {groups
                 .filter((group) => isBranch(group) && group.children.length > 0)
-                .map((group) => (
-                  <NavNode
-                    key={group.label}
-                    node={group}
-                    currentPath={currentPath}
-                    isOpen={isOpen}
-                    setOpen={setOpen}
-                    hydrated={hydrated}
-                  />
-                ))}
+                .map((group) =>
+                  group === patternsBranch ? (
+                    <NavNode
+                      key={group.label}
+                      node={group}
+                      currentPath={currentPath}
+                      isOpen={isOpen}
+                      setOpen={setOpen}
+                      hydrated={hydrated}
+                      // A–Z keeps the collapse keys it had before groupings existed.
+                      childKeyPrefix={active.id === DEFAULT_GROUPING ? '' : `${active.id}:`}
+                      note={active.id === DEFAULT_GROUPING ? undefined : active.label}
+                      action={
+                        <GroupingMenu
+                          groupings={groupings}
+                          active={active.id}
+                          onSelect={setGrouping}
+                          hydrated={hydrated}
+                        />
+                      }
+                    />
+                  ) : (
+                    <NavNode
+                      key={group.label}
+                      node={group}
+                      currentPath={currentPath}
+                      isOpen={isOpen}
+                      setOpen={setOpen}
+                      hydrated={hydrated}
+                    />
+                  ),
+                )}
             </SidebarMenu>
           </SidebarGroup>
         </SidebarContent>

@@ -491,11 +491,12 @@
    * SidebarMenuAction
    * ------------------------------------------------------------------------- */
 
+  /* Centred on the menu button's row, not the item: an item with sub-items or
+     an open collapsible grows taller than its button. */
   .sidebar-menu-action {
     position: absolute;
-    inset-block-start: 50%;
+    inset-block-start: calc((2rem - 1.25rem) / 2);
     inset-inline-end: var(--space-2xs);
-    transform: translateY(-50%);
     display: flex;
     align-items: center;
     justify-content: center;

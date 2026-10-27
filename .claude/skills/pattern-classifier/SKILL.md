@@ -200,7 +200,9 @@ one means are in [`docs/specs/pattern-site.md`](../../docs/specs/pattern-site.md
 [`.claude/rules/pattern-content.md`](../../.claude/rules/pattern-content.md).
 
 Which of them this skill's decisions actually turn on: `activityLevel` and
-`lifecycle` carry the placement judgement; `group` records a navigation sub-tree
+`lifecycle` carry the placement judgement; `scope` (design patterns only) says
+how far in the interface the centre the pattern makes reaches, read from the
+centre rather than from any one component that realises it; `group` records a navigation sub-tree
 and makes no semantic claim; `mediation` (how many actors the pattern sits
 between) rarely decides anything here.
 
