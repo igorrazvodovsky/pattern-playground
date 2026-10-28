@@ -3,7 +3,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import { panePath } from './pane-path';
 import { bySequenceOrder, humaniseSlug } from './sequence';
 import { CONCEPTS_ENABLED } from './site';
-import { SCOPE_LEVELS, levelsSpanned } from './facets';
+import { SCOPE_LEVELS } from './facets';
 
 // `overview` marks a family's collection page, which opens its branch.
 export type NavLeaf = { label: string; href: string; overview?: boolean };
@@ -47,9 +47,8 @@ type PatternEntry = CollectionEntry<'patterns'>;
 // The sidebar reads `role`, the scale facets and, for a few families, `group`.
 // Foundations and qualities are lifted into their own groups. The pattern list
 // below them is arranged by a grouping the actor picks: A–Z, or one per scale
-// facet, where the levels run from large to small and a ranged pattern is
-// listed under every level it spans. Facet groupings hold design patterns only,
-// since the other roles take no facet values. The remaining facets
+// facet, where the levels run from large to small. Facet groupings hold design
+// patterns only, since the other roles take no facet values. The remaining facets
 // (activityLevel, lifecycle, domain, the other `group` values) are lenses the
 // graph and the sequences project over, not navigation structure.
 function roleGroupOf(entry: PatternEntry): 'foundations' | 'qualities' | null {
@@ -148,12 +147,7 @@ function assembleNavTree(
   const byScope: NavTreeNode[] = [
     ...[...SCOPE_LEVELS].reverse().map((level): NavBranch => ({
       label: humaniseSlug(level),
-      children: listOf(
-        (p) =>
-          isDesignPattern(p) &&
-          p.data.scope !== undefined &&
-          levelsSpanned(p.data.scope, SCOPE_LEVELS).includes(level),
-      ),
+      children: listOf((p) => isDesignPattern(p) && p.data.scope === level),
     })),
     {
       label: 'Not classified',

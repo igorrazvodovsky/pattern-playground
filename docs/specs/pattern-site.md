@@ -129,25 +129,34 @@ The sidebar reads `role` and the scale facets. Foundations and qualities get the
 - `activityLevel` (`operation | action | activity`) — Activity Theory altitude:
   the altitude of the human activity the entry addresses. A
   _pattern-site-only_ classification.
-- `scope` (`role: pattern` only) — a scale facet: how far in the interface the centre the pattern makes reaches, where it is shown or where its work and its rules apply. A value is one level or a `[from, to]` pair running low to high, which covers every level between its ends (`scope: view`, `scope: [element, view]`). Seeds take values like other patterns. The levels:
+- `scope` (`role: pattern` only) — a scale facet: how far in the interface the centre the pattern makes reaches, where it is shown or where its work and its rules apply. A value is one level (`scope: view`). Seeds take values like other patterns. The levels:
   - `element` — a single control or mark (field, button, cursor, badge).
-  - `component` — a part of a view with its own job, which keeps its kind when
+  - `part` — a section of a view with its own job, which keeps its kind when
     moved to another view (inspector, toolbar, card, comment thread).
   - `view` — what one surface shows at once, arranged for one activity (editor,
     canvas, inbox, conversation).
-  - `area` — a part of a product that follows its own rules (settings, an admin
-    area, a project or workspace, one module of a suite).
-  - `product` — one maker designs its structure, its areas and the routes
-    between them (main navigation, product-wide search).
-  - `ecosystem` — no single maker; it forms piecemeal from many products,
+  - `area` — a region of an application that follows its own rules (settings,
+    an admin area, a project or workspace, one module of a suite).
+  - `application` — an application or site whose structure, areas and the
+    routes between them one maker designs (main navigation, application-wide
+    search).
+  - `ecosystem` — no single maker; it forms piecemeal from many applications,
     platforms and conventions (handoff, share sheet, clipboard).
 
   A centre with no drawn surface still takes a level: where its work lands or
   where its rule applies. Where a centre is shown in one place and applies over
-  a larger one, it takes the larger (a version-history panel is `view`). A
+  a larger one, it takes the larger (a version-history panel is `view`). Where
+  the forms a page describes reach several levels, the pattern takes the
+  highest (searching, local or global, is `application`). A
   centre that is a structure takes the level of what contains it, while a centre
-  between peers takes the level of the peers (a hub is `area`; a wizard between
-  views is `view`). Pilot values and the research behind the ladder:
+  between peers takes the level of the peers (a settings hub is `area`; a wizard
+  between views is `view`). Patterns that are alternatives at one choice in a sequence
+  make the same kind of centre, so none of them takes a level below the
+  region the choice is made over; read the level from that region, not from the
+  content an example navigates (the navigation topologies are each the movement
+  rule of a region, so they take at least `area`, while a wizard, one sequence
+  of views, stays `view`). Pilot
+  values and the research behind the ladder:
   [2026-10-pattern-facets.md](../../plans/active/2026-10-pattern-facets.md).
 - `lifecycle` — a stage in the Seek–Use–Share family (e.g. `seeking`,
   `coordination`, `evaluation`). Free-form; not derived from `activityLevel`.
@@ -229,12 +238,6 @@ The concept catalogue — what a concept is against a pattern and a component, t
 
 The catalogue is not published yet. While `CONCEPTS_PUBLISHED` in `apps/patterns/src/lib/concepts-published.ts` is false, a production build emits no concept pages, no sidebar link to them, no concept panes and no "Acts on" line on pattern pages, and `integrations/concepts-dev-only.ts` keeps the concept files out of the client bundle. Setting it to true publishes everything; the gate's plugin and checks can then be removed at leisure.
 
-## Figures
-
-A prescription figure is a drawing of the relations a pattern imposes,
-placed with the instruction (see the authoring rule for placement). It is
-the one illustration that holds for every realisation, so it shows no
-interface: no screens, panels, buttons or toasts. A demo shows a realisation.
 ## Project languages
 
 A project language is a list of design patterns chosen from the library for one project ([conceptual-glossary.md](../language/conceptual-glossary.md) §Project language). The entries so far are starters: one per typical artifact shape or medium (block-based editor, mobile web), and one per collaboration posture (conversation-first, delegated agent). Origin and open questions: [2026-10-project-languages.md](../../plans/active/2026-10-project-languages.md).
@@ -244,6 +247,12 @@ A project language is a list of design patterns chosen from the library for one 
 - *Page.* Served at `/languages/<id>`, with the pane partial at `/languages/<id>/pane/`, both rendered by `LanguageArticle.astro`. The page shows the lead, the patterns in the authored order with their descriptions, the gaps, and the sequences that invoke any of them (as a rule, a constituent or a choice's tree) in reading order. It stacks like a sequence, with a `lang:` prefix in `stackedNotes`.
 - *Sidebar.* The first row of the Patterns branch names the active language and grouping and opens a menu that picks the language as well as the grouping: *All* (the default) or one language, then A–Z or a facet. Choosing a language narrows the pattern list, in every grouping, to its members; a family branch keeps its overview while any member remains. Nothing else in the sidebar narrows. The trigger names the language and any grouping other than A–Z, the choice persists in the nav store, and the menu links to the active language's page.
 
+## Figures
+
+A prescription figure is a drawing of the relations a pattern imposes,
+placed with the instruction (see the authoring rule for placement). It is
+the one illustration that holds for every realisation, so it shows no
+interface: no screens, panels, buttons or toasts. A demo shows a realisation.
 Decision trees stay in Mermaid through `<Diagram>`. Not every pattern needs a
 figure; one that actors already know from use, such as a wizard, gets none.
 
