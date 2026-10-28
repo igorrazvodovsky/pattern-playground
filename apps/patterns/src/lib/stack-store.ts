@@ -5,7 +5,8 @@ import { fileStem } from './stem';
 import { conceptFiles } from './concept-files';
 
 export type Pane = {
-  // `/patterns/<slug>`, `/sequences/<id>` or `/concepts/<id>`: the pane's identity (pane-path.ts).
+  // `/patterns/<slug>`, `/sequences/<id>`, `/concepts/<id>` or `/languages/<id>`: the
+  // pane's identity (pane-path.ts).
   path: string;
   title: string;
   html: string;
@@ -185,11 +186,13 @@ const stems = (files: Record<string, unknown>) => new Set(Object.keys(files).map
 export const validSlugs = stems(import.meta.glob('/src/content/patterns/**/*.{md,mdx}'));
 export const validSequenceIds = stems(import.meta.glob('/src/content/sequences/**/*.{md,mdx}'));
 export const validConceptIds = stems(conceptFiles);
+export const validLanguageIds = stems(import.meta.glob('/src/content/languages/**/*.{md,mdx}'));
 
 const VALID_IDS = {
   pattern: validSlugs,
   sequence: validSequenceIds,
   concept: validConceptIds,
+  language: validLanguageIds,
 } as const;
 
 function isKnownPane(path: string): boolean {
@@ -206,7 +209,7 @@ export function stackablePath(url: URL): string | null {
   return VALID_IDS[parsed.kind].has(parsed.id) ? panePath(parsed.kind, parsed.id) : null;
 }
 
-// Module-level: intercept in-pane pattern, sequence and concept link clicks in the
+// Module-level: intercept in-pane pattern, sequence, concept and language link clicks in the
 // capture phase, before ClientRouter's bubble-phase listener runs. ClientRouter
 // checks ev.defaultPrevented before calling navigate(), so a capture-phase
 // preventDefault() stops soft navigation.

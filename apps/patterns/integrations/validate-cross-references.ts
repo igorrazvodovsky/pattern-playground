@@ -608,6 +608,60 @@ function checkSequenceRefs(logger: AstroIntegrationLogger): Violation[] {
   return violations;
 }
 
+// A project language lists design patterns only: foundations, qualities and
+// collections are not members (docs/specs/pattern-site.md §Project languages).
+function checkLanguageRefs(logger: AstroIntegrationLogger): Violation[] {
+  const languagesDir = join(patternsContentDir, 'languages');
+  if (!existsSync(languagesDir)) return [];
+
+  const roles = new Map<string, unknown>();
+  const titles = new Map<string, string>();
+  for (const { file, fm } of frontmatterFiles(join(patternsContentDir, 'patterns'))) {
+    roles.set(fileStem(file), fm.role);
+    if (typeof fm.title === 'string') titles.set(fm.title.toLowerCase(), fileStem(file));
+  }
+
+  const violations: Violation[] = [];
+  let checked = 0;
+  for (const { file, content, fm } of frontmatterFiles(languagesDir)) {
+    for (const slug of Array.isArray(fm.patterns) ? fm.patterns : []) {
+      if (typeof slug !== 'string') continue;
+      checked++;
+      const role = roles.get(slug);
+      if (role === 'pattern') continue;
+      const suggestion = role === undefined ? nearest(slug, roles.keys()) : undefined;
+      violations.push({
+        file: relPath(file),
+        line: frontmatterLine(content, slug),
+        message:
+          role === undefined
+            ? `language patterns: "${slug}" resolves to no pattern route ` +
+              `(apps/patterns/src/content/patterns/${slug}.{md,mdx})` +
+              (suggestion ? ` — did you mean "${suggestion}"?` : '.')
+            : `language patterns: "${slug}" is a role: ${String(role)} entry; ` +
+              'a language lists design patterns (role: pattern) only.',
+      });
+    }
+
+    // A gap names a pattern the library lacks; once a page with that title
+    // exists, the entry belongs in `patterns` instead.
+    for (const gap of Array.isArray(fm.gaps) ? fm.gaps : []) {
+      const name = (gap as { name?: unknown })?.name;
+      if (typeof name !== 'string') continue;
+      const slug = titles.get(name.toLowerCase());
+      if (slug === undefined) continue;
+      violations.push({
+        file: relPath(file),
+        line: frontmatterLine(content, name),
+        message: `language gaps: "${name}" is already a pattern ("${slug}"); list it in patterns instead.`,
+      });
+    }
+  }
+
+  logger.info(`Checked ${checked} language pattern slug(s) against ${roles.size} content stems.`);
+  return violations;
+}
+
 export default function validateCrossReferences(): AstroIntegration {
   return {
     name: 'validate-cross-references',
@@ -622,6 +676,7 @@ export default function validateCrossReferences(): AstroIntegration {
           ...checkPatternRefs(logger),
           ...checkIntraSiteLinks(logger),
           ...checkSequenceRefs(logger),
+          ...checkLanguageRefs(logger),
           ...checkActsOn(logger),
           ...checkWorldConcepts(logger),
         ];

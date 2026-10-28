@@ -1,0 +1,27 @@
+---
+// A language hosts the stack as pane 0, so following one of its patterns opens
+// the pattern beside it; `panePath` is how the stack learns pane 0 is not a pattern.
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import LanguageArticle from '../../components/LanguageArticle.astro';
+import { panePath } from '../../lib/pane-path';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('languages');
+  return entries.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+---
+
+<Base
+  title={entry.data.title}
+  slug={entry.id}
+  panePath={panePath('language', entry.id)}
+  paneKind="Language"
+>
+  <LanguageArticle entry={entry} />
+</Base>

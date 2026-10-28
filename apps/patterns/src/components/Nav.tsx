@@ -1,5 +1,6 @@
 import React from 'react';
 import { Collapsible } from '@base-ui/react/collapsible';
+import { navigate } from 'astro:transitions/client';
 import {
   SidebarProvider,
   Sidebar,
@@ -10,18 +11,32 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarMenuAction,
   SidebarTrigger,
 } from '@components/sidebar';
 import { setPatternGraphHover } from '../lib/pattern-graph-hover';
-import { useNavStore, useNavHydration, DEFAULT_GROUPING } from '../lib/nav-store';
+import { useNavStore, useNavHydration, DEFAULT_GROUPING, ALL_PATTERNS } from '../lib/nav-store';
 import { useActivePath, isActivePath } from '../lib/active-path';
 
-import type { NavBranch, NavGrouping, NavTree, NavTreeNode } from '../lib/nav-tree';
+import type { NavBranch, NavGrouping, NavLanguage, NavTree, NavTreeNode } from '../lib/nav-tree';
 import { CONCEPTS_ENABLED, STORYBOOK_URL } from '../lib/site';
 
 function isBranch(node: NavTreeNode): node is NavBranch {
   return 'children' in node;
+}
+
+// The nodes a project language keeps: the leaves whose path is a member, and
+// each branch while any member remains in it. A family's overview is never a
+// member itself, so it stays as long as its branch does.
+function narrow(nodes: NavTreeNode[], members: Set<string>): NavTreeNode[] {
+  return nodes.flatMap((node): NavTreeNode[] => {
+    if (!isBranch(node)) return members.has(node.href) ? [node] : [];
+    const overview = node.children.filter((child) => !isBranch(child) && child.overview);
+    const rest = narrow(
+      node.children.filter((child) => !overview.includes(child)),
+      members,
+    );
+    return rest.length > 0 ? [{ ...node, children: [...overview, ...rest] }] : [];
+  });
 }
 
 interface NavNodeProps {
@@ -44,8 +59,9 @@ interface NavNodeProps {
   childKeyPrefix?: string;
   // Muted text after the label (the Patterns branch names its grouping).
   note?: string;
-  // A control beside the branch trigger, outside it so no button nests in another.
-  action?: React.ReactNode;
+  // A row at the head of the branch's panel, before its children (the Patterns
+  // branch puts its arrangement menu here).
+  lead?: React.ReactNode;
 }
 
 const Chevron = () =>
@@ -63,7 +79,7 @@ function NavNode({
   keyPrefix = '',
   childKeyPrefix,
   note,
-  action,
+  lead,
 }: NavNodeProps) {
   if (isBranch(node)) {
     const key = `${keyPrefix}${node.label}`;
@@ -82,15 +98,12 @@ function NavNode({
             <Chevron />
             <span>
               {node.label}
-              {note && <span className="muted"> · {note}</span>}
             </span>
           </SidebarMenuButton>
-          {/* Before the panel, so the control comes straight after its trigger in
-              focus order rather than after every link the branch holds. */}
-          {action}
           <Collapsible.Panel className="sidebar-collapsible-panel">
             <SidebarGroupContent className="sidebar-collapsible-group-content">
               <SidebarMenu>
+                {lead && <SidebarMenuItem>{lead}</SidebarMenuItem>}
                 {node.children.map((child) => (
                   <NavNode
                     key={isBranch(child) ? child.label : child.href}
@@ -175,52 +188,84 @@ function SiteHeader({ hydrated }: { hydrated: boolean }) {
   );
 }
 
-// The control that picks how the pattern list is grouped, beside the Patterns
-// trigger so it reads as arranging that list only.
+// The menu at the head of the Patterns branch, so it reads as arranging that
+// list only. Its row names the active language and grouping. It picks the project language the list is narrowed to and the grouping
+// it is arranged by, and links to the active language's page.
 //
 // The dropdown is gated on `hydrated`: pp-dropdown, pp-list and pp-list-item
 // upgrade and mutate their own light DOM (role, tabindex, aria-*, generated
 // ids), which would race React's hydration if they were SSR'd. The server and
 // the first client render show only the trigger; the dropdown mounts after.
-// `hoist` lets the panel escape the sidebar's overflow container.
-function GroupingMenu({
+// `hoist` lets the panel escape the sidebar's overflow container. The row
+// carries no tooltip, which would wrap it and hide it from pp-dropdown's
+// trigger lookup.
+function PatternsMenu({
+  languages,
+  activeLanguage,
+  onSelectLanguage,
   groupings,
-  active,
-  onSelect,
+  activeGrouping,
+  onSelectGrouping,
   hydrated,
 }: {
+  languages: NavLanguage[];
+  activeLanguage: NavLanguage | undefined;
+  onSelectLanguage: (id: string) => void;
   groupings: NavGrouping[];
-  active: string;
-  onSelect: (id: string) => void;
+  activeGrouping: string;
+  onSelectGrouping: (id: string) => void;
   hydrated: boolean;
 }) {
   // Selection runs through React's onClick, so pp-dropdown's own
   // pp-select-driven close doesn't fire; close it on select.
   const dropdownRef = React.useRef<(HTMLElement & { open?: boolean }) | null>(null);
+  const close = () => {
+    if (dropdownRef.current) dropdownRef.current.open = false;
+  };
+  const groupingLabel = groupings.find((g) => g.id === activeGrouping)?.label;
   const trigger = (
-    <SidebarMenuAction data-slot={hydrated ? 'trigger' : undefined} aria-label="Group patterns by">
-      <iconify-icon className="icon" icon="ik:view-list" />
-    </SidebarMenuAction>
+    <SidebarMenuButton data-slot={hydrated ? 'trigger' : undefined}>
+      <iconify-icon className="icon" icon="ik:library-list" />
+      <span>
+        <span className="visually-hidden">Arrange patterns: </span>
+        {activeLanguage?.label ?? 'All'} · {groupingLabel}
+      </span>
+    </SidebarMenuButton>
   );
   if (!hydrated) return trigger;
+  // Radio state is controlled here, so the two groups sharing one list stay apart.
+  const radio = (key: string, label: string, checked: boolean, select: () => void) => (
+    <pp-list-item
+      key={key}
+      type="radio"
+      checked={checked}
+      onClick={() => {
+        select();
+        close();
+      }}
+    >
+      {label}
+    </pp-list-item>
+  );
   return (
-    <pp-dropdown ref={dropdownRef} placement="bottom-end" hoist>
+    <pp-dropdown ref={dropdownRef} placement="bottom-start" hoist>
       {trigger}
       <pp-popup>
         <pp-list>
-          {groupings.map(({ id, label }) => (
-            <pp-list-item
-              key={id}
-              type="radio"
-              checked={id === active}
-              onClick={() => {
-                onSelect(id);
-                if (dropdownRef.current) dropdownRef.current.open = false;
-              }}
-            >
-              {label}
-            </pp-list-item>
-          ))}
+          {languages.length > 0 && (
+            <>
+              <pp-list-label>Language</pp-list-label>
+              {radio('all', 'Default', !activeLanguage, () => onSelectLanguage(ALL_PATTERNS))}
+              {languages.map(({ id, label }) =>
+                radio(id, label, id === activeLanguage?.id, () => onSelectLanguage(id)),
+              )}
+              <hr />
+            </>
+          )}
+          <pp-list-label>Sort by</pp-list-label>
+          {groupings.map(({ id, label }) =>
+            radio(id, label, id === activeGrouping, () => onSelectGrouping(id)),
+          )}
         </pp-list>
       </pp-popup>
     </pp-dropdown>
@@ -274,8 +319,15 @@ function CornerLink({
 // a static sibling (not a child) of this island; active-link state comes from
 // the runtime URL via useActivePath, not a prop, since a persisted island
 // never re-renders on navigation.
-export function Nav({ shared, patterns, sequences, concepts, corner = 'patterns' }: NavProps) {
-  const { isOpen, setOpen, grouping, setGrouping } = useNavStore();
+export function Nav({
+  shared,
+  patterns,
+  sequences,
+  concepts,
+  languages,
+  corner = 'patterns',
+}: NavProps) {
+  const { isOpen, setOpen, grouping, setGrouping, language, setLanguage } = useNavStore();
   const hydrated = useNavHydration();
   const currentPath = useActivePath();
   const { word, home, homeLabel } = CORNER[corner];
@@ -287,9 +339,22 @@ export function Nav({ shared, patterns, sequences, concepts, corner = 'patterns'
   const active =
     groupings.find((g) => hydrated && g.id === grouping) ??
     groupings.find((g) => g.id === DEFAULT_GROUPING)!;
-  const patternsBranch: NavBranch = { label: patterns.label, children: active.children };
+  // The same holds for the language: all patterns until rehydration, and for an
+  // id that names no language. Only the pattern list narrows.
+  const activeLanguage = hydrated ? languages.find((l) => l.id === language) : undefined;
+  const patternsBranch: NavBranch = {
+    label: patterns.label,
+    children: activeLanguage
+      ? narrow(active.children, new Set(activeLanguage.members))
+      : active.children,
+  };
   const groups: NavTreeNode[] =
     corner === 'concepts' ? [concepts] : [...shared, sequences, patternsBranch];
+  // The trigger names whatever differs from the default arrangement.
+  const note =
+    [activeLanguage?.label, active.id === DEFAULT_GROUPING ? undefined : active.label]
+      .filter(Boolean)
+      .join(' · ') || undefined;
 
   return (
     <SidebarProvider renderWrapper={false}>
@@ -350,12 +415,15 @@ export function Nav({ shared, patterns, sequences, concepts, corner = 'patterns'
                       hydrated={hydrated}
                       // A–Z keeps the collapse keys it had before groupings existed.
                       childKeyPrefix={active.id === DEFAULT_GROUPING ? '' : `${active.id}:`}
-                      note={active.id === DEFAULT_GROUPING ? undefined : active.label}
-                      action={
-                        <GroupingMenu
+                      note={note}
+                      lead={
+                        <PatternsMenu
+                          languages={languages}
+                          activeLanguage={activeLanguage}
+                          onSelectLanguage={setLanguage}
                           groupings={groupings}
-                          active={active.id}
-                          onSelect={setGrouping}
+                          activeGrouping={active.id}
+                          onSelectGrouping={setGrouping}
                           hydrated={hydrated}
                         />
                       }

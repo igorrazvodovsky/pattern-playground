@@ -46,6 +46,10 @@ A rule for making a kind of centre, which also states that centre's relation to 
 
 Rules for how humans interact with form. A connected structure of patterns organised by an explicit principle so an actor can generate, sequence, and adapt design moves. A catalogue makes entries retrievable; a language makes their relationships operational. In this project, the typed graph is the primary claim that the material forms a language rather than only a library. See [patterns-and-components.md](./patterns-and-components.md) for its relationship to the component catalogue.
 
+## Project language
+
+A list of design patterns chosen from the library for one project, ordered large to small, as in *A Pattern Language*'s "Choosing a language for your project". A *starter* is a project language for a typical artifact shape, medium or collaboration posture, written to be cut down and extended; it is where a project's own language begins. A project language is not a sequence: a sequence orders the decisions of one stretch of work, and a language selects the patterns a project draws on across all of them. See [specs/pattern-site.md](../specs/pattern-site.md) §Project languages.
+
 ## Component catalogue
 
 `packages/components/` — the vocabulary of components, primitives and controls, the rules for composing them, and the levels of scale (e.g. primitive → component → composition). By [pattern-definition.md](./pattern-definition.md)'s own distinction it is a catalogue rather than a language: retrievable, not generative. Its goal is to support the patterns, not to maximise reuse. Alexander has no term for an identical closed unit, because his theory argues against such units, but he does describe building elements; ch. 16 §2 lists "the elements, rules, ways of making roofs, edges, windows, steps." See [patterns-and-components.md](./patterns-and-components.md) §"Components are not reusable units".

@@ -302,4 +302,37 @@ const concepts = defineCollection({
   }),
 });
 
-export const collections = { patterns, sequences, concepts };
+// --- Project languages ---
+//
+// A project language is a list of design patterns chosen from the library for
+// one project, ordered large to small. The entries here are starters for typical
+// artifact shapes. See docs/specs/pattern-site.md §Project languages.
+
+const languages = defineCollection({
+  loader: glob({
+    pattern: '**/*.{md,mdx}',
+    base: './src/content/languages',
+    generateId: ({ entry }) => fileStem(entry),
+  }),
+  schema: z.object({
+    title: z.string(),
+    added: z.coerce.date(),
+    updated: z.coerce.date().nullish(),
+    // One sentence: the artifact shape, from the actor's situation.
+    description: z.string(),
+    // `role: pattern` slugs, large to small. The cross-reference validator
+    // resolves each against the patterns collection.
+    patterns: z
+      .array(z.string())
+      .min(1)
+      .refine((slugs) => new Set(slugs).size === slugs.length, {
+        message: 'a pattern is listed more than once',
+      }),
+    // Patterns the shape needs that the library does not have yet: a name, and
+    // one sentence on what it would do here. The validator fails on a name that
+    // matches an existing pattern's title, so a gap goes once its page exists.
+    gaps: z.array(z.object({ name: z.string(), note: z.string() })).optional(),
+  }),
+});
+
+export const collections = { patterns, sequences, concepts, languages };

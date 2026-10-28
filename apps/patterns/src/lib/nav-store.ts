@@ -6,10 +6,17 @@ import { persist } from 'zustand/middleware';
 // names a grouping that no longer exists.
 export const DEFAULT_GROUPING = 'a-z';
 
+// The language the pattern list is narrowed to when nothing is persisted, or
+// when a persisted id names a language that no longer exists: none, so the list
+// holds every pattern.
+export const ALL_PATTERNS = 'all';
+
 type NavState = {
   openGroups: Record<string, boolean>;
   grouping: string;
   setGrouping: (grouping: string) => void;
+  language: string;
+  setLanguage: (language: string) => void;
   setOpen: (label: string, open: boolean) => void;
   isOpen: (label: string) => boolean;
 };
@@ -20,6 +27,8 @@ export const useNavStore = create<NavState>()(
       openGroups: {},
       grouping: DEFAULT_GROUPING,
       setGrouping: (grouping) => set({ grouping }),
+      language: ALL_PATTERNS,
+      setLanguage: (language) => set({ language }),
       setOpen: (label, open) =>
         set((state) => ({ openGroups: { ...state.openGroups, [label]: open } })),
       isOpen: (label) => get().openGroups[label] ?? false,
@@ -28,10 +37,14 @@ export const useNavStore = create<NavState>()(
       name: 'nav-state',
       skipHydration: true,
       // A stale payload shallow-merges over the initial state: one without
-      // `grouping` keeps the default, and collapse keys from a dropped group are
+      // `grouping` or `language` keeps the default, and collapse keys from a dropped group are
       // ignored — no version/migrate needed. partialize keeps the persisted
       // shape to just the serialisable keys.
-      partialize: (state) => ({ openGroups: state.openGroups, grouping: state.grouping }),
+      partialize: (state) => ({
+        openGroups: state.openGroups,
+        grouping: state.grouping,
+        language: state.language,
+      }),
     },
   ),
 );

@@ -156,6 +156,22 @@ export function appearancesBySlug(sequences: SequenceEntry[]): Map<string, Appea
   return index;
 }
 
+// Every pattern a sequence invokes: as a step's rule, a constituent, or the tree
+// behind a choice. The same three kinds the appearance index records.
+export function invokedPatterns(sequence: SequenceEntry): Set<string> {
+  const slugs = new Set<string>();
+  for (const sub of sequence.data['sub-sequences']) {
+    for (const position of sub.steps) {
+      if (isChoice(position) && position.tree) slugs.add(position.tree);
+      for (const step of stepsOf(position)) {
+        if (step.rule) slugs.add(step.rule);
+        for (const constituent of constituentsOf(step)) slugs.add(constituent.slug);
+      }
+    }
+  }
+  return slugs;
+}
+
 // The order the nav lists sequences in.
 export const bySequenceOrder = (a: SequenceEntry, b: SequenceEntry) =>
   a.data.order - b.data.order || a.data.title.localeCompare(b.data.title);

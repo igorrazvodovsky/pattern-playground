@@ -1,0 +1,47 @@
+---
+title: 'Delegated agent'
+added: 2026-10-28
+updated:
+description: 'An artifact where the actor hands an agent a task and its limits, the agent works on its own, and the actor reviews what comes back.'
+patterns:
+  - tool-ecology
+  - information-environment
+  - agent
+  - prompt
+  - reference-material
+  - standing-instructions
+  - bounded-autonomy
+  - cost-transparency
+  - live-presentation
+  - transparent-reasoning
+  - status-feedback
+  - notification
+  - activity-log
+  - generated-content
+  - change-review
+  - plan-preview
+  - action-consequences
+  - approval-gate
+  - handoff
+  - instructed-revision
+  - regeneration
+  - provenance-marking
+  - citation
+  - cognitive-forcing-functions
+  - undo
+gaps:
+  - name: 'Starting a run on a schedule or trigger'
+    note: 'Letting the actor say when the agent works, at a time or when something happens, and showing what it will do next.'
+  - name: 'Watching several runs'
+    note: 'One place that shows every run in progress or waiting for the actor, so attention goes where it is needed.'
+  - name: 'Connecting the agent to other tools'
+    note: "Granting the agent access to the actor's accounts and tools, and seeing and revoking that access later."
+  - name: 'Choosing the model'
+    note: 'Picking which model the agent runs with, and saying what changes in speed, cost and quality.'
+---
+
+A delegated agent takes a task and works on it without the actor at its side. The actor frames the request and sets what the agent may do; the agent runs, pauses where it needs a decision, and hands back results, which the actor reviews, corrects, or takes in hand.
+
+The patterns run from framing the request and granting autonomy, through what the actor sees while the agent works and where it stops for approval, to receiving the work, correcting it, and keeping a record of what was done.
+
+The starter leaves out the conversation itself, which is the conversation-first starter's when the request is made in one, and the finer evidence patterns of calibrating reliance beyond citation and the acceptance check.

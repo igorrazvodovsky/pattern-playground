@@ -1,0 +1,87 @@
+---
+// The one rendering of a project language, shared by the full page
+// (pages/languages/[id].astro) and the pane partial (pages/languages/[id]/pane.astro).
+// The body is the lead; the pattern list renders from frontmatter in the
+// authored order, and the sequences are derived from what they invoke.
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Demo from './Demo.astro';
+import Diagram from './Diagram.astro';
+import { ComponentRef } from './ComponentRef';
+import ArticleShell from './ArticleShell.astro';
+import { panePath } from '../lib/pane-path';
+import { humaniseSlug } from '../lib/sequence';
+import { sequencesFor } from '../lib/language';
+
+interface Props {
+  entry: CollectionEntry<'languages'>;
+  // False for the pane fragment (see ArticleShell).
+  pagefind?: boolean;
+}
+
+const { entry, pagefind = true } = Astro.props;
+const { Content } = await render(entry);
+
+const patterns = await getCollection('patterns');
+// The validator gates dangling slugs at build time; the fallback reads as words.
+const members = entry.data.patterns.map((slug) => {
+  const pattern = patterns.find((p) => p.id === slug);
+  return {
+    slug,
+    title: pattern?.data.title ?? humaniseSlug(slug),
+    description: pattern?.data.description,
+  };
+});
+
+const sequences = sequencesFor(entry, await getCollection('sequences'));
+---
+
+<ArticleShell title={entry.data.title} dates={entry} pagefind={pagefind} pageType="language">
+  <Content components={{ Demo, ComponentRef, Diagram }} />
+
+  <h2>Patterns</h2>
+  <p>
+    Largest first. A starter is where a project's own language begins: leave out what the project
+    does not need, and add what it misses.
+  </p>
+  <ol>
+    {members.map((m) => (
+      <li>
+        <a href={panePath('pattern', m.slug)}>{m.title}</a>
+        {m.description && <span class="muted"> · {m.description}</span>}
+      </li>
+    ))}
+  </ol>
+
+  {entry.data.gaps && entry.data.gaps.length > 0 && (
+    <>
+      <h2>Not in the library yet</h2>
+      <p>Patterns this shape needs that have no page yet.</p>
+      <ul>
+        {entry.data.gaps.map((gap) => (
+          <li>
+            {gap.name}
+            <span class="muted"> · {gap.note}</span>
+          </li>
+        ))}
+      </ul>
+    </>
+  )}
+
+  {sequences.length > 0 && (
+    <>
+      <h2>Sequences</h2>
+      <p>The sequences that invoke these patterns, in reading order.</p>
+      <ul>
+        {sequences.map(({ sequence, held, invoked }) => (
+          <li>
+            <a href={panePath('sequence', sequence.id)}>{sequence.data.title}</a>
+            <span class="muted">
+              {' '}
+              · {held} of its {invoked} patterns
+            </span>
+          </li>
+        ))}
+      </ul>
+    </>
+  )}
+</ArticleShell>

@@ -5,7 +5,8 @@ import { bySequenceOrder, humaniseSlug } from './sequence';
 import { CONCEPTS_ENABLED } from './site';
 import { SCOPE_LEVELS, levelsSpanned } from './facets';
 
-export type NavLeaf = { label: string; href: string };
+// `overview` marks a family's collection page, which opens its branch.
+export type NavLeaf = { label: string; href: string; overview?: boolean };
 export type NavBranch = { label: string; children: NavTreeNode[] };
 export type NavTreeNode = NavLeaf | NavBranch;
 export type NavGroup = NavBranch;
@@ -18,6 +19,16 @@ export interface NavGrouping {
   children: NavTreeNode[];
 }
 
+// A project language the actor can narrow the pattern list to. `members` holds
+// the paths of its patterns; the island keeps only leaves whose path is a
+// member, so every grouping narrows the same way.
+export interface NavLanguage {
+  id: string;
+  label: string;
+  href: string;
+  members: string[];
+}
+
 export interface NavTree {
   // Role groups (foundations, qualities), listed above the patterns.
   shared: NavGroup[];
@@ -28,6 +39,7 @@ export interface NavTree {
   // it is rendered in its own corner of the site (Nav.tsx `corner`), never as
   // a group among the language's.
   concepts: NavGroup;
+  languages: NavLanguage[];
 }
 
 type PatternEntry = CollectionEntry<'patterns'>;
@@ -66,17 +78,18 @@ const byLabel = (a: NavTreeNode, b: NavTreeNode) => a.label.localeCompare(b.labe
 
 let navCache: { key: string; tree: NavTree } | undefined;
 
-// Every page renders the same tree, so it is built once per state of the two
+// Every page renders the same tree, so it is built once per state of the
 // collections; the key changes when an entry is edited under the dev server.
 export async function buildNavTree(): Promise<NavTree> {
   const patterns = await getCollection('patterns');
   const sequences = await getCollection('sequences');
   const concepts = CONCEPTS_ENABLED ? await getCollection('concepts') : [];
-  const key = [...patterns, ...sequences, ...concepts]
+  const languages = await getCollection('languages');
+  const key = [...patterns, ...sequences, ...concepts, ...languages]
     .map((e) => `${e.id}@${e.digest ?? ''}`)
     .join(' ');
   if (navCache?.key !== key)
-    navCache = { key, tree: assembleNavTree(patterns, sequences, concepts) };
+    navCache = { key, tree: assembleNavTree(patterns, sequences, concepts, languages) };
   return navCache.tree;
 }
 
@@ -84,6 +97,7 @@ function assembleNavTree(
   patterns: PatternEntry[],
   sequenceEntries: CollectionEntry<'sequences'>[],
   conceptEntries: CollectionEntry<'concepts'>[],
+  languageEntries: CollectionEntry<'languages'>[],
 ): NavTree {
   const leavesWhere = (test: (p: PatternEntry) => boolean): NavLeaf[] =>
     patterns
@@ -112,7 +126,7 @@ function assembleNavTree(
   const branchFor = (key: string, test: (p: PatternEntry) => boolean): NavBranch => {
     const members = patterns.filter((p) => test(p) && groupPath(p)[0] === key);
     const overview = leavesWhere((p) => members.includes(p) && p.data.role === 'collection').map(
-      (leaf): NavLeaf => ({ ...leaf, label: 'Overview' }),
+      (leaf): NavLeaf => ({ ...leaf, label: 'Overview', overview: true }),
     );
     const subgroups = [...new Set(members.map((p) => groupPath(p)[1]).filter(Boolean))];
     const rest: NavTreeNode[] = [
@@ -171,5 +185,20 @@ function assembleNavTree(
       .sort(byLabel),
   };
 
-  return { shared, patterns: patternsGroup, sequences: sequencesGroup, concepts: conceptsGroup };
+  const languages: NavLanguage[] = [...languageEntries]
+    .sort((a, b) => a.data.title.localeCompare(b.data.title))
+    .map((l) => ({
+      id: l.id,
+      label: l.data.title,
+      href: panePath('language', l.id),
+      members: l.data.patterns.map((slug) => panePath('pattern', slug)),
+    }));
+
+  return {
+    shared,
+    patterns: patternsGroup,
+    sequences: sequencesGroup,
+    concepts: conceptsGroup,
+    languages,
+  };
 }

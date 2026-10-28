@@ -235,6 +235,15 @@ A prescription figure is a drawing of the relations a pattern imposes,
 placed with the instruction (see the authoring rule for placement). It is
 the one illustration that holds for every realisation, so it shows no
 interface: no screens, panels, buttons or toasts. A demo shows a realisation.
+## Project languages
+
+A project language is a list of design patterns chosen from the library for one project ([conceptual-glossary.md](../language/conceptual-glossary.md) §Project language). The entries so far are starters: one per typical artifact shape or medium (block-based editor, mobile web), and one per collaboration posture (conversation-first, delegated agent). Origin and open questions: [2026-10-project-languages.md](../../plans/active/2026-10-project-languages.md).
+
+- *Files.* `apps/patterns/src/content/languages/<id>.mdx`, with the same filename-stem identity rule as the other collections. Frontmatter holds `title`, `added`, `updated`, `description` (one sentence about the artifact shape) `patterns`, the member slugs in order, largest first, and optionally `gaps`, the patterns the shape needs that the library does not have yet (a `name` and a one-sentence `note` each). The body is the lead: what the shape is, what holds across its patterns, and what the starter leaves out on purpose. It does not list the patterns.
+- *Members.* `role: pattern` entries only. Foundations and qualities are shared by every language and are not members. The build fails on a slug that resolves to no pattern or to another role, and on a gap whose name is already a pattern's title, which then belongs in `patterns` (`integrations/validate-cross-references.ts`).
+- *Page.* Served at `/languages/<id>`, with the pane partial at `/languages/<id>/pane/`, both rendered by `LanguageArticle.astro`. The page shows the lead, the patterns in the authored order with their descriptions, the gaps, and the sequences that invoke any of them (as a rule, a constituent or a choice's tree) in reading order. It stacks like a sequence, with a `lang:` prefix in `stackedNotes`.
+- *Sidebar.* The first row of the Patterns branch names the active language and grouping and opens a menu that picks the language as well as the grouping: *All* (the default) or one language, then A–Z or a facet. Choosing a language narrows the pattern list, in every grouping, to its members; a family branch keeps its overview while any member remains. Nothing else in the sidebar narrows. The trigger names the language and any grouping other than A–Z, the choice persists in the nav store, and the menu links to the active language's page.
+
 Decision trees stay in Mermaid through `<Diagram>`. Not every pattern needs a
 figure; one that actors already know from use, such as a wizard, gets none.
 

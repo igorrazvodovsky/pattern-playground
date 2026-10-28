@@ -1,15 +1,16 @@
-// A pane's identity is its page path: `/patterns/<slug>`, `/sequences/<id>` or
-// `/concepts/<id>`, no trailing slash, no hash. Everything that compares, keys,
+// A pane's identity is its page path: `/patterns/<slug>`, `/sequences/<id>`,
+// `/concepts/<id>` or `/languages/<id>`, no trailing slash, no hash. Everything that compares, keys,
 // or fetches panes goes through these helpers so the kinds cannot drift apart.
 
-export type PaneKind = 'pattern' | 'sequence' | 'concept';
+export type PaneKind = 'pattern' | 'sequence' | 'concept' | 'language';
 
-const KINDS = ['pattern', 'sequence', 'concept'] as const;
+const KINDS = ['pattern', 'sequence', 'concept', 'language'] as const;
 
 const PREFIX: Record<PaneKind, string> = {
   pattern: '/patterns/',
   sequence: '/sequences/',
   concept: '/concepts/',
+  language: '/languages/',
 };
 
 // The region label for a pane of each kind.
@@ -17,15 +18,17 @@ export const PANE_LABEL: Record<PaneKind, string> = {
   pattern: 'Pattern',
   sequence: 'Sequence',
   concept: 'Concept',
+  language: 'Language',
 };
 
-// Sequence and concept panes take a prefix in the `stackedNotes` param so their
-// ids cannot collide with a pattern slug (a concept and a pattern often share a
+// Sequence, concept and language panes take a prefix in the `stackedNotes` param
+// so their ids cannot collide with a pattern slug (a concept and a pattern often share a
 // stem). Pattern panes keep the bare slug, so URLs shared before the other kinds
 // could stack still restore.
 const PARAM_PREFIX: Partial<Record<PaneKind, string>> = {
   sequence: 'seq:',
   concept: 'concept:',
+  language: 'lang:',
 };
 
 export function panePath(kind: PaneKind, id: string): string {
@@ -44,7 +47,7 @@ export function paneIndexOf(el: Element | null | undefined): number {
 }
 
 // Parse a pathname into a pane's kind and id. Returns null for anything that
-// is not a single-segment pattern, sequence or concept page (including the
+// is not a single-segment pattern, sequence, concept or language page (including the
 // `/pane/` partials themselves).
 export function parsePanePath(pathname: string): { kind: PaneKind; id: string } | null {
   for (const kind of KINDS) {
