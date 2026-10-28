@@ -1,42 +1,48 @@
 ---
 title: Provenance marking
 added: 2026-08-07
-updated:
+updated: 2026-10-28
 role: pattern
 seed: true
 evidence:
   - observed
-disclosure: "Seeded from a cross-catalogue triage of six AI pattern libraries; not yet written from close product study."
+  - used
 activityLevel: operation
+description: "Attaching a legible mark of what produced a piece of content when it is made, so actors meeting it later know whether it came from a person, a rule, or a model and how to respond to it."
 situation:
   initiating: >-
-    machine-made and human-made content now move through the same documents, feeds, and
-    conversations, and readers calibrate trust by an origin they can no longer see
-  resulting:
-    - >-
-      origin is legible at the point of reading — labels, badges, marks, embedded metadata —
-      so the reader's calibration has something to work from
-    - >-
-      a mark only works while it survives the content's travels; copy, paste, export, and
-      screenshot strip exactly the layer the mark lives in
-    - >-
-      labelling the machine's output makes the unlabelled a claim of human origin — the
-      default stops being neutral the moment anything is marked
+    … [generated content](/patterns/generated-content) and human contributions now sit in the same place, where people and agents contribute side by side under [collaboration](/patterns/collaboration) and an [activity log](/patterns/activity-log) keeps the history of what changed. Provenance marking gives these larger patterns a legible sign of what produced each contribution—a person, a named rule, or a model—stamped at the moment it is written, so origin survives when machine output mixes with human work or leaves the surface that made it.
+  resulting: >-
+    Origin is now legible at the point of reading, and everything left unmarked on the same surface will be read as human-made. Where the marked output makes factual claims, pair the origin mark with [citation](/patterns/citation) so the actor can see not only that the system wrote a claim, but which source passage it rests on. Because a visible disclosure mark can also reassure on sight without prompting closer reading, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes of acting on wrong output are high. Provenance marking is not [annotation](/patterns/annotation): the mark is stamped on the contribution at creation to record what made it, whereas annotation is a reader's own layer added over content they did not write…
 relationships:
+  follows:
+    - generated-content
+  enables:
+    - collaboration
+    - activity-log
+  precedes:
+    - cognitive-forcing-functions
   complements:
-    - to: citation
-      note: who made it versus where it came from
+    - citation
   related:
-    - to: collaboration
-      note: mixed human-machine authorship is where per-contribution origin matters most
-    - to: annotation
-      note: the mark is an annotation about origin rather than content
+    - annotation
 ---
-Content carries a legible mark of what made it — a label on the AI's turn, a badge on the generated block, metadata in the file — so origin survives the distance between maker and reader.
 
-## Forms
+* * *
 
-Recurring forms: disclosure labels on AI turns and features, visual conventions (colour, iconography) reserved for machine output, watermarks readable by humans or software, and per-span authorship records in mixed documents.
+**When contributions from different people, automated rules, and models sit in the same document or record and look alike once written, an actor meeting a passage or a change cannot tell whether they are looking at a colleague's deliberate choice, a rule firing, or a model's draft. Without knowing what produced it, they do not know whom to ask about it, whether they are free to overwrite it, or how to check it.**
+
+Where a surface already shows who is speaking, such as the system's turn in a dedicated chat thread, an extra badge adds noise without adding information. Provenance marking earns its place when contributions from people, rules, and models share one surface, or when output leaves the surface that made it. Copy, paste, export, and screenshots strip surrounding interface chrome first, so a mark that lives only in the frame disappears at the boundary where the next reader needs it most.
+
+Marking origin also changes what the unmarked means. The moment any part of a document or feed is labelled as machine-made, everything left unlabelled is read as a claim of human origin. Nor can origin be reconstructed after the fact: once generated text is edited by hand or merged into a shared draft, what came from the model and what came from a person is lost unless it was stamped when written.
+
+Across tools, the mark takes four recurring forms: disclosure labels on AI turns and features, visual conventions (colour, iconography) reserved for machine output, per-span or per-event authorship records in shared documents, and watermarks or embedded file metadata readable by people or software after export.
+
+Therefore,
+
+**Attach a mark of what produced the content—a person, a named rule, or a model—at the moment the contribution is written. Keep the mark quiet where the surface already shows who is speaking, and bind it to the content itself wherever the output mixes with other people's work or can be copied and exported out of the tool.**
+
+Do not rely on interface chrome alone when content will be pasted, exported, or shared as a file, since the chrome is the first layer stripped in transit. Because marking some spans turns every unmarked span into an implied claim of human authorship, state what the absence of a mark means whenever older or imported content has no provenance recorded.
 
 ## Resources & references
 
@@ -44,6 +50,3 @@ Recurring forms: disclosure labels on AI turns and features, visual conventions 
 - [AI UX Playground — Agent Identity](https://www.aiuxplayground.com/pattern/agent-identity), [Responsibility Attribution](https://www.aiuxplayground.com/pattern/responsibility-attribution)
 - [AI Interaction Atlas — Data Provenance, Attribution Required](https://ai-interaction.com)
 
-## To-do
-
-The unlabelled-becomes-a-claim force is the sharpest and least discussed in the catalogues; C2PA and platform-disclosure policy work would ground it. Whether identity marks (name, avatar, persona) are this pattern or a neighbouring one is open.

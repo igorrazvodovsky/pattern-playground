@@ -38,12 +38,6 @@ relationships:
     - to: learnability
       note: the actor learns from the interpretive marks others leave in place
   complements:
-    - to: explanation
-      note: clarifies complex concepts, often via description.
-    - to: transparent-reasoning
-      note: system annotations that reveal decision logic.
-    - to: generated-content
-      note: system marks confidence and origin.
     - to: tag
       note: semantic tagging for organisation.
   tangential:
@@ -104,10 +98,7 @@ Adding written commentary, notes, or descriptions that provide additional contex
 Applying structured metadata—labels, categories, or standardised markers that enable systematic organisation.
 
 ### Reference linking
-Connecting annotated content to external sources, related documents, or supporting evidence.
-
-### System-generated annotation
-Automated markup showing confidence levels, data sources, or algorithmic decisions (e.g., uncertainty indicators in AI-generated content).
+Attaching the actor's own cross-references from a passage to external sources, related documents, or notes (as distinct from [citation](/patterns/citation), where the system attaches source pointers to claims it generated).
 
 ## States
 
@@ -130,19 +121,6 @@ Automated markup showing confidence levels, data sources, or algorithmic decisio
 
 - <ComponentRef id="components-reference--docs">Reference</ComponentRef> – citation and source tracking.
 - <ComponentRef id="components-badge--docs">Badge</ComponentRef> – visual indicators used as status annotations.
-
-{/* TODO: relations set aside, kept for review (not active edges):
-### Content enhancement
-- [Explanation](/patterns/explanation) – annotations that clarify complex concepts
-- [Generated content](/patterns/generated-content) – system annotations showing confidence and reasoning
-- [Transparent reasoning](/patterns/transparent-reasoning) – algorithmic annotations revealing decision logic
-
-### Behavioural connections
-Per the [Intent & Interaction framework](/patterns/interaction):
-- Supports *sense-making & integration* phase through marking and organising insights
-- Enables *sharing, feedback & iterative learning* through collaborative annotation
-- Facilitates *evaluation & relevance construction* by highlighting key information
-*/}
 
 ## Resources & references
 

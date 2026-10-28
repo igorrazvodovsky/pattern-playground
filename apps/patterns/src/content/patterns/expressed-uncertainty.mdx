@@ -1,53 +1,67 @@
 ---
 title: Expressed uncertainty
 added: 2026-08-07
-updated:
+updated: 2026-10-28
 role: pattern
 seed: true
 evidence:
   - observed
-disclosure: "Seeded from looking at different AI pattern libraries and sorting them out. It’s not quite ready yet because I haven’t had a chance to consider it closely."
+  - used
 activityLevel: operation
+description: "Letting the system's confidence vary visibly across its output—through hedged wording, ranges, or marks on doubtful spans—so the actor knows which parts need checking."
 situation:
   initiating: >-
-    the system is not equally sure of everything it says, but fluent output reads uniformly
-    confident — so the actor calibrates trust on tone, which the system produces equally
-    well when wrong
-  resulting:
-    - clause: >-
-        confidence is part of the output's surface — hedged phrasing, ranges, marks on the
-        doubtful spans — so the actor's scrutiny can land where it is actually needed
-      sets-up: [cognitive-forcing-functions]
-    - >-
-      a number implies calibration that may not exist: "80% confident" is itself a generated
-      claim, and precision in the mark overstates precision in the ground
-    - >-
-      hedging everything is as useless as asserting everything; the value is in the
-      difference between the marked and the unmarked
+    … the system has produced [generated content](/patterns/generated-content) or offered a [suggestion](/patterns/suggestion) whose parts are not equally well supported, including claims that [citation](/patterns/citation) could not link to any source passage. Expressed uncertainty completes these by letting confidence vary visibly across the output, so the actor's scrutiny lands on the guesses rather than spreading evenly across the whole piece or trusting all of it on tone.
+  resulting: >-
+    Confidence now varies across the output's surface, and the value of the mark lies in the difference between what is marked and what is left plain, while a numeric score risks claiming calibration the model does not have. Where the stakes of accepting a doubtful span or proposal are high, pair the uncertainty mark with [cognitive forcing functions](/patterns/cognitive-forcing-functions), excluding low-confidence items from bulk acceptance so the actor's pause lands on the uncertain parts. Expressed uncertainty is not [explanation](/patterns/explanation): the mark tells the actor which part of the output is doubtful, whereas an explanation lays out the factors or rules that produced the prediction…
 relationships:
+  follows:
+    - generated-content
+  precedes:
+    - cognitive-forcing-functions
   complements:
-    - to: suggestion
-      note: a proposal's weight depends on how firm the ground under it is
-    - to: citation
-      note: how sure it is versus where it came from
+    - suggestion
+    - citation
   serves:
     - to: assistance
       note: expressed uncertainty covers assistance's signal-raising step — qualifying output so attention goes where confidence is thin
   related:
-    - to: explanation
-      note: the factors behind a prediction are one way of saying how much to trust it
+    - explanation
   enacts:
     - to: agency
       note: the actor keeps the judgement that uniform fluency would otherwise take
 ---
-The system lets its confidence show — in wording, ranges, or marks on specific spans — so the actor knows which parts of the output stand on firm ground and which are guesses.
+
+<Demo spec="communicating-uncertainty" label="Uncertain language and confidence marking" />
+
+* * *
+
+**Actors judge how much to trust a statement partly by how confidently it is stated. Because a generative model writes with the same fluent tone whether it is stating an established fact or guessing, actors treat guesses as facts unless the output itself distinguishes between them.**
+
+Uncertainty can be shown in four ways across an interface: hedged wording in prose ("records from that period are patchy"), numeric or temporal ranges ("19.5–21.5 SEK"), coarse categorical tiers ("possible match", "low confidence"), and visual marks on doubtful spans within a longer passage. What stays constant across them is a visible contrast between the parts the system has grounds for and the parts where its ground is thin, which is the signal-raising step of [assistance](/patterns/assistance).
+
+Two tensions govern the mark:
+
+- *False precision*: a number such as "80% confident" looks like a measured probability, but in a generative system it may be another uncalibrated claim. When precision in the mark overstates precision in the ground, coarse tiers or ranges are more honest than a percentage.
+- *Selective marking vs. blanket hedging*: hedging every sentence, or placing a standing caveat at the foot of every reply, is as useless as asserting everything. Actors quickly stop reading a mark that never varies; the signal comes from the difference between the marked span and the unmarked prose around it.
+
+Therefore,
+
+**Mark the specific spans, values, or proposals where the system's support is thin—using hedged phrasing, value ranges, coarse confidence tiers, or span highlights—and leave well-supported parts unmarked so the contrast directs the actor's check.**
+
+Do not display a percentage or decimal confidence score unless the underlying model is calibrated so that the number tracks actual accuracy; use coarse tiers or ranges instead. Avoid blanket disclaimers attached to every output, which shift liability without telling the actor which part of the output to check.
+
+## In practice
+
+The conversation below shows each form in a reply: hedged wording in the first, a blanket caveat that says nothing about what is doubtful in the second, a marked span in the third, and a range with a tier in the fourth. The percentage on the third is the kind of score the instruction warns against unless the model is calibrated.
+
+## Research on this pattern
+
+- In a large-scale AI search experiment ([Li & Aral, 2025](https://arxiv.org/abs/2504.06435)), highlighting uncertain spans lowered trust in wrong answers where hallucinated citations raised it.
 
 ## Resources & references
 
+- Li & Aral (2025) [Human trust in AI search: a large-scale experiment](https://arxiv.org/abs/2504.06435) — uncertainty highlighting lowers trust in wrong answers where hallucinated citations raise it
 - [aiuxdesign.guide — Confidence Visualization](https://aiuxdesign.guide)
 - [AI UX Playground — Confidence Score](https://www.aiuxplayground.com/pattern/confidence-score), [Confidence Indicators](https://www.aiuxplayground.com/pattern/confidence-indicators)
 - [Shape of AI — Caveat](https://www.shapeof.ai)
-
-## To-do
-
-[Generated content](/patterns/generated-content) hosts the communicating-uncertainty stub and its demo; migrate as this matures. The calibration literature (whether displayed confidence tracks accuracy) should ground the false-precision force.

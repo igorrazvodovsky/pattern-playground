@@ -93,9 +93,8 @@
     justify-content: center;
     background: var(--c-background);
     border: none;
-    border-inline-end: var(--border);
     cursor: pointer;
-    padding-block: var(--space-m);
+    padding: var(--space-m);
     color: var(--c-neutral-400);
     font-size: var(--text-xs);
     font-weight: 500;
@@ -175,7 +174,7 @@
 
   .pane[data-link-target],
   .pane[data-link-target] .pane-spine {
-    background-color: color-mix(in oklch, var(--c-accent-500) 10%, var(--c-background));
+    background-color: var(--c-neutral-50);
   }
 
   /* Loading / error states */

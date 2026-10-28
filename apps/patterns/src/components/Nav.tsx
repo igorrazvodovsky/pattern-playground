@@ -228,7 +228,7 @@ function PatternsMenu({
       <iconify-icon className="icon" icon="ik:library-list" />
       <span>
         <span className="visually-hidden">Arrange patterns: </span>
-        {activeLanguage?.label ?? 'All'} · {groupingLabel}
+        {activeLanguage?.label ?? 'All'}
       </span>
     </SidebarMenuButton>
   );

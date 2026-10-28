@@ -512,24 +512,8 @@
       "path": "/patterns/citation",
       "role": "pattern",
       "situation": {
-        "initiating": "the actor owns output they didn't write — an answer, a summary, a draft — and standing behind it means knowing where it came from; checking everything costs as much as the output is long, so unverifiable output gets accepted rather than checked, and fluent wrong output gets accepted the same way",
-        "resulting": [
-          {
-            "clause": "each claim now has somewhere to look, so checking one claim costs a follow rather than a search — and a checkable claim is what a deliberate pause before acceptance needs in order to land on something",
-            "setsUp": [
-              "cognitive-forcing-functions"
-            ]
-          },
-          {
-            "clause": "the mark raises trust whether or not anyone follows it, and most actors don't: the sign of checkability gets read as the fact of having checked, including when the citation is irrelevant or wrong"
-          },
-          {
-            "clause": "the characteristic failure is not a dead link but a real source that doesn't say what the claim says, so a pointer to a document under-specifies the check — the passage is what makes it checkable"
-          },
-          {
-            "clause": "citing narrows what gets said: the system leans toward what it can point at, and stricter citing trades coverage for correctness"
-          }
-        ]
+        "initiating": "… the system has produced [generated content](/patterns/generated-content) whose claims the actor did not write and needs to know the source of: an answer in a conversation, a report built from [reference material](/patterns/reference-material), or a [text lens](/patterns/text-lense) summary compressing a longer document. Citation completes these larger patterns by pointing each claim to the source passage behind it, so seeing where a claim comes from and checking it takes following a link rather than researching the question again from scratch.",
+        "resulting": "Each cited claim now has a passage to check, so verifying a claim takes following a pointer rather than searching from scratch, while citing narrows the output toward what the sources explicitly state. Give each marker a [link preview](/patterns/link-preview) of the cited span so the actor can weigh the passage in place before opening the full source. Where a claim has no source passage behind it, mark the span with [expressed uncertainty](/patterns/expressed-uncertainty) rather than attaching a weak link or leaving the gap silent. Place the citations ahead of any [explanation](/patterns/explanation), which answers why the system reached its conclusion rather than where a claim came from and, when read first, makes actors less likely to open the sources. Where the answer took several steps to produce, pair citations with [transparent reasoning](/patterns/transparent-reasoning) so the actor can inspect the path taken alongside the passages each claim rests on. Because citation marks raise trust on sight even when nobody follows them and even when the source does not support the claim, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes require the actor to verify before committing. In [prose](/patterns/prose), a citation is a hyperlink in its reference mode, naming its target so the actor can follow it to check. Citation is not [provenance marking](/patterns/provenance-marking), which records who or what made the content rather than which source passage backs a claim, nor is it [annotation](/patterns/annotation), which is the actor's own layer over content they cannot change…"
       },
       "evidence": [
         {
@@ -1161,26 +1145,16 @@
       "path": "/patterns/expressed-uncertainty",
       "role": "pattern",
       "situation": {
-        "initiating": "the system is not equally sure of everything it says, but fluent output reads uniformly confident — so the actor calibrates trust on tone, which the system produces equally well when wrong",
-        "resulting": [
-          {
-            "clause": "confidence is part of the output's surface — hedged phrasing, ranges, marks on the doubtful spans — so the actor's scrutiny can land where it is actually needed",
-            "setsUp": [
-              "cognitive-forcing-functions"
-            ]
-          },
-          {
-            "clause": "a number implies calibration that may not exist: \"80% confident\" is itself a generated claim, and precision in the mark overstates precision in the ground"
-          },
-          {
-            "clause": "hedging everything is as useless as asserting everything; the value is in the difference between the marked and the unmarked"
-          }
-        ]
+        "initiating": "… the system has produced [generated content](/patterns/generated-content) or offered a [suggestion](/patterns/suggestion) whose parts are not equally well supported, including claims that [citation](/patterns/citation) could not link to any source passage. Expressed uncertainty completes these by letting confidence vary visibly across the output, so the actor's scrutiny lands on the guesses rather than spreading evenly across the whole piece or trusting all of it on tone.",
+        "resulting": "Confidence now varies across the output's surface, and the value of the mark lies in the difference between what is marked and what is left plain, while a numeric score risks claiming calibration the model does not have. Where the stakes of accepting a doubtful span or proposal are high, pair the uncertainty mark with [cognitive forcing functions](/patterns/cognitive-forcing-functions), excluding low-confidence items from bulk acceptance so the actor's pause lands on the uncertain parts. Expressed uncertainty is not [explanation](/patterns/explanation): the mark tells the actor which part of the output is doubtful, whereas an explanation lays out the factors or rules that produced the prediction…"
       },
       "seed": true,
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -2308,23 +2282,16 @@
       "path": "/patterns/provenance-marking",
       "role": "pattern",
       "situation": {
-        "initiating": "machine-made and human-made content now move through the same documents, feeds, and conversations, and readers calibrate trust by an origin they can no longer see",
-        "resulting": [
-          {
-            "clause": "origin is legible at the point of reading — labels, badges, marks, embedded metadata — so the reader's calibration has something to work from"
-          },
-          {
-            "clause": "a mark only works while it survives the content's travels; copy, paste, export, and screenshot strip exactly the layer the mark lives in"
-          },
-          {
-            "clause": "labelling the machine's output makes the unlabelled a claim of human origin — the default stops being neutral the moment anything is marked"
-          }
-        ]
+        "initiating": "… [generated content](/patterns/generated-content) and human contributions now sit in the same place, where people and agents contribute side by side under [collaboration](/patterns/collaboration) and an [activity log](/patterns/activity-log) keeps the history of what changed. Provenance marking gives these larger patterns a legible sign of what produced each contribution—a person, a named rule, or a model—stamped at the moment it is written, so origin survives when machine output mixes with human work or leaves the surface that made it.",
+        "resulting": "Origin is now legible at the point of reading, and everything left unmarked on the same surface will be read as human-made. Where the marked output makes factual claims, pair the origin mark with [citation](/patterns/citation) so the actor can see not only that the system wrote a claim, but which source passage it rests on. Because a visible disclosure mark can also reassure on sight without prompting closer reading, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes of acting on wrong output are high. Provenance marking is not [annotation](/patterns/annotation): the mark is stamped on the contribution at creation to record what made it, whereas annotation is a reader's own layer added over content they did not write…"
       },
       "seed": true,
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -2430,6 +2397,9 @@
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -3696,27 +3666,6 @@
     },
     {
       "source": "annotation",
-      "target": "explanation",
-      "type": "complements",
-      "label": "clarifies complex concepts, often via description.",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "annotation",
-      "target": "transparent-reasoning",
-      "type": "complements",
-      "label": "system annotations that reveal decision logic.",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "annotation",
-      "target": "generated-content",
-      "type": "complements",
-      "label": "system marks confidence and origin.",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "annotation",
       "target": "tag",
       "type": "complements",
       "label": "semantic tagging for organisation.",
@@ -4179,50 +4128,65 @@
       "source": "generated-content",
       "target": "citation",
       "type": "precedes",
-      "incomingNote": "the generated output is the material a citation attaches pointers to",
-      "extractedFrom": "frontmatter:follows"
+      "extractedFrom": "frontmatter:follows",
+      "situation": "the system has produced [generated content](/patterns/generated-content) whose claims the actor did not write and needs to know the source of: an answer in a conversation, a report built from [reference material](/patterns/reference-material), or a [text lens](/patterns/text-lense) summary compressing a longer document.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "citation",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Because citation marks raise trust on sight even when nobody follows them and even when the source does not support the claim, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes require the actor to verify before committing.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "link-preview",
       "target": "citation",
       "type": "enables",
-      "incomingNote": "hover previews let a source be weighed without leaving the claim",
-      "extractedFrom": "frontmatter:composed-of"
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Give each marker a [link preview](/patterns/link-preview) of the cited span so the actor can weigh the passage in place before opening the full source.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "citation",
       "target": "transparent-reasoning",
       "type": "complements",
-      "label": "the evidence for a claim versus the path that produced it",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the answer took several steps to produce, pair citations with [transparent reasoning](/patterns/transparent-reasoning) so the actor can inspect the path taken alongside the passages each claim rests on.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "citation",
       "target": "explanation",
       "type": "complements",
-      "label": "where it came from versus why the system said it — and an explanation the actor finds convincing reduces their inclination to open the sources beside it",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Place the citations ahead of any [explanation](/patterns/explanation), which answers why the system reached its conclusion rather than where a claim came from and, when read first, makes actors less likely to open the sources.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "citation",
       "target": "annotation",
       "type": "related",
-      "label": "a citation is a system-authored mark anchored to the claim it supports, where annotation is the actor's own layer over content they can't change",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "Citation is not [provenance marking](/patterns/provenance-marking), which records who or what made the content rather than which source passage backs a claim, nor is it [annotation](/patterns/annotation), which is the actor's own layer over content they cannot change",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "citation",
       "target": "text-lense",
       "type": "related",
-      "label": "a summary whose sentences point back into the long document lets the actor go deeper at the relevant passage instead of re-reading",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "the system has produced [generated content](/patterns/generated-content) whose claims the actor did not write and needs to know the source of: an answer in a conversation, a report built from [reference material](/patterns/reference-material), or a [text lens](/patterns/text-lense) summary compressing a longer document.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "citation",
       "target": "prose",
       "type": "related",
-      "label": "a citation is the hyperlink in its citation mode — the anchor names its target and the reader may follow it for verification",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "In [prose](/patterns/prose), a citation is a hyperlink in its reference mode, naming its target so the actor can follow it to check.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "citation",
@@ -5074,6 +5038,13 @@
     },
     {
       "source": "explanation",
+      "target": "progressive-disclosure",
+      "type": "complements",
+      "label": "lets the actor move from a brief reason to a fuller account on demand",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "explanation",
       "target": "transparent-reasoning",
       "type": "complements",
       "label": "shows step-by-step process while explanation encourages understanding through interaction",
@@ -5108,18 +5079,37 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
+      "source": "generated-content",
+      "target": "expressed-uncertainty",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "the system has produced [generated content](/patterns/generated-content) or offered a [suggestion](/patterns/suggestion) whose parts are not equally well supported, including claims that [citation](/patterns/citation) could not link to any source passage.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "expressed-uncertainty",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where the stakes of accepting a doubtful span or proposal are high, pair the uncertainty mark with [cognitive forcing functions](/patterns/cognitive-forcing-functions), excluding low-confidence items from bulk acceptance so the actor's pause lands on the uncertain parts.",
+      "glossFrom": "source:resulting"
+    },
+    {
       "source": "expressed-uncertainty",
       "target": "suggestion",
       "type": "complements",
-      "label": "a proposal's weight depends on how firm the ground under it is",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "the system has produced [generated content](/patterns/generated-content) or offered a [suggestion](/patterns/suggestion) whose parts are not equally well supported, including claims that [citation](/patterns/citation) could not link to any source passage.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "expressed-uncertainty",
       "target": "citation",
       "type": "complements",
-      "label": "how sure it is versus where it came from",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "the system has produced [generated content](/patterns/generated-content) or offered a [suggestion](/patterns/suggestion) whose parts are not equally well supported, including claims that [citation](/patterns/citation) could not link to any source passage.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Where a claim has no source passage behind it, mark the span with [expressed uncertainty](/patterns/expressed-uncertainty) rather than attaching a weak link or leaving the gap silent."
     },
     {
       "source": "expressed-uncertainty",
@@ -5132,8 +5122,9 @@
       "source": "expressed-uncertainty",
       "target": "explanation",
       "type": "related",
-      "label": "the factors behind a prediction are one way of saying how much to trust it",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "Expressed uncertainty is not [explanation](/patterns/explanation): the mark tells the actor which part of the output is doubtful, whereas an explanation lays out the factors or rules that produced the prediction",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "expressed-uncertainty",
@@ -7149,25 +7140,53 @@
       "extractedFrom": "frontmatter:enables"
     },
     {
-      "source": "provenance-marking",
-      "target": "citation",
-      "type": "complements",
-      "label": "who made it versus where it came from",
-      "extractedFrom": "frontmatter:complements"
+      "source": "generated-content",
+      "target": "provenance-marking",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "[generated content](/patterns/generated-content) and human contributions now sit in the same place, where people and agents contribute side by side under [collaboration](/patterns/collaboration) and an [activity log](/patterns/activity-log) keeps the history of what changed.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "provenance-marking",
       "target": "collaboration",
-      "type": "related",
-      "label": "mixed human-machine authorship is where per-contribution origin matters most",
-      "extractedFrom": "frontmatter:related"
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "[generated content](/patterns/generated-content) and human contributions now sit in the same place, where people and agents contribute side by side under [collaboration](/patterns/collaboration) and an [activity log](/patterns/activity-log) keeps the history of what changed.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "provenance-marking",
+      "target": "activity-log",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "[generated content](/patterns/generated-content) and human contributions now sit in the same place, where people and agents contribute side by side under [collaboration](/patterns/collaboration) and an [activity log](/patterns/activity-log) keeps the history of what changed.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "provenance-marking",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Because a visible disclosure mark can also reassure on sight without prompting closer reading, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes of acting on wrong output are high.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "provenance-marking",
+      "target": "citation",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the marked output makes factual claims, pair the origin mark with [citation](/patterns/citation) so the actor can see not only that the system wrote a claim, but which source passage it rests on.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Citation is not [provenance marking](/patterns/provenance-marking), which records who or what made the content rather than which source passage backs a claim, nor is it [annotation](/patterns/annotation), which is the actor's own layer over content they cannot change"
     },
     {
       "source": "provenance-marking",
       "target": "annotation",
       "type": "related",
-      "label": "the mark is an annotation about origin rather than content",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "Provenance marking is not [annotation](/patterns/annotation): the mark is stamped on the contribution at creation to record what made it, whereas annotation is a reader's own layer added over content they did not write",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "purpose-keyed-view",
@@ -8625,13 +8644,6 @@
       "extractedFrom": "situation:resulting"
     },
     {
-      "source": "citation",
-      "target": "cognitive-forcing-functions",
-      "type": "precedes",
-      "situation": "each claim now has somewhere to look, so checking one claim costs a follow rather than a search — and a checkable claim is what a deliberate pause before acceptance needs in order to land on something",
-      "extractedFrom": "situation:resulting"
-    },
-    {
       "source": "cognitive-forcing-functions",
       "target": "activity-log",
       "type": "precedes",
@@ -8706,13 +8718,6 @@
       "target": "cognitive-forcing-functions",
       "type": "precedes",
       "situation": "a complete and plausible explanation can make deferring *easier* rather than harder: the actor now holds a justification they didn't have to think through, which is the state a forcing function exists to interrupt",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "expressed-uncertainty",
-      "target": "cognitive-forcing-functions",
-      "type": "precedes",
-      "situation": "confidence is part of the output's surface — hedged phrasing, ranges, marks on the doubtful spans — so the actor's scrutiny can land where it is actually needed",
       "extractedFrom": "situation:resulting"
     },
     {
