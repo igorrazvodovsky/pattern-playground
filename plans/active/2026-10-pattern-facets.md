@@ -94,7 +94,9 @@ the page is written.
   alternatives at one choice in a sequence make the same kind of centre, so
   none takes a level below the region the choice is made over; the level is
   read from that region rather than from the content an example navigates
-  (§Sittings, *Structuring the space*).
+  (§Sittings, *Structuring the space*). The region sets a lowest level, not a
+  shared one, so an alternative whose forms reach higher keeps the higher
+  level (§Sittings, *Making sense at scale*).
 
   This is also the first interface-composition entry for
   [levels-of-scale](../../docs/language/properties/levels-of-scale.md).
@@ -406,8 +408,8 @@ Done before the iterations:
 
 ### First iteration: `scope`
 
-Steps 1 and 3 are done. Step 2 has two sittings (§Sittings); the third
-territory is next.
+Steps 1 and 3 are done. Step 2 has four sittings (§Sittings); the fifth
+territory, *Working on the same thing*, is next.
 
 1. *Schema.* Done. Add `scope` to `apps/patterns/src/content.config.ts` as
    one level. Keep the level list in a shared module, so the second
@@ -642,6 +644,39 @@ applied system-wide, so these stand as cases. The other two disagreements were
 whether a container keeps its kind wherever it is placed (sections) and
 whether a rule that gates a whole form lifts a field-level message
 (validation). No page was listed for a later edit.
+
+### 4. Making sense at scale
+
+Nine patterns: every `role: pattern` page the sequence names as a step, an
+alternative or a constituent that no earlier sitting classified.
+Overview-detail, item-view, attribute-visibility, tag and data-view were
+classified in earlier sittings. Citation, filtering, status-feedback and
+notification are named only as hand-off vehicles and wait for the sequences
+that name them as steps. Commenting is a pilot pattern, and both readers saw
+its pilot value.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| semantic-zoom | view | "the whole population changes level together, under one scale control" | author-decided: both readers read `area`, copying overview-detail's level under the alternatives rule; revised, since the choice is made for each surface |
+| focus-and-context | view | "Focus and context grades detail with distance from attention inside one continuous view" | author-decided: both readers read `area`; revised as for semantic-zoom |
+| text-lense | view | "For a whole collection, generate an overview that helps the actor gather items rather than judge them" (the sequence's gloss) | author-decided: both readers read `area`; revised as for semantic-zoom. The page's own form, a lens over selected text, is lower; the region sets the level |
+| comparing | view | "Show the compared things in one view, aligned on what they share." | agreed |
+| annotation | view | "Annotation creates a meta-layer that preserves the original while enabling interpretation" | agreed |
+| incremental-formalisation | application | "merge these two labels, turn this recurring mark into a field, treat this prose as a table" | author-decided: the first reader read `area`, a collection's schema; the author took `application` to match tag, the vocabulary the page formalises |
+| commenting | part | "Clear visual indicators for commented elements" | agreed (pilot) |
+| purpose-keyed-view | view | "Shape what the view shows around the purpose — which data, at what level of detail, demanding how much attention" | agreed |
+| problem-curated-view | view | "The checklist is the interface. Each entry is a detected problem; the list doubles as index, navigation, status display, and audit trail." | agreed |
+
+The readers agreed on 8 of 9 (89%). The one disagreement was incremental-formalisation,
+where the tag case from the second sitting decided between a collection's
+schema and the application's vocabulary. Three of the agreed values were then
+revised. Both readers had read the alternatives rule as giving every arm of a
+choice the level of its highest arm, so the lens arms took overview-detail's
+`area`. The sequence makes the choice for each surface, so the region is a
+`view`, and the rule only sets that as the lowest level. Overview-detail keeps
+`area` because its two views can sit on separate pages. The rule now says the
+region sets a lowest level, not a shared one. As in the first sitting, two
+readers sharing a misreading still agreed. No page was listed for a later edit.
 
 ## Open questions
 
