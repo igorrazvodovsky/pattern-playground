@@ -689,25 +689,31 @@ are pilot patterns, and both readers saw their pilot values.
 
 | Pattern | scope | Deciding quote | Agreed or author-decided |
 |---|---|---|---|
-| sharing | area | "grants inherit and cap: a container's grant flows down to what it holds" | agreed (pilot) |
+| sharing | application | "grants inherit and cap: a container's grant flows down to what it holds" | author-decided: both readers read the pilot's `area`; the author read sharing as application-wide, since anything in the application can be shared |
 | presence | view | "*The stack* — who has the document open now." | agreed (pilot) |
 | provenance-marking | application | "visual conventions (colour, iconography) reserved for machine output" | author-decided: the second reader read `ecosystem`, from watermarks and metadata that "survive the content's travels" through copy, paste and export |
-| activity-log | area | "things happened across actors and time that somebody now has to reconstruct" | agreed (pilot) |
+| activity-log | application | "things happened across actors and time that somebody now has to reconstruct" | author-decided: both readers read the pilot's `area`; the author read the log as recording actions at the level of the application |
 | status-feedback | application | "Events pushed to the actor, including ones they didn't cause and aren't watching for" | author-decided: the first reader read `element`, the indication the page owns, since the page says notification "owns the routing" |
 | change-review | view | "Show the proposed change separately from the content it would alter" | agreed |
 | reconciliation | view | "the merge button deactivates, the branch review lists each collision side by side, and a person picks" | agreed |
 | handoff | view | "Recurring forms: escalation to the actor when the agent's confidence or authority runs out, actor takeback mid-run, escalation from an automated channel to a human one, and the scheduled return of finished-but-unreviewed work." | agreed (pilot) |
 
-The readers agreed on 6 of 8 (75%). Provenance-marking turned on whether a
+The readers agreed on 6 of 8 (75%), and 4 of the 8 values stand as they
+agreed them. After the comparison the author lifted sharing and activity-log
+from the pilot's `area` to `application`: anything in the application can be
+shared, and the log records actions wherever in the application they happen.
+Both readers had followed the pilot values. Provenance-marking turned on whether a
 mark built to survive travel between applications reaches `ecosystem`; the
 author kept `application`, as deep-linking's working from outside the
 application was not counted. Status-feedback turned on whether a delivery
 shape the page lists but gives to another pattern counts under the forms
 rule; the author counted it, so the page takes notification's `application`.
-This stands as a case. With tag, dynamic-hyperlinks and
-incremental-formalisation, it is the fourth value lifted by a reach the page
-names, against the third sitting's policies kept at the artefact they act
-on, and the spec still has no rule that separates the two. Both readers
+This stands as a case. Six values now take the reach of the pattern
+across the application rather than the form a page shows: tag,
+dynamic-hyperlinks, incremental-formalisation, status-feedback, sharing and
+activity-log. Against them, the third sitting kept saving, draft-and-publish,
+action-consequences and deletion at the artefact they act on. The spec has no
+rule that separates the two. Both readers
 stumbled on "handoff" among the `ecosystem` examples, which meant continuity
 across devices rather than the pattern of that name; the example now says
 so. No page was listed for a later edit.
