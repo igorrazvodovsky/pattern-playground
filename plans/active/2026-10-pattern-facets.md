@@ -408,8 +408,8 @@ Done before the iterations:
 
 ### First iteration: `scope`
 
-Steps 1 and 3 are done. Step 2 has nine sittings (§Sittings); the tenth
-territory, *Attention and tempo*, is next.
+Steps 1 and 3 are done. Step 2 has ten sittings (§Sittings); the eleventh
+territory, *Governing autonomy*, is next.
 
 1. *Schema.* Done. Add `scope` to `apps/patterns/src/content.config.ts` as
    one level. Keep the level list in a shared module, so the second
@@ -860,6 +860,37 @@ explaining why a workflow exists could lift it under the tag case. It is
 listed for a later edit that separates those centres; the readers agreed on
 `view`, so that value is written meanwhile. Human-goes-first's frequency rule over many
 decisions was kept at the surface, unlike sharing and activity-log.
+
+### 10. Attention and tempo
+
+Four patterns: every `role: pattern` page the sequence names as a step, an
+alternative or a constituent that no earlier sitting classified.
+Status-feedback and deep-linking were classified in earlier sittings.
+Agent-opening, provenance-marking and undo are named only as hand-off
+vehicles. Notification is a pilot pattern, and both readers saw its pilot
+value.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| notification | application | "System-wide alerts that inform the user about events or statuses affecting the entire application, regardless of their current location within it." | agreed (pilot) |
+| settings | application | "Scope of control: Configuration affects system-wide behaviour rather than document-specific choices" | agreed |
+| activity-feed | application | "Single unified feed across multiple sources." | agreed |
+| transient-feedback | part | "Transient feedback shows a message briefly, then removes it without asking the actor to do anything." | agreed |
+
+The readers agreed on all four. Notification takes the top of its pilot range,
+the global scope, as status-feedback did in the fifth sitting. Both readers
+listed it for a later edit, as step 2 already names it: the page covers
+purpose, delivery shape and scope, and the delivery shapes are parts. Its
+value is not forced, since the highest-form rule settles it.
+Settings was agreed at `application` on the rule for a centre shown in one
+place that applies over a larger one, against the spec's own `area` examples
+("settings", "a settings hub"). Those examples name the region the
+configuration lives in, while the page's centre is the configuration, which
+applies system-wide. Activity-feed follows activity-log: it is shown on one
+view and collects from every source in the application, and both readers
+again declined `ecosystem` for outside sources. Transient-feedback stays at
+the toast's level, since the page hands durable delivery to notification and
+activity-log, and the sixth sitting does not count forms a page gives away.
 
 ## Open questions
 
