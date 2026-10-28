@@ -408,8 +408,8 @@ Done before the iterations:
 
 ### First iteration: `scope`
 
-Steps 1 and 3 are done. Step 2 has eight sittings (§Sittings); the ninth
-territory, *Calibrating reliance*, is next.
+Steps 1 and 3 are done. Step 2 has nine sittings (§Sittings); the tenth
+territory, *Attention and tempo*, is next.
 
 1. *Schema.* Done. Add `scope` to `apps/patterns/src/content.config.ts` as
    one level. Keep the level list in a shared module, so the second
@@ -524,12 +524,12 @@ pilot patterns, the first reader's value is the pilot value.
 | workspace | area | "by ownership (personal, team, organisational), by topic (projects, areas, subjects)" | agreed (pilot) |
 | hub-and-spoke | application | "a banking app's home, a settings area or the rooms of a smart-home app" | author-decided (pilot): the second reader read the phone home screen as `ecosystem` |
 | deep-linking | view | "Give every state worth returning to an address of its own" | author-decided (pilot): the second reader read the address scheme kept as a contract as reaching `application` |
-| pan-and-zoom | area | "this one holds a single continuous space — a map, a canvas, a timeline" | author-decided: both readers read `view`; revised by the alternatives rule |
-| step-by-step | area | "an ordered sequence whose later steps depend on what earlier ones settle — a checkout, a setup" | author-decided: both readers read `view`; revised by the alternatives rule |
-| pyramid | area | "A hub at the top lists the full sequence" | author-decided: the second reader read a gallery as `view` |
-| overview-detail | area | "Whether the two views share the screen, swap in place, or sit on separate pages is a layout decision inside the pattern" | author-decided: both readers read `view`; revised by the alternatives rule |
+| pan-and-zoom | application | "this one holds a single continuous space — a map, a canvas, a timeline" | author-decided: both readers read `view`; revised by the alternatives rule |
+| step-by-step | application | "an ordered sequence whose later steps depend on what earlier ones settle — a checkout, a setup" | author-decided: both readers read `view`; revised by the alternatives rule |
+| pyramid | application | "A hub at the top lists the full sequence" | author-decided: the second reader read a gallery as `view` |
+| overview-detail | application | "Whether the two views share the screen, swap in place, or sit on separate pages is a layout decision inside the pattern" | author-decided: both readers read `view`; revised by the alternatives rule |
 | multilevel-tree | application | "Global navigation connects main pages. Each main page contains subpages" | agreed |
-| flat-navigation | area | "this one is a workspace with a rich toolset — an editor, a console" | author-decided: both readers read `view`; revised by the alternatives rule |
+| flat-navigation | application | "this one is a workspace with a rich toolset — an editor, a console" | author-decided: both readers read `view`; revised by the alternatives rule |
 | fully-connected | application | "Global navigation appears consistently across all pages" | agreed |
 | hybrid-patterns | application | "Hub lists applications or workspaces, within each app all functions accessible" | author-decided: the second reader read six combinations as several centres |
 | command-menu | application | "The move recurs wherever a capability has a command space of its own" | agreed |
@@ -561,6 +561,9 @@ navigation.
 The readers recorded six of the thirteen as ranges: the four above from
 `area`, and command-menu and searching from `view`. Under §Single values, not
 ranges, all six take their top end, `application`, as the table shows.
+The table first recorded `area` for pan-and-zoom, step-by-step, pyramid,
+overview-detail and flat-navigation while frontmatter held `application`; it
+was corrected to frontmatter after the eighth sitting.
 Searching's disagreement was over the bottom of its range, so it no longer
 changes the value.
 
@@ -673,8 +676,10 @@ schema and the application's vocabulary. Three of the agreed values were then
 revised. Both readers had read the alternatives rule as giving every arm of a
 choice the level of its highest arm, so the lens arms took overview-detail's
 `area`. The sequence makes the choice for each surface, so the region is a
-`view`, and the rule only sets that as the lowest level. Overview-detail keeps
-`area` because its two views can sit on separate pages. The rule now says the
+`view`, and the rule only sets that as the lowest level. The `area` the
+readers copied was the stale entry in the first sitting's table; overview-detail
+is `application`, the top of its range, because its two views can sit on
+separate pages. The rule now says the
 region sets a lowest level, not a shared one. As in the first sitting, two
 readers sharing a misreading still agreed. No page was listed for a later edit.
 
@@ -824,6 +829,37 @@ form each, standing connectors and the ambient mode, and both readers again
 declined `ecosystem` for connections to outside sources. Prompt follows the
 seventh sitting's reading of moves within a conversation. No page was listed
 for a later edit.
+
+### 9. Calibrating reliance
+
+Six patterns: every `role: pattern` page the sequence names as a step, an
+alternative or a constituent that no earlier sitting classified.
+Provenance-marking, link-preview, transparent-reasoning and activity-log were
+classified in earlier sittings. Mastery and standing-instructions are named
+only as hand-off vehicles.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| citation | view | "A favicon stack in the answer bar opening a sidebar that lists every source as a card while the answer stays in view." | agreed |
+| expressed-uncertainty | view | "so the actor knows which parts of the output stand on firm ground and which are guesses" | agreed |
+| explanation | view | "Describes a set of elements, aiming to convey the broader context influencing multiple objects." | agreed |
+| cognitive-forcing-functions | view | "interpose a moment of active cognition between system output and user acceptance" | agreed |
+| overreliance-checklist | view | "Before the user can accept a system recommendation, the interface presents a set of review items" | author-decided: the second reader read `part`, the checklist as a section that keeps its kind, since the sequence pairs it with human-goes-first "in no set order" rather than as alternatives; the author read it as a form of the friction chosen for each surface |
+| human-goes-first | view | "The user works through the problem, commits an answer, and only then sees what the system would have recommended." | agreed |
+
+The readers agreed on 5 of 6 (83%). Both took the region from the sequence,
+whose steps are taken "for each AI surface rather than once for the whole
+system", and used it as the lowest level for the evidence marks: without it,
+citation would read `part` and expressed-uncertainty `element`. The
+disagreement was whether the region rule reaches a cluster whose members are
+not alternatives; the author's decision treats the friction forms as one
+choice made per surface. Both readers flagged explanation as covering several
+centres (system logic, domain, social and AI explanations) and kept `view`,
+since no form it shows reaches above a surface; one reader noted that
+explaining why a workflow exists could lift it under the tag case. It is
+listed for a later edit that separates those centres; the readers agreed on
+`view`, so that value is written meanwhile. Human-goes-first's frequency rule over many
+decisions was kept at the surface, unlike sharing and activity-log.
 
 ## Open questions
 

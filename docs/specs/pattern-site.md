@@ -157,7 +157,7 @@ The sidebar reads `role` and the scale facets. Foundations and qualities get the
   rule of a region, so they take at least `area`, while a wizard, one sequence
   of views, stays `view`). The region sets a lowest level, not a shared one:
   an alternative whose forms reach higher keeps the higher level (overview and
-  detail can sit on separate pages, so it is `area`, while the other ways of
+  detail can sit on separate pages, so it is `application`, while the other ways of
   sharing the screen between overview and detail, chosen for each surface, are
   `view`). Pilot
   values and the research behind the ladder:
