@@ -141,7 +141,7 @@ The sidebar reads `role` and the scale facets. Foundations and qualities get the
     routes between them one maker designs (main navigation, application-wide
     search).
   - `ecosystem` — no single maker; it forms piecemeal from many applications,
-    platforms and conventions (handoff, share sheet, clipboard).
+    platforms and conventions (continuity across devices, share sheet, clipboard).
 
   A centre with no drawn surface still takes a level: where its work lands or
   where its rule applies. Where a centre is shown in one place and applies over

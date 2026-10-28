@@ -80,7 +80,7 @@ the page is written.
     routes between them one maker designs (main navigation, application-wide
     search).
   - *ecosystem*: no single maker; it forms piecemeal from many applications,
-    platforms and conventions (handoff, share sheet, clipboard). Whose
+    platforms and conventions (continuity across devices, share sheet, clipboard). Whose
     ecosystem it is goes in `people`.
 
   Four rules settle cases where the definition allows two answers. Where a
@@ -408,8 +408,8 @@ Done before the iterations:
 
 ### First iteration: `scope`
 
-Steps 1 and 3 are done. Step 2 has four sittings (§Sittings); the fifth
-territory, *Working on the same thing*, is next.
+Steps 1 and 3 are done. Step 2 has five sittings (§Sittings); the sixth
+territory, *Assistance escalation*, is next.
 
 1. *Schema.* Done. Add `scope` to `apps/patterns/src/content.config.ts` as
    one level. Keep the level list in a shared module, so the second
@@ -677,6 +677,40 @@ choice the level of its highest arm, so the lens arms took overview-detail's
 `area` because its two views can sit on separate pages. The rule now says the
 region sets a lowest level, not a shared one. As in the first sitting, two
 readers sharing a misreading still agreed. No page was listed for a later edit.
+
+### 5. Working on the same thing
+
+Eight patterns: every `role: pattern` page the sequence names as a step or a
+constituent that no earlier sitting classified. Deep-linking, annotation,
+commenting and draft-and-publish were classified in earlier sittings.
+Notification and undo are named only as hand-off vehicles and wait for the
+sequences that name them as steps. Sharing, presence, activity-log and handoff
+are pilot patterns, and both readers saw their pilot values.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| sharing | area | "grants inherit and cap: a container's grant flows down to what it holds" | agreed (pilot) |
+| presence | view | "*The stack* — who has the document open now." | agreed (pilot) |
+| provenance-marking | application | "visual conventions (colour, iconography) reserved for machine output" | author-decided: the second reader read `ecosystem`, from watermarks and metadata that "survive the content's travels" through copy, paste and export |
+| activity-log | area | "things happened across actors and time that somebody now has to reconstruct" | agreed (pilot) |
+| status-feedback | application | "Events pushed to the actor, including ones they didn't cause and aren't watching for" | author-decided: the first reader read `element`, the indication the page owns, since the page says notification "owns the routing" |
+| change-review | view | "Show the proposed change separately from the content it would alter" | agreed |
+| reconciliation | view | "the merge button deactivates, the branch review lists each collision side by side, and a person picks" | agreed |
+| handoff | view | "Recurring forms: escalation to the actor when the agent's confidence or authority runs out, actor takeback mid-run, escalation from an automated channel to a human one, and the scheduled return of finished-but-unreviewed work." | agreed (pilot) |
+
+The readers agreed on 6 of 8 (75%). Provenance-marking turned on whether a
+mark built to survive travel between applications reaches `ecosystem`; the
+author kept `application`, as deep-linking's working from outside the
+application was not counted. Status-feedback turned on whether a delivery
+shape the page lists but gives to another pattern counts under the forms
+rule; the author counted it, so the page takes notification's `application`.
+This stands as a case. With tag, dynamic-hyperlinks and
+incremental-formalisation, it is the fourth value lifted by a reach the page
+names, against the third sitting's policies kept at the artefact they act
+on, and the spec still has no rule that separates the two. Both readers
+stumbled on "handoff" among the `ecosystem` examples, which meant continuity
+across devices rather than the pattern of that name; the example now says
+so. No page was listed for a later edit.
 
 ## Open questions
 
