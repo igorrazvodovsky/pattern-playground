@@ -88,6 +88,7 @@ The <ComponentRef id="components-reference--docs">Reference</ComponentRef> compo
 
 ## Research on this pattern
 
+- Generated citations often fail to support the claim beside them: in an audit of generative search engines, [only half of the generated sentences were fully supported by their citations, and a quarter of the citations did not support their sentence](https://arxiv.org/abs/2304.09848). This is the basis for pointing at the passage rather than the document.
 - Citation marks raise trust in generated answers even when the citations are [random](https://arxiv.org/abs/2501.01303) or [hallucinated](https://arxiv.org/abs/2504.06435), and trust falls when participants check them — an example of the [authority heuristic](https://www.issuelab.org/resources/875/875.pdf).
 - Following is rare: [most participants never open a source](https://arxiv.org/abs/2502.08554), [answer engines draw a fraction of the source engagement search engines do](https://arxiv.org/abs/2410.22349), [links inside Google's AI summaries are clicked on 1% of visits](https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/), and [whether an actor verifies at all is set more by prior disposition than by the answer](https://arxiv.org/abs/2605.28498).
 - [Unfolding evidence in place deepened what readers took from sources](https://arxiv.org/abs/2510.00361), though it measured reading depth, not reliance. Separately, [sources reduced overreliance where explanations increased it](https://arxiv.org/abs/2502.08554) — the basis for placing sources before explanations in the instruction.
@@ -95,20 +96,12 @@ The <ComponentRef id="components-reference--docs">Reference</ComponentRef> compo
 ## Resources & references
 
 - Liu, Zhang & Liang (2023) [Evaluating verifiability in generative search engines](https://arxiv.org/abs/2304.09848) — citation recall and precision
-- Narayanan Venkit et al. (2024) [Search engines in an AI era: the false promise of factual and verifiable source-cited responses](https://arxiv.org/abs/2410.22349) — participant study, design recommendations, citation accuracy
-- Kim, Vaughan, Liao & Lombrozo (CHI 2025) [Fostering appropriate reliance on large language models: the role of explanations, sources, and inconsistencies](https://arxiv.org/abs/2502.08554) — sources reduce reliance on wrong answers, explanations raise reliance on both, and explanations reduce source-checking
-- Li & Aral (2025) [Human trust in AI search: a large-scale experiment](https://arxiv.org/abs/2504.06435) — citations raise trust even when hallucinated; uncertainty highlighting lowers it
-- Ding et al. (AAAI 2025) [Citations and trust in LLM generated responses](https://arxiv.org/abs/2501.01303) — random citations raise trust as much as relevant ones
-- Kambhamettu, Hwang, Laban & Head (2025) [Attribution gradients: incrementally unfolding citations for critical examination of attributed AI answers](https://arxiv.org/abs/2510.00361) — excerpts, evidence amounts, and second-degree citations in place
-- Seo et al. (2026) [Verified misguidance: measuring structural citation failures in search-augmented LLMs](https://arxiv.org/abs/2605.28565)
-- Onweller et al. (2026) [Cited but not verified: parsing and evaluating source attribution in LLM deep research agents](https://arxiv.org/abs/2605.06635) — link validity against factual accuracy
-- Yazan, Situmeang & Verberne (2026) [The decision to verify](https://arxiv.org/abs/2605.28498) — verification driven by prior disposition, not answer properties
-- Magesh et al. (2024) [Hallucination-free? Assessing the reliability of leading AI legal research tools](https://arxiv.org/abs/2405.20362)
+- Kim, Vaughan, Liao & Lombrozo (CHI 2025) [Fostering appropriate reliance on large language models](https://arxiv.org/abs/2502.08554) — sources reduce overreliance, explanations increase it and reduce source-checking
+- Ding et al. (AAAI 2025) [Citations and trust in LLM generated responses](https://arxiv.org/abs/2501.01303) and Li & Aral (2025) [Human trust in AI search](https://arxiv.org/abs/2504.06435) — the mark raises trust whatever it points to
+- Sundar (2008) [The MAIN model](https://www.issuelab.org/resources/875/875.pdf) — the authority heuristic; why the mark works without the checking
+- Kambhamettu, Hwang, Laban & Head (2025) [Attribution gradients](https://arxiv.org/abs/2510.00361) — unfolding excerpts and second-degree citations in place
 - Saxena et al. (2025) [Generation-time vs. post-hoc citation](https://arxiv.org/abs/2509.21557) — the coverage–correctness trade-off
-- Redi, Fetahu, Morgan & Taraborelli (2019) [Citation needed: a taxonomy and algorithmic assessment of Wikipedia's verifiability](https://arxiv.org/abs/1902.11116)
 - Wineburg & McGrew (2019) [Lateral reading and the nature of expertise](https://journals.sagepub.com/doi/10.1177/016146811912101102) — fact-checkers verify by leaving the page
-- Sundar (2008) [The MAIN model: a heuristic approach to understanding technology effects on credibility](https://www.issuelab.org/resources/875/875.pdf) — the authority heuristic; why the mark works without the checking
-- Wathen & Burkell (2001) [Believe it or not: factors influencing credibility on the web](https://doi.org/10.1002/asi.10016)
 - Anthropic (2025) [Citations on the Claude Platform](https://platform.claude.com/docs/en/build-with-claude/citations) — the span as the unit of the contract
-- [Shape of AI — Citations](https://www.shapeof.ai/patterns/citations), [AI UX Playground — Perplexity citations teardown](https://aiuxplayground.com/teardowns/perplexity/citations/), [aiuxpatterns.com — Show Citations](https://www.aiuxpatterns.com)
+- [Shape of AI — Citations](https://www.shapeof.ai/patterns/citations), [AI UX Playground — Perplexity citations teardown](https://aiuxplayground.com/teardowns/perplexity/citations/)
 
