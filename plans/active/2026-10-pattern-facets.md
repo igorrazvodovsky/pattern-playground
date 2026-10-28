@@ -408,8 +408,8 @@ Done before the iterations:
 
 ### First iteration: `scope`
 
-Steps 1 and 3 are done. Step 2 has five sittings (§Sittings); the sixth
-territory, *Assistance escalation*, is next.
+Steps 1 and 3 are done. Step 2 has six sittings (§Sittings); the seventh
+territory, *The encounter*, is next.
 
 1. *Schema.* Done. Add `scope` to `apps/patterns/src/content.config.ts` as
    one level. Keep the level list in a shared module, so the second
@@ -717,6 +717,36 @@ rule that separates the two. Both readers
 stumbled on "handoff" among the `ecosystem` examples, which meant continuity
 across devices rather than the pattern of that name; the example now says
 so. No page was listed for a later edit.
+
+### 6. Assistance escalation
+
+Six patterns: every `role: pattern` page the sequence names as a step or a
+constituent that no earlier sitting classified. Good-defaults, autocomplete,
+embedded-intelligence, suggestion and action-consequences were classified in
+earlier sittings. Cognitive-forcing-functions, transparent-reasoning and
+notification are named only as hand-off vehicles and wait for the sequences
+that name them as steps.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| autofill | element | "the fields arrive already populated from the actor's own data, and what's left for them is checking rather than typing" | agreed |
+| ai-completion | element | "*Inline completion* continues the actor's current thought — ghost text extending the cursor position." | author-decided: the second reader read `part`, counting block generation, which the page and the sequence give to generated content |
+| next-best-action | application | "It works at the *workflow level*, not at the field or content level" | agreed |
+| assisted-task-completion | application | "recommends the next step when context changes. Whole actions or decisions, from contextual reasoning or rules." | agreed |
+| workflow | application | "The system executes it or enforces it (the A cannot B until the rule C is satisfied); the actor inspects it, rehearses it, and repairs it." | agreed |
+| rule-composition | application | "*An acting rule* attaches an action to the condition and runs it on cases that have not arrived." | agreed |
+
+The readers agreed on 5 of 6 (83%). The disagreement was whether
+status-feedback's case, which counted a delivery shape the page gives to
+another pattern, also counts block generation on ai-completion. The author
+took the narrower reading: a form the page hands away counts when the page
+lists and calibrates it as one of its own shapes, as status-feedback does
+with notification, and not when the page says the form belongs elsewhere.
+This stands as a case. Four of the six are `application`, each read from the
+reach of the pattern across the application, as with sharing and
+activity-log. Both readers declined `ecosystem` for autofill's browser-held
+values, following deep-linking and provenance-marking. No page was listed for
+a later edit.
 
 ## Open questions
 
