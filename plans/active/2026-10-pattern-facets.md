@@ -408,8 +408,8 @@ Done before the iterations:
 
 ### First iteration: `scope`
 
-Steps 1 and 3 are done. Step 2 has six sittings (§Sittings); the seventh
-territory, *The encounter*, is next.
+Steps 1 and 3 are done. Step 2 has seven sittings (§Sittings); the eighth
+territory, *Delegating work*, is next.
 
 1. *Schema.* Done. Add `scope` to `apps/patterns/src/content.config.ts` as
    one level. Keep the level list in a shared module, so the second
@@ -747,6 +747,46 @@ reach of the pattern across the application, as with sharing and
 activity-log. Both readers declined `ecosystem` for autofill's browser-held
 values, following deep-linking and provenance-marking. No page was listed for
 a later edit.
+
+### 7. The encounter
+
+Seventeen patterns: every `role: pattern` page the sequence names as a step,
+an alternative or a constituent that no earlier sitting classified. Most are
+members of the Conversational primitives family. Citation, prompt,
+approval-gate, undo and onboarding are named only as hand-off vehicles and
+wait for the sequences that name them as steps.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| capability-and-scope | view | "Capability statement scoped to the channel/context (what's supported, sources/tools, costs/risks)." | agreed |
+| agent-opening | view | "footing has to be established before any activity can begin: who is speaking, what it can do, and what this is about" | agreed |
+| user-opening | view | "the shape of what they brought decides the activity" | agreed |
+| inquiry-user | view | "the actor is between activities rather than inside one" | agreed |
+| open-request | view | "Establish scope + ask for constraints" | agreed |
+| inquiry-agent | view | "the activity resumes at the step that needed it" | author-decided: the first reader read `element`, one slot captured inside an activity, following data-entry; the author kept it level with inquiry-user |
+| prompt-scaffolding | view | "structured prompts with labelled fields, paginated composition, configured controls" | agreed |
+| extended-telling | view | "the agent has to hold the floor across several turns without losing them" | agreed |
+| inline-interface | view | "dialogue and application share one surface" | agreed |
+| plan-preview | view | "a step list before execution, a sample of the output before the full run" | agreed |
+| inline-confirmation | element | "the triggering control transforms in place into a confirm/cancel pair" | agreed |
+| agent-repair | view | "Acknowledge and resume the primary activity at the right step." | agreed |
+| user-repair | view | "Resume the activity at the same step; offer to continue." | agreed |
+| abort | view | "Immediately halt the current sequence; summarize what (if anything) changed." | agreed |
+| sequence-completion | view | "the sequence is closed from the actor's side and the encounter is between activities" | agreed |
+| closing | view | "the encounter is ended deliberately: last topics were invited and either handled or scheduled" | agreed |
+| disengage-without-closing | view | "save state and provide a resume affordance" | agreed |
+
+The readers agreed on 16 of 17 (94%). Both read the conversation, which the
+pilot puts at `view`, as the region the sequence works over, and gave `view`
+to every move that opens, carries, repairs or ends an activity of it, even
+where the move's smallest form is one turn or one card. Inline-confirmation
+is the one pattern whose every form belongs to a single control. The
+disagreement was inquiry-agent: the first reader read its slot question as
+the conversational-turn entry data-entry placed at `element`. The author kept
+it level with inquiry-user, its mirror. Capability-and-scope was agreed at
+`view` because the page scopes the statement to the channel; the author
+considered lifting it to `application`, as an agent's boundary holds wherever
+the agent appears, and kept `view`. No page was listed for a later edit.
 
 ## Open questions
 
