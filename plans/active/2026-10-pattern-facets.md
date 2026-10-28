@@ -408,8 +408,8 @@ Done before the iterations:
 
 ### First iteration: `scope`
 
-Steps 1 and 3 are done. Step 2 has seven sittings (§Sittings); the eighth
-territory, *Delegating work*, is next.
+Steps 1 and 3 are done. Step 2 has eight sittings (§Sittings); the ninth
+territory, *Calibrating reliance*, is next.
 
 1. *Schema.* Done. Add `scope` to `apps/patterns/src/content.config.ts` as
    one level. Keep the level list in a shared module, so the second
@@ -787,6 +787,43 @@ it level with inquiry-user, its mirror. Capability-and-scope was agreed at
 `view` because the page scopes the statement to the channel; the author
 considered lifting it to `application`, as an agent's boundary holds wherever
 the agent appears, and kept `view`. No page was listed for a later edit.
+
+### 8. Delegating work
+
+Eleven patterns: every `role: pattern` page the sequence names as a step, an
+alternative or a constituent that no earlier sitting classified.
+Prompt-scaffolding, good-defaults, status-feedback, activity-log,
+change-review and rule-composition were classified in earlier sittings.
+Citation, bounded-autonomy, onboarding, abort, cognitive-forcing-functions,
+approval-gate, editing-in-place, undo and form are named only as hand-off
+vehicles. Standing-instructions is a pilot pattern, and both readers saw its
+pilot value.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| prompt | view | "the prompt is the turn-level move a conversation with an AI is built from" | agreed |
+| reference-material | application | "standing connectors to external sources" | agreed |
+| agent | application | "Ambient: Behind-the-scenes monitoring or support, offering proactive help or taking actions without direct prompting." | agreed |
+| live-presentation | view | "A streaming surface puts two clocks into one container: the system's emission rate and the actor's reading rate." | agreed |
+| transparent-reasoning | view | "Actors can scroll, expand, comment on, or revisit earlier steps, and if needed, branch the thread to explore alternatives." | agreed |
+| generated-content | view | "rate it, edit it, regenerate part of it, take the half that works" | agreed |
+| extraction | application | "an attachment turned into a file in the shared drive" | author-decided: the second reader read `area`, the level of the host and the destination region the move sits between; the author read the move as connecting areas of the application |
+| steering-surface | view | "the arrangement spends a permanent split of the screen" | agreed |
+| instructed-revision | view | "scoped revision where a selection plus an instruction rewrites just that span" | agreed |
+| regeneration | view | "variant sets generated in parallel for comparison, and branches that keep the replaced result reachable" | agreed |
+| standing-instructions | application | "Scope it by where it lives, so a rule for one project or one kind of file does not reach the rest." | agreed (pilot) |
+
+The readers agreed on 10 of 11 (91%). The disagreement was extraction, an
+alternative to change-review at a choice made for each result: the region
+sets `view` as its lowest level, and both readers lifted it. The second
+reader took the peers rule, under which a move between a host and its
+destination takes their level; the author took `application`, since the move
+connects areas to one another, which is the application's job under the
+definition. Reference-material and agent were agreed at `application` on one
+form each, standing connectors and the ambient mode, and both readers again
+declined `ecosystem` for connections to outside sources. Prompt follows the
+seventh sitting's reading of moves within a conversation. No page was listed
+for a later edit.
 
 ## Open questions
 
