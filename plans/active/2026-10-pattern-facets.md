@@ -408,8 +408,8 @@ Done before the iterations:
 
 ### First iteration: `scope`
 
-Steps 1 and 3 are done. Step 2 has ten sittings (§Sittings); the eleventh
-territory, *Governing autonomy*, is next.
+Steps 1 and 3 are done. Step 2 has eleven sittings (§Sittings); the twelfth
+territory, *Memory and continuity*, is next.
 
 1. *Schema.* Done. Add `scope` to `apps/patterns/src/content.config.ts` as
    one level. Keep the level list in a shared module, so the second
@@ -891,6 +891,34 @@ view and collects from every source in the application, and both readers
 again declined `ecosystem` for outside sources. Transient-feedback stays at
 the toast's level, since the page hands durable delivery to notification and
 activity-log, and the sixth sitting does not count forms a page gives away.
+
+### 11. Governing autonomy
+
+Three patterns: every `role: pattern` page the sequence names as a step, an
+alternative or a constituent that no earlier sitting classified. The other
+eleven it names were classified in earlier sittings, and mastery is named only
+as a hand-off vehicle. Approval-gate is a pilot pattern, and both readers saw
+its pilot value.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| approval-gate | view | "approve/reject on a single proposed action, batch review of queued actions, diff review of proposed changes" | agreed (pilot) |
+| bounded-autonomy | application | "per-capability rather than per-application grants" | agreed |
+| cost-transparency | application | "remaining-quota displays" | agreed |
+
+The readers agreed on all three. Approval-gate takes the top of its pilot
+range: batch and diff review fill a surface. Both readers declined to count
+its graduated modes (suggest, confirm, execute) as a policy over the agent's
+whole authority, since the sequence sets the gate per action, per batch or
+per set of changes. Bounded-autonomy and cost-transparency both took the rule
+for a centre shown in one place that applies over a larger one: a
+capability's grant holds wherever the agent acts, and a quota covers all of
+the actor's runs. Both readers named bounded-autonomy as the weakest call,
+since read from the run it governs ("autonomy levels per task") it would be
+`view`, the third sitting's reading of saving and deletion. Provider-wide
+quotas were again not counted as `ecosystem`. No page was listed for a later
+edit; cost-transparency's hard ceilings overlap bounded-autonomy, a boundary
+its own to-do already records.
 
 ## Open questions
 
