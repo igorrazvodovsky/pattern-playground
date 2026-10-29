@@ -80,7 +80,7 @@ the page is written.
     routes between them one maker designs (main navigation, application-wide
     search).
   - *ecosystem*: no single maker; it forms piecemeal from many applications,
-    platforms and conventions (handoff, share sheet, clipboard). Whose
+    platforms and conventions (continuity across devices, share sheet, clipboard). Whose
     ecosystem it is goes in `people`.
 
   Four rules settle cases where the definition allows two answers. Where a
@@ -94,7 +94,9 @@ the page is written.
   alternatives at one choice in a sequence make the same kind of centre, so
   none takes a level below the region the choice is made over; the level is
   read from that region rather than from the content an example navigates
-  (§Sittings, *Structuring the space*).
+  (§Sittings, *Structuring the space*). The region sets a lowest level, not a
+  shared one, so an alternative whose forms reach higher keeps the higher
+  level (§Sittings, *Making sense at scale*).
 
   This is also the first interface-composition entry for
   [levels-of-scale](../../docs/language/properties/levels-of-scale.md).
@@ -406,8 +408,9 @@ Done before the iterations:
 
 ### First iteration: `scope`
 
-Steps 1 and 3 are done. Step 2 has two sittings (§Sittings); the third
-territory is next.
+Steps 1, 2 and 3 are done. Step 2 ran fourteen sittings (§Sittings): one for
+each sequence's territory and a last one for the patterns no sequence reaches
+as a step. Every design pattern now has a `scope` value.
 
 1. *Schema.* Done. Add `scope` to `apps/patterns/src/content.config.ts` as
    one level. Keep the level list in a shared module, so the second
@@ -522,12 +525,12 @@ pilot patterns, the first reader's value is the pilot value.
 | workspace | area | "by ownership (personal, team, organisational), by topic (projects, areas, subjects)" | agreed (pilot) |
 | hub-and-spoke | application | "a banking app's home, a settings area or the rooms of a smart-home app" | author-decided (pilot): the second reader read the phone home screen as `ecosystem` |
 | deep-linking | view | "Give every state worth returning to an address of its own" | author-decided (pilot): the second reader read the address scheme kept as a contract as reaching `application` |
-| pan-and-zoom | area | "this one holds a single continuous space — a map, a canvas, a timeline" | author-decided: both readers read `view`; revised by the alternatives rule |
-| step-by-step | area | "an ordered sequence whose later steps depend on what earlier ones settle — a checkout, a setup" | author-decided: both readers read `view`; revised by the alternatives rule |
-| pyramid | area | "A hub at the top lists the full sequence" | author-decided: the second reader read a gallery as `view` |
-| overview-detail | area | "Whether the two views share the screen, swap in place, or sit on separate pages is a layout decision inside the pattern" | author-decided: both readers read `view`; revised by the alternatives rule |
+| pan-and-zoom | application | "this one holds a single continuous space — a map, a canvas, a timeline" | author-decided: both readers read `view`; revised by the alternatives rule |
+| step-by-step | application | "an ordered sequence whose later steps depend on what earlier ones settle — a checkout, a setup" | author-decided: both readers read `view`; revised by the alternatives rule |
+| pyramid | application | "A hub at the top lists the full sequence" | author-decided: the second reader read a gallery as `view` |
+| overview-detail | application | "Whether the two views share the screen, swap in place, or sit on separate pages is a layout decision inside the pattern" | author-decided: both readers read `view`; revised by the alternatives rule |
 | multilevel-tree | application | "Global navigation connects main pages. Each main page contains subpages" | agreed |
-| flat-navigation | area | "this one is a workspace with a rich toolset — an editor, a console" | author-decided: both readers read `view`; revised by the alternatives rule |
+| flat-navigation | application | "this one is a workspace with a rich toolset — an editor, a console" | author-decided: both readers read `view`; revised by the alternatives rule |
 | fully-connected | application | "Global navigation appears consistently across all pages" | agreed |
 | hybrid-patterns | application | "Hub lists applications or workspaces, within each app all functions accessible" | author-decided: the second reader read six combinations as several centres |
 | command-menu | application | "The move recurs wherever a capability has a command space of its own" | agreed |
@@ -559,6 +562,9 @@ navigation.
 The readers recorded six of the thirteen as ranges: the four above from
 `area`, and command-menu and searching from `view`. Under §Single values, not
 ranges, all six take their top end, `application`, as the table shows.
+The table first recorded `area` for pan-and-zoom, step-by-step, pyramid,
+overview-detail and flat-navigation while frontmatter held `application`; it
+was corrected to frontmatter after the eighth sitting.
 Searching's disagreement was over the bottom of its range, so it no longer
 changes the value.
 
@@ -643,6 +649,382 @@ whether a container keeps its kind wherever it is placed (sections) and
 whether a rule that gates a whole form lifts a field-level message
 (validation). No page was listed for a later edit.
 
+### 4. Making sense at scale
+
+Nine patterns: every `role: pattern` page the sequence names as a step, an
+alternative or a constituent that no earlier sitting classified.
+Overview-detail, item-view, attribute-visibility, tag and data-view were
+classified in earlier sittings. Citation, filtering, status-feedback and
+notification are named only as hand-off vehicles and wait for the sequences
+that name them as steps. Commenting is a pilot pattern, and both readers saw
+its pilot value.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| semantic-zoom | view | "the whole population changes level together, under one scale control" | author-decided: both readers read `area`, copying overview-detail's level under the alternatives rule; revised, since the choice is made for each surface |
+| focus-and-context | view | "Focus and context grades detail with distance from attention inside one continuous view" | author-decided: both readers read `area`; revised as for semantic-zoom |
+| text-lense | view | "For a whole collection, generate an overview that helps the actor gather items rather than judge them" (the sequence's gloss) | author-decided: both readers read `area`; revised as for semantic-zoom. The page's own form, a lens over selected text, is lower; the region sets the level |
+| comparing | view | "Show the compared things in one view, aligned on what they share." | agreed |
+| annotation | view | "Annotation creates a meta-layer that preserves the original while enabling interpretation" | agreed |
+| incremental-formalisation | application | "merge these two labels, turn this recurring mark into a field, treat this prose as a table" | author-decided: the first reader read `area`, a collection's schema; the author took `application` to match tag, the vocabulary the page formalises |
+| commenting | part | "Clear visual indicators for commented elements" | agreed (pilot) |
+| purpose-keyed-view | view | "Shape what the view shows around the purpose — which data, at what level of detail, demanding how much attention" | agreed |
+| problem-curated-view | view | "The checklist is the interface. Each entry is a detected problem; the list doubles as index, navigation, status display, and audit trail." | agreed |
+
+The readers agreed on 8 of 9 (89%). The one disagreement was incremental-formalisation,
+where the tag case from the second sitting decided between a collection's
+schema and the application's vocabulary. Three of the agreed values were then
+revised. Both readers had read the alternatives rule as giving every arm of a
+choice the level of its highest arm, so the lens arms took overview-detail's
+`area`. The sequence makes the choice for each surface, so the region is a
+`view`, and the rule only sets that as the lowest level. The `area` the
+readers copied was the stale entry in the first sitting's table; overview-detail
+is `application`, the top of its range, because its two views can sit on
+separate pages. The rule now says the
+region sets a lowest level, not a shared one. As in the first sitting, two
+readers sharing a misreading still agreed. No page was listed for a later edit.
+
+### 5. Working on the same thing
+
+Eight patterns: every `role: pattern` page the sequence names as a step or a
+constituent that no earlier sitting classified. Deep-linking, annotation,
+commenting and draft-and-publish were classified in earlier sittings.
+Notification and undo are named only as hand-off vehicles and wait for the
+sequences that name them as steps. Sharing, presence, activity-log and handoff
+are pilot patterns, and both readers saw their pilot values.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| sharing | application | "grants inherit and cap: a container's grant flows down to what it holds" | author-decided: both readers read the pilot's `area`; the author read sharing as application-wide, since anything in the application can be shared |
+| presence | view | "*The stack* — who has the document open now." | agreed (pilot) |
+| provenance-marking | application | "visual conventions (colour, iconography) reserved for machine output" | author-decided: the second reader read `ecosystem`, from watermarks and metadata that "survive the content's travels" through copy, paste and export |
+| activity-log | application | "things happened across actors and time that somebody now has to reconstruct" | author-decided: both readers read the pilot's `area`; the author read the log as recording actions at the level of the application |
+| status-feedback | application | "Events pushed to the actor, including ones they didn't cause and aren't watching for" | author-decided: the first reader read `element`, the indication the page owns, since the page says notification "owns the routing" |
+| change-review | view | "Show the proposed change separately from the content it would alter" | agreed |
+| reconciliation | view | "the merge button deactivates, the branch review lists each collision side by side, and a person picks" | agreed |
+| handoff | view | "Recurring forms: escalation to the actor when the agent's confidence or authority runs out, actor takeback mid-run, escalation from an automated channel to a human one, and the scheduled return of finished-but-unreviewed work." | agreed (pilot) |
+
+The readers agreed on 6 of 8 (75%), and 4 of the 8 values stand as they
+agreed them. After the comparison the author lifted sharing and activity-log
+from the pilot's `area` to `application`: anything in the application can be
+shared, and the log records actions wherever in the application they happen.
+Both readers had followed the pilot values. Provenance-marking turned on whether a
+mark built to survive travel between applications reaches `ecosystem`; the
+author kept `application`, as deep-linking's working from outside the
+application was not counted. Status-feedback turned on whether a delivery
+shape the page lists but gives to another pattern counts under the forms
+rule; the author counted it, so the page takes notification's `application`.
+This stands as a case. Six values now take the reach of the pattern
+across the application rather than the form a page shows: tag,
+dynamic-hyperlinks, incremental-formalisation, status-feedback, sharing and
+activity-log. Against them, the third sitting kept saving, draft-and-publish,
+action-consequences and deletion at the artefact they act on. The spec has no
+rule that separates the two. Both readers
+stumbled on "handoff" among the `ecosystem` examples, which meant continuity
+across devices rather than the pattern of that name; the example now says
+so. No page was listed for a later edit.
+
+### 6. Assistance escalation
+
+Six patterns: every `role: pattern` page the sequence names as a step or a
+constituent that no earlier sitting classified. Good-defaults, autocomplete,
+embedded-intelligence, suggestion and action-consequences were classified in
+earlier sittings. Cognitive-forcing-functions, transparent-reasoning and
+notification are named only as hand-off vehicles and wait for the sequences
+that name them as steps.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| autofill | element | "the fields arrive already populated from the actor's own data, and what's left for them is checking rather than typing" | agreed |
+| ai-completion | element | "*Inline completion* continues the actor's current thought — ghost text extending the cursor position." | author-decided: the second reader read `part`, counting block generation, which the page and the sequence give to generated content |
+| next-best-action | application | "It works at the *workflow level*, not at the field or content level" | agreed |
+| assisted-task-completion | application | "recommends the next step when context changes. Whole actions or decisions, from contextual reasoning or rules." | agreed |
+| workflow | application | "The system executes it or enforces it (the A cannot B until the rule C is satisfied); the actor inspects it, rehearses it, and repairs it." | agreed |
+| rule-composition | application | "*An acting rule* attaches an action to the condition and runs it on cases that have not arrived." | agreed |
+
+The readers agreed on 5 of 6 (83%). The disagreement was whether
+status-feedback's case, which counted a delivery shape the page gives to
+another pattern, also counts block generation on ai-completion. The author
+took the narrower reading: a form the page hands away counts when the page
+lists and calibrates it as one of its own shapes, as status-feedback does
+with notification, and not when the page says the form belongs elsewhere.
+This stands as a case. Four of the six are `application`, each read from the
+reach of the pattern across the application, as with sharing and
+activity-log. Both readers declined `ecosystem` for autofill's browser-held
+values, following deep-linking and provenance-marking. No page was listed for
+a later edit.
+
+### 7. The encounter
+
+Seventeen patterns: every `role: pattern` page the sequence names as a step,
+an alternative or a constituent that no earlier sitting classified. Most are
+members of the Conversational primitives family. Citation, prompt,
+approval-gate, undo and onboarding are named only as hand-off vehicles and
+wait for the sequences that name them as steps.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| capability-and-scope | view | "Capability statement scoped to the channel/context (what's supported, sources/tools, costs/risks)." | agreed |
+| agent-opening | view | "footing has to be established before any activity can begin: who is speaking, what it can do, and what this is about" | agreed |
+| user-opening | view | "the shape of what they brought decides the activity" | agreed |
+| inquiry-user | view | "the actor is between activities rather than inside one" | agreed |
+| open-request | view | "Establish scope + ask for constraints" | agreed |
+| inquiry-agent | view | "the activity resumes at the step that needed it" | author-decided: the first reader read `element`, one slot captured inside an activity, following data-entry; the author kept it level with inquiry-user |
+| prompt-scaffolding | view | "structured prompts with labelled fields, paginated composition, configured controls" | agreed |
+| extended-telling | view | "the agent has to hold the floor across several turns without losing them" | agreed |
+| inline-interface | view | "dialogue and application share one surface" | agreed |
+| plan-preview | view | "a step list before execution, a sample of the output before the full run" | agreed |
+| inline-confirmation | element | "the triggering control transforms in place into a confirm/cancel pair" | agreed |
+| agent-repair | view | "Acknowledge and resume the primary activity at the right step." | agreed |
+| user-repair | view | "Resume the activity at the same step; offer to continue." | agreed |
+| abort | view | "Immediately halt the current sequence; summarize what (if anything) changed." | agreed |
+| sequence-completion | view | "the sequence is closed from the actor's side and the encounter is between activities" | agreed |
+| closing | view | "the encounter is ended deliberately: last topics were invited and either handled or scheduled" | agreed |
+| disengage-without-closing | view | "save state and provide a resume affordance" | agreed |
+
+The readers agreed on 16 of 17 (94%). Both read the conversation, which the
+pilot puts at `view`, as the region the sequence works over, and gave `view`
+to every move that opens, carries, repairs or ends an activity of it, even
+where the move's smallest form is one turn or one card. Inline-confirmation
+is the one pattern whose every form belongs to a single control. The
+disagreement was inquiry-agent: the first reader read its slot question as
+the conversational-turn entry data-entry placed at `element`. The author kept
+it level with inquiry-user, its mirror. Capability-and-scope was agreed at
+`view` because the page scopes the statement to the channel; the author
+considered lifting it to `application`, as an agent's boundary holds wherever
+the agent appears, and kept `view`. No page was listed for a later edit.
+
+### 8. Delegating work
+
+Eleven patterns: every `role: pattern` page the sequence names as a step, an
+alternative or a constituent that no earlier sitting classified.
+Prompt-scaffolding, good-defaults, status-feedback, activity-log,
+change-review and rule-composition were classified in earlier sittings.
+Citation, bounded-autonomy, onboarding, abort, cognitive-forcing-functions,
+approval-gate, editing-in-place, undo and form are named only as hand-off
+vehicles. Standing-instructions is a pilot pattern, and both readers saw its
+pilot value.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| prompt | view | "the prompt is the turn-level move a conversation with an AI is built from" | agreed |
+| reference-material | application | "standing connectors to external sources" | agreed |
+| agent | application | "Ambient: Behind-the-scenes monitoring or support, offering proactive help or taking actions without direct prompting." | agreed |
+| live-presentation | view | "A streaming surface puts two clocks into one container: the system's emission rate and the actor's reading rate." | agreed |
+| transparent-reasoning | view | "Actors can scroll, expand, comment on, or revisit earlier steps, and if needed, branch the thread to explore alternatives." | agreed |
+| generated-content | view | "rate it, edit it, regenerate part of it, take the half that works" | agreed |
+| extraction | application | "an attachment turned into a file in the shared drive" | author-decided: the second reader read `area`, the level of the host and the destination region the move sits between; the author read the move as connecting areas of the application |
+| steering-surface | view | "the arrangement spends a permanent split of the screen" | agreed |
+| instructed-revision | view | "scoped revision where a selection plus an instruction rewrites just that span" | agreed |
+| regeneration | view | "variant sets generated in parallel for comparison, and branches that keep the replaced result reachable" | agreed |
+| standing-instructions | application | "Scope it by where it lives, so a rule for one project or one kind of file does not reach the rest." | agreed (pilot) |
+
+The readers agreed on 10 of 11 (91%). The disagreement was extraction, an
+alternative to change-review at a choice made for each result: the region
+sets `view` as its lowest level, and both readers lifted it. The second
+reader took the peers rule, under which a move between a host and its
+destination takes their level; the author took `application`, since the move
+connects areas to one another, which is the application's job under the
+definition. Reference-material and agent were agreed at `application` on one
+form each, standing connectors and the ambient mode, and both readers again
+declined `ecosystem` for connections to outside sources. Prompt follows the
+seventh sitting's reading of moves within a conversation. No page was listed
+for a later edit.
+
+### 9. Calibrating reliance
+
+Six patterns: every `role: pattern` page the sequence names as a step, an
+alternative or a constituent that no earlier sitting classified.
+Provenance-marking, link-preview, transparent-reasoning and activity-log were
+classified in earlier sittings. Mastery and standing-instructions are named
+only as hand-off vehicles.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| citation | view | "A favicon stack in the answer bar opening a sidebar that lists every source as a card while the answer stays in view." | agreed |
+| expressed-uncertainty | view | "so the actor knows which parts of the output stand on firm ground and which are guesses" | agreed |
+| explanation | view | "Describes a set of elements, aiming to convey the broader context influencing multiple objects." | agreed |
+| cognitive-forcing-functions | view | "interpose a moment of active cognition between system output and user acceptance" | agreed |
+| overreliance-checklist | view | "Before the user can accept a system recommendation, the interface presents a set of review items" | author-decided: the second reader read `part`, the checklist as a section that keeps its kind, since the sequence pairs it with human-goes-first "in no set order" rather than as alternatives; the author read it as a form of the friction chosen for each surface |
+| human-goes-first | view | "The user works through the problem, commits an answer, and only then sees what the system would have recommended." | agreed |
+
+The readers agreed on 5 of 6 (83%). Both took the region from the sequence,
+whose steps are taken "for each AI surface rather than once for the whole
+system", and used it as the lowest level for the evidence marks: without it,
+citation would read `part` and expressed-uncertainty `element`. The
+disagreement was whether the region rule reaches a cluster whose members are
+not alternatives; the author's decision treats the friction forms as one
+choice made per surface. Both readers flagged explanation as covering several
+centres (system logic, domain, social and AI explanations) and kept `view`,
+since no form it shows reaches above a surface; one reader noted that
+explaining why a workflow exists could lift it under the tag case. It is
+listed for a later edit that separates those centres; the readers agreed on
+`view`, so that value is written meanwhile. Human-goes-first's frequency rule over many
+decisions was kept at the surface, unlike sharing and activity-log.
+
+### 10. Attention and tempo
+
+Four patterns: every `role: pattern` page the sequence names as a step, an
+alternative or a constituent that no earlier sitting classified.
+Status-feedback and deep-linking were classified in earlier sittings.
+Agent-opening, provenance-marking and undo are named only as hand-off
+vehicles. Notification is a pilot pattern, and both readers saw its pilot
+value.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| notification | application | "System-wide alerts that inform the user about events or statuses affecting the entire application, regardless of their current location within it." | agreed (pilot) |
+| settings | application | "Scope of control: Configuration affects system-wide behaviour rather than document-specific choices" | agreed |
+| activity-feed | application | "Single unified feed across multiple sources." | agreed |
+| transient-feedback | part | "Transient feedback shows a message briefly, then removes it without asking the actor to do anything." | agreed |
+
+The readers agreed on all four. Notification takes the top of its pilot range,
+the global scope, as status-feedback did in the fifth sitting. Both readers
+listed it for a later edit, as step 2 already names it: the page covers
+purpose, delivery shape and scope, and the delivery shapes are parts. Its
+value is not forced, since the highest-form rule settles it.
+Settings was agreed at `application` on the rule for a centre shown in one
+place that applies over a larger one, against the spec's own `area` examples
+("settings", "a settings hub"). Those examples name the region the
+configuration lives in, while the page's centre is the configuration, which
+applies system-wide. Activity-feed follows activity-log: it is shown on one
+view and collects from every source in the application, and both readers
+again declined `ecosystem` for outside sources. Transient-feedback stays at
+the toast's level, since the page hands durable delivery to notification and
+activity-log, and the sixth sitting does not count forms a page gives away.
+
+### 11. Governing autonomy
+
+Three patterns: every `role: pattern` page the sequence names as a step, an
+alternative or a constituent that no earlier sitting classified. The other
+eleven it names were classified in earlier sittings, and mastery is named only
+as a hand-off vehicle. Approval-gate is a pilot pattern, and both readers saw
+its pilot value.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| approval-gate | view | "approve/reject on a single proposed action, batch review of queued actions, diff review of proposed changes" | agreed (pilot) |
+| bounded-autonomy | application | "per-capability rather than per-application grants" | agreed |
+| cost-transparency | view | "estimated before the run, metered during it" | author-decided: both readers read `application`, from a quota that covers all of the actor's runs; revised, since the cost shown is that of the run on the screen |
+
+The readers agreed on all three, and the author revised one. Approval-gate takes the top of its pilot
+range: batch and diff review fill a surface. Both readers declined to count
+its graduated modes (suggest, confirm, execute) as a policy over the agent's
+whole authority, since the sequence sets the gate per action, per batch or
+per set of changes. Both readers took the rule for a centre shown in one
+place that applies over a larger one for bounded-autonomy and
+cost-transparency: a capability's grant holds wherever the agent acts, and a
+quota covers all of the actor's runs. The author kept bounded-autonomy and
+revised cost-transparency to `view`: its estimates, meters and ceilings are
+the cost of the run the surface shows, and the remaining allowance is read
+at that run, not acted on across the application. It is the first agreed
+reach-across-the-application value an author has lowered, on the side of the
+third sitting's saving and deletion. Both readers named bounded-autonomy as
+the weakest call,
+since read from the run it governs ("autonomy levels per task") it would be
+`view`, the third sitting's reading of saving and deletion. Provider-wide
+quotas were again not counted as `ecosystem`. No page was listed for a later
+edit; cost-transparency's hard ceilings overlap bounded-autonomy, a boundary
+its own to-do already records.
+
+### 12. Memory and continuity
+
+One pattern: selective-memory is the only `role: pattern` page the sequence
+names as a step, an alternative or a constituent that no earlier sitting
+classified. Activity-log, progressive-disclosure, provenance-marking,
+settings, deep-linking and deletion were classified in earlier sittings.
+Standing-instructions, user-opening, citation, notification, onboarding and
+undo are named only as hand-off vehicles. Three steps name no pattern.
+Selective-memory is a pilot pattern, and both readers saw its pilot value.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| selective-memory | application | "What the system remembers about the actor is theirs to inspect, correct, scope, and erase — per fact, per conversation, or by stepping outside memory altogether." | agreed (pilot) |
+
+The readers agreed. Selective-memory takes the top of its pilot range: the
+memory is shown in one place, a list the page puts in settings, and is acted
+on in every later encounter, and "incognito sessions that leave no trace"
+only mean something if memory otherwise holds across all of them. Both
+readers weighed `view`, from the forms scoped per message or per thread, and
+set it apart from cost-transparency: that page's figures belong to the run on
+the screen, while memory is carried forward and reused wherever the actor
+next works. Per-thread scope narrows a memory that is otherwise
+application-wide. No page was listed for a later edit; the page is a seed, so
+its value may change once it is written out.
+
+### 13. Learning
+
+Six patterns: every `role: pattern` page the sequence names as a step, an
+alternative or a constituent that no earlier sitting classified. Wizard,
+annotation and command-menu were classified in earlier sittings.
+Activity-log, prompt and inquiry-user are named only as hand-off vehicles,
+and unavailable-actions, named only that way, waits for the last sitting.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| onboarding | application | "Orient the user: what objects exist, where state lives, and how to navigate." | agreed |
+| state-empty | view | "Basic empty state for first use experience." | agreed |
+| template | view | "Predefined, reusable structures that guide actors in creating consistent items." | agreed |
+| help | application | "Mechanisms include search, index, [command menu](/patterns/command-menu), and glossary." | agreed |
+| mastery | application | "Help users see recurring domain structures across the system" | agreed |
+| keyboard-shortcuts | application | "Application-specific shortcuts should avoid OS-level and browser-level reservations, then complement rather than duplicate them." | agreed |
+
+The readers agreed on all six. Onboarding, help and mastery take their
+highest forms: the first encounter teaches the whole system, help's locating
+forms are search and the command menu, and mastery's faces reach across the
+tool. Keyboard-shortcuts is one maker's set for the application; both readers
+declined `ecosystem` for the platform conventions it has to respect. Both
+readers named template the closest call: its "Workflow templates" example
+could lift it to workflow's `application`, but both kept it at the item a
+template shapes, on the surface where the item is made, following
+cost-transparency. As wizard's alternative over the empty surface, it takes
+at least `view`. State-empty was kept at `view` rather than `part`, from the
+first-run forms that fill a surface. Mastery is listed for a later edit: its
+four faces (accelerators, customisation, depth, retention) are separate
+centres, and the sequence already uses its retention face alone, which would
+read `area`. One reader also proposed help, whose purposes and placements
+cover several centres, as notification's do; the highest-form rule settles
+its value meanwhile.
+
+### 14. Patterns no sequence reaches
+
+Ten patterns: every `role: pattern` page that no sequence names as a step, an
+alternative or a constituent. Unavailable-actions is named only as a
+hand-off vehicle. Conversation, resuming and version-history are pilot
+patterns, and both readers saw their pilot values. With no sequence choice
+to read a region from, each page was read on its own.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| collaboration | application | "Asynchronous collaboration: time-shifted contributions with integrated workflows" | agreed |
+| conversation | view | "this pattern focuses on interfaces where dialogue is the primary interaction mode" | agreed (pilot) |
+| dry-run | view | "Keep the rule and the result side by side, and run again after each edit." | agreed |
+| information-environment | application | "Give it a legible structure and vocabulary that stay consistent across every surface, channel, and moment of use" | agreed |
+| resuming | view | "What the actor sees on return is the pattern." | agreed (pilot) |
+| review-before-submitting | view | "Before the final action, the system shows every answer the actor has given on one screen, grouped as they were asked." | agreed |
+| state-disabled | element | "Signal that an element cannot currently receive input" | agreed |
+| tool-ecology | ecosystem | "Design the artifact as one member of the set of tools its actors already use." | agreed |
+| unavailable-actions | part | "only displaying actions relevant to the current selection or state rather than disabling irrelevant items" | agreed |
+| version-history | view | "a list or timeline of versions, each opening read-only, usually with changes highlighted against its neighbour" | agreed (pilot) |
+
+The readers agreed on all ten. Tool-ecology is the first `ecosystem` value.
+Earlier sittings declined the level where one maker still designs the reach
+outside its application (deep-linking, provenance-marking, autofill,
+reference-material, keyboard-shortcuts); here the centre is the set of tools
+itself, which no single maker designs, and every form the page lists sits
+between tools. Its counterpart, information-environment, stays at
+`application`, since one maker shapes the artifact's structure across its
+surfaces and channels. Dry-run follows cost-transparency: the result belongs
+to the rule on the screen and changes nothing, although the rules it
+previews are `application`. Unavailable-actions keeps its menus and toolbars
+at `part` above state-disabled's `element`. Resuming and version-history keep
+their pilot values; the emailed link, the account and retention by plan were
+not counted, following deep-linking and the third sitting. Collaboration is
+listed for a later edit: it covers temporal variants, participant types,
+interaction stages and elaboration levels, and the forms that lift it to
+`application` (notifications, the activity log, workflows) are mostly to-do
+lines, which the pilot did not count for validation.
+
 ## Open questions
 
 - What a `time` facet measures, for a later iteration. The strawman
@@ -664,7 +1046,8 @@ whether a rule that gates a whole form lifts a field-level message
   system-centric) that overlap the facet. Two scales for the same thing should
   not survive the schema change; which one gives way is a design call.
 - Whether the largest sidebar groups grow too large to navigate. `view` is
-  the most common pilot value and may pass 40 in the full library.
+  the most common pilot value and may pass 40 in the full library. After the
+  sittings it holds 70 of 124 design patterns, and `application` 38.
 - Whether `lifecycle` (31 entries, no consumer) is retired in the same schema
   change.
 - Whether the facets also project onto the home-page graph, as `activityLevel`

@@ -141,7 +141,7 @@ The sidebar reads `role` and the scale facets. Foundations and qualities get the
     routes between them one maker designs (main navigation, application-wide
     search).
   - `ecosystem` — no single maker; it forms piecemeal from many applications,
-    platforms and conventions (handoff, share sheet, clipboard).
+    platforms and conventions (continuity across devices, share sheet, clipboard).
 
   A centre with no drawn surface still takes a level: where its work lands or
   where its rule applies. Where a centre is shown in one place and applies over
@@ -155,7 +155,11 @@ The sidebar reads `role` and the scale facets. Foundations and qualities get the
   region the choice is made over; read the level from that region, not from the
   content an example navigates (the navigation topologies are each the movement
   rule of a region, so they take at least `area`, while a wizard, one sequence
-  of views, stays `view`). Pilot
+  of views, stays `view`). The region sets a lowest level, not a shared one:
+  an alternative whose forms reach higher keeps the higher level (overview and
+  detail can sit on separate pages, so it is `application`, while the other ways of
+  sharing the screen between overview and detail, chosen for each surface, are
+  `view`). Pilot
   values and the research behind the ladder:
   [2026-10-pattern-facets.md](../../plans/active/2026-10-pattern-facets.md).
 - `lifecycle` — a stage in the Seek–Use–Share family (e.g. `seeking`,
