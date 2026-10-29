@@ -200,7 +200,7 @@ export const catalog = defineCatalog(schema, {
       }),
       slots: ['default'],
       description:
-        'Lays children out in a column (default) or a row. `label` names what the children are a group of, such as one of several lists in a detail: the Stack becomes a region of that name for assistive technology. A visible caption for the group is a separate Text. With `dropTarget` the Stack takes what is dragged in the same demo, rows of a draggable DescriptionList or Cards with a `dragId`: it is marked while a row is over it, and a drop writes the `id` it carries to `dropped`, then emits `drop`. Bind `dropped` with $bindState. Dragging needs a pointer, so give the actor another way to do what a drop does, such as a Menu.',
+        'Lays children out in a column (default) or a row. Children of a column take its full width; `align: start` keeps them at their own width, as for a lone Button. `label` names what the children are a group of, such as one of several lists in a detail: the Stack becomes a region of that name for assistive technology. A visible caption for the group is a separate Text. With `dropTarget` the Stack takes what is dragged in the same demo, rows of a draggable DescriptionList or Cards with a `dragId`: it is marked while a row is over it, and a drop writes the `id` it carries to `dropped`, then emits `drop`. Bind `dropped` with $bindState. Dragging needs a pointer, so give the actor another way to do what a drop does, such as a Menu.',
     },
     Grid: {
       props: z.object({

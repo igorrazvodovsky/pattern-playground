@@ -3,7 +3,7 @@
   "elements": {
     "workspace-demo": {
       "type": "Stack",
-      "props": { "gap": "m" },
+      "props": { "gap": "m", "align": "start" },
       "children": ["delete-workspace", "deleted-state", "confirm-dialog"],
       "watch": {
         "/confirming": {

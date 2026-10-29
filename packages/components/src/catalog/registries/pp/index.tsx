@@ -97,12 +97,6 @@ const syncModal = (
   };
 };
 
-const space = {
-  none: '0',
-  s: 'var(--space-xs)',
-  m: 'var(--space-s)',
-  l: 'var(--space-m)',
-} as const;
 const gapClass = { none: 'gap-0', s: 'gap-xs', m: 'gap-s', l: 'gap-m' } as const;
 const columnWidth = { s: '16ch', m: '24ch', l: '36ch' } as const;
 export const icons: Record<(typeof iconNames)[number], string> = {
@@ -239,23 +233,20 @@ export const { registry } = defineRegistry(catalog, {
       const horizontal = props.direction === 'horizontal';
       const attributes = {
         'className': clsx(
-          horizontal ? ['flex wrap', gapClass[gap], `items-${props.align ?? 'center'}`] : 'flow',
+          horizontal
+            ? ['flex wrap', `items-${props.align ?? 'center'}`]
+            : ['grid-stack', props.align === 'start' && 'grid-stack--start'],
+          gapClass[gap],
           props.dropTarget && 'view-family__pane',
         ),
         'data-drop-over': over || undefined,
       };
-      const flowSpace = horizontal ? undefined : space[gap];
       return props.label ? (
-        <section
-          ref={ref}
-          aria-label={props.label}
-          {...attributes}
-          style={{ '--flow-space': flowSpace } as CSSProperties}
-        >
+        <section ref={ref} aria-label={props.label} {...attributes}>
           {children}
         </section>
       ) : (
-        <div ref={ref} {...attributes} style={{ '--flow-space': flowSpace } as CSSProperties}>
+        <div ref={ref} {...attributes}>
           {children}
         </div>
       );

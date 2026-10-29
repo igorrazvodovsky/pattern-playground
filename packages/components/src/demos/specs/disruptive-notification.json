@@ -3,7 +3,7 @@
   "elements": {
     "disruptive-notification-demo": {
       "type": "Stack",
-      "props": {},
+      "props": { "align": "start" },
       "children": ["delete-document", "confirm-dialog"]
     },
     "delete-document": {
