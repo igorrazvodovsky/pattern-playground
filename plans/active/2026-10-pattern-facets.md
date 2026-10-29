@@ -408,8 +408,9 @@ Done before the iterations:
 
 ### First iteration: `scope`
 
-Steps 1 and 3 are done. Step 2 has twelve sittings (§Sittings); the
-thirteenth territory, *Learning*, is next.
+Steps 1 and 3 are done. Step 2 has thirteen sittings (§Sittings), one for
+each sequence's territory; the last sitting, for the patterns no sequence
+reaches as a step, is next.
 
 1. *Schema.* Done. Add `scope` to `apps/patterns/src/content.config.ts` as
    one level. Keep the level list in a shared module, so the second
@@ -950,6 +951,40 @@ the screen, while memory is carried forward and reused wherever the actor
 next works. Per-thread scope narrows a memory that is otherwise
 application-wide. No page was listed for a later edit; the page is a seed, so
 its value may change once it is written out.
+
+### 13. Learning
+
+Six patterns: every `role: pattern` page the sequence names as a step, an
+alternative or a constituent that no earlier sitting classified. Wizard,
+annotation and command-menu were classified in earlier sittings.
+Activity-log, prompt and inquiry-user are named only as hand-off vehicles,
+and unavailable-actions, named only that way, waits for the last sitting.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| onboarding | application | "Orient the user: what objects exist, where state lives, and how to navigate." | agreed |
+| state-empty | view | "Basic empty state for first use experience." | agreed |
+| template | view | "Predefined, reusable structures that guide actors in creating consistent items." | agreed |
+| help | application | "Mechanisms include search, index, [command menu](/patterns/command-menu), and glossary." | agreed |
+| mastery | application | "Help users see recurring domain structures across the system" | agreed |
+| keyboard-shortcuts | application | "Application-specific shortcuts should avoid OS-level and browser-level reservations, then complement rather than duplicate them." | agreed |
+
+The readers agreed on all six. Onboarding, help and mastery take their
+highest forms: the first encounter teaches the whole system, help's locating
+forms are search and the command menu, and mastery's faces reach across the
+tool. Keyboard-shortcuts is one maker's set for the application; both readers
+declined `ecosystem` for the platform conventions it has to respect. Both
+readers named template the closest call: its "Workflow templates" example
+could lift it to workflow's `application`, but both kept it at the item a
+template shapes, on the surface where the item is made, following
+cost-transparency. As wizard's alternative over the empty surface, it takes
+at least `view`. State-empty was kept at `view` rather than `part`, from the
+first-run forms that fill a surface. Mastery is listed for a later edit: its
+four faces (accelerators, customisation, depth, retention) are separate
+centres, and the sequence already uses its retention face alone, which would
+read `area`. One reader also proposed help, whose purposes and placements
+cover several centres, as notification's do; the highest-form rule settles
+its value meanwhile.
 
 ## Open questions
 
