@@ -408,9 +408,9 @@ Done before the iterations:
 
 ### First iteration: `scope`
 
-Steps 1 and 3 are done. Step 2 has thirteen sittings (§Sittings), one for
-each sequence's territory; the last sitting, for the patterns no sequence
-reaches as a step, is next.
+Steps 1, 2 and 3 are done. Step 2 ran fourteen sittings (§Sittings): one for
+each sequence's territory and a last one for the patterns no sequence reaches
+as a step. Every design pattern now has a `scope` value.
 
 1. *Schema.* Done. Add `scope` to `apps/patterns/src/content.config.ts` as
    one level. Keep the level list in a shared module, so the second
@@ -986,6 +986,45 @@ read `area`. One reader also proposed help, whose purposes and placements
 cover several centres, as notification's do; the highest-form rule settles
 its value meanwhile.
 
+### 14. Patterns no sequence reaches
+
+Ten patterns: every `role: pattern` page that no sequence names as a step, an
+alternative or a constituent. Unavailable-actions is named only as a
+hand-off vehicle. Conversation, resuming and version-history are pilot
+patterns, and both readers saw their pilot values. With no sequence choice
+to read a region from, each page was read on its own.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| collaboration | application | "Asynchronous collaboration: time-shifted contributions with integrated workflows" | agreed |
+| conversation | view | "this pattern focuses on interfaces where dialogue is the primary interaction mode" | agreed (pilot) |
+| dry-run | view | "Keep the rule and the result side by side, and run again after each edit." | agreed |
+| information-environment | application | "Give it a legible structure and vocabulary that stay consistent across every surface, channel, and moment of use" | agreed |
+| resuming | view | "What the actor sees on return is the pattern." | agreed (pilot) |
+| review-before-submitting | view | "Before the final action, the system shows every answer the actor has given on one screen, grouped as they were asked." | agreed |
+| state-disabled | element | "Signal that an element cannot currently receive input" | agreed |
+| tool-ecology | ecosystem | "Design the artifact as one member of the set of tools its actors already use." | agreed |
+| unavailable-actions | part | "only displaying actions relevant to the current selection or state rather than disabling irrelevant items" | agreed |
+| version-history | view | "a list or timeline of versions, each opening read-only, usually with changes highlighted against its neighbour" | agreed (pilot) |
+
+The readers agreed on all ten. Tool-ecology is the first `ecosystem` value.
+Earlier sittings declined the level where one maker still designs the reach
+outside its application (deep-linking, provenance-marking, autofill,
+reference-material, keyboard-shortcuts); here the centre is the set of tools
+itself, which no single maker designs, and every form the page lists sits
+between tools. Its counterpart, information-environment, stays at
+`application`, since one maker shapes the artifact's structure across its
+surfaces and channels. Dry-run follows cost-transparency: the result belongs
+to the rule on the screen and changes nothing, although the rules it
+previews are `application`. Unavailable-actions keeps its menus and toolbars
+at `part` above state-disabled's `element`. Resuming and version-history keep
+their pilot values; the emailed link, the account and retention by plan were
+not counted, following deep-linking and the third sitting. Collaboration is
+listed for a later edit: it covers temporal variants, participant types,
+interaction stages and elaboration levels, and the forms that lift it to
+`application` (notifications, the activity log, workflows) are mostly to-do
+lines, which the pilot did not count for validation.
+
 ## Open questions
 
 - What a `time` facet measures, for a later iteration. The strawman
@@ -1007,7 +1046,8 @@ its value meanwhile.
   system-centric) that overlap the facet. Two scales for the same thing should
   not survive the schema change; which one gives way is a design call.
 - Whether the largest sidebar groups grow too large to navigate. `view` is
-  the most common pilot value and may pass 40 in the full library.
+  the most common pilot value and may pass 40 in the full library. After the
+  sittings it holds 70 of 124 design patterns, and `application` 38.
 - Whether `lifecycle` (31 entries, no consumer) is retired in the same schema
   change.
 - Whether the facets also project onto the home-page graph, as `activityLevel`
