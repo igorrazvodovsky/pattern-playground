@@ -904,16 +904,22 @@ its pilot value.
 |---|---|---|---|
 | approval-gate | view | "approve/reject on a single proposed action, batch review of queued actions, diff review of proposed changes" | agreed (pilot) |
 | bounded-autonomy | application | "per-capability rather than per-application grants" | agreed |
-| cost-transparency | application | "remaining-quota displays" | agreed |
+| cost-transparency | view | "estimated before the run, metered during it" | author-decided: both readers read `application`, from a quota that covers all of the actor's runs; revised, since the cost shown is that of the run on the screen |
 
-The readers agreed on all three. Approval-gate takes the top of its pilot
+The readers agreed on all three, and the author revised one. Approval-gate takes the top of its pilot
 range: batch and diff review fill a surface. Both readers declined to count
 its graduated modes (suggest, confirm, execute) as a policy over the agent's
 whole authority, since the sequence sets the gate per action, per batch or
-per set of changes. Bounded-autonomy and cost-transparency both took the rule
-for a centre shown in one place that applies over a larger one: a
-capability's grant holds wherever the agent acts, and a quota covers all of
-the actor's runs. Both readers named bounded-autonomy as the weakest call,
+per set of changes. Both readers took the rule for a centre shown in one
+place that applies over a larger one for bounded-autonomy and
+cost-transparency: a capability's grant holds wherever the agent acts, and a
+quota covers all of the actor's runs. The author kept bounded-autonomy and
+revised cost-transparency to `view`: its estimates, meters and ceilings are
+the cost of the run the surface shows, and the remaining allowance is read
+at that run, not acted on across the application. It is the first agreed
+reach-across-the-application value an author has lowered, on the side of the
+third sitting's saving and deletion. Both readers named bounded-autonomy as
+the weakest call,
 since read from the run it governs ("autonomy levels per task") it would be
 `view`, the third sitting's reading of saving and deletion. Provider-wide
 quotas were again not counted as `ecosystem`. No page was listed for a later
