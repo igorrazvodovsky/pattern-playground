@@ -408,8 +408,8 @@ Done before the iterations:
 
 ### First iteration: `scope`
 
-Steps 1 and 3 are done. Step 2 has eleven sittings (§Sittings); the twelfth
-territory, *Memory and continuity*, is next.
+Steps 1 and 3 are done. Step 2 has twelve sittings (§Sittings); the
+thirteenth territory, *Learning*, is next.
 
 1. *Schema.* Done. Add `scope` to `apps/patterns/src/content.config.ts` as
    one level. Keep the level list in a shared module, so the second
@@ -925,6 +925,31 @@ since read from the run it governs ("autonomy levels per task") it would be
 quotas were again not counted as `ecosystem`. No page was listed for a later
 edit; cost-transparency's hard ceilings overlap bounded-autonomy, a boundary
 its own to-do already records.
+
+### 12. Memory and continuity
+
+One pattern: selective-memory is the only `role: pattern` page the sequence
+names as a step, an alternative or a constituent that no earlier sitting
+classified. Activity-log, progressive-disclosure, provenance-marking,
+settings, deep-linking and deletion were classified in earlier sittings.
+Standing-instructions, user-opening, citation, notification, onboarding and
+undo are named only as hand-off vehicles. Three steps name no pattern.
+Selective-memory is a pilot pattern, and both readers saw its pilot value.
+
+| Pattern | scope | Deciding quote | Agreed or author-decided |
+|---|---|---|---|
+| selective-memory | application | "What the system remembers about the actor is theirs to inspect, correct, scope, and erase — per fact, per conversation, or by stepping outside memory altogether." | agreed (pilot) |
+
+The readers agreed. Selective-memory takes the top of its pilot range: the
+memory is shown in one place, a list the page puts in settings, and is acted
+on in every later encounter, and "incognito sessions that leave no trace"
+only mean something if memory otherwise holds across all of them. Both
+readers weighed `view`, from the forms scoped per message or per thread, and
+set it apart from cost-transparency: that page's figures belong to the run on
+the screen, while memory is carried forward and reused wherever the actor
+next works. Per-thread scope narrows a memory that is otherwise
+application-wide. No page was listed for a later edit; the page is a seed, so
+its value may change once it is written out.
 
 ## Open questions
 
