@@ -1,101 +1,79 @@
 ---
 title: Prompt
 added: 2025-05-20
-updated:
+updated: 2026-10-29
 role: pattern
-activityLevel: activity
+evidence:
+  - observed
+  - literature
+activityLevel: action
 mediation: individual
 fun: 🙂 5/5. A part of a bigger attempt to map LLM-related patterns.
+description: "Stating in the actor's own words what the system should make or do for this run, when the intent cannot be picked from a fixed set of options or inferred from context alone."
 situation:
   initiating: >-
-    the actor holds a need in the loose form they think in, and the system can act on
-    language — so the work is turning a vague want into a request precise enough to be
-    acted on, with no syntax standing between the two
-  resulting:
-    - >-
-      intent is stated in the actor's own words, and initiative stays with whoever framed
-      the request rather than with whoever built the interface
-    - >-
-      what comes back depends on what the request happened to carry, so the actor is now
-      responsible for context they may not know is missing
-    - >-
-      the request is a durable artefact — keepable, editable, shareable, templatable —
-      which makes a good one worth more than any single thing it produced
+    … the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), or through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words. The intent has no control or command name to reach it by; where it does, a [command menu](/patterns/command-menu) finds it faster and with a predictable result.
+  resulting: >-
+    The request is now written in the actor's own words as a durable object that can be edited, re-sent, or kept, while everything the phrasing left unsaid is left for the system to interpret or ask about. Where a blank input leaves the actor unsure what the system can do or how much to say, host starter [suggestions](/patterns/suggestion) on the prompt surface to seed or send an example request. Let the actor attach or @-mention [reference material](/patterns/reference-material) inside the prompt so the system works from named files, selections, or data sources rather than from generalities. Where the task is repetitive and high-constraint and open prose keeps leaving required parameters out, structure the input with [prompt scaffolding](/patterns/prompt-scaffolding) into labelled slots or pre-submission checks. Where the request states a complex goal in conversation with missing constraints that would be costly to guess wrong, treat it as an [open request](/patterns/open-request) and let [agent inquiry](/patterns/inquiry-agent) ask back for what is missing rather than forcing the actor to front-load every detail. Once submitted, the prompt produces [generated content](/patterns/generated-content) from the framed request and its attached context, or sets a multi-step run in motion. Because actors often discover their criteria only by reacting to a concrete attempt, follow the initial output with [instructed revision](/patterns/instructed-revision) to steer what came back in words, or [regeneration](/patterns/regeneration) to draw another attempt from the same request. When a working prompt recurs across items, let the actor save it as a [template](/patterns/template); when the same instruction has to be repeated in every session, promote it to [standing instructions](/patterns/standing-instructions) so it is read on every run. A prompt is not [searching](/patterns/searching), which retrieves existing items matching a query rather than generating a new response or executing a task, even when one input bar accepts both…
 relationships:
-  precedes:
-    - to: agent
-      note: the prompt articulates the request the agent acts on
-    - to: generated-content
-      note: the input that leads to generated content.
-    - to: standing-instructions
-      note: the prompt says what this run needs; a standing instruction says what every run should hold to
   enables:
-    - to: conversation
-      note: the prompt is the turn-level move a conversation with an AI is built from
+    - agent
+    - conversation
+    - session
+  precedes:
+    - generated-content
+    - standing-instructions
+  complements:
+    - inquiry-agent
+    - instructed-revision
+  alternative:
+    - command-menu
   enacts:
     - to: agency
       note: the actor directs the system in their own words; initiative stays with whoever frames the request
 ---
 
-The articulation of intent to a machine, transforming a vague need into a request precise enough for an [agent](/patterns/agent) to act on meaningfully.
+* * *
+
+**An actor can state an open-ended intent in their own words, but the system can act only on what those words make specific. An open box shows nothing of what the system can do, how much context it already holds, or how much the request has to say, so the actor guesses, and the system fills in whatever the words leave unstated.**
+
+Stating an intent in words asks for three judgements that picking a control never did: knowing what the system is capable of, translating a rough intention into words specific enough to guide it, and judging whether the result actually met the goal. Even when the words name the right target, the operation often stays ambiguous until a preview or output makes it concrete, and transcripts show that written prompts capture only a fraction of the reasons and reactions the actor had in mind when writing them. Non-experts also bring habits from human conversation that work poorly on models, such as assuming shared context or writing negative constraints ("do not include…") that models routinely invert.
+
+The prompt is worth these costs when the intent cuts across the menus, fields, and presets the interface offers, or when the actor cannot find the command because they do not know what it is called. When the intent matches a command the system already has, a direct control or a [command menu](/patterns/command-menu) reaches it with a result the actor can predict, and an open input adds the three judgements without removing anything.
+
+How much a prompt needs to say depends on where the specification lives. When the criteria already sit in the material the system is given—a draft to critique, a failing test, a highlighted [selection](/patterns/selection), or attached [reference material](/patterns/reference-material)—a brief directive is enough, and nudging the actor to write more adds effort without improving the output. When the criteria exist only in the actor's head, they must be stated upfront or drawn out through [agent inquiry](/patterns/inquiry-agent) before execution. When the criteria do not exist yet because the actor has to see a draft to know what they want, front-loading a long specification has nothing to transmit; generating early and steering the result through [instructed revision](/patterns/instructed-revision) or [regeneration](/patterns/regeneration) works better than labouring over the initial prompt.
+
+Across tools, prompts appear at four scales: an inline composer invoked over a selection in a document or canvas, a single-shot request box for generating an artifact, a turn input inside an ongoing [conversation](/patterns/conversation), and a task brief that launches an [agent](/patterns/agent) run. What holds across all of them is that prose carries the open-ended intent while surrounding context and recurrent parameters are bound as inspectable parts—attached or @-mentioned [reference material](/patterns/reference-material), active selections, named commands called up with `/` from a [command menu](/patterns/command-menu), and the labelled controls of [prompt scaffolding](/patterns/prompt-scaffolding)—so the actor does not have to flatten every constraint into one string or re-type it when revising the request.
+
+Therefore,
+
+**Give the actor an open text field and bind it to the context the system already holds so the actor only has to write what is new. Let the actor combine plain-language instructions with explicit references to files, selections, and scoped parameters on the same surface, and keep the submitted prompt visible, editable, and re-sendable as an object in its own right.**
+
+Do not push actors to write longer prompts when the attached material already carries the criteria, or when a quick first draft would let them react to a concrete output instead of guessing in the abstract. Avoid rewriting the actor's prompt behind their back: silent prompt expansion often distorts the constraints they chose, and if the system expands or restructures a request it should show the revision as something the actor can inspect and undo. When the same phrasing is typed repeatedly across runs, stop asking for prose and let it graduate into a command button, a saved template, or a standing instruction.
 
 <Demo spec="prompt-basic" label="Structured prompt composer" />
 
-## Intent
+## In practice
 
-explicit and implicit...
+Non-experts iterate on prompts opportunistically, over-generalise from a single run, and struggle more with judging whether a prompt revision helped than with writing the words. Keeping the sent prompt editable in place—and branching the thread or keeping the prior output reachable for comparison when a revised prompt is run—lets the actor see what their change actually did. Because writing a thorough specification is expensive for a single run and economical when reused, give a working prompt a direct path to become a [template](/patterns/template) with fillable slots, or to promote a recurring rule into [standing instructions](/patterns/standing-instructions).
 
-## Input mechanisms
+## Research on this pattern
 
-### Structured prompt
-
-<Demo spec="prompt-template" label="Prompt template" />
-
-## References
-
-Using @mentions to reference documents, images, code, and other materials provides context for better LLM responses.
-
-<Demo spec="prompt-with-material-references" label="Prompt with @-referenced materials" />
-
-## Prompt guidance and scaffolding
-
-Bridging the gap between fuzzy idea inside a human's head and what makes an effective prompt for LLMs.
-
-### Quality feedback
-
-<Demo spec="prompt-quality-feedback" label="Prompt quality feedback" />
-
-### Editing assistance
-
-### Templates
-
-...
-
-### Suggestions
-
-...
-
-### Prompt evaluation
-
-...
-
-### Reflective prompting
-
-{/* TODO: Here or in suggestions+link */}
-Real-time, context-aware prompt completions derived dynamically from users’ immediate and historical interactions.
-
-{/* TODO: relations set aside, kept for review (not active edges):
-Complementary patterns:
-- LLM model selection
-- [Messaging](/patterns/components-messaging)
-- [Suggestion](/patterns/suggestion)
-*/}
-
-## To-do
-
-Precursors to capture: *session*, *thread*, and the other conversational containers a prompt sits within.
+- [Subramonyam et al.](https://doi.org/10.1145/3613904.3642754) describe the *gulf of envisioning*: the actor has to map their goal onto what the model can do, put the intent into instructions, and judge whether the output matched. These are the three judgements the open box asks for. [Zamfirescu-Pereira et al.](https://doi.org/10.1145/3544548.3581388) found that non-experts struggle most with the last of them, and that they iterate opportunistically and over-generalise from a single run.
+- [Jin et al.](https://arxiv.org/abs/2605.20087) (*ThoughtTrace*) found that written prompts carry the actor's underlying reasons only moderately and their reactions to earlier outputs poorly, which is why steering a concrete draft often works better than specifying upfront.
+- [Wyszynski et al.](https://doi.org/10.1145/3772318.3790693) found that prompt detail raises satisfaction only up to a task-dependent ceiling, and that short prompts do as well as elaborate ones when the input material already carries the criteria. Where the request is underspecified, [Maier, Schneider and Feuerriegel](https://arxiv.org/abs/2510.23324) found that model-asked open questions improved quality and diversity, while pre-written content suggestions did not.
+- [Lehmann and Buschek](https://arxiv.org/abs/2410.10644) observed that repeated prompts for the same operation shrink to one- or two-word commands, and that buttons serve as landmarks beside the open input, which grounds letting a recurring prompt graduate into a command.
 
 ## Resources & references
 
-- [shapeof.ai](https://www.shapeof.ai/)
-- [aiuxpatterns.com](https://aiuxpatterns.com/)
+- Subramonyam, Pea, Pondoc, Agrawala & Seifert (2024) [Bridging the Gulf of Envisioning: Cognitive Challenges in Prompt Based Interactions with LLMs](https://doi.org/10.1145/3613904.3642754), CHI '24
+- Zamfirescu-Pereira, Wong, Hartmann & Yang (2023) [Why Johnny Can't Prompt: How Non-AI Experts Try (and Fail) to Design LLM Prompts](https://doi.org/10.1145/3544548.3581388), CHI '23
+- Jin, Li, Xie, Fang, Li, Longpre, Gu, Chen & Shu (2026) [ThoughtTrace: Understanding User Thoughts in Real-World LLM Interactions](https://arxiv.org/abs/2605.20087)
+- Wyszynski et al. (2026) [Satisficing vs. Maximizing in Prompt Writing: How Cognitive Styles Shape Prompting Behavior and LLM Output Satisfaction](https://doi.org/10.1145/3772318.3790693), CHI '26
+- Maier, Schneider & Feuerriegel (2026) [Partnering with Generative AI](https://arxiv.org/abs/2510.23324), CHI '26
+- Lehmann & Buschek (2024) [Functional Flexibility: How Users Combine Prompts and GUI Actions Over Time](https://arxiv.org/abs/2410.10644)
+- [Shape of AI](https://www.shapeof.ai/) and [AI UX Patterns](https://www.aiuxpatterns.com/)
+
+## To-do
+
+- Settle whether inline selection-scoped prompting in documents and canvases stays a form under `## In practice` here or splits toward [embedded intelligence](/patterns/embedded-intelligence) and [instructed revision](/patterns/instructed-revision).

@@ -521,6 +521,9 @@
         },
         {
           "kind": "literature"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -1148,7 +1151,6 @@
         "initiating": "… the system has produced [generated content](/patterns/generated-content) or offered a [suggestion](/patterns/suggestion) whose parts are not equally well supported, including claims that [citation](/patterns/citation) could not link to any source passage. Expressed uncertainty completes these by letting confidence vary visibly across the output, so the actor's scrutiny lands on the guesses rather than spreading evenly across the whole piece or trusting all of it on tone.",
         "resulting": "Confidence now varies across the output's surface, and the value of the mark lies in the difference between what is marked and what is left plain, while a numeric score risks claiming calibration the model does not have. Where the stakes of accepting a doubtful span or proposal are high, pair the uncertainty mark with [cognitive forcing functions](/patterns/cognitive-forcing-functions), excluding low-confidence items from bulk acceptance so the actor's pause lands on the uncertain parts. Expressed uncertainty is not [explanation](/patterns/explanation): the mark tells the actor which part of the output is doubtful, whereas an explanation lays out the factors or rules that produced the prediction…"
       },
-      "seed": true,
       "evidence": [
         {
           "kind": "observed"
@@ -2227,46 +2229,37 @@
       "path": "/patterns/prompt-scaffolding",
       "role": "pattern",
       "situation": {
-        "initiating": "open prompting assumes the actor knows what a good request contains; most don't, and the blank box hides its own requirements — so requests go out underspecified and the failures come back looking like the system's fault",
-        "resulting": [
-          {
-            "clause": "the request's expected shape is externalised — labelled fields, fillable slots, controls — so completeness is inspectable before anything runs"
-          },
-          {
-            "clause": "structure narrows expression: what the scaffold doesn't ask for tends not to get said, and the actor's stranger intents stop fitting the form"
-          },
-          {
-            "clause": "a scaffold encodes somebody's yesterday's idea of a good request, and keeps proposing it until the encoding is revisited"
-          }
-        ]
+        "initiating": "… now the actor has reached the point of framing a [prompt](/patterns/prompt) in [delegating work](/sequences/delegating-work), but they do not yet have their intent formulated in words, and an empty input provides no structure for articulating what the task requires. Where the relevant questions are known in advance, prompt scaffolding gives the prompt explicit structure up front, turning anticipated parameters and criteria into inspectable slots and checks so the request is complete before it runs. Where the intent is exploratory or emergent and the questions cannot be anticipated, an [open request](/patterns/open-request) drawn out through conversation serves better.",
+        "resulting": "Break each parameter into a separate control, using [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set of options, criteria, or schemas. Check the request before it runs with [validation](/patterns/validation) to warn about missing parameters or underspecified instructions at the field that needs attention. Where starter values help illustrate the slots, offer them through [suggestion](/patterns/suggestion), but keep them light so they do not anchor the actor or narrow output diversity. When a scaffold requires several interdependent configuration steps, paginate the flow with a [wizard](/patterns/wizard). When a successful scaffold configuration recurs across tasks, save it as a [template](/patterns/template) with fillable slots. Occupying the structure enacts [learnability](/patterns/learnability) by showing the actor which dimensions a complete request needs, but structure narrows expression: what the scaffold omits tends not to get asked, and the form continues proposing past assumptions until its slots are revised. A scaffold is not a conventional [form](/patterns/form), which commits structured records to a fixed store rather than assembling a prompt for generative execution…"
       },
       "seed": true,
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "literature"
         }
       ]
     },
     {
       "id": "prompt",
       "title": "Prompt",
-      "category": "Activities",
+      "category": "Actions",
       "path": "/patterns/prompt",
       "role": "pattern",
       "situation": {
-        "initiating": "the actor holds a need in the loose form they think in, and the system can act on language — so the work is turning a vague want into a request precise enough to be acted on, with no syntax standing between the two",
-        "resulting": [
-          {
-            "clause": "intent is stated in the actor's own words, and initiative stays with whoever framed the request rather than with whoever built the interface"
-          },
-          {
-            "clause": "what comes back depends on what the request happened to carry, so the actor is now responsible for context they may not know is missing"
-          },
-          {
-            "clause": "the request is a durable artefact — keepable, editable, shareable, templatable — which makes a good one worth more than any single thing it produced"
-          }
-        ]
-      }
+        "initiating": "… the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), or through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words. The intent has no control or command name to reach it by; where it does, a [command menu](/patterns/command-menu) finds it faster and with a predictable result.",
+        "resulting": "The request is now written in the actor's own words as a durable object that can be edited, re-sent, or kept, while everything the phrasing left unsaid is left for the system to interpret or ask about. Where a blank input leaves the actor unsure what the system can do or how much to say, host starter [suggestions](/patterns/suggestion) on the prompt surface to seed or send an example request. Let the actor attach or @-mention [reference material](/patterns/reference-material) inside the prompt so the system works from named files, selections, or data sources rather than from generalities. Where the task is repetitive and high-constraint and open prose keeps leaving required parameters out, structure the input with [prompt scaffolding](/patterns/prompt-scaffolding) into labelled slots or pre-submission checks. Where the request states a complex goal in conversation with missing constraints that would be costly to guess wrong, treat it as an [open request](/patterns/open-request) and let [agent inquiry](/patterns/inquiry-agent) ask back for what is missing rather than forcing the actor to front-load every detail. Once submitted, the prompt produces [generated content](/patterns/generated-content) from the framed request and its attached context, or sets a multi-step run in motion. Because actors often discover their criteria only by reacting to a concrete attempt, follow the initial output with [instructed revision](/patterns/instructed-revision) to steer what came back in words, or [regeneration](/patterns/regeneration) to draw another attempt from the same request. When a working prompt recurs across items, let the actor save it as a [template](/patterns/template); when the same instruction has to be repeated in every session, promote it to [standing instructions](/patterns/standing-instructions) so it is read on every run. A prompt is not [searching](/patterns/searching), which retrieves existing items matching a query rather than generating a new response or executing a task, even when one input bar accepts both…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "prose",
@@ -2285,7 +2278,6 @@
         "initiating": "… [generated content](/patterns/generated-content) and human contributions now sit in the same place, where people and agents contribute side by side under [collaboration](/patterns/collaboration) and an [activity log](/patterns/activity-log) keeps the history of what changed. Provenance marking gives these larger patterns a legible sign of what produced each contribution—a person, a named rule, or a model—stamped at the moment it is written, so origin survives when machine output mixes with human work or leaves the surface that made it.",
         "resulting": "Origin is now legible at the point of reading, and everything left unmarked on the same surface will be read as human-made. Where the marked output makes factual claims, pair the origin mark with [citation](/patterns/citation) so the actor can see not only that the system wrote a claim, but which source passage it rests on. Because a visible disclosure mark can also reassure on sight without prompting closer reading, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes of acting on wrong output are high. Provenance marking is not [annotation](/patterns/annotation): the mark is stamped on the contribution at creation to record what made it, whereas annotation is a reader's own layer added over content they did not write…"
       },
-      "seed": true,
       "evidence": [
         {
           "kind": "observed"
@@ -2680,6 +2672,32 @@
         ]
       },
       "group": "conversation/sequence-management"
+    },
+    {
+      "id": "session",
+      "title": "Session",
+      "category": "Activities",
+      "path": "/patterns/session",
+      "role": "pattern",
+      "situation": {
+        "resulting": [
+          {
+            "clause": "the turns, attached context, and intermediate results of the task accumulate inside one bounded thread, so each new [prompt](/patterns/prompt) only has to state what is new rather than re-supplying what was already said and done"
+          },
+          {
+            "clause": "earlier turns, rejected attempts, and stale assumptions stay in scope as the session grows and continue to steer later outputs, so starting a fresh session becomes a deliberate reset when the task changes"
+          },
+          {
+            "clause": "because the session has a title and a place in a history list, the actor can leave the exchange and return to it later, while anything that needs to outlive the thread has to be lifted out through [extraction](/patterns/extraction) or promoted to [selective memory](/patterns/selective-memory) or [standing instructions](/patterns/standing-instructions)"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
     },
     {
       "id": "settings",
@@ -3269,23 +3287,13 @@
       "path": "/patterns/workspace",
       "role": "pattern",
       "situation": {
-        "initiating": "the actor's work spans contexts that don't belong together — different ownership, different topics, different states of activity — and one undifferentiated space makes all of them present at once, so focusing on any of it means ignoring the rest by effort",
-        "resulting": [
-          {
-            "clause": "work is partitioned into contexts that match how attention and responsibility are actually divided, so entering one puts the rest out of the way rather than out of mind"
-          },
-          {
-            "clause": "some of the actor's work is now somewhere they aren't looking, and changes there won't be seen until they switch — which is what has to reach across the boundary",
-            "setsUp": [
-              "notification"
-            ]
-          },
-          {
-            "clause": "the boundaries carry access as well as attention: what belongs to a workspace decides who can see it, so partitioning the work also partitions visibility"
-          }
-        ]
+        "initiating": "… the [information architecture](/patterns/information-architecture) has named the actor's objects and the divisions between them, and the first step of [structuring the space](/sequences/structuring-the-space) is to decide which of those divisions the actor works in apart from the rest. Until then, work of different ownership, topic and state of activity sits in one space, and focusing on any part of it means ignoring the rest by effort. A workspace gives the space its first boundaries, so that each context opens with only its own work, people and defaults present, and the layout steps that follow can work inside one context at a time.",
+        "resulting": "Give the set of workspaces a switcher: a list of workspaces works as a [hub](/patterns/hub-and-spoke), and a [command menu](/patterns/command-menu) lets an actor who knows the name go straight to one. Decide who else is inside each workspace with [sharing](/patterns/sharing), and let its grants follow the workspace boundaries rather than cut across them. Some of the actor's work is now somewhere they are not looking, and changes there go unseen until they switch, so carry what matters across the boundary with [notification](/patterns/notification). Where the workspace has to account for what happened in it, host an [activity log](/patterns/activity-log) scoped to its work. Put the defaults a workspace hands down where the actor can find and change them: its configuration in [settings](/patterns/settings), the shapes new work starts from as [templates](/patterns/template), and, where a model works inside the workspace, the [standing instructions](/patterns/standing-instructions) and [reference material](/patterns/reference-material) that every [session](/patterns/session) in it starts with. [Focus and context](/patterns/focus-and-context) looks similar but works inside one context, grading detail by distance from the actor's attention, where a workspace separates contexts and decides which of them are present…"
       },
       "evidence": [
+        {
+          "kind": "observed"
+        },
         {
           "kind": "literature"
         }
@@ -5624,9 +5632,9 @@
       "target": "workspace",
       "type": "enables",
       "extractedFrom": "frontmatter:enables",
-      "incomingNote": "Workspaces often implement hub and spoke navigation, where a workspace switcher or dashboard (hub) provides access to individual workspaces (spokes). See [Information Architecture foundation](/patterns/information-architecture) for the structural pattern behind it.",
       "situation": "The switcher over a set of [workspaces](/patterns/workspace) is the same case, the list of workspaces being the hub and each workspace a spoke.",
-      "glossFrom": "source:initiating"
+      "glossFrom": "source:initiating",
+      "farSituation": "Give the set of workspaces a switcher: a list of workspaces works as a [hub](/patterns/hub-and-spoke), and a [command menu](/patterns/command-menu) lets an actor who knows the name go straight to one."
     },
     {
       "source": "hub-and-spoke",
@@ -5778,7 +5786,9 @@
       "target": "workspace",
       "type": "precedes",
       "label": "the structure's partitions are what workspace boundaries take up",
-      "extractedFrom": "frontmatter:precedes"
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "the [information architecture](/patterns/information-architecture) has named the actor's objects and the divisions between them, and the first step of [structuring the space](/sequences/structuring-the-space) is to decide which of those divisions the actor works in apart from the rest.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "information-environment",
@@ -6936,87 +6946,140 @@
       "source": "prompt-scaffolding",
       "target": "prompt",
       "type": "instantiates",
-      "label": "a structured way of composing the request — one end of the open-to-scaffolded spectrum",
-      "extractedFrom": "frontmatter:instantiates"
+      "extractedFrom": "frontmatter:instantiates",
+      "situation": "now the actor has reached the point of framing a [prompt](/patterns/prompt) in [delegating work](/sequences/delegating-work), but they do not yet have their intent formulated in words, and an empty input provides no structure for articulating what the task requires.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Where the task is repetitive and high-constraint and open prose keeps leaving required parameters out, structure the input with [prompt scaffolding](/patterns/prompt-scaffolding) into labelled slots or pre-submission checks."
     },
     {
       "source": "prompt-scaffolding",
       "target": "template",
       "type": "instantiates",
-      "label": "the template pattern applied to requests",
-      "extractedFrom": "frontmatter:instantiates"
+      "extractedFrom": "frontmatter:instantiates",
+      "situation": "When a successful scaffold configuration recurs across tasks, save it as a [template](/patterns/template) with fillable slots.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "bounded-choice",
       "target": "prompt-scaffolding",
       "type": "enables",
-      "incomingNote": "each slot of the scaffold is an act of bounded choice over one part of the request",
-      "extractedFrom": "frontmatter:composed-of"
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Break each parameter into a separate control, using [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set of options, criteria, or schemas.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "validation",
+      "target": "prompt-scaffolding",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Check the request before it runs with [validation](/patterns/validation) to warn about missing parameters or underspecified instructions at the field that needs attention.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "prompt-scaffolding",
+      "target": "open-request",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where the intent is exploratory or emergent and the questions cannot be anticipated, an [open request](/patterns/open-request) drawn out through conversation serves better.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "prompt-scaffolding",
       "target": "suggestion",
       "type": "complements",
-      "label": "starters and example prompts seed the scaffold's slots",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where starter values help illustrate the slots, offer them through [suggestion](/patterns/suggestion), but keep them light so they do not anchor the actor or narrow output diversity.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "prompt-scaffolding",
       "target": "wizard",
       "type": "related",
-      "label": "paginated scaffolds are the wizard applied to prompting",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "When a scaffold requires several interdependent configuration steps, paginate the flow with a [wizard](/patterns/wizard).",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "prompt-scaffolding",
       "target": "form",
       "type": "related",
-      "label": "at full structure the scaffold simply is a form whose output is a request",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "prompt-scaffolding",
-      "target": "validation",
-      "type": "related",
-      "label": "prompt-quality feedback is validation applied before the request runs",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "A scaffold is not a conventional [form](/patterns/form), which commits structured records to a fixed store rather than assembling a prompt for generative execution",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "prompt-scaffolding",
       "target": "learnability",
       "type": "enacts",
-      "label": "occupying the scaffold teaches what a good request contains",
-      "extractedFrom": "frontmatter:enacts"
+      "label": "occupying the scaffold teaches which dimensions a complete request needs",
+      "extractedFrom": "frontmatter:enacts",
+      "situation": "Occupying the structure enacts [learnability](/patterns/learnability) by showing the actor which dimensions a complete request needs, but structure narrows expression: what the scaffold omits tends not to get asked, and the form continues proposing past assumptions until its slots are revised.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "prompt",
       "target": "agent",
-      "type": "precedes",
-      "label": "the prompt articulates the request the agent acts on",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "prompt",
-      "target": "generated-content",
-      "type": "precedes",
-      "label": "the input that leads to generated content.",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "prompt",
-      "target": "standing-instructions",
-      "type": "precedes",
-      "label": "the prompt says what this run needs; a standing instruction says what every run should hold to",
-      "extractedFrom": "frontmatter:precedes",
-      "situation": "Saying it in the [prompt](/patterns/prompt) fixes one run; saying it as an [instructed revision](/patterns/instructed-revision) fixes one output.",
-      "glossFrom": "target:initiating"
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), or through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "prompt",
       "target": "conversation",
       "type": "enables",
-      "label": "the prompt is the turn-level move a conversation with an AI is built from",
-      "extractedFrom": "frontmatter:enables"
+      "extractedFrom": "frontmatter:enables",
+      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), or through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "prompt",
+      "target": "session",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), or through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "prompt",
+      "target": "generated-content",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Once submitted, the prompt produces [generated content](/patterns/generated-content) from the framed request and its attached context, or sets a multi-step run in motion.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "prompt",
+      "target": "standing-instructions",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "When a working prompt recurs across items, let the actor save it as a [template](/patterns/template); when the same instruction has to be repeated in every session, promote it to [standing instructions](/patterns/standing-instructions) so it is read on every run.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Saying it in the [prompt](/patterns/prompt) fixes one run; saying it as an [instructed revision](/patterns/instructed-revision) fixes one output."
+    },
+    {
+      "source": "prompt",
+      "target": "inquiry-agent",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the request states a complex goal in conversation with missing constraints that would be costly to guess wrong, treat it as an [open request](/patterns/open-request) and let [agent inquiry](/patterns/inquiry-agent) ask back for what is missing rather than forcing the actor to front-load every detail.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "prompt",
+      "target": "instructed-revision",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Because actors often discover their criteria only by reacting to a concrete attempt, follow the initial output with [instructed revision](/patterns/instructed-revision) to steer what came back in words, or [regeneration](/patterns/regeneration) to draw another attempt from the same request.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "prompt",
+      "target": "command-menu",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "The intent has no control or command name to reach it by; where it does, a [command menu](/patterns/command-menu) finds it faster and with a predictable result.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "prompt",
@@ -7282,7 +7345,9 @@
       "target": "prompt",
       "type": "enables",
       "label": "grounding material is a constituent of the articulated request",
-      "extractedFrom": "frontmatter:enables"
+      "extractedFrom": "frontmatter:enables",
+      "situation": "Let the actor attach or @-mention [reference material](/patterns/reference-material) inside the prompt so the system works from named files, selections, or data sources rather than from generalities.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "reference-material",
@@ -7509,7 +7574,9 @@
       "target": "prompt",
       "type": "complements",
       "label": "modern search inputs are evolving into prompt interfaces, accepting instructions alongside keywords",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A prompt is not [searching](/patterns/searching), which retrieves existing items matching a query rather than generating a new response or executing a task, even when one input bar accepts both",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "searching",
@@ -7758,7 +7825,9 @@
       "target": "workspace",
       "type": "tangential",
       "label": "settings affect workspace behaviour and may be scoped to workspace contexts",
-      "extractedFrom": "frontmatter:tangential"
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "Put the defaults a workspace hands down where the actor can find and change them: its configuration in [settings](/patterns/settings), the shapes new work starts from as [templates](/patterns/template), and, where a model works inside the workspace, the [standing instructions](/patterns/standing-instructions) and [reference material](/patterns/reference-material) that every [session](/patterns/session) in it starts with.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "settings",
@@ -7821,7 +7890,9 @@
       "target": "workspace",
       "type": "complements",
       "label": "the workspace partitions the actor's contexts; sharing decides who else is inside one",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Decide who else is inside each workspace with [sharing](/patterns/sharing), and let its grants follow the workspace boundaries rather than cut across them.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "data-view",
@@ -8027,7 +8098,9 @@
       "target": "suggestion",
       "type": "hosts",
       "incomingNote": "starter suggestions live in the prompt surface, seeding the request",
-      "extractedFrom": "frontmatter:hosted-by"
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "Where a blank input leaves the actor unsure what the system can do or how much to say, host starter [suggestions](/patterns/suggestion) on the prompt surface to seed or send an example request.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "suggestion",
@@ -8534,6 +8607,62 @@
     },
     {
       "source": "workspace",
+      "target": "notification",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Some of the actor's work is now somewhere they are not looking, and changes there go unseen until they switch, so carry what matters across the boundary with [notification](/patterns/notification).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "workspace",
+      "target": "activity-log",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosts",
+      "situation": "Where the workspace has to account for what happened in it, host an [activity log](/patterns/activity-log) scoped to its work.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "workspace",
+      "target": "standing-instructions",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosts",
+      "situation": "Put the defaults a workspace hands down where the actor can find and change them: its configuration in [settings](/patterns/settings), the shapes new work starts from as [templates](/patterns/template), and, where a model works inside the workspace, the [standing instructions](/patterns/standing-instructions) and [reference material](/patterns/reference-material) that every [session](/patterns/session) in it starts with.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "workspace",
+      "target": "reference-material",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosts",
+      "situation": "Put the defaults a workspace hands down where the actor can find and change them: its configuration in [settings](/patterns/settings), the shapes new work starts from as [templates](/patterns/template), and, where a model works inside the workspace, the [standing instructions](/patterns/standing-instructions) and [reference material](/patterns/reference-material) that every [session](/patterns/session) in it starts with.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "workspace",
+      "target": "session",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosts",
+      "situation": "Put the defaults a workspace hands down where the actor can find and change them: its configuration in [settings](/patterns/settings), the shapes new work starts from as [templates](/patterns/template), and, where a model works inside the workspace, the [standing instructions](/patterns/standing-instructions) and [reference material](/patterns/reference-material) that every [session](/patterns/session) in it starts with.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "workspace",
+      "target": "focus-and-context",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Focus and context](/patterns/focus-and-context) looks similar but works inside one context, grading detail by distance from the actor's attention, where a workspace separates contexts and decides which of them are present",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "workspace",
+      "target": "command-menu",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Give the set of workspaces a switcher: a list of workspaces works as a [hub](/patterns/hub-and-spoke), and a [command menu](/patterns/command-menu) lets an actor who knows the name go straight to one.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "workspace",
       "target": "privacy",
       "type": "enacts",
       "label": "workspaces implement privacy through scope separation and spatial arrangement",
@@ -8545,27 +8674,6 @@
       "type": "enacts",
       "label": "the actor decides what work belongs together and what stays apart",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "workspace",
-      "target": "focus-and-context",
-      "type": "complements",
-      "label": "focus and context manages detail and overview within a single context; workspaces manage switching between distinct contexts",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "workspace",
-      "target": "command-menu",
-      "type": "complements",
-      "label": "provides rapid access to workspaces and contexts without navigating the interface hierarchy",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "workspace",
-      "target": "activity-log",
-      "type": "hosts",
-      "label": "the log surface lives inside the workspace, scoped to its work",
-      "extractedFrom": "frontmatter:hosts"
     },
     {
       "source": "workspace",
@@ -8928,13 +9036,6 @@
       "target": "sequence-completion",
       "type": "precedes",
       "situation": "comprehension is restored with the activity mid-flight, so completion has to be able to resume from the same step — and still end in the receipt that closes the sequence",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "workspace",
-      "target": "notification",
-      "type": "precedes",
-      "situation": "some of the actor's work is now somewhere they aren't looking, and changes there won't be seen until they switch — which is what has to reach across the boundary",
       "extractedFrom": "situation:resulting"
     },
     {

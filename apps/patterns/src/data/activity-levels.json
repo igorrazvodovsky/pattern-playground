@@ -507,7 +507,7 @@
       "mediation": null
     },
     "prompt": {
-      "activity-level": "activity",
+      "activity-level": "action",
       "lifecycle-stage": null,
       "mediation": "individual"
     },
@@ -595,6 +595,11 @@
       "activity-level": "operation",
       "lifecycle-stage": null,
       "mediation": "coordination"
+    },
+    "session": {
+      "activity-level": "activity",
+      "lifecycle-stage": null,
+      "mediation": "individual"
     },
     "settings": {
       "activity-level": "action",
