@@ -406,6 +406,26 @@
       ]
     },
     {
+      "id": "bookmarking",
+      "title": "Bookmarking",
+      "category": "Actions",
+      "path": "/patterns/bookmarking",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor is somewhere they expect to need again: a document, a view, a conversation, a position in a space. Getting here took moves they do not want to repeat, or a search whose terms they will have forgotten, and the system cannot know on its own that this place matters more than the others. [Deep linking](/patterns/deep-linking) has given the state a name that restores it; what is missing is a place of the actor's own to keep that name. Where the actor has marked nothing and the way back is simply what they touched lately, [recents](/patterns/recents) is the alternative, made by the system rather than by them.",
+        "resulting": "The actor now holds a set of places they chose, and the choosing is what makes it theirs: the mark says this one matters, which is the small act of [agency](/patterns/agency) at the centre of the move, and the set is a layer of the actor's own laid over the system's structure, which is where it touches [malleability](/patterns/malleability). The set grows and nobody prunes it, so the places behind the marks move and the marks go stale; a bookmark that no longer resolves is the common end of this pattern and the problem it opens. A set past a dozen wants organising, and [tags](/patterns/tag) give it structure the actor did not have to plan. A mark can be handed to someone else, and then it is a recommendation as well as a way back, which [sharing](/patterns/sharing) governs. The same move over a framing rather than an item is [data view](/patterns/data-view)'s saved view. Pointed into an exchange rather than at a place, the same move is close to [reference material](/patterns/reference-material). Marks are reached from wherever the actor happens to start, so the [command menu](/patterns/command-menu) is where they most often surface…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "bounded-autonomy",
       "title": "Bounded autonomy",
       "category": "Actions",
@@ -1108,6 +1128,33 @@
       "evidence": [
         {
           "kind": "literature"
+        }
+      ]
+    },
+    {
+      "id": "error-recovery",
+      "title": "Error recovery",
+      "category": "Operations",
+      "path": "/patterns/error-recovery",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor has asked the system for something and the system cannot do it: the save did not go through, the page will not load, the service behind the button is down, the thing they followed a link to is gone or is not theirs to see. The fault is the system's, not a slip in what the actor entered, which is the case [validation](/patterns/validation) answers at the field. Where the request took long enough to need a sign, the sign of [waiting](/patterns/waiting) is still up, and the actor may have gone elsewhere on its word.",
+        "resulting": "The failure now has a report where the actor is looking, and the report says three things: that the request did not take, what did and did not change, and what the actor can do next. It is the failure-reporting shape of [status feedback](/patterns/status-feedback), beside validation's correction-demanding one, and it takes over the place the [waiting](/patterns/waiting) sign held, so no spinner outlives a dead request. Its first duty is to the actor's work: what they entered stays where they can reach it, which is the case [saving](/patterns/saving) makes for keeping a local copy and for interrupting when an automatic save fails. Where the request half took, the loose end is a committed change the actor did not want, and [undo](/patterns/undo) is the way back. When the actor was told they could leave and did, the failure has to travel after them as a [notification](/patterns/notification). A report that cannot be acted on from where it sits opens the recover purpose of [help](/patterns/help): the message is the first line of that help, and troubleshooting and a person stand behind it. The move is not [unavailable actions](/patterns/unavailable-actions), which withholds a request that cannot succeed before it is made; this pattern is for the failures that could not be foreseen, or were not. Nor is it [agent repair](/patterns/agent-repair), where the trouble is in the agent's understanding of the request rather than in carrying out one it understood…"
+      },
+      "realisedBy": [
+        "components-callout--docs",
+        "components-dialog--docs"
+      ],
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "built"
         }
       ]
     },
@@ -2341,6 +2388,26 @@
       ]
     },
     {
+      "id": "recents",
+      "title": "Recents",
+      "category": "Operations",
+      "path": "/patterns/recents",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor is coming back to something they had open a moment, an hour or a day ago: the file from this morning, the conversation from yesterday, the search they ran before lunch. They did not mark it, because at the time it was simply what they were doing, and now the way back is whatever they remember of where it was. [Deep linking](/patterns/deep-linking) has given each state a name that restores it, so a trace of names is possible. [Bookmarking](/patterns/bookmarking) is the alternative for the places the actor chose to keep; this move covers the far larger number they did not.",
+        "resulting": "The actor now has a short list of where they were, kept by the system and ordered by time, that they reach without having done anything to earn it. The list is a projection of the [activity log](/patterns/activity-log): the same record, read for return rather than for account, and shortened to what the actor would still recognise. It is shaped by use, which is what it does for [adaptation](/patterns/adaptation), and it decays, which is its claim on [temporality](/patterns/temporality): yesterday's items leave as today's arrive, and the list is only useful while it stays short. It surfaces where the actor starts: the [command menu](/patterns/command-menu) before anything is typed, and the [empty state](/patterns/state-empty) of a workspace with nothing open. In the field that [autocomplete](/patterns/autocomplete) completes, the actor's own recent entries beat anything guessed. The trace is also a record of the actor, which makes it a [privacy](/patterns/privacy) matter wherever the screen or the account is shared: a recent list on a shared device says what the last person did. One long task taken back up with its state is [resuming](/patterns/resuming), which keeps the state of a single piece of work rather than the names of many…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "reconciliation",
       "title": "Reconciliation",
       "category": "Actions",
@@ -3225,6 +3292,32 @@
       ]
     },
     {
+      "id": "waiting",
+      "title": "Waiting",
+      "category": "Operations",
+      "path": "/patterns/waiting",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor has asked for something and the result is not immediate: a file is uploading, a report is being built, a search is running against a slow source, a model is generating an answer. The gap is long enough to notice, and nothing in it tells the actor whether the system is working, has stalled, or has failed. When the work was handed to an agent, the gap is the liveness part of [delegation](/patterns/delegation)'s monitoring. And it is the case [live presentation](/patterns/live-presentation) does not cover: the result cannot be shown as it forms, or there is nothing of it to show yet.",
+        "resulting": "The gap now has a shape the actor can read: that the system is working, roughly how long remains, and whether they may go, so the system's [time](/patterns/temporality) is legible and the decision to stay or leave is the [actor's own](/patterns/agency). Which sign is shown is a [status feedback](/patterns/status-feedback) question, since the wait is one more state change to deliver, and this pattern is its duration-reporting shape. A wait the actor can see is a wait they can end, so [abort](/patterns/abort) belongs beside the sign for anything longer than a few seconds. Where the sign has said they may leave, the result arrives somewhere they are no longer looking, and [transient feedback](/patterns/transient-feedback) or a notification has to carry it back. A wait that fails becomes the report of [error recovery](/patterns/error-recovery), in the place the sign held. The sign is only as honest as the estimate behind it, and a bar that sits at ninety percent for most of the wait teaches the actor to distrust every bar after it. It is not the deliberate delay that [cognitive forcing functions](/patterns/cognitive-forcing-functions) insert before a recommendation, which is friction the design chose rather than time the system needs…"
+      },
+      "realisedBy": [
+        "components-progress-indicator--docs"
+      ],
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "built"
+        }
+      ]
+    },
+    {
       "id": "wizard",
       "title": "Wizard",
       "category": "Actions",
@@ -3966,6 +4059,88 @@
       "type": "enacts",
       "label": "incremental formalisation — content carries only as much structure as currently serves, gained or shed in place, optional and reversible",
       "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "deep-linking",
+      "target": "bookmarking",
+      "type": "precedes",
+      "incomingNote": "a bookmark keeps a name for a state; deep linking is what gives the state a name to keep",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "[Deep linking](/patterns/deep-linking) has given the state a name that restores it; what is missing is a place of the actor's own to keep that name.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "bookmarking",
+      "target": "recents",
+      "type": "alternative",
+      "label": "two ways back to a place: a bookmark the actor made on purpose, or a trace the system kept of where they were",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where the actor has marked nothing and the way back is simply what they touched lately, [recents](/patterns/recents) is the alternative, made by the system rather than by them.",
+      "glossFrom": "source:initiating",
+      "farSituation": "[Bookmarking](/patterns/bookmarking) is the alternative for the places the actor chose to keep; this move covers the far larger number they did not."
+    },
+    {
+      "source": "bookmarking",
+      "target": "tag",
+      "type": "complements",
+      "label": "tags give a grown set of bookmarks structure without a plan",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A set past a dozen wants organising, and [tags](/patterns/tag) give it structure the actor did not have to plan.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "bookmarking",
+      "target": "sharing",
+      "type": "complements",
+      "label": "a shared bookmark is a recommendation as well as a way back",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A mark can be handed to someone else, and then it is a recommendation as well as a way back, which [sharing](/patterns/sharing) governs.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "bookmarking",
+      "target": "data-view",
+      "type": "related",
+      "label": "a saved view is bookmarking applied to a framing rather than to an item",
+      "extractedFrom": "frontmatter:related",
+      "situation": "The same move over a framing rather than an item is [data view](/patterns/data-view)'s saved view.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "bookmarking",
+      "target": "reference-material",
+      "type": "tangential",
+      "label": "pinned material in a prompt is a bookmark's cousin: kept by the actor for return, but into the exchange rather than to a place",
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "Pointed into an exchange rather than at a place, the same move is close to [reference material](/patterns/reference-material).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "command-menu",
+      "target": "bookmarking",
+      "type": "hosts",
+      "incomingNote": "the command menu is where bookmarks surface from wherever the actor starts",
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "Marks are reached from wherever the actor happens to start, so the [command menu](/patterns/command-menu) is where they most often surface",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "bookmarking",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the mark is the actor saying this one matters, and only they can say it",
+      "extractedFrom": "frontmatter:enacts",
+      "situation": "The actor now holds a set of places they chose, and the choosing is what makes it theirs: the mark says this one matters, which is the small act of [agency](/patterns/agency) at the centre of the move, and the set is a layer of the actor's own laid over the system's structure, which is where it touches [malleability](/patterns/malleability).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "bookmarking",
+      "target": "malleability",
+      "type": "enacts",
+      "label": "a set of bookmarks is the actor's own layer over the system's structure",
+      "extractedFrom": "frontmatter:enacts",
+      "situation": "The actor now holds a set of places they chose, and the choosing is what makes it theirs: the mark says this one matters, which is the small act of [agency](/patterns/agency) at the centre of the move, and the set is a layer of the actor's own laid over the system's structure, which is where it touches [malleability](/patterns/malleability).",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "bounded-autonomy",
@@ -5036,6 +5211,102 @@
       "type": "precedes",
       "label": "the inference produces an offer — content the suggestion surface presents for the actor to accept, reject, or modify",
       "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "error-recovery",
+      "target": "status-feedback",
+      "type": "instantiates",
+      "label": "the failure-reporting delivery shape of status feedback: a request that did not take, with its scope and a way on",
+      "extractedFrom": "frontmatter:instantiates",
+      "situation": "It is the failure-reporting shape of [status feedback](/patterns/status-feedback), beside validation's correction-demanding one, and it takes over the place the [waiting](/patterns/waiting) sign held, so no spinner outlives a dead request.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "waiting",
+      "target": "error-recovery",
+      "type": "precedes",
+      "incomingNote": "error recovery's report takes over the place the waiting sign held, and lands where the sign told the actor they could go",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "A wait that fails becomes the report of [error recovery](/patterns/error-recovery), in the place the sign held.",
+      "glossFrom": "source:resulting",
+      "farSituation": "It is the failure-reporting shape of [status feedback](/patterns/status-feedback), beside validation's correction-demanding one, and it takes over the place the [waiting](/patterns/waiting) sign held, so no spinner outlives a dead request."
+    },
+    {
+      "source": "error-recovery",
+      "target": "validation",
+      "type": "alternative",
+      "label": "validation reports a fault in what the actor entered; error recovery reports a fault in what the system did with a request it had accepted",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "The fault is the system's, not a slip in what the actor entered, which is the case [validation](/patterns/validation) answers at the field.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "error-recovery",
+      "target": "help",
+      "type": "precedes",
+      "label": "the report is the first line of help's recover purpose; troubleshooting and a person stand behind it",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "A report that cannot be acted on from where it sits opens the recover purpose of [help](/patterns/help): the message is the first line of that help, and troubleshooting and a person stand behind it.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "error-recovery",
+      "target": "saving",
+      "type": "complements",
+      "label": "a failed save is the case saving makes for a kept local copy and an interrupting report",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Its first duty is to the actor's work: what they entered stays where they can reach it, which is the case [saving](/patterns/saving) makes for keeping a local copy and for interrupting when an automatic save fails.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "error-recovery",
+      "target": "undo",
+      "type": "complements",
+      "label": "where a request half took, undo is the way back from the part that did",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the request half took, the loose end is a committed change the actor did not want, and [undo](/patterns/undo) is the way back.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "error-recovery",
+      "target": "notification",
+      "type": "complements",
+      "label": "when the actor left on the wait sign's word, the failure follows them as a notification",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "When the actor was told they could leave and did, the failure has to travel after them as a [notification](/patterns/notification).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "error-recovery",
+      "target": "unavailable-actions",
+      "type": "tangential",
+      "label": "unavailable actions withholds a request that cannot succeed before it is made; error recovery reports one that failed after",
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "The move is not [unavailable actions](/patterns/unavailable-actions), which withholds a request that cannot succeed before it is made; this pattern is for the failures that could not be foreseen, or were not.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "error-recovery",
+      "target": "agent-repair",
+      "type": "tangential",
+      "label": "agent repair mends the agent's understanding of a request; error recovery reports the failure of one it understood",
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "Nor is it [agent repair](/patterns/agent-repair), where the trouble is in the agent's understanding of the request rather than in carrying out one it understood",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "error-recovery",
+      "target": "agency",
+      "type": "enacts",
+      "label": "tells the actor what happened to their work and leaves the next move theirs",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "error-recovery",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "a report that names the cause in the actor's terms teaches them where the system's limits are",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "explanation",
@@ -7316,6 +7587,87 @@
       "glossFrom": "target:resulting"
     },
     {
+      "source": "deep-linking",
+      "target": "recents",
+      "type": "precedes",
+      "incomingNote": "a recent item is a kept name for a state; deep linking is what makes the state nameable",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "[Deep linking](/patterns/deep-linking) has given each state a name that restores it, so a trace of names is possible.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "recents",
+      "target": "activity-log",
+      "type": "related",
+      "label": "recents are the activity log read for return rather than for account: the same record, shortened and ordered by time",
+      "extractedFrom": "frontmatter:related",
+      "situation": "The list is a projection of the [activity log](/patterns/activity-log): the same record, read for return rather than for account, and shortened to what the actor would still recognise.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "command-menu",
+      "target": "recents",
+      "type": "hosts",
+      "incomingNote": "recents are what the command menu offers before anything is typed",
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "It surfaces where the actor starts: the [command menu](/patterns/command-menu) before anything is typed, and the [empty state](/patterns/state-empty) of a workspace with nothing open.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "state-empty",
+      "target": "recents",
+      "type": "hosts",
+      "incomingNote": "an empty workspace offers recent items as the way back in",
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "It surfaces where the actor starts: the [command menu](/patterns/command-menu) before anything is typed, and the [empty state](/patterns/state-empty) of a workspace with nothing open.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "recents",
+      "target": "autocomplete",
+      "type": "complements",
+      "label": "the actor's own recent entries are the completions that beat any guess",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "In the field that [autocomplete](/patterns/autocomplete) completes, the actor's own recent entries beat anything guessed.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "recents",
+      "target": "resuming",
+      "type": "tangential",
+      "label": "resuming returns the actor to one unfinished task with its state; recents return them to any of many places by name",
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "One long task taken back up with its state is [resuming](/patterns/resuming), which keeps the state of a single piece of work rather than the names of many",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "recents",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "the list is shaped by what the actor did, with no setting for them to maintain",
+      "extractedFrom": "frontmatter:enacts",
+      "situation": "It is shaped by use, which is what it does for [adaptation](/patterns/adaptation), and it decays, which is its claim on [temporality](/patterns/temporality): yesterday's items leave as today's arrive, and the list is only useful while it stays short.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "recents",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "a trace that decays: items leave as newer ones arrive",
+      "extractedFrom": "frontmatter:enacts",
+      "situation": "It is shaped by use, which is what it does for [adaptation](/patterns/adaptation), and it decays, which is its claim on [temporality](/patterns/temporality): yesterday's items leave as today's arrive, and the list is only useful while it stays short.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "recents",
+      "target": "privacy",
+      "type": "enacts",
+      "label": "a recent list is a record of the actor that anyone at the same screen can read",
+      "extractedFrom": "frontmatter:enacts",
+      "situation": "The trace is also a record of the actor, which makes it a [privacy](/patterns/privacy) matter wherever the screen or the account is shared: a recent list on a shared device says what the last person did.",
+      "glossFrom": "source:resulting"
+    },
+    {
       "source": "draft-and-publish",
       "target": "reconciliation",
       "type": "precedes",
@@ -8467,6 +8819,78 @@
       "type": "enacts",
       "label": "lets the actor return to an earlier state of the work after the session has ended",
       "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "waiting",
+      "target": "status-feedback",
+      "type": "instantiates",
+      "label": "the duration-reporting delivery shape of status feedback: a state change that is still in progress",
+      "extractedFrom": "frontmatter:instantiates",
+      "situation": "Which sign is shown is a [status feedback](/patterns/status-feedback) question, since the wait is one more state change to deliver, and this pattern is its duration-reporting shape.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "waiting",
+      "target": "live-presentation",
+      "type": "alternative",
+      "label": "live presentation shows the partial result instead of a sign that one is coming; waiting covers the gap where nothing of the result can be shown yet",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "And it is the case [live presentation](/patterns/live-presentation) does not cover: the result cannot be shown as it forms, or there is nothing of it to show yet.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "waiting",
+      "target": "abort",
+      "type": "complements",
+      "label": "a wait the actor can see is a wait they can end; abort gives the sign a way out",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A wait the actor can see is a wait they can end, so [abort](/patterns/abort) belongs beside the sign for anything longer than a few seconds.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "waiting",
+      "target": "transient-feedback",
+      "type": "complements",
+      "label": "when the actor has been told they may leave, the result lands out of view and transient feedback carries it back",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the sign has said they may leave, the result arrives somewhere they are no longer looking, and [transient feedback](/patterns/transient-feedback) or a notification has to carry it back.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "waiting",
+      "target": "cognitive-forcing-functions",
+      "type": "tangential",
+      "label": "its wait-before-reveal variants use a delay as friction the design chose, where waiting reports time the system needs",
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "It is not the deliberate delay that [cognitive forcing functions](/patterns/cognitive-forcing-functions) insert before a recommendation, which is friction the design chose rather than time the system needs",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "waiting",
+      "target": "delegation",
+      "type": "serves",
+      "label": "the liveness leg of delegation's monitoring station: whether the delegated work is still going and how far it has got",
+      "extractedFrom": "frontmatter:serves",
+      "situation": "When the work was handed to an agent, the gap is the liveness part of [delegation](/patterns/delegation)'s monitoring.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "waiting",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "makes the system's time legible to the actor: that work is happening, and how much of it remains",
+      "extractedFrom": "frontmatter:enacts",
+      "situation": "The gap now has a shape the actor can read: that the system is working, roughly how long remains, and whether they may go, so the system's [time](/patterns/temporality) is legible and the decision to stay or leave is the [actor's own](/patterns/agency).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "waiting",
+      "target": "agency",
+      "type": "enacts",
+      "label": "tells the actor whether they may leave and gives them the means to stop",
+      "extractedFrom": "frontmatter:enacts",
+      "situation": "The gap now has a shape the actor can read: that the system is working, roughly how long remains, and whether they may go, so the system's [time](/patterns/temporality) is legible and the decision to stay or leave is the [actor's own](/patterns/agency).",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "wizard",

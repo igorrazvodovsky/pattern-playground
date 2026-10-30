@@ -96,6 +96,11 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
+    "bookmarking": {
+      "activity-level": "action",
+      "lifecycle-stage": "seeking",
+      "mediation": "individual"
+    },
     "bounded-autonomy": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -248,6 +253,11 @@
     },
     "embedded-intelligence": {
       "activity-level": "activity",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
+    "error-recovery": {
+      "activity-level": "operation",
       "lifecycle-stage": null,
       "mediation": "individual"
     },
@@ -531,6 +541,11 @@
       "lifecycle-stage": "seeking",
       "mediation": "individual"
     },
+    "recents": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "reconciliation": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -719,6 +734,11 @@
     "version-history": {
       "activity-level": "action",
       "lifecycle-stage": "application",
+      "mediation": "individual"
+    },
+    "waiting": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
       "mediation": "individual"
     },
     "wizard": {

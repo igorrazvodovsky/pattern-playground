@@ -1,0 +1,121 @@
+---
+title: Waiting
+added: 2026-10-21
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+disclosure: "Written from the response-time and progress-bar literature and from everyday instances; nothing here has been applied in design work yet, and the forms generating systems use (thinking lines, step lists) are observed but unstudied. Instances where the sign changed what the actor did next would raise it."
+activityLevel: operation
+mediation: individual
+description: "Keeping the actor informed, across the gap between a request and its result, that the system is working, how far it has got, and whether they may leave."
+realised_by: [components-progress-indicator--docs]
+situation:
+  initiating: >-
+    … the actor has asked for something and the result is not immediate: a file is uploading,
+    a report is being built, a search is running against a slow source, a model is generating
+    an answer. The gap is long enough to notice, and nothing in it tells the actor whether the
+    system is working, has stalled, or has failed. When the work was handed to an agent, the
+    gap is the liveness part of [delegation](/patterns/delegation)'s monitoring. And it is the
+    case [live presentation](/patterns/live-presentation) does not cover: the result cannot be
+    shown as it forms, or there is nothing of it to show yet.
+  resulting: >-
+    The gap now has a shape the actor can read: that the system is working, roughly how long
+    remains, and whether they may go, so the system's [time](/patterns/temporality) is legible
+    and the decision to stay or leave is the [actor's own](/patterns/agency). Which sign is
+    shown is a [status feedback](/patterns/status-feedback) question, since the wait is one
+    more state change to deliver, and this pattern is its duration-reporting shape. A wait the
+    actor can see is a wait they can end, so [abort](/patterns/abort) belongs beside the sign
+    for anything longer than a few seconds. Where the sign has said they may leave, the result
+    arrives somewhere they are no longer looking, and [transient feedback](/patterns/transient-feedback)
+    or a notification has to carry it back. A wait that fails becomes the report of
+    [error recovery](/patterns/error-recovery), in the place the sign held. The sign is only as honest as the estimate behind
+    it, and a bar that sits at ninety percent for most of the wait teaches the actor to
+    distrust every bar after it. It is not the deliberate delay that
+    [cognitive forcing functions](/patterns/cognitive-forcing-functions) insert before a
+    recommendation, which is friction the design chose rather than time the system needs…
+relationships:
+  instantiates:
+    - to: status-feedback
+      note: "the duration-reporting delivery shape of status feedback: a state change that is still in progress"
+  alternative:
+    - to: live-presentation
+      note: "live presentation shows the partial result instead of a sign that one is coming; waiting covers the gap where nothing of the result can be shown yet"
+  complements:
+    - to: abort
+      note: "a wait the actor can see is a wait they can end; abort gives the sign a way out"
+    - to: transient-feedback
+      note: "when the actor has been told they may leave, the result lands out of view and transient feedback carries it back"
+  tangential:
+    - to: cognitive-forcing-functions
+      note: "its wait-before-reveal variants use a delay as friction the design chose, where waiting reports time the system needs"
+  serves:
+    - to: delegation
+      note: "the liveness leg of delegation's monitoring station: whether the delegated work is still going and how far it has got"
+  enacts:
+    - to: temporality
+      note: "makes the system's time legible to the actor: that work is happening, and how much of it remains"
+    - to: agency
+      note: "tells the actor whether they may leave and gives them the means to stop"
+---
+
+* * *
+
+**Between asking and receiving there is a gap, and an unmarked gap reads as failure. The actor cannot tell a system that is working from one that has stalled, so they wait too long on a dead request or click again on a live one, and the second request lands on top of the first. Past a few seconds they also need to know whether to stay: a wait with no end in sight holds them at the screen when they could have gone and come back.**
+
+The thresholds are old and have held. Under about a tenth of a second the system feels instantaneous and nothing needs saying. Up to about a second the actor notices the delay but keeps their train of thought, and a sign would only draw attention to it. Past a second attention drifts, and past about ten seconds the actor will not hold it on the task at all; they need to be told what is happening and freed to do something else (Miller 1968; Nielsen 1993). The design question is therefore not whether to show a sign but which one each band deserves, and what the sign is allowed to promise.
+
+What is known about the sign itself comes mostly from progress bars. People prefer a percent-done indicator to none for anything over a few seconds, and prefer a wait with a visible end to a shorter one without (Myers 1985). The felt length of a wait is not its clock length: it depends on how the bar moves, and a bar that speeds up towards the end is remembered as shorter than one that runs evenly (Harrison et al. 2007, 2010). From service research older than any of this: an occupied wait feels shorter than an empty one, an explained wait shorter than an unexplained one, and an uncertain wait longest of all (Maister 1985). A wait that shows the work being done is valued more than a shorter wait that hides it, even when the showing is cosmetic (Buell and Norton 2011), which is the effect behind the "thinking" and "searching the web" lines that generating systems now put in the gap.
+
+The costs are in the promises. A determinate bar claims knowledge of the remaining time, and a system that lacks that knowledge lies with it; the bar that sits at ninety percent for most of the wait teaches the actor to disbelieve every bar after it. A sign that shows work being done invites the actor to watch it, which is wasted attention when they could have left. And a sign that never changes, an indeterminate spinner on a request that has in fact died, is worse than no sign, since it tells the actor to keep waiting for nothing.
+
+Therefore,
+
+**Match the sign to the length of the gap and to what the system actually knows. Under a second, show nothing. For a few seconds, show that the system is working, with a sign that moves so a stall is visible. Past that, show how far the work has got, in the system's own units where it has them (steps done, items processed, bytes sent) and as a time estimate only where the estimate is honest, and say whether the actor may leave. Put a way to stop beside any sign that will be up long enough to read. When the actor may leave, make sure the result reaches them where they went.**
+
+Do not let the sign outlive the request. A wait that has failed must become an [error report](/patterns/error-recovery), and a wait that has ended must become the result, with no spinner left behind.
+
+## In practice
+
+### By the length of the gap
+
+- *Under a second.* Nothing. A sign that appears and vanishes in that time is a flicker, and the flicker is the disturbance.
+- *A few seconds.* An indeterminate sign: a spinner, a pulsing control, a skeleton of the content to come. Its job is to show liveness, so it must move. A skeleton has the added job of holding the layout, so the result lands without a jump; whether it is felt as shorter than a spinner is contested in the studies that have tried it.
+- *Longer than that.* A determinate sign: a bar or count against a known total, or a list of steps with the current one marked. Add remaining time only when the system has a basis for it, and prefer the system's own units (3 of 12 files) to an estimate the actor will test against the clock.
+- *Long enough to leave.* Say so, and move the sign to where the actor can see it from elsewhere: a badge on the task, a row in a queue, a line in the [activity log](/patterns/activity-log). The completion then arrives as a [notification](/patterns/notification).
+
+### Showing the work
+
+Generating and searching systems fill the gap with an account of what is being done: "searching the web", "reading three sources", "thought for 20 seconds". This is the effect Buell and Norton describe, put to use. It helps when the account is true and the steps are ones the actor would recognise, and it degrades into theatre when it is decorative. Where the account is the system's reasoning rather than its progress, it is [transparent reasoning](/patterns/transparent-reasoning), which has its own page; the line between the two is whether the content would still be worth reading after the result has arrived.
+
+### Where the result lands
+
+A sign that frees the actor to leave takes on a debt: the result has to find them. On the same screen, a [transient feedback](/patterns/transient-feedback) message when the work finishes. Elsewhere in the system, a notification. Outside the system, an email or a push message. The longer the actor was told they could be away, the further the completion has to travel.
+
+## Related components
+
+- <ComponentRef id="components-progress-indicator--docs">Progress indicator</ComponentRef>, the determinate sign.
+- Spinner, the indeterminate sign.
+
+## Research on this pattern
+
+- The three bands, a tenth of a second, a second, and ten seconds, come from [Miller (1968)](https://doi.org/10.1145/1476589.1476628) on response time in conversational transactions, restated for interfaces by Nielsen (1993) and [summarised at NN/g](https://www.nngroup.com/articles/response-times-3-important-limits/).
+- [Myers (1985)](https://doi.org/10.1145/317456.317459): people prefer a percent-done indicator for waits of more than a few seconds, and prefer a longer wait with a visible end to a shorter one without.
+- [Harrison, Amento, Kuznetsov and Bell (2007)](https://doi.org/10.1145/1294211.1294231) and [Harrison, Yeo and Hudson (2010)](https://doi.org/10.1145/1753326.1753556): the felt duration of a wait depends on how the bar moves. Bars that accelerate towards the end, and ribbed bars whose ripples run against the direction of progress, were judged shorter at the same clock time.
+- Maister (1985), [The psychology of waiting lines](https://davidmaister.com/articles/the-psychology-of-waiting-lines/): occupied, explained and bounded waits feel shorter than empty, unexplained and open-ended ones. Written about queues, not screens, and the propositions carry over.
+- [Buell and Norton (2011)](https://doi.org/10.1287/mnsc.1110.1376): shown the work being done on their behalf, people value the outcome more and will prefer a longer wait with visible work to a shorter one without.
+- Untested here: whether skeleton screens are felt as shorter than spinners ([one practitioner study](https://www.viget.com/articles/a-bone-to-pick-with-skeleton-screens/) found the reverse for a slowly animated skeleton), and whether the step lists generating systems show during a wait change what the actor does with the result.
+
+## Resources & references
+
+- [NN/g / Progress indicators make a slow system less insufferable](https://www.nngroup.com/articles/progress-indicators/)
+- [Apple HIG / Progress indicators](https://developer.apple.com/design/human-interface-guidelines/progress-indicators)
+- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed., "Progress indicator"
+- [Wroblewski (2013) / Mobile design details: avoid the spinner](https://www.lukew.com/ff/entry.asp?1797)
+
+## To-do
+
+- Whether the delegating-work step "keep the run's status visible at a glance" is this pattern or a monitoring move of its own: a run that waits for its next trigger is live without anyone waiting on it.
+- Instances across the catalogue (uploads, exports, searches against slow sources, model generation) and which sign each ships.
+- A demo running the three signs over one request.
