@@ -1,0 +1,292 @@
+# The language arranged by levels of scale, on trial against `scope`
+# (plans/active/2026-10-pattern-facets.md). Three parts, each with its own way
+# of making: centres that no single act of making finishes, centres made in one
+# go, and points applied in a late pass over every surface. The first two
+# follow A Pattern Language's division between towns and buildings. Each design
+# pattern is placed once, where most of its forces operate; a need that recurs
+# at several sizes stays one pattern with a variant for each size. Within a
+# group, wholes come before the parts that complete them, and the build warns
+# when a part sits above a whole it helps complete. Read in order, the leads
+# should give an overview of the language; a lead that strains marks a
+# boundary to move.
+
+- id: whole
+  order: 1
+  title: The whole
+  lead: >-
+    Centres that no single act of making finishes. They form as many
+    surfaces, features and acts add to them or pass through them. Each is
+    adopted for the whole artifact or one of its divisions, built into each
+    surface as it is made, and revisited as the whole is checked.
+  groups:
+    - title: Setting and divisions
+      lead: >-
+        Place the artifact among the tools its actors already use, give it one
+        logic across its surfaces, divide the work into workspaces, decide who
+        is let into each, and let the people inside coordinate their work.
+      patterns:
+        - tool-ecology
+        - information-environment
+        - workspace
+        - sharing
+        - collaboration
+    - title: Connecting and naming
+      lead: >-
+        Connect the divisions so that anything can be reached from anywhere: an
+        address for every state, search across all of it, links found across
+        the content, and labels and structure that grow from use.
+      patterns:
+        - deep-linking
+        - searching
+        - dynamic-hyperlinks
+        - tag
+        - incremental-formalisation
+    - title: Learning the whole
+      lead: >-
+        Make the whole learnable: help the actor can reach from any point,
+        routes past the interface for those who use it daily, and commands by
+        name and then by key.
+      patterns:
+        - help
+        - mastery
+        - command-menu
+        - keyboard-shortcuts
+    - title: Records
+      lead: >-
+        Keep a record that every act adds to: what happened and who did it, a
+        feed of what arrives, and the origin of each piece of content.
+      patterns:
+        - activity-log
+        - activity-feed
+        - provenance-marking
+    - title: Rules every act passes through
+      lead: >-
+        Set the rules every act and event passes through: how much protection
+        each action gets, how urgent each kind of event is and where it goes,
+        and the defaults the actor can retune.
+      patterns:
+        - action-consequences
+        - status-feedback
+        - notification
+        - settings
+    - title: Work done without the actor
+      lead: >-
+        Wherever work is done without the actor, set what holds across every
+        run: the agent that does it, the authority it is granted, the
+        instructions and memory it carries, and the procedures handed over to
+        run.
+      patterns:
+        - agent
+        - bounded-autonomy
+        - standing-instructions
+        - selective-memory
+        - workflow
+
+- id: divisions-and-surfaces
+  order: 2
+  title: Divisions and surfaces
+  lead: >-
+    Centres made in one go, for one division, one surface, one kind of work or
+    one occurrence.
+  groups:
+    # The space
+    - title: Laying out a division
+      lead: >-
+        Within each division, choose how the actor moves between its sections
+        from the kind of space it is, and recombine the models as the division
+        grows.
+      patterns:
+        - multilevel-tree
+        - fully-connected
+        - hub-and-spoke
+        - flat-navigation
+        - pyramid
+        - step-by-step
+        - pan-and-zoom
+        - hybrid-patterns
+    - title: The entrance
+      lead: >-
+        Give the artifact an entrance: a first encounter that orients the
+        actor, a canvas for when nothing exists yet, and templates to start
+        from.
+      patterns:
+        - onboarding
+        - state-empty
+        - template
+    # Collections
+    - title: Framing a collection
+      lead: >-
+        Where a division holds a collection, frame it for the actor's purpose in
+        one view or several, at a scale that keeps it readable, and show each
+        entity at the detail its moment needs.
+      patterns:
+        - overview-detail
+        - coordinated-views
+        - data-view
+        - purpose-keyed-view
+        - problem-curated-view
+        - semantic-zoom
+        - focus-and-context
+        - text-lense
+        - item-view
+    - title: Moves on a view
+      lead: >-
+        On each view, let the actor choose its attributes, order and grouping,
+        narrow it by criteria or by rules they compose, compare items, and
+        select what to act on.
+      patterns:
+        - attribute-visibility
+        - sorting
+        - grouping
+        - filtering
+        - rule-composition
+        - comparing
+        - selection
+    # Changes
+    - title: Where a change is made
+      lead: >-
+        Decide for each kind of change where it is made, in a wizard, a form, a
+        block document or in place, and how a long change is reviewed and
+        resumed.
+      patterns:
+        - wizard
+        - resuming
+        - form
+        - review-before-submitting
+        - block-based-editor
+        - editing-in-place
+    - title: Storing and removing
+      lead: >-
+        Decide when changes are stored, published and kept as versions, how a
+        bulk change is previewed, and how things are removed.
+      patterns:
+        - saving
+        - draft-and-publish
+        - version-history
+        - dry-run
+        - deletion
+    # Shared work
+    - title: Working on the same thing
+      lead: >-
+        Where people work on the same thing, show who is there, let them mark
+        and discuss it in place, review and merge what diverged, and pass work
+        on with its context.
+      patterns:
+        - presence
+        - annotation
+        - commenting
+        - change-review
+        - reconciliation
+        - handoff
+    # Work with an agent
+    - title: Help inside the work
+      lead: >-
+        Let the system offer help inside the work, from a suggestion to the
+        whole next step, raised or lowered on the evidence of use.
+      patterns:
+        - embedded-intelligence
+        - assisted-task-completion
+        - next-best-action
+        - suggestion
+    - title: Conversation
+      lead: >-
+        Where the actor talks with an agent, bound each exchange, open it, and
+        carry each kind of request.
+      patterns:
+        - session
+        - conversation
+        - agent-opening
+        - user-opening
+        - capability-and-scope
+        - inquiry-user
+        - open-request
+        - inquiry-agent
+        - extended-telling
+        - inline-interface
+    - title: Trouble and endings
+      lead: >-
+        Repair the exchange when understanding breaks, and end or park it
+        deliberately.
+      patterns:
+        - agent-repair
+        - user-repair
+        - abort
+        - sequence-completion
+        - closing
+        - disengage-without-closing
+    - title: Handing work over
+      lead: >-
+        Where the actor hands work to an agent, let them state it, ground it in
+        their own material, lay the instructions beside the work, and see the
+        plan and the cost.
+      patterns:
+        - prompt
+        - prompt-scaffolding
+        - reference-material
+        - steering-surface
+        - plan-preview
+        - cost-transparency
+    - title: Following and receiving work
+      lead: >-
+        Show the work while it runs, stop it at consequential points, and let
+        the actor place, revise or redraw what comes back.
+      patterns:
+        - live-presentation
+        - transparent-reasoning
+        - approval-gate
+        - generated-content
+        - extraction
+        - instructed-revision
+        - regeneration
+    - title: Checking machine output
+      lead: >-
+        Give machine output evidence the actor can check, and make accepting it
+        take a moment of judgement where the stakes call for it.
+      patterns:
+        - citation
+        - expressed-uncertainty
+        - explanation
+        - cognitive-forcing-functions
+        - overreliance-checklist
+        - human-goes-first
+
+- id: finishing
+  order: 3
+  title: Finishing
+  lead: >-
+    Points that complete a surface, such as a field, a control, a state or a
+    message. They are applied in a late pass over every surface once its design
+    is settled, wherever the point recurs.
+  groups:
+    - title: Fields and values
+      lead: >-
+        Shape each field: how the value is entered, what it is chosen from, what
+        is filled in or offered as the actor types, and how a wrong value is
+        reported.
+      patterns:
+        - data-entry
+        - bounded-choice
+        - good-defaults
+        - autofill
+        - autocomplete
+        - ai-completion
+        - validation
+    - title: Disclosure and handling
+      lead: >-
+        Disclose what a surface holds as it is needed, in sections, and let
+        items be carried and links previewed in place.
+      patterns:
+        - progressive-disclosure
+        - sections
+        - drag-and-drop
+        - link-preview
+    - title: States and messages
+      lead: >-
+        Give every surface its unavailable states, confirm destructive acts in
+        place, offer undo, and report outcomes in messages that pass.
+      patterns:
+        - state-disabled
+        - unavailable-actions
+        - inline-confirmation
+        - undo
+        - transient-feedback

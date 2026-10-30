@@ -46,9 +46,10 @@ type PatternEntry = CollectionEntry<'patterns'>;
 
 // The sidebar reads `role`, the scale facets and, for a few families, `group`.
 // Foundations and qualities are lifted into their own groups. The pattern list
-// below them is arranged by a grouping the actor picks: A–Z, or one per scale
-// facet, where the levels run from large to small. Facet groupings hold design
-// patterns only, since the other roles take no facet values. The remaining facets
+// below them is arranged by a grouping the actor picks: A–Z, one per scale
+// facet, where the levels run from large to small, or the authored levels list
+// (src/content/levels.yaml). Facet and levels groupings hold design patterns
+// only, since the other roles take no facet values. The remaining facets
 // (activityLevel, lifecycle, domain, the other `group` values) are lenses the
 // graph and the sequences project over, not navigation structure.
 function roleGroupOf(entry: PatternEntry): 'foundations' | 'qualities' | null {
@@ -84,11 +85,12 @@ export async function buildNavTree(): Promise<NavTree> {
   const sequences = await getCollection('sequences');
   const concepts = CONCEPTS_ENABLED ? await getCollection('concepts') : [];
   const languages = await getCollection('languages');
-  const key = [...patterns, ...sequences, ...concepts, ...languages]
+  const levels = await getCollection('levels');
+  const key = [...patterns, ...sequences, ...concepts, ...languages, ...levels]
     .map((e) => `${e.id}@${e.digest ?? ''}`)
     .join(' ');
   if (navCache?.key !== key)
-    navCache = { key, tree: assembleNavTree(patterns, sequences, concepts, languages) };
+    navCache = { key, tree: assembleNavTree(patterns, sequences, concepts, languages, levels) };
   return navCache.tree;
 }
 
@@ -97,6 +99,7 @@ function assembleNavTree(
   sequenceEntries: CollectionEntry<'sequences'>[],
   conceptEntries: CollectionEntry<'concepts'>[],
   languageEntries: CollectionEntry<'languages'>[],
+  levelEntries: CollectionEntry<'levels'>[],
 ): NavTree {
   const leavesWhere = (test: (p: PatternEntry) => boolean): NavLeaf[] =>
     patterns
@@ -155,11 +158,41 @@ function assembleNavTree(
     },
   ].filter((g) => g.children.length > 0);
 
+  // Parts and their groups from the authored levels list. A group keeps the
+  // list's order, wholes before the parts that complete them, rather than the
+  // alphabet, and families do not nest, since the groups already gather them.
+  // A pattern the list places twice is listed once, at its first place; the
+  // validator fails the build on it.
+  const designPatterns = new Map(patterns.filter(isDesignPattern).map((p) => [p.id, p]));
+  const placed = new Set<string>();
+  const parts = [...levelEntries]
+    .sort((a, b) => a.data.order - b.data.order)
+    .map((part): NavBranch => ({
+      label: part.data.title,
+      children: part.data.groups
+        .map((group): NavBranch => ({
+          label: group.title,
+          children: group.patterns.flatMap((slug): NavLeaf[] => {
+            const p = designPatterns.get(slug);
+            if (!p || placed.has(slug)) return [];
+            placed.add(slug);
+            return [{ label: p.data.title, href: panePath('pattern', p.id) }];
+          }),
+        }))
+        .filter((g) => g.children.length > 0),
+    }));
+  // Design patterns the list does not place yet, so the gap shows.
+  const byLevels: NavTreeNode[] = [
+    ...parts,
+    { label: 'Not placed', children: listOf((p) => isDesignPattern(p) && !placed.has(p.id)) },
+  ].filter((g) => g.children.length > 0);
+
   const patternsGroup = {
     label: 'Patterns',
     groupings: [
       { id: 'a-z', label: 'A–Z', children: listOf((p) => roleGroupOf(p) === null) },
       { id: 'scope', label: 'Scope', children: byScope },
+      { id: 'levels', label: 'Levels', children: byLevels },
     ],
   };
 

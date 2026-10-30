@@ -3,7 +3,7 @@ title: "Scale facets for patterns, and grouping by them in the sidebar"
 status: active
 kind: exec-spec
 created: 2026-10-24
-last_reviewed: 2026-10-28
+last_reviewed: 2026-10-29
 area: metadata, patterns-site
 promoted_to: ""
 superseded_by: ""
@@ -24,6 +24,14 @@ The facets land in iterations (§Steps). The first adds `scope` alone, from
 schema to sidebar. The second adds `people` and `agents`, narrows the
 definition of `activityLevel`, and removes `mediation`. A facet for centres in
 time is not part of either (§Open questions).
+
+The first iteration is done, but `scope` does not hold up: many values depend
+on whether the maker is designing the whole application or one feature. A
+`depth` facet is on trial as its replacement (§Depth: trial against `scope`),
+and an authored list of levels is on trial beside it in the sidebar (§Levels:
+trial of an authored list). The
+second iteration waits until these trials settle, since `activityLevel` has
+the same dependence on the starting point.
 
 ## The facets
 
@@ -1025,6 +1033,554 @@ interaction stages and elaboration levels, and the forms that lift it to
 `application` (notifications, the activity log, workflows) are mostly to-do
 lines, which the pilot did not count for validation.
 
+## Depth: trial against `scope`
+
+### Why `scope` does not hold
+
+Many `scope` values depend on the maker's starting point. Someone designing
+the whole application reads deletion as an application-wide policy; someone
+designing one feature reads it as a move on the item in front of them. The
+sittings show this as one split they never resolved: tag, dynamic-hyperlinks,
+sharing, activity-log, status-feedback and incremental-formalisation took
+their reach across the application, while saving, draft-and-publish,
+deletion, cost-transparency, dry-run and template took the artefact they act
+on. The tie-break rules force one answer where a page supports two. The
+alternatives rule already reads the level from the region a sequence's choice
+is made over, so wherever a sequence supplied the frame, the value depended
+on it. The 2026-10-25 gate anticipated this: van Welie and van der Veer
+rejected screen extent as the scale of an interaction pattern language, and
+what counts as the artifact changes with the purpose of use.
+
+`activityLevel` has the same dependence. Keyboard-shortcuts supports actions
+for a newcomer and operations for an expert; a workspace supports an activity
+for someone designing the application and an action for someone designing
+its switcher. With three levels it also barely sorts: 17 of the 20 pilot
+patterns are `action`.
+
+### The depth ladder
+
+Depth reads how far below the goal the actor came with the centre is met.
+Work forms a tree of goals and subgoals, and each step down adds a goal the
+actor holds while working on the one below. The measure is taken from the
+actor, not the maker's frame. The ladder tried in the pilot, from the
+surface down:
+
+- *choosing*: between pieces of work, finding, picking or returning to one.
+- *framing*: committed to a piece of work and setting it up: the approach,
+  what is shown, an agent's brief, who takes part.
+- *doing*: carrying out the work: making, changing, reviewing its content.
+- *within-step*: inside one step (a value, a control, a mark, a turn) while
+  holding the larger goal.
+
+### Pilot (2026-10-29)
+
+Two readers classified the twenty pilot patterns independently. Each gave a
+value, a range where the forms sit at different depths, whether the centre
+moves the actor between depths, and whether the value changes between
+designing the whole application and designing one feature (the frame test).
+
+| Pattern | Reader A | Reader B | Frame test |
+|---|---|---|---|
+| undo | within-step | within-step | same |
+| presence | doing | doing | same |
+| validation | within-step | within-step | same |
+| autocomplete | within-step | within-step | same |
+| commenting | doing | doing | same |
+| notification | doing | doing | changes |
+| sharing | framing | framing | same |
+| handoff | doing | doing | changes |
+| approval-gate | doing | doing | B: changes |
+| resuming | framing | choosing | changes |
+| version-history | doing | doing | same |
+| standing-instructions | framing | framing | B: changes |
+| selective-memory | framing | framing | changes |
+| deep-linking | choosing | choosing | changes |
+| workspace | choosing | choosing | changes |
+| data-view | framing | framing | changes |
+| hub-and-spoke | choosing | choosing | B: changes |
+| block-based-editor | doing | doing | same |
+| conversation | doing | doing | changes |
+| activity-log | doing | doing | changes |
+
+The readers agreed on 19 of 20 values. Both are the same model with the same
+brief, so the agreement overstates how clear the definition is. Each recorded
+15 ranges, partly because the brief asked for them. The values spread across
+all four levels: choosing 3, framing 6, doing 8, within-step 3.
+
+Nine patterns changed with the frame for both readers, and they are not
+spread at random. Every centre met inside a piece of work kept its value:
+undo, validation, autocomplete, commenting, block-based-editor,
+version-history. What changed were centres that sit between pieces of work
+or arrange the space they happen in: workspace, data-view, deep-linking,
+resuming, notification, handoff, activity-log, selective-memory and
+conversation. Both readers named the cause: it is unclear which piece of
+work counts. Reconstructing history in an activity log is doing if it is
+its own piece of work, and choosing if it interrupts other work. Both also
+found a level missing above choosing, for arranging the space across many
+pieces of work (a workspace, global instructions, a memory list), and one
+found no place for work on the system rather than on the actor's material
+(curating memory, auditing a log).
+
+### Direction: depth inside the work, a separate marker for its conditions
+
+The goal tree exists only once a piece of work is chosen. Inside it, depth is
+stable; outside it, the value depends on what counts as the work, as `scope`
+did. Depth therefore applies only to centres met inside a piece of work. A
+centre that acts on the conditions of the work takes no depth and a separate
+marker instead. CSCW draws this line as production work against articulation
+work: the work itself, against the work of arranging, coordinating and
+setting it up.
+
+Strawman, to be research-gated before any value is written:
+
+- `depth`, for centres met inside a piece of work: framing → doing →
+  within-step.
+- A marker for centres that act on the conditions of the work, with kinds
+  rather than levels: moving between pieces of work (hub-and-spoke,
+  deep-linking, resuming, notification, handoff); arranging the space many
+  pieces of work happen in (workspace); setting up the system or an agent
+  (standing-instructions, selective-memory); coordinating with other people
+  (sharing, activity-log).
+
+Questions the strawman leaves open:
+
+- Whether framing belongs inside the work. Its definition already speaks of
+  arranging conditions, and sharing and standing-instructions read as
+  articulation. If framing moves out, depth has two levels.
+- Where a centre goes that is the work in one product and its conditions in
+  another. Conversation is the whole working space in a chat-first
+  application and one move inside a task elsewhere; data-view is where the
+  actor picks work in an inbox and frames committed work elsewhere.
+- Whether the marker's kinds overlap `people` (coordinating) and `agents`
+  (setting up an agent).
+- What happens to `scope`: its values, schema and sidebar grouping are
+  shipped. It is removed, kept beside depth, or reduced to a floor once the
+  gate has run.
+
+### Research gate: depth and articulation work (2026-10-29)
+
+The facet-scales research gate (2026-10-29) asked what the strawman above gets
+wrong. It read interruption and goal-hierarchy work (Iqbal and Bailey 2007;
+Trafton and Monk 2007; Stanton 2006 on hierarchical task analysis), work on
+how one person divides their work (González and Mark 2004), the
+articulation-work canon (Strauss 1985 and 1988; Gerson and Star 1986; Schmidt
+and Bannon 1992; Schmidt and Simone 1996; Bardram 1998), and Dearden and
+Finlay's 2006 review of HCI pattern languages.
+
+Claims the decisions rely on:
+
+- *Depth read from the person holds.* Observers agree on three granularities
+  of breakpoint without any task model: fine (switching paragraphs), medium
+  (switching documents), coarse (switching to another activity). Each level
+  down is a goal held in suspension.
+- *Depth counted from a maker's top goal does not.* In hierarchical task
+  analysis, where the top goal sits and where the analysis stops depend on
+  the analyst's purpose. That is the maker's-frame problem again, so depth
+  needs a named unit of work to count from.
+- *The unit exists.* González and Mark define a working sphere: interrelated
+  events sharing a motive, people, resources and a time frame. The coarse
+  breakpoint is a switch between spheres.
+- *Metawork is the single-person term.* González and Mark name the work of
+  managing all spheres, attached to none of them, metawork: coordination,
+  checking activities, organising, catching up. It is done in chunks like a
+  sphere, so it has an inside of its own.
+- *The line between the work and its conditions is relative.* Schmidt and
+  Simone call the distinction between the work and its articulation
+  recursive, "in principle, infinite"; Bardram, after Bødker and Mogensen,
+  says the same work is articulation from one perspective and the work itself
+  from another. Configuring an agent is articulation for the run it governs,
+  and the work itself when configuring is what the actor came to do. The
+  pilot's unstable patterns are the cases this predicts.
+- *Planning is contested.* Strauss and Gerson and Star put planning and
+  setting up on the articulation side; Suchman keeps plans inside the work.
+- *Articulation's kinds are objects, not activities.* The canon sorts by what
+  is coordinated (tasks, people, resources, schemes, protocols). Moving
+  between pieces of work has no support in the cooperative canon; metawork
+  puts moving between, arranging and catching up in one category.
+- *No precedent.* Layered HCI pattern collections exist (van Welie; Granlund
+  et al.), but they layer by the level of the design problem, not by depth in
+  the actor's task or by work against metawork.
+
+Deliberately not adopted:
+
+- "Articulation work" as the name for the second category. In the canon it
+  is the overhead of cooperation, "compared with individual work"; metawork
+  is the term for one person.
+- "Production" as the paired term. It comes from Gerson and Star alone.
+
+### What the gate changes
+
+The strawman's separate marker does not escape the frame problem: whether a
+centre is the work or its conditions depends on what the actor came to do,
+just as depth did. What the gate adds is the missing reference point. Depth
+is stable when counted from a named piece of work, and the pattern pages
+already name one: each page's opening situation says what the actor is doing
+when the pattern applies.
+
+The candidate the gate points to, not yet decided:
+
+- One `depth` scale, counted from the piece of work the page's opening
+  situation names: between pieces of work (metawork: choosing, returning,
+  catching up, arranging) → setting up the piece of work → doing it → inside
+  one step.
+- No separate marker. A centre whose own business can become the work
+  (curating memory, reviewing an activity log, editing standing
+  instructions) takes its depth from the situation the page describes, and
+  where a page describes both, it is listed for a split, as the `scope`
+  sittings did for notification.
+- Whether setting up stays a level of its own is the open choice the canon
+  leaves.
+
+This differs from the pilot's ladder in two ways: the outer level is
+defined as metawork rather than "choosing", and every value is read against
+the work the opening situation names.
+
+### Second pilot: patterns chosen to break the candidate (2026-10-29)
+
+Two readers classified twenty patterns against the candidate above. None of
+the first pilot's patterns were reused. Each pattern was chosen for a way it
+could break the definition: an opening situation that describes a system
+state rather than an activity (cost-transparency, saving, tag,
+dynamic-hyperlinks); no opening situation (searching, status-feedback); a
+centre whose own business can become the work (settings, workflow,
+rule-composition); encounter moves (agent-opening, closing,
+disengage-without-closing); one person's work that is another's arrangement
+(change-review, draft-and-publish); setting-level pages
+(information-environment, tool-ecology); expertise (keyboard-shortcuts,
+mastery); a first encounter (onboarding); and the agent doing the work
+(agent).
+
+| Pattern | Reader A | Reader B | Anchor (A / B) | Frame test |
+|---|---|---|---|---|
+| cost-transparency | setting up | setting up | inferred | changes |
+| saving | doing | doing | inferred | same |
+| tag | inside a step | doing | inferred | changes |
+| dynamic-hyperlinks | doing | doing | inferred | same |
+| searching | between | between | none | changes |
+| status-feedback | inside a step | inside a step | none | changes |
+| settings | between (split) | between | named / inferred | A: changes |
+| workflow | setting up (split) | setting up (split) | named | A: changes |
+| rule-composition | setting up (split) | setting up | named | changes |
+| agent-opening | between | between | inferred | same |
+| closing | between | between | named | same |
+| disengage-without-closing | between | between | named | same |
+| change-review | doing | doing | named | same |
+| draft-and-publish | doing | doing | inferred | same |
+| information-environment | between | between | none | changes |
+| tool-ecology | between | between | none | changes |
+| keyboard-shortcuts | inside a step | inside a step | inferred / named | same |
+| mastery | between | between | none | changes |
+| onboarding | between (split) | between | none | changes |
+| agent | setting up | setting up | named | changes |
+
+The readers agreed on 19 of 20 values, but much of the agreement is on
+`between` reached by default: nine patterns landed there, and for the
+setting-level pages both readers said the value fell to `between` because
+nothing else applied, not because it fitted. Only 7 of the 20 opening
+situations name a piece of work; the rest describe a system state, the
+agent's motive or the setting, or are missing. Ten values change with the
+frame for both readers.
+
+Both readers found the same four failures independently:
+
+- *Umbrella pages.* Agent, mastery, status-feedback, cost-transparency and
+  onboarding list forms at different depths, and one value hides that. These
+  overlap the pages the `scope` sittings listed for a later edit
+  (notification, mastery, help, explanation, collaboration).
+- *Made at one depth, used at another.* A tag is applied inside a step and
+  used when narrowing a collection later; a parked conversation is made
+  mid-work and used on return; a suggested link is offered while reading and
+  followed out of the work. The definition does not say which moment counts.
+- *No moment to meet.* Information-environment, tool-ecology, settings,
+  mastery and saving's automatic form shape every moment rather than being
+  met at one. `between` becomes a catch-all for them, which moves the frame
+  problem into that level rather than removing it.
+- *The ends of a piece of work.* No level covers finishing, handing over or
+  stepping away (closing, draft-and-publish, disengage-without-closing), or
+  the time before any work exists (onboarding). Setting up has no
+  counterpart at the end.
+
+Setting up also blurs into `between` when the arrangement covers recurring
+or future work: a workflow, an acting rule, a setting.
+
+The patterns met at a moment inside a named piece of work classified cleanly:
+keyboard-shortcuts, change-review, closing apart from its missing level, and
+agent-opening.
+
+Next: decide what the second pilot means for the facet.
+
+## Levels: trial of an authored list
+
+Strawman, research-gated on 2026-10-30, with the gate's changes applied
+(§Research gate: levels).
+
+### Why one facet does not hold
+
+`scope` and depth broke on the same patterns: those that hold across many
+surfaces (structures, records, vocabularies, policies, configuration) rather
+than being met on one. Both ladders were stable once something fixed the frame
+(one surface, one piece of work, a sequence's region), and nothing fixes it at
+the root.
+
+*A Pattern Language*'s parts are "three different scales", and each scale has
+its own way of being made. Towns "can never be 'designed' or 'built' in one
+fell swoop" and form by "patient piecemeal growth", partly through explicit
+policy; buildings are made by people "who are able to build the patterns all
+at once"; construction works "directly from this rough scheme of spaces". In a
+town the scale and the way of making coincide; in an interface they come
+apart, and the list keeps the way of making. Below the root, groups are
+regions of making, each introduced by a sentence naming the region, and some
+are split by type ("First, for a house; … then the same for offices"). A need
+that recurs at several sizes sometimes gets one pattern per size ("local
+versions of the same needs") and sometimes stays one pattern interpreted at
+each size.
+
+### The list
+
+`apps/patterns/src/content/levels.yaml` places every design pattern in three
+parts and 22 groups, each group with a connecting sentence. It is one authored
+list, like the sequence and language files, not a value on each page.
+
+- *Root*: how the centre is made, and each part has its own way. *The whole*
+  holds centres that no single act finishes: they form as many surfaces and
+  acts add to them or pass through them, and each is adopted for the whole
+  artifact or one of its divisions, built into each surface as it is made, and
+  revisited as the whole is checked (26 patterns). *Divisions and surfaces*
+  holds centres made in one go for one division, surface, kind of work or
+  occurrence (83). *Finishing* holds the points that complete a surface,
+  applied in a late pass over every surface once its design is settled, which
+  is the sequence map's missing *Finishing the whole* (16). The first two
+  parts follow APL's towns and buildings. APL's third part, Construction, has
+  its counterpart in the components and foundations, outside the list.
+- *Groups*: the whole follows the Towns order (divisions, networks, learning,
+  records, rules, work done without the actor). Divisions and surfaces steps
+  from the division to the surface, then splits by what the surface is for
+  (the space, collections, changes, shared work, work with an agent), with the
+  sequences' regions as groups. Finishing groups by the point completed.
+- *Within a group*, wholes come before the parts that complete them, and the
+  sequence's step order breaks ties.
+- *Between the first two parts*, the page's own description decides. Where it
+  supports both readings, the unit the home sequence states decides: "decide
+  once … for the whole system" places a pattern in the whole; "for each kind
+  of change", "for each surface" or "per act" places it among divisions and
+  surfaces.
+- A page sits where most of its forces operate. A need that recurs at several
+  sizes stays one pattern with a variant for each size, or becomes a parent
+  with sub-patterns; it is split only where the local form is a different
+  centre. APL does both: it writes some local versions of a need as separate
+  patterns and keeps others as one pattern interpreted at each scale.
+
+The list is the reading order of the language; the other sidebar groupings
+are views beside it. The *Levels* grouping sits beside A–Z and *Scope*, built
+from the list in its authored order, and a design pattern the list does not
+place appears under "Not placed". The cross-reference validator fails the
+build on a slug that resolves to no design pattern or is placed twice, and
+warns when a pattern is listed above a whole it helps complete, read from the
+`enables` and `hosts` edges.
+
+### What the draft showed
+
+- Groups hold 3 to 10 patterns; the `scope` grouping held 70 in `view`.
+- The split the `scope` sittings left unresolved falls on the root line: tag,
+  dynamic-hyperlinks, sharing, activity-log, status-feedback and
+  incremental-formalisation are in the whole; saving, draft-and-publish,
+  deletion, cost-transparency, dry-run and template are among divisions and
+  surfaces. The rule was written with these cases in view, so this shows
+  consistency, not independent support.
+- Deletion divides across the three parts: action-consequences rates every
+  action (the whole), deletion matches a safeguard to the rating for each act
+  (divisions and surfaces), and inline-confirmation and undo are the
+  safeguards (finishing). This is APL's division between FOUR-STORY LIMIT and
+  NUMBER OF STORIES. Deletion's whole-system forms (trash, expiry) are a split
+  candidate, and saving and deletion are placed by the sequence-unit rule, not
+  by their pages.
+- Of the nine patterns whose depth changed with the frame in the first depth
+  pilot, five are in the whole (workspace, deep-linking, notification,
+  activity-log, selective-memory), where no depth is asked; data-view,
+  resuming, handoff and conversation take their group from a sequence region.
+- The root line is not `scope`'s `application` line. Sixteen `application`
+  patterns are among divisions and surfaces (the navigation models,
+  onboarding, overview-detail, the upper assistance rungs,
+  reference-material, extraction), and workspace, deep-linking and
+  action-consequences are in the whole.
+- Against the starter languages, over the patterns the sequences reach, the
+  list orders 68–76% of pairs as the starters do, a `scope` ordering 59–76%,
+  and the sequences threaded into one walk 46–90%. The walk agrees best with
+  conversation-first and mobile web, whose lists follow one sequence; the
+  starters mix both kinds of order.
+- Scale holds at the root and from division to surface. Below that, divisions
+  and surfaces is split by type, not size. Needs that recur once per part at
+  decreasing size are the evidence that the parts are levels: activity-log →
+  version-history → undo; action-consequences → deletion →
+  inline-confirmation; bounded-autonomy → approval-gate →
+  inline-confirmation; searching across the artifact → searching within a
+  view → autocomplete.
+- Read aloud, five sentences of the first draft strained: help and mastery
+  among the networks, workflow among an agent's runs, onboarding and the empty
+  state among layouts, rule-composition and dry-run among help offered, and
+  collaboration in the first sentence. The list moves each: a *Learning the
+  whole* group, *Work done without the actor*, a group of its own for *The
+  entrance*, rule-composition with the moves on a view and dry-run with
+  storing changes, and a first sentence that names coordination.
+
+### Contested placements
+
+- Searching, command-menu and help each have a global and a local form; each
+  sits in the whole by its global form. Search within a view stays
+  searching's local form. It narrows the view as a filter does, but the actor
+  experiences it as a search, looking for an item rather than narrowing by
+  criteria, and it is built as a search field, often beside the global one.
+  The block editor's slash menu is the command menu at a smaller size and
+  stays a variant of it. A wizard's inline help needs no seed of its own: a
+  hint beside a field is data entry's, and an explanation the actor opens
+  beside the step is help's just-in-time form.
+- Deep-linking, keyboard-shortcuts and provenance-marking are in the whole as
+  schemes, though each instance is a point on a surface.
+- Agent, mastery and collaboration are umbrella pages whose forms spread over
+  divisions and surfaces.
+- Tag: the vocabulary is in the whole, while making sense at scale decides
+  tagging per encounter.
+- Selection: the page describes a move, while making changes decides the model
+  once for the whole system.
+- State-empty sits at the entrance, where three of its four variants (blank
+  slate, educational, guiding) operate. Its no-results and no-access faces
+  belong to finishing and are a variant of the same pattern.
+- Step-by-step: a division laid out as a series, and also how a long form is
+  paged.
+- Three part–whole edges read as construction rather than containment:
+  data-view enabling selection, state-empty hosting onboarding, prompt hosting
+  suggestion.
+
+### Other arrangements considered
+
+- *One walk threaded from the sequences*, each pattern at its first step. It
+  reaches 114 of 125, missing the largest wholes and the finishing states;
+  homes follow first appearance, and groups mix sizes. It gives order, not
+  scale, and serves to order patterns within a group.
+- *Families of one need*, each ordered by size. Size within a family is stable
+  and a gap is a worklist, but the top level becomes a list of needs, and
+  protocol families such as the conversation moves are not size ladders. It
+  fits inside the list as cross-references between parts.
+- *A containment tree* from the part–whole edges. 50 design patterns have no
+  such edge and 21 have several parents, so it serves as a check on the list.
+
+### Research gate: levels (2026-10-30)
+
+The facet-scales research gate (2026-10-30) asked what the list gets wrong
+about Alexander's division of *A Pattern Language*, about how interaction
+pattern languages are organised, about needs that recur at several sizes, and
+about one list against facets. It read APL's front matter and the
+introductions to its three parts, *The Nature of Order* Book 2 ch. 11, and work
+on organising and structuring pattern languages (Borchers 2000, both papers;
+Mahemoff and Johnston 1998, both papers; van Duyne, Landay and Hong 2007;
+Hübscher et al. 2011; Dearden and Finlay 2006; Kruschitz and Hitz 2010; Chung
+et al. 2004; Salingaros 2000; Fincher 1999; Iba and Kanai 2021; Winn and Calder
+2003; Todd, Kemp and Phillips 2004; Pan and Stolterman 2013), *The Timeless
+Way of Building* chs. 16, 24 and 25, and *The Oregon Experiment*'s
+introduction and its chapter on organic order.
+
+Claims the decisions rely on:
+
+- *The parts are scales with their own ways of making.* Towns are made "only
+  … gradually, by grass roots action", buildings "built up in your mind, and
+  marked out on the ground" by people "able to build the patterns all at
+  once", construction "built physically, on the site". In a town the two
+  coincide.
+- *Town patterns are adopted at each group's level and built into each
+  project.* Each group "takes responsibility for those patterns relevant to
+  its own internal structure", and a project builds in "any higher patterns
+  that the community has adopted". Alexander rejects "centralized authority,
+  or by laws, or by master plans" as their source, and says that with "a
+  single centralized owner" the process "can only partly be put into
+  practice". *The Timeless Way* draws the line the list uses: a building is
+  conceived "as a whole" by "a single human mind or a group of minds
+  together", while a town "does not grow in one human mind", and its large
+  patterns are "generated indirectly, by the gradual incremental repetition
+  of the smaller patterns".
+- *With one owner, adopted rules are revisited and applied project by
+  project.* At the University of Oregon, a single owner, the whole is held by
+  "communally adopted planning principles called patterns", protected by "an
+  annual diagnosis", and assured by "a funding process which regulates the
+  stream of individual projects", with no master plan.
+- *Construction is making the fixed scheme buildable.* It starts from "a
+  complete design", states principles "about structure and materials", and
+  follows "the actual physical order of construction". The smallest places a
+  person meets (alcoves, window places, built-in seats) close the Buildings
+  part.
+- *Scale alone was judged insufficient for interaction languages.* Fincher
+  and Windsor's scale ladder was not "sufficient for UI designers to find a
+  pattern for their problem", and Dearden and Finlay call the problem
+  "multidimensional". The collections that keep one ordered list order it by
+  design stage or abstraction and head it with the artifact as a whole: site
+  genres, an exhibit's purpose, tasks.
+- *Site-wide qualities and policies have a precedent above the composition
+  levels.* Hübscher et al. place requirements patterns, notifications and
+  trust among them, "'above' Baxley's model". In Chung et al.'s evaluation a
+  group of privacy policies "did not help with that issue". Look and feel and
+  consistency are left to style guides (Mahemoff and Johnston; Borchers).
+- *A need at several sizes usually stays one pattern.* van Duyne et al. keep
+  site-wide and section search in one pattern, and global and local
+  navigation in one; APL keeps LOCAL TOWN HALL as one pattern "interpreted to
+  suit the different scales". Where sizes are separated, it is as a parent
+  with sub-patterns (Yahoo's pagination) or a specialisation. APL writes
+  separate patterns where the local version is a different kind of place
+  (common land beside the accessible green). Hübscher et al. placed mixed
+  pages where "the forces mainly operate".
+- *One ordered list is the reading form of a language, over a network.* APL's
+  sequence is "both a summary of the language, and at the same time, an
+  index", read through "the sentences which connect the groups". Every source
+  qualifies it: "there is no one sequence which perfectly captures it"; a
+  pattern may complete several larger ones; Todd et al. ask whether a language
+  can "be organised by different classification systems thereby providing
+  alternative viewpoints". Salingaros reads large to small to design and small
+  to large to validate.
+- *Building and checking the list.* Chung et al. drew their groups from the
+  patterns "bottom-up"; Iba and Kanai found that "neither the part is
+  determined first nor the whole", and check a language by explaining its
+  parts in order and revising wherever someone asks "Why is the category,
+  group, or pattern here?". Makers read the organisation as an instruction
+  for the design (Dearden et al. 2002).
+
+Deliberately not adopted:
+
+- APL's Construction as the model for the third part. The project's
+  counterpart of Construction is its form language (components and
+  foundations), which sits outside the list.
+- Splitting as the default for a page with a whole-artifact form and a local
+  form.
+- Problem-specific lists as a new mechanism; project languages already are
+  that.
+
+What the gate changed (the list, its leads and §The list now say so):
+
+1. The first part's rule says how its centres form: adopted for the whole
+   artifact or one of its divisions, built into each surface as it is made,
+   and revisited as the whole is checked. A software artifact usually has one
+   owner, which is the Oregon case rather than the town case.
+2. *Finishing* stays a third part with a way of making of its own, a late
+   pass over every surface once its design is settled. It is not APL's
+   Construction.
+3. A page sits where most of its forces operate. A need that recurs at
+   several sizes stays one pattern with a variant for each size, or becomes a
+   parent with sub-patterns, and is split only where the local form is a
+   different centre.
+4. The list is the reading order, and the other groupings are views. The build
+   warns when a pattern is listed above a whole it helps complete.
+
+The risk that a list opening with the whole leads makers to start from its
+policies is kept under §Open questions.
+
+### Next
+
+1. Read the list's leads aloud again with these changes in place.
+2. Decide what happens to `scope`: its frontmatter, schema and grouping are
+   shipped, and nothing but the grouping reads the values.
+3. If the list holds: a page for it (the leads read as one text, like APL's
+   summary), the starters ordered from it, the docs the first iteration
+   changed (pattern-site.md, the authoring rule, the classifier skill,
+   levels-of-scale), and the second iteration's facets reconsidered as flat
+   facets.
+
 ## Open questions
 
 - What a `time` facet measures, for a later iteration. The strawman
@@ -1050,6 +1606,10 @@ lines, which the pilot did not count for validation.
   sittings it holds 70 of 124 design patterns, and `application` 38.
 - Whether `lifecycle` (31 entries, no consumer) is retired in the same schema
   change.
+- Whether a list that opens with the whole leads makers to start from its
+  policies, and whether those policies get used. In Chung et al.'s evaluation
+  a group of privacy policies "did not help with that issue". Watched in use
+  rather than designed against now.
 - Whether the facets also project onto the home-page graph, as `activityLevel`
   does.
 

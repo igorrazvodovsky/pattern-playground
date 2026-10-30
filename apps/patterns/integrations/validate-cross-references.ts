@@ -662,6 +662,105 @@ function checkLanguageRefs(logger: AstroIntegrationLogger): Violation[] {
   return violations;
 }
 
+function checkLevelRefs(logger: AstroIntegrationLogger): Violation[] {
+  const levelsFile = join(patternsContentDir, 'levels.yaml');
+  if (!existsSync(levelsFile)) return [];
+  const content = readFileSync(levelsFile, 'utf-8');
+  let parts: unknown;
+  try {
+    parts = yamlLoad(content);
+  } catch {
+    // Malformed YAML fails the content build on its own.
+    return [];
+  }
+
+  const roles = new Map<string, unknown>();
+  for (const { file, fm } of frontmatterFiles(join(patternsContentDir, 'patterns'))) {
+    roles.set(fileStem(file), fm.role);
+  }
+
+  const violations: Violation[] = [];
+  const placed = new Set<string>();
+  // Each pattern's first place: its position in reading order and its group.
+  const position = new Map<string, { index: number; group: string }>();
+  // Slugs are read in file order, so each report points at the occurrence being
+  // checked rather than the first one.
+  let cursor = 0;
+  for (const part of Array.isArray(parts) ? parts : []) {
+    const groups = (part as { groups?: unknown })?.groups;
+    for (const group of Array.isArray(groups) ? groups : []) {
+      const title = String((group as { title?: unknown })?.title ?? '');
+      const slugs = (group as { patterns?: unknown })?.patterns;
+      for (const slug of Array.isArray(slugs) ? slugs : []) {
+        if (typeof slug !== 'string') continue;
+        if (!position.has(slug)) position.set(slug, { index: position.size, group: title });
+        // A block-list item, so a slug inside a lead or a longer slug
+        // (`prompt` in `prompt-scaffolding`) is not mistaken for it.
+        const item = new RegExp(`^[ \\t]*-[ \\t]+${slug}[ \\t]*$`, 'gm');
+        item.lastIndex = cursor;
+        const index = item.exec(content)?.index ?? -1;
+        if (index !== -1) cursor = index + 1;
+        const line = index === -1 ? 1 : lineOf(content, index);
+        const role = roles.get(slug);
+        if (role !== 'pattern') {
+          const suggestion = role === undefined ? nearest(slug, roles.keys()) : undefined;
+          violations.push({
+            file: relPath(levelsFile),
+            line,
+            message:
+              role === undefined
+                ? `levels: "${slug}" resolves to no pattern route` +
+                  (suggestion ? ` — did you mean "${suggestion}"?` : '.')
+                : `levels: "${slug}" is a role: ${String(role)} entry; the list places ` +
+                  'design patterns (role: pattern) only.',
+          });
+        } else if (placed.has(slug)) {
+          violations.push({
+            file: relPath(levelsFile),
+            line,
+            message: `levels: "${slug}" is placed twice; a design pattern takes one place.`,
+          });
+        }
+        placed.add(slug);
+      }
+    }
+  }
+
+  const unplaced = [...roles]
+    .filter(([slug, role]) => role === 'pattern' && !placed.has(slug))
+    .map(([slug]) => slug);
+  if (unplaced.length > 0) {
+    logger.warn(`Levels: ${unplaced.length} design pattern(s) not placed: ${unplaced.join(', ')}.`);
+  }
+
+  // `A enables B` makes A a part of B; `A hosts B` makes B a part of A.
+  const graphFile = join(rootDir, 'apps/patterns/src/data/pattern-graph.json');
+  if (existsSync(graphFile)) {
+    const { edges = [] } = JSON.parse(readFileSync(graphFile, 'utf-8')) as {
+      edges?: { source: string; target: string; type: string }[];
+    };
+    const above: string[] = [];
+    for (const { source, target, type } of edges) {
+      if (type !== 'enables' && type !== 'hosts') continue;
+      const [part, whole] = type === 'enables' ? [source, target] : [target, source];
+      const p = position.get(part);
+      const w = position.get(whole);
+      if (p && w && p.index < w.index) {
+        above.push(`${part} (${p.group}) above ${whole} (${w.group})`);
+      }
+    }
+    if (above.length > 0) {
+      logger.warn(
+        `Levels: ${above.length} part(s) listed above a whole they help complete: ` +
+          `${above.join('; ')}.`,
+      );
+    }
+  }
+
+  logger.info(`Checked ${placed.size} levels slug(s) against ${roles.size} content stems.`);
+  return violations;
+}
+
 export default function validateCrossReferences(): AstroIntegration {
   return {
     name: 'validate-cross-references',
@@ -677,6 +776,7 @@ export default function validateCrossReferences(): AstroIntegration {
           ...checkIntraSiteLinks(logger),
           ...checkSequenceRefs(logger),
           ...checkLanguageRefs(logger),
+          ...checkLevelRefs(logger),
           ...checkActsOn(logger),
           ...checkWorldConcepts(logger),
         ];

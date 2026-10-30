@@ -2232,7 +2232,6 @@
         "initiating": "… now the actor has reached the point of framing a [prompt](/patterns/prompt) in [delegating work](/sequences/delegating-work), but they do not yet have their intent formulated in words, and an empty input provides no structure for articulating what the task requires. Where the relevant questions are known in advance, prompt scaffolding gives the prompt explicit structure up front, turning anticipated parameters and criteria into inspectable slots and checks so the request is complete before it runs. Where the intent is exploratory or emergent and the questions cannot be anticipated, an [open request](/patterns/open-request) drawn out through conversation serves better.",
         "resulting": "Break each parameter into a separate control, using [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set of options, criteria, or schemas. Check the request before it runs with [validation](/patterns/validation) to warn about missing parameters or underspecified instructions at the field that needs attention. Where starter values help illustrate the slots, offer them through [suggestion](/patterns/suggestion), but keep them light so they do not anchor the actor or narrow output diversity. When a scaffold requires several interdependent configuration steps, paginate the flow with a [wizard](/patterns/wizard). When a successful scaffold configuration recurs across tasks, save it as a [template](/patterns/template) with fillable slots. Occupying the structure enacts [learnability](/patterns/learnability) by showing the actor which dimensions a complete request needs, but structure narrows expression: what the scaffold omits tends not to get asked, and the form continues proposing past assumptions until its slots are revised. A scaffold is not a conventional [form](/patterns/form), which commits structured records to a fixed store rather than assembling a prompt for generative execution…"
       },
-      "seed": true,
       "evidence": [
         {
           "kind": "observed"
@@ -3233,7 +3232,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… the actor is about to start a task in [making changes](/sequences/making-changes), or in the first encounter of [learning](/sequences/learning), that they meet so rarely they have no model of it, and whose early answers decide which questions exist later; [onboarding](/patterns/onboarding) runs its first-time setup this way for the same reason, since the actor has to choose before understanding what each control means. A [form](/patterns/form) would put every field on one page, and most tasks are better served by one. A wizard gives these sequences a task the actor can finish without a model of it, by applying [progressive disclosure](/patterns/progressive-disclosure) one decision at a time and letting each answer remove the questions that no longer apply; [step by step](/patterns/step-by-step) gives it its navigation when the sequence also decides how the actor moves through the interface.",
-        "resulting": "Each part of the instruction is a smaller pattern, and they follow the actor's path through the steps. Throughout, let [status feedback](/patterns/status-feedback) say where the actor is, what failed, and at the end what the submission produced. In each step, pre-fill with [good defaults](/patterns/good-defaults) whatever the system can guess or remembers from last time, which is also most of the faster path for returning actors. Put [help](/patterns/help) beside the fields it explains, so guidance never takes the actor out of the step. Check each step's inputs with [validation](/patterns/validation) at the field, before the actor can advance, so an early mistake does not carry into the steps that depend on it. Make going back free, since the flow hides everything but the current step: give it a non-destructive [undo](/patterns/undo) and a Back that keeps every answer. Where the flow runs longer than one sitting, give it [resuming](/patterns/resuming), and ask before any exit that would discard what was entered. End with a [review before submitting](/patterns/review-before-submitting), every answer in one place and each linked back to its step, so the actor checks the whole before committing it…"
+        "resulting": "Each part of the instruction is a smaller pattern, and they follow the actor's path through the steps. Throughout, let [status feedback](/patterns/status-feedback) say where the actor is, what failed, and at the end what the submission produced. In each step, pre-fill with [good defaults](/patterns/good-defaults) whatever the system can guess or remembers from last time, which is also most of the faster path for returning actors. Put [help](/patterns/help) beside the [fields](/patterns/data-entry) it explains, so guidance never takes the actor out of the step. Check each step's inputs with [validation](/patterns/validation) at the field, before the actor can advance, so an early mistake does not carry into the steps that depend on it. Make going back free, since the flow hides everything but the current step: give it a non-destructive [undo](/patterns/undo) and a Back that keeps every answer. Where the flow runs longer than one sitting, give it [resuming](/patterns/resuming), and ask before any exit that would discard what was entered. End with a [review before submitting](/patterns/review-before-submitting), every answer in one place and each linked back to its step, so the actor checks the whole before committing it…"
       },
       "group": "application",
       "evidence": [
@@ -8515,7 +8514,15 @@
       "target": "wizard",
       "type": "enables",
       "extractedFrom": "frontmatter:composed-of",
-      "situation": "Put [help](/patterns/help) beside the fields it explains, so guidance never takes the actor out of the step.",
+      "situation": "Put [help](/patterns/help) beside the [fields](/patterns/data-entry) it explains, so guidance never takes the actor out of the step.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "data-entry",
+      "target": "wizard",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Put [help](/patterns/help) beside the [fields](/patterns/data-entry) it explains, so guidance never takes the actor out of the step.",
       "glossFrom": "target:resulting"
     },
     {

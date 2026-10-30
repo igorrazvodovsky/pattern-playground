@@ -1,5 +1,5 @@
 import { defineCollection, z } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { file, glob } from 'astro/loaders';
 import { fileStem } from './lib/stem';
 import { SCOPE_LEVELS } from './lib/facets';
 
@@ -323,4 +323,27 @@ const languages = defineCollection({
   }),
 });
 
-export const collections = { patterns, sequences, concepts, languages };
+
+const levels = defineCollection({
+  loader: file('src/content/levels.yaml'),
+  schema: z.object({
+    // Parts run from the largest centres to the smallest.
+    order: z.number().int().positive(),
+    title: z.string(),
+    // What the part's centres have in common.
+    lead: z.string(),
+    groups: z
+      .array(
+        z.object({
+          title: z.string(),
+          // The connecting sentence: the region the group works in and what its
+          // patterns do there. Read in order, the leads summarise the language.
+          lead: z.string(),
+          patterns: z.array(z.string()).min(1),
+        }),
+      )
+      .min(1),
+  }),
+});
+
+export const collections = { patterns, sequences, concepts, languages, levels };
