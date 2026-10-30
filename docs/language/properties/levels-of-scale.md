@@ -13,8 +13,7 @@ large that the levels stop supporting each other.
 
 - *Repository*: [levels-of-scale.md](../../levels-of-scale.md) — structural
   legibility across repository altitudes, with presence and absence conditions.
-- *Interface composition*: the `scope` facet's ladder, element → part →
-  view → area → application → ecosystem. A new level starts where the way of making
-  changes, larger levels contain smaller ones, and a centre between others takes
-  the level of what it connects. Definitions in
-  [pattern-site.md](../../specs/pattern-site.md) §Classification facets.
+- *Interface composition*: the authored levels list in
+  `apps/patterns/src/content/levels.yaml`, which places each design pattern once
+  within one of three parts, each with its own way of making. Within a group,
+  wholes come before the parts that complete them.

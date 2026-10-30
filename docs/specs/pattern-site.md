@@ -21,7 +21,7 @@ until it does), and `role` — the kind of thing the entry is, defined in
 entries are the exception, not the rule. Most components live only in Storybook.
 
 Everything else is optional and mutually independent: the classification facets
-(`activityLevel`, `scope`, `lifecycle`, `group`, `domain` — see below), `mediation` (how
+(`activityLevel`, `lifecycle`, `group`, `domain` — see below), `mediation` (how
 many actors the move sits between), `description` (the graph node tooltip and
 site meta), `tags`, the
 epistemic fields below, the `relationships`, `realised_by`, `situation`, and
@@ -124,44 +124,11 @@ An entry is classified by independent frontmatter _facets_, none of which is
 privileged by the filesystem (the content directory is flat). Each facet is a
 lens; navigation and the graph are _projections_ over them.
 
-The sidebar reads `role` and the scale facets. Foundations and qualities get their own groups, and the authored sequences sit above the pattern list. The other facets project elsewhere — `activityLevel` colours the graph on the home page, `group` and `domain` reach the graph data through `scripts/extract-graph-data.ts`. The remaining `role:collection` entries are slated for dissolution (see [relationship-vocabulary.md](../language/relationship-vocabulary.md) §Retirement).
+The sidebar reads `role`. Foundations and qualities get their own groups, and the authored sequences sit above the pattern list. The pattern list is arranged A–Z or by the authored levels list in `apps/patterns/src/content/levels.yaml`. The other facets project elsewhere — `activityLevel` colours the graph on the home page, `group` and `domain` reach the graph data through `scripts/extract-graph-data.ts`. The remaining `role:collection` entries are slated for dissolution (see [relationship-vocabulary.md](../language/relationship-vocabulary.md) §Retirement).
 
 - `activityLevel` (`operation | action | activity`) — Activity Theory altitude:
   the altitude of the human activity the entry addresses. A
   _pattern-site-only_ classification.
-- `scope` (`role: pattern` only) — a scale facet: how far in the interface the centre the pattern makes reaches, where it is shown or where its work and its rules apply. A value is one level (`scope: view`). Seeds take values like other patterns. The levels:
-  - `element` — a single control or mark (field, button, cursor, badge).
-  - `part` — a section of a view with its own job, which keeps its kind when
-    moved to another view (inspector, toolbar, card, comment thread).
-  - `view` — what one surface shows at once, arranged for one activity (editor,
-    canvas, inbox, conversation).
-  - `area` — a region of an application that follows its own rules (settings,
-    an admin area, a project or workspace, one module of a suite).
-  - `application` — an application or site whose structure, areas and the
-    routes between them one maker designs (main navigation, application-wide
-    search).
-  - `ecosystem` — no single maker; it forms piecemeal from many applications,
-    platforms and conventions (continuity across devices, share sheet, clipboard).
-
-  A centre with no drawn surface still takes a level: where its work lands or
-  where its rule applies. Where a centre is shown in one place and applies over
-  a larger one, it takes the larger (a version-history panel is `view`). Where
-  the forms a page describes reach several levels, the pattern takes the
-  highest (searching, local or global, is `application`). A
-  centre that is a structure takes the level of what contains it, while a centre
-  between peers takes the level of the peers (a settings hub is `area`; a wizard
-  between views is `view`). Patterns that are alternatives at one choice in a sequence
-  make the same kind of centre, so none of them takes a level below the
-  region the choice is made over; read the level from that region, not from the
-  content an example navigates (the navigation topologies are each the movement
-  rule of a region, so they take at least `area`, while a wizard, one sequence
-  of views, stays `view`). The region sets a lowest level, not a shared one:
-  an alternative whose forms reach higher keeps the higher level (overview and
-  detail can sit on separate pages, so it is `application`, while the other ways of
-  sharing the screen between overview and detail, chosen for each surface, are
-  `view`). Pilot
-  values and the research behind the ladder:
-  [2026-10-pattern-facets.md](../../plans/active/2026-10-pattern-facets.md).
 - `lifecycle` — a stage in the Seek–Use–Share family (e.g. `seeking`,
   `coordination`, `evaluation`). Free-form; not derived from `activityLevel`.
 - `group` — a slash-delimited path recording a structural grouping verbatim

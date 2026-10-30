@@ -1,13 +1,9 @@
 import { defineCollection, z } from 'astro:content';
 import { file, glob } from 'astro/loaders';
 import { fileStem } from './lib/stem';
-import { SCOPE_LEVELS } from './lib/facets';
 
 const AUTHORABLE_EVIDENCE_KINDS = ['observed', 'literature', 'used'] as const;
 const EVIDENCE_BEARING_ROLES = ['pattern', 'collection'] as const;
-
-// Facets describe the centre a design pattern makes; the other roles take none.
-const FACETS = ['scope'] as const;
 
 const patterns = defineCollection({
   loader: glob({
@@ -26,7 +22,6 @@ const patterns = defineCollection({
       'group': z.string().optional(),
       'domain': z.string().optional(),
       'mediation': z.enum(['individual', 'coordination', 'networking']).optional(),
-      'scope': z.enum(SCOPE_LEVELS).optional(),
       'description': z.string().optional(),
       'tags': z.array(z.string()).optional(),
       'showRelated': z.boolean().optional(),
@@ -81,18 +76,6 @@ const patterns = defineCollection({
     .superRefine((data, ctx) => {
       const kinds: readonly string[] = AUTHORABLE_EVIDENCE_KINDS;
       const evidenceRoles: readonly string[] = EVIDENCE_BEARING_ROLES;
-
-      for (const facet of FACETS) {
-        if (data[facet] !== undefined && data.role !== 'pattern') {
-          ctx.addIssue({
-            code: 'custom',
-            path: [facet],
-            message:
-              `${facet} is only carried by role: pattern — a facet describes the ` +
-              `centre a design pattern makes, and a role: ${data.role} entry makes none.`,
-          });
-        }
-      }
 
       if (data.evidence !== undefined && !evidenceRoles.includes(data.role)) {
         ctx.addIssue({

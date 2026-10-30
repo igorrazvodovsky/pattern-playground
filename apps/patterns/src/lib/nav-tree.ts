@@ -3,7 +3,6 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import { panePath } from './pane-path';
 import { bySequenceOrder, humaniseSlug } from './sequence';
 import { CONCEPTS_ENABLED } from './site';
-import { SCOPE_LEVELS } from './facets';
 
 // `overview` marks a family's collection page, which opens its branch.
 export type NavLeaf = { label: string; href: string; overview?: boolean };
@@ -44,14 +43,12 @@ export interface NavTree {
 
 type PatternEntry = CollectionEntry<'patterns'>;
 
-// The sidebar reads `role`, the scale facets and, for a few families, `group`.
-// Foundations and qualities are lifted into their own groups. The pattern list
-// below them is arranged by a grouping the actor picks: A–Z, one per scale
-// facet, where the levels run from large to small, or the authored levels list
-// (src/content/levels.yaml). Facet and levels groupings hold design patterns
-// only, since the other roles take no facet values. The remaining facets
-// (activityLevel, lifecycle, domain, the other `group` values) are lenses the
-// graph and the sequences project over, not navigation structure.
+// The sidebar reads `role` and, for a few families, `group`. Foundations and
+// qualities are lifted into their own groups. The pattern list below them is
+// arranged by a grouping the actor picks: A–Z, or the authored levels list
+// (src/content/levels.yaml), which holds design patterns only. The remaining
+// facets (activityLevel, lifecycle, domain, the other `group` values) are
+// lenses the graph and the sequences project over, not navigation structure.
 function roleGroupOf(entry: PatternEntry): 'foundations' | 'qualities' | null {
   if (entry.data.role === 'foundation') return 'foundations';
   if (entry.data.role === 'quality') return 'qualities';
@@ -60,9 +57,8 @@ function roleGroupOf(entry: PatternEntry): 'foundations' | 'qualities' | null {
 
 // Families that nest under their own branch, keyed by the first segment of
 // `group`. A second segment (`conversation/sequence-management`) becomes a
-// sub-branch. A family's collection page opens its branch as the overview. In a
-// facet grouping a family nests under each level its members reach, holding the
-// members at that level, so a family that sits at one level stays together.
+// sub-branch. A family's collection page opens its branch as the overview. Only
+// the A–Z grouping nests families; the levels grouping gathers them by its groups.
 const BRANCH_GROUPS: Record<string, string> = {
   navigation: 'Navigation',
   conversation: 'Conversational primitives',
@@ -145,19 +141,6 @@ function assembleNavTree(
 
   const isDesignPattern = (p: PatternEntry) => p.data.role === 'pattern';
 
-  // Levels from large to small, then the patterns not yet classified, so the
-  // coverage gap shows. Empty levels are left out.
-  const byScope: NavTreeNode[] = [
-    ...[...SCOPE_LEVELS].reverse().map((level): NavBranch => ({
-      label: humaniseSlug(level),
-      children: listOf((p) => isDesignPattern(p) && p.data.scope === level),
-    })),
-    {
-      label: 'Not classified',
-      children: listOf((p) => isDesignPattern(p) && p.data.scope === undefined),
-    },
-  ].filter((g) => g.children.length > 0);
-
   // Parts and their groups from the authored levels list. A group keeps the
   // list's order, wholes before the parts that complete them, rather than the
   // alphabet, and families do not nest, since the groups already gather them.
@@ -191,7 +174,6 @@ function assembleNavTree(
     label: 'Patterns',
     groupings: [
       { id: 'a-z', label: 'A–Z', children: listOf((p) => roleGroupOf(p) === null) },
-      { id: 'scope', label: 'Scope', children: byScope },
       { id: 'levels', label: 'Levels', children: byLevels },
     ],
   };

@@ -28,8 +28,6 @@ added: 2025-10-17              # the day it joined the library
 updated:                       # fill in when the argument patterns
 role: pattern                  # pattern | collection | quality | foundation | component
 activityLevel: operation       # operation | action | activity
-scope: view                    # role: pattern only; one level:
-                               # element | part | view | area | application | ecosystem
 lifecycle: seeking             # Seek–Use–Share stage, free-form
 domain: data-visualization     # domain corpus
 group: "conversation/sequence-management"  # nav sub-grouping path

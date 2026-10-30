@@ -35,9 +35,8 @@ its own.
   project. Foundations and qualities are not members: every language draws on
   them, and the sidebar keeps showing them whole.
 - Ordered large to small, as in APL's master list, where a pattern's place
-  shows which patterns it helps complete. The library has no master order yet
-  (`scope` covers 13 patterns), so a starter's author orders its list by
-  judgement. The order is approximate in the same way a sequence's order is.
+  shows which patterns it helps complete. The authored levels list gives a master
+  order, which a starter's author may follow or depart from by judgement. The order is approximate in the same way a sequence's order is.
 - A starter is a project language for a typical artifact shape, written to be
   cut down and extended. It is where a project's own language begins, not the
   project's language itself. Following APL, a starter leaves a pattern out when
@@ -276,8 +275,7 @@ searching, tag, annotation, instructed revision, and workspace.
   the qualities a project is held to.
 - Whether the home-page graph projects the active language, for example by
   dimming non-members.
-- Whether the page orders by `scope` instead of the authored order once
-  `scope` covers the library.
+- Whether the page orders by the levels list instead of the authored order.
 - Whether search narrows to the active language.
 - Whether Cooper's application postures (sovereign, transient, auxiliary,
   daemonic) give starters for artifacts without an agent. Mobile web sits

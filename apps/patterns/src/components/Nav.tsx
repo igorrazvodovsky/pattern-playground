@@ -1,6 +1,5 @@
 import React from 'react';
 import { Collapsible } from '@base-ui/react/collapsible';
-import { navigate } from 'astro:transitions/client';
 import {
   SidebarProvider,
   Sidebar,
@@ -50,9 +49,9 @@ interface NavNodeProps {
   // survives ClientRouter navigations) opens groups on the client before React
   // hydrates the swapped-in page, throwing a hydration mismatch.
   hydrated: boolean;
-  // Collapse state is stored under the branch's label, prefixed by this. Facet
-  // groupings prefix their branches with the grouping id and the path, so the
-  // same family under two levels keeps two states.
+  // Collapse state is stored under the branch's label, prefixed by this. Groupings
+  // other than A–Z prefix their branches with the grouping id and the path, so
+  // the same branch label under two groupings keeps two states.
   keyPrefix?: string;
   // Overrides the prefix handed to the children (the Patterns branch scopes its
   // children by grouping while keeping its own key).
@@ -78,7 +77,6 @@ function NavNode({
   hydrated,
   keyPrefix = '',
   childKeyPrefix,
-  note,
   lead,
 }: NavNodeProps) {
   if (isBranch(node)) {
@@ -222,7 +220,6 @@ function PatternsMenu({
   const close = () => {
     if (dropdownRef.current) dropdownRef.current.open = false;
   };
-  const groupingLabel = groupings.find((g) => g.id === activeGrouping)?.label;
   const trigger = (
     <SidebarMenuButton data-slot={hydrated ? 'trigger' : undefined}>
       <iconify-icon className="icon" icon="ik:library-list" />

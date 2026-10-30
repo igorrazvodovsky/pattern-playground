@@ -3,7 +3,7 @@ title: "Scale facets for patterns, and grouping by them in the sidebar"
 status: active
 kind: exec-spec
 created: 2026-10-24
-last_reviewed: 2026-10-29
+last_reviewed: 2026-10-30
 area: metadata, patterns-site
 promoted_to: ""
 superseded_by: ""
@@ -25,13 +25,14 @@ schema to sidebar. The second adds `people` and `agents`, narrows the
 definition of `activityLevel`, and removes `mediation`. A facet for centres in
 time is not part of either (§Open questions).
 
-The first iteration is done, but `scope` does not hold up: many values depend
-on whether the maker is designing the whole application or one feature. A
-`depth` facet is on trial as its replacement (§Depth: trial against `scope`),
-and an authored list of levels is on trial beside it in the sidebar (§Levels:
-trial of an authored list). The
-second iteration waits until these trials settle, since `activityLevel` has
-the same dependence on the starting point.
+The first iteration shipped `scope` from schema to sidebar, then retired it:
+many values depended on whether the maker is designing the whole application
+or one feature (§Depth: trial against `scope`). The authored levels list
+replaces it as the language's scale organisation and is the sidebar's
+*Levels* grouping (§Levels: trial of an authored list). The `scope` values no
+longer appear in frontmatter, schema or docs; §Sittings keeps them as the
+record of the judgements. The second iteration waits until the list settles,
+since `activityLevel` has the same dependence on the starting point.
 
 ## The facets
 
@@ -416,7 +417,10 @@ Done before the iterations:
 
 ### First iteration: `scope`
 
-Steps 1, 2 and 3 are done. Step 2 ran fourteen sittings (§Sittings): one for
+Shipped, then retired on 2026-10-30: the frontmatter values, the schema field,
+the shared level module, the docs entries and the *Scope* sidebar grouping were
+removed in one sweep, and the levels list took over (§Levels → §Next). The
+steps below record what the iteration shipped. Steps 1, 2 and 3 were done. Step 2 ran fourteen sittings (§Sittings): one for
 each sequence's territory and a last one for the patterns no sequence reaches
 as a step. Every design pattern now has a `scope` value.
 
@@ -1573,12 +1577,11 @@ policies is kept under §Open questions.
 ### Next
 
 1. Read the list's leads aloud again with these changes in place.
-2. Decide what happens to `scope`: its frontmatter, schema and grouping are
-   shipped, and nothing but the grouping reads the values.
+2. Done (2026-10-30): `scope` retired. Its frontmatter, schema field, level
+   module, docs entries and sidebar grouping are removed.
 3. If the list holds: a page for it (the leads read as one text, like APL's
-   summary), the starters ordered from it, the docs the first iteration
-   changed (pattern-site.md, the authoring rule, the classifier skill,
-   levels-of-scale), and the second iteration's facets reconsidered as flat
+   summary), the starters ordered from it, the list's docs (pattern-site.md
+   names it in one sentence, and levels-of-scale points to it), and the second iteration's facets reconsidered as flat
    facets.
 
 ## Open questions
