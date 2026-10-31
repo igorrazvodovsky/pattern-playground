@@ -1,3 +1,15 @@
+@property --sidebar-fade-start {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --sidebar-fade-end {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0;
+}
+
 @layer components {
   /* Scoped to the shell rather than :root so they don't pollute the page — the
      sidebar depends on the frame, never the reverse. The mobile drawer is
@@ -245,6 +257,50 @@
     gap: var(--space-xs);
     overflow: hidden auto;
     padding-block: var(--space-xs);
+  }
+
+  /* Rows fade out at an edge only while there is more to scroll past it. The
+     scroll timeline is inactive when nothing overflows, so the mask stays
+     fully opaque then. */
+  @supports (animation-timeline: scroll()) {
+    .sidebar-content {
+      mask-image: linear-gradient(
+        to bottom,
+        transparent,
+        oklch(0% 0 0deg) var(--sidebar-fade-start),
+        oklch(0% 0 0deg) calc(100% - var(--sidebar-fade-end)),
+        transparent
+      );
+      animation:
+        sidebar-content-fade-start linear both,
+        sidebar-content-fade-end linear both;
+      animation-timeline: scroll(self);
+      animation-range:
+        0 2.5rem,
+        calc(100% - 2.5rem) 100%;
+    }
+  }
+
+  /* Each edge ramps over the first or last 2.5rem of scrolling, whatever the
+     length of the list. */
+  @keyframes sidebar-content-fade-start {
+    0% {
+      --sidebar-fade-start: 0;
+    }
+
+    100% {
+      --sidebar-fade-start: 2.5rem;
+    }
+  }
+
+  @keyframes sidebar-content-fade-end {
+    0% {
+      --sidebar-fade-end: 2.5rem;
+    }
+
+    100% {
+      --sidebar-fade-end: 0;
+    }
   }
 
   /* When collapsible=icon: hide overflow to prevent text bleeding out */

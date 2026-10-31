@@ -41,7 +41,7 @@ function narrow(nodes: NavTreeNode[], members: Set<string>): NavTreeNode[] {
 interface NavNodeProps {
   node: NavTreeNode;
   currentPath: string;
-  isOpen: (key: string) => boolean;
+  isOpen: (key: string, fallback?: boolean) => boolean;
   setOpen: (key: string, open: boolean) => void;
   // Whether the persisted nav store has rehydrated from localStorage. Until it
   // has, every group renders closed so the first client render matches the
@@ -56,6 +56,9 @@ interface NavNodeProps {
   // Overrides the prefix handed to the children (the Patterns branch scopes its
   // children by grouping while keeping its own key).
   childKeyPrefix?: string;
+  // Whether a branch the visitor has not toggled starts open. Handed on to every
+  // branch below, so a whole subtree opens together.
+  defaultOpen?: boolean;
   // Muted text after the label (the Patterns branch names its grouping).
   note?: string;
   // A row at the head of the branch's panel, before its children (the Patterns
@@ -77,6 +80,7 @@ function NavNode({
   hydrated,
   keyPrefix = '',
   childKeyPrefix,
+  defaultOpen = false,
   lead,
 }: NavNodeProps) {
   if (isBranch(node)) {
@@ -85,7 +89,9 @@ function NavNode({
     return (
       <SidebarMenuItem>
         <Collapsible.Root
-          open={hydrated && isOpen(key)}
+          // Before rehydration the default stands in for the stored state, which
+          // the server HTML also renders, so the two still match.
+          open={hydrated ? isOpen(key, defaultOpen) : defaultOpen}
           onOpenChange={(open) => setOpen(key, open)}
         >
           <SidebarMenuButton
@@ -111,6 +117,7 @@ function NavNode({
                     setOpen={setOpen}
                     hydrated={hydrated}
                     keyPrefix={childPrefix}
+                    defaultOpen={defaultOpen}
                   />
                 ))}
               </SidebarMenu>
@@ -259,7 +266,7 @@ function PatternsMenu({
               <hr />
             </>
           )}
-          <pp-list-label>Sort by</pp-list-label>
+          <pp-list-label>Sort & group</pp-list-label>
           {groupings.map(({ id, label }) =>
             radio(id, label, id === activeGrouping, () => onSelectGrouping(id)),
           )}
@@ -412,6 +419,7 @@ export function Nav({
                       hydrated={hydrated}
                       // A–Z keeps the collapse keys it had before groupings existed.
                       childKeyPrefix={active.id === DEFAULT_GROUPING ? '' : `${active.id}:`}
+                      defaultOpen
                       note={note}
                       lead={
                         <PatternsMenu

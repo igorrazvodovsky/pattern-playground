@@ -9,7 +9,6 @@
 }
 
 @layer theme {
-
   :is(.shell, .link-preview, pagefind-modal) {
     --site-tint-h: 75;
     --_tint: 0;
@@ -689,4 +688,19 @@ main.shell__main:has(> .content-inset) {
 .residue li::marker {
   font-family: var(--font-prose);
   font-size-adjust: none;
+}
+
+@layer components {
+  /* Notes in page prose sit on a light wash with no border, so they read as
+     an aside on the paper rather than as interface. Purpose classes keep
+     their own background; callouts inside demos keep the library default. */
+  article[data-page-type] .callout:not(.demo-block__content .callout) {
+    --_border-color: transparent;
+  }
+
+  article[data-page-type]
+    .callout:not(.demo-block__content .callout, .accent, .info, .success, .warning, .danger) {
+    --_background-color: var(--c-neutral-50);
+    --_color: var(--c-bodyDimmed);
+  }
 }

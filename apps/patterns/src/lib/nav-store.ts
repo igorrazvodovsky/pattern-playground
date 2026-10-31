@@ -18,7 +18,8 @@ type NavState = {
   language: string;
   setLanguage: (language: string) => void;
   setOpen: (label: string, open: boolean) => void;
-  isOpen: (label: string) => boolean;
+  // `fallback` is the state of a group the visitor has not toggled yet.
+  isOpen: (label: string, fallback?: boolean) => boolean;
 };
 
 export const useNavStore = create<NavState>()(
@@ -31,7 +32,7 @@ export const useNavStore = create<NavState>()(
       setLanguage: (language) => set({ language }),
       setOpen: (label, open) =>
         set((state) => ({ openGroups: { ...state.openGroups, [label]: open } })),
-      isOpen: (label) => get().openGroups[label] ?? false,
+      isOpen: (label, fallback = false) => get().openGroups[label] ?? fallback,
     }),
     {
       name: 'nav-state',

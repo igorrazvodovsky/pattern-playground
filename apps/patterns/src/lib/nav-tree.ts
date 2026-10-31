@@ -174,7 +174,7 @@ function assembleNavTree(
     label: 'Patterns',
     groupings: [
       { id: 'a-z', label: 'A–Z', children: listOf((p) => roleGroupOf(p) === null) },
-      { id: 'levels', label: 'Levels', children: byLevels },
+      { id: 'levels', label: 'Levels of scale', children: byLevels },
     ],
   };
 
