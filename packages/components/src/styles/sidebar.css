@@ -740,9 +740,9 @@
     }
   }
 
-  /* -------------------------------------------------------------------------
-   * Collapsible group trigger (group header as a menu button)
-   * ------------------------------------------------------------------------- */
+  .sidebar-collapsible-group-trigger {
+    font-weight: var(--font-weight-medium);
+  }
 
   .sidebar-collapsible-chevron {
     flex-shrink: 0;
