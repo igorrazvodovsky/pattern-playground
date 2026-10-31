@@ -45,8 +45,12 @@
       "props": {
         "from": "other",
         "parts": [
-          { "text": "About 8 billion", "note": "Confidence: 80%", "link": null },
-          ". According to the UN, the world's population stands at just over 8 billion. However, a recent study suggests the figure could be hundreds of millions or even billions higher."
+          {
+            "text": "About 8 billion",
+            "note": "Medium confidence: well-documented, but the sources disagree",
+            "link": null
+          },
+          ". According to the UN, the world's population stands at just over 8 billion. However, a recent study suggests the figure could be hundreds of millions or even billions higher, so not all the sources I checked agree."
         ]
       }
     },

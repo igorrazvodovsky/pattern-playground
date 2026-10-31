@@ -1,7 +1,7 @@
 ---
 title: Citation
 added: 2026-08-07
-updated: 2026-10-28
+updated: 2026-10-31
 role: pattern
 evidence:
   - observed
@@ -13,11 +13,12 @@ situation:
   initiating: >-
     … the system has produced [generated content](/patterns/generated-content) whose claims the actor did not write and needs to know the source of: an answer in a conversation, a report built from [reference material](/patterns/reference-material), or a [text lens](/patterns/text-lense) summary compressing a longer document. Citation completes these larger patterns by pointing each claim to the source passage behind it, so seeing where a claim comes from and checking it takes following a link rather than researching the question again from scratch.
   resulting: >-
-    Each cited claim now has a passage to check, so verifying a claim takes following a pointer rather than searching from scratch, while citing narrows the output toward what the sources explicitly state. Give each marker a [link preview](/patterns/link-preview) of the cited span so the actor can weigh the passage in place before opening the full source. Where a claim has no source passage behind it, mark the span with [expressed uncertainty](/patterns/expressed-uncertainty) rather than attaching a weak link or leaving the gap silent. Place the citations ahead of any [explanation](/patterns/explanation), which answers why the system reached its conclusion rather than where a claim came from and, when read first, makes actors less likely to open the sources. Where the answer took several steps to produce, pair citations with [transparent reasoning](/patterns/transparent-reasoning) so the actor can inspect the path taken alongside the passages each claim rests on. Because citation marks raise trust on sight even when nobody follows them and even when the source does not support the claim, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes require the actor to verify before committing. In [prose](/patterns/prose), a citation is a hyperlink in its reference mode, naming its target so the actor can follow it to check. Citation is not [provenance marking](/patterns/provenance-marking), which records who or what made the content rather than which source passage backs a claim, nor is it [annotation](/patterns/annotation), which is the actor's own layer over content they cannot change…
+    Each cited claim now has a passage to check, so verifying a claim takes following a pointer rather than searching from scratch, while citing narrows the output toward what the sources explicitly state. Give each marker a [link preview](/patterns/link-preview) of the cited span so the actor can weigh the passage in place before opening the full source. Where a claim has no source passage behind it, or its sources disagree, mark the span with [expressed uncertainty](/patterns/expressed-uncertainty) graded by that evidence, rather than attaching a weak link or leaving the gap silent. Place the citations ahead of any [explanation](/patterns/explanation), which answers why the system reached its conclusion rather than where a claim came from and, when read first, makes actors less likely to open the sources. Where the answer took several steps to produce, pair citations with [transparent reasoning](/patterns/transparent-reasoning) so the actor can inspect the path taken alongside the passages each claim rests on. Because citation marks raise trust on sight even when nobody follows them and even when the source does not support the claim, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes require the actor to verify before committing. In [prose](/patterns/prose), a citation is a hyperlink in its reference mode, naming its target so the actor can follow it to check. Citation is not [provenance marking](/patterns/provenance-marking), which records who or what made the content rather than which source passage backs a claim, nor is it [annotation](/patterns/annotation), which is the actor's own layer over content they cannot change…
 relationships:
   follows:
     - generated-content
   precedes:
+    - expressed-uncertainty
     - cognitive-forcing-functions
   composed-of:
     - link-preview
@@ -37,12 +38,13 @@ relationships:
 
 **When a statement draws on sources that are out of sight, checking whether it is true or faithful to those sources means hunting down the original material from scratch. Because finding the passage behind a claim takes far more effort than reading the claim, people rarely check: they either accept what is written on trust—letting wrong or distorted claims pass alongside right ones—or refuse to rely on it at all.**
 
-Five forces shape how citations work in practice:
+Six forces shape how citations work in practice:
 
 - *Mark vs. follow*: the mark raises trust whether or not anyone follows it, and most actors do not. The sign of checkability gets read as the fact of having checked, even when the linked source is irrelevant or wrong.
 - *Document vs. passage*: the characteristic failure of generated citations is not a dead link, but a real source that does not say what the claim says. A pointer to a whole document is cheap to produce and expensive to use, because the actor has to find the supporting sentence themselves. A pointer to the passage is what makes the check short.
 - *Staying vs. leaving*: professional fact-checkers verify by leaving the page and reading laterally across sources, whereas hover cards and in-place excerpts keep the actor inside the answer.
 - *Coverage vs. correctness*: citing narrows what gets said, because the system leans toward what it can point at. Citing during generation buys precision and loses coverage; attaching citations afterwards covers more and supports less.
+- *Anchor vs. standing*: a passage-level anchor shows that the claim matches its source, not that the source deserves trust. Actors judge a source by its kind and reputation.
 - *Every claim vs. the claims that need it*: marking every sentence turns the marks into noise; marking nothing leaves a contested claim indistinguishable from an ordinary one.
 
 Citations take forms ordered by how close the pointer sits to the evidence: a marker at the claim resolving to a highlighted span in the source, a domain chip opening a snippet popover, a source panel alongside the answer, or an unanchored list of URLs at the foot (each is described under In practice). What makes a citation verifiable is the two-ended anchor—from a specific claim to a specific span.
@@ -79,9 +81,9 @@ Full URLs listed after the answer, unanchored to any claim.
 
 {/* TODO: Demo */}
 
-### Re-checking a selected passage on demand
+### Re-checking on demand
 
-Letting the actor select a passage and ask for its sources to be checked without re-running the whole request.
+Letting the actor select a passage and ask for its sources to be checked without re-running the whole request. The same check can run over a whole answer: running a separate search after the output was generated and marking each claim as corroborated, contested, or unfound. Because it runs after generation and only when asked, it covers more of the answer than citations produced during generation, at the cost of looser support.
 
 {/* TODO: Demo. Uses bubble menu */}
 
@@ -92,6 +94,7 @@ The <ComponentRef id="components-reference--docs">Reference</ComponentRef> compo
 - Generated citations often fail to support the claim beside them: in an audit of generative search engines, [only half of the generated sentences were fully supported by their citations, and a quarter of the citations did not support their sentence](https://arxiv.org/abs/2304.09848). This is the basis for pointing at the passage rather than the document.
 - Citation marks raise trust in generated answers even when the citations are [random](https://arxiv.org/abs/2501.01303) or [hallucinated](https://arxiv.org/abs/2504.06435), and trust falls when participants check them — an example of the [authority heuristic](https://www.issuelab.org/resources/875/875.pdf).
 - Following is rare: [most participants never open a source](https://arxiv.org/abs/2502.08554), [answer engines draw a fraction of the source engagement search engines do](https://arxiv.org/abs/2410.22349), [links inside Google's AI summaries are clicked on 1% of visits](https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/), and [whether an actor verifies at all is set more by prior disposition than by the answer](https://arxiv.org/abs/2605.28498).
+- Lay readers [say they want sources but expect to skip checking them when pressed for time, and prefer excerpts anchored to the claim over pop-ups and bare links](https://arxiv.org/abs/2610.32883)
 - [Unfolding evidence in place deepened what readers took from sources](https://arxiv.org/abs/2510.00361), though it measured reading depth, not reliance. Separately, [sources reduced overreliance where explanations increased it](https://arxiv.org/abs/2502.08554) — the basis for placing sources before explanations in the instruction.
 
 ## Resources & references
@@ -100,6 +103,7 @@ The <ComponentRef id="components-reference--docs">Reference</ComponentRef> compo
 - Kim, Vaughan, Liao & Lombrozo (CHI 2025) [Fostering appropriate reliance on large language models](https://arxiv.org/abs/2502.08554) — sources reduce overreliance, explanations increase it and reduce source-checking
 - Ding et al. (AAAI 2025) [Citations and trust in LLM generated responses](https://arxiv.org/abs/2501.01303) and Li & Aral (2025) [Human trust in AI search](https://arxiv.org/abs/2504.06435) — the mark raises trust whatever it points to
 - Sundar (2008) [The MAIN model](https://www.issuelab.org/resources/875/875.pdf) — the authority heuristic; why the mark works without the checking
+- Warren et al. (2026) [When should I trust this?](https://arxiv.org/abs/2610.32883) — lay expectations of sources: wanted, rarely followed, excerpts preferred
 - Kambhamettu, Hwang, Laban & Head (2025) [Attribution gradients](https://arxiv.org/abs/2510.00361) — unfolding excerpts and second-degree citations in place
 - Saxena et al. (2025) [Generation-time vs. post-hoc citation](https://arxiv.org/abs/2509.21557) — the coverage–correctness trade-off
 - Wineburg & McGrew (2019) [Lateral reading and the nature of expertise](https://journals.sagepub.com/doi/10.1177/016146811912101102) — fact-checkers verify by leaving the page

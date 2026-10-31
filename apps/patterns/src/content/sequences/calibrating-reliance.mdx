@@ -1,7 +1,7 @@
 ---
 title: "Calibrating reliance"
 added: 2026-08-29
-updated: 2026-09-27
+updated: 2026-10-31
 description: "Put evidence on AI output so there is something to check, make accepting it take a moment of judgement where the stakes call for it, and keep a record that shows whether trust matches accuracy."
 order: 6
 presupposes: >-
@@ -9,7 +9,8 @@ presupposes: >-
   into a decision, a suggestion accepted into the work, a change approved
   into a document. The stakes of acting on wrong output have been judged
   for each surface, and they set how much of this sequence each surface
-  needs. That judgement happens before this sequence, and no pattern here
+  needs. Where one surface carries requests of very different stakes, as a
+  general assistant does, they are judged for each request. That judgement happens before this sequence, and no pattern here
   makes it.
 enacts: [agency, learnability]
 sub-sequences:
@@ -103,8 +104,8 @@ sub-sequences:
     title: "Reading the reliance back"
     initiating: >-
       Acceptances, overrides, opened sources, and cleared checks have built
-      up over the surface's use. Without a record, whether trust matches
-      accuracy is judged on impressions.
+      up over the surface's use. Without a record, how far actors rely on
+      the output is judged on impressions.
     steps:
       - step: "Keep the record of the judgements"
         rule: activity-log
@@ -112,7 +113,12 @@ sub-sequences:
           Record what was accepted and what was overridden, which sources
           were opened, and the reasons given, each with who acted, what they
           did, what it applied to, and when. This is the only record that
-          shows acceptances nobody read.
+          shows acceptances nobody read. It records reliance, not accuracy:
+          an accepted output may be unchecked and an edited one may only have
+          changed style. Whether the reliance was warranted needs verdicts
+          from outside the actor's judgement set beside it, such as tests,
+          reconciled figures, or an audited sample. Where none arrive, the
+          record cannot say whether the acceptances were right.
       - step: "Move the friction on evidence"
         rule: cognitive-forcing-functions
         aspect: "where it is spent"
@@ -122,8 +128,9 @@ sub-sequences:
           decision. An override that keeps recurring goes to tuning.
     resulting: >-
       The output shows what it rests on, accepting it takes a judgement
-      where a wrong answer would cost more, and the record shows whether both
-      are working. Every mark and pause costs the actor attention.
+      where a wrong answer would cost more, and the record shows how far
+      actors rely on it and, where verdicts arrive, whether that reliance
+      was warranted. Every mark and pause costs the actor attention.
 connections:
   - kind: hands-off
     at: evidence/1
