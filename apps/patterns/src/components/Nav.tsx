@@ -68,7 +68,7 @@ interface NavNodeProps {
 
 const Chevron = () =>
   React.createElement('iconify-icon', {
-    icon: 'ik:chevron-small-down',
+    icon: 'ik:chevron-small-down-medium',
     className: 'sidebar-collapsible-chevron',
   });
 
