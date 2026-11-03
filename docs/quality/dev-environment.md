@@ -108,12 +108,6 @@ Verify a change by building with the var set and grepping `apps/patterns/dist`
 *and* `public/storybook` for a fragment of it; a dev-server render passes either
 way.
 
-## Analytics need a site ID on Render
-
-The pattern site loads Umami Cloud's script from `apps/patterns/src/layouts/Base.astro`
-only when the build is a production build and `PUBLIC_UMAMI_WEBSITE_ID` is set.
-Set the variable on Render; leave it unset locally. Storybook is not tracked.
-
 ## test-storybook lives in the components workspace
 
 The Storybook vitest project is configured by
