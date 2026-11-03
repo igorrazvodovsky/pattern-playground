@@ -31,12 +31,6 @@
     --sidebar-ring: var(--c-accent-600);
   }
 
-  /* -------------------------------------------------------------------------
-   * Outer sidebar — acts as a flex spacer (adjusts width based on state)
-   * -------------------------------------------------------------------------
-   * The container is fixed-position, so the outer div is a layout placeholder.
-   * ------------------------------------------------------------------------- */
-
   [data-slot='sidebar'] {
     position: relative;
     flex-shrink: 0;
@@ -61,10 +55,6 @@
     width: calc(var(--sidebar-width-icon) + var(--space-m) * 2);
   }
 
-  /* -------------------------------------------------------------------------
-   * Sidebar gap (first child spacer div inside outer sidebar)
-   * ------------------------------------------------------------------------- */
-
   [data-slot='sidebar-gap'] {
     width: var(--sidebar-width);
     flex-shrink: 0;
@@ -79,10 +69,6 @@
   [data-slot='sidebar'][data-collapsible='icon'] [data-slot='sidebar-gap'] {
     width: var(--sidebar-width-icon);
   }
-
-  /* -------------------------------------------------------------------------
-   * Sidebar container — the fixed panel
-   * ------------------------------------------------------------------------- */
 
   [data-slot='sidebar-container'] {
     position: fixed;
@@ -147,10 +133,6 @@
     border: none;
   }
 
-  /* -------------------------------------------------------------------------
-   * Sidebar inner — flex column for header / content / footer layout
-   * ------------------------------------------------------------------------- */
-
   [data-slot='sidebar-inner'] {
     display: flex;
     flex-direction: column;
@@ -166,10 +148,6 @@
     border: 1px solid var(--sidebar-border);
     box-shadow: var(--shadow-s);
   }
-
-  /* -------------------------------------------------------------------------
-   * SidebarRail — interactive resize handle on the sidebar edge
-   * ------------------------------------------------------------------------- */
 
   .sidebar-rail {
     position: absolute;
@@ -227,10 +205,6 @@
     margin-inline-start: 0;
     min-height: calc(100svh - var(--space-xs) * 2);
   }
-
-  /* -------------------------------------------------------------------------
-   * SidebarHeader / SidebarFooter / SidebarContent
-   * ------------------------------------------------------------------------- */
 
   .sidebar-header {
     display: flex;
@@ -308,10 +282,6 @@
     overflow: hidden;
   }
 
-  /* -------------------------------------------------------------------------
-   * SidebarSeparator
-   * ------------------------------------------------------------------------- */
-
   .sidebar-separator {
     height: 1px;
     background: var(--sidebar-border);
@@ -319,10 +289,6 @@
     margin-block: var(--space-2xs);
     flex-shrink: 0;
   }
-
-  /* -------------------------------------------------------------------------
-   * SidebarInput
-   * ------------------------------------------------------------------------- */
 
   .sidebar-input {
     height: 2rem;
@@ -342,10 +308,6 @@
       outline-offset: var(--focus-ring-offset);
     }
   }
-
-  /* -------------------------------------------------------------------------
-   * SidebarGroup / GroupLabel / GroupAction / GroupContent
-   * ------------------------------------------------------------------------- */
 
   .sidebar-group {
     display: flex;
@@ -432,16 +394,6 @@
     }
   }
 
-  .sidebar-group-content {
-    /* Breaks nested items' width */
-
-    /* width: 100%; */
-  }
-
-  /* -------------------------------------------------------------------------
-   * SidebarMenu / MenuItem
-   * ------------------------------------------------------------------------- */
-
   .sidebar-menu {
     display: flex;
     flex-direction: column;
@@ -457,10 +409,6 @@
     position: relative;
     list-style: none;
   }
-
-  /* -------------------------------------------------------------------------
-   * SidebarMenuButton
-   * ------------------------------------------------------------------------- */
 
   .sidebar-menu-button {
     display: flex;
@@ -543,10 +491,6 @@
     padding-inline: 0;
   }
 
-  /* -------------------------------------------------------------------------
-   * SidebarMenuAction
-   * ------------------------------------------------------------------------- */
-
   /* Centred on the menu button's row, not the item: an item with sub-items or
      an open collapsible grows taller than its button. */
   .sidebar-menu-action {
@@ -601,10 +545,6 @@
     }
   }
 
-  /* -------------------------------------------------------------------------
-   * SidebarMenuBadge
-   * ------------------------------------------------------------------------- */
-
   .sidebar-menu-badge {
     display: flex;
     align-items: center;
@@ -625,10 +565,6 @@
   [data-slot='sidebar'][data-collapsible='icon'] .sidebar-menu-badge {
     display: none;
   }
-
-  /* -------------------------------------------------------------------------
-   * SidebarMenuSkeleton — loading placeholder
-   * ------------------------------------------------------------------------- */
 
   .sidebar-menu-skeleton {
     display: flex;
@@ -656,10 +592,6 @@
     animation: blink 1.5s ease-in-out infinite;
     max-width: 80%;
   }
-
-  /* -------------------------------------------------------------------------
-   * SidebarMenuSub / MenuSubItem / MenuSubButton
-   * ------------------------------------------------------------------------- */
 
   .sidebar-menu-sub {
     display: flex;
@@ -753,9 +685,7 @@
     transform: rotate(180deg);
   }
 
-  /* Panel height animates in step with the chevron (Base UI's documented
-     pattern; the panels are short menu lists, so the layout animation is
-     cheap). */
+  /* Panel height animates in step with the chevron. */
   .sidebar-collapsible-panel {
     height: var(--collapsible-panel-height);
     overflow: hidden;
@@ -793,9 +723,38 @@
     margin-block: 0;
   }
 
-  /* -------------------------------------------------------------------------
-   * SidebarTrigger
-   * ------------------------------------------------------------------------- */
+  /* Ticks */
+  .sidebar-collapsible-group-content > .sidebar-menu > .sidebar-menu-item,
+  .sidebar-menu-sub > .sidebar-menu-sub-item {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset-inline-start: calc(-1 * var(--sidebar-tick-inset));
+      inset-block-start: calc(var(--sidebar-tick-row) / 2);
+      inline-size: var(--sidebar-tick-inset);
+      border-block-start: 1px solid var(--sidebar-border);
+      pointer-events: none;
+    }
+  }
+
+  .sidebar-collapsible-group-content > .sidebar-menu > .sidebar-menu-item {
+    --sidebar-tick-inset: var(--space-xs);
+    --sidebar-tick-row: 2rem;
+  }
+
+  .sidebar-menu-sub > .sidebar-menu-sub-item {
+    --sidebar-tick-inset: calc(var(--space-m) + 2px);
+    --sidebar-tick-row: 1.75rem;
+  }
+
+  [data-slot='sidebar'][data-collapsible='icon']
+    .sidebar-collapsible-group-content
+    > .sidebar-menu
+    > .sidebar-menu-item::before {
+    display: none;
+  }
 
   .sidebar-trigger {
     flex-shrink: 0;
@@ -804,10 +763,6 @@
       pointer-events: none;
     }
   }
-
-  /* -------------------------------------------------------------------------
-   * Tooltip popup for menu buttons
-   * ------------------------------------------------------------------------- */
 
   .sidebar-tooltip-popup {
     background: var(--sidebar);
@@ -820,10 +775,6 @@
     box-shadow: var(--shadow-l);
     z-index: var(--layer-tooltip);
   }
-
-  /* -------------------------------------------------------------------------
-   * Mobile sidebar (Dialog-based)
-   * ------------------------------------------------------------------------- */
 
   .sidebar-mobile-backdrop {
     position: fixed;
@@ -868,10 +819,6 @@
     right: 0;
     border-inline-start: var(--border);
   }
-
-  /* -------------------------------------------------------------------------
-   * Mobile slide animations
-   * ------------------------------------------------------------------------- */
 
   @media (prefers-reduced-motion: no-preference) {
     .sidebar-mobile[data-side='left'] {
