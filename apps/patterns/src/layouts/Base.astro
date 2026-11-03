@@ -23,6 +23,9 @@ interface Props {
 }
 const { title, slug, panePath, paneKind = 'Pattern', corner = 'patterns' } = Astro.props;
 const nav = await buildNavTree();
+// Analytics run only in production builds that have a site ID, so dev and
+// preview builds never report.
+const umamiWebsiteId = import.meta.env.PROD ? import.meta.env.PUBLIC_UMAMI_WEBSITE_ID : undefined;
 ---
 
 <!doctype html>
@@ -44,6 +47,16 @@ const nav = await buildNavTree();
     <ClientRouter />
     <link rel="stylesheet" href="/pagefind/pagefind-component-ui.css" />
     <script src="/pagefind/pagefind-component-ui.js" type="module" is:inline></script>
+    {/* ClientRouter keeps this tag across swaps, and Umami counts each swap
+        through its history.pushState hook. */}
+    {umamiWebsiteId && (
+      <script
+        is:inline
+        defer
+        src="https://cloud.umami.is/script.js"
+        data-website-id={umamiWebsiteId}
+      />
+    )}
     <style is:global>
       html,
       body {
