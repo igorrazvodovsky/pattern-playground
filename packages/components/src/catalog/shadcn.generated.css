@@ -113,6 +113,8 @@
     --text-base--line-height: calc(1.5 / 1);
     --text-lg: 1.125rem;
     --text-lg--line-height: calc(1.75 / 1.125);
+    --text-xl: 1.25rem;
+    --text-xl--line-height: calc(1.75 / 1.25);
     --text-2xl: 1.5rem;
     --text-2xl--line-height: calc(2 / 1.5);
     --text-3xl: 1.875rem;
@@ -133,6 +135,7 @@
     --default-transition-timing-function: cubic-bezier(.4, 0, .2, 1);
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
+    --animate-caret-blink: shadcn-caret-blink 1.25s ease-out infinite;
   }
 }
 }
@@ -564,6 +567,10 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
     width: calc(var(--spacing) * 4);
     height: calc(var(--spacing) * 4);
   }
+.size-5 {
+    width: calc(var(--spacing) * 5);
+    height: calc(var(--spacing) * 5);
+  }
 .size-6 {
     width: calc(var(--spacing) * 6);
     height: calc(var(--spacing) * 6);
@@ -586,6 +593,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .h-1\.5 {
     height: calc(var(--spacing) * 1.5);
   }
+.h-4 {
+    height: calc(var(--spacing) * 4);
+  }
 .h-7 {
     height: calc(var(--spacing) * 7);
   }
@@ -598,11 +608,17 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .h-10 {
     height: calc(var(--spacing) * 10);
   }
+.h-12 {
+    height: calc(var(--spacing) * 12);
+  }
 .h-80 {
     height: calc(var(--spacing) * 80);
   }
 .h-\[calc\(100\%-1px\)\] {
     height: calc(100% - 1px);
+  }
+.h-auto {
+    height: auto;
   }
 .h-full {
     height: 100%;
@@ -688,6 +704,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .min-w-9 {
     min-width: calc(var(--spacing) * 9);
   }
+.min-w-11 {
+    min-width: calc(var(--spacing) * 11);
+  }
 .min-w-\[8rem\] {
     min-width: 8rem;
   }
@@ -735,6 +754,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .rotate-45 {
     rotate: 45deg;
+  }
+.animate-caret-blink {
+    animation: var(--animate-caret-blink);
   }
 .animate-pulse {
     animation: var(--animate-pulse);
@@ -948,9 +970,17 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
     border-style: var(--tw-border-style);
     border-width: 2px;
   }
+.border-y {
+    border-block-style: var(--tw-border-style);
+    border-block-width: 1px;
+  }
 .border-t {
     border-top-style: var(--tw-border-style);
     border-top-width: 1px;
+  }
+.border-r {
+    border-right-style: var(--tw-border-style);
+    border-right-width: 1px;
   }
 .border-b {
     border-bottom-style: var(--tw-border-style);
@@ -1233,6 +1263,10 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
     font-size: var(--text-sm);
     line-height: var(--leading-relaxed);
   }
+.text-xl {
+    font-size: var(--text-xl);
+    line-height: var(--tw-leading, var(--text-xl--line-height));
+  }
 .text-xs {
     font-size: var(--text-xs);
     line-height: var(--tw-leading, var(--text-xs--line-height));
@@ -1506,6 +1540,10 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
     --tw-duration: .2s;
     transition-duration: .2s;
   }
+.duration-1000 {
+    --tw-duration: 1s;
+    transition-duration: 1s;
+  }
 .outline-dashed {
     --tw-outline-style: dashed;
     outline-style: dashed;
@@ -1631,6 +1669,18 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .after\:rounded-xl:after {
     content: var(--tw-content);
     border-radius: calc(var(--radius) + 4px);
+  }
+.first\:rounded-l-lg:first-child {
+    border-top-left-radius: var(--radius);
+    border-bottom-left-radius: var(--radius);
+  }
+.first\:border-l:first-child {
+    border-left-style: var(--tw-border-style);
+    border-left-width: 1px;
+  }
+.last\:rounded-r-lg:last-child {
+    border-top-right-radius: var(--radius);
+    border-bottom-right-radius: var(--radius);
   }
 .last\:border-b-0:last-child {
     border-bottom-style: var(--tw-border-style);
@@ -1804,7 +1854,7 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .disabled\:cursor-not-allowed:disabled {
     cursor: not-allowed;
   }
-.disabled\:opacity-50:disabled {
+.disabled\:opacity-50:disabled, .has-disabled\:opacity-50:has(:disabled) {
     opacity: .5;
   }
 .has-data-\[slot\=card-action\]\:grid-cols-\[1fr_auto\]:has([data-slot="card-action"]) {
@@ -1840,6 +1890,31 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .data-dimmed\:bg-transparent[data-dimmed] {
     background-color: #0000;
   }
+.data-\[active\=true\]\:z-10[data-active="true"] {
+    z-index: 10;
+  }
+.data-\[active\=true\]\:border-ring[data-active="true"] {
+    border-color: var(--ring);
+  }
+.data-\[active\=true\]\:ring-\[3px\][data-active="true"] {
+    --tw-ring-shadow: var(--tw-ring-inset, ) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+.data-\[active\=true\]\:ring-ring\/50[data-active="true"] {
+    --tw-ring-color: var(--ring);
+  }
+@supports (color: color-mix(in lab, red, red)) {.data-\[active\=true\]\:ring-ring\/50[data-active="true"] {
+      --tw-ring-color: color-mix(in oklab, var(--ring) 50%, transparent);
+    }}
+.data-\[active\=true\]\:aria-invalid\:border-destructive[data-active="true"][aria-invalid="true"] {
+    border-color: var(--destructive);
+  }
+.data-\[active\=true\]\:aria-invalid\:ring-destructive\/20[data-active="true"][aria-invalid="true"] {
+    --tw-ring-color: var(--destructive);
+  }
+@supports (color: color-mix(in lab, red, red)) {.data-\[active\=true\]\:aria-invalid\:ring-destructive\/20[data-active="true"][aria-invalid="true"] {
+      --tw-ring-color: color-mix(in oklab, var(--destructive) 20%, transparent);
+    }}
 .data-\[disabled\]\:pointer-events-none[data-disabled] {
     pointer-events: none;
   }
@@ -2061,6 +2136,12 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .dark\:data-dimmed\:bg-transparent[data-dimmed] {
       background-color: #0000;
     }
+.dark\:data-\[active\=true\]\:aria-invalid\:ring-destructive\/40[data-active="true"][aria-invalid="true"] {
+      --tw-ring-color: var(--destructive);
+    }
+@supports (color: color-mix(in lab, red, red)) {.dark\:data-\[active\=true\]\:aria-invalid\:ring-destructive\/40[data-active="true"][aria-invalid="true"] {
+        --tw-ring-color: color-mix(in oklab, var(--destructive) 40%, transparent);
+      }}
 .dark\:data-\[state\=active\]\:border-input[data-state="active"] {
       border-color: var(--input);
     }
@@ -2163,6 +2244,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
     }}
 .\[\&\>li\]\:mt-1 > li {
     margin-top: var(--spacing);
+  }
+.\[\&\>p\]\:mr-auto > p {
+    margin-right: auto;
   }
 .\[\&\>svg\]\:pointer-events-none > svg {
     pointer-events: none;
@@ -2442,6 +2526,15 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 @keyframes shadcn-pulse {
   50% {
     opacity: .5;
+  }
+}
+@keyframes shadcn-caret-blink {
+  0%, 70%, 100% {
+    opacity: 1;
+  }
+
+  20%, 50% {
+    opacity: 0;
   }
 }
 }

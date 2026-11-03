@@ -67,6 +67,23 @@
   --color-ring: var(--ring);
 }
 
+/* The fake caret of Input OTP. */
+@theme {
+  --animate-caret-blink: caret-blink 1.25s ease-out infinite;
+
+  @keyframes caret-blink {
+    0%,
+    70%,
+    100% {
+      opacity: 1;
+    }
+    20%,
+    50% {
+      opacity: 0;
+    }
+  }
+}
+
 /* The project library styles bare elements and class names Tailwind also uses
    (.flex, .grid, .border, .hidden), and it sits in a lower layer that this sheet
    only partly overrides: Tailwind's .flex sets no align-items, so the library's

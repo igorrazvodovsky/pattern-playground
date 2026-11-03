@@ -133,6 +133,7 @@ import { useFocusOnShow } from '../../behaviour/focus-on-show';
 import { usePressableTitle } from '../../behaviour/pressable-title';
 import { scopedPortal } from './portal';
 import { CheckboxField } from './checkbox';
+import { CodeField } from './code-input';
 import { ComposerField } from './composer-field';
 import { ShadcnMentionEditor } from './mention-editor-lazy';
 import type { Send } from './parts';
@@ -371,6 +372,7 @@ const buttonVariant = {
   plain: 'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
   danger:
     'bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
+  link: 'text-muted-foreground underline underline-offset-4 hover:text-foreground',
 } as const;
 const buttonSize = { default: 'h-9 px-4 py-2 has-[>svg]:px-3', icon: 'size-9' } as const;
 
@@ -500,7 +502,7 @@ export const { registry } = defineRegistry(catalog, {
             <div
               data-slot="card-footer"
               className={clsx(
-                'flex items-center justify-end gap-2 rounded-b-xl border-t bg-muted/50 p-4 not-last:rounded-b-none',
+                'flex items-center justify-end gap-2 rounded-b-xl border-t bg-muted/50 p-4 not-last:rounded-b-none [&>p]:mr-auto',
                 above,
               )}
             >
@@ -1436,7 +1438,9 @@ export const { registry } = defineRegistry(catalog, {
           className={clsx(
             buttonBase,
             buttonVariant[props.variant ?? 'default'],
-            buttonSize[props.hideLabel && Icon ? 'icon' : 'default'],
+            props.variant === 'link'
+              ? 'h-auto self-start p-0 align-baseline'
+              : buttonSize[props.hideLabel && Icon ? 'icon' : 'default'],
           )}
           disabled={props.disabled ?? undefined}
           aria-expanded={props.expanded ?? undefined}
@@ -1477,6 +1481,31 @@ export const { registry } = defineRegistry(catalog, {
               'flex h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30',
               invalidRing,
             )}
+          />
+          {error && fieldError(errorProps, error)}
+        </div>
+      );
+    },
+
+    CodeInput: ({ props, bindings, slots, emit }) => {
+      const { id, value, setValue, error, control, errorProps } = useField(props, bindings);
+      return (
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center justify-between gap-2">
+            <label htmlFor={id} className={label}>
+              {props.label}
+            </label>
+            {slots?.action}
+          </div>
+          <CodeField
+            control={control}
+            length={props.length}
+            groups={props.groups}
+            value={value}
+            onChange={setValue}
+            onComplete={() => emit('complete')}
+            invalid={Boolean(error)}
+            initialFocus={props.initialFocus ?? undefined}
           />
           {error && fieldError(errorProps, error)}
         </div>

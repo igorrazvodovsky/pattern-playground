@@ -1165,7 +1165,10 @@ export const { registry } = defineRegistry(catalog, {
           data-focus-key={props.focusKey ?? undefined}
           className={clsx(
             'button',
-            props.variant && props.variant !== 'default' && `button--${props.variant}`,
+            // The library has no link button; a plain one does its job.
+            props.variant === 'link'
+              ? 'button--plain'
+              : props.variant && props.variant !== 'default' && `button--${props.variant}`,
           )}
           disabled={props.disabled ?? undefined}
           aria-expanded={props.expanded ?? undefined}
@@ -1631,6 +1634,12 @@ export const { registry } = defineRegistry(catalog, {
       <Suspense fallback={null}>
         <PpMentionEditor {...context} />
       </Suspense>
+    ),
+
+    CodeInput: () => (
+      <p className="spec-demo__unsupported" role="note">
+        This library has no one-time code field.
+      </p>
     ),
 
     // The library has no grouped rule form, so the demo says so rather than

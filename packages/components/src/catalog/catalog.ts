@@ -550,7 +550,7 @@ export const catalog = defineCatalog(schema, {
         label: z.string(),
         icon: z.enum(iconNames).nullable(),
         hideLabel: z.boolean().nullable(),
-        variant: z.enum(['default', 'primary', 'plain', 'danger']).nullable(),
+        variant: z.enum(['default', 'primary', 'plain', 'danger', 'link']).nullable(),
         disabled: z.boolean().nullable(),
         expanded: z.boolean().nullable(),
         initialFocus: z.boolean().nullable(),
@@ -560,7 +560,7 @@ export const catalog = defineCatalog(schema, {
         submit: z.boolean().nullable(),
       }),
       description:
-        'A button. `danger` marks an action that destroys something. `icon` names the icon by meaning. With `hideLabel` only the icon shows and the label is read by assistive technology. `disabled` is for an action that is unavailable or already in progress; a button whose input is not yet valid stays enabled and reports what is wrong when pressed. `expanded` marks a button that shows and hides another part of the interface. `initialFocus` makes it take focus when its Dialog opens. `focusOnShow` makes it take focus when it appears because of what the actor did, such as the Back button of a view they just opened; it does not take focus when the demo first renders, or from elsewhere on the page. `focusKey` names the button, for the `focusNext` of another control or the `returnFocus` of a Dialog or Drawer; give two controls the same key only when they are the same control in different rows. A key may hold several names separated by spaces, and answers to each, so a control in a row can share a name with its counterparts in other rows and also carry the id of its item, such as { "$template": "delete ${id}" }; a name, an id among them, holds no spaces. `focusNext` names the `focusKey` of the control that takes focus if this one disappears while it has focus, because a press or a timer hid it or removed what it sits in: the first with that key after where this one was, else the last one before it. Name the control that replaces it (Cancel for an armed Delete) or its counterpart in the next row, which has the same key as this button. Without `focusNext`, or with no match, focus moves to the demo. `submit` makes it the button that submits the Form it sits in. Emits `press`.',
+        'A button. `danger` marks an action that destroys something. `link` shows it as underlined text, for a secondary way out, such as help for an actor who is stuck; inside a Text it runs on in the sentence. `icon` names the icon by meaning. With `hideLabel` only the icon shows and the label is read by assistive technology. `disabled` is for an action that is unavailable or already in progress; a button whose input is not yet valid stays enabled and reports what is wrong when pressed. `expanded` marks a button that shows and hides another part of the interface. `initialFocus` makes it take focus when its Dialog opens. `focusOnShow` makes it take focus when it appears because of what the actor did, such as the Back button of a view they just opened; it does not take focus when the demo first renders, or from elsewhere on the page. `focusKey` names the button, for the `focusNext` of another control or the `returnFocus` of a Dialog or Drawer; give two controls the same key only when they are the same control in different rows. A key may hold several names separated by spaces, and answers to each, so a control in a row can share a name with its counterparts in other rows and also carry the id of its item, such as { "$template": "delete ${id}" }; a name, an id among them, holds no spaces. `focusNext` names the `focusKey` of the control that takes focus if this one disappears while it has focus, because a press or a timer hid it or removed what it sits in: the first with that key after where this one was, else the last one before it. Name the control that replaces it (Cancel for an armed Delete) or its counterpart in the next row, which has the same key as this button. Without `focusNext`, or with no match, focus moves to the demo. `submit` makes it the button that submits the Form it sits in. Emits `press`.',
     },
     Input: {
       props: z.object({
@@ -574,6 +574,19 @@ export const catalog = defineCatalog(schema, {
         initialFocus: z.boolean().nullable(),
       }),
       description: `A single-line text field. With \`hideLabel\` the label is read by assistive technology only. \`type\` "email" asks for an email address (and the keyboard for one); it does not check the value, a check does. \`error\` marks the value as wrong and shows the message beneath the field; it is announced when it appears. Set it when the actor submits, not while they type, and say how to fix the value. ${fieldValidation} \`initialFocus\` makes it take focus when its Dialog opens. Bind \`value\` with $bindState.`,
+    },
+    CodeInput: {
+      props: z.object({
+        label: z.string(),
+        length: z.number(),
+        groups: z.array(z.number()).nullable(),
+        value: z.string().nullable(),
+        error: z.string().nullable(),
+        initialFocus: z.boolean().nullable(),
+      }),
+      slots: ['action'],
+      description:
+        'A field for a one-time code of `length` digits sent to the actor, such as a sign-in code. It is one field, so the code can be pasted whole, filled in by the device from a message, and read by assistive technology as one value; the digit keypad opens on touch devices. It shows a box per digit, split into `groups` of the given sizes when set (for example [3, 3]); sizes that do not add up to `length` are ignored. Pasted text keeps its digits and drops spaces and hyphens. When the last digit is in, it emits `complete`, so the spec can check the code without a submit button. `error` marks the code as wrong and shows the message beneath the field. The `action` slot sits beside the label, for a control that acts on the code, such as a Button that sends a new one. `initialFocus` makes it take focus when its Dialog opens. Bind `value` with $bindState.',
     },
     Textarea: {
       props: z.object({
