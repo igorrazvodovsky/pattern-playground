@@ -1,0 +1,59 @@
+---
+title: Account recovery
+added: 2026-11-01
+role: pattern
+activityLevel: action
+mediation: individual
+evidence:
+  - observed
+  - used
+acts_on:
+  - signing-in
+situation:
+  initiating: >-
+    … an actor attempts to [sign in](/patterns/account-access), but cannot provide their [password](/patterns/password). The credential is forgotten, lost, or compromised, and the actor needs a dependable path to confirm identity and regain access without creating an unlinked duplicate account.
+  resulting: >-
+    The actor verifies their identity through an alternative communication channel and sets a replacement credential. Check requirements on the new secret as the actor types using [validation](/patterns/validation) before restoring access. When every automated route fails, because the actor has lost the email address or phone the flow relies on, the flow ends in [reaching a person](/patterns/reaching-a-person) who can restore access, rather than in an error…
+relationships:
+  follows:
+    - password
+  composed-of:
+    - reaching-a-person
+  complements:
+    - account-access
+    - validation
+  enacts:
+    - to: agency
+      note: returns control over personal work and settings to the actor when primary credentials fail
+    - to: learnability
+      note: provides clear instructions for regaining access without dead ends
+---
+
+* * *
+
+**When an actor cannot provide their primary credential, they lose access to their work and settings in the artifact. Without a clear recovery path, the actor is locked out, abandons the task, or creates unnecessary duplicate accounts.**
+
+
+Account recovery is needed whenever an interface relies on passwords or device-specific credentials. Systems that rely on [passwordless access](/patterns/passwordless-access) or [federated sign-in](/patterns/federated-identity) avoid this problem by eliminating memorised secrets altogether. Where passwords remain in use, an effective recovery flow relies on an independent communication channel that the actor already controls—such as a verified email address or phone number—to re-establish access securely.
+
+Therefore,
+
+**Provide an accessible recovery path on the sign-in interface: verify identity through an alternative communication channel or stored recovery code, confirm requests neutrally without revealing whether an account exists, and guide the actor to set a new credential upon verification. When those routes fail, offer a route to a person.**
+
+Once the credential is reset, sign the actor in automatically and offer to sign out of any other active sessions.
+
+## In practice
+
+
+### Neutral confirmation messages
+
+When an actor submits an email address or phone number for recovery, display a neutral confirmation message: "If an account matches this address, we have sent instructions to reset your password." This prevents account enumeration while reassuring the actor. To help actors detect typos, display the entered address on the confirmation screen with an option to edit and resubmit it.
+
+### Session revocation and change notices
+
+After the actor resets their credential, send a confirmation notice to their verified email address or phone number. Offer a prompt to sign out of all other active sessions, ensuring that old or compromised devices lose access.
+
+## Resources & references
+
+- Vitaly Friedman (2022). [Authentication UX Design Guidelines](https://www.smashingmagazine.com/2022/08/authentication-ux-design-guidelines/)
+- [UI Patterns: Account Registration](https://ui-patterns.com/patterns/AccountRegistration)

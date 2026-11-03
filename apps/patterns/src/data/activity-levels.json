@@ -11,6 +11,16 @@
       "lifecycle-stage": null,
       "mediation": "coordination"
     },
+    "account-access": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
+    "account-recovery": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "action-consequences": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -271,6 +281,11 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
+    "federated-identity": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "filtering": {
       "activity-level": "action",
       "lifecycle-stage": "seeking",
@@ -339,6 +354,16 @@
     "hybrid-patterns": {
       "activity-level": "action",
       "lifecycle-stage": "seeking",
+      "mediation": "individual"
+    },
+    "identity-at-the-point-of-need": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
+    "immediate-use": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
       "mediation": "individual"
     },
     "incremental-formalisation": {
@@ -411,6 +436,11 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
+    "local-first-ownership": {
+      "activity-level": "activity",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "localization": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
@@ -476,6 +506,16 @@
       "lifecycle-stage": "evaluation",
       "mediation": "individual"
     },
+    "password": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
+    "passwordless-access": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "plan-preview": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -530,6 +570,11 @@
       "activity-level": "action",
       "lifecycle-stage": "seeking",
       "mediation": "individual"
+    },
+    "reaching-a-person": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "coordination"
     },
     "reconciliation": {
       "activity-level": "action",
@@ -652,6 +697,11 @@
       "mediation": "individual"
     },
     "suggestion": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
+    "sync-through-own-storage": {
       "activity-level": "action",
       "lifecycle-stage": null,
       "mediation": "individual"

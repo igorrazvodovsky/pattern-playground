@@ -27,6 +27,47 @@
       "group": "conversation/sequence-management"
     },
     {
+      "id": "account-access",
+      "title": "Account access",
+      "category": "Actions",
+      "path": "/patterns/account-access",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor needs something only a full account provides: a hosted workspace, a purchase or subscription that has to stay theirs, or an organisation's access control. They arrive at it through [identity at the point of need](/patterns/identity-at-the-point-of-need), at the door of a space that is closed from the outset, or on returning to an account they already hold. The access flow is hosted on a [form](/patterns/form) that structures the inputs and binds them to a single submission. Entering and returning both demand that the actor establish presence with credentials, and the interface must make the path for new and returning actors clear without conflating them.",
+        "resulting": "The actor has established or verified their identity within the artifact. The credential is one of three parts, offered alone or side by side: [passwordless access](/patterns/passwordless-access) through a code or link sent to a channel the actor controls, [federated identity](/patterns/federated-identity) through a provider they already trust, or a [password](/patterns/password) they create and store. Lead with the first two where most actors have a dependable inbox or provider account, and keep a password for those who do not. Where credentials fail or are forgotten, [account recovery](/patterns/account-recovery) provides the fallback. Problems with the identifier or other details reach the actor through [validation](/patterns/validation) at the field. Once access is granted, lead into [onboarding](/patterns/onboarding) to orient the newcomer, or return the actor to their workspace…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
+        }
+      ]
+    },
+    {
+      "id": "account-recovery",
+      "title": "Account recovery",
+      "category": "Actions",
+      "path": "/patterns/account-recovery",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… an actor attempts to [sign in](/patterns/account-access), but cannot provide their [password](/patterns/password). The credential is forgotten, lost, or compromised, and the actor needs a dependable path to confirm identity and regain access without creating an unlinked duplicate account.",
+        "resulting": "The actor verifies their identity through an alternative communication channel and sets a replacement credential. Check requirements on the new secret as the actor types using [validation](/patterns/validation) before restoring access. When every automated route fails, because the actor has lost the email address or phone the flow relies on, the flow ends in [reaching a person](/patterns/reaching-a-person) who can restore access, such as a recovery contact the actor named, a workspace admin or the provider's support, rather than in an error…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "used"
+        }
+      ]
+    },
+    {
       "id": "action-consequences",
       "title": "Action consequences",
       "category": "Actions",
@@ -1214,6 +1255,25 @@
       ]
     },
     {
+      "id": "federated-identity",
+      "title": "Federated identity",
+      "category": "Operations",
+      "path": "/patterns/federated-identity",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor is creating an account or returning to sign in through [account access](/patterns/account-access), and already holds a trusted, verified identity with an external provider such as Google, Apple, enterprise SSO, or other  identification system. Signing in through that provider spares them creating a [password](/patterns/password) for one more artifact.",
+        "resulting": "The actor authenticates with a single gesture through their existing provider, without creating or maintaining standalone credentials. Where the actor prefers direct communication tokens without third-party platform coupling, [passwordless access](/patterns/passwordless-access) provides the alternative…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "filtering",
       "title": "Filtering",
       "category": "Actions",
@@ -1531,6 +1591,44 @@
       ]
     },
     {
+      "id": "identity-at-the-point-of-need",
+      "title": "Identity at the point of need",
+      "category": "Actions",
+      "path": "/patterns/identity-at-the-point-of-need",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the artifact is divided into [workspaces](/patterns/workspace), and its features reach points where an identity could be asked for: when the actor arrives, keeps their work, opens it on another device, lets another person in, or pays. Whether the work lives on the provider's server or on the actor's own device, under [local-first ownership](/patterns/local-first-ownership), decides which of those points need an identity at all.",
+        "resulting": "Until a need arrives, the actor works without an identity: on a hosted artifact through [immediate use](/patterns/immediate-use), on a local-first one as the owner of work kept on their device. When it arrives, the need is met with the form of identity it requires, and the work in progress carries across without a restart. To have the work everywhere, or kept safe off the device, [sync through own storage](/patterns/sync-through-own-storage) puts it in storage the actor already holds. To let another person in, [sharing](/patterns/sharing) grants access, and a link that carries the access spares the recipient an account of their own. A hosted workspace, a paid entitlement or an organisation's access control is the need a full account meets, and [account access](/patterns/account-access) establishes it; deferring that account until one of these needs arrives is what is usually called lazy registration. Coming back later on the same device needs no identity at all: [resuming](/patterns/resuming) covers it with what the device keeps or a link to return by…"
+      },
+      "evidence": [
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
+        }
+      ]
+    },
+    {
+      "id": "immediate-use",
+      "title": "Immediate use",
+      "category": "Actions",
+      "path": "/patterns/immediate-use",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… under [identity at the point of need](/patterns/identity-at-the-point-of-need), an artifact asks for an identity only when a task genuinely requires one. An actor arrives at the artifact to explore its tools, evaluate its fit, or complete a discrete task, before any need for an account has arisen. This pattern gives the artifact its entrance at that opening threshold, where no identity has yet been declared.",
+        "resulting": "The actor can use the artifact immediately without creating an account or proving identity. Draft state stays in browser storage or in [deep linking](/patterns/deep-linking). Pair with [resuming](/patterns/resuming) so that in-flight work survives across visits and browser reloads. Where the artifact offers starter templates or exploratory tasks, lead directly into [onboarding](/patterns/onboarding) to orient the newcomer…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "incremental-formalisation",
       "title": "Incremental formalisation",
       "category": "Actions",
@@ -1827,6 +1925,29 @@
       ]
     },
     {
+      "id": "local-first-ownership",
+      "title": "Local-first ownership",
+      "category": "Activities",
+      "path": "/patterns/local-first-ownership",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the artifact is placed among the tools the actor already uses, and the work they make in it may need to outlast the artifact, the provider or the actor's subscription. Where the work lives is decided before any feature is built on it.",
+        "resulting": "The actor holds a complete copy of their work on their own device, can use it without a network or an account, and can take it to another program if they leave…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
+        }
+      ]
+    },
+    {
       "id": "localization",
       "title": "Localization",
       "category": "Foundations",
@@ -2098,6 +2219,44 @@
       ]
     },
     {
+      "id": "password",
+      "title": "Password",
+      "category": "Operations",
+      "path": "/patterns/password",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor is creating an account or returning to sign in through [account access](/patterns/account-access). Where it fits, [passwordless access](/patterns/passwordless-access) or [federated identity](/patterns/federated-identity) through a trusted provider spares the actor a secret to remember. A password depends on nothing outside the artifact, so the artifact asks for one, on its own or beside those options, in a field on a [form](/patterns/form). The actor types it from memory or a note, or lets a password manager fill it.",
+        "resulting": "The actor holds a password the artifact will accept on every later visit, and enters it without fighting the field. Requirements and rejections reach the actor through [validation](/patterns/validation), at the field and before submission where possible. A forgotten password is routine rather than exceptional, so [account recovery](/patterns/account-recovery) has to be in reach from the sign-in step…"
+      },
+      "evidence": [
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
+        }
+      ]
+    },
+    {
+      "id": "passwordless-access",
+      "title": "Passwordless access",
+      "category": "Operations",
+      "path": "/patterns/passwordless-access",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor is establishing an identity or returning to sign in through [account access](/patterns/account-access), and memorising another secret is a burden. Instead of a [password](/patterns/password), the artifact verifies identity through an out-of-band channel (email or phone) the actor already controls.",
+        "resulting": "The actor verifies their identity through an out-of-band token or code, avoiding the vulnerabilities and cognitive load of memorised passwords. Where delegated third-party authentication is preferred over communication tokens, [federated identity](/patterns/federated-identity) provides an alternative…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "plan-preview",
       "title": "Plan preview",
       "category": "Actions",
@@ -2337,6 +2496,23 @@
       "evidence": [
         {
           "kind": "literature"
+        }
+      ]
+    },
+    {
+      "id": "reaching-a-person",
+      "title": "Reaching a person",
+      "category": "Actions",
+      "path": "/patterns/reaching-a-person",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor needs something the artifact cannot do on its own: access to a document someone else controls, a permission only an admin can grant, an account they cannot get back into after [account recovery](/patterns/account-recovery) has failed, a review of a decision made about them, a charge they dispute. [Help](/patterns/help) has nothing more to tell them, because the fix needs access, authority, judgement or knowledge that some person holds: the owner of the item, a workspace admin, a contact the actor named in advance, a moderator, or the provider's support.",
+        "resulting": "The request sits with someone who can act on it, and the actor knows it exists, where it stands and when to expect an answer. Passing the problem over is a [handoff](/patterns/handoff) from the artifact to a person, and it works only if what the actor already tried travels with the request. Routing depends on the roles around the actor, the owners and admins that [sharing](/patterns/sharing) and [workspaces](/patterns/workspace) define…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
         }
       ]
     },
@@ -2944,6 +3120,23 @@
       ]
     },
     {
+      "id": "sync-through-own-storage",
+      "title": "Sync through own storage",
+      "category": "Actions",
+      "path": "/patterns/sync-through-own-storage",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor keeps their work in an artifact on their own device under [local-first ownership](/patterns/local-first-ownership), works on it alone, and wants it on every device they use, or kept safe off the device, through [identity at the point of need](/patterns/identity-at-the-point-of-need). They already have storage that follows them, such as iCloud, Dropbox or another service, and it is one of the [tools they already work with](/patterns/tool-ecology).",
+        "resulting": "The work reaches the actor's other devices through storage they already hold, and the artifact keeps no identity of its own for them…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
+    },
+    {
       "id": "tag",
       "title": "Tag",
       "category": "Actions",
@@ -3320,6 +3513,138 @@
       "type": "alternative",
       "label": "the clean alternative when a session ends intentionally rather than by abandonment",
       "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "identity-at-the-point-of-need",
+      "target": "account-access",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "A hosted workspace, a paid entitlement or an organisation's access control is the need a full account meets, and [account access](/patterns/account-access) establishes it; deferring that account until one of these needs arrives is what is usually called lazy registration.",
+      "glossFrom": "source:resulting",
+      "farSituation": "They arrive at it through [identity at the point of need](/patterns/identity-at-the-point-of-need), at the door of a space that is closed from the outset, or on returning to an account they already hold."
+    },
+    {
+      "source": "password",
+      "target": "account-access",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the actor is creating an account or returning to sign in through [account access](/patterns/account-access).",
+      "glossFrom": "source:initiating",
+      "farSituation": "The credential is one of three parts, offered alone or side by side: [passwordless access](/patterns/passwordless-access) through a code or link sent to a channel the actor controls, [federated identity](/patterns/federated-identity) through a provider they already trust, or a [password](/patterns/password) they create and store."
+    },
+    {
+      "source": "passwordless-access",
+      "target": "account-access",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the actor is establishing an identity or returning to sign in through [account access](/patterns/account-access), and memorising another secret is a burden.",
+      "glossFrom": "source:initiating",
+      "farSituation": "The credential is one of three parts, offered alone or side by side: [passwordless access](/patterns/passwordless-access) through a code or link sent to a channel the actor controls, [federated identity](/patterns/federated-identity) through a provider they already trust, or a [password](/patterns/password) they create and store."
+    },
+    {
+      "source": "federated-identity",
+      "target": "account-access",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the actor is creating an account or returning to sign in through [account access](/patterns/account-access), and already holds a trusted, verified identity with an external provider such as Google, Apple, enterprise SSO, or other identification system.",
+      "glossFrom": "source:initiating",
+      "farSituation": "The credential is one of three parts, offered alone or side by side: [passwordless access](/patterns/passwordless-access) through a code or link sent to a channel the actor controls, [federated identity](/patterns/federated-identity) through a provider they already trust, or a [password](/patterns/password) they create and store."
+    },
+    {
+      "source": "account-access",
+      "target": "account-recovery",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where credentials fail or are forgotten, [account recovery](/patterns/account-recovery) provides the fallback.",
+      "glossFrom": "source:resulting",
+      "farSituation": "an actor attempts to [sign in](/patterns/account-access), but cannot provide their [password](/patterns/password)."
+    },
+    {
+      "source": "account-access",
+      "target": "validation",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Problems with the identifier or other details reach the actor through [validation](/patterns/validation) at the field.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "form",
+      "target": "account-access",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "The access flow is hosted on a [form](/patterns/form) that structures the inputs and binds them to a single submission.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "account-access",
+      "target": "onboarding",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Once access is granted, lead into [onboarding](/patterns/onboarding) to orient the newcomer, or return the actor to their workspace",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "account-access",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "makes the rules of admission legible before submission",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "account-access",
+      "target": "agency",
+      "type": "enacts",
+      "label": "keeps the boundary between identity creation and returning access transparent and predictable",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "password",
+      "target": "account-recovery",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "A forgotten password is routine rather than exceptional, so [account recovery](/patterns/account-recovery) has to be in reach from the sign-in step",
+      "glossFrom": "source:resulting",
+      "farSituation": "an actor attempts to [sign in](/patterns/account-access), but cannot provide their [password](/patterns/password)."
+    },
+    {
+      "source": "reaching-a-person",
+      "target": "account-recovery",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the actor needs something the artifact cannot do on its own: access to a document someone else controls, a permission only an admin can grant, an account they cannot get back into after [account recovery](/patterns/account-recovery) has failed, a review of a decision made about them, a charge they dispute.",
+      "glossFrom": "source:initiating",
+      "farSituation": "When every automated route fails, because the actor has lost the email address or phone the flow relies on, the flow ends in [reaching a person](/patterns/reaching-a-person) who can restore access, such as a recovery contact the actor named, a workspace admin or the provider's support, rather than in an error"
+    },
+    {
+      "source": "account-recovery",
+      "target": "account-access",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "an actor attempts to [sign in](/patterns/account-access), but cannot provide their [password](/patterns/password).",
+      "glossFrom": "source:initiating",
+      "farSituation": "Where credentials fail or are forgotten, [account recovery](/patterns/account-recovery) provides the fallback."
+    },
+    {
+      "source": "account-recovery",
+      "target": "validation",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Check requirements on the new secret as the actor types using [validation](/patterns/validation) before restoring access.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "account-recovery",
+      "target": "agency",
+      "type": "enacts",
+      "label": "returns control over personal work and settings to the actor when primary credentials fail",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "account-recovery",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "provides clear instructions for regaining access without dead ends",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "action-consequences",
@@ -5197,6 +5522,29 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
+      "source": "federated-identity",
+      "target": "passwordless-access",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where the actor prefers direct communication tokens without third-party platform coupling, [passwordless access](/patterns/passwordless-access) provides the alternative",
+      "glossFrom": "source:resulting",
+      "farSituation": "Where delegated third-party authentication is preferred over communication tokens, [federated identity](/patterns/federated-identity) provides an alternative"
+    },
+    {
+      "source": "federated-identity",
+      "target": "agency",
+      "type": "enacts",
+      "label": "lets the actor choose an existing trusted identity provider rather than creating redundant credentials",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "federated-identity",
+      "target": "shareability",
+      "type": "enacts",
+      "label": "connects the actor's workspace identity to standard cross-platform identity tokens",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "filtering",
       "target": "grouping",
       "type": "complements",
@@ -5692,6 +6040,108 @@
       "target": "agency",
       "type": "enacts",
       "label": "combining models gives the actor ways to move that no single model allows",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "local-first-ownership",
+      "target": "identity-at-the-point-of-need",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "Whether the work lives on the provider's server or on the actor's own device, under [local-first ownership](/patterns/local-first-ownership), decides which of those points need an identity at all.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "immediate-use",
+      "target": "identity-at-the-point-of-need",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "under [identity at the point of need](/patterns/identity-at-the-point-of-need), an artifact asks for an identity only when a task genuinely requires one.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Until a need arrives, the actor works without an identity: on a hosted artifact through [immediate use](/patterns/immediate-use), on a local-first one as the owner of work kept on their device."
+    },
+    {
+      "source": "identity-at-the-point-of-need",
+      "target": "sync-through-own-storage",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "To have the work everywhere, or kept safe off the device, [sync through own storage](/patterns/sync-through-own-storage) puts it in storage the actor already holds.",
+      "glossFrom": "source:resulting",
+      "farSituation": "the actor keeps their work in an artifact on their own device under [local-first ownership](/patterns/local-first-ownership), works on it alone, and wants it on every device they use, or kept safe off the device, through [identity at the point of need](/patterns/identity-at-the-point-of-need)."
+    },
+    {
+      "source": "identity-at-the-point-of-need",
+      "target": "sharing",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "To let another person in, [sharing](/patterns/sharing) grants access, and a link that carries the access spares the recipient an account of their own.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "identity-at-the-point-of-need",
+      "target": "resuming",
+      "type": "alternative",
+      "label": "resuming returns the actor to the same work on the same device without any identity, where identity at the point of need serves needs that reach beyond it",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Coming back later on the same device needs no identity at all: [resuming](/patterns/resuming) covers it with what the device keeps or a link to return by",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "identity-at-the-point-of-need",
+      "target": "agency",
+      "type": "enacts",
+      "label": "lets the actor decide when the work gains an identity, and of what kind, instead of the artifact deciding at the door",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "identity-at-the-point-of-need",
+      "target": "privacy",
+      "type": "enacts",
+      "label": "asks for no more identity than the need in hand requires",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "identity-at-the-point-of-need",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "places the commitment at the moment of need rather than the moment of arrival",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "immediate-use",
+      "target": "onboarding",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where the artifact offers starter templates or exploratory tasks, lead directly into [onboarding](/patterns/onboarding) to orient the newcomer",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "immediate-use",
+      "target": "deep-linking",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Draft state stays in browser storage or in [deep linking](/patterns/deep-linking).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "immediate-use",
+      "target": "resuming",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Pair with [resuming](/patterns/resuming) so that in-flight work survives across visits and browser reloads.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "immediate-use",
+      "target": "agency",
+      "type": "enacts",
+      "label": "allows the actor to explore, evaluate, and act without surrendering personal credentials",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "immediate-use",
+      "target": "privacy",
+      "type": "enacts",
+      "label": "keeps interaction uncredentialed until identity is genuinely required by the task",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -6763,6 +7213,77 @@
       "extractedFrom": "frontmatter:alternative"
     },
     {
+      "source": "password",
+      "target": "validation",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Requirements and rejections reach the actor through [validation](/patterns/validation), at the field and before submission where possible.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "form",
+      "target": "password",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "A password depends on nothing outside the artifact, so the artifact asks for one, on its own or beside those options, in a field on a [form](/patterns/form).",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "password",
+      "target": "passwordless-access",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where it fits, [passwordless access](/patterns/passwordless-access) or [federated identity](/patterns/federated-identity) through a trusted provider spares the actor a secret to remember.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Instead of a [password](/patterns/password), the artifact verifies identity through an out-of-band channel (email or phone) the actor already controls."
+    },
+    {
+      "source": "password",
+      "target": "federated-identity",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where it fits, [passwordless access](/patterns/passwordless-access) or [federated identity](/patterns/federated-identity) through a trusted provider spares the actor a secret to remember.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Signing in through that provider spares them creating a [password](/patterns/password) for one more artifact."
+    },
+    {
+      "source": "password",
+      "target": "agency",
+      "type": "enacts",
+      "label": "lets the actor choose and store the secret in whatever way suits them, including a password manager",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "password",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "states the requirements before the actor types, so the first attempt can succeed",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "passwordless-access",
+      "target": "federated-identity",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where delegated third-party authentication is preferred over communication tokens, [federated identity](/patterns/federated-identity) provides an alternative",
+      "glossFrom": "source:resulting",
+      "farSituation": "Where the actor prefers direct communication tokens without third-party platform coupling, [passwordless access](/patterns/passwordless-access) provides the alternative"
+    },
+    {
+      "source": "passwordless-access",
+      "target": "agency",
+      "type": "enacts",
+      "label": "frees the actor from memorising credentials while keeping verification under their own channel control",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "passwordless-access",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "replaces abstract password complexity rules with the familiar physical act of checking messages",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "open-request",
       "target": "plan-preview",
       "type": "precedes",
@@ -7314,6 +7835,22 @@
       "extractedFrom": "frontmatter:alternative",
       "situation": "Two neighbours share the look but not the ground: [overview and detail](/patterns/overview-detail) shows one collection at two levels of detail, where a hub routes between sections with no model in common, and a [pyramid](/patterns/pyramid) is the hub for items that form a sequence",
       "glossFrom": "target:resulting"
+    },
+    {
+      "source": "reaching-a-person",
+      "target": "handoff",
+      "type": "instantiates",
+      "extractedFrom": "frontmatter:instantiates",
+      "situation": "Passing the problem over is a [handoff](/patterns/handoff) from the artifact to a person, and it works only if what the actor already tried travels with the request.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "reaching-a-person",
+      "target": "help",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Help](/patterns/help) has nothing more to tell them, because the fix needs access, authority, judgement or knowledge that some person holds: the owner of the item, a workspace admin, a contact the actor named in advance, a moderator, or the provider's support.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "draft-and-publish",

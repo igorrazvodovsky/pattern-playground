@@ -22,12 +22,16 @@
     - title: Setting and divisions
       lead: >-
         Place the artifact among the tools its actors already use, give it one
-        logic across its surfaces, divide the work into workspaces, decide who
-        is let into each, and let the people inside coordinate their work.
+        logic across its surfaces, divide the work into workspaces, keep the
+        work on the actor's device where it can be, ask for identity only as
+        each need calls for it, decide who is let into each workspace, and let
+        the people inside coordinate their work.
       patterns:
         - tool-ecology
         - information-environment
         - workspace
+        - local-first-ownership
+        - identity-at-the-point-of-need
         - sharing
         - collaboration
     - title: Connecting and naming
@@ -41,13 +45,18 @@
         - dynamic-hyperlinks
         - tag
         - incremental-formalisation
-    - title: Learning the whole
+    - title: When stuck
       lead: >-
-        Make the whole learnable: help the actor can reach from any point,
-        routes past the interface for those who use it daily, and commands by
-        name and then by key.
+        Leave no actor stuck: help they can reach from any point, and a route
+        to the person who can act where the artifact cannot.
       patterns:
         - help
+        - reaching-a-person
+    - title: Learning the whole
+      lead: >-
+        Make the whole learnable over time: routes past the interface for those
+        who use it daily, and commands by name and then by key.
+      patterns:
         - mastery
         - command-menu
         - keyboard-shortcuts
@@ -106,10 +115,18 @@
         - hybrid-patterns
     - title: The entrance
       lead: >-
-        Give the artifact an entrance: a first encounter that orients the
-        actor, a canvas for when nothing exists yet, and templates to start
-        from.
+        Give the artifact an entrance: admit the actor without demanding
+        identity, sync through storage the actor holds,
+        establish accounts predictably, and orient the newcomer when they
+        arrive.
       patterns:
+        - immediate-use
+        - sync-through-own-storage
+        - account-access
+        - password
+        - account-recovery
+        - passwordless-access
+        - federated-identity
         - onboarding
         - state-empty
         - template

@@ -1,0 +1,73 @@
+---
+title: Account access
+added: 2026-10-31
+updated: 2026-11-03
+role: pattern
+activityLevel: action
+mediation: individual
+evidence:
+  - observed
+  - literature
+  - used
+acts_on:
+  - joining
+  - signing-in
+situation:
+  initiating: >-
+    … the actor needs something only a full account provides: a hosted workspace, a purchase or subscription that has to stay theirs, or an organisation's access control. They arrive at it through [identity at the point of need](/patterns/identity-at-the-point-of-need), at the door of a space that is closed from the outset, or on returning to an account they already hold. The access flow is hosted on a [form](/patterns/form) that structures the inputs and binds them to a single submission. Entering and returning both demand that the actor establish presence with credentials, and the interface must make the path for new and returning actors clear without conflating them.
+  resulting: >-
+    The actor has established or verified their identity within the artifact. The credential is one of three parts, offered alone or side by side: [passwordless access](/patterns/passwordless-access) through a code or link sent to a channel the actor controls, [federated identity](/patterns/federated-identity) through a provider they already trust, or a [password](/patterns/password) they create and store. Lead with the first two where most actors have a dependable inbox or provider account, and keep a password for those who do not. Where credentials fail or are forgotten, [account recovery](/patterns/account-recovery) provides the fallback. Problems with the identifier or other details reach the actor through [validation](/patterns/validation) at the field. Once access is granted, lead into [onboarding](/patterns/onboarding) to orient the newcomer, or return the actor to their workspace…
+relationships:
+  follows:
+    - identity-at-the-point-of-need
+  composed-of:
+    - password
+    - passwordless-access
+    - federated-identity
+  complements:
+    - account-recovery
+    - validation
+  hosted-by:
+    - form
+  precedes:
+    - onboarding
+  enacts:
+    - to: learnability
+      note: makes the rules of admission legible before submission
+    - to: agency
+      note: keeps the boundary between identity creation and returning access transparent and predictable
+---
+
+* * *
+
+**Actors need to establish an identity or assert an existing one to access private workspaces, but access interfaces frequently ask for more than identity requires, break browser autofill, or combine registration and sign-in into clever ambiguous steps that confuse actors.**
+
+### Forces
+
+- *Distinct paths vs clever unification*: attempting to combine sign-in and registration into a single adaptive input field (asking for email first, then dynamically branching to sign-in or register) confuses password managers, breaks browser autofill, and leaves actors uncertain whether they already hold an account.
+- *Minimal entry vs collected detail*: every field beyond an identifier and a credential slows registration, and much of what is asked for up front could be asked later, when it is needed.
+- *Persistent presence vs shared device risk*: remembering credentials and preserving session state across visits reduces daily friction, but risks exposing private workspaces on public or shared machines.
+
+
+
+Therefore,
+
+**Provide an explicit, predictable access path: keep registration visually distinct from sign-in, let browsers and password managers fill both, and ask only for an identifier and a credential.**
+
+Ask for other details later, at the point the artifact needs them.
+
+## In practice
+
+### Returning access and session persistence
+
+For returning actors, respect saved credentials and browser autofill. Offer an explicit "Remember this device" option that extends session lifetime appropriately. When a session expires during active work, allow the actor to re-authenticate inline via a modal or overlay so their current scroll position, unsaved input, and view context are not lost.
+
+### Offering more than one credential
+
+When the artifact offers a password alongside passwordless access or federated identity, show the options on the same screen in a fixed order, starting with the one most actors will use, and use the same order on sign-in so a returning actor finds the one they used before. After sign-in, let the actor add or remove credentials from their account settings.
+
+## Resources & references
+
+- Brad Frost (2020). [Don't get clever with login forms](https://bradfrost.com/blog/post/dont-get-clever-with-login-forms/)
+- Vitaly Friedman (2022). [Authentication UX Design Guidelines](https://www.smashingmagazine.com/2022/08/authentication-ux-design-guidelines/)
+- [UI Patterns: Account Registration](https://ui-patterns.com/patterns/AccountRegistration)
