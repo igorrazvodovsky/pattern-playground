@@ -49,10 +49,16 @@ Native `<optgroup>` organises options into labelled regions without moving the i
 
 <Story of={ SelectStories.Required } />
 
+## Rich options
+
+When a name alone won't settle the choice, an option carries the detail the actor decides on, such as the role and team that tell two people with the same name apart. In browsers that support styled options, with a mouse or trackpad, the picker sets label and detail apart and keeps the detail in the closed control. Touch screens keep the platform picker, and other browsers show the plain option text, so that text has to read well alone.
+
+<Story of={ SelectStories.RichOptions } />
+
 ## Design considerations
 
 - With five or fewer choices, radios are faster and surface the whole set at once. Reach for select only when the list is long enough that collapsing it is worth the extra interaction.
-- When the set is long *or* the actor doesn't yet know what they're looking for, narrowing-as-you-type wins — see [Autocomplete](/patterns/autocomplete). Select assumes the actor already knows the answer.
+- When the set is long *or* the actor doesn't yet know what they're looking for, narrowing-as-you-type wins — see [Autocomplete](/patterns/autocomplete). Select works when the actor can recognise the answer in the list; rich options widen what they can recognise from.
 - Multi-select is intentionally out of scope. Native `<select multiple>` is poorly supported by assistive tech and hard to discover; use checkboxes or a [combobox](../?path=/docs/components-combobox--docs) instead.
 - Errors are announced with a visually-hidden "Error:" prefix and wired through `aria-describedby`, so screen readers hear the error class before the message.
 - Native keyboard behaviour (space/enter to open, arrows to navigate, home/end, typeahead, escape to close) comes for free because the control wraps a native `<select>` rather than rebuilding as an ARIA listbox.
@@ -70,7 +76,7 @@ Native `<optgroup>` organises options into labelled regions without moving the i
 - <PatternRef slug="data-entry">Data entry</PatternRef> — the broader activity select participates in.
 
 ### Follow-ups
-- [Combobox](../?path=/docs/components-combobox--docs) — for searchable, async, or custom-rendered option sets, built on the WAI-ARIA APG combobox pattern.
+- [Combobox](../?path=/docs/components-combobox--docs) — for searchable, async, or large option sets, built on the WAI-ARIA APG combobox pattern. Rich option content alone no longer calls for it.
 
 ### Used by
 - [Bounded choice](/patterns/bounded-choice) — select's job at small scale: a short set the actor already recognises.

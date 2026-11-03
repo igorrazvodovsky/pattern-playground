@@ -124,6 +124,8 @@ declare module 'react' {
         duration?: number;
         closable?: boolean;
       };
+      /* Customizable select: mirrors the chosen option's content into the closed control */
+      'selectedcontent': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
       'iconify-icon': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         icon?: string;
         width?: string | number;

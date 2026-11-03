@@ -1,7 +1,7 @@
 ---
 title: Bounded choice
 added: 2026-06-12
-updated: 2026-06-22
+updated: 2026-11-02
 role: pattern
 activityLevel: operation
 mediation: individual
@@ -45,6 +45,9 @@ Set size determines which control fits. A handful of options the actor can scan 
 
 ## Design considerations
 
+- An option should carry what the actor decides on, not only a name: a preview of the result, a value worked out for them (a city's current local time rather than its UTC offset), the detail that tells two similar entries apart, or a warning on the options that need one. The actor then recognises the right option instead of reasoning towards it.
+- Once the set closes, the control should keep enough of that detail for the actor, or someone reviewing their work later, to confirm what was chosen.
+- Option text should still make sense on its own. Screen readers, phones with platform pickers, and browsers without styled options show only that text.
 - A "no matches" result should say whether the value doesn't exist, isn't available to them, or is spelled differently — and if the boundary is hard, who owns the vocabulary.
 - Recent and frequent values deserve a place ahead of the canonical ordering; most bounded choices are re-choices.
 - Multi-select accumulation — chosen values piling up while narrowing continues — keeps each choice visible as the actor picks more.

@@ -254,6 +254,45 @@ export const Grouped: Story = {
 };
 
 /**
+ * An option carries the detail the actor decides on: here, the role and team
+ * that tell two people with the same name apart. Where the browser supports
+ * the styled picker, `<selectedcontent>` mirrors the chosen option into the
+ * closed control, so the detail stays visible after the choice. Elsewhere the
+ * option reads as plain text, with the separator joining label and detail.
+ */
+export const RichOptions: Story = {
+  render: () => (
+    <div className="flow">
+      <label htmlFor="recipient-select">Send invoice to</label>
+      <pp-select>
+        <select id="recipient-select" defaultValue="">
+          <button>
+            <selectedcontent />
+          </button>
+          <option value="" disabled>
+            Choose a recipient
+          </option>
+          {[
+            { value: 'sp-finance', name: 'Sam Patel', detail: 'Accountant · Finance' },
+            { value: 'sp-sales', name: 'Sam Patel', detail: 'Account manager · Sales' },
+            { value: 'mo-finance', name: 'Maria Okafor', detail: 'Finance lead · Finance' },
+            { value: 'jl-ops', name: 'Jonas Lind', detail: 'Office manager · Operations' },
+          ].map((person) => (
+            <option key={person.value} value={person.value}>
+              <span>
+                {person.name}
+                <span className="select__separator">,</span>
+              </span>{' '}
+              <span className="select__detail">{person.detail}</span>
+            </option>
+          ))}
+        </select>
+      </pp-select>
+    </div>
+  ),
+};
+
+/**
  * `novalidate` on the form suppresses the browser's default validation tooltip
  * so the component's own invalid styling and slotted error message are the
  * only visible feedback (Nordhealth recommendation).
