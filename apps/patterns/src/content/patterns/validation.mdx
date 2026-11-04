@@ -34,7 +34,7 @@ relationships:
       note: "disabling submit until the form is valid hides the problem this move exists to explain"
 ---
 
-The actor has given the system something it cannot accept, and is about to find out on the system's terms. Validation arrives at the field where the input happened, says what is wrong and how to fix it, and stays until the correction. 
+The actor has given the system something it cannot accept, and is about to find out on the system's terms. Validation arrives at the field where the input happened, says what is wrong and how to fix it, and stays until the correction. A fault in what the system did with input it had accepted, a save that did not go through or a page that will not load, is [error recovery](/patterns/error-recovery).
 
 Persistence is the defining property — a message demanding action must outlive the glance, which makes validation the counterpart of [transient feedback](/patterns/transient-feedback) within [status feedback](/patterns/status-feedback)'s three delivery shapes.
 

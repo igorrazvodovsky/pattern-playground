@@ -1,0 +1,120 @@
+---
+title: Bookmarking
+added: 2026-10-23
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+disclosure: "Written from the web re-finding studies of the late nineties and from current instances (browser bookmarks, starred files, pinned chats); the literature is old and about one medium, and nothing here has been applied in design work. Whether pinning and following are forms of this move or moves of their own is the question that would most change the page."
+activityLevel: action
+lifecycle: seeking
+mediation: individual
+description: "Letting the actor mark a state as worth returning to, and get back to it later from a place of their own that persists."
+situation:
+  initiating: >-
+    … the actor is somewhere they expect to need again: a document, a view, a conversation,
+    a position in a space. Getting here took moves they do not want to repeat, or a search
+    whose terms they will have forgotten, and the system cannot know on its own that this
+    place matters more than the others. [Deep linking](/patterns/deep-linking) has given the
+    state a name that restores it; what is missing is a place of the actor's own to keep that
+    name. Where the actor has marked nothing and the way back is simply what they touched
+    lately, [recents](/patterns/recents) is the alternative, made by the system rather than
+    by them.
+  resulting: >-
+    The actor now holds a set of places they chose, and the choosing is what makes it theirs:
+    the mark says this one matters, which is the small act of [agency](/patterns/agency) at the
+    centre of the move, and the set is a layer of the actor's own laid over the system's
+    structure, which is where it touches [malleability](/patterns/malleability). The set grows
+    and nobody prunes it, so the places behind the marks move and the marks go stale; a
+    bookmark that no longer resolves is the common end of this pattern and the problem it
+    opens. A set past a dozen wants organising, and [tags](/patterns/tag) give it structure the
+    actor did not have to plan. A mark can be handed to someone else, and then it is a
+    recommendation as well as a way back, which [sharing](/patterns/sharing) governs. The same
+    move over a framing rather than an item is [data view](/patterns/data-view)'s saved view.
+    Pointed into an exchange rather than at a place, the same move is close to
+    [reference material](/patterns/reference-material). Marks are reached from wherever the
+    actor happens to start, so the [command menu](/patterns/command-menu) is where they most
+    often surface…
+relationships:
+  follows:
+    - to: deep-linking
+      note: "a bookmark keeps a name for a state; deep linking is what gives the state a name to keep"
+  alternative:
+    - to: recents
+      note: "two ways back to a place: a bookmark the actor made on purpose, or a trace the system kept of where they were"
+  complements:
+    - to: tag
+      note: "tags give a grown set of bookmarks structure without a plan"
+    - to: sharing
+      note: "a shared bookmark is a recommendation as well as a way back"
+  related:
+    - to: data-view
+      note: "a saved view is bookmarking applied to a framing rather than to an item"
+  tangential:
+    - to: reference-material
+      note: "pinned material in a prompt is a bookmark's cousin: kept by the actor for return, but into the exchange rather than to a place"
+  hosted-by:
+    - to: command-menu
+      note: "the command menu is where bookmarks surface from wherever the actor starts"
+  enacts:
+    - to: agency
+      note: "the mark is the actor saying this one matters, and only they can say it"
+    - to: malleability
+      note: "a set of bookmarks is the actor's own layer over the system's structure"
+---
+
+* * *
+
+**The actor reaches a place they will need again, and the system has no way to know it matters. Finding it took moves, or a search whose terms they will have forgotten, and next time they will pay the same cost or fail to find it at all. Leaving the tab open, emailing the link to themselves and taking a screenshot are what people do instead, and each is a bookmark made with the wrong tool.**
+
+Returning is most of use. Over half of the pages people visit in a browser are pages they have visited before, and in longer studies the share rises past four fifths (Tauscher and Greenberg 1997; Cockburn and McKenzie 2001). Most of those returns are to something seen minutes ago, which the back button and [recents](/patterns/recents) handle. Bookmarks serve the remainder: the return after a week or a month, which is rare, and which the available tools serve worst (Obendorf et al. 2007).
+
+What is known about the mark itself is mostly about its failure. Collections grow steadily and are organised in bursts, when the list has become unmanageable, and a large share of what is kept is never used again (Abrams, Baecker and Chignell 1998). People keep found things by many methods at once, and choose among them each time by what the moment costs: a bookmark competes with re-searching, with an open tab, with an email to oneself, and often loses, because it asks for an act now against a need that may never come (Jones, Bruce and Dumais 2001). One study argued the opposite of this page's split, folding bookmarks into a recency-ordered history as marks the actor adds to it (Kaasten and Greenberg 2001); that is the evidence that the two moves share a substrate, and it stands against keeping them apart.
+
+The costs follow from the act. A bookmark is something the actor has to remember to do, at the one moment they are least inclined to, since they are busy with the thing they found. Filing it is a second act, and naming it a third, and any of them asked at the moment of marking is a reason not to mark. The place behind the mark moves or is deleted, and the list does not know. And a set made inside one system stays there, while the actor's places are spread across many.
+
+Therefore,
+
+**Give any state the actor can reach a single act that keeps it, and one place of their own where what they kept is listed and reached in a move from anywhere. Ask for nothing at the moment of marking: no name, no folder. Let naming and filing come later, when the set has grown enough to need them. Keep a mark resolving when the place behind it moves, and when it cannot, say so in the list rather than failing on the way. Show which marks the actor uses and which they never have, so that pruning is a choice they can make rather than a chore they avoid.**
+
+The star that also ranks, the pin that also fixes a position and the follow that also subscribes each give the mark a second meaning. Add the second meaning only where the actor wants the second thing, since a mark that means two things is harder to remove.
+
+## In practice
+
+### Forms of the mark
+
+- *Bookmark.* A row in a list the actor owns. The plain form, and the one the rest are measured against.
+- *Pin.* The mark fixes a position in the interface: a pinned tab, chat or message stays at the top or the edge. The way back is spatial rather than listed, and the set is small by construction, since positions run out.
+- *Favourite.* A mark that also ranks. The star doubles as a filter and a sort key, so it serves browsing as much as return, and it is read by other people as an opinion.
+- *Follow.* A mark that also subscribes: the place comes to the actor through a [notification](/patterns/notification) when it changes. The way back is no longer needed, because the place keeps arriving.
+- *Saved view.* A mark on a framing rather than an item: a query, an arrangement and a set of visible attributes kept together. [Data view](/patterns/data-view) carries this form.
+
+### Where the marks live
+
+A sidebar, a start page, the command menu before a query is typed. Whichever it is, the mark should be one move away from anywhere, and the list should show what each mark points at well enough that the actor need not open it to know; a [link preview](/patterns/link-preview) does this for a mark on a place elsewhere.
+
+### Rot
+
+Places move and are deleted, and the list is the last to know. Keep the address resolving where the system controls both ends. Where it does not, check the marks and say in the list which no longer resolve, instead of letting the actor find out on the way.
+
+## Research on this pattern
+
+- Revisiting is most of browser use: [Tauscher and Greenberg (1997)](https://doi.org/10.1006/ijhc.1997.0125) found a revisit rate of 58 percent, and [Cockburn and McKenzie (2001)](https://doi.org/10.1006/ijhc.2000.0459) found 81 percent. Most revisits are to pages seen minutes ago.
+- [Obendorf, Weinreich, Herder and Mayer (2007)](https://doi.org/10.1145/1240624.1240719): revisits split into short-term (within an hour), medium-term (within a day) and long-term, and the long-term ones, though a small share, are the ones existing tools serve worst.
+- [Abrams, Baecker and Chignell (1998)](https://doi.org/10.1145/274644.274651): bookmark collections grow steadily, are organised in bursts, and hold a large share of entries that are never used again.
+- [Jones, Bruce and Dumais (2001)](https://doi.org/10.1145/502585.502599): people keep found things by many methods, bookmarks among them, chosen each time by the cost at that moment.
+- [Kaasten and Greenberg (2001)](https://doi.org/10.1145/634067.634209): a proposal to merge back, history and bookmarks into one recency-ordered list, the evidence for treating bookmarking and recents as one move.
+- Untested here: whether asking for nothing at the moment of marking raises the rate of marking, and whether showing use lets people prune.
+
+## Resources & references
+
+- Bush (1945), [As we may think](https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/): the trail, a path through a store that the reader builds and names, is the ancestor of this move; the machine-kept record of where the reader went is the ancestor of recents.
+- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.
+
+## To-do
+
+- Whether pinning is a form of this move or a move of its own: it fixes a position rather than keeping a name, and its set is bounded by space.
+- Whether favouriting belongs here at all, given that the star is read by others as a rating.
+- Instances outside the browser: starred files and mail, pinned chats and messages, saved searches, watch lists; which ask for a name or a folder at the moment of marking.
+- A demo of a mark made with nothing asked, then named and filed later.

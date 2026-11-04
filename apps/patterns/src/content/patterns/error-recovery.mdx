@@ -1,0 +1,135 @@
+---
+title: Error recovery
+added: 2026-10-24
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+disclosure: "Written from the usability heuristics and from design-system guidance, which agree on what the message says and differ on where it goes; no study is cited that a report shaped this way changed what the actor did next, and nothing here has been applied in design work. Instances where the scope line, what did and did not take effect, decided the actor's next move would raise it; so would a check on whether the timeout case, where the outcome is unknown, is this move or one of its own."
+activityLevel: operation
+mediation: individual
+description: "Telling the actor that what they asked for did not happen, through no fault of their own, with what did take effect and what they can do next."
+realised_by: [components-callout--docs, components-dialog--docs]
+situation:
+  initiating: >-
+    … the actor has asked the system for something and the system cannot do it: the save did
+    not go through, the page will not load, the service behind the button is down, the thing
+    they followed a link to is gone or is not theirs to see. The fault is the system's, not a
+    slip in what the actor entered, which is the case [validation](/patterns/validation)
+    answers at the field. Where the request took long enough to need a sign, the sign of
+    [waiting](/patterns/waiting) is still up, and the actor may have gone elsewhere on its
+    word.
+  resulting: >-
+    The failure now has a report where the actor is looking, and the report says three
+    things: that the request did not take, what did and did not change, and what the actor
+    can do next. It is the failure-reporting shape of [status feedback](/patterns/status-feedback),
+    beside validation's correction-demanding one, and it takes over the place the
+    [waiting](/patterns/waiting) sign held, so no spinner outlives a dead request. Its first
+    duty is to the actor's work: what they entered stays where they can reach it, which is the
+    case [saving](/patterns/saving) makes for keeping a local copy and for interrupting when an
+    automatic save fails. Where the request half took, the loose end is a committed change the
+    actor did not want, and [undo](/patterns/undo) is the way back. When the actor was told
+    they could leave and did, the failure has to travel after them as a
+    [notification](/patterns/notification). A report that cannot be acted on from where it
+    sits opens the recover purpose of [help](/patterns/help): the message is the first line of
+    that help, and troubleshooting and a person stand behind it. The move is not
+    [unavailable actions](/patterns/unavailable-actions), which withholds a request that
+    cannot succeed before it is made; this pattern is for the failures that could not be
+    foreseen, or were not. Nor is it [agent repair](/patterns/agent-repair), where the trouble
+    is in the agent's understanding of the request rather than in carrying out one it
+    understood…
+relationships:
+  instantiates:
+    - to: status-feedback
+      note: "the failure-reporting delivery shape of status feedback: a request that did not take, with its scope and a way on"
+  follows:
+    - to: waiting
+      note: "error recovery's report takes over the place the waiting sign held, and lands where the sign told the actor they could go"
+  alternative:
+    - to: validation
+      note: "validation reports a fault in what the actor entered; error recovery reports a fault in what the system did with a request it had accepted"
+  precedes:
+    - to: help
+      note: "the report is the first line of help's recover purpose; troubleshooting and a person stand behind it"
+  complements:
+    - to: saving
+      note: "a failed save is the case saving makes for a kept local copy and an interrupting report"
+    - to: undo
+      note: "where a request half took, undo is the way back from the part that did"
+    - to: notification
+      note: "when the actor left on the wait sign's word, the failure follows them as a notification"
+  tangential:
+    - to: unavailable-actions
+      note: "unavailable actions withholds a request that cannot succeed before it is made; error recovery reports one that failed after"
+    - to: agent-repair
+      note: "agent repair mends the agent's understanding of a request; error recovery reports the failure of one it understood"
+  enacts:
+    - to: agency
+      note: "tells the actor what happened to their work and leaves the next move theirs"
+    - to: learnability
+      note: "a report that names the cause in the actor's terms teaches them where the system's limits are"
+---
+
+* * *
+
+**The system has failed to do something the actor asked, and the actor did not cause it. Left unmarked, the failure reads as success, or as a wait that never ends. Marked badly, it reads as the actor's fault, in words written for the people who built the system. Either way the actor cannot tell what happened to their work, whether trying again is safe, or who to turn to.**
+
+The guidance on this is old and agrees with itself. Nielsen's ninth heuristic asks that an error be stated in plain language, say precisely what went wrong, and suggest a solution (Nielsen 1994). Shneiderman's golden rules ask for simple error handling and easy reversal, so that a failure is never a dead end. Lewis and Norman (1986) widened the aim from preventing errors to designing for them: a system will fail, and the design question is whether the actor can see the failure and get back from it. The current design systems restate the same three parts, what happened, why, and what to do, and a reader can set Material, Polaris, Carbon, Atlassian and the Apple guidelines side by side and find them agreeing on the message while differing on the surface it arrives on: a banner, a whole page, a dialog, a line beside the control. Agreement on the rule and variety in the form is what marks a pattern rather than a component.
+
+One distinction the design systems draw is the one this page rests on. GOV.UK keeps validation as its own pattern and writes separate pages for a service that is unavailable, a destination that is not found, and a request the service could not complete. The split is between a fault in what the actor gave and a fault in what the system did, and the two ask for different messages: the first says what to change, the second says what happened to the work.
+
+The costs are in the claims the report makes. A report that names a cause the system has not established lies the way a progress bar stuck at ninety percent lies, and the actor learns to disbelieve the next one. A report for every passing hiccup is noise, and the actor learns to dismiss the one that matters along with the rest. A retry offered on a request that may already have taken doubles the damage: the double submission that charges a card twice or posts a message twice is a recovery path that was not thought through. And the question the actor asks first, whether the thing was saved, is often one the system cannot answer after a timeout; a report that guesses either way is worse than one that says it does not know and shows how to find out.
+
+Therefore,
+
+**Report the failure where the actor is looking, in their words, and in three parts: that the request did not take, what did and did not change, and what they can do now. Keep whatever they entered within reach. Offer the next move that fits the failure: try again where retrying is safe, wait where the fault is passing, go back where the destination is gone, and a way to reach a person where none of those will do. Say what the system does not know rather than guessing. Do not let the report stand in the way of the work that did not fail.**
+
+Where the system can put the failure right on its own in a moment, let it, and report only what it could not. A report on every hiccup is the fastest way to teach the actor that reports can be ignored.
+
+## In practice
+
+### By what failed
+
+- *The request failed and nothing changed.* The report goes beside the control that made the request, and retry is the next move. The commonest case and the cheapest to get right.
+- *The request half took.* Say which parts did. The committed part is a change the actor did not want, so the way back is [undo](/patterns/undo), or a view of the two states where the parts cannot simply be reversed.
+- *The request timed out and the outcome is unknown.* Say so. Offer the way to check, a refresh or the record of what was sent, rather than a retry that may double the effect or a claim of failure that may be false.
+- *The destination is unavailable.* Not found, not permitted, or the service is down. These are whole-page reports, and each wants a different next move: a search or the way back for a missing page, a request for access where it is a matter of permission, the time to try again and where to watch for it where the service is out.
+- *The connection is lost.* Keep what the actor is doing where the work can continue without the connection, queue what cannot, and show the state; the report is a standing one until the connection returns.
+
+### The message
+
+What happened, in the actor's terms and not the system's. Why, where the cause is known, and nothing where it is not. What to do, as an action the actor can take from where they are. Codes and identifiers come last, kept for the person who will be asked about the failure, not first as the thing the actor must read past. No blame, since the actor did nothing, and no joke, since the actor has just lost something.
+
+### Where it lands
+
+Beside the control, as a callout, when the actor is still looking at it. In the actor's path, as a dialog, only when they must choose before anything else can happen. As the whole page when the whole destination failed. As a [notification](/patterns/notification) when the actor was told they could leave and has. A transient message fits only a failure the system has already recovered from, which is a confirmation and not this move.
+
+## Related components
+
+- <ComponentRef id="components-callout--docs">Callout</ComponentRef>, the report beside the control or at the head of the page.
+- <ComponentRef id="components-dialog--docs">Dialog</ComponentRef>, the report that stands in the actor's path when they must choose.
+
+## Research on this pattern
+
+- Nielsen (1994), [Ten usability heuristics](https://www.nngroup.com/articles/ten-usability-heuristics/), the ninth: help users recognise, diagnose and recover from errors. Restated with examples in [Error-message guidelines](https://www.nngroup.com/articles/error-message-guidelines/).
+- Shneiderman, [Eight golden rules of interface design](https://www.cs.umd.edu/users/ben/goldenrules.html): offer simple error handling, and permit easy reversal of actions.
+- Lewis and Norman (1986), "Designing for error", in Norman and Draper (eds), *User Centered System Design*. The case for treating recovery as a design aim beside prevention.
+- Untested here: whether a report that states the scope of what took effect changes what the actor does next, compared with one that only names the failure; and how far the double-submission problem is understood by the actors who meet it.
+
+## Resources & references
+
+- GOV.UK Design System, [Problem with the service pages](https://design-system.service.gov.uk/patterns/problem-with-the-service-pages/), [Page not found pages](https://design-system.service.gov.uk/patterns/page-not-found-pages/) and [Service unavailable pages](https://design-system.service.gov.uk/patterns/service-unavailable-pages/): the system-side family, kept apart from validation.
+- [Material Design / Errors](https://m2.material.io/design/communication/errors.html)
+- [Shopify Polaris / Error messages](https://polaris.shopify.com/content/error-messages)
+- [Carbon Design System / Notifications](https://carbondesignsystem.com/patterns/notification-pattern/)
+- [Apple HIG / Alerts](https://developer.apple.com/design/human-interface-guidelines/alerts)
+
+## To-do
+
+- The timeout case. A request whose outcome the system does not know may be a move of its own, since its next step is checking rather than retrying.
+- Whether the edge from waiting holds for failures that had no wait. It is authored for the long-request case, where the report takes the sign's place.
+- Retry and idempotency. Where the rule that a retry must be safe belongs: here, on the request, or on action consequences.
+- Connection loss. Saving names the offline case; whether it is a case of this page or a page of its own.
+- The title. Error recovery names what the actor does afterwards; the move is the system's report. A candidate is failure report.
+- Instances across the catalogue, and a demo of one request failing three ways: nothing changed, half changed, outcome unknown.
