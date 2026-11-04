@@ -9,6 +9,7 @@ import {
 import { addDescribedBy, removeDescribedBy } from '../lib/describedby';
 import { PANE_LABEL, panePath, paneIndexOf, paneKindOf } from '../lib/pane-path';
 import { mountDemos, unmountDetachedDemos } from '../lib/demo-registry';
+import { mountAnnotations } from '../lib/annotations';
 
 interface StackManagerProps {
   slug: string;
@@ -339,7 +340,9 @@ export function StackManager({ slug, title, path }: StackManagerProps) {
       const article = getStack()?.querySelector<HTMLElement>(
         `[data-pane-index="${i + 1}"] .pane-body > article`,
       );
-      if (article) mountDemos(article);
+      if (!article) return;
+      mountDemos(article);
+      mountAnnotations(article);
     });
   }, [panes]);
 

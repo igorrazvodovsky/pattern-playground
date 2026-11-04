@@ -4,6 +4,7 @@
 // The body is the lead; the pattern list renders from frontmatter in the
 // authored order, and the sequences are derived from what they invoke.
 import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Annotation from './Annotation.astro';
 import Demo from './Demo.astro';
 import Diagram from './Diagram.astro';
 import { ComponentRef } from './ComponentRef';
@@ -36,7 +37,7 @@ const sequences = sequencesFor(entry, await getCollection('sequences'));
 ---
 
 <ArticleShell title={entry.data.title} dates={entry} pagefind={pagefind} pageType="language">
-  <Content components={{ Demo, ComponentRef, Diagram }} />
+  <Content components={{ Annotation, Demo, ComponentRef, Diagram }} />
 
   <h2>Patterns</h2>
   <p>

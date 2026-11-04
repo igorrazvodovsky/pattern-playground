@@ -3,6 +3,7 @@
 // which is needed before the walk rather than after it. A sub-sequence's
 // `initiating` takes the same fold one scale down (SequenceWalk.astro).
 import { render, type CollectionEntry } from 'astro:content';
+import Annotation from './Annotation.astro';
 import Demo from './Demo.astro';
 import Diagram from './Diagram.astro';
 import { ComponentRef } from './ComponentRef';
@@ -27,6 +28,6 @@ const { Content } = await render(entry);
       <Label text={entry.data.presupposes} />
     </p>
   </details>
-  <Content components={{ Demo, ComponentRef, Diagram }} />
+  <Content components={{ Annotation, Demo, ComponentRef, Diagram }} />
   <SequenceWalk entry={entry} />
 </ArticleShell>

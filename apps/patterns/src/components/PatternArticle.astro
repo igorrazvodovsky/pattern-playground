@@ -3,6 +3,7 @@
 // (pages/patterns/[...slug].astro) and the pane partial
 // (pages/patterns/[slug]/pane.astro) so the two cannot drift.
 import { render, type CollectionEntry } from 'astro:content';
+import Annotation from './Annotation.astro';
 import Demo from './Demo.astro';
 import Diagram from './Diagram.astro';
 import Figure from './Figure.astro';
@@ -46,6 +47,7 @@ const { Content } = await render(entry);
       in the contract's page order, so the whole page composes in one place. */}
   <Content
     components={{
+      Annotation,
       Demo,
       ComponentRef,
       Diagram,

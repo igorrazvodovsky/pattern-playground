@@ -1,0 +1,23 @@
+---
+// A hand-drawn mark beside a block of prose, with an optional handwritten
+// note: <Annotation note="fair warning">…</Annotation>. MDX pages receive it
+// through the Content components mapping, so it needs no import.
+// lib/annotations.ts draws the mark with rough-notation and decides where the
+// note goes: anchored beside the block, in the right margin, or in a column
+// of its own.
+import type { RoughAnnotationType } from 'rough-notation/lib/model';
+
+interface Props {
+  note?: string;
+  type?: RoughAnnotationType;
+}
+
+const { note, type = 'bracket' } = Astro.props;
+---
+
+<div class="annotation" data-annotation={type}>
+  <div class="annotation__body flow">
+    <slot />
+  </div>
+  {note && <p class="annotation__note">{note}</p>}
+</div>

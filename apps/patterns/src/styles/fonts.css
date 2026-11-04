@@ -98,3 +98,14 @@
   font-display: swap;
   src: url('../fonts/Alegreya-BoldItalic.woff2') format('woff2');
 }
+
+/* Shantell Sans, for handwritten margin notes (components/Annotation.astro).
+   Variable, latin subset, with all four axes: weight, informality (INFM),
+   bounce (BNCE) and spacing (SPAC). */
+@font-face {
+  font-family: 'Shantell Sans';
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+  src: url('../fonts/ShantellSans-Variable.woff2') format('woff2');
+}

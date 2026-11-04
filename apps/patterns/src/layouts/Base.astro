@@ -134,11 +134,16 @@ const umamiWebsiteId = import.meta.env.PROD ? import.meta.env.PUBLIC_UMAMI_WEBSI
       import '../lib/demo-expander.ts';
       import '../lib/pattern-dates.ts';
       import { mountDemos, unmountDetachedDemos } from '../lib/demo-registry.ts';
+      import { mountAnnotations } from '../lib/annotations.ts';
       // Mount pane-0 demos now, and again after every ClientRouter swap
       // (astro:page-load also fires on initial load; mounting is idempotent).
       mountDemos(document);
+      mountAnnotations(document);
       document.addEventListener('astro:after-swap', unmountDetachedDemos);
-      document.addEventListener('astro:page-load', () => mountDemos(document));
+      document.addEventListener('astro:page-load', () => {
+        mountDemos(document);
+        mountAnnotations(document);
+      });
     </script>
   </body>
 </html>
