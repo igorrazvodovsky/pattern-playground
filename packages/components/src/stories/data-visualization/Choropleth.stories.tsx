@@ -1,12 +1,15 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useEffect, useRef } from "react";
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useEffect, useRef, type CSSProperties } from 'react';
 import { action } from 'storybook/actions';
 
 // Import the map component (this registers the custom element via register-all).
 // The pp-choropleth JSX typing lives in src/jsx-types.ts.
-import "../../components/charts/choropleth.js";
-import type { Choropleth } from "../../components/charts/choropleth.js";
-import type { ChoroplethData, ChoroplethDataPoint } from "../../components/charts/base/chart-types.js";
+import '../../components/charts/choropleth.js';
+import type { Choropleth } from '../../components/charts/choropleth.js';
+import type {
+  ChoroplethData,
+  ChoroplethDataPoint,
+} from '../../components/charts/base/chart-types.js';
 
 import worldGeometry from '@shared/data/world-countries.geo.json' with { type: 'json' };
 import worldPopulation from '@shared/data/world-population.json' with { type: 'json' };
@@ -59,14 +62,14 @@ function ChoroplethWrapper({
   }, [data, projection, colorSteps, showLegend, title]);
 
   return (
-    <div style={{ width: '100%', height }}>
+    <div className="story-height" style={{ '--story-height': `${height}px` } as CSSProperties}>
       <pp-choropleth ref={mapRef} />
     </div>
   );
 }
 
 const meta = {
-  title: "Data visualisation/Choropleth",
+  title: 'Data visualisation/Choropleth',
   component: ChoroplethWrapper,
   argTypes: {
     projection: {

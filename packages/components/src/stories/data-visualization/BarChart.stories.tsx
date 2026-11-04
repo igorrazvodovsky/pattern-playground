@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useEffect, useRef } from "react";
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useEffect, useRef } from 'react';
 import { action } from 'storybook/actions';
 
 // Import the bar chart component (this will register the custom element)
 // The pp-bar-chart JSX typing lives in src/jsx-types.ts.
-import "../../components/charts/bar-chart.js";
-import type { BarChart } from "../../components/charts/bar-chart.js";
-import type { BarChartData } from "../../components/charts/base/chart-types.js";
+import '../../components/charts/bar-chart.js';
+import type { BarChart } from '../../components/charts/bar-chart.js';
+import type { BarChartData } from '../../components/charts/base/chart-types.js';
 
 // Sample data for testing
 const sampleProductData: BarChartData = {
@@ -15,8 +15,8 @@ const sampleProductData: BarChartData = {
     { category: 'B', value: 85 },
     { category: 'C', value: 150 },
     { category: 'D', value: 95 },
-    { category: 'E', value: 175 }
-  ]
+    { category: 'E', value: 175 },
+  ],
 };
 
 const largeDataset: BarChartData = {
@@ -32,8 +32,8 @@ const largeDataset: BarChartData = {
     { category: 'Sep', value: 167 },
     { category: 'Oct', value: 189 },
     { category: 'Nov', value: 198 },
-    { category: 'Dec', value: 201 }
-  ]
+    { category: 'Dec', value: 201 },
+  ],
 };
 
 const monthlyData: BarChartData = {
@@ -43,8 +43,8 @@ const monthlyData: BarChartData = {
     { category: 'March', value: 237 },
     { category: 'April', value: 73 },
     { category: 'May', value: 209 },
-    { category: 'June', value: 214 }
-  ]
+    { category: 'June', value: 214 },
+  ],
 };
 
 interface BarChartWrapperProps {
@@ -71,7 +71,7 @@ function BarChartWrapper({
   title = '',
   sort = 'none',
   showValueLabels = false,
-  showCategoryLabels = false
+  showCategoryLabels = false,
 }: BarChartWrapperProps) {
   const chartRef = useRef<BarChart | null>(null);
 
@@ -107,52 +107,61 @@ function BarChartWrapper({
         chartElement.removeEventListener('pp-bar-click', handleBarClick as EventListener);
       };
     }
-  }, [data, orientation, showAxes, showGrid, showLegend, animate, title, sort, showValueLabels, showCategoryLabels]);
+  }, [
+    data,
+    orientation,
+    showAxes,
+    showGrid,
+    showLegend,
+    animate,
+    title,
+    sort,
+    showValueLabels,
+    showCategoryLabels,
+  ]);
 
-  return (
-    <pp-bar-chart ref={chartRef} />
-  );
+  return <pp-bar-chart ref={chartRef} />;
 }
 
 const meta = {
-  title: "Data visualisation/Bar chart",
+  title: 'Data visualisation/Bar chart',
   component: BarChartWrapper,
   argTypes: {
     orientation: {
       control: { type: 'radio' },
       options: ['vertical', 'horizontal'],
-      description: 'Chart orientation'
+      description: 'Chart orientation',
     },
     showAxes: {
       control: { type: 'boolean' },
-      description: 'Show x and y axes'
+      description: 'Show x and y axes',
     },
     showGrid: {
       control: { type: 'boolean' },
-      description: 'Show grid lines'
+      description: 'Show grid lines',
     },
     showLegend: {
       control: { type: 'boolean' },
-      description: 'Show legend (future feature)'
+      description: 'Show legend (future feature)',
     },
     animate: {
       control: { type: 'boolean' },
-      description: 'Enable animations'
+      description: 'Enable animations',
     },
     sort: {
       control: { type: 'radio' },
       options: ['none', 'asc', 'desc'],
-      description: 'Sort bars by value'
+      description: 'Sort bars by value',
     },
     showValueLabels: {
       control: { type: 'boolean' },
-      description: 'Show value labels on bars'
+      description: 'Show value labels on bars',
     },
     showCategoryLabels: {
       control: { type: 'boolean' },
-      description: 'Show category labels on bars'
-    }
-  }
+      description: 'Show category labels on bars',
+    },
+  },
 } satisfies Meta<BarChartWrapperProps>;
 
 export default meta;
@@ -166,7 +175,7 @@ export const Default: Story = {
     showGrid: false,
     animate: true,
     title: 'Product sales',
-  }
+  },
 };
 
 export const LargeDataset: Story = {
@@ -177,7 +186,7 @@ export const LargeDataset: Story = {
     showGrid: true,
     animate: true,
     title: 'Monthly sales',
-  }
+  },
 };
 
 export const Minimal: Story = {
@@ -186,15 +195,15 @@ export const Minimal: Story = {
       data: [
         { category: 'A', value: 30 },
         { category: 'B', value: 45 },
-        { category: 'C', value: 25 }
-      ]
+        { category: 'C', value: 25 },
+      ],
     },
     orientation: 'vertical',
     showAxes: false,
     showGrid: false,
     animate: true,
     title: 'Minimal Chart',
-  }
+  },
 };
 
 export const HorizontalWithValueLabels: Story = {
@@ -207,5 +216,5 @@ export const HorizontalWithValueLabels: Story = {
     showCategoryLabels: true,
     animate: true,
     title: 'Monthly Performance',
-  }
+  },
 };

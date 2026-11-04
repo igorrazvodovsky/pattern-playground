@@ -1,12 +1,14 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { CSSProperties } from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: "Components/List",
-  tags: ['activity-level:action', 'atomic:component', 'role:component', 'lifecycle:evaluation', 'mediation:individual'],
+  title: 'Components/List',
+  tags: ['activity-level:action', 'lifecycle:evaluation', 'mediation:individual'],
   parameters: {
     docs: {
       description: {
-        component: 'Composable list component for menus, option sets, and vertical navigation. List items support inline checkboxes, radios, toggles, and separators.',
+        component:
+          'Composable list component for menus, option sets, and vertical navigation. List items support inline checkboxes, radios, toggles, and separators.',
       },
     },
   },
@@ -18,12 +20,14 @@ type Story = StoryObj;
 export const List: Story = {
   args: {},
   render: () => (
-    <pp-list style={{ maxWidth: '320px' }}>
+    <pp-list className="measure" style={{ '--measure': '20rem' } as CSSProperties}>
       <pp-list-item>Option 1</pp-list-item>
       <pp-list-item>Option 2</pp-list-item>
       <pp-list-item>Option 3</pp-list-item>
       <hr />
-      <pp-list-item type="checkbox" checked>Checkbox, radio or toggle</pp-list-item>
+      <pp-list-item type="checkbox" checked>
+        Checkbox, radio or toggle
+      </pp-list-item>
       <pp-list-item disabled>Disabled</pp-list-item>
       <pp-list-item>
         Prefix
@@ -48,7 +52,7 @@ export const Sections: Story = {
     },
   },
   render: () => (
-    <pp-list style={{ maxWidth: '320px' }}>
+    <pp-list className="measure" style={{ '--measure': '20rem' } as CSSProperties}>
       <pp-list-label>Move to</pp-list-label>
       <pp-list-item>In development</pp-list-item>
       <pp-list-item>Pilot</pp-list-item>

@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import { Command as ComboboxPrimitive } from "cmdk"
+import * as React from 'react';
+import { Command as ComboboxPrimitive } from 'cmdk';
 
 interface SlotProps {
   slot?: string;
@@ -23,11 +23,11 @@ const useComboboxItemSlots = (children: React.ReactNode): ComboboxItemSlots => {
     };
 
     return {
-      prefix: childArray.filter(child => isSlotChild(child, 'prefix')),
-      suffix: childArray.filter(child => isSlotChild(child, 'suffix')),
-      content: childArray.filter(child =>
-        !isSlotChild(child, 'prefix') && !isSlotChild(child, 'suffix')
-      )
+      prefix: childArray.filter((child) => isSlotChild(child, 'prefix')),
+      suffix: childArray.filter((child) => isSlotChild(child, 'suffix')),
+      content: childArray.filter(
+        (child) => !isSlotChild(child, 'prefix') && !isSlotChild(child, 'suffix'),
+      ),
     };
   }, [children]);
 };
@@ -37,86 +37,62 @@ interface ComboboxProps extends React.ComponentPropsWithoutRef<typeof ComboboxPr
   onEscape?: () => boolean | void;
 }
 
-const Combobox = React.forwardRef<
-  React.ElementRef<typeof ComboboxPrimitive>,
-  ComboboxProps
->(({ onEscape, onKeyDown, ...props }, ref) => {
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'Escape' && onEscape) {
-      const handled = onEscape();
-      if (handled) {
-        e.preventDefault();
+const Combobox = React.forwardRef<React.ElementRef<typeof ComboboxPrimitive>, ComboboxProps>(
+  ({ onEscape, onKeyDown, ...props }, ref) => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === 'Escape' && onEscape) {
+        const handled = onEscape();
+        if (handled) {
+          e.preventDefault();
+        }
       }
-    }
 
-    onKeyDown?.(e);
-  };
+      onKeyDown?.(e);
+    };
 
-  return (
-    <ComboboxPrimitive
-      ref={ref}
-      onKeyDown={handleKeyDown}
-      {...props}
-    />
-  )
-})
-Combobox.displayName = ComboboxPrimitive.displayName
+    return <ComboboxPrimitive ref={ref} onKeyDown={handleKeyDown} {...props} />;
+  },
+);
+Combobox.displayName = ComboboxPrimitive.displayName;
 
-interface ComboboxInputProps extends React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Input> {
+interface ComboboxInputProps extends React.ComponentPropsWithoutRef<
+  typeof ComboboxPrimitive.Input
+> {
   placeholder?: string;
 }
 
 const ComboboxInput = React.forwardRef<
   React.ElementRef<typeof ComboboxPrimitive.Input>,
   ComboboxInputProps
->(({ placeholder = "Search, commands, etc.", ...props }, ref) => (
+>(({ placeholder = 'Search, commands, etc.', ...props }, ref) => (
   <div cmdk-input-wrapper="">
     <iconify-icon icon="ik:search" className="icon" aria-hidden="true"></iconify-icon>
-    <ComboboxPrimitive.Input
-      ref={ref}
-      placeholder={placeholder}
-      {...props}
-    />
+    <ComboboxPrimitive.Input ref={ref} placeholder={placeholder} {...props} />
   </div>
-))
+));
 
-ComboboxInput.displayName = ComboboxPrimitive.Input.displayName
+ComboboxInput.displayName = ComboboxPrimitive.Input.displayName;
 
 const ComboboxList = React.forwardRef<
   React.ElementRef<typeof ComboboxPrimitive.List>,
   React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.List>
->(({ ...props }, ref) => (
-  <ComboboxPrimitive.List
-    ref={ref}
-    {...props}
-  />
-))
+>(({ ...props }, ref) => <ComboboxPrimitive.List ref={ref} {...props} />);
 
-ComboboxList.displayName = ComboboxPrimitive.List.displayName
+ComboboxList.displayName = ComboboxPrimitive.List.displayName;
 
 const ComboboxEmpty = React.forwardRef<
   React.ElementRef<typeof ComboboxPrimitive.Empty>,
   React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Empty>
->((props, ref) => (
-  <ComboboxPrimitive.Empty
-    ref={ref}
-    {...props}
-  />
-))
+>((props, ref) => <ComboboxPrimitive.Empty ref={ref} {...props} />);
 
-ComboboxEmpty.displayName = ComboboxPrimitive.Empty.displayName
+ComboboxEmpty.displayName = ComboboxPrimitive.Empty.displayName;
 
 const ComboboxGroup = React.forwardRef<
   React.ElementRef<typeof ComboboxPrimitive.Group>,
   React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Group>
->(({ ...props }, ref) => (
-  <ComboboxPrimitive.Group
-    ref={ref}
-    {...props}
-  />
-))
+>(({ ...props }, ref) => <ComboboxPrimitive.Group ref={ref} {...props} />);
 
-ComboboxGroup.displayName = ComboboxPrimitive.Group.displayName
+ComboboxGroup.displayName = ComboboxPrimitive.Group.displayName;
 
 interface ComboboxItemProps extends React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Item> {
   checked?: boolean;
@@ -137,7 +113,9 @@ const ComboboxItem = React.forwardRef<
       checked ? 'combobox-item--checked' : '',
       className || '',
       children.props.className || '',
-    ].filter(Boolean).join(' ');
+    ]
+      .filter(Boolean)
+      .join(' ');
     return React.cloneElement(children, { ref, className: mergedClassName });
   }
 
@@ -154,19 +132,17 @@ const ComboboxItem = React.forwardRef<
       {prefix.length > 0 && (
         <span className="combobox-item__prefix">
           {prefix.map((child, index) =>
-            React.cloneElement(child as React.ReactElement, { key: index })
+            React.cloneElement(child as React.ReactElement, { key: index }),
           )}
         </span>
       )}
 
-      <span className="combobox-item__label">
-        {content}
-      </span>
+      <span className="combobox-item__label">{content}</span>
 
       {suffix.length > 0 && (
         <span className="combobox-item__suffix">
           {suffix.map((child, index) =>
-            React.cloneElement(child as React.ReactElement, { key: index })
+            React.cloneElement(child as React.ReactElement, { key: index }),
           )}
         </span>
       )}
@@ -174,37 +150,35 @@ const ComboboxItem = React.forwardRef<
   );
 });
 
-ComboboxItem.displayName = ComboboxPrimitive.Item.displayName
+ComboboxItem.displayName = ComboboxPrimitive.Item.displayName;
 
 interface ComboboxItemPrefixProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Content to be rendered in the prefix slot */
   children?: React.ReactNode;
 }
 
-const ComboboxItemPrefix = React.forwardRef<
-  HTMLSpanElement,
-  ComboboxItemPrefixProps
->(({ children, ...props }, ref) => (
-  <span ref={ref} slot="prefix" {...props}>
-    {children}
-  </span>
-))
-ComboboxItemPrefix.displayName = "ComboboxItemPrefix"
+const ComboboxItemPrefix = React.forwardRef<HTMLSpanElement, ComboboxItemPrefixProps>(
+  ({ children, ...props }, ref) => (
+    <span ref={ref} slot="prefix" {...props}>
+      {children}
+    </span>
+  ),
+);
+ComboboxItemPrefix.displayName = 'ComboboxItemPrefix';
 
 interface ComboboxItemSuffixProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Content to be rendered in the suffix slot */
   children?: React.ReactNode;
 }
 
-const ComboboxItemSuffix = React.forwardRef<
-  HTMLSpanElement,
-  ComboboxItemSuffixProps
->(({ children, ...props }, ref) => (
-  <span ref={ref} slot="suffix" {...props}>
-    {children}
-  </span>
-))
-ComboboxItemSuffix.displayName = "ComboboxItemSuffix"
+const ComboboxItemSuffix = React.forwardRef<HTMLSpanElement, ComboboxItemSuffixProps>(
+  ({ children, ...props }, ref) => (
+    <span ref={ref} slot="suffix" {...props}>
+      {children}
+    </span>
+  ),
+);
+ComboboxItemSuffix.displayName = 'ComboboxItemSuffix';
 
 export {
   Combobox,
@@ -215,7 +189,7 @@ export {
   ComboboxItem,
   ComboboxItemPrefix,
   ComboboxItemSuffix,
-}
+};
 
 export type {
   ComboboxProps,
@@ -223,4 +197,4 @@ export type {
   ComboboxItemProps,
   ComboboxItemPrefixProps,
   ComboboxItemSuffixProps,
-}
+};

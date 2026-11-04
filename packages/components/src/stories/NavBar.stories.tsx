@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { faker } from '@faker-js/faker';
 
 const meta = {
-  title: "Components/Nav bar",
+  title: 'Components/Nav bar',
   parameters: {
     layout: 'fullscreen',
   },

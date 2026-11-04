@@ -1,7 +1,7 @@
 import type { Spec } from '@json-render/core';
 import { products } from '@shared/data';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { attributeValue } from './shared/product-view';
+import { attributeValue } from './shared/product';
 import spec from './item-view-row.json' with { type: 'json' };
 
 const category = attributeValue('category');
@@ -13,7 +13,7 @@ export default {
   spec: spec as Spec,
   setup: {
     initialState: {
-      products: products.map(item => ({
+      products: products.map((item) => ({
         id: item.id,
         name: item.name,
         category: category(item),

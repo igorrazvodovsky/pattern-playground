@@ -2025,9 +2025,7 @@
     "input": {
       "documentId": "doc-2"
     },
-    "causedBy": [
-      "create-doc-2"
-    ],
+    "causedBy": ["create-doc-2"],
     "viaRule": "rule-suggest-outline"
   },
   {
@@ -2103,9 +2101,7 @@
     "input": {
       "documentId": "doc-5"
     },
-    "causedBy": [
-      "create-doc-5"
-    ],
+    "causedBy": ["create-doc-5"],
     "viaRule": "rule-suggest-outline"
   },
   {
@@ -2120,10 +2116,7 @@
       "assigneeId": "user-9",
       "projectId": "PRJ-3",
       "priority": "priority-low",
-      "labels": [
-        "label-data",
-        "label-assessment"
-      ],
+      "labels": ["label-data", "label-assessment"],
       "dueDate": "2024-01-15",
       "label": "Task created",
       "note": "LCA update requested by sustainability team"
@@ -2262,9 +2255,7 @@
     "input": {
       "documentId": "doc-6"
     },
-    "causedBy": [
-      "create-doc-6"
-    ],
+    "causedBy": ["create-doc-6"],
     "viaRule": "rule-suggest-outline"
   },
   {
@@ -2340,9 +2331,7 @@
     "input": {
       "documentId": "doc-4"
     },
-    "causedBy": [
-      "create-doc-4"
-    ],
+    "causedBy": ["create-doc-4"],
     "viaRule": "rule-suggest-outline"
   },
   {
@@ -2413,9 +2402,7 @@
     "input": {
       "documentId": "doc-1"
     },
-    "causedBy": [
-      "create-doc-1"
-    ],
+    "causedBy": ["create-doc-1"],
     "viaRule": "rule-suggest-outline"
   },
   {
@@ -2430,10 +2417,7 @@
       "assigneeId": "user-4",
       "projectId": "PRJ-2",
       "priority": "priority-high",
-      "labels": [
-        "label-design",
-        "label-take-back"
-      ],
+      "labels": ["label-design", "label-take-back"],
       "dueDate": "2024-01-25",
       "label": "Task created",
       "note": "Program design requested for Q1 launch"
@@ -2572,9 +2556,7 @@
     "input": {
       "documentId": "doc-7"
     },
-    "causedBy": [
-      "create-doc-7"
-    ],
+    "causedBy": ["create-doc-7"],
     "viaRule": "rule-suggest-outline"
   },
   {
@@ -2771,9 +2753,7 @@
     "input": {
       "documentId": "doc-climate-change"
     },
-    "causedBy": [
-      "create-doc-climate-change"
-    ],
+    "causedBy": ["create-doc-climate-change"],
     "viaRule": "rule-suggest-outline"
   },
   {
@@ -2849,9 +2829,7 @@
     "input": {
       "documentId": "doc-3"
     },
-    "causedBy": [
-      "create-doc-3"
-    ],
+    "causedBy": ["create-doc-3"],
     "viaRule": "rule-suggest-outline"
   },
   {
@@ -2866,10 +2844,7 @@
       "assigneeId": "user-3",
       "projectId": "PRJ-1",
       "priority": "priority-high",
-      "labels": [
-        "label-waste-reduction",
-        "label-audit"
-      ],
+      "labels": ["label-waste-reduction", "label-audit"],
       "dueDate": "2024-01-20",
       "label": "Task created",
       "note": "Initial task assignment to audit team"
@@ -3228,9 +3203,7 @@
     "input": {
       "documentId": "doc-8"
     },
-    "causedBy": [
-      "create-doc-8"
-    ],
+    "causedBy": ["create-doc-8"],
     "viaRule": "rule-suggest-outline"
   },
   {
@@ -3446,9 +3419,7 @@
     "input": {
       "documentId": "doc-circular-economy"
     },
-    "causedBy": [
-      "create-doc-circular-economy"
-    ],
+    "causedBy": ["create-doc-circular-economy"],
     "viaRule": "rule-suggest-outline"
   },
   {
@@ -3578,10 +3549,7 @@
       "assigneeId": "user-8",
       "projectId": "PRJ-2",
       "priority": "priority-medium",
-      "labels": [
-        "label-logistics",
-        "label-optimization"
-      ],
+      "labels": ["label-logistics", "label-optimization"],
       "dueDate": "2024-02-01",
       "label": "Task created",
       "note": "Optimization task added to backlog"
@@ -3672,9 +3640,7 @@
         "object": "status-backlog"
       }
     ],
-    "causedBy": [
-      "hist-1-1"
-    ],
+    "causedBy": ["hist-1-1"],
     "viaRule": "rule-auto-triage"
   },
   {
@@ -3773,9 +3739,7 @@
         "object": "comment-12"
       }
     ],
-    "causedBy": [
-      "add-comment-12"
-    ],
+    "causedBy": ["add-comment-12"],
     "viaRule": "rule-notify-comment"
   },
   {
@@ -3956,10 +3920,7 @@
       "assigneeId": "user-2",
       "projectId": "PRJ-3",
       "priority": "priority-medium",
-      "labels": [
-        "label-sourcing",
-        "label-recycling"
-      ],
+      "labels": ["label-sourcing", "label-recycling"],
       "dueDate": "2024-01-18",
       "label": "Task created",
       "note": "Task assigned to procurement team"
@@ -4076,9 +4037,7 @@
         "object": "comment-23"
       }
     ],
-    "causedBy": [
-      "add-comment-23"
-    ],
+    "causedBy": ["add-comment-23"],
     "viaRule": "rule-notify-comment"
   },
   {
@@ -4207,9 +4166,7 @@
         "object": "comment-7"
       }
     ],
-    "causedBy": [
-      "add-comment-7"
-    ],
+    "causedBy": ["add-comment-7"],
     "viaRule": "rule-notify-comment"
   },
   {
@@ -4272,9 +4229,7 @@
         "object": "comment-3"
       }
     ],
-    "causedBy": [
-      "add-comment-3"
-    ],
+    "causedBy": ["add-comment-3"],
     "viaRule": "rule-notify-comment"
   },
   {
@@ -4428,9 +4383,7 @@
         "object": "task-3"
       }
     ],
-    "causedBy": [
-      "hist-3-3"
-    ],
+    "causedBy": ["hist-3-3"],
     "viaRule": "rule-notify-completion"
   },
   {
@@ -4517,9 +4470,7 @@
         "object": "comment-21"
       }
     ],
-    "causedBy": [
-      "add-comment-21"
-    ],
+    "causedBy": ["add-comment-21"],
     "viaRule": "rule-notify-comment"
   },
   {
@@ -4582,9 +4533,7 @@
         "object": "comment-1"
       }
     ],
-    "causedBy": [
-      "add-comment-1"
-    ],
+    "causedBy": ["add-comment-1"],
     "viaRule": "rule-notify-comment"
   },
   {
@@ -4681,9 +4630,7 @@
         "object": "comment-22"
       }
     ],
-    "causedBy": [
-      "add-comment-22"
-    ],
+    "causedBy": ["add-comment-22"],
     "viaRule": "rule-notify-comment"
   },
   {
@@ -5103,9 +5050,7 @@
     "input": {
       "documentId": "doc-sustainability-metrics"
     },
-    "causedBy": [
-      "create-doc-sustainability-metrics"
-    ],
+    "causedBy": ["create-doc-sustainability-metrics"],
     "viaRule": "rule-suggest-outline"
   },
   {
@@ -6882,10 +6827,7 @@
       {
         "relation": "certification",
         "subject": "MAT-ALU-001",
-        "object": [
-          "ASI",
-          "LEED"
-        ]
+        "object": ["ASI", "LEED"]
       },
       {
         "relation": "supplier",
@@ -6981,9 +6923,7 @@
       {
         "relation": "certification",
         "subject": "MAT-STL-002",
-        "object": [
-          "ResponsibleSteel"
-        ]
+        "object": ["ResponsibleSteel"]
       },
       {
         "relation": "supplier",
@@ -7079,10 +7019,7 @@
       {
         "relation": "certification",
         "subject": "MAT-PLA-003",
-        "object": [
-          "OK compost",
-          "ASTM D6400"
-        ]
+        "object": ["OK compost", "ASTM D6400"]
       },
       {
         "relation": "supplier",
@@ -7178,10 +7115,7 @@
       {
         "relation": "certification",
         "subject": "MAT-PET-004",
-        "object": [
-          "GRS",
-          "RCS"
-        ]
+        "object": ["GRS", "RCS"]
       },
       {
         "relation": "supplier",
@@ -7277,9 +7211,7 @@
       {
         "relation": "certification",
         "subject": "MAT-FIB-005",
-        "object": [
-          "USDA Organic"
-        ]
+        "object": ["USDA Organic"]
       },
       {
         "relation": "supplier",
@@ -7375,10 +7307,7 @@
       {
         "relation": "certification",
         "subject": "MAT-BAM-006",
-        "object": [
-          "FSC",
-          "SCS"
-        ]
+        "object": ["FSC", "SCS"]
       },
       {
         "relation": "supplier",
@@ -7474,9 +7403,7 @@
       {
         "relation": "certification",
         "subject": "MAT-MYC-007",
-        "object": [
-          "USDA BioPreferred"
-        ]
+        "object": ["USDA BioPreferred"]
       },
       {
         "relation": "supplier",
@@ -7572,9 +7499,7 @@
       {
         "relation": "certification",
         "subject": "MAT-GAL-008",
-        "object": [
-          "ResponsibleSteel"
-        ]
+        "object": ["ResponsibleSteel"]
       },
       {
         "relation": "supplier",
@@ -7670,9 +7595,7 @@
       {
         "relation": "certification",
         "subject": "MAT-LIT-009",
-        "object": [
-          "LME"
-        ]
+        "object": ["LME"]
       },
       {
         "relation": "supplier",
@@ -7768,10 +7691,7 @@
       {
         "relation": "certification",
         "subject": "MAT-TEX-010",
-        "object": [
-          "GOTS",
-          "OCS"
-        ]
+        "object": ["GOTS", "OCS"]
       },
       {
         "relation": "supplier",
@@ -7880,10 +7800,7 @@
           "repairability": "low",
           "refurbishable": true,
           "recyclable": true,
-          "endOfLife": [
-            "material_recovery",
-            "chemical_recycling"
-          ]
+          "endOfLife": ["material_recovery", "chemical_recycling"]
         }
       },
       {
@@ -7973,11 +7890,7 @@
         "object": {
           "maxCurrent": "50A",
           "voltage": "36V",
-          "protection": [
-            "overcurrent",
-            "overvoltage",
-            "temperature"
-          ],
+          "protection": ["overcurrent", "overvoltage", "temperature"],
           "weight": "85g",
           "dimensions": "60x40x15mm"
         }
@@ -7991,10 +7904,7 @@
           "repairability": "medium",
           "refurbishable": true,
           "recyclable": true,
-          "endOfLife": [
-            "component_reuse",
-            "material_recovery"
-          ]
+          "endOfLife": ["component_reuse", "material_recovery"]
         }
       },
       {
@@ -8094,11 +8004,7 @@
           "repairability": "high",
           "refurbishable": true,
           "recyclable": true,
-          "endOfLife": [
-            "refurbishment",
-            "component_reuse",
-            "material_recovery"
-          ]
+          "endOfLife": ["refurbishment", "component_reuse", "material_recovery"]
         }
       },
       {
@@ -8202,9 +8108,7 @@
           "repairability": "low",
           "refurbishable": false,
           "recyclable": true,
-          "endOfLife": [
-            "material_recovery"
-          ]
+          "endOfLife": ["material_recovery"]
         }
       },
       {
@@ -8308,9 +8212,7 @@
           "repairability": "low",
           "refurbishable": false,
           "recyclable": true,
-          "endOfLife": [
-            "material_recovery"
-          ]
+          "endOfLife": ["material_recovery"]
         }
       },
       {
@@ -8414,9 +8316,7 @@
           "repairability": "low",
           "refurbishable": false,
           "recyclable": true,
-          "endOfLife": [
-            "material_recovery"
-          ]
+          "endOfLife": ["material_recovery"]
         }
       },
       {
@@ -8515,10 +8415,7 @@
           "repairability": "high",
           "refurbishable": true,
           "recyclable": true,
-          "endOfLife": [
-            "reuse",
-            "material_recovery"
-          ]
+          "endOfLife": ["reuse", "material_recovery"]
         }
       },
       {
@@ -8623,11 +8520,7 @@
           "repairability": "high",
           "refurbishable": true,
           "recyclable": true,
-          "endOfLife": [
-            "refurbishment",
-            "component_reuse",
-            "material_recovery"
-          ]
+          "endOfLife": ["refurbishment", "component_reuse", "material_recovery"]
         }
       },
       {
@@ -8731,10 +8624,7 @@
           "repairability": "medium",
           "refurbishable": true,
           "recyclable": true,
-          "endOfLife": [
-            "component_reuse",
-            "material_recovery"
-          ]
+          "endOfLife": ["component_reuse", "material_recovery"]
         }
       },
       {
@@ -8838,10 +8728,7 @@
           "repairability": "low",
           "refurbishable": false,
           "recyclable": true,
-          "endOfLife": [
-            "material_recovery",
-            "rare_earth_recovery"
-          ]
+          "endOfLife": ["material_recovery", "rare_earth_recovery"]
         }
       },
       {
@@ -8940,10 +8827,7 @@
           "repairability": "high",
           "refurbishable": true,
           "recyclable": true,
-          "endOfLife": [
-            "reuse",
-            "material_recovery"
-          ]
+          "endOfLife": ["reuse", "material_recovery"]
         }
       },
       {
@@ -9066,10 +8950,7 @@
           "maintenanceInterval": "Annual",
           "repairability": "Medium",
           "upgradeability": "Medium",
-          "endOfLifeOptions": [
-            "Component Reuse",
-            "Material Recovery"
-          ]
+          "endOfLifeOptions": ["Component Reuse", "Material Recovery"]
         }
       },
       {
@@ -9081,9 +8962,7 @@
           "recycledContentOverall": 85,
           "recyclabilityScore": 84,
           "lca": "PRD-LAP-001-lca.pdf",
-          "certifications": [
-            "EPEAT Silver"
-          ]
+          "certifications": ["EPEAT Silver"]
         }
       },
       {
@@ -9116,12 +8995,8 @@
           "status": "Discontinued",
           "leadTime": 5,
           "leadTimeUnit": "days",
-          "regions": [
-            "EU"
-          ],
-          "channels": [
-            "Online"
-          ]
+          "regions": ["EU"],
+          "channels": ["Online"]
         }
       },
       {
@@ -9278,10 +9153,7 @@
           "maintenanceInterval": "Per rotation",
           "repairability": "Medium",
           "upgradeability": "Low",
-          "endOfLifeOptions": [
-            "Regranulation",
-            "Closed-loop Recycling"
-          ]
+          "endOfLifeOptions": ["Regranulation", "Closed-loop Recycling"]
         }
       },
       {
@@ -9293,9 +9165,7 @@
           "recycledContentOverall": 95,
           "recyclabilityScore": 100,
           "lca": "PRD-PKG-002-lca.pdf",
-          "certifications": [
-            "ISO 14021"
-          ]
+          "certifications": ["ISO 14021"]
         }
       },
       {
@@ -9328,12 +9198,8 @@
           "status": "In Production",
           "leadTime": 14,
           "leadTimeUnit": "days",
-          "regions": [
-            "EU"
-          ],
-          "channels": [
-            "B2B"
-          ]
+          "regions": ["EU"],
+          "channels": ["B2B"]
         }
       },
       {
@@ -9436,10 +9302,7 @@
           "maintenanceInterval": 1000,
           "repairability": "High",
           "upgradeability": "Medium",
-          "endOfLifeOptions": [
-            "Component Reuse",
-            "Material Recovery"
-          ]
+          "endOfLifeOptions": ["Component Reuse", "Material Recovery"]
         }
       },
       {
@@ -9453,9 +9316,7 @@
           "carbonPayback": 400,
           "carbonPaybackUnit": "km",
           "lca": "PRD-EBK-002-lca.pdf",
-          "certifications": [
-            "EU Ecolabel"
-          ]
+          "certifications": ["EU Ecolabel"]
         }
       },
       {
@@ -9488,13 +9349,8 @@
           "status": "In Production",
           "leadTime": 10,
           "leadTimeUnit": "days",
-          "regions": [
-            "EU"
-          ],
-          "channels": [
-            "Direct",
-            "Online"
-          ]
+          "regions": ["EU"],
+          "channels": ["Direct", "Online"]
         }
       },
       {
@@ -9574,11 +9430,7 @@
           "maintenanceInterval": "Seasonal",
           "repairability": "High",
           "upgradeability": "Low",
-          "endOfLifeOptions": [
-            "Repair",
-            "Resale",
-            "Fiber Recovery"
-          ]
+          "endOfLifeOptions": ["Repair", "Resale", "Fiber Recovery"]
         }
       },
       {
@@ -9592,10 +9444,7 @@
           "waterFootprint": 120,
           "waterFootprintUnit": "liters",
           "lca": "PRD-TEX-002-lca.pdf",
-          "certifications": [
-            "GRS",
-            "Cradle to Cradle Certified"
-          ]
+          "certifications": ["GRS", "Cradle to Cradle Certified"]
         }
       },
       {
@@ -9628,14 +9477,8 @@
           "status": "In Production",
           "leadTime": 21,
           "leadTimeUnit": "days",
-          "regions": [
-            "EU",
-            "North America"
-          ],
-          "channels": [
-            "Direct",
-            "Online"
-          ]
+          "regions": ["EU", "North America"],
+          "channels": ["Direct", "Online"]
         }
       },
       {
@@ -9747,11 +9590,7 @@
           "maintenanceInterval": "Annual",
           "repairability": "High",
           "upgradeability": "High",
-          "endOfLifeOptions": [
-            "Reuse",
-            "Material Recovery",
-            "Composting"
-          ]
+          "endOfLifeOptions": ["Reuse", "Material Recovery", "Composting"]
         }
       },
       {
@@ -9764,11 +9603,7 @@
           "recyclabilityScore": 95,
           "carbonSequestration": 25.6,
           "lca": "PRD-FUR-001-lca.pdf",
-          "certifications": [
-            "FSC Certified",
-            "Cradle to Cradle Silver",
-            "GREENGUARD Gold"
-          ]
+          "certifications": ["FSC Certified", "Cradle to Cradle Silver", "GREENGUARD Gold"]
         }
       },
       {
@@ -9801,16 +9636,8 @@
           "status": "In Production",
           "leadTime": 21,
           "leadTimeUnit": "days",
-          "regions": [
-            "EU",
-            "North America",
-            "Asia Pacific"
-          ],
-          "channels": [
-            "Direct",
-            "Retail",
-            "B2B"
-          ]
+          "regions": ["EU", "North America", "Asia Pacific"],
+          "channels": ["Direct", "Retail", "B2B"]
         }
       },
       {
@@ -9918,11 +9745,7 @@
           "maintenanceInterval": 1000,
           "repairability": "High",
           "upgradeability": "Medium",
-          "endOfLifeOptions": [
-            "Refurbishment",
-            "Component Reuse",
-            "Material Recovery"
-          ]
+          "endOfLifeOptions": ["Refurbishment", "Component Reuse", "Material Recovery"]
         }
       },
       {
@@ -9936,10 +9759,7 @@
           "carbonPayback": 2500,
           "carbonPaybackUnit": "km",
           "lca": "PRD-EBK-001-lca.pdf",
-          "certifications": [
-            "EU Ecolabel",
-            "Cradle to Cradle Bronze"
-          ]
+          "certifications": ["EU Ecolabel", "Cradle to Cradle Bronze"]
         }
       },
       {
@@ -9972,15 +9792,8 @@
           "status": "In Production",
           "leadTime": 28,
           "leadTimeUnit": "days",
-          "regions": [
-            "EU",
-            "North America"
-          ],
-          "channels": [
-            "Direct",
-            "Retail",
-            "Subscription"
-          ]
+          "regions": ["EU", "North America"],
+          "channels": ["Direct", "Retail", "Subscription"]
         }
       },
       {
@@ -10067,12 +9880,7 @@
           "maintenanceInterval": "As Needed",
           "repairability": "High",
           "upgradeability": "Low",
-          "endOfLifeOptions": [
-            "Repair",
-            "Upcycling",
-            "Fiber Recovery",
-            "Composting"
-          ]
+          "endOfLifeOptions": ["Repair", "Upcycling", "Fiber Recovery", "Composting"]
         }
       },
       {
@@ -10086,11 +9894,7 @@
           "waterFootprint": 495,
           "waterFootprintUnit": "liters",
           "lca": "PRD-TEX-001-lca.pdf",
-          "certifications": [
-            "GOTS",
-            "Cradle to Cradle Certified",
-            "Fair Trade"
-          ]
+          "certifications": ["GOTS", "Cradle to Cradle Certified", "Fair Trade"]
         }
       },
       {
@@ -10123,13 +9927,8 @@
           "status": "In Production",
           "leadTime": 14,
           "leadTimeUnit": "days",
-          "regions": [
-            "Global"
-          ],
-          "channels": [
-            "Online",
-            "Retail"
-          ]
+          "regions": ["Global"],
+          "channels": ["Online", "Retail"]
         }
       },
       {
@@ -10231,11 +10030,7 @@
           "maintenanceInterval": "As Needed",
           "repairability": "High",
           "upgradeability": "High",
-          "endOfLifeOptions": [
-            "Module Reuse",
-            "Component Reuse",
-            "Material Recovery"
-          ]
+          "endOfLifeOptions": ["Module Reuse", "Component Reuse", "Material Recovery"]
         }
       },
       {
@@ -10247,10 +10042,7 @@
           "recycledContentOverall": 70,
           "recyclabilityScore": 87,
           "lca": "PRD-PHN-001-lca.pdf",
-          "certifications": [
-            "EPEAT Gold",
-            "TCO Certified"
-          ]
+          "certifications": ["EPEAT Gold", "TCO Certified"]
         }
       },
       {
@@ -10283,15 +10075,8 @@
           "status": "In Production",
           "leadTime": 12,
           "leadTimeUnit": "days",
-          "regions": [
-            "EU",
-            "North America"
-          ],
-          "channels": [
-            "Direct",
-            "Online",
-            "Retail"
-          ]
+          "regions": ["EU", "North America"],
+          "channels": ["Direct", "Online", "Retail"]
         }
       },
       {
@@ -10393,11 +10178,7 @@
           "maintenanceInterval": "Annual",
           "repairability": "Medium",
           "upgradeability": "Low",
-          "endOfLifeOptions": [
-            "Component Reuse",
-            "Material Recovery",
-            "Battery Recycling"
-          ]
+          "endOfLifeOptions": ["Component Reuse", "Material Recovery", "Battery Recycling"]
         }
       },
       {
@@ -10411,10 +10192,7 @@
           "carbonPayback": 150,
           "carbonPaybackUnit": "charging cycles",
           "lca": "PRD-PWR-001-lca.pdf",
-          "certifications": [
-            "EPEAT Gold",
-            "Energy Star"
-          ]
+          "certifications": ["EPEAT Gold", "Energy Star"]
         }
       },
       {
@@ -10447,13 +10225,8 @@
           "status": "In Production",
           "leadTime": 14,
           "leadTimeUnit": "days",
-          "regions": [
-            "Global"
-          ],
-          "channels": [
-            "Online",
-            "Retail"
-          ]
+          "regions": ["Global"],
+          "channels": ["Online", "Retail"]
         }
       },
       {
@@ -10543,11 +10316,7 @@
           "maintenanceInterval": "None",
           "repairability": "High",
           "upgradeability": "Medium",
-          "endOfLifeOptions": [
-            "Reuse",
-            "Component Reuse",
-            "Material Recovery"
-          ]
+          "endOfLifeOptions": ["Reuse", "Component Reuse", "Material Recovery"]
         }
       },
       {
@@ -10559,9 +10328,7 @@
           "recycledContentOverall": 72,
           "recyclabilityScore": 96,
           "lca": "PRD-FUR-002-lca.pdf",
-          "certifications": [
-            "GREENGUARD Gold"
-          ]
+          "certifications": ["GREENGUARD Gold"]
         }
       },
       {
@@ -10594,15 +10361,8 @@
           "status": "In Production",
           "leadTime": 18,
           "leadTimeUnit": "days",
-          "regions": [
-            "EU",
-            "North America"
-          ],
-          "channels": [
-            "Direct",
-            "Retail",
-            "B2B"
-          ]
+          "regions": ["EU", "North America"],
+          "channels": ["Direct", "Retail", "B2B"]
         }
       },
       {
@@ -10694,10 +10454,7 @@
           "maintenanceInterval": "None",
           "repairability": "Not Applicable",
           "upgradeability": "Not Applicable",
-          "endOfLifeOptions": [
-            "Home Composting",
-            "Industrial Composting"
-          ]
+          "endOfLifeOptions": ["Home Composting", "Industrial Composting"]
         }
       },
       {
@@ -10711,11 +10468,7 @@
           "compostTime": 90,
           "compostTimeUnit": "days",
           "lca": "PRD-PKG-001-lca.pdf",
-          "certifications": [
-            "OK compost HOME",
-            "ASTM D6400",
-            "BPI Certified"
-          ]
+          "certifications": ["OK compost HOME", "ASTM D6400", "BPI Certified"]
         }
       },
       {
@@ -10748,14 +10501,8 @@
           "status": "In Production",
           "leadTime": 7,
           "leadTimeUnit": "days",
-          "regions": [
-            "North America",
-            "EU"
-          ],
-          "channels": [
-            "B2B",
-            "Food Service"
-          ]
+          "regions": ["North America", "EU"],
+          "channels": ["B2B", "Food Service"]
         }
       },
       {
@@ -10858,11 +10605,7 @@
           "maintenanceInterval": 800,
           "repairability": "High",
           "upgradeability": "High",
-          "endOfLifeOptions": [
-            "Refurbishment",
-            "Component Reuse",
-            "Material Recovery"
-          ]
+          "endOfLifeOptions": ["Refurbishment", "Component Reuse", "Material Recovery"]
         }
       },
       {
@@ -10876,9 +10619,7 @@
           "carbonPayback": 3200,
           "carbonPaybackUnit": "km",
           "lca": "PRD-TRK-001-lca.pdf",
-          "certifications": [
-            "EU Ecolabel"
-          ]
+          "certifications": ["EU Ecolabel"]
         }
       },
       {
@@ -10911,13 +10652,8 @@
           "status": "Pilot",
           "leadTime": 45,
           "leadTimeUnit": "days",
-          "regions": [
-            "EU"
-          ],
-          "channels": [
-            "Direct",
-            "B2B"
-          ]
+          "regions": ["EU"],
+          "channels": ["Direct", "B2B"]
         }
       },
       {
@@ -11003,10 +10739,7 @@
           "maintenanceInterval": "As Needed",
           "repairability": "Medium",
           "upgradeability": "Low",
-          "endOfLifeOptions": [
-            "Upcycling",
-            "Closed-loop Recycling"
-          ]
+          "endOfLifeOptions": ["Upcycling", "Closed-loop Recycling"]
         }
       },
       {
@@ -11019,10 +10752,7 @@
           "recyclabilityScore": 93,
           "waterFootprint": 40,
           "waterFootprintUnit": "liters",
-          "certifications": [
-            "GRS",
-            "Ocean Bound Plastic"
-          ]
+          "certifications": ["GRS", "Ocean Bound Plastic"]
         }
       },
       {
@@ -11055,12 +10785,8 @@
           "status": "In Development",
           "leadTime": 30,
           "leadTimeUnit": "days",
-          "regions": [
-            "EU"
-          ],
-          "channels": [
-            "Online"
-          ]
+          "regions": ["EU"],
+          "channels": ["Online"]
         }
       },
       {
@@ -11175,11 +10901,7 @@
       {
         "relation": "tools",
         "subject": "SVC-MNT-001",
-        "object": [
-          "battery_tester",
-          "torque_wrench",
-          "diagnostic_scanner"
-        ]
+        "object": ["battery_tester", "torque_wrench", "diagnostic_scanner"]
       },
       {
         "relation": "usesMaterial",
@@ -11208,15 +10930,8 @@
         "object": {
           "cost": 89.0,
           "currency": "USD",
-          "included": [
-            "inspection",
-            "minor_adjustments",
-            "report"
-          ],
-          "additional": [
-            "parts",
-            "major_repairs"
-          ]
+          "included": ["inspection", "minor_adjustments", "report"],
+          "additional": ["parts", "major_repairs"]
         }
       },
       {
@@ -11317,11 +11032,7 @@
       {
         "relation": "tools",
         "subject": "SVC-RPR-001",
-        "object": [
-          "cell_tester",
-          "spot_welder",
-          "bms_programmer"
-        ]
+        "object": ["cell_tester", "spot_welder", "bms_programmer"]
       },
       {
         "relation": "usesMaterial",
@@ -11351,16 +11062,8 @@
         "object": {
           "cost": 180.0,
           "currency": "USD",
-          "included": [
-            "diagnostics",
-            "refurbishment",
-            "testing",
-            "warranty"
-          ],
-          "additional": [
-            "expedited_service",
-            "pickup_delivery"
-          ]
+          "included": ["diagnostics", "refurbishment", "testing", "warranty"],
+          "additional": ["expedited_service", "pickup_delivery"]
         }
       },
       {
@@ -11464,11 +11167,7 @@
       {
         "relation": "tools",
         "subject": "SVC-UPG-001",
-        "object": [
-          "torque_wrench",
-          "alignment_tool",
-          "programmer"
-        ]
+        "object": ["torque_wrench", "alignment_tool", "programmer"]
       },
       {
         "relation": "usesMaterial",
@@ -11498,12 +11197,7 @@
         "object": {
           "cost": 350.0,
           "currency": "USD",
-          "included": [
-            "new_motor",
-            "installation",
-            "programming",
-            "testing"
-          ],
+          "included": ["new_motor", "installation", "programming", "testing"],
           "tradeInCredit": 120.0
         }
       },
@@ -11626,11 +11320,7 @@
       {
         "relation": "tools",
         "subject": "SVC-EOL-001",
-        "object": [
-          "disassembly_station",
-          "material_sorter",
-          "shredder"
-        ]
+        "object": ["disassembly_station", "material_sorter", "shredder"]
       },
       {
         "relation": "recoversMaterial",
@@ -11669,15 +11359,8 @@
         "object": {
           "cost": 0.0,
           "currency": "USD",
-          "included": [
-            "pickup",
-            "processing",
-            "certificate"
-          ],
-          "additional": [
-            "expedited_pickup",
-            "data_destruction"
-          ]
+          "included": ["pickup", "processing", "certificate"],
+          "additional": ["expedited_pickup", "data_destruction"]
         }
       },
       {
@@ -11697,11 +11380,7 @@
         "relation": "certification",
         "subject": "SVC-EOL-001",
         "object": {
-          "standards": [
-            "R2",
-            "e-Stewards",
-            "ISO 14001"
-          ],
+          "standards": ["R2", "e-Stewards", "ISO 14001"],
           "certificate": "provided"
         }
       }
@@ -11779,11 +11458,7 @@
       {
         "relation": "tools",
         "subject": "SVC-RMF-001",
-        "object": [
-          "sanders",
-          "finishing_equipment",
-          "assembly_tools"
-        ]
+        "object": ["sanders", "finishing_equipment", "assembly_tools"]
       },
       {
         "relation": "usesMaterial",
@@ -11812,15 +11487,8 @@
         "object": {
           "cost": 199.0,
           "currency": "USD",
-          "included": [
-            "assessment",
-            "remanufacturing",
-            "delivery"
-          ],
-          "additional": [
-            "design_customization",
-            "expedited_service"
-          ]
+          "included": ["assessment", "remanufacturing", "delivery"],
+          "additional": ["design_customization", "expedited_service"]
         }
       },
       {
@@ -11958,16 +11626,8 @@
         "object": {
           "cost": 24.0,
           "currency": "USD/year",
-          "included": [
-            "tracking",
-            "analytics",
-            "reporting"
-          ],
-          "tiers": [
-            "basic",
-            "premium",
-            "enterprise"
-          ]
+          "included": ["tracking", "analytics", "reporting"],
+          "tiers": ["basic", "premium", "enterprise"]
         }
       },
       {
@@ -11986,21 +11646,12 @@
       {
         "relation": "dataTracked",
         "subject": "SVC-DIG-001",
-        "object": [
-          "usage_patterns",
-          "maintenance_events",
-          "location",
-          "performance_metrics"
-        ]
+        "object": ["usage_patterns", "maintenance_events", "location", "performance_metrics"]
       },
       {
         "relation": "technology",
         "subject": "SVC-DIG-001",
-        "object": [
-          "blockchain",
-          "iot_sensors",
-          "ai_analytics"
-        ]
+        "object": ["blockchain", "iot_sensors", "ai_analytics"]
       },
       {
         "relation": "privacy",
@@ -12097,31 +11748,16 @@
         "object": {
           "cost": 180.0,
           "currency": "USD/hour",
-          "included": [
-            "analysis",
-            "recommendations",
-            "documentation"
-          ],
-          "packages": [
-            "assessment",
-            "implementation",
-            "ongoing_support"
-          ]
+          "included": ["analysis", "recommendations", "documentation"],
+          "packages": ["assessment", "implementation", "ongoing_support"]
         }
       },
       {
         "relation": "certification",
         "subject": "SVC-CON-001",
         "object": {
-          "consultants": [
-            "Cradle to Cradle Accredited",
-            "Ellen MacArthur Foundation"
-          ],
-          "methods": [
-            "ISO 14040/14044",
-            "PEF",
-            "Cradle to Cradle"
-          ]
+          "consultants": ["Cradle to Cradle Accredited", "Ellen MacArthur Foundation"],
+          "methods": ["ISO 14040/14044", "PEF", "Cradle to Cradle"]
         }
       },
       {
@@ -12140,21 +11776,12 @@
       {
         "relation": "expertise",
         "subject": "SVC-CON-001",
-        "object": [
-          "material_science",
-          "design_for_circularity",
-          "lca",
-          "policy"
-        ]
+        "object": ["material_science", "design_for_circularity", "lca", "policy"]
       },
       {
         "relation": "deliverables",
         "subject": "SVC-CON-001",
-        "object": [
-          "strategy_document",
-          "implementation_roadmap",
-          "training_materials"
-        ]
+        "object": ["strategy_document", "implementation_roadmap", "training_materials"]
       }
     ]
   }

@@ -29,6 +29,6 @@ export const useModalService = (): UseModalServiceReturn => {
     openDrawer,
     openDialog,
     closeModal,
-    closeAll
+    closeAll,
   };
 };

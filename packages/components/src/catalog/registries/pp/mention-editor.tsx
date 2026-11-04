@@ -1,31 +1,20 @@
 import { createPortal } from 'react-dom';
 import { EditorContent } from '@tiptap/react';
-import { useBoundProp, type ComponentContext } from '@json-render/react';
+import type { ComponentContext } from '@json-render/react';
 import type { Catalog } from '../../catalog';
-import { isKind, useMentionEditor } from '../../behaviour/mention-editor';
+import { isKind, useMentionEditor, useMentionEditorProps } from '../../behaviour/mention-editor';
 import { icons } from './index';
 import '../../../jsx-types';
 
 // The list takes the combobox's attributes for its look only: focus stays in
 // the editor, which reads the list through aria-activedescendant.
-export function MentionEditor({ props, bindings, emit }: ComponentContext<Catalog, 'MentionEditor'>) {
-  const [content, setContent] = useBoundProp(props.content, bindings?.content);
-  const [, setQuery] = useBoundProp(props.query, bindings?.query);
-  const [scope, setScope] = useBoundProp(props.scope, bindings?.scope);
-  const [, setOpened] = useBoundProp(props.opened, bindings?.opened);
+export function MentionEditor({
+  props,
+  bindings,
+  emit,
+}: ComponentContext<Catalog, 'MentionEditor'>) {
   const { editor, open, groups, host, list, option } = useMentionEditor({
-    label: props.label,
-    placeholder: props.placeholder ?? '',
-    content: content ?? [],
-    setContent,
-    setQuery,
-    scope: scope ?? null,
-    setScope,
-    groups: props.candidates,
-    onOpen: mention => {
-      setOpened(mention.id);
-      emit('open');
-    },
+    ...useMentionEditorProps({ props, bindings, emit }),
     editorClass: '',
     mentionClass: 'reference-mention reference',
     slotClass: 'template-field',
@@ -48,7 +37,7 @@ export function MentionEditor({ props, bindings, emit }: ComponentContext<Catalo
                     </div>
                   )}
                   <div cmdk-group-items="" role="group" aria-label={group.heading ?? undefined}>
-                    {group.options.map(candidate => (
+                    {group.options.map((candidate) => (
                       <div key={candidate.id} cmdk-item="" {...option(candidate)}>
                         <span className="combobox-item__check" />
                         {candidate.icon && (

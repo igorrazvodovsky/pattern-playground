@@ -9,14 +9,13 @@ const logLevels: Record<LogLevel, number> = {
   error: 0,
   warn: 1,
   info: 2,
-  debug: 3
+  debug: 3,
 };
 
 // Get configured log level
 const configuredLevel = config.logging.level.toLowerCase() as LogLevel;
-const currentLogLevel = logLevels[configuredLevel] !== undefined
-  ? logLevels[configuredLevel]
-  : logLevels.info;
+const currentLogLevel =
+  logLevels[configuredLevel] !== undefined ? logLevels[configuredLevel] : logLevels.info;
 
 // Define a more specific type for log arguments
 type LogArgs = unknown[];
@@ -69,7 +68,7 @@ const logger: Logger = {
     if (logLevels.info <= currentLogLevel) {
       console.info(`[RESPONSE] ${req.method} ${req.url} ${statusCode} ${message}`);
     }
-  }
+  },
 };
 
 export default logger;

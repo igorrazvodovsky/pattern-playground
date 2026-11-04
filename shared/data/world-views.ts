@@ -25,24 +25,24 @@ for (const fact of facts) {
 }
 
 const one = (subject: string, relation: string) =>
-  bySubject.get(subject)?.find(f => f.relation === relation)?.object;
+  bySubject.get(subject)?.find((f) => f.relation === relation)?.object;
 
 const oneString = (subject: string, relation: string) => String(one(subject, relation) ?? '');
 
 const many = (subject: string, relation: string) =>
-  (bySubject.get(subject) ?? []).filter(f => f.relation === relation).map(f => f.object);
+  (bySubject.get(subject) ?? []).filter((f) => f.relation === relation).map((f) => f.object);
 
-const ofKind = (kind: string) => individuals.filter(i => i.kind === kind).map(i => i.id);
+const ofKind = (kind: string) => individuals.filter((i) => i.kind === kind).map((i) => i.id);
 
-const kindOf = new Map(individuals.map(i => [i.id, i.kind]));
+const kindOf = new Map(individuals.map((i) => [i.id, i.kind]));
 
 /** Actions that added or removed a fact about the subject, in log order. */
 export const actionsTouching = (subject: string) =>
-  worldActions.filter(action =>
-    [...(action.adds ?? []), ...(action.removes ?? [])].some(f => f.subject === subject)
+  worldActions.filter((action) =>
+    [...(action.adds ?? []), ...(action.removes ?? [])].some((f) => f.subject === subject),
   );
 
-const latestActionBy = (actorId: string) => worldActions.findLast(a => a.actor === actorId);
+const latestActionBy = (actorId: string) => worldActions.findLast((a) => a.actor === actorId);
 
 const dateOf = (timestamp: string) => timestamp.slice(0, 10);
 
@@ -63,7 +63,7 @@ export interface UserView {
   };
 }
 
-export const userViews: UserView[] = ofKind('user').map(id => ({
+export const userViews: UserView[] = ofKind('user').map((id) => ({
   id,
   name: oneString(id, 'name'),
   type: 'user',
@@ -98,7 +98,7 @@ export interface ProjectView {
   };
 }
 
-export const projectViews: ProjectView[] = ofKind('project').map(id => {
+export const projectViews: ProjectView[] = ofKind('project').map((id) => {
   const latest = actionsTouching(id).at(-1);
   const phase = one(id, 'phase');
   const partners = one(id, 'partners');
@@ -141,7 +141,7 @@ export interface RawTaskView {
   history: { id: string; timestamp: string; actor: string; action: string; details?: string }[];
 }
 
-export const rawTaskViews: RawTaskView[] = ofKind('task').map(id => {
+export const rawTaskViews: RawTaskView[] = ofKind('task').map((id) => {
   const touching = actionsTouching(id);
   const creation = touching[0];
   const latest = touching.at(-1);
@@ -160,7 +160,7 @@ export const rawTaskViews: RawTaskView[] = ofKind('task').map(id => {
     updatedDate: latest ? dateOf(latest.timestamp) : '',
     updatedBy: latest?.actor ?? '',
     progress: Number(one(id, 'progress') ?? 0),
-    history: touching.map(action => ({
+    history: touching.map((action) => ({
       id: action.id,
       timestamp: action.timestamp,
       actor: action.actor === 'system' ? 'System' : 'User',
@@ -216,9 +216,9 @@ const fileIcons: Record<string, string> = {
 };
 
 const actionsAbout = (documentId: string, name: string) =>
-  worldActions.filter(a => a.name === name && a.input.documentId === documentId);
+  worldActions.filter((a) => a.name === name && a.input.documentId === documentId);
 
-export const documentViews: DocumentView[] = ofKind('document').map(id => {
+export const documentViews: DocumentView[] = ofKind('document').map((id) => {
   const documentType = oneString(id, 'documentType');
   const lastEdit = actionsAbout(id, 'editDocument').at(-1);
   const author = one(id, 'author');
@@ -252,7 +252,7 @@ export const documentViews: DocumentView[] = ofKind('document').map(id => {
   };
 });
 
-const documentName = (id: string) => documentViews.find(d => d.id === id)?.name ?? id;
+const documentName = (id: string) => documentViews.find((d) => d.id === id)?.name ?? id;
 
 export interface QuoteView {
   id: string;
@@ -271,7 +271,7 @@ export interface QuoteView {
   content: DocumentContent;
 }
 
-export const quoteViews: QuoteView[] = ofKind('quote').map(id => {
+export const quoteViews: QuoteView[] = ofKind('quote').map((id) => {
   const text = oneString(id, 'text');
   const source = oneString(id, 'source');
   const creation = actionsTouching(id)[0];
@@ -324,22 +324,28 @@ export interface CommentView {
   };
 }
 
-interface CommentAnchor { start: number; end: number; text: string }
+interface CommentAnchor {
+  start: number;
+  end: number;
+  text: string;
+}
 
 const commentIds = ofKind('comment');
 
 // A thread settles as a whole: whoever marked it so is recorded on the comment
 // that opened it, and every comment in the thread reads as resolved.
 const resolvedThreads = new Set(
-  commentIds.filter(id => one(id, 'resolvedBy') !== undefined).map(id => oneString(id, 'thread'))
+  commentIds
+    .filter((id) => one(id, 'resolvedBy') !== undefined)
+    .map((id) => oneString(id, 'thread')),
 );
 
-export const commentViews: CommentView[] = commentIds.map(id => {
+export const commentViews: CommentView[] = commentIds.map((id) => {
   const target = oneString(id, 'about');
   const thread = oneString(id, 'thread');
   const anchor = one(id, 'anchor') as CommentAnchor | undefined;
   const resolvedBy = one(id, 'resolvedBy');
-  const resolution = actionsTouching(id).find(a => a.name === 'resolveThread');
+  const resolution = actionsTouching(id).find((a) => a.name === 'resolveThread');
   const commentType = one(id, 'commentType');
   const priority = one(id, 'commentPriority');
   const replyTo = one(id, 'replyTo');
@@ -358,7 +364,9 @@ export const commentViews: CommentView[] = commentIds.map(id => {
         ? { selectionStart: anchor.start, selectionEnd: anchor.end, selectedText: anchor.text }
         : {}),
       ...(resolvedBy !== undefined ? { resolvedBy: String(resolvedBy) } : {}),
-      ...(resolution !== undefined ? { resolvedAt: new Date(resolution.timestamp).toISOString() } : {}),
+      ...(resolution !== undefined
+        ? { resolvedAt: new Date(resolution.timestamp).toISOString() }
+        : {}),
       ...(commentType !== undefined ? { type: String(commentType) } : {}),
       ...(priority !== undefined ? { priority: String(priority) } : {}),
     },
@@ -373,7 +381,7 @@ export const commentViews: CommentView[] = commentIds.map(id => {
 
 /** True when a unary fact holds — one with no object, such as appliesToAll. */
 const has = (subject: string, relation: string) =>
-  (bySubject.get(subject) ?? []).some(f => f.relation === relation);
+  (bySubject.get(subject) ?? []).some((f) => f.relation === relation);
 
 /** The action that brought the individual into the world. */
 const creationOf = (subject: string) => actionsTouching(subject)[0];
@@ -402,7 +410,7 @@ export interface MaterialView {
   };
 }
 
-export const materialViews: MaterialView[] = ofKind('material').map(id => ({
+export const materialViews: MaterialView[] = ofKind('material').map((id) => ({
   id,
   name: oneString(id, 'name'),
   // A material's type restates its category in every entry, so it is derived.
@@ -470,7 +478,7 @@ for (const id of componentIds) {
   childrenOf.set(String(parent), siblings);
 }
 
-export const componentViews: ComponentView[] = componentIds.map(id => {
+export const componentViews: ComponentView[] = componentIds.map((id) => {
   const parent = one(id, 'partOf');
   return {
     id,
@@ -551,7 +559,7 @@ export interface ProductView {
   };
 }
 
-export const productViews: ProductView[] = ofKind('product').map(id => ({
+export const productViews: ProductView[] = ofKind('product').map((id) => ({
   id,
   name: oneString(id, 'name'),
   type: 'product',
@@ -621,7 +629,7 @@ const optional = (id: string, relation: string, key: string) => {
   return value !== undefined ? { [key]: value } : {};
 };
 
-export const serviceViews: ServiceView[] = ofKind('service').map(id => {
+export const serviceViews: ServiceView[] = ofKind('service').map((id) => {
   // A service that applies to everything holds one unary fact rather than a
   // fact per catalogue entry: "all" is not an id, and enumerating it would
   // assert pairs no act established and go stale on the next listing.
@@ -640,8 +648,12 @@ export const serviceViews: ServiceView[] = ofKind('service').map(id => {
     metadata: {
       category: oneString(id, 'category'),
       serviceType: oneString(id, 'serviceType'),
-      applicableProducts: universal ? ['all'] : applicable.filter(i => kindOf.get(i) === 'product'),
-      applicableComponents: universal ? ['all'] : applicable.filter(i => kindOf.get(i) === 'component'),
+      applicableProducts: universal
+        ? ['all']
+        : applicable.filter((i) => kindOf.get(i) === 'product'),
+      applicableComponents: universal
+        ? ['all']
+        : applicable.filter((i) => kindOf.get(i) === 'component'),
       serviceProvider: oneString(id, 'serviceProvider'),
       location: oneString(id, 'location'),
       duration: one(id, 'duration') as number | string,
@@ -677,7 +689,7 @@ export const serviceViews: ServiceView[] = ofKind('service').map(id => {
 // assessment from 2010 to 2026 — two more strands of the log, on the reading
 // the spec settles under "The log is the source of truth".
 
-const ofType = (name: string) => worldActions.filter(action => action.name === name);
+const ofType = (name: string) => worldActions.filter((action) => action.name === name);
 
 export interface TransactionView {
   id: string;
@@ -689,7 +701,7 @@ export interface TransactionView {
   category: string;
 }
 
-export const transactionViews: TransactionView[] = ofType('recordTransaction').map(action => ({
+export const transactionViews: TransactionView[] = ofType('recordTransaction').map((action) => ({
   id: action.id,
   amount: Number(action.input.amount),
   // The ledger's short label and its longer remark ride on the log's two
@@ -712,7 +724,7 @@ export interface LifecycleEventView {
   site: string;
 }
 
-export const lifecycleEventViews: LifecycleEventView[] = ofType('recordFlow').map(action => ({
+export const lifecycleEventViews: LifecycleEventView[] = ofType('recordFlow').map((action) => ({
   id: action.id,
   date: dateOf(action.timestamp),
   stage: String(action.input.stage),

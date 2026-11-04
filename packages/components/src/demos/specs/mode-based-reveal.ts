@@ -9,7 +9,7 @@ export default {
     initialState: { items: rows, editing: false },
     functions: {
       clearAll: withAll(false),
-      modeSummary: args =>
+      modeSummary: (args) =>
         args.editing ? `${selectedCount(args)} selected` : `${rowsArg(args).length} projects`,
     },
   } satisfies SpecSetup,

@@ -3,18 +3,23 @@
   "elements": {
     "workspace-demo": {
       "type": "Stack",
-      "props": { "gap": "m" },
+      "props": { "gap": "m", "align": "start" },
       "children": ["delete-workspace", "deleted-state", "confirm-dialog"],
       "watch": {
-        "/confirming": { "action": "setState", "params": { "statePath": "/confirmation", "value": { "typed": "", "attempted": false } } }
+        "/confirming": {
+          "action": "setState",
+          "params": { "statePath": "/confirmation", "value": { "typed": "", "attempted": false } }
+        }
       }
     },
 
     "delete-workspace": {
       "type": "Button",
-      "props": { "label": "Delete workspace", "variant": "danger" },
+      "props": { "label": "Delete workspace", "variant": "danger", "focusKey": "delete-workspace" },
       "visible": { "$state": "/exists" },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/confirming", "value": true } } }
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/confirming", "value": true } }
+      }
     },
     "deleted-state": {
       "type": "Text",
@@ -24,8 +29,10 @@
     },
     "restore": {
       "type": "Button",
-      "props": { "label": "Restore", "variant": "plain", "focusNext": "Delete workspace" },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/exists", "value": true } } }
+      "props": { "label": "Restore", "variant": "plain", "focusNext": "delete-workspace" },
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/exists", "value": true } }
+      }
     },
 
     "confirm-dialog": {
@@ -49,7 +56,12 @@
         "label": { "$template": "Type ${/workspace} to confirm" },
         "value": { "$bindState": "/confirmation/typed" },
         "error": {
-          "$cond": { "$and": [{ "$state": "/confirmation/attempted" }, { "$state": "/confirmation/typed", "neq": { "$state": "/workspace" } }] },
+          "$cond": {
+            "$and": [
+              { "$state": "/confirmation/attempted" },
+              { "$state": "/confirmation/typed", "neq": { "$state": "/workspace" } }
+            ]
+          },
           "$then": { "$template": "Type ${/workspace} exactly as shown to delete the workspace." },
           "$else": null
         },
@@ -64,16 +76,41 @@
       },
       "on": {
         "press": [
-          { "action": "setState", "params": { "statePath": "/confirmation/attempted", "value": true } },
-          { "action": "setState", "params": { "statePath": "/exists", "value": { "$cond": { "$state": "/confirmation/typed", "eq": { "$state": "/workspace" } }, "$then": false, "$else": true } } },
-          { "action": "setState", "params": { "statePath": "/confirming", "value": { "$cond": { "$state": "/confirmation/typed", "eq": { "$state": "/workspace" } }, "$then": false, "$else": true } } }
+          {
+            "action": "setState",
+            "params": { "statePath": "/confirmation/attempted", "value": true }
+          },
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/exists",
+              "value": {
+                "$cond": { "$state": "/confirmation/typed", "eq": { "$state": "/workspace" } },
+                "$then": false,
+                "$else": true
+              }
+            }
+          },
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/confirming",
+              "value": {
+                "$cond": { "$state": "/confirmation/typed", "eq": { "$state": "/workspace" } },
+                "$then": false,
+                "$else": true
+              }
+            }
+          }
         ]
       }
     },
     "cancel": {
       "type": "Button",
       "props": { "label": "Cancel" },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/confirming", "value": false } } }
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/confirming", "value": false } }
+      }
     }
   }
 }

@@ -1,0 +1,22 @@
+---
+// Prerendered pane fragment: just the language's article, no layout. Fetched
+// when a language is opened as a stacked pane (lib/pane-content.ts). Rendered
+// through the same LanguageArticle component as the full page, so the two
+// cannot drift.
+import { getCollection } from 'astro:content';
+import LanguageArticle from '../../../components/LanguageArticle.astro';
+
+export const partial = true;
+
+export async function getStaticPaths() {
+  const entries = await getCollection('languages');
+  return entries.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+---
+
+<LanguageArticle entry={entry} pagefind={false} />

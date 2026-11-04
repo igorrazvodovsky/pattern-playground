@@ -35,7 +35,10 @@ export type AttributeIcon = (typeof attributeIcons)[number];
  * is a type error — widen it deliberately or not at all.
  */
 
-/** Item-view ladder, item side: how much of one item a view carries. */
+/** Item-view ladder, item side: how much of one item a view carries. The
+    population side (`RepresentationRung` in collection-view) has three rungs:
+    glyph is micro, summary is mini, and detail is mid, or maxi when it shows
+    every attribute. */
 export type ItemScope = 'micro' | 'mini' | 'mid' | 'maxi';
 
 /**
@@ -64,15 +67,7 @@ export type AttributeRole =
   | 'footer'; // provenance meta (created, updated, listed) in a muted end line
 
 export type AttributeValueType =
-  | 'string'
-  | 'number'
-  | 'currency'
-  | 'date'
-  | 'status'
-  | 'image'
-  | 'link'
-  | 'progress'
-  | 'custom'; // rendered by a registered component, never generically
+  'string' | 'number' | 'currency' | 'date' | 'status' | 'image' | 'link' | 'progress' | 'custom'; // rendered by a registered component, never generically
 
 export interface AttributeBinding {
   /** Dot-path into the entity, e.g. 'pricing.msrp'. Resolution descends
@@ -82,7 +77,8 @@ export interface AttributeBinding {
   label?: string;
   role: AttributeRole;
   valueType: AttributeValueType;
-  /** Static unit appended to the formatted value, e.g. 'kg CO2e'. */
+  /** Static unit appended to the formatted value, e.g. 'kg CO2e', or to a
+      currency amount, e.g. 'per kg'. */
   unit?: string;
   /** ISO 4217 code for `valueType: 'currency'`. The currency is a fact about
       the amount, so it belongs on the binding; how it renders belongs to the

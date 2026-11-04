@@ -7,5 +7,5 @@ export {
   type ScaleInfo,
   type ScaleUpdateEvent,
   type TickInfo,
-  type ScaleConsumer
+  type ScaleConsumer,
 } from './scale-coordinator.js';

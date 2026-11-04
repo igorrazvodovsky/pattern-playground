@@ -7,9 +7,12 @@ export const keyedTimers = (connected: () => boolean) => {
   const timers = new Map<string, Timer>();
   return (key: string, delay: number, write: () => void) => {
     clearTimeout(timers.get(key));
-    timers.set(key, setTimeout(() => {
-      timers.delete(key);
-      if (connected()) write();
-    }, delay));
+    timers.set(
+      key,
+      setTimeout(() => {
+        timers.delete(key);
+        if (connected()) write();
+      }, delay),
+    );
   };
 };

@@ -1,4 +1,9 @@
-import type { Plugin, PluginRegistry as IPluginRegistry, EditorContext, PluginState } from '../../editor/types';
+import type {
+  Plugin,
+  PluginRegistry as IPluginRegistry,
+  EditorContext,
+  PluginState,
+} from '../../editor/types';
 
 export class PluginRegistry implements IPluginRegistry {
   // Private fields - compatible with ES2020
@@ -6,9 +11,12 @@ export class PluginRegistry implements IPluginRegistry {
   private pluginStates = new Map<string, PluginState>();
   private loadOrder: string[] = [];
   private activeDependencies = new Set<string>();
-  private conflictResolvers = new Map<string, (conflicts: string[]) => 'abort' | 'merge' | 'override'>();
+  private conflictResolvers = new Map<
+    string,
+    (conflicts: string[]) => 'abort' | 'merge' | 'override'
+  >();
   private context: EditorContext;
-  
+
   // Static validation constants
   static readonly REQUIRED_METHODS = ['id', 'name', 'version'] as const;
 
@@ -18,33 +26,35 @@ export class PluginRegistry implements IPluginRegistry {
 
   async register(plugin: Plugin): Promise<void> {
     // Use modern array methods and optional chaining
-    const missing = plugin.dependencies?.filter(dep => !this.plugins.has(dep)) ?? [];
+    const missing = plugin.dependencies?.filter((dep) => !this.plugins.has(dep)) ?? [];
     if (missing.length > 0) {
       throw new Error(`Missing dependencies: ${missing.join(', ')}`);
     }
 
     const conflicts = this.detectConflicts(plugin);
     const hasConflicts = conflicts.length > 0;
-    
+
     if (hasConflicts) {
       console.warn(`[PluginRegistry] Conflicts detected for plugin '${plugin.id}':`, conflicts);
     }
 
+    if (process.env.NODE_ENV === 'development') this.warnMissingExtensions(plugin);
+
     // Avoid mutation with spread and modern array methods
     const allPlugins = Array.from(this.plugins.values()).concat([plugin]);
     this.loadOrder = this.calculateLoadOrder(allPlugins);
-    
+
     // Set initial state
     this.pluginStates.set(plugin.id, 'loading');
 
     try {
       // Optional chaining for lifecycle methods
       await plugin.onInstall?.(this.context);
-      
+
       this.plugins.set(plugin.id, plugin);
-      
+
       // Add dependencies to active set
-      plugin.dependencies?.forEach(dep => this.activeDependencies.add(dep));
+      plugin.dependencies?.forEach((dep) => this.activeDependencies.add(dep));
 
       if (!hasConflicts) {
         plugin.onActivate?.(this.context);
@@ -77,7 +87,7 @@ export class PluginRegistry implements IPluginRegistry {
     this.plugins.delete(pluginId);
     this.pluginStates.delete(pluginId);
     this.activeDependencies.delete(pluginId);
-    this.loadOrder = this.loadOrder.filter(id => id !== pluginId);
+    this.loadOrder = this.loadOrder.filter((id) => id !== pluginId);
 
     this.context.eventBus.emit('plugin:deactivate', { pluginId });
   }
@@ -97,9 +107,26 @@ export class PluginRegistry implements IPluginRegistry {
   getLoadOrder(): readonly string[] {
     return [...this.loadOrder];
   }
-  
+
   getState(pluginId: string): PluginState | undefined {
     return this.pluginStates.get(pluginId);
+  }
+
+  // The editor exists before plugins register, so a plugin's extensions are
+  // only present when the host created it with usePluginEditor and this plugin.
+  private warnMissingExtensions(plugin: Plugin): void {
+    const installed = new Set(
+      this.context.editor.extensionManager.extensions.map((extension) => extension.name),
+    );
+    const missing = (plugin.getExtensions?.() ?? [])
+      .map((extension) => extension.name)
+      .filter((name) => !installed.has(name));
+    if (missing.length > 0) {
+      console.warn(
+        `[PluginRegistry] Plugin '${plugin.id}' needs extensions the editor lacks: ` +
+          `${missing.join(', ')}. Create the editor with usePluginEditor and the same plugins.`,
+      );
+    }
   }
 
   private detectConflicts(plugin: Plugin): string[] {
@@ -111,11 +138,11 @@ export class PluginRegistry implements IPluginRegistry {
     }
 
     // Check explicit conflicts using modern optional chaining
-    const explicitConflicts = plugin.capabilities?.conflictsWith?.filter(
-      conflictId => this.plugins.has(conflictId)
-    ) ?? [];
-    
-    conflicts.push(...explicitConflicts.map(id => `Conflicts with plugin '${id}'`));
+    const explicitConflicts =
+      plugin.capabilities?.conflictsWith?.filter((conflictId) => this.plugins.has(conflictId)) ??
+      [];
+
+    conflicts.push(...explicitConflicts.map((id) => `Conflicts with plugin '${id}'`));
 
     return conflicts;
   }
@@ -133,7 +160,7 @@ export class PluginRegistry implements IPluginRegistry {
 
     // Build dependency graph with modern syntax
     for (const plugin of plugins) {
-      plugin.dependencies?.forEach(dep => {
+      plugin.dependencies?.forEach((dep) => {
         if (!graph.has(dep)) {
           graph.set(dep, new Set());
           inDegree.set(dep, 0);
@@ -144,9 +171,7 @@ export class PluginRegistry implements IPluginRegistry {
     }
 
     // Use modern array methods for queue initialization
-    const queue = [...inDegree.entries()]
-      .filter(([, degree]) => degree === 0)
-      .map(([id]) => id);
+    const queue = [...inDegree.entries()].filter(([, degree]) => degree === 0).map(([id]) => id);
 
     const sorted: string[] = [];
 
@@ -173,7 +198,7 @@ export class PluginRegistry implements IPluginRegistry {
     for (const plugin of this.plugins.values()) {
       plugin.onDestroy?.();
     }
-    
+
     // Clear all collections
     this.plugins.clear();
     this.pluginStates.clear();
@@ -181,20 +206,20 @@ export class PluginRegistry implements IPluginRegistry {
     this.conflictResolvers.clear();
     this.loadOrder = [];
   }
-  
+
   // Modern utility methods
   getActivePlugins(): readonly Plugin[] {
     return Array.from(this.plugins.values()).filter(
-      plugin => this.pluginStates.get(plugin.id) === 'active'
+      (plugin) => this.pluginStates.get(plugin.id) === 'active',
     );
   }
-  
+
   getPluginsByCapability(capability: keyof Required<Plugin>['capabilities']): readonly Plugin[] {
     return Array.from(this.plugins.values()).filter(
-      plugin => plugin.capabilities?.[capability] === true
+      (plugin) => plugin.capabilities?.[capability] === true,
     );
   }
-  
+
   hasActiveDependency(pluginId: string): boolean {
     return this.activeDependencies.has(pluginId);
   }

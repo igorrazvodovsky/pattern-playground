@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { faker } from '@faker-js/faker';
 import { getRandomIcon } from './utils/icons';
 
 const meta = {
-  title: "Components/Priority+",
+  title: 'Components/Priority+',
 } satisfies Meta;
 
 export default meta;

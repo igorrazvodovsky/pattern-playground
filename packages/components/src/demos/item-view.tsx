@@ -23,13 +23,7 @@ export function ProductItemView({
   heading?: 2 | 3;
 }) {
   return (
-    <ItemView
-      item={product}
-      contentType="product"
-      scope={scope}
-      mode="preview"
-      heading={heading}
-    />
+    <ItemView item={product} contentType="product" scope={scope} mode="preview" heading={heading} />
   );
 }
 

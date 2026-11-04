@@ -80,7 +80,10 @@ type WrappedError = Logger['error'] & { [ORIGINAL_ERROR]?: Logger['error'] };
 function describeCause(raw: string): string {
   const plain = raw
     .replace(/\u001B\[[0-9;]*m/g, '')
-    .replace(/^\(!\)\s*Failed to run dependency scan\.\s*Skipping dependency pre-bundling\.\s*/i, '');
+    .replace(
+      /^\(!\)\s*Failed to run dependency scan\.\s*Skipping dependency pre-bundling\.\s*/i,
+      '',
+    );
   const lines: string[] = [];
   for (const line of plain.split('\n')) {
     if (/^\s+at\s/.test(line)) break;

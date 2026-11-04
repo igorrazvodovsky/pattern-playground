@@ -10,12 +10,12 @@ export function convertToAICommandResult(suggestionResult: AISuggestionResult): 
     label: suggestion.label,
     value: suggestion.value,
     icon: typeof suggestion.metadata?.icon === 'string' ? suggestion.metadata.icon : 'ik:sparkles',
-    metadata: suggestion.metadata
+    metadata: suggestion.metadata,
   }));
 
   return {
     suggestedItems,
     confidence: suggestionResult.confidence,
-    unmatchedCriteria: suggestionResult.unmatchedCriteria
+    unmatchedCriteria: suggestionResult.unmatchedCriteria,
   };
 }

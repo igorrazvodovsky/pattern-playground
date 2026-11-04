@@ -19,16 +19,16 @@ interface Entry {
   open: boolean;
 }
 
-const latestReaction = feedActions.findLastIndex(action => action.viaRule !== undefined) + 1;
+const latestReaction = feedActions.findLastIndex((action) => action.viaRule !== undefined) + 1;
 
 const entries: Entry[] = feedActions
   .slice(Math.max(0, latestReaction - 6), latestReaction)
   .reverse()
-  .map(action => {
+  .map((action) => {
     const { actorName, phrase } = describeAction(action);
     const provenance = provenanceOf(action);
     const causes = provenance?.causes
-      .map(cause => {
+      .map((cause) => {
         const described = describeAction(cause);
         return `${described.actorName} ${described.phrase}`;
       })
@@ -36,7 +36,10 @@ const entries: Entry[] = feedActions
     return {
       id: action.id,
       // No route shows a person yet, so the link is an anchor a route can replace.
-      by: action.actor === 'system' ? actorName : { name: actorName, href: `#person-${action.actor}` },
+      by:
+        action.actor === 'system'
+          ? actorName
+          : { name: actorName, href: `#person-${action.actor}` },
       title: `${phrase}.`,
       time: formatDateTime(action.timestamp),
       expandable: provenance !== undefined,

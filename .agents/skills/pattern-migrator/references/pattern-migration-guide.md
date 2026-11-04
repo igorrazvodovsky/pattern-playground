@@ -170,7 +170,3 @@ A successful migration should result in:
 - Document any deviations from the standard process
 - Update relevant documentation files post-migration
 - Include timeline and responsible parties for complex migrations
-
----
-
-**Note**: This guide follows the documentation linking standards specified in CLAUDE.md and maintains British spelling conventions throughout the process.

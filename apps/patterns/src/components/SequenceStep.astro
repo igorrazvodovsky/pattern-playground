@@ -10,7 +10,6 @@ interface Props {
 const { step, titles } = Astro.props;
 
 const rule = step.rule ? patternRef(titles, step.rule) : undefined;
-
 ---
 
 <p>
@@ -22,7 +21,16 @@ const rule = step.rule ? patternRef(titles, step.rule) : undefined;
       {step.aspect && <em>, {step.aspect}</em>}
     </Fragment>
   )}
-  {step.optional && <Fragment>{' · '}<em>optional</em></Fragment>}
+  {step.optional && (
+    <Fragment>
+      {' · '}
+      <em>optional</em>
+    </Fragment>
+  )}
 </p>
 
-{step.gloss && <p><Label text={step.gloss} /></p>}
+{step.gloss && (
+  <p>
+    <Label text={step.gloss} />
+  </p>
+)}

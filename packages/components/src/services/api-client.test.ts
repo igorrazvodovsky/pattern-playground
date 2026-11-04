@@ -27,7 +27,9 @@ afterEach(() => vi.unstubAllGlobals());
 describe('streamSSE', () => {
   it('joins an event split across two reads', async () => {
     const whole = event({ type: 'chunk', content: 'hello', done: false });
-    respondWith(streamOf(whole.slice(0, 12), whole.slice(12), event({ type: 'complete', done: true })));
+    respondWith(
+      streamOf(whole.slice(0, 12), whole.slice(12), event({ type: 'complete', done: true })),
+    );
 
     const chunks: string[] = [];
     const text = await streamSSE('/api/test', {}, { onChunk: (c) => chunks.push(c) });
@@ -59,8 +61,8 @@ describe('postJSON', () => {
           error: 'Validation failed',
           validationErrors: [{ field: 'text', message: 'Required', code: 'invalid_type' }],
         }),
-        { status: 400 }
-      )
+        { status: 400 },
+      ),
     );
 
     await expect(postJSON('/api/test', {})).rejects.toThrow('Validation failed (text: Required)');

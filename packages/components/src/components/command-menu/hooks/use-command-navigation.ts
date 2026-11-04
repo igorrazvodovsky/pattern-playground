@@ -3,7 +3,7 @@ import {
   searchHierarchy,
   searchWithinParent,
   type SearchableParent,
-  type SearchableItem
+  type SearchableItem,
 } from '../../../utility/hierarchical-search';
 import type { CommandData, RecentItem } from '../command-menu-types';
 
@@ -28,19 +28,21 @@ export function useCommandNavigation({
   onEscape,
 }: UseCommandNavigationOptions) {
   const [selectedCommand, setSelectedCommand] = useState<string | null>(null);
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const commandData: CommandOption[] = useMemo(() =>
-    data.map(cmd => ({
-      ...cmd,
-      children: cmd.children?.map(child => ({ ...child }))
-    })), [data]
+  const commandData: CommandOption[] = useMemo(
+    () =>
+      data.map((cmd) => ({
+        ...cmd,
+        children: cmd.children?.map((child) => ({ ...child })),
+      })),
+    [data],
   );
 
-  const selectedCommandData = useMemo(() =>
-    commandData.find(cmd => cmd.id === selectedCommand),
-    [selectedCommand, commandData]
+  const selectedCommandData = useMemo(
+    () => commandData.find((cmd) => cmd.id === selectedCommand),
+    [selectedCommand, commandData],
   );
 
   const filteredResults = useMemo(() => {
@@ -48,7 +50,7 @@ export function useCommandNavigation({
       const children = searchWithinParent(searchInput, selectedCommandData);
       return {
         parents: [],
-        children: children.map(child => ({ parent: selectedCommandData, child }))
+        children: children.map((child) => ({ parent: selectedCommandData, child })),
       };
     } else {
       return searchHierarchy(searchInput, commandData);
@@ -57,7 +59,7 @@ export function useCommandNavigation({
 
   const filteredRecentItems = useMemo(() => {
     return searchInput.trim()
-      ? recentItems.filter(item => {
+      ? recentItems.filter((item) => {
           const searchText = item.searchableText ?? item.name;
           return searchText.toLowerCase().includes(searchInput.toLowerCase());
         })
@@ -65,38 +67,38 @@ export function useCommandNavigation({
   }, [searchInput, recentItems]);
 
   const handleCommandSelect = (commandId: string) => {
-    const command = commandData.find(cmd => cmd.id === commandId);
+    const command = commandData.find((cmd) => cmd.id === commandId);
     if (command?.children?.length) {
       setSelectedCommand(commandId);
-      setSearchInput("");
+      setSearchInput('');
       inputRef.current?.focus();
     } else if (command) {
       onSelect?.(command);
       setSelectedCommand(null);
-      setSearchInput("");
+      setSearchInput('');
     }
   };
 
   const handleChildSelect = (childId: string) => {
-    const child = selectedCommandData?.children?.find(c => c.id === childId);
+    const child = selectedCommandData?.children?.find((c) => c.id === childId);
     if (!child) return;
     onSelect?.(child);
     setSelectedCommand(null);
-    setSearchInput("");
+    setSearchInput('');
   };
 
   const handleRecentSelect = (recentId: string) => {
-    const recentItem = recentItems.find(item => item.id === recentId);
+    const recentItem = recentItems.find((item) => item.id === recentId);
     if (!recentItem) return;
     onSelect?.(recentItem);
     setSelectedCommand(null);
-    setSearchInput("");
+    setSearchInput('');
   };
 
   const handleEscape = () => {
     if (selectedCommand) {
       setSelectedCommand(null);
-      setSearchInput("");
+      setSearchInput('');
       inputRef.current?.focus();
       return true;
     }
@@ -105,7 +107,7 @@ export function useCommandNavigation({
 
   const resetState = () => {
     setSelectedCommand(null);
-    setSearchInput("");
+    setSearchInput('');
   };
 
   return {
@@ -129,8 +131,6 @@ export function useCommandNavigation({
 
     // Computed properties
     isInCommandView: !!selectedCommand,
-    placeholder: selectedCommand
-      ? `${selectedCommandData?.name}`
-      : "Type a command or search...",
+    placeholder: selectedCommand ? `${selectedCommandData?.name}` : 'Type a command or search...',
   };
 }

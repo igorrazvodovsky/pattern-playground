@@ -9,6 +9,9 @@
       },
       "slots": { "actions": ["choose-template"] }
     },
-    "choose-template": { "type": "Button", "props": { "label": "Choose a template", "icon": "open", "variant": "primary" } }
+    "choose-template": {
+      "type": "Button",
+      "props": { "label": "Choose a template", "icon": "open", "variant": "primary" }
+    }
   }
 }

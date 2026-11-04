@@ -29,7 +29,7 @@ export class AppError extends Error implements ApiError {
     statusCode: number = 500,
     code: string = 'INTERNAL_ERROR',
     details?: Record<string, unknown>,
-    validationErrors?: ValidationError[]
+    validationErrors?: ValidationError[],
   ) {
     super(message);
     this.name = 'AppError';
@@ -61,7 +61,10 @@ export class AppError extends Error implements ApiError {
     return new AppError(message, 403, 'FORBIDDEN');
   }
 
-  static internal(message: string = 'Internal server error', details?: Record<string, unknown>): AppError {
+  static internal(
+    message: string = 'Internal server error',
+    details?: Record<string, unknown>,
+  ): AppError {
     return new AppError(message, 500, 'INTERNAL_ERROR', details);
   }
 
@@ -71,7 +74,7 @@ export class AppError extends Error implements ApiError {
       code: this.code,
       statusCode: this.statusCode,
       details: this.details,
-      validationErrors: this.validationErrors
+      validationErrors: this.validationErrors,
     };
   }
 }

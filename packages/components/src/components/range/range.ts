@@ -29,9 +29,9 @@ export interface RangeProps {
 type Fragment = ReturnType<typeof unsafeHTML> | typeof nothing;
 
 export class PpRange extends Elena(HTMLElement) {
-  static tagName = 'pp-range';
+  static 'tagName' = 'pp-range';
 
-  static props = [
+  static 'props' = [
     'min',
     'max',
     'step',
@@ -47,34 +47,34 @@ export class PpRange extends Elena(HTMLElement) {
     'value-text',
   ];
 
-  min = 0;
-  max = 100;
-  step = 1;
-  value = 0;
-  size: 'small' | 'medium' | 'large' = 'medium';
-  disabled = false;
-  name = '';
-  label = '';
-  labelledby = '';
-  describedby = '';
-  marks = false;
+  'min' = 0;
+  'max' = 100;
+  'step' = 1;
+  'value' = 0;
+  'size': 'small' | 'medium' | 'large' = 'medium';
+  'disabled' = false;
+  'name' = '';
+  'label' = '';
+  'labelledby' = '';
+  'describedby' = '';
+  'marks' = false;
   'hide-value' = false;
   'value-text' = '';
 
   // Author children captured before Elena's first render clears the host;
   // stable fragments keep re-renders on the patch path.
-  private slotParts: { prefix: Fragment; suffix: Fragment } | null = null;
-  private marksCache: { key: string; fragment: Fragment } | null = null;
+  private 'slotParts': { prefix: Fragment; suffix: Fragment } | null = null;
+  private 'marksCache': { key: string; fragment: Fragment } | null = null;
 
-  private get input(): HTMLInputElement | null {
+  private get 'input'(): HTMLInputElement | null {
     return this.querySelector('.range__control');
   }
 
-  connectedCallback() {
+  'connectedCallback'() {
     if (!this.slotParts) {
       const grab = (name: string): Fragment => {
         const els = [...this.querySelectorAll(`:scope > [data-slot="${name}"]`)];
-        return els.length ? unsafeHTML(els.map(el => el.outerHTML).join('')) : nothing;
+        return els.length ? unsafeHTML(els.map((el) => el.outerHTML).join('')) : nothing;
       };
       this.slotParts = { prefix: grab('prefix'), suffix: grab('suffix') };
     }
@@ -86,38 +86,40 @@ export class PpRange extends Elena(HTMLElement) {
     document.addEventListener('DOMContentLoaded', () => this.init());
   }
 
-  private init() {
+  private 'init'() {
     if (this.value < this.min) this.value = this.min;
     if (this.value > this.max) this.value = this.max;
   }
 
-  private handleInput = (event: Event) => {
+  private 'handleInput' = (event: Event) => {
     event.stopPropagation();
     this.value = Number(this.input!.value);
-    this.dispatchEvent(new CustomEvent('input', {
-      detail: { value: this.value },
-      bubbles: true,
-      composed: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('input', {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   };
 
-  async focus(options?: FocusOptions) {
+  async 'focus'(options?: FocusOptions) {
     await this.updateComplete;
     this.input?.focus(options);
   }
 
-  async blur() {
+  async 'blur'() {
     await this.updateComplete;
     this.input?.blur();
   }
 
-  willUpdate() {
+  'willUpdate'() {
     const span = this.max - this.min;
     const percent = span > 0 ? ((this.value - this.min) / span) * 100 : 0;
     this.style.setProperty('--range-percent', `${percent}%`);
   }
 
-  private renderMarks(): Fragment {
+  private 'renderMarks'(): Fragment {
     if (!this.marks || this.step <= 0) return nothing;
     const span = this.max - this.min;
     if (span <= 0) return nothing;
@@ -129,15 +131,17 @@ export class PpRange extends Elena(HTMLElement) {
 
     const ticks = [];
     for (let i = 0; i <= count; i++) {
-      const percent = (i * this.step / span) * 100;
+      const percent = ((i * this.step) / span) * 100;
       ticks.push(`<span class="range__mark" style="inset-inline-start: ${percent}%"></span>`);
     }
-    const fragment = unsafeHTML(`<div class="range__marks" aria-hidden="true">${ticks.join('')}</div>`);
+    const fragment = unsafeHTML(
+      `<div class="range__marks" aria-hidden="true">${ticks.join('')}</div>`,
+    );
     this.marksCache = { key, fragment };
     return fragment;
   }
 
-  render() {
+  'render'() {
     return html`
       ${this.slotParts?.prefix ?? nothing}
       <div class="range__track-wrapper">
@@ -156,14 +160,14 @@ export class PpRange extends Elena(HTMLElement) {
     `;
   }
 
-  firstUpdated() {
+  'firstUpdated'() {
     this.input?.addEventListener('input', this.handleInput);
   }
 
   // Everything conditional stays out of the template so re-renders keep the
   // patch path (boolean and absent-when-empty attributes have no template
   // form that survives Elena's clone parser).
-  updated() {
+  'updated'() {
     const input = this.input;
     if (!input) return;
 
@@ -174,7 +178,8 @@ export class PpRange extends Elena(HTMLElement) {
       if (value === null) input.removeAttribute(attr);
       else input.setAttribute(attr, value);
     };
-    const accessibleName = this.label || textFromIdRefs(this.labelledby, this.getRootNode() as Document | ShadowRoot);
+    const accessibleName =
+      this.label || textFromIdRefs(this.labelledby, this.getRootNode() as Document | ShadowRoot);
     sync('name', this.name || null);
     sync('aria-label', accessibleName || null);
     sync('aria-labelledby', accessibleName ? null : this.labelledby || null);
@@ -182,7 +187,7 @@ export class PpRange extends Elena(HTMLElement) {
     sync('aria-valuetext', this['value-text'] || null);
   }
 
-  disconnectedCallback() {
+  'disconnectedCallback'() {
     super.disconnectedCallback();
     this.input?.removeEventListener('input', this.handleInput);
   }
@@ -190,6 +195,6 @@ export class PpRange extends Elena(HTMLElement) {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pp-range": PpRange;
+    'pp-range': PpRange;
   }
 }

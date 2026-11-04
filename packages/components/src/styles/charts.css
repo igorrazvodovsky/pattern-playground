@@ -232,22 +232,22 @@ pp-chart-axis .axis-group .grid-line {
   stroke-width: 1;
 }
 
-pp-chart-axis[orientation="bottom"] .axis-group .tick text {
+pp-chart-axis[orientation='bottom'] .axis-group .tick text {
   text-anchor: middle;
   dominant-baseline: hanging;
 }
 
-pp-chart-axis[orientation="top"] .axis-group .tick text {
+pp-chart-axis[orientation='top'] .axis-group .tick text {
   text-anchor: middle;
   dominant-baseline: auto;
 }
 
-pp-chart-axis[orientation="left"] .axis-group .tick text {
+pp-chart-axis[orientation='left'] .axis-group .tick text {
   text-anchor: end;
   dominant-baseline: middle;
 }
 
-pp-chart-axis[orientation="right"] .axis-group .tick text {
+pp-chart-axis[orientation='right'] .axis-group .tick text {
   text-anchor: start;
   dominant-baseline: middle;
 }
@@ -279,7 +279,7 @@ pp-chart-legend .legend-list {
   padding: 0;
 }
 
-pp-chart-legend[orientation="vertical"] .legend-list {
+pp-chart-legend[orientation='vertical'] .legend-list {
   flex-direction: column;
 }
 
@@ -313,16 +313,16 @@ pp-chart-legend .legend-symbol {
   color: var(--symbol-color);
 }
 
-pp-chart-legend .legend-symbol[data-symbol="circle"] {
+pp-chart-legend .legend-symbol[data-symbol='circle'] {
   border-radius: 50%;
 }
 
-pp-chart-legend .legend-symbol[data-symbol="line"] {
+pp-chart-legend .legend-symbol[data-symbol='line'] {
   height: 2px;
   border-radius: 1px;
 }
 
-pp-chart-legend .legend-symbol[data-symbol="dash"] {
+pp-chart-legend .legend-symbol[data-symbol='dash'] {
   height: 2px;
   border-radius: 1px;
   background-image: repeating-linear-gradient(
@@ -405,11 +405,11 @@ pp-chart-grid .grid-line.y-grid {
   stroke: var(--grid-color);
 }
 
-pp-chart-grid .grid-line[data-style="dashed"] {
+pp-chart-grid .grid-line[data-style='dashed'] {
   stroke-dasharray: 5, 5;
 }
 
-pp-chart-grid .grid-line[data-style="dotted"] {
+pp-chart-grid .grid-line[data-style='dotted'] {
   stroke-dasharray: 2, 2;
 }
 
@@ -540,32 +540,85 @@ pp-choropleth:focus-visible {
    ============================================================================= */
 
 /* Spacing utilities */
-.chart-mt-sm { margin-top: var(--chart-spacing-sm); }
-.chart-mt-md { margin-top: var(--chart-spacing-md); }
-.chart-mt-lg { margin-top: var(--chart-spacing-lg); }
+.chart-mt-sm {
+  margin-top: var(--chart-spacing-sm);
+}
 
-.chart-mb-sm { margin-bottom: var(--chart-spacing-sm); }
-.chart-mb-md { margin-bottom: var(--chart-spacing-md); }
-.chart-mb-lg { margin-bottom: var(--chart-spacing-lg); }
+.chart-mt-md {
+  margin-top: var(--chart-spacing-md);
+}
 
-.chart-p-sm { padding: var(--chart-spacing-sm); }
-.chart-p-md { padding: var(--chart-spacing-md); }
-.chart-p-lg { padding: var(--chart-spacing-lg); }
+.chart-mt-lg {
+  margin-top: var(--chart-spacing-lg);
+}
+
+.chart-mb-sm {
+  margin-bottom: var(--chart-spacing-sm);
+}
+
+.chart-mb-md {
+  margin-bottom: var(--chart-spacing-md);
+}
+
+.chart-mb-lg {
+  margin-bottom: var(--chart-spacing-lg);
+}
+
+.chart-p-sm {
+  padding: var(--chart-spacing-sm);
+}
+
+.chart-p-md {
+  padding: var(--chart-spacing-md);
+}
+
+.chart-p-lg {
+  padding: var(--chart-spacing-lg);
+}
 
 /* Display utilities */
-.chart-hidden { display: none !important; }
-.chart-visible { display: block !important; }
+.chart-hidden {
+  display: none !important;
+}
+
+.chart-visible {
+  display: block !important;
+}
 
 /* Text utilities */
-.chart-text-center { text-align: center; }
-.chart-text-left { text-align: left; }
-.chart-text-right { text-align: right; }
+.chart-text-center {
+  text-align: center;
+}
 
-.chart-font-bold { font-weight: var(--chart-font-weight-bold); }
-.chart-font-medium { font-weight: var(--chart-font-weight-medium); }
-.chart-font-normal { font-weight: var(--chart-font-weight-normal); }
+.chart-text-left {
+  text-align: left;
+}
+
+.chart-text-right {
+  text-align: right;
+}
+
+.chart-font-bold {
+  font-weight: var(--chart-font-weight-bold);
+}
+
+.chart-font-medium {
+  font-weight: var(--chart-font-weight-medium);
+}
+
+.chart-font-normal {
+  font-weight: var(--chart-font-weight-normal);
+}
 
 /* Color utilities */
-.chart-text-primary { color: var(--chart-text-primary); }
-.chart-text-secondary { color: var(--chart-text-secondary); }
-.chart-text-muted { color: var(--chart-text-muted); }
+.chart-text-primary {
+  color: var(--chart-text-primary);
+}
+
+.chart-text-secondary {
+  color: var(--chart-text-secondary);
+}
+
+.chart-text-muted {
+  color: var(--chart-text-muted);
+}

@@ -23,7 +23,6 @@ export function ReferenceEditor({
   onChange,
   onReferenceSelect,
 }: ReferenceEditorProps) {
-
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -37,7 +36,7 @@ export function ReferenceEditor({
     content,
     editorProps: {
       attributes: {
-        class: `tiptap-editor-basic reference-editor ${className}`,
+        'class': `tiptap-editor-basic reference-editor ${className}`,
         'data-placeholder': placeholder,
         'aria-label': label,
       },

@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { JSONUIProvider, Renderer, type ComponentRegistry, type ComponentRenderer } from '@json-render/react';
+import {
+  JSONUIProvider,
+  Renderer,
+  type ComponentRegistry,
+  type ComponentRenderer,
+} from '@json-render/react';
 import type { ComputedFunction, Spec, StateStore } from '@json-render/core';
 import type { z } from 'zod';
 import { directives } from './directives';
@@ -52,7 +57,14 @@ const Unsupported: ComponentRenderer = ({ element }) => (
   </p>
 );
 
-export function SpecDemo({ spec, registry, registryName, store, handlers, functions }: SpecDemoProps) {
+export function SpecDemo({
+  spec,
+  registry,
+  registryName,
+  store,
+  handlers,
+  functions,
+}: SpecDemoProps) {
   // Unsettled while a render through a new registry mounts, so `focusOnShow`
   // controls take focus only when they appear later. Recorded only after a
   // commit, so a render React throws away changes nothing.
@@ -69,7 +81,13 @@ export function SpecDemo({ spec, registry, registryName, store, handlers, functi
     <div ref={root} data-registry={registryName} tabIndex={-1}>
       <DemoRoot value={root}>
         <DemoSettled value={settled}>
-          <JSONUIProvider registry={registry} store={store} handlers={handlers} functions={functions} directives={directives}>
+          <JSONUIProvider
+            registry={registry}
+            store={store}
+            handlers={handlers}
+            functions={functions}
+            directives={directives}
+          >
             <Renderer spec={spec} registry={registry} fallback={Unsupported} />
           </JSONUIProvider>
         </DemoSettled>

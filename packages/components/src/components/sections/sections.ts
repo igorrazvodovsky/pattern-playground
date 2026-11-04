@@ -175,8 +175,8 @@ export class PpSections extends HTMLElement {
     for (let i = sections.length; i < existingTabs.length; i++) existingTabs[i].remove();
 
     // Ensure at least one active panel
-    const panels = sections.map(s => s.panel);
-    if (panels.length > 0 && !panels.some(p => p.hasAttribute('data-pp-active'))) {
+    const panels = sections.map((s) => s.panel);
+    if (panels.length > 0 && !panels.some((p) => p.hasAttribute('data-pp-active'))) {
       panels[0].setAttribute('data-pp-active', '');
     }
 
@@ -196,7 +196,7 @@ export class PpSections extends HTMLElement {
       }
       if (!tab.id) tab.id = nextId();
 
-      tab.replaceChildren(...[...heading.childNodes].map(n => n.cloneNode(true)));
+      tab.replaceChildren(...[...heading.childNodes].map((n) => n.cloneNode(true)));
 
       const isActive = panel.hasAttribute('data-pp-active');
       tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
@@ -217,7 +217,9 @@ export class PpSections extends HTMLElement {
   }
 
   private _activateTab(panels: HTMLElement[], tabs: HTMLElement[], index: number) {
-    panels.forEach((p, i) => i === index ? p.setAttribute('data-pp-active', '') : p.removeAttribute('data-pp-active'));
+    panels.forEach((p, i) =>
+      i === index ? p.setAttribute('data-pp-active', '') : p.removeAttribute('data-pp-active'),
+    );
     tabs.forEach((t, i) => {
       t.setAttribute('aria-selected', i === index ? 'true' : 'false');
       t.setAttribute('tabindex', i === index ? '0' : '-1');

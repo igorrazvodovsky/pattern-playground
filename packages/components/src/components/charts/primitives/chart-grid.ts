@@ -1,7 +1,12 @@
 import { Elena } from '@elenajs/core';
 import type { ScaleBand, ScaleLinear } from 'd3-scale';
 import type { ElenaProp } from '../base/d3-component.js';
-import type { ScaleConsumer, TickInfo, ChartScale, ScaleCoordinator } from '../services/scale-coordinator.js';
+import type {
+  ScaleConsumer,
+  TickInfo,
+  ChartScale,
+  ScaleCoordinator,
+} from '../services/scale-coordinator.js';
 
 export interface GridConfig {
   showX?: boolean;
@@ -33,9 +38,9 @@ export interface GridConfig {
  * @cssproperty --grid-y-color - Color of the Y-axis grid lines
  */
 export class PpChartGrid extends Elena(HTMLElement) implements ScaleConsumer {
-  static tagName = 'pp-chart-grid';
+  static 'tagName' = 'pp-chart-grid';
 
-  static props: ElenaProp[] = [
+  static 'props': ElenaProp[] = [
     { name: 'config', reflect: false },
     'width',
     'height',
@@ -45,28 +50,28 @@ export class PpChartGrid extends Elena(HTMLElement) implements ScaleConsumer {
     { name: 'coordinator', reflect: false },
   ];
 
-  config: GridConfig = { showX: true, showY: true };
-  width = 0;
-  height = 0;
+  'config': GridConfig = { showX: true, showY: true };
+  'width' = 0;
+  'height' = 0;
   'tick-count' = 5;
-  xScale: ScaleBand<string> | ScaleLinear<number, number> | null = null;
-  yScale: ScaleBand<string> | ScaleLinear<number, number> | null = null;
-  coordinator: ScaleCoordinator | null = null;
+  'xScale': ScaleBand<string> | ScaleLinear<number, number> | null = null;
+  'yScale': ScaleBand<string> | ScaleLinear<number, number> | null = null;
+  'coordinator': ScaleCoordinator | null = null;
 
   // Tick information for scale-aware grid positioning
-  private xTicks: TickInfo[] = [];
-  private yTicks: TickInfo[] = [];
+  private 'xTicks': TickInfo[] = [];
+  private 'yTicks': TickInfo[] = [];
 
   /** The owned scaffold, built once on first connect. */
-  private svg!: SVGSVGElement;
-  private gridGroup!: SVGGElement;
+  private 'svg'!: SVGSVGElement;
+  private 'gridGroup'!: SVGGElement;
 
-  connectedCallback() {
+  'connectedCallback'() {
     super.connectedCallback();
     this.ensureScaffold();
   }
 
-  private ensureScaffold() {
+  private 'ensureScaffold'() {
     if (this.svg) return;
     const NS = 'http://www.w3.org/2000/svg';
 
@@ -89,40 +94,40 @@ export class PpChartGrid extends Elena(HTMLElement) implements ScaleConsumer {
     this.gridGroup = group;
   }
 
-  updated() {
+  'updated'() {
     if (!this.svg) return;
     this.svg.setAttribute('width', String(this.width));
     this.svg.setAttribute('height', String(this.height));
     this.renderGrid();
   }
 
-  private renderGrid() {
+  private 'renderGrid'() {
     if (!this.gridGroup || this.width === 0 || this.height === 0) {
       return;
     }
 
     try {
+      while (this.gridGroup.firstChild) {
+        this.gridGroup.removeChild(this.gridGroup.firstChild);
+      }
 
-    while (this.gridGroup.firstChild) {
-      this.gridGroup.removeChild(this.gridGroup.firstChild);
-    }
+      const { showX = true, showY = true, style = 'solid' } = this.config;
 
-    const { showX = true, showY = true, style = 'solid' } = this.config;
+      if (showX) {
+        this.renderXGrid(style);
+      }
 
-    if (showX) {
-      this.renderXGrid(style);
-    }
+      if (showY) {
+        this.renderYGrid(style);
+      }
 
-    if (showY) {
-      this.renderYGrid(style);
-    }
-
-    this.dispatchEvent(new CustomEvent('pp-grid-render', {
-      detail: { config: this.config },
-      bubbles: true,
-      composed: true
-    }));
-
+      this.dispatchEvent(
+        new CustomEvent('pp-grid-render', {
+          detail: { config: this.config },
+          bubbles: true,
+          composed: true,
+        }),
+      );
     } catch (error) {
       console.error('Chart grid: Error rendering grid:', error);
       // Clear the grid group on error
@@ -134,11 +139,18 @@ export class PpChartGrid extends Elena(HTMLElement) implements ScaleConsumer {
     }
   }
 
-  private renderXGrid(style: string) {
+  private 'renderXGrid'(style: string) {
     // Align to the axis's tick positions when available.
     if (this.xTicks.length > 0) {
-      this.xTicks.forEach(tick => {
-        const line = this.createGridLine(tick.position, 0, tick.position, this.height, 'x-grid', style);
+      this.xTicks.forEach((tick) => {
+        const line = this.createGridLine(
+          tick.position,
+          0,
+          tick.position,
+          this.height,
+          'x-grid',
+          style,
+        );
         this.gridGroup.appendChild(line);
       });
     } else {
@@ -154,10 +166,17 @@ export class PpChartGrid extends Elena(HTMLElement) implements ScaleConsumer {
     }
   }
 
-  private renderYGrid(style: string) {
+  private 'renderYGrid'(style: string) {
     if (this.yTicks.length > 0) {
-      this.yTicks.forEach(tick => {
-        const line = this.createGridLine(0, tick.position, this.width, tick.position, 'y-grid', style);
+      this.yTicks.forEach((tick) => {
+        const line = this.createGridLine(
+          0,
+          tick.position,
+          this.width,
+          tick.position,
+          'y-grid',
+          style,
+        );
         this.gridGroup.appendChild(line);
       });
     } else {
@@ -172,13 +191,13 @@ export class PpChartGrid extends Elena(HTMLElement) implements ScaleConsumer {
     }
   }
 
-  private createGridLine(
+  private 'createGridLine'(
     x1: number,
     y1: number,
     x2: number,
     y2: number,
     className: string,
-    style: string
+    style: string,
   ): SVGLineElement {
     const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     line.setAttribute('class', `grid-line ${className}`);
@@ -190,7 +209,7 @@ export class PpChartGrid extends Elena(HTMLElement) implements ScaleConsumer {
     return line;
   }
 
-  private getDensity(): number {
+  private 'getDensity'(): number {
     const { density = 'medium' } = this.config;
 
     if (typeof density === 'number') {
@@ -209,16 +228,19 @@ export class PpChartGrid extends Elena(HTMLElement) implements ScaleConsumer {
     }
   }
 
-  updateConfig(config: Partial<GridConfig>) {
+  'updateConfig'(config: Partial<GridConfig>) {
     this.config = { ...this.config, ...config };
   }
 
-  setScales(xScale: ScaleBand<string> | ScaleLinear<number, number> | null, yScale: ScaleBand<string> | ScaleLinear<number, number> | null) {
+  'setScales'(
+    xScale: ScaleBand<string> | ScaleLinear<number, number> | null,
+    yScale: ScaleBand<string> | ScaleLinear<number, number> | null,
+  ) {
     this.xScale = xScale;
     this.yScale = yScale;
   }
 
-  updateScale(axis: 'x' | 'y', scale: ChartScale): void {
+  'updateScale'(axis: 'x' | 'y', scale: ChartScale): void {
     try {
       if (axis === 'x') {
         this.xScale = scale;
@@ -231,7 +253,7 @@ export class PpChartGrid extends Elena(HTMLElement) implements ScaleConsumer {
     }
   }
 
-  updateTicks(axis: 'x' | 'y', ticks: TickInfo[]): void {
+  'updateTicks'(axis: 'x' | 'y', ticks: TickInfo[]): void {
     try {
       if (!Array.isArray(ticks)) {
         console.warn(`Chart grid: Invalid ticks data for ${axis} axis`);
@@ -249,40 +271,40 @@ export class PpChartGrid extends Elena(HTMLElement) implements ScaleConsumer {
     }
   }
 
-  setCoordinator(coordinator: ScaleCoordinator): void {
+  'setCoordinator'(coordinator: ScaleCoordinator): void {
     this.coordinator = coordinator;
     coordinator.registerConsumer(this);
   }
 
-  removeCoordinator(): void {
+  'removeCoordinator'(): void {
     if (this.coordinator) {
       this.coordinator.unregisterConsumer(this);
       this.coordinator = null;
     }
   }
 
-  updateDimensions(width: number, height: number) {
+  'updateDimensions'(width: number, height: number) {
     this.width = width;
     this.height = height;
   }
 
-  setVisible(visible: boolean) {
+  'setVisible'(visible: boolean) {
     this.hidden = !visible;
   }
 
-  showXGrid() {
+  'showXGrid'() {
     this.updateConfig({ showX: true, showY: false });
   }
 
-  showYGrid() {
+  'showYGrid'() {
     this.updateConfig({ showX: false, showY: true });
   }
 
-  showAllGrid() {
+  'showAllGrid'() {
     this.updateConfig({ showX: true, showY: true });
   }
 
-  hideGrid() {
+  'hideGrid'() {
     this.updateConfig({ showX: false, showY: false });
   }
 }

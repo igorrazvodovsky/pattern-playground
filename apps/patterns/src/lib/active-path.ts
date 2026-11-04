@@ -32,7 +32,11 @@ if (typeof document !== 'undefined') {
 }
 
 export function useActivePath(): string {
-  return useSyncExternalStore(subscribe, () => path, () => '');
+  return useSyncExternalStore(
+    subscribe,
+    () => path,
+    () => '',
+  );
 }
 
 // Normalise trailing slashes so links (`/patterns/foo`) match the runtime

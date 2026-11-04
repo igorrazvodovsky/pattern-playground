@@ -9,20 +9,9 @@
 }
 
 @layer theme {
-  /* Site tint. The site chrome and prose take a light wash of one hue on
-     their neutral surfaces and text; demos stay on the library's own neutrals
-     so they read as they would in a real interface.
-
-     The library assembles each colour token on :root, so overriding a chroma
-     scalar further down changes nothing. Instead the tokens are re-declared
-     here on every scope, with --_tint switching the site's adjustments on
-     (shell, and the preview and search overlays that live outside it) or off
-     (demo). Lightness and dark-mode rewiring still come from the shared
-     ladder. -0 is held below pure white in light mode, since L 100% cannot
-     carry any chroma. */
   :is(.shell, .link-preview, pagefind-modal) {
     --site-tint-h: 75;
-    --_tint: 1;
+    --_tint: 0;
     --_dir: 1;
 
     /* Lightness steps read smaller near black, so dark mode takes them
@@ -81,9 +70,11 @@
     --_tc-surface: calc(0.012 * var(--_tint) * var(--_sat, 1));
     --_tc-text: calc(0.014 * var(--_tint));
     --c-neutral-0: oklch(
-      calc(min(var(--l0), 100% - 1.5% * var(--_tint)) - var(--_dir, 1) * var(--_depth, 0%) * var(--_tint))
-      calc(var(--c0-neutral) + var(--_tc-surface))
-      var(--_th)
+      calc(
+          min(var(--l0), 100% - 1.5% * var(--_tint)) - var(--_dir, 1) * var(--_depth, 0%) *
+            var(--_tint)
+        )
+        calc(var(--c0-neutral) + var(--_tc-surface)) var(--_th)
     );
     --c-neutral-50: oklch(var(--l50) calc(var(--c50-neutral) + var(--_tc-surface)) var(--_th));
     --c-neutral-100: oklch(var(--l100) calc(var(--c100-neutral) + var(--_tc-surface)) var(--_th));
@@ -228,7 +219,7 @@
     vertical-align: middle;
   }
 
-  [data-slot="sidebar-container"][data-side="left"] {
+  [data-slot='sidebar-container'][data-side='left'] {
     border-inline-end: none;
   }
 
@@ -247,7 +238,7 @@
   }
 
   /* Once a pane's contents bar slides in, the toggle moves up onto its line. */
-  .shell:has(pp-toc[variant="bar"][data-revealed]) .site-header {
+  .shell:has(pp-toc[variant='bar'][data-revealed]) .site-header {
     height: var(--toc-bar-block-size);
   }
 
@@ -263,7 +254,7 @@
 
   /* While the docked sidebar is open, its own trigger (.sidebar-top) takes
      over, so the toggle scrolls away with the nav instead of floating over it. */
-  .site-header:has(~ [data-slot="sidebar"][data-state="expanded"]) {
+  .site-header:has(~ [data-slot='sidebar'][data-state='expanded']) {
     visibility: hidden;
   }
 
@@ -446,7 +437,7 @@
    scope proximity. */
 @scope (.content-inset, .pane article:not(.demo-block *)) to (.demo-block, pp-toc) {
   ul {
-    list-style: "- \2009";
+    list-style: '- \2009';
     list-style-position: outside;
   }
 
@@ -531,7 +522,10 @@
 }
 
 @scope (.content-inset) to (.demo-block, pp-toc) {
-  p, blockquote, ul, ol {
+  p,
+  blockquote,
+  ul,
+  ol {
     max-width: 40rem;
   }
 
@@ -630,7 +624,7 @@ main.shell__main:has(> .content-inset) {
 }
 
 @media (width < 48rem) {
-  [data-slot="sidebar"]:not(.sidebar-mobile) {
+  [data-slot='sidebar']:not(.sidebar-mobile) {
     display: none;
   }
 }
@@ -694,4 +688,19 @@ main.shell__main:has(> .content-inset) {
 .residue li::marker {
   font-family: var(--font-prose);
   font-size-adjust: none;
+}
+
+@layer components {
+  /* Notes in page prose sit on a light wash with no border, so they read as
+     an aside on the paper rather than as interface. Purpose classes keep
+     their own background; callouts inside demos keep the library default. */
+  article[data-page-type] .callout:not(.demo-block__content .callout) {
+    --_border-color: transparent;
+  }
+
+  article[data-page-type]
+    .callout:not(.demo-block__content .callout, .accent, .info, .success, .warning, .danger) {
+    --_background-color: var(--c-neutral-50);
+    --_color: var(--c-bodyDimmed);
+  }
 }

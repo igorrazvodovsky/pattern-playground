@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { feedActions, describeAction } from '@shared/data';
 import { formatDate } from '@shared/format';
 
@@ -7,13 +7,8 @@ interface TimelineArgs {
   density: 'normal' | 'compact';
 }
 
-const densityVars: Record<TimelineArgs['density'], React.CSSProperties> = {
-  normal: {},
-  compact: { '--_circle-size': '0.75rem', '--_item-spacing': '0.25rem' } as React.CSSProperties,
-};
-
 const meta = {
-  title: "Components/Timeline",
+  title: 'Components/Timeline',
   argTypes: {
     count: {
       control: { type: 'range', min: 2, max: 10, step: 1 },
@@ -34,15 +29,18 @@ export const Basic: Story = {
   args: { count: 4, density: 'normal' },
   render: ({ count, density }) => {
     // The most recent entries of the world's action log, newest first.
-    const items = feedActions.slice(-count).reverse().map(action => {
-      const { actorName, phrase } = describeAction(action);
-      return {
-        title: `${actorName} ${phrase}`,
-        date: formatDate(action.timestamp, { dateStyle: 'long' }),
-      };
-    });
+    const items = feedActions
+      .slice(-count)
+      .reverse()
+      .map((action) => {
+        const { actorName, phrase } = describeAction(action);
+        return {
+          title: `${actorName} ${phrase}`,
+          date: formatDate(action.timestamp, { dateStyle: 'long' }),
+        };
+      });
     return (
-      <ol className="stepper" style={densityVars[density]}>
+      <ol className="stepper" data-density={density}>
         {items.map((item, i) => (
           <li key={i} className="stepper__item">
             <div className="stepper__content">
@@ -69,7 +67,10 @@ export const Nested = {
         <div className="stepper__content">
           <h4>Assessment</h4>
           <p>12 September 2025</p>
-          <ol className="stepper muted" style={{ '--_circle-size': '0.25rem'} as React.CSSProperties}>
+          <ol
+            className="stepper muted"
+            style={{ '--_circle-size': '0.25rem' } as React.CSSProperties}
+          >
             <li className="stepper__item">
               <div className="stepper__content">
                 <h5>10:03</h5>
@@ -117,7 +118,7 @@ export const Nested = {
  *  disclosure control: darker while the entry is closed, the plain colour once
  *  it is open. */
 export const ExpandableEntries = {
-  name: "Expandable entries",
+  name: 'Expandable entries',
   render: () => (
     <ol className="stepper">
       <li className="stepper__item">

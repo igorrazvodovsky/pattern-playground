@@ -36,7 +36,7 @@ export class TimelineHandler {
     logger.info(`Grouping ${validatedRequest.records.length} timeline records`);
 
     const grouping = await withTimeout(60000, (signal) =>
-      openaiService.groupTimeline(validatedRequest, signal)
+      openaiService.groupTimeline(validatedRequest, signal),
     );
     groupings.set(key, grouping);
     ok(res, grouping);

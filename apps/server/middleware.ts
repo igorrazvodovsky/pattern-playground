@@ -13,7 +13,7 @@ export const setupMiddleware = (app: Application): void => {
 
     // Capture response for logging
     const originalSend = res.send;
-    res.send = function(body: unknown): Response {
+    res.send = function (body: unknown): Response {
       logger.response(req, res.statusCode);
       return originalSend.call(this, body);
     };
@@ -22,22 +22,27 @@ export const setupMiddleware = (app: Application): void => {
   });
 
   // CORS middleware
-  app.use(cors({
-    origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void): void {
-      // Allow requests with no origin (like mobile apps, curl requests)
-      if (!origin) return callback(null, true);
+  app.use(
+    cors({
+      origin: function (
+        origin: string | undefined,
+        callback: (err: Error | null, allow?: boolean) => void,
+      ): void {
+        // Allow requests with no origin (like mobile apps, curl requests)
+        if (!origin) return callback(null, true);
 
-      const { allowedOrigins } = config.cors;
+        const { allowedOrigins } = config.cors;
 
-      if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-        callback(null, true);
-      } else {
-        logger.warn(`Request from disallowed origin: ${origin}`);
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: config.cors.credentials,
-    methods: config.cors.methods,
-    allowedHeaders: config.cors.allowedHeaders
-  }));
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+          callback(null, true);
+        } else {
+          logger.warn(`Request from disallowed origin: ${origin}`);
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
+      credentials: config.cors.credentials,
+      methods: config.cors.methods,
+      allowedHeaders: config.cors.allowedHeaders,
+    }),
+  );
 };

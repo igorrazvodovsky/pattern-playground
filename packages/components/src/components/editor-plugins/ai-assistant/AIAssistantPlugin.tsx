@@ -1,6 +1,9 @@
 import { BasePlugin } from '../core/Plugin';
 import type { PluginCapabilities, EditorContext, SlotRegistry, EventBus } from '../../editor/types';
-import { textTransformService, type TextLensCallbacks } from '../../../services/text-transform-service';
+import {
+  textTransformService,
+  type TextLensCallbacks,
+} from '../../../services/text-transform-service';
 import { AIAssistantBubbleMenu } from './components/AIAssistantBubbleMenu';
 import { AIAssistantToolbar } from './components/AIAssistantToolbar';
 import type { Extension } from '@tiptap/core';
@@ -53,7 +56,7 @@ export class AIAssistantPlugin extends BasePlugin {
       context.eventBus.emit('ai-assistant:selection-changed', {
         hasSelection,
         selectedText: payload.content,
-        range: { from: payload.from, to: payload.to }
+        range: { from: payload.from, to: payload.to },
       });
     });
   }
@@ -65,90 +68,93 @@ export class AIAssistantPlugin extends BasePlugin {
 
   registerUI(slots: SlotRegistry): void {
     // Register bubble menu component
-    slots.register('bubble-menu', {
-      pluginId: this.id,
-      render: () => (
-        <AIAssistantBubbleMenu
-          options={this.options}
-          onAction={this.handleAIAction.bind(this)}
-        />
-      ),
-    }, {
-      priority: 80,
-      condition: () => this.isActive,
-    });
+    slots.register(
+      'bubble-menu',
+      {
+        pluginId: this.id,
+        render: () => (
+          <AIAssistantBubbleMenu options={this.options} onAction={this.handleAIAction.bind(this)} />
+        ),
+      },
+      {
+        priority: 80,
+        condition: () => this.isActive,
+      },
+    );
 
     // Register toolbar component
-    slots.register('toolbar', {
-      pluginId: this.id,
-      render: () => (
-        <AIAssistantToolbar
-          options={this.options}
-          onAction={this.handleAIAction.bind(this)}
-        />
-      ),
-    }, {
-      priority: 50,
-      condition: () => this.isActive,
-    });
+    slots.register(
+      'toolbar',
+      {
+        pluginId: this.id,
+        render: () => (
+          <AIAssistantToolbar options={this.options} onAction={this.handleAIAction.bind(this)} />
+        ),
+      },
+      {
+        priority: 50,
+        condition: () => this.isActive,
+      },
+    );
   }
 
   subscribeToEvents(eventBus: EventBus): void {
-
     // Clean up existing event listeners to prevent duplicates
-    this.eventUnsubscribers.forEach(unsubscribe => unsubscribe());
+    this.eventUnsubscribers.forEach((unsubscribe) => unsubscribe());
     this.eventUnsubscribers = [];
 
     // Listen to selection changes and emit AI assistant specific events
-    const selectionUnsubscribe = eventBus.on('selection:change', (payload: { from: number; to: number; content: string }) => {
-      const hasSelection = payload.content.trim().length > 0;
+    const selectionUnsubscribe = eventBus.on(
+      'selection:change',
+      (payload: { from: number; to: number; content: string }) => {
+        const hasSelection = payload.content.trim().length > 0;
 
-      eventBus.emit('ai-assistant:selection-changed', {
-        hasSelection,
-        selectedText: payload.content,
-        range: { from: payload.from, to: payload.to }
-      });
-    });
+        eventBus.emit('ai-assistant:selection-changed', {
+          hasSelection,
+          selectedText: payload.content,
+          range: { from: payload.from, to: payload.to },
+        });
+      },
+    );
     this.eventUnsubscribers.push(selectionUnsubscribe);
 
     // Handle streaming chunks for real-time updates
-    const chunkUnsubscribe = eventBus.on('ai-assistant:chunk-received', (payload: { action: string; content: string; range: { from: number; to: number } }) => {
-      if (this.options.streamingEnabled && this.context?.editor) {
-        const editor = this.context.editor;
+    const chunkUnsubscribe = eventBus.on(
+      'ai-assistant:chunk-received',
+      (payload: { action: string; content: string; range: { from: number; to: number } }) => {
+        if (this.options.streamingEnabled && this.context?.editor) {
+          const editor = this.context.editor;
 
-        try {
-          // Initialize streaming state if this is the first chunk
-          if (this.streamingRange === null) {
-            // Store original selection for first replacement
-            this.streamingRange = { from: payload.range.from, to: payload.range.to };
-            this.streamingContent = payload.content;
+          try {
+            // Initialize streaming state if this is the first chunk
+            if (this.streamingRange === null) {
+              // Store original selection for first replacement
+              this.streamingRange = { from: payload.range.from, to: payload.range.to };
+              this.streamingContent = payload.content;
 
+              // First chunk: replace the original selection
+              editor
+                .chain()
+                .focus()
+                .setTextSelection({ from: this.streamingRange.from, to: this.streamingRange.to })
+                .insertContent(this.streamingContent)
+                .run();
+            } else {
+              // Accumulate content for subsequent chunks
+              this.streamingContent += payload.content;
 
-            // First chunk: replace the original selection
-            editor.chain()
-              .focus()
-              .setTextSelection({ from: this.streamingRange.from, to: this.streamingRange.to })
-              .insertContent(this.streamingContent)
-              .run();
-          } else {
-            // Accumulate content for subsequent chunks
-            this.streamingContent += payload.content;
-
-
-            // For subsequent chunks: replace whatever is currently selected with the accumulated content
-            editor.chain()
-              .focus()
-              .insertContent(this.streamingContent)
-              .run();
+              // For subsequent chunks: replace whatever is currently selected with the accumulated content
+              editor.chain().focus().insertContent(this.streamingContent).run();
+            }
+          } catch (error) {
+            console.error('Error in streaming chunk handler:', error);
+            // Reset streaming state on error
+            this.streamingContent = '';
+            this.streamingRange = null;
           }
-        } catch (error) {
-          console.error('Error in streaming chunk handler:', error);
-          // Reset streaming state on error
-          this.streamingContent = '';
-          this.streamingRange = null;
         }
-      }
-    });
+      },
+    );
     this.eventUnsubscribers.push(chunkUnsubscribe);
 
     // Handle action completion to reset streaming state
@@ -167,7 +173,7 @@ export class AIAssistantPlugin extends BasePlugin {
   }
 
   onDeactivate(): void {
-    this.eventUnsubscribers.forEach(unsubscribe => unsubscribe());
+    this.eventUnsubscribers.forEach((unsubscribe) => unsubscribe());
     this.eventUnsubscribers = [];
     // Reset streaming state
     this.streamingContent = '';
@@ -176,7 +182,7 @@ export class AIAssistantPlugin extends BasePlugin {
   }
 
   onDestroy(): void {
-    this.eventUnsubscribers.forEach(unsubscribe => unsubscribe());
+    this.eventUnsubscribers.forEach((unsubscribe) => unsubscribe());
     this.eventUnsubscribers = [];
     // Reset streaming state
     this.streamingContent = '';
@@ -190,7 +196,11 @@ export class AIAssistantPlugin extends BasePlugin {
   }
 
   // AI Assistant specific methods
-  private async handleAIAction(action: string, selectedText: string, range: { from: number; to: number }): Promise<void> {
+  private async handleAIAction(
+    action: string,
+    selectedText: string,
+    range: { from: number; to: number },
+  ): Promise<void> {
     if (!this.context?.editor || !selectedText) return;
 
     // Reset streaming state for new action
@@ -203,7 +213,7 @@ export class AIAssistantPlugin extends BasePlugin {
         this.context?.eventBus.emit('ai-assistant:chunk-received', {
           action,
           content,
-          range
+          range,
         });
       },
       onComplete: () => {
@@ -211,7 +221,7 @@ export class AIAssistantPlugin extends BasePlugin {
       },
       onError: (error: string) => {
         this.context?.eventBus.emit('ai-assistant:action-error', { action, error });
-      }
+      },
     };
 
     try {
@@ -238,7 +248,8 @@ export class AIAssistantPlugin extends BasePlugin {
       // Replace selected text with AI result if streaming is not enabled
       if (!this.options.streamingEnabled && result) {
         // Use the same reliable chain approach as the working version
-        const success = this.context.editor.chain()
+        const success = this.context.editor
+          .chain()
           .focus()
           .deleteRange({ from: range.from, to: range.to })
           .insertContent(result)

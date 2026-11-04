@@ -20,6 +20,7 @@ import { PpDropdown } from './dropdown/dropdown.js';
 import { PpList } from './list/list.js';
 import { PpListItem } from './list-item/list-item.js';
 import { PpListLabel } from './list-label/list-label.js';
+import { PpDualListbox } from './dual-listbox/dual-listbox.js';
 import { PpBreadcrumbs } from './breadcrumbs/breadcrumbs.js';
 import { PpTab } from './tab/tab.js';
 import { PpTabPanel } from './tab-panel/tab-panel.js';
@@ -74,6 +75,7 @@ export function registerAllComponents(): void {
     { tagName: 'pp-list-item', constructor: PpListItem },
     { tagName: 'pp-list-label', constructor: PpListLabel },
     { tagName: 'pp-list', constructor: PpList, dependencies: ['pp-list-item'] },
+    { tagName: 'pp-dual-listbox', constructor: PpDualListbox, dependencies: ['pp-list'] },
     { tagName: 'pp-breadcrumbs', constructor: PpBreadcrumbs },
 
     // Tab components (tab and tab-panel before tab-group)

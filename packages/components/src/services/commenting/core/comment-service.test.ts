@@ -14,7 +14,9 @@ function installLocalStorage() {
     removeItem: (key: string) => void items.delete(key),
     clear: () => items.clear(),
     key: (index: number) => [...items.keys()][index] ?? null,
-    get length() { return items.size; },
+    get length() {
+      return items.size;
+    },
   } as Storage;
 }
 
@@ -35,19 +37,23 @@ describe('CommentService.reanchor', () => {
 
     expect(moved).toHaveLength(2);
     expect(await service.getComments(passage)).toEqual([]);
-    expect((await service.getComments(quote)).map(c => c.content)).toEqual(['First', 'Second']);
+    expect((await service.getComments(quote)).map((c) => c.content)).toEqual(['First', 'Second']);
   });
 
   it('moves comments restored from storage, whose pointers were saved as plain data', async () => {
     const passage = new TextRangePointer('doc-1', 'thread-1');
     const quote = new EntityPointer('quote', 'quote-1');
-    await new CommentService(new LocalCommentStorage('test')).createComment(passage, 'Kept', 'user-1');
+    await new CommentService(new LocalCommentStorage('test')).createComment(
+      passage,
+      'Kept',
+      'user-1',
+    );
 
     const reloaded = new CommentService(new LocalCommentStorage('test'));
     await reloaded.reanchor(passage, quote);
 
     expect(await reloaded.getComments(passage)).toEqual([]);
-    expect((await reloaded.getComments(quote)).map(c => c.content)).toEqual(['Kept']);
+    expect((await reloaded.getComments(quote)).map((c) => c.content)).toEqual(['Kept']);
   });
 
   it('leaves other threads alone', async () => {
@@ -59,25 +65,33 @@ describe('CommentService.reanchor', () => {
 
     await service.reanchor(moving, new EntityPointer('quote', 'quote-1'));
 
-    expect((await service.getComments(staying)).map(c => c.content)).toEqual(['Stays']);
+    expect((await service.getComments(staying)).map((c) => c.content)).toEqual(['Stays']);
   });
 
   it('moves a thread in one write, and the move survives a reload', async () => {
     const service = new CommentService(new LocalCommentStorage('test'));
     const passage = new TextRangePointer('doc-1', 'thread-1');
     const quote = new EntityPointer('quote', 'quote-1');
-    for (const content of ['One', 'Two', 'Three']) await service.createComment(passage, content, 'user-1');
+    for (const content of ['One', 'Two', 'Three'])
+      await service.createComment(passage, content, 'user-1');
 
     const setItem = globalThis.localStorage.setItem;
     let writes = 0;
-    globalThis.localStorage.setItem = (key, value) => { writes += 1; setItem(key, value); };
+    globalThis.localStorage.setItem = (key, value) => {
+      writes += 1;
+      setItem(key, value);
+    };
     await service.reanchor(passage, quote);
     globalThis.localStorage.setItem = setItem;
 
     expect(writes).toBe(1);
     const reloaded = new CommentService(new LocalCommentStorage('test'));
     expect(await reloaded.getComments(passage)).toEqual([]);
-    expect((await reloaded.getComments(quote)).map(c => c.content).sort()).toEqual(['One', 'Three', 'Two']);
+    expect((await reloaded.getComments(quote)).map((c) => c.content).sort()).toEqual([
+      'One',
+      'Three',
+      'Two',
+    ]);
   });
 });
 
@@ -90,8 +104,15 @@ describe('CommentService threads', () => {
   function countWrites(run: () => Promise<unknown>): Promise<number> {
     const setItem = globalThis.localStorage.setItem;
     let writes = 0;
-    globalThis.localStorage.setItem = (key, value) => { writes += 1; setItem(key, value); };
-    return run().then(() => writes).finally(() => { globalThis.localStorage.setItem = setItem; });
+    globalThis.localStorage.setItem = (key, value) => {
+      writes += 1;
+      setItem(key, value);
+    };
+    return run()
+      .then(() => writes)
+      .finally(() => {
+        globalThis.localStorage.setItem = setItem;
+      });
   }
 
   it('deletes a whole thread in one write, leaving other threads', async () => {
@@ -107,7 +128,7 @@ describe('CommentService threads', () => {
     expect(await service.getComments(doomed)).toEqual([]);
     const reloaded = new CommentService(new LocalCommentStorage('test'));
     expect(await reloaded.getComments(doomed)).toEqual([]);
-    expect((await reloaded.getComments(kept)).map(c => c.content)).toEqual(['Stays']);
+    expect((await reloaded.getComments(kept)).map((c) => c.content)).toEqual(['Stays']);
   });
 
   it('resolves and reopens a thread in one write each', async () => {
@@ -124,9 +145,15 @@ describe('CommentService threads', () => {
 
   it('treats a restored pointer as equal to a new one for the same thing', async () => {
     const passage = new TextRangePointer('doc-1', 'thread-1');
-    await new CommentService(new LocalCommentStorage('test')).createComment(passage, 'Kept', 'user-1');
+    await new CommentService(new LocalCommentStorage('test')).createComment(
+      passage,
+      'Kept',
+      'user-1',
+    );
 
-    const [restored] = await new CommentService(new LocalCommentStorage('test')).getComments(passage);
+    const [restored] = await new CommentService(new LocalCommentStorage('test')).getComments(
+      passage,
+    );
 
     expect(restored.pointer.equals(passage)).toBe(true);
     expect(passage.equals(restored.pointer)).toBe(true);
@@ -138,7 +165,9 @@ describe('CommentService threads', () => {
     const service = new CommentService(new LocalCommentStorage('test'));
     const passage = new TextRangePointer('doc-1', 'thread-1');
     let changes = 0;
-    const unsubscribe = service.onChange(() => { changes += 1; });
+    const unsubscribe = service.onChange(() => {
+      changes += 1;
+    });
 
     const comment = await service.createComment(passage, 'One', 'user-1');
     await service.updateComment(comment.id, 'Edited');
@@ -162,7 +191,9 @@ describe('CommentService.onChange for one pointer', () => {
     const other = new TextRangePointer('doc-1', 'thread-2');
     const quote = new EntityPointer('quote', 'quote-1');
     let changes = 0;
-    service.onChange(() => { changes += 1; }, watched);
+    service.onChange(() => {
+      changes += 1;
+    }, watched);
 
     const elsewhere = await service.createComment(other, 'Elsewhere', 'user-1');
     await service.updateComment(elsewhere.id, 'Still elsewhere');

@@ -9,7 +9,7 @@ export interface Comment {
   authorId: string;
   createdAt: Date;
   updatedAt?: Date;
-  parentId?: string;  // For threading
+  parentId?: string; // For threading
   resolved?: boolean;
 }
 
@@ -34,9 +34,11 @@ export interface CommentEvents {
 }
 
 // The pointers each change touches; null when it touches every pointer.
-const AFFECTED: { [K in keyof CommentEvents]: (data: CommentEvents[K]) => CommentPointer[] | null } = {
-  'comment:created': comment => [comment.pointer],
-  'comment:updated': comment => [comment.pointer],
+const AFFECTED: {
+  [K in keyof CommentEvents]: (data: CommentEvents[K]) => CommentPointer[] | null;
+} = {
+  'comment:created': (comment) => [comment.pointer],
+  'comment:updated': (comment) => [comment.pointer],
   'comment:deleted': ({ pointer }) => [pointer],
   'thread:deleted': ({ pointer }) => [pointer],
   'thread:resolved': ({ pointer }) => [pointer],
@@ -46,9 +48,7 @@ const AFFECTED: { [K in keyof CommentEvents]: (data: CommentEvents[K]) => Commen
 };
 
 export class CommentService extends EventEmitter<CommentEvents> {
-  constructor(
-    private storage: CommentStorage
-  ) {
+  constructor(private storage: CommentStorage) {
     super();
   }
 
@@ -58,18 +58,22 @@ export class CommentService extends EventEmitter<CommentEvents> {
    */
   onChange(handler: () => void, pointer?: CommentPointer): () => void {
     const events = Object.keys(AFFECTED) as Array<keyof CommentEvents>;
-    const unsubscribers = events.map(event => this.on(event, (data: CommentEvents[typeof event]) => {
-      const affected = (AFFECTED[event] as (data: CommentEvents[typeof event]) => CommentPointer[] | null)(data);
-      if (!pointer || !affected || affected.some(each => each.equals(pointer))) handler();
-    }));
-    return () => unsubscribers.forEach(unsubscribe => unsubscribe());
+    const unsubscribers = events.map((event) =>
+      this.on(event, (data: CommentEvents[typeof event]) => {
+        const affected = (
+          AFFECTED[event] as (data: CommentEvents[typeof event]) => CommentPointer[] | null
+        )(data);
+        if (!pointer || !affected || affected.some((each) => each.equals(pointer))) handler();
+      }),
+    );
+    return () => unsubscribers.forEach((unsubscribe) => unsubscribe());
   }
 
   async createComment(
     pointer: CommentPointer,
     content: string,
     authorId: string,
-    parentId?: string
+    parentId?: string,
   ): Promise<Comment> {
     const comment: Comment = {
       id: `comment-${crypto.randomUUID()}`,
@@ -78,7 +82,7 @@ export class CommentService extends EventEmitter<CommentEvents> {
       authorId,
       parentId,
       createdAt: new Date(),
-      resolved: false
+      resolved: false,
     };
 
     await this.storage.save(comment);
@@ -103,7 +107,7 @@ export class CommentService extends EventEmitter<CommentEvents> {
     const updated = {
       ...comment,
       content,
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
 
     await this.storage.save(updated);
@@ -120,7 +124,7 @@ export class CommentService extends EventEmitter<CommentEvents> {
 
   /** Deletes every comment on a pointer in one storage write. */
   async deleteThread(pointer: CommentPointer): Promise<string[]> {
-    const ids = (await this.storage.findByPointer(pointer)).map(comment => comment.id);
+    const ids = (await this.storage.findByPointer(pointer)).map((comment) => comment.id);
     if (ids.length > 0) {
       await this.storage.deleteMany(ids);
       this.emit('thread:deleted', { pointer, ids });
@@ -132,11 +136,11 @@ export class CommentService extends EventEmitter<CommentEvents> {
     const comments = await this.getComments(pointer);
     if (comments.length === 0) return null;
 
-    const resolved = comments.every(c => c.resolved);
+    const resolved = comments.every((c) => c.resolved);
     const createdAt = comments[0].createdAt;
-    const updatedAt = comments.reduce((latest, c) =>
-      (c.updatedAt || c.createdAt) > latest ? (c.updatedAt || c.createdAt) : latest,
-      createdAt
+    const updatedAt = comments.reduce(
+      (latest, c) => ((c.updatedAt || c.createdAt) > latest ? c.updatedAt || c.createdAt : latest),
+      createdAt,
     );
 
     return {
@@ -145,7 +149,7 @@ export class CommentService extends EventEmitter<CommentEvents> {
       comments,
       resolved,
       createdAt,
-      updatedAt
+      updatedAt,
     };
   }
 
@@ -163,7 +167,11 @@ export class CommentService extends EventEmitter<CommentEvents> {
 
   private async setResolved(pointer: CommentPointer, resolved: boolean): Promise<void> {
     const updatedAt = new Date();
-    const comments = (await this.storage.findByPointer(pointer)).map(comment => ({ ...comment, resolved, updatedAt }));
+    const comments = (await this.storage.findByPointer(pointer)).map((comment) => ({
+      ...comment,
+      resolved,
+      updatedAt,
+    }));
     await this.storage.saveMany(comments);
   }
 
@@ -172,7 +180,7 @@ export class CommentService extends EventEmitter<CommentEvents> {
    * changes form, such as a commented passage turned into a quote.
    */
   async reanchor(from: CommentPointer, to: CommentPointer): Promise<Comment[]> {
-    const moved = (await this.getComments(from)).map(comment => ({ ...comment, pointer: to }));
+    const moved = (await this.getComments(from)).map((comment) => ({ ...comment, pointer: to }));
     if (moved.length > 0) {
       await this.storage.saveMany(moved);
       this.emit('thread:reanchored', { from, to, comments: moved });

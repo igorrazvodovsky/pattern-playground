@@ -1,14 +1,13 @@
 import React from 'react';
-import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Highlight from '@tiptap/extension-highlight';
 import { Reference, createReferenceSuggestion } from '../components/reference/index.js';
 import { EditorProvider } from '../components/editor/EditorProvider.tsx';
+import { usePluginEditor } from '../components/editor/usePluginEditor.ts';
 import { EditorLayout } from '../components/editor/EditorLayout.tsx';
 import { EditorContent as PluginEditorContent } from '../components/editor/slots/EditorContent.tsx';
 import { EditorBubbleMenu } from '../components/editor/slots/EditorBubbleMenu.tsx';
 import { EditorToolbar } from '../components/editor/slots/EditorToolbar.tsx';
-import { Commenting } from '../components/commenting/tiptap/comment-mark.ts';
 import { formattingPlugin } from '../components/editor-plugins/formatting/FormattingPlugin.ts';
 import { commentingPlugin } from '../components/editor-plugins/commenting/CommentingPlugin.ts';
 import { CommentingIntegration } from '../components/editor-plugins/commenting/components/CommentingIntegration.tsx';
@@ -25,16 +24,19 @@ export const BasicDemo: React.FC = () => {
   const content = getDocumentContentText('doc-climate-change', 'ecological-timing');
   const plugins = React.useMemo(() => [formattingPlugin()], []);
 
-  const editor = useEditor({
-    extensions: [StarterKit, Highlight],
-    content: `<p>${content}</p>`,
-    editorProps: {
-      attributes: {
-        'aria-label': 'Document editor',
+  const editor = usePluginEditor(
+    {
+      extensions: [StarterKit, Highlight],
+      content: `<p>${content}</p>`,
+      editorProps: {
+        attributes: {
+          'aria-label': 'Document editor',
+        },
       },
+      immediatelyRender: false,
     },
-    immediatelyRender: false,
-  });
+    plugins,
+  );
 
   if (!editor) {
     return <div>Loading editor...</div>;
@@ -56,28 +58,34 @@ export const BasicDemo: React.FC = () => {
 
 export const TextLensDemo: React.FC = () => {
   const content = getDocumentContentText('doc-climate-change', 'habitat-displacement');
-  const plugins = React.useMemo(() => [
-    formattingPlugin(),
-    aiAssistantPlugin({
-      enableExplain: false,
-      enableSummarize: false,
-      enableZoomIn: true,
-      enableZoomOut: true,
-      streamingEnabled: false,
-      zoomIntensity: 30,
-    })
-  ], []);
+  const plugins = React.useMemo(
+    () => [
+      formattingPlugin(),
+      aiAssistantPlugin({
+        enableExplain: false,
+        enableSummarize: false,
+        enableZoomIn: true,
+        enableZoomOut: true,
+        streamingEnabled: false,
+        zoomIntensity: 30,
+      }),
+    ],
+    [],
+  );
 
-  const editor = useEditor({
-    extensions: [StarterKit, Highlight],
-    content: `<p>${content} As temperatures rise, animals and plants are being pushed out of their natural habitats.</p>`,
-    editorProps: {
-      attributes: {
-        'aria-label': 'Document editor',
+  const editor = usePluginEditor(
+    {
+      extensions: [StarterKit, Highlight],
+      content: `<p>${content} As temperatures rise, animals and plants are being pushed out of their natural habitats.</p>`,
+      editorProps: {
+        attributes: {
+          'aria-label': 'Document editor',
+        },
       },
+      immediatelyRender: false,
     },
-    immediatelyRender: false,
-  });
+    plugins,
+  );
 
   if (!editor) {
     return <div>Loading editor...</div>;
@@ -99,41 +107,43 @@ export const TextLensDemo: React.FC = () => {
 
 export const CommentingDemo: React.FC = () => {
   const richContent = getDocumentContentRich('doc-climate-change');
-  const plugins = React.useMemo(() => [
-    // The toolbar row carries only the commenting control.
-    formattingPlugin({ toolbar: false }),
-    commentingPlugin({
-      documentId: 'doc-climate-change',
-      currentUser: 'user-1',
-      bubbleMenu: true,
-      toolbar: true,
-    })
-  ], []);
+  const plugins = React.useMemo(
+    () => [
+      // The toolbar row carries only the commenting control.
+      formattingPlugin({ toolbar: false }),
+      commentingPlugin({
+        documentId: 'doc-climate-change',
+        currentUser: 'user-1',
+        bubbleMenu: true,
+        toolbar: true,
+        referenceCategories,
+      }),
+    ],
+    [],
+  );
 
   React.useEffect(() => {
-    import('../services/commenting/mock-data/initialize-mock-comments.ts').then(({ initializeMockComments }) => {
-      initializeMockComments();
-    });
+    import('../services/commenting/mock-data/initialize-mock-comments.ts').then(
+      ({ initializeMockComments }) => {
+        initializeMockComments();
+      },
+    );
   }, []);
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Highlight,
-      Reference.configure({
-        suggestion: createReferenceSuggestion(referenceCategories),
-      }),
-      Commenting,
-    ],
-    content: richContent || '',
-    editorProps: {
-      attributes: {
-        class: 'rich-editor',
-        'aria-label': 'Document editor',
-      }
+  const editor = usePluginEditor(
+    {
+      extensions: [StarterKit, Highlight],
+      content: richContent || '',
+      editorProps: {
+        attributes: {
+          'class': 'rich-editor',
+          'aria-label': 'Document editor',
+        },
+      },
+      immediatelyRender: false,
     },
-    immediatelyRender: false,
-  });
+    plugins,
+  );
 
   if (!editor) {
     return <div>Loading editor...</div>;
@@ -144,10 +154,8 @@ export const CommentingDemo: React.FC = () => {
       <CommentingIntegration config={{ currentUser: 'user-1' }}>
         <EditorLayout>
           <EditorToolbar className="toolbar" />
-          <div className="rich-editor-container">
-            <PluginEditorContent />
-            <EditorBubbleMenu />
-          </div>
+          <PluginEditorContent />
+          <EditorBubbleMenu />
         </EditorLayout>
       </CommentingIntegration>
     </EditorProvider>
@@ -156,31 +164,37 @@ export const CommentingDemo: React.FC = () => {
 
 export const DynamicExplanationDemo: React.FC = () => {
   const richContent = getDocumentContentRich('doc-climate-change');
-  const plugins = React.useMemo(() => [
-    explanationPlugin({
-      enableExplain: true,
-      streamingEnabled: true,
-      includeReferences: true,
-    })
-  ], []);
-
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Highlight,
-      Reference.configure({
-        suggestion: createReferenceSuggestion(referenceCategories),
-      })
+  const plugins = React.useMemo(
+    () => [
+      explanationPlugin({
+        enableExplain: true,
+        streamingEnabled: true,
+        includeReferences: true,
+      }),
     ],
-    content: richContent || '',
-    editorProps: {
-      attributes: {
-        class: 'rich-editor',
-        'aria-label': 'Document editor',
-      }
+    [],
+  );
+
+  const editor = usePluginEditor(
+    {
+      extensions: [
+        StarterKit,
+        Highlight,
+        Reference.configure({
+          suggestion: createReferenceSuggestion(referenceCategories),
+        }),
+      ],
+      content: richContent || '',
+      editorProps: {
+        attributes: {
+          'class': 'rich-editor',
+          'aria-label': 'Document editor',
+        },
+      },
+      immediatelyRender: false,
     },
-    immediatelyRender: false,
-  });
+    plugins,
+  );
 
   if (!editor) {
     return <div>Loading editor...</div>;
@@ -189,10 +203,8 @@ export const DynamicExplanationDemo: React.FC = () => {
   return (
     <EditorProvider editor={editor} plugins={plugins}>
       <EditorLayout>
-        <div className="rich-editor-container">
-          <PluginEditorContent />
-          <EditorBubbleMenu />
-        </div>
+        <PluginEditorContent />
+        <EditorBubbleMenu />
       </EditorLayout>
     </EditorProvider>
   );

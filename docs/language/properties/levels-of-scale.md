@@ -13,4 +13,7 @@ large that the levels stop supporting each other.
 
 - *Repository*: [levels-of-scale.md](../../levels-of-scale.md) — structural
   legibility across repository altitudes, with presence and absence conditions.
-- *Interface composition*: none yet.
+- *Interface composition*: the authored levels list in
+  `apps/patterns/src/content/levels.yaml`, which places each design pattern once
+  within one of three parts, each with its own way of making. Within a group,
+  wholes come before the parts that complete them.

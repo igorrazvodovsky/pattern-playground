@@ -13,24 +13,23 @@ export function ExplanationDrawer({
   explanation,
   isLoading,
   error,
-  references
+  references,
 }: ExplanationDrawerProps) {
   return (
     <div className="flow">
       <section className="flow">
         <h3>Selected text</h3>
-        <blockquote className="callout layer">
-          "{text}"
-        </blockquote>
+        <blockquote className="callout layer">"{text}"</blockquote>
       </section>
 
       {references && references.length > 0 && (
         <section className="flow">
           <h3>References</h3>
           <ul className="flex wrap">
-            {references.map(ref => (
+            {references.map((ref) => (
               <li key={ref.id} className="badge">
-                <span className="badge__label">{ref.type}</span>{ref.label}
+                <span className="badge__label">{ref.type}</span>
+                {ref.label}
               </li>
             ))}
           </ul>
@@ -41,7 +40,11 @@ export function ExplanationDrawer({
         <h3>Explanation</h3>
         {error && (
           <div className="callout danger flex">
-            <iconify-icon className="icon" icon="ik:cross-in-circle" aria-hidden="true"></iconify-icon>
+            <iconify-icon
+              className="icon"
+              icon="ik:cross-in-circle"
+              aria-hidden="true"
+            ></iconify-icon>
             <span>Failed to generate explanation: {error}</span>
           </div>
         )}

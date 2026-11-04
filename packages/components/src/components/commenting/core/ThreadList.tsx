@@ -35,7 +35,7 @@ function shorten(text: string): string {
 export const ThreadList: React.FC<ThreadListProps> = ({ entries, currentUser, onSelect }) => {
   const user = getUserById(currentUser);
   const counts = useCommentCounts(entries);
-  const commented = entries.filter(entry => (counts.get(entry.key) ?? 0) > 0);
+  const commented = entries.filter((entry) => (counts.get(entry.key) ?? 0) > 0);
 
   if (!user) return null;
 
@@ -45,7 +45,7 @@ export const ThreadList: React.FC<ThreadListProps> = ({ entries, currentUser, on
 
   return (
     <div className="flow">
-      {commented.map(entry => {
+      {commented.map((entry) => {
         const count = counts.get(entry.key) ?? 0;
         return (
           <details
@@ -61,11 +61,7 @@ export const ThreadList: React.FC<ThreadListProps> = ({ entries, currentUser, on
                 <small>{count === 1 ? '1 comment' : `${count} comments`}</small>
               </span>
             </summary>
-            <CommentThread
-              pointer={entry.pointer}
-              currentUser={user}
-              placeholder="Reply..."
-            />
+            <CommentThread pointer={entry.pointer} currentUser={user} placeholder="Reply..." />
           </details>
         );
       })}
@@ -82,12 +78,16 @@ function useCommentCounts(entries: ThreadListEntry[]): Map<string, number> {
     let cancelled = false;
 
     const load = async () => {
-      const byPointer = await service.getCommentsByPointers(entries.map(entry => entry.pointer));
+      const byPointer = await service.getCommentsByPointers(entries.map((entry) => entry.pointer));
       if (cancelled) return;
-      setCounts(new Map(entries.map(entry => [
-        entry.key,
-        byPointer.get(entry.pointer.serialize())?.length ?? 0,
-      ])));
+      setCounts(
+        new Map(
+          entries.map((entry) => [
+            entry.key,
+            byPointer.get(entry.pointer.serialize())?.length ?? 0,
+          ]),
+        ),
+      );
     };
 
     load();

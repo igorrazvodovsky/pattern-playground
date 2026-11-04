@@ -20,11 +20,7 @@ import type { Axis, AxisDomain, AxisScale } from 'd3-axis';
 import { ChartComponent } from './base/chart-component.js';
 import type { ElenaProp } from './base/d3-component.js';
 import { VIEWBOX_WIDTH, VIEWBOX_HEIGHT } from './base/d3-component.js';
-import type {
-  BarChartData,
-  BarChartDataPoint,
-  ChartDimensions
-} from './base/chart-types.js';
+import type { BarChartData, BarChartDataPoint, ChartDimensions } from './base/chart-types.js';
 import { isBarChartData } from './base/chart-types.js';
 import type { BarChartScales } from './renderers/bar-chart-renderer.js';
 import { transformBarChartData } from './base/data-converters.js';
@@ -33,23 +29,16 @@ import {
   addBarChartInteractions,
   cleanupBarChart,
   defaultBarChartConfig,
-  createBarChartScales
+  createBarChartScales,
 } from './renderers/bar-chart-renderer.js';
-import type {
-  BarChartConfig,
-  BarChartRenderResult
-} from './renderers/bar-chart-renderer.js';
-import {
-  createScaleCoordinator
-} from './services/scale-coordinator.js';
-import type {
-  ScaleCoordinator
-} from './services/scale-coordinator.js';
+import type { BarChartConfig, BarChartRenderResult } from './renderers/bar-chart-renderer.js';
+import { createScaleCoordinator } from './services/scale-coordinator.js';
+import type { ScaleCoordinator } from './services/scale-coordinator.js';
 
 export class BarChart extends ChartComponent {
-  static tagName = 'pp-bar-chart';
+  static 'tagName' = 'pp-bar-chart';
 
-  static props: ElenaProp[] = [
+  static 'props': ElenaProp[] = [
     ...ChartComponent.props,
     'orientation',
     'show-legend',
@@ -63,27 +52,27 @@ export class BarChart extends ChartComponent {
     'show-category-labels',
   ];
 
-  data: BarChartData = { data: [] };
-  orientation: 'vertical' | 'horizontal' = 'vertical';
+  'data': BarChartData = { data: [] };
+  'orientation': 'vertical' | 'horizontal' = 'vertical';
   'show-legend' = false;
   'show-grid' = false;
   'show-axes' = true;
   'animate-chart' = true;
   'animation-duration' = 300;
   'bar-padding' = 0.1;
-  sort: 'asc' | 'desc' | 'none' = 'none';
+  'sort': 'asc' | 'desc' | 'none' = 'none';
   'show-value-labels' = false;
   'show-category-labels' = false;
 
-  protected itemNavigationName = 'Bar chart';
+  protected 'itemNavigationName' = 'Bar chart';
 
   // Internal bookkeeping — plain fields; never trigger a render cycle.
-  private renderResult?: BarChartRenderResult;
+  private 'renderResult'?: BarChartRenderResult;
 
   // Scale coordination
-  private scaleCoordinator: ScaleCoordinator = createScaleCoordinator();
+  private 'scaleCoordinator': ScaleCoordinator = createScaleCoordinator();
 
-  disconnectedCallback() {
+  'disconnectedCallback'() {
     super.disconnectedCallback();
     if (this.renderResult) {
       cleanupBarChart(this.renderResult);
@@ -91,26 +80,30 @@ export class BarChart extends ChartComponent {
     this.scaleCoordinator.destroy();
   }
 
-  protected validateData(): boolean {
+  protected 'validateData'(): boolean {
     return isBarChartData(this.data) && this.data.data.length > 0;
   }
 
-  protected transformData(): BarChartData {
+  protected 'transformData'(): BarChartData {
     return transformBarChartData(this.data, {
       orientation: this.orientation,
-      sort: this.sort
+      sort: this.sort,
     });
   }
 
   /** Scales are created in the renderer; nothing to precompute here. */
-  protected setupScales(): void {}
+  protected 'setupScales'(): void {}
 
-  private createScalesForPrimitives(data: BarChartData, dimensions: ChartDimensions, config: Partial<BarChartConfig>) {
+  private 'createScalesForPrimitives'(
+    data: BarChartData,
+    dimensions: ChartDimensions,
+    config: Partial<BarChartConfig>,
+  ) {
     const mergedConfig = { ...defaultBarChartConfig, ...config };
     return createBarChartScales(data, dimensions, mergedConfig);
   }
 
-  protected renderChart(): void {
+  protected 'renderChart'(): void {
     if (!this.contentGroup || !this.validateData()) {
       return;
     }
@@ -119,7 +112,7 @@ export class BarChart extends ChartComponent {
     const dimensions: ChartDimensions = {
       width: this.width,
       height: this.height,
-      margin: this.margin
+      margin: this.margin,
     };
 
     const config: Partial<BarChartConfig> = {
@@ -129,7 +122,7 @@ export class BarChart extends ChartComponent {
       animationDuration: this['animation-duration'],
       barPadding: this['bar-padding'],
       showValueLabels: this['show-value-labels'],
-      showCategoryLabels: this['show-category-labels']
+      showCategoryLabels: this['show-category-labels'],
     };
 
     if (this.renderResult) {
@@ -147,7 +140,7 @@ export class BarChart extends ChartComponent {
     // Primitives share the scales' coordinate system (viewBox-based).
     const viewBoxDimensions = {
       width: VIEWBOX_WIDTH - this.margin.left - this.margin.right,
-      height: VIEWBOX_HEIGHT - this.margin.top - this.margin.bottom
+      height: VIEWBOX_HEIGHT - this.margin.top - this.margin.bottom,
     };
 
     if (this['show-axes']) {
@@ -161,57 +154,66 @@ export class BarChart extends ChartComponent {
     this.addInteractions();
 
     this.setChartLabel(this.title || `Bar chart with ${transformedData.data.length} data points`);
-    this.syncDataTable(transformedData.data.map(item => [item.category, item.value]));
+    this.syncDataTable(transformedData.data.map((item) => [item.category, item.value]));
   }
 
-  private addInteractions(): void {
+  private 'addInteractions'(): void {
     if (!this.renderResult) return;
 
     addBarChartInteractions(
       this.renderResult,
       this.handleBarHover.bind(this),
       this.handleBarLeave.bind(this),
-      this.handleBarClick.bind(this)
+      this.handleBarClick.bind(this),
     );
   }
 
-  private handleBarHover(data: BarChartDataPoint, event: MouseEvent): void {
-    this.dispatchEvent(new CustomEvent('pp-bar-hover', {
-      detail: { data, originalEvent: event },
-      bubbles: true,
-      composed: true
-    }));
+  private 'handleBarHover'(data: BarChartDataPoint, event: MouseEvent): void {
+    this.dispatchEvent(
+      new CustomEvent('pp-bar-hover', {
+        detail: { data, originalEvent: event },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
-  private handleBarLeave(): void {
-    this.dispatchEvent(new CustomEvent('pp-bar-hover-end', {
-      bubbles: true,
-      composed: true
-    }));
+  private 'handleBarLeave'(): void {
+    this.dispatchEvent(
+      new CustomEvent('pp-bar-hover-end', {
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
-  private handleBarClick(data: BarChartDataPoint, event: Event): void {
-    this.dispatchEvent(new CustomEvent('pp-bar-click', {
-      detail: { data, originalEvent: event },
-      bubbles: true,
-      composed: true
-    }));
+  private 'handleBarClick'(data: BarChartDataPoint, event: Event): void {
+    this.dispatchEvent(
+      new CustomEvent('pp-bar-click', {
+        detail: { data, originalEvent: event },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
-  protected itemCount(): number {
+  protected 'itemCount'(): number {
     return this.renderResult ? this.transformData().data.length : 0;
   }
 
-  protected describeItem(index: number): string {
+  protected 'describeItem'(index: number): string {
     const item = this.transformData().data[index];
     return `${item.category}: ${item.value}`;
   }
 
-  protected activateItem(index: number, event: KeyboardEvent): void {
+  protected 'activateItem'(index: number, event: KeyboardEvent): void {
     this.handleBarClick(this.transformData().data[index], event);
   }
 
-  private renderAxes(scales: BarChartScales, dimensions: { width: number; height: number }): void {
+  private 'renderAxes'(
+    scales: BarChartScales,
+    dimensions: { width: number; height: number },
+  ): void {
     const container = select(this.contentGroup);
     container.selectAll('.axis-group').remove();
 
@@ -220,15 +222,17 @@ export class BarChart extends ChartComponent {
       .attr('class', 'axis-group x-axis')
       .attr('transform', `translate(0, ${dimensions.height})`);
 
-    const yAxisGroup = container
-      .append('g')
-      .attr('class', 'axis-group y-axis');
+    const yAxisGroup = container.append('g').attr('class', 'axis-group y-axis');
 
     this.renderAxis(xAxisGroup, scales, 'x');
     this.renderAxis(yAxisGroup, scales, 'y');
   }
 
-  private renderAxis(container: Selection<SVGGElement, unknown, null, undefined>, scales: BarChartScales, axisType: 'x' | 'y'): void {
+  private 'renderAxis'(
+    container: Selection<SVGGElement, unknown, null, undefined>,
+    scales: BarChartScales,
+    axisType: 'x' | 'y',
+  ): void {
     let axis: Axis<AxisDomain>;
 
     if (axisType === 'x') {
@@ -237,12 +241,16 @@ export class BarChart extends ChartComponent {
         axis = axisBottom(scales.x as AxisScale<AxisDomain>).tickSize(6);
       } else {
         // Values on X-axis for horizontal bars
-        axis = axisBottom(scales.y as AxisScale<AxisDomain>).ticks(5).tickSize(6);
+        axis = axisBottom(scales.y as AxisScale<AxisDomain>)
+          .ticks(5)
+          .tickSize(6);
       }
     } else {
       if (this.orientation === 'vertical') {
         // Values on Y-axis for vertical bars
-        axis = axisLeft(scales.y as AxisScale<AxisDomain>).ticks(5).tickSize(6);
+        axis = axisLeft(scales.y as AxisScale<AxisDomain>)
+          .ticks(5)
+          .tickSize(6);
       } else {
         // Categories on Y-axis for horizontal bars
         axis = axisLeft(scales.x as AxisScale<AxisDomain>).tickSize(6);
@@ -253,47 +261,54 @@ export class BarChart extends ChartComponent {
     this.applyAxisStyling(container, axisType);
   }
 
-  private applyAxisStyling(container: Selection<SVGGElement, unknown, null, undefined>, axisType: 'x' | 'y'): void {
-    container.select('.domain')
+  private 'applyAxisStyling'(
+    container: Selection<SVGGElement, unknown, null, undefined>,
+    axisType: 'x' | 'y',
+  ): void {
+    container
+      .select('.domain')
       .attr('stroke', 'var(--c-border)')
       .attr('stroke-width', 0)
       .attr('fill', 'none');
 
-    container.selectAll('.tick line')
-      .attr('stroke', 'var(--c-border)')
-      .attr('stroke-width', 1);
+    container.selectAll('.tick line').attr('stroke', 'var(--c-border)').attr('stroke-width', 1);
 
-    container.selectAll('.tick text')
+    container
+      .selectAll('.tick text')
       .attr('fill', 'var(--c-bodyDimmed)')
       .attr('font-size', 'var(--text-s)')
       .attr('font-family', 'var(--font)');
 
     // Text offsets match the chart-axis primitive so the two stay aligned.
     if (axisType === 'y') {
-      container.selectAll('.tick text')
+      container
+        .selectAll('.tick text')
         .attr('text-anchor', 'end')
         .attr('x', -12)
         .attr('dy', '0.32em');
     } else {
-      container.selectAll('.tick text')
+      container
+        .selectAll('.tick text')
         .attr('text-anchor', 'middle')
         .attr('y', 12)
         .attr('dy', '0.71em');
     }
   }
 
-  private renderGrid(scales: BarChartScales, dimensions: { width: number; height: number }): void {
+  private 'renderGrid'(
+    scales: BarChartScales,
+    dimensions: { width: number; height: number },
+  ): void {
     const container = select(this.contentGroup);
     container.selectAll('.grid').remove();
 
-    const gridGroup = container
-      .append('g')
-      .attr('class', 'grid');
+    const gridGroup = container.append('g').attr('class', 'grid');
 
     if (this.orientation === 'vertical') {
       // Horizontal grid lines for vertical bars
       const ticks = scales.y.ticks(5);
-      gridGroup.selectAll('.grid-line')
+      gridGroup
+        .selectAll('.grid-line')
         .data(ticks)
         .join('line')
         .attr('class', 'grid-line')
@@ -307,7 +322,8 @@ export class BarChart extends ChartComponent {
     } else {
       // Vertical grid lines for horizontal bars
       const ticks = scales.y.ticks(5);
-      gridGroup.selectAll('.grid-line')
+      gridGroup
+        .selectAll('.grid-line')
         .data(ticks)
         .join('line')
         .attr('class', 'grid-line')

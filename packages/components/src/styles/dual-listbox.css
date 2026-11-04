@@ -1,0 +1,24 @@
+pp-dual-listbox {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: var(--space-m);
+  align-items: stretch;
+
+  pp-list {
+    block-size: var(--dual-listbox-height, 16rem);
+  }
+
+  .dual-listbox__controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-xs);
+  }
+
+  .dual-listbox__pane {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    min-inline-size: 0;
+  }
+}

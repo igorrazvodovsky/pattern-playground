@@ -1,0 +1,22 @@
+{
+  "root": "formula",
+  "elements": {
+    "formula": {
+      "type": "MentionEditor",
+      "props": {
+        "label": "Saved task search",
+        "placeholder": "Type @ to name a field or a value, or / for more",
+        "notation": "formula",
+        "commands": true,
+        "content": { "$bindState": "/content" },
+        "query": { "$bindState": "/query" },
+        "context": { "$bindState": "/context" },
+        "keywords": { "$state": "/keywords" },
+        "candidates": {
+          "$computed": "candidates",
+          "args": { "query": { "$state": "/query" }, "context": { "$state": "/context" } }
+        }
+      }
+    }
+  }
+}

@@ -5,7 +5,8 @@
  * instead, where only the browser ever runs it.
  */
 
-export type ElementAdapter = typeof import('@atlaskit/pragmatic-drag-and-drop/adapter/element-adapter');
+export type ElementAdapter =
+  typeof import('@atlaskit/pragmatic-drag-and-drop/adapter/element-adapter');
 
 let adapterPromise: Promise<ElementAdapter> | undefined;
 

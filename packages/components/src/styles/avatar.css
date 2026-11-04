@@ -13,15 +13,15 @@
     object-fit: cover;
   }
 
-  .avatar[data-size="xsmall"] {
+  .avatar[data-size='xsmall'] {
     --_size: 16px;
   }
 
-  .avatar[data-size="small"] {
+  .avatar[data-size='small'] {
     --_size: 32px;
   }
 
-  .avatar[data-size="large"] {
+  .avatar[data-size='large'] {
     --_size: 64px;
   }
 
@@ -33,7 +33,7 @@
        than dropping to the text baseline. */
     vertical-align: middle;
 
-    &[data-size="xsmall"] {
+    &[data-size='xsmall'] {
       border-width: 1px;
     }
   }

@@ -46,7 +46,7 @@ export class ModalErrorBoundary extends React.Component<
 
 const DefaultModalErrorFallback: React.FC<{ error: Error; retry: () => void }> = ({
   error,
-  retry
+  retry,
 }) => (
   <div className="modal-error">
     <h3>Something went wrong</h3>

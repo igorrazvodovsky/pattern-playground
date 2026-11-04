@@ -308,8 +308,8 @@ export const RULES: Rule[] = [
         if (node.id === focus.id || inSameBranch(node.id, focus.id)) return [];
         const match = focus.attributes.find((attribute) =>
           node.attributes.some(
-            (other) => other.name === attribute.name && other.value === attribute.value
-          )
+            (other) => other.name === attribute.name && other.value === attribute.value,
+          ),
         );
         if (!match) return [];
         const value = `${match.value}${match.unit ?? ''}`;

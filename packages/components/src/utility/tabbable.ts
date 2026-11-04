@@ -114,7 +114,7 @@ function isTabbable(el: HTMLElement) {
     'audio',
     'video',
     'summary',
-    'iframe'
+    'iframe',
   ].includes(tag);
 
   if (isNativelyTabbable) {
@@ -144,7 +144,10 @@ export function getTabbableBoundary(root: HTMLElement | ShadowRoot) {
  * However, there is an edge case when, if the `root` is wrapped by another shadow DOM, it won't grab the children.
  * This fixes that fun edge case.
  */
-function getSlottedChildrenOutsideRootElement(slotElement: HTMLSlotElement, root: HTMLElement | ShadowRoot) {
+function getSlottedChildrenOutsideRootElement(
+  slotElement: HTMLSlotElement,
+  root: HTMLElement | ShadowRoot,
+) {
   return (slotElement.getRootNode({ composed: true }) as ShadowRoot | null)?.host !== root;
 }
 
@@ -169,7 +172,7 @@ export function getTabbableElements(root: HTMLElement | ShadowRoot) {
       }
 
       if (el instanceof HTMLSlotElement && getSlottedChildrenOutsideRootElement(el, root)) {
-        el.assignedElements({ flatten: true }).forEach(assignedEl => {
+        el.assignedElements({ flatten: true }).forEach((assignedEl) => {
           if (assignedEl instanceof HTMLElement) {
             walk(assignedEl);
           }

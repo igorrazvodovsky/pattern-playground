@@ -36,7 +36,7 @@ export class ModelDeduceHandler {
     logger.info(`Deducing connections for ${validatedRequest.focus.name}`);
 
     const deduction = await withTimeout(60000, (signal) =>
-      openaiService.deduceConnections(validatedRequest, signal)
+      openaiService.deduceConnections(validatedRequest, signal),
     );
     deductions.set(key, deduction);
     ok(res, deduction);

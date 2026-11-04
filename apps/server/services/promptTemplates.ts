@@ -13,69 +13,69 @@ export interface PromptConfig {
 
 export const PROMPT_CONFIGS: Record<string, PromptConfig> = {
   filters: {
-    role: "filter generation assistant",
-    purpose: "convert natural language queries into structured filter objects",
-    optionsTitle: "Available filter types and their possible values",
+    role: 'filter generation assistant',
+    purpose: 'convert natural language queries into structured filter objects',
+    optionsTitle: 'Available filter types and their possible values',
     specificRules: [
-      "Use exact case-sensitive values from the lists above",
-      "Choose appropriate operators: \"is\", \"is not\", \"is any of\", \"include\", \"do not include\", \"before\", \"after\""
+      'Use exact case-sensitive values from the lists above',
+      'Choose appropriate operators: "is", "is not", "is any of", "include", "do not include", "before", "after"',
     ],
-    exampleId: "filter-1",
-    exampleLabel: "Status is Todo",
-    exampleValue: ["Todo"],
+    exampleId: 'filter-1',
+    exampleLabel: 'Status is Todo',
+    exampleValue: ['Todo'],
     exampleConfidence: 85,
     exampleMetadata: {
-      type: "Status",
-      operator: "is",
-      value: ["Todo"]
+      type: 'Status',
+      operator: 'is',
+      value: ['Todo'],
     },
-    exampleExplanation: "Applied filter for todo items"
+    exampleExplanation: 'Applied filter for todo items',
   },
 
   commands: {
-    role: "command generation assistant",
-    purpose: "suggest relevant commands and actions based on user input",
-    optionsTitle: "Available command categories and actions",
+    role: 'command generation assistant',
+    purpose: 'suggest relevant commands and actions based on user input',
+    optionsTitle: 'Available command categories and actions',
     specificRules: [
-      "Use exact action names from the lists above",
-      "Focus on action-oriented suggestions"
+      'Use exact action names from the lists above',
+      'Focus on action-oriented suggestions',
     ],
-    exampleId: "cmd-1",
-    exampleLabel: "New Meeting",
-    exampleValue: "New Meeting",
+    exampleId: 'cmd-1',
+    exampleLabel: 'New Meeting',
+    exampleValue: 'New Meeting',
     exampleConfidence: 90,
     exampleMetadata: {
-      category: "Create",
-      action: "New Meeting"
+      category: 'Create',
+      action: 'New Meeting',
     },
-    exampleExplanation: "Suggested actions for scheduling"
+    exampleExplanation: 'Suggested actions for scheduling',
   },
 
   navigation: {
-    role: "navigation assistant",
-    purpose: "suggest relevant pages and destinations based on user input",
-    optionsTitle: "Available navigation options",
+    role: 'navigation assistant',
+    purpose: 'suggest relevant pages and destinations based on user input',
+    optionsTitle: 'Available navigation options',
     specificRules: [
-      "Use exact page/section names from the lists above",
-      "Focus on navigation destinations"
+      'Use exact page/section names from the lists above',
+      'Focus on navigation destinations',
     ],
-    exampleId: "nav-1",
-    exampleLabel: "Dashboard",
-    exampleValue: "Dashboard",
+    exampleId: 'nav-1',
+    exampleLabel: 'Dashboard',
+    exampleValue: 'Dashboard',
     exampleConfidence: 95,
     exampleMetadata: {
-      type: "page",
-      destination: "Dashboard"
+      type: 'page',
+      destination: 'Dashboard',
     },
-    exampleExplanation: "Navigation suggestions for dashboard access"
-  }
+    exampleExplanation: 'Navigation suggestions for dashboard access',
+  },
 };
 
 export class PromptTemplateBuilder {
   static buildSystemPrompt(
     _type: string,
     availableOptions: Record<string, (string | number | boolean)[]>, // Arrays of primitive values for prompt building
-    config?: PromptConfig
+    config?: PromptConfig,
   ): string {
     const optionsText = Object.entries(availableOptions)
       .map(([key, values]) => `- ${key}: ${values.join(', ')}`)
@@ -86,9 +86,9 @@ export class PromptTemplateBuilder {
     }
 
     const commonRules = [
-      "Return valid JSON only",
-      "Provide confidence score (0-100)",
-      "List any unmatched criteria"
+      'Return valid JSON only',
+      'Provide confidence score (0-100)',
+      'List any unmatched criteria',
     ];
 
     // Merge common rules with specific rules
@@ -96,12 +96,10 @@ export class PromptTemplateBuilder {
       commonRules[0], // Rule 1
       ...config.specificRules, // Rules 2, 3, etc.
       commonRules[1], // Confidence score rule
-      commonRules[2]  // Unmatched criteria rule
+      commonRules[2], // Unmatched criteria rule
     ];
 
-    const rulesText = allRules
-      .map((rule, index) => `${index + 1}. ${rule}`)
-      .join('\n');
+    const rulesText = allRules.map((rule, index) => `${index + 1}. ${rule}`).join('\n');
 
     return `You are a ${config.role} for a task management system. Your job is to ${config.purpose}.
 

@@ -12,7 +12,11 @@ import {
   type Attribute,
   type ProcessNode,
 } from '../focus-and-context/process-model';
-import { deduceConnections, resolveProposals, type Proposal } from '../../services/model-deduction-service';
+import {
+  deduceConnections,
+  resolveProposals,
+  type Proposal,
+} from '../../services/model-deduction-service';
 import spec from './contextual-navigation.json' with { type: 'json' };
 
 // `/proposed` holds an activated proposal while `/focus` keeps the last
@@ -37,15 +41,19 @@ type Rim =
   | { status: 'ready'; proposals: Proposal[]; revealed: number }
   | { status: 'absent' };
 
-const knownNames = new Set(nodes.map(node => node.name.trim().toLowerCase()));
-const knownIds = new Set(nodes.map(node => node.id));
+const knownNames = new Set(nodes.map((node) => node.name.trim().toLowerCase()));
+const knownIds = new Set(nodes.map((node) => node.id));
 
-const proposalId = (proposal: Proposal) => `proposed:${proposal.name.trim().toLowerCase().replace(/\s+/g, '-')}`;
+const proposalId = (proposal: Proposal) =>
+  `proposed:${proposal.name.trim().toLowerCase().replace(/\s+/g, '-')}`;
 
-const ruleLabel = (id: string) => RULES.find(rule => rule.id === id)?.label ?? id;
+const ruleLabel = (id: string) => RULES.find((rule) => rule.id === id)?.label ?? id;
 
 const badges = (attributes: Attribute[]) =>
-  attributes.map(attribute => ({ label: attribute.label, text: `${attribute.value}${attribute.unit ?? ''}` }));
+  attributes.map((attribute) => ({
+    label: attribute.label,
+    text: `${attribute.value}${attribute.unit ?? ''}`,
+  }));
 
 const crumb = (node: ProcessNode) => ({ id: node.id, label: node.name });
 
@@ -59,7 +67,7 @@ const derive = ({ focus, proposed, shown, rim }: Record<string, unknown>) => {
 
   const rows = [
     ...(levels.explicit && !proposal
-      ? explicitConnections(anchor.id).map(connection => ({
+      ? explicitConnections(anchor.id).map((connection) => ({
           key: connection.id,
           emphasis: 'full',
           eyebrow: connection.relationship,
@@ -71,7 +79,7 @@ const derive = ({ focus, proposed, shown, rim }: Record<string, unknown>) => {
         }))
       : []),
     ...(levels.inferred && !proposal
-      ? band.shown.map(connection => ({
+      ? band.shown.map((connection) => ({
           key: connection.id,
           emphasis: 'reduced',
           eyebrow: ruleLabel(connection.ruleId),
@@ -83,7 +91,7 @@ const derive = ({ focus, proposed, shown, rim }: Record<string, unknown>) => {
         }))
       : []),
     ...(levels.deduced && state.status === 'ready'
-      ? state.proposals.slice(0, state.revealed).map(each => ({
+      ? state.proposals.slice(0, state.revealed).map((each) => ({
           key: proposalId(each),
           emphasis: 'faint',
           eyebrow: 'Proposed, not modelled',
@@ -99,12 +107,16 @@ const derive = ({ focus, proposed, shown, rim }: Record<string, unknown>) => {
   const notes: string[] = [];
   const overflow = band.overflow;
   if (proposal) {
-    notes.push('No authored connections, and no rule to run: both need a component the model contains.');
+    notes.push(
+      'No authored connections, and no rule to run: both need a component the model contains.',
+    );
   } else if (levels.inferred && overflow > 0) {
     notes.push(`${overflow} more inferred, held back by the cap.`);
   }
   if (levels.deduced && state.status === 'absent') {
-    notes.push('Deducing components the model does not contain needs the language model, and it is not answering.');
+    notes.push(
+      'Deducing components the model does not contain needs the language model, and it is not answering.',
+    );
   }
 
   const structure = proposal ? [] : childrenOf(anchor.id);
@@ -125,7 +137,12 @@ const derive = ({ focus, proposed, shown, rim }: Record<string, unknown>) => {
       : null,
     attributes,
     attributeCount: String(attributes.length),
-    structure: structure.map(child => ({ id: child.id, name: child.name, type: child.type, description: child.description })),
+    structure: structure.map((child) => ({
+      id: child.id,
+      name: child.name,
+      type: child.type,
+      description: child.description,
+    })),
     structureCount: String(structure.length),
     rules,
     ruleCount: String(rules.length),
@@ -137,13 +154,19 @@ const derive = ({ focus, proposed, shown, rim }: Record<string, unknown>) => {
 
 const deductionRequest = (anchor: ProcessNode, proposal: Proposal | null) => ({
   focus: proposal
-    ? { id: anchor.id, name: proposal.name, type: 'Proposed component', description: proposal.rationale, attributes: [] }
+    ? {
+        id: anchor.id,
+        name: proposal.name,
+        type: 'Proposed component',
+        description: proposal.rationale,
+        attributes: [],
+      }
     : {
         id: anchor.id,
         name: anchor.name,
         type: anchor.type,
         description: anchor.description,
-        attributes: anchor.attributes.map(attribute => ({
+        attributes: anchor.attributes.map((attribute) => ({
           name: attribute.label,
           value: `${attribute.value}${attribute.unit ?? ''}`,
         })),
@@ -151,8 +174,18 @@ const deductionRequest = (anchor: ProcessNode, proposal: Proposal | null) => ({
   /* Past the boundary the neighbourhood is the anchor's, because that is all
      the model has to reason from. */
   neighbourhood: explicitConnections(anchor.id)
-    .map(connection => ({ id: connection.id, name: connection.name, relation: connection.relationship }))
-    .concat(childrenOf(anchor.id).map(child => ({ id: child.id, name: child.name, relation: 'Part of' }))),
+    .map((connection) => ({
+      id: connection.id,
+      name: connection.name,
+      relation: connection.relationship,
+    }))
+    .concat(
+      childrenOf(anchor.id).map((child) => ({
+        id: child.id,
+        name: child.name,
+        relation: 'Part of',
+      })),
+    ),
   subject: SUBJECT,
 });
 
@@ -197,7 +230,7 @@ const deduceHandler = (store: StateStore, connected: () => boolean) => {
     store.set(path, { status: 'loading' });
 
     deduceConnections(deductionRequest(anchor, proposed), { signal: current.signal })
-      .then(deduction => {
+      .then((deduction) => {
         if (current.signal.aborted || !connected()) return;
         const proposals = resolveProposals(deduction, { ids: knownIds, names: knownNames });
         let revealed = 0;

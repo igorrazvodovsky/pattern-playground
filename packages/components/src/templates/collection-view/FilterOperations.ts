@@ -19,7 +19,7 @@ export type { AttributeFilter, FilterOperator } from '@shared/data/bindings';
 export function getUniqueAttributeValues(
   items: BoundEntity[],
   path: string,
-  binding: EntityBinding = productBinding
+  binding: EntityBinding = productBinding,
 ): string[] {
   const attribute = findAttribute(binding, path);
   const values = new Set<string>();

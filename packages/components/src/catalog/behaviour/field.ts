@@ -21,7 +21,10 @@ export const errorPrefix = 'Error:';
 
 // A field that is never checked, such as a Textarea, reads no validation
 // state, so another field's error on the same path does not mark it.
-export const useBoundField = (props: Pick<Field, 'value'>, bindings: Record<string, string> | undefined) => {
+export const useBoundField = (
+  props: Pick<Field, 'value'>,
+  bindings: Record<string, string> | undefined,
+) => {
   const [value, setValue] = useBoundProp(props.value, bindings?.value);
   const id = useId();
   return { value: value ?? '', setValue, id };

@@ -28,6 +28,6 @@ export function getAnimation(animationName: string) {
   // Fall back to an empty animation
   return {
     keyframes: [],
-    options: { duration: 0 }
+    options: { duration: 0 },
   };
 }

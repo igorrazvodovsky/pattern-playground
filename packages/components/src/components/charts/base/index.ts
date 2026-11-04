@@ -24,7 +24,7 @@ export type {
   AxisConfig,
   LegendConfig,
   TooltipConfig,
-  ChartConfig
+  ChartConfig,
 } from './chart-types.js';
 
 // Type guards
@@ -33,7 +33,7 @@ export {
   isBarChartData,
   isScatterPlotData,
   isAreaChartData,
-  isTreeData
+  isTreeData,
 } from './chart-types.js';
 
 // Data conversion utilities
@@ -49,7 +49,7 @@ export {
   mergeChartData,
   transformBarChartData,
   getDataExtent,
-  getCategories
+  getCategories,
 } from './data-converters.js';
 
 // Interaction layer system
@@ -60,7 +60,7 @@ export type {
   ClickConfig,
   ZoomConfig,
   BrushConfig,
-  ChartInteractionEvent
+  ChartInteractionEvent,
 } from './interaction-layers.js';
 
 export {
@@ -68,5 +68,5 @@ export {
   ClickInteraction,
   InteractionLayer,
   createStandardInteractions,
-  createChartInteractionLayer
+  createChartInteractionLayer,
 } from './interaction-layers.js';

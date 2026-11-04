@@ -21,32 +21,32 @@ import type { PpTabPanel } from '../tab-panel/tab-panel.ts';
  */
 
 export class PpTabGroup extends Elena(HTMLElement) {
-  static tagName = 'pp-tab-group';
+  static 'tagName' = 'pp-tab-group';
 
-  static props = ['activation', 'no-scroll-controls'];
+  static 'props' = ['activation', 'no-scroll-controls'];
 
-  private activeTab?: PpTab;
-  private mutationObserver: MutationObserver | null = null;
-  private resizeObserver: ResizeObserver | null = null;
-  private tabs: PpTab[] = [];
-  private panels: PpTabPanel[] = [];
-  private startButton: HTMLButtonElement | null = null;
-  private endButton: HTMLButtonElement | null = null;
+  private 'activeTab'?: PpTab;
+  private 'mutationObserver': MutationObserver | null = null;
+  private 'resizeObserver': ResizeObserver | null = null;
+  private 'tabs': PpTab[] = [];
+  private 'panels': PpTabPanel[] = [];
+  private 'startButton': HTMLButtonElement | null = null;
+  private 'endButton': HTMLButtonElement | null = null;
 
   /**
    * When set to auto, navigating tabs with the arrow keys will instantly show the corresponding tab panel. When set to
    * manual, the tab will receive focus but will not show until the user presses spacebar or enter.
    */
-  activation: 'auto' | 'manual' = 'auto';
+  'activation': 'auto' | 'manual' = 'auto';
 
   /** Disables the scroll arrows that appear when tabs overflow. */
   'no-scroll-controls' = false;
 
-  get nav(): HTMLElement | null {
+  get 'nav'(): HTMLElement | null {
     return this.querySelector('[data-slot="nav"]');
   }
 
-  connectedCallback() {
+  'connectedCallback'() {
     super.connectedCallback();
     this.addEventListener('click', this.handleClick);
     this.addEventListener('keydown', this.handleKeyDown);
@@ -57,7 +57,7 @@ export class PpTabGroup extends Elena(HTMLElement) {
     document.addEventListener('DOMContentLoaded', () => this.init());
   }
 
-  private init() {
+  private 'init'() {
     const nav = this.nav;
     if (nav && !nav.hasAttribute('role')) {
       nav.setAttribute('role', 'tablist');
@@ -67,11 +67,18 @@ export class PpTabGroup extends Elena(HTMLElement) {
       this.updateScrollControls();
     });
 
-    this.mutationObserver = new MutationObserver(mutations => {
+    this.mutationObserver = new MutationObserver((mutations) => {
       // Update caches and aria labels when the DOM changes; ignore the
       // attributes this group writes itself, so activation and roving
       // tabindex don't trigger a resync.
-      if (mutations.some(m => !['aria-labelledby', 'aria-controls', 'aria-selected', 'tabindex'].includes(m.attributeName!))) {
+      if (
+        mutations.some(
+          (m) =>
+            !['aria-labelledby', 'aria-controls', 'aria-selected', 'tabindex'].includes(
+              m.attributeName!,
+            ),
+        )
+      ) {
         setTimeout(() => {
           this.syncTabsAndPanels();
           this.setAriaLabels();
@@ -81,7 +88,7 @@ export class PpTabGroup extends Elena(HTMLElement) {
 
     const whenAllDefined = Promise.all([
       customElements.whenDefined('pp-tab'),
-      customElements.whenDefined('pp-tab-panel')
+      customElements.whenDefined('pp-tab-panel'),
     ]);
 
     this.updateComplete.then(() => {
@@ -103,7 +110,7 @@ export class PpTabGroup extends Elena(HTMLElement) {
     });
   }
 
-  disconnectedCallback() {
+  'disconnectedCallback'() {
     super.disconnectedCallback();
     this.removeEventListener('click', this.handleClick);
     this.removeEventListener('keydown', this.handleKeyDown);
@@ -111,19 +118,23 @@ export class PpTabGroup extends Elena(HTMLElement) {
     this.resizeObserver?.disconnect();
   }
 
-  private getAllTabs() {
-    return [...this.querySelectorAll<PpTab>('pp-tab')].filter(tab => tab.closest('pp-tab-group') === this);
+  private 'getAllTabs'() {
+    return [...this.querySelectorAll<PpTab>('pp-tab')].filter(
+      (tab) => tab.closest('pp-tab-group') === this,
+    );
   }
 
-  private getAllPanels() {
-    return [...this.querySelectorAll<PpTabPanel>('pp-tab-panel')].filter(panel => panel.closest('pp-tab-group') === this);
+  private 'getAllPanels'() {
+    return [...this.querySelectorAll<PpTabPanel>('pp-tab-panel')].filter(
+      (panel) => panel.closest('pp-tab-group') === this,
+    );
   }
 
-  private getActiveTab() {
-    return this.tabs.find(el => el.active);
+  private 'getActiveTab'() {
+    return this.tabs.find((el) => el.active);
   }
 
-  private handleClick = (event: MouseEvent) => {
+  private 'handleClick' = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
     const tab = target.closest('pp-tab');
     const tabGroup = tab?.closest('pp-tab-group');
@@ -138,7 +149,7 @@ export class PpTabGroup extends Elena(HTMLElement) {
     }
   };
 
-  private handleKeyDown = (event: KeyboardEvent) => {
+  private 'handleKeyDown' = (event: KeyboardEvent) => {
     const target = event.target as HTMLElement;
     const tab = target.closest('pp-tab');
     const tabGroup = tab?.closest('pp-tab-group');
@@ -158,7 +169,7 @@ export class PpTabGroup extends Elena(HTMLElement) {
 
     // Move focus left or right
     if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) {
-      const activeEl = this.tabs.find(t => t.matches(':focus'));
+      const activeEl = this.tabs.find((t) => t.matches(':focus'));
 
       if (activeEl?.tagName.toLowerCase() === 'pp-tab') {
         let index = this.tabs.indexOf(activeEl);
@@ -196,47 +207,50 @@ export class PpTabGroup extends Elena(HTMLElement) {
     }
   };
 
-  private handleScrollToStart = () => {
+  private 'handleScrollToStart' = () => {
     const nav = this.nav;
     if (!nav) return;
     nav.scroll({
       left: nav.scrollLeft - nav.clientWidth,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   };
 
-  private handleScrollToEnd = () => {
+  private 'handleScrollToEnd' = () => {
     const nav = this.nav;
     if (!nav) return;
     nav.scroll({
       left: nav.scrollLeft + nav.clientWidth,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   };
 
-  private setActiveTab(tab: PpTab, options?: { emitEvents?: boolean; scrollBehavior?: 'auto' | 'smooth' }) {
+  private 'setActiveTab'(
+    tab: PpTab,
+    options?: { emitEvents?: boolean; scrollBehavior?: 'auto' | 'smooth' },
+  ) {
     options = {
       emitEvents: true,
       scrollBehavior: 'auto',
-      ...options
+      ...options,
     };
 
     if (tab !== this.activeTab) {
       this.activeTab = tab;
 
       // Sync active tab and panel
-      this.tabs.forEach(el => (el.active = el === this.activeTab));
-      this.panels.forEach(el => (el.active = el.name === this.activeTab?.panel));
+      this.tabs.forEach((el) => (el.active = el === this.activeTab));
+      this.panels.forEach((el) => (el.active = el.name === this.activeTab?.panel));
       this.setRovingTabIndex(tab);
 
       if (this.nav) scrollIntoView(this.activeTab, this.nav, 'horizontal', options.scrollBehavior);
     }
   }
 
-  private setAriaLabels() {
+  private 'setAriaLabels'() {
     // Link each tab with its corresponding panel
-    this.tabs.forEach(tab => {
-      const panel = this.panels.find(el => el.name === tab.panel);
+    this.tabs.forEach((tab) => {
+      const panel = this.panels.find((el) => el.name === tab.panel);
       if (panel) {
         tab.setAttribute('aria-controls', panel.getAttribute('id')!);
         panel.setAttribute('aria-labelledby', tab.getAttribute('id')!);
@@ -246,12 +260,12 @@ export class PpTabGroup extends Elena(HTMLElement) {
 
   // The tablist is a single tab stop: only one tab is in the tab order at a
   // time, and the arrow keys reach the rest.
-  private setRovingTabIndex(target: PpTab) {
-    this.tabs.forEach(el => (el.tabIndex = el === target ? 0 : -1));
+  private 'setRovingTabIndex'(target: PpTab) {
+    this.tabs.forEach((el) => (el.tabIndex = el === target ? 0 : -1));
   }
 
   // This stores tabs and panels so we can refer to a cache instead of calling querySelectorAll() multiple times.
-  private syncTabsAndPanels() {
+  private 'syncTabsAndPanels'() {
     this.tabs = this.getAllTabs();
     this.panels = this.getAllPanels();
     // Tabs make themselves focusable on connect, so a newly added tab would
@@ -261,22 +275,26 @@ export class PpTabGroup extends Elena(HTMLElement) {
     this.updateComplete.then(() => this.updateScrollControls());
   }
 
-  private makeScrollButton(direction: 'start' | 'end') {
+  private 'makeScrollButton'(direction: 'start' | 'end') {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = `tab-group__scroll-button tab-group__scroll-button--${direction}`;
     button.setAttribute('aria-label', direction === 'start' ? 'Scroll to start' : 'Scroll to end');
     button.innerHTML = `<iconify-icon class="icon" icon="${direction === 'start' ? 'ik:chevron-left' : 'ik:chevron-right'}"></iconify-icon>`;
-    button.addEventListener('click', direction === 'start' ? this.handleScrollToStart : this.handleScrollToEnd);
+    button.addEventListener(
+      'click',
+      direction === 'start' ? this.handleScrollToStart : this.handleScrollToEnd,
+    );
     return button;
   }
 
-  updateScrollControls() {
+  'updateScrollControls'() {
     const nav = this.nav;
     // In most cases, we can compare scrollWidth to clientWidth to determine if scroll controls should show. However,
     // Safari appears to calculate this incorrectly when zoomed at 110%, causing the controls to toggle indefinitely.
     // Adding a single pixel to the comparison seems to resolve it.
-    const needsControls = !this['no-scroll-controls'] && !!nav && nav.scrollWidth > nav.clientWidth + 1;
+    const needsControls =
+      !this['no-scroll-controls'] && !!nav && nav.scrollWidth > nav.clientWidth + 1;
 
     if (needsControls && !this.startButton) {
       this.startButton = this.makeScrollButton('start');
@@ -291,8 +309,8 @@ export class PpTabGroup extends Elena(HTMLElement) {
     }
   }
 
-  show(panel: string) {
-    const tab = this.tabs.find(el => el.panel === panel);
+  'show'(panel: string) {
+    const tab = this.tabs.find((el) => el.panel === panel);
 
     if (tab) {
       this.setActiveTab(tab, { scrollBehavior: 'smooth' });

@@ -31,7 +31,7 @@ export class EventEmitter<Events extends object> {
   emit<K extends keyof Events>(event: K, data: Events[K]): void {
     const handlers = this.events.get(event);
     if (handlers) {
-      handlers.forEach(handler => {
+      handlers.forEach((handler) => {
         try {
           (handler as EventHandler<Events[K]>)(data);
         } catch (error) {

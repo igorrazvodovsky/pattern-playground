@@ -21,7 +21,6 @@ export function MapRenderer<T extends BoundEntity>(props: RendererProps<T>) {
     if (!el || !onItemSelect) return;
     const handleSelect = (event: Event) => {
       const detail = (event as CustomEvent<MapSelectDetail>).detail;
-      if (detail.source !== 'marker') return;
       const item = items.find((candidate) => candidate.id === detail.location.id);
       if (item) onItemSelect(item);
     };

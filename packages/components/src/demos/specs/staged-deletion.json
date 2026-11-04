@@ -29,15 +29,39 @@
     },
     "delete": {
       "type": "Button",
-      "props": { "label": "Delete", "icon": "delete", "hideLabel": true, "variant": "plain", "focusNext": "Restore" },
+      "props": {
+        "label": "Delete",
+        "icon": "delete",
+        "hideLabel": true,
+        "variant": "plain",
+        "focusKey": "delete",
+        "focusNext": "restore"
+      },
       "visible": { "$item": "deleted", "not": true },
-      "on": { "press": { "action": "setState", "params": { "statePath": { "$item": "deleted" }, "value": true } } }
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": { "statePath": { "$item": "deleted" }, "value": true }
+        }
+      }
     },
     "restore": {
       "type": "Button",
-      "props": { "label": "Restore", "icon": "restore", "hideLabel": true, "variant": "plain", "focusNext": "Delete" },
+      "props": {
+        "label": "Restore",
+        "icon": "restore",
+        "hideLabel": true,
+        "variant": "plain",
+        "focusKey": "restore",
+        "focusNext": "delete"
+      },
       "visible": { "$item": "deleted" },
-      "on": { "press": { "action": "setState", "params": { "statePath": { "$item": "deleted" }, "value": false } } }
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": { "statePath": { "$item": "deleted" }, "value": false }
+        }
+      }
     },
 
     "empty-state": {
@@ -51,8 +75,14 @@
       "props": { "label": "Reset", "variant": "plain" },
       "on": {
         "press": [
-          { "action": "setState", "params": { "statePath": "/items", "value": { "$state": "/listings" } } },
-          { "action": "setState", "params": { "statePath": "/saved", "value": { "$state": "/listings" } } }
+          {
+            "action": "setState",
+            "params": { "statePath": "/items", "value": { "$state": "/listings" } }
+          },
+          {
+            "action": "setState",
+            "params": { "statePath": "/saved", "value": { "$state": "/listings" } }
+          }
         ]
       }
     },
@@ -75,7 +105,10 @@
               "value": { "$computed": "withoutStaged", "args": { "items": { "$state": "/items" } } }
             }
           },
-          { "action": "setState", "params": { "statePath": "/items", "value": { "$state": "/saved" } } },
+          {
+            "action": "setState",
+            "params": { "statePath": "/items", "value": { "$state": "/saved" } }
+          },
           { "action": "notify", "params": { "statePath": "/notice", "message": "Changes saved" } }
         ]
       }
@@ -83,7 +116,12 @@
     "cancel": {
       "type": "Button",
       "props": { "label": "Cancel" },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/items", "value": { "$state": "/saved" } } } }
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": { "statePath": "/items", "value": { "$state": "/saved" } }
+        }
+      }
     },
 
     "saved-notice": {

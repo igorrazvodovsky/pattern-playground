@@ -18,7 +18,6 @@ export type {
   InteractionMode,
   BoundEntity,
   BaseItem,
-  ViewScopeConfig,
   ItemInteractionProps,
   ItemViewProps,
   CustomAttributeProps,

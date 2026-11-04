@@ -12,4 +12,4 @@
 // Undefined rather than '' when unset — an empty string parses as an invalid
 // key, which reports differently from an absent one.
 export const tldrawLicenseKey: string | undefined =
-	import.meta.env.PUBLIC_TLDRAW_LICENSE_KEY || undefined
+  import.meta.env.PUBLIC_TLDRAW_LICENSE_KEY || undefined;

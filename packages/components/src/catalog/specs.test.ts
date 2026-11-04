@@ -13,7 +13,10 @@ import { settle, settleHandler } from '../demos/specs/shared/settle';
 // a JSON spec with no module beside it is checked with nothing set up, as the
 // site renders it.
 
-interface SpecModule { spec: Spec; setup: SpecSetup }
+interface SpecModule {
+  spec: Spec;
+  setup: SpecSetup;
+}
 
 const slugOf = (file: string) => file.replace(/^.*\//, '').replace(/\.(json|ts)$/, '');
 const modules = import.meta.glob<{ default?: Partial<SpecModule> }>(
@@ -27,29 +30,50 @@ const notSpecs = Object.entries(modules)
   .filter(([, module]) => !module.default?.spec)
   .map(([file]) => file.replace(/^.*\//, ''));
 const specModules = Object.entries({
-  ...Object.fromEntries(Object.entries(json).map(([file, spec]) => [slugOf(file), { spec, setup: {} }])),
+  ...Object.fromEntries(
+    Object.entries(json).map(([file, spec]) => [slugOf(file), { spec, setup: {} }]),
+  ),
   ...Object.fromEntries(
     Object.entries(modules)
-      .filter((entry): entry is [string, { default: SpecModule }] => Boolean(entry[1].default?.spec))
+      .filter((entry): entry is [string, { default: SpecModule }] =>
+        Boolean(entry[1].default?.spec),
+      )
       .map(([file, module]) => [slugOf(file), module.default]),
   ),
 });
 
 const builtInKeys = new Set([
-  '$state', '$item', '$index', '$bindState', '$bindItem', '$cond', '$then', '$else', '$computed', '$template', '$and', '$or',
+  '$state',
+  '$item',
+  '$index',
+  '$bindState',
+  '$bindItem',
+  '$cond',
+  '$then',
+  '$else',
+  '$computed',
+  '$template',
+  '$and',
+  '$or',
 ]);
 // The renderer resolves nothing else in a condition or a repeat's state path,
 // so a directive or `$computed` there is never evaluated.
 const conditionKeys = new Set(['$state', '$item', '$index', '$and', '$or']);
-const directiveByKey = new Map(directives.map(directive => [directive.name, directive]));
-const builtInActions = new Set((catalog.schema.builtInActions ?? []).map(action => action.name));
+const directiveByKey = new Map(directives.map((directive) => [directive.name, directive]));
+const builtInActions = new Set((catalog.schema.builtInActions ?? []).map((action) => action.name));
 
-interface ComponentEntry { props: z.ZodObject; slots?: string[] }
+interface ComponentEntry {
+  props: z.ZodObject;
+  slots?: string[];
+}
 const components = catalog.data.components as unknown as Record<string, ComponentEntry>;
 
-interface Binding { action: string; params?: Record<string, unknown> }
+interface Binding {
+  action: string;
+  params?: Record<string, unknown>;
+}
 const bindingsOf = (map: Record<string, Binding | Binding[]> | undefined) =>
-  Object.values(map ?? {}).flatMap(binding => (Array.isArray(binding) ? binding : [binding]));
+  Object.values(map ?? {}).flatMap((binding) => (Array.isArray(binding) ? binding : [binding]));
 
 const isObject = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -57,16 +81,21 @@ const isObject = (value: unknown): value is Record<string, unknown> =>
 const hasExpression = (value: unknown): boolean =>
   Array.isArray(value)
     ? value.some(hasExpression)
-    : isObject(value) && Object.entries(value).some(([key, each]) => key.startsWith('$') || hasExpression(each));
+    : isObject(value) &&
+      Object.entries(value).some(([key, each]) => key.startsWith('$') || hasExpression(each));
 
-interface Found { keys: Set<string>; computed: Set<string>; directives: Record<string, unknown>[] }
+interface Found {
+  keys: Set<string>;
+  computed: Set<string>;
+  directives: Record<string, unknown>[];
+}
 
 // The renderer does not check a directive against its schema; a directive
 // missing a field resolves to something wrong.
 const walk = (value: unknown, found: Found) => {
-  if (Array.isArray(value)) value.forEach(each => walk(each, found));
+  if (Array.isArray(value)) value.forEach((each) => walk(each, found));
   if (!isObject(value)) return;
-  if (Object.keys(value).some(key => directiveByKey.has(key))) found.directives.push(value);
+  if (Object.keys(value).some((key) => directiveByKey.has(key))) found.directives.push(value);
   for (const [key, each] of Object.entries(value)) {
     if (key.startsWith('$')) found.keys.add(key);
     if (key === '$computed' && typeof each === 'string') found.computed.add(each);
@@ -87,24 +116,36 @@ const shapeProblems = (
     if (!schema) return [unknownKey(key)];
     if (hasExpression(value)) return [];
     const parsed = schema.safeParse(value);
-    return parsed.success ? [] : [`${prefix}${key}: ${parsed.error.issues.map(issue => issue.message).join('; ')}`];
+    return parsed.success
+      ? []
+      : [`${prefix}${key}: ${parsed.error.issues.map((issue) => issue.message).join('; ')}`];
   });
 
 // A param the binding leaves out must be one the action declares optional.
 // Asking the schema whether it accepts undefined is not enough: z.unknown()
 // does, and a handler would then write undefined.
-const isOptional = (schema: z.ZodType) => schema.def.type === 'optional' || schema.def.type === 'default';
+const isOptional = (schema: z.ZodType) =>
+  schema.def.type === 'optional' || schema.def.type === 'default';
 
-const paramProblems = (name: string, definition: ActionDefinition, params: Record<string, unknown> = {}): string[] => {
+const paramProblems = (
+  name: string,
+  definition: ActionDefinition,
+  params: Record<string, unknown> = {},
+): string[] => {
   const shape = definition.params.shape as Record<string, z.ZodType>;
   const missing = Object.entries(shape)
     .filter(([param, schema]) => !(param in params) && !isOptional(schema))
     .map(([param]) => `action ${name} needs param ${param}`);
-  return [...missing, ...shapeProblems(shape, params, param => `action ${name} has no param ${param}`, `${name} `)];
+  return [
+    ...missing,
+    ...shapeProblems(shape, params, (param) => `action ${name} has no param ${param}`, `${name} `),
+  ];
 };
 
 const lintSpec = (spec: Spec, setup: SpecSetup = {}): string[] => {
-  const problems = validateSpec(spec).issues.map(issue => `${issue.elementKey ?? 'spec'}: ${issue.message}`);
+  const problems = validateSpec(spec).issues.map(
+    (issue) => `${issue.elementKey ?? 'spec'}: ${issue.message}`,
+  );
   const actions = setup.actions ?? {};
   const handlers = setup.handlers?.(createStateStore(setup.initialState ?? {}), () => false) ?? {};
   const functions = setup.functions ?? {};
@@ -126,8 +167,12 @@ const lintSpec = (spec: Spec, setup: SpecSetup = {}): string[] => {
     const found: Found = { keys: new Set(), computed: new Set(), directives: [] };
 
     const props = element.props ?? {};
-    Object.values(props).forEach(value => walk(value, found));
-    shapeProblems(entry.props.shape as Record<string, z.ZodType>, props, name => `${element.type} has no prop ${name}`).forEach(at);
+    Object.values(props).forEach((value) => walk(value, found));
+    shapeProblems(
+      entry.props.shape as Record<string, z.ZodType>,
+      props,
+      (name) => `${element.type} has no prop ${name}`,
+    ).forEach(at);
 
     const where = { keys: new Set<string>(), computed: new Set<string>(), directives: [] } as Found;
     walk(element.visible, where);
@@ -137,7 +182,8 @@ const lintSpec = (spec: Spec, setup: SpecSetup = {}): string[] => {
     }
 
     for (const slot of Object.keys(element.slots ?? {})) {
-      if (slot === 'default' || !entry.slots?.includes(slot)) at(`${element.type} has no slot ${slot}`);
+      if (slot === 'default' || !entry.slots?.includes(slot))
+        at(`${element.type} has no slot ${slot}`);
     }
 
     const element_ = element as typeof element & { watch?: Record<string, Binding | Binding[]> };
@@ -153,12 +199,16 @@ const lintSpec = (spec: Spec, setup: SpecSetup = {}): string[] => {
       if (!functions[name]) at(`$computed ${name} is not a function in the module`);
     }
     for (const name of found.keys) {
-      if (!builtInKeys.has(name) && !directiveByKey.has(name)) at(`${name} is neither a built-in expression nor a directive`);
+      if (!builtInKeys.has(name) && !directiveByKey.has(name))
+        at(`${name} is neither a built-in expression nor a directive`);
     }
     for (const directive of found.directives) {
-      const name = Object.keys(directive).find(key => directiveByKey.has(key))!;
+      const name = Object.keys(directive).find((key) => directiveByKey.has(key))!;
       const parsed = directiveByKey.get(name)!.schema.safeParse(directive);
-      if (!parsed.success) at(`${name}: ${parsed.error.issues.map(issue => `${issue.path.join('.')} ${issue.message}`).join('; ')}`);
+      if (!parsed.success)
+        at(
+          `${name}: ${parsed.error.issues.map((issue) => `${issue.path.join('.')} ${issue.message}`).join('; ')}`,
+        );
     }
   }
   return problems;
@@ -180,43 +230,95 @@ describe('specs', () => {
 
 describe('the lint', () => {
   const specWith = (elements: Spec['elements']): Spec => ({ root: 'root', elements });
-  const button = (extra: Record<string, unknown> = {}) => ({ type: 'Button', props: { label: 'Go' }, children: [], ...extra });
+  const button = (extra: Record<string, unknown> = {}) => ({
+    type: 'Button',
+    props: { label: 'Go' },
+    children: [],
+    ...extra,
+  });
 
   test.each<[string, Spec, string, SpecSetup?]>([
     ['structure', specWith({ root: { ...button(), children: ['missing'] } }), 'missing'],
-    ['type', specWith({ root: { type: 'Carousel', props: {}, children: [] } }), 'type Carousel is not in the catalog'],
-    ['prop name', specWith({ root: button({ props: { label: 'Go', colour: 'red' } }) }), 'Button has no prop colour'],
-    ['prop value', specWith({ root: button({ props: { label: 'Go', icon: 'not-an-icon' } }) }), 'icon:'],
+    [
+      'type',
+      specWith({ root: { type: 'Carousel', props: {}, children: [] } }),
+      'type Carousel is not in the catalog',
+    ],
+    [
+      'prop name',
+      specWith({ root: button({ props: { label: 'Go', colour: 'red' } }) }),
+      'Button has no prop colour',
+    ],
+    [
+      'prop value',
+      specWith({ root: button({ props: { label: 'Go', icon: 'not-an-icon' } }) }),
+      'icon:',
+    ],
     [
       'slot',
-      specWith({ root: { type: 'Card', props: { title: 'A' }, slots: { footer: ['b'] }, children: [] }, b: button() }),
+      specWith({
+        root: { type: 'Card', props: { title: 'A' }, slots: { footer: ['b'] }, children: [] },
+        b: button(),
+      }),
       'Card has no slot footer',
     ],
-    ['action', specWith({ root: button({ on: { press: { action: 'launch' } } }) }), 'action launch is not declared'],
-    ['watch action', specWith({ root: button({ watch: { '/a': { action: 'launch' } } }) }), 'action launch is not declared'],
-    ['handler', specWith({ root: button() }), 'setup: action notify has no handler', { actions: { notify } }],
-    ['declaration', specWith({ root: button() }), 'setup: handler notify is not a declared action', { handlers: notifyHandler }],
+    [
+      'action',
+      specWith({ root: button({ on: { press: { action: 'launch' } } }) }),
+      'action launch is not declared',
+    ],
+    [
+      'watch action',
+      specWith({ root: button({ watch: { '/a': { action: 'launch' } } }) }),
+      'action launch is not declared',
+    ],
+    [
+      'handler',
+      specWith({ root: button() }),
+      'setup: action notify has no handler',
+      { actions: { notify } },
+    ],
+    [
+      'declaration',
+      specWith({ root: button() }),
+      'setup: handler notify is not a declared action',
+      { handlers: notifyHandler },
+    ],
     [
       'param name',
-      specWith({ root: button({ on: { press: { action: 'notify', params: { statePath: '/n', message: 'Hi', tone: 'calm' } } } }) }),
+      specWith({
+        root: button({
+          on: {
+            press: { action: 'notify', params: { statePath: '/n', message: 'Hi', tone: 'calm' } },
+          },
+        }),
+      }),
       'action notify has no param tone',
       { actions: { notify }, handlers: notifyHandler },
     ],
     [
       'missing param',
-      specWith({ root: button({ on: { press: { action: 'notify', params: { message: 'Hi' } } } }) }),
+      specWith({
+        root: button({ on: { press: { action: 'notify', params: { message: 'Hi' } } } }),
+      }),
       'action notify needs param statePath',
       { actions: { notify }, handlers: notifyHandler },
     ],
     [
       'missing unknown param',
-      specWith({ root: button({ on: { press: { action: 'settle', params: { statePath: '/n' } } } }) }),
+      specWith({
+        root: button({ on: { press: { action: 'settle', params: { statePath: '/n' } } } }),
+      }),
       'action settle needs param value',
       { actions: { settle }, handlers: settleHandler },
     ],
     [
       'param value',
-      specWith({ root: button({ on: { press: { action: 'notify', params: { statePath: 3, message: 'Hi' } } } }) }),
+      specWith({
+        root: button({
+          on: { press: { action: 'notify', params: { statePath: 3, message: 'Hi' } } },
+        }),
+      }),
       'notify statePath:',
       { actions: { notify }, handlers: notifyHandler },
     ],
@@ -233,7 +335,9 @@ describe('the lint', () => {
     ],
     [
       'condition',
-      specWith({ root: button({ visible: { $state: '/n', eq: { $count: { $state: '/items' } } } }) }),
+      specWith({
+        root: button({ visible: { $state: '/n', eq: { $count: { $state: '/items' } } } }),
+      }),
       '$count cannot be read in visible or repeat',
     ],
     [
@@ -243,7 +347,9 @@ describe('the lint', () => {
     ],
     [
       'directive argument',
-      specWith({ root: button({ props: { label: { $pluralize: { $state: '/n' }, one: 'item' } } }) }),
+      specWith({
+        root: button({ props: { label: { $pluralize: { $state: '/n' }, one: 'item' } } }),
+      }),
       '$pluralize: other',
     ],
   ])('rejects a wrong %s', (_, spec, problem, setup) => {
@@ -253,7 +359,9 @@ describe('the lint', () => {
   });
 
   test('passes a value with an expression without parsing it', () => {
-    const spec = specWith({ root: button({ props: { label: { $state: '/label' }, icon: { $state: '/icon' } } }) });
+    const spec = specWith({
+      root: button({ props: { label: { $state: '/label' }, icon: { $state: '/icon' } } }),
+    });
     expect(lintSpec(spec)).toEqual([]);
   });
 });

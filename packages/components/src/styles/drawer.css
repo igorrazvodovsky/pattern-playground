@@ -5,8 +5,8 @@
     gap: var(--space-m);
     min-inline-size: 20rem;
     max-inline-size: 24rem;
-    max-block-size: 100vh;
-    min-block-size: 100vh;
+    max-block-size: 100dvh;
+    min-block-size: 100dvh;
     overflow: hidden;
     border-radius: 0;
     border: none;
@@ -128,11 +128,15 @@
     }
 
     dialog.drawer--left {
-      box-shadow: var(--shadow-xl), 2px 0 8px oklch(0% 0 0deg / 10%);
+      box-shadow:
+        var(--shadow-xl),
+        2px 0 8px oklch(0% 0 0deg / 10%);
     }
 
     dialog.drawer--right {
-      box-shadow: var(--shadow-xl), -2px 0 8px oklch(0% 0 0deg / 10%);
+      box-shadow:
+        var(--shadow-xl),
+        -2px 0 8px oklch(0% 0 0deg / 10%);
     }
   }
 }

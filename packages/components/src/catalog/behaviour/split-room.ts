@@ -12,7 +12,11 @@ import { useFitsWidth } from '../../hooks/use-fits-width';
 /** 40rem at a 16px root. */
 export const splitMinWidth = 640;
 
-export const useSplitRoom = (ref: RefObject<HTMLElement | null>, room: boolean | null | undefined, binding: string | undefined) => {
+export const useSplitRoom = (
+  ref: RefObject<HTMLElement | null>,
+  room: boolean | null | undefined,
+  binding: string | undefined,
+) => {
   const [bound, setRoom] = useBoundProp(room, binding);
   const measured = useFitsWidth(ref, splitMinWidth);
   // useFitsWidth starts true and corrects itself in its own layout effect, so

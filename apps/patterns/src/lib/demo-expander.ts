@@ -43,8 +43,7 @@ interface Step {
   label: string;
 }
 
-const FULL_WIDTH =
-  'calc(100% - (var(--pane-n) - var(--pane-i, 0) - 1) * var(--pane-spine-w))';
+const FULL_WIDTH = 'calc(100% - (var(--pane-n) - var(--pane-i, 0) - 1) * var(--pane-spine-w))';
 
 const STEPS: Step[] = [
   { name: 'reading', width: null, label: 'Widen this demo' },
@@ -143,6 +142,9 @@ if (typeof document !== 'undefined') {
     if (!pane || !content) return;
     e.preventDefault();
     const step = 32;
-    setDemoWidth(pane, content.getBoundingClientRect().width + (e.key === 'ArrowRight' ? step : -step));
+    setDemoWidth(
+      pane,
+      content.getBoundingClientRect().width + (e.key === 'ArrowRight' ? step : -step),
+    );
   });
 }

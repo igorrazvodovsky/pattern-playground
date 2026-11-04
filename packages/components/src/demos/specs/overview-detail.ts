@@ -1,7 +1,7 @@
 import type { Spec } from '@json-render/core';
 import { products } from '@shared/data';
 import type { SpecSetup } from '../../catalog/SpecDemo';
-import { cardAttributes, fullView, itemView } from './shared/product-view';
+import { inPlaceAttributes, overviewAttributes } from './shared/product';
 import spec from './overview-detail.json' with { type: 'json' };
 
 // Closing a popover belongs to the popover, so picking an item never toggles it.
@@ -9,12 +9,7 @@ import spec from './overview-detail.json' with { type: 'json' };
 // side by side was chosen and the Split has no room (`/room`). In place, the
 // detail opens under the item's row, so it leaves out what the row shows.
 
-const OVERVIEW_ATTRIBUTES = ['name', 'category', 'pricing.msrp'];
-const overviewOf = cardAttributes(OVERVIEW_ATTRIBUTES.filter(path => path !== 'name'));
-const inPlaceOf = itemView('mid', undefined, OVERVIEW_ATTRIBUTES);
-const detailOf = itemView('mid');
-
-const ids = products.map(item => item.id);
+const ids = products.map((item) => item.id);
 
 const step = ({ selected, by }: Record<string, unknown>) => {
   const index = ids.indexOf(String(selected));
@@ -25,13 +20,12 @@ export default {
   spec: spec as Spec,
   setup: {
     initialState: {
-      products: products.map(item => ({
+      inPlaceAttributes,
+      products: products.map((item) => ({
         id: item.id,
         name: item.name,
-        attributes: overviewOf(item),
-        inPlace: inPlaceOf(item),
-        detail: detailOf(item),
-        full: fullView(item),
+        attributes: overviewAttributes(item),
+        product: item,
       })),
       selected: ids[0],
       layout: 'in-place',

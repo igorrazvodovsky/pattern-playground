@@ -12,81 +12,91 @@ export function useAICommand({
   onAIRequest,
   debounceMs = 1500,
   minInputLength = 3,
-  enabled = true
+  enabled = true,
 }: UseAICommandOptions) {
   const [aiState, setAIState] = useState<AIState>({
     isProcessing: false,
-    hasUnresolvedQuery: false
+    hasUnresolvedQuery: false,
   });
 
   // Create a stable AI request function
-  const makeAIRequest = useCallback(async (prompt: string) => {
-    if (!enabled || !onAIRequest || prompt.length < minInputLength) return;
+  const makeAIRequest = useCallback(
+    async (prompt: string) => {
+      if (!enabled || !onAIRequest || prompt.length < minInputLength) return;
 
-    setAIState(prev => ({
-      ...prev,
-      isProcessing: true,
-      error: undefined
-    }));
-
-    try {
-      const result = await onAIRequest(prompt);
-
-      setAIState(prev => ({
+      setAIState((prev) => ({
         ...prev,
-        isProcessing: false,
-        result,
-        hasUnresolvedQuery: true,
-        originalQuery: prompt
+        isProcessing: true,
+        error: undefined,
       }));
-    } catch (error) {
-      setAIState(prev => ({
-        ...prev,
-        isProcessing: false,
-        error: (error as Error).message
-      }));
-    }
-  }, [onAIRequest, minInputLength, enabled]);
+
+      try {
+        const result = await onAIRequest(prompt);
+
+        setAIState((prev) => ({
+          ...prev,
+          isProcessing: false,
+          result,
+          hasUnresolvedQuery: true,
+          originalQuery: prompt,
+        }));
+      } catch (error) {
+        setAIState((prev) => ({
+          ...prev,
+          isProcessing: false,
+          error: (error as Error).message,
+        }));
+      }
+    },
+    [onAIRequest, minInputLength, enabled],
+  );
 
   // Debounced AI request function
   const debouncedAIRequest = useMemo(
     () => debounce(makeAIRequest, debounceMs),
-    [makeAIRequest, debounceMs]
+    [makeAIRequest, debounceMs],
   );
 
   // Handle AI request
-  const handleAIRequest = useCallback((prompt: string) => {
-    debouncedAIRequest(prompt);
-  }, [debouncedAIRequest]);
+  const handleAIRequest = useCallback(
+    (prompt: string) => {
+      debouncedAIRequest(prompt);
+    },
+    [debouncedAIRequest],
+  );
 
   // Handle applying AI result
   const handleApplyAIResult = useCallback(() => {
-    setAIState(prev => ({
+    setAIState((prev) => ({
       ...prev,
       hasUnresolvedQuery: false,
-      result: undefined
+      result: undefined,
     }));
   }, []);
 
   // Handle edit prompt
   const handleEditPrompt = useCallback(() => {
-    setAIState(prev => ({
+    setAIState((prev) => ({
       ...prev,
       hasUnresolvedQuery: false,
       result: undefined,
-      originalQuery: undefined
+      originalQuery: undefined,
     }));
   }, []);
 
   // Clear results when input changes (user starts typing again)
   const clearResultsIfInputChanged = useCallback((currentInput: string) => {
-    setAIState(prev => {
-      if (prev.hasUnresolvedQuery && prev.originalQuery && prev.originalQuery !== currentInput.trim()) {
+    setAIState((prev) => {
+      if (
+        prev.hasUnresolvedQuery &&
+        prev.originalQuery &&
+        prev.originalQuery !== currentInput.trim()
+      ) {
         return {
           ...prev,
           hasUnresolvedQuery: false,
           result: undefined,
-          originalQuery: undefined
+          originalQuery: undefined,
         };
       }
       return prev;
@@ -98,6 +108,6 @@ export function useAICommand({
     handleAIRequest,
     handleApplyAIResult,
     handleEditPrompt,
-    clearResultsIfInputChanged
+    clearResultsIfInputChanged,
   };
 }

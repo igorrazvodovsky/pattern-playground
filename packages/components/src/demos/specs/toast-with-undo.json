@@ -20,7 +20,14 @@
     },
     "delete": {
       "type": "Button",
-      "props": { "label": "Delete", "icon": "delete", "hideLabel": true, "variant": "plain", "focusNext": "Delete" },
+      "props": {
+        "label": "Delete",
+        "icon": "delete",
+        "hideLabel": true,
+        "variant": "plain",
+        "focusKey": { "$template": "delete ${id}" },
+        "focusNext": "delete"
+      },
       "on": {
         "press": [
           {
@@ -30,7 +37,10 @@
               "value": { "$computed": "deletionToast", "args": { "item": { "$item": "" } } }
             }
           },
-          { "action": "removeState", "params": { "statePath": "/items", "index": { "$index": true } } }
+          {
+            "action": "removeState",
+            "params": { "statePath": "/items", "index": { "$index": true } }
+          }
         ]
       }
     },
@@ -46,7 +56,10 @@
       "props": { "label": "Reset", "variant": "plain" },
       "on": {
         "press": [
-          { "action": "setState", "params": { "statePath": "/items", "value": { "$state": "/listings" } } },
+          {
+            "action": "setState",
+            "params": { "statePath": "/items", "value": { "$state": "/listings" } }
+          },
           { "action": "setState", "params": { "statePath": "/toasts", "value": [] } }
         ]
       }
@@ -60,7 +73,14 @@
           "action": "setState",
           "params": {
             "statePath": "/items",
-            "value": { "$computed": "undoDeletion", "args": { "items": { "$state": "/items" }, "listings": { "$state": "/listings" }, "toast": { "$state": "/pressed" } } }
+            "value": {
+              "$computed": "undoDeletion",
+              "args": {
+                "items": { "$state": "/items" },
+                "listings": { "$state": "/listings" },
+                "toast": { "$state": "/pressed" }
+              }
+            }
           }
         }
       }

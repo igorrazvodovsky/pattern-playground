@@ -1,4 +1,12 @@
-import { useState, useEffect, useLayoutEffect, useRef, useCallback, useMemo, type ReactNode } from 'react';
+import {
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useCallback,
+  useMemo,
+  type ReactNode,
+} from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
@@ -16,12 +24,61 @@ function toCorpusDoc(d: RawDoc): CorpusDocument {
 }
 
 const STOPWORDS = new Set([
-  'the', 'and', 'are', 'for', 'not', 'but', 'had', 'has', 'was', 'all',
-  'can', 'her', 'his', 'one', 'our', 'out', 'you', 'been', 'have', 'from',
-  'into', 'more', 'other', 'some', 'such', 'than', 'that', 'them', 'then',
-  'these', 'they', 'this', 'what', 'when', 'will', 'with', 'each', 'which',
-  'their', 'there', 'about', 'also', 'been', 'being', 'does', 'its', 'just',
-  'most', 'much', 'over', 'very', 'many', 'well', 'only', 'those',
+  'the',
+  'and',
+  'are',
+  'for',
+  'not',
+  'but',
+  'had',
+  'has',
+  'was',
+  'all',
+  'can',
+  'her',
+  'his',
+  'one',
+  'our',
+  'out',
+  'you',
+  'been',
+  'have',
+  'from',
+  'into',
+  'more',
+  'other',
+  'some',
+  'such',
+  'than',
+  'that',
+  'them',
+  'then',
+  'these',
+  'they',
+  'this',
+  'what',
+  'when',
+  'will',
+  'with',
+  'each',
+  'which',
+  'their',
+  'there',
+  'about',
+  'also',
+  'been',
+  'being',
+  'does',
+  'its',
+  'just',
+  'most',
+  'much',
+  'over',
+  'very',
+  'many',
+  'well',
+  'only',
+  'those',
 ]);
 
 function highlightMatches(text: string, query: string): ReactNode {
@@ -37,9 +94,7 @@ function highlightMatches(text: string, query: string): ReactNode {
   const pattern = new RegExp(`\\b(${alts.join('|')})\\b`, 'gi');
   const parts = text.split(pattern);
 
-  return parts.map((part, i) =>
-    i % 2 === 1 ? <mark key={i}>{part}</mark> : part,
-  );
+  return parts.map((part, i) => (i % 2 === 1 ? <mark key={i}>{part}</mark> : part));
 }
 
 // The bubble menu positions itself against the live selection rect, but only
@@ -68,7 +123,10 @@ export function DynamicHyperlinksDemo() {
   const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const spans = useHeatmap(editorText, corpus, threshold, true);
-  const { mentions, selectedText, expanded, expand, collapse } = useSelectionMentions(readerRef, corpus);
+  const { mentions, selectedText, expanded, expand, collapse } = useSelectionMentions(
+    readerRef,
+    corpus,
+  );
 
   // Resolve the scroll container before the bubble menu mounts, so its Floating
   // UI plugin binds the scroll listener to the right element from the start. We
@@ -104,7 +162,7 @@ export function DynamicHyperlinksDemo() {
     editable: true,
     editorProps: {
       attributes: {
-        class: 'dynamic-hyperlinks__tiptap',
+        'class': 'dynamic-hyperlinks__tiptap',
         'aria-label': 'Document editor',
       },
     },
@@ -139,13 +197,14 @@ export function DynamicHyperlinksDemo() {
                   >
                     {mentions.length > 0
                       ? `${mentions.length} mention${mentions.length > 1 ? 's' : ''}`
-                      : 'No mentions'
-                    }
+                      : 'No mentions'}
                   </button>
                 ) : (
                   <div className="dynamic-hyperlinks__mentions-expanded">
                     <div className="dynamic-hyperlinks__mentions-expanded-header">
-                      <small>{mentions.length} mention{mentions.length > 1 ? 's' : ''}</small>
+                      <small>
+                        {mentions.length} mention{mentions.length > 1 ? 's' : ''}
+                      </small>
                       <button
                         className="dynamic-hyperlinks__mentions-collapse"
                         onClick={collapse}

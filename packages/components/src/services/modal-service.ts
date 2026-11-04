@@ -73,7 +73,8 @@ export class ModalService {
   openDrawer(content: React.ReactElement, options: ModalOptions = {}): string {
     const { position = 'right', title, className = '', closable = true, modal = true } = options;
     return this.mount('drawer', content, options, (modalId, contentId, actionsId) =>
-      createDrawerDOM(modalId, position, className, title, closable, contentId, modal, actionsId));
+      createDrawerDOM(modalId, position, className, title, closable, contentId, modal, actionsId),
+    );
   }
 
   /**
@@ -82,7 +83,8 @@ export class ModalService {
   openDialog(content: React.ReactElement, options: ModalOptions = {}): string {
     const { size = 'medium', title, className = '', closable = true } = options;
     return this.mount('dialog', content, options, (modalId, contentId, actionsId) =>
-      createDialogDOM(modalId, size, className, title, closable, contentId, actionsId));
+      createDialogDOM(modalId, size, className, title, closable, contentId, actionsId),
+    );
   }
 
   /**
@@ -110,12 +112,14 @@ export class ModalService {
     const container = document.getElementById(reactContainerId);
     if (container) {
       const root = createRoot(container);
-      root.render(React.createElement(
-        React.Fragment,
-        null,
-        this.wrapReactContent(content),
-        React.createElement(Committed, { onCommit: commit }),
-      ));
+      root.render(
+        React.createElement(
+          React.Fragment,
+          null,
+          this.wrapReactContent(content),
+          React.createElement(Committed, { onCommit: commit }),
+        ),
+      );
 
       const headerRoot = this.renderHeaderActions(actionsContainerId, headerActions);
 
@@ -134,18 +138,23 @@ export class ModalService {
     // content never renders, fail and tear down rather than leave a dead
     // surface in <body>.
     const timeout = new Promise<never>((_, reject) => {
-      setTimeout(() => reject(new Error('pp-modal is not defined, or its content did not render')), MODAL_DEFINE_TIMEOUT_MS);
+      setTimeout(
+        () => reject(new Error('pp-modal is not defined, or its content did not render')),
+        MODAL_DEFINE_TIMEOUT_MS,
+      );
     });
     const ready = Promise.all([customElements.whenDefined('pp-modal'), committed]);
-    Promise.race([ready, timeout]).then(() => {
-      if (!ppModal.isConnected) return;
-      if (returnFocus) ppModal.setReturnFocus(returnFocus);
-      ppModal.open();
-    }).catch((error) => {
-      console.error(`Failed to initialize ${kind} modal:`, error);
-      ppModal.remove();
-      this.cleanupReactModal(modalId);
-    });
+    Promise.race([ready, timeout])
+      .then(() => {
+        if (!ppModal.isConnected) return;
+        if (returnFocus) ppModal.setReturnFocus(returnFocus);
+        ppModal.open();
+      })
+      .catch((error) => {
+        console.error(`Failed to initialize ${kind} modal:`, error);
+        ppModal.remove();
+        this.cleanupReactModal(modalId);
+      });
 
     return modalId;
   }
@@ -171,14 +180,13 @@ export class ModalService {
 
     // Close any remaining HTML modals
     const allModals = document.querySelectorAll('pp-modal');
-    allModals.forEach(modal => (modal as PPModal).close());
+    allModals.forEach((modal) => (modal as PPModal).close());
   }
-
 
   /** Render the header actions slot into its container, if one was built. */
   private renderHeaderActions(
     actionsContainerId: string,
-    headerActions?: React.ReactElement
+    headerActions?: React.ReactElement,
   ): Root | undefined {
     if (!headerActions || !actionsContainerId) return undefined;
     const actionsContainer = document.getElementById(actionsContainerId);
@@ -207,20 +215,16 @@ export class ModalService {
   }
 
   private wrapReactContent(content: React.ReactElement): React.ReactElement {
-    return React.createElement(
-      ModalErrorBoundary,
-      {
-        onError: (error) => {
-          console.error('Modal content error:', error);
-          // Could send to error reporting service
-        },
-        // Lazy content suspends here rather than the whole root, so the surface
-        // opens at once instead of waiting and timing out.
-        children: React.createElement(React.Suspense, { fallback: null }, content)
-      }
-    );
+    return React.createElement(ModalErrorBoundary, {
+      onError: (error) => {
+        console.error('Modal content error:', error);
+        // Could send to error reporting service
+      },
+      // Lazy content suspends here rather than the whole root, so the surface
+      // opens at once instead of waiting and timing out.
+      children: React.createElement(React.Suspense, { fallback: null }, content),
+    });
   }
-
 }
 
 // Export singleton instance

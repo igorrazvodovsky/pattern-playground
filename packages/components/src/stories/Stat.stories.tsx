@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import '../icons/register-icons';
 import '../jsx-types';
 
 const meta = {
-  title: "Templates/Stat",
+  title: 'Templates/Stat',
 } satisfies Meta;
 
 export default meta;
@@ -21,7 +21,17 @@ interface StatTileProps {
   alert?: boolean;
 }
 
-function StatTile({ label, value, unit, verdict, detail, delta, deltaIcon, trend, alert }: StatTileProps) {
+function StatTile({
+  label,
+  value,
+  unit,
+  verdict,
+  detail,
+  delta,
+  deltaIcon,
+  trend,
+  alert,
+}: StatTileProps) {
   return (
     <li>
       <article className="card">
@@ -29,7 +39,9 @@ function StatTile({ label, value, unit, verdict, detail, delta, deltaIcon, trend
           <h4 className="label">{label}</h4>
           {delta && (
             <span className={`badge badge--pill${trend ? ` badge--${trend}` : ''}`}>
-              {deltaIcon && <iconify-icon className="icon" icon={deltaIcon} aria-hidden="true"></iconify-icon>}
+              {deltaIcon && (
+                <iconify-icon className="icon" icon={deltaIcon} aria-hidden="true"></iconify-icon>
+              )}
               {delta}
             </span>
           )}

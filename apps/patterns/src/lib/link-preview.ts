@@ -4,7 +4,7 @@ import { getPaneContent } from './pane-content';
 import { paneIndexOf } from './pane-path';
 import { addDescribedBy, removeDescribedBy } from './describedby';
 
-const SHOW_DELAY = 350;
+const SHOW_DELAY = 600;
 const HIDE_DELAY = 250;
 
 let previewEl: HTMLElement | null = null;
@@ -161,7 +161,9 @@ function hide() {
   currentAnchor = null;
 
   const el = getPreviewEl();
-  try { el.hidePopover(); } catch {}
+  try {
+    el.hidePopover();
+  } catch {}
 }
 
 function cancelHide() {

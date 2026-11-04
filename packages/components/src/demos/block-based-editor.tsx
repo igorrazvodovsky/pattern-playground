@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
-import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Highlight from '@tiptap/extension-highlight';
 import { Reference, createReferenceSuggestion } from '../components/reference/Reference';
 import { referenceCategories } from '@shared/data';
 import { EditorProvider } from '../components/editor/EditorProvider';
+import { usePluginEditor } from '../components/editor/usePluginEditor';
 import { EditorLayout } from '../components/editor/EditorLayout';
 import { EditorContent } from '../components/editor/slots/EditorContent';
 import { EditorBubbleMenu } from '../components/editor/slots/EditorBubbleMenu';
@@ -16,29 +16,32 @@ import '../jsx-types';
 
 export const BlockBasedEditorDemo = () => {
   const plugins = useMemo(() => [formattingPlugin()], []);
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Highlight,
-      Reference.configure({
-        HTMLAttributes: {
-          class: 'reference-mention reference',
-        },
-        suggestion: createReferenceSuggestion(referenceCategories),
-      }),
-    ],
-    content: `
+  const editor = usePluginEditor(
+    {
+      extensions: [
+        StarterKit,
+        Highlight,
+        Reference.configure({
+          HTMLAttributes: {
+            class: 'reference-mention reference',
+          },
+          suggestion: createReferenceSuggestion(referenceCategories),
+        }),
+      ],
+      content: `
       <p>
         Hey, try to select some text here. There will popup a menu for selecting some inline styles. Try typing @ to trigger mentions!
       </p>
     `,
-    editorProps: {
-      attributes: {
-        'aria-label': 'Block editor',
+      editorProps: {
+        attributes: {
+          'aria-label': 'Block editor',
+        },
       },
+      immediatelyRender: false,
     },
-    immediatelyRender: false,
-  });
+    plugins,
+  );
 
   if (!editor) {
     return <div>Loading editor...</div>;

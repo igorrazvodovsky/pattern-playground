@@ -73,59 +73,109 @@
 
   /* accent · hue 230 (blue) — the brand, held deliberately quieter than its
      ceiling allows; raising it is a branding decision, not a gamut one */
-  --accent-c50: 0.0102;  --accent-c100: 0.0218; --accent-c200: 0.0414;
-  --accent-c300: 0.0676; --accent-c400: 0.095;  --accent-c500: 0.1;
-  --accent-c600: 0.0882; --accent-c700: 0.0725; --accent-c800: 0.061;
-  --accent-c900: 0.0493; --accent-c950: 0.0367;
+  --accent-c50: 0.0102;
+  --accent-c100: 0.0218;
+  --accent-c200: 0.0414;
+  --accent-c300: 0.0676;
+  --accent-c400: 0.095;
+  --accent-c500: 0.1;
+  --accent-c600: 0.0882;
+  --accent-c700: 0.0725;
+  --accent-c800: 0.061;
+  --accent-c900: 0.0493;
+  --accent-c950: 0.0367;
 
   /* info · hue 260 (violet) — wide gamut throughout; the light floor never bites */
-  --info-c50: 0.0086;  --info-c100: 0.0264; --info-c200: 0.0493;
-  --info-c300: 0.0829; --info-c400: 0.1288; --info-c500: 0.16;
-  --info-c600: 0.1412; --info-c700: 0.116;  --info-c800: 0.0976;
-  --info-c900: 0.0789; --info-c950: 0.0587;
+  --info-c50: 0.0086;
+  --info-c100: 0.0264;
+  --info-c200: 0.0493;
+  --info-c300: 0.0829;
+  --info-c400: 0.1288;
+  --info-c500: 0.16;
+  --info-c600: 0.1412;
+  --info-c700: 0.116;
+  --info-c800: 0.0976;
+  --info-c900: 0.0789;
+  --info-c950: 0.0587;
 
   /* success · hue 150 (green) — ceiling peaks light, so 200–300 ride the floor
      up to the mid target and the ramp reads flat across its middle */
-  --success-c50: 0.0197;  --success-c100: 0.0568; --success-c200: 0.118;
-  --success-c300: 0.135;  --success-c400: 0.1282; --success-c500: 0.135;
-  --success-c600: 0.1191; --success-c700: 0.0979; --success-c800: 0.0824;
-  --success-c900: 0.0666; --success-c950: 0.0495;
+  --success-c50: 0.0197;
+  --success-c100: 0.0568;
+  --success-c200: 0.118;
+  --success-c300: 0.135;
+  --success-c400: 0.1282;
+  --success-c500: 0.135;
+  --success-c600: 0.1191;
+  --success-c700: 0.0979;
+  --success-c800: 0.0824;
+  --success-c900: 0.0666;
+  --success-c950: 0.0495;
 
   /* danger · hue 25 (red) — wide gamut, carries the vivid end of the range */
-  --danger-c50: 0.0089;  --danger-c100: 0.0276; --danger-c200: 0.053;
-  --danger-c300: 0.0928; --danger-c400: 0.152;  --danger-c500: 0.16;
-  --danger-c600: 0.1412; --danger-c700: 0.116;  --danger-c800: 0.0976;
-  --danger-c900: 0.0789; --danger-c950: 0.0587;
+  --danger-c50: 0.0089;
+  --danger-c100: 0.0276;
+  --danger-c200: 0.053;
+  --danger-c300: 0.0928;
+  --danger-c400: 0.152;
+  --danger-c500: 0.16;
+  --danger-c600: 0.1412;
+  --danger-c700: 0.116;
+  --danger-c800: 0.0976;
+  --danger-c900: 0.0789;
+  --danger-c950: 0.0587;
 
   /* warning · hue 86 (yellow) — the sRGB ceiling swings with lightness (0.131 at
      L 0.64, where step 500 sits and reads as gold; 0.113 at L 0.55, where the
      whole family is mud), so where the ramp places a step decides more than the
      chroma does. Solid fills come from 300-boosted, since yellow is only vivid
      while light. */
-  --warning-c50: 0.0135;  --warning-c100: 0.0369; --warning-c200: 0.0714;
-  --warning-c300: 0.1007; --warning-c400: 0.114;  --warning-c500: 0.12;
-  --warning-c600: 0.1054; --warning-c700: 0.087;  --warning-c800: 0.0732;
-  --warning-c900: 0.0592; --warning-c950: 0.044;
+  --warning-c50: 0.0135;
+  --warning-c100: 0.0369;
+  --warning-c200: 0.0714;
+  --warning-c300: 0.1007;
+  --warning-c400: 0.114;
+  --warning-c500: 0.12;
+  --warning-c600: 0.1054;
+  --warning-c700: 0.087;
+  --warning-c800: 0.0732;
+  --warning-c900: 0.0592;
+  --warning-c950: 0.044;
 
   /* Boosted chroma — maximally vivid solid fills (filled badges, dots). Per hue,
      ~95% of the in-gamut maximum, capped at 0.18 so red/violet don't go neon.
      Steps 200–700; the light rungs are there for hues that can only be vivid
      while light, and a fill drawn from one needs dark text over it. */
-  --accent-c200-boosted: 0.0637; --accent-c300-boosted: 0.107;
-  --accent-c400-boosted: 0.1382; --accent-c500-boosted: 0.1211;
-  --accent-c600-boosted: 0.106;  --accent-c700-boosted: 0.0908;
-  --info-c200-boosted: 0.0509; --info-c300-boosted: 0.0856;
-  --info-c400-boosted: 0.133;  --info-c500-boosted: 0.18;
-  --info-c600-boosted: 0.18;   --info-c700-boosted: 0.18;
-  --success-c200-boosted: 0.18;   --success-c300-boosted: 0.18;
-  --success-c400-boosted: 0.18;   --success-c500-boosted: 0.1674;
-  --success-c600-boosted: 0.1465; --success-c700-boosted: 0.1256;
-  --danger-c200-boosted: 0.0547; --danger-c300-boosted: 0.0958;
-  --danger-c400-boosted: 0.1578; --danger-c500-boosted: 0.18;
-  --danger-c600-boosted: 0.18;   --danger-c700-boosted: 0.18;
-  --warning-c200-boosted: 0.117;  --warning-c300-boosted: 0.1594;
-  --warning-c400-boosted: 0.1419; --warning-c500-boosted: 0.1245;
-  --warning-c600-boosted: 0.1089; --warning-c700-boosted: 0.0933;
+  --accent-c200-boosted: 0.0637;
+  --accent-c300-boosted: 0.107;
+  --accent-c400-boosted: 0.1382;
+  --accent-c500-boosted: 0.1211;
+  --accent-c600-boosted: 0.106;
+  --accent-c700-boosted: 0.0908;
+  --info-c200-boosted: 0.0509;
+  --info-c300-boosted: 0.0856;
+  --info-c400-boosted: 0.133;
+  --info-c500-boosted: 0.18;
+  --info-c600-boosted: 0.18;
+  --info-c700-boosted: 0.18;
+  --success-c200-boosted: 0.18;
+  --success-c300-boosted: 0.18;
+  --success-c400-boosted: 0.18;
+  --success-c500-boosted: 0.1674;
+  --success-c600-boosted: 0.1465;
+  --success-c700-boosted: 0.1256;
+  --danger-c200-boosted: 0.0547;
+  --danger-c300-boosted: 0.0958;
+  --danger-c400-boosted: 0.1578;
+  --danger-c500-boosted: 0.18;
+  --danger-c600-boosted: 0.18;
+  --danger-c700-boosted: 0.18;
+  --warning-c200-boosted: 0.117;
+  --warning-c300-boosted: 0.1594;
+  --warning-c400-boosted: 0.1419;
+  --warning-c500-boosted: 0.1245;
+  --warning-c600-boosted: 0.1089;
+  --warning-c700-boosted: 0.0933;
 
   /* Neutral chroma levels */
   --c0-neutral: 0;
@@ -256,13 +306,13 @@
      surface (lighter, so each clears 3:1 against a dark background); validated
      as a set on the same pairlist. */
   --c-cat-1: light-dark(oklch(57.5% 0.163 255.5deg), oklch(62.2% 0.161 255.1deg)); /* blue */
-  --c-cat-2: light-dark(oklch(52.9% 0.18 142.5deg), oklch(52.9% 0.18 142.5deg));   /* green */
-  --c-cat-3: light-dark(oklch(71.6% 0.141 357.4deg), oklch(62.2% 0.171 0.8deg));   /* magenta */
-  --c-cat-4: light-dark(oklch(76.4% 0.161 75.1deg), oklch(67% 0.143 73.2deg));     /* yellow */
+  --c-cat-2: light-dark(oklch(52.9% 0.18 142.5deg), oklch(52.9% 0.18 142.5deg)); /* green */
+  --c-cat-3: light-dark(oklch(71.6% 0.141 357.4deg), oklch(62.2% 0.171 0.8deg)); /* magenta */
+  --c-cat-4: light-dark(oklch(76.4% 0.161 75.1deg), oklch(67% 0.143 73.2deg)); /* yellow */
   --c-cat-5: light-dark(oklch(66.9% 0.141 162.1deg), oklch(62.1% 0.128 163.1deg)); /* aqua */
-  --c-cat-6: light-dark(oklch(67.1% 0.175 40.6deg), oklch(62.2% 0.173 40.1deg));   /* orange */
-  --c-cat-7: light-dark(oklch(43.3% 0.167 283.6deg), oklch(67% 0.145 286.8deg));   /* violet */
-  --c-cat-8: light-dark(oklch(62.3% 0.191 24.9deg), oklch(66.9% 0.159 22.3deg));   /* red */
+  --c-cat-6: light-dark(oklch(67.1% 0.175 40.6deg), oklch(62.2% 0.173 40.1deg)); /* orange */
+  --c-cat-7: light-dark(oklch(43.3% 0.167 283.6deg), oklch(67% 0.145 286.8deg)); /* violet */
+  --c-cat-8: light-dark(oklch(62.3% 0.191 24.9deg), oklch(66.9% 0.159 22.3deg)); /* red */
 
   /* Body text takes -900, not -800: the ramp stops at 27%, so -800 reaches only
      8.8:1 on white where -900 is 11.7:1. Which rung carries text is a per-hue
@@ -334,41 +384,91 @@
    values only inside this media query, which is why the rule stays on. */
 @media (color-gamut: p3) {
   :root {
-    --accent-c50: 0.0102;  --accent-c100: 0.022;  --accent-c200: 0.0424;
-    --accent-c300: 0.0733; --accent-c400: 0.095;  --accent-c500: 0.1;
-    --accent-c600: 0.0882; --accent-c700: 0.0725; --accent-c800: 0.061;
-    --accent-c900: 0.0493; --accent-c950: 0.0367;
-    --info-c50: 0.0095;  --info-c100: 0.029;  --info-c200: 0.054;
-    --info-c300: 0.0905; --info-c400: 0.1397; --info-c500: 0.16;
-    --info-c600: 0.1412; --info-c700: 0.116;  --info-c800: 0.0976;
-    --info-c900: 0.0789; --info-c950: 0.0587;
-    --success-c50: 0.0219;  --success-c100: 0.0633; --success-c200: 0.1321;
-    --success-c300: 0.135;  --success-c400: 0.1282; --success-c500: 0.135;
-    --success-c600: 0.1191; --success-c700: 0.0979; --success-c800: 0.0824;
-    --success-c900: 0.0666; --success-c950: 0.0495;
-    --danger-c50: 0.0116;  --danger-c100: 0.0349; --danger-c200: 0.0662;
-    --danger-c300: 0.0987; --danger-c400: 0.152;  --danger-c500: 0.16;
-    --danger-c600: 0.1412; --danger-c700: 0.116;  --danger-c800: 0.0976;
-    --danger-c900: 0.0789; --danger-c950: 0.0587;
-    --warning-c50: 0.0166;  --warning-c100: 0.0455; --warning-c200: 0.0881;
-    --warning-c300: 0.1161; --warning-c400: 0.114;  --warning-c500: 0.12;
-    --warning-c600: 0.1059; --warning-c700: 0.087;  --warning-c800: 0.0732;
-    --warning-c900: 0.0592; --warning-c950: 0.044;
-    --accent-c200-boosted: 0.0694; --accent-c300-boosted: 0.1161;
-    --accent-c400-boosted: 0.179;  --accent-c500-boosted: 0.1596;
-    --accent-c600-boosted: 0.1396; --accent-c700-boosted: 0.1197;
-    --info-c200-boosted: 0.0558; --info-c300-boosted: 0.0934;
-    --info-c400-boosted: 0.1443; --info-c500-boosted: 0.1979;
-    --info-c600-boosted: 0.21;   --info-c700-boosted: 0.21;
-    --success-c200-boosted: 0.21;   --success-c300-boosted: 0.21;
-    --success-c400-boosted: 0.21;   --success-c500-boosted: 0.21;
-    --success-c600-boosted: 0.2044; --success-c700-boosted: 0.1752;
-    --danger-c200-boosted: 0.071;  --danger-c300-boosted: 0.1235;
-    --danger-c400-boosted: 0.2016; --danger-c500-boosted: 0.21;
-    --danger-c600-boosted: 0.21;   --danger-c700-boosted: 0.2083;
-    --warning-c200-boosted: 0.1444; --warning-c300-boosted: 0.1839;
-    --warning-c400-boosted: 0.1637; --warning-c500-boosted: 0.1435;
-    --warning-c600-boosted: 0.1256; --warning-c700-boosted: 0.1076;
+    --accent-c50: 0.0102;
+    --accent-c100: 0.022;
+    --accent-c200: 0.0424;
+    --accent-c300: 0.0733;
+    --accent-c400: 0.095;
+    --accent-c500: 0.1;
+    --accent-c600: 0.0882;
+    --accent-c700: 0.0725;
+    --accent-c800: 0.061;
+    --accent-c900: 0.0493;
+    --accent-c950: 0.0367;
+    --info-c50: 0.0095;
+    --info-c100: 0.029;
+    --info-c200: 0.054;
+    --info-c300: 0.0905;
+    --info-c400: 0.1397;
+    --info-c500: 0.16;
+    --info-c600: 0.1412;
+    --info-c700: 0.116;
+    --info-c800: 0.0976;
+    --info-c900: 0.0789;
+    --info-c950: 0.0587;
+    --success-c50: 0.0219;
+    --success-c100: 0.0633;
+    --success-c200: 0.1321;
+    --success-c300: 0.135;
+    --success-c400: 0.1282;
+    --success-c500: 0.135;
+    --success-c600: 0.1191;
+    --success-c700: 0.0979;
+    --success-c800: 0.0824;
+    --success-c900: 0.0666;
+    --success-c950: 0.0495;
+    --danger-c50: 0.0116;
+    --danger-c100: 0.0349;
+    --danger-c200: 0.0662;
+    --danger-c300: 0.0987;
+    --danger-c400: 0.152;
+    --danger-c500: 0.16;
+    --danger-c600: 0.1412;
+    --danger-c700: 0.116;
+    --danger-c800: 0.0976;
+    --danger-c900: 0.0789;
+    --danger-c950: 0.0587;
+    --warning-c50: 0.0166;
+    --warning-c100: 0.0455;
+    --warning-c200: 0.0881;
+    --warning-c300: 0.1161;
+    --warning-c400: 0.114;
+    --warning-c500: 0.12;
+    --warning-c600: 0.1059;
+    --warning-c700: 0.087;
+    --warning-c800: 0.0732;
+    --warning-c900: 0.0592;
+    --warning-c950: 0.044;
+    --accent-c200-boosted: 0.0694;
+    --accent-c300-boosted: 0.1161;
+    --accent-c400-boosted: 0.179;
+    --accent-c500-boosted: 0.1596;
+    --accent-c600-boosted: 0.1396;
+    --accent-c700-boosted: 0.1197;
+    --info-c200-boosted: 0.0558;
+    --info-c300-boosted: 0.0934;
+    --info-c400-boosted: 0.1443;
+    --info-c500-boosted: 0.1979;
+    --info-c600-boosted: 0.21;
+    --info-c700-boosted: 0.21;
+    --success-c200-boosted: 0.21;
+    --success-c300-boosted: 0.21;
+    --success-c400-boosted: 0.21;
+    --success-c500-boosted: 0.21;
+    --success-c600-boosted: 0.2044;
+    --success-c700-boosted: 0.1752;
+    --danger-c200-boosted: 0.071;
+    --danger-c300-boosted: 0.1235;
+    --danger-c400-boosted: 0.2016;
+    --danger-c500-boosted: 0.21;
+    --danger-c600-boosted: 0.21;
+    --danger-c700-boosted: 0.2083;
+    --warning-c200-boosted: 0.1444;
+    --warning-c300-boosted: 0.1839;
+    --warning-c400-boosted: 0.1637;
+    --warning-c500-boosted: 0.1435;
+    --warning-c600-boosted: 0.1256;
+    --warning-c700-boosted: 0.1076;
   }
 }
 

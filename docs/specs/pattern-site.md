@@ -124,12 +124,7 @@ An entry is classified by independent frontmatter _facets_, none of which is
 privileged by the filesystem (the content directory is flat). Each facet is a
 lens; navigation and the graph are _projections_ over them.
 
-The sidebar reads one facet, `role`: foundations and qualities get their own
-groups, everything else is one alphabetical list of patterns, with the authored
-sequences above it. The other facets project elsewhere — `activityLevel` colours
-the graph on the home page, `group` and `domain` reach the graph data through
-`scripts/extract-graph-data.ts`. The remaining `role:collection` entries are slated
-for dissolution (see [relationship-vocabulary.md](../language/relationship-vocabulary.md) §Retirement).
+The sidebar reads `role`. Foundations and qualities get their own groups, and the authored sequences sit above the pattern list. The pattern list is arranged A–Z or by the authored levels list in `apps/patterns/src/content/levels.yaml`. The other facets project elsewhere — `activityLevel` colours the graph on the home page, `group` and `domain` reach the graph data through `scripts/extract-graph-data.ts`. The remaining `role:collection` entries are slated for dissolution (see [relationship-vocabulary.md](../language/relationship-vocabulary.md) §Retirement).
 
 - `activityLevel` (`operation | action | activity`) — Activity Theory altitude:
   the altitude of the human activity the entry addresses. A
@@ -137,8 +132,9 @@ for dissolution (see [relationship-vocabulary.md](../language/relationship-vocab
 - `lifecycle` — a stage in the Seek–Use–Share family (e.g. `seeking`,
   `coordination`, `evaluation`). Free-form; not derived from `activityLevel`.
 - `group` — a slash-delimited path recording a structural grouping verbatim
-  (e.g. `conversation/sequence-management`); it makes no semantic claim. No
-  longer read by the navigation; it survives only in the graph data. A
+  (e.g. `conversation/sequence-management`); it makes no semantic claim. The
+  navigation reads it only for the two families that nest in the sidebar
+  (`navigation`, `conversation`); the graph data carries all of it. A
   transitional scaffold carried over from the pre-flatten folder tree, slated
   for retirement.
 - `domain` — the domain corpus an entry belongs to (e.g. `data-visualization`).
@@ -213,6 +209,15 @@ The concept catalogue — what a concept is against a pattern and a component, t
 
 The catalogue is not published yet. While `CONCEPTS_PUBLISHED` in `apps/patterns/src/lib/concepts-published.ts` is false, a production build emits no concept pages, no sidebar link to them, no concept panes and no "Acts on" line on pattern pages, and `integrations/concepts-dev-only.ts` keeps the concept files out of the client bundle. Setting it to true publishes everything; the gate's plugin and checks can then be removed at leisure.
 
+## Project languages
+
+A project language is a list of design patterns chosen from the library for one project ([conceptual-glossary.md](../language/conceptual-glossary.md) §Project language). The entries so far are starters: one per typical artifact shape or medium (block-based editor, mobile web), and one per collaboration posture (conversation-first, delegated agent). Origin and open questions: [2026-10-project-languages.md](../../plans/active/2026-10-project-languages.md).
+
+- *Files.* `apps/patterns/src/content/languages/<id>.mdx`, with the same filename-stem identity rule as the other collections. Frontmatter holds `title`, `added`, `updated`, `description` (one sentence about the artifact shape) `patterns`, the member slugs in order, largest first, and optionally `gaps`, the patterns the shape needs that the library does not have yet (a `name` and a one-sentence `note` each). The body is the lead: what the shape is, what holds across its patterns, and what the starter leaves out on purpose. It does not list the patterns.
+- *Members.* `role: pattern` entries only. Foundations and qualities are shared by every language and are not members. The build fails on a slug that resolves to no pattern or to another role, and on a gap whose name is already a pattern's title, which then belongs in `patterns` (`integrations/validate-cross-references.ts`).
+- *Page.* Served at `/languages/<id>`, with the pane partial at `/languages/<id>/pane/`, both rendered by `LanguageArticle.astro`. The page shows the lead, the patterns in the authored order with their descriptions, the gaps, and the sequences that invoke any of them (as a rule, a constituent or a choice's tree) in reading order. It stacks like a sequence, with a `lang:` prefix in `stackedNotes`.
+- *Sidebar.* The first row of the Patterns branch names the active language and grouping and opens a menu that picks the language as well as the grouping: *All* (the default) or one language, then A–Z or a facet. Choosing a language narrows the pattern list, in every grouping, to its members; a family branch keeps its overview while any member remains. Nothing else in the sidebar narrows. The trigger names the language and any grouping other than A–Z, the choice persists in the nav store, and the menu links to the active language's page.
+
 ## Figures
 
 A prescription figure is a drawing of the relations a pattern imposes,
@@ -257,34 +262,11 @@ the column's width, hidden from assistive tech, with an optional caption.
   (a time limit, a fixed number of steps) stays out.
 - One stroke weight, 3.5 units, drawn `solid` or `dashed`, never tldraw's
   `draw` style. A change of weight, dash or colour carries a meaning. The time
-  line is the one thinner line.
+  line, with any ticks across it, is the one thinner line.
 - Figures are drawn about 700 units wide. The SVG scales to the column, so
   strokes show at the same weight only when drawings share a width.
 - As little height as the relation allows. Equal margins inside a sheet,
   equal gaps between rows and between objects.
-
-### Marks
-
-Abstract marks keep one meaning across figures, so none needs a legend.
-
-| Mark | Meaning |
-| --- | --- |
-| Thin line with an arrowhead | time, left to right |
-| Filled circle | the current state, or a case where it is now |
-| Dashed circle | an earlier state, kept as history |
-| The one solid arrow | the pattern's own action |
-| Pictogram, round head | a person |
-| Pictogram, square head | the system |
-| Sheet | the work; solid rows are done, dashed rows remain |
-| Small note tied to a sheet | what travels with the work |
-| Grey highlight on a row | a part in conflict |
-| Yellow highlight on a row | the outcome |
-| Green tick | a pick |
-| Background-filled wedge from a row | that part opened into the next level |
-
-Objects (a person, a sheet) suit relations of who holds what or what the work
-contains; a line suits time. Where a pattern already has a common drawn form,
-such as a flow diagram for a workflow, the figure uses it.
 
 ## Toolchain posture
 

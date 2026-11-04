@@ -45,18 +45,20 @@ export function deriveAttributeLabel(path: string): string {
   return spaced.charAt(0).toUpperCase() + spaced.slice(1);
 }
 
-export function attributeLabelFromBinding(
-  binding: EntityBinding | undefined,
-  path: string
-): string {
-  const entry = binding?.attributes.find((attribute) => attribute.path === path);
-  return entry?.label ?? deriveAttributeLabel(path);
+/** An attribute's curated label, or one derived from its path. */
+export function attributeLabel(attribute: AttributeBinding): string {
+  return attribute.label ?? deriveAttributeLabel(attribute.path);
 }
 
-export function findAttribute(
-  binding: EntityBinding,
-  path: string
-): AttributeBinding | undefined {
+export function attributeLabelFromBinding(
+  binding: EntityBinding | undefined,
+  path: string,
+): string {
+  const entry = binding?.attributes.find((attribute) => attribute.path === path);
+  return entry ? attributeLabel(entry) : deriveAttributeLabel(path);
+}
+
+export function findAttribute(binding: EntityBinding, path: string): AttributeBinding | undefined {
   return binding.attributes.find((attribute) => attribute.path === path);
 }
 
@@ -84,7 +86,7 @@ const ROLES: readonly AttributeRole[] = [
  */
 export function resolveAttributeSelection(
   binding: EntityBinding,
-  selection: AttributeSelection
+  selection: AttributeSelection,
 ): AttributeBinding[] {
   if (selection === 'all') return binding.attributes;
   const resolved: AttributeBinding[] = [];
@@ -93,26 +95,20 @@ export function resolveAttributeSelection(
     if (byPath) {
       resolved.push(byPath);
     } else if ((ROLES as readonly string[]).includes(entry)) {
-      resolved.push(
-        ...binding.attributes.filter((attribute) => attribute.role === entry)
-      );
+      resolved.push(...binding.attributes.filter((attribute) => attribute.role === entry));
     } else {
       resolved.push({ path: entry, role: 'spec', valueType: 'string' });
     }
   }
   return resolved.filter(
     (attribute, index) =>
-      resolved.findIndex((candidate) => candidate.path === attribute.path) === index
+      resolved.findIndex((candidate) => candidate.path === attribute.path) === index,
   );
 }
 
 /** Roles with a dedicated identity slot in item layouts (heading, icon,
     body paragraph) rather than a generic badge/row/column placement. */
-export const IDENTITY_ROLES: readonly AttributeRole[] = [
-  'title',
-  'thumbnail',
-  'description',
-];
+export const IDENTITY_ROLES: readonly AttributeRole[] = ['title', 'thumbnail', 'description'];
 
 export function isNumericValueType(valueType: AttributeValueType): boolean {
   return valueType === 'number' || valueType === 'currency' || valueType === 'progress';
@@ -130,10 +126,13 @@ const formatDateValue = (value: unknown): string => {
     caller's concern — a view skips them, a table prints a placeholder. */
 export function formatBoundValue(value: unknown, attribute: AttributeBinding): string {
   switch (attribute.valueType) {
-    case 'currency':
-      return typeof value === 'number'
-        ? formatCurrency(value, attribute.currency ?? 'GBP')
-        : String(value);
+    case 'currency': {
+      const amount =
+        typeof value === 'number'
+          ? formatCurrency(value, attribute.currency ?? 'GBP')
+          : String(value);
+      return attribute.unit ? `${amount} ${attribute.unit}` : amount;
+    }
     case 'date':
       return formatDateValue(value);
     case 'progress':
@@ -150,13 +149,8 @@ export function formatBoundValue(value: unknown, attribute: AttributeBinding): s
 
 /** The entity's title through its binding's `title` role — what a host names
     a modal or page after. Falls back to common identity fields. */
-export function resolveEntityTitle(
-  entity: unknown,
-  binding: EntityBinding | undefined
-): string {
-  const titleAttribute = binding?.attributes.find(
-    (attribute) => attribute.role === 'title'
-  );
+export function resolveEntityTitle(entity: unknown, binding: EntityBinding | undefined): string {
+  const titleAttribute = binding?.attributes.find((attribute) => attribute.role === 'title');
   if (titleAttribute) {
     const value = getValueAtPath(entity, titleAttribute.path);
     if (value != null) return String(value);

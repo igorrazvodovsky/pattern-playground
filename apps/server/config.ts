@@ -5,7 +5,7 @@ dotenv.config({ quiet: true });
 
 // Environment variable validation
 const requiredEnvVars = ['OPENAI_API_KEY'];
-const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
+const missingEnvVars = requiredEnvVars.filter((envVar) => !process.env[envVar]);
 
 if (missingEnvVars.length > 0) {
   throw new Error(`Missing required environment variables: ${missingEnvVars.join(', ')}`);
@@ -65,11 +65,11 @@ const config: ServerConfig = {
     ].filter(Boolean),
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'] as const,
-    allowedHeaders: ['Content-Type', 'Authorization'] as const
+    allowedHeaders: ['Content-Type', 'Authorization'] as const,
   },
   logging: {
-    level: process.env.LOG_LEVEL || 'info'
-  }
+    level: process.env.LOG_LEVEL || 'info',
+  },
 };
 
 export default config;

@@ -20,7 +20,7 @@ const textLensRequestSchema = z.object({
   text: z.string().min(1),
   context: z.string().optional(),
   direction: z.enum(['in', 'out']),
-  intensity: z.number().min(10).max(100)
+  intensity: z.number().min(10).max(100),
 });
 
 // Explanation schemas
@@ -29,7 +29,18 @@ export type ExplanationRequest = {
   references?: Array<{
     id: string;
     label: string;
-    type: 'user' | 'document' | 'project' | 'task' | 'file' | 'link' | 'quote' | 'material' | 'component' | 'product' | 'service';
+    type:
+      | 'user'
+      | 'document'
+      | 'project'
+      | 'task'
+      | 'file'
+      | 'link'
+      | 'quote'
+      | 'material'
+      | 'component'
+      | 'product'
+      | 'service';
     metadata?: Record<string, unknown>;
   }>;
   context?: string;
@@ -37,13 +48,29 @@ export type ExplanationRequest = {
 
 const explanationRequestSchema = z.object({
   text: z.string().min(1).max(10000),
-  references: z.array(z.object({
-    id: z.string(),
-    label: z.string(),
-    type: z.enum(['user', 'document', 'project', 'task', 'file', 'link', 'quote', 'material', 'component', 'product', 'service']),
-    metadata: z.record(z.string(), z.unknown()).optional()
-  })).optional(),
-  context: z.string().optional()
+  references: z
+    .array(
+      z.object({
+        id: z.string(),
+        label: z.string(),
+        type: z.enum([
+          'user',
+          'document',
+          'project',
+          'task',
+          'file',
+          'link',
+          'quote',
+          'material',
+          'component',
+          'product',
+          'service',
+        ]),
+        metadata: z.record(z.string(), z.unknown()).optional(),
+      }),
+    )
+    .optional(),
+  context: z.string().optional(),
 });
 
 // Suggestion schemas. `metadata` is accepted but not read by the server.
@@ -52,8 +79,8 @@ const suggestionRequestSchema = z.object({
   context: z.object({
     type: z.string().min(1),
     availableOptions: z.record(z.string(), z.array(z.union([z.string(), z.number(), z.boolean()]))),
-    metadata: z.record(z.string(), z.json()).optional()
-  })
+    metadata: z.record(z.string(), z.json()).optional(),
+  }),
 });
 
 // Timeline grouping schemas: a flat run of dated records in, a two-level
@@ -77,16 +104,20 @@ export type TimelineGroupingRequest = {
    them through Structured Outputs, so every field is required and none is a
    record with open keys. */
 const timelineGroupingSchema = z.object({
-  phases: z.array(z.object({
-    title: z.string(),
-    summary: z.string(),
-    episodes: z.array(z.object({
+  phases: z.array(
+    z.object({
       title: z.string(),
       summary: z.string(),
-      /** The record the episode opens on; it runs until the next episode's. */
-      startId: z.string()
-    }))
-  }))
+      episodes: z.array(
+        z.object({
+          title: z.string(),
+          summary: z.string(),
+          /** The record the episode opens on; it runs until the next episode's. */
+          startId: z.string(),
+        }),
+      ),
+    }),
+  ),
 });
 
 export type TimelineGrouping = z.infer<typeof timelineGroupingSchema>;
@@ -94,14 +125,19 @@ export type TimelinePhase = TimelineGrouping['phases'][number];
 export type TimelineEpisode = TimelinePhase['episodes'][number];
 
 const timelineGroupingRequestSchema = z.object({
-  records: z.array(z.object({
-    id: z.string(),
-    date: z.string(),
-    label: z.string(),
-    amount: z.number().optional(),
-    category: z.string().optional()
-  })).min(2).max(200),
-  subject: z.string().max(200).optional()
+  records: z
+    .array(
+      z.object({
+        id: z.string(),
+        date: z.string(),
+        label: z.string(),
+        amount: z.number().optional(),
+        category: z.string().optional(),
+      }),
+    )
+    .min(2)
+    .max(200),
+  subject: z.string().max(200).optional(),
 });
 
 // Model deduction schemas: one component and its modelled neighbourhood in,
@@ -123,12 +159,14 @@ export type DeductionRequest = {
 };
 
 const deductionSchema = z.object({
-  proposals: z.array(z.object({
-    name: z.string(),
-    rationale: z.string(),
-    /** The modelled component the proposal would hang under. */
-    anchorId: z.string()
-  }))
+  proposals: z.array(
+    z.object({
+      name: z.string(),
+      rationale: z.string(),
+      /** The modelled component the proposal would hang under. */
+      anchorId: z.string(),
+    }),
+  ),
 });
 
 export type Deduction = z.infer<typeof deductionSchema>;
@@ -143,13 +181,13 @@ const deductionRequestSchema = z.object({
     attributes: z
       .array(z.object({ name: z.string(), value: z.string() }))
       .max(40)
-      .default([])
+      .default([]),
   }),
   neighbourhood: z
     .array(z.object({ id: z.string(), name: z.string(), relation: z.string() }))
     .max(60)
     .default([]),
-  subject: z.string().max(300).optional()
+  subject: z.string().max(300).optional(),
 });
 
 export {
@@ -159,5 +197,5 @@ export {
   timelineGroupingRequestSchema,
   timelineGroupingSchema,
   deductionRequestSchema,
-  deductionSchema
+  deductionSchema,
 };

@@ -67,7 +67,7 @@ export class LocalCommentStorage implements CommentStorage {
 
   async findByPointer(pointer: CommentPointer): Promise<Comment[]> {
     const commentIds = this.pointerIndex.get(pointer.serialize()) ?? [];
-    return [...commentIds].flatMap(id => this.comments.get(id) ?? []);
+    return [...commentIds].flatMap((id) => this.comments.get(id) ?? []);
   }
 
   async delete(id: string): Promise<boolean> {
@@ -130,7 +130,7 @@ export class LocalCommentStorage implements CommentStorage {
       const data = {
         comments: Object.fromEntries(this.comments),
         pointerIndex: Object.fromEntries(
-          Array.from(this.pointerIndex.entries()).map(([key, ids]) => [key, Array.from(ids)])
+          Array.from(this.pointerIndex.entries()).map(([key, ids]) => [key, Array.from(ids)]),
         ),
       };
 

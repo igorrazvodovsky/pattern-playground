@@ -684,3 +684,8 @@
   background-position: 0 -2ch;
   background-color: var(--color);
 }
+
+/* AnimateChangeInHeight: content outside the animated height stays hidden. */
+.animate-height {
+  overflow: hidden;
+}

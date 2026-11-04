@@ -9,9 +9,7 @@ interface ReferencesBubbleMenuProps {
   enableQuoteReferences?: boolean;
 }
 
-export function ReferencesBubbleMenu({
-  enableQuoteReferences = true
-}: ReferencesBubbleMenuProps) {
+export function ReferencesBubbleMenu({ enableQuoteReferences = true }: ReferencesBubbleMenuProps) {
   const { editor, eventBus, getPlugin } = useEditorContext();
   const referencesPlugin = getPlugin('references') as ReferencesPlugin;
   const [hasSelection, setHasSelection] = useState(false);
@@ -29,13 +27,13 @@ export function ReferencesBubbleMenu({
 
   const handleCreateQuoteReference = useCallback(() => {
     if (!hasSelection || !selectedText) return;
-    
+
     referencesPlugin?.convertSelectionToQuote(selectedText);
   }, [referencesPlugin, hasSelection, selectedText]);
 
   const handleInsertReference = useCallback(() => {
     if (!editor) return;
-    
+
     // Insert @ character to trigger reference suggestion
     editor.commands.insertContent('@');
     editor.commands.focus();
@@ -58,7 +56,7 @@ export function ReferencesBubbleMenu({
           📝 Quote
         </button>
       )}
-      
+
       {!hasSelection && (
         <button
           type="button"

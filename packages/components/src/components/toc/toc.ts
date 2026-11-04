@@ -38,7 +38,7 @@ function renderList(nodes: TocNode[]): string {
       (node) =>
         `<li><a class="toc-link" href="#${escapeHTML(node.id)}">${escapeHTML(node.text)}</a>${
           node.children.length ? renderList(node.children) : ''
-        }</li>`
+        }</li>`,
     )
     .join('');
   return `<ul>${items}</ul>`;
@@ -155,7 +155,7 @@ export class PpToc extends HTMLElement {
     // any subtree opted out with data-toc-ignore
     const selector = `:is(${level}):not(:is(details, dialog, .demo-block, [data-toc-ignore]) :is(${level}))`;
     const headings = [...target.querySelectorAll<HTMLElement>(selector)].filter(
-      (h) => !this.contains(h)
+      (h) => !this.contains(h),
     );
 
     const entries: TocEntry[] = [];
@@ -234,7 +234,10 @@ export class PpToc extends HTMLElement {
   private hoverIn = (event: PointerEvent) => {
     if (event.pointerType !== 'mouse') return;
     clearTimeout(this.expandId);
-    this.expandId = window.setTimeout(() => this.toggleAttribute('data-expanded', true), EXPAND_DELAY_MS);
+    this.expandId = window.setTimeout(
+      () => this.toggleAttribute('data-expanded', true),
+      EXPAND_DELAY_MS,
+    );
   };
 
   private hoverOut = () => {
@@ -252,7 +255,8 @@ export class PpToc extends HTMLElement {
   // ancestor's. Other panes scrolling are ignored.
   private onScroll = (event: Event) => {
     const source = event.target;
-    if (source === document || (source instanceof Node && source.contains(this))) this.scheduleTrack();
+    if (source === document || (source instanceof Node && source.contains(this)))
+      this.scheduleTrack();
   };
 
   private scheduleTrack = () => {
@@ -276,7 +280,8 @@ export class PpToc extends HTMLElement {
     if (!revealed) this.collapse();
 
     const scrolled = root ?? document.scrollingElement;
-    const atEnd = !!scrolled && scrolled.scrollTop + scrolled.clientHeight >= scrolled.scrollHeight - 2;
+    const atEnd =
+      !!scrolled && scrolled.scrollTop + scrolled.clientHeight >= scrolled.scrollHeight - 2;
     const line = atEnd ? top + height : top + height / 4;
     let current = -1;
     this.headings.forEach((h, i) => {

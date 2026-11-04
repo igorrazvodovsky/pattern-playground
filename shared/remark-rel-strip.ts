@@ -18,11 +18,19 @@ import type { Root, Paragraph } from 'mdast';
 // The authorable rel vocabulary (matches ALIAS_TABLE in extract-graph-data.ts).
 // `recommends` is intentionally absent — not an authorable rel.
 const AUTHORABLE_RELS = new Set([
-  'precedes', 'follows',
-  'enables', 'composed-of',
-  'instantiates', 'instances', 'variants',
-  'complements', 'tangential', 'alternative',
-  'enacts', 'surveys', 'related',
+  'precedes',
+  'follows',
+  'enables',
+  'composed-of',
+  'instantiates',
+  'instances',
+  'variants',
+  'complements',
+  'tangential',
+  'alternative',
+  'enacts',
+  'surveys',
+  'related',
 ]);
 
 // Matches the value inside {rel="..."} — the expression in the mdxTextExpression node.

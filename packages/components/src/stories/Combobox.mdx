@@ -1,7 +1,7 @@
 import { Canvas, Story, Meta } from '@storybook/addon-docs/blocks';
 import * as ComboboxStories from './Combobox.stories.tsx';
 
-<Meta of={ ComboboxStories } tags={['activity-level:operation', 'atomic:pattern', 'role:component', 'mediation:individual']} />
+<Meta of={ ComboboxStories } tags={['activity-level:operation', 'mediation:individual']} />
 
 {/* > 🔧 **Fun meter: 2/5**. Dependency. */}
 
@@ -30,6 +30,12 @@ A text input paired with a popup listbox: the actor types to narrow candidates, 
 `ComboboxGroup` divides the listbox into labelled sections without adding interaction cost. Useful when the option set spans multiple categories.
 
 <Story of={ ComboboxStories.Grouped } />
+
+## From a button
+
+When the field is not kept in view, a button opens it in a dropdown. The combobox is the dropdown's surface, with no heading or padding around it, and the panel's height follows the list as it narrows.
+
+<Story of={ ComboboxStories.FromButton } />
 
 ## Related patterns
 

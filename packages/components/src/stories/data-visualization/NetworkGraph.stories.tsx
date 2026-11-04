@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useEffect, useRef } from "react";
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useEffect, useRef } from 'react';
 import { action } from 'storybook/actions';
 
 // Import the network graph component (this registers the custom element)
 // The pp-network-graph JSX typing lives in src/jsx-types.ts.
-import "../../components/charts/network-graph.js";
-import type { NetworkGraph } from "../../components/charts/network-graph.js";
-import type { NetworkGraphData } from "../../components/charts/base/chart-types.js";
+import '../../components/charts/network-graph.js';
+import type { NetworkGraph } from '../../components/charts/network-graph.js';
+import type { NetworkGraphData } from '../../components/charts/base/chart-types.js';
 import collaborationNetwork from '../data/collaboration-network.json' with { type: 'json' };
 
 const collaborationData = collaborationNetwork as NetworkGraphData;
@@ -31,7 +31,7 @@ function NetworkGraphWrapper({
   data,
   trailLength = 8,
   anchors,
-  title = ''
+  title = '',
 }: NetworkGraphWrapperProps) {
   const chartRef = useRef<NetworkGraph | null>(null);
 
@@ -54,20 +54,18 @@ function NetworkGraphWrapper({
     }
   }, [data, trailLength, anchors, title]);
 
-  return (
-    <pp-network-graph ref={chartRef} />
-  );
+  return <pp-network-graph ref={chartRef} />;
 }
 
 const meta = {
-  title: "Data visualisation/Network graph",
+  title: 'Data visualisation/Network graph',
   component: NetworkGraphWrapper,
   argTypes: {
     trailLength: {
       control: { type: 'range', min: 0, max: 14, step: 1 },
-      description: 'How many recently visited nodes the trail keeps (0 disables it)'
-    }
-  }
+      description: 'How many recently visited nodes the trail keeps (0 disables it)',
+    },
+  },
 } satisfies Meta<NetworkGraphWrapperProps>;
 
 export default meta;
@@ -78,7 +76,7 @@ export const Default: Story = {
     data: collaborationData,
     trailLength: 8,
     title: 'Studio collaboration network',
-  }
+  },
 };
 
 export const Anchored: Story = {
@@ -87,7 +85,7 @@ export const Anchored: Story = {
     trailLength: 8,
     anchors: disciplineAnchors,
     title: 'Studio collaboration network, anchored by discipline',
-  }
+  },
 };
 
 export const NoTrail: Story = {
@@ -95,5 +93,5 @@ export const NoTrail: Story = {
     data: collaborationData,
     trailLength: 0,
     title: 'Studio collaboration network',
-  }
+  },
 };

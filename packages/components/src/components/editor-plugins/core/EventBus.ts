@@ -60,7 +60,7 @@ export class EventBus implements IEventBus {
   private listeners = new Map<string, Set<EventListener>>();
   private interceptors = new Map<string, Interceptor[]>();
   private eventHistory = new CircularBuffer<QueuedEvent>(100); // Bounded history
-  
+
   // WeakMap for automatic cleanup of plugin references
   private pluginListeners = new WeakMap<object, Set<() => void>>();
 
@@ -68,7 +68,7 @@ export class EventBus implements IEventBus {
   static readonly PRIORITIES = {
     high: 100,
     normal: 50,
-    low: 10
+    low: 10,
   } as const;
 
   emit<T extends keyof EventPayload>(
@@ -76,11 +76,11 @@ export class EventBus implements IEventBus {
     payload: EventPayload[T],
     {
       priority = 'normal',
-      cancelable = false
+      cancelable = false,
     }: {
       priority?: EventPriority;
       cancelable?: boolean;
-    } = {}
+    } = {},
   ): boolean {
     let processedPayload: EventPayload[T] | null = payload;
 
@@ -89,7 +89,7 @@ export class EventBus implements IEventBus {
       event: event as string,
       payload,
       priority,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
 
     // Apply interceptors with modern optional chaining
@@ -113,9 +113,7 @@ export class EventBus implements IEventBus {
     }
 
     // Sort listeners for priority (ES2020 compatible)
-    const sortedListeners = Array.from(eventListeners).sort(
-      (a, b) => b.priority - a.priority
-    );
+    const sortedListeners = Array.from(eventListeners).sort((a, b) => b.priority - a.priority);
 
     // Use some() for early termination and modern iteration
     for (const listener of sortedListeners) {
@@ -127,7 +125,7 @@ export class EventBus implements IEventBus {
         }
 
         listener.handler(processedPayload);
-        
+
         if (listener.once) {
           eventListeners.delete(listener);
         }
@@ -145,12 +143,12 @@ export class EventBus implements IEventBus {
     {
       priority = 50,
       once = false,
-      signal
+      signal,
     }: {
       priority?: number;
       once?: boolean;
       signal?: AbortSignal;
-    } = {}
+    } = {},
   ): () => void {
     // Create abort controller if signal provided
     const abortController = signal ? undefined : new AbortController();
@@ -160,7 +158,7 @@ export class EventBus implements IEventBus {
       handler: handler as (payload: unknown) => void,
       priority,
       once,
-      abortController
+      abortController,
     };
 
     if (!this.listeners.has(event as string)) {
@@ -184,15 +182,13 @@ export class EventBus implements IEventBus {
 
   intercept<T extends keyof EventPayload>(
     event: T,
-    interceptor: (payload: EventPayload[T]) => EventPayload[T] | null
+    interceptor: (payload: EventPayload[T]) => EventPayload[T] | null,
   ): void {
     if (!this.interceptors.has(event as string)) {
       this.interceptors.set(event as string, []);
     }
 
-    this.interceptors.get(event as string)!.push(
-      interceptor as Interceptor
-    );
+    this.interceptors.get(event as string)!.push(interceptor as Interceptor);
   }
 
   clear(): void {
@@ -202,7 +198,7 @@ export class EventBus implements IEventBus {
         listener.abortController?.abort();
       }
     }
-    
+
     this.listeners.clear();
     this.interceptors.clear();
   }
@@ -211,9 +207,12 @@ export class EventBus implements IEventBus {
     if (event) {
       return this.listeners.get(event)?.size ?? 0;
     }
-    
+
     // Use reduce with modern syntax for total count
-    return Array.from(this.listeners.values()).reduce((total, listeners) => total + listeners.size, 0);
+    return Array.from(this.listeners.values()).reduce(
+      (total, listeners) => total + listeners.size,
+      0,
+    );
   }
 
   // Modern utility methods
@@ -234,17 +233,17 @@ export class EventBus implements IEventBus {
     plugin: object,
     event: T,
     handler: (payload: EventPayload[T]) => void,
-    options?: Parameters<EventBus['on']>[2]
+    options?: Parameters<EventBus['on']>[2],
   ): () => void {
     const cleanup = this.on(event, handler, options);
-    
+
     // Track cleanup functions per plugin
     if (!this.pluginListeners.has(plugin)) {
       this.pluginListeners.set(plugin, new Set());
     }
-    
+
     this.pluginListeners.get(plugin)!.add(cleanup);
-    
+
     return cleanup;
   }
 
@@ -267,7 +266,10 @@ export class EventBus implements IEventBus {
     return {
       totalListeners: this.getListenerCount(),
       eventsProcessed: this.eventHistory.toArray().length,
-      activeInterceptors: Array.from(this.interceptors.values()).reduce((sum, arr) => sum + arr.length, 0)
+      activeInterceptors: Array.from(this.interceptors.values()).reduce(
+        (sum, arr) => sum + arr.length,
+        0,
+      ),
     };
   }
 }

@@ -140,31 +140,37 @@ export abstract class ChartComponent extends D3Component {
   protected handleMouseOver = (event: MouseEvent) => {
     if (this.disabled) return;
 
-    this.dispatchEvent(new CustomEvent('pp-chart-hover', {
-      detail: { originalEvent: event },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent('pp-chart-hover', {
+        detail: { originalEvent: event },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   };
 
   protected handleMouseOut = (event: MouseEvent) => {
     if (this.disabled) return;
 
-    this.dispatchEvent(new CustomEvent('pp-chart-hover-end', {
-      detail: { originalEvent: event },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent('pp-chart-hover-end', {
+        detail: { originalEvent: event },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   };
 
   protected handleClick = (event: MouseEvent) => {
     if (this.disabled) return;
 
-    this.dispatchEvent(new CustomEvent('pp-chart-click', {
-      detail: { originalEvent: event },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent('pp-chart-click', {
+        detail: { originalEvent: event },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   };
 
   protected validateData(): boolean {

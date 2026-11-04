@@ -9,21 +9,34 @@ interface ExplanationDrawerContainerProps {
   eventBus: EventBus;
 }
 
-function isStartedPayload(payload: unknown): payload is { text: string; references?: SelectedReference[]; range: { from: number; to: number } } {
-  return typeof payload === 'object' && payload !== null &&
-    'text' in payload && typeof (payload as Record<string, unknown>).text === 'string' &&
-    'range' in payload && typeof (payload as Record<string, unknown>).range === 'object';
+function isStartedPayload(payload: unknown): payload is {
+  text: string;
+  references?: SelectedReference[];
+  range: { from: number; to: number };
+} {
+  return (
+    typeof payload === 'object' &&
+    payload !== null &&
+    'text' in payload &&
+    typeof (payload as Record<string, unknown>).text === 'string' &&
+    'range' in payload &&
+    typeof (payload as Record<string, unknown>).range === 'object'
+  );
 }
 
 function isChunkPayload(payload: unknown): payload is { content: string } {
-  return typeof payload === 'object' && payload !== null &&
-    'content' in payload && typeof (payload as Record<string, unknown>).content === 'string';
+  return (
+    typeof payload === 'object' &&
+    payload !== null &&
+    'content' in payload &&
+    typeof (payload as Record<string, unknown>).content === 'string'
+  );
 }
 
 export function ExplanationDrawerContainer({
   initialText,
   initialReferences,
-  eventBus
+  eventBus,
 }: ExplanationDrawerContainerProps) {
   const [text, setText] = useState(initialText);
   const [explanation, setExplanation] = useState('');
@@ -49,7 +62,7 @@ export function ExplanationDrawerContainer({
         console.warn('Invalid chunk payload received');
         return;
       }
-      setExplanation(prev => prev + payload.content);
+      setExplanation((prev) => prev + payload.content);
     });
 
     const unsubscribeComplete = eventBus.on('explanation:complete', () => {

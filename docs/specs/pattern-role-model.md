@@ -22,10 +22,6 @@ and graph metadata. The two-language framing behind it is
 - A `foundation` is theory, model, principle, or material substrate. Foundations
   are bilingual in the same way as qualities.
 
-Compositional complexity is component-catalogue metadata: `atomic:*` story tags
-in Storybook, with no counterpart in pattern frontmatter. It does not decide
-whether a page is a pattern source, a component source, or a collection.
-
 ## Boundary stance
 
 The pattern/component boundary is a naming and default-rendering decision, not an
@@ -129,8 +125,8 @@ These are findings to take through the normal classification process
 
 `role:*` metadata is emitted into `apps/patterns/src/data/pattern-graph.json`
 for every graph node. Pattern-site MDX pages own their role through YAML
-frontmatter. Storybook component pages use `<Meta>` tags or `role:component`
-in CSF story files.
+frontmatter. Storybook pages carry no role: the graph reads only the pattern
+site, and a Storybook entry is a component by being in the catalogue.
 
 Explicit role tags cover `role:component`, `role:pattern`, `role:collection`,
 `role:quality`, and `role:foundation` in frontmatter (`role:umbrella` is a

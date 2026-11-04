@@ -28,11 +28,7 @@ interface CommentRendererProps {
  * Handles both rich content objects and plain text fallbacks
  * Content only - layout is handled by parent component
  */
-export const CommentRenderer: React.FC<CommentRendererProps> = ({
-  content,
-  className = ''
-}) => {
-
+export const CommentRenderer: React.FC<CommentRendererProps> = ({ content, className = '' }) => {
   const renderRichContent = (richContent: RichContent | string): React.ReactNode => {
     // Handle plain string content (backward compatibility)
     if (typeof richContent === 'string') {
@@ -112,9 +108,5 @@ export const CommentRenderer: React.FC<CommentRendererProps> = ({
     return renderContentNodes(content.content.filter(isContentNode));
   };
 
-  return (
-    <div className={className}>
-      {renderRichContent(content)}
-    </div>
-  );
+  return <div className={className}>{renderRichContent(content)}</div>;
 };

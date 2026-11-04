@@ -26,7 +26,7 @@ interface Node {
 }
 
 const AUTHORABLE_EVIDENCE_KINDS = ['observed', 'literature', 'used'] as const;
-type EvidenceKind = typeof AUTHORABLE_EVIDENCE_KINDS[number] | 'built';
+type EvidenceKind = (typeof AUTHORABLE_EVIDENCE_KINDS)[number] | 'built';
 
 interface EvidenceEntry {
   kind: EvidenceKind;
@@ -36,8 +36,15 @@ interface EvidenceEntry {
 
 // `umbrella` is retained as a deprecated alias of `collection` for back-compat during
 // migration; both trigger the same `surveys` (member-collection) edge behaviour.
-const VALID_ROLES = ['component', 'pattern', 'collection', 'umbrella', 'quality', 'foundation'] as const;
-type Role = typeof VALID_ROLES[number];
+const VALID_ROLES = [
+  'component',
+  'pattern',
+  'collection',
+  'umbrella',
+  'quality',
+  'foundation',
+] as const;
+type Role = (typeof VALID_ROLES)[number];
 
 type RoleSource = 'explicit' | 'inferred' | 'unset';
 
@@ -121,22 +128,22 @@ interface TypedLink {
 // See relationship-vocabulary.md §Authoring aliases and direction normalization.
 // `recommends` is intentionally absent — it is not an authorable rel.
 const ALIAS_TABLE = {
-  precedes:      { type: 'precedes'     as EdgeType, invert: false },
-  follows:       { type: 'precedes'     as EdgeType, invert: true  },  // alias: inverse reading
-  enables:       { type: 'enables'      as EdgeType, invert: false },
-  'composed-of': { type: 'enables'      as EdgeType, invert: true  },  // alias: P is the whole
-  instantiates:  { type: 'instantiates' as EdgeType, invert: false },
-  instances:     { type: 'instantiates' as EdgeType, invert: true  },  // alias: P is the genus
-  variants:      { type: 'instantiates' as EdgeType, invert: true  },  // alias: same as instances
-  complements:   { type: 'complements'  as EdgeType, invert: false },
-  tangential:    { type: 'tangential'   as EdgeType, invert: false },
-  alternative:   { type: 'alternative'  as EdgeType, invert: false },
-  enacts:        { type: 'enacts'       as EdgeType, invert: false },
-  surveys:       { type: 'surveys'      as EdgeType, invert: false },
-  hosts:         { type: 'hosts'        as EdgeType, invert: false },
-  'hosted-by':   { type: 'hosts'        as EdgeType, invert: true  },  // alias: P is the hosted move
-  serves:        { type: 'serves'       as EdgeType, invert: false },  // pattern → foundation; no inverse alias — the pattern side carries the edge
-  related:       { type: 'related'      as EdgeType, invert: false },
+  'precedes': { type: 'precedes' as EdgeType, invert: false },
+  'follows': { type: 'precedes' as EdgeType, invert: true }, // alias: inverse reading
+  'enables': { type: 'enables' as EdgeType, invert: false },
+  'composed-of': { type: 'enables' as EdgeType, invert: true }, // alias: P is the whole
+  'instantiates': { type: 'instantiates' as EdgeType, invert: false },
+  'instances': { type: 'instantiates' as EdgeType, invert: true }, // alias: P is the genus
+  'variants': { type: 'instantiates' as EdgeType, invert: true }, // alias: same as instances
+  'complements': { type: 'complements' as EdgeType, invert: false },
+  'tangential': { type: 'tangential' as EdgeType, invert: false },
+  'alternative': { type: 'alternative' as EdgeType, invert: false },
+  'enacts': { type: 'enacts' as EdgeType, invert: false },
+  'surveys': { type: 'surveys' as EdgeType, invert: false },
+  'hosts': { type: 'hosts' as EdgeType, invert: false },
+  'hosted-by': { type: 'hosts' as EdgeType, invert: true }, // alias: P is the hosted move
+  'serves': { type: 'serves' as EdgeType, invert: false }, // pattern → foundation; no inverse alias — the pattern side carries the edge
+  'related': { type: 'related' as EdgeType, invert: false },
 };
 
 type AuthoringRel = keyof typeof ALIAS_TABLE;
@@ -149,27 +156,44 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 /** The schema is the real gate (content.config.ts); this pass runs standalone via
  *  `npm run extract-graph`, so it warns and drops rather than trusting that a
  *  site build already rejected the file. */
-function parseEvidence(fm: Record<string, unknown>, filePath: string, realisedBy: string[]): EvidenceEntry[] {
+function parseEvidence(
+  fm: Record<string, unknown>,
+  filePath: string,
+  realisedBy: string[],
+): EvidenceEntry[] {
   const kinds: readonly string[] = AUTHORABLE_EVIDENCE_KINDS;
   const entries: EvidenceEntry[] = [];
   const raw = Array.isArray(fm.evidence) ? fm.evidence : [];
 
   for (const item of raw) {
-    const kind = typeof item === 'string' ? item : isRecord(item) && typeof item.kind === 'string' ? item.kind : null;
+    const kind =
+      typeof item === 'string'
+        ? item
+        : isRecord(item) && typeof item.kind === 'string'
+          ? item.kind
+          : null;
     if (kind === null) {
-      console.warn(`Evidence warning: ${filePath}: evidence entries must be a kind string or {kind, ref} — ignored`);
+      console.warn(
+        `Evidence warning: ${filePath}: evidence entries must be a kind string or {kind, ref} — ignored`,
+      );
       continue;
     }
     if (kind === 'built') {
-      console.warn(`Evidence warning: ${filePath}: built is derived from realised_by, not authored — ignored`);
+      console.warn(
+        `Evidence warning: ${filePath}: built is derived from realised_by, not authored — ignored`,
+      );
       continue;
     }
     if (!kinds.includes(kind)) {
-      console.warn(`Evidence warning: ${filePath}: unknown evidence kind "${kind}" — expected ${kinds.join(' | ')}; ignored`);
+      console.warn(
+        `Evidence warning: ${filePath}: unknown evidence kind "${kind}" — expected ${kinds.join(' | ')}; ignored`,
+      );
       continue;
     }
     const ref = isRecord(item) && typeof item.ref === 'string' ? item.ref : undefined;
-    entries.push(ref !== undefined ? { kind: kind as EvidenceKind, ref } : { kind: kind as EvidenceKind });
+    entries.push(
+      ref !== undefined ? { kind: kind as EvidenceKind, ref } : { kind: kind as EvidenceKind },
+    );
   }
 
   if (realisedBy.length > 0 && !entries.some((e) => e.kind === 'built')) {
@@ -181,7 +205,10 @@ function parseEvidence(fm: Record<string, unknown>, filePath: string, realisedBy
 /** Parse the frontmatter `situation:` block. `resulting` is prose; on pages
  * not yet migrated it is a list of bare strings or `{clause, sets-up: [slugs]}`
  * objects, which normalise to clauses. */
-function parseSituation(fm: Record<string, unknown>, sourcePath: string): NodeSituation | undefined {
+function parseSituation(
+  fm: Record<string, unknown>,
+  sourcePath: string,
+): NodeSituation | undefined {
   const raw = fm.situation;
   if (!raw) return undefined;
   if (!isRecord(raw)) {
@@ -196,7 +223,9 @@ function parseSituation(fm: Record<string, unknown>, sourcePath: string): NodeSi
     if (raw.resulting.trim()) situation.resulting = raw.resulting.trim();
   } else if (raw.resulting !== undefined) {
     if (!Array.isArray(raw.resulting)) {
-      console.warn(`Situation warning: ${sourcePath}: situation.resulting must be prose or a list — ignored`);
+      console.warn(
+        `Situation warning: ${sourcePath}: situation.resulting must be prose or a list — ignored`,
+      );
     } else {
       const clauses: SituationClause[] = [];
       for (const entry of raw.resulting) {
@@ -228,7 +257,11 @@ function isRole(value: string): value is Role {
 /** Composed from frontmatter facets rather than folders: role wins for
  *  qualities/foundations; domain names a domain corpus; otherwise the AT
  *  activity level. Section collections (no facets) read as cross-cutting. */
-function categoryOf(role: string | undefined, activityLevel: string | null, domain: string | null): string {
+function categoryOf(
+  role: string | undefined,
+  activityLevel: string | null,
+  domain: string | null,
+): string {
   if (role === 'quality') return 'Qualities';
   if (role === 'foundation') return 'Foundations';
   if (domain === 'data-visualization') return 'Data Visualisation';
@@ -238,11 +271,9 @@ function categoryOf(role: string | undefined, activityLevel: string | null, doma
   return 'Cross-cutting';
 }
 
-
 function stripComments(content: string): string {
   return content.replace(/\{\/\*[\s\S]*?\*\/\}/g, '');
 }
-
 
 // --- Situation prose: glosses and the unspoken-edge advisory ---
 //
@@ -271,7 +302,9 @@ function sentenceLinking(prose: string, slug: string): string | undefined {
   return sentence?.replace(/^(?:…|\.\.\.)\s*/, '').replace(/\s*(?:…|\.\.\.)$/, '');
 }
 
-function isShaped(situation: NodeSituation | undefined): situation is NodeSituation & { resulting: string } {
+function isShaped(
+  situation: NodeSituation | undefined,
+): situation is NodeSituation & { resulting: string } {
   return typeof situation?.resulting === 'string';
 }
 
@@ -284,9 +317,16 @@ function linkedSlugs(body: string): Set<string> {
 
 const unspokenFindings: string[] = [];
 
-function checkUnspokenEdges(id: string, rawContent: string, typed: TypedLink[], situation: NodeSituation | undefined): void {
+function checkUnspokenEdges(
+  id: string,
+  rawContent: string,
+  typed: TypedLink[],
+  situation: NodeSituation | undefined,
+): void {
   if (!isShaped(situation)) return;
-  const linked = linkedSlugs([stripComments(rawContent), situation.initiating ?? '', situation.resulting].join('\n'));
+  const linked = linkedSlugs(
+    [stripComments(rawContent), situation.initiating ?? '', situation.resulting].join('\n'),
+  );
   const owed = new Map<string, string>();
   for (const link of typed) {
     // Edges this page authors from its own side; an inverting alias claims
@@ -297,7 +337,8 @@ function checkUnspokenEdges(id: string, rawContent: string, typed: TypedLink[], 
     owed.set(link.target, link.type);
   }
   for (const [target, type] of owed) {
-    if (!linked.has(target)) unspokenFindings.push(`${id}: ${type} → ${target} is not linked anywhere in the body`);
+    if (!linked.has(target))
+      unspokenFindings.push(`${id}: ${type} → ${target} is not linked anywhere in the body`);
   }
 }
 
@@ -307,7 +348,8 @@ function checkUnspokenEdges(id: string, rawContent: string, typed: TypedLink[], 
 // judgement homes (situations, decision trees) emit their own edges elsewhere.
 
 // `[text](/patterns/slug){rel="type"}` — {rel} must follow closing ) immediately.
-const INLINE_REL_RE = /\[[^\]]*\]\(\/patterns\/([\w][\w/-]*)(?:#[^\s)]*)?(?:[^)]*)\)\{rel="([^"]+)"\}/g;
+const INLINE_REL_RE =
+  /\[[^\]]*\]\(\/patterns\/([\w][\w/-]*)(?:#[^\s)]*)?(?:[^)]*)\)\{rel="([^"]+)"\}/g;
 // <PatternRef slug="..." rel="..."> (attrs in any order)
 const PATTERN_REF_RE = /<PatternRef\b([^>]*?)(?:\/?>|>[^<]*<\/PatternRef>)/g;
 // <ComponentRef id="..." rel="..."> (attrs in any order)
@@ -329,7 +371,9 @@ function parseRelFrontmatter(fm: Record<string, unknown>, sourcePath: string): T
   const links: TypedLink[] = [];
   for (const [rel, entries] of Object.entries(rels)) {
     if (!AUTHORABLE_RELS.has(rel)) {
-      console.warn(`I4 unknown rel: ${sourcePath}: "${rel}" in frontmatter relationships — ignored`);
+      console.warn(
+        `I4 unknown rel: ${sourcePath}: "${rel}" in frontmatter relationships — ignored`,
+      );
       continue;
     }
     if (!Array.isArray(entries)) {
@@ -339,7 +383,9 @@ function parseRelFrontmatter(fm: Record<string, unknown>, sourcePath: string): T
     const resolved = ALIAS_TABLE[rel as AuthoringRel];
     for (const entry of entries) {
       if (!isRelEntry(entry)) {
-        console.warn(`Relationships warning: ${sourcePath}: invalid entry in rel "${rel}" — ignored`);
+        console.warn(
+          `Relationships warning: ${sourcePath}: invalid entry in rel "${rel}" — ignored`,
+        );
         continue;
       }
       const target = typeof entry === 'string' ? entry : entry.to;
@@ -365,7 +411,9 @@ function parseInlineRelLinks(content: string, sourcePath: string): TypedLink[] {
     const rawSlug = m[1].replace(/\//g, '-').replace(/-+/g, '-');
     const rel = m[2];
     if (!AUTHORABLE_RELS.has(rel)) {
-      console.warn(`I4 unknown rel: ${sourcePath}: rel="${rel}" on inline link to "${rawSlug}" — ignored`);
+      console.warn(
+        `I4 unknown rel: ${sourcePath}: rel="${rel}" on inline link to "${rawSlug}" — ignored`,
+      );
       continue;
     }
     const resolved = ALIAS_TABLE[rel as AuthoringRel];
@@ -391,7 +439,9 @@ function parseComponentRelAttrs(content: string, sourcePath: string): TypedLink[
     const rel = extractTagAttr(attrs, 'rel');
     if (!slug || !rel) continue;
     if (!AUTHORABLE_RELS.has(rel)) {
-      console.warn(`I4 unknown rel: ${sourcePath}: rel="${rel}" on <PatternRef slug="${slug}"> — ignored`);
+      console.warn(
+        `I4 unknown rel: ${sourcePath}: rel="${rel}" on <PatternRef slug="${slug}"> — ignored`,
+      );
       continue;
     }
     const resolved = ALIAS_TABLE[rel as AuthoringRel];
@@ -416,7 +466,7 @@ function parseComponentRelAttrs(content: string, sourcePath: string): TypedLink[
     if (!id || !rel) continue;
     console.warn(
       `Realisation warning: ${sourcePath}: rel="${rel}" on <ComponentRef id="${id}"> — ` +
-      `prose ComponentRefs are citations; author the realisation claim in frontmatter realised_by`,
+        `prose ComponentRefs are citations; author the realisation claim in frontmatter realised_by`,
     );
   }
 
@@ -447,7 +497,9 @@ function extractRelationships(
     const ch = link.channel ?? 'unknown';
     const prev = seen.get(key);
     if (prev !== undefined && prev !== ch) {
-      console.warn(`I6 duplicate: ${sourcePath}: "${link.type}" to "${link.target}" declared via '${prev}' and '${ch}'`);
+      console.warn(
+        `I6 duplicate: ${sourcePath}: "${link.type}" to "${link.target}" declared via '${prev}' and '${ch}'`,
+      );
     } else {
       seen.set(key, ch);
     }
@@ -458,18 +510,33 @@ function extractRelationships(
 
 // --- Mermaid decision-tree extraction (Phase 3 — `recommends` edges) ---
 
-interface MermaidNode { id: string; label: string; isQuestion: boolean }
-interface MermaidEdge { from: string; to: string; label?: string }
-interface MermaidGraph { nodes: Map<string, MermaidNode>; edges: MermaidEdge[] }
+interface MermaidNode {
+  id: string;
+  label: string;
+  isQuestion: boolean;
+}
+interface MermaidEdge {
+  from: string;
+  to: string;
+  label?: string;
+}
+interface MermaidGraph {
+  nodes: Map<string, MermaidNode>;
+  edges: MermaidEdge[];
+}
 
-const NODE_DEF_RE = /\b([A-Za-z][A-Za-z0-9_]*)(\[[^\]\n]*\]|\{[^}\n]*\}|\(\([^)\n]*\)\)|\([^)\n]*\))/g;
+const NODE_DEF_RE =
+  /\b([A-Za-z][A-Za-z0-9_]*)(\[[^\]\n]*\]|\{[^}\n]*\}|\(\([^)\n]*\)\)|\([^)\n]*\))/g;
 
 function unwrapNodeLabel(wrapped: string): { label: string; isQuestion: boolean } {
   const isQuestion = wrapped.startsWith('{');
   let inner: string;
   if (wrapped.startsWith('((')) inner = wrapped.slice(2, -2);
   else inner = wrapped.slice(1, -1);
-  inner = inner.trim().replace(/^"(.*)"$/s, '$1').trim();
+  inner = inner
+    .trim()
+    .replace(/^"(.*)"$/s, '$1')
+    .trim();
   return { label: inner, isQuestion };
 }
 
@@ -512,7 +579,10 @@ function parseMermaid(chart: string): MermaidGraph {
     let mm: RegExpExecArray | null;
     while ((mm = edgeSepRe.exec(stripped)) !== null) {
       segments.push(stripped.slice(lastIndex, mm.index).trim());
-      const lbl = mm[1]?.trim().replace(/^"(.*)"$/s, '$1').trim();
+      const lbl = mm[1]
+        ?.trim()
+        .replace(/^"(.*)"$/s, '$1')
+        .trim();
       labels.push(lbl || undefined);
       lastIndex = edgeSepRe.lastIndex;
     }
@@ -569,13 +639,18 @@ function parseDecisionTrees(fm: Record<string, unknown>, sourcePath: string): Tr
   const configs: TreeConfig[] = [];
   for (const entry of raw) {
     if (!isRecord(entry) || typeof entry.id !== 'string' || !isRecord(entry.leaves)) {
-      console.warn(`Decision-tree warning: ${sourcePath}: entry needs an id and a leaves map — ignored`);
+      console.warn(
+        `Decision-tree warning: ${sourcePath}: entry needs an id and a leaves map — ignored`,
+      );
       continue;
     }
     const leaves: Record<string, string> = {};
     for (const [label, slug] of Object.entries(entry.leaves)) {
       if (typeof slug === 'string' && slug.length > 0) leaves[label] = slug;
-      else console.warn(`Decision-tree warning: ${sourcePath}: leaf "${label}" needs a slug — ignored`);
+      else
+        console.warn(
+          `Decision-tree warning: ${sourcePath}: leaf "${label}" needs a slug — ignored`,
+        );
     }
     const chartIndexRaw = entry['chart-index'];
     configs.push({
@@ -772,7 +847,11 @@ for (const filePath of patternMdxFiles) {
   // the canonical slug, route, graph node ID, and inter-page link target all at once.
   // Classification (activity level, lifecycle, domain, …) lives in frontmatter facets,
   // not in folders — see docs/specs/pattern-site.md.
-  const id = filePath.slice(patternsContentDir.length + 1).replace(/\.mdx$/, '').split('/').pop()!;
+  const id = filePath
+    .slice(patternsContentDir.length + 1)
+    .replace(/\.mdx$/, '')
+    .split('/')
+    .pop()!;
 
   const roleValue = typeof fm.role === 'string' ? fm.role : undefined;
   const role: Role | undefined = roleValue && isRole(roleValue) ? roleValue : undefined;
@@ -806,7 +885,9 @@ for (const filePath of patternMdxFiles) {
   if (Array.isArray(fm.realised_by)) {
     realisedBy = fm.realised_by.filter((v): v is string => typeof v === 'string');
     if (realisedBy.length !== fm.realised_by.length) {
-      console.warn(`Realisation warning: ${filePath}: realised_by entries must be Storybook docs-id strings — non-strings ignored`);
+      console.warn(
+        `Realisation warning: ${filePath}: realised_by entries must be Storybook docs-id strings — non-strings ignored`,
+      );
     }
     if (realisedBy.length > 0) node.realisedBy = realisedBy;
   }
@@ -846,8 +927,10 @@ function addEdge(edge: Edge) {
     // `B follows A`), each note serving the reader arriving from that side.
     // Fill an empty note slot; never overwrite an authored one.
     if (edge.label !== undefined && existing.label === undefined) existing.label = edge.label;
-    if (edge.incomingNote !== undefined && existing.incomingNote === undefined) existing.incomingNote = edge.incomingNote;
-    if (edge.situation !== undefined && existing.situation === undefined) existing.situation = edge.situation;
+    if (edge.incomingNote !== undefined && existing.incomingNote === undefined)
+      existing.incomingNote = edge.incomingNote;
+    if (edge.situation !== undefined && existing.situation === undefined)
+      existing.situation = edge.situation;
     return;
   }
   edgeMap.set(key, edge);
@@ -859,7 +942,9 @@ for (const [sourceId, links] of fileLinks.entries()) {
       // Authored links to unknown targets are typos or claims aimed outside
       // the graph (e.g. a component id in `relationships:` — realisation
       // claims belong in frontmatter `realised_by`).
-      console.warn(`Relationships warning: ${sourceId}: ${link.type} target "${link.target}" names no known pattern — no edge emitted`);
+      console.warn(
+        `Relationships warning: ${sourceId}: ${link.type} target "${link.target}" names no known pattern — no edge emitted`,
+      );
       continue;
     }
     if (sourceId === link.target) continue;
@@ -895,11 +980,18 @@ for (const edge of edgeMap.values()) {
     edgesByEndpoint.set(id, list);
   }
 }
-function glossFromProse(situation: NodeSituation & { resulting: string }, other: string): { sentence: string; field: 'resulting' | 'initiating' } | undefined {
+function glossFromProse(
+  situation: NodeSituation & { resulting: string },
+  other: string,
+): { sentence: string; field: 'resulting' | 'initiating' } | undefined {
   const fromResulting = sentenceLinking(situation.resulting, other);
   if (fromResulting !== undefined) return { sentence: fromResulting, field: 'resulting' };
-  const fromInitiating = situation.initiating ? sentenceLinking(situation.initiating, other) : undefined;
-  return fromInitiating !== undefined ? { sentence: fromInitiating, field: 'initiating' } : undefined;
+  const fromInitiating = situation.initiating
+    ? sentenceLinking(situation.initiating, other)
+    : undefined;
+  return fromInitiating !== undefined
+    ? { sentence: fromInitiating, field: 'initiating' }
+    : undefined;
 }
 for (const end of ['source', 'target'] as const) {
   for (const node of nodeMap.values()) {
@@ -909,7 +1001,8 @@ for (const end of ['source', 'target'] as const) {
       if (edge[end] !== node.id) continue;
       // A `sets-up` clause carries no `glossFrom` and is the source's.
       const glossedEnd = edge.glossFrom?.split(':')[0] ?? 'source';
-      if (edge.situation !== undefined && (glossedEnd === end || edge.farSituation !== undefined)) continue;
+      if (edge.situation !== undefined && (glossedEnd === end || edge.farSituation !== undefined))
+        continue;
       const other = end === 'source' ? edge.target : edge.source;
       const gloss = glossFromProse(situation, other);
       if (gloss === undefined) continue;
@@ -935,13 +1028,17 @@ for (const node of nodeMap.values()) {
   for (const clause of resulting) {
     for (const target of clause.setsUp ?? []) {
       if (!nodeMap.has(target)) {
-        console.warn(`Situation warning: ${node.id}: sets-up "${target}" names no known pattern — no edge emitted`);
+        console.warn(
+          `Situation warning: ${node.id}: sets-up "${target}" names no known pattern — no edge emitted`,
+        );
         continue;
       }
       if (target === node.id) continue;
       const key = `${node.id}|${target}|precedes`;
       if (edgeMap.has(key)) {
-        console.warn(`Situation warning: ${node.id} precedes ${target} is declared in relationships and emitted by a sets-up clause — author the pair only in the clause`);
+        console.warn(
+          `Situation warning: ${node.id} precedes ${target} is declared in relationships and emitted by a sets-up clause — author the pair only in the clause`,
+        );
       }
       addEdge({
         source: node.id,
@@ -1003,7 +1100,8 @@ const doubleTypedPairs: string[] = [];
   }
   for (const [pair, types] of typesByPair) {
     const symmetric = [...types].filter((t) => SYMMETRIC_TYPES.has(t));
-    if (symmetric.length && symmetric.length < types.size) doubleTypedPairs.push(`${pair}: ${[...types].join(', ')}`);
+    if (symmetric.length && symmetric.length < types.size)
+      doubleTypedPairs.push(`${pair}: ${[...types].join(', ')}`);
   }
 }
 const mixedSentenceFindings: string[] = [];
@@ -1069,9 +1167,9 @@ writeFileSync(activityLevelsPath, JSON.stringify(activityLevelsOutput, null, 2))
 // Coarse altitude proxy from the derived category: activities > actions >
 // operations. Foundations and Qualities are cross-cutting and skipped.
 const ALTITUDE: Record<string, number> = {
-  'Activities': 3,
-  'Actions': 2,
-  'Operations': 1,
+  Activities: 3,
+  Actions: 2,
+  Operations: 1,
 };
 function altitudeOf(id: string): number | null {
   const cat = nodeMap.get(id)?.category;
@@ -1128,7 +1226,14 @@ const mixedClusterFindings: string[] = [];
 // both endpoints' pages, so a note naming neither endpoint binds to whichever
 // endpoint the reader is not on. `enacts` is exempt (quality pages render
 // nothing — there is no reverse reader); `recommends` carries hints, not notes.
-const VOICING_TYPES = new Set<string>(['precedes', 'enables', 'instantiates', 'surveys', 'hosts', 'serves']);
+const VOICING_TYPES = new Set<string>([
+  'precedes',
+  'enables',
+  'instantiates',
+  'surveys',
+  'hosts',
+  'serves',
+]);
 const VOICING_STOPWORDS = new Set(['and', 'the', 'for', 'with', 'from', 'into', 'over', 'not']);
 function nameTokens(id: string): string[] {
   const title = nodeMap.get(id)?.title ?? id;
@@ -1144,8 +1249,9 @@ for (const e of edges) {
   const note = (e.label ?? e.incomingNote)!;
   const noteLower = note.toLowerCase();
   // Prefix match absorbs inflection (searching/search, localization/localised).
-  const namesAnEndpoint = [...nameTokens(e.source), ...nameTokens(e.target)]
-    .some((w) => noteLower.includes(w.length > 5 ? w.slice(0, 5) : w));
+  const namesAnEndpoint = [...nameTokens(e.source), ...nameTokens(e.target)].some((w) =>
+    noteLower.includes(w.length > 5 ? w.slice(0, 5) : w),
+  );
   if (!namesAnEndpoint) voicingFindings.push(`${e.source} ${e.type} ${e.target}: "${note}"`);
 }
 
@@ -1156,12 +1262,29 @@ for (const e of edges) {
 // precision-biased: only phrasings that reliably contradicted the type in
 // past audits, checked on the mistype-prone directed types.
 const NOTE_TELLS: Array<{ claim: string; pattern: RegExp; conflicts: Set<string> }> = [
-  { claim: 'taxonomic', pattern: /\bbroader\b|\bkind of\b|\bform of\b|\bvariant of\b|\bspecialis|\bspecializ|\binstance of\b/, conflicts: new Set(['precedes', 'enables']) },
-  { claim: 'substitution', pattern: /\balternative\b|\binstead of\b/, conflicts: new Set(['precedes', 'enables', 'instantiates']) },
+  {
+    claim: 'taxonomic',
+    pattern:
+      /\bbroader\b|\bkind of\b|\bform of\b|\bvariant of\b|\bspecialis|\bspecializ|\binstance of\b/,
+    conflicts: new Set(['precedes', 'enables']),
+  },
+  {
+    claim: 'substitution',
+    pattern: /\balternative\b|\binstead of\b/,
+    conflicts: new Set(['precedes', 'enables', 'instantiates']),
+  },
   // Since `hosts` exists (2026-07-10), hosting phrasing on any other type is a candidate
   // mistype — the flagged notes are the standing queue for the hosting sweep.
-  { claim: 'hosting', pattern: /\bcontainer\b|\bcanvas\b|\bcommonly lives\b|\bcommonly appears\b|\bhost(s|ed|ing)?\b/, conflicts: new Set(['precedes', 'instantiates', 'enables', 'complements', 'related']) },
-  { claim: 'compositional', pattern: /\benablers?\b|\bcomposed of\b|\bconstituent\b|\bbuilding block\b/, conflicts: new Set(['precedes', 'instantiates']) },
+  {
+    claim: 'hosting',
+    pattern: /\bcontainer\b|\bcanvas\b|\bcommonly lives\b|\bcommonly appears\b|\bhost(s|ed|ing)?\b/,
+    conflicts: new Set(['precedes', 'instantiates', 'enables', 'complements', 'related']),
+  },
+  {
+    claim: 'compositional',
+    pattern: /\benablers?\b|\bcomposed of\b|\bconstituent\b|\bbuilding block\b/,
+    conflicts: new Set(['precedes', 'instantiates']),
+  },
 ];
 const noteTellFindings: string[] = [];
 for (const e of edges) {
@@ -1170,7 +1293,9 @@ for (const e of edges) {
     const noteLower = note.toLowerCase();
     for (const tell of NOTE_TELLS) {
       if (tell.conflicts.has(e.type) && tell.pattern.test(noteLower)) {
-        noteTellFindings.push(`${e.source} ${e.type} ${e.target}: ${tell.claim} phrasing — "${note}"`);
+        noteTellFindings.push(
+          `${e.source} ${e.type} ${e.target}: ${tell.claim} phrasing — "${note}"`,
+        );
       }
     }
   }
@@ -1210,41 +1335,61 @@ const invalidServesEdges = edges.filter((edge) => {
 
 console.log(`Nodes: ${nodes.length} (${taggedNodes} with tags)`);
 console.log(`Edges: ${edges.length}`);
-console.log(`  by type: ${Object.entries(typeCounts).sort((a, b) => b[1] - a[1]).map(([t, c]) => `${t}=${c}`).join(', ')}`);
+console.log(
+  `  by type: ${Object.entries(typeCounts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([t, c]) => `${t}=${c}`)
+    .join(', ')}`,
+);
 // `related` share is the vocabulary's retirement health dial (advisory): `related`
 // is where meaning goes when the types don't fit, so a rising share means the
 // vocabulary isn't carrying the corpus. See relationship-vocabulary.md §Retirement.
-console.log(`  related share: ${(100 * (typeCounts.related ?? 0) / edges.length).toFixed(1)}% (retirement health dial; baseline 25.3% at 2026-07-10)`);
+console.log(
+  `  related share: ${((100 * (typeCounts.related ?? 0)) / edges.length).toFixed(1)}% (retirement health dial; baseline 25.3% at 2026-07-10)`,
+);
 console.log(`Categories: ${[...new Set(nodes.map((n) => n.category))].sort().join(', ')}`);
-console.log(`Role coverage (processed sources): explicit=${sourceRoleCoverage.explicit}, inferred=${sourceRoleCoverage.inferred}, unset=${sourceRoleCoverage.unset}`);
-console.log(`Role coverage (emitted graph nodes): explicit=${graphRoleCoverage.explicit}, inferred=${graphRoleCoverage.inferred}, unset=${graphRoleCoverage.unset}`);
+console.log(
+  `Role coverage (processed sources): explicit=${sourceRoleCoverage.explicit}, inferred=${sourceRoleCoverage.inferred}, unset=${sourceRoleCoverage.unset}`,
+);
+console.log(
+  `Role coverage (emitted graph nodes): explicit=${graphRoleCoverage.explicit}, inferred=${graphRoleCoverage.inferred}, unset=${graphRoleCoverage.unset}`,
+);
 if (invalidSurveyEdges.length > 0) {
-  console.warn(`Collection role warning: ${invalidSurveyEdges.length} surveys edge(s) have a non-collection source`);
+  console.warn(
+    `Collection role warning: ${invalidSurveyEdges.length} surveys edge(s) have a non-collection source`,
+  );
 }
 if (invalidServesEdges.length > 0) {
-  console.warn(`Serves role warning: ${invalidServesEdges.length} serves edge(s) violate pattern → foundation (I10)`);
+  console.warn(
+    `Serves role warning: ${invalidServesEdges.length} serves edge(s) violate pattern → foundation (I10)`,
+  );
   for (const e of invalidServesEdges) console.warn(`  ${e.source} serves ${e.target}`);
 }
 if (recommendsCollection.resolvedByTree.size > 0) {
   console.log(`Decision-tree extraction:`);
   for (const [tree, count] of recommendsCollection.resolvedByTree) {
     const skipped = recommendsCollection.unresolvedLeaves.get(tree);
-    const skippedNote = skipped && skipped.size > 0
-      ? ` (skipped leaves: ${[...skipped].map((l) => `"${l}"`).join(', ')})`
-      : '';
+    const skippedNote =
+      skipped && skipped.size > 0
+        ? ` (skipped leaves: ${[...skipped].map((l) => `"${l}"`).join(', ')})`
+        : '';
     console.log(`  ${tree}: ${count} recommends edge${count === 1 ? '' : 's'}${skippedNote}`);
   }
 }
 console.log(`Axis sanity check (advisory):`);
 console.log(`  same-altitude instantiates: ${sameAltitudeInstantiates}`);
 console.log(`  complements crossing 2 altitude bands: ${crossTwoBandsComplements}`);
-console.log(`  mixed part–whole clusters (enables + instantiates from one group): ${mixedClusterFindings.length}`);
+console.log(
+  `  mixed part–whole clusters (enables + instantiates from one group): ${mixedClusterFindings.length}`,
+);
 for (const finding of mixedClusterFindings) console.log(`    ${finding}`);
 console.log(`  single-noted directed edges naming neither endpoint: ${voicingFindings.length}`);
 for (const finding of voicingFindings) console.log(`    ${finding}`);
 console.log(`  note phrasings contradicting the stored type: ${noteTellFindings.length}`);
 for (const finding of noteTellFindings) console.log(`    ${finding}`);
-console.log(`  edges unspoken on shaped pages (situation.resulting as prose): ${unspokenFindings.length}`);
+console.log(
+  `  edges unspoken on shaped pages (situation.resulting as prose): ${unspokenFindings.length}`,
+);
 for (const finding of unspokenFindings) console.log(`    ${finding}`);
 console.log(`  pairs carrying a directed and a symmetric type: ${doubleTypedPairs.length}`);
 for (const finding of doubleTypedPairs) console.log(`    ${finding}`);

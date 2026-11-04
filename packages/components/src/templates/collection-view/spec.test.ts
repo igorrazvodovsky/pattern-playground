@@ -1,10 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  applySpecPatch,
-  isAxisMalleable,
-  makeSpec,
-  type ViewSpec,
-} from './spec.js';
+import { applySpecPatch, isAxisMalleable, makeSpec, type ViewSpec } from './spec.js';
 
 // A patch has three behaviours that look alike in the type and are not alike
 // at all: some sections merge into what is there, some replace it whole, and

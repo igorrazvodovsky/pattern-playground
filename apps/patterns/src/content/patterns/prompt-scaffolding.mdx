@@ -1,63 +1,82 @@
 ---
 title: Prompt scaffolding
 added: 2026-08-07
-updated:
+updated: 2026-10-29
 role: pattern
-seed: true
 evidence:
   - observed
-disclosure: "Seeded from looking at different AI pattern libraries and sorting them out. It’s not quite ready yet because I haven’t had a chance to consider it closely."
+  - literature
 activityLevel: action
+description: "Structuring an open prompt into labelled slots, configurable controls, or pre-submission checks when the actor does not yet have their intent in words and the relevant parameters can be anticipated in advance."
 situation:
   initiating: >-
-    open prompting assumes the actor knows what a good request contains; most don't, and
-    the blank box hides its own requirements — so requests go out underspecified and the
-    failures come back looking like the system's fault
-  resulting:
-    - >-
-      the request's expected shape is externalised — labelled fields, fillable slots,
-      controls — so completeness is inspectable before anything runs
-    - >-
-      structure narrows expression: what the scaffold doesn't ask for tends not to get said,
-      and the actor's stranger intents stop fitting the form
-    - >-
-      a scaffold encodes somebody's yesterday's idea of a good request, and keeps proposing
-      it until the encoding is revisited
+    … now the actor has reached the point of framing a [prompt](/patterns/prompt) in [delegating work](/sequences/delegating-work), but they do not yet have their intent formulated in words, and an empty input provides no structure for articulating what the task requires. Where the relevant questions are known in advance, prompt scaffolding gives the prompt explicit structure up front, turning anticipated parameters and criteria into inspectable slots and checks so the request is complete before it runs. Where the intent is exploratory or emergent and the questions cannot be anticipated, an [open request](/patterns/open-request) drawn out through conversation serves better.
+  resulting: >-
+    Break each parameter into a separate control, using [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set of options, criteria, or schemas. Check the request before it runs with [validation](/patterns/validation) to warn about missing parameters or underspecified instructions at the field that needs attention. Where starter values help illustrate the slots, offer them through [suggestion](/patterns/suggestion), but keep them light so they do not anchor the actor or narrow output diversity. When a scaffold requires several interdependent configuration steps, paginate the flow with a [wizard](/patterns/wizard). When a successful scaffold configuration recurs across tasks, save it as a [template](/patterns/template) with fillable slots. Occupying the structure enacts [learnability](/patterns/learnability) by showing the actor which dimensions a complete request needs, but structure narrows expression: what the scaffold omits tends not to get asked, and the form continues proposing past assumptions until its slots are revised. A scaffold is not a conventional [form](/patterns/form), which commits structured records to a fixed store rather than assembling a prompt for generative execution…
 relationships:
   instantiates:
-    - to: prompt
-      note: a structured way of composing the request — one end of the open-to-scaffolded spectrum
-    - to: template
-      note: the template pattern applied to requests
+    - prompt
+    - template
   composed-of:
-    - to: bounded-choice
-      note: each slot of the scaffold is an act of bounded choice over one part of the request
+    - bounded-choice
+    - validation
+  alternative:
+    - open-request
   complements:
-    - to: suggestion
-      note: starters and example prompts seed the scaffold's slots
+    - suggestion
   related:
-    - to: wizard
-      note: paginated scaffolds are the wizard applied to prompting
-    - to: form
-      note: at full structure the scaffold simply is a form whose output is a request
-    - to: validation
-      note: prompt-quality feedback is validation applied before the request runs
+    - wizard
+    - form
   enacts:
     - to: learnability
-      note: occupying the scaffold teaches what a good request contains
+      note: occupying the scaffold teaches which dimensions a complete request needs
 ---
-The open request is given structure — fields, slots, controls, quality feedback — so the actor composes a complete request without having to already know what completeness looks like.
 
-## Forms
+* * *
 
-Recurring forms along an abstraction ladder: example prompts and fill-in-the-blank passages, structured prompts with labelled fields, paginated composition, configured controls (tone, persona, parameters) replacing free text, and pre-submission quality feedback or enhancement.
+**People faced with an empty input box rarely have their intent already formulated in words: they know what they want to accomplish in rough terms, but leave critical criteria, boundaries, and contextual details unstated because an open field offers no cues to help them externalise tacit thought.**
+
+An open text field offers complete freedom of expression, but that freedom assumes the actor already has their intent formulated and merely needs to transcribe it. In practice, intent is often tacit, fragmented, or incomplete until external questions force a choice. Staring at a blank prompt, an actor struggles to anticipate which dimensions need deciding—such as the target audience, boundary conditions, governing standards, or reference sources—and leaves them out.
+
+One common case occurs when the task-required parameters and constraints are known in advance. In repetitive, high-constraint work—such as drafting compliance memos, extracting structured data, or adhering to standardised project rubrics—the questions that need answering can be predicted before the actor begins. In these cases, turning those questions into labelled slots, bounded controls, or pre-submission checks relieves the actor of having to remember and articulate the structure from scratch, preventing critical omissions before the request runs.
+
+However, static slots impose their own costs. Slot-based scaffolding pays off only when the structure of the problem is genuinely known ahead of time. On open reasoning, exploratory writing, or argumentative tasks, rigid slots constrain thinking and lead to worse results than free-form prose. Furthermore, pre-articulated suggestions can anchor actors prematurely, reducing the variety of solutions without improving quality. Structure also calcifies: a scaffold reflects its author's past assumptions about what an inquiry should consider, and it continues to enforce those conventions until redesigned.
+
+Therefore,
+
+**Break the prompt into visible, labelled slots for the questions and parameters known in advance, let the actor supply or select each part independently, and inspect the completeness of the request before it runs.**
+
+Apply scaffolding when the parameters of the task can be anticipated beforehand. Avoid rewriting or expanding the actor's prompt invisibly behind their back: if the system elaborates a request, it should present the additions as inspectable changes the actor can review or reject. Where the task is open-ended or the relevant questions cannot be predicted in advance, abandon static slots and let an [open request](/patterns/open-request) or [agent inquiry](/patterns/inquiry-agent) draw out missing details in conversation instead.
+
+<Demo spec="prompt-template" label="Prompt template" />
+
+## In practice
+
+### Pre-submission quality feedback
+
+Rather than segmenting the entire input into separate form fields, an interface can preserve an open prompt composer while evaluating the text against known criteria as the actor types. Quality feedback inspects the draft for completeness, missing context, and task constraints, offering non-blocking suggestions or warnings before the request runs.
+
+<Demo spec="prompt-quality-feedback" label="Prompt quality feedback" />
+
+### Configurable controls
+
+When specific task parameters recur across prompts—such as audience, scope, output format, or reference sources—bind them to dedicated controls beside the input rather than asking the actor to reconstruct them in prose every time.
+
+## Research on this pattern
+
+- *Intent reification and task boundaries*: [Xu, Ma & Chen (2026)](https://arxiv.org/abs/2604.19114) (*OOPrompt*) found that reifying intents into structured, slot-based prompt artifacts improves performance on repetitive, highly constrained, and hierarchical tasks, but fails on open reasoning or argumentative tasks where rigid slots restrict problem framing.
+- *Error reduction via pre-generation elicitation*: [Scott-Jackson (2026)](https://arxiv.org/abs/2610.09593) showed that structured pre-generation elicitation rescued underspecified prompts, reducing off-target model outputs from 34% to 5% at the cost of modest additional preparation time.
+- *Suggestions versus active inquiry*: [Maier, Schneider & Feuerriegel (2026)](https://arxiv.org/abs/2510.23324) demonstrated that while conversational model inquiry significantly raised the quality and diversity of user specifications, pre-articulated prompt suggestions reduced diversity without raising overall quality.
 
 ## Resources & references
 
-- [aiuxpatterns.com — Structured Prompt, Paginated Prompt, Cloze Passage, Configurable Controls, Prompt Quality Feedback](https://www.aiuxpatterns.com)
-- [Shape of AI — Templates, Madlibs, Prompt enhancer](https://www.shapeof.ai)
+- Xu, Ma & Chen (2026) [OOPrompt: Reifying Intents into Structured Artifacts](https://arxiv.org/abs/2604.19114)
+- Scott-Jackson (2026) [Structured Pre-Generation Elicitation Improves Strategy Quality in LLM-Assisted Work](https://arxiv.org/abs/2610.09593)
+- Maier, Schneider & Feuerriegel (2026) [Partnering with Generative AI](https://arxiv.org/abs/2510.23324)
+- [aiuxpatterns.com — Structured Prompt, Paginated Prompt, Configurable Controls, Prompt Quality Feedback](https://www.aiuxpatterns.com)
+- [Shape of AI — Templates, Prompt enhancer](https://www.shapeof.ai)
 - [AI UX Playground — Prompt Templates](https://www.aiuxplayground.com/pattern/prompt-templates), [Tone Sliders](https://www.aiuxplayground.com/pattern/tone-sliders), [Persona Selector](https://www.aiuxplayground.com/pattern/persona-selector)
 
 ## To-do
 
-[Prompt](/patterns/prompt) hosts stubs of this territory (structured prompt, quality feedback, templates); migrate them here as this matures. The novice↔expert fit that aiuxpatterns.com tracks per pattern is a contextual variable worth keeping.
+- Observe how prompt scaffolding behaves when combined with multi-turn agent execution compared to single-shot generation.

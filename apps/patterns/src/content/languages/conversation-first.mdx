@@ -1,0 +1,47 @@
+---
+title: 'Conversation-first'
+added: 2026-10-28
+updated:
+description: 'An artifact whose main surface is a conversation with an agent, where the actor asks, the agent answers or acts, and the exchange is the place the work happens.'
+patterns:
+  - tool-ecology
+  - information-environment
+  - conversation
+  - capability-and-scope
+  - agent-opening
+  - user-opening
+  - inquiry-user
+  - open-request
+  - inquiry-agent
+  - prompt-scaffolding
+  - extended-telling
+  - inline-interface
+  - plan-preview
+  - inline-confirmation
+  - agent-repair
+  - user-repair
+  - abort
+  - sequence-completion
+  - closing
+  - disengage-without-closing
+  - citation
+  - expressed-uncertainty
+  - provenance-marking
+  - selective-memory
+  - undo
+gaps:
+  - name: 'Waiting for generated output'
+    note: 'Showing an answer as it arrives and what is still to come, so the actor can read early, stop it, or move on.'
+  - name: 'Rating the output'
+    note: 'Letting the actor say an answer was good or bad, and telling them where that signal goes and what it changes.'
+  - name: 'Branching a conversation'
+    note: 'Editing an earlier turn or retrying from it, so the exchange forks and the actor can move between the branches.'
+  - name: 'Showing what the agent can see'
+    note: 'Making visible the files, history and memory a turn draws on beyond what the actor attached, so the actor can add to it or take things out.'
+---
+
+A conversation-first artifact puts a conversation with an agent at its centre. The actor arrives with a question, a goal or something loose, and the agent answers, asks, or acts from inside the exchange. Other surfaces, such as a document or a form, appear within the conversation or open beside it.
+
+The patterns run from what the agent can do and how an exchange opens, through carrying each kind of request, checking before consequential acts, and recovering when the exchange breaks, to how it ends or pauses and what the agent keeps from it.
+
+The starter leaves out work the agent runs without the actor watching, which is the delegated agent's, and the gradual climb of assistance inside other surfaces, which is the assistance escalation sequence's.

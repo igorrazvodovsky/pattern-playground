@@ -30,7 +30,12 @@ const componentsDir = resolve(root, 'packages/components');
 export const OUTPUT = resolve(componentsDir, 'src/icons/iconoteka.generated.json');
 export const PREFIX = 'ik';
 
-const SOURCE_DIRS = ['packages/components/src', 'packages/components/.storybook', 'apps/patterns/src', 'shared'];
+const SOURCE_DIRS = [
+  'packages/components/src',
+  'packages/components/.storybook',
+  'apps/patterns/src',
+  'shared',
+];
 const SOURCE_FILE = /\.(ts|tsx|js|mjs|json|md|mdx|astro|html)$/;
 const WEIGHT_SUFFIX = /-(thin|ultralight|light|medium|semibold|bold)$/;
 const NAME = new RegExp(`(?<![\\w-])${PREFIX}:([a-z0-9]+(?:-[a-z0-9]+)*)`, 'g');
@@ -63,7 +68,9 @@ function iconoteka(): { meta: { version: string }; icons: IconotekaIcon[] } {
 /** The Iconify collection for `names`, and the names Iconoteka can't supply. */
 export function buildCollection(names = [...usedNames().keys()]) {
   const data = iconoteka();
-  const byName = new Map(data.icons.map((icon) => [icon.displayName.toLowerCase().replaceAll('_', '-'), icon]));
+  const byName = new Map(
+    data.icons.map((icon) => [icon.displayName.toLowerCase().replaceAll('_', '-'), icon]),
+  );
   const icons: Record<string, { body: string }> = {};
   const missing: string[] = [];
   for (const name of names) {
@@ -74,7 +81,10 @@ export function buildCollection(names = [...usedNames().keys()]) {
     const suffix = base.match(WEIGHT_SUFFIX);
     if (suffix && !byName.has(base)) [base, weight] = [base.slice(0, suffix.index), suffix[1]];
     const variants = byName.get(base)?.variants;
-    const path = style === 'fill' ? (variants?.[weight]?.fill ?? variants?.thin?.fill) : variants?.[weight]?.stroke;
+    const path =
+      style === 'fill'
+        ? (variants?.[weight]?.fill ?? variants?.thin?.fill)
+        : variants?.[weight]?.stroke;
     if (path) icons[name] = { body: `<path d="${path}" fill="currentColor"/>` };
     else missing.push(name);
   }
@@ -97,17 +107,23 @@ export function buildCollection(names = [...usedNames().keys()]) {
 export function serialise(collection: ReturnType<typeof buildCollection>['collection']) {
   const { icons, ...rest } = collection;
   const head = JSON.stringify(rest).slice(0, -1);
-  const lines = Object.entries(icons).map(([name, icon]) => `  ${JSON.stringify(name)}: ${JSON.stringify(icon)}`);
+  const lines = Object.entries(icons).map(
+    ([name, icon]) => `  ${JSON.stringify(name)}: ${JSON.stringify(icon)}`,
+  );
   return `${head},"icons":{\n${lines.join(',\n')}\n}}\n`;
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const { collection, missing } = buildCollection();
   if (missing.length) {
-    console.error(`Iconoteka has no icon for: ${missing.map((name) => `${PREFIX}:${name}`).join(', ')}`);
+    console.error(
+      `Iconoteka has no icon for: ${missing.map((name) => `${PREFIX}:${name}`).join(', ')}`,
+    );
     process.exit(1);
   }
   const json = serialise(collection);
   writeFileSync(OUTPUT, json);
-  console.log(`Wrote ${OUTPUT} (${Object.keys(collection.icons).length} icons, ${(json.length / 1024).toFixed(1)} KB)`);
+  console.log(
+    `Wrote ${OUTPUT} (${Object.keys(collection.icons).length} icons, ${(json.length / 1024).toFixed(1)} KB)`,
+  );
 }

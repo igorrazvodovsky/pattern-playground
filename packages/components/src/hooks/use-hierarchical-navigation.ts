@@ -8,12 +8,15 @@ import type {
 
 export type { SearchableParent, SearchableItem, HierarchicalSearchResults };
 
-export interface HierarchicalNavigationConfig<TParent extends SearchableParent, TChild extends SearchableItem> {
+export interface HierarchicalNavigationConfig<
+  TParent extends SearchableParent,
+  TChild extends SearchableItem,
+> {
   data: TParent[];
   searchFunction: (
-    input: string, 
-    data: TParent[], 
-    context?: TParent
+    input: string,
+    data: TParent[],
+    context?: TParent,
   ) => HierarchicalSearchResults<TParent, TChild>;
   onSelectParent?: (parent: TParent) => void;
   onSelectChild: (child: TChild, parent?: TParent) => void;
@@ -28,7 +31,10 @@ export interface HierarchicalNavigationState<TParent extends SearchableParent> {
   mode: 'global' | 'contextual';
 }
 
-export interface HierarchicalNavigationActions<TParent extends SearchableParent, TChild extends SearchableItem> {
+export interface HierarchicalNavigationActions<
+  TParent extends SearchableParent,
+  TChild extends SearchableItem,
+> {
   selectContext: (context: TParent) => void;
   selectChild: (child: TChild, parent?: TParent) => void;
   clearContext: () => void;
@@ -41,8 +47,11 @@ export interface HierarchicalNavigationActions<TParent extends SearchableParent,
  * Unified hierarchical navigation hook used by Command Menu, Filtering, and References
  * Provides consistent dual-mode operation: global search vs contextual search
  */
-export function useHierarchicalNavigation<TParent extends SearchableParent, TChild extends SearchableItem>(
-  config: HierarchicalNavigationConfig<TParent, TChild>
+export function useHierarchicalNavigation<
+  TParent extends SearchableParent,
+  TChild extends SearchableItem,
+>(
+  config: HierarchicalNavigationConfig<TParent, TChild>,
 ): {
   state: HierarchicalNavigationState<TParent>;
   actions: HierarchicalNavigationActions<TParent, TChild>;
@@ -51,8 +60,8 @@ export function useHierarchicalNavigation<TParent extends SearchableParent, TChi
   placeholder: string;
 } {
   const [selectedContext, setSelectedContext] = useState<TParent | null>(null);
-  const [searchInput, setSearchInput] = useState("");
-  const [debouncedSearchInput, setDebouncedSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState('');
+  const [debouncedSearchInput, setDebouncedSearchInput] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -72,11 +81,11 @@ export function useHierarchicalNavigation<TParent extends SearchableParent, TChi
     if (debounceTimeoutRef.current) {
       clearTimeout(debounceTimeoutRef.current);
     }
-    
+
     debounceTimeoutRef.current = setTimeout(() => {
       setDebouncedSearchInput(searchInput);
     }, 300);
-    
+
     return () => {
       if (debounceTimeoutRef.current) {
         clearTimeout(debounceTimeoutRef.current);
@@ -87,11 +96,13 @@ export function useHierarchicalNavigation<TParent extends SearchableParent, TChi
   const results = useMemo(() => {
     const { searchFunction } = configRef.current;
     if (selectedContext) {
-      const contextualItems = searchFunction(debouncedSearchInput, [selectedContext], selectedContext).contextualItems || [];
+      const contextualItems =
+        searchFunction(debouncedSearchInput, [selectedContext], selectedContext).contextualItems ||
+        [];
       return {
         parents: [],
         children: [],
-        contextualItems
+        contextualItems,
       };
     } else {
       return searchFunction(debouncedSearchInput, data);
@@ -100,26 +111,29 @@ export function useHierarchicalNavigation<TParent extends SearchableParent, TChi
 
   const selectContext = useCallback((context: TParent) => {
     setSelectedContext(context);
-    setSearchInput("");
-    setDebouncedSearchInput("");
+    setSearchInput('');
+    setDebouncedSearchInput('');
     configRef.current.onSelectParent?.(context);
     // Focus input after state update
     setTimeout(() => inputRef.current?.focus(), 0);
   }, []);
 
-  const selectChild = useCallback((child: TChild, parent?: TParent) => {
-    configRef.current.onSelectChild(child, parent || selectedContext || undefined);
-    // Reset state after selection (can be overridden by caller)
-    setSelectedContext(null);
-    setSearchInput("");
-    setDebouncedSearchInput("");
-    configRef.current.onClose?.();
-  }, [selectedContext]);
+  const selectChild = useCallback(
+    (child: TChild, parent?: TParent) => {
+      configRef.current.onSelectChild(child, parent || selectedContext || undefined);
+      // Reset state after selection (can be overridden by caller)
+      setSelectedContext(null);
+      setSearchInput('');
+      setDebouncedSearchInput('');
+      configRef.current.onClose?.();
+    },
+    [selectedContext],
+  );
 
   const clearContext = useCallback(() => {
     setSelectedContext(null);
-    setSearchInput("");
-    setDebouncedSearchInput("");
+    setSearchInput('');
+    setDebouncedSearchInput('');
     setTimeout(() => inputRef.current?.focus(), 0);
   }, []);
 
@@ -138,13 +152,14 @@ export function useHierarchicalNavigation<TParent extends SearchableParent, TChi
 
   const resetState = useCallback(() => {
     setSelectedContext(null);
-    setSearchInput("");
-    setDebouncedSearchInput("");
+    setSearchInput('');
+    setDebouncedSearchInput('');
   }, []);
 
-  const placeholder = selectedContext && config.contextPlaceholder
-    ? config.contextPlaceholder(selectedContext)
-    : config.placeholder || "Search...";
+  const placeholder =
+    selectedContext && config.contextPlaceholder
+      ? config.contextPlaceholder(selectedContext)
+      : config.placeholder || 'Search...';
 
   // Focus input when component mounts
   useEffect(() => {
@@ -162,7 +177,7 @@ export function useHierarchicalNavigation<TParent extends SearchableParent, TChi
     state: {
       selectedContext,
       searchInput,
-      mode
+      mode,
     },
     actions: {
       selectContext,
@@ -170,10 +185,10 @@ export function useHierarchicalNavigation<TParent extends SearchableParent, TChi
       clearContext,
       updateSearch,
       handleEscape,
-      resetState
+      resetState,
     },
     results,
     inputRef,
-    placeholder
+    placeholder,
   };
 }

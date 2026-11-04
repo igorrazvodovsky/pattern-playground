@@ -27,7 +27,7 @@ const list = (value: unknown): unknown[] => (Array.isArray(value) ? value : []);
 const format = defineDirective({
   name: '$format',
   description:
-    'Format `value` in the actor\'s locale: as a `number`, a `compact` number (1.2k), a `percent` (the value is a ratio, 0.42 for 42%), an amount of `currency` (give its ISO code), a `date`, or a `relative` time (the value is a count of `unit`s from now, negative for the past).',
+    "Format `value` in the actor's locale: as a `number`, a `compact` number (1.2k), a `percent` (the value is a ratio, 0.42 for 42%), an amount of `currency` (give its ISO code), a `date`, or a `relative` time (the value is a count of `unit`s from now, negative for the past).",
   schema: z
     .object({
       $format: z.enum(['number', 'compact', 'percent', 'currency', 'date', 'relative']),
@@ -35,7 +35,10 @@ const format = defineDirective({
       currency: z.string().optional(),
       unit: z.enum(['second', 'minute', 'hour', 'day', 'week', 'month', 'year']).optional(),
     })
-    .refine(format => format.$format !== 'currency' || format.currency, { path: ['currency'], message: 'Name the currency' }),
+    .refine((format) => format.$format !== 'currency' || format.currency, {
+      path: ['currency'],
+      message: 'Name the currency',
+    }),
   resolve: (directive, ctx) => {
     const value = resolvePropValue(directive.value, ctx);
     if (value === null || value === undefined || value === '') return '';
@@ -64,7 +67,9 @@ const includes = defineDirective({
   description: 'True when the list holds `value`.',
   schema: z.object({ $includes: z.unknown(), value: z.unknown() }),
   resolve: (directive, ctx) =>
-    list(resolvePropValue(directive.$includes, ctx)).includes(resolvePropValue(directive.value, ctx)),
+    list(resolvePropValue(directive.$includes, ctx)).includes(
+      resolvePropValue(directive.value, ctx),
+    ),
 });
 
 const excludes = defineDirective({
@@ -72,7 +77,9 @@ const excludes = defineDirective({
   description: 'True when the list does not hold `value`.',
   schema: z.object({ $excludes: z.unknown(), value: z.unknown() }),
   resolve: (directive, ctx) =>
-    !list(resolvePropValue(directive.$excludes, ctx)).includes(resolvePropValue(directive.value, ctx)),
+    !list(resolvePropValue(directive.$excludes, ctx)).includes(
+      resolvePropValue(directive.value, ctx),
+    ),
 });
 
 const toggleIn = defineDirective({
@@ -83,7 +90,7 @@ const toggleIn = defineDirective({
   resolve: (directive, ctx) => {
     const current = list(resolvePropValue(directive.$toggleIn, ctx));
     const value = resolvePropValue(directive.value, ctx);
-    return current.includes(value) ? current.filter(each => each !== value) : [...current, value];
+    return current.includes(value) ? current.filter((each) => each !== value) : [...current, value];
   },
 });
 

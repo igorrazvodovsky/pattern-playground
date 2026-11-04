@@ -22,7 +22,9 @@
       "type": "Message",
       "props": {
         "from": "other",
-        "parts": ["Standard message input handles everything that would be handled by input and textarea elements. E.g.: What's your name?"]
+        "parts": [
+          "Standard message input handles everything that would be handled by input and textarea elements. E.g.: What's your name?"
+        ]
       }
     },
     "name": {
@@ -34,7 +36,9 @@
       "type": "Message",
       "props": {
         "from": "other",
-        "parts": ["Single and multiple selections can be handled using the appropriate controls. E.g.: What do you want to do today?"]
+        "parts": [
+          "Single and multiple selections can be handled using the appropriate controls. E.g.: What do you want to do today?"
+        ]
       }
     },
     "plans": {
@@ -117,7 +121,12 @@
     },
     "think": {
       "type": "Button",
-      "props": { "label": "Think it through", "icon": "reasoning", "hideLabel": true, "variant": "plain" }
+      "props": {
+        "label": "Think it through",
+        "icon": "reasoning",
+        "hideLabel": true,
+        "variant": "plain"
+      }
     },
     "attach": {
       "type": "Button",

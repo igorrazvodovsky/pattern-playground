@@ -1,4 +1,6 @@
 import type { EntityBinding } from './types';
+import { componentBinding } from './component';
+import { materialBinding } from './material';
 import { productBinding } from './product';
 import { projectBinding } from './project';
 import { taskBinding } from './task';
@@ -22,6 +24,7 @@ export { attributeIcons } from './types';
 export {
   getValueAtPath,
   deriveAttributeLabel,
+  attributeLabel,
   attributeLabelFromBinding,
   findAttribute,
   resolveAttributeSelection,
@@ -30,6 +33,10 @@ export {
   formatBoundValue,
   resolveEntityTitle,
 } from './access';
+
+export type { ItemLayout, LaidOutBadge, LaidOutPair, LaidOutText } from './layout';
+
+export { isPlainRecord, layoutByRole } from './layout';
 
 export type { AttributeFilter, FilterOperator } from './filtering';
 
@@ -42,6 +49,8 @@ export {
 } from './filtering';
 
 export {
+  componentBinding,
+  materialBinding,
   productBinding,
   projectBinding,
   taskBinding,
@@ -52,6 +61,8 @@ export {
 
 /** Every entity binding, keyed by entity type. */
 export const bindings: Record<string, EntityBinding> = {
+  component: componentBinding,
+  material: materialBinding,
   product: productBinding,
   project: projectBinding,
   task: taskBinding,

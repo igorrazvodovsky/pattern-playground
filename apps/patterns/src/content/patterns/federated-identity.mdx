@@ -1,0 +1,61 @@
+---
+title: Federated identity
+added: 2026-10-31
+updated: 2026-11-03
+role: pattern
+activityLevel: operation
+mediation: individual
+evidence:
+  - observed
+  - literature
+acts_on:
+  - signing-in
+situation:
+  initiating: >-
+    … the actor is creating an account or returning to sign in through [account access](/patterns/account-access), and already holds a trusted, verified identity with an external provider such as Google, Apple, enterprise SSO, or other  identification system. Signing in through that provider spares them creating a [password](/patterns/password) for one more artifact.
+  resulting: >-
+    The actor authenticates with a single gesture through their existing provider, without creating or maintaining standalone credentials. Where the actor prefers direct communication tokens without third-party platform coupling, [passwordless access](/patterns/passwordless-access) provides the alternative…
+relationships:
+  enables:
+    - account-access
+  alternative:
+    - passwordless-access
+  enacts:
+    - to: agency
+      note: lets the actor choose an existing trusted identity provider rather than creating redundant credentials
+    - to: shareability
+      note: connects the actor's workspace identity to standard cross-platform identity tokens
+---
+
+* * *
+
+**Creating new credentials for every artifact is tedious and increases security risks, but delegating identity to third parties introduces provider lock-in, tracking concerns, and account duplication when returning actors forget which provider they used.**
+
+### Forces
+
+- *Frictionless entry vs platform dependency*: one-click sign-in avoids password creation, but ties the actor's access to the standing of their third-party account and provider availability.
+- *Permission transparency vs quick onboarding*: actors hesitate when third-party sign-in dialogues request wide data access; interfaces that clearly disclose minimal required scopes build trust.
+- *Provider fragmentation*: returning actors frequently forget which provider they originally used, resulting in accidental duplicate accounts and fragmented state.
+
+Delegating identity assertion to an existing provider removes the cognitive friction of inventing new passwords and managing resets. It also leverages multi-factor authentication already configured on the provider account. However, third-party authentication fails when it is implemented as an unexamined collection of branded buttons without clear account reconciliation. When an actor who previously registered with an email later clicks "Sign in with Google" using that same email, treating them as a stranger spawns duplicate accounts and strands their previous work.
+
+Therefore,
+
+**Allow actors to assert identity via established external identity providers: request only essential scopes, state requested permissions clearly, and link accounts by verified email address to prevent duplicate accounts.**
+
+Keep the list of providers focused and relevant to the artifact's domain. When a returning actor authenticates with a provider that matches an existing verified email, merge the identities or prompt for confirmation rather than creating an isolated second profile.
+
+## In practice
+
+### Scope disclosure
+
+Request only the minimal identity scopes necessary for authentication: the verified email address and basic profile identifier. State clearly beside the provider buttons what the artifact will and will not access.
+
+### Account reconciliation
+
+When an incoming provider token carries an email address that matches an existing registered account, reconcile them gracefully. If the existing account uses a password, prompt the actor to sign in with their password once to link the Google or GitHub identity permanently, rather than silently failing or overwriting the profile.
+
+## Resources & references
+
+- [UI Patterns: Social Login](https://ui-patterns.com/patterns/SocialLogin)
+- Vitaly Friedman (2022). [Authentication UX Design Guidelines](https://www.smashingmagazine.com/2022/08/authentication-ux-design-guidelines/)

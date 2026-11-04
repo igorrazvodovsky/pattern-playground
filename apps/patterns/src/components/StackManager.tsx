@@ -1,5 +1,11 @@
 import React, { memo, useEffect, useRef } from 'react';
-import { findOpenPane, singlePaneQuery, stackablePath, useStackStore, type Pane } from '../lib/stack-store';
+import {
+  findOpenPane,
+  singlePaneQuery,
+  stackablePath,
+  useStackStore,
+  type Pane,
+} from '../lib/stack-store';
 import { addDescribedBy, removeDescribedBy } from '../lib/describedby';
 import { PANE_LABEL, panePath, paneIndexOf, paneKindOf } from '../lib/pane-path';
 import { mountDemos, unmountDetachedDemos } from '../lib/demo-registry';
@@ -68,7 +74,10 @@ function scrollToPane(stackEl: HTMLElement, paneIndex: number) {
 // it may be percent-encoded, start with a digit, or be malformed.
 function findAnchor(paneEl: HTMLElement | null | undefined, hash: string): HTMLElement | null {
   try {
-    return paneEl?.querySelector<HTMLElement>(`#${CSS.escape(decodeURIComponent(hash.slice(1)))}`) ?? null;
+    return (
+      paneEl?.querySelector<HTMLElement>(`#${CSS.escape(decodeURIComponent(hash.slice(1)))}`) ??
+      null
+    );
   } catch {
     return null;
   }
@@ -79,7 +88,11 @@ function findAnchor(paneEl: HTMLElement | null | undefined, hash: string): HTMLE
 // scrollIntoView would.
 function scrollBodyTo(paneBody: HTMLElement, target: HTMLElement, behavior: ScrollBehavior) {
   const margin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
-  const top = target.getBoundingClientRect().top - paneBody.getBoundingClientRect().top + paneBody.scrollTop - margin;
+  const top =
+    target.getBoundingClientRect().top -
+    paneBody.getBoundingClientRect().top +
+    paneBody.scrollTop -
+    margin;
   paneBody.scrollTo({ top, behavior });
 }
 
@@ -124,8 +137,20 @@ function markOpenLinks(stackEl: HTMLElement, panes: Pane[]) {
 // React 19 compares the dangerouslySetInnerHTML object by identity, so an
 // unmemoised article would have its HTML rewritten on every StackManager
 // render, wiping mounted demos, link marks, and anything else scripts added.
-const PaneArticle = memo(function PaneArticle({ html, pageType }: { html: string; pageType?: string }) {
-  return <article className="pane-article" data-page-type={pageType} dangerouslySetInnerHTML={{ __html: html }} />;
+const PaneArticle = memo(function PaneArticle({
+  html,
+  pageType,
+}: {
+  html: string;
+  pageType?: string;
+}) {
+  return (
+    <article
+      className="pane-article"
+      data-page-type={pageType}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
 });
 
 // Markup twin of the static pane-0 spine in Base.astro. No click handler: every
@@ -153,8 +178,7 @@ export function StackManager({ slug, title, path }: StackManagerProps) {
 
   // The hidden anchor (display:none, so inert to flex) is the island's stable
   // handle back to the .stack it lives in.
-  const getStack = () =>
-    anchorRef.current?.closest<HTMLElement>('.stack') ?? null;
+  const getStack = () => anchorRef.current?.closest<HTMLElement>('.stack') ?? null;
 
   const path0 = path ?? panePath('pattern', slug);
 
@@ -212,7 +236,8 @@ export function StackManager({ slug, title, path }: StackManagerProps) {
     if (paneBody && target) scrollBodyTo(paneBody, target, 'smooth');
     const focusEl = target ?? paneEl?.querySelector<HTMLElement>('h1');
     if (!focusEl) return;
-    if (!focusEl.matches('a[href], button, input, select, textarea, [tabindex]')) focusEl.tabIndex = -1;
+    if (!focusEl.matches('a[href], button, input, select, textarea, [tabindex]'))
+      focusEl.tabIndex = -1;
     // preventScroll: a focus scroll would cancel the smooth scrolls above.
     focusEl.focus({ preventScroll: true });
   }, [reveal]);
@@ -237,13 +262,16 @@ export function StackManager({ slug, title, path }: StackManagerProps) {
     const stackEl = getStack();
     if (!stackEl) return;
     const clear = () => {
-      for (const el of stackEl.querySelectorAll('[data-link-target]')) el.removeAttribute('data-link-target');
+      for (const el of stackEl.querySelectorAll('[data-link-target]'))
+        el.removeAttribute('data-link-target');
     };
     const onEnter = (event: Event) => {
       const anchor = (event.target as Element).closest?.<HTMLAnchorElement>('a[data-in-stack]');
       if (!anchor) return;
       clear();
-      stackEl.querySelector(`[data-pane-index="${anchor.dataset.inStackPane}"]`)?.setAttribute('data-link-target', '');
+      stackEl
+        .querySelector(`[data-pane-index="${anchor.dataset.inStackPane}"]`)
+        ?.setAttribute('data-link-target', '');
     };
     const onLeave = (event: Event) => {
       if ((event.target as Element).closest?.('a[data-in-stack]')) clear();
@@ -336,7 +364,9 @@ export function StackManager({ slug, title, path }: StackManagerProps) {
   return (
     <>
       <span ref={anchorRef} hidden data-stack-anchor=""></span>
-      <span id={OPEN_DESC_ID} hidden>Already open</span>
+      <span id={OPEN_DESC_ID} hidden>
+        Already open
+      </span>
       {panes.slice(1).map((pane, i) => {
         const paneIndex = i + 1;
         const isActive = paneIndex === activeIndex;
@@ -364,9 +394,7 @@ export function StackManager({ slug, title, path }: StackManagerProps) {
                   <p>Failed to load {kind.toLowerCase()}.</p>
                 </article>
               )}
-              {pane.status === 'ready' && (
-                <PaneArticle html={pane.html} pageType={pane.pageType} />
-              )}
+              {pane.status === 'ready' && <PaneArticle html={pane.html} pageType={pane.pageType} />}
             </div>
           </section>
         );

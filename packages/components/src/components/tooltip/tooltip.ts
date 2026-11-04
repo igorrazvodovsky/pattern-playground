@@ -4,6 +4,8 @@ import { Elena } from '@elenajs/core';
 import { waitForEvent } from '../../utility/event.js';
 import { PpPopup } from '../popup/popup.js';
 
+let tooltipCount = 0;
+
 /**
  * @summary Tooltips display additional information based on a specific action.
  * @status draft
@@ -15,6 +17,9 @@ import { PpPopup } from '../popup/popup.js';
  * target; the element builds the `pp-popup` + body it owns imperatively once
  * and writes the `content` attribute into the body as text. No template —
  * reactive updates push configuration onto the owned popup in `updated()`.
+ * The target is described by the body through `aria-describedby`, so the note
+ * is read on focus whether or not the tooltip is showing. A disabled tooltip
+ * describes nothing, and a replaced target is described in its place.
  * Styles: `src/styles/tooltip.css`.
  *
  * @event pp-show - Emitted when the tooltip begins to show.
@@ -75,6 +80,10 @@ export class PpTooltip extends Elena(HTMLElement) {
   private popup!: PpPopup;
   private body!: HTMLElement;
 
+  /** The element whose `aria-describedby` currently holds the body's id. */
+  private described: HTMLElement | null = null;
+  private targetObserver = new MutationObserver(() => this.syncTarget());
+
   // Elena's updated() carries no changed-props map; previous values live here,
   // seeded in firstUpdated() so handlers only run on later changes.
   private prevOpen?: boolean;
@@ -83,12 +92,17 @@ export class PpTooltip extends Elena(HTMLElement) {
 
   /** The author's target element: the first element child the component doesn't own. */
   get target(): HTMLElement | null {
-    return ([...this.children] as HTMLElement[]).find(el => el.tagName.toLowerCase() !== 'pp-popup') ?? null;
+    return (
+      ([...this.children] as HTMLElement[]).find((el) => el.tagName.toLowerCase() !== 'pp-popup') ??
+      null
+    );
   }
 
   connectedCallback() {
     this.buildOwnedSubtree();
     super.connectedCallback();
+    this.syncTarget();
+    this.targetObserver.observe(this, { childList: true });
     this.addEventListener('blur', this.handleBlur, true);
     this.addEventListener('focus', this.handleFocus, true);
     this.addEventListener('click', this.handleClick);
@@ -98,6 +112,8 @@ export class PpTooltip extends Elena(HTMLElement) {
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    this.targetObserver.disconnect();
+    this.undescribe();
     this.removeEventListener('blur', this.handleBlur, true);
     this.removeEventListener('focus', this.handleFocus, true);
     this.removeEventListener('click', this.handleClick);
@@ -110,20 +126,49 @@ export class PpTooltip extends Elena(HTMLElement) {
 
   private buildOwnedSubtree() {
     if (this.popup) return;
-    // aria-live is used instead of aria-labelledby to trick screen readers into announcing the content.
     this.body = document.createElement('div');
+    this.body.id = `pp-tooltip-${++tooltipCount}`;
     this.body.className = 'tooltip__body';
     this.body.setAttribute('role', 'tooltip');
-    this.body.setAttribute('aria-live', 'off');
     this.body.hidden = true;
     this.popup = document.createElement('pp-popup') as PpPopup;
     this.popup.append(this.body);
     this.append(this.popup);
   }
 
+  /**
+   * Points the popup at the current target and adds the body to the target's
+   * `aria-describedby`, keeping any ids the author set. Runs on connect, on
+   * every update, and whenever the children change.
+   */
+  private syncTarget() {
+    const target = this.target;
+    if (this.popup.anchor !== (target ?? '')) this.popup.anchor = target ?? '';
+    const next = this.disabled ? null : target;
+    if (next === this.described) return;
+    this.undescribe();
+    if (!next) return;
+    const ids = (next.getAttribute('aria-describedby') ?? '').split(/\s+/).filter(Boolean);
+    if (!ids.includes(this.body.id)) {
+      next.setAttribute('aria-describedby', [...ids, this.body.id].join(' '));
+    }
+    this.described = next;
+  }
+
+  private undescribe() {
+    const target = this.described;
+    this.described = null;
+    if (!target) return;
+    const ids = (target.getAttribute('aria-describedby') ?? '')
+      .split(/\s+/)
+      .filter((id) => id && id !== this.body.id);
+    if (ids.length) target.setAttribute('aria-describedby', ids.join(' '));
+    else target.removeAttribute('aria-describedby');
+  }
+
   firstUpdated() {
     this.body.hidden = !this.open;
-    this.popup.anchor = this.target ?? '';
+    this.syncTarget();
     this.prevOpen = this.open;
     this.prevDisabled = this.disabled;
 
@@ -145,8 +190,8 @@ export class PpTooltip extends Elena(HTMLElement) {
     popup.flip = true;
     popup.shift = true;
 
-    this.body.setAttribute('aria-live', this.open ? 'polite' : 'off');
     if (this.body.textContent !== this.content) this.body.textContent = this.content;
+    this.syncTarget();
 
     if (this.prevDisabled !== undefined && this.prevDisabled !== this.disabled) {
       this.prevDisabled = this.disabled;
@@ -225,7 +270,9 @@ export class PpTooltip extends Elena(HTMLElement) {
       }
 
       // Show
-      this.dispatchEvent(new CustomEvent('pp-show', { bubbles: true, cancelable: false, composed: true }))
+      this.dispatchEvent(
+        new CustomEvent('pp-show', { bubbles: true, cancelable: false, composed: true }),
+      );
       if ('CloseWatcher' in window) {
         this.closeWatcher?.destroy();
         this.closeWatcher = new CloseWatcher();
@@ -242,10 +289,14 @@ export class PpTooltip extends Elena(HTMLElement) {
       const { keyframes, options } = getAnimation('tooltip.show');
       await animateTo(this.popup, keyframes, options);
       this.popup.reposition();
-      this.dispatchEvent(new CustomEvent('pp-after-show', { bubbles: true, cancelable: false, composed: true }))
+      this.dispatchEvent(
+        new CustomEvent('pp-after-show', { bubbles: true, cancelable: false, composed: true }),
+      );
     } else {
       // Hide
-      this.dispatchEvent(new CustomEvent('pp-hide', { bubbles: true, cancelable: false, composed: true }))
+      this.dispatchEvent(
+        new CustomEvent('pp-hide', { bubbles: true, cancelable: false, composed: true }),
+      );
       this.closeWatcher?.destroy();
       document.removeEventListener('keydown', this.handleDocumentKeyDown);
 
@@ -254,8 +305,9 @@ export class PpTooltip extends Elena(HTMLElement) {
       await animateTo(this.popup, keyframes, options);
       this.popup.active = false;
       this.body.hidden = true;
-      this.dispatchEvent(new CustomEvent('pp-after-hide', { bubbles: true, cancelable: false, composed: true }))
-
+      this.dispatchEvent(
+        new CustomEvent('pp-after-hide', { bubbles: true, cancelable: false, composed: true }),
+      );
     }
   }
 
@@ -283,21 +335,21 @@ export class PpTooltip extends Elena(HTMLElement) {
 setDefaultAnimation('tooltip.show', {
   keyframes: [
     { opacity: 0, scale: 0.8 },
-    { opacity: 1, scale: 1 }
+    { opacity: 1, scale: 1 },
   ],
-  options: { duration: 150, easing: 'ease' }
+  options: { duration: 150, easing: 'ease' },
 });
 
 setDefaultAnimation('tooltip.hide', {
   keyframes: [
     { opacity: 1, scale: 1 },
-    { opacity: 0, scale: 0.8 }
+    { opacity: 0, scale: 0.8 },
   ],
-  options: { duration: 150, easing: 'ease' }
+  options: { duration: 150, easing: 'ease' },
 });
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pp-tooltip": PpTooltip;
+    'pp-tooltip': PpTooltip;
   }
 }

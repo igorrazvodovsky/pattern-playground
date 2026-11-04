@@ -6,6 +6,10 @@ Theoretical terms the project uses as working vocabulary. Each entry gives the t
 
 Three levels of human activity (Leontiev, via Bødker 1991; Kaptelinin & Nardi 2006). *Activities* are motive-driven and sustained (e.g., onboarding a new user). *Actions* are goal-directed and conscious (e.g., choosing a filter). *Operations* are automatic and infrastructural (e.g., scrolling). The project currently (Jun '26) uses these as the primary organising axis for the pattern catalogue (`apps/patterns/src/content/patterns/`) — see [pattern-site.md](../specs/pattern-site.md).
 
+## Artifact
+
+The designed thing a person interacts with, at whatever scale the pattern works at. It holds content, actions, and an underlying model. An artifact can be used to make other artifacts, as an editor makes documents, and context says which one a sentence means.
+
 ## Centre
 
 A coherent differentiation that can be noticed, pointed at, and acted on (Alexander, *The Nature of Order*). In this project, centres are *psychosemiotic* — meaning-carrying differentiations in behaviour and attention, identified by the distinction they introduce rather than by visual form. See [design-theory.md](./design-theory.md) §"Centres in this project's medium" for worked examples.
@@ -42,6 +46,10 @@ A rule for making a kind of centre, which also states that centre's relation to 
 
 Rules for how humans interact with form. A connected structure of patterns organised by an explicit principle so an actor can generate, sequence, and adapt design moves. A catalogue makes entries retrievable; a language makes their relationships operational. In this project, the typed graph is the primary claim that the material forms a language rather than only a library. See [patterns-and-components.md](./patterns-and-components.md) for its relationship to the component catalogue.
 
+## Project language
+
+A list of design patterns chosen from the library for one project, ordered large to small, as in *A Pattern Language*'s "Choosing a language for your project". A *starter* is a project language for a typical artifact shape, medium or collaboration posture, written to be cut down and extended; it is where a project's own language begins. A project language is not a sequence: a sequence orders the decisions of one stretch of work, and a language selects the patterns a project draws on across all of them. See [specs/pattern-site.md](../specs/pattern-site.md) §Project languages.
+
 ## Component catalogue
 
 `packages/components/` — the vocabulary of components, primitives and controls, the rules for composing them, and the levels of scale (e.g. primitive → component → composition). By [pattern-definition.md](./pattern-definition.md)'s own distinction it is a catalogue rather than a language: retrievable, not generative. Its goal is to support the patterns, not to maximise reuse. Alexander has no term for an identical closed unit, because his theory argues against such units, but he does describe building elements; ch. 16 §2 lists "the elements, rules, ways of making roofs, edges, windows, steps." See [patterns-and-components.md](./patterns-and-components.md) §"Components are not reusable units".
@@ -56,7 +64,7 @@ A structural property whereby a software system is legible at several connected 
 
 ## Quality
 
-An experiential dimension along which the effect of a design move can be read — Agency, Conversation, Privacy, Learnability, etc. Qualities are the project's evaluative vocabulary. The `enacts` edge type bridges the two: a pattern *enacts* a quality when its effect is legible in that dimension. See [`apps/patterns/src/content/patterns/qualities/`](../../apps/patterns/src/content/patterns/qualities/) and [design-theory.md](./design-theory.md) §"The role of qualities".
+An experiential dimension along which the effect of a design move can be read — Agency, Conversation, Privacy, Learnability, etc.
 
 ## Semilattice
 
@@ -69,10 +77,6 @@ One of the two points where a pattern's connections meet: the initiating situati
 ## Structure-preserving transformation
 
 A change that extends and intensifies the structure that exists rather than contradicting it (Alexander, Book 2 ch. 2) — conservative and innovative at once: nothing entirely new is injected, yet new structure appears by intensifying what is latent. Relatively few candidate next steps have this character, which is why a found ordering of them is worth keeping. The generative-move reading of patterns and the sequence step both rest on this concept.
-
-## Suggestion-grade
-
-An epistemic stance: the library's edge data, tags, and decision-tree conditions are *hints* that describe what has been useful in similar situations, not predicates to be matched against a query. An actor uses the graph as context for judgement, not as a lookup table. This is a claim about the data's maturity (incomplete, fuzzy) and about the nature of design (not structured retrieval). See [relationship-vocabulary.md](./relationship-vocabulary.md) §"Epistemic stance".
 
 ## Typological vs topological classification
 

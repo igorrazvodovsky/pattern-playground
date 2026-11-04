@@ -14,7 +14,9 @@ const resolve = (value: unknown) => resolvePropValue(value, ctx);
 test('$format formats in the document locale', () => {
   expect(resolve({ $format: 'number', value: { $state: '/count' } })).toBe(formatNumber(1234));
   expect(resolve({ $format: 'percent', value: { $state: '/ratio' } })).toBe(formatPercent(0.42));
-  expect(resolve({ $format: 'currency', value: 75, currency: 'EUR' })).toBe(formatCurrency(75, 'EUR'));
+  expect(resolve({ $format: 'currency', value: 75, currency: 'EUR' })).toBe(
+    formatCurrency(75, 'EUR'),
+  );
   expect(resolve({ $format: 'number', value: { $state: '/missing' } })).toBe('');
   expect(resolve({ $format: 'number', value: 'n/a' })).toBe('');
   expect(resolve({ $format: 'date', value: 'not a date' })).toBe('');

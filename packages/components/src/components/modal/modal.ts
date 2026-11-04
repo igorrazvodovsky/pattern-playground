@@ -49,12 +49,14 @@ export class PPModal extends HTMLElement {
   // would reopen itself on every click.
   private findTriggerElements() {
     const triggers = this.querySelectorAll<HTMLElement>('button:not([data-close]), [data-trigger]');
-    this.triggers = Array.from(triggers).filter(el => !this.modal?.contains(el) || el.hasAttribute('data-trigger'));
+    this.triggers = Array.from(triggers).filter(
+      (el) => !this.modal?.contains(el) || el.hasAttribute('data-trigger'),
+    );
   }
 
   private setupEventListeners() {
     // Trigger buttons
-    this.triggers.forEach(trigger => {
+    this.triggers.forEach((trigger) => {
       trigger.addEventListener('click', this.handleTriggerClick);
     });
 
@@ -76,7 +78,7 @@ export class PPModal extends HTMLElement {
     this.modal.id = modalId;
 
     // Connect triggers to modal
-    this.triggers.forEach(trigger => {
+    this.triggers.forEach((trigger) => {
       trigger.setAttribute('aria-controls', modalId);
       trigger.setAttribute('aria-expanded', 'false');
     });
@@ -123,16 +125,15 @@ export class PPModal extends HTMLElement {
   private handleBackdropClick(event: MouseEvent) {
     if (!this.modal || event.target !== this.modal) return;
     if (this.closedBy !== 'any') return;
-    
+
     // Check if click is on backdrop (outside modal content)
     const rect = this.modal.getBoundingClientRect();
-    const isOutside = (
+    const isOutside =
       event.clientX < rect.left ||
       event.clientX > rect.right ||
       event.clientY < rect.top ||
-      event.clientY > rect.bottom
-    );
-    
+      event.clientY > rect.bottom;
+
     if (isOutside) {
       this.closeModal();
     }
@@ -177,7 +178,7 @@ export class PPModal extends HTMLElement {
     }
 
     // Update trigger states
-    this.triggers.forEach(trigger => {
+    this.triggers.forEach((trigger) => {
       trigger.setAttribute('aria-expanded', 'true');
     });
 
@@ -185,11 +186,13 @@ export class PPModal extends HTMLElement {
     this.focusModal();
 
     // Emit custom event
-    this.dispatchEvent(new CustomEvent('pp-modal-open', {
-      bubbles: true,
-      composed: true,
-      detail: { modal: this.modal }
-    }));
+    this.dispatchEvent(
+      new CustomEvent('pp-modal-open', {
+        bubbles: true,
+        composed: true,
+        detail: { modal: this.modal },
+      }),
+    );
   }
 
   private closeModal() {
@@ -219,16 +222,18 @@ export class PPModal extends HTMLElement {
   }
 
   private dispatchClose() {
-    this.dispatchEvent(new CustomEvent('pp-modal-close', {
-      bubbles: true,
-      composed: true,
-      detail: { modal: this.modal }
-    }));
+    this.dispatchEvent(
+      new CustomEvent('pp-modal-close', {
+        bubbles: true,
+        composed: true,
+        detail: { modal: this.modal },
+      }),
+    );
   }
 
   private finishClose() {
     // Update trigger states
-    this.triggers.forEach(trigger => {
+    this.triggers.forEach((trigger) => {
       trigger.setAttribute('aria-expanded', 'false');
     });
 
@@ -256,7 +261,7 @@ export class PPModal extends HTMLElement {
     }
 
     const focusableElements = this.modal.querySelectorAll(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
     );
 
     if (focusableElements.length > 0) {
@@ -269,9 +274,11 @@ export class PPModal extends HTMLElement {
   private trapFocus(event: KeyboardEvent) {
     if (!this.modal) return;
 
-    const focusableElements = Array.from(this.modal.querySelectorAll(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    )) as HTMLElement[];
+    const focusableElements = Array.from(
+      this.modal.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      ),
+    ) as HTMLElement[];
 
     if (focusableElements.length === 0) return;
 
@@ -309,9 +316,9 @@ export class PPModal extends HTMLElement {
     }
 
     // Find or create container
-    this.reactContainer = containerId ? 
-      this.querySelector(`#${containerId}`) as HTMLElement :
-      this.findReactContainer();
+    this.reactContainer = containerId
+      ? (this.querySelector(`#${containerId}`) as HTMLElement)
+      : this.findReactContainer();
 
     if (!this.reactContainer) {
       console.warn('No suitable container found for React content');
@@ -350,17 +357,19 @@ export class PPModal extends HTMLElement {
 
   private findReactContainer(): HTMLElement | null {
     // Look for common content containers
-    return this.querySelector('.drawer__content') ||
-           this.querySelector('.dialog__content') ||
-           this.querySelector('.modal__content') ||
-           this.querySelector('.react-modal-content');
+    return (
+      this.querySelector('.drawer__content') ||
+      this.querySelector('.dialog__content') ||
+      this.querySelector('.modal__content') ||
+      this.querySelector('.react-modal-content')
+    );
   }
 
   private cleanup() {
     this.cleanupReactContent();
-    
+
     // Remove all event listeners
-    this.triggers.forEach(trigger => {
+    this.triggers.forEach((trigger) => {
       trigger.removeEventListener('click', this.handleTriggerClick);
     });
 
@@ -392,6 +401,6 @@ export class PPModal extends HTMLElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pp-modal": PPModal;
+    'pp-modal': PPModal;
   }
 }

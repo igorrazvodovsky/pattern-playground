@@ -21,13 +21,13 @@
   /* Vertical variant: stack entries in a column and indent nested levels,
      instead of the default inline flex-wrap. Placement (e.g. a sticky right
      rail) is the consumer's concern — see .toc-rail in the patterns app. */
-  pp-toc[orientation="vertical"] .toc ul {
+  pp-toc[orientation='vertical'] .toc ul {
     flex-direction: column;
     gap: var(--space-2xs);
     padding-block-end: 0;
   }
 
-  pp-toc[orientation="vertical"] .toc li ul {
+  pp-toc[orientation='vertical'] .toc li ul {
     padding-inline-start: var(--space-s);
     margin-block-start: var(--space-2xs);
   }
@@ -67,7 +67,7 @@
      data-revealed. Collapsed, only the current section shows its label; hover
      or keyboard focus shows them all, wrapping downward over the content. The
      dots are list markers, not part of the links. */
-  pp-toc[variant="bar"] {
+  pp-toc[variant='bar'] {
     position: sticky;
 
     /* Sticky offsets count from inside the scroller's padding; a host whose
@@ -80,14 +80,14 @@
     transition: visibility 200ms;
   }
 
-  pp-toc[variant="bar"][data-revealed] {
+  pp-toc[variant='bar'][data-revealed] {
     visibility: visible;
   }
 
   /* The bar marks its current section itself (aria-current), in every
      browser, so the CSS scroll-spy above stays out of it. It slides down from
      the top edge as it appears and back up as it goes. */
-  pp-toc[variant="bar"] .toc {
+  pp-toc[variant='bar'] .toc {
     scroll-target-group: none;
     display: flex;
     align-items: baseline;
@@ -105,12 +105,12 @@
       transform 200ms var(--ease-out-3);
   }
 
-  pp-toc[variant="bar"][data-revealed] .toc {
+  pp-toc[variant='bar'][data-revealed] .toc {
     opacity: 1;
     transform: none;
   }
 
-  pp-toc[variant="bar"] .toc-title {
+  pp-toc[variant='bar'] .toc-title {
     flex: 0 1 auto;
     min-inline-size: 0;
     padding: 0;
@@ -123,38 +123,38 @@
     cursor: pointer;
   }
 
-  pp-toc[variant="bar"] .toc-title:focus-visible {
+  pp-toc[variant='bar'] .toc-title:focus-visible {
     outline: 2px solid var(--c-accent-500);
     outline-offset: 2px;
     border-radius: var(--radius-s);
   }
 
-  pp-toc[variant="bar"] .toc ul {
+  pp-toc[variant='bar'] .toc ul {
     flex: 0 0 auto;
     flex-wrap: nowrap;
     gap: 0;
     padding: 0;
   }
 
-  pp-toc[variant="bar"] .toc li {
+  pp-toc[variant='bar'] .toc li {
     display: inline-flex;
     align-items: baseline;
     gap: 0.3em;
     padding-inline: 0.2em;
   }
 
-  pp-toc[variant="bar"] .toc li::before {
+  pp-toc[variant='bar'] .toc li::before {
     content: '•';
     color: var(--c-bodyDimmed);
   }
 
-  pp-toc[variant="bar"] .toc li:has(> [aria-current])::before {
+  pp-toc[variant='bar'] .toc li:has(> [aria-current])::before {
     color: var(--c-accent-600);
   }
 
   /* Collapsed, a link is visually hidden but stays in the accessibility tree
      and in the tab order. */
-  pp-toc[variant="bar"] .toc-link {
+  pp-toc[variant='bar'] .toc-link {
     position: absolute;
     inline-size: 1px;
     block-size: 1px;
@@ -172,8 +172,8 @@
      the heading it scrolled to. The current label swaps at once, without a
      fade: it changes at every section boundary while scrolling, and a fade
      there reads as a blink. */
-  pp-toc[variant="bar"] .toc-link[aria-current],
-  pp-toc[variant="bar"]:is(:has(:focus-visible), [data-expanded]:not([data-settled])) .toc-link {
+  pp-toc[variant='bar'] .toc-link[aria-current],
+  pp-toc[variant='bar']:is(:has(:focus-visible), [data-expanded]:not([data-settled])) .toc-link {
     position: static;
     inline-size: auto;
     block-size: auto;
@@ -182,36 +182,62 @@
     opacity: 1;
   }
 
-  pp-toc[variant="bar"]:is(:has(:focus-visible), [data-expanded]:not([data-settled])) .toc ul {
+  pp-toc[variant='bar']:is(:has(:focus-visible), [data-expanded]:not([data-settled])) .toc ul {
     flex: 1 1 0;
     flex-wrap: wrap;
     row-gap: var(--space-2xs);
   }
 
-  pp-toc[variant="bar"][data-expanded]:not([data-settled]) .toc-link {
+  pp-toc[variant='bar'][data-expanded]:not([data-settled]) .toc-link {
     transition: opacity 150ms var(--ease-out-3);
   }
 
   /* Reduced motion: the bar fades without sliding. */
   @media (prefers-reduced-motion: reduce) {
-    pp-toc[variant="bar"] .toc {
+    pp-toc[variant='bar'] .toc {
       transform: none;
     }
   }
 
   @supports (scroll-target-group: auto) {
     @media (width >= 800px) {
-      pp-toc[orientation="vertical"] .toc-link::after {
+      pp-toc[orientation='vertical'] .toc-link::after {
         content: '–';
         position: absolute;
         opacity: 0;
-        transition: opacity 0.5s ease, transform 1s ease, visibility 0.2s ease allow-discrete;
-        transition-timing-function: linear(0, .009, .037 1.7%, .153 3.6%, .776 10.3%, 1.001, 1.142 16%, 1.185, 1.209 19%, 1.215 19.9% 20.8%, 1.199, 1.165 25%, 1.056 30.3%, 1.008 33%, .973, .955 39.2%, .953 41.1%, .957 43.3%, .998 53.3%, 1.009 59.1% 63.7%, .998 78.9%, 1);
+        transition:
+          opacity 0.5s ease,
+          transform 1s ease,
+          visibility 0.2s ease allow-discrete;
+        transition-timing-function: linear(
+          0,
+          0.009,
+          0.037 1.7%,
+          0.153 3.6%,
+          0.776 10.3%,
+          1.001,
+          1.142 16%,
+          1.185,
+          1.209 19%,
+          1.215 19.9% 20.8%,
+          1.199,
+          1.165 25%,
+          1.056 30.3%,
+          1.008 33%,
+          0.973,
+          0.955 39.2%,
+          0.953 41.1%,
+          0.957 43.3%,
+          0.998 53.3%,
+          1.009 59.1% 63.7%,
+          0.998 78.9%,
+          1
+        );
         transform: translateX(0);
         visibility: hidden;
       }
 
-      pp-toc[orientation="vertical"] .toc-link:target-current::after {
+      pp-toc[orientation='vertical'] .toc-link:target-current::after {
         opacity: 1;
         visibility: visible;
         transform: translateX(0.5em);

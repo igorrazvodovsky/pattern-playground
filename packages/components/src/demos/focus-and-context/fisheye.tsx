@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { lifecycleEvents } from '@shared/data';
 import { formatDate, formatNumber } from '@shared/format';
 import {
@@ -51,7 +51,8 @@ const mass = (value: number) => formatNumber(value, { maximumFractionDigits: 1 }
 /* No days at a distance: over fifteen years the day of the month is noise,
    and the reader is placing a stretch in the life, not in the week. Under the
    lens the flow is being read as a record, and the record gets its day. */
-const dayMonthYear = (d: Date | string) => formatDate(d, { day: 'numeric', month: 'short', year: 'numeric' });
+const dayMonthYear = (d: Date | string) =>
+  formatDate(d, { day: 'numeric', month: 'short', year: 'numeric' });
 const monthYearShort = (d: Date | string) => formatDate(d, { month: 'short', year: 'numeric' });
 const monthYear = (d: Date | string) => formatDate(d, { month: 'long', year: 'numeric' });
 const monthShort = (d: Date | string) => formatDate(d, { month: 'short' });
@@ -163,7 +164,7 @@ function Zone({ span, ring }: { span: TimelineSpan; ring: number }) {
     <div
       className="fisheye__zone"
       data-ring={ring}
-      style={{ ['--len' as string]: spanLength(span) }}
+      style={{ '--len': spanLength(span) } as CSSProperties}
     >
       {flow ? (
         <span className="fisheye__line">
@@ -195,7 +196,7 @@ function Zone({ span, ring }: { span: TimelineSpan; ring: number }) {
  */
 function Gap({ parent, length, body }: { parent: TimelineSpan; length: number; body: boolean }) {
   return (
-    <div className="fisheye__gap" data-ring={0} style={{ ['--len' as string]: length }}>
+    <div className="fisheye__gap" data-ring={0} style={{ '--len': length } as CSSProperties}>
       {body && (
         <span className="fisheye__body">
           <span className="fisheye__heading">
@@ -218,7 +219,7 @@ function FocusFlow({ span }: { span: TimelineSpan }) {
   const flow = lifecycleEvents[span.from];
 
   return (
-    <div className="fisheye__slot" style={{ ['--len' as string]: 1 }}>
+    <div className="fisheye__slot" style={{ '--len': 1 } as CSSProperties}>
       <div className="fisheye__card">
         <span className="fisheye__line">
           <time className="fisheye__when" dateTime={flow.date}>
@@ -241,7 +242,15 @@ function FocusFlow({ span }: { span: TimelineSpan }) {
  * the episodes stay zones. Stable keys on the gaps flanking the card let
  * their heights animate as the lens walks the episode.
  */
-function TipChildren({ span, kids, focus }: { span: TimelineSpan; kids: TimelineSpan[]; focus: number }) {
+function TipChildren({
+  span,
+  kids,
+  focus,
+}: {
+  span: TimelineSpan;
+  kids: TimelineSpan[];
+  focus: number;
+}) {
   const focusIndex = kids.findIndex((kid) => contains(kid, focus));
 
   /* The sentence goes to the roomier of the two gaps flanking the card: said
@@ -264,7 +273,7 @@ function TipChildren({ span, kids, focus }: { span: TimelineSpan; kids: Timeline
         parent={span}
         length={run.reduce((sum, kid) => sum + spanLength(kid), 0)}
         body={bodyAt >= start && bodyAt < end}
-      />
+      />,
     );
     start = -1;
   };
@@ -302,7 +311,7 @@ function Node({ span, focus, ring }: { span: TimelineSpan; focus: number; ring: 
     <div
       className="fisheye__band"
       data-tip={tip ? '' : undefined}
-      style={{ ['--len' as string]: spanLength(span) }}
+      style={{ '--len': spanLength(span) } as CSSProperties}
     >
       {tip ? (
         <TipChildren span={span} kids={kids} focus={focus} />
@@ -371,14 +380,20 @@ export function FisheyeTimelineDemo() {
     });
 
   const focused = focus === null ? null : lifecycleEvents[focus];
-  const ringAtTop = focus === null ? 2 : depthBelow(spans.children!.find((child) => contains(child, focus))!, focus);
+  const ringAtTop =
+    focus === null
+      ? 2
+      : depthBelow(
+          spans.children!.find((child) => contains(child, focus))!,
+          focus,
+        );
 
   return (
     <div className="flow">
       <div
         className="fisheye"
         ref={frame}
-        style={{ ['--flows' as string]: total }}
+        style={{ '--flows': total } as CSSProperties}
         tabIndex={0}
         aria-label="Fisheye timeline. Arrow keys move the lens flow by flow; Escape rests it."
         onMouseMove={(event) => lensAt(event.clientY)}

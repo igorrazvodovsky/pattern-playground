@@ -3,7 +3,7 @@ title: Refactoring sweep
 status: active
 kind: work-queue
 created: 2026-10-17
-last_reviewed: 2026-10-20
+last_reviewed: 2026-10-21
 area: packages/components, apps/patterns, apps/server, scripts, shared, utils
 promoted_to:
 superseded_by:
@@ -26,14 +26,14 @@ json-render 0.21.1 and its documentation. Its items are in §3 and §5.
 
 ## Order
 
-1. Bugs (done 2026-10-17; focus after a toast's Undo remains).
+1. Bugs (done 2026-10-17; focus after a toast's Undo done 2026-10-21).
 2. Dead-code sweep (done 2026-10-17; the keep-or-retire decisions settled 2026-10-20).
 3. Consolidation (first pass done 2026-10-18; registry semantics shared
    and demo actions moved out of the catalog 2026-10-20; done).
 4. Template extractions (stat tile, card list, overview-plus-detail) — these are
    design calls, one sitting each.
-5. Conventions (done 2026-10-18; the story tags and the TemplateField
-   invalid state with its demo's `alert()` remain).
+5. Conventions (done 2026-10-18; the pp registry's inline styles and the
+   story tags done 2026-10-21).
 
 ## 1. Bugs
 
@@ -54,14 +54,14 @@ json-render 0.21.1 and its documentation. Its items are in §3 and §5.
   reverting took focus with it. Both registries and the old React demos had the
   defect. Each Button in both registries now hands focus on when it unmounts
   while focused (`catalog/behaviour/focus-handoff.ts`). The catalog's
-  `focusNext` prop names the label of the Button that takes it: the first one
-  after where the lost button was, else the last one before it. A swap names
+  `focusNext` prop names the `focusKey` of the control that takes it (see
+  *Controls named by label* in §4): the first one after where the lost button was, else the last one before it. A swap names
   its replacement (Delete names Cancel, Cancel names Delete), and a row removal
   names the same control, which lands on the next row, else the previous one.
   Without a name or a match, focus goes to the demo root, as it already did for
   a dialog whose opener is gone. Buttons inside a dialog are left to the
-  dialog. A unit test checks that every `focusNext` matches a Button label in
-  its spec.
+  dialog. A unit test checks that every `focusNext` matches a key in its
+  spec.
 - [x] *A pp Dialog closed by the browser could not be reopened* (checked).
   The registry set `open` back to false only on `pp-modal-close`, which
   pp-modal sent from its own close path. A close the browser made itself (a
@@ -99,11 +99,31 @@ json-render 0.21.1 and its documentation. Its items are in §3 and §5.
   stacked pane with its dialog open, or navigating away, removes the dialogs
   from `<body>`, and the pane mounts fresh when it comes back. Handlers keep
   their `connected` check, since they live outside the React tree.
-- [ ] *Focus after a toast's Undo.* The Toasts entry's action button is not a
-  catalog Button, so it does not hand focus on. In shadcn, Radix moves focus
-  to its toast viewport at the end of the page when the toast closes, so the
-  next Tab leaves the page. The pp toast has not been checked. Decide whether
-  Undo should return focus to the restored item.
+- [x] *Focus after a toast's Undo.* The Toasts entry's action button is not a
+  catalog Button, so it did not hand focus on. When the toast closed, pp
+  dropped focus to the body and Radix moved it to its toast viewport at the
+  end of the page, so in both the next Tab left the demo. Done 2026-10-21:
+  a toast may carry a `focusNext`, and after its action focus goes to the
+  control with that key, such as the item an Undo puts back, or else to the
+  demo. Pressing the action moves focus to the demo first, so Radix leaves
+  it alone as the toast closes, and a drawer the action opens records the
+  demo, not the departing toast, as its opener. Focus that the action moved
+  itself, as into that drawer, stays where it is; the hand-off waits a frame
+  and a task so a window pp opens a task late gets there first, and runs
+  even when the action fails. A `focusKey` may hold several names separated
+  by spaces, so a control in a row can share a name with its counterparts
+  and carry its item's id: toast-with-undo keys each Delete
+  `delete ${id}`, keeping the hand-off to the next row's Delete. The undo
+  toasts in toast-with-undo, writable-board and consequence-ladder name the
+  restored control (the row's Delete, the card's move menu, Archive or
+  Remove), and the Toasts schema declares the field. The spec test now reads
+  names in what an action pushes, counts a key by each literal name in it,
+  fails a name that holds a space, and checks literal names, not whole keys,
+  for duplicates; a toast a spec module builds is not checked. Checked in the browser in both
+  libraries on the deletion, action-consequences (both undos) and grouping
+  pages. Filtering's Open, which leads to a drawer, is not checked in the
+  browser. A toast's Close button still loses focus the same way, to the
+  body in pp and to the viewport in shadcn.
 - [ ] *Outline on the demo root.* When focus falls back to the demo root (a
   removed card, a Reset that hides itself, a dialog whose opener is gone), the
   whole demo draws the 2px focus outline. Decide whether the root should show
@@ -149,13 +169,18 @@ json-render 0.21.1 and its documentation. Its items are in §3 and §5.
   browser made: it sent `pp-modal-close` and ran `finishClose` on an open
   dialog. Fixed in b8965c70: `handleNativeClose` ignores a `close` event while
   the dialog is open.
-- [ ] *Rest of `tiptap.css`.* Live classes still styled only there:
-  `reference-mention--quote` (`Reference.tsx`; quote styling is open in
-  [commenting open questions](2026-10-commenting-open-questions.md)),
-  `rich-editor--prompt` (`demos/prompt.tsx`), `rich-editor-container`
-  (`demos/bubble-menu.tsx`). Decide each, then delete the file; the remainder
-  is older copies of `reference.css` rules and dead `quote-demo-*` and
-  `.floating-menu` rules.
+- [x] *Rest of `tiptap.css`.* The file was outside the cascade, so none of
+  its classes were styled. Done 2026-10-21: the file and its commented-out
+  import are deleted. `rich-editor--prompt` had no consumer left once
+  `demos/prompt.tsx` went; the `rich-editor-container` wrappers in
+  `demos/bubble-menu.tsx` are removed. `Reference.tsx` still adds
+  `reference-mention--quote` to a quote reference, unstyled, for whatever
+  [commenting open questions](2026-10-commenting-open-questions.md) settles
+  about telling quotes apart. The file also held the only rules written for
+  comment marks (`mark[data-comment-id]` in `--c-accent-100`, faded when
+  `data-resolved`); since they never applied, open and resolved comments
+  have always shown the browser's plain `mark`. That goes with the same
+  open question.
 - [x] *AI services resolve the server endpoint inconsistently* (checked). Five
   copies of `get…Endpoint` disagreed on dev detection: two read
   `process.env.NODE_ENV`, which is undefined in the browser. Replaced by one
@@ -413,63 +438,97 @@ failed on the first new action that changed a view. It is gone from the
 
 Design calls; one sitting each.
 
-- [ ] *Stat tile.* `stories/Stat.stories.tsx` (`StatTile`). The story is
-  already titled `Templates/Stat`. The monitor and watch-to-chase demos are
-  now specs: the catalog has a `Stat` (the figure, its verdict and detail,
-  and `alert`), placed in a Card titled by its label with the trend as a
-  Badge in the card's suffix. `alert` now sits on `.stat` rather than on the
-  card.
-- [ ] *Overview attributes repeated.* The list
-  `['name','category','pricing.msrp']` is written out in the overview-detail
-  and linked-trio specs. No demo writes out `cards--list > EntityCard` any
-  more: in specs, an entity card is a Card titled by the item's name with its
-  attributes as labelled Badges (in a list of rows, an `Item` with the same
-  Badges), and the item's full view is a Card holding its badges, price,
-  description and a `DescriptionList` of the rest, laid out by role in
-  `specs/shared/product-view.ts`, as `ItemView` lays out its maxi scope.
+- [x] *Stat tile.* `stories/Stat.stories.tsx` (`StatTile`). The monitor and
+  watch-to-chase demos are specs: the catalog has a `Stat` (the figure, its
+  verdict and detail, and `alert`), placed in a Card titled by its label with
+  the trend as a Badge in the card's suffix. Closed 2026-10-21 without an
+  extraction: the `Templates/Stat` story writes the same arrangement in
+  markup, with `alert` on `.stat`, and there is no second consumer for a
+  component to serve.
+- [x] *Overview attributes repeated.* The list
+  `['category', 'pricing.msrp']` was written out in the overview-detail
+  and linked-trio specs. Done 2026-10-21: both read `overviewAttributes`
+  from `specs/shared/product.ts`. `nested-pairs.ts` keeps its own call, which
+  sits beside the component and material tiers built the same way.
 - [x] *Slice attributes formatted two ways.* `specs/problem-checklist.ts` and
   `specs/watch-to-chase-tiers.ts` showed the same three attributes on a flag's
   items, one through `AttributeUtils` (a missing value shown as N/A) and the
   other through `cardAttributes`. Done 2026-10-20: both read `sliceAttributes`
   from `specs/shared/product-view.ts`, so the checklist's badges now take the
   binding's labels (Price, Listed) and leave a missing value out.
-- [ ] *Item layout by role, twice.* `specs/shared/product-view.ts`, shared by
-  the investigate, watch-to-chase, item-view-full, item-view-transitions and
-  reference specs (the last lays out users and projects through their own
-  bindings), copies `ItemView`'s role filtering and its private `specRows` (a
-  record-valued attribute gives one row per key) to lay out a rung. A change
-  to how `ItemView` lays out a scope now has to be made in both. The copy is
-  also partial: `itemView` keeps the first key attribute, description and
-  footer, and has no output for subtitle, caption, tag, thumbnail or custom
-  roles. The product's scopes use none of them today, but one added there
-  would show in `ItemView` and be left out of the spec demos without a
-  warning. It also lays the summary out like the other rungs, where
-  `ItemView`'s mini scope shows non-badge attributes as labelled badges. A
-  `layoutByRole(binding, scope, item)` helper in `shared/data/bindings` would
-  serve both; decide together with `ItemView`'s shape, which is still
-  provisional.
-- [ ] *Hover bridge, twice.* `components/item-view/ItemInteraction.tsx` and
-  `catalog/behaviour/preview.ts` each implement the reference's preview
+- [x] *Item layout by role, twice.* `specs/shared/product-view.ts` copied part
+  of `ItemView`'s role layout to lay out a rung for the spec demos. Done
+  2026-10-21: `layoutByRole` in `shared/data/bindings/layout.ts` is read by
+  `ItemView` and by the catalog's `ItemView` type.
+- [x] *Hover bridge, twice.* `components/item-view/ItemInteraction.tsx` and
+  `catalog/behaviour/preview.ts` each implemented the reference's preview
   (open after a pause, close after a grace that arriving on the preview
-  cancels). Both read `previewTiming`, but only the hook moves the keyboard
-  into the preview and back. `ItemInteraction` also keeps the working-rung
-  preference in a persisted store, where the item-view-transitions spec keeps
-  it in demo state, and its rung icons repeat the registries' `summary`,
-  `detail` and `full`. Decide whether `ItemInteraction` should use the hook.
-- [ ] *Controls named by label.* A Button's `focusNext` and a Dialog's or
-  Drawer's `returnFocus` find their control by its label, and take the first
-  match. Two controls with the same label in one demo (two references to the
-  same item) would send focus to the wrong one. A stable key the spec gives
-  the control would avoid it; change both together.
-- [ ] *Leaflet setup, twice.* `components/map/map.ts` and
-  `catalog/registries/shadcn/map.tsx` share the tiles (`map/tiles.ts`), but
-  each creates the Leaflet map, fits the view without animation, defers
-  removing the map while a zoom runs, names each pin, selects it on Enter or
-  Space, marks the selected one current, and pans to a selection only when
-  it was set from state after the places were framed. Only the pin, the
-  popup and the frame belong to each library. A framework-free helper beside
-  `map.ts` that takes the pin and popup as arguments would serve both; a fix
-  to the keyboard handling or the unmount guard now has to be made twice.
+  cancels), and only the hook moved the keyboard into the preview and back.
+  Done 2026-10-21: the hook moved to `components/item-view/use-preview.ts`,
+  since the catalog builds on the library and not the other way, and
+  `ItemInteraction` uses it for the summary. Three behaviours changed in
+  `ItemInteraction`. Tab from the trigger reaches the summary's rung buttons,
+  Shift+Tab returns, and Tab past the last closes it; before, the trigger's
+  blur closed the summary as focus left. Escape in the summary hands focus
+  back to the trigger. Focus that returns to the trigger as the drawer or
+  dialog closes no longer reopens the summary. `scopeConfig` and
+  `ViewScopeConfig` are gone; the only setting read was the summary's open
+  delay, and no caller passed it. The working-rung preference stays in its
+  persisted store, and the rung icons stay as they are: `ItemInteraction` is
+  a library component used by the editor's references, not a spec. Checked in
+  the browser on the Item view Escalation story (focus, Tab in and out,
+  Escape, Enter to the working view and back, the pointer crossing to the
+  summary and leaving) and on the item-view page's Reference.
+- [x] *Controls named by label.* A Button's `focusNext` and a Dialog's or
+  Drawer's `returnFocus` found their control by its label, and
+  `returnFocus` took the first match, so two controls with the same label
+  in one demo (two references to the same item, a Delete and a confirming
+  Delete) could send focus to the wrong one. Done 2026-10-21: the catalog
+  has a `focusKey` on every type a name can land on (Button, Tag, FilterTag,
+  Menu, Reference, Combobox, Card, Item), rendered as `data-focus-key` on
+  the control that takes focus, and `focusNext` and `returnFocus` name a
+  key. Specs use the element's id as its key; a row's counterpart shares
+  one key through its `repeat`, and the overview-detail and writable-board
+  specs key their rows by item id, where they used to name the item's name
+  or move label. The positional rule for `focusNext` is unchanged.
+  `labelOf` is gone, and `returnFocus` skips a hidden or disabled match as
+  `focusNext` does. The spec test checks every name, expressions included,
+  against the keys in its spec that a control renders (a Tag needs `opens`
+  or `removeLabel`, a Combobox `popup`, a Card or Item `opens`), and that no two elements declare the same
+  literal key. Checked in the browser in both libraries: inline-confirmation
+  (Delete and Cancel swap, a confirmed row hands on to the next row's
+  Delete), item-view-transitions (the drawer, and the dialog opened from
+  it, return to the Reference), overview-detail (changing the layout from
+  an expanded row lands on that item's title) and writable-board (a moved
+  card's menu keeps focus).
+- [x] *Leaflet setup, twice.* `components/map/map.ts` and
+  `catalog/registries/shadcn/map.tsx` each created the Leaflet map, framed it,
+  deferred its removal while a zoom ran, named and keyed the pins, marked the
+  selected one and panned only to a selection set from state. Done
+  2026-10-21: both build on `PlacesMap` in `components/map/places-map.ts`,
+  which takes the pin's icon options and a popup function and owns the rest.
+  The host hands it places, selection and focus through one `update`, so the
+  rule for when to pan lives in one place. The selected and focused pins are
+  marked with `aria-current` and `data-focused` in both libraries, and lifted
+  with Leaflet's z-index offset; `map.css` selects the attributes, and the
+  `--selected` and `--focused` classes and the `!important` z-index are gone.
+  Two behaviours changed in pp-map. It framed the view after adding its pins,
+  and Leaflet creates a pin's element only once the map has a view, so places
+  present when the map was built, as after a move in the page, got no label
+  or key handling; they now do. The selected pin's popup opens only when the
+  selection changes, also on first build, so new places keep their frame;
+  shadcn used to reopen it on every change of places. A second press on the
+  selected pin before the host updates does nothing, so pp-map no longer
+  sends `pp-map-select` twice. `MapSelectDetail` lost its `source`, which
+  was always `'marker'`. The shadcn map's removal gained pp-map's fallback
+  timer. Checked in the browser in both libraries on the
+  coordinated-views demo: pins are labelled, a focused pin is marked, Enter
+  or Space selects without moving the map to the pin (a popup at the edge
+  still shifts the view to fit), a selection from the list pans, and
+  switching library during a zoom throws nothing. In pp, moving the element
+  in the page, also during a zoom, leaves one map with labelled pins, a
+  double Enter sends one event, and new places with the same selection are
+  framed with no popup.
 - [ ] *Mention editor, twice.* `components/reference/Reference.tsx` (with
   `ReferenceEditor` and `ReferencePicker`, still used by the prompt,
   bubble-menu, block-based-editor and dynamic-hyperlinks demos) and
@@ -487,77 +546,60 @@ Design calls; one sitting each.
   2026-10-20: both use `specs/shared/mentions.ts` (`toMention`,
   `mentionQuery`, `matchesQuery`, `maxMentionMatches`); `reference.ts` keeps
   its kind-then-item steps on top.
-- [ ] *Stale labels in the reference note.* `sustainability-meeting-content`
-  in `shared/data/reference-content.json` stores labels that no longer match
-  the ids they point at (`user-2` is stored as David Chen, `PRJ-1` as Customer
-  Survey Analysis). The reference spec shows each item's current name, so the
-  note now asks technical questions of a supply chain analyst. Rewrite the
-  note's sentences or its ids so the two agree.
-- [ ] *TemplateField has no consumer.* The prompt-template spec fills its
-  blanks through slots in `catalog/behaviour/mention-editor.ts`, so
-  `components/template-field/` (a Tiptap node whose blank turns into an input
-  when pressed, with fill, clear and validate commands) is no longer used. The
-  slots keep `.template-field` and `--filled` from `styles/reference.css`;
-  `--selected`, `--editing`, `--invalid`, `__label` and `__error` styled only
-  the component. `styles/tiptap.css`, whose import is commented out, holds a
-  second full set of `.template-field*` rules that would fight the slots'
-  `--filled` and `:focus-within` if switched back on. Delete the component,
-  those rules and the tiptap.css block, or keep the component for a story.
-- [ ] *`.message-composer__feedback` has no consumer.* The prompt-quality-feedback
-  spec shows its verdict as a Text with a purpose after the composer, so the
-  feedback line in `styles/messages.css` (with its badge and spinner spacing)
-  is no longer used, nor are its animation and reduced-motion rules in
-  `styles/tiptap.css`, whose import is commented out. Delete both, or have the
-  pp Composer draw a feedback line if the catalog gains one.
+- [x] *Stale labels in the reference note.* `sustainability-meeting-content`
+  in `shared/data/reference-content.json` stored labels that no longer
+  matched the ids they point at (`user-2` as David Chen, `PRJ-1` as Customer
+  Survey Analysis), and the two other notes, which the Reference stories
+  use, had the same drift. Fixed 2026-10-21 by changing ids, not sentences:
+  each mention now points at the person or project whose current role or
+  status fits its sentence, and stores that item's current name. The
+  mentions of users and projects no longer store metadata, since the world
+  holds their roles and status; the documents keep theirs.
+- [x] *TemplateField had no consumer.* The prompt-template spec fills its
+  blanks through slots in `catalog/behaviour/mention-editor.ts`. Done
+  2026-10-20: `components/template-field/` is deleted, with the rules in
+  `styles/reference.css` that only it used (`--selected`, `--editing`,
+  `--invalid`, `__label`, `__error`) and the `.template-field*` block in
+  `styles/tiptap.css`. The slots keep `.template-field`, `--filled`,
+  `:focus-within` and the input rules.
+- [x] *`.message-composer__feedback` had no consumer.* The
+  prompt-quality-feedback spec shows its verdict as a Text with a purpose.
+  Done 2026-10-20: the feedback line is deleted from `styles/messages.css`,
+  and its `rise-in` animation and reduced-motion entries from
+  `styles/tiptap.css`.
 - [x] *Three copies of per-path timers.* `specs/shared/notify.ts`,
   `specs/shared/settle.ts` and `specs/shared/arm.ts` each kept a map of timers
   by state path. Done 2026-10-20: all three schedule through `keyedTimers` in
   `specs/shared/timers.ts`, which replaces a pending write and skips it once
   the demo has gone.
-- [ ] *A purpose Text wraps its icon above long text in pp.* The pp registry
-  lays a Text with a purpose out with `.flex`, which wraps in a demo host
-  narrower than 40rem, so a message longer than one line drops onto the next
-  line below its icon. shadcn keeps the icon beside the text. The
-  prompt-quality-feedback messages are short enough to fit one line for now.
-  The library needs a row whose text shrinks and wraps beside its icon.
-- [ ] *Product readout repeated in specs.* The readout of a product at one
-  rung (a Card with badges, price, description, a `DescriptionList` and the
-  listed line) is written out in many specs, differing only in the state path
-  it reads or in reading `$item` rather than `$state`.
-  `specs/investigate.json`, `specs/watch-to-chase-tiers.json` and
-  `specs/item-view-full.json` hold it once each;
-  `specs/item-view-transitions.json` twice, for the detail drawer and the full
-  dialog; `specs/reference.json` once; `specs/linked-trio.json` twice; and
-  `specs/overview-detail.json` three times (in place, the detail its pane and
-  popover share, the page). A change to the readout has to be made in every
-  copy. The same goes for repeated conditions and handlers inside one spec:
-  `specs/overview-detail.json` writes the rule for when the in-place layout
-  is in force three times (and its complement twice), and its four layout
-  menu items repeat the same three actions, differing only in the layout.
-
-  json-render 0.21.1 has no way to reuse a subtree: inside a spec only
-  `repeat` stamps out elements, `$template` interpolates strings only, and
-  directives produce prop values, not elements (checked 2026-10-20). So the
-  fix is one of two, and each goes against an earlier decision:
-  - A catalog type that renders the readout from one prop. This puts a
-    domain-level type in the catalog, which the switchable-demos plan chose
-    not to do: types are named at component altitude.
-  - The modules beside the specs build the elements once in TypeScript, for
-    a given state path, and merge them into each spec. The JSON is then no
-    longer the whole spec, and a generated spec cannot use the shared part.
-
-  Decide which, together with *Item layout by role, twice*, since
-  `product-view.ts` is where the TypeScript form would live.
-- [ ] *Filter chip, twice.* The chip that edits one filter condition
-  (attribute, operator, values, remove) is written in
-  `components/filter/filter-components.tsx`, tied to the task fixtures, and
-  in `catalog/registries/pp/filter-tag.tsx`, the catalog's `FilterTag`, which
-  takes everything as props. Every demo that filters is now a spec and edits
-  conditions through `FilterTag`, with operators and options from
-  `demos/specs/shared/filter-clauses.ts`, so the library chip (`Filters` in
-  `components/filter/filters.tsx`) has no user and no story. Decide whether
-  it takes `FilterTag`'s props and becomes the component the pp registry
-  draws, or goes.
+- [x] *A purpose Text wraps its icon above long text in pp.* The pp registry
+  laid a Text with a purpose out with `.flex`, which wraps in a demo host
+  narrower than 40rem, so a message longer than one line dropped onto the next
+  line below its icon, where shadcn keeps the icon beside the text. Done
+  2026-10-21: `layout.css` has a `.nowrap` modifier beside `.wrap`, which
+  keeps a `.flex` row on one line in any host, and the pp Text adds it with a
+  purpose or while pending; the text shrinks and wraps within its own box.
+  Checked in the browser on the prompt page in a 20rem host: a three-line
+  message keeps its icon beside it, centred as in shadcn. The combobox status
+  line never wrapped, so it needed nothing.
+- [x] *Product readout repeated in specs.* The readout of an item at one rung
+  was written out about twelve times across the spec JSON, and json-render
+  has no way to reuse a subtree. Done 2026-10-21: catalog types are a spec
+  vocabulary, not the Storybook catalogue, so the catalog takes an `ItemView`
+  type that lays out any bound entity from its binding, and each readout
+  becomes one element.
+- [x] *Filter chip, twice.* The chip that edits one filter condition was
+  written in `components/filter/filter-components.tsx`, tied to the task
+  fixtures, and in the pp registry's `FilterTag`. Done 2026-10-21: the
+  library's `FilterTag` (`components/filter/filter-tag.tsx`) takes the
+  catalog's props with icons resolved and reports `onChange` and `onRemove`;
+  the pp registry adapts it inline (the bound `edit`, the emits, the focus
+  hand-off). `Filters`, `filter-components.tsx`, `filter-utils.ts` and
+  `filter-types.ts` are deleted, and the date dropdown with them: date facets
+  already pick through the combobox. The operator list is a radio list, where
+  the old one used checkboxes. `catalog/filter-edit.ts` re-exports the
+  library's `FilterChange`. The chip has no story of its own; the filtering
+  and data-view demos show it. Checked in the browser in both.
 - [x] *Overview plus detail.* The linked-trio demo is a spec. Its three
   panes are the catalog's `Panes`, which writes its room to state as `Split`
   does (`behaviour/split-room.ts`), and its list is an `ItemGroup` of
@@ -582,27 +624,42 @@ Design calls; one sitting each.
   problem anywhere; showing the popover with the anchor as `source` does not
   help, since Chrome counts only a `popovertarget` button as the invoker for
   light dismiss.
-- [ ] *`BackButton` and `.detail__toolbar` have no consumer.* The
-  overview-detail layout demo is a spec, so `BackButton` in
-  `demos/scaffold.tsx` is no longer imported, and the `.detail__toolbar` rules
-  in `styles/view-family.css` (the corner control, faded until the detail is
-  hovered) have no markup; `ItemInteraction.tsx` names the class only in a
-  comment. The spec's layout menu sits in the card's or popover's `suffix`
-  instead. Delete them, or have a pp `Card` or `Popover` draw its suffix as
-  that corner control.
-- [ ] *The in-place detail sits under the card's press.* In
-  `specs/overview-detail.json` the in-place detail is the card's default
-  content, so the card's press covers it and the actor cannot select its
-  text. The Card's `detail` slot, shown while `expanded`, keeps it clear of
-  the press, as `specs/nested-pairs.json` does. Moving it there also reads
-  the title as expanded rather than pressed, so check that the menu in the
-  card's suffix still makes sense beside it.
-- [ ] *Component and material readouts formatted by hand.*
-  `specs/nested-pairs.ts` writes each tier's badges and rows by hand, products
-  among them, while `specs/shared/product-view.ts` reads products through the
-  product binding. Components and materials have no binding in
-  `shared/data/bindings`. Give them one, and the nested-pairs tiers can read
-  all three the way the other specs read products.
+- [x] *`BackButton` and `.detail__toolbar` had no consumer.* The
+  overview-detail spec's layout menu sits in the card's or popover's `suffix`.
+  Done 2026-10-20: `demos/scaffold.tsx` and the `.detail__toolbar` rules in
+  `styles/view-family.css` are deleted, and the comment in
+  `ItemInteraction.tsx` no longer names the class.
+- [x] *The in-place detail sits under the card's press.* In
+  `specs/overview-detail.json` the in-place detail was the card's default
+  content, so the card's press covered it and the actor could not select its
+  text. The spec moved it into the `detail` slot of an `Item` (b2b950b5), but
+  in pp the press still covered it: `.detail` was not positioned, so the
+  title's stretched `::before` painted over it, where shadcn's detail is
+  `relative`. Fixed 2026-10-21: `stretched-link.css` positions a card's
+  `> .detail` at `z-index: 0`, above the overlay and below the controls it
+  lifts to `z-index: 1`, so a suffix or badge menu still opens over an
+  expanded detail. Checked in the browser: the detail's text is clear of the
+  press in both overview-detail layouts that show it, the summary still opens,
+  and in nested-pairs a card inside a detail opens on its own press. The menu in the suffix reads well
+  beside a title that is announced as expanded.
+- [x] *Component and material readouts formatted by hand.*
+  `specs/nested-pairs.ts` wrote each tier's badges and rows by hand, products
+  among them, while `specs/shared/product-view.ts` read products through the
+  product binding. Done 2026-10-21: `shared/data/bindings` has a
+  `componentBinding` and a `materialBinding`, registered in `bindings`, and
+  `cardAttributes` takes a binding (products by default). The nested-pairs
+  tiers name the paths they show and read labels, values and units through
+  their binding; the spec is unchanged. A currency attribute now takes a
+  `unit`, so a material's cost reads as "$4.20 per kg" rather than
+  "4.2 USD/kg". The product binding set no currency and fell back to pounds,
+  while every product stores its price in US dollars, so all product specs
+  showed dollar amounts as pounds; product prices and trade-in values are now
+  bound as USD, as are component and material costs. Units on the new
+  bindings are static, as on the product binding: every component and
+  material stores the same carbon, design-life and cost unit. A diff of the
+  demo's initial state before and after shows no other change than the
+  formatting of amounts. Checked in the
+  browser in both libraries on the overview-detail page, down to a material.
 - [ ] *One spec is not a tree.* `specs/nested-pairs.json` renders its pair
   again inside its own detail (`card` → `detail` → `overviews` → `pair` →
   `card`), and `card` has two parents. json-render's renderer follows it
@@ -646,12 +703,12 @@ Design calls; one sitting each.
   demo dimensions, including the list widths: `centeredLayoutNarrow` would
   centre the lists, which they do not need. The
   keyboard play steps live in `stories/utils/play.ts`.
-- [ ] *Story tags.* 73 stories carry `atomic:*` tags and 66 a `role:component`
-  tag that `main.ts` does not register. Nothing reads either since the graph
-  became language-only, but `pattern-role-model.md` describes `atomic:*` as
-  catalogue metadata and `role:component` as how Storybook pages declare their
-  role. Decide whether they stay (and `role:component` is registered) or go
-  (and the spec changes).
+- [x] *Story tags.* 73 stories carried `atomic:*` tags and 66 a `role:component`
+  tag that `main.ts` did not register, and nothing read either since the graph
+  became language-only. Done 2026-10-21: both are removed from the stories and
+  `main.ts`, and `pattern-role-model.md` and `workspace-layout.md` no longer
+  describe them. The `activity-level:*`, `lifecycle:*` and `mediation:*` tags
+  stay. `role: component` in pattern-site frontmatter is unaffected.
 - [x] *`pp-modal` close hook.* Close buttons are found by `data-close` only.
   The fallback that let any header button close a dialog without one was
   removed on 2026-10-18. No caller relied on it, but a modalService surface
@@ -669,7 +726,7 @@ Design calls; one sitting each.
   neither the dropdown's close-on-select nor the submenu re-emit ran. It now
   bubbles; the submenu popup stops the original and re-emits it from the
   dropdown, and focus returns to the trigger as it does for top-level items.
-- [ ] *Inline styles in the pp registry* (checked 2026-10-20).
+- [x] *Inline styles in the pp registry* (checked 2026-10-20).
   `registries/pp/index.tsx` sets spacing and layout in 16 `style={…}` props: the
   Stack's gap and row layout, the Grid's column width, the field and card
   body grids. The switchable-demos plan noted them against
@@ -677,14 +734,16 @@ Design calls; one sitting each.
   should draw from the library rather than fill gaps locally, so this is a
   library gap: a row utility with a gap and alignment, a grid with a column
   width, and a field layout. Once those exist, the registry uses them.
-- [ ] *TemplateField invalid state is unreachable.* `--invalid` and
-  `__error` render only for a required field that is `filled` with an empty
-  value, but submitting an empty value sets `filled: false`. Decide what should
-  trigger the state (the demo's Validate button is the obvious candidate),
-  then wire it.
-- [ ] *`alert()` in the prompt demo.* `PromptTemplateDemo`'s Validate reports
-  through `alert()`, which blocks the page. Show the result in the demo instead;
-  this pairs with the TemplateField item above.
+  Done 2026-10-21 (4488a46e): ESLint now rejects any `style` prop on any
+  element except an object of custom properties, and the registry, stories
+  and demos moved to classes. New utilities: `.measure`, `.grid-stack`, gap
+  and alignment classes for the horizontal Stack, and text sizes. The
+  registry keeps `--flow-space` and `--layout-grid-min` as custom
+  properties. `Sidebar.tsx` keeps one disable, since it forwards its
+  caller's `style`.
+- [x] *TemplateField invalid state and the prompt demo's `alert()`.* Both
+  closed 2026-10-20 without a change: `PromptTemplateDemo` no longer exists,
+  and TemplateField is deleted (see §4).
 - [x] *Arrow keys in a dropdown started from the wrong row.* ArrowUp on a
   `pp-dropdown` trigger focuses the last item, but once the popup had
   animated in, the dropdown made the first item current again. Focus and the

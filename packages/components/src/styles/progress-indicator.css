@@ -8,6 +8,11 @@
   padding: 0;
 }
 
+.stepper[data-density='compact'] {
+  --_circle-size: 0.5rem;
+  --_item-spacing: 0.25rem;
+}
+
 .stepper .stepper {
   --_line-width: 0;
   --_spacing: 0;
@@ -42,7 +47,7 @@
   }
 
   &:not(:has(.stepper__icon))::before {
-    content: "";
+    content: '';
     flex: 0 0 var(--_circle-size);
     height: var(--_circle-size);
     border-radius: 50%;
@@ -69,7 +74,7 @@
 
   &:not(:last-child) {
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       left: 1rem;
       top: calc(var(--_circle-size) + var(--_spacing) + 1rem + 0.5rem);
@@ -100,10 +105,11 @@
 }
 
 .stepper__item--current .stepper__icon {
-  background-color: var(--c-accent);
+  --l-threshold: 0.7;
+  --l: clamp(0, (l / var(--l-threshold) - 1) * -infinity, 1);
 
-  /* TODO: calculate color based on accent color */
-  color: white;
+  background-color: var(--c-accent);
+  color: oklch(from var(--c-accent) var(--l) 0 h / 90%);
 }
 
 .stepper__item--danger .stepper__icon {

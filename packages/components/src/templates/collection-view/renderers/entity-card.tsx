@@ -5,8 +5,7 @@ import { getAttributeValue, formatAttributeValue, attributeLabel } from '../Attr
 import type { AttributePath } from '../spec';
 import { firstOfRole, isIdentity, type ItemCoupling } from './shared';
 
-interface EntityCardProps<T extends BoundEntity = BoundEntity>
-  extends ItemCoupling<T> {
+interface EntityCardProps<T extends BoundEntity = BoundEntity> extends ItemCoupling<T> {
   item: T;
   binding: EntityBinding;
   shownAttributes: AttributePath[];
@@ -38,16 +37,10 @@ export function EntityCard<T extends BoundEntity>({
   const name = titleValue != null ? String(titleValue) : null;
 
   const thumbnailAttribute = firstOfRole(resolved, 'thumbnail');
-  const thumbnailValue = thumbnailAttribute
-    ? getValueAtPath(item, thumbnailAttribute.path)
-    : null;
+  const thumbnailValue = thumbnailAttribute ? getValueAtPath(item, thumbnailAttribute.path) : null;
   const icon =
     typeof thumbnailValue === 'string' && thumbnailValue !== '' ? (
-      <iconify-icon
-        className="icon"
-        icon={thumbnailValue}
-        aria-hidden="true"
-      ></iconify-icon>
+      <iconify-icon className="icon" icon={thumbnailValue} aria-hidden="true"></iconify-icon>
     ) : null;
 
   const heading =
@@ -78,16 +71,14 @@ export function EntityCard<T extends BoundEntity>({
   const hasBody = descriptionValue != null || badges.length > 0;
   const body = hasBody && (
     <>
-      {descriptionValue != null && (
-        <p className="description">{String(descriptionValue)}</p>
-      )}
+      {descriptionValue != null && <p className="description">{String(descriptionValue)}</p>}
       {badges.length > 0 && (
         <div className="card__attributes badges">
           {badges.map((attribute) => {
             const value = formatAttributeValue(
               getAttributeValue(item, attribute.path),
               attribute.path,
-              binding
+              binding,
             );
             return onAttributeClick ? (
               <button

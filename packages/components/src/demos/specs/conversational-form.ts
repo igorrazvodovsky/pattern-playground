@@ -11,7 +11,9 @@ export default {
       return {
         answers: { plans: ['c'], amount: 50 },
         draft: '',
-        dateReading: formatDate(new Date(new Date().getFullYear() - 2, 11, 16), { dateStyle: 'full' }),
+        dateReading: formatDate(new Date(new Date().getFullYear() - 2, 11, 16), {
+          dateStyle: 'full',
+        }),
       };
     },
   } satisfies SpecSetup,

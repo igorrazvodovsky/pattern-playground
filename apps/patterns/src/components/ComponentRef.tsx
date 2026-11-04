@@ -7,9 +7,5 @@ interface ComponentRefProps {
 }
 
 export function ComponentRef({ id, children }: ComponentRefProps) {
-  return (
-    <a href={`${STORYBOOK_URL}/?path=/docs/${id}`}>
-      {children}
-    </a>
-  );
+  return <a href={`${STORYBOOK_URL}/?path=/docs/${id}`}>{children}</a>;
 }

@@ -1,7 +1,7 @@
 import type { MentionPart } from '../../../catalog/behaviour/mention-editor';
 
-// How a reference category's items become mentions, and how the @ list
-// matches them against what was typed after the @.
+// How a reference category's items become mentions, and how a list matches
+// its candidates against what was typed after the @ or /.
 
 export const maxMentionMatches = 8;
 
@@ -14,5 +14,5 @@ export const toMention = (item: { id: string; name: string; type: string }): Men
 export const mentionQuery = (query: unknown) =>
   typeof query === 'string' ? query.trim().toLocaleLowerCase() : '';
 
-export const matchesQuery = (query: string) => (mention: MentionPart) =>
-  mention.label.toLocaleLowerCase().includes(query);
+export const matchesQuery = (query: string) => (candidate: { label: string }) =>
+  candidate.label.toLocaleLowerCase().includes(query);

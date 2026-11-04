@@ -11,7 +11,7 @@ export const Crumb = ({ label, onPick }: { label: string; onPick: () => void }) 
       <a
         ref={ref}
         href="#"
-        onClick={event => {
+        onClick={(event) => {
           event.preventDefault();
           onPick();
         }}
@@ -24,17 +24,29 @@ export const Crumb = ({ label, onPick }: { label: string; onPick: () => void }) 
 
 // Picking one can shorten the trail until it has no middle, removing the menu
 // while focus is in it, so it hands focus on.
-export const CrumbOverflow = ({ items, onPick }: { items: { id: string; label: string }[]; onPick: (id: string) => void }) => {
+export const CrumbOverflow = ({
+  items,
+  onPick,
+}: {
+  items: { id: string; label: string }[];
+  onPick: (id: string) => void;
+}) => {
   const { trigger, list } = useMenuFocusHandoff(null);
   return (
     <span className="crumb crumb--overflow">
       <pp-dropdown placement="bottom-start" hoist>
-        <button ref={trigger} type="button" className="button button--plain" data-slot="trigger" aria-label="Hidden items">
+        <button
+          ref={trigger}
+          type="button"
+          className="button button--plain"
+          data-slot="trigger"
+          aria-label="Hidden items"
+        >
           …
         </button>
         <pp-popup>
           <pp-list ref={list}>
-            {items.map(item => (
+            {items.map((item) => (
               <pp-list-item key={item.id} onClick={() => onPick(item.id)}>
                 {item.label}
               </pp-list-item>

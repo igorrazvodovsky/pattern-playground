@@ -23,11 +23,10 @@ export function CommandMenu({
   enableNavigation = true,
   enableAI = false,
   placeholder,
-  emptyMessage = "¯\_(ツ)_/¯. No results found.",
+  emptyMessage = '¯\_(ツ)_/¯. No results found.',
   className,
   aiMessages = {},
 }: CommandMenuProps) {
-
   const composition = useCommandComposition({
     data,
     enableNavigation,
@@ -48,11 +47,7 @@ export function CommandMenu({
     if (composition.shouldShowAI && composition.ai?.handleAIRequest) {
       composition.ai.handleAIRequest(composition.searchInput);
     }
-  }, [
-    composition.shouldShowAI,
-    composition.searchInput,
-    composition.ai
-  ]);
+  }, [composition.shouldShowAI, composition.searchInput, composition.ai]);
 
   const handleApplyAIResult = () => {
     composition.ai?.handleApplyAIResult?.();

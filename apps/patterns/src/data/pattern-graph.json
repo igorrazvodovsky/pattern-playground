@@ -27,6 +27,47 @@
       "group": "conversation/sequence-management"
     },
     {
+      "id": "account-access",
+      "title": "Account access",
+      "category": "Actions",
+      "path": "/patterns/account-access",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor needs something only a full account provides: a hosted workspace, a purchase or subscription that has to stay theirs, or an organisation's access control. They arrive at it through [identity at the point of need](/patterns/identity-at-the-point-of-need), at the door of a space that is closed from the outset, or on returning to an account they already hold. The access flow is hosted on a [form](/patterns/form) that structures the inputs and binds them to a single submission. Entering and returning both demand that the actor establish presence with credentials, and the interface must make the path for new and returning actors clear without conflating them.",
+        "resulting": "The actor has established or verified their identity within the artifact. The credential is one of three parts, offered alone or side by side: [passwordless access](/patterns/passwordless-access) through a code or link sent to a channel the actor controls, [federated identity](/patterns/federated-identity) through a provider they already trust, or a [password](/patterns/password) they create and store. Lead with the first two where most actors have a dependable inbox or provider account, and keep a password for those who do not. Where credentials fail or are forgotten, [account recovery](/patterns/account-recovery) provides the fallback. Problems with the identifier or other details reach the actor through [validation](/patterns/validation) at the field. Once access is granted, lead into [onboarding](/patterns/onboarding) to orient the newcomer, or return the actor to their workspace…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
+        }
+      ]
+    },
+    {
+      "id": "account-recovery",
+      "title": "Account recovery",
+      "category": "Actions",
+      "path": "/patterns/account-recovery",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… an actor attempts to [sign in](/patterns/account-access), but cannot provide their [password](/patterns/password). The credential is forgotten, lost, or compromised, and the actor needs a dependable path to confirm identity and regain access without creating an unlinked duplicate account.",
+        "resulting": "The actor verifies their identity through an alternative communication channel and sets a replacement credential. Check requirements on the new secret as the actor types using [validation](/patterns/validation) before restoring access. When every automated route fails, because the actor has lost the email address or phone the flow relies on, the flow ends in [reaching a person](/patterns/reaching-a-person) who can restore access, rather than in an error…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "used"
+        }
+      ]
+    },
+    {
       "id": "action-consequences",
       "title": "Action consequences",
       "category": "Actions",
@@ -200,28 +241,6 @@
           "kind": "used"
         }
       ]
-    },
-    {
-      "id": "ai-tuning",
-      "title": "AI tuning",
-      "category": "Activities",
-      "path": "/patterns/ai-tuning",
-      "role": "pattern",
-      "situation": {
-        "initiating": "the agent's default behaviour is close but not right, and the mismatch keeps recurring; correcting it turn by turn is work the actor repeats forever, so what they need is to change the standing behaviour rather than this instance of it",
-        "resulting": [
-          {
-            "clause": "the standing behaviour is the actor's to shape, so a correction made once holds across sessions instead of being re-issued each time"
-          },
-          {
-            "clause": "how far the system may act on its own is now something the actor set, which moves the responsibility for that boundary onto them"
-          },
-          {
-            "clause": "tuning accumulates and then goes quiet: behaviour configured months ago reads later as simply how the system is, including to the actor who configured it"
-          }
-        ]
-      },
-      "seed": true
     },
     {
       "id": "annotation",
@@ -554,24 +573,8 @@
       "path": "/patterns/citation",
       "role": "pattern",
       "situation": {
-        "initiating": "the actor owns output they didn't write — an answer, a summary, a draft — and standing behind it means knowing where it came from; checking everything costs as much as the output is long, so unverifiable output gets accepted rather than checked, and fluent wrong output gets accepted the same way",
-        "resulting": [
-          {
-            "clause": "each claim now has somewhere to look, so checking one claim costs a follow rather than a search — and a checkable claim is what a deliberate pause before acceptance needs in order to land on something",
-            "setsUp": [
-              "cognitive-forcing-functions"
-            ]
-          },
-          {
-            "clause": "the mark raises trust whether or not anyone follows it, and most actors don't: the sign of checkability gets read as the fact of having checked, including when the citation is irrelevant or wrong"
-          },
-          {
-            "clause": "the characteristic failure is not a dead link but a real source that doesn't say what the claim says, so a pointer to a document under-specifies the check — the passage is what makes it checkable"
-          },
-          {
-            "clause": "citing narrows what gets said: the system leans toward what it can point at, and stricter citing trades coverage for correctness"
-          }
-        ]
+        "initiating": "… the system has produced [generated content](/patterns/generated-content) whose claims the actor did not write and needs to know the source of: an answer in a conversation, a report built from [reference material](/patterns/reference-material), or a [text lens](/patterns/text-lense) summary compressing a longer document. Citation completes these larger patterns by pointing each claim to the source passage behind it, so seeing where a claim comes from and checking it takes following a link rather than researching the question again from scratch.",
+        "resulting": "Each cited claim now has a passage to check, so verifying a claim takes following a pointer rather than searching from scratch, while citing narrows the output toward what the sources explicitly state. Give each marker a [link preview](/patterns/link-preview) of the cited span so the actor can weigh the passage in place before opening the full source. Where a claim has no source passage behind it, or its sources disagree, mark the span with [expressed uncertainty](/patterns/expressed-uncertainty) graded by that evidence, rather than attaching a weak link or leaving the gap silent. Place the citations ahead of any [explanation](/patterns/explanation), which answers why the system reached its conclusion rather than where a claim came from and, when read first, makes actors less likely to open the sources. Where the answer took several steps to produce, pair citations with [transparent reasoning](/patterns/transparent-reasoning) so the actor can inspect the path taken alongside the passages each claim rests on. Because citation marks raise trust on sight even when nobody follows them and even when the source does not support the claim, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes require the actor to verify before committing. In [prose](/patterns/prose), a citation is a hyperlink in its reference mode, naming its target so the actor can follow it to check. Citation is not [provenance marking](/patterns/provenance-marking), which records who or what made the content rather than which source passage backs a claim, nor is it [annotation](/patterns/annotation), which is the actor's own layer over content they cannot change…"
       },
       "evidence": [
         {
@@ -579,6 +582,9 @@
         },
         {
           "kind": "literature"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -1020,7 +1026,7 @@
       "seed": true,
       "evidence": [
         {
-          "kind": "observed"
+          "kind": "used"
         }
       ]
     },
@@ -1057,27 +1063,14 @@
       "path": "/patterns/dry-run",
       "role": "pattern",
       "situation": {
-        "initiating": "the actor has written something the system will apply to many cases: a rule, a replace-all, a bulk edit, a formula, a template; reading it does not tell them what it will do, and the cases it will meet are either out of view or have not arrived yet",
-        "resulting": [
-          {
-            "clause": "the actor judges what they wrote by its effect on cases they recognise, rather than by reading it"
-          },
-          {
-            "clause": "the cases shown decide what the actor learns, so a sample that misses the edge is a false reassurance"
-          },
-          {
-            "clause": "the run is a rehearsal, and cases that were not in the sample, or arrive later, can still go differently"
-          },
-          {
-            "clause": "the run produces a before-and-after over cases, which the actor may want to accept or reject one at a time rather than as a whole",
-            "setsUp": [
-              "change-review"
-            ]
-          }
-        ]
+        "initiating": "… the actor has written something that will act on many items at once: a rule made with [rule composition](/patterns/rule-composition), a step in a [workflow](/patterns/workflow), a find-and-replace, a batch rename, a mail merge, a formula filled down a column. Reading it does not tell them what it will do, and the items it will act on are out of sight or have not arrived yet. A filter shows its result as it is typed; a rule or a bulk edit shows nothing until it runs, and the first run is the real one. A dry run gives the rule and the workflow step that same check: it runs what was written against real items and shows what would change, without changing anything.",
+        "resulting": "The actor can now judge what they wrote by what it does to items they know, rather than by reading it. Where every item was in view, the dry run is a full before and after; hand it to [change review](/patterns/change-review) so the actor can accept or reject each change rather than all of them at once. Where the items arrive later, the dry run is a rehearsal, and a rule that passed it can still go wrong on an item the sample did not include; catching a rule after it goes wrong is a pattern of its own, not written here yet. [Plan preview](/patterns/plan-preview) is the neighbour where what is shown is the system's own plan rather than something the actor wrote, and a plan preview that runs its plan on a few items is both at once. [Filtering](/patterns/filtering) is not a dry run: a filter over a visible list shows its real result as it is typed, which is the check a dry run adds where the result cannot be seen…"
       },
       "seed": true,
       "evidence": [
+        {
+          "kind": "observed"
+        },
         {
           "kind": "literature"
         }
@@ -1243,26 +1236,15 @@
       "path": "/patterns/expressed-uncertainty",
       "role": "pattern",
       "situation": {
-        "initiating": "the system is not equally sure of everything it says, but fluent output reads uniformly confident — so the actor calibrates trust on tone, which the system produces equally well when wrong",
-        "resulting": [
-          {
-            "clause": "confidence is part of the output's surface — hedged phrasing, ranges, marks on the doubtful spans — so the actor's scrutiny can land where it is actually needed",
-            "setsUp": [
-              "cognitive-forcing-functions"
-            ]
-          },
-          {
-            "clause": "a number implies calibration that may not exist: \"80% confident\" is itself a generated claim, and precision in the mark overstates precision in the ground"
-          },
-          {
-            "clause": "hedging everything is as useless as asserting everything; the value is in the difference between the marked and the unmarked"
-          }
-        ]
+        "initiating": "… the system has produced [generated content](/patterns/generated-content) or offered a [suggestion](/patterns/suggestion) whose parts are not equally well supported, including claims that [citation](/patterns/citation) could not link to any source passage or whose sources disagree. Expressed uncertainty completes these by letting confidence vary visibly across the output, so the actor's scrutiny lands on the guesses rather than spreading evenly across the whole piece or trusting all of it on tone.",
+        "resulting": "Confidence now varies across the output's surface, and the value of the mark lies in the difference between what is marked and what is left plain, while a numeric score risks claiming calibration the model does not have. Where the stakes of accepting a doubtful span or proposal are high, pair the uncertainty mark with [cognitive forcing functions](/patterns/cognitive-forcing-functions), excluding low-confidence items from bulk acceptance so the actor's pause lands on the uncertain parts. Expressed uncertainty is not [explanation](/patterns/explanation): the mark tells the actor which part of the output is doubtful, whereas an explanation lays out the factors or rules that produced the prediction…"
       },
-      "seed": true,
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -1316,6 +1298,25 @@
       "evidence": [
         {
           "kind": "observed"
+        }
+      ]
+    },
+    {
+      "id": "federated-identity",
+      "title": "Federated identity",
+      "category": "Operations",
+      "path": "/patterns/federated-identity",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor is creating an account or returning to sign in through [account access](/patterns/account-access), and already holds a trusted, verified identity with an external provider such as Google, Apple, enterprise SSO, or other  identification system. Signing in through that provider spares them creating a [password](/patterns/password) for one more artifact.",
+        "resulting": "The actor authenticates with a single gesture through their existing provider, without creating or maintaining standalone credentials. Where the actor prefers direct communication tokens without third-party platform coupling, [passwordless access](/patterns/passwordless-access) provides the alternative…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
         }
       ]
     },
@@ -1391,8 +1392,8 @@
       "path": "/patterns/form",
       "role": "pattern",
       "situation": {
-        "initiating": "… in [making changes](/sequences/making-changes) the actor has reached the point of saying what the change is, and [editing in place](/patterns/editing-in-place) does not fit: the fields only make sense together, need more room than the display offers, apply to a set rather than the item in view, or have to be reviewed as a whole before they take effect. A form gives the sequence a surface of its own on which the whole change is composed and checked before any of it takes effect. The rule editor in [delegating work](/sequences/delegating-work) uses the same parts for a set of fields that stays open.",
-        "resulting": "Give the actor a surface of their own on which fields are filled one at a time and the whole set is committed in one act; where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting). Treat each field as an act of [data entry](/patterns/data-entry), and make a field that accepts only a fixed set of values a [bounded choice](/patterns/bounded-choice). Let the surface host the moves that act on a field: [good defaults](/patterns/good-defaults) arrive pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finish or supply a value as the actor types, and [validation](/patterns/validation) answers an input the system cannot accept at the field that produced it and holds submission until it is fixed. Let [status feedback](/patterns/status-feedback) report what the submission did. Split a long form by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, by [sections](/patterns/sections) into separately disclosed parts, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another the form has become a [wizard](/patterns/wizard). A form holds pending state until it is submitted, so decide with [saving](/patterns/saving) what happens to a half-filled one. Let [localization](/patterns/localization) decide which formats its fields accept.\nFields can also be asked and answered turn by turn inside a [conversation](/patterns/conversation), and a conversation that settles around well-structured data may in turn become a form. Within a conversation, each field renders in its message as an [inline interface](/patterns/inline-interface). [Settings](/patterns/settings) are forms by another name, kept open rather than submitted. Disabling the submit button until the form is valid hides the problem validation exists to explain, so the [disabled state](/patterns/state-disabled) is weighed against letting the actor submit and be told…"
+        "initiating": "… in [making changes](/sequences/making-changes) the actor has reached the point of saying what the change is, and it takes several related answers: the fields only make sense together, need more room than the display offers, or apply to a set rather than the item in view. [Editing in place](/patterns/editing-in-place) handles the single value; a form is the surface for the set. The rule editor in [delegating work](/sequences/delegating-work) uses the same surface for a set of fields that stays open.",
+        "resulting": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it. Where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting), and let [status feedback](/patterns/status-feedback) report what the submission did. A form that has outgrown one screen is split by [sections](/patterns/sections) into parts, by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another it has become a [wizard](/patterns/wizard). A form holds pending state until it is committed, so decide with [saving](/patterns/saving) what happens to a half-filled one, and let [localization](/patterns/localization) decide which formats its fields accept…"
       },
       "group": "application",
       "realisedBy": [
@@ -1637,6 +1638,44 @@
       ]
     },
     {
+      "id": "identity-at-the-point-of-need",
+      "title": "Identity at the point of need",
+      "category": "Actions",
+      "path": "/patterns/identity-at-the-point-of-need",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the artifact is divided into [workspaces](/patterns/workspace), and its features reach points where an identity could be asked for: when the actor arrives, keeps their work, opens it on another device, lets another person in, or pays. Whether the work lives on the provider's server or on the actor's own device, under [local-first ownership](/patterns/local-first-ownership), decides which of those points need an identity at all.",
+        "resulting": "Until a need arrives, the actor works without an identity: on a hosted artifact through [immediate use](/patterns/immediate-use), on a local-first one as the owner of work kept on their device. When it arrives, the need is met with the form of identity it requires, and the work in progress carries across without a restart. To have the work everywhere, or kept safe off the device, [sync through own storage](/patterns/sync-through-own-storage) puts it in storage the actor already holds. To let another person in, [sharing](/patterns/sharing) grants access, and a link that carries the access spares the recipient an account of their own. A hosted workspace, a paid entitlement or an organisation's access control is the need a full account meets, and [account access](/patterns/account-access) establishes it; deferring that account until one of these needs arrives is what is usually called lazy registration. Coming back later on the same device needs no identity at all: [resuming](/patterns/resuming) covers it with what the device keeps or a link to return by…"
+      },
+      "evidence": [
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
+        }
+      ]
+    },
+    {
+      "id": "immediate-use",
+      "title": "Immediate use",
+      "category": "Actions",
+      "path": "/patterns/immediate-use",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… under [identity at the point of need](/patterns/identity-at-the-point-of-need), an artifact asks for an identity only when a task genuinely requires one. An actor arrives at the artifact to explore its tools, evaluate its fit, or complete a discrete task, before any need for an account has arisen. This pattern gives the artifact its entrance at that opening threshold, where no identity has yet been declared.",
+        "resulting": "The actor can use the artifact immediately without creating an account or proving identity. Draft state stays in browser storage or in [deep linking](/patterns/deep-linking). Pair with [resuming](/patterns/resuming) so that in-flight work survives across visits and browser reloads. Where the artifact offers starter templates or exploratory tasks, lead directly into [onboarding](/patterns/onboarding) to orient the newcomer…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "incremental-formalisation",
       "title": "Incremental formalisation",
       "category": "Actions",
@@ -1670,6 +1709,18 @@
       "category": "Foundations",
       "path": "/patterns/information-architecture",
       "role": "foundation"
+    },
+    {
+      "id": "information-environment",
+      "title": "Information environment",
+      "category": "Activities",
+      "path": "/patterns/information-environment",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… an actor or a group works with information across many surfaces, channels, and moments, and needs to understand where things are, how they relate, and what can be done with them.",
+        "resulting": "The artifact's interior is the counterpart of its place among other tools, which is [tool ecology](/patterns/tool-ecology). The patterns between this one and the smaller ones it leads to are not yet written…"
+      },
+      "seed": true
     },
     {
       "id": "inline-confirmation",
@@ -1914,6 +1965,29 @@
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "used"
+        }
+      ]
+    },
+    {
+      "id": "local-first-ownership",
+      "title": "Local-first ownership",
+      "category": "Activities",
+      "path": "/patterns/local-first-ownership",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the artifact is placed among the tools the actor already uses, and the work they make in it may need to outlast the artifact, the provider or the actor's subscription. Where the work lives is decided before any feature is built on it.",
+        "resulting": "The actor holds a complete copy of their work on their own device, can use it without a network or an account, and can take it to another program if they leave…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
         },
         {
           "kind": "used"
@@ -2192,6 +2266,44 @@
       ]
     },
     {
+      "id": "password",
+      "title": "Password",
+      "category": "Operations",
+      "path": "/patterns/password",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor is creating an account or returning to sign in through [account access](/patterns/account-access). Where it fits, [passwordless access](/patterns/passwordless-access) or [federated identity](/patterns/federated-identity) through a trusted provider spares the actor a secret to remember. A password depends on nothing outside the artifact, so the artifact asks for one, on its own or beside those options, in a field on a [form](/patterns/form). The actor types it from memory or a note, or lets a password manager fill it.",
+        "resulting": "The actor holds a password the artifact will accept on every later visit, and enters it without fighting the field. Requirements and rejections reach the actor through [validation](/patterns/validation), at the field and before submission where possible. A forgotten password is routine rather than exceptional, so [account recovery](/patterns/account-recovery) has to be in reach from the sign-in step…"
+      },
+      "evidence": [
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
+        }
+      ]
+    },
+    {
+      "id": "passwordless-access",
+      "title": "Passwordless access",
+      "category": "Operations",
+      "path": "/patterns/passwordless-access",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor is establishing an identity or returning to sign in through [account access](/patterns/account-access), and memorising another secret is a burden. Instead of a [password](/patterns/password), the artifact verifies identity through an out-of-band channel (email or phone) the actor already controls.",
+        "resulting": "The actor verifies their identity through an out-of-band token or code, avoiding the vulnerabilities and cognitive load of memorised passwords. Where delegated third-party authentication is preferred over communication tokens, [federated identity](/patterns/federated-identity) provides an alternative…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "plan-preview",
       "title": "Plan preview",
       "category": "Actions",
@@ -2323,46 +2435,36 @@
       "path": "/patterns/prompt-scaffolding",
       "role": "pattern",
       "situation": {
-        "initiating": "open prompting assumes the actor knows what a good request contains; most don't, and the blank box hides its own requirements — so requests go out underspecified and the failures come back looking like the system's fault",
-        "resulting": [
-          {
-            "clause": "the request's expected shape is externalised — labelled fields, fillable slots, controls — so completeness is inspectable before anything runs"
-          },
-          {
-            "clause": "structure narrows expression: what the scaffold doesn't ask for tends not to get said, and the actor's stranger intents stop fitting the form"
-          },
-          {
-            "clause": "a scaffold encodes somebody's yesterday's idea of a good request, and keeps proposing it until the encoding is revisited"
-          }
-        ]
+        "initiating": "… now the actor has reached the point of framing a [prompt](/patterns/prompt) in [delegating work](/sequences/delegating-work), but they do not yet have their intent formulated in words, and an empty input provides no structure for articulating what the task requires. Where the relevant questions are known in advance, prompt scaffolding gives the prompt explicit structure up front, turning anticipated parameters and criteria into inspectable slots and checks so the request is complete before it runs. Where the intent is exploratory or emergent and the questions cannot be anticipated, an [open request](/patterns/open-request) drawn out through conversation serves better.",
+        "resulting": "Break each parameter into a separate control, using [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set of options, criteria, or schemas. Check the request before it runs with [validation](/patterns/validation) to warn about missing parameters or underspecified instructions at the field that needs attention. Where starter values help illustrate the slots, offer them through [suggestion](/patterns/suggestion), but keep them light so they do not anchor the actor or narrow output diversity. When a scaffold requires several interdependent configuration steps, paginate the flow with a [wizard](/patterns/wizard). When a successful scaffold configuration recurs across tasks, save it as a [template](/patterns/template) with fillable slots. Occupying the structure enacts [learnability](/patterns/learnability) by showing the actor which dimensions a complete request needs, but structure narrows expression: what the scaffold omits tends not to get asked, and the form continues proposing past assumptions until its slots are revised. A scaffold is not a conventional [form](/patterns/form), which commits structured records to a fixed store rather than assembling a prompt for generative execution…"
       },
-      "seed": true,
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "literature"
         }
       ]
     },
     {
       "id": "prompt",
       "title": "Prompt",
-      "category": "Activities",
+      "category": "Actions",
       "path": "/patterns/prompt",
       "role": "pattern",
       "situation": {
-        "initiating": "the actor holds a need in the loose form they think in, and the system can act on language — so the work is turning a vague want into a request precise enough to be acted on, with no syntax standing between the two",
-        "resulting": [
-          {
-            "clause": "intent is stated in the actor's own words, and initiative stays with whoever framed the request rather than with whoever built the interface"
-          },
-          {
-            "clause": "what comes back depends on what the request happened to carry, so the actor is now responsible for context they may not know is missing"
-          },
-          {
-            "clause": "the request is a durable artefact — keepable, editable, shareable, templatable — which makes a good one worth more than any single thing it produced"
-          }
-        ]
-      }
+        "initiating": "… the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), or through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words. The intent has no control or command name to reach it by; where it does, a [command menu](/patterns/command-menu) finds it faster and with a predictable result.",
+        "resulting": "The request is now written in the actor's own words as a durable object that can be edited, re-sent, or kept, while everything the phrasing left unsaid is left for the system to interpret or ask about. Where a blank input leaves the actor unsure what the system can do or how much to say, host starter [suggestions](/patterns/suggestion) on the prompt surface to seed or send an example request. Let the actor attach or @-mention [reference material](/patterns/reference-material) inside the prompt so the system works from named files, selections, or data sources rather than from generalities. Where the task is repetitive and high-constraint and open prose keeps leaving required parameters out, structure the input with [prompt scaffolding](/patterns/prompt-scaffolding) into labelled slots or pre-submission checks. Where the request states a complex goal in conversation with missing constraints that would be costly to guess wrong, treat it as an [open request](/patterns/open-request) and let [agent inquiry](/patterns/inquiry-agent) ask back for what is missing rather than forcing the actor to front-load every detail. Once submitted, the prompt produces [generated content](/patterns/generated-content) from the framed request and its attached context, or sets a multi-step run in motion. Because actors often discover their criteria only by reacting to a concrete attempt, follow the initial output with [instructed revision](/patterns/instructed-revision) to steer what came back in words, or [regeneration](/patterns/regeneration) to draw another attempt from the same request. When a working prompt recurs across items, let the actor save it as a [template](/patterns/template); when the same instruction has to be repeated in every session, promote it to [standing instructions](/patterns/standing-instructions) so it is read on every run. A prompt is not [searching](/patterns/searching), which retrieves existing items matching a query rather than generating a new response or executing a task, even when one input bar accepts both…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "prose",
@@ -2378,23 +2480,15 @@
       "path": "/patterns/provenance-marking",
       "role": "pattern",
       "situation": {
-        "initiating": "machine-made and human-made content now move through the same documents, feeds, and conversations, and readers calibrate trust by an origin they can no longer see",
-        "resulting": [
-          {
-            "clause": "origin is legible at the point of reading — labels, badges, marks, embedded metadata — so the reader's calibration has something to work from"
-          },
-          {
-            "clause": "a mark only works while it survives the content's travels; copy, paste, export, and screenshot strip exactly the layer the mark lives in"
-          },
-          {
-            "clause": "labelling the machine's output makes the unlabelled a claim of human origin — the default stops being neutral the moment anything is marked"
-          }
-        ]
+        "initiating": "… [generated content](/patterns/generated-content) and human contributions now sit in the same place, where people and agents contribute side by side under [collaboration](/patterns/collaboration) and an [activity log](/patterns/activity-log) keeps the history of what changed. Provenance marking gives these larger patterns a legible sign of what produced each contribution—a person, a named rule, or a model—stamped at the moment it is written, so origin survives when machine output mixes with human work or leaves the surface that made it.",
+        "resulting": "Origin is now legible at the point of reading, and everything left unmarked on the same surface will be read as human-made. Where the marked output makes factual claims, pair the origin mark with [citation](/patterns/citation) so the actor can see not only that the system wrote a claim, but which source passage it rests on. Because a visible disclosure mark can also reassure on sight without prompting closer reading, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes of acting on wrong output are high. Provenance marking is not [annotation](/patterns/annotation): the mark is stamped on the contribution at creation to record what made it, whereas annotation is a reader's own layer added over content they did not write…"
       },
-      "seed": true,
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -2449,6 +2543,26 @@
       "evidence": [
         {
           "kind": "literature"
+        }
+      ]
+    },
+    {
+      "id": "reaching-a-person",
+      "title": "Reaching a person",
+      "category": "Actions",
+      "path": "/patterns/reaching-a-person",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor needs something the artifact cannot do on its own: access to a document someone else controls, a permission only an admin can grant, an account they cannot get back into after [account recovery](/patterns/account-recovery) has failed, a review of a decision made about them, a charge they dispute. [Help](/patterns/help) has nothing more to tell them, because the fix needs access, authority, judgement or knowledge that some person holds: the owner of the item, a workspace admin, a contact the actor named in advance, a moderator, or the provider's support.",
+        "resulting": "The request sits with someone who can act on it, with enough attached that they can act without asking the actor to explain it again. What follows, the reply and the actor's sense of where the request stands, belongs to the request rather than to reaching the person…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -2520,6 +2634,9 @@
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -2802,6 +2919,32 @@
       "group": "conversation/sequence-management"
     },
     {
+      "id": "session",
+      "title": "Session",
+      "category": "Activities",
+      "path": "/patterns/session",
+      "role": "pattern",
+      "situation": {
+        "resulting": [
+          {
+            "clause": "the turns, attached context, and intermediate results of the task accumulate inside one bounded thread, so each new [prompt](/patterns/prompt) only has to state what is new rather than re-supplying what was already said and done"
+          },
+          {
+            "clause": "earlier turns, rejected attempts, and stale assumptions stay in scope as the session grows and continue to steer later outputs, so starting a fresh session becomes a deliberate reset when the task changes"
+          },
+          {
+            "clause": "because the session has a title and a place in a history list, the actor can leave the exchange and return to it later, while anything that needs to outlive the thread has to be lifted out through [extraction](/patterns/extraction) or promoted to [selective memory](/patterns/selective-memory) or [standing instructions](/patterns/standing-instructions)"
+          }
+        ]
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
+    },
+    {
       "id": "settings",
       "title": "Settings",
       "category": "Actions",
@@ -2891,6 +3034,25 @@
         ]
       },
       "group": "seeking"
+    },
+    {
+      "id": "standing-instructions",
+      "title": "Standing instructions",
+      "category": "Actions",
+      "path": "/patterns/standing-instructions",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor works with an agent or assistant across many sessions. Its default behaviour is close but not right, and the same correction comes back each time: the spelling, the length, the tool it should reach for, the thing it must never do. Saying it in the [prompt](/patterns/prompt) fixes one run; saying it as an [instructed revision](/patterns/instructed-revision) fixes one output. By the third time the actor wants to say it once and have it hold.",
+        "resulting": "What should hold is written down in the actor's words and read at the start of every run, so a correction made once stops recurring, and every piece of [generated content](/patterns/generated-content) from then on carries its mark. [Rule composition](/patterns/rule-composition) is the other form a standing correction takes: a condition built from parts the system offers, exact enough to run on its own, where an instruction is prose the system interprets. [Selective memory](/patterns/selective-memory) is the neighbouring channel, written by the system rather than the actor; the two need separate controls, or a fact the actor erased survives as behaviour they once asked for. [Settings](/patterns/settings) hold the preferences that fit an enumerated axis, and an instruction holds what no axis anticipated. A [workflow](/patterns/workflow) or a skill is a procedure the actor invokes; an instruction is read whether or not anything invokes it. The instruction accumulates and goes quiet: behaviour set months ago reads later as how the system is, and a file that grew by one line per correction starts to contradict itself with nothing to say which line wins. Reading it does not say what it will do, which is the gap a [dry run](/patterns/dry-run) fills where the effect can be rehearsed. How far the system may act on its own is not an instruction but a grant, and recurring renewals of the grant become standing bounds the way recurring corrections become standing instructions; that is [bounded autonomy](/patterns/bounded-autonomy)'s side of the same escalation…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "state-disabled",
@@ -3028,6 +3190,23 @@
       ]
     },
     {
+      "id": "sync-through-own-storage",
+      "title": "Sync through own storage",
+      "category": "Actions",
+      "path": "/patterns/sync-through-own-storage",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor keeps their work in an artifact on their own device under [local-first ownership](/patterns/local-first-ownership), works on it alone, and wants it on every device they use, or kept safe off the device, through [identity at the point of need](/patterns/identity-at-the-point-of-need). They already have storage that follows them, such as iCloud, Dropbox or another service, and it is one of the [tools they already work with](/patterns/tool-ecology).",
+        "resulting": "The work reaches the actor's other devices through storage they already hold, and the artifact keeps no identity of its own for them…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
+    },
+    {
       "id": "tag",
       "title": "Tag",
       "category": "Actions",
@@ -3113,6 +3292,18 @@
         ]
       },
       "group": "evaluation"
+    },
+    {
+      "id": "tool-ecology",
+      "title": "Tool ecology",
+      "category": "Activities",
+      "path": "/patterns/tool-ecology",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… an actor, or a group of actors, already works with many tools, accounts and agents, and the artifact being made will join that set rather than replace it.",
+        "resulting": "The artifact's place among other tools is the counterpart of its interior, which is [information environment](/patterns/information-environment). The patterns between this one and the smaller ones it leads to are not yet written…"
+      },
+      "seed": true
     },
     {
       "id": "transient-feedback",
@@ -3330,7 +3521,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… the actor is about to start a task in [making changes](/sequences/making-changes), or in the first encounter of [learning](/sequences/learning), that they meet so rarely they have no model of it, and whose early answers decide which questions exist later; [onboarding](/patterns/onboarding) runs its first-time setup this way for the same reason, since the actor has to choose before understanding what each control means. A [form](/patterns/form) would put every field on one page, and most tasks are better served by one. A wizard gives these sequences a task the actor can finish without a model of it, by applying [progressive disclosure](/patterns/progressive-disclosure) one decision at a time and letting each answer remove the questions that no longer apply; [step by step](/patterns/step-by-step) gives it its navigation when the sequence also decides how the actor moves through the interface.",
-        "resulting": "Each part of the instruction is a smaller pattern, and they follow the actor's path through the steps. Throughout, let [status feedback](/patterns/status-feedback) say where the actor is, what failed, and at the end what the submission produced. In each step, pre-fill with [good defaults](/patterns/good-defaults) whatever the system can guess or remembers from last time, which is also most of the faster path for returning actors. Put [help](/patterns/help) beside the fields it explains, so guidance never takes the actor out of the step. Check each step's inputs with [validation](/patterns/validation) at the field, before the actor can advance, so an early mistake does not carry into the steps that depend on it. Make going back free, since the flow hides everything but the current step: give it a non-destructive [undo](/patterns/undo) and a Back that keeps every answer. Where the flow runs longer than one sitting, give it [resuming](/patterns/resuming), and ask before any exit that would discard what was entered. End with a [review before submitting](/patterns/review-before-submitting), every answer in one place and each linked back to its step, so the actor checks the whole before committing it…"
+        "resulting": "Each part of the instruction is a smaller pattern, and they follow the actor's path through the steps. Throughout, let [status feedback](/patterns/status-feedback) say where the actor is, what failed, and at the end what the submission produced. In each step, pre-fill with [good defaults](/patterns/good-defaults) whatever the system can guess or remembers from last time, which is also most of the faster path for returning actors. Put [help](/patterns/help) beside the [fields](/patterns/data-entry) it explains, so guidance never takes the actor out of the step. Check each step's inputs with [validation](/patterns/validation) at the field, before the actor can advance, so an early mistake does not carry into the steps that depend on it. Make going back free, since the flow hides everything but the current step: give it a non-destructive [undo](/patterns/undo) and a Back that keeps every answer. Where the flow runs longer than one sitting, give it [resuming](/patterns/resuming), and ask before any exit that would discard what was entered. End with a [review before submitting](/patterns/review-before-submitting), every answer in one place and each linked back to its step, so the actor checks the whole before committing it…"
       },
       "group": "application",
       "evidence": [
@@ -3384,23 +3575,13 @@
       "path": "/patterns/workspace",
       "role": "pattern",
       "situation": {
-        "initiating": "the actor's work spans contexts that don't belong together — different ownership, different topics, different states of activity — and one undifferentiated space makes all of them present at once, so focusing on any of it means ignoring the rest by effort",
-        "resulting": [
-          {
-            "clause": "work is partitioned into contexts that match how attention and responsibility are actually divided, so entering one puts the rest out of the way rather than out of mind"
-          },
-          {
-            "clause": "some of the actor's work is now somewhere they aren't looking, and changes there won't be seen until they switch — which is what has to reach across the boundary",
-            "setsUp": [
-              "notification"
-            ]
-          },
-          {
-            "clause": "the boundaries carry access as well as attention: what belongs to a workspace decides who can see it, so partitioning the work also partitions visibility"
-          }
-        ]
+        "initiating": "… the [information architecture](/patterns/information-architecture) has named the actor's objects and the divisions between them, and the first step of [structuring the space](/sequences/structuring-the-space) is to decide which of those divisions the actor works in apart from the rest. Until then, work of different ownership, topic and state of activity sits in one space, and focusing on any part of it means ignoring the rest by effort. A workspace gives the space its first boundaries, so that each context opens with only its own work, people and defaults present, and the layout steps that follow can work inside one context at a time.",
+        "resulting": "Give the set of workspaces a switcher: a list of workspaces works as a [hub](/patterns/hub-and-spoke), and a [command menu](/patterns/command-menu) lets an actor who knows the name go straight to one. Decide who else is inside each workspace with [sharing](/patterns/sharing), and let its grants follow the workspace boundaries rather than cut across them. Some of the actor's work is now somewhere they are not looking, and changes there go unseen until they switch, so carry what matters across the boundary with [notification](/patterns/notification). Where the workspace has to account for what happened in it, host an [activity log](/patterns/activity-log) scoped to its work. Put the defaults a workspace hands down where the actor can find and change them: its configuration in [settings](/patterns/settings), the shapes new work starts from as [templates](/patterns/template), and, where a model works inside the workspace, the [standing instructions](/patterns/standing-instructions) and [reference material](/patterns/reference-material) that every [session](/patterns/session) in it starts with. [Focus and context](/patterns/focus-and-context) looks similar but works inside one context, grading detail by distance from the actor's attention, where a workspace separates contexts and decides which of them are present…"
       },
       "evidence": [
+        {
+          "kind": "observed"
+        },
         {
           "kind": "literature"
         }
@@ -3428,6 +3609,138 @@
       "type": "alternative",
       "label": "the clean alternative when a session ends intentionally rather than by abandonment",
       "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "identity-at-the-point-of-need",
+      "target": "account-access",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "A hosted workspace, a paid entitlement or an organisation's access control is the need a full account meets, and [account access](/patterns/account-access) establishes it; deferring that account until one of these needs arrives is what is usually called lazy registration.",
+      "glossFrom": "source:resulting",
+      "farSituation": "They arrive at it through [identity at the point of need](/patterns/identity-at-the-point-of-need), at the door of a space that is closed from the outset, or on returning to an account they already hold."
+    },
+    {
+      "source": "password",
+      "target": "account-access",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the actor is creating an account or returning to sign in through [account access](/patterns/account-access).",
+      "glossFrom": "source:initiating",
+      "farSituation": "The credential is one of three parts, offered alone or side by side: [passwordless access](/patterns/passwordless-access) through a code or link sent to a channel the actor controls, [federated identity](/patterns/federated-identity) through a provider they already trust, or a [password](/patterns/password) they create and store."
+    },
+    {
+      "source": "passwordless-access",
+      "target": "account-access",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the actor is establishing an identity or returning to sign in through [account access](/patterns/account-access), and memorising another secret is a burden.",
+      "glossFrom": "source:initiating",
+      "farSituation": "The credential is one of three parts, offered alone or side by side: [passwordless access](/patterns/passwordless-access) through a code or link sent to a channel the actor controls, [federated identity](/patterns/federated-identity) through a provider they already trust, or a [password](/patterns/password) they create and store."
+    },
+    {
+      "source": "federated-identity",
+      "target": "account-access",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the actor is creating an account or returning to sign in through [account access](/patterns/account-access), and already holds a trusted, verified identity with an external provider such as Google, Apple, enterprise SSO, or other identification system.",
+      "glossFrom": "source:initiating",
+      "farSituation": "The credential is one of three parts, offered alone or side by side: [passwordless access](/patterns/passwordless-access) through a code or link sent to a channel the actor controls, [federated identity](/patterns/federated-identity) through a provider they already trust, or a [password](/patterns/password) they create and store."
+    },
+    {
+      "source": "account-access",
+      "target": "account-recovery",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where credentials fail or are forgotten, [account recovery](/patterns/account-recovery) provides the fallback.",
+      "glossFrom": "source:resulting",
+      "farSituation": "an actor attempts to [sign in](/patterns/account-access), but cannot provide their [password](/patterns/password)."
+    },
+    {
+      "source": "account-access",
+      "target": "validation",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Problems with the identifier or other details reach the actor through [validation](/patterns/validation) at the field.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "form",
+      "target": "account-access",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "The access flow is hosted on a [form](/patterns/form) that structures the inputs and binds them to a single submission.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "account-access",
+      "target": "onboarding",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Once access is granted, lead into [onboarding](/patterns/onboarding) to orient the newcomer, or return the actor to their workspace",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "account-access",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "makes the rules of admission legible before submission",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "account-access",
+      "target": "agency",
+      "type": "enacts",
+      "label": "keeps the boundary between identity creation and returning access transparent and predictable",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "password",
+      "target": "account-recovery",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "A forgotten password is routine rather than exceptional, so [account recovery](/patterns/account-recovery) has to be in reach from the sign-in step",
+      "glossFrom": "source:resulting",
+      "farSituation": "an actor attempts to [sign in](/patterns/account-access), but cannot provide their [password](/patterns/password)."
+    },
+    {
+      "source": "reaching-a-person",
+      "target": "account-recovery",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the actor needs something the artifact cannot do on its own: access to a document someone else controls, a permission only an admin can grant, an account they cannot get back into after [account recovery](/patterns/account-recovery) has failed, a review of a decision made about them, a charge they dispute.",
+      "glossFrom": "source:initiating",
+      "farSituation": "When every automated route fails, because the actor has lost the email address or phone the flow relies on, the flow ends in [reaching a person](/patterns/reaching-a-person) who can restore access, rather than in an error"
+    },
+    {
+      "source": "account-recovery",
+      "target": "account-access",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "an actor attempts to [sign in](/patterns/account-access), but cannot provide their [password](/patterns/password).",
+      "glossFrom": "source:initiating",
+      "farSituation": "Where credentials fail or are forgotten, [account recovery](/patterns/account-recovery) provides the fallback."
+    },
+    {
+      "source": "account-recovery",
+      "target": "validation",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Check requirements on the new secret as the actor types using [validation](/patterns/validation) before restoring access.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "account-recovery",
+      "target": "agency",
+      "type": "enacts",
+      "label": "returns control over personal work and settings to the actor when primary credentials fail",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "account-recovery",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "provides clear instructions for regaining access without dead ends",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "action-consequences",
@@ -3620,9 +3933,9 @@
     },
     {
       "source": "agent",
-      "target": "ai-tuning",
+      "target": "bounded-autonomy",
       "type": "precedes",
-      "label": "the agent's degree of freedom is a setting rather than a fixed property; tuning is the move that acts on it",
+      "label": "the agent's degree of freedom is a setting rather than a fixed property; bounded autonomy is where the actor sets it",
       "extractedFrom": "frontmatter:precedes"
     },
     {
@@ -3759,27 +4072,6 @@
       "extractedFrom": "frontmatter:related"
     },
     {
-      "source": "ai-tuning",
-      "target": "delegation",
-      "type": "serves",
-      "label": "shaping initial behaviours at delegation's set-up, and repairing misfires during exception handling",
-      "extractedFrom": "frontmatter:serves"
-    },
-    {
-      "source": "ai-tuning",
-      "target": "agency",
-      "type": "enacts",
-      "label": "the actor sets how far the system can act on its own, then lets it run",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "ai-tuning",
-      "target": "localization",
-      "type": "complements",
-      "label": "locale as a generation parameter",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
       "source": "annotation",
       "target": "collaboration",
       "type": "enables",
@@ -3799,27 +4091,6 @@
       "type": "enacts",
       "label": "the actor learns from the interpretive marks others leave in place",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "annotation",
-      "target": "explanation",
-      "type": "complements",
-      "label": "clarifies complex concepts, often via description.",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "annotation",
-      "target": "transparent-reasoning",
-      "type": "complements",
-      "label": "system annotations that reveal decision logic.",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "annotation",
-      "target": "generated-content",
-      "type": "complements",
-      "label": "system marks confidence and origin.",
-      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "annotation",
@@ -3986,7 +4257,7 @@
       "type": "hosts",
       "incomingNote": "form fields are where the completion surface most commonly lives",
       "extractedFrom": "frontmatter:hosted-by",
-      "situation": "Let the surface host the moves that act on a field: [good defaults](/patterns/good-defaults) arrive pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finish or supply a value as the actor types, and [validation](/patterns/validation) answers an input the system cannot accept at the field that produced it and holds submission until it is fixed.",
+      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
       "glossFrom": "source:resulting"
     },
     {
@@ -4093,7 +4364,7 @@
       "type": "hosts",
       "incomingNote": "form fields are the surface where autofill most commonly appears",
       "extractedFrom": "frontmatter:hosted-by",
-      "situation": "Let the surface host the moves that act on a field: [good defaults](/patterns/good-defaults) arrive pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finish or supply a value as the actor types, and [validation](/patterns/validation) answers an input the system cannot accept at the field that produced it and holds submission until it is fixed.",
+      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
       "glossFrom": "source:resulting"
     },
     {
@@ -4268,7 +4539,7 @@
       "type": "enables",
       "label": "committing a value from a set the actor didn't author; the move behind a form's selects, radios, and checkboxes.",
       "extractedFrom": "frontmatter:enables",
-      "situation": "Treat each field as an act of [data entry](/patterns/data-entry), and make a field that accepts only a fixed set of values a [bounded choice](/patterns/bounded-choice).",
+      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
       "glossFrom": "target:resulting"
     },
     {
@@ -4367,50 +4638,74 @@
       "source": "generated-content",
       "target": "citation",
       "type": "precedes",
-      "incomingNote": "the generated output is the material a citation attaches pointers to",
-      "extractedFrom": "frontmatter:follows"
+      "extractedFrom": "frontmatter:follows",
+      "situation": "the system has produced [generated content](/patterns/generated-content) whose claims the actor did not write and needs to know the source of: an answer in a conversation, a report built from [reference material](/patterns/reference-material), or a [text lens](/patterns/text-lense) summary compressing a longer document.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "citation",
+      "target": "expressed-uncertainty",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where a claim has no source passage behind it, or its sources disagree, mark the span with [expressed uncertainty](/patterns/expressed-uncertainty) graded by that evidence, rather than attaching a weak link or leaving the gap silent.",
+      "glossFrom": "source:resulting",
+      "farSituation": "the system has produced [generated content](/patterns/generated-content) or offered a [suggestion](/patterns/suggestion) whose parts are not equally well supported, including claims that [citation](/patterns/citation) could not link to any source passage or whose sources disagree."
+    },
+    {
+      "source": "citation",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Because citation marks raise trust on sight even when nobody follows them and even when the source does not support the claim, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes require the actor to verify before committing.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "link-preview",
       "target": "citation",
       "type": "enables",
-      "incomingNote": "hover previews let a source be weighed without leaving the claim",
-      "extractedFrom": "frontmatter:composed-of"
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Give each marker a [link preview](/patterns/link-preview) of the cited span so the actor can weigh the passage in place before opening the full source.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "citation",
       "target": "transparent-reasoning",
       "type": "complements",
-      "label": "the evidence for a claim versus the path that produced it",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the answer took several steps to produce, pair citations with [transparent reasoning](/patterns/transparent-reasoning) so the actor can inspect the path taken alongside the passages each claim rests on.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "citation",
       "target": "explanation",
       "type": "complements",
-      "label": "where it came from versus why the system said it — and an explanation the actor finds convincing reduces their inclination to open the sources beside it",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Place the citations ahead of any [explanation](/patterns/explanation), which answers why the system reached its conclusion rather than where a claim came from and, when read first, makes actors less likely to open the sources.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "citation",
       "target": "annotation",
       "type": "related",
-      "label": "a citation is a system-authored mark anchored to the claim it supports, where annotation is the actor's own layer over content they can't change",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "Citation is not [provenance marking](/patterns/provenance-marking), which records who or what made the content rather than which source passage backs a claim, nor is it [annotation](/patterns/annotation), which is the actor's own layer over content they cannot change",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "citation",
       "target": "text-lense",
       "type": "related",
-      "label": "a summary whose sentences point back into the long document lets the actor go deeper at the relevant passage instead of re-reading",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "the system has produced [generated content](/patterns/generated-content) whose claims the actor did not write and needs to know the source of: an answer in a conversation, a report built from [reference material](/patterns/reference-material), or a [text lens](/patterns/text-lense) summary compressing a longer document.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "citation",
       "target": "prose",
       "type": "related",
-      "label": "a citation is the hyperlink in its citation mode — the anchor names its target and the reader may follow it for verification",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "In [prose](/patterns/prose), a citation is a hyperlink in its reference mode, naming its target so the actor can follow it to check.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "citation",
@@ -4689,6 +4984,13 @@
       "extractedFrom": "frontmatter:complements"
     },
     {
+      "source": "conversation",
+      "target": "form",
+      "type": "complements",
+      "label": "a conversation that settles around well-structured data may become a form",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
       "source": "user-opening",
       "target": "conversation",
       "type": "enables",
@@ -4829,7 +5131,7 @@
       "type": "hosts",
       "incomingNote": "one of the surfaces that host the entry move — structured, multi-field, committed up front. [Conversation](/patterns/conversation) and the [inline interface](/patterns/inline-interface) are others.",
       "extractedFrom": "frontmatter:hosted-by",
-      "situation": "Treat each field as an act of [data entry](/patterns/data-entry), and make a field that accepts only a fixed set of values a [bounded choice](/patterns/bounded-choice).",
+      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
       "glossFrom": "source:resulting"
     },
     {
@@ -5095,24 +5397,36 @@
     },
     {
       "source": "dry-run",
-      "target": "filtering",
-      "type": "complements",
-      "label": "a filter over a visible collection is a dry run that never stops; the result updates with each part and the check needs no separate step",
-      "extractedFrom": "frontmatter:complements"
+      "target": "change-review",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where every item was in view, the dry run is a full before and after; hand it to [change review](/patterns/change-review) so the actor can accept or reject each change rather than all of them at once.",
+      "glossFrom": "source:resulting",
+      "farSituation": "A [dry run](/patterns/dry-run) produces a before and after across many cases."
+    },
+    {
+      "source": "dry-run",
+      "target": "workflow",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "the actor has written something that will act on many items at once: a rule made with [rule composition](/patterns/rule-composition), a step in a [workflow](/patterns/workflow), a find-and-replace, a batch rename, a mail merge, a formula filled down a column.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "dry-run",
       "target": "plan-preview",
       "type": "complements",
-      "label": "plan preview shows the system's own plan before a one-off job, dry run shows what the actor's own artifact would do; the direction of authorship is reversed",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Plan preview](/patterns/plan-preview) is the neighbour where what is shown is the system's own plan rather than something the actor wrote, and a plan preview that runs its plan on a few items is both at once.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "dry-run",
-      "target": "action-consequences",
+      "target": "filtering",
       "type": "related",
-      "label": "the severity framework that says when a many-case action warrants a rehearsal before it commits",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "[Filtering](/patterns/filtering) is not a dry run: a filter over a visible list shows its real result as it is typed, which is the check a dry run adds where the result cannot be seen",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "dynamic-hyperlinks",
@@ -5148,7 +5462,7 @@
       "type": "complements",
       "label": "the two ends of where a change happens — form gathers input on a surface of its own, editing in place puts it on the artefact",
       "extractedFrom": "frontmatter:complements",
-      "situation": "in [making changes](/sequences/making-changes) the actor has reached the point of saying what the change is, and [editing in place](/patterns/editing-in-place) does not fit: the fields only make sense together, need more room than the display offers, apply to a set rather than the item in view, or have to be reviewed as a whole before they take effect.",
+      "situation": "[Editing in place](/patterns/editing-in-place) handles the single value; a form is the surface for the set.",
       "glossFrom": "target:initiating"
     },
     {
@@ -5339,6 +5653,13 @@
     },
     {
       "source": "explanation",
+      "target": "progressive-disclosure",
+      "type": "complements",
+      "label": "lets the actor move from a brief reason to a fuller account on demand",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "explanation",
       "target": "transparent-reasoning",
       "type": "complements",
       "label": "shows step-by-step process while explanation encourages understanding through interaction",
@@ -5373,18 +5694,28 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
-      "source": "expressed-uncertainty",
-      "target": "suggestion",
-      "type": "complements",
-      "label": "a proposal's weight depends on how firm the ground under it is",
-      "extractedFrom": "frontmatter:complements"
+      "source": "generated-content",
+      "target": "expressed-uncertainty",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "the system has produced [generated content](/patterns/generated-content) or offered a [suggestion](/patterns/suggestion) whose parts are not equally well supported, including claims that [citation](/patterns/citation) could not link to any source passage or whose sources disagree.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "expressed-uncertainty",
-      "target": "citation",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where the stakes of accepting a doubtful span or proposal are high, pair the uncertainty mark with [cognitive forcing functions](/patterns/cognitive-forcing-functions), excluding low-confidence items from bulk acceptance so the actor's pause lands on the uncertain parts.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "expressed-uncertainty",
+      "target": "suggestion",
       "type": "complements",
-      "label": "how sure it is versus where it came from",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "the system has produced [generated content](/patterns/generated-content) or offered a [suggestion](/patterns/suggestion) whose parts are not equally well supported, including claims that [citation](/patterns/citation) could not link to any source passage or whose sources disagree.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "expressed-uncertainty",
@@ -5397,8 +5728,9 @@
       "source": "expressed-uncertainty",
       "target": "explanation",
       "type": "related",
-      "label": "the factors behind a prediction are one way of saying how much to trust it",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "Expressed uncertainty is not [explanation](/patterns/explanation): the mark tells the actor which part of the output is doubtful, whereas an explanation lays out the factors or rules that produced the prediction",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "expressed-uncertainty",
@@ -5461,6 +5793,29 @@
       "target": "malleability",
       "type": "enacts",
       "label": "gives the output a surface where direct manipulation applies at all",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "federated-identity",
+      "target": "passwordless-access",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where the actor prefers direct communication tokens without third-party platform coupling, [passwordless access](/patterns/passwordless-access) provides the alternative",
+      "glossFrom": "source:resulting",
+      "farSituation": "Where delegated third-party authentication is preferred over communication tokens, [federated identity](/patterns/federated-identity) provides an alternative"
+    },
+    {
+      "source": "federated-identity",
+      "target": "agency",
+      "type": "enacts",
+      "label": "lets the actor choose an existing trusted identity provider rather than creating redundant credentials",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "federated-identity",
+      "target": "shareability",
+      "type": "enacts",
+      "label": "connects the actor's workspace identity to standard cross-platform identity tokens",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -5553,44 +5908,19 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
-      "source": "form",
-      "target": "good-defaults",
-      "type": "hosts",
-      "extractedFrom": "frontmatter:hosts",
-      "incomingNote": "form fields are the primary surface where defaults are encountered",
-      "situation": "Let the surface host the moves that act on a field: [good defaults](/patterns/good-defaults) arrive pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finish or supply a value as the actor types, and [validation](/patterns/validation) answers an input the system cannot accept at the field that produced it and holds submission until it is fixed.",
-      "glossFrom": "source:resulting"
-    },
-    {
       "source": "review-before-submitting",
       "target": "form",
       "type": "enables",
       "extractedFrom": "frontmatter:composed-of",
-      "situation": "Give the actor a surface of their own on which fields are filled one at a time and the whole set is committed in one act; where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting).",
+      "situation": "Where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting), and let [status feedback](/patterns/status-feedback) report what the submission did.",
       "glossFrom": "target:resulting"
-    },
-    {
-      "source": "form",
-      "target": "conversation",
-      "type": "complements",
-      "extractedFrom": "frontmatter:complements",
-      "situation": "Fields can also be asked and answered turn by turn inside a [conversation](/patterns/conversation), and a conversation that settles around well-structured data may in turn become a form.",
-      "glossFrom": "source:resulting"
-    },
-    {
-      "source": "form",
-      "target": "localization",
-      "type": "complements",
-      "extractedFrom": "frontmatter:complements",
-      "situation": "Let [localization](/patterns/localization) decide which formats its fields accept.",
-      "glossFrom": "source:resulting"
     },
     {
       "source": "form",
       "target": "status-feedback",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Let [status feedback](/patterns/status-feedback) report what the submission did.",
+      "situation": "Where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting), and let [status feedback](/patterns/status-feedback) report what the submission did.",
       "glossFrom": "source:resulting"
     },
     {
@@ -5598,23 +5928,15 @@
       "target": "saving",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "A form holds pending state until it is submitted, so decide with [saving](/patterns/saving) what happens to a half-filled one.",
+      "situation": "A form holds pending state until it is committed, so decide with [saving](/patterns/saving) what happens to a half-filled one, and let [localization](/patterns/localization) decide which formats its fields accept",
       "glossFrom": "source:resulting"
     },
     {
       "source": "form",
-      "target": "state-disabled",
-      "type": "tangential",
-      "extractedFrom": "frontmatter:tangential",
-      "situation": "Disabling the submit button until the form is valid hides the problem validation exists to explain, so the [disabled state](/patterns/state-disabled) is weighed against letting the actor submit and be told",
-      "glossFrom": "source:resulting"
-    },
-    {
-      "source": "form",
-      "target": "inline-interface",
-      "type": "related",
-      "extractedFrom": "frontmatter:related",
-      "situation": "Within a conversation, each field renders in its message as an [inline interface](/patterns/inline-interface).",
+      "target": "localization",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A form holds pending state until it is committed, so decide with [saving](/patterns/saving) what happens to a half-filled one, and let [localization](/patterns/localization) decide which formats its fields accept",
       "glossFrom": "source:resulting"
     },
     {
@@ -5719,10 +6041,12 @@
     },
     {
       "source": "generated-content",
-      "target": "ai-tuning",
-      "type": "complements",
-      "label": "settings that influence how content is generated and presented.",
-      "extractedFrom": "frontmatter:complements"
+      "target": "standing-instructions",
+      "type": "related",
+      "label": "the output is where the actor notices that a standing instruction is missing or wrong",
+      "extractedFrom": "frontmatter:related",
+      "situation": "What should hold is written down in the actor's words and read at the start of every run, so a correction made once stops recurring, and every piece of [generated content](/patterns/generated-content) from then on carries its mark.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "good-defaults",
@@ -5751,6 +6075,15 @@
       "type": "related",
       "label": "A weaker form of default (\"Did you mean X?\") or a dynamic default",
       "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "form",
+      "target": "good-defaults",
+      "type": "hosts",
+      "incomingNote": "form fields are the primary surface where defaults are encountered",
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "good-defaults",
@@ -5920,9 +6253,9 @@
       "target": "workspace",
       "type": "enables",
       "extractedFrom": "frontmatter:enables",
-      "incomingNote": "Workspaces often implement hub and spoke navigation, where a workspace switcher or dashboard (hub) provides access to individual workspaces (spokes). See [Information Architecture foundation](/patterns/information-architecture) for the structural pattern behind it.",
       "situation": "The switcher over a set of [workspaces](/patterns/workspace) is the same case, the list of workspaces being the hub and each workspace a spoke.",
-      "glossFrom": "source:initiating"
+      "glossFrom": "source:initiating",
+      "farSituation": "Give the set of workspaces a switcher: a list of workspaces works as a [hub](/patterns/hub-and-spoke), and a [command menu](/patterns/command-menu) lets an actor who knows the name go straight to one."
     },
     {
       "source": "hub-and-spoke",
@@ -5981,6 +6314,108 @@
       "target": "agency",
       "type": "enacts",
       "label": "combining models gives the actor ways to move that no single model allows",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "local-first-ownership",
+      "target": "identity-at-the-point-of-need",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "Whether the work lives on the provider's server or on the actor's own device, under [local-first ownership](/patterns/local-first-ownership), decides which of those points need an identity at all.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "immediate-use",
+      "target": "identity-at-the-point-of-need",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "under [identity at the point of need](/patterns/identity-at-the-point-of-need), an artifact asks for an identity only when a task genuinely requires one.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Until a need arrives, the actor works without an identity: on a hosted artifact through [immediate use](/patterns/immediate-use), on a local-first one as the owner of work kept on their device."
+    },
+    {
+      "source": "identity-at-the-point-of-need",
+      "target": "sync-through-own-storage",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "To have the work everywhere, or kept safe off the device, [sync through own storage](/patterns/sync-through-own-storage) puts it in storage the actor already holds.",
+      "glossFrom": "source:resulting",
+      "farSituation": "the actor keeps their work in an artifact on their own device under [local-first ownership](/patterns/local-first-ownership), works on it alone, and wants it on every device they use, or kept safe off the device, through [identity at the point of need](/patterns/identity-at-the-point-of-need)."
+    },
+    {
+      "source": "identity-at-the-point-of-need",
+      "target": "sharing",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "To let another person in, [sharing](/patterns/sharing) grants access, and a link that carries the access spares the recipient an account of their own.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "identity-at-the-point-of-need",
+      "target": "resuming",
+      "type": "alternative",
+      "label": "resuming returns the actor to the same work on the same device without any identity, where identity at the point of need serves needs that reach beyond it",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Coming back later on the same device needs no identity at all: [resuming](/patterns/resuming) covers it with what the device keeps or a link to return by",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "identity-at-the-point-of-need",
+      "target": "agency",
+      "type": "enacts",
+      "label": "lets the actor decide when the work gains an identity, and of what kind, instead of the artifact deciding at the door",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "identity-at-the-point-of-need",
+      "target": "privacy",
+      "type": "enacts",
+      "label": "asks for no more identity than the need in hand requires",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "identity-at-the-point-of-need",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "places the commitment at the moment of need rather than the moment of arrival",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "immediate-use",
+      "target": "onboarding",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where the artifact offers starter templates or exploratory tasks, lead directly into [onboarding](/patterns/onboarding) to orient the newcomer",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "immediate-use",
+      "target": "deep-linking",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Draft state stays in browser storage or in [deep linking](/patterns/deep-linking).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "immediate-use",
+      "target": "resuming",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Pair with [resuming](/patterns/resuming) so that in-flight work survives across visits and browser reloads.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "immediate-use",
+      "target": "agency",
+      "type": "enacts",
+      "label": "allows the actor to explore, evaluate, and act without surrendering personal credentials",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "immediate-use",
+      "target": "privacy",
+      "type": "enacts",
+      "label": "keeps interaction uncredentialed until identity is genuinely required by the task",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -6074,7 +6509,18 @@
       "target": "workspace",
       "type": "precedes",
       "label": "the structure's partitions are what workspace boundaries take up",
-      "extractedFrom": "frontmatter:precedes"
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "the [information architecture](/patterns/information-architecture) has named the actor's objects and the divisions between them, and the first step of [structuring the space](/sequences/structuring-the-space) is to decide which of those divisions the actor works in apart from the rest.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "information-environment",
+      "target": "tool-ecology",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The artifact's interior is the counterpart of its place among other tools, which is [tool ecology](/patterns/tool-ecology).",
+      "glossFrom": "source:resulting",
+      "farSituation": "The artifact's place among other tools is the counterpart of its interior, which is [information environment](/patterns/information-environment)."
     },
     {
       "source": "inline-confirmation",
@@ -6109,9 +6555,7 @@
       "target": "form",
       "type": "related",
       "label": "fields distributed across an exchange; the form↔conversation move.",
-      "extractedFrom": "frontmatter:related",
-      "situation": "Within a conversation, each field renders in its message as an [inline interface](/patterns/inline-interface).",
-      "glossFrom": "target:resulting"
+      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "inline-interface",
@@ -6470,13 +6914,6 @@
       "type": "enacts",
       "label": "translation quality decides whether the interface still teaches in the new language",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "localization",
-      "target": "ai-tuning",
-      "type": "complements",
-      "label": "locale as a generation parameter",
-      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "localization",
@@ -7050,6 +7487,77 @@
       "extractedFrom": "frontmatter:alternative"
     },
     {
+      "source": "password",
+      "target": "validation",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Requirements and rejections reach the actor through [validation](/patterns/validation), at the field and before submission where possible.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "form",
+      "target": "password",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "A password depends on nothing outside the artifact, so the artifact asks for one, on its own or beside those options, in a field on a [form](/patterns/form).",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "password",
+      "target": "passwordless-access",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where it fits, [passwordless access](/patterns/passwordless-access) or [federated identity](/patterns/federated-identity) through a trusted provider spares the actor a secret to remember.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Instead of a [password](/patterns/password), the artifact verifies identity through an out-of-band channel (email or phone) the actor already controls."
+    },
+    {
+      "source": "password",
+      "target": "federated-identity",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where it fits, [passwordless access](/patterns/passwordless-access) or [federated identity](/patterns/federated-identity) through a trusted provider spares the actor a secret to remember.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Signing in through that provider spares them creating a [password](/patterns/password) for one more artifact."
+    },
+    {
+      "source": "password",
+      "target": "agency",
+      "type": "enacts",
+      "label": "lets the actor choose and store the secret in whatever way suits them, including a password manager",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "password",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "states the requirements before the actor types, so the first attempt can succeed",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "passwordless-access",
+      "target": "federated-identity",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where delegated third-party authentication is preferred over communication tokens, [federated identity](/patterns/federated-identity) provides an alternative",
+      "glossFrom": "source:resulting",
+      "farSituation": "Where the actor prefers direct communication tokens without third-party platform coupling, [passwordless access](/patterns/passwordless-access) provides the alternative"
+    },
+    {
+      "source": "passwordless-access",
+      "target": "agency",
+      "type": "enacts",
+      "label": "frees the actor from memorising credentials while keeping verification under their own channel control",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "passwordless-access",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "replaces abstract password complexity rules with the familiar physical act of checking messages",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "open-request",
       "target": "plan-preview",
       "type": "precedes",
@@ -7153,7 +7661,7 @@
       "type": "enables",
       "label": "a form revealing depth only as it becomes relevant.",
       "extractedFrom": "frontmatter:enables",
-      "situation": "Split a long form by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, by [sections](/patterns/sections) into separately disclosed parts, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another the form has become a [wizard](/patterns/wizard).",
+      "situation": "A form that has outgrown one screen is split by [sections](/patterns/sections) into parts, by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another it has become a [wizard](/patterns/wizard).",
       "glossFrom": "target:resulting"
     },
     {
@@ -7232,85 +7740,140 @@
       "source": "prompt-scaffolding",
       "target": "prompt",
       "type": "instantiates",
-      "label": "a structured way of composing the request — one end of the open-to-scaffolded spectrum",
-      "extractedFrom": "frontmatter:instantiates"
+      "extractedFrom": "frontmatter:instantiates",
+      "situation": "now the actor has reached the point of framing a [prompt](/patterns/prompt) in [delegating work](/sequences/delegating-work), but they do not yet have their intent formulated in words, and an empty input provides no structure for articulating what the task requires.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Where the task is repetitive and high-constraint and open prose keeps leaving required parameters out, structure the input with [prompt scaffolding](/patterns/prompt-scaffolding) into labelled slots or pre-submission checks."
     },
     {
       "source": "prompt-scaffolding",
       "target": "template",
       "type": "instantiates",
-      "label": "the template pattern applied to requests",
-      "extractedFrom": "frontmatter:instantiates"
+      "extractedFrom": "frontmatter:instantiates",
+      "situation": "When a successful scaffold configuration recurs across tasks, save it as a [template](/patterns/template) with fillable slots.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "bounded-choice",
       "target": "prompt-scaffolding",
       "type": "enables",
-      "incomingNote": "each slot of the scaffold is an act of bounded choice over one part of the request",
-      "extractedFrom": "frontmatter:composed-of"
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Break each parameter into a separate control, using [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set of options, criteria, or schemas.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "validation",
+      "target": "prompt-scaffolding",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Check the request before it runs with [validation](/patterns/validation) to warn about missing parameters or underspecified instructions at the field that needs attention.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "prompt-scaffolding",
+      "target": "open-request",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where the intent is exploratory or emergent and the questions cannot be anticipated, an [open request](/patterns/open-request) drawn out through conversation serves better.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "prompt-scaffolding",
       "target": "suggestion",
       "type": "complements",
-      "label": "starters and example prompts seed the scaffold's slots",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where starter values help illustrate the slots, offer them through [suggestion](/patterns/suggestion), but keep them light so they do not anchor the actor or narrow output diversity.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "prompt-scaffolding",
       "target": "wizard",
       "type": "related",
-      "label": "paginated scaffolds are the wizard applied to prompting",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "When a scaffold requires several interdependent configuration steps, paginate the flow with a [wizard](/patterns/wizard).",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "prompt-scaffolding",
       "target": "form",
       "type": "related",
-      "label": "at full structure the scaffold simply is a form whose output is a request",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "prompt-scaffolding",
-      "target": "validation",
-      "type": "related",
-      "label": "prompt-quality feedback is validation applied before the request runs",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "A scaffold is not a conventional [form](/patterns/form), which commits structured records to a fixed store rather than assembling a prompt for generative execution",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "prompt-scaffolding",
       "target": "learnability",
       "type": "enacts",
-      "label": "occupying the scaffold teaches what a good request contains",
-      "extractedFrom": "frontmatter:enacts"
+      "label": "occupying the scaffold teaches which dimensions a complete request needs",
+      "extractedFrom": "frontmatter:enacts",
+      "situation": "Occupying the structure enacts [learnability](/patterns/learnability) by showing the actor which dimensions a complete request needs, but structure narrows expression: what the scaffold omits tends not to get asked, and the form continues proposing past assumptions until its slots are revised.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "prompt",
       "target": "agent",
-      "type": "precedes",
-      "label": "the prompt articulates the request the agent acts on",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "prompt",
-      "target": "generated-content",
-      "type": "precedes",
-      "label": "the input that leads to generated content.",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "prompt",
-      "target": "ai-tuning",
-      "type": "precedes",
-      "label": "lets the actor refine how the model gets prompted",
-      "extractedFrom": "frontmatter:precedes"
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), or through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "prompt",
       "target": "conversation",
       "type": "enables",
-      "label": "the prompt is the turn-level move a conversation with an AI is built from",
-      "extractedFrom": "frontmatter:enables"
+      "extractedFrom": "frontmatter:enables",
+      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), or through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "prompt",
+      "target": "session",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), or through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "prompt",
+      "target": "generated-content",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Once submitted, the prompt produces [generated content](/patterns/generated-content) from the framed request and its attached context, or sets a multi-step run in motion.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "prompt",
+      "target": "standing-instructions",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "When a working prompt recurs across items, let the actor save it as a [template](/patterns/template); when the same instruction has to be repeated in every session, promote it to [standing instructions](/patterns/standing-instructions) so it is read on every run.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Saying it in the [prompt](/patterns/prompt) fixes one run; saying it as an [instructed revision](/patterns/instructed-revision) fixes one output."
+    },
+    {
+      "source": "prompt",
+      "target": "inquiry-agent",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the request states a complex goal in conversation with missing constraints that would be costly to guess wrong, treat it as an [open request](/patterns/open-request) and let [agent inquiry](/patterns/inquiry-agent) ask back for what is missing rather than forcing the actor to front-load every detail.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "prompt",
+      "target": "instructed-revision",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Because actors often discover their criteria only by reacting to a concrete attempt, follow the initial output with [instructed revision](/patterns/instructed-revision) to steer what came back in words, or [regeneration](/patterns/regeneration) to draw another attempt from the same request.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "prompt",
+      "target": "command-menu",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "The intent has no control or command name to reach it by; where it does, a [command menu](/patterns/command-menu) finds it faster and with a predictable result.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "prompt",
@@ -7355,7 +7918,7 @@
     },
     {
       "source": "prose",
-      "target": "ai-tuning",
+      "target": "standing-instructions",
       "type": "related",
       "extractedFrom": "frontmatter:related"
     },
@@ -7434,25 +7997,53 @@
       "extractedFrom": "frontmatter:enables"
     },
     {
-      "source": "provenance-marking",
-      "target": "citation",
-      "type": "complements",
-      "label": "who made it versus where it came from",
-      "extractedFrom": "frontmatter:complements"
+      "source": "generated-content",
+      "target": "provenance-marking",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "[generated content](/patterns/generated-content) and human contributions now sit in the same place, where people and agents contribute side by side under [collaboration](/patterns/collaboration) and an [activity log](/patterns/activity-log) keeps the history of what changed.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "provenance-marking",
       "target": "collaboration",
-      "type": "related",
-      "label": "mixed human-machine authorship is where per-contribution origin matters most",
-      "extractedFrom": "frontmatter:related"
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "[generated content](/patterns/generated-content) and human contributions now sit in the same place, where people and agents contribute side by side under [collaboration](/patterns/collaboration) and an [activity log](/patterns/activity-log) keeps the history of what changed.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "provenance-marking",
+      "target": "activity-log",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "[generated content](/patterns/generated-content) and human contributions now sit in the same place, where people and agents contribute side by side under [collaboration](/patterns/collaboration) and an [activity log](/patterns/activity-log) keeps the history of what changed.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "provenance-marking",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Because a visible disclosure mark can also reassure on sight without prompting closer reading, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes of acting on wrong output are high.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "provenance-marking",
+      "target": "citation",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the marked output makes factual claims, pair the origin mark with [citation](/patterns/citation) so the actor can see not only that the system wrote a claim, but which source passage it rests on.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Citation is not [provenance marking](/patterns/provenance-marking), which records who or what made the content rather than which source passage backs a claim, nor is it [annotation](/patterns/annotation), which is the actor's own layer over content they cannot change"
     },
     {
       "source": "provenance-marking",
       "target": "annotation",
       "type": "related",
-      "label": "the mark is an annotation about origin rather than content",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "Provenance marking is not [annotation](/patterns/annotation): the mark is stamped on the contribution at creation to record what made it, whereas annotation is a reader's own layer added over content they did not write",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "purpose-keyed-view",
@@ -7518,6 +8109,14 @@
       "extractedFrom": "frontmatter:alternative",
       "situation": "Two neighbours share the look but not the ground: [overview and detail](/patterns/overview-detail) shows one collection at two levels of detail, where a hub routes between sections with no model in common, and a [pyramid](/patterns/pyramid) is the hub for items that form a sequence",
       "glossFrom": "target:resulting"
+    },
+    {
+      "source": "reaching-a-person",
+      "target": "help",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Help](/patterns/help) has nothing more to tell them, because the fix needs access, authority, judgement or knowledge that some person holds: the owner of the item, a workspace admin, a contact the actor named in advance, a moderator, or the provider's support.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "deep-linking",
@@ -7629,7 +8228,9 @@
       "target": "prompt",
       "type": "enables",
       "label": "grounding material is a constituent of the articulated request",
-      "extractedFrom": "frontmatter:enables"
+      "extractedFrom": "frontmatter:enables",
+      "situation": "Let the actor attach or @-mention [reference material](/patterns/reference-material) inside the prompt so the system works from named files, selections, or data sources rather than from generalities.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "reference-material",
@@ -7731,13 +8332,6 @@
       "extractedFrom": "frontmatter:enables"
     },
     {
-      "source": "rule-composition",
-      "target": "ai-tuning",
-      "type": "enables",
-      "label": "the tuning that survives the session is written as a rule, which is the form the correction takes",
-      "extractedFrom": "frontmatter:enables"
-    },
-    {
       "source": "bounded-choice",
       "target": "rule-composition",
       "type": "enables",
@@ -7764,6 +8358,15 @@
       "type": "complements",
       "label": "a filter is the selecting rule over a visible collection, where the result updates as each part changes and checking the rule needs no separate step",
       "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "rule-composition",
+      "target": "standing-instructions",
+      "type": "alternative",
+      "label": "a composed rule is built from parts the system offers and runs on its own; a standing instruction is prose the system interprets",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "[Rule composition](/patterns/rule-composition) is the other form a standing correction takes: a condition built from parts the system offers, exact enough to run on its own, where an instruction is prose the system interprets.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "rule-composition",
@@ -7854,7 +8457,9 @@
       "target": "prompt",
       "type": "complements",
       "label": "modern search inputs are evolving into prompt interfaces, accepting instructions alongside keywords",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A prompt is not [searching](/patterns/searching), which retrieves existing items matching a query rather than generating a new response or executing a task, even when one input bar accepts both",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "searching",
@@ -7876,7 +8481,7 @@
       "type": "enables",
       "label": "splitting a long form into adaptive, separately disclosed parts.",
       "extractedFrom": "frontmatter:enables",
-      "situation": "Split a long form by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, by [sections](/patterns/sections) into separately disclosed parts, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another the form has become a [wizard](/patterns/wizard).",
+      "situation": "A form that has outgrown one screen is split by [sections](/patterns/sections) into parts, by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another it has become a [wizard](/patterns/wizard).",
       "glossFrom": "target:resulting"
     },
     {
@@ -7944,10 +8549,12 @@
     },
     {
       "source": "selective-memory",
-      "target": "ai-tuning",
+      "target": "standing-instructions",
       "type": "complements",
-      "label": "remembered facts and shaped behaviour are two channels of the same persistence",
-      "extractedFrom": "frontmatter:complements"
+      "label": "what the system remembers and what the actor instructed are two channels of the same persistence, and need separate controls or an erased fact survives as instructed behaviour",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Selective memory](/patterns/selective-memory) is the neighbouring channel, written by the system rather than the actor; the two need separate controls, or a fact the actor erased survives as behaviour they once asked for.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "selective-memory",
@@ -8070,10 +8677,8 @@
       "source": "settings",
       "target": "form",
       "type": "complements",
-      "label": "settings are essentially configuration forms requiring similar patterns (validation, feedback, submission)",
-      "extractedFrom": "frontmatter:complements",
-      "situation": "[Settings](/patterns/settings) are forms by another name, kept open rather than submitted.",
-      "glossFrom": "target:resulting"
+      "label": "settings are a form",
+      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "settings",
@@ -8091,17 +8696,21 @@
     },
     {
       "source": "settings",
-      "target": "ai-tuning",
+      "target": "standing-instructions",
       "type": "complements",
-      "label": "specialized settings for configuring AI behaviour",
-      "extractedFrom": "frontmatter:complements"
+      "label": "settings hold the preferences that fit an enumerated axis; a standing instruction holds what no axis anticipated",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Settings](/patterns/settings) hold the preferences that fit an enumerated axis, and an instruction holds what no axis anticipated.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "settings",
       "target": "workspace",
       "type": "tangential",
       "label": "settings affect workspace behaviour and may be scoped to workspace contexts",
-      "extractedFrom": "frontmatter:tangential"
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "Put the defaults a workspace hands down where the actor can find and change them: its configuration in [settings](/patterns/settings), the shapes new work starts from as [templates](/patterns/template), and, where a model works inside the workspace, the [standing instructions](/patterns/standing-instructions) and [reference material](/patterns/reference-material) that every [session](/patterns/session) in it starts with.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "settings",
@@ -8164,7 +8773,9 @@
       "target": "workspace",
       "type": "complements",
       "label": "the workspace partitions the actor's contexts; sharing decides who else is inside one",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Decide who else is inside each workspace with [sharing](/patterns/sharing), and let its grants follow the workspace boundaries rather than cut across them.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "data-view",
@@ -8186,6 +8797,40 @@
       "type": "complements",
       "label": "orders what filtering lets through",
       "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "instructed-revision",
+      "target": "standing-instructions",
+      "type": "precedes",
+      "incomingNote": "the correction that keeps recurring is the one worth making standing",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "Saying it in the [prompt](/patterns/prompt) fixes one run; saying it as an [instructed revision](/patterns/instructed-revision) fixes one output.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "standing-instructions",
+      "target": "dry-run",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "Reading it does not say what it will do, which is the gap a [dry run](/patterns/dry-run) fills where the effect can be rehearsed.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "standing-instructions",
+      "target": "bounded-autonomy",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "How far the system may act on its own is not an instruction but a grant, and recurring renewals of the grant become standing bounds the way recurring corrections become standing instructions; that is [bounded autonomy](/patterns/bounded-autonomy)'s side of the same escalation",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "standing-instructions",
+      "target": "generated-content",
+      "type": "related",
+      "label": "a standing instruction shapes every output without appearing in any of them",
+      "extractedFrom": "frontmatter:related",
+      "situation": "What should hold is written down in the actor's words and read at the start of every run, so a correction made once stops recurring, and every piece of [generated content](/patterns/generated-content) from then on carries its mark.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "state-disabled",
@@ -8289,7 +8934,7 @@
       "type": "enables",
       "label": "a form split into one-question-per-page steps (the question-pages pattern)",
       "extractedFrom": "frontmatter:enables",
-      "situation": "Split a long form by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, by [sections](/patterns/sections) into separately disclosed parts, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another the form has become a [wizard](/patterns/wizard).",
+      "situation": "A form that has outgrown one screen is split by [sections](/patterns/sections) into parts, by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another it has become a [wizard](/patterns/wizard).",
       "glossFrom": "target:resulting"
     },
     {
@@ -8336,7 +8981,9 @@
       "target": "suggestion",
       "type": "hosts",
       "incomingNote": "starter suggestions live in the prompt surface, seeding the request",
-      "extractedFrom": "frontmatter:hosted-by"
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "Where a blank input leaves the actor unsure what the system can do or how much to say, host starter [suggestions](/patterns/suggestion) on the prompt surface to seed or send an example request.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "suggestion",
@@ -8478,6 +9125,15 @@
       "extractedFrom": "frontmatter:related"
     },
     {
+      "source": "tool-ecology",
+      "target": "information-environment",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The artifact's place among other tools is the counterpart of its interior, which is [information environment](/patterns/information-environment).",
+      "glossFrom": "source:resulting",
+      "farSituation": "The artifact's interior is the counterpart of its place among other tools, which is [tool ecology](/patterns/tool-ecology)."
+    },
+    {
       "source": "transient-feedback",
       "target": "status-feedback",
       "type": "instantiates",
@@ -8614,7 +9270,7 @@
       "type": "hosts",
       "incomingNote": "the form is the surface that hosts fieldwise messages and wires them to submission",
       "extractedFrom": "frontmatter:hosted-by",
-      "situation": "Let the surface host the moves that act on a field: [good defaults](/patterns/good-defaults) arrive pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finish or supply a value as the actor types, and [validation](/patterns/validation) answers an input the system cannot accept at the field that produced it and holds submission until it is fixed.",
+      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
       "glossFrom": "source:resulting"
     },
     {
@@ -8814,7 +9470,15 @@
       "target": "wizard",
       "type": "enables",
       "extractedFrom": "frontmatter:composed-of",
-      "situation": "Put [help](/patterns/help) beside the fields it explains, so guidance never takes the actor out of the step.",
+      "situation": "Put [help](/patterns/help) beside the [fields](/patterns/data-entry) it explains, so guidance never takes the actor out of the step.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "data-entry",
+      "target": "wizard",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Put [help](/patterns/help) beside the [fields](/patterns/data-entry) it explains, so guidance never takes the actor out of the step.",
       "glossFrom": "target:resulting"
     },
     {
@@ -8838,7 +9502,7 @@
       "extractedFrom": "frontmatter:alternative",
       "situation": "A [form](/patterns/form) would put every field on one page, and most tasks are better served by one.",
       "glossFrom": "source:initiating",
-      "farSituation": "Split a long form by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, by [sections](/patterns/sections) into separately disclosed parts, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another the form has become a [wizard](/patterns/wizard)."
+      "farSituation": "A form that has outgrown one screen is split by [sections](/patterns/sections) into parts, by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another it has become a [wizard](/patterns/wizard)."
     },
     {
       "source": "wizard",
@@ -8876,10 +9540,12 @@
     },
     {
       "source": "workflow",
-      "target": "ai-tuning",
+      "target": "standing-instructions",
       "type": "complements",
-      "label": "a workflow builder is a tuning tool: editing the procedure is one of the ways an agent's behaviour gets progressively shaped",
-      "extractedFrom": "frontmatter:complements"
+      "label": "a workflow is a procedure the actor invokes; a standing instruction is read whether or not anything invokes it",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A [workflow](/patterns/workflow) or a skill is a procedure the actor invokes; an instruction is read whether or not anything invokes it.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "workflow",
@@ -8904,6 +9570,62 @@
     },
     {
       "source": "workspace",
+      "target": "notification",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Some of the actor's work is now somewhere they are not looking, and changes there go unseen until they switch, so carry what matters across the boundary with [notification](/patterns/notification).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "workspace",
+      "target": "activity-log",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosts",
+      "situation": "Where the workspace has to account for what happened in it, host an [activity log](/patterns/activity-log) scoped to its work.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "workspace",
+      "target": "standing-instructions",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosts",
+      "situation": "Put the defaults a workspace hands down where the actor can find and change them: its configuration in [settings](/patterns/settings), the shapes new work starts from as [templates](/patterns/template), and, where a model works inside the workspace, the [standing instructions](/patterns/standing-instructions) and [reference material](/patterns/reference-material) that every [session](/patterns/session) in it starts with.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "workspace",
+      "target": "reference-material",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosts",
+      "situation": "Put the defaults a workspace hands down where the actor can find and change them: its configuration in [settings](/patterns/settings), the shapes new work starts from as [templates](/patterns/template), and, where a model works inside the workspace, the [standing instructions](/patterns/standing-instructions) and [reference material](/patterns/reference-material) that every [session](/patterns/session) in it starts with.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "workspace",
+      "target": "session",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosts",
+      "situation": "Put the defaults a workspace hands down where the actor can find and change them: its configuration in [settings](/patterns/settings), the shapes new work starts from as [templates](/patterns/template), and, where a model works inside the workspace, the [standing instructions](/patterns/standing-instructions) and [reference material](/patterns/reference-material) that every [session](/patterns/session) in it starts with.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "workspace",
+      "target": "focus-and-context",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Focus and context](/patterns/focus-and-context) looks similar but works inside one context, grading detail by distance from the actor's attention, where a workspace separates contexts and decides which of them are present",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "workspace",
+      "target": "command-menu",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Give the set of workspaces a switcher: a list of workspaces works as a [hub](/patterns/hub-and-spoke), and a [command menu](/patterns/command-menu) lets an actor who knows the name go straight to one.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "workspace",
       "target": "privacy",
       "type": "enacts",
       "label": "workspaces implement privacy through scope separation and spatial arrangement",
@@ -8915,27 +9637,6 @@
       "type": "enacts",
       "label": "the actor decides what work belongs together and what stays apart",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "workspace",
-      "target": "focus-and-context",
-      "type": "complements",
-      "label": "focus and context manages detail and overview within a single context; workspaces manage switching between distinct contexts",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "workspace",
-      "target": "command-menu",
-      "type": "complements",
-      "label": "provides rapid access to workspaces and contexts without navigating the interface hierarchy",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "workspace",
-      "target": "activity-log",
-      "type": "hosts",
-      "label": "the log surface lives inside the workspace, scoped to its work",
-      "extractedFrom": "frontmatter:hosts"
     },
     {
       "source": "workspace",
@@ -9014,13 +9715,6 @@
       "extractedFrom": "situation:resulting"
     },
     {
-      "source": "citation",
-      "target": "cognitive-forcing-functions",
-      "type": "precedes",
-      "situation": "each claim now has somewhere to look, so checking one claim costs a follow rather than a search — and a checkable claim is what a deliberate pause before acceptance needs in order to land on something",
-      "extractedFrom": "situation:resulting"
-    },
-    {
       "source": "cognitive-forcing-functions",
       "target": "activity-log",
       "type": "precedes",
@@ -9084,13 +9778,6 @@
       "extractedFrom": "situation:resulting"
     },
     {
-      "source": "dry-run",
-      "target": "change-review",
-      "type": "precedes",
-      "situation": "the run produces a before-and-after over cases, which the actor may want to accept or reject one at a time rather than as a whole",
-      "extractedFrom": "situation:resulting"
-    },
-    {
       "source": "editing-in-place",
       "target": "undo",
       "type": "precedes",
@@ -9102,13 +9789,6 @@
       "target": "cognitive-forcing-functions",
       "type": "precedes",
       "situation": "a complete and plausible explanation can make deferring *easier* rather than harder: the actor now holds a justification they didn't have to think through, which is the state a forcing function exists to interrupt",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "expressed-uncertainty",
-      "target": "cognitive-forcing-functions",
-      "type": "precedes",
-      "situation": "confidence is part of the output's surface — hedged phrasing, ranges, marks on the doubtful spans — so the actor's scrutiny can land where it is actually needed",
       "extractedFrom": "situation:resulting"
     },
     {
@@ -9319,13 +9999,6 @@
       "target": "sequence-completion",
       "type": "precedes",
       "situation": "comprehension is restored with the activity mid-flight, so completion has to be able to resume from the same step — and still end in the receipt that closes the sequence",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "workspace",
-      "target": "notification",
-      "type": "precedes",
-      "situation": "some of the actor's work is now somewhere they aren't looking, and changes there won't be seen until they switch — which is what has to reach across the boundary",
       "extractedFrom": "situation:resulting"
     },
     {

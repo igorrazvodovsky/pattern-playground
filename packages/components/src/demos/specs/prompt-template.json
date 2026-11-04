@@ -29,27 +29,48 @@
     },
     "example": {
       "type": "Button",
-      "props": { "label": "Fill in an example", "icon": "example", "hideLabel": true, "variant": "plain" },
+      "props": {
+        "label": "Fill in an example",
+        "icon": "example",
+        "hideLabel": true,
+        "variant": "plain"
+      },
       "on": {
         "press": [
-          { "action": "setState", "params": { "statePath": "/content", "value": { "$state": "/example" } } },
+          {
+            "action": "setState",
+            "params": { "statePath": "/content", "value": { "$state": "/example" } }
+          },
           { "action": "setState", "params": { "statePath": "/sent", "value": false } }
         ]
       }
     },
     "clear": {
       "type": "Button",
-      "props": { "label": "Clear the template", "icon": "clear", "hideLabel": true, "variant": "plain" },
+      "props": {
+        "label": "Clear the template",
+        "icon": "clear",
+        "hideLabel": true,
+        "variant": "plain"
+      },
       "on": {
         "press": [
-          { "action": "setState", "params": { "statePath": "/content", "value": { "$state": "/template" } } },
+          {
+            "action": "setState",
+            "params": { "statePath": "/content", "value": { "$state": "/template" } }
+          },
           { "action": "setState", "params": { "statePath": "/sent", "value": false } }
         ]
       }
     },
     "mention": {
       "type": "Button",
-      "props": { "label": "Reference materials", "icon": "mention", "hideLabel": true, "variant": "plain" }
+      "props": {
+        "label": "Reference materials",
+        "icon": "mention",
+        "hideLabel": true,
+        "variant": "plain"
+      }
     },
     "send": {
       "type": "Button",

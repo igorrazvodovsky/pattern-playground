@@ -23,13 +23,17 @@ const summary = (args: Record<string, unknown>) => {
 export default {
   spec: spec as Spec,
   setup: {
-    initialState: { items: rows, matching: 1234, selection: { any: false, all: false, escalated: false } },
+    initialState: {
+      items: rows,
+      matching: 1234,
+      selection: { any: false, all: false, escalated: false },
+    },
     functions: {
       selectAll: withAll(true),
       clearAll: withAll(false),
-      selection: args => ({
+      selection: (args) => ({
         any: selectedCount(args) > 0,
-        all: rowsArg(args).every(row => row.selected),
+        all: rowsArg(args).every((row) => row.selected),
         escalated: false,
       }),
       summary,

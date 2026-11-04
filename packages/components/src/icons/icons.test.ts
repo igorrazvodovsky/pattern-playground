@@ -9,11 +9,21 @@ describe('Iconoteka collection', () => {
   it('has an icon for every ik: name in source', () => {
     const { missing } = buildCollection();
     const used = usedNames();
-    expect(missing.map((name) => `ik:${name} (${[...(used.get(name) ?? [])].join(', ')})`)).toEqual([]);
+    expect(missing.map((name) => `ik:${name} (${[...(used.get(name) ?? [])].join(', ')})`)).toEqual(
+      [],
+    );
   });
 
   it('resolves weight and fill suffixes', () => {
-    const names = ['trash', 'trash-light', 'trash-semibold-fill', 'heart-fill', 'heart-bold-fill', 'wind-medium', 'pause-fill'];
+    const names = [
+      'trash',
+      'trash-light',
+      'trash-semibold-fill',
+      'heart-fill',
+      'heart-bold-fill',
+      'wind-medium',
+      'pause-fill',
+    ];
     const { collection, missing } = buildCollection(names);
     const body = (name: string) => collection.icons[name]?.body;
     expect(new Set(names.slice(0, 3).map(body)).size).toBe(3);

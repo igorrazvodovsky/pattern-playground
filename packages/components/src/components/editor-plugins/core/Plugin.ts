@@ -1,11 +1,11 @@
-import type { 
-  Plugin as IPlugin, 
-  PluginCapabilities, 
-  EditorContext, 
-  EventBus, 
+import type {
+  Plugin as IPlugin,
+  PluginCapabilities,
+  EditorContext,
+  EventBus,
   SlotRegistry,
   EventPayload,
-  PluginState
+  PluginState,
 } from '../../editor/types';
 import type { Extensions } from '@tiptap/core';
 
@@ -13,10 +13,10 @@ export abstract class BasePlugin implements IPlugin {
   abstract readonly id: string;
   abstract readonly name: string;
   abstract readonly version: string;
-  
+
   dependencies?: string[];
   capabilities?: PluginCapabilities;
-  
+
   // Subclasses read the context directly; the rest stays private to the base.
   protected context?: EditorContext;
   private state: PluginState = 'pending';
@@ -24,7 +24,13 @@ export abstract class BasePlugin implements IPlugin {
   private eventCleanupFunctions = new Set<() => void>();
 
   // Static validation constants
-  static readonly LIFECYCLE_METHODS = ['onInstall', 'onActivate', 'onDeactivate', 'onUninstall', 'onDestroy'] as const;
+  static readonly LIFECYCLE_METHODS = [
+    'onInstall',
+    'onActivate',
+    'onDeactivate',
+    'onUninstall',
+    'onDestroy',
+  ] as const;
 
   // Getter for context
   protected getContext(): EditorContext | undefined {
@@ -47,7 +53,7 @@ export abstract class BasePlugin implements IPlugin {
     }
     this.context = context;
     this.state = 'loading';
-    
+
     // Use optional chaining for lifecycle hooks
     await this.onPreInstall?.(context);
     this.state = 'active';
@@ -56,15 +62,19 @@ export abstract class BasePlugin implements IPlugin {
   onActivate(context: EditorContext): void {
     this.context = context;
     this.state = 'active';
-    
+
     // Use optional chaining for registration methods
     this.registerUI?.(context.slots);
     this.subscribeToEvents?.(context.eventBus);
-    
+
     // Auto-cleanup on abort signal
-    this.abortController.signal.addEventListener('abort', () => {
-      this.cleanup();
-    }, { once: true });
+    this.abortController.signal.addEventListener(
+      'abort',
+      () => {
+        this.cleanup();
+      },
+      { once: true },
+    );
   }
 
   onDeactivate(): void {
@@ -91,7 +101,7 @@ export abstract class BasePlugin implements IPlugin {
       cleanup();
     }
     this.eventCleanupFunctions.clear();
-    
+
     // Custom cleanup hook
     this.onCleanup?.();
   }
@@ -103,7 +113,7 @@ export abstract class BasePlugin implements IPlugin {
   // Abstract methods that can be implemented
   registerUI?(slots: SlotRegistry): void;
   subscribeToEvents?(eventBus: EventBus): void;
-  
+
   getExtensions?(): Extensions {
     return [];
   }
@@ -118,10 +128,7 @@ export abstract class BasePlugin implements IPlugin {
     return this.context?.getPlugin<T>(id);
   }
 
-  protected emit<T extends keyof EventPayload>(
-    event: T,
-    payload: EventPayload[T]
-  ): boolean {
+  protected emit<T extends keyof EventPayload>(event: T, payload: EventPayload[T]): boolean {
     return this.context?.eventBus.emit(event, payload) ?? false;
   }
 
@@ -129,13 +136,13 @@ export abstract class BasePlugin implements IPlugin {
   protected on<T extends keyof EventPayload>(
     event: T,
     handler: (payload: EventPayload[T]) => void,
-    options?: Parameters<EventBus['on']>[2]
+    options?: Parameters<EventBus['on']>[2],
   ): () => void {
     const cleanup = this.context?.eventBus.on(event, handler, {
       ...options,
-      signal: this.abortController.signal
+      signal: this.abortController.signal,
     });
-    
+
     if (cleanup) {
       this.eventCleanupFunctions.add(cleanup);
       return () => {
@@ -143,7 +150,7 @@ export abstract class BasePlugin implements IPlugin {
         this.eventCleanupFunctions.delete(cleanup);
       };
     }
-    
+
     return () => {};
   }
 
@@ -151,10 +158,10 @@ export abstract class BasePlugin implements IPlugin {
   protected onMultiple<T extends keyof EventPayload>(
     events: T[],
     handler: (event: T, payload: EventPayload[T]) => void,
-    options?: Parameters<EventBus['on']>[2]
+    options?: Parameters<EventBus['on']>[2],
   ): () => void {
-    const cleanupFunctions = events.map(event => 
-      this.on(event, payload => handler(event, payload), options)
+    const cleanupFunctions = events.map((event) =>
+      this.on(event, (payload) => handler(event, payload), options),
     );
 
     return () => {
@@ -192,9 +199,7 @@ export abstract class BasePlugin implements IPlugin {
   }
 
   // Modern capability checking with template literal types
-  protected hasCapability<K extends keyof Required<PluginCapabilities>>(
-    capability: K
-  ): boolean {
+  protected hasCapability<K extends keyof Required<PluginCapabilities>>(capability: K): boolean {
     return this.capabilities?.[capability] === true;
   }
 
@@ -215,27 +220,24 @@ export abstract class BasePlugin implements IPlugin {
       hasContext: !!this.context,
       eventListenerCount: this.eventCleanupFunctions.size,
       capabilities: this.capabilities,
-      dependencies: this.dependencies
+      dependencies: this.dependencies,
     };
   }
 
-  // Modern error handling with detailed context  
-  protected createError(
-    message: string, 
-    cause?: Error,
-    context?: Record<string, unknown>
-  ): Error {
+  // Modern error handling with detailed context
+  protected createError(message: string, cause?: Error, context?: Record<string, unknown>): Error {
     const error = new Error(`[${this.id}] ${message}`);
-    
+
     // Add plugin context to error for debugging
     (error as Error & { cause?: unknown; pluginContext?: Record<string, unknown> }).cause = cause;
-    (error as Error & { cause?: unknown; pluginContext?: Record<string, unknown> }).pluginContext = {
-      pluginId: this.id,
-      state: this.state,
-      isActive: this.isActive,
-      ...context
-    };
-    
+    (error as Error & { cause?: unknown; pluginContext?: Record<string, unknown> }).pluginContext =
+      {
+        pluginId: this.id,
+        state: this.state,
+        isActive: this.isActive,
+        ...context,
+      };
+
     return error;
   }
 }

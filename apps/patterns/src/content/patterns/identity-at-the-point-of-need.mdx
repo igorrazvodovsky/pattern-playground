@@ -1,0 +1,81 @@
+---
+title: Identity at the point of need
+added: 2026-10-31
+updated: 2026-11-03
+role: pattern
+activityLevel: action
+mediation: individual
+evidence:
+  - literature
+  - used
+acts_on:
+  - joining
+situation:
+  initiating: >-
+    … the artifact is divided into [workspaces](/patterns/workspace), and its features reach points where an identity could be asked for: when the actor arrives, keeps their work, opens it on another device, lets another person in, or pays. Whether the work lives on the provider's server or on the actor's own device, under [local-first ownership](/patterns/local-first-ownership), decides which of those points need an identity at all.
+  resulting: >-
+    Until a need arrives, the actor works without an identity: on a hosted artifact through [immediate use](/patterns/immediate-use), on a local-first one as the owner of work kept on their device. When it arrives, the need is met with the form of identity it requires, and the work in progress carries across without a restart. To have the work everywhere, or kept safe off the device, [sync through own storage](/patterns/sync-through-own-storage) puts it in storage the actor already holds. To let another person in, [sharing](/patterns/sharing) grants access, and a link that carries the access spares the recipient an account of their own. A hosted workspace, a paid entitlement or an organisation's access control is the need a full account meets, and [account access](/patterns/account-access) establishes it; deferring that account until one of these needs arrives is what is usually called lazy registration. Coming back later on the same device needs no identity at all: [resuming](/patterns/resuming) covers it with what the device keeps or a link to return by…
+relationships:
+  follows:
+    - local-first-ownership
+  composed-of:
+    - immediate-use
+  precedes:
+    - sync-through-own-storage
+    - sharing
+    - account-access
+  alternative:
+    - to: resuming
+      note: "resuming returns the actor to the same work on the same device without any identity, where identity at the point of need serves needs that reach beyond it"
+  enacts:
+    - to: agency
+      note: lets the actor decide when the work gains an identity, and of what kind, instead of the artifact deciding at the door
+    - to: privacy
+      note: asks for no more identity than the need in hand requires
+    - to: temporality
+      note: places the commitment at the moment of need rather than the moment of arrival
+---
+
+* * *
+
+**Artifacts tend to answer every request that involves identity with the same thing, a full account, and often ask for it before the actor has requested anything. An account is the heaviest form of identity: it asks for an identifier, a credential and a recovery channel, and ties the work to the provider's server. Many of the reasons an actor has for wanting an identity need much less, and some need none.**
+
+### Forces
+
+- *The actor's needs vs the provider's wish to know who uses the artifact*: the provider gains from every account, whether or not the actor needs one; the actor gains only from what the identity lets them do.
+- *Lightness vs what the actor has to keep*: lighter forms put the work of recovery on the actor. A paired device is no help when every device is lost, a recovery phrase that is lost cannot be restored, and a synced folder leaves conflicts for the actor to merge.
+- *One identity vs several*: meeting each need separately can leave the actor with a pairing here, a link there and an account somewhere else, and no clear picture of where their work is.
+- *Flow vs the boundary*: the actor is in the middle of a task, and a sign-up flow that redirects or resets the session throws away the work it was meant to keep.
+
+Therefore,
+
+**Ask for an identity only when the actor asks for something that needs one, and offer the lightest form that meets that need. Say what the identity will add and what it leaves to the actor, and carry the work in progress into it unchanged.**
+
+The provider's wish to know who uses the artifact is a reason the provider has, not a need the actor has. Where the provider wants it anyway, ask for it as a request the actor can decline, separate from the step that meets their need.
+
+## In practice
+
+### Needs and the forms that meet them
+
+<pp-table>
+  <table>
+    <thead><tr><th>The actor wants to…</th><th>Lightest form</th><th>What it leaves to the actor</th></tr></thead>
+    <tbody>
+      <tr><td>Come back to the work on the same device/browser</td><td>None; the device keeps it</td><td>Losing it if the browser or device is cleared</td></tr>
+      <tr><td>Reach the work from a second device that is to hand</td><td>A pairing between the two devices</td><td>Keeping one device to link the next from</td></tr>
+      <tr><td>Have the work on every device, or kept off the device</td><td>Storage the actor already holds</td><td>Merging conflicts; the storage provider's limits</td></tr>
+      <tr><td>Let another person see or edit</td><td>A link that carries the access</td><td>Keeping the link from people it was not meant for</td></tr>
+      <tr><td>Be recognised by collaborators</td><td>A name chosen locally, carried with their edits</td><td>None beyond choosing it</td></tr>
+      <tr><td>Keep a purchase or subscription</td><td>An account, or the platform's store identity</td><td>The credential and its recovery</td></tr>
+      <tr><td>Work inside a hosted or organisation-controlled space</td><td>An account</td><td>The credential and its recovery</td></tr>
+    </tbody>
+  </table>
+</pp-table>
+
+Needs combine. An actor who wants the work on two devices and a colleague inside it needs both forms.
+
+## Resources & references
+
+- Ink & Switch. [Local-first Software](https://www.inkandswitch.com/local-first-software/)
+- [UI Patterns: Lazy registration](https://ui-patterns.com/patterns/LazyRegistration)
+- Vitaly Friedman (2022). [Authentication UX design guidelines](https://www.smashingmagazine.com/2022/08/authentication-ux-design-guidelines/)

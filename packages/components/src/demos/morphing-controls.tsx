@@ -6,10 +6,7 @@ export function FollowUnfollowDemo() {
 
   return (
     <button className="button" onClick={() => setFollowing((f) => !f)}>
-      <iconify-icon
-        className="icon"
-        icon={following ? 'ik:user-check' : 'ik:add-user'}
-      />
+      <iconify-icon className="icon" icon={following ? 'ik:user-check' : 'ik:add-user'} />
       {following ? 'Following' : 'Follow'}
     </button>
   );

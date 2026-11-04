@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { action } from 'storybook/actions';
 import { expect, userEvent, within } from 'storybook/test';
 
@@ -26,15 +26,14 @@ function RadioButtonStory({ label, checked, disabled }: RadioButtonArgs) {
         Another option
       </label>
       <label className="form-control">
-        <input type="radio" name="radio-button-story" />
-        A third option
+        <input type="radio" name="radio-button-story" />A third option
       </label>
     </div>
   );
 }
 
 const meta = {
-  title: "Components/Radio button",
+  title: 'Components/Radio button',
   argTypes: {
     label: {
       control: { type: 'text' },

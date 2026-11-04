@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { CSSProperties } from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { faker } from '@faker-js/faker';
 import { getRandomIcon } from './utils/icons';
 
@@ -11,7 +12,7 @@ interface BadgeArgs {
 }
 
 const meta = {
-  title: "Components/Badge",
+  title: 'Components/Badge',
   argTypes: {
     label: {
       control: { type: 'text' },
@@ -43,7 +44,9 @@ export const Default: Story = {
       'badge',
       args.purpose !== 'default' ? `badge--${args.purpose}` : '',
       args.pill ? 'badge--pill' : '',
-    ].filter(Boolean).join(' ');
+    ]
+      .filter(Boolean)
+      .join(' ');
     return <span className={classes}>{args.label}</span>;
   },
 };
@@ -58,7 +61,9 @@ export const Size: Story = {
       <h2 className="flex">
         Heading 2 <span className="badge badge--pill badge--danger">Large</span>
       </h2>
-      <p>In a paragraph <span className="badge">Small</span></p>
+      <p>
+        In a paragraph <span className="badge">Small</span>
+      </p>
     </div>
   ),
 };
@@ -66,7 +71,7 @@ export const Size: Story = {
 export const WithButton: Story = {
   render: () => (
     // The counters overhang their buttons, so the row needs more than the default gap.
-    <div className="flex" style={{ '--flex-gap': 'var(--space-l)' } as React.CSSProperties}>
+    <div className="flex" style={{ '--flex-gap': 'var(--space-l)' } as CSSProperties}>
       <button className="button">
         Requests<strong className="badge badge--pill badge--info">12</strong>
       </button>
@@ -84,7 +89,7 @@ export const WithButton: Story = {
 
 export const WithList: Story = {
   render: () => (
-    <pp-list style={{maxWidth: '240px'}}>
+    <pp-list className="measure" style={{ '--measure': '15rem' } as CSSProperties}>
       <pp-list-item>
         <iconify-icon className="icon" icon={getRandomIcon()} data-slot="prefix"></iconify-icon>
         {faker.hacker.verb()}
@@ -96,7 +101,9 @@ export const WithList: Story = {
       <pp-list-item>
         <iconify-icon className="icon" icon={getRandomIcon()} data-slot="prefix"></iconify-icon>
         {faker.hacker.verb()}
-        <strong className="badge badge--accent badge--pill" data-slot="suffix">12</strong>
+        <strong className="badge badge--accent badge--pill" data-slot="suffix">
+          12
+        </strong>
       </pp-list-item>
     </pp-list>
   ),
@@ -210,7 +217,8 @@ export const WithIcon: Story = {
         <iconify-icon className="icon" icon="ik:circle" slot="icon"></iconify-icon>Confirmed
       </span>
       <span className="badge badge--info badge--pill">
-        <iconify-icon className="icon" icon="ik:circle-half-left-fill" slot="icon"></iconify-icon>Processing
+        <iconify-icon className="icon" icon="ik:circle-half-left-fill" slot="icon"></iconify-icon>
+        Processing
       </span>
       <span className="badge badge--warning badge--pill">
         <iconify-icon className="icon" icon="ik:circle-dotted" slot="icon"></iconify-icon>Attention
@@ -219,7 +227,8 @@ export const WithIcon: Story = {
         <iconify-icon className="icon" icon="ik:circle-fill" slot="icon"></iconify-icon>Completed
       </span>
       <span className="badge badge--warning badge--pill">
-        <iconify-icon className="icon" icon="ik:cross-in-circle" slot="icon"></iconify-icon>Cancelled
+        <iconify-icon className="icon" icon="ik:cross-in-circle" slot="icon"></iconify-icon>
+        Cancelled
       </span>
     </div>
   ),
@@ -236,7 +245,11 @@ export const IconOnly: Story = {
       </span>
       <span>
         <strong className="badge badge--success badge--pill">
-          <iconify-icon className="icon" icon="ik:checkmark-in-circle-fill" slot="icon"></iconify-icon>
+          <iconify-icon
+            className="icon"
+            icon="ik:checkmark-in-circle-fill"
+            slot="icon"
+          ></iconify-icon>
           <span className="visually-hidden">Success</span>
         </strong>
       </span>
@@ -259,7 +272,11 @@ export const IconOnlyInAGroup: Story = {
 };
 
 export const Link: Story = {
-  render: () => <a href="#" className="badge">Badge</a>,
+  render: () => (
+    <a href="#" className="badge">
+      Badge
+    </a>
+  ),
 };
 
 export const WithTags: Story = {

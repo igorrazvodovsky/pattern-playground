@@ -237,7 +237,9 @@ export function isScatterPlotData(data: unknown): data is ScatterPlotData {
   // Distinguish from bar chart data (also keyed on `data`) by point shape:
   // scatter points carry numeric x/y, bar points carry category/value.
   const points = (data as ScatterPlotData).data;
-  return points.length === 0 || (typeof points[0].x === 'number' && typeof points[0].y === 'number');
+  return (
+    points.length === 0 || (typeof points[0].x === 'number' && typeof points[0].y === 'number')
+  );
 }
 
 export function isAreaChartData(data: unknown): data is AreaChartData {
@@ -280,5 +282,7 @@ export function isNetworkGraphData(data: unknown): data is NetworkGraphData {
     return false;
   }
   const nodes = (data as NetworkGraphData).nodes;
-  return nodes.length === 0 || (typeof nodes[0]?.id === 'string' && typeof nodes[0]?.label === 'string');
+  return (
+    nodes.length === 0 || (typeof nodes[0]?.id === 'string' && typeof nodes[0]?.label === 'string')
+  );
 }

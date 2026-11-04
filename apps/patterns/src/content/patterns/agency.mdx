@@ -87,14 +87,17 @@ Six activity types (Wu et al. and Zhang et al.) recur across co-creative process
 
 Each activity type invites a different agency distribution — perceiving and thinking often favour system initiative, while building and testing favour user control.
 {/* TODO: Not sure about this */}
->The six activity types describe *what kind of work is happening* in human-AI co-creation. They are close but not identical to modes of [assistance](/patterns/assistance).
+<div class="callout">
+The six activity types describe *what kind of work is happening* in human-AI co-creation. They are close but not identical to modes of [assistance](/patterns/assistance).
 The assists describe stages of the cognitive loop a system can help with; the activity types describe the work itself. Use the assists when reasoning about *where assistance can enter*; use the activity types when reasoning about *how work divides between human and system across a task*.
-
+</div>
 ### Relationship to the interaction arc
 
 The interaction arc tracks how work moves — from recognition through enactment to reflection. Activity types track *what kind of work* is happening at any moment. The two axes cross freely: any stage of engagement can involve any activity type, and agency shifts along both dimensions independently.
 
-> As a rule of thumb, early lifecycle stages (trigger, seeking) favour system initiative — surfacing possibilities, structuring options. Later stages (application, reflection) favour user control — committing decisions, evaluating outcomes.
+<div class="callout">
+  As a rule of thumb, early lifecycle stages (trigger, seeking) favour system initiative — surfacing possibilities, structuring options. Later stages (application, reflection) favour user control — committing decisions, evaluating outcomes.
+</div>
 
 ## Control patterns
 
@@ -183,34 +186,6 @@ Continuous refinement of co-created outputs through dynamic exchanges based on u
 - user-directed feedback – users explicitly provide feedback to guide AI performance and improvements. Examples include using AI outputs to inform subsequent prompts, offering direct interaction feedback or ratings, providing textual feedback on generated content, iteratively testing outputs with parameter adjustments, manually indicating alignment with assessments.
 - system-initiated feedback – systems proactively provide these feedback to enhance the interaction process or guide users. AI might respond to users’ additional queries, provide real-time suggestions with system adaptations, offer immediate visual feedback, monitor user actions and adjust responses, serve as a feedback tool during ideation, track goals for immediate feedback, propose updated content based on input, or establish user-system response cycles for refinement
 - bidirectional interaction feedback – the feedback flows dynamically in both directions between users and the AI
-
-## Relationships to different scales of a system
-
-System agency progressively expands as we move up through scales of the system:
-
-### Foundation
-
-At the foundation level, basic elements provide limited to no agency.
-They're tightly constrained, predictable, and dependable—ensuring everything stays
-visually and contextually coherent.
-
-### Operations
-
-Assistance—like [setting a default value](/patterns/good-defaults)—is probably the most typical example of agency on this level.
-Primitives can also be dynamically arranged, selected, or shown based on context.
-A <ComponentRef id="components-toolbar--docs">toolbar</ComponentRef> might offer precisely relevant actions in response to user intent,
-actively supporting the user's immediate goals without straying too far from familiar interactions.
-
-### Actions
-<ComponentRef id="components-messaging--docs">Messages</ComponentRef> or product <ComponentRef id="components-card--docs">cards</ComponentRef> can carry greater agency.
-They intelligently package sets of operations into meaningful units. With increased agency, actions can adapt themselves dynamically,
-appearing precisely where and when actors need them, leveraging context.
-
-### Activities
-Activities can adapt and reshape themselves strategically to construct the flow of
-an interface and to actively guide the actor. [Explanations](/patterns/explanation), [suggestions](/patterns/suggestion), or [dynamically
-arranged sections](/patterns/focus-and-context) respond proactively, anticipating needs and creating experiences that feel
-coherent, intentional, and responsive.
 
 ## Balancing system and user agency
 

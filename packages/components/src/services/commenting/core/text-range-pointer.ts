@@ -10,7 +10,7 @@ export class TextRangePointer extends BaseCommentPointer {
   constructor(
     readonly documentId: string,
     readonly threadId: string,
-    private readonly excerpt?: string
+    private readonly excerpt?: string,
   ) {
     super();
     this.id = `${documentId}:${threadId}`;

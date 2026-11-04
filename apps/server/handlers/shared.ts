@@ -2,7 +2,10 @@ import { Response } from 'express';
 import { ApiResponse } from '../types/api.js';
 
 /** Run `fn` with a signal that aborts after `ms` milliseconds. */
-export async function withTimeout<T>(ms: number, fn: (signal: AbortSignal) => Promise<T>): Promise<T> {
+export async function withTimeout<T>(
+  ms: number,
+  fn: (signal: AbortSignal) => Promise<T>,
+): Promise<T> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), ms);
   try {

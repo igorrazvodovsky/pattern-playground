@@ -25,7 +25,7 @@ export class FormattingPlugin extends BasePlugin {
   id = 'formatting';
   name = 'Formatting Plugin';
   version = '1.0.0';
-  
+
   capabilities = {
     modifiesContent: true,
     providesUI: true,
@@ -68,16 +68,20 @@ export class FormattingPlugin extends BasePlugin {
     }
 
     if (this.config.bubbleMenu) {
-      slots.register('bubble-menu', {
-        pluginId: this.id,
-        render: () => createElement(FormattingBubbleMenu, { editor: this.context?.editor }),
-      }, {
-        condition: () => {
-          if (!this.context?.editor) return false;
-          const { selection } = this.context.editor.state;
-          return !selection.empty;
+      slots.register(
+        'bubble-menu',
+        {
+          pluginId: this.id,
+          render: () => createElement(FormattingBubbleMenu, { editor: this.context?.editor }),
         },
-      });
+        {
+          condition: () => {
+            if (!this.context?.editor) return false;
+            const { selection } = this.context.editor.state;
+            return !selection.empty;
+          },
+        },
+      );
     }
   }
 

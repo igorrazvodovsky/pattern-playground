@@ -15,7 +15,9 @@ const FormattingBubbleMenu: React.FC<FormattingBubbleMenuProps> = ({ editor }) =
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={!editor.can().chain().focus().toggleBold().run()}
-        className={editor.isActive('bold') ? 'button button--plain is-active' : 'button button--plain'}
+        className={
+          editor.isActive('bold') ? 'button button--plain is-active' : 'button button--plain'
+        }
         aria-label="Bold"
       >
         <strong>B</strong>
@@ -24,7 +26,9 @@ const FormattingBubbleMenu: React.FC<FormattingBubbleMenuProps> = ({ editor }) =
       <button
         onClick={() => editor.chain().focus().toggleItalic().run()}
         disabled={!editor.can().chain().focus().toggleItalic().run()}
-        className={editor.isActive('italic') ? 'button button--plain is-active' : 'button button--plain'}
+        className={
+          editor.isActive('italic') ? 'button button--plain is-active' : 'button button--plain'
+        }
         aria-label="Italic"
       >
         <em>I</em>
@@ -33,7 +37,9 @@ const FormattingBubbleMenu: React.FC<FormattingBubbleMenuProps> = ({ editor }) =
       <button
         onClick={() => editor.chain().focus().toggleStrike().run()}
         disabled={!editor.can().chain().focus().toggleStrike().run()}
-        className={editor.isActive('strike') ? 'button button--plain is-active' : 'button button--plain'}
+        className={
+          editor.isActive('strike') ? 'button button--plain is-active' : 'button button--plain'
+        }
         aria-label="Strikethrough"
       >
         <s>S</s>
@@ -42,7 +48,9 @@ const FormattingBubbleMenu: React.FC<FormattingBubbleMenuProps> = ({ editor }) =
       <button
         onClick={() => editor.chain().focus().toggleHighlight().run()}
         disabled={!editor.can().chain().focus().toggleHighlight().run()}
-        className={editor.isActive('highlight') ? 'button button--plain is-active' : 'button button--plain'}
+        className={
+          editor.isActive('highlight') ? 'button button--plain is-active' : 'button button--plain'
+        }
         aria-label="Highlight"
       >
         <mark>H</mark>

@@ -4,7 +4,6 @@
  * @since 0.0.1
  */
 
-
 export class SimpleTable extends HTMLElement {
   connectedCallback() {
     if (!this.hasAttribute('tabindex')) this.setAttribute('tabindex', '0');
@@ -14,6 +13,6 @@ export class SimpleTable extends HTMLElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pp-table": SimpleTable;
+    'pp-table': SimpleTable;
   }
 }

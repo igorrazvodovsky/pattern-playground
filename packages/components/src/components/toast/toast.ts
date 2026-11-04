@@ -42,7 +42,9 @@ export class PpToast extends HTMLElementBase {
     closeButton.className = 'toast-close';
     closeButton.setAttribute('aria-label', 'Close');
     closeButton.appendChild(closeIcon);
-    closeButton.addEventListener('click', () => { void this.dismissToast(toast); });
+    closeButton.addEventListener('click', () => {
+      void this.dismissToast(toast);
+    });
 
     if (onClick) {
       // No aria-label: the message is the button's accessible name, so the
@@ -92,13 +94,13 @@ export class PpToast extends HTMLElementBase {
     const invert = last - first;
 
     // PLAY
-    const animation = this.toastGroup.animate([
-      { transform: `translateY(${invert}px)` },
-      { transform: 'translateY(0)' }
-    ], {
-      duration: 150,
-      easing: 'ease-out',
-    });
+    const animation = this.toastGroup.animate(
+      [{ transform: `translateY(${invert}px)` }, { transform: 'translateY(0)' }],
+      {
+        duration: 150,
+        easing: 'ease-out',
+      },
+    );
 
     animation.startTime = document.timeline.currentTime;
   }
@@ -115,9 +117,7 @@ export class PpToast extends HTMLElementBase {
     if (toast.classList.contains('fade-out')) return;
     if (this.toastGroup?.contains(toast)) {
       toast.classList.add('fade-out');
-      await Promise.allSettled(
-        toast.getAnimations().map(a => a.finished)
-      );
+      await Promise.allSettled(toast.getAnimations().map((a) => a.finished));
       this.removeToast(toast);
     }
     this.dismissed.get(toast)?.();
@@ -135,7 +135,9 @@ export class PpToast extends HTMLElementBase {
 
     const run = () => {
       startedAt = Date.now();
-      timer = setTimeout(() => { void this.dismissToast(toast); }, remaining);
+      timer = setTimeout(() => {
+        void this.dismissToast(toast);
+      }, remaining);
     };
     const pause = () => {
       if (timer === undefined) return;
@@ -149,26 +151,43 @@ export class PpToast extends HTMLElementBase {
       else if (timer === undefined) run();
     };
 
-    toast.addEventListener('pointerenter', () => { hovered = true; update(); });
-    toast.addEventListener('pointerleave', () => { hovered = false; update(); });
-    toast.addEventListener('focusin', () => { focused = true; update(); });
+    toast.addEventListener('pointerenter', () => {
+      hovered = true;
+      update();
+    });
+    toast.addEventListener('pointerleave', () => {
+      hovered = false;
+      update();
+    });
+    toast.addEventListener('focusin', () => {
+      focused = true;
+      update();
+    });
     toast.addEventListener('focusout', (event) => {
       focused = toast.contains(event.relatedTarget as Node | null);
       update();
     });
 
     run();
-    return () => { cancelled = true; pause(); };
+    return () => {
+      cancelled = true;
+      pause();
+    };
   }
 
   /** Shows a toast and returns a handle: `closed` settles however it is dismissed, `dismiss` closes it early. */
   public open(text: string, onClick?: () => void, duration = onClick ? 8000 : 4000): ToastHandle {
     const toast = this.createToast(text, onClick);
     this.addToast(toast);
-    const closed = new Promise<void>(resolve => this.dismissed.set(toast, resolve));
+    const closed = new Promise<void>((resolve) => this.dismissed.set(toast, resolve));
     const cancel = this.scheduleDismissal(toast, duration);
     void closed.then(cancel);
-    return { closed, dismiss: () => { void this.dismissToast(toast); } };
+    return {
+      closed,
+      dismiss: () => {
+        void this.dismissToast(toast);
+      },
+    };
   }
 
   public show(text: string, onClick?: () => void, duration?: number): Promise<void> {
@@ -200,6 +219,6 @@ export interface ToastHandle {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pp-toast": PpToast;
+    'pp-toast': PpToast;
   }
 }

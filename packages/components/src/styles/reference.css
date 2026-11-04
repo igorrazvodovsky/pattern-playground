@@ -42,39 +42,8 @@
   border-color: var(--c-success-300);
 }
 
-.template-field--selected {
-  border-color: var(--c-primary-500);
-  box-shadow: 0 0 0 2px var(--c-primary-100);
-}
-
-.template-field--editing,
 .template-field:focus-within {
   border-color: var(--c-primary-500);
-}
-
-.template-field--invalid,
-.template-field--invalid:hover {
-  background-color: var(--c-danger-100);
-  border-color: var(--c-danger-300);
-}
-
-.template-field__label {
-  color: var(--c-placeholder);
-}
-
-.template-field__error {
-  position: absolute;
-  inset-block-start: 100%;
-  inset-inline-start: 0;
-  z-index: 1;
-  margin-block-start: var(--space-2xs);
-  padding: var(--space-2xs) var(--space-xs);
-  border-radius: var(--radius-s);
-  background-color: var(--c-danger-100);
-  color: var(--c-danger-700);
-  font-size: var(--text-xs);
-  white-space: nowrap;
-  box-shadow: var(--shadow-m);
 }
 
 .template-field input {
@@ -121,7 +90,6 @@
   box-shadow: 0 0 0 3px var(--c-primary-100);
 }
 
-/* TODO: This doesn't work */
 .rich-editor .ProseMirror p.is-editor-empty:first-child::before {
   color: var(--c-neutral-500);
   content: attr(data-placeholder);
@@ -161,6 +129,8 @@
 
 .reference-picker-popup {
   position: absolute;
+  left: var(--popup-x);
+  top: var(--popup-y);
   z-index: var(--layer-dropdown);
   min-width: 320px;
   max-width: 480px;
@@ -169,4 +139,3 @@
   border-radius: var(--radius-m);
   overflow-y: auto;
 }
-

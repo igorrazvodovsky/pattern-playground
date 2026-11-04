@@ -23,12 +23,21 @@
       "props": { "label": "Delete", "icon": "delete", "hideLabel": true, "variant": "plain" },
       "on": {
         "press": [
-          { "action": "setState", "params": { "statePath": "/pending", "value": { "$index": true } } },
+          {
+            "action": "setState",
+            "params": { "statePath": "/pending", "value": { "$index": true } }
+          },
           {
             "action": "setState",
             "params": {
               "statePath": "/question",
-              "value": { "$concat": ["Are you sure you want to delete ", { "$item": "name" }, "? This action cannot be undone."] }
+              "value": {
+                "$concat": [
+                  "Are you sure you want to delete ",
+                  { "$item": "name" },
+                  "? This action cannot be undone."
+                ]
+              }
             }
           },
           { "action": "setState", "params": { "statePath": "/confirming", "value": true } }
@@ -45,7 +54,12 @@
     "reset": {
       "type": "Button",
       "props": { "label": "Reset", "variant": "plain" },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/items", "value": { "$state": "/listings" } } } }
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": { "statePath": "/items", "value": { "$state": "/listings" } }
+        }
+      }
     },
 
     "confirm-dialog": {
@@ -63,7 +77,10 @@
       "props": { "label": "Delete", "variant": "danger" },
       "on": {
         "press": [
-          { "action": "removeState", "params": { "statePath": "/items", "index": { "$state": "/pending" } } },
+          {
+            "action": "removeState",
+            "params": { "statePath": "/items", "index": { "$state": "/pending" } }
+          },
           { "action": "setState", "params": { "statePath": "/confirming", "value": false } }
         ]
       }
@@ -71,7 +88,9 @@
     "cancel": {
       "type": "Button",
       "props": { "label": "Cancel", "initialFocus": true },
-      "on": { "press": { "action": "setState", "params": { "statePath": "/confirming", "value": false } } }
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/confirming", "value": false } }
+      }
     }
   }
 }

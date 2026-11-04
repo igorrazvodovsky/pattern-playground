@@ -12,7 +12,7 @@ import type { RendererProps } from './shared';
 export function pickPlotAxes(
   items: BoundEntity[],
   spec: ViewSpec,
-  binding: EntityBinding
+  binding: EntityBinding,
 ): [AttributePath, AttributePath] | null {
   const bindingNumeric = binding.attributes
     .filter((attribute) => isNumericValueType(attribute.valueType))
@@ -37,7 +37,7 @@ export function PlotRenderer<T extends BoundEntity>(props: RendererProps<T>) {
   const yPath = axes?.[1];
   const points = useMemo(
     () => (xPath && yPath ? toPlotPoints(items, binding, xPath, yPath) : []),
-    [items, binding, xPath, yPath]
+    [items, binding, xPath, yPath],
   );
 
   useEffect(() => {
@@ -56,9 +56,7 @@ export function PlotRenderer<T extends BoundEntity>(props: RendererProps<T>) {
     if (!el) return;
     const resolve = (event: Event) => {
       const point = (event as CustomEvent<{ data: { id?: string } }>).detail?.data;
-      return point?.id
-        ? items.find((candidate) => candidate.id === point.id)
-        : undefined;
+      return point?.id ? items.find((candidate) => candidate.id === point.id) : undefined;
     };
     const handleClick = (event: Event) => {
       const item = resolve(event);

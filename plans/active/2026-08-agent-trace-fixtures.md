@@ -52,3 +52,37 @@ vocabulary the rest of the log uses.
 - Rewire `ActivityLogLLMReasoningDemo` to render from the trace.
 - Check which other agent-facing demos (`prompt`, `conversational-form`) could
   draw on the same fixture.
+- Retire the session task. `shared/data/task-types.ts` holds the shape of a
+  task created during a session: the command menu's AI fallback and the
+  `filtering.ts` demo make one through `components/task/task-utils.ts`. It is
+  an ordinary task with an agent as its assignee. A task does not depend on
+  who performs it: the same task can be assigned to a person or an agent, and
+  reassigned between them. The separate shape is left over from a demo of an
+  agent at work.
+
+  - A session task is created with `createTask`, with the agent as
+    `assignee`. Whatever kind the agent is, `assignee` has to accept it; this
+    is the first case the agent-kind question above has to settle.
+  - Its statuses (submitted, planning, executing, asking, completed, failed)
+    become a second status sequence for staging, beside the fixture world's
+    backlog-to-done one. A task uses whichever sequence it needs; nothing ties
+    a sequence to a kind of performer. Whether `failed` is a state in that
+    sequence or an action whose output is an error value is decided when the
+    sequence is authored.
+  - The exchange between whoever asked and the assignee is conversation for
+    action, for any assignee. Whether the assignee promises, asks questions or
+    closes the loop is a design choice for that conversation, not a property
+    of agents.
+  - The hand-written history becomes the agent's own steps as actions. A
+    person's steps (comments, edits) are actions in the same log, so the
+    history view stays the same for both.
+
+  Done when `task-types.ts` and `task-utils.createTask` are gone, and the
+  command menu and `filtering.ts` render from the same derived task view as
+  the fixture world.
+
+  Creating the actions at runtime means the view functions in
+  `shared/data/world-views.ts`, now module-level constants over static JSON,
+  have to accept a log that grows during a session. This is the first point
+  where the world has to run rather than only replay, so decide it with the
+  agent-kind question.

@@ -1,6 +1,6 @@
 @layer components {
   @property --counter {
-    syntax: "<integer>";
+    syntax: '<integer>';
     initial-value: 0;
     inherits: false;
   }

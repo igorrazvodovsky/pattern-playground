@@ -36,7 +36,7 @@ const HIGHLIGHT: Record<string, string> = {
 const INK: Record<string, string> = {
   '099268': 'var(--c-body-success)', // green
   '9fa8b2': 'color-mix(in oklch, currentColor 40%, var(--c-background))', // grey
-  ffffff: 'var(--c-background)', // white, the outline of an occluding shape
+  'ffffff': 'var(--c-background)', // white, the outline of an occluding shape
 };
 
 function luminance(hex: string): number {
@@ -49,8 +49,14 @@ function luminance(hex: string): number {
 // True when a path is straight segments that are all horizontal or vertical.
 function isRectilinear(d: string): boolean {
   if (/[^MLZ\d\s.,-]/i.test(d)) return false;
-  const pts = [...d.matchAll(/[ML]\s*(-?[\d.]+)[\s,]+(-?[\d.]+)/gi)].map((m) => [Number(m[1]), Number(m[2])]);
-  return pts.every(([x, y], i) => i === 0 || Math.abs(x - pts[i - 1][0]) < 0.01 || Math.abs(y - pts[i - 1][1]) < 0.01);
+  const pts = [...d.matchAll(/[ML]\s*(-?[\d.]+)[\s,]+(-?[\d.]+)/gi)].map((m) => [
+    Number(m[1]),
+    Number(m[2]),
+  ]);
+  return pts.every(
+    ([x, y], i) =>
+      i === 0 || Math.abs(x - pts[i - 1][0]) < 0.01 || Math.abs(y - pts[i - 1][1]) < 0.01,
+  );
 }
 
 function clean(svg: string): string {
@@ -98,11 +104,14 @@ function clean(svg: string): string {
   // underlay, so only the overlay is kept. Grey becomes a tint of the ink,
   // yellow the warning background, so both follow the colour mode.
   out = out.replace(/<path\b[^>]*\sopacity="0\.82"[^>]*\/>/g, '');
-  out = out.replace(/stroke="#([0-9a-fA-F]{6})"([^>]*?)\sopacity="[^"]*"/g, (tag, hex: string, rest: string) => {
-    const tint = HIGHLIGHT[hex.toLowerCase()];
-    if (!tint) throw new Error(`no theme mapping for highlight #${hex}`);
-    return `style="stroke: ${tint}"${rest}`;
-  });
+  out = out.replace(
+    /stroke="#([0-9a-fA-F]{6})"([^>]*?)\sopacity="[^"]*"/g,
+    (tag, hex: string, rest: string) => {
+      const tint = HIGHLIGHT[hex.toLowerCase()];
+      if (!tint) throw new Error(`no theme mapping for highlight #${hex}`);
+      return `style="stroke: ${tint}"${rest}`;
+    },
+  );
 
   // Coloured ink other than black maps to a theme token.
   out = out.replace(/stroke="#([0-9a-fA-F]{6})"/g, (tag, hex: string) =>
@@ -114,30 +123,35 @@ function clean(svg: string): string {
     /^#f{3}(f{3})?$/i.test(hex)
       ? 'style="fill: var(--c-background)"'
       : luminance(hex) > SEMI_LUMINANCE
-      ? `fill="currentColor" fill-opacity="${SEMI_OPACITY}"`
-      : 'fill="currentColor"',
+        ? `fill="currentColor" fill-opacity="${SEMI_OPACITY}"`
+        : 'fill="currentColor"',
   );
   // Dashed rectangles: tldraw dashes each side on its own, starting and ending
   // on a part dash, so with flat ends the two part dashes at a corner leave a
   // notch and the corner reads as rounded. A solid stub over each part dash,
   // whose square ends carry it half a stroke past the corner, closes the corner
   // like a solid one.
-  out = out.replace(/<g stroke-width="([\d.]+)"([^>]*)>((?:<path(?: stroke-linecap="butt")? d="M [-\d. ]+ L [-\d. ]+" stroke-dasharray="[\d. ]+" stroke-dashoffset="[\d.]+"\/>)+)<\/g>/g,
+  out = out.replace(
+    /<g stroke-width="([\d.]+)"([^>]*)>((?:<path(?: stroke-linecap="butt")? d="M [-\d. ]+ L [-\d. ]+" stroke-dasharray="[\d. ]+" stroke-dashoffset="[\d.]+"\/>)+)<\/g>/g,
     (group, width: string, rest: string, sides: string) => {
       const half = parseFloat(width) / 2;
-      const stubs = [...sides.matchAll(/d="M ([-\d.]+) ([-\d.]+) L ([-\d.]+) ([-\d.]+)" stroke-dasharray="([\d.]+) [\d.]+" stroke-dashoffset="([\d.]+)"/g)]
-        .flatMap(([, ...m]) => {
-          const [x1, y1, x2, y2, dash, offset] = m.map(Number);
-          const len = Math.hypot(x2 - x1, y2 - y1);
-          if (offset === 0 || len === 0) return [];
-          const [ux, uy] = [(x2 - x1) / len, (y2 - y1) / len];
-          const part = dash - offset;
-          const seg = (ax: number, ay: number, a: number, b: number) =>
-            `<path d="M ${+(ax + ux * a).toFixed(2)} ${+(ay + uy * a).toFixed(2)} L ${+(ax + ux * b).toFixed(2)} ${+(ay + uy * b).toFixed(2)}"/>`;
-          return [seg(x1, y1, 0, part - half), seg(x2, y2, half - part, 0)];
-        });
+      const stubs = [
+        ...sides.matchAll(
+          /d="M ([-\d.]+) ([-\d.]+) L ([-\d.]+) ([-\d.]+)" stroke-dasharray="([\d.]+) [\d.]+" stroke-dashoffset="([\d.]+)"/g,
+        ),
+      ].flatMap(([, ...m]) => {
+        const [x1, y1, x2, y2, dash, offset] = m.map(Number);
+        const len = Math.hypot(x2 - x1, y2 - y1);
+        if (offset === 0 || len === 0) return [];
+        const [ux, uy] = [(x2 - x1) / len, (y2 - y1) / len];
+        const part = dash - offset;
+        const seg = (ax: number, ay: number, a: number, b: number) =>
+          `<path d="M ${+(ax + ux * a).toFixed(2)} ${+(ay + uy * a).toFixed(2)} L ${+(ax + ux * b).toFixed(2)} ${+(ay + uy * b).toFixed(2)}"/>`;
+        return [seg(x1, y1, 0, part - half), seg(x2, y2, half - part, 0)];
+      });
       return `<g stroke-width="${width}"${rest}>${sides}${stubs.join('')}</g>`;
-    });
+    },
+  );
 
   if (/<pattern\b/.test(out)) {
     throw new Error('pattern fill is not supported; use semi or solid');
@@ -167,7 +181,9 @@ function tldrawToTldr(file: string): string {
     const rows = db.prepare('SELECT state FROM documents ORDER BY id').all();
     const { schema } = db.prepare('SELECT schema FROM metadata').get() as { schema: string };
     db.close();
-    const records = rows.map((r) => JSON.parse(Buffer.from(r.state as Uint8Array).toString('utf8')));
+    const records = rows.map((r) =>
+      JSON.parse(Buffer.from(r.state as Uint8Array).toString('utf8')),
+    );
     return JSON.stringify({ tldrawFileFormatVersion: 1, schema: JSON.parse(schema), records });
   } finally {
     rmSync(tmp, { recursive: true, force: true });

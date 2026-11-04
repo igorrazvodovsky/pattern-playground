@@ -37,19 +37,19 @@
       outline-offset: calc(-1 * var(--focus-ring-width) - var(--focus-ring-offset));
     }
 
-    &[aria-selected="true"] {
+    &[aria-selected='true'] {
       color: var(--c-body-accent);
       border-bottom-color: var(--c-accent);
     }
   }
 
   /* Hide headings when tab-bar nav takes over labelling */
-  :is(h1, h2, h3, h4, h5, h6, [data-heading])[data-pp-affordance="tab-bar"] {
+  :is(h1, h2, h3, h4, h5, h6, [data-heading])[data-pp-affordance='tab-bar'] {
     display: none;
   }
 
   /* Tab-bar: show only the active panel */
-  pp-sections[data-pp-mode="tab-bar"] [data-pp-panel]:not([data-pp-active]) {
+  pp-sections[data-pp-mode='tab-bar'] [data-pp-panel]:not([data-pp-active]) {
     display: none;
   }
 
@@ -97,7 +97,7 @@
       transition: transform var(--transition-fast);
     }
 
-    &[aria-expanded="true"]::after {
+    &[aria-expanded='true']::after {
       transform: rotate(-135deg);
     }
   }
@@ -107,13 +107,13 @@
      content-visibility: hidden keeps the closed panel out of the
      accessibility tree and find-in-page, matching display: none semantics. */
   @supports not (interpolate-size: allow-keywords) {
-    pp-sections[data-pp-mode="details"] [data-pp-panel]:not([data-pp-open]) {
+    pp-sections[data-pp-mode='details'] [data-pp-panel]:not([data-pp-open]) {
       display: none;
     }
   }
 
   @supports (interpolate-size: allow-keywords) {
-    pp-sections[data-pp-mode="details"] [data-pp-panel] {
+    pp-sections[data-pp-mode='details'] [data-pp-panel] {
       interpolate-size: allow-keywords;
       block-size: auto;
       overflow: clip;
@@ -122,13 +122,13 @@
         content-visibility 200ms allow-discrete;
     }
 
-    pp-sections[data-pp-mode="details"] [data-pp-panel]:not([data-pp-open]) {
+    pp-sections[data-pp-mode='details'] [data-pp-panel]:not([data-pp-open]) {
       block-size: 0;
       content-visibility: hidden;
     }
 
     @media (prefers-reduced-motion: reduce) {
-      pp-sections[data-pp-mode="details"] [data-pp-panel] {
+      pp-sections[data-pp-mode='details'] [data-pp-panel] {
         transition: none;
       }
     }

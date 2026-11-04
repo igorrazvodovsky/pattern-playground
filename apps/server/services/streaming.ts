@@ -14,7 +14,7 @@ import { StreamChunk } from './openai.js';
 export async function streamSSE(
   res: Response,
   signal: AbortSignal,
-  open: (signal: AbortSignal) => AsyncIterable<StreamChunk>
+  open: (signal: AbortSignal) => AsyncIterable<StreamChunk>,
 ): Promise<void> {
   const disconnected = new AbortController();
   res.on('close', () => disconnected.abort());
@@ -26,7 +26,7 @@ export async function streamSSE(
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
-    'Connection': 'keep-alive'
+    'Connection': 'keep-alive',
   });
 
   try {
@@ -36,10 +36,14 @@ export async function streamSSE(
     send({ type: 'complete', done: true });
   } catch (error) {
     if (disconnected.signal.aborted) {
-      logger.info("SSE stream stopped: client disconnected");
+      logger.info('SSE stream stopped: client disconnected');
     } else {
-      logger.error("Error in SSE stream:", error);
-      send({ type: 'error', error: error instanceof Error ? error.message : "Server error", done: true });
+      logger.error('Error in SSE stream:', error);
+      send({
+        type: 'error',
+        error: error instanceof Error ? error.message : 'Server error',
+        done: true,
+      });
     }
   }
   res.end();

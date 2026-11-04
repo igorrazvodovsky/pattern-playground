@@ -63,7 +63,10 @@ export class PpDiagram extends Elena(HTMLElement) {
       const { renderMermaidSVG, THEMES } = await loadRenderer();
       if (this.#rendered !== key) return;
       const named = theme ? THEMES[theme as keyof typeof THEMES] : undefined;
-      this.innerHTML = renderMermaidSVG(source, named ? { ...named, font: siteTheme.font } : siteTheme);
+      this.innerHTML = renderMermaidSVG(
+        source,
+        named ? { ...named, font: siteTheme.font } : siteTheme,
+      );
     } catch (error) {
       console.error('Failed to render diagram:', error);
       if (this.#rendered === key) this.textContent = 'Failed to render diagram.';

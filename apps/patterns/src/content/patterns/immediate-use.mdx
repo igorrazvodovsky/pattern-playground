@@ -1,0 +1,62 @@
+---
+title: Immediate use
+added: 2026-10-31
+updated: 2026-11-03
+role: pattern
+activityLevel: action
+mediation: individual
+evidence:
+  - observed
+  - literature
+acts_on:
+  - joining
+situation:
+  initiating: >-
+    … under [identity at the point of need](/patterns/identity-at-the-point-of-need), an artifact asks for an identity only when a task genuinely requires one. An actor arrives at the artifact to explore its tools, evaluate its fit, or complete a discrete task, before any need for an account has arisen. This pattern gives the artifact its entrance at that opening threshold, where no identity has yet been declared.
+  resulting: >-
+    The actor can use the artifact immediately without creating an account or proving identity. Draft state stays in browser storage or in [deep linking](/patterns/deep-linking). Pair with [resuming](/patterns/resuming) so that in-flight work survives across visits and browser reloads. Where the artifact offers starter templates or exploratory tasks, lead directly into [onboarding](/patterns/onboarding) to orient the newcomer…
+relationships:
+  precedes:
+    - onboarding
+  complements:
+    - deep-linking
+    - resuming
+  enacts:
+    - to: agency
+      note: allows the actor to explore, evaluate, and act without surrendering personal credentials
+    - to: privacy
+      note: keeps interaction uncredentialed until identity is genuinely required by the task
+---
+
+* * *
+
+**People want to explore, evaluate, or use an artifact without committing personal details or creating an account up front. Forcing registration before demonstrating value turns curiosity into an administrative hurdle and drives actors away.**
+
+### Forces
+
+- *Evaluation vs commitment*: actors want to determine whether an artifact solves their problem before trading credentials, attention, and privacy; systems often demand an account before revealing any utility.
+- *State vs identity*: an artifact needs memory to be useful—keeping drafts, settings, and work in flight—yet continuity does not require a named identity record.
+- *Utility vs abuse*: open access invites automation, spam, and rate-limit exhaustion, which tempts makers to gate the front entrance rather than protecting specific expensive operations.
+
+Therefore,
+
+**Allow full or substantial interaction with the artifact without requiring an account or proof of identity, storing work in client-side state, address parameters, or temporary sessions until the actor asks for something that needs an identity.**
+
+Protect abuse-sensitive boundaries (such as public messaging, heavy model execution, or resource-intensive exports) with targeted friction or rate limits rather than demanding an account for simple exploration.
+
+## In practice
+
+### One-off actions and checkout
+
+For transaction-oriented artifacts or discrete services, allow the transaction to proceed with minimal contact details required for fulfilment, without forcing the creation of a password or profile.
+
+### Temporary session boundaries
+
+Communicate clearly when state is ephemeral. If clearing browser data or switching devices will cause work to be lost, present a discreet reminder indicating that the current session is temporary.
+
+## Resources & references
+
+- [UI Patterns: Lazy Registration](https://ui-patterns.com/patterns/LazyRegistration)
+- [UI Patterns: Guest Access](https://ui-patterns.com/patterns/GuestAccess)
+- Vitaly Friedman (2022). [Authentication UX design guidelines](https://www.smashingmagazine.com/2022/08/authentication-ux-design-guidelines/)
+- GOV.UK Design System. [Help users to start using a service](https://design-system.service.gov.uk/patterns/start-using-a-service/)

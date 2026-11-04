@@ -29,10 +29,7 @@ export class TextTransformService {
   /**
    * Stream text lens transformation
    */
-  async streamZoom(
-    request: TextLensRequest,
-    callbacks: TextLensCallbacks = {}
-  ): Promise<string> {
+  async streamZoom(request: TextLensRequest, callbacks: TextLensCallbacks = {}): Promise<string> {
     // Cancel any existing stream
     this.cancelStream();
 
@@ -91,14 +88,17 @@ export class TextTransformService {
     text: string,
     intensity: number = 25,
     callbacks?: TextLensCallbacks,
-    context?: string
+    context?: string,
   ): Promise<string> {
-    return this.streamZoom({
-      text,
-      direction: 'in',
-      intensity,
-      context
-    }, callbacks);
+    return this.streamZoom(
+      {
+        text,
+        direction: 'in',
+        intensity,
+        context,
+      },
+      callbacks,
+    );
   }
 
   /**
@@ -108,14 +108,17 @@ export class TextTransformService {
     text: string,
     intensity: number = 25,
     callbacks?: TextLensCallbacks,
-    context?: string
+    context?: string,
   ): Promise<string> {
-    return this.streamZoom({
-      text,
-      direction: 'out',
-      intensity,
-      context
-    }, callbacks);
+    return this.streamZoom(
+      {
+        text,
+        direction: 'out',
+        intensity,
+        context,
+      },
+      callbacks,
+    );
   }
 }
 

@@ -16,7 +16,12 @@
     },
     "flag": {
       "type": "Item",
-      "props": { "title": { "$item": "title" }, "description": { "$item": "reason" }, "opens": true, "focusOnShow": { "$item": "open" } },
+      "props": {
+        "title": { "$item": "title" },
+        "description": { "$item": "reason" },
+        "opens": true,
+        "focusOnShow": { "$item": "open" }
+      },
       "slots": { "titleSuffix": ["flag-count"], "suffix": ["not-useful"] },
       "on": {
         "open": [
@@ -31,10 +36,18 @@
     },
     "not-useful": {
       "type": "Button",
-      "props": { "label": { "$template": "Not useful: ${title}" }, "icon": "cancel", "hideLabel": true, "variant": "plain" },
+      "props": {
+        "label": { "$template": "Not useful: ${title}" },
+        "icon": "cancel",
+        "hideLabel": true,
+        "variant": "plain"
+      },
       "on": {
         "press": [
-          { "action": "removeState", "params": { "statePath": "/flags", "index": { "$index": true } } },
+          {
+            "action": "removeState",
+            "params": { "statePath": "/flags", "index": { "$index": true } }
+          },
           { "action": "pushState", "params": { "statePath": "/muted", "value": true } }
         ]
       }
@@ -46,7 +59,15 @@
     },
     "muted-note": {
       "type": "Text",
-      "props": { "text": { "$concat": [{ "$pluralize": { "$count": { "$state": "/muted" } }, "one": "rule", "other": "rules" }, " muted. Feedback recorded."] }, "muted": true },
+      "props": {
+        "text": {
+          "$concat": [
+            { "$pluralize": { "$count": { "$state": "/muted" } }, "one": "rule", "other": "rules" },
+            " muted. Feedback recorded."
+          ]
+        },
+        "muted": true
+      },
       "visible": [{ "$state": "/muted/0" }, { "$state": "/inSlice", "not": true }]
     },
 
@@ -70,7 +91,12 @@
     },
     "back": {
       "type": "Button",
-      "props": { "label": "Back to problems", "icon": "back", "variant": "plain", "focusOnShow": true },
+      "props": {
+        "label": "Back to problems",
+        "icon": "back",
+        "variant": "plain",
+        "focusOnShow": true
+      },
       "on": {
         "press": [
           { "action": "setState", "params": { "statePath": "/inSlice", "value": false } },

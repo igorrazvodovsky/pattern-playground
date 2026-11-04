@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useEffect, useRef } from "react";
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useEffect, useRef, type CSSProperties } from 'react';
 import { action } from 'storybook/actions';
 
 // Import the map component (this registers the custom element via register-all).
 // The pp-map JSX typing lives in src/jsx-types.ts.
-import "../../components/map/map.js";
-import type { MapComponent, MapLocation } from "../../components/map/map.js";
+import '../../components/map/map.js';
+import type { MapComponent, MapLocation } from '../../components/map/map.js';
 
 import locationData from '../data/map-locations.json' with { type: 'json' };
 
@@ -46,14 +46,14 @@ function MapWrapper({
   }, [locations, center, zoom, selectedId, label]);
 
   return (
-    <div style={{ width: '100%', height }}>
+    <div className="story-height" style={{ '--story-height': `${height}px` } as CSSProperties}>
       <pp-map ref={mapRef} />
     </div>
   );
 }
 
 const meta = {
-  title: "Components/Map",
+  title: 'Components/Map',
   component: MapWrapper,
   argTypes: {
     selectedId: {

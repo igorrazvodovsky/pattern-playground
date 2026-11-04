@@ -40,8 +40,9 @@ relationships:
       note: shows the step-by-step process behind the generated content.
     - to: explanation
       note: provides contextual information to clarify AI-driven decisions within the output.
-    - to: ai-tuning
-      note: settings that influence how content is generated and presented.
+  related:
+    - to: standing-instructions
+      note: the output is where the actor notices that a standing instruction is missing or wrong
 ---
 
 The ongoing negotiation of machine-produced output, transforming raw [agent](/patterns/agent) generation into trusted content through evaluation, refinement, and appropriation over time.
@@ -58,25 +59,9 @@ Rate, copy, regenerate, expand, more....
 
 ...
 
-## Communicating uncertainty
-
-1. Intentionally uncertain language
-2. Explainable factors for predictions
-3. Confidence ratings
-4. Categorising accuracy
-5. Few-shot prompting with inconsistent results
-
-<Demo spec="communicating-uncertainty" label="Uncertain language and confidence marking" />
-
 ## Transparency
 
 ...
-
-## Input-output mapping
-
-Visualises the influence of input on output.
-
-<Demo spec="input-output-mapping" label="Point at or focus a highlight to trace it across input and output" />
 
 ## Section regeneration
 

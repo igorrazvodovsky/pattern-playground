@@ -1,9 +1,15 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { faker } from '@faker-js/faker';
 import { action } from 'storybook/actions';
 import { useModalService } from '../hooks/use-modal-service';
 import { expect, userEvent, waitFor, within } from 'storybook/test';
-import { closeWithEscape, expectFocusInside, expectFocusTrapped, findOpenModal, openWithKeyboard } from './utils/play';
+import {
+  closeWithEscape,
+  expectFocusInside,
+  expectFocusTrapped,
+  findOpenModal,
+  openWithKeyboard,
+} from './utils/play';
 
 interface DialogArgs {
   title: string;
@@ -15,7 +21,7 @@ interface DialogArgs {
 faker.seed(2);
 
 const meta = {
-  title: "Components/Dialog",
+  title: 'Components/Dialog',
   parameters: {
     layout: 'centered',
   },
@@ -51,13 +57,15 @@ export const Default: Story = {
           <div className="flow">
             <p>{args.message}</p>
             <footer>
-              <button className="button" data-close data-autofocus>Close</button>
+              <button className="button" data-close data-autofocus>
+                Close
+              </button>
             </footer>
           </div>,
           {
             title: args.title,
             size: args.size,
-          }
+          },
         );
       };
 
@@ -76,7 +84,9 @@ export const Default: Story = {
     await userEvent.click(trigger);
     const dialog = await findOpenModal(args.title);
     // Visibility settles only after the enter transition fades the dialog in.
-    await waitFor(() => expect(within(dialog).getByRole('button', { name: 'Close' })).toBeVisible());
+    await waitFor(() =>
+      expect(within(dialog).getByRole('button', { name: 'Close' })).toBeVisible(),
+    );
   },
 };
 
@@ -92,12 +102,14 @@ export const Scrolling: Story = {
               <p>{faker.lorem.paragraphs(30)}</p>
             </article>
             <footer>
-              <button className="button" data-close data-autofocus>Close</button>
+              <button className="button" data-close data-autofocus>
+                Close
+              </button>
             </footer>
           </div>,
           {
-            title: 'Dialog'
-          }
+            title: 'Dialog',
+          },
         );
       };
 
@@ -128,15 +140,17 @@ export const KeyboardOperation: Story = {
       return (
         <button
           className="button"
-          onClick={() => openDialog(
-            <div className="flow">
-              <p>{args.message}</p>
-              <footer>
-                <button className="button">Confirm</button>
-              </footer>
-            </div>,
-            { title: args.title, size: args.size }
-          )}
+          onClick={() =>
+            openDialog(
+              <div className="flow">
+                <p>{args.message}</p>
+                <footer>
+                  <button className="button">Confirm</button>
+                </footer>
+              </div>,
+              { title: args.title, size: args.size },
+            )
+          }
         >
           Open dialog
         </button>

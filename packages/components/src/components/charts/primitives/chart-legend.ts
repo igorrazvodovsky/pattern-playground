@@ -113,7 +113,7 @@ export class PpChartLegend extends Elena(HTMLElement) {
     this.titleEl.hidden = !this.title;
     this.list.setAttribute('aria-label', this.title || 'Chart legend');
 
-    this.list.replaceChildren(...this.items.map(item => this.buildLegendItem(item)));
+    this.list.replaceChildren(...this.items.map((item) => this.buildLegendItem(item)));
   }
 
   private buildLegendItem(item: LegendItem): HTMLLIElement {
@@ -148,11 +148,13 @@ export class PpChartLegend extends Elena(HTMLElement) {
   private handleItemClick(item: LegendItem, event: Event) {
     event.preventDefault();
 
-    this.dispatchEvent(new CustomEvent('pp-legend-item-click', {
-      detail: { item, originalEvent: event },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent('pp-legend-item-click', {
+        detail: { item, originalEvent: event },
+        bubbles: true,
+        composed: true,
+      }),
+    );
 
     if (this.interactive) {
       this.toggleItem(item.id);
@@ -167,45 +169,50 @@ export class PpChartLegend extends Elena(HTMLElement) {
   }
 
   toggleItem(id: string) {
-    const itemIndex = this.items.findIndex(item => item.id === id);
+    const itemIndex = this.items.findIndex((item) => item.id === id);
     if (itemIndex === -1) return;
 
     const updatedItems = [...this.items];
     updatedItems[itemIndex] = {
       ...updatedItems[itemIndex],
-      visible: !(updatedItems[itemIndex].visible ?? true)
+      visible: !(updatedItems[itemIndex].visible ?? true),
     };
 
     this.items = updatedItems;
 
-    this.dispatchEvent(new CustomEvent('pp-legend-item-toggle', {
-      detail: {
-        item: updatedItems[itemIndex],
-        visible: updatedItems[itemIndex].visible ?? true
-      },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent('pp-legend-item-toggle', {
+        detail: {
+          item: updatedItems[itemIndex],
+          visible: updatedItems[itemIndex].visible ?? true,
+        },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   setItemVisibility(id: string, visible: boolean) {
-    const itemIndex = this.items.findIndex(item => item.id === id);
+    const itemIndex = this.items.findIndex((item) => item.id === id);
     if (itemIndex === -1) return;
 
     const updatedItems = [...this.items];
     updatedItems[itemIndex] = {
       ...updatedItems[itemIndex],
-      visible
+      visible,
     };
 
     this.items = updatedItems;
   }
 
   getVisibilityState(): Record<string, boolean> {
-    return this.items.reduce((state, item) => {
-      state[item.id] = item.visible ?? true;
-      return state;
-    }, {} as Record<string, boolean>);
+    return this.items.reduce(
+      (state, item) => {
+        state[item.id] = item.visible ?? true;
+        return state;
+      },
+      {} as Record<string, boolean>,
+    );
   }
 
   updateItems(items: LegendItem[]) {

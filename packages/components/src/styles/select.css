@@ -1,6 +1,44 @@
+/* Registered as lengths so em values compute once on pp-select and children
+   inherit px: an adornment with its own font size then lines up with the
+   select's padding. */
+@property --select-caret-w {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --select-adorn-gap {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --select-prefix-w {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --select-suffix-w {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0;
+}
 
 pp-select {
   --select-border-width: 1px;
+  --select-pad-x: var(--space-m);
+
+  /* Room the caret takes at the end, and the gap between an adornment and the
+     value. Adornment widths are measured by the element and set in px, so the
+     reservation holds whatever the adornment's own font size; the fallbacks
+     cover first paint, before measurement. */
+  --select-caret-w: 1.75em;
+  --select-adorn-gap: 0.5em;
+  --select-prefix-w: 1em;
+  --select-suffix-w: 1em;
+  --select-pad-start: var(--select-pad-x);
+  --select-pad-end: calc(var(--select-pad-x) + var(--select-caret-w));
 
   display: grid;
   grid-template-columns: 1fr;
@@ -16,12 +54,16 @@ pp-select {
     background-color: var(--c-background);
     border: var(--input-border);
     border-radius: var(--radius-m);
-    padding: calc(var(--space-s) - 1.5px) calc(var(--space-m) + 1.75em) calc(var(--space-s) - 1.5px) var(--space-m);
+    padding-block: calc(var(--space-s) - 1.5px);
+    padding-inline: var(--select-pad-start) var(--select-pad-end);
     margin: 0;
     cursor: pointer;
     appearance: none;
-    transition: var(--transition-fast) color, var(--transition-fast) border,
-      var(--transition-fast) box-shadow, var(--transition-fast) background-color;
+    transition:
+      var(--transition-fast) color,
+      var(--transition-fast) border,
+      var(--transition-fast) box-shadow,
+      var(--transition-fast) background-color;
   }
 
   > select:focus {
@@ -44,7 +86,7 @@ pp-select {
   }
 
   /* Placeholder option (value="") selected */
-  > select:has(option[value=""]:checked) {
+  > select:has(option[value='']:checked) {
     color: var(--c-tertiary);
   }
 
@@ -53,29 +95,69 @@ pp-select {
     display: inline-flex;
     align-items: center;
     place-self: center end;
-    margin-inline-end: var(--space-m);
+    margin-inline-end: var(--select-pad-x);
     color: var(--c-secondary);
     pointer-events: none;
   }
 
-  > [data-slot="hint"] {
+  /* Adornments — overlaid on the control's cell and presentational, so clicks
+     reach the select. The element marks them aria-hidden and adds their text to
+     the select's description; a focusable child does not belong here. */
+  > [data-slot='prefix'],
+  > [data-slot='suffix'] {
+    z-index: 1;
+    grid-area: 1 / 1;
+    display: inline-flex;
+    align-items: center;
+    color: var(--c-secondary);
+    pointer-events: none;
+  }
+
+  > [data-slot='prefix'] {
+    place-self: center start;
+    margin-inline-start: var(--select-pad-x);
+  }
+
+  > [data-slot='suffix'] {
+    place-self: center end;
+    margin-inline-end: calc(var(--select-pad-x) + var(--select-caret-w));
+  }
+
+  &:has(> [data-slot='prefix']) {
+    --select-pad-start: calc(
+      var(--select-pad-x) + var(--select-prefix-w) + var(--select-adorn-gap)
+    );
+  }
+
+  &:has(> [data-slot='suffix']) {
+    --select-pad-end: calc(
+      var(--select-pad-x) + var(--select-caret-w) + var(--select-suffix-w) + var(--select-adorn-gap)
+    );
+  }
+
+  /* Overlays dim with the control they sit on. */
+  &:has(> select:disabled) > :is([data-slot='prefix'], [data-slot='suffix'], .select__caret) {
+    opacity: 0.5;
+  }
+
+  > [data-slot='hint'] {
     margin-block-start: var(--space-xs);
     color: var(--c-secondary);
     font-size: var(--text-xs);
   }
 
-  > [data-slot="hint"]:empty {
+  > [data-slot='hint']:empty {
     display: none;
   }
 
-  > [data-slot="error"] {
+  > [data-slot='error'] {
     display: none;
     margin-block-start: var(--space-xs);
     color: var(--c-danger-700);
     font-size: var(--text-xs);
   }
 
-  &[invalid] > [data-slot="error"] {
+  &[invalid] > [data-slot='error'] {
     display: block;
   }
 
@@ -88,24 +170,100 @@ pp-select {
   }
 
   /* Sizes */
-  &[size="small"] {
+  &[size='small'] {
+    --select-pad-x: var(--space-s);
+
     > select {
       border-radius: var(--radius-s);
-      padding: 0 calc(var(--space-s) + 1.75em) 0 var(--space-s);
-    }
-
-    .select__caret {
-      margin-inline-end: var(--space-s);
+      padding-block: 0;
     }
   }
 
-  &[size="large"] {
-    > select {
-      padding: 0 calc(var(--space-l) + 1.75em) 0 var(--space-l);
-    }
+  &[size='large'] {
+    --select-pad-x: var(--space-l);
 
-    .select__caret {
-      margin-inline-end: var(--space-l);
+    > select {
+      padding-block: 0;
+    }
+  }
+
+  /* Rich options: an option can carry a detail beside its label. The
+     separator keeps the plain option text readable as a phrase wherever the
+     picker stays native; the styled picker sets the parts apart instead. */
+  .select__detail {
+    color: var(--c-bodyDimmed);
+  }
+
+  /* Styled picker where the browser supports it and a fine pointer is in use;
+     touch screens keep the platform picker, and other browsers keep the native
+     list with the closed control styled above. */
+  @supports (appearance: base-select) {
+    @media (hover: hover) and (pointer: fine) {
+      > select,
+      > select::picker(select) {
+        appearance: base-select;
+      }
+
+      /* The element draws its own caret. */
+      > select::picker-icon {
+        display: none;
+      }
+
+      > select::picker(select) {
+        margin-block: var(--space-2xs);
+        padding-block: var(--space-xs);
+        color: var(--c-body);
+        background-color: var(--c-neutral-0);
+        border: var(--border);
+        border-radius: var(--radius-m);
+        box-shadow: var(--shadow-l);
+      }
+
+      > select option,
+      > select selectedcontent {
+        display: flex;
+        align-items: baseline;
+        gap: var(--space-s);
+        min-width: 0;
+      }
+
+      > select option {
+        padding: var(--space-xs) var(--space-m);
+        color: var(--c-neutral-700);
+        cursor: pointer;
+      }
+
+      > select option:hover:not(:disabled) {
+        background-color: oklch(from var(--c-neutral-50) calc(l - 0.05) c h);
+        color: var(--c-neutral-1000);
+      }
+
+      /* Selection takes the accent tint, kept apart from the neutral hover
+         tint, as in a listbox. */
+      > select option:checked {
+        background-color: var(--c-accent-50);
+        color: var(--c-neutral-1000);
+      }
+
+      > select option:focus-visible {
+        outline: var(--focus-ring);
+        outline-offset: calc(var(--focus-ring-width) * -1);
+      }
+
+      > select option:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .select__separator {
+        display: none;
+      }
+
+      selectedcontent .select__detail {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
   }
 }

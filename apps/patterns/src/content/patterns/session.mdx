@@ -1,0 +1,44 @@
+---
+title: Session
+added: 2026-10-29
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+activityLevel: activity
+mediation: individual
+description: "Bounding an exchange or agent run into a named, reopenable container that holds its turns, attached context, and working state together, separate from other tasks."
+disclosure: >-
+  Seeded from prompt while shaping its initiating situation. It has not been
+  looked at closely yet.
+situation:
+  resulting:
+    - >-
+      the turns, attached context, and intermediate results of the task
+      accumulate inside one bounded thread, so each new [prompt](/patterns/prompt)
+      only has to state what is new rather than re-supplying what was already
+      said and done
+    - >-
+      earlier turns, rejected attempts, and stale assumptions stay in scope as
+      the session grows and continue to steer later outputs, so starting a fresh
+      session becomes a deliberate reset when the task changes
+    - >-
+      because the session has a title and a place in a history list, the actor
+      can leave the exchange and return to it later, while anything that needs
+      to outlive the thread has to be lifted out through
+      [extraction](/patterns/extraction) or promoted to
+      [selective memory](/patterns/selective-memory) or
+      [standing instructions](/patterns/standing-instructions)
+---
+
+When an actor works with a conversational system or an [agent](/patterns/agent) across more than a single turn, the exchange needs a boundary that says which turns, files, and intermediate results belong to the same piece of work. A session (often called a thread, chat, or task run) gives that work a container with a beginning, an accumulated context window, a title derived from the opening request or set by the actor, and an entry in a list of past and active sessions. Inside the session, each turn builds on what is already in scope; outside it, other sessions hold unrelated tasks without their context bleeding across.
+
+Giving the exchange a container creates two boundaries the actor has to manage: starting a new session to clear accumulated context when switching tasks, and returning to an existing session to pick work back up. Over a long run, failed attempts and superseded instructions pile up in the transcript and pull subsequent outputs off course, so systems pair the session boundary with ways to branch from an earlier turn, compact the history, or lift finished work onto a surface of its own.
+
+A session can sit inside a [workspace](/patterns/workspace), and then starts with what the workspace hands down: its reference material, its standing instructions and, in some products, a memory limited to that workspace. A project-level container in an AI tool is a workspace in this sense, not a larger kind of session.
+
+## To-do
+
+- Where a session ends and [conversation](/patterns/conversation) (the turn-taking exchange itself) and [disengage without closing](/patterns/disengage-without-closing) or [resuming](/patterns/resuming) begin.
+- Whether branching, forking, or compacting a session when context drifts belongs inside this pattern or alongside [instructed revision](/patterns/instructed-revision) and [version history](/patterns/version-history).

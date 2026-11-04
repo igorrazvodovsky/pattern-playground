@@ -74,13 +74,13 @@ function ProjectComments({ project }) {
 ```
 
 ### Editor Commenting
-Add the `Commenting` extension to the editor, register the commenting plugin, and wrap the editor in `CommentingIntegration`. The plugin and the integration must sit inside `EditorProvider`. Plugin `getExtensions` is not installed by the editor host, so the extension goes in the editor's own list:
+Register the commenting plugin, create the editor with `usePluginEditor` so the plugin's `Commenting` extension is installed, and wrap the editor in `CommentingIntegration`. The plugin and the integration must sit inside `EditorProvider`, which takes the same plugins array:
 
 ```tsx
-const editor = useEditor({ extensions: [StarterKit, Commenting] });
 const plugins = useMemo(() => [
   commentingPlugin({ documentId, currentUser, bubbleMenu: true, toolbar: true }),
 ], [documentId, currentUser]);
+const editor = usePluginEditor({ extensions: [StarterKit] }, plugins);
 
 <EditorProvider editor={editor} plugins={plugins}>
   <CommentingIntegration config={{ currentUser }}>

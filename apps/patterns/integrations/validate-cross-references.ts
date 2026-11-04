@@ -107,7 +107,8 @@ function fileExists(path: string): boolean {
 function walk(dir: string, exts: readonly string[]): string[] {
   const results: string[] = [];
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    if (entry.name === '.obsidian' || entry.name === 'node_modules' || entry.name === 'dist') continue;
+    if (entry.name === '.obsidian' || entry.name === 'node_modules' || entry.name === 'dist')
+      continue;
     const full = join(dir, entry.name);
     if (entry.isDirectory()) {
       results.push(...walk(full, exts));
@@ -390,7 +391,9 @@ function checkWorldConcepts(logger: AstroIntegrationLogger): Violation[] {
   const listed = new Map<string, Set<string>>();
   for (const { file, content, fm } of frontmatterFiles(conceptsDir)) {
     const id = fileStem(file);
-    const actions = (Array.isArray(fm.actions) ? fm.actions : []).filter((a): a is string => typeof a === 'string');
+    const actions = (Array.isArray(fm.actions) ? fm.actions : []).filter(
+      (a): a is string => typeof a === 'string',
+    );
     listed.set(id, new Set(actions));
     for (const action of actions) {
       if (!(action in actionTypes)) continue;
@@ -437,7 +440,9 @@ function checkWorldConcepts(logger: AstroIntegrationLogger): Violation[] {
     });
   }
 
-  logger.info(`Checked ${checked} world↔concept assignment(s) against ${concepts.size} concept entries.`);
+  logger.info(
+    `Checked ${checked} world↔concept assignment(s) against ${concepts.size} concept entries.`,
+  );
   return violations;
 }
 
@@ -447,7 +452,10 @@ function checkPatternRefs(logger: AstroIntegrationLogger): Violation[] {
   const uses = collectRefs(walkMdx(storyMdxDir), PATTERN_REF_RE, 'slug');
   const violations: Violation[] = [];
   for (const use of uses) {
-    const stem = use.value.replace(/^\//, '').replace(/^patterns\//, '').replace(/#.*$/, '');
+    const stem = use.value
+      .replace(/^\//, '')
+      .replace(/^patterns\//, '')
+      .replace(/#.*$/, '');
     if (stems.has(stem)) continue;
     const suggestion = nearest(stem, stems);
     violations.push({
@@ -486,7 +494,9 @@ function checkIntraSiteLinks(logger: AstroIntegrationLogger): Violation[] {
         (suggestion ? ` — did you mean "/patterns/${suggestion}"?` : '.'),
     });
   }
-  logger.info(`Checked ${uses.length} intra-site /patterns/ link(s) against ${stems.size} content stems.`);
+  logger.info(
+    `Checked ${uses.length} intra-site /patterns/ link(s) against ${stems.size} content stems.`,
+  );
 
   const concepts = contentStems('concepts');
   const conceptUses = [
@@ -507,7 +517,9 @@ function checkIntraSiteLinks(logger: AstroIntegrationLogger): Violation[] {
         (suggestion ? ` — did you mean "/concepts/${suggestion}"?` : '.'),
     });
   }
-  logger.info(`Checked ${conceptUses.length} intra-site /concepts/ link(s) against ${concepts.size} concept entries.`);
+  logger.info(
+    `Checked ${conceptUses.length} intra-site /concepts/ link(s) against ${concepts.size} concept entries.`,
+  );
   return violations;
 }
 
@@ -524,13 +536,13 @@ function checkSequenceRefs(logger: AstroIntegrationLogger): Violation[] {
     if (typeof step.rule === 'string') slugs.push(step.rule);
     for (const c of Array.isArray(step.constituents) ? step.constituents : []) {
       if (typeof c === 'string') slugs.push(c);
-      else if (c && typeof (c as { slug?: unknown }).slug === 'string') slugs.push((c as { slug: string }).slug);
+      else if (c && typeof (c as { slug?: unknown }).slug === 'string')
+        slugs.push((c as { slug: string }).slug);
     }
     return slugs;
   };
 
   for (const { file, content, fm } of frontmatterFiles(sequencesDir)) {
-
     const report = (slug: string, field: string) => {
       checked++;
       if (stems.has(slug)) return;
@@ -564,7 +576,10 @@ function checkSequenceRefs(logger: AstroIntegrationLogger): Violation[] {
       }
     }
 
-    for (const connection of (Array.isArray(fm.connections) ? fm.connections : []) as Record<string, unknown>[]) {
+    for (const connection of (Array.isArray(fm.connections) ? fm.connections : []) as Record<
+      string,
+      unknown
+    >[]) {
       if (typeof connection.via === 'string') report(connection.via, 'connection via');
       if (typeof connection.at !== 'string') continue;
       const [subId, position] = connection.at.split('/');
@@ -593,6 +608,159 @@ function checkSequenceRefs(logger: AstroIntegrationLogger): Violation[] {
   return violations;
 }
 
+// A project language lists design patterns only: foundations, qualities and
+// collections are not members (docs/specs/pattern-site.md §Project languages).
+function checkLanguageRefs(logger: AstroIntegrationLogger): Violation[] {
+  const languagesDir = join(patternsContentDir, 'languages');
+  if (!existsSync(languagesDir)) return [];
+
+  const roles = new Map<string, unknown>();
+  const titles = new Map<string, string>();
+  for (const { file, fm } of frontmatterFiles(join(patternsContentDir, 'patterns'))) {
+    roles.set(fileStem(file), fm.role);
+    if (typeof fm.title === 'string') titles.set(fm.title.toLowerCase(), fileStem(file));
+  }
+
+  const violations: Violation[] = [];
+  let checked = 0;
+  for (const { file, content, fm } of frontmatterFiles(languagesDir)) {
+    for (const slug of Array.isArray(fm.patterns) ? fm.patterns : []) {
+      if (typeof slug !== 'string') continue;
+      checked++;
+      const role = roles.get(slug);
+      if (role === 'pattern') continue;
+      const suggestion = role === undefined ? nearest(slug, roles.keys()) : undefined;
+      violations.push({
+        file: relPath(file),
+        line: frontmatterLine(content, slug),
+        message:
+          role === undefined
+            ? `language patterns: "${slug}" resolves to no pattern route ` +
+              `(apps/patterns/src/content/patterns/${slug}.{md,mdx})` +
+              (suggestion ? ` — did you mean "${suggestion}"?` : '.')
+            : `language patterns: "${slug}" is a role: ${String(role)} entry; ` +
+              'a language lists design patterns (role: pattern) only.',
+      });
+    }
+
+    // A gap names a pattern the library lacks; once a page with that title
+    // exists, the entry belongs in `patterns` instead.
+    for (const gap of Array.isArray(fm.gaps) ? fm.gaps : []) {
+      const name = (gap as { name?: unknown })?.name;
+      if (typeof name !== 'string') continue;
+      const slug = titles.get(name.toLowerCase());
+      if (slug === undefined) continue;
+      violations.push({
+        file: relPath(file),
+        line: frontmatterLine(content, name),
+        message: `language gaps: "${name}" is already a pattern ("${slug}"); list it in patterns instead.`,
+      });
+    }
+  }
+
+  logger.info(`Checked ${checked} language pattern slug(s) against ${roles.size} content stems.`);
+  return violations;
+}
+
+function checkLevelRefs(logger: AstroIntegrationLogger): Violation[] {
+  const levelsFile = join(patternsContentDir, 'levels.yaml');
+  if (!existsSync(levelsFile)) return [];
+  const content = readFileSync(levelsFile, 'utf-8');
+  let parts: unknown;
+  try {
+    parts = yamlLoad(content);
+  } catch {
+    // Malformed YAML fails the content build on its own.
+    return [];
+  }
+
+  const roles = new Map<string, unknown>();
+  for (const { file, fm } of frontmatterFiles(join(patternsContentDir, 'patterns'))) {
+    roles.set(fileStem(file), fm.role);
+  }
+
+  const violations: Violation[] = [];
+  const placed = new Set<string>();
+  // Each pattern's first place: its position in reading order and its group.
+  const position = new Map<string, { index: number; group: string }>();
+  // Slugs are read in file order, so each report points at the occurrence being
+  // checked rather than the first one.
+  let cursor = 0;
+  for (const part of Array.isArray(parts) ? parts : []) {
+    const groups = (part as { groups?: unknown })?.groups;
+    for (const group of Array.isArray(groups) ? groups : []) {
+      const title = String((group as { title?: unknown })?.title ?? '');
+      const slugs = (group as { patterns?: unknown })?.patterns;
+      for (const slug of Array.isArray(slugs) ? slugs : []) {
+        if (typeof slug !== 'string') continue;
+        if (!position.has(slug)) position.set(slug, { index: position.size, group: title });
+        // A block-list item, so a slug inside a lead or a longer slug
+        // (`prompt` in `prompt-scaffolding`) is not mistaken for it.
+        const item = new RegExp(`^[ \\t]*-[ \\t]+${slug}[ \\t]*$`, 'gm');
+        item.lastIndex = cursor;
+        const index = item.exec(content)?.index ?? -1;
+        if (index !== -1) cursor = index + 1;
+        const line = index === -1 ? 1 : lineOf(content, index);
+        const role = roles.get(slug);
+        if (role !== 'pattern') {
+          const suggestion = role === undefined ? nearest(slug, roles.keys()) : undefined;
+          violations.push({
+            file: relPath(levelsFile),
+            line,
+            message:
+              role === undefined
+                ? `levels: "${slug}" resolves to no pattern route` +
+                  (suggestion ? ` — did you mean "${suggestion}"?` : '.')
+                : `levels: "${slug}" is a role: ${String(role)} entry; the list places ` +
+                  'design patterns (role: pattern) only.',
+          });
+        } else if (placed.has(slug)) {
+          violations.push({
+            file: relPath(levelsFile),
+            line,
+            message: `levels: "${slug}" is placed twice; a design pattern takes one place.`,
+          });
+        }
+        placed.add(slug);
+      }
+    }
+  }
+
+  const unplaced = [...roles]
+    .filter(([slug, role]) => role === 'pattern' && !placed.has(slug))
+    .map(([slug]) => slug);
+  if (unplaced.length > 0) {
+    logger.warn(`Levels: ${unplaced.length} design pattern(s) not placed: ${unplaced.join(', ')}.`);
+  }
+
+  // `A enables B` makes A a part of B; `A hosts B` makes B a part of A.
+  const graphFile = join(rootDir, 'apps/patterns/src/data/pattern-graph.json');
+  if (existsSync(graphFile)) {
+    const { edges = [] } = JSON.parse(readFileSync(graphFile, 'utf-8')) as {
+      edges?: { source: string; target: string; type: string }[];
+    };
+    const above: string[] = [];
+    for (const { source, target, type } of edges) {
+      if (type !== 'enables' && type !== 'hosts') continue;
+      const [part, whole] = type === 'enables' ? [source, target] : [target, source];
+      const p = position.get(part);
+      const w = position.get(whole);
+      if (p && w && p.index < w.index) {
+        above.push(`${part} (${p.group}) above ${whole} (${w.group})`);
+      }
+    }
+    if (above.length > 0) {
+      logger.warn(
+        `Levels: ${above.length} part(s) listed above a whole they help complete: ` +
+          `${above.join('; ')}.`,
+      );
+    }
+  }
+
+  logger.info(`Checked ${placed.size} levels slug(s) against ${roles.size} content stems.`);
+  return violations;
+}
+
 export default function validateCrossReferences(): AstroIntegration {
   return {
     name: 'validate-cross-references',
@@ -607,6 +775,8 @@ export default function validateCrossReferences(): AstroIntegration {
           ...checkPatternRefs(logger),
           ...checkIntraSiteLinks(logger),
           ...checkSequenceRefs(logger),
+          ...checkLanguageRefs(logger),
+          ...checkLevelRefs(logger),
           ...checkActsOn(logger),
           ...checkWorldConcepts(logger),
         ];

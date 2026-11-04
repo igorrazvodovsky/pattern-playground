@@ -36,12 +36,19 @@ interface Props {
 }
 
 const {
-  name, props, spec, label, surface = 'border', expandable, resizable,
+  name,
+  props,
+  spec,
+  label,
+  surface = 'border',
+  expandable,
+  resizable,
   registries = Object.keys(libraryLabels) as Library[],
   registry: requestedRegistry,
 } = Astro.props;
 // A starting library the switch does not offer would strand the demo there.
-const registry = requestedRegistry && registries.includes(requestedRegistry) ? requestedRegistry : registries[0];
+const registry =
+  requestedRegistry && registries.includes(requestedRegistry) ? requestedRegistry : registries[0];
 
 // Labels are captions, too long for a region's name, so they describe it instead.
 const labelId = label ? `demo-label-${crypto.randomUUID().slice(0, 8)}` : undefined;
@@ -52,6 +59,7 @@ const surfaceClass = {
   border: 'border',
 } as const;
 ---
+
 <section class="demo-block" aria-label="Demo" aria-describedby={labelId}>
   <div
     class={`demo-block__content ${surfaceClass[surface]}`}
@@ -78,10 +86,14 @@ const surfaceClass = {
   </div>
   {(label || expandable || spec) && (
     <div class="demo-block__footer">
-      {label && <span class="demo-block__label" id={labelId}>{label}</span>}
+      {label && (
+        <span class="demo-block__label" id={labelId}>
+          {label}
+        </span>
+      )}
       {spec && registries.length > 1 && (
         <div class="demo-registry-switch" role="group" aria-label="Component library">
-          {registries.map(r => (
+          {registries.map((r) => (
             <button
               type="button"
               data-demo-registry-option={r}

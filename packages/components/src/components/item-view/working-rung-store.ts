@@ -32,6 +32,6 @@ export const useWorkingRungStore = create<WorkingRungState>()(
     {
       name: 'pp-preferred-working-rung',
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 );

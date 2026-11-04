@@ -30,7 +30,6 @@ export function useCommandRecents({
   initialRecents = [],
   enabled = true,
 }: UseCommandRecentsOptions = {}): UseCommandRecentsReturn {
-
   const [recentItems, setRecentItems] = useState<RecentItem[]>(() => {
     if (!enabled) return [];
 
@@ -58,44 +57,47 @@ export function useCommandRecents({
     }
   }, [recentItems, persistRecents, storageKey, enabled]);
 
-  const addToRecents = useCallback((item: RecentItem) => {
-    if (!enabled) return;
+  const addToRecents = useCallback(
+    (item: RecentItem) => {
+      if (!enabled) return;
 
-    setRecentItems(prevRecents => {
-      const filteredRecents = prevRecents.filter(recent => recent.id !== item.id);
+      setRecentItems((prevRecents) => {
+        const filteredRecents = prevRecents.filter((recent) => recent.id !== item.id);
 
-      const newItem: RecentItem = {
-        ...item,
-        timestamp: item.timestamp ?? Date.now(),
-      };
+        const newItem: RecentItem = {
+          ...item,
+          timestamp: item.timestamp ?? Date.now(),
+        };
 
-      return [newItem, ...filteredRecents]
-        .toSorted((a, b) => (b.timestamp ?? 0) - (a.timestamp ?? 0))
-        .slice(0, maxRecents);
-    });
-  }, [maxRecents, enabled]);
+        return [newItem, ...filteredRecents]
+          .toSorted((a, b) => (b.timestamp ?? 0) - (a.timestamp ?? 0))
+          .slice(0, maxRecents);
+      });
+    },
+    [maxRecents, enabled],
+  );
 
   const removeFromRecents = useCallback((itemId: string) => {
-    setRecentItems(prevRecents => prevRecents.filter(item => item.id !== itemId));
+    setRecentItems((prevRecents) => prevRecents.filter((item) => item.id !== itemId));
   }, []);
 
   const clearRecents = useCallback(() => {
     setRecentItems([]);
   }, []);
 
-  const filterRecents = useCallback((searchInput: string): RecentItem[] => {
-    return searchInput.trim() 
-      ? recentItems.filter(item => {
-          const searchText = item.searchableText ?? item.name;
-          return searchText.toLowerCase().includes(searchInput.toLowerCase());
-        })
-      : recentItems;
-  }, [recentItems]);
-
-  const filteredRecentItems = useMemo(() =>
-    filterRecents(''),
-    [filterRecents]
+  const filterRecents = useCallback(
+    (searchInput: string): RecentItem[] => {
+      return searchInput.trim()
+        ? recentItems.filter((item) => {
+            const searchText = item.searchableText ?? item.name;
+            return searchText.toLowerCase().includes(searchInput.toLowerCase());
+          })
+        : recentItems;
+    },
+    [recentItems],
   );
+
+  const filteredRecentItems = useMemo(() => filterRecents(''), [filterRecents]);
 
   return {
     // State

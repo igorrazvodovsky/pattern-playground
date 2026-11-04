@@ -1,7 +1,7 @@
 .messages {
   display: grid;
   grid-template-columns: auto 1fr;
-  grid-template-areas: "avatar content";
+  grid-template-areas: 'avatar content';
   gap: var(--space-m);
 }
 
@@ -108,7 +108,7 @@
     height: 1.5em;
 
     &::before {
-      content: "";
+      content: '';
       background: var(--c-neutral-100);
       position: absolute;
       left: 0;
@@ -179,21 +179,15 @@
   margin-inline-start: auto;
 }
 
-.message-composer__feedback {
-  margin-inline: var(--space-s);
-  color: var(--c-bodyDimmed);
+.comment__input {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
 
-  .badge,
-  pp-spinner {
-    margin-inline-end: var(--space-s);
-  }
-
-  pp-spinner {
-    /* --track-width: 3px; */
-    --track-color: oklch(0% 0 0deg / 20%);
-
-    font-size: var(--text-xs);
-  }
+.comment-composer__editor {
+  flex: 1;
 }
 
 .comment__input:not(.popover .comment__input) {

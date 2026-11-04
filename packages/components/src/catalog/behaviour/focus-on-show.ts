@@ -7,7 +7,10 @@ import { createContext, useContext, useLayoutEffect, type RefObject } from 'reac
 
 export const DemoSettled = createContext<(() => boolean) | null>(null);
 
-export const useFocusOnShow = (ref: RefObject<HTMLElement | null>, focusOnShow: boolean | null | undefined) => {
+export const useFocusOnShow = (
+  ref: RefObject<HTMLElement | null>,
+  focusOnShow: boolean | null | undefined,
+) => {
   const settled = useContext(DemoSettled);
 
   useLayoutEffect(() => {

@@ -15,7 +15,12 @@
     },
     "trend": {
       "type": "Badge",
-      "props": { "text": { "$item": "trend" }, "icon": { "$item": "trendIcon" }, "tone": { "$item": "trendTone" }, "pill": true }
+      "props": {
+        "text": { "$item": "trend" },
+        "icon": { "$item": "trendIcon" },
+        "tone": { "$item": "trendTone" },
+        "pill": true
+      }
     },
     "figure": {
       "type": "Stat",

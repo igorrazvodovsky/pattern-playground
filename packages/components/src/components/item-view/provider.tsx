@@ -44,19 +44,18 @@ export const ItemViewProvider: React.FC<ItemViewProviderProps> = ({
       bindings: { ...parent.bindings, ...bindings },
       customComponents: { ...parent.customComponents, ...customComponents },
     }),
-    [parent, bindings, customComponents]
+    [parent, bindings, customComponents],
   );
   return <ItemViewContext.Provider value={value}>{children}</ItemViewContext.Provider>;
 };
 
-export const useItemViewContext = (): ItemViewContextValue =>
-  useContext(ItemViewContext);
+export const useItemViewContext = (): ItemViewContextValue => useContext(ItemViewContext);
 
 export const useEntityBinding = (entityType: string): EntityBinding | undefined =>
   useContext(ItemViewContext).bindings[entityType];
 
 export const useCustomComponent = (
   entityType: string,
-  path: string
+  path: string,
 ): React.ComponentType<CustomAttributeProps> | undefined =>
   useContext(ItemViewContext).customComponents[`${entityType}.${path}`];

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { getRandomFilledIcon } from './utils/icons.ts';
 
 interface AvatarProps {
@@ -8,7 +8,7 @@ interface AvatarProps {
 
 const meta = {
   title: 'Components/Avatar',
-  tags: ['autodocs', 'activity-level:operation', 'atomic:component', 'role:component', 'mediation:individual'],
+  tags: ['autodocs', 'activity-level:operation', 'mediation:individual'],
   parameters: {
     docs: {
       description: {
@@ -21,7 +21,7 @@ const meta = {
       control: { type: 'select' },
       options: ['xsmall', 'small', 'medium', 'large'],
       description: 'The size of the avatar',
-    }
+    },
   },
 } satisfies Meta<AvatarProps>;
 
@@ -33,7 +33,12 @@ export const WithImage: Story = {
     size: 'medium',
   },
   render: (args) => (
-    <img className="avatar" data-size={args.size} src="https://i.pravatar.cc/150?img=5" alt="John Doe" />
+    <img
+      className="avatar"
+      data-size={args.size}
+      src="https://i.pravatar.cc/150?img=5"
+      alt="John Doe"
+    />
   ),
 };
 
@@ -48,9 +53,19 @@ export const WithIcon: Story = {
 export const Sizes: Story = {
   render: () => (
     <>
-      <img className="avatar" data-size="small" src="https://i.pravatar.cc/150?img=1" alt="Small Avatar" />
+      <img
+        className="avatar"
+        data-size="small"
+        src="https://i.pravatar.cc/150?img=1"
+        alt="Small Avatar"
+      />
       <img className="avatar" src="https://i.pravatar.cc/150?img=2" alt="Medium Avatar" />
-      <img className="avatar" data-size="large" src="https://i.pravatar.cc/150?img=4" alt="Large Avatar" />
+      <img
+        className="avatar"
+        data-size="large"
+        src="https://i.pravatar.cc/150?img=4"
+        alt="Large Avatar"
+      />
     </>
   ),
 };
@@ -71,7 +86,9 @@ export const AvatarGroupOverflow: Story = {
       <img className="avatar" src="https://i.pravatar.cc/150?img=13" alt="First member" />
       <img className="avatar" src="https://i.pravatar.cc/150?img=16" alt="Second member" />
       <img className="avatar" src="https://i.pravatar.cc/150?img=17" alt="Third member" />
-      <span className="avatar avatar-group__more" role="img" aria-label="4 more">+4</span>
+      <span className="avatar avatar-group__more" role="img" aria-label="4 more">
+        +4
+      </span>
     </div>
   ),
 };

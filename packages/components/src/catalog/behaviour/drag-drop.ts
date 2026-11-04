@@ -11,7 +11,11 @@ import { DemoRoot } from './dialog-focus';
 const rowKey = 'catalogRow';
 const demoKey = 'catalogDemo';
 
-export const useDragRow = (ref: RefObject<HTMLElement | null>, id: string | null | undefined, enabled: boolean) => {
+export const useDragRow = (
+  ref: RefObject<HTMLElement | null>,
+  id: string | null | undefined,
+  enabled: boolean,
+) => {
   const demo = useContext(DemoRoot);
   const [dragging, setDragging] = useState(false);
   useEffect(() => {
@@ -54,7 +58,8 @@ export const useDropRow = (onDrop: (id: string) => void, enabled: boolean) => {
       if (cancelled) return;
       cleanup = dropTargetForElements({
         element,
-        canDrop: ({ source }) => source.data[demoKey] === demo && typeof source.data[rowKey] === 'string',
+        canDrop: ({ source }) =>
+          source.data[demoKey] === demo && typeof source.data[rowKey] === 'string',
         onDragEnter: () => setOver(true),
         onDragLeave: () => setOver(false),
         onDrop: ({ source }) => {
@@ -78,7 +83,7 @@ export const useStackDrop = (
   emit: (event: string) => unknown,
 ) => {
   const [, setDropped] = useBoundProp(props.dropped, bindings?.dropped);
-  return useDropRow(id => {
+  return useDropRow((id) => {
     setDropped(id);
     void emit('drop');
   }, Boolean(props.dropTarget));
@@ -95,7 +100,7 @@ export const useDisclosureDrop = (
   // The drop and the timer act on the state at the time, not at setup.
   const latest = useRef({ open, change });
   latest.current = { open, change };
-  const target = useDropRow(id => {
+  const target = useDropRow((id) => {
     if (!latest.current.open) latest.current.change(true);
     setDropped(id);
     void emit('drop');

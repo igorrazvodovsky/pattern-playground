@@ -33,9 +33,7 @@ interface Props {
 const { entry } = Astro.props;
 const { seed, evidence, disclosure, realised_by: realisedBy } = entry.data;
 
-const kinds = (evidence ?? []).map((item) =>
-  typeof item === 'string' ? { kind: item } : item,
-);
+const kinds = (evidence ?? []).map((item) => (typeof item === 'string' ? { kind: item } : item));
 if ((realisedBy?.length ?? 0) > 0 && !kinds.some((k) => k.kind === 'built')) {
   kinds.push({ kind: 'built' });
 }

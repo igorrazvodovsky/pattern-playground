@@ -244,6 +244,7 @@ left out, so a later reader knows they were seen and not missed:
   project it is necessary to **construct** such a language"; a general
   repertoire is raw material, never the deliverable. There is no notion here of
   instantiating a selected, ordered, locally-extended language for one context.
+  Taken up by [2026-10-project-languages.md](2026-10-project-languages.md).
 - *Replication and the fitness lens* (§4, note 10) — "patterns which are good
   for profit are easy to define. And they spread easily." Reframes prevalence
   and anti-patterns: common because it works, or common because it is cheap to

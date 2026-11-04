@@ -26,9 +26,7 @@ const { entry } = Astro.props;
 const { connections = [] } = entry.data;
 const subSequences = entry.data['sub-sequences'];
 
-const patternTitles = new Map(
-  (await getCollection('patterns')).map((p) => [p.id, p.data.title]),
-);
+const patternTitles = new Map((await getCollection('patterns')).map((p) => [p.id, p.data.title]));
 const sequences = await getCollection('sequences');
 
 // A `connections.at` address on this page, so only the fragment is kept: an
@@ -36,7 +34,9 @@ const sequences = await getCollection('sequences');
 // (lib/stack-store.ts) leaves alone. The validator guarantees it resolves.
 const nearRef = (ref: string): Ref => {
   const within = subSequenceRef(entry, ref.split('/').filter(Boolean));
-  return within ? { label: within.label, href: within.href?.slice(within.href.indexOf('#')) } : { label: ref };
+  return within
+    ? { label: within.label, href: within.href?.slice(within.href.indexOf('#')) }
+    : { label: ref };
 };
 
 const pattern = (slug: string) => patternRef(patternTitles, slug);
@@ -44,9 +44,9 @@ const pattern = (slug: string) => patternRef(patternTitles, slug);
 // Read from this sequence's side: outgoing when the far end is `to`, incoming
 // when it is `from`. The schema guarantees exactly one of the two.
 const CONNECTION_LABELS: Record<Connection['kind'], { out: string; in: string }> = {
-  calls: { out: 'Calls', in: 'Called by' },
+  'calls': { out: 'Calls', in: 'Called by' },
   'hands-off': { out: 'Hands off to', in: 'Handed off from' },
-  interleaves: { out: 'Interleaves with', in: 'Interleaves with' },
+  'interleaves': { out: 'Interleaves with', in: 'Interleaves with' },
 };
 
 const resolvedConnections = connections.map((c) => {
@@ -69,7 +69,9 @@ const resolvedConnections = connections.map((c) => {
       {sub.initiating && (
         <details class="sequence-initiating muted">
           <summary>Applies when</summary>
-          <p><Label text={sub.initiating} /></p>
+          <p>
+            <Label text={sub.initiating} />
+          </p>
         </details>
       )}
 
@@ -78,29 +80,54 @@ const resolvedConnections = connections.map((c) => {
           <li class="flow" id={positionAnchor(sub.id, i)}>
             {isCluster(position) ? (
               <Fragment>
-                <p><strong>{position.cluster}</strong></p>
-                {position.gloss && <p><Label text={position.gloss} /></p>}
-                <p class="sequence__lead-in"><em>In any order:</em></p>
+                <p>
+                  <strong>{position.cluster}</strong>
+                </p>
+                {position.gloss && (
+                  <p>
+                    <Label text={position.gloss} />
+                  </p>
+                )}
+                <p class="sequence__lead-in">
+                  <em>In any order:</em>
+                </p>
                 <ul class="sequence__alternatives">
-                  {position.steps.map((step) => <li class="flow"><SequenceStep step={step} titles={patternTitles} /></li>)}
+                  {position.steps.map((step) => (
+                    <li class="flow">
+                      <SequenceStep step={step} titles={patternTitles} />
+                    </li>
+                  ))}
                 </ul>
               </Fragment>
             ) : isChoice(position) ? (
               <Fragment>
-                <p><strong>{position.choice}</strong></p>
-                {position.gloss && <p><Label text={position.gloss} /></p>}
-                {position.tree && (() => {
-                  const tree = pattern(position.tree);
-                  return (
-                    <p>
-                      The judgement belongs to the decision tree on{' '}
-                      {tree.href ? <a href={tree.href}>{tree.label}</a> : tree.label}.
-                    </p>
-                  );
-                })()}
-                <p class="sequence__lead-in"><em>{position.exclusive ? 'Pick one:' : 'Combine any of:'}</em></p>
+                <p>
+                  <strong>{position.choice}</strong>
+                </p>
+                {position.gloss && (
+                  <p>
+                    <Label text={position.gloss} />
+                  </p>
+                )}
+                {position.tree &&
+                  (() => {
+                    const tree = pattern(position.tree);
+                    return (
+                      <p>
+                        The judgement belongs to the decision tree on{' '}
+                        {tree.href ? <a href={tree.href}>{tree.label}</a> : tree.label}.
+                      </p>
+                    );
+                  })()}
+                <p class="sequence__lead-in">
+                  <em>{position.exclusive ? 'Pick one:' : 'Combine any of:'}</em>
+                </p>
                 <ul class="sequence__alternatives">
-                  {position.alternatives.map((step) => <li class="flow"><SequenceStep step={step} titles={patternTitles} /></li>)}
+                  {position.alternatives.map((step) => (
+                    <li class="flow">
+                      <SequenceStep step={step} titles={patternTitles} />
+                    </li>
+                  ))}
                 </ul>
               </Fragment>
             ) : (
@@ -111,33 +138,47 @@ const resolvedConnections = connections.map((c) => {
       </ol>
 
       {sub.resulting && (
-        <p class="muted"><em>Leaves:</em> <Label text={sub.resulting} /></p>
+        <p class="muted">
+          <em>Leaves:</em> <Label text={sub.resulting} />
+        </p>
       )}
     </section>
   ))}
 
-{resolvedConnections.length > 0 && (
-  <section class="flow sequence-connections" aria-labelledby="sequence-connections-heading">
-    <h2 id="sequence-connections-heading">Connections</h2>
-    <ul class="sequence-connections__list">
-      {resolvedConnections.map((c) => (
-        <li class="flow">
-          <p>
-            {c.kind}{' '}
-            {c.far.href ? <a href={c.far.href}>{c.far.label}</a> : (
-              <Fragment>{c.far.label}{' · '}<em>not yet authored</em></Fragment>
+  {resolvedConnections.length > 0 && (
+    <section class="flow sequence-connections" aria-labelledby="sequence-connections-heading">
+      <h2 id="sequence-connections-heading">Connections</h2>
+      <ul class="sequence-connections__list">
+        {resolvedConnections.map((c) => (
+          <li class="flow">
+            <p>
+              {c.kind}{' '}
+              {c.far.href ? (
+                <a href={c.far.href}>{c.far.label}</a>
+              ) : (
+                <Fragment>
+                  {c.far.label}
+                  {' · '}
+                  <em>not yet authored</em>
+                </Fragment>
+              )}
+            </p>
+            <p class="muted">
+              At {c.at.href ? <a href={c.at.href}>{c.at.label}</a> : c.at.label}
+              {c.via && (
+                <Fragment>
+                  , via {c.via.href ? <a href={c.via.href}>{c.via.label}</a> : c.via.label}
+                </Fragment>
+              )}
+            </p>
+            {c.note && (
+              <p class="muted">
+                <Label text={c.note} />
+              </p>
             )}
-          </p>
-          <p class="muted">
-            At {c.at.href ? <a href={c.at.href}>{c.at.label}</a> : c.at.label}
-            {c.via && (
-              <Fragment>, via {c.via.href ? <a href={c.via.href}>{c.via.label}</a> : c.via.label}</Fragment>
-            )}
-          </p>
-          {c.note && <p class="muted"><Label text={c.note} /></p>}
-        </li>
-      ))}
-    </ul>
-  </section>
-)}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
 </section>

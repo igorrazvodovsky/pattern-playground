@@ -1,11 +1,20 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { Editor } from '@tiptap/core';
 import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { undoDepth } from '@tiptap/pm/history';
 import type { Slice } from '@tiptap/pm/model';
 import type { EditorView } from '@tiptap/pm/view';
-import { COMMENT_MARK_NAME, QUOTE_MARK_NAME, findCommentRanges, findQuoteRanges, removeCommentMark } from '../components/commenting/tiptap/comment-mark';
-import { COMMENTING_PLUGIN_ID, type EditorCommentingPlugin } from '../components/editor-plugins/commenting/CommentingPlugin';
+import {
+  COMMENT_MARK_NAME,
+  QUOTE_MARK_NAME,
+  findCommentRanges,
+  findQuoteRanges,
+  removeCommentMark,
+} from '../components/commenting/tiptap/comment-mark';
+import {
+  COMMENTING_PLUGIN_ID,
+  type EditorCommentingPlugin,
+} from '../components/editor-plugins/commenting/CommentingPlugin';
 import { getCommentService } from '../services/commenting/core/comment-service-instance';
 import { getQuoteService } from '../services/commenting/quote-service';
 import {
@@ -16,7 +25,7 @@ import {
 } from '../demos/bubble-menu';
 
 const meta = {
-  title: "Components/Bubble menu",
+  title: 'Components/Bubble menu',
 } satisfies Meta;
 
 export default meta;
@@ -56,9 +65,10 @@ async function selectInEditor(editor: Editor, range: { from: number; to: number 
   await waitFor(() => expect(editor.view.dom).toHaveFocus());
 }
 
-const shortcut = () => /Mac|iPhone|iPad/.test(navigator.platform)
-  ? '{Meta>}{Shift>}m{/Shift}{/Meta}'
-  : '{Control>}{Shift>}m{/Shift}{/Control}';
+const shortcut = () =>
+  /Mac|iPhone|iPad/.test(navigator.platform)
+    ? '{Meta>}{Shift>}m{/Shift}{/Meta}'
+    : '{Control>}{Shift>}m{/Shift}{/Control}';
 
 // Comments on `range` through the shortcut and the popover, then closes the thread.
 async function commentOn(editor: Editor, range: { from: number; to: number }, text: string) {
@@ -89,10 +99,13 @@ export const CommentingMarksPassages: Story = {
     const dom = await canvas.findByRole('textbox', { name: 'Document editor' });
     const editor = (dom as HTMLElement & { editor: Editor }).editor;
     await waitFor(() => expect(editor.getText()).toContain('polar bears'));
-    await waitFor(() => expect(editor.storage.editorContext?.getPlugin(COMMENTING_PLUGIN_ID)).toBeDefined());
+    await waitFor(() =>
+      expect(editor.storage.editorContext?.getPlugin(COMMENTING_PLUGIN_ID)).toBeDefined(),
+    );
     const originalText = editor.getText();
 
-    const comment = (range: { from: number; to: number }, text: string) => commentOn(editor, range, text);
+    const comment = (range: { from: number; to: number }, text: string) =>
+      commentOn(editor, range, text);
 
     const first = findText(editor, 'polar bears');
     const depthBefore = undoDepth(editor.state);
@@ -109,7 +122,11 @@ export const CommentingMarksPassages: Story = {
     expect(editor.getText()).toBe(originalText);
     const ranges = findCommentRanges(editor.state.doc);
     expect(ranges).toHaveLength(2);
-    expect(ranges[0]).toMatchObject({ threadId: firstRange.threadId, from: first.from, to: first.to });
+    expect(ranges[0]).toMatchObject({
+      threadId: firstRange.threadId,
+      from: first.from,
+      to: first.to,
+    });
     expect(ranges[1]).toMatchObject(second);
     expect(ranges[1].threadId).not.toBe(firstRange.threadId);
 
@@ -124,7 +141,9 @@ export const CommentingMarksPassages: Story = {
     const draft = await page.findByRole('dialog', { name: 'Comment on selection' });
     await userEvent.click(within(draft).getByRole('textbox', { name: 'Comment' }));
     await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(page.queryByRole('dialog', { name: 'Comment on selection' })).toBeNull());
+    await waitFor(() =>
+      expect(page.queryByRole('dialog', { name: 'Comment on selection' })).toBeNull(),
+    );
     expect(editor.getJSON()).toEqual(before);
 
     // The thread list shows the remaining passage.
@@ -149,7 +168,9 @@ export const CommentingMarksPassages: Story = {
     expect(findQuoteRanges(editor.state.doc)).toEqual([expect.objectContaining(second)]);
     // The quote's own content leaves the source's comment marks behind.
     const [{ quoteId }] = findQuoteRanges(editor.state.doc);
-    const quoteContent = JSON.stringify(getQuoteService().getQuoteById(quoteId)?.content.richContent);
+    const quoteContent = JSON.stringify(
+      getQuoteService().getQuoteById(quoteId)?.content.richContent,
+    );
     expect(quoteContent).toContain('bears');
     expect(quoteContent).not.toMatch(/"type":"(comment|quote)"/);
     await waitFor(() => expect(within(drawer).queryAllByText(/^Passage:/)).toHaveLength(0));
@@ -159,7 +180,9 @@ export const CommentingMarksPassages: Story = {
     // Escape closes the thread and leaves the list open.
     await userEvent.click(within(quoted).getByRole('textbox', { name: 'Comment' }));
     await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(page.queryByRole('dialog', { name: 'Comments on quote' })).toBeNull());
+    await waitFor(() =>
+      expect(page.queryByRole('dialog', { name: 'Comments on quote' })).toBeNull(),
+    );
     expect(page.getByRole('dialog', { name: 'Comments' })).toBeInTheDocument();
 
     // Clicking the quoted passage reopens the quote's thread.
@@ -185,7 +208,9 @@ export const CommentingKeepsAnchorsUnique: Story = {
     const dom = await within(canvasElement).findByRole('textbox', { name: 'Document editor' });
     const editor = (dom as HTMLElement & { editor: Editor }).editor;
     await waitFor(() => expect(editor.getText()).toContain('polar bears'));
-    await waitFor(() => expect(editor.storage.editorContext?.getPlugin(COMMENTING_PLUGIN_ID)).toBeDefined());
+    await waitFor(() =>
+      expect(editor.storage.editorContext?.getPlugin(COMMENTING_PLUGIN_ID)).toBeDefined(),
+    );
     // Loading the document is not an edit, so undo cannot reload it over the marks.
     expect(undoDepth(editor.state)).toBe(0);
 
@@ -213,19 +238,26 @@ export const CommentingKeepsAnchorsUnique: Story = {
     expect(copied).toContain(`data-comment-id="${threadId}"`);
     await pasteAfter('alpine plants', copied);
     expect(editor.getText().split('polar bears')).toHaveLength(3);
-    expect(findCommentRanges(editor.state.doc)).toEqual([expect.objectContaining({ threadId, text: 'polar bears' })]);
+    expect(findCommentRanges(editor.state.doc)).toEqual([
+      expect.objectContaining({ threadId, text: 'polar bears' }),
+    ]);
 
     // A thread from another document stays behind.
-    await pasteAfter('alpine plants', '<p><mark data-comment-id="thread-elsewhere">borrowed</mark></p>');
+    await pasteAfter(
+      'alpine plants',
+      '<p><mark data-comment-id="thread-elsewhere">borrowed</mark></p>',
+    );
     expect(editor.getText()).toContain('borrowed');
-    expect(findCommentRanges(editor.state.doc).map(r => r.threadId)).toEqual([threadId]);
+    expect(findCommentRanges(editor.state.doc).map((r) => r.threadId)).toEqual([threadId]);
 
     // Cutting and pasting moves the passage with its thread.
     await selectInEditor(editor, findText(editor, 'polar bears'));
     const cut = (await userEvent.cut())!.getData('text/html');
     expect(findCommentRanges(editor.state.doc)).toEqual([]);
     await pasteAfter('borrowed', cut);
-    expect(findCommentRanges(editor.state.doc)).toEqual([expect.objectContaining({ threadId, text: 'polar bears' })]);
+    expect(findCommentRanges(editor.state.doc)).toEqual([
+      expect.objectContaining({ threadId, text: 'polar bears' }),
+    ]);
 
     // Dragging moves the passage too, and the original goes after the drop;
     // a copying drag leaves the thread with the original.
@@ -234,7 +266,9 @@ export const CommentingKeepsAnchorsUnique: Story = {
     const slice = editor.state.doc.slice(range.from, range.to);
     const transform = () => {
       let result = slice;
-      view.someProp('transformPasted', f => { result = f(result, view, false); });
+      view.someProp('transformPasted', (f) => {
+        result = f(result, view, false);
+      });
       return JSON.stringify(result.toJSON());
     };
     view.dragging = { slice, move: true };
@@ -244,10 +278,14 @@ export const CommentingKeepsAnchorsUnique: Story = {
     view.dragging = null;
 
     // Code blocks take no marks, so commenting there starts nothing.
-    editor.chain().setTextSelection(findText(editor, 'alpine plants').from + 1).toggleCodeBlock().run();
+    editor
+      .chain()
+      .setTextSelection(findText(editor, 'alpine plants').from + 1)
+      .toggleCodeBlock()
+      .run();
     await selectInEditor(editor, findText(editor, 'alpine plants'));
     await userEvent.keyboard(shortcut());
-    await new Promise(resolve => setTimeout(resolve, 200));
+    await new Promise((resolve) => setTimeout(resolve, 200));
     expect(page.queryByRole('dialog', { name: 'Comment on selection' })).toBeNull();
     expect(page.queryByRole('button', { name: 'Comment' })).toBeNull();
   },
@@ -256,7 +294,7 @@ export const CommentingKeepsAnchorsUnique: Story = {
 // Ids of the threads whose marks sit on any node, text or not.
 function markedIds(editor: Editor, markName: string, idAttr: string): string[] {
   const ids = new Set<string>();
-  editor.state.doc.descendants(node => {
+  editor.state.doc.descendants((node) => {
     for (const mark of node.marks) if (mark.type.name === markName) ids.add(mark.attrs[idAttr]);
   });
   return [...ids];
@@ -274,8 +312,12 @@ export const CommentingSurvivesEdits: Story = {
     const dom = await within(canvasElement).findByRole('textbox', { name: 'Document editor' });
     const editor = (dom as HTMLElement & { editor: Editor }).editor;
     await waitFor(() => expect(editor.getText()).toContain('polar bears'));
-    await waitFor(() => expect(editor.storage.editorContext?.getPlugin(COMMENTING_PLUGIN_ID)).toBeDefined());
-    const plugin = editor.storage.editorContext!.getPlugin(COMMENTING_PLUGIN_ID) as EditorCommentingPlugin;
+    await waitFor(() =>
+      expect(editor.storage.editorContext?.getPlugin(COMMENTING_PLUGIN_ID)).toBeDefined(),
+    );
+    const plugin = editor.storage.editorContext!.getPlugin(
+      COMMENTING_PLUGIN_ID,
+    ) as EditorCommentingPlugin;
     const comments = getCommentService();
 
     // A draft whose passage is deleted closes, and nothing is marked.
@@ -283,7 +325,9 @@ export const CommentingSurvivesEdits: Story = {
     await userEvent.keyboard(shortcut());
     await page.findByRole('dialog', { name: 'Comment on selection' });
     editor.commands.deleteRange(findText(editor, 'alpine plants'));
-    await waitFor(() => expect(page.queryByRole('dialog', { name: 'Comment on selection' })).toBeNull());
+    await waitFor(() =>
+      expect(page.queryByRole('dialog', { name: 'Comment on selection' })).toBeNull(),
+    );
     expect(findCommentRanges(editor.state.doc)).toEqual([]);
 
     // A passage around a reference marks the reference too, and both leave
@@ -294,11 +338,16 @@ export const CommentingSurvivesEdits: Story = {
     });
     const { pos, size } = reference!;
     const $pos = editor.state.doc.resolve(pos);
-    const around = { from: Math.max($pos.start(), pos - 6), to: Math.min($pos.end(), pos + size + 6) };
+    const around = {
+      from: Math.max($pos.start(), pos - 6),
+      to: Math.min($pos.end(), pos + size + 6),
+    };
     await commentOn(editor, around, 'Around a reference');
     const [aroundRange] = findCommentRanges(editor.state.doc);
     expect(aroundRange).toMatchObject(around);
-    expect(editor.state.doc.nodeAt(pos)!.marks.map(m => m.type.name)).toContain(COMMENT_MARK_NAME);
+    expect(editor.state.doc.nodeAt(pos)!.marks.map((m) => m.type.name)).toContain(
+      COMMENT_MARK_NAME,
+    );
     removeCommentMark(editor, aroundRange.threadId);
     expect(markedIds(editor, COMMENT_MARK_NAME, 'commentId')).toEqual([]);
 
@@ -306,23 +355,35 @@ export const CommentingSurvivesEdits: Story = {
     const [{ threadId: aroundThread }] = findCommentRanges(editor.state.doc);
     const aroundQuote = await plugin.quoteThread(aroundThread);
     expect(markedIds(editor, COMMENT_MARK_NAME, 'commentId')).toEqual([]);
-    expect(editor.state.doc.nodeAt(pos)!.marks.map(m => m.attrs.quoteId)).toContain(aroundQuote!.id);
+    expect(editor.state.doc.nodeAt(pos)!.marks.map((m) => m.attrs.quoteId)).toContain(
+      aroundQuote!.id,
+    );
     expect(canvasElement.querySelector('mark[data-comment-id]')).toBeNull();
-    await userEvent.click(within(await page.findByRole('dialog', { name: 'Comments on quote' })).getByRole('textbox', { name: 'Comment' }));
+    await userEvent.click(
+      within(await page.findByRole('dialog', { name: 'Comments on quote' })).getByRole('textbox', {
+        name: 'Comment',
+      }),
+    );
     await userEvent.keyboard('{Escape}');
     await waitFor(() => expect(page.queryByRole('dialog', { name: /quote/ })).toBeNull());
 
     // Text that lands between a passage's pieces stays out of its quote.
     const bears = findText(editor, 'polar bears');
     await commentOn(editor, bears, 'Split me');
-    const split = findCommentRanges(editor.state.doc).find(r => r.text === 'polar bears')!;
-    editor.view.dispatch(editor.state.tr.insert(bears.from + 'polar '.length, editor.schema.text('white ')));
+    const split = findCommentRanges(editor.state.doc).find((r) => r.text === 'polar bears')!;
+    editor.view.dispatch(
+      editor.state.tr.insert(bears.from + 'polar '.length, editor.schema.text('white ')),
+    );
     expect(editor.getText()).toContain('polar white bears');
     const splitQuote = await plugin.quoteThread(split.threadId);
     const stored = getQuoteService().getQuoteById(splitQuote!.id)!;
     expect(stored.content.plainText).toBe('polar bears');
     expect(JSON.stringify(stored.content.richContent)).not.toContain('white');
-    await userEvent.click(within(await page.findByRole('dialog', { name: 'Comments on quote' })).getByRole('textbox', { name: 'Comment' }));
+    await userEvent.click(
+      within(await page.findByRole('dialog', { name: 'Comments on quote' })).getByRole('textbox', {
+        name: 'Comment',
+      }),
+    );
     await userEvent.keyboard('{Escape}');
     await waitFor(() => expect(page.queryByRole('dialog', { name: /quote/ })).toBeNull());
 
@@ -331,16 +392,20 @@ export const CommentingSurvivesEdits: Story = {
     const drawer = await page.findByRole('dialog', { name: 'Comments' });
     const leopards = findText(editor, 'snow leopards');
     await commentOn(editor, leopards, 'Fails to quote');
-    await waitFor(() => expect(within(drawer).getByText(/^Passage: “snow leopards”/)).toBeInTheDocument());
+    await waitFor(() =>
+      expect(within(drawer).getByText(/^Passage: “snow leopards”/)).toBeInTheDocument(),
+    );
     editor.view.dispatch(editor.state.tr.insertText('X', leopards.from + 2));
-    await waitFor(() => expect(within(drawer).getByText(/^Passage: “snXow leopards”/)).toBeInTheDocument());
+    await waitFor(() =>
+      expect(within(drawer).getByText(/^Passage: “snXow leopards”/)).toBeInTheDocument(),
+    );
     editor.view.dispatch(editor.state.tr.delete(leopards.from + 2, leopards.from + 3));
     await userEvent.click(within(canvasElement).getByRole('button', { name: 'Comments' }));
     await waitFor(() => expect(page.queryByRole('dialog', { name: 'Comments' })).toBeNull());
 
     // A quote step whose thread fails to move leaves the passage with its
     // thread, and no quote behind.
-    const failing = findCommentRanges(editor.state.doc).find(r => r.text === 'snow leopards')!;
+    const failing = findCommentRanges(editor.state.doc).find((r) => r.text === 'snow leopards')!;
     const quotesBefore = getQuoteService().getAllQuotes().length;
     const quoteMarksBefore = markedIds(editor, QUOTE_MARK_NAME, 'quoteId');
     const reanchor = comments.reanchor;
@@ -348,16 +413,22 @@ export const CommentingSurvivesEdits: Story = {
     const consoleError = console.error;
     console.error = () => {};
     try {
-      await userEvent.click(canvasElement.querySelector(`mark[data-comment-id="${failing.threadId}"]`)!);
+      await userEvent.click(
+        canvasElement.querySelector(`mark[data-comment-id="${failing.threadId}"]`)!,
+      );
       const open = await page.findByRole('dialog', { name: 'Comments on passage' });
       await userEvent.click(within(open).getByRole('button', { name: 'Turn into quote' }));
-      await waitFor(() => expect(markedIds(editor, COMMENT_MARK_NAME, 'commentId')).toContain(failing.threadId));
+      await waitFor(() =>
+        expect(markedIds(editor, COMMENT_MARK_NAME, 'commentId')).toContain(failing.threadId),
+      );
     } finally {
       comments.reanchor = reanchor;
       console.error = consoleError;
     }
     expect(getQuoteService().getAllQuotes()).toHaveLength(quotesBefore);
     expect(markedIds(editor, QUOTE_MARK_NAME, 'quoteId')).toEqual(quoteMarksBefore);
-    expect(within(page.getByRole('dialog', { name: 'Comments on passage' })).getByText('Fails to quote')).toBeInTheDocument();
+    expect(
+      within(page.getByRole('dialog', { name: 'Comments on passage' })).getByText('Fails to quote'),
+    ).toBeInTheDocument();
   },
 };

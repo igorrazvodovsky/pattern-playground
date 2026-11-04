@@ -3,7 +3,7 @@ import { useState, useRef, useCallback } from 'react';
 type Dropdown = HTMLElement & { open?: boolean; hide(): void };
 
 export const useDropdownState = () => {
-  const [commandInput, setCommandInput] = useState("");
+  const [commandInput, setCommandInput] = useState('');
   const commandInputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<Dropdown>(null);
 
@@ -17,13 +17,13 @@ export const useDropdownState = () => {
 
   const handleDropdownHide = useCallback(() => {
     setTimeout(() => {
-      setCommandInput("");
+      setCommandInput('');
     }, 200);
   }, []);
 
   const clearInputAndHide = useCallback(() => {
     setTimeout(() => {
-      setCommandInput("");
+      setCommandInput('');
     }, 200);
     dropdownRef.current?.hide();
   }, []);

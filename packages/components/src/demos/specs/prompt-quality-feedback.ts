@@ -10,16 +10,21 @@ type Verdict = { text: string; purpose: 'success' | 'warning' } | null;
 
 // Words that stand in for a name the actor has not given ("that thing",
 // "some stuff"), not the same words inside a name ("Internet of Things").
-const placeholders = /\b(that|this|the|some) (thing|things|stuff)\b|\b(that one|something|whatsit)\b/i;
+const placeholders =
+  /\b(that|this|the|some) (thing|things|stuff)\b|\b(that one|something|whatsit)\b/i;
 const minWords = 6;
 
 const assess = (prompt: string): Verdict => {
   const words = prompt.trim().split(/\s+/).filter(Boolean);
   if (words.length === 0) return null;
   if (placeholders.test(prompt)) {
-    return { text: 'Too vague: say what it was about, or where you came across it.', purpose: 'warning' };
+    return {
+      text: 'Too vague: say what it was about, or where you came across it.',
+      purpose: 'warning',
+    };
   }
-  if (words.length < minWords) return { text: 'Add more detail for best results.', purpose: 'warning' };
+  if (words.length < minWords)
+    return { text: 'Add more detail for best results.', purpose: 'warning' };
   return { text: 'Specific enough to answer well.', purpose: 'success' };
 };
 
@@ -36,8 +41,8 @@ export default {
     actions: { settle },
     handlers: settleHandler,
     functions: {
-      verdict: args => current(args)?.text ?? '',
-      purpose: args => current(args)?.purpose ?? null,
+      verdict: (args) => current(args)?.text ?? '',
+      purpose: (args) => current(args)?.purpose ?? null,
     },
   } satisfies SpecSetup,
 };

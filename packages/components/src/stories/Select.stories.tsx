@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 interface SelectArgs {
   label: string;
@@ -10,7 +10,7 @@ interface SelectArgs {
 }
 
 const meta = {
-  title: "Components/Select",
+  title: 'Components/Select',
   argTypes: {
     label: {
       control: { type: 'text' },
@@ -60,7 +60,9 @@ export const Default: Story = {
         disabled={args.disabled}
         required={args.required}
       >
-        <option value="" disabled>{args.placeholder}</option>
+        <option value="" disabled>
+          {args.placeholder}
+        </option>
         <option value="gb">United Kingdom</option>
         <option value="de">Germany</option>
         <option value="fr">France</option>
@@ -79,7 +81,9 @@ export const WithLabel: Story = {
       <label htmlFor="country-select">Country</label>
       <pp-select>
         <select id="country-select" defaultValue="">
-          <option value="" disabled>Choose a country</option>
+          <option value="" disabled>
+            Choose a country
+          </option>
           <option value="gb">United Kingdom</option>
           <option value="de">Germany</option>
           <option value="fr">France</option>
@@ -110,7 +114,9 @@ export const Sizes: Story = {
     <>
       <pp-select size="small">
         <select aria-label="Small" defaultValue="">
-          <option value="" disabled>Small</option>
+          <option value="" disabled>
+            Small
+          </option>
           <option value="a">Option A</option>
           <option value="b">Option B</option>
         </select>
@@ -118,7 +124,9 @@ export const Sizes: Story = {
       <br />
       <pp-select size="medium">
         <select aria-label="Medium" defaultValue="">
-          <option value="" disabled>Medium</option>
+          <option value="" disabled>
+            Medium
+          </option>
           <option value="a">Option A</option>
           <option value="b">Option B</option>
         </select>
@@ -126,7 +134,9 @@ export const Sizes: Story = {
       <br />
       <pp-select size="large">
         <select aria-label="Large" defaultValue="">
-          <option value="" disabled>Large</option>
+          <option value="" disabled>
+            Large
+          </option>
           <option value="a">Option A</option>
           <option value="b">Option B</option>
         </select>
@@ -135,12 +145,49 @@ export const Sizes: Story = {
   ),
 };
 
+/**
+ * `data-slot="prefix"` and `data-slot="suffix"` children overlay the control
+ * as presentational adornments, the same contract as Input. They are not
+ * interactive: clicks pass through to the select.
+ */
+export const WithAdornments: Story = {
+  render: () => (
+    <div className="flow">
+      <pp-select>
+        <iconify-icon className="icon" icon="ik:globe" data-slot="prefix" />
+        <select aria-label="Region" defaultValue="eu">
+          <option value="eu">Europe</option>
+          <option value="na">North America</option>
+          <option value="ap">Asia Pacific</option>
+        </select>
+      </pp-select>
+      <pp-select size="small">
+        <iconify-icon className="icon" icon="ik:sort-high-to-low" data-slot="prefix" />
+        <select aria-label="Sort by" defaultValue="recent">
+          <option value="recent">Most recent</option>
+          <option value="name">Name</option>
+        </select>
+        <span data-slot="suffix">12</span>
+      </pp-select>
+      <pp-select size="large">
+        <select aria-label="Time zone" defaultValue="cet">
+          <option value="cet">Central European Time</option>
+          <option value="utc">Coordinated Universal Time</option>
+        </select>
+        <iconify-icon className="icon" icon="ik:calendar" data-slot="suffix" />
+      </pp-select>
+    </div>
+  ),
+};
+
 export const Disabled: Story = {
   render: () => (
     <>
       <pp-select>
         <select aria-label="Disabled control" defaultValue="" disabled>
-          <option value="" disabled>Unavailable</option>
+          <option value="" disabled>
+            Unavailable
+          </option>
           <option value="a">Option A</option>
           <option value="b">Option B</option>
         </select>
@@ -148,9 +195,13 @@ export const Disabled: Story = {
       <br />
       <pp-select>
         <select aria-label="Disabled option" defaultValue="">
-          <option value="" disabled>Choose…</option>
+          <option value="" disabled>
+            Choose…
+          </option>
           <option value="a">Available</option>
-          <option value="b" disabled>Unavailable</option>
+          <option value="b" disabled>
+            Unavailable
+          </option>
           <option value="c">Also available</option>
         </select>
       </pp-select>
@@ -166,12 +217,16 @@ export const Invalid: Story = {
   render: () => (
     <pp-select invalid>
       <select aria-label="Role" defaultValue="">
-        <option value="" disabled>Choose a role</option>
+        <option value="" disabled>
+          Choose a role
+        </option>
         <option value="admin">Administrator</option>
         <option value="editor">Editor</option>
         <option value="viewer">Viewer</option>
       </select>
-      <span data-slot="error"><span className="visually-hidden">Error:</span> Choose a role to continue.</span>
+      <span data-slot="error">
+        <span className="visually-hidden">Error:</span> Choose a role to continue.
+      </span>
     </pp-select>
   ),
 };
@@ -180,7 +235,9 @@ export const Grouped: Story = {
   render: () => (
     <pp-select>
       <select aria-label="City" defaultValue="">
-        <option value="" disabled>Choose a city</option>
+        <option value="" disabled>
+          Choose a city
+        </option>
         <optgroup label="Europe">
           <option value="lon">London</option>
           <option value="ber">Berlin</option>
@@ -197,6 +254,45 @@ export const Grouped: Story = {
 };
 
 /**
+ * An option carries the detail the actor decides on: here, the role and team
+ * that tell two people with the same name apart. Where the browser supports
+ * the styled picker, `<selectedcontent>` mirrors the chosen option into the
+ * closed control, so the detail stays visible after the choice. Elsewhere the
+ * option reads as plain text, with the separator joining label and detail.
+ */
+export const RichOptions: Story = {
+  render: () => (
+    <div className="flow">
+      <label htmlFor="recipient-select">Send invoice to</label>
+      <pp-select>
+        <select id="recipient-select" defaultValue="">
+          <button>
+            <selectedcontent />
+          </button>
+          <option value="" disabled>
+            Choose a recipient
+          </option>
+          {[
+            { value: 'sp-finance', name: 'Sam Patel', detail: 'Accountant · Finance' },
+            { value: 'sp-sales', name: 'Sam Patel', detail: 'Account manager · Sales' },
+            { value: 'mo-finance', name: 'Maria Okafor', detail: 'Finance lead · Finance' },
+            { value: 'jl-ops', name: 'Jonas Lind', detail: 'Office manager · Operations' },
+          ].map((person) => (
+            <option key={person.value} value={person.value}>
+              <span>
+                {person.name}
+                <span className="select__separator">,</span>
+              </span>{' '}
+              <span className="select__detail">{person.detail}</span>
+            </option>
+          ))}
+        </select>
+      </pp-select>
+    </div>
+  ),
+};
+
+/**
  * `novalidate` on the form suppresses the browser's default validation tooltip
  * so the component's own invalid styling and slotted error message are the
  * only visible feedback (Nordhealth recommendation).
@@ -208,7 +304,9 @@ export const Required: Story = {
         <label htmlFor="plan-select">Plan</label>
         <pp-select>
           <select id="plan-select" defaultValue="" required>
-            <option value="" disabled>Choose a plan</option>
+            <option value="" disabled>
+              Choose a plan
+            </option>
             <option value="free">Free</option>
             <option value="pro">Pro</option>
             <option value="team">Team</option>

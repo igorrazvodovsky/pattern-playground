@@ -10,12 +10,12 @@
      inner controls (badge menus, header corner controls) above the overlay. */
 
   /* Propagated designation: selection is staked, focus is transient */
-  .card[data-selected="true"] {
+  .card[data-selected='true'] {
     border-color: var(--c-accent);
     box-shadow: 0 0 0 1px var(--c-accent);
   }
 
-  .card[data-focused="true"] {
+  .card[data-focused='true'] {
     background-color: oklch(from var(--c-accent) l c h / 8%);
   }
 
@@ -26,21 +26,21 @@
      carries `container-type` and so is its own stacking context — a z-index on
      the card can't escape it. */
   :is(.cards--flush, .cards--list)
-    > *:has(> .card:is([data-selected="true"], [data-focused="true"], :hover, :focus-within)) {
+    > *:has(> .card:is([data-selected='true'], [data-focused='true'], :hover, :focus-within)) {
     position: relative;
     z-index: 1;
   }
 
-  tr[data-selected="true"] > td {
+  tr[data-selected='true'] > td {
     background-color: oklch(from var(--c-accent) l c h / 12%);
   }
 
-  tr[data-focused="true"] > td {
+  tr[data-focused='true'] > td {
     background-color: oklch(from var(--c-accent) l c h / 6%);
   }
 
   /* Drag in flight, and the lane currently offering to receive it */
-  [data-dragging="true"],
+  [data-dragging='true'],
   [data-dragging] {
     opacity: 0.5;
   }
@@ -56,40 +56,6 @@
      pane edge, and its z-index lost to the selection rule above, so a hovered
      later row painted over it. Both consumers now use `pp-popup top-layer`,
      which is above all of it in the browser's top layer. */
-
-  /* A detail view that carries its own re-presentation control in the corner,
-     the way `.popover__toolbar` does for a comment popover: the layout
-     dimension is decided from inside the detail rather than from a toolbar
-     sitting outside both views. Works in every host the detail can take —
-     inside a card, in a pane, in a popover, on its own page. */
-  .detail {
-    position: relative;
-  }
-
-  /* Keep whatever the detail opens with clear of the control beside it */
-  .detail > .detail__toolbar + * {
-    padding-inline-end: var(--space-l);
-  }
-
-  .detail__toolbar {
-    position: absolute;
-    inset-block-start: var(--space-xs);
-    inset-inline-end: var(--space-xs);
-
-    /* Above a card-wide `.stretched-link` hit area, which paints over the card */
-    z-index: 1;
-  }
-
-  /* The trigger stays quiet until the detail is under the pointer or keyboard,
-     the way a Notion page control does */
-  .detail__toolbar .button {
-    opacity: 0.4;
-    transition: opacity 120ms ease-in-out;
-  }
-
-  .detail:is(:hover, :focus-within) .detail__toolbar .button {
-    opacity: 1;
-  }
 
   /* An inline detail: the card itself grows to carry the full readout, so the
      current item never leaves the row it was picked from. The rule separates
@@ -112,7 +78,7 @@
   }
 
   /* A view that has visibly decoupled from the propagation it belongs to */
-  .view-family__pane[data-decoupled="true"] {
+  .view-family__pane[data-decoupled='true'] {
     opacity: 0.45;
     filter: grayscale(1);
   }

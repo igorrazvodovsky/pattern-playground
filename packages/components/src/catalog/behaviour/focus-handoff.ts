@@ -4,19 +4,33 @@ import { useCallback, useLayoutEffect, useRef, type RefObject } from 'react';
 // Tab would start from the top of the page. A button inside a dialog is left
 // alone, because the dialog returns focus itself.
 
-export const labelOf = (button: HTMLButtonElement) => button.getAttribute('aria-label') ?? button.textContent.trim();
-
-const findTarget = (demo: HTMLElement, before: Element[], focusNext: string): HTMLElement | undefined => {
-  const candidates = [...demo.querySelectorAll('button')].filter(
-    button => labelOf(button) === focusNext && !button.disabled && button.checkVisibility(),
+// A control a spec names has its `focusKey` in `data-focus-key`. A key may hold
+// several names separated by spaces, so a row's control can answer both to the
+// name its peers share and to its item's own.
+const withFocusKey = (root: ParentNode, key: string) =>
+  [...root.querySelectorAll<HTMLElement>('[data-focus-key]')].filter((element) =>
+    element.dataset.focusKey?.split(/\s+/).includes(key),
   );
-  const anchor = before.find(element => element.isConnected);
-  const follows = (button: HTMLButtonElement) =>
-    !anchor || (anchor.compareDocumentPosition(button) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
+
+// Those with the key that can take focus now.
+export const focusableWithKey = (root: ParentNode, key: string) =>
+  withFocusKey(root, key).filter(
+    (element) => !element.matches(':disabled') && element.checkVisibility(),
+  );
+
+const findTarget = (
+  demo: HTMLElement,
+  before: Element[],
+  focusNext: string,
+): HTMLElement | undefined => {
+  const candidates = focusableWithKey(demo, focusNext);
+  const anchor = before.find((element) => element.isConnected);
+  const follows = (element: HTMLElement) =>
+    !anchor || (anchor.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
   return candidates.find(follows) ?? candidates.at(-1);
 };
 
-// Read when the element goes, so a label that changes while the element stays
+// Read when the element goes, so a key that changes while the element stays
 // does not count as the element going.
 const useLatest = (focusNext: string | null | undefined) => {
   const latest = useRef(focusNext);
@@ -97,9 +111,16 @@ export const useMenuFocusHandoff = (focusNext: string | null | undefined) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       const menuList = list.current;
       const dropped = justClosed.current && (!active || active === document.body);
-      if (!button || (!dropped && (!active || (active !== button && !menuList?.contains(active))))) return;
+      if (!button || (!dropped && (!active || (active !== button && !menuList?.contains(active)))))
+        return;
       const demo = button.closest<HTMLElement>('[data-registry]');
-      if (demo) handOff(button, demo, next.current, focused => focused === button || Boolean(menuList?.contains(focused)));
+      if (demo)
+        handOff(
+          button,
+          demo,
+          next.current,
+          (focused) => focused === button || Boolean(menuList?.contains(focused)),
+        );
     };
   }, [next]);
 
@@ -109,7 +130,9 @@ export const useMenuFocusHandoff = (focusNext: string | null | undefined) => {
 // Portaled parts of the group count as inside it.
 export const useGroupFocusHandoff = (focusNext: string | null | undefined, portaled = 0) => {
   const group = useRef<HTMLDivElement>(null);
-  const parts = useRef(Array.from({ length: portaled }, () => ({ current: null as HTMLDivElement | null })));
+  const parts = useRef(
+    Array.from({ length: portaled }, () => ({ current: null as HTMLDivElement | null })),
+  );
   const next = useLatest(focusNext);
 
   useLayoutEffect(() => {
@@ -117,8 +140,9 @@ export const useGroupFocusHandoff = (focusNext: string | null | undefined, porta
     return () => {
       // Read now: a library may mount the parts only while open.
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      const open = parts.current.map(part => part.current).filter(part => part !== null);
-      const inside = (element: Element) => Boolean(root?.contains(element) || open.some(part => part.contains(element)));
+      const open = parts.current.map((part) => part.current).filter((part) => part !== null);
+      const inside = (element: Element) =>
+        Boolean(root?.contains(element) || open.some((part) => part.contains(element)));
       const active = document.activeElement;
       if (!root || !active || !inside(active)) return;
       if (root.closest('dialog, [role="dialog"], [role="alertdialog"]')) return;

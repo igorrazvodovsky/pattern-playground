@@ -34,7 +34,6 @@ export function useCommandSelection({
   onAIResultSelect,
   closeOnSelect = true,
 }: UseCommandSelectionOptions = {}): UseCommandSelectionReturn {
-
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
   // Determine the type of an item
@@ -49,53 +48,65 @@ export function useCommandSelection({
   }, []);
 
   // Generic item selection handler
-  const selectItem = useCallback((item: SelectableItem) => {
-    const itemType = getItemType(item);
+  const selectItem = useCallback(
+    (item: SelectableItem) => {
+      const itemType = getItemType(item);
 
-    // Update selected item state
-    if (closeOnSelect) {
-      setSelectedItemId(null);
-    } else {
-      setSelectedItemId(item.id);
-    }
+      // Update selected item state
+      if (closeOnSelect) {
+        setSelectedItemId(null);
+      } else {
+        setSelectedItemId(item.id);
+      }
 
-    // Call appropriate handler based on item type
-    switch (itemType) {
-      case 'command':
-        onCommandSelect?.(item as CommandData);
-        break;
-      case 'recent':
-        onRecentSelect?.(item as RecentItem);
-        break;
-      case 'ai':
-        onAIResultSelect?.(item as AICommandItem);
-        break;
-    }
+      // Call appropriate handler based on item type
+      switch (itemType) {
+        case 'command':
+          onCommandSelect?.(item as CommandData);
+          break;
+        case 'recent':
+          onRecentSelect?.(item as RecentItem);
+          break;
+        case 'ai':
+          onAIResultSelect?.(item as AICommandItem);
+          break;
+      }
 
-    // Call generic selection handler
-    onSelect?.(item);
-  }, [getItemType, closeOnSelect, onCommandSelect, onRecentSelect, onAIResultSelect, onSelect]);
+      // Call generic selection handler
+      onSelect?.(item);
+    },
+    [getItemType, closeOnSelect, onCommandSelect, onRecentSelect, onAIResultSelect, onSelect],
+  );
 
   // Select command by ID from data array
-  const selectCommand = useCallback((commandId: string, data: CommandData[]) => {
-    const command = data.find(cmd => cmd.id === commandId);
-    if (command) {
-      selectItem(command);
-    }
-  }, [selectItem]);
+  const selectCommand = useCallback(
+    (commandId: string, data: CommandData[]) => {
+      const command = data.find((cmd) => cmd.id === commandId);
+      if (command) {
+        selectItem(command);
+      }
+    },
+    [selectItem],
+  );
 
   // Select recent item by ID from recents array
-  const selectRecent = useCallback((recentId: string, recents: RecentItem[]) => {
-    const recentItem = recents.find(item => item.id === recentId);
-    if (recentItem) {
-      selectItem(recentItem);
-    }
-  }, [selectItem]);
+  const selectRecent = useCallback(
+    (recentId: string, recents: RecentItem[]) => {
+      const recentItem = recents.find((item) => item.id === recentId);
+      if (recentItem) {
+        selectItem(recentItem);
+      }
+    },
+    [selectItem],
+  );
 
   // Select AI result
-  const selectAIResult = useCallback((result: AICommandItem) => {
-    selectItem(result);
-  }, [selectItem]);
+  const selectAIResult = useCallback(
+    (result: AICommandItem) => {
+      selectItem(result);
+    },
+    [selectItem],
+  );
 
   return {
     // Actions

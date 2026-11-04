@@ -59,7 +59,10 @@
       "props": { "direction": "horizontal", "gap": "s" },
       "children": ["ontologies-reading-1", "ontologies-reading-2", "ontologies-reading-3"]
     },
-    "ontologies-reading-1": { "type": "Tag", "props": { "label": "eyeondesign.aiga.org", "icon": "link" } },
+    "ontologies-reading-1": {
+      "type": "Tag",
+      "props": { "label": "eyeondesign.aiga.org", "icon": "link" }
+    },
     "ontologies-reading-2": {
       "type": "Tag",
       "props": { "label": "narrative-environments.github", "icon": "link" }
@@ -111,7 +114,10 @@
       "props": { "direction": "horizontal", "gap": "s" },
       "children": ["shaping-reading-1", "shaping-reading-2", "shaping-reading-3"]
     },
-    "shaping-reading-1": { "type": "Tag", "props": { "label": "eyeondesign.aiga.org", "icon": "link" } },
+    "shaping-reading-1": {
+      "type": "Tag",
+      "props": { "label": "eyeondesign.aiga.org", "icon": "link" }
+    },
     "shaping-reading-2": {
       "type": "Tag",
       "props": { "label": "narrative-environments.github", "icon": "link" }

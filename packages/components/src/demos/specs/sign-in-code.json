@@ -1,0 +1,167 @@
+{
+  "root": "sign-in",
+  "elements": {
+    "sign-in": {
+      "type": "Stack",
+      "props": {
+        "gap": "l"
+      },
+      "children": ["message", "verify", "signed-in"]
+    },
+    "message": {
+      "type": "Card",
+      "props": {
+        "title": "Your sign-in code",
+        "emphasis": "reduced"
+      },
+      "visible": {
+        "$state": "/signedIn",
+        "not": true
+      },
+      "children": ["message-text", "message-code"]
+    },
+    "message-text": {
+      "type": "Text",
+      "props": {
+        "text": "Enter this code in the window where you asked to sign in. It expires in 10 minutes.",
+        "muted": true
+      }
+    },
+    "message-code": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$state": "/sent"
+        },
+        "size": "large"
+      }
+    },
+    "verify": {
+      "type": "Card",
+      "props": {
+        "title": "Verify your login"
+      },
+      "visible": {
+        "$state": "/signedIn",
+        "not": true
+      },
+      "children": ["sent-to", "code", "notice", "no-access"],
+      "slots": {
+        "actions": ["trouble"]
+      }
+    },
+    "sent-to": {
+      "type": "Text",
+      "props": {
+        "text": "Enter the verification code we sent to your email address: name@example.com. It expires in 10 minutes.",
+        "muted": true
+      }
+    },
+    "code": {
+      "type": "CodeInput",
+      "props": {
+        "label": "Verification code",
+        "length": 6,
+        "groups": [3, 3],
+        "value": {
+          "$bindState": "/code"
+        },
+        "error": {
+          "$state": "/error"
+        }
+      },
+      "slots": {
+        "action": ["resend"]
+      },
+      "on": {
+        "complete": {
+          "action": "verifyCode"
+        }
+      }
+    },
+    "resend": {
+      "type": "Button",
+      "props": {
+        "label": {
+          "$state": "/resendLabel"
+        },
+        "icon": "restore",
+        "disabled": {
+          "$cond": {
+            "$state": "/cooldown",
+            "eq": 0
+          },
+          "$then": false,
+          "$else": true
+        }
+      },
+      "on": {
+        "press": {
+          "action": "resendCode"
+        }
+      }
+    },
+    "notice": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$state": "/notice"
+        },
+        "muted": true,
+        "status": true
+      }
+    },
+    "no-access": {
+      "type": "Button",
+      "props": {
+        "label": "I no longer have access to this email address.",
+        "variant": "link"
+      }
+    },
+    "trouble": {
+      "type": "Text",
+      "props": {
+        "text": "Having trouble signing in?",
+        "muted": true
+      },
+      "children": ["support"]
+    },
+    "support": {
+      "type": "Button",
+      "props": {
+        "label": "Contact support",
+        "variant": "link"
+      }
+    },
+    "signed-in": {
+      "type": "Stack",
+      "props": {
+        "gap": "s",
+        "align": "start"
+      },
+      "visible": {
+        "$state": "/signedIn"
+      },
+      "children": ["signed-in-text", "start-again"]
+    },
+    "signed-in-text": {
+      "type": "Text",
+      "props": {
+        "text": "Signed in as name@example.com.",
+        "purpose": "success"
+      }
+    },
+    "start-again": {
+      "type": "Button",
+      "props": {
+        "label": "Sign out",
+        "variant": "plain"
+      },
+      "on": {
+        "press": {
+          "action": "signOut"
+        }
+      }
+    }
+  }
+}

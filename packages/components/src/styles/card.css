@@ -133,7 +133,8 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
   /* Flush stack: a run of cards reads as one grouped surface. Neighbours square
      off their touching corners; the -1px overlap collapses the doubled border
      between them to a single hairline. */
-  :is(.cards--flush, .cards--list) > *, :is(.cards--flush, .cards--list) {
+  :is(.cards--flush, .cards--list) > *,
+  :is(.cards--flush, .cards--list) {
     &:not(:last-of-type) .card {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
@@ -148,7 +149,12 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
 
   /* Row / list variant. A card inside `.cards--list` that carries media gains a
      leading column and lays the media out as a fixed square there; a card with
-     no media stays a single stacked column. */
+     no media stays a single stacked column. Set `--card-media-size` on the
+     collection or on one card to resize the square. */
+  .cards--list {
+    --card-media-size: 80px;
+  }
+
   .cards--list .card:has(> :is(img, figure)) {
     grid-template-columns: auto 1fr;
     grid-template-rows: auto auto auto auto;
@@ -157,9 +163,7 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
   .cards--list .card :is(img, figure) {
     grid-row: 1 / -1;
     aspect-ratio: 1 / 1;
-
-    /* TODO: sizing variable */
-    width: 80px;
+    width: var(--card-media-size);
     padding: 0;
     margin: var(--space-s);
     margin-inline-end: 0;
@@ -257,15 +261,18 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
 }
 
 /* Hover-revealed actions: a button row that stays quiet until the card is under
-   the pointer. Unlayered so it wins over the button skin without an !important.
-   TODO: a touch-device rule that keeps these always visible. */
-.hover-only-actions button {
-  opacity: 0;
-  transition: 120ms opacity ease-in-out;
-}
+   the pointer or holds focus. Touch devices have no hover to reveal them, so the
+   hiding applies only where the primary pointer can hover. Unlayered so it wins
+   over the button skin without an !important. */
+@media (hover: hover) {
+  .hover-only-actions button {
+    opacity: 0;
+    transition: 120ms opacity ease-in-out;
+  }
 
-.hover-only-actions:hover button {
-  opacity: 1;
+  .hover-only-actions:is(:hover, :focus-within) button {
+    opacity: 1;
+  }
 }
 
 video {

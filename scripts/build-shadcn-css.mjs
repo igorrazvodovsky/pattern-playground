@@ -65,7 +65,8 @@ function splitSelectorList(prelude) {
   let start = 0;
   for (let i = 0; i < prelude.length; i++) {
     const c = prelude[i];
-    if (c === '\\') i++; // escaped character inside a class name, e.g. `\,`
+    if (c === '\\')
+      i++; // escaped character inside a class name, e.g. `\,`
     else if (c === '(' || c === '[') depth++;
     else if (c === ')' || c === ']') depth--;
     else if (c === ',' && depth === 0) {
@@ -74,12 +75,14 @@ function splitSelectorList(prelude) {
     }
   }
   parts.push(prelude.slice(start));
-  return parts.map(s => s.trim());
+  return parts.map((s) => s.trim());
 }
 
 function rescopeSelectors(prelude) {
   const parts = splitSelectorList(prelude);
-  const mapped = parts.map(s => (ROOTISH.test(s) ? ':scope' : s.replace(/^(?::root|html|:host)\b/, ':scope')));
+  const mapped = parts.map((s) =>
+    ROOTISH.test(s) ? ':scope' : s.replace(/^(?::root|html|:host)\b/, ':scope'),
+  );
   return [...new Set(mapped)].join(', ');
 }
 
@@ -105,13 +108,17 @@ function contain(css) {
     // @property cannot sit inside @scope; registered --tw-* properties are
     // inert outside elements that set them.
     if (prelude.startsWith('@property')) return `${prelude} {${body}}`;
-    if (prelude.startsWith('@layer')) return `${prelude} {\n@scope (${SCOPE}) {\n${rescopeRules(body)}\n}\n}`;
+    if (prelude.startsWith('@layer'))
+      return `${prelude} {\n@scope (${SCOPE}) {\n${rescopeRules(body)}\n}\n}`;
     return `@scope (${SCOPE}) {\n${rescopeRules(`${prelude} {${body}}`)}\n}`;
   });
   let out = statements.join('\n');
   for (const name of keyframes) {
     out = out.replace(
-      new RegExp(`((?:animation(?:-name)?|--animate-[\\w-]+)\\s*:[^;}]*?)(?<![\\w-])${name}(?![\\w-])`, 'g'),
+      new RegExp(
+        `((?:animation(?:-name)?|--animate-[\\w-]+)\\s*:[^;}]*?)(?<![\\w-])${name}(?![\\w-])`,
+        'g',
+      ),
       `$1shadcn-${name}`,
     );
   }

@@ -59,11 +59,13 @@ async function post(path: string, body: unknown, signal?: AbortSignal): Promise<
        message is better than the bare status when there is one. A validation
        failure also lists which fields were wrong. */
     const payload = (await response.json().catch(() => null)) as
-      | (ApiResponse<unknown> & { validationErrors?: { field: string; message: string }[] })
-      | null;
+      (ApiResponse<unknown> & { validationErrors?: { field: string; message: string }[] }) | null;
     const fields = payload?.validationErrors?.map((issue) => `${issue.field}: ${issue.message}`);
     const message = payload?.error ?? `${path} returned ${response.status}`;
-    throw new APIError(fields?.length ? `${message} (${fields.join('; ')})` : message, response.status);
+    throw new APIError(
+      fields?.length ? `${message} (${fields.join('; ')})` : message,
+      response.status,
+    );
   }
 
   return response;
@@ -95,7 +97,7 @@ function writeCache(key: string, value: unknown): void {
 export async function postJSON<T>(
   path: string,
   body: unknown,
-  options: { signal?: AbortSignal; cacheKey?: string } = {}
+  options: { signal?: AbortSignal; cacheKey?: string } = {},
 ): Promise<T> {
   const { signal, cacheKey } = options;
   if (cacheKey) {
@@ -123,7 +125,7 @@ export async function postJSON<T>(
 export async function streamSSE(
   path: string,
   body: unknown,
-  options: { signal?: AbortSignal; onChunk?: (content: string) => void } = {}
+  options: { signal?: AbortSignal; onChunk?: (content: string) => void } = {},
 ): Promise<string> {
   const response = await post(path, body, options.signal);
   if (!response.body) throw new APIError('No response body');

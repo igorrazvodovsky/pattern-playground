@@ -226,7 +226,7 @@ foot in the pattern language and one foot in the component substrate.
 A foundation earns its language foot by carrying an _interaction-design
 concept_ — material that shapes how activity unfolds (assistance, delegation,
 modality, prose). Visual material (colour, iconography, layout, motion,
-typography) is substrate-only: its Storybook pages carry `role:component` and
-no language entry exists or is owed. The workspace-split closure settled this
+typography) is substrate-only: it has Storybook pages and no language entry
+exists or is owed. The workspace-split closure settled this
 (workstream 1); the five material pages' former "Concept:" links to
 never-built language entries were removed 2026-07-11.

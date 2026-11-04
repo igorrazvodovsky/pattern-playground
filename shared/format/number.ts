@@ -7,7 +7,7 @@ import { numberFormat, type Locale } from './intl-cache.js';
 export const formatNumber = (
   value: number,
   options?: Intl.NumberFormatOptions,
-  locale?: Locale
+  locale?: Locale,
 ): string => numberFormat(locale, options).format(value);
 
 /**
@@ -18,14 +18,14 @@ export const formatNumber = (
 export const formatCompact = (
   value: number,
   options?: Intl.NumberFormatOptions,
-  locale?: Locale
+  locale?: Locale,
 ): string => numberFormat(locale, { notation: 'compact', ...options }).format(value);
 
 /** Takes the *ratio* — `0.42`, not `42` — because the symbol's position is the locale's. */
 export const formatPercent = (
   ratio: number,
   options?: Intl.NumberFormatOptions,
-  locale?: Locale
+  locale?: Locale,
 ): string => numberFormat(locale, { style: 'percent', ...options }).format(ratio);
 
 /**
@@ -39,7 +39,7 @@ export const formatCurrency = (
   value: number,
   currency: string,
   options?: Intl.NumberFormatOptions,
-  locale?: Locale
+  locale?: Locale,
 ): string =>
   numberFormat(locale, {
     style: 'currency',
@@ -58,5 +58,5 @@ export const formatUnit = (
   value: number,
   unit: string,
   options?: Intl.NumberFormatOptions,
-  locale?: Locale
+  locale?: Locale,
 ): string => numberFormat(locale, { style: 'unit', unit, ...options }).format(value);

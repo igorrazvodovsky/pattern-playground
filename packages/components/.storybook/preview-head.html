@@ -3,13 +3,16 @@
 <script>
   window.PREVIEW_URL = window.location.href;
 
-  window.addEventListener('message', function(event) {
+  window.addEventListener('message', function (event) {
     if (event.data && event.data.type === 'setCurrentStory') {
-      window.parent.postMessage({
-        type: 'setCurrentStory',
-        args: event.data.args,
-        from: window.PREVIEW_URL
-      }, '*');
+      window.parent.postMessage(
+        {
+          type: 'setCurrentStory',
+          args: event.data.args,
+          from: window.PREVIEW_URL,
+        },
+        '*',
+      );
     }
   });
 </script>

@@ -6,7 +6,11 @@ import spec from './inline-confirmation.json' with { type: 'json' };
 
 // A spec cannot carry time, so `arm` sets the flag and schedules its reversion.
 
-interface Listing { id: string; name: string; armed: boolean }
+interface Listing {
+  id: string;
+  name: string;
+  armed: boolean;
+}
 
 const listings: Listing[] = reuseListings.map(({ id, name }) => ({ id, name, armed: false }));
 

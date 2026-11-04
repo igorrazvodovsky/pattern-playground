@@ -62,7 +62,9 @@ for (const name of readdirSync(contentDir)) {
 }
 
 if (stale.length === 0) {
-  console.log(`Seed staleness: ${seeds} seed page(s), none older than ${STALE_AFTER_MONTHS} months.`);
+  console.log(
+    `Seed staleness: ${seeds} seed page(s), none older than ${STALE_AFTER_MONTHS} months.`,
+  );
 } else {
   console.warn(
     `Seed staleness: ${stale.length} of ${seeds} seed page(s) untouched for over ${STALE_AFTER_MONTHS} months.`,

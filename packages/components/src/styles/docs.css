@@ -9,8 +9,6 @@ body {
   max-width: unset !important;
 }
 
-/* TODO: */
-
 /* Monospaced elements keep the face code.css gives them — without the
    exclusion this forced Storybook's own source blocks (`pre.prismjs`, which
    holds no `code`) into the body font. */
@@ -99,7 +97,7 @@ h3::first-letter {
   text-transform: capitalize;
 }
 
-[popovertarget="popover-1"] {
+[popovertarget='popover-1'] {
   anchor-name: --anchor_1;
 }
 
@@ -205,7 +203,7 @@ resize-asaurus > .resize-asaurus-container {
   padding: 0;
 }
 
-aside[class*="sbdocs-toc"] {
+aside[class*='sbdocs-toc'] {
   width: 30ch;
 
   & nav {
@@ -246,6 +244,50 @@ aside[class*="sbdocs-toc"] {
 
 .story-centered--narrow {
   max-width: 400px;
+}
+
+/* Fixtures for single stories. Not a library surface. */
+
+.story-height {
+  block-size: var(--story-height);
+}
+
+.story-font-size {
+  font-size: var(--story-font-size);
+}
+
+.story-scroll-box {
+  block-size: 10rem;
+  overflow: auto;
+  padding: var(--space-m);
+}
+
+.story-spacer {
+  block-size: 16rem;
+}
+
+.story-clip-box {
+  block-size: 6rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.story-portal-box {
+  inline-size: 16rem;
+  block-size: 8rem;
+  display: grid;
+  place-items: center;
+  background: green;
+}
+
+.story-portal-box[data-portaled] {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  block-size: 6rem;
+  background: pink;
+  box-shadow: 0 8px 32px oklch(0% 0 0deg / 25%);
+  z-index: 9999;
 }
 
 /* Scaffolding for the Shell and Sidebar stories. Not a library surface. */
@@ -312,7 +354,7 @@ aside[class*="sbdocs-toc"] {
 }
 
 .sbdocs .docs-quote {
-  font-family: "Iowan Old Style", serif !important;
+  font-family: 'Iowan Old Style', serif !important;
   font-style: italic;
 
   blockquote {
@@ -351,7 +393,7 @@ aside[class*="sbdocs-toc"] {
   }
 
   a::before {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0;
     z-index: 1;

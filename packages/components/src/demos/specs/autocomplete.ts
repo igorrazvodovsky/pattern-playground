@@ -7,15 +7,16 @@ import spec from './autocomplete.json' with { type: 'json' };
 const minQueryLength = 2;
 const maxMatches = 8;
 
-const asOptions = (names: string[]) => names.map(name => ({ value: name, label: name }));
+const asOptions = (names: string[]) => names.map((name) => ({ value: name, label: name }));
 
-const strings = (value: unknown) => (Array.isArray(value) ? value.filter(v => typeof v === 'string') : []);
+const strings = (value: unknown) =>
+  Array.isArray(value) ? value.filter((v) => typeof v === 'string') : [];
 
 function matches(query: string, names: string[]) {
   const q = query.toLocaleLowerCase();
-  const found = names.filter(name => name.toLocaleLowerCase().includes(q));
-  const starts = found.filter(name => name.toLocaleLowerCase().startsWith(q));
-  return [...starts, ...found.filter(name => !starts.includes(name))].slice(0, maxMatches);
+  const found = names.filter((name) => name.toLocaleLowerCase().includes(q));
+  const starts = found.filter((name) => name.toLocaleLowerCase().startsWith(q));
+  return [...starts, ...found.filter((name) => !starts.includes(name))].slice(0, maxMatches);
 }
 
 export default {
@@ -23,11 +24,11 @@ export default {
   setup: {
     initialState: {
       query: '',
-      recent: recentItems.map(item => item.name),
-      known: [...new Set([...documents.map(d => d.name), ...tasks.map(t => t.title)])],
+      recent: recentItems.map((item) => item.name),
+      known: [...new Set([...documents.map((d) => d.name), ...tasks.map((t) => t.title)])],
     },
     functions: {
-      candidates: args => {
+      candidates: (args) => {
         const query = typeof args.query === 'string' ? args.query.trim() : '';
         if (!query) return [{ heading: 'Recent', options: asOptions(strings(args.recent)) }];
         if (query.length < minQueryLength) return [];

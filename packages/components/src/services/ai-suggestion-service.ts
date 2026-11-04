@@ -33,7 +33,10 @@ export interface AIState {
 }
 
 export class AISuggestionService {
-  async generateSuggestions(request: AISuggestionRequest, signal?: AbortSignal): Promise<AISuggestionResult> {
+  async generateSuggestions(
+    request: AISuggestionRequest,
+    signal?: AbortSignal,
+  ): Promise<AISuggestionResult> {
     try {
       const data = await postJSON<unknown>('/api/generate-suggestions', request, { signal });
       return this.transformBackendResponse(data);
@@ -58,7 +61,7 @@ export class AISuggestionService {
           label: String(suggestionRecord.label),
           value: suggestionRecord.value as string | number | boolean,
           confidence: Math.min(100, Math.max(0, Number(suggestionRecord.confidence) || 70)),
-          metadata: (suggestionRecord.metadata as Record<string, JsonValue>) || {}
+          metadata: (suggestionRecord.metadata as Record<string, JsonValue>) || {},
         };
       });
 
@@ -66,7 +69,7 @@ export class AISuggestionService {
         suggestions,
         explanation: String(backendRecord.explanation || 'AI generated suggestions'),
         confidence: Math.min(100, Math.max(0, Number(backendRecord.confidence) || 70)),
-        unmatchedCriteria: (backendRecord.unmatchedCriteria as string[]) || []
+        unmatchedCriteria: (backendRecord.unmatchedCriteria as string[]) || [],
       };
     } catch (error) {
       throw new APIError(`Failed to transform AI response: ${(error as Error).message}`);
@@ -83,23 +86,23 @@ export const createAISuggestionService = (): AISuggestionService => {
 export const createFilterSuggestionRequest = (
   prompt: string,
   availableFilters: string[],
-  availableValues: Record<string, string[]>
+  availableValues: Record<string, string[]>,
 ): AISuggestionRequest => ({
   prompt,
   context: {
     type: 'filters',
     availableOptions: availableValues,
-    metadata: { availableFilters }
-  }
+    metadata: { availableFilters },
+  },
 });
 
 export const createCommandSuggestionRequest = (
   prompt: string,
-  availableCommands: Record<string, string[]>
+  availableCommands: Record<string, string[]>,
 ): AISuggestionRequest => ({
   prompt,
   context: {
     type: 'commands',
-    availableOptions: availableCommands
-  }
+    availableOptions: availableCommands,
+  },
 });

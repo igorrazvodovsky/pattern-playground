@@ -25,11 +25,18 @@ interface Props {
 const { entry, pagefind = true } = Astro.props;
 const { Content } = await render(entry);
 ---
+
 {/* Badges once shown beside the title, kept for reference:
     <span class="badge role">{entry.data.role}</span>
     {entry.data.activityLevel && <span class="badge">{entry.data.activityLevel}</span>}
     {entry.data.mediation && <span class="badge">{entry.data.mediation}</span>} */}
-<ArticleShell title={entry.data.title} seed={entry.data.seed === true} dates={entry} pagefind={pagefind} pageType={entry.data.role}>
+<ArticleShell
+  title={entry.data.title}
+  seed={entry.data.seed === true}
+  dates={entry}
+  pagefind={pagefind}
+  pageType={entry.data.role}
+>
   <Fragment slot="meta">
     <EpistemicStatus entry={entry} />
     <ActsOn entry={entry} />
@@ -37,5 +44,17 @@ const { Content } = await render(entry);
   {/* Consequences, SequenceAppearances, RelatedPatterns and Residue are not
       authored: integrations/remark-consequences.ts injects them into the body
       in the contract's page order, so the whole page composes in one place. */}
-  <Content components={{ Demo, ComponentRef, Diagram, Figure, Consequences, Situation, SequenceAppearances, RelatedPatterns, Residue }} />
+  <Content
+    components={{
+      Demo,
+      ComponentRef,
+      Diagram,
+      Figure,
+      Consequences,
+      Situation,
+      SequenceAppearances,
+      RelatedPatterns,
+      Residue,
+    }}
+  />
 </ArticleShell>

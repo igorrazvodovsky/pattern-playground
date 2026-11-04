@@ -1,40 +1,55 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useEffect, useRef } from "react";
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useEffect, useRef } from 'react';
 import { action } from 'storybook/actions';
 
 // Import the scatter plot component (this registers the custom element)
 // The pp-scatter-plot JSX typing lives in src/jsx-types.ts.
-import "../../components/charts/scatter-plot.js";
-import type { ScatterPlot } from "../../components/charts/scatter-plot.js";
-import type { ScatterPlotData } from "../../components/charts/base/chart-types.js";
+import '../../components/charts/scatter-plot.js';
+import type { ScatterPlot } from '../../components/charts/scatter-plot.js';
+import type { ScatterPlotData } from '../../components/charts/base/chart-types.js';
 
 // A cloud with a clear positive association plus scatter — the archetypal case.
 const correlationData: ScatterPlotData = {
   data: [
-    { x: 12, y: 18, label: 'A' }, { x: 15, y: 22, label: 'B' },
-    { x: 18, y: 20, label: 'C' }, { x: 21, y: 28, label: 'D' },
-    { x: 24, y: 25, label: 'E' }, { x: 27, y: 33, label: 'F' },
-    { x: 30, y: 31, label: 'G' }, { x: 33, y: 38, label: 'H' },
-    { x: 36, y: 35, label: 'I' }, { x: 39, y: 44, label: 'J' },
-    { x: 42, y: 41, label: 'K' }, { x: 45, y: 49, label: 'L' },
-    { x: 48, y: 46, label: 'M' }, { x: 51, y: 55, label: 'N' },
-    { x: 54, y: 52, label: 'O' }, { x: 57, y: 61, label: 'P' },
-    { x: 20, y: 40, label: 'Outlier' }, { x: 50, y: 20, label: 'Outlier 2' }
+    { x: 12, y: 18, label: 'A' },
+    { x: 15, y: 22, label: 'B' },
+    { x: 18, y: 20, label: 'C' },
+    { x: 21, y: 28, label: 'D' },
+    { x: 24, y: 25, label: 'E' },
+    { x: 27, y: 33, label: 'F' },
+    { x: 30, y: 31, label: 'G' },
+    { x: 33, y: 38, label: 'H' },
+    { x: 36, y: 35, label: 'I' },
+    { x: 39, y: 44, label: 'J' },
+    { x: 42, y: 41, label: 'K' },
+    { x: 45, y: 49, label: 'L' },
+    { x: 48, y: 46, label: 'M' },
+    { x: 51, y: 55, label: 'N' },
+    { x: 54, y: 52, label: 'O' },
+    { x: 57, y: 61, label: 'P' },
+    { x: 20, y: 40, label: 'Outlier' },
+    { x: 50, y: 20, label: 'Outlier 2' },
   ],
   xAxisLabel: 'Input',
-  yAxisLabel: 'Output'
+  yAxisLabel: 'Output',
 };
 
 // Two categories that separate into distinguishable clusters.
 const categoricalData: ScatterPlotData = {
   data: [
-    { x: 14, y: 42, category: 'Group A' }, { x: 18, y: 48, category: 'Group A' },
-    { x: 16, y: 39, category: 'Group A' }, { x: 22, y: 51, category: 'Group A' },
-    { x: 20, y: 45, category: 'Group A' }, { x: 25, y: 54, category: 'Group A' },
-    { x: 42, y: 20, category: 'Group B' }, { x: 46, y: 26, category: 'Group B' },
-    { x: 44, y: 17, category: 'Group B' }, { x: 50, y: 29, category: 'Group B' },
-    { x: 48, y: 23, category: 'Group B' }, { x: 53, y: 32, category: 'Group B' }
-  ]
+    { x: 14, y: 42, category: 'Group A' },
+    { x: 18, y: 48, category: 'Group A' },
+    { x: 16, y: 39, category: 'Group A' },
+    { x: 22, y: 51, category: 'Group A' },
+    { x: 20, y: 45, category: 'Group A' },
+    { x: 25, y: 54, category: 'Group A' },
+    { x: 42, y: 20, category: 'Group B' },
+    { x: 46, y: 26, category: 'Group B' },
+    { x: 44, y: 17, category: 'Group B' },
+    { x: 50, y: 29, category: 'Group B' },
+    { x: 48, y: 23, category: 'Group B' },
+    { x: 53, y: 32, category: 'Group B' },
+  ],
 };
 
 // A third quantitative variable carried on bubble area.
@@ -46,8 +61,8 @@ const bubbleData: ScatterPlotData = {
     { x: 65, y: 70, size: 65, label: 'Big' },
     { x: 28, y: 62, size: 25, label: 'Modest' },
     { x: 72, y: 35, size: 90, label: 'Wide' },
-    { x: 45, y: 22, size: 15, label: 'Tiny-ish' }
-  ]
+    { x: 45, y: 22, size: 15, label: 'Tiny-ish' },
+  ],
 };
 
 interface ScatterPlotWrapperProps {
@@ -65,7 +80,7 @@ function ScatterPlotWrapper({
   showGrid = false,
   showSize = false,
   pointRadius = 5,
-  title = ''
+  title = '',
 }: ScatterPlotWrapperProps) {
   const chartRef = useRef<ScatterPlot | null>(null);
 
@@ -96,32 +111,30 @@ function ScatterPlotWrapper({
     }
   }, [data, showAxes, showGrid, showSize, pointRadius, title]);
 
-  return (
-    <pp-scatter-plot ref={chartRef} />
-  );
+  return <pp-scatter-plot ref={chartRef} />;
 }
 
 const meta = {
-  title: "Data visualisation/Scatter plot",
+  title: 'Data visualisation/Scatter plot',
   component: ScatterPlotWrapper,
   argTypes: {
     showAxes: {
       control: { type: 'boolean' },
-      description: 'Show x and y axes'
+      description: 'Show x and y axes',
     },
     showGrid: {
       control: { type: 'boolean' },
-      description: 'Show grid lines'
+      description: 'Show grid lines',
     },
     showSize: {
       control: { type: 'boolean' },
-      description: 'Encode a third variable as bubble area (needs `size` on points)'
+      description: 'Encode a third variable as bubble area (needs `size` on points)',
     },
     pointRadius: {
       control: { type: 'range', min: 2, max: 12, step: 1 },
-      description: 'Radius of points when size encoding is off'
-    }
-  }
+      description: 'Radius of points when size encoding is off',
+    },
+  },
 } satisfies Meta<ScatterPlotWrapperProps>;
 
 export default meta;
@@ -133,7 +146,7 @@ export const Default: Story = {
     showAxes: true,
     showGrid: true,
     title: 'Output against input',
-  }
+  },
 };
 
 export const Categories: Story = {
@@ -142,7 +155,7 @@ export const Categories: Story = {
     showAxes: true,
     showGrid: false,
     title: 'Two groups',
-  }
+  },
 };
 
 export const Bubble: Story = {
@@ -152,7 +165,7 @@ export const Bubble: Story = {
     showGrid: true,
     showSize: true,
     title: 'Bubble — size on area',
-  }
+  },
 };
 
 export const Minimal: Story = {
@@ -161,5 +174,5 @@ export const Minimal: Story = {
     showAxes: false,
     showGrid: false,
     title: 'Minimal',
-  }
+  },
 };

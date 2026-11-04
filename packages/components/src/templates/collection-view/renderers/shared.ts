@@ -9,8 +9,7 @@ export interface ItemCoupling<T extends BoundEntity = BoundEntity> {
   onItemFocus?: (item: T | null) => void;
 }
 
-export interface RendererProps<T extends BoundEntity = BoundEntity>
-  extends ItemCoupling<T> {
+export interface RendererProps<T extends BoundEntity = BoundEntity> extends ItemCoupling<T> {
   items: T[];
   spec: ViewSpec;
   binding: EntityBinding;
@@ -18,9 +17,8 @@ export interface RendererProps<T extends BoundEntity = BoundEntity>
 
 export const firstOfRole = (
   attributes: AttributeBinding[],
-  role: AttributeBinding['role']
-): AttributeBinding | undefined =>
-  attributes.find((attribute) => attribute.role === role);
+  role: AttributeBinding['role'],
+): AttributeBinding | undefined => attributes.find((attribute) => attribute.role === role);
 
 export const isIdentity = (attribute: AttributeBinding): boolean =>
   IDENTITY_ROLES.includes(attribute.role);

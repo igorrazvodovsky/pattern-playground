@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import React from "react";
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import React from 'react';
 import { action } from 'storybook/actions';
 
 const meta = {
-  title: "Components/Textarea",
+  title: 'Components/Textarea',
 } satisfies Meta;
 
 export default meta;

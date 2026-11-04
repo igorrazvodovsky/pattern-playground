@@ -9,6 +9,7 @@
 apps/patterns/src/data/pattern-graph.json
 apps/patterns/src/data/activity-levels.json
 packages/components/src/catalog/shadcn.generated.css
+packages/components/src/icons/iconoteka.generated.json
 shared/world/facts.json
 package-lock.json
 skills-lock.json

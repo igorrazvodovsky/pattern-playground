@@ -113,7 +113,7 @@ For each Class C story:
 After all pattern stories are classified and migrated or explicitly kept:
 - Storybook MDX files for `role:pattern` / `role:umbrella` entries that had all their `<Story>` references handled: collapse to a stub or remove (per the cross-surface reference scheme decided in the embed-components plan).
 - `.stories.tsx` files with no remaining Storybook-native stories: remove.
-- The Storybook tree should contain only: `role:component` entries, Storybook-native pattern stories (kept by verdict), and material foundations.
+- The Storybook tree should contain only: component entries, Storybook-native pattern stories (kept by verdict), and material foundations.
 
 ## Out of scope
 

@@ -32,7 +32,9 @@ const saved = [
   makeSpec({
     id: 'saved-shortlist',
     label: 'Affordable picks',
-    query: [{ id: 'saved-shortlist-price', path: 'pricing.msrp', operator: 'less than', values: ['500'] }],
+    query: [
+      { id: 'saved-shortlist-price', path: 'pricing.msrp', operator: 'less than', values: ['500'] },
+    ],
     representation: {
       type: 'card',
       shownAttributes: ['name', 'condition', 'pricing.msrp', 'location.site'],
@@ -42,7 +44,14 @@ const saved = [
   makeSpec({
     id: 'saved-pilot-2025',
     label: 'Pilot fleet (2025)',
-    query: [{ id: 'saved-pilot-status', path: 'availability.status', operator: 'is', values: ['Pilot Phase'] }],
+    query: [
+      {
+        id: 'saved-pilot-status',
+        path: 'availability.status',
+        operator: 'is',
+        values: ['Pilot Phase'],
+      },
+    ],
     representation: {
       type: 'card',
       shownAttributes: ['name', 'description', 'availability.status', 'availability.leadTime'],

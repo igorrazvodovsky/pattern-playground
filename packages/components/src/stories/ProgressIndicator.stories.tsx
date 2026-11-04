@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { getRandomFilledIcon } from './utils/icons.ts';
 
 const meta = {
-  title: "Components/Progress indicator",
+  title: 'Components/Progress indicator',
 } satisfies Meta;
 
 export default meta;
@@ -54,13 +54,15 @@ export const Basic = {
         </div>
       </li>
       <li className="stepper__item stepper__item--running" aria-current="step">
-         <i className="stepper__icon">
-           <pp-spinner role="progressbar" aria-label="Step in progress"></pp-spinner>
-         </i>
-         <div className="stepper__content">
-           <h4>Step 6</h4>
-           <small>This step is current <i>and</i> running 😱</small>
-         </div>
+        <i className="stepper__icon">
+          <pp-spinner role="progressbar" aria-label="Step in progress"></pp-spinner>
+        </i>
+        <div className="stepper__content">
+          <h4>Step 6</h4>
+          <small>
+            This step is current <i>and</i> running 😱
+          </small>
+        </div>
       </li>
       <li className="stepper__item stepper__item--danger">
         <i className="stepper__icon">

@@ -1,10 +1,27 @@
 import { useMemo } from 'react';
 import { useCommandNavigation } from './use-command-navigation';
-import { useCommandRecents, type UseCommandRecentsOptions, type UseCommandRecentsReturn } from './use-command-recents';
-import { useCommandKeyboard, type UseCommandKeyboardOptions, type UseCommandKeyboardReturn } from './use-command-keyboard';
-import { useCommandSelection, type UseCommandSelectionOptions, type UseCommandSelectionReturn } from './use-command-selection';
+import {
+  useCommandRecents,
+  type UseCommandRecentsOptions,
+  type UseCommandRecentsReturn,
+} from './use-command-recents';
+import {
+  useCommandKeyboard,
+  type UseCommandKeyboardOptions,
+  type UseCommandKeyboardReturn,
+} from './use-command-keyboard';
+import {
+  useCommandSelection,
+  type UseCommandSelectionOptions,
+  type UseCommandSelectionReturn,
+} from './use-command-selection';
 import { useAICommand } from './use-ai-command';
-import type { CommandData, CommandChildData, RecentItem, CommandMenuProps } from '../command-menu-types';
+import type {
+  CommandData,
+  CommandChildData,
+  RecentItem,
+  CommandMenuProps,
+} from '../command-menu-types';
 import type { AICommandItem } from '../ai-command-types';
 
 export interface UseCommandCompositionOptions {
@@ -69,7 +86,6 @@ export function useCommandComposition({
   onEscape,
   onClose,
 }: UseCommandCompositionOptions): UseCommandCompositionReturn {
-
   const recents = useCommandRecents({
     maxRecents: DEFAULT_CONFIG.maxRecents,
     persistRecents: false,
@@ -141,14 +157,17 @@ export function useCommandComposition({
 
   const results = useMemo((): UnifiedResults => {
     const commands = navigation.filteredResults.parents as CommandData[];
-    const children = navigation.filteredResults.children as Array<{ parent: CommandData; child: CommandChildData }>;
-    const currentRecents = enableRecents && recents
-      ? recents.filterRecents(navigation.searchInput)
-      : [];
+    const children = navigation.filteredResults.children as Array<{
+      parent: CommandData;
+      child: CommandChildData;
+    }>;
+    const currentRecents =
+      enableRecents && recents ? recents.filterRecents(navigation.searchInput) : [];
 
     const aiSuggestions: AICommandItem[] = [];
 
-    const isEmpty = commands.length === 0 &&
+    const isEmpty =
+      commands.length === 0 &&
       children.length === 0 &&
       currentRecents.length === 0 &&
       aiSuggestions.length === 0;
@@ -163,11 +182,10 @@ export function useCommandComposition({
   }, [navigation.filteredResults, navigation.searchInput, recents, enableRecents]);
 
   const isInChildView = navigation.isInCommandView;
-  const shouldShowRecents = enableRecents &&
-    !isInChildView &&
-    results.recents.length > 0;
+  const shouldShowRecents = enableRecents && !isInChildView && results.recents.length > 0;
 
-  const shouldShowAI = enableAI &&
+  const shouldShowAI =
+    enableAI &&
     !isInChildView &&
     navigation.searchInput.trim() &&
     navigation.searchInput.length >= (aiConfig?.minInputLength ?? DEFAULT_CONFIG.minInputLength) &&
@@ -179,9 +197,9 @@ export function useCommandComposition({
       return navigation.placeholder;
     }
     if (enableAI) {
-      return "Ask AI or search commands...";
+      return 'Ask AI or search commands...';
     }
-    return "Type a command or search...";
+    return 'Type a command or search...';
   }, [isInChildView, enableAI, navigation.placeholder]);
 
   return {
@@ -194,13 +212,13 @@ export function useCommandComposition({
     keyboard,
     selection,
 
-      results,
+    results,
 
-      isInChildView,
+    isInChildView,
     shouldShowRecents,
     shouldShowAI: !!shouldShowAI,
     hasResults,
 
-      placeholder,
+    placeholder,
   };
 }

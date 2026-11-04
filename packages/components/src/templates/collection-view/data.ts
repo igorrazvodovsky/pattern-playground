@@ -24,10 +24,7 @@ export function findProduct(id: string): Product | undefined {
  * — data a view needs but never displays. A binding without them yields no
  * locations, which is what "this collection has no map view" looks like.
  */
-export function toMapLocations(
-  items: BoundEntity[],
-  binding: EntityBinding
-): MapLocation[] {
+export function toMapLocations(items: BoundEntity[], binding: EntityBinding): MapLocation[] {
   const paths = binding.internalAttributes;
   if (!paths?.lat || !paths?.lng) return [];
   const locations: MapLocation[] = [];
@@ -60,11 +57,9 @@ export function toPlotPoints(
   items: BoundEntity[],
   binding: EntityBinding,
   xPath: AttributePath,
-  yPath: AttributePath
+  yPath: AttributePath,
 ): ItemPlotPoint[] {
-  const categoryAttribute = binding.attributes.find(
-    (attribute) => attribute.role === 'badge'
-  );
+  const categoryAttribute = binding.attributes.find((attribute) => attribute.role === 'badge');
   const points: ItemPlotPoint[] = [];
   for (const item of items) {
     const x = getAttributeValue(item, xPath);

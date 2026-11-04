@@ -13,20 +13,35 @@ import {
   SidebarTrigger,
 } from '@components/sidebar';
 import { setPatternGraphHover } from '../lib/pattern-graph-hover';
-import { useNavStore, useNavHydration } from '../lib/nav-store';
+import { useNavStore, useNavHydration, DEFAULT_GROUPING, ALL_PATTERNS } from '../lib/nav-store';
 import { useActivePath, isActivePath } from '../lib/active-path';
 
-import type { NavBranch, NavTree, NavTreeNode } from '../lib/nav-tree';
+import type { NavBranch, NavGrouping, NavLanguage, NavTree, NavTreeNode } from '../lib/nav-tree';
 import { CONCEPTS_ENABLED, STORYBOOK_URL } from '../lib/site';
 
 function isBranch(node: NavTreeNode): node is NavBranch {
   return 'children' in node;
 }
 
+// The nodes a project language keeps: the leaves whose path is a member, and
+// each branch while any member remains in it. A family's overview is never a
+// member itself, so it stays as long as its branch does.
+function narrow(nodes: NavTreeNode[], members: Set<string>): NavTreeNode[] {
+  return nodes.flatMap((node): NavTreeNode[] => {
+    if (!isBranch(node)) return members.has(node.href) ? [node] : [];
+    const overview = node.children.filter((child) => !isBranch(child) && child.overview);
+    const rest = narrow(
+      node.children.filter((child) => !overview.includes(child)),
+      members,
+    );
+    return rest.length > 0 ? [{ ...node, children: [...overview, ...rest] }] : [];
+  });
+}
+
 interface NavNodeProps {
   node: NavTreeNode;
   currentPath: string;
-  isOpen: (key: string) => boolean;
+  isOpen: (key: string, fallback?: boolean) => boolean;
   setOpen: (key: string, open: boolean) => void;
   // Whether the persisted nav store has rehydrated from localStorage. Until it
   // has, every group renders closed so the first client render matches the
@@ -34,27 +49,65 @@ interface NavNodeProps {
   // survives ClientRouter navigations) opens groups on the client before React
   // hydrates the swapped-in page, throwing a hydration mismatch.
   hydrated: boolean;
+  // Collapse state is stored under the branch's label, prefixed by this. Groupings
+  // other than A–Z prefix their branches with the grouping id and the path, so
+  // the same branch label under two groupings keeps two states.
+  keyPrefix?: string;
+  // Overrides the prefix handed to the children (the Patterns branch scopes its
+  // children by grouping while keeping its own key).
+  childKeyPrefix?: string;
+  // Whether a branch the visitor has not toggled starts open. Handed on to every
+  // branch below, so a whole subtree opens together.
+  defaultOpen?: boolean;
+  // Muted text after the label (the Patterns branch names its grouping).
+  note?: string;
+  // A row at the head of the branch's panel, before its children (the Patterns
+  // branch puts its arrangement menu here).
+  lead?: React.ReactNode;
 }
 
 const Chevron = () =>
-  React.createElement('iconify-icon', { icon: 'ik:chevron-down', className: 'sidebar-collapsible-chevron' });
+  React.createElement('iconify-icon', {
+    icon: 'ik:chevron-small-down-medium',
+    className: 'sidebar-collapsible-chevron',
+  });
 
-function NavNode({ node, currentPath, isOpen, setOpen, hydrated }: NavNodeProps) {
+function NavNode({
+  node,
+  currentPath,
+  isOpen,
+  setOpen,
+  hydrated,
+  keyPrefix = '',
+  childKeyPrefix,
+  defaultOpen = false,
+  lead,
+}: NavNodeProps) {
   if (isBranch(node)) {
+    const key = `${keyPrefix}${node.label}`;
+    const childPrefix = childKeyPrefix ?? (keyPrefix ? `${key}/` : '');
     return (
       <SidebarMenuItem>
-        <Collapsible.Root open={hydrated && isOpen(node.label)} onOpenChange={(open) => setOpen(node.label, open)}>
+        <Collapsible.Root
+          // Before rehydration the default stands in for the stored state, which
+          // the server HTML also renders, so the two still match.
+          open={hydrated ? isOpen(key, defaultOpen) : defaultOpen}
+          onOpenChange={(open) => setOpen(key, open)}
+        >
           <SidebarMenuButton
             render={<Collapsible.Trigger />}
             className="sidebar-collapsible-group-trigger"
             tooltip={node.label}
           >
             <Chevron />
-            <span>{node.label}</span>
+            <span>
+              {node.label}
+            </span>
           </SidebarMenuButton>
           <Collapsible.Panel className="sidebar-collapsible-panel">
             <SidebarGroupContent className="sidebar-collapsible-group-content">
               <SidebarMenu>
+                {lead && <SidebarMenuItem>{lead}</SidebarMenuItem>}
                 {node.children.map((child) => (
                   <NavNode
                     key={isBranch(child) ? child.label : child.href}
@@ -63,6 +116,8 @@ function NavNode({ node, currentPath, isOpen, setOpen, hydrated }: NavNodeProps)
                     isOpen={isOpen}
                     setOpen={setOpen}
                     hydrated={hydrated}
+                    keyPrefix={childPrefix}
+                    defaultOpen={defaultOpen}
                   />
                 ))}
               </SidebarMenu>
@@ -99,7 +154,8 @@ function onNavPointerOver(event: React.MouseEvent<HTMLElement>) {
 // than relying on <pagefind-modal-trigger>, whose binding goes stale across
 // View Transitions swaps. See Base.astro for the matching ⌘K hotkey.
 function openSearch() {
-  const modal = document.querySelector('pagefind-modal') as (HTMLElement & { open?: () => void }) | null;
+  const modal = document.querySelector('pagefind-modal') as
+    (HTMLElement & { open?: () => void }) | null;
   modal?.open?.();
 }
 
@@ -137,6 +193,89 @@ function SiteHeader({ hydrated }: { hydrated: boolean }) {
   );
 }
 
+// The menu at the head of the Patterns branch, so it reads as arranging that
+// list only. Its row names the active language and grouping. It picks the project language the list is narrowed to and the grouping
+// it is arranged by, and links to the active language's page.
+//
+// The dropdown is gated on `hydrated`: pp-dropdown, pp-list and pp-list-item
+// upgrade and mutate their own light DOM (role, tabindex, aria-*, generated
+// ids), which would race React's hydration if they were SSR'd. The server and
+// the first client render show only the trigger; the dropdown mounts after.
+// `hoist` lets the panel escape the sidebar's overflow container. The row
+// carries no tooltip, which would wrap it and hide it from pp-dropdown's
+// trigger lookup.
+function PatternsMenu({
+  languages,
+  activeLanguage,
+  onSelectLanguage,
+  groupings,
+  activeGrouping,
+  onSelectGrouping,
+  hydrated,
+}: {
+  languages: NavLanguage[];
+  activeLanguage: NavLanguage | undefined;
+  onSelectLanguage: (id: string) => void;
+  groupings: NavGrouping[];
+  activeGrouping: string;
+  onSelectGrouping: (id: string) => void;
+  hydrated: boolean;
+}) {
+  // Selection runs through React's onClick, so pp-dropdown's own
+  // pp-select-driven close doesn't fire; close it on select.
+  const dropdownRef = React.useRef<(HTMLElement & { open?: boolean }) | null>(null);
+  const close = () => {
+    if (dropdownRef.current) dropdownRef.current.open = false;
+  };
+  const trigger = (
+    <SidebarMenuButton data-slot={hydrated ? 'trigger' : undefined}>
+      <iconify-icon className="icon" icon="ik:library-list" />
+      <span>
+        <span className="visually-hidden">Arrange patterns: </span>
+        {activeLanguage?.label ?? 'All'}
+      </span>
+    </SidebarMenuButton>
+  );
+  if (!hydrated) return trigger;
+  // Radio state is controlled here, so the two groups sharing one list stay apart.
+  const radio = (key: string, label: string, checked: boolean, select: () => void) => (
+    <pp-list-item
+      key={key}
+      type="radio"
+      checked={checked}
+      onClick={() => {
+        select();
+        close();
+      }}
+    >
+      {label}
+    </pp-list-item>
+  );
+  return (
+    <pp-dropdown ref={dropdownRef} placement="bottom-start" hoist>
+      {trigger}
+      <pp-popup>
+        <pp-list>
+          {languages.length > 0 && (
+            <>
+              <pp-list-label>Language</pp-list-label>
+              {radio('all', 'Default', !activeLanguage, () => onSelectLanguage(ALL_PATTERNS))}
+              {languages.map(({ id, label }) =>
+                radio(id, label, id === activeLanguage?.id, () => onSelectLanguage(id)),
+              )}
+              <hr />
+            </>
+          )}
+          <pp-list-label>Sort & group</pp-list-label>
+          {groupings.map(({ id, label }) =>
+            radio(id, label, id === activeGrouping, () => onSelectGrouping(id)),
+          )}
+        </pp-list>
+      </pp-popup>
+    </pp-dropdown>
+  );
+}
+
 // The site has two corners, each with its own sidebar: the pattern language
 // (the default) and the concept catalogue, a parallel catalogue reached from
 // the language's footer the way the component catalogue is. Each corner's
@@ -152,13 +291,27 @@ const CORNER = {
   concepts: { word: 'concept', home: '/concepts', homeLabel: 'Overview' },
 } as const;
 
-function CornerLink({ href, icon, label, external }: { href: string; icon: string; label: string; external?: boolean }) {
+function CornerLink({
+  href,
+  icon,
+  label,
+  external,
+}: {
+  href: string;
+  icon: string;
+  label: string;
+  external?: boolean;
+}) {
   return (
     <SidebarMenuItem>
       <SidebarMenuButton render={<a href={href} />} tooltip={label}>
         {React.createElement('iconify-icon', { icon })}
         <span>{label}</span>
-        {external && React.createElement('iconify-icon', { icon: 'ik:open-in-new-window', className: 'muted' })}
+        {external &&
+          React.createElement('iconify-icon', {
+            icon: 'ik:open-in-new-window',
+            className: 'muted',
+          })}
       </SidebarMenuButton>
     </SidebarMenuItem>
   );
@@ -170,13 +323,42 @@ function CornerLink({ href, icon, label, external }: { href: string; icon: strin
 // a static sibling (not a child) of this island; active-link state comes from
 // the runtime URL via useActivePath, not a prop, since a persisted island
 // never re-renders on navigation.
-export function Nav({ shared, patterns, sequences, concepts, corner = 'patterns' }: NavProps) {
-  const { isOpen, setOpen } = useNavStore();
+export function Nav({
+  shared,
+  patterns,
+  sequences,
+  concepts,
+  languages,
+  corner = 'patterns',
+}: NavProps) {
+  const { isOpen, setOpen, grouping, setGrouping, language, setLanguage } = useNavStore();
   const hydrated = useNavHydration();
   const currentPath = useActivePath();
   const { word, home, homeLabel } = CORNER[corner];
+
+  // Until rehydration, render the default grouping so the first client render
+  // matches the server HTML (see `hydrated` on NavNodeProps); a persisted id
+  // naming a grouping that no longer exists falls back to the default too.
+  const { groupings } = patterns;
+  const active =
+    groupings.find((g) => hydrated && g.id === grouping) ??
+    groupings.find((g) => g.id === DEFAULT_GROUPING)!;
+  // The same holds for the language: all patterns until rehydration, and for an
+  // id that names no language. Only the pattern list narrows.
+  const activeLanguage = hydrated ? languages.find((l) => l.id === language) : undefined;
+  const patternsBranch: NavBranch = {
+    label: patterns.label,
+    children: activeLanguage
+      ? narrow(active.children, new Set(activeLanguage.members))
+      : active.children,
+  };
   const groups: NavTreeNode[] =
-    corner === 'concepts' ? [concepts] : [...shared, sequences, patterns];
+    corner === 'concepts' ? [concepts] : [...shared, sequences, patternsBranch];
+  // The trigger names whatever differs from the default arrangement.
+  const note =
+    [activeLanguage?.label, active.id === DEFAULT_GROUPING ? undefined : active.label]
+      .filter(Boolean)
+      .join(' · ') || undefined;
 
   return (
     <SidebarProvider renderWrapper={false}>
@@ -209,7 +391,8 @@ export function Nav({ shared, patterns, sequences, concepts, corner = 'patterns'
                   <iconify-icon className="icon" icon="ik:search" />
                   Search
                   <span className="muted" aria-hidden="true">
-                    <kbd>⌘</kbd><kbd>K</kbd>
+                    <kbd>⌘</kbd>
+                    <kbd>K</kbd>
                   </span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -223,16 +406,44 @@ export function Nav({ shared, patterns, sequences, concepts, corner = 'patterns'
                   {homeLabel}
                 </SidebarMenuButton>
               </SidebarMenuItem>
-              {groups.filter((group) => isBranch(group) && group.children.length > 0).map((group) => (
-                <NavNode
-                  key={group.label}
-                  node={group}
-                  currentPath={currentPath}
-                  isOpen={isOpen}
-                  setOpen={setOpen}
-                  hydrated={hydrated}
-                />
-              ))}
+              {groups
+                .filter((group) => isBranch(group) && group.children.length > 0)
+                .map((group) =>
+                  group === patternsBranch ? (
+                    <NavNode
+                      key={group.label}
+                      node={group}
+                      currentPath={currentPath}
+                      isOpen={isOpen}
+                      setOpen={setOpen}
+                      hydrated={hydrated}
+                      // A–Z keeps the collapse keys it had before groupings existed.
+                      childKeyPrefix={active.id === DEFAULT_GROUPING ? '' : `${active.id}:`}
+                      defaultOpen
+                      note={note}
+                      lead={
+                        <PatternsMenu
+                          languages={languages}
+                          activeLanguage={activeLanguage}
+                          onSelectLanguage={setLanguage}
+                          groupings={groupings}
+                          activeGrouping={active.id}
+                          onSelectGrouping={setGrouping}
+                          hydrated={hydrated}
+                        />
+                      }
+                    />
+                  ) : (
+                    <NavNode
+                      key={group.label}
+                      node={group}
+                      currentPath={currentPath}
+                      isOpen={isOpen}
+                      setOpen={setOpen}
+                      hydrated={hydrated}
+                    />
+                  ),
+                )}
             </SidebarMenu>
           </SidebarGroup>
         </SidebarContent>
@@ -241,7 +452,9 @@ export function Nav({ shared, patterns, sequences, concepts, corner = 'patterns'
         <SidebarFooter>
           <SidebarMenu>
             {corner !== 'patterns' && <CornerLink href="/" icon="ik:sitemap" label="Patterns" />}
-            {CONCEPTS_ENABLED && corner !== 'concepts' && <CornerLink href="/concepts" icon="ik:base-shapes" label="Concepts" />}
+            {CONCEPTS_ENABLED && corner !== 'concepts' && (
+              <CornerLink href="/concepts" icon="ik:base-shapes" label="Concepts" />
+            )}
             <CornerLink href={STORYBOOK_URL} icon="ik:puzzle" label="Components" external />
           </SidebarMenu>
         </SidebarFooter>

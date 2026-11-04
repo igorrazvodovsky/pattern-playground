@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { faker } from '@faker-js/faker';
 
 function capitalizeFirstLetter(v: unknown) {
@@ -12,7 +12,7 @@ interface TagArgs {
 }
 
 const meta = {
-  title: "Components/Tag",
+  title: 'Components/Tag',
   argTypes: {
     label: {
       control: { type: 'text' },
@@ -112,7 +112,7 @@ export const Disabled: Story = {
   parameters: {
     a11y: {
       config: {
-        rules: [{id: 'color-contrast', enabled: false}],
+        rules: [{ id: 'color-contrast', enabled: false }],
       },
     },
   },

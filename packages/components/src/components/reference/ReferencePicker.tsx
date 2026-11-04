@@ -1,18 +1,12 @@
 import { useCallback, useMemo } from 'react';
-import {
-  Combobox,
-  ComboboxGroup,
-  ComboboxItem,
-  ComboboxList,
-  ComboboxEmpty
-} from '../combobox';
+import { Combobox, ComboboxGroup, ComboboxItem, ComboboxList, ComboboxEmpty } from '../combobox';
 import { useHierarchicalNavigation } from '../../hooks/use-hierarchical-navigation';
 import { createSortedSearchFunction, sortByRelevance } from '../../utility/hierarchical-search';
 import type {
   ReferenceCategory,
   ReferenceItem,
   SelectedReference,
-  ReferencePickerProps
+  ReferencePickerProps,
 } from './types';
 import '../../icons/register-icons';
 import '../../jsx-types';
@@ -26,39 +20,41 @@ export const ReferencePicker = ({
   mode: _mode = 'global',
   selectedCategory: _selectedCategory = null,
   onCategorySelect,
-  onBack
+  onBack,
 }: ReferencePickerProps) => {
-
   const { state, actions, results } = useHierarchicalNavigation({
     data,
     searchFunction: createSortedSearchFunction(
       (categories: ReferenceCategory[], query) => sortByRelevance(categories, query),
-      (items: ReferenceItem[], query) => sortByRelevance(items, query)
+      (items: ReferenceItem[], query) => sortByRelevance(items, query),
     ),
     onSelectChild: (item: ReferenceItem) => {
       const selectedReference: SelectedReference = {
         id: item.id,
         label: item.name, // ReferenceItem uses 'name', not 'label'
         type: item.type,
-        metadata: item.metadata ? structuredClone(item.metadata) : undefined
+        metadata: item.metadata ? structuredClone(item.metadata) : undefined,
       };
       onSelect(selectedReference);
     },
     onClose,
-    placeholder: "Search references...",
-    contextPlaceholder: (category) => `Search in ${category.name}...`
+    placeholder: 'Search references...',
+    contextPlaceholder: (category) => `Search in ${category.name}...`,
   });
-  
+
   useMemo(() => {
     if (query !== state.searchInput) {
       actions.updateSearch(query);
     }
   }, [query, state.searchInput, actions]);
-  
-  const handleCategorySelect = useCallback((category: ReferenceCategory) => {
-    actions.selectContext(category);
-    onCategorySelect?.(category);
-  }, [actions, onCategorySelect]);
+
+  const handleCategorySelect = useCallback(
+    (category: ReferenceCategory) => {
+      actions.selectContext(category);
+      onCategorySelect?.(category);
+    },
+    [actions, onCategorySelect],
+  );
 
   const handleEscape = useCallback(() => {
     const handled = actions.handleEscape();
@@ -73,36 +69,24 @@ export const ReferencePicker = ({
   if (!open) return null;
 
   return (
-    <div
-      role="dialog"
-      aria-label="Reference picker"
-      data-reference-picker
-    >
-      <Combobox
-        label="Reference picker"
-        shouldFilter={false}
-        onEscape={handleEscape}
-      >
+    <div role="dialog" aria-label="Reference picker" data-reference-picker>
+      <Combobox label="Reference picker" shouldFilter={false} onEscape={handleEscape}>
         <ComboboxList>
           {state.mode === 'contextual' ? (
             <>
               {results.contextualItems && results.contextualItems.length > 0 ? (
                 <ComboboxGroup>
                   {results.contextualItems.map((item) => (
-                    <ComboboxItem
-                      key={item.id}
-                      onSelect={() => actions.selectChild(item)}
-                    >
-                      <iconify-icon
-                        icon={item.icon}
-                        slot="prefix"
-                      />
+                    <ComboboxItem key={item.id} onSelect={() => actions.selectChild(item)}>
+                      <iconify-icon icon={item.icon} slot="prefix" />
                       {item.name}
                     </ComboboxItem>
                   ))}
                 </ComboboxGroup>
               ) : (
-                <ComboboxEmpty>No {state.selectedContext?.name?.toLowerCase() ?? 'items'} found.</ComboboxEmpty>
+                <ComboboxEmpty>
+                  No {state.selectedContext?.name?.toLowerCase() ?? 'items'} found.
+                </ComboboxEmpty>
               )}
             </>
           ) : (
@@ -110,19 +94,10 @@ export const ReferencePicker = ({
               {results.parents.length > 0 && (
                 <ComboboxGroup>
                   {results.parents.map((category) => (
-                    <ComboboxItem
-                      key={category.id}
-                      onSelect={() => handleCategorySelect(category)}
-                    >
-                      <iconify-icon
-                        icon={category.icon}
-                        slot="prefix"
-                      />
+                    <ComboboxItem key={category.id} onSelect={() => handleCategorySelect(category)}>
+                      <iconify-icon icon={category.icon} slot="prefix" />
                       {category.name}
-                      <iconify-icon
-                        icon="ik:chevron-right"
-                        slot="suffix"
-                      />
+                      <iconify-icon icon="ik:chevron-right" slot="suffix" />
                     </ComboboxItem>
                   ))}
                 </ComboboxGroup>
@@ -135,10 +110,7 @@ export const ReferencePicker = ({
                       key={`${parent.id}-${child.id}`}
                       onSelect={() => actions.selectChild(child)}
                     >
-                      <iconify-icon
-                        icon={child.icon}
-                        slot="prefix"
-                      />
+                      <iconify-icon icon={child.icon} slot="prefix" />
                       {child.name}
                     </ComboboxItem>
                   ))}
@@ -146,11 +118,11 @@ export const ReferencePicker = ({
               )}
 
               {state.searchInput &&
-               state.searchInput.length >= 2 &&
-               results.parents.length === 0 &&
-               results.children.length === 0 && (
-                <ComboboxEmpty>No references found for "{state.searchInput}".</ComboboxEmpty>
-              )}
+                state.searchInput.length >= 2 &&
+                results.parents.length === 0 &&
+                results.children.length === 0 && (
+                  <ComboboxEmpty>No references found for "{state.searchInput}".</ComboboxEmpty>
+                )}
             </>
           )}
         </ComboboxList>

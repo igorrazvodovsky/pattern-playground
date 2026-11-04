@@ -1,14 +1,17 @@
-// Task types for tasks created during a session — the command menu's AI
-// fallback makes one and an agent works it — with their own status vocabulary
-// (submitted, planning, executing, asking, completed, failed) and Date-valued
-// timestamps.
+// Task types for tasks created during a session. The command menu's AI
+// fallback makes one and an agent works it.
 //
-// Not the fixture world's tasks. Those are individuals in `shared/world`,
-// assembled by `transformations/tasks.ts`, and their statuses come from
-// `statuses.json`. The two shapes look alike and model different things; the
-// header here used to claim it replaced both. Whether they should converge is
-// open, and tied to the world becoming executable — see
-// `plans/tech-debt-tracker.md`.
+// This is the same kind of task as the fixture world's, assigned to an agent.
+// A task does not depend on who performs it. The separate shape is left over
+// from a demo of an agent at work: its statuses (submitted, planning,
+// executing, asking, completed, failed) are a status sequence of their own,
+// and its history is hand-written strings rather than actions from the log.
+//
+// The fixture world's tasks are individuals in `shared/world`, assembled by
+// `transformations/tasks.ts`, with statuses from `statuses.json` and a history
+// read from the action log. The agent trace fixtures plan
+// (`plans/active/2026-08-agent-trace-fixtures.md`) retires this file: a session
+// task becomes a task in the log like any other.
 
 export interface TaskHistoryEntry {
   id: string;
@@ -55,33 +58,33 @@ export interface Project {
 export interface Task {
   // Core identification
   id: string;
-  
+
   // Content - supporting both old patterns
-  title: string;           // Primary display name
-  specification: string;   // Detailed specification (can be same as title for simple tasks)
-  description?: string;    // Optional longer description
-  
+  title: string; // Primary display name
+  specification: string; // Detailed specification (can be same as title for simple tasks)
+  description?: string; // Optional longer description
+
   // Status and workflow
-  status: TaskStatus;      // Rich status object with display properties
-  history: TaskHistoryEntry[];  // Execution history for TaskView
-  
-  // Assignment and organization  
+  status: TaskStatus; // Rich status object with display properties
+  history: TaskHistoryEntry[]; // Execution history for TaskView
+
+  // Assignment and organization
   assignee?: User;
   priority?: TaskPriority;
   labels?: TaskLabel[];
   project?: Project;
-  
+
   // Progress tracking
-  progress?: number;       // 0-100 percentage
-  
+  progress?: number; // 0-100 percentage
+
   // Temporal
   createdAt: Date;
   updatedAt?: Date;
   dueDate?: Date;
-  
+
   // Updated by tracking
   updatedBy?: User;
-  
+
   // ItemView metadata
   metadata?: {
     tags?: string[];
@@ -92,26 +95,9 @@ export interface Task {
 // Helper type for creating new tasks (minimal required fields)
 export interface CreateTaskInput {
   specification: string;
-  title?: string;  // Falls back to specification if not provided
+  title?: string; // Falls back to specification if not provided
   assignee?: string; // User ID
-  priority?: string; // Priority ID  
-  project?: string;  // Project ID
+  priority?: string; // Priority ID
+  project?: string; // Project ID
   dueDate?: Date;
 }
-
-// Type guards and utilities
-export const isTask = (obj: unknown): obj is Task => {
-  if (typeof obj !== 'object' || obj === null) return false;
-  
-  const record = obj as Record<string, unknown>;
-  return typeof record.id === 'string' &&
-         typeof record.title === 'string' &&
-         typeof record.specification === 'string' &&
-         typeof record.status === 'object' &&
-         Array.isArray(record.history);
-};
-
-// Simple status values for backward compatibility
-export const getStatusValue = (task: Task): Task['status']['value'] => {
-  return task.status.value;
-};

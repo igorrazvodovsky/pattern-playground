@@ -31,19 +31,16 @@ export const CommentThread: React.FC<CommentThreadProps> = ({
   className = '',
   allowNewComments = true,
   placeholder,
-  onCommentAdded
+  onCommentAdded,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const pointer = useMemo(
     () => givenPointer ?? new EntityPointer(entityType ?? '', entityId ?? ''),
-    [givenPointer, entityType, entityId]
+    [givenPointer, entityType, entityId],
   );
 
-  const {
-    comments,
-    createComment
-  } = useCommenting(pointer, { currentUser: currentUser.id });
+  const { comments, createComment } = useCommenting(pointer, { currentUser: currentUser.id });
 
   const handleAddComment = async (content: RichContent) => {
     setIsSubmitting(true);
@@ -66,16 +63,12 @@ export const CommentThread: React.FC<CommentThreadProps> = ({
       {comments.map((comment) => {
         const user = getUserById(comment.authorId);
         const displayName = user?.name || comment.authorId;
-        const photoUrl = user?.metadata?.photoUrl || `https://i.pravatar.cc/150?seed=${comment.authorId}`;
+        const photoUrl =
+          user?.metadata?.photoUrl || `https://i.pravatar.cc/150?seed=${comment.authorId}`;
 
         return (
           <div key={comment.id} className="message">
-            <img
-              className="avatar"
-              data-size="small"
-              src={photoUrl}
-              alt={displayName}
-            />
+            <img className="avatar" data-size="small" src={photoUrl} alt={displayName} />
             <div className="message__content">
               <div className="message__body">
                 <div className="message__author">{displayName}</div>

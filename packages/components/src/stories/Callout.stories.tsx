@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 type CalloutPurpose = 'neutral' | 'accent' | 'info' | 'success' | 'warning' | 'danger';
 
@@ -17,7 +17,7 @@ const purposeIcons: Record<CalloutPurpose, string> = {
 };
 
 const meta = {
-  title: "Components/Callout",
+  title: 'Components/Callout',
   argTypes: {
     message: {
       control: { type: 'text' },

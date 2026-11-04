@@ -6,8 +6,5 @@
     "useDefineForClassFields": false,
     "allowJs": true
   },
-  "include": [
-    "../src/**/*",
-    "../stories/**/*"
-  ]
+  "include": ["../src/**/*", "../stories/**/*"]
 }

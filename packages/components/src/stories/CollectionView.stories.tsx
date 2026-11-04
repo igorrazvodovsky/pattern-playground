@@ -1,11 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import React, { useState } from 'react';
-import {
-  products,
-  makeSpec,
-  runSpec,
-  ViewSpecRenderer,
-} from '../templates/collection-view';
+import { products, makeSpec, runSpec, ViewSpecRenderer } from '../templates/collection-view';
 import type { RepresentationType } from '../templates/collection-view';
 import { tasks, projects } from '@shared/data';
 import {
@@ -75,18 +70,14 @@ const COLLECTIONS: Record<string, Collection> = {
     icon: 'ik:checkmark-in-square',
     items: tasks,
     binding: taskBinding,
-    groupings: [
-      { label: 'Status lanes', groupBy: 'status.label', groupLayout: 'lanes' },
-    ],
+    groupings: [{ label: 'Status lanes', groupBy: 'status.label', groupLayout: 'lanes' }],
   },
   projects: {
     label: 'Projects',
     icon: 'ik:folder-opened',
     items: projects,
     binding: projectBinding,
-    groupings: [
-      { label: 'Status lanes', groupBy: 'status', groupLayout: 'lanes' },
-    ],
+    groupings: [{ label: 'Status lanes', groupBy: 'status', groupLayout: 'lanes' }],
   },
 };
 
@@ -98,8 +89,7 @@ function supportsRepresentation(binding: EntityBinding, type: RepresentationType
   }
   if (type === 'plot') {
     return (
-      binding.attributes.filter((attribute) => isNumericValueType(attribute.valueType))
-        .length >= 2
+      binding.attributes.filter((attribute) => isNumericValueType(attribute.valueType)).length >= 2
     );
   }
   return true;
@@ -112,19 +102,16 @@ function CollectionViewTemplate() {
 
   const collection = COLLECTIONS[collectionKey];
   const viewOptions = VIEW_OPTIONS.filter((option) =>
-    supportsRepresentation(collection.binding, option.type)
+    supportsRepresentation(collection.binding, option.type),
   );
-  const view =
-    viewOptions.find((option) => option.key === viewKey) ?? viewOptions[0];
+  const view = viewOptions.find((option) => option.key === viewKey) ?? viewOptions[0];
 
   const spec = makeSpec({
     id: `catalogue-${collectionKey}`,
     representation: { type: view.type },
     arrangement: {
       ...(view.layout ? { layout: view.layout } : {}),
-      ...(grouping
-        ? { groupBy: grouping.groupBy, groupLayout: grouping.groupLayout }
-        : {}),
+      ...(grouping ? { groupBy: grouping.groupBy, groupLayout: grouping.groupLayout } : {}),
     },
   });
 
@@ -270,13 +257,35 @@ const filteredTasksSpec = makeSpec({
   id: 'filtered-tasks',
   representation: {
     type: 'table',
-    shownAttributes: ['title', 'status.label', 'assignee.name', 'priority.label', 'tags', 'dueDate'],
+    shownAttributes: [
+      'title',
+      'status.label',
+      'assignee.name',
+      'priority.label',
+      'tags',
+      'dueDate',
+    ],
   },
   query: [
-    { id: 'tasks-status', path: 'status.label', operator: 'is any of', values: ['Todo', 'In Progress', 'In Review'] },
+    {
+      id: 'tasks-status',
+      path: 'status.label',
+      operator: 'is any of',
+      values: ['Todo', 'In Progress', 'In Review'],
+    },
     { id: 'tasks-assignee', path: 'assignee.name', operator: 'is not', values: ['No assignee'] },
-    { id: 'tasks-labels', path: 'tags', operator: 'include any of', values: ['Audit', 'Sourcing', 'Design'] },
-    { id: 'tasks-priority', path: 'priority.label', operator: 'is any of', values: ['High', 'Medium'] },
+    {
+      id: 'tasks-labels',
+      path: 'tags',
+      operator: 'include any of',
+      values: ['Audit', 'Sourcing', 'Design'],
+    },
+    {
+      id: 'tasks-priority',
+      path: 'priority.label',
+      operator: 'is any of',
+      values: ['High', 'Medium'],
+    },
     { id: 'tasks-due', path: 'dueDate', operator: 'is', values: ['in the past'] },
   ],
   arrangement: { sortBy: { field: 'title', order: 'asc' } },

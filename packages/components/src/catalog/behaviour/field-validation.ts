@@ -30,7 +30,11 @@ export const useFieldError = (
 
   useEffect(() => {
     if (!config || !failing) return;
-    const passes = runValidation(config, { value, stateModel: getSnapshot(), customFunctions }).valid;
+    const passes = runValidation(config, {
+      value,
+      stateModel: getSnapshot(),
+      customFunctions,
+    }).valid;
     if (passes) validate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);

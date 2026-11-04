@@ -19,10 +19,7 @@ import {
 // Label curation lives in each entity binding (shared/data/bindings): a
 // curated `label` where the derived one reads wrong, the camelCase-leaf
 // fallback everywhere else.
-export function attributeLabel(
-  path: string,
-  binding: EntityBinding = productBinding
-): string {
+export function attributeLabel(path: string, binding: EntityBinding = productBinding): string {
   return attributeLabelFromBinding(binding, path);
 }
 
@@ -33,8 +30,8 @@ let lastProductsHash: string | null = null;
 // Generate a simple hash of product specifications structure
 const getProductsSpecificationHash = (products: Product[]): string => {
   const specKeys = new Set<string>();
-  products.forEach(product => {
-    Object.keys(product.metadata.specifications || {}).forEach(key => {
+  products.forEach((product) => {
+    Object.keys(product.metadata.specifications || {}).forEach((key) => {
       specKeys.add(key);
     });
   });
@@ -49,8 +46,8 @@ export const getAvailableAttributes = (products: Product[]): string[] => {
   // Only recalculate specification attributes if products structure changed
   if (cachedSpecificationKeys === null || lastProductsHash !== currentHash) {
     const specKeys = new Set<string>();
-    products.forEach(product => {
-      Object.keys(product.metadata.specifications || {}).forEach(key => {
+    products.forEach((product) => {
+      Object.keys(product.metadata.specifications || {}).forEach((key) => {
         specKeys.add(`specifications.${key}`);
       });
     });
@@ -68,7 +65,7 @@ export const getAvailableAttributes = (products: Product[]): string[] => {
         !IDENTITY_ROLES.includes(attribute.role) &&
         attribute.valueType !== 'custom' &&
         attribute.path !== 'specifications' &&
-        attribute.path !== 'pricing.band'
+        attribute.path !== 'pricing.band',
     )
     .map((attribute) => attribute.path);
   return [...identity, ...metadata, ...cachedSpecificationKeys].sort();
@@ -84,7 +81,7 @@ export const getAttributeValue = (item: unknown, attributePath: string): unknown
 export const formatAttributeValue = (
   value: unknown,
   attributePath: string,
-  binding: EntityBinding = productBinding
+  binding: EntityBinding = productBinding,
 ): string => {
   if (value === undefined || value === null) return 'N/A';
   const entry = findAttribute(binding, attributePath);

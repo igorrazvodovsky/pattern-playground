@@ -43,7 +43,7 @@ const bucket = (elapsedMs: number): { value: number; unit: Intl.RelativeTimeForm
 export const formatRelativeTime = (
   value: number,
   unit: Intl.RelativeTimeFormatUnit,
-  locale?: Locale
+  locale?: Locale,
 ): string => relativeTimeFormat(locale, { numeric: 'auto' }).format(value, unit);
 
 /**
@@ -56,7 +56,7 @@ export const formatRelativeTime = (
  */
 export const describeTimestamp = (
   timestamp: DateInput,
-  locale?: Locale
+  locale?: Locale,
 ): { text: string; datetime: string; absolute: string; isRelative: boolean } => {
   const date = toDate(timestamp);
   const absolute = formatDateTime(date, undefined, locale);
