@@ -191,6 +191,11 @@
       "lifecycle-stage": null,
       "mediation": null
     },
+    "cross-channel-continuity": {
+      "activity-level": "activity",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "data-entry": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -266,8 +271,8 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
-    "error-recovery": {
-      "activity-level": "operation",
+    "ephemeral-session": {
+      "activity-level": "action",
       "lifecycle-stage": null,
       "mediation": "individual"
     },
@@ -376,6 +381,11 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
+    "import-and-export": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "incremental-formalisation": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -466,6 +476,11 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
+    "memory": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "modality": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
@@ -500,6 +515,11 @@
       "activity-level": "operation",
       "lifecycle-stage": null,
       "mediation": "coordination"
+    },
+    "outside-agent": {
+      "activity-level": "activity",
+      "lifecycle-stage": null,
+      "mediation": "individual"
     },
     "overreliance-checklist": {
       "activity-level": "action",
@@ -606,6 +626,11 @@
       "lifecycle-stage": null,
       "mediation": null
     },
+    "remembered-state": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "resuming": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -640,11 +665,6 @@
       "activity-level": "action",
       "lifecycle-stage": "coordination",
       "mediation": "individual"
-    },
-    "selective-memory": {
-      "activity-level": "action",
-      "lifecycle-stage": null,
-      "mediation": null
     },
     "semantic-zoom": {
       "activity-level": "action",

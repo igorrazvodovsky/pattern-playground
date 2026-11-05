@@ -3,7 +3,7 @@ title: Memory and continuity — the tenth sequence
 status: active
 kind: exec-spec
 created: 2026-08-29
-last_reviewed: 2026-09-27
+last_reviewed: 2026-11-04
 area: language / organisation
 promoted_to:
 superseded_by:
@@ -118,6 +118,46 @@ Aspects: provenance-marking's "write-time capture" is now "recording origin when
 
 Step-list test, repeated on the new names: the step lines still read as a walk without their glosses.
 
+## Remembered state and the return step (2026-11-04)
+
+The [remembered-state] page, written after the sequence, gives `return/1` ("Restore the actor's place") a candidate rule. The step restored four things that belong to three moves: the arrangement and place (remembered state), the unfinished change ([resuming], added 2026-10-11), and the conversation set aside with its deferred commitment (already the hands-off to the encounter via user-opening). One invocation per step makes that two steps with rules and a hands-off.
+
+Remembered state and AI memory are treated as different moves: remembered state brings the actor back to where they were; selective memory carries facts forward to shape what is generated next. That revises finding 2, which had put open places and reading marks under selective memory.
+
+Changes to the sequence file:
+
+- `keeping/3` narrows to selective memory's own scope: stated facts and standing preferences that shape what is generated. Reading marks, open places and set-aside work leave its gloss.
+- New `keeping/4`, "Keep the arrangement the actor leaves", rule remembered-state, aspect "what is kept and for whom". It names *the arrangement*: each view's arrangement, the place reached (including how far the actor had read), and the values last chosen. It follows `keeping/3` rather than forming a cluster with it, because the session that keeps nothing, decided at `keeping/3`, also stops the arrangement from being written.
+- `return/1` becomes the cluster "Put the actor back where they were", with two members: "Restore the arrangement" (remembered-state, aspect "restoring", deep-linking kept as constituent with the address-wins note) and "Bring back unfinished work" (resuming, carrying the check of out-of-date assumptions). The set-aside conversation and deferred commitment stay in the cluster gloss, routed through the existing hands-off.
+- `return/2`'s gloss now reads the point the arrangement records instead of "the actor's last visit", so the write/read seam from walk 1 holds.
+
+A cluster takes one number, so `return/1`, `return/2` and `return/3` keep their addresses. The one incoming address at `return/1` (structuring the space, `layout/2`, step-by-step progress kept across a stop) now lands on the cluster whose resuming member owns it. `keeping/3`'s outgoing hands-off to delegating work still fits the narrowed step.
+
+Step-list test: the step lines, with the new step and the cluster and its two members, read as a walk without their glosses.
+
+Read-aloud test:
+
+> A policy says what may be remembered. First the keeping: one record of what the other sequences write; the origin and reason of each change recorded when it is made; what the system keeps about the actor to shape what it generates, with a default most actors never change and a session that keeps nothing; and the arrangement the actor leaves, kept on the device or for the person, and not written in that session. Then the return: the actor put back where they were, the arrangement restored or offered depending on the gap, and unfinished work brought back with its out-of-date assumptions checked; what changed past the point the arrangement records, shown without asking for a decision; and named versions beyond undo. Last the forgetting, in both kinds of kept information.
+
+Verdict: passes. No step contradicts an earlier one. The read-aloud walk shows a gap that walk 1 confirms (new finding 11).
+
+Test walks, repeated on the changed steps only:
+
+*Walk 1, the issue tracker.* keeping/3: the triage assistant keeps the priorities the actor stated; an admin can see and edit them. keeping/4: the pinned view's filters and sort, the open tab on each issue, and the last-read mark on each thread, kept for the person because triagers expect them on their phone. return/1: after two weeks, the pinned view reopens with its filters shown and "clear filters" beside them; a link from a notification opens the issue it names, not the stored view; the issue that was being edited comes back with the draft shown, and the tracker asks before re-applying a draft whose fields have since changed. return/2 reads the last-read marks from keeping/4. No backtrack. One catch in the forgetting region: when a contractor leaves, the first draft erased their "held-forward state" at forgetting/1, whose rule is selective memory. Their arrangement is now at keeping/4, and no forgetting step reaches it (finding 11).
+
+*Walk 2, the research assistant.* keeping/3: domain, preferences, standing instructions, held as a visible summary; the grant application runs in a session that keeps nothing. keeping/4: the open survey draft, the screening table's sort and filters, the last export format; none of it written during the grant session, which is the ordering reason for keeping/4 following keeping/3. return/1: a month away. The parked conversation resumes through its opening (the hands-off). The half-finished dedup pass comes back through resuming, which checks the out-of-date thresholds because the corpus grew. The screening table's place is offered, not jumped to, because its content changed. return/2: "forty new matches" counted past the recorded point. A restored filter would hide some of them, so the catch-up scopes to the material that is open, not to the filtered view. That reshapes how return/2 reads the arrangement; it does not revoke the restore decision (finding 13). No backtrack.
+
+Findings from this sitting (none executed):
+
+10. *Finding 3 is partly resolved and partly stale.* Resumption is now owned by remembered-state and resuming. Version history has a page, so return/3 can take it as its rule in its own sitting. The catch-up at return/2 is still without a pattern.
+11. *The forgetting region does not reach the arrangement.* forgetting/1's first member invokes selective memory, which no longer holds the arrangement. Candidates: a third cluster member invoking remembered-state with an aspect like "clearing" (the page's reset and per-person scope), or widening the cluster gloss. Decide in a forgetting-region sitting.
+12. *Resuming's keeping half has no keeping step.* Resuming keeps entries as they are made and gives a way back; the sequence invokes it only at return. This is acceptable while its keeping is tied to the task's own way back, but it is asymmetric with remembered state's split.
+13. *The catch-up scopes to the material, not the restored filter.* A candidate clause for return/2's gloss or for the catch-up pattern when one is seeded.
+14. *The already-seen mark and dismissal.* The last-read mark is treated as part of the place reached. What the actor has dealt with (closed banners, read changelogs) stays the dismissal to-do on remembered-state and is not in the sequence.
+15. *Page residue.* remembered-state's to-do item about this step is answered and can be removed. selective-memory's to-do on grounding AI memory in remembered state stands, and no content moves out of selective memory without asking.
+
+[remembered-state]: ../../apps/patterns/src/content/patterns/remembered-state.mdx
+[resuming]: ../../apps/patterns/src/content/patterns/resuming.mdx
 [activity-log]: ../../apps/patterns/src/content/patterns/activity-log.mdx
 [provenance-marking]: ../../apps/patterns/src/content/patterns/provenance-marking.mdx
 [selective-memory]: ../../apps/patterns/src/content/patterns/selective-memory.mdx

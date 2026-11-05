@@ -1,0 +1,96 @@
+---
+title: Remembered state
+added: 2026-11-04
+role: pattern
+activityLevel: operation
+mediation: individual
+evidence:
+  - observed
+  - literature
+  - used
+description: "Restoring an artifact's view configuration, reading position, and last-used values automatically when the actor returns."
+situation:
+  initiating: >-
+    … the actor returns to an artifact they have already adjusted during normal use:
+    they configured a [data view](/patterns/data-view), selected a tab, resized a
+    panel, scrolled partway through a document, or picked an export format. They did
+    not save these adjustments in [settings](/patterns/settings) because they were
+    simply working in the interface. Where [deep linking](/patterns/deep-linking)
+    encodes state in the URL so a specific view can be shared or bookmarked,
+    remembered state persists it in storage for this actor's return.
+  resulting: >-
+    The interface reopens as the actor left it without requiring manual setup,
+    enacting [adaptation](/patterns/adaptation) through deterministic state
+    persistence rather than inference. Restored filters stay legible only when
+    [filtering](/patterns/filtering) keeps active criteria visible on the surface.
+    A value chosen last time gives [good defaults](/patterns/good-defaults) a
+    personal starting value for the next session. While remembered state reopens
+    the active view in place, [recents](/patterns/recents) list the other items
+    and views the actor opened lately. [Bookmarking](/patterns/bookmarking) holds
+    the ones they explicitly saved for long-term return. Returning to an
+    unfinished multi-step workflow with in-progress inputs intact is covered by
+    [resuming](/patterns/resuming). Carrying stated facts or standing preferences
+    forward to shape model generation is covered by
+    [memory](/patterns/memory). Because persisted views,
+    scroll positions, and filters reveal what the last person was doing,
+    remembered state raises [privacy](/patterns/privacy) concerns on shared
+    devices…
+relationships:
+  follows:
+    - to: data-view
+      note: "remembered state persists the sort, filters, grouping, and layout configured in a data view"
+  alternative:
+    - to: deep-linking
+      note: "deep linking stores shareable state in the URL; remembered state stores personal state for the actor's return"
+  complements:
+    - to: settings
+      note: "settings store explicit preferences configured in a dedicated surface; remembered state stores inline adjustments made during use"
+    - to: filtering
+      note: "filtering keeps active criteria visible on the surface so a restored filter does not look like missing data"
+    - to: recents
+      note: "remembered state restores the last active view in place; recents list other recently visited items and views"
+  precedes:
+    - to: good-defaults
+      note: "remembered state supplies the actor's last-chosen value as a persistent starting default"
+  tangential:
+    - to: bookmarking
+      note: "bookmarks keep items and views the actor explicitly saves; remembered state restores the last view configuration automatically"
+    - to: resuming
+      note: "resuming restores an in-progress task and its uncommitted inputs; remembered state restores interface configuration and position"
+    - to: memory
+      note: "remembered state restores interface configuration and position; memory carries facts and preferences forward to shape model generation"
+  enacts:
+    - to: adaptation
+      note: "adapts the interface to the actor by persisting their explicit adjustments without inference"
+    - to: privacy
+      note: "persisted views, positions, and filters can expose an actor's activity on shared devices"
+---
+
+* * *
+
+**When an interface resets to its default state on every visit, the actor has to repeat the same setup work each time: re-applying filters and sort orders, reopening tabs, resizing panels, re-selecting the last folder, or scrolling back to where they stopped reading. Each adjustment is small, but the repetition adds friction to every return.**
+
+Persisting state works when the system distinguishes intentional configuration from transient interaction. View arrangements ([sorting](/patterns/sorting), [filtering](/patterns/filtering), grouping, selected tabs, panel widths), reading or playback positions, and last-used picker values are worth keeping; transient states such as focus, hover, open menus, or validation errors are not. Time and content stability also constrain restoration: returning to a scroll position works when the actor comes back soon to static content, but jumping halfway down a page after weeks away—or after the underlying list has changed—is disorienting.
+
+The main risk of remembered state is invisible persistence. Restored state that is immediately self-evident, such as an open tab or a sidebar width, explains itself. State that alters the dataset without obvious cues—such as a filter left active from last week—outlives the task it was set for and makes excluded items look missing. Scope creates a second tension: storing state locally on the device suits screen-dependent adjustments like panel widths, but fails when the actor expects their view configuration across devices, and exposes one person's activity to the next on shared devices.
+
+Therefore,
+
+**Persist the view configurations, reading positions, and option values the actor explicitly chooses, and restore them automatically on return. Scope layout and viewport adjustments to the device, and scope personal view arrangements to the actor's account so they travel across devices and stay isolated on shared ones. Whenever a [deep link](/patterns/deep-linking) specifies state in the URL, let the URL override stored state. Keep any restored state that narrows or reorders content clearly visible on the surface, with a direct control beside it to reset to defaults.**
+
+Keep persistence rules predictable enough that actors can form a reliable mental model, such as persisting configuration per view. When an interface remembers an inconsistent mix of states, actors cannot tell which adjustments will survive a reload and stop relying on persistence altogether. Where actors need to keep and switch between multiple configurations rather than just the last one they used, give them named [saved views](/patterns/data-view#saved-views).
+
+## In practice
+
+- *View configuration.* Persists sort order, active [filters](/patterns/filtering), grouping, selected representation, visible columns, density, open tabs, collapsed sections, and panel widths. Restore silently on return, keep active filters and non-default sort orders visually prominent, and place a reset action ("Clear filters", "Reset layout") directly beside the affected controls rather than burying it in [settings](/patterns/settings).
+- *Reading or playback position.* Tracks scroll offset, the last-open document, or the timestamp reached in audio and video. Restore silently when the actor returns soon—such as navigating back from a detail page to a list—and the content has not changed. After a long absence or when the underlying content has updated, keep the view at the top and offer a way to jump to the previous position, such as an unread marker or a "Resume where you left off" prompt.
+- *Last-used values.* Remembers the last folder selected in a file picker, the last export format, or the last delivery option, and pre-selects it as a [good default](/patterns/good-defaults) next time the actor opens the control. Never persist sensitive inputs or destructive choices as defaults.
+
+## Resources & references
+
+- Tidwell, J. (1999). [Remembered State](https://www.mit.edu/~jtidwell/language/remembered_state.html), in *Common Ground: A Pattern Language for Human-Computer Interface Design*
+- Chan, M. (2023). [Designing Scroll Behavior: When to Save a User's Place](https://www.nngroup.com/articles/saving-scroll-position/), Nielsen Norman Group
+
+## To-do
+
+Decide whether remembering dismissed UI elements (closed banners, completed onboarding tours, read changelogs) belongs as a variant on this page or as a separate pattern, including when a dismissal should expire (for example, after a version update or when the message content changes).

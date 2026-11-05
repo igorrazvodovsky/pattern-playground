@@ -453,13 +453,12 @@
       "path": "/patterns/bookmarking",
       "role": "pattern",
       "situation": {
-        "initiating": "… the actor is somewhere they expect to need again: a document, a view, a conversation, a position in a space. Getting here took moves they do not want to repeat, or a search whose terms they will have forgotten, and the system cannot know on its own that this place matters more than the others. [Deep linking](/patterns/deep-linking) has given the state a name that restores it; what is missing is a place of the actor's own to keep that name. Where the actor has marked nothing and the way back is simply what they touched lately, [recents](/patterns/recents) is the alternative, made by the system rather than by them.",
-        "resulting": "The actor now holds a set of places they chose, and the choosing is what makes it theirs: the mark says this one matters, which is the small act of [agency](/patterns/agency) at the centre of the move, and the set is a layer of the actor's own laid over the system's structure, which is where it touches [malleability](/patterns/malleability). The set grows and nobody prunes it, so the places behind the marks move and the marks go stale; a bookmark that no longer resolves is the common end of this pattern and the problem it opens. A set past a dozen wants organising, and [tags](/patterns/tag) give it structure the actor did not have to plan. A mark can be handed to someone else, and then it is a recommendation as well as a way back, which [sharing](/patterns/sharing) governs. The same move over a framing rather than an item is [data view](/patterns/data-view)'s saved view. Pointed into an exchange rather than at a place, the same move is close to [reference material](/patterns/reference-material). Marks are reached from wherever the actor happens to start, so the [command menu](/patterns/command-menu) is where they most often surface…"
+        "initiating": "… the actor has reached an item, view, conversation, or position they expect to need again. Getting there took navigation steps they do not want to repeat or a search query they are unlikely to remember, and the system cannot infer on its own that this item matters for the long term. [Deep linking](/patterns/deep-linking) gives each state a stable address that restores it; bookmarking gives the actor a personal place to keep those addresses. Where the actor has saved nothing explicitly, [recents](/patterns/recents) provide an automatic alternative for returning to recently opened items.",
+        "resulting": "The actor maintains a curated list of saved items chosen for future return. Because the actor explicitly decides what matters and builds a personal navigation layer over the system's hierarchy, bookmarking enacts both [agency](/patterns/agency) and [malleability](/patterns/malleability). Saved lists tend to grow without maintenance, and entries go stale when target items move or are deleted. Once a collection grows past a short scannable list, [tags](/patterns/tag) or folders let the actor organise it without planning a structure upfront. A bookmark or collection can also be passed to others as a recommendation or curated list through [sharing](/patterns/sharing). Saving a filtered and sorted collection query rather than a single item is a [saved view](/patterns/data-view#saved-views). Pinning files or sources into a prompt or workspace context is [reference material](/patterns/reference-material), which keeps items in scope for generation rather than for navigation. Bookmarks surface at navigation starting points such as a sidebar, start page, or [command menu](/patterns/command-menu)…"
       },
-      "seed": true,
       "evidence": [
         {
-          "kind": "observed"
+          "kind": "used"
         },
         {
           "kind": "literature"
@@ -852,6 +851,26 @@
       ]
     },
     {
+      "id": "cross-channel-continuity",
+      "title": "Cross-channel continuity",
+      "category": "Activities",
+      "path": "/patterns/cross-channel-continuity",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the artifact is an [information environment](/patterns/information-environment) that the actor reaches through more than one channel: a website and a phone app, an email or a notification that points into it, an agent that answers questions about it. The channels were often made by different teams or at different times, and the actor moves between them in the middle of a piece of work.",
+        "resulting": "An address that resolves in every channel comes from [deep linking](/patterns/deep-linking). A [notification](/patterns/notification) that carries such an address opens the item it is about rather than the start of the artifact. View arrangements travel with [remembered state](/patterns/remembered-state) when it is kept with the actor rather than with one device. Where the work lives on the actor's own device, [sync through own storage](/patterns/sync-through-own-storage) brings it to the other devices the actor uses. Returning to the same channel after time away is [resuming](/patterns/resuming), which shares the concern with picking work back up but does not involve a change of channel…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
+        }
+      ]
+    },
+    {
       "id": "data-entry",
       "title": "Data entry",
       "category": "Actions",
@@ -1173,29 +1192,21 @@
       ]
     },
     {
-      "id": "error-recovery",
-      "title": "Error recovery",
-      "category": "Operations",
-      "path": "/patterns/error-recovery",
+      "id": "ephemeral-session",
+      "title": "Ephemeral session",
+      "category": "Actions",
+      "path": "/patterns/ephemeral-session",
       "role": "pattern",
       "situation": {
-        "initiating": "… the actor has asked the system for something and the system cannot do it: the save did not go through, the page will not load, the service behind the button is down, the thing they followed a link to is gone or is not theirs to see. The fault is the system's, not a slip in what the actor entered, which is the case [validation](/patterns/validation) answers at the field. Where the request took long enough to need a sign, the sign of [waiting](/patterns/waiting) is still up, and the actor may have gone elsewhere on its word.",
-        "resulting": "The failure now has a report where the actor is looking, and the report says three things: that the request did not take, what did and did not change, and what the actor can do next. It is the failure-reporting shape of [status feedback](/patterns/status-feedback), beside validation's correction-demanding one, and it takes over the place the [waiting](/patterns/waiting) sign held, so no spinner outlives a dead request. Its first duty is to the actor's work: what they entered stays where they can reach it, which is the case [saving](/patterns/saving) makes for keeping a local copy and for interrupting when an automatic save fails. Where the request half took, the loose end is a committed change the actor did not want, and [undo](/patterns/undo) is the way back. When the actor was told they could leave and did, the failure has to travel after them as a [notification](/patterns/notification). A report that cannot be acted on from where it sits opens the recover purpose of [help](/patterns/help): the message is the first line of that help, and troubleshooting and a person stand behind it. The move is not [unavailable actions](/patterns/unavailable-actions), which withholds a request that cannot succeed before it is made; this pattern is for the failures that could not be foreseen, or were not. Nor is it [agent repair](/patterns/agent-repair), where the trouble is in the agent's understanding of the request rather than in carrying out one it understood…"
+        "initiating": "… the actor is working in an artifact that keeps [sessions](/patterns/session), history, recent items, and personal context by default. For a specific task—a sensitive question, a search on a shared device, a prompt that should not steer future answers, or a one-off job they will not return to—they need a working session that leaves no record behind when it closes.",
+        "resulting": "When the session ends, nothing from it is recorded in the [activity log](/patterns/activity-log), added to [recents](/patterns/recents), saved over [remembered state](/patterns/remembered-state), or kept in [memory](/patterns/memory). While it stays open, [status feedback](/patterns/status-feedback) marks the non-saving state on the surface, and an opening [explanation](/patterns/explanation) states what is withheld and what still leaves a trace outside the artifact. If the exchange produces a result worth keeping, [extraction](/patterns/extraction) lifts that output into an object of its own while the surrounding thread still disappears on close. When the actor runs a normal session and decides only at the end that the thread has no future value, lightweight [deletion](/patterns/deletion) discards the finished session after the fact. Unlike [immediate use](/patterns/immediate-use), which holds work in temporary state only because a newcomer has not signed in yet, an ephemeral session is a deliberate opt-out available to a signed-in actor…"
       },
-      "realisedBy": [
-        "components-callout--docs",
-        "components-dialog--docs"
-      ],
-      "seed": true,
       "evidence": [
         {
           "kind": "observed"
         },
         {
           "kind": "literature"
-        },
-        {
-          "kind": "built"
         }
       ]
     },
@@ -1485,7 +1496,7 @@
             ]
           },
           {
-            "clause": "a good default is a guess made without the actor's stored data; where the system already holds the actual value, pre-filling from the record takes over from guessing",
+            "clause": "a good default is a guess at the value; where the system already holds the actual value in the actor's record, pre-filling from the record takes over from guessing",
             "setsUp": [
               "autofill"
             ]
@@ -1501,6 +1512,9 @@
       "evidence": [
         {
           "kind": "literature"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -1676,6 +1690,26 @@
       ]
     },
     {
+      "id": "import-and-export",
+      "title": "Import and export",
+      "category": "Actions",
+      "path": "/patterns/import-and-export",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… work moves between the artifact and the other [tools its actors use](/patterns/tool-ecology), and a [reference](/patterns/reference-material) will not do: the other tool cannot follow a link, the work has to arrive in a form the other tool can change, or the actor is gathering in what they made elsewhere. The copy that results is separate from its source from the moment it is made.",
+        "resulting": "The copy and its source now change independently, so the copy carries [provenance marking](/patterns/provenance-marking) of where and when it was made, which lets a later reader tell which of two diverging versions is the source. Export in a format another program can read is also how [local-first ownership](/patterns/local-first-ownership) lets the actor take their work elsewhere, and the two are designed together. Where the other tool can follow a link, [deep linking](/patterns/deep-linking) moves the work by reference and leaves a single copy, which avoids the divergence altogether…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
+        }
+      ]
+    },
+    {
       "id": "incremental-formalisation",
       "title": "Incremental formalisation",
       "category": "Actions",
@@ -1718,7 +1752,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… an actor or a group works with information across many surfaces, channels, and moments, and needs to understand where things are, how they relate, and what can be done with them.",
-        "resulting": "The artifact's interior is the counterpart of its place among other tools, which is [tool ecology](/patterns/tool-ecology). The patterns between this one and the smaller ones it leads to are not yet written…"
+        "resulting": "The artifact's interior is the counterpart of its place among other tools, which is [tool ecology](/patterns/tool-ecology). Every channel the actor reaches the environment through, whether the web, a phone, an email, a notification or an agent's reply, opens onto the same items under the same names through [cross-channel continuity](/patterns/cross-channel-continuity). [Searching](/patterns/searching) indexes the structure and vocabulary the environment keeps, so a search finds things under the names the actor meets everywhere else. [Dynamic hyperlinks](/patterns/dynamic-hyperlinks) connect related items across the boundaries between sections and surfaces by finding the links in the content itself. Who can reach what is decided through [sharing](/patterns/sharing), whose grants follow the environment's containers, so the structure the actor learns is also the structure of access. The patterns that keep the vocabulary consistent and give the actor a sense of place are not yet written…"
       },
       "seed": true
     },
@@ -1978,7 +2012,7 @@
       "path": "/patterns/local-first-ownership",
       "role": "pattern",
       "situation": {
-        "initiating": "… the artifact is placed among the tools the actor already uses, and the work they make in it may need to outlast the artifact, the provider or the actor's subscription. Where the work lives is decided before any feature is built on it.",
+        "initiating": "… the artifact is placed among the [tools the actor already uses](/patterns/tool-ecology), and the work they make in it may need to outlast the artifact, the provider or the actor's subscription. Where the work lives is decided before any feature is built on it.",
         "resulting": "The actor holds a complete copy of their work on their own device, can use it without a network or an account, and can take it to another program if they leave…"
       },
       "seed": true,
@@ -2029,6 +2063,25 @@
         ]
       },
       "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
+      "id": "memory",
+      "title": "Memory",
+      "category": "Actions",
+      "path": "/patterns/memory",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor works with an agent or assistant across multiple [sessions](/patterns/session), and background facts, stated preferences, and recurring context would otherwise have to be repeated every time. Where [remembered state](/patterns/remembered-state) restores how the actor arranged the interface, memory carries facts and preferences about the actor forward to shape what the system generates next. Where [standing instructions](/patterns/standing-instructions) hold rules the actor writes in their own words for every run, memory holds details the system extracts or records from ongoing conversations.",
+        "resulting": "Stored facts and preferences are carried into later runs to tailor [generated content](/patterns/generated-content) without the actor restating their context. When the system saves a new detail during an exchange, [transient feedback](/patterns/transient-feedback) marks the update in place and [provenance marking](/patterns/provenance-marking) ties the entry back to the conversation turn it came from. A reviewable list in [settings](/patterns/settings) lets the actor read, edit, or remove what is kept, while [rule composition](/patterns/rule-composition) lets them set standing exclusions over topics the system must never store. Scoping memory to a [workspace](/patterns/workspace) keeps context for one project or role from bleeding into another, and an [ephemeral session](/patterns/ephemeral-session) lets the actor step outside memory and history for a single exchange. [Deletion](/patterns/deletion) removes individual facts or clears the store so they no longer steer future responses, separately from the [activity log](/patterns/activity-log) that records past transcripts…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
         {
           "kind": "literature"
         }
@@ -2183,6 +2236,26 @@
         ]
       },
       "group": "conversation/conversational-activities"
+    },
+    {
+      "id": "outside-agent",
+      "title": "Outside agent",
+      "category": "Activities",
+      "path": "/patterns/outside-agent",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the artifact is one of the [tools the user already works with](/patterns/tool-ecology), and they bring an AI agent of their own, an assistant that works across several of those tools, to read and act on the work in it. The agent answers to the user, not to the artifact's maker, and it arrives whether or not the artifact was designed for it.",
+        "resulting": "The agent works under a grant, which the actor issues and revokes through [sharing](/patterns/sharing), where the agent is listed beside the people who have access. What it may do without asking is set through [bounded autonomy](/patterns/bounded-autonomy), and the acts the actor wants to confirm wait at an [approval gate](/patterns/approval-gate). Its contributions carry [provenance marking](/patterns/provenance-marking), and its acts land in the [activity log](/patterns/activity-log) under its own name rather than the actor's. The artifact's own [agent](/patterns/agent) looks similar but is designed and steered by the artifact's maker, whereas the outside agent answers to the actor and works across tools the maker does not see…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "used"
+        }
+      ]
     },
     {
       "id": "overreliance-checklist",
@@ -2573,13 +2646,12 @@
       "path": "/patterns/recents",
       "role": "pattern",
       "situation": {
-        "initiating": "… the actor is coming back to something they had open a moment, an hour or a day ago: the file from this morning, the conversation from yesterday, the search they ran before lunch. They did not mark it, because at the time it was simply what they were doing, and now the way back is whatever they remember of where it was. [Deep linking](/patterns/deep-linking) has given each state a name that restores it, so a trace of names is possible. [Bookmarking](/patterns/bookmarking) is the alternative for the places the actor chose to keep; this move covers the far larger number they did not.",
-        "resulting": "The actor now has a short list of where they were, kept by the system and ordered by time, that they reach without having done anything to earn it. The list is a projection of the [activity log](/patterns/activity-log): the same record, read for return rather than for account, and shortened to what the actor would still recognise. It is shaped by use, which is what it does for [adaptation](/patterns/adaptation), and it decays, which is its claim on [temporality](/patterns/temporality): yesterday's items leave as today's arrive, and the list is only useful while it stays short. It surfaces where the actor starts: the [command menu](/patterns/command-menu) before anything is typed, and the [empty state](/patterns/state-empty) of a workspace with nothing open. In the field that [autocomplete](/patterns/autocomplete) completes, the actor's own recent entries beat anything guessed. The trace is also a record of the actor, which makes it a [privacy](/patterns/privacy) matter wherever the screen or the account is shared: a recent list on a shared device says what the last person did. One long task taken back up with its state is [resuming](/patterns/resuming), which keeps the state of a single piece of work rather than the names of many…"
+        "initiating": "… the actor needs to return to something from earlier in the session or the day: a file from this morning, yesterday's conversation, or a search they ran before lunch. They did not save it at the time because they were simply working in it. [Deep linking](/patterns/deep-linking) gives each view or item a stable address that restores it, making a history list possible. [Bookmarking](/patterns/bookmarking) covers the items the actor explicitly chooses to keep; recents cover the much larger number they do not.",
+        "resulting": "The system maintains a short, time-ordered list of recent items that requires no setup from the actor. Recents project the [activity log](/patterns/activity-log) for quick navigation rather than auditing, deduplicating entries and trimming the list to what is still recognisable. Because the list updates from actual use and drops older items as new ones arrive, it enacts both [adaptation](/patterns/adaptation) and [temporality](/patterns/temporality). Recents usually appear at starting points such as a [command menu](/patterns/command-menu) before a query is typed or the [empty state](/patterns/state-empty) of a workspace. In [autocomplete](/patterns/autocomplete), the actor's own recent entries rank above guessed suggestions. Because a recent list reveals what the actor was working on, it raises [privacy](/patterns/privacy) concerns on shared screens or accounts. Returning to a single unfinished workflow with its in-progress inputs intact is covered by [resuming](/patterns/resuming) rather than recents…"
       },
-      "seed": true,
       "evidence": [
         {
-          "kind": "observed"
+          "kind": "used"
         },
         {
           "kind": "literature"
@@ -2664,6 +2736,28 @@
       "evidence": [
         {
           "kind": "observed"
+        }
+      ]
+    },
+    {
+      "id": "remembered-state",
+      "title": "Remembered state",
+      "category": "Operations",
+      "path": "/patterns/remembered-state",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor returns to an artifact they have already adjusted during normal use: they configured a [data view](/patterns/data-view), selected a tab, resized a panel, scrolled partway through a document, or picked an export format. They did not save these adjustments in [settings](/patterns/settings) because they were simply working in the interface. Where [deep linking](/patterns/deep-linking) encodes state in the URL so a specific view can be shared or bookmarked, remembered state persists it in storage for this actor's return.",
+        "resulting": "The interface reopens as the actor left it without requiring manual setup, enacting [adaptation](/patterns/adaptation) through deterministic state persistence rather than inference. Restored filters stay legible only when [filtering](/patterns/filtering) keeps active criteria visible on the surface. A value chosen last time gives [good defaults](/patterns/good-defaults) a personal starting value for the next session. While remembered state reopens the active view in place, [recents](/patterns/recents) list the other items and views the actor opened lately. [Bookmarking](/patterns/bookmarking) holds the ones they explicitly saved for long-term return. Returning to an unfinished multi-step workflow with in-progress inputs intact is covered by [resuming](/patterns/resuming). Carrying stated facts or standing preferences forward to shape model generation is covered by [memory](/patterns/memory). Because persisted views, scroll positions, and filters reveal what the last person was doing, remembered state raises [privacy](/patterns/privacy) concerns on shared devices…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -2839,33 +2933,6 @@
       "group": "coordination"
     },
     {
-      "id": "selective-memory",
-      "title": "Selective memory",
-      "category": "Actions",
-      "path": "/patterns/selective-memory",
-      "role": "pattern",
-      "situation": {
-        "initiating": "the system carries things forward from one encounter to the next, and the actor cannot see what — so continuity reads as either magic or surveillance, and a wrong remembered fact keeps resurfacing with no handle to correct it",
-        "resulting": [
-          {
-            "clause": "what the system holds about the actor is inspectable and editable: continuity becomes a visible, revocable grant rather than an ambient accumulation"
-          },
-          {
-            "clause": "forgetting is now a feature — per item, per session, or per mode — and it has an interface cost the invisible version never paid"
-          },
-          {
-            "clause": "curating memory is work most actors will not do until something goes wrong, so the defaults of what gets kept do most of the governing"
-          }
-        ]
-      },
-      "seed": true,
-      "evidence": [
-        {
-          "kind": "observed"
-        }
-      ]
-    },
-    {
       "id": "semantic-zoom",
       "title": "Semantic zoom",
       "category": "Actions",
@@ -2933,7 +3000,7 @@
             "clause": "earlier turns, rejected attempts, and stale assumptions stay in scope as the session grows and continue to steer later outputs, so starting a fresh session becomes a deliberate reset when the task changes"
           },
           {
-            "clause": "because the session has a title and a place in a history list, the actor can leave the exchange and return to it later, while anything that needs to outlive the thread has to be lifted out through [extraction](/patterns/extraction) or promoted to [selective memory](/patterns/selective-memory) or [standing instructions](/patterns/standing-instructions)"
+            "clause": "because the session has a title and a place in a history list, the actor can leave the exchange and return to it later, while anything that needs to outlive the thread has to be lifted out through [extraction](/patterns/extraction) or promoted to [memory](/patterns/memory) or [standing instructions](/patterns/standing-instructions)"
           }
         ]
       },
@@ -3043,7 +3110,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… the actor works with an agent or assistant across many sessions. Its default behaviour is close but not right, and the same correction comes back each time: the spelling, the length, the tool it should reach for, the thing it must never do. Saying it in the [prompt](/patterns/prompt) fixes one run; saying it as an [instructed revision](/patterns/instructed-revision) fixes one output. By the third time the actor wants to say it once and have it hold.",
-        "resulting": "What should hold is written down in the actor's words and read at the start of every run, so a correction made once stops recurring, and every piece of [generated content](/patterns/generated-content) from then on carries its mark. [Rule composition](/patterns/rule-composition) is the other form a standing correction takes: a condition built from parts the system offers, exact enough to run on its own, where an instruction is prose the system interprets. [Selective memory](/patterns/selective-memory) is the neighbouring channel, written by the system rather than the actor; the two need separate controls, or a fact the actor erased survives as behaviour they once asked for. [Settings](/patterns/settings) hold the preferences that fit an enumerated axis, and an instruction holds what no axis anticipated. A [workflow](/patterns/workflow) or a skill is a procedure the actor invokes; an instruction is read whether or not anything invokes it. The instruction accumulates and goes quiet: behaviour set months ago reads later as how the system is, and a file that grew by one line per correction starts to contradict itself with nothing to say which line wins. Reading it does not say what it will do, which is the gap a [dry run](/patterns/dry-run) fills where the effect can be rehearsed. How far the system may act on its own is not an instruction but a grant, and recurring renewals of the grant become standing bounds the way recurring corrections become standing instructions; that is [bounded autonomy](/patterns/bounded-autonomy)'s side of the same escalation…"
+        "resulting": "What should hold is written down in the actor's words and read at the start of every run, so a correction made once stops recurring, and every piece of [generated content](/patterns/generated-content) from then on carries its mark. [Rule composition](/patterns/rule-composition) is the other form a standing correction takes: a condition built from parts the system offers, exact enough to run on its own, where an instruction is prose the system interprets. [Memory](/patterns/memory) is the neighbouring channel, written by the system rather than the actor; the two need separate controls, or a fact the actor erased survives as behaviour they once asked for. [Settings](/patterns/settings) hold the preferences that fit an enumerated axis, and an instruction holds what no axis anticipated. A [workflow](/patterns/workflow) or a skill is a procedure the actor invokes; an instruction is read whether or not anything invokes it. The instruction accumulates and goes quiet: behaviour set months ago reads later as how the system is, and a file that grew by one line per correction starts to contradict itself with nothing to say which line wins. Reading it does not say what it will do, which is the gap a [dry run](/patterns/dry-run) fills where the effect can be rehearsed. How far the system may act on its own is not an instruction but a grant, and recurring renewals of the grant become standing bounds the way recurring corrections become standing instructions; that is [bounded autonomy](/patterns/bounded-autonomy)'s side of the same escalation…"
       },
       "evidence": [
         {
@@ -3301,7 +3368,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… an actor, or a group of actors, already works with many tools, accounts and agents, and the artifact being made will join that set rather than replace it.",
-        "resulting": "The artifact's place among other tools is the counterpart of its interior, which is [information environment](/patterns/information-environment). The patterns between this one and the smaller ones it leads to are not yet written…"
+        "resulting": "The artifact's place among other tools is the counterpart of its interior, which is [information environment](/patterns/information-environment). Work moves out by reference through [deep linking](/patterns/deep-linking), which gives each state an address another tool can hold; where a reference will not do, [import and export](/patterns/import-and-export) makes a copy and says what the copy leaves behind. Work that leaves the surface that made it keeps a sign of its origin through [provenance marking](/patterns/provenance-marking), and material brought in from other tools to ground a request arrives as [reference material](/patterns/reference-material). An agent the actor brings works with the artifact as an [outside agent](/patterns/outside-agent), under a grant the actor issues. The artifact can rely on what the actor already holds: [federated identity](/patterns/federated-identity) signs them in with an account they have elsewhere, [autofill](/patterns/autofill) takes values the browser or a password manager keeps, and [sync through own storage](/patterns/sync-through-own-storage) carries the work across devices on storage they already pay for. Where the work lives, on the provider's server or on the actor's device, is decided under [local-first ownership](/patterns/local-first-ownership) before features are built on it. How a group acts as a group, through accounts that belong to the group rather than to one person, has no pattern yet…"
       },
       "seed": true
     },
@@ -3494,16 +3561,15 @@
       "path": "/patterns/waiting",
       "role": "pattern",
       "situation": {
-        "initiating": "… the actor has asked for something and the result is not immediate: a file is uploading, a report is being built, a search is running against a slow source, a model is generating an answer. The gap is long enough to notice, and nothing in it tells the actor whether the system is working, has stalled, or has failed. When the work was handed to an agent, the gap is the liveness part of [delegation](/patterns/delegation)'s monitoring. And it is the case [live presentation](/patterns/live-presentation) does not cover: the result cannot be shown as it forms, or there is nothing of it to show yet.",
-        "resulting": "The gap now has a shape the actor can read: that the system is working, roughly how long remains, and whether they may go, so the system's [time](/patterns/temporality) is legible and the decision to stay or leave is the [actor's own](/patterns/agency). Which sign is shown is a [status feedback](/patterns/status-feedback) question, since the wait is one more state change to deliver, and this pattern is its duration-reporting shape. A wait the actor can see is a wait they can end, so [abort](/patterns/abort) belongs beside the sign for anything longer than a few seconds. Where the sign has said they may leave, the result arrives somewhere they are no longer looking, and [transient feedback](/patterns/transient-feedback) or a notification has to carry it back. A wait that fails becomes the report of [error recovery](/patterns/error-recovery), in the place the sign held. The sign is only as honest as the estimate behind it, and a bar that sits at ninety percent for most of the wait teaches the actor to distrust every bar after it. It is not the deliberate delay that [cognitive forcing functions](/patterns/cognitive-forcing-functions) insert before a recommendation, which is friction the design chose rather than time the system needs…"
+        "initiating": "… the actor has started an operation that takes noticeable time to complete: uploading a file, building a report, querying a slow source, or waiting on an agent in [delegation](/patterns/delegation). Unlike [live presentation](/patterns/live-presentation), there is no partial result to stream as it forms.",
+        "resulting": "Waiting is the duration-reporting form of [status feedback](/patterns/status-feedback) for an operation still in progress. Pair any wait longer than a few seconds with [abort](/patterns/abort) so the actor can cancel the request. When a backgrounded wait finishes after the actor has left the view, use [transient feedback](/patterns/transient-feedback) or a [notification](/patterns/notification) to bring the result back to their attention. Waiting reports time the system genuinely needs, unlike the deliberate delays that [cognitive forcing functions](/patterns/cognitive-forcing-functions) introduce to slow down premature acceptance…"
       },
       "realisedBy": [
         "components-progress-indicator--docs"
       ],
-      "seed": true,
       "evidence": [
         {
-          "kind": "observed"
+          "kind": "used"
         },
         {
           "kind": "literature"
@@ -4392,82 +4458,82 @@
       "source": "deep-linking",
       "target": "bookmarking",
       "type": "precedes",
-      "incomingNote": "a bookmark keeps a name for a state; deep linking is what gives the state a name to keep",
+      "incomingNote": "each bookmark stores a restorable address; deep linking makes states addressable",
       "extractedFrom": "frontmatter:follows",
-      "situation": "[Deep linking](/patterns/deep-linking) has given the state a name that restores it; what is missing is a place of the actor's own to keep that name.",
+      "situation": "[Deep linking](/patterns/deep-linking) gives each state a stable address that restores it; bookmarking gives the actor a personal place to keep those addresses.",
       "glossFrom": "target:initiating"
     },
     {
       "source": "bookmarking",
       "target": "recents",
       "type": "alternative",
-      "label": "two ways back to a place: a bookmark the actor made on purpose, or a trace the system kept of where they were",
+      "label": "bookmarks keep items the actor explicitly saves; recents track items the system saw them open lately",
       "extractedFrom": "frontmatter:alternative",
-      "situation": "Where the actor has marked nothing and the way back is simply what they touched lately, [recents](/patterns/recents) is the alternative, made by the system rather than by them.",
+      "situation": "Where the actor has saved nothing explicitly, [recents](/patterns/recents) provide an automatic alternative for returning to recently opened items.",
       "glossFrom": "source:initiating",
-      "farSituation": "[Bookmarking](/patterns/bookmarking) is the alternative for the places the actor chose to keep; this move covers the far larger number they did not."
+      "farSituation": "[Bookmarking](/patterns/bookmarking) covers the items the actor explicitly chooses to keep; recents cover the much larger number they do not."
     },
     {
       "source": "bookmarking",
       "target": "tag",
       "type": "complements",
-      "label": "tags give a grown set of bookmarks structure without a plan",
+      "label": "tags let the actor organise a growing set of bookmarks without a predefined folder hierarchy",
       "extractedFrom": "frontmatter:complements",
-      "situation": "A set past a dozen wants organising, and [tags](/patterns/tag) give it structure the actor did not have to plan.",
+      "situation": "Once a collection grows past a short scannable list, [tags](/patterns/tag) or folders let the actor organise it without planning a structure upfront.",
       "glossFrom": "source:resulting"
     },
     {
       "source": "bookmarking",
       "target": "sharing",
       "type": "complements",
-      "label": "a shared bookmark is a recommendation as well as a way back",
+      "label": "sharing turns a personal bookmark or collection into a recommendation for others",
       "extractedFrom": "frontmatter:complements",
-      "situation": "A mark can be handed to someone else, and then it is a recommendation as well as a way back, which [sharing](/patterns/sharing) governs.",
+      "situation": "A bookmark or collection can also be passed to others as a recommendation or curated list through [sharing](/patterns/sharing).",
       "glossFrom": "source:resulting"
     },
     {
       "source": "bookmarking",
       "target": "data-view",
       "type": "related",
-      "label": "a saved view is bookmarking applied to a framing rather than to an item",
+      "label": "a saved view bookmarks a query and display configuration rather than a single item",
       "extractedFrom": "frontmatter:related",
-      "situation": "The same move over a framing rather than an item is [data view](/patterns/data-view)'s saved view.",
+      "situation": "Saving a filtered and sorted collection query rather than a single item is a [saved view](/patterns/data-view#saved-views).",
       "glossFrom": "source:resulting"
     },
     {
       "source": "bookmarking",
       "target": "reference-material",
       "type": "tangential",
-      "label": "pinned material in a prompt is a bookmark's cousin: kept by the actor for return, but into the exchange rather than to a place",
+      "label": "pinned reference material keeps sources in scope for a prompt or agent rather than saving a place to navigate back to",
       "extractedFrom": "frontmatter:tangential",
-      "situation": "Pointed into an exchange rather than at a place, the same move is close to [reference material](/patterns/reference-material).",
+      "situation": "Pinning files or sources into a prompt or workspace context is [reference material](/patterns/reference-material), which keeps items in scope for generation rather than for navigation.",
       "glossFrom": "source:resulting"
     },
     {
       "source": "command-menu",
       "target": "bookmarking",
       "type": "hosts",
-      "incomingNote": "the command menu is where bookmarks surface from wherever the actor starts",
+      "incomingNote": "the command menu surfaces saved bookmarks from anywhere in the interface",
       "extractedFrom": "frontmatter:hosted-by",
-      "situation": "Marks are reached from wherever the actor happens to start, so the [command menu](/patterns/command-menu) is where they most often surface",
+      "situation": "Bookmarks surface at navigation starting points such as a sidebar, start page, or [command menu](/patterns/command-menu)",
       "glossFrom": "target:resulting"
     },
     {
       "source": "bookmarking",
       "target": "agency",
       "type": "enacts",
-      "label": "the mark is the actor saying this one matters, and only they can say it",
+      "label": "lets the actor explicitly decide which items and states are worth keeping",
       "extractedFrom": "frontmatter:enacts",
-      "situation": "The actor now holds a set of places they chose, and the choosing is what makes it theirs: the mark says this one matters, which is the small act of [agency](/patterns/agency) at the centre of the move, and the set is a layer of the actor's own laid over the system's structure, which is where it touches [malleability](/patterns/malleability).",
+      "situation": "Because the actor explicitly decides what matters and builds a personal navigation layer over the system's hierarchy, bookmarking enacts both [agency](/patterns/agency) and [malleability](/patterns/malleability).",
       "glossFrom": "source:resulting"
     },
     {
       "source": "bookmarking",
       "target": "malleability",
       "type": "enacts",
-      "label": "a set of bookmarks is the actor's own layer over the system's structure",
+      "label": "lets the actor build a personal navigation layer over the shared structure",
       "extractedFrom": "frontmatter:enacts",
-      "situation": "The actor now holds a set of places they chose, and the choosing is what makes it theirs: the mark says this one matters, which is the small act of [agency](/patterns/agency) at the centre of the move, and the set is a layer of the actor's own laid over the system's structure, which is where it touches [malleability](/patterns/malleability).",
+      "situation": "Because the actor explicitly decides what matters and builds a personal navigation layer over the system's hierarchy, bookmarking enacts both [agency](/patterns/agency) and [malleability](/patterns/malleability).",
       "glossFrom": "source:resulting"
     },
     {
@@ -5093,6 +5159,46 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
+      "source": "deep-linking",
+      "target": "cross-channel-continuity",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "An address that resolves in every channel comes from [deep linking](/patterns/deep-linking).",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "remembered-state",
+      "target": "cross-channel-continuity",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "View arrangements travel with [remembered state](/patterns/remembered-state) when it is kept with the actor rather than with one device.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "cross-channel-continuity",
+      "target": "notification",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A [notification](/patterns/notification) that carries such an address opens the item it is about rather than the start of the artifact.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "cross-channel-continuity",
+      "target": "sync-through-own-storage",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the work lives on the actor's own device, [sync through own storage](/patterns/sync-through-own-storage) brings it to the other devices the actor uses.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "cross-channel-continuity",
+      "target": "resuming",
+      "type": "tangential",
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "Returning to the same channel after time away is [resuming](/patterns/resuming), which shares the concern with picking work back up but does not involve a change of channel",
+      "glossFrom": "source:resulting"
+    },
+    {
       "source": "ai-completion",
       "target": "data-entry",
       "type": "enables",
@@ -5550,99 +5656,98 @@
       "extractedFrom": "frontmatter:precedes"
     },
     {
-      "source": "error-recovery",
-      "target": "status-feedback",
+      "source": "ephemeral-session",
+      "target": "session",
       "type": "instantiates",
-      "label": "the failure-reporting delivery shape of status feedback: a request that did not take, with its scope and a way on",
       "extractedFrom": "frontmatter:instantiates",
-      "situation": "It is the failure-reporting shape of [status feedback](/patterns/status-feedback), beside validation's correction-demanding one, and it takes over the place the [waiting](/patterns/waiting) sign held, so no spinner outlives a dead request.",
-      "glossFrom": "source:resulting"
-    },
-    {
-      "source": "waiting",
-      "target": "error-recovery",
-      "type": "precedes",
-      "incomingNote": "error recovery's report takes over the place the waiting sign held, and lands where the sign told the actor they could go",
-      "extractedFrom": "frontmatter:follows",
-      "situation": "A wait that fails becomes the report of [error recovery](/patterns/error-recovery), in the place the sign held.",
-      "glossFrom": "source:resulting",
-      "farSituation": "It is the failure-reporting shape of [status feedback](/patterns/status-feedback), beside validation's correction-demanding one, and it takes over the place the [waiting](/patterns/waiting) sign held, so no spinner outlives a dead request."
-    },
-    {
-      "source": "error-recovery",
-      "target": "validation",
-      "type": "alternative",
-      "label": "validation reports a fault in what the actor entered; error recovery reports a fault in what the system did with a request it had accepted",
-      "extractedFrom": "frontmatter:alternative",
-      "situation": "The fault is the system's, not a slip in what the actor entered, which is the case [validation](/patterns/validation) answers at the field.",
+      "situation": "the actor is working in an artifact that keeps [sessions](/patterns/session), history, recent items, and personal context by default.",
       "glossFrom": "source:initiating"
     },
     {
-      "source": "error-recovery",
-      "target": "help",
-      "type": "precedes",
-      "label": "the report is the first line of help's recover purpose; troubleshooting and a person stand behind it",
-      "extractedFrom": "frontmatter:precedes",
-      "situation": "A report that cannot be acted on from where it sits opens the recover purpose of [help](/patterns/help): the message is the first line of that help, and troubleshooting and a person stand behind it.",
-      "glossFrom": "source:resulting"
-    },
-    {
-      "source": "error-recovery",
-      "target": "saving",
+      "source": "ephemeral-session",
+      "target": "activity-log",
       "type": "complements",
-      "label": "a failed save is the case saving makes for a kept local copy and an interrupting report",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Its first duty is to the actor's work: what they entered stays where they can reach it, which is the case [saving](/patterns/saving) makes for keeping a local copy and for interrupting when an automatic save fails.",
+      "situation": "When the session ends, nothing from it is recorded in the [activity log](/patterns/activity-log), added to [recents](/patterns/recents), saved over [remembered state](/patterns/remembered-state), or kept in [memory](/patterns/memory).",
       "glossFrom": "source:resulting"
     },
     {
-      "source": "error-recovery",
-      "target": "undo",
+      "source": "ephemeral-session",
+      "target": "recents",
       "type": "complements",
-      "label": "where a request half took, undo is the way back from the part that did",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Where the request half took, the loose end is a committed change the actor did not want, and [undo](/patterns/undo) is the way back.",
+      "situation": "When the session ends, nothing from it is recorded in the [activity log](/patterns/activity-log), added to [recents](/patterns/recents), saved over [remembered state](/patterns/remembered-state), or kept in [memory](/patterns/memory).",
       "glossFrom": "source:resulting"
     },
     {
-      "source": "error-recovery",
-      "target": "notification",
+      "source": "ephemeral-session",
+      "target": "remembered-state",
       "type": "complements",
-      "label": "when the actor left on the wait sign's word, the failure follows them as a notification",
       "extractedFrom": "frontmatter:complements",
-      "situation": "When the actor was told they could leave and did, the failure has to travel after them as a [notification](/patterns/notification).",
+      "situation": "When the session ends, nothing from it is recorded in the [activity log](/patterns/activity-log), added to [recents](/patterns/recents), saved over [remembered state](/patterns/remembered-state), or kept in [memory](/patterns/memory).",
       "glossFrom": "source:resulting"
     },
     {
-      "source": "error-recovery",
-      "target": "unavailable-actions",
+      "source": "ephemeral-session",
+      "target": "memory",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "When the session ends, nothing from it is recorded in the [activity log](/patterns/activity-log), added to [recents](/patterns/recents), saved over [remembered state](/patterns/remembered-state), or kept in [memory](/patterns/memory).",
+      "glossFrom": "source:resulting",
+      "farSituation": "Scoping memory to a [workspace](/patterns/workspace) keeps context for one project or role from bleeding into another, and an [ephemeral session](/patterns/ephemeral-session) lets the actor step outside memory and history for a single exchange."
+    },
+    {
+      "source": "ephemeral-session",
+      "target": "status-feedback",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "While it stays open, [status feedback](/patterns/status-feedback) marks the non-saving state on the surface, and an opening [explanation](/patterns/explanation) states what is withheld and what still leaves a trace outside the artifact.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "ephemeral-session",
+      "target": "explanation",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "While it stays open, [status feedback](/patterns/status-feedback) marks the non-saving state on the surface, and an opening [explanation](/patterns/explanation) states what is withheld and what still leaves a trace outside the artifact.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "ephemeral-session",
+      "target": "extraction",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "If the exchange produces a result worth keeping, [extraction](/patterns/extraction) lifts that output into an object of its own while the surrounding thread still disappears on close.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "ephemeral-session",
+      "target": "deletion",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "When the actor runs a normal session and decides only at the end that the thread has no future value, lightweight [deletion](/patterns/deletion) discards the finished session after the fact.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "ephemeral-session",
+      "target": "immediate-use",
       "type": "tangential",
-      "label": "unavailable actions withholds a request that cannot succeed before it is made; error recovery reports one that failed after",
       "extractedFrom": "frontmatter:tangential",
-      "situation": "The move is not [unavailable actions](/patterns/unavailable-actions), which withholds a request that cannot succeed before it is made; this pattern is for the failures that could not be foreseen, or were not.",
+      "situation": "Unlike [immediate use](/patterns/immediate-use), which holds work in temporary state only because a newcomer has not signed in yet, an ephemeral session is a deliberate opt-out available to a signed-in actor",
       "glossFrom": "source:resulting"
     },
     {
-      "source": "error-recovery",
-      "target": "agent-repair",
-      "type": "tangential",
-      "label": "agent repair mends the agent's understanding of a request; error recovery reports the failure of one it understood",
-      "extractedFrom": "frontmatter:tangential",
-      "situation": "Nor is it [agent repair](/patterns/agent-repair), where the trouble is in the agent's understanding of the request rather than in carrying out one it understood",
-      "glossFrom": "source:resulting"
-    },
-    {
-      "source": "error-recovery",
-      "target": "agency",
+      "source": "ephemeral-session",
+      "target": "privacy",
       "type": "enacts",
-      "label": "tells the actor what happened to their work and leaves the next move theirs",
+      "label": "withholds sensitive or one-off activity from history, recent lists, remembered state, and memory",
       "extractedFrom": "frontmatter:enacts"
     },
     {
-      "source": "error-recovery",
-      "target": "learnability",
+      "source": "ephemeral-session",
+      "target": "temporality",
       "type": "enacts",
-      "label": "a report that names the cause in the actor's terms teaches them where the system's limits are",
+      "label": "bounds the life of session state to the open window or a set expiry timer",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -6419,6 +6524,37 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
+      "source": "import-and-export",
+      "target": "provenance-marking",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "The copy and its source now change independently, so the copy carries [provenance marking](/patterns/provenance-marking) of where and when it was made, which lets a later reader tell which of two diverging versions is the source.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "import-and-export",
+      "target": "local-first-ownership",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Export in a format another program can read is also how [local-first ownership](/patterns/local-first-ownership) lets the actor take their work elsewhere, and the two are designed together.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "import-and-export",
+      "target": "deep-linking",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where the other tool can follow a link, [deep linking](/patterns/deep-linking) moves the work by reference and leaves a single copy, which avoids the divergence altogether",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "import-and-export",
+      "target": "shareability",
+      "type": "enacts",
+      "label": "export decides what of the work travels to other tools, and in what form",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "incremental-formalisation",
       "target": "formality",
       "type": "enacts",
@@ -6521,6 +6657,39 @@
       "situation": "The artifact's interior is the counterpart of its place among other tools, which is [tool ecology](/patterns/tool-ecology).",
       "glossFrom": "source:resulting",
       "farSituation": "The artifact's place among other tools is the counterpart of its interior, which is [information environment](/patterns/information-environment)."
+    },
+    {
+      "source": "cross-channel-continuity",
+      "target": "information-environment",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the artifact is an [information environment](/patterns/information-environment) that the actor reaches through more than one channel: a website and a phone app, an email or a notification that points into it, an agent that answers questions about it.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Every channel the actor reaches the environment through, whether the web, a phone, an email, a notification or an agent's reply, opens onto the same items under the same names through [cross-channel continuity](/patterns/cross-channel-continuity)."
+    },
+    {
+      "source": "information-environment",
+      "target": "searching",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "[Searching](/patterns/searching) indexes the structure and vocabulary the environment keeps, so a search finds things under the names the actor meets everywhere else.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "information-environment",
+      "target": "dynamic-hyperlinks",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "[Dynamic hyperlinks](/patterns/dynamic-hyperlinks) connect related items across the boundaries between sections and surfaces by finding the links in the content itself.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "information-environment",
+      "target": "sharing",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Who can reach what is decided through [sharing](/patterns/sharing), whose grants follow the environment's containers, so the structure the actor learns is also the structure of access.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "inline-confirmation",
@@ -7062,6 +7231,101 @@
       "extractedFrom": "frontmatter:complements"
     },
     {
+      "source": "session",
+      "target": "memory",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "the actor works with an agent or assistant across multiple [sessions](/patterns/session), and background facts, stated preferences, and recurring context would otherwise have to be repeated every time.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "memory",
+      "target": "generated-content",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Stored facts and preferences are carried into later runs to tailor [generated content](/patterns/generated-content) without the actor restating their context.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "memory",
+      "target": "standing-instructions",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where [standing instructions](/patterns/standing-instructions) hold rules the actor writes in their own words for every run, memory holds details the system extracts or records from ongoing conversations.",
+      "glossFrom": "source:initiating",
+      "farSituation": "[Memory](/patterns/memory) is the neighbouring channel, written by the system rather than the actor; the two need separate controls, or a fact the actor erased survives as behaviour they once asked for."
+    },
+    {
+      "source": "memory",
+      "target": "transient-feedback",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "When the system saves a new detail during an exchange, [transient feedback](/patterns/transient-feedback) marks the update in place and [provenance marking](/patterns/provenance-marking) ties the entry back to the conversation turn it came from.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "memory",
+      "target": "provenance-marking",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "When the system saves a new detail during an exchange, [transient feedback](/patterns/transient-feedback) marks the update in place and [provenance marking](/patterns/provenance-marking) ties the entry back to the conversation turn it came from.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "memory",
+      "target": "settings",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A reviewable list in [settings](/patterns/settings) lets the actor read, edit, or remove what is kept, while [rule composition](/patterns/rule-composition) lets them set standing exclusions over topics the system must never store.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "memory",
+      "target": "rule-composition",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A reviewable list in [settings](/patterns/settings) lets the actor read, edit, or remove what is kept, while [rule composition](/patterns/rule-composition) lets them set standing exclusions over topics the system must never store.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "memory",
+      "target": "workspace",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Scoping memory to a [workspace](/patterns/workspace) keeps context for one project or role from bleeding into another, and an [ephemeral session](/patterns/ephemeral-session) lets the actor step outside memory and history for a single exchange.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "memory",
+      "target": "deletion",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Deletion](/patterns/deletion) removes individual facts or clears the store so they no longer steer future responses, separately from the [activity log](/patterns/activity-log) that records past transcripts",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "memory",
+      "target": "activity-log",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Deletion](/patterns/deletion) removes individual facts or clears the store so they no longer steer future responses, separately from the [activity log](/patterns/activity-log) that records past transcripts",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "memory",
+      "target": "privacy",
+      "type": "enacts",
+      "label": "turns held-forward personal context into statements the actor can inspect, scope, and revoke",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "memory",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "tailors subsequent responses using an editable record of facts and preferences",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "modality",
       "target": "command-menu",
       "type": "tangential",
@@ -7362,6 +7626,61 @@
       "type": "complements",
       "label": "first-run locale detection and selection",
       "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "sharing",
+      "target": "outside-agent",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "The agent works under a grant, which the actor issues and revokes through [sharing](/patterns/sharing), where the agent is listed beside the people who have access.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "outside-agent",
+      "target": "bounded-autonomy",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "What it may do without asking is set through [bounded autonomy](/patterns/bounded-autonomy), and the acts the actor wants to confirm wait at an [approval gate](/patterns/approval-gate).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "outside-agent",
+      "target": "approval-gate",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "What it may do without asking is set through [bounded autonomy](/patterns/bounded-autonomy), and the acts the actor wants to confirm wait at an [approval gate](/patterns/approval-gate).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "outside-agent",
+      "target": "provenance-marking",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Its contributions carry [provenance marking](/patterns/provenance-marking), and its acts land in the [activity log](/patterns/activity-log) under its own name rather than the actor's.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "outside-agent",
+      "target": "activity-log",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Its contributions carry [provenance marking](/patterns/provenance-marking), and its acts land in the [activity log](/patterns/activity-log) under its own name rather than the actor's.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "outside-agent",
+      "target": "agent",
+      "type": "tangential",
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "The artifact's own [agent](/patterns/agent) looks similar but is designed and steered by the artifact's maker, whereas the outside agent answers to the actor and works across tools the maker does not see",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "outside-agent",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor chooses which agent works for them across their tools, rather than taking the agent each artifact supplies",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "overreliance-checklist",
@@ -8122,81 +8441,81 @@
       "source": "deep-linking",
       "target": "recents",
       "type": "precedes",
-      "incomingNote": "a recent item is a kept name for a state; deep linking is what makes the state nameable",
+      "incomingNote": "each recent entry points to a restorable state; deep linking makes those states addressable",
       "extractedFrom": "frontmatter:follows",
-      "situation": "[Deep linking](/patterns/deep-linking) has given each state a name that restores it, so a trace of names is possible.",
+      "situation": "[Deep linking](/patterns/deep-linking) gives each view or item a stable address that restores it, making a history list possible.",
       "glossFrom": "target:initiating"
     },
     {
       "source": "recents",
       "target": "activity-log",
       "type": "related",
-      "label": "recents are the activity log read for return rather than for account: the same record, shortened and ordered by time",
+      "label": "recents filter and deduplicate the activity log for quick return rather than auditing",
       "extractedFrom": "frontmatter:related",
-      "situation": "The list is a projection of the [activity log](/patterns/activity-log): the same record, read for return rather than for account, and shortened to what the actor would still recognise.",
+      "situation": "Recents project the [activity log](/patterns/activity-log) for quick navigation rather than auditing, deduplicating entries and trimming the list to what is still recognisable.",
       "glossFrom": "source:resulting"
     },
     {
       "source": "command-menu",
       "target": "recents",
       "type": "hosts",
-      "incomingNote": "recents are what the command menu offers before anything is typed",
+      "incomingNote": "the command menu shows recent items before the actor types a query",
       "extractedFrom": "frontmatter:hosted-by",
-      "situation": "It surfaces where the actor starts: the [command menu](/patterns/command-menu) before anything is typed, and the [empty state](/patterns/state-empty) of a workspace with nothing open.",
+      "situation": "Recents usually appear at starting points such as a [command menu](/patterns/command-menu) before a query is typed or the [empty state](/patterns/state-empty) of a workspace.",
       "glossFrom": "target:resulting"
     },
     {
       "source": "state-empty",
       "target": "recents",
       "type": "hosts",
-      "incomingNote": "an empty workspace offers recent items as the way back in",
+      "incomingNote": "an empty workspace can offer recent items as a starting point",
       "extractedFrom": "frontmatter:hosted-by",
-      "situation": "It surfaces where the actor starts: the [command menu](/patterns/command-menu) before anything is typed, and the [empty state](/patterns/state-empty) of a workspace with nothing open.",
+      "situation": "Recents usually appear at starting points such as a [command menu](/patterns/command-menu) before a query is typed or the [empty state](/patterns/state-empty) of a workspace.",
       "glossFrom": "target:resulting"
     },
     {
       "source": "recents",
       "target": "autocomplete",
       "type": "complements",
-      "label": "the actor's own recent entries are the completions that beat any guess",
+      "label": "the actor's own recent entries are usually stronger autocomplete candidates than system guesses",
       "extractedFrom": "frontmatter:complements",
-      "situation": "In the field that [autocomplete](/patterns/autocomplete) completes, the actor's own recent entries beat anything guessed.",
+      "situation": "In [autocomplete](/patterns/autocomplete), the actor's own recent entries rank above guessed suggestions.",
       "glossFrom": "source:resulting"
     },
     {
       "source": "recents",
       "target": "resuming",
       "type": "tangential",
-      "label": "resuming returns the actor to one unfinished task with its state; recents return them to any of many places by name",
+      "label": "resuming restores an in-progress workflow and its state; recents list previously visited items and views",
       "extractedFrom": "frontmatter:tangential",
-      "situation": "One long task taken back up with its state is [resuming](/patterns/resuming), which keeps the state of a single piece of work rather than the names of many",
+      "situation": "Returning to a single unfinished workflow with its in-progress inputs intact is covered by [resuming](/patterns/resuming) rather than recents",
       "glossFrom": "source:resulting"
     },
     {
       "source": "recents",
       "target": "adaptation",
       "type": "enacts",
-      "label": "the list is shaped by what the actor did, with no setting for them to maintain",
+      "label": "recents adapt to what the actor opens without requiring manual configuration",
       "extractedFrom": "frontmatter:enacts",
-      "situation": "It is shaped by use, which is what it does for [adaptation](/patterns/adaptation), and it decays, which is its claim on [temporality](/patterns/temporality): yesterday's items leave as today's arrive, and the list is only useful while it stays short.",
+      "situation": "Because the list updates from actual use and drops older items as new ones arrive, it enacts both [adaptation](/patterns/adaptation) and [temporality](/patterns/temporality).",
       "glossFrom": "source:resulting"
     },
     {
       "source": "recents",
       "target": "temporality",
       "type": "enacts",
-      "label": "a trace that decays: items leave as newer ones arrive",
+      "label": "recent items age out as newer activity replaces them",
       "extractedFrom": "frontmatter:enacts",
-      "situation": "It is shaped by use, which is what it does for [adaptation](/patterns/adaptation), and it decays, which is its claim on [temporality](/patterns/temporality): yesterday's items leave as today's arrive, and the list is only useful while it stays short.",
+      "situation": "Because the list updates from actual use and drops older items as new ones arrive, it enacts both [adaptation](/patterns/adaptation) and [temporality](/patterns/temporality).",
       "glossFrom": "source:resulting"
     },
     {
       "source": "recents",
       "target": "privacy",
       "type": "enacts",
-      "label": "a recent list is a record of the actor that anyone at the same screen can read",
+      "label": "a recent list exposes the actor's activity to anyone sharing the screen or account",
       "extractedFrom": "frontmatter:enacts",
-      "situation": "The trace is also a record of the actor, which makes it a [privacy](/patterns/privacy) matter wherever the screen or the account is shared: a recent list on a shared device says what the last person did.",
+      "situation": "Because a recent list reveals what the actor was working on, it raises [privacy](/patterns/privacy) concerns on shared screens or accounts.",
       "glossFrom": "source:resulting"
     },
     {
@@ -8287,6 +8606,106 @@
       "type": "enacts",
       "label": "the actor disposes of output by re-asking rather than accepting what arrived",
       "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "data-view",
+      "target": "remembered-state",
+      "type": "precedes",
+      "incomingNote": "remembered state persists the sort, filters, grouping, and layout configured in a data view",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "the actor returns to an artifact they have already adjusted during normal use: they configured a [data view](/patterns/data-view), selected a tab, resized a panel, scrolled partway through a document, or picked an export format.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "remembered-state",
+      "target": "deep-linking",
+      "type": "alternative",
+      "label": "deep linking stores shareable state in the URL; remembered state stores personal state for the actor's return",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where [deep linking](/patterns/deep-linking) encodes state in the URL so a specific view can be shared or bookmarked, remembered state persists it in storage for this actor's return.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "remembered-state",
+      "target": "settings",
+      "type": "complements",
+      "label": "settings store explicit preferences configured in a dedicated surface; remembered state stores inline adjustments made during use",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "They did not save these adjustments in [settings](/patterns/settings) because they were simply working in the interface.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "remembered-state",
+      "target": "filtering",
+      "type": "complements",
+      "label": "filtering keeps active criteria visible on the surface so a restored filter does not look like missing data",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Restored filters stay legible only when [filtering](/patterns/filtering) keeps active criteria visible on the surface.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "remembered-state",
+      "target": "recents",
+      "type": "complements",
+      "label": "remembered state restores the last active view in place; recents list other recently visited items and views",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "While remembered state reopens the active view in place, [recents](/patterns/recents) list the other items and views the actor opened lately.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "remembered-state",
+      "target": "good-defaults",
+      "type": "precedes",
+      "label": "remembered state supplies the actor's last-chosen value as a persistent starting default",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "A value chosen last time gives [good defaults](/patterns/good-defaults) a personal starting value for the next session.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "remembered-state",
+      "target": "bookmarking",
+      "type": "tangential",
+      "label": "bookmarks keep items and views the actor explicitly saves; remembered state restores the last view configuration automatically",
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "[Bookmarking](/patterns/bookmarking) holds the ones they explicitly saved for long-term return.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "remembered-state",
+      "target": "resuming",
+      "type": "tangential",
+      "label": "resuming restores an in-progress task and its uncommitted inputs; remembered state restores interface configuration and position",
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "Returning to an unfinished multi-step workflow with in-progress inputs intact is covered by [resuming](/patterns/resuming).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "remembered-state",
+      "target": "memory",
+      "type": "tangential",
+      "label": "remembered state restores interface configuration and position; memory carries facts and preferences forward to shape model generation",
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "Carrying stated facts or standing preferences forward to shape model generation is covered by [memory](/patterns/memory).",
+      "glossFrom": "source:resulting",
+      "farSituation": "Where [remembered state](/patterns/remembered-state) restores how the actor arranged the interface, memory carries facts and preferences about the actor forward to shape what the system generates next."
+    },
+    {
+      "source": "remembered-state",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "adapts the interface to the actor by persisting their explicit adjustments without inference",
+      "extractedFrom": "frontmatter:enacts",
+      "situation": "The interface reopens as the actor left it without requiring manual setup, enacting [adaptation](/patterns/adaptation) through deterministic state persistence rather than inference.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "remembered-state",
+      "target": "privacy",
+      "type": "enacts",
+      "label": "persisted views, positions, and filters can expose an actor's activity on shared devices",
+      "extractedFrom": "frontmatter:enacts",
+      "situation": "Because persisted views, scroll positions, and filters reveal what the last person was doing, remembered state raises [privacy](/patterns/privacy) concerns on shared devices",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "resuming",
@@ -8546,43 +8965,6 @@
       "type": "tangential",
       "label": "distinct but adjacent — the gesture grammar usually has to coexist with focus",
       "extractedFrom": "frontmatter:tangential"
-    },
-    {
-      "source": "selective-memory",
-      "target": "standing-instructions",
-      "type": "complements",
-      "label": "what the system remembers and what the actor instructed are two channels of the same persistence, and need separate controls or an erased fact survives as instructed behaviour",
-      "extractedFrom": "frontmatter:complements",
-      "situation": "[Selective memory](/patterns/selective-memory) is the neighbouring channel, written by the system rather than the actor; the two need separate controls, or a fact the actor erased survives as behaviour they once asked for.",
-      "glossFrom": "target:resulting"
-    },
-    {
-      "source": "selective-memory",
-      "target": "settings",
-      "type": "related",
-      "label": "where memory controls conventionally live",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "selective-memory",
-      "target": "activity-log",
-      "type": "related",
-      "label": "what the system did versus what it keeps",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "selective-memory",
-      "target": "privacy",
-      "type": "enacts",
-      "label": "turns held-forward data into something the actor can see, scope, and revoke",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "selective-memory",
-      "target": "adaptation",
-      "type": "enacts",
-      "label": "memory is what the system adapts from",
-      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "semantic-zoom",
@@ -9134,6 +9516,82 @@
       "farSituation": "The artifact's interior is the counterpart of its place among other tools, which is [tool ecology](/patterns/tool-ecology)."
     },
     {
+      "source": "deep-linking",
+      "target": "tool-ecology",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Work moves out by reference through [deep linking](/patterns/deep-linking), which gives each state an address another tool can hold; where a reference will not do, [import and export](/patterns/import-and-export) makes a copy and says what the copy leaves behind.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "import-and-export",
+      "target": "tool-ecology",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "work moves between the artifact and the other [tools its actors use](/patterns/tool-ecology), and a [reference](/patterns/reference-material) will not do: the other tool cannot follow a link, the work has to arrive in a form the other tool can change, or the actor is gathering in what they made elsewhere.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Work moves out by reference through [deep linking](/patterns/deep-linking), which gives each state an address another tool can hold; where a reference will not do, [import and export](/patterns/import-and-export) makes a copy and says what the copy leaves behind."
+    },
+    {
+      "source": "outside-agent",
+      "target": "tool-ecology",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the artifact is one of the [tools the user already works with](/patterns/tool-ecology), and they bring an AI agent of their own, an assistant that works across several of those tools, to read and act on the work in it.",
+      "glossFrom": "source:initiating",
+      "farSituation": "An agent the actor brings works with the artifact as an [outside agent](/patterns/outside-agent), under a grant the actor issues."
+    },
+    {
+      "source": "tool-ecology",
+      "target": "local-first-ownership",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where the work lives, on the provider's server or on the actor's device, is decided under [local-first ownership](/patterns/local-first-ownership) before features are built on it.",
+      "glossFrom": "source:resulting",
+      "farSituation": "the artifact is placed among the [tools the actor already uses](/patterns/tool-ecology), and the work they make in it may need to outlast the artifact, the provider or the actor's subscription."
+    },
+    {
+      "source": "tool-ecology",
+      "target": "sync-through-own-storage",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "The artifact can rely on what the actor already holds: [federated identity](/patterns/federated-identity) signs them in with an account they have elsewhere, [autofill](/patterns/autofill) takes values the browser or a password manager keeps, and [sync through own storage](/patterns/sync-through-own-storage) carries the work across devices on storage they already pay for.",
+      "glossFrom": "source:resulting",
+      "farSituation": "They already have storage that follows them, such as iCloud, Dropbox or another service, and it is one of the [tools they already work with](/patterns/tool-ecology)."
+    },
+    {
+      "source": "tool-ecology",
+      "target": "federated-identity",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "The artifact can rely on what the actor already holds: [federated identity](/patterns/federated-identity) signs them in with an account they have elsewhere, [autofill](/patterns/autofill) takes values the browser or a password manager keeps, and [sync through own storage](/patterns/sync-through-own-storage) carries the work across devices on storage they already pay for.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "tool-ecology",
+      "target": "provenance-marking",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Work that leaves the surface that made it keeps a sign of its origin through [provenance marking](/patterns/provenance-marking), and material brought in from other tools to ground a request arrives as [reference material](/patterns/reference-material).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "tool-ecology",
+      "target": "reference-material",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Work that leaves the surface that made it keeps a sign of its origin through [provenance marking](/patterns/provenance-marking), and material brought in from other tools to ground a request arrives as [reference material](/patterns/reference-material).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "tool-ecology",
+      "target": "autofill",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "The artifact can rely on what the actor already holds: [federated identity](/patterns/federated-identity) signs them in with an account they have elsewhere, [autofill](/patterns/autofill) takes values the browser or a password manager keeps, and [sync through own storage](/patterns/sync-through-own-storage) carries the work across devices on storage they already pay for.",
+      "glossFrom": "source:resulting"
+    },
+    {
       "source": "transient-feedback",
       "target": "status-feedback",
       "type": "instantiates",
@@ -9356,73 +9814,64 @@
       "source": "waiting",
       "target": "status-feedback",
       "type": "instantiates",
-      "label": "the duration-reporting delivery shape of status feedback: a state change that is still in progress",
       "extractedFrom": "frontmatter:instantiates",
-      "situation": "Which sign is shown is a [status feedback](/patterns/status-feedback) question, since the wait is one more state change to deliver, and this pattern is its duration-reporting shape.",
+      "situation": "Waiting is the duration-reporting form of [status feedback](/patterns/status-feedback) for an operation still in progress.",
       "glossFrom": "source:resulting"
     },
     {
       "source": "waiting",
       "target": "live-presentation",
       "type": "alternative",
-      "label": "live presentation shows the partial result instead of a sign that one is coming; waiting covers the gap where nothing of the result can be shown yet",
       "extractedFrom": "frontmatter:alternative",
-      "situation": "And it is the case [live presentation](/patterns/live-presentation) does not cover: the result cannot be shown as it forms, or there is nothing of it to show yet.",
+      "situation": "Unlike [live presentation](/patterns/live-presentation), there is no partial result to stream as it forms.",
       "glossFrom": "source:initiating"
     },
     {
       "source": "waiting",
       "target": "abort",
       "type": "complements",
-      "label": "a wait the actor can see is a wait they can end; abort gives the sign a way out",
       "extractedFrom": "frontmatter:complements",
-      "situation": "A wait the actor can see is a wait they can end, so [abort](/patterns/abort) belongs beside the sign for anything longer than a few seconds.",
+      "situation": "Pair any wait longer than a few seconds with [abort](/patterns/abort) so the actor can cancel the request.",
       "glossFrom": "source:resulting"
     },
     {
       "source": "waiting",
       "target": "transient-feedback",
       "type": "complements",
-      "label": "when the actor has been told they may leave, the result lands out of view and transient feedback carries it back",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Where the sign has said they may leave, the result arrives somewhere they are no longer looking, and [transient feedback](/patterns/transient-feedback) or a notification has to carry it back.",
+      "situation": "When a backgrounded wait finishes after the actor has left the view, use [transient feedback](/patterns/transient-feedback) or a [notification](/patterns/notification) to bring the result back to their attention.",
       "glossFrom": "source:resulting"
     },
     {
       "source": "waiting",
       "target": "cognitive-forcing-functions",
       "type": "tangential",
-      "label": "its wait-before-reveal variants use a delay as friction the design chose, where waiting reports time the system needs",
       "extractedFrom": "frontmatter:tangential",
-      "situation": "It is not the deliberate delay that [cognitive forcing functions](/patterns/cognitive-forcing-functions) insert before a recommendation, which is friction the design chose rather than time the system needs",
+      "situation": "Waiting reports time the system genuinely needs, unlike the deliberate delays that [cognitive forcing functions](/patterns/cognitive-forcing-functions) introduce to slow down premature acceptance",
       "glossFrom": "source:resulting"
     },
     {
       "source": "waiting",
       "target": "delegation",
       "type": "serves",
-      "label": "the liveness leg of delegation's monitoring station: whether the delegated work is still going and how far it has got",
+      "label": "covers delegation's liveness monitoring: showing that delegated work is still running and how far along it is",
       "extractedFrom": "frontmatter:serves",
-      "situation": "When the work was handed to an agent, the gap is the liveness part of [delegation](/patterns/delegation)'s monitoring.",
+      "situation": "the actor has started an operation that takes noticeable time to complete: uploading a file, building a report, querying a slow source, or waiting on an agent in [delegation](/patterns/delegation).",
       "glossFrom": "source:initiating"
     },
     {
       "source": "waiting",
       "target": "temporality",
       "type": "enacts",
-      "label": "makes the system's time legible to the actor: that work is happening, and how much of it remains",
-      "extractedFrom": "frontmatter:enacts",
-      "situation": "The gap now has a shape the actor can read: that the system is working, roughly how long remains, and whether they may go, so the system's [time](/patterns/temporality) is legible and the decision to stay or leave is the [actor's own](/patterns/agency).",
-      "glossFrom": "source:resulting"
+      "label": "makes system duration and progress legible to the actor",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "waiting",
       "target": "agency",
       "type": "enacts",
-      "label": "tells the actor whether they may leave and gives them the means to stop",
-      "extractedFrom": "frontmatter:enacts",
-      "situation": "The gap now has a shape the actor can read: that the system is working, roughly how long remains, and whether they may go, so the system's [time](/patterns/temporality) is legible and the decision to stay or leave is the [actor's own](/patterns/agency).",
-      "glossFrom": "source:resulting"
+      "label": "lets the actor decide whether to stay, leave, or cancel",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "wizard",
@@ -9823,7 +10272,7 @@
       "source": "good-defaults",
       "target": "autofill",
       "type": "precedes",
-      "situation": "a good default is a guess made without the actor's stored data; where the system already holds the actual value, pre-filling from the record takes over from guessing",
+      "situation": "a good default is a guess at the value; where the system already holds the actual value in the actor's record, pre-filling from the record takes over from guessing",
       "extractedFrom": "situation:resulting"
     },
     {

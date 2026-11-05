@@ -10,10 +10,21 @@ situation:
   initiating: >-
     … an actor, or a group of actors, already works with many tools, accounts and agents, and the artifact being made will join that set rather than replace it.
   resulting: >-
-    The artifact's place among other tools is the counterpart of its interior, which is [information environment](/patterns/information-environment). The patterns between this one and the smaller ones it leads to are not yet written…
+    The artifact's place among other tools is the counterpart of its interior, which is [information environment](/patterns/information-environment). Work moves out by reference through [deep linking](/patterns/deep-linking), which gives each state an address another tool can hold; where a reference will not do, [import and export](/patterns/import-and-export) makes a copy and says what the copy leaves behind. Work that leaves the surface that made it keeps a sign of its origin through [provenance marking](/patterns/provenance-marking), and material brought in from other tools to ground a request arrives as [reference material](/patterns/reference-material). An agent the actor brings works with the artifact as an [outside agent](/patterns/outside-agent), under a grant the actor issues. The artifact can rely on what the actor already holds: [federated identity](/patterns/federated-identity) signs them in with an account they have elsewhere, [autofill](/patterns/autofill) takes values the browser or a password manager keeps, and [sync through own storage](/patterns/sync-through-own-storage) carries the work across devices on storage they already pay for. Where the work lives, on the provider's server or on the actor's device, is decided under [local-first ownership](/patterns/local-first-ownership) before features are built on it. How a group acts as a group, through accounts that belong to the group rather than to one person, has no pattern yet…
 relationships:
   complements:
     - information-environment
+  composed-of:
+    - deep-linking
+    - import-and-export
+    - outside-agent
+  precedes:
+    - local-first-ownership
+    - sync-through-own-storage
+    - federated-identity
+    - provenance-marking
+    - reference-material
+    - autofill
 ---
 
 * * *

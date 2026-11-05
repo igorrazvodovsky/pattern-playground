@@ -5,6 +5,7 @@ updated:
 role: pattern
 evidence:
   - literature
+  - used
 activityLevel: operation
 mediation: individual
 fun: 🗺️ 2/5. Mapping out the basics.
@@ -16,8 +17,8 @@ situation:
         in flight rather than up front
       sets-up: [autocomplete]
     - clause: >-
-        a good default is a guess made without the actor's stored data; where the
-        system already holds the actual value, pre-filling from the record takes
+        a good default is a guess at the value; where the system already holds
+        the actual value in the actor's record, pre-filling from the record takes
         over from guessing
       sets-up: [autofill]
     - clause: >-
@@ -60,7 +61,7 @@ Apply to all users universally.
 
 ### Personalized defaults
 Tailored to the individual actor.
-- Persistent defaults: Based on the user's past choices (e.g., "Use my last address").
+- Persistent defaults: Based on the actor's past choices (e.g., "Use my last address"), kept by [remembered state](/patterns/remembered-state).
 - Adaptive defaults: Updated in real-time based on immediate context or behavior.
 
 ## Risks & ethical considerations

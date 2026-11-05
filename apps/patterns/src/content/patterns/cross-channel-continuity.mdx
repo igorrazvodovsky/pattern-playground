@@ -1,0 +1,40 @@
+---
+title: Cross-channel continuity
+added: 2026-11-05
+updated:
+role: pattern
+seed: true
+evidence:
+  - literature
+  - used
+activityLevel: activity
+mediation: individual
+description: "Letting the actor move between the channels an artifact is reached through, and find the same items under the same names and addresses in each."
+situation:
+  initiating: >-
+    … the artifact is an [information environment](/patterns/information-environment) that the actor reaches through more than one channel: a website and a phone app, an email or a notification that points into it, an agent that answers questions about it. The channels were often made by different teams or at different times, and the actor moves between them in the middle of a piece of work.
+  resulting: >-
+    An address that resolves in every channel comes from [deep linking](/patterns/deep-linking). A [notification](/patterns/notification) that carries such an address opens the item it is about rather than the start of the artifact. View arrangements travel with [remembered state](/patterns/remembered-state) when it is kept with the actor rather than with one device. Where the work lives on the actor's own device, [sync through own storage](/patterns/sync-through-own-storage) brings it to the other devices the actor uses. Returning to the same channel after time away is [resuming](/patterns/resuming), which shares the concern with picking work back up but does not involve a change of channel…
+relationships:
+  composed-of:
+    - deep-linking
+    - remembered-state
+  complements:
+    - notification
+    - sync-through-own-storage
+  tangential:
+    - resuming
+---
+
+* * *
+
+**When each channel is shaped as a product of its own, an item found in one cannot be found in another, names and categories change between them, and moving in the middle of a task means starting over.**
+
+Therefore,
+
+**Make every channel a way into the same environment. Give each item one name and one address in all channels, let a link from any channel open that item, in the state the actor left it where that matters, and where a channel cannot do something, say where it can be done.**
+
+## Resources & references
+
+- Resmini & Rosati (2011) [Pervasive Information Architecture: Designing Cross-Channel User Experiences](https://doi.org/10.1016/C2009-0-62452-1): consistency, resilience and correlation as properties an information architecture keeps across channels
+- Resmini, [Information architecture for ubiquitous ecologies](https://andrearesmini.com/blog/information-architecture-for-ubiquitous-ecologies): touchpoints designed as separate experiences leave gaps between them

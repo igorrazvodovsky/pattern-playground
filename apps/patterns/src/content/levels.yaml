@@ -22,26 +22,32 @@
     - title: Setting and divisions
       lead: >-
         Place the artifact among the tools its actors already use, give it one
-        logic across its surfaces, divide the work into workspaces, keep the
-        work on the actor's device where it can be, ask for identity only as
-        each need calls for it, decide who is let into each workspace, and let
-        the people inside coordinate their work.
+        logic across its surfaces and the channels it is reached through,
+        divide the work into workspaces, keep the work on the actor's device
+        where it can be, ask for identity only as each need calls for it, let
+        in the agents actors bring under grants of their own, decide who is let
+        into each workspace, and let the people inside coordinate their work.
       patterns:
         - tool-ecology
         - information-environment
+        - cross-channel-continuity
         - workspace
         - local-first-ownership
         - identity-at-the-point-of-need
+        - outside-agent
         - sharing
         - collaboration
     - title: Connecting and naming
       lead: >-
         Connect the divisions so that anything can be reached from anywhere: an
-        address for every state, search across all of it, links found across
-        the content, and labels and structure that grow from use.
+        address for every state, search across all of it, ways back to what
+        the actor opened recently or chose to keep, links found across the
+        content, and labels and structure that grow from use.
       patterns:
         - deep-linking
         - searching
+        - recents
+        - bookmarking
         - dynamic-hyperlinks
         - tag
         - incremental-formalisation
@@ -72,12 +78,14 @@
       lead: >-
         Set the rules every act and event passes through: how much protection
         each action gets, how urgent each kind of event is and where it goes,
-        and the defaults the actor can retune.
+        the defaults the actor can retune, and the arrangements kept between
+        visits.
       patterns:
         - action-consequences
         - status-feedback
         - notification
         - settings
+        - remembered-state
     - title: Work done without the actor
       lead: >-
         Wherever work is done without the actor, set what holds across every
@@ -88,7 +96,7 @@
         - agent
         - bounded-autonomy
         - standing-instructions
-        - selective-memory
+        - memory
         - workflow
 
 - id: divisions-and-surfaces
@@ -174,12 +182,14 @@
         - editing-in-place
     - title: Storing and removing
       lead: >-
-        Decide when changes are stored, published and kept as versions, how a
-        bulk change is previewed, and how things are removed.
+        Decide when changes are stored, published and kept as versions, how
+        work is copied in from and out to other tools, how a bulk change is
+        previewed, and how things are removed.
       patterns:
         - saving
         - draft-and-publish
         - version-history
+        - import-and-export
         - dry-run
         - deletion
     # Shared work
@@ -207,10 +217,11 @@
         - suggestion
     - title: Conversation
       lead: >-
-        Where the actor talks with an agent, bound each exchange, open it, and
-        carry each kind of request.
+        Where the actor talks with an agent, bound each exchange or run one that
+        keeps nothing, open it, and carry each kind of request.
       patterns:
         - session
+        - ephemeral-session
         - conversation
         - agent-opening
         - user-opening
@@ -299,9 +310,11 @@
         - link-preview
     - title: States and messages
       lead: >-
-        Give every surface its unavailable states, confirm destructive acts in
-        place, offer undo, and report outcomes in messages that pass.
+        Give every surface its unavailable states, mark the wait while a
+        request runs, confirm destructive acts in place, offer undo, and report
+        outcomes in messages that pass.
       patterns:
+        - waiting
         - state-disabled
         - unavailable-actions
         - inline-confirmation

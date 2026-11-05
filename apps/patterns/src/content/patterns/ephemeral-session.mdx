@@ -1,0 +1,100 @@
+---
+title: Ephemeral session
+added: 2026-11-05
+role: pattern
+activityLevel: action
+mediation: individual
+evidence:
+  - observed
+  - literature
+description: "Running a session that keeps its working context while open and saves nothing to history, recent lists, remembered state, or memory."
+situation:
+  initiating: >-
+    … the actor is working in an artifact that keeps [sessions](/patterns/session),
+    history, recent items, and personal context by default. For a specific task—a
+    sensitive question, a search on a shared device, a prompt that should not steer
+    future answers, or a one-off job they will not return to—they need a working
+    session that leaves no record behind when it closes.
+  resulting: >-
+    When the session ends, nothing from it is recorded in the
+    [activity log](/patterns/activity-log), added to [recents](/patterns/recents),
+    saved over [remembered state](/patterns/remembered-state), or kept in
+    [memory](/patterns/memory). While it stays open,
+    [status feedback](/patterns/status-feedback) marks the non-saving state on the
+    surface, and an opening [explanation](/patterns/explanation) states what is
+    withheld and what still leaves a trace outside the artifact. If the exchange
+    produces a result worth keeping, [extraction](/patterns/extraction) lifts that
+    output into an object of its own while the surrounding thread still disappears
+    on close. When the actor runs a normal session and decides only at the end that
+    the thread has no future value, lightweight [deletion](/patterns/deletion)
+    discards the finished session after the fact. Unlike
+    [immediate use](/patterns/immediate-use), which holds work in temporary state
+    only because a newcomer has not signed in yet, an ephemeral session is a
+    deliberate opt-out available to a signed-in actor…
+relationships:
+  instantiates:
+    - session
+  complements:
+    - activity-log
+    - recents
+    - remembered-state
+    - memory
+    - status-feedback
+    - explanation
+    - extraction
+    - deletion
+  tangential:
+    - immediate-use
+  enacts:
+    - to: privacy
+      note: "withholds sensitive or one-off activity from history, recent lists, remembered state, and memory"
+    - to: temporality
+      note: "bounds the life of session state to the open window or a set expiry timer"
+---
+
+* * *
+
+**When an artifact keeps every thread, recent item, view adjustment, and personal detail by default, a single sensitive or throwaway task leaves traces in several places at once. Removing the thread afterwards still leaves behind recent entries, saved facts, or shifted recommendations that the actor has to hunt down separately—or cannot undo at all.**
+
+Actors want a session not to be kept for three reasons:
+- *Privacy*: keeping a sensitive topic off a shared device, screen, or account history.
+- *Profile isolation*: stopping a one-off question, an experiment, or work done on someone else's behalf from steering future recommendations, [good defaults](/patterns/good-defaults), or [memory](/patterns/memory).
+- *Disposable work*: completing a quick lookup, translation, or calculation where the actor takes the answer and has no further use for the thread.
+
+For disposable work, [deleting](/patterns/deletion) a regular session at the end of the task is often enough, provided it takes a single action. Many actors work in regular sessions and clear them afterwards simply because they had no reason to switch modes before starting. Deleting after the fact falls short when one exchange leaves marks in several places at once: the thread shows up in the [activity log](/patterns/activity-log) and [recents](/patterns/recents), adjustments stay behind in [remembered state](/patterns/remembered-state), and details from the conversation are picked up by [memory](/patterns/memory). Removing the thread from the sidebar clears the transcript, but leaves the remembered facts, recent items, and shifted defaults behind. Running the task in a non-saving session keeps all of those places untouched.
+
+A dedicated mode has two recurring failure points. First, an upfront toggle asks the actor to decide before typing, yet a conversation often turns sensitive—or proves disposable—only several turns in, after early messages have already been saved. Second, actors routinely overestimate what temporary or incognito modes hide, assuming the mode conceals their activity from network administrators, service providers, or workspace audit logs when it only suppresses local or account-level history.
+
+Therefore,
+
+**Offer a session mode that keeps full working context while open and saves nothing to the [activity log](/patterns/activity-log), [recents](/patterns/recents), [remembered state](/patterns/remembered-state), or [memory](/patterns/memory). Keep the mode visibly distinct throughout the exchange with persistent [status feedback](/patterns/status-feedback), and state at the opening what is withheld and what remains visible to the provider, network, or organisation. Let the actor convert an active session into an ephemeral one—or close and discard it in one step—when a regular exchange turns sensitive or disposable mid-task.**
+
+<mark>Settle upfront whether an ephemeral session still uses the actor's existing profile.</mark> In one arrangement, the session still follows the actor's [standing instructions](/patterns/standing-instructions) and saved preferences while saving nothing new; in the other, it starts from a blank slate with no personalisation at all. State whichever rule applies at the start of the session so the actor knows whether their profile is shaping the output.
+
+## In practice
+
+- *Entry toggle and distinct chrome.* Place the switch where a session starts ("Temporary chat" in ChatGPT, "Incognito" in browsers, "Private session" in Spotify). Shift the header, badge, or surface tint for the entire session so the actor can tell at a glance that nothing is being saved.
+- *Mid-session conversion and close-and-discard.* Because actors rarely plan ephemerality before their first prompt, let them turn an open session into an ephemeral one mid-stream (clearing the turns and memory updates already saved from that thread) or discard a regular session on close without a confirmation dialog. In systems with [memory](/patterns/memory), pair this with rules that automatically hold back memory updates when sensitive topics come up.
+- *Close versus timed expiry.* Most ephemeral sessions discard their state as soon as the window or thread closes. When the actor needs to refer back to the output over a short working window, offer an expiry timer (such as an hour or a day) with a visible countdown and a single action to end and clear the session immediately.
+- *Keeping the output without the session.* A task can be disposable while its output is not. Let the actor copy, download, or [extract](/patterns/extraction) a result from an ephemeral session without quietly logging the surrounding conversation.
+- *Boundary disclosure.* On the opening screen of the session, state in plain sentences what is not recorded (chat history, recent items, memory extraction, model training) and what still leaves a record (such as short-term abuse monitoring or enterprise compliance logs).
+
+## Research on this pattern
+
+- [Aggarwal, Bursztein, Jackson and Boneh (2010)](https://www.usenix.org/legacy/event/sec10/tech/full_papers/Aggarwal.pdf) examined browser private modes and identified the timing gap: actors often realise they want privacy only after visiting a sensitive page, when traces have already been written.
+- [Gao, Yang, Liu and Liu (2014)](https://doi.org/10.1145/2665943.2665953), [Habib et al. (2018)](https://www.usenix.org/conference/soups2018/presentation/habib), and [Wu et al. (2018)](https://doi.org/10.1145/3178876.3186088) showed that people use private browsing both to hide activity on shared devices and to keep one-off searches from skewing recommendations, while widely misjudging what providers and networks can still see.
+- [Vitale, Odom and McGrenere (2019)](https://doi.org/10.1145/3322276.3322300) and [Ankenbauer and Brewer (2025)](https://doi.org/10.1145/3701211) showed that discarding digital items is routine maintenance to keep workspaces navigable rather than only a privacy measure, explaining why actors regularly delete finished threads once a task is complete.
+- [Chen et al. (2026)](https://doi.org/10.1145/3772318.3791635) studied shared LLM accounts and documented how actors avoid sensitive queries or manually delete threads afterwards because persistent history and cross-session memory expose one person's prompts to another.
+- [Xu, Ding, Chang, Li and Bashir (2026)](https://arxiv.org/abs/2610.27607) noted that pre-session toggles ("Temporary Chat") require opting out before the conversation starts, and proposed combining topic-based rules that hold back memory updates with time-bounded sessions that expire automatically.
+
+## Resources & references
+
+- Aggarwal, G., Bursztein, E., Jackson, C., & Boneh, D. (2010). [An Analysis of Private Browsing Modes in Modern Browsers](https://www.usenix.org/legacy/event/sec10/tech/full_papers/Aggarwal.pdf), USENIX Security '10
+- Habib, H., Colnago, J., Gopalakrishnan, V., Pearman, S., Thomas, J., Acquisti, A., Christin, N., & Cranor, L. F. (2018). [Away From Prying Eyes: Analyzing Usage and Understanding of Private Browsing](https://www.usenix.org/conference/soups2018/presentation/habib), SOUPS '18
+- Wu, Y., Gupta, P., Wei, M., Acar, Y., Fahl, S., & Ur, B. (2018). [Your Secrets Are Safe: How Browsers' Explanations Impact Misconceptions About Private Browsing Mode](https://doi.org/10.1145/3178876.3186088), WWW '18
+- Vitale, F., Odom, W., & McGrenere, J. (2019). [Keeping and Discarding Personal Data: Exploring a Design Space](https://doi.org/10.1145/3322276.3322300), DIS '19
+- Ankenbauer, S., & Brewer, R. N. (2025). [Time's Sublimest Target: Practices of Forgetting in HCI and CSCW](https://doi.org/10.1145/3701211), CSCW
+- Chen, Y., et al. (2026). [Sharing Account, Sharing Memories? Exploring Privacy and Security Strains in Multi-User LLM Sharing](https://doi.org/10.1145/3772318.3791635), CHI '26
+- Xu, Z., Ding, Y., Chang, H., Li, Z., & Bashir, M. (2026). [What Should AI Forget? A Design and Taxonomy for Negative Space Governance in AI Memory](https://arxiv.org/abs/2610.27607)
+- [Shape of AI — Incognito Mode](https://www.shapeof.ai)
+

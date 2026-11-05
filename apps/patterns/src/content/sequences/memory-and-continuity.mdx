@@ -1,7 +1,7 @@
 ---
 title: "Memory and continuity"
 added: 2026-08-29
-updated: 2026-09-27
+updated: 2026-11-04
 description: "Decide what the collaboration keeps across sessions, what an actor sees when they come back, and how kept information is removed."
 order: 7
 presupposes: >-
@@ -33,17 +33,25 @@ sub-sequences:
           cannot be reconstructed later. Record any reason the collaboration
           wants to keep at the same time. The return steps read this.
       - step: "Choose what is kept about the actor"
-        rule: selective-memory
+        rule: memory
         constituents:
           - slug: settings
             note: "where the memory controls usually live"
         gloss: >-
-          Decide what the system keeps about the actor for next time: facts
-          they stated, standing preferences, and less visible state such as
-          what they have read, where they were, and work they set aside.
-          Choose the default (remember unless asked, or forget unless asked),
+          Decide what the system keeps about the actor to shape what it
+          generates next: facts they stated and standing preferences. Choose
+          the default (remember unless asked, or forget unless asked),
           knowing that most actors never change it. Let the actor see and
           edit what is kept, and offer a session that keeps nothing.
+      - step: "Keep the arrangement the actor leaves"
+        rule: remembered-state
+        aspect: "what is kept and for whom"
+        gloss: >-
+          Keep how the actor arranged each view, the place they reached in
+          it, including how far they had read, and the values they last
+          chose; together these are the arrangement. Decide for each part
+          whether it is kept on the device or for the person, and write none
+          of it in a session that keeps nothing.
     resulting: >-
       The collaboration keeps only what was chosen. Information the policy
       excludes is never written, which is cheaper and more reliable than
@@ -55,23 +63,36 @@ sub-sequences:
       collaboration that either continued working or waited. Each step here
       reads what the keeping steps wrote.
     steps:
-      - step: "Restore the actor's place"
-        constituents:
-          - slug: deep-linking
-            note: "the kept place is an address that the addressing steps already created"
+      - cluster: "Put the actor back where they were"
         gloss: >-
-          Decide whether to restore the actor's place automatically or offer
-          to restore it: the conversation they set aside, the commitment
-          deferred when they last closed, the unfinished change, and what
-          they had already read. As part of resuming, check assumptions that
-          may be out of date. Keep the option to start fresh.
+          Restore what the actor left, in either order: the arrangement, and
+          work they had not finished. A conversation they set aside, with any
+          commitment deferred when it closed, resumes through its opening.
+          Keep the option to start fresh.
+        steps:
+          - step: "Restore the arrangement"
+            rule: remembered-state
+            aspect: "restoring"
+            constituents:
+              - slug: deep-linking
+                note: "where an address names a state, it wins over the arrangement"
+            gloss: >-
+              Decide which parts of the arrangement return without asking and
+              which are offered, by how long the actor was away and how much
+              the content changed.
+          - step: "Bring back unfinished work"
+            rule: resuming
+            gloss: >-
+              Put the actor back at the unfinished change or task with what
+              they had done shown, and check assumptions that may have gone
+              out of date while they were away.
       - step: "Show what changed while the actor was away"
         gloss: >-
-          Show the changes made since the actor's last visit, limited to what
-          they have open, without asking them to accept or reject anything:
-          which parts changed, who or what changed them, and why. Include
-          only changes that could wait; anything urgent was sent when it
-          happened. If the summary is generated, mark its evidence.
+          Show the changes made past the point the arrangement records,
+          limited to what they have open, without asking them to accept or
+          reject anything: which parts changed, who or what changed them,
+          and why. Include only changes that could wait; anything urgent was
+          sent when it happened. If the summary is generated, mark its evidence.
       - step: "Let the actor return to named versions"
         gloss: >-
           Beyond the current session, where undo no longer applies, let the
@@ -96,7 +117,7 @@ sub-sequences:
           and the actor's content with its history.
         steps:
           - step: "Let the actor remove what is remembered"
-            rule: selective-memory
+            rule: memory
             aspect: "its forgetting controls"
             gloss: >-
               Let the actor remove remembered information per fact, per

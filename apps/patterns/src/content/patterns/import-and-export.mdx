@@ -1,0 +1,41 @@
+---
+title: Import and export
+added: 2026-11-05
+updated:
+role: pattern
+seed: true
+evidence:
+  - literature
+  - used
+activityLevel: action
+mediation: individual
+description: "Moving work between the artifact and other tools as a copy, with what the copy leaves behind stated before it is made and its origin marked on it."
+situation:
+  initiating: >-
+    … work moves between the artifact and the other [tools its actors use](/patterns/tool-ecology), and a [reference](/patterns/reference-material) will not do: the other tool cannot follow a link, the work has to arrive in a form the other tool can change, or the actor is gathering in what they made elsewhere. The copy that results is separate from its source from the moment it is made.
+  resulting: >-
+    The copy and its source now change independently, so the copy carries [provenance marking](/patterns/provenance-marking) of where and when it was made, which lets a later reader tell which of two diverging versions is the source. Export in a format another program can read is also how [local-first ownership](/patterns/local-first-ownership) lets the actor take their work elsewhere, and the two are designed together. Where the other tool can follow a link, [deep linking](/patterns/deep-linking) moves the work by reference and leaves a single copy, which avoids the divergence altogether…
+relationships:
+  precedes:
+    - provenance-marking
+  complements:
+    - local-first-ownership
+  alternative:
+    - deep-linking
+  enacts:
+    - to: shareability
+      note: export decides what of the work travels to other tools, and in what form
+---
+
+* * *
+
+**Export usually flattens the work. The copy keeps the visible content and drops the structure, links, comments, history and record of who made what. Import has the opposite problem: the artifact takes in what it can parse and drops the rest without saying so. The actor finds out what was lost later, by which time the copy and its source have already diverged.**
+
+Therefore,
+
+**Offer import and export in formats other tools can read, and keep as much of the work's structure as the format can carry. Before an export, say what the copy will leave behind; after an import, show what was not taken in. Mark each copy with where and when it came from.**
+
+## Resources & references
+
+- Nouwens & Klokmose (2018) [The application and its consequences for non-standard knowledge work](https://doi.org/10.1145/3173574.3173973): export as flattening, and documents diverging as they move between applications
+- Litt, van Hardenberg & Henry (2020) [Project Cambria: translate your data with lenses](https://www.inkandswitch.com/cambria/), Ink & Switch: translating documents between the formats different programs read and write

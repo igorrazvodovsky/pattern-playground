@@ -28,13 +28,13 @@ situation:
       can leave the exchange and return to it later, while anything that needs
       to outlive the thread has to be lifted out through
       [extraction](/patterns/extraction) or promoted to
-      [selective memory](/patterns/selective-memory) or
+      [memory](/patterns/memory) or
       [standing instructions](/patterns/standing-instructions)
 ---
 
 When an actor works with a conversational system or an [agent](/patterns/agent) across more than a single turn, the exchange needs a boundary that says which turns, files, and intermediate results belong to the same piece of work. A session (often called a thread, chat, or task run) gives that work a container with a beginning, an accumulated context window, a title derived from the opening request or set by the actor, and an entry in a list of past and active sessions. Inside the session, each turn builds on what is already in scope; outside it, other sessions hold unrelated tasks without their context bleeding across.
 
-Giving the exchange a container creates two boundaries the actor has to manage: starting a new session to clear accumulated context when switching tasks, and returning to an existing session to pick work back up. Over a long run, failed attempts and superseded instructions pile up in the transcript and pull subsequent outputs off course, so systems pair the session boundary with ways to branch from an earlier turn, compact the history, or lift finished work onto a surface of its own.
+Giving the exchange a container creates two boundaries the actor has to manage: starting a new session to clear accumulated context when switching tasks, and returning to an existing session to pick work back up. Where the actor needs that bounded context during the exchange without leaving a record in history or memory afterwards, an [ephemeral session](/patterns/ephemeral-session) discards the thread when it closes. Over a long run, failed attempts and superseded instructions pile up in the transcript and pull subsequent outputs off course, so systems pair the session boundary with ways to branch from an earlier turn, compact the history, or lift finished work onto a surface of its own.
 
 A session can sit inside a [workspace](/patterns/workspace), and then starts with what the workspace hands down: its reference material, its standing instructions and, in some products, a memory limited to that workspace. A project-level container in an AI tool is a workspace in this sense, not a larger kind of session.
 

@@ -1,0 +1,44 @@
+---
+title: Outside agent
+added: 2026-11-05
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+  - used
+activityLevel: activity
+mediation: individual
+description: "Letting an agent the actor brings from outside read and act on the work in the artifact, under a grant the actor issues and with its acts recorded as its own."
+situation:
+  initiating: >-
+    … the artifact is one of the [tools the user already works with](/patterns/tool-ecology), and they bring an AI agent of their own, an assistant that works across several of those tools, to read and act on the work in it. The agent answers to the user, not to the artifact's maker, and it arrives whether or not the artifact was designed for it.
+  resulting: >-
+    The agent works under a grant, which the actor issues and revokes through [sharing](/patterns/sharing), where the agent is listed beside the people who have access. What it may do without asking is set through [bounded autonomy](/patterns/bounded-autonomy), and the acts the actor wants to confirm wait at an [approval gate](/patterns/approval-gate). Its contributions carry [provenance marking](/patterns/provenance-marking), and its acts land in the [activity log](/patterns/activity-log) under its own name rather than the actor's. The artifact's own [agent](/patterns/agent) looks similar but is designed and steered by the artifact's maker, whereas the outside agent answers to the actor and works across tools the maker does not see…
+relationships:
+  composed-of:
+    - sharing
+  precedes:
+    - bounded-autonomy
+    - approval-gate
+    - provenance-marking
+    - activity-log
+  tangential:
+    - agent
+  enacts:
+    - to: agency
+      note: the actor chooses which agent works for them across their tools, rather than taking the agent each artifact supplies
+---
+
+* * *
+
+**An agent the actor brings usually has to work through surfaces built for a person. It reads screens and guesses at controls. It is often given the actor's own credentials, so it can do anything the actor can, and nothing records which acts were the agent's. The artifact cannot tell the actor from the agent, and the actor cannot limit the agent without limiting themselves.**
+
+Therefore,
+
+**Give the actor's agent its own way in: the artifact's objects and actions described for a program to read, reached under a grant the actor issues. Let the grant name which workspaces and which actions it covers, and let the actor revoke it. Record the agent's acts as its own, and hold the acts the actor would want to confirm until they do.**
+
+## Resources & references
+
+- [Model Context Protocol](https://modelcontextprotocol.io/) & [WebMCP](https://webmachinelearning.github.io/webmcp/)
+- MDN / [User agent](https://developer.mozilla.org/en-US/docs/Glossary/User_agent) – the browser as the earlier program that acts for the person rather than for the site

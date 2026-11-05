@@ -1,0 +1,111 @@
+---
+title: Memory
+added: 2026-08-07
+updated: 2026-11-05
+role: pattern
+activityLevel: action
+mediation: individual
+evidence:
+  - observed
+  - literature
+description: "Letting the actor inspect, edit, scope, and remove the facts and preferences the system keeps about them across sessions."
+situation:
+  initiating: >-
+    … the actor works with an agent or assistant across multiple
+    [sessions](/patterns/session), and background facts, stated preferences, and
+    recurring context would otherwise have to be repeated every time. Where
+    [remembered state](/patterns/remembered-state) restores how the actor
+    arranged the interface, memory carries facts and preferences about
+    the actor forward to shape what the system generates next. Where
+    [standing instructions](/patterns/standing-instructions) hold rules the
+    actor writes in their own words for every run, memory holds
+    details the system extracts or records from ongoing conversations.
+  resulting: >-
+    Stored facts and preferences are carried into later runs to tailor
+    [generated content](/patterns/generated-content) without the actor restating
+    their context. When the system saves a new detail during an exchange,
+    [transient feedback](/patterns/transient-feedback) marks the update in place
+    and [provenance marking](/patterns/provenance-marking) ties the entry back
+    to the conversation turn it came from. A reviewable list in
+    [settings](/patterns/settings) lets the actor read, edit, or remove what is
+    kept, while [rule composition](/patterns/rule-composition) lets them set
+    standing exclusions over topics the system must never store. Scoping memory
+    to a [workspace](/patterns/workspace) keeps context for one project or role
+    from bleeding into another, and an
+    [ephemeral session](/patterns/ephemeral-session) lets the actor step outside
+    memory and history for a single exchange. [Deletion](/patterns/deletion)
+    removes individual facts or clears the store so they no longer steer future
+    responses, separately from the [activity log](/patterns/activity-log) that
+    records past transcripts…
+relationships:
+  follows:
+    - session
+  precedes:
+    - generated-content
+  complements:
+    - standing-instructions
+    - transient-feedback
+    - provenance-marking
+    - settings
+    - rule-composition
+    - workspace
+    - deletion
+    - activity-log
+  enacts:
+    - to: privacy
+      note: "turns held-forward personal context into statements the actor can inspect, scope, and revoke"
+    - to: adaptation
+      note: "tailors subsequent responses using an editable record of facts and preferences"
+---
+
+* * *
+
+**When a system carries facts and inferences about the actor from one session to the next without showing what it kept, continuity feels unpredictable: outdated details and one-off questions keep steering later answers, sensitive disclosures stick around indefinitely, and the actor has no direct way to inspect or fix what the system thinks it knows about them.**
+
+Details enter cross-session memory in two ways: the actor explicitly asks the system to remember something ("remember that I work in Python"), or the system extracts facts on its own from passing turns. Automatic extraction spares the actor from maintaining a profile by hand, which most people rarely do until an output goes wrong. However, background extraction also picks up temporary tasks, questions asked on someone else's behalf, and sensitive details the actor never intended to make permanent.
+
+Even when the system provides a list of saved memories, three tensions remain:
+- *Storage versus interpretation*: actors expect saved memories to act like a static list of facts, yet a generative model reinterprets and combines them at run time, drawing unstated inferences or applying a preference from one task to an unrelated one.
+- *Incomplete removal across layers*: [deleting](/patterns/deletion) a fact from the memory list fails if the system re-extracts it from old transcripts in the [activity log](/patterns/activity-log), or if the same behaviour survives in [standing instructions](/patterns/standing-instructions).
+- *Defaults and upfront boundaries*: because actors rarely audit a memory list after the fact, default collection rules and upfront exclusions do most of the real governing.
+
+Therefore,
+
+**Make everything the system remembers about the actor inspectable, editable, and revocable as plain-language statements. Show inline [transient feedback](/patterns/transient-feedback) whenever a memory is saved or updated, link each entry to the conversation turn that produced it via [provenance marking](/patterns/provenance-marking), and let the actor edit or [delete](/patterns/deletion) entries individually or by topic. Scope memories to a [workspace](/patterns/workspace) where projects or roles differ, let the actor set standing exclusions for topics the system must never retain, and ensure that deleting a memory stops it from being re-inferred from past history.**
+
+Keep system-extracted memory distinct from actor-written [standing instructions](/patterns/standing-instructions) and from conversation transcripts in the [activity log](/patterns/activity-log). When the actor removes a memory, state clearly whether the underlying conversation turn remains in the transcript, and offer to remove both when the detail itself is sensitive.
+
+## In practice
+
+- *Inline write receipts.* When the system saves or updates a memory during an exchange, show a compact inline indicator ("Saved to memory") that expands to reveal the exact statement stored, with an immediate action to undo or edit it in place rather than requiring a trip to [settings](/patterns/settings).
+- *Editable memory list with provenance.* Present stored memories as discrete, plain-language statements (or grouped topic cards) that the actor can read, reword, or delete. Attach [provenance marking](/patterns/provenance-marking)—the source session and date—so the actor can see where a belief came from and tell stated facts apart from system inferences.
+- *Workspace and project scope.* Allow separate memory stores per [workspace](/patterns/workspace) so client details, coding conventions, or role-specific context stay inside the project they belong to instead of bleeding into personal or unrelated sessions.
+- *Standing exclusions over what is never kept.* Alongside post-hoc deletion, let the actor define upfront rules (through [rule composition](/patterns/rule-composition) or topic toggles) for categories the system must never write to memory—such as health, finances, credentials, or third-party details—or route those exchanges to an [ephemeral session](/patterns/ephemeral-session).
+
+## Research on this pattern
+
+- [Kay (1995)](https://doi.org/10.1016/0953-5438(95)90816-V) and [Kay and Kummerfeld (2012)](https://doi.org/10.1145/2160125.2160138) established *scrutable user models*, showing that a personalisation profile should let the actor see what the system believes about them, where each item came from, and how to correct or remove it.
+- [Huang et al. (2023)](https://doi.org/10.1145/3586182.3615796) (*Memory Sandbox*) and [Yen and Zhao (2024)](https://doi.org/10.1145/3654777.3676388) (*Memolet*) reified conversational memories as visible, interactive objects that actors can inspect, edit, toggle on or off, and reuse across sessions.
+- [Jones et al. (2025)](https://doi.org/10.1145/3765766.3765843) found that people hold a storage-based mental model of AI memory—expecting an explicit filing cabinet of facts—while LLM memory operates through run-time interpretation and inference across contexts.
+- [Li, Wu, Li, Gui and Luo (2026)](https://doi.org/10.1145/3772318.3791054) audited six conversational LLM platforms and showed that deletion controls act inconsistently across chat history, extracted memory items, and customisation layers, leaving actors uncertain about what "forget" actually removes.
+- [Malki et al. (2025)](https://doi.org/10.56553/popets-2025-0160) and [Chen et al. (2026)](https://doi.org/10.1145/3772318.3791635) documented how automatic cross-session memory over-applies sensitive disclosures to later tasks and exposes private context when multiple people share an account.
+- [Xu, Ding, Chang, Li and Bashir (2026)](https://arxiv.org/abs/2610.27607) defined a 15-category taxonomy of the "negative space" of AI memory—information actors want excluded by default, including secrets, inferred traits, and temporary tasks—and demonstrated policy gates that block unwanted facts before storage.
+
+## Resources & references
+
+- Kay, J. (1995). [The um toolkit for cooperative user modelling](https://doi.org/10.1007/BF01101800), *User Modeling and User-Adapted Interaction*
+- Huang, Z., Gutierrez, S., Kamana, H., & MacNeil, S. (2023). [Memory Sandbox: Transparent and Interactive Memory Management for Conversational Agents](https://doi.org/10.1145/3586182.3615796), UIST '23 Adjunct
+- Yen, R., & Zhao, J. (2024). [Memolet: Reifying the Reuse of User-AI Conversational Memories](https://doi.org/10.1145/3654777.3676388), UIST '24
+- Jones, B. R., et al. (2025). [From Storage to Interpretation: User Mental Models and Expectations of LLM Memory](https://doi.org/10.1145/3765766.3765843), CUI '25
+- Malki, L., et al. (2025). ["Wait, Did You Just Remember That?": How LLM Memory Capabilities Shape User Privacy Mental Models and Behavior](https://doi.org/10.56553/popets-2025-0160), PoPETs 2025
+- Li, Z., Wu, Y., Li, Y., Gui, X., & Luo, Y. (2026). [Privacy Control in Conversational LLM Platforms: A Walkthrough Study](https://doi.org/10.1145/3772318.3791054), CHI '26
+- Chen, Y., et al. (2026). [Sharing Account, Sharing Memories? Exploring Privacy and Security Strains in Multi-User LLM Sharing](https://doi.org/10.1145/3772318.3791635), CHI '26
+- Xu, Z., Ding, Y., Chang, H., Li, Z., & Bashir, M. (2026). [What Should AI Forget? A Design and Taxonomy for Negative Space Governance in AI Memory](https://arxiv.org/abs/2610.27607)
+- [Shape of AI — Memory, Data ownership](https://www.shapeof.ai)
+- [AI UX Playground — Memory Scope Toggle](https://www.aiuxplayground.com/pattern/memory-scope-toggle), [Memory Management](https://www.aiuxplayground.com/pattern/memory-manage)
+- [aiuxdesign.guide — Selective Memory](https://aiuxdesign.guide)
+- [AI Interface Layout Library — AI Memory Graph](https://ai.designdhaval.com/pattern/memory-graph)
+
+## To-do
+
+Decide whether showing which stored memories were retrieved and used to answer a specific turn belongs on this page or in a separate context-inspection pattern (see the "Showing what the agent can see" gap in [conversation-first](/languages/conversation-first)).
