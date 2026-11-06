@@ -10,6 +10,7 @@
 
 @layer theme {
   :is(.shell, .link-preview, pagefind-modal) {
+    --font-code: 'DM Mono', menlo, consolas, monospace;
     --site-tint-h: 75;
     --_tint: 0;
     --_dir: 1;

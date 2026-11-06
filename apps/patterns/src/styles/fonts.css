@@ -109,3 +109,29 @@
   font-display: swap;
   src: url('../fonts/ShantellSans-Variable.woff2') format('woff2');
 }
+
+/* DM Mono, for code, paired with Alegreya Sans. Latin subset; 400 roman +
+   italic and 500 roman. */
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/DMMono-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'DM Mono';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/DMMono-Italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/DMMono-Medium.woff2') format('woff2');
+}
