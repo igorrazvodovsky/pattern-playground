@@ -556,6 +556,11 @@
       "lifecycle-stage": null,
       "mediation": "coordination"
     },
+    "prestructured-formatting": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "privacy": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,

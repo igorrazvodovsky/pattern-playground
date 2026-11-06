@@ -1,0 +1,81 @@
+---
+title: "Prestructured formatting"
+added: 2026-11-06
+role: pattern
+evidence:
+  - observed
+  - literature
+  - used
+group: application
+activityLevel: action
+mediation: individual
+description: "Formatting text by choosing structural roles rendered by the system, rather than setting visual styles directly."
+realised_by: [components-block-based-editor--docs, components-bubble-menu--docs]
+situation:
+  initiating: >-
+    … the writer is composing text in a [form](/patterns/form), a reply when
+    [commenting](/patterns/commenting), a message in a [conversation](/patterns/conversation),
+    or a document in a [block-based editor](/patterns/block-based-editor). The content needs
+    clear hierarchy, but freeform styling tools distract the writer with visual layout decisions
+    instead of composition. As with [editing in place](/patterns/editing-in-place), the writer
+    needs to structure text directly in the flow of writing without resorting to manual typesetting.
+  resulting: >-
+    Formatting becomes an act of [bounded choice](/patterns/bounded-choice): the writer declares
+    what each passage means from a fixed set of roles, leaving the system to render how it looks.
+    Choices surface directly at the caret through a [command menu](/patterns/command-menu) or
+    trigger via [keyboard shortcuts](/patterns/keyboard-shortcuts). Because roles capture
+    meaning rather than appearance, changing a role preserves the text and lets
+    [incremental formalisation](/patterns/incremental-formalisation) adjust document structure
+    without restyling. While a [template](/patterns/template) defines the overall container for
+    an artifact, prestructured formatting supplies the structural vocabulary used to build it…
+relationships:
+  enables: [form, commenting, conversation, block-based-editor]
+  composed-of: [bounded-choice]
+  complements: [command-menu, keyboard-shortcuts, editing-in-place]
+  precedes: [incremental-formalisation]
+  related: [template]
+  enacts:
+    - to: formality
+      note: "prestructured formatting lets the writer define text structure using a compact vocabulary of meaning rather than arbitrary styling"
+---
+
+* * *
+
+**Formatting controls that govern appearance force the writer to make typographic choices rather than focusing on meaning. When formatting is about look-and-feel rather than structure, writers spend attention fiddling with fonts and sizes, and documents accumulate inconsistent, brittle visual styling.**
+
+Writing needs structure to be legible. Without headings, lists, quotations, and emphasis, prose collapses into an undifferentiated block of text that is difficult to scan and understand.
+
+When an interface provides direct typographic controls—font families, point sizes, margins, and arbitrary colours—it forces the writer to act as a designer. Every structural decision becomes a visual layout task. Writers spend cognitive effort adjusting point sizes and line spacing instead of shaping their thoughts.
+
+Direct formatting conflates visual appearance with structural meaning. A writer might make a line bold and 16 points high to indicate a heading, or use spaces to indent a list. Because the system records only the visual styles and not what the text represents, subsequent edits break the layout. Changing font sizes or pasting text from another source introduces conflicting styles, leaving documents visually inconsistent and brittle.
+
+Therefore,
+
+**Give the writer a small, fixed vocabulary of roles that describe what each part of the text means: heading, body, list, quotation, code, emphasis, and link. Render each role immediately in place, but withhold visual styling controls like font, size, and colour from the editing interface. Fit the vocabulary to the writing surface: short comments need only inline emphasis and lists, while documents need hierarchical headings.**
+
+<Demo name="prestructured-formatting" surface="white" label="Formatting roles in a bubble menu" />
+
+## In practice
+
+### Roles by scope
+
+- *Document roles*: elements that define the document as a whole, such as a title fixed as the first line.
+- *Block roles*: container-level elements that structure paragraphs, headings, ordered and unordered lists, quotations, and code blocks.
+- *Span roles*: inline styling within a block, such as emphasis, strong emphasis, strikethrough, inline code, and links.
+
+### Input mechanisms
+
+- *Contextual floating toolbar*: displays semantic roles on selection, keeping formatting controls out of sight until needed.
+- *Command menu*: typing a slash (`/`) opens available block roles directly at the caret without moving to a fixed toolbar.
+- *Keyboard shortcuts*: direct key combinations for frequently applied roles (`Cmd+B`, `Cmd+K`, heading shortcuts).
+- *Input rules*: typing plain-text conventions (such as `#` for a heading or `*` for a list item) converts text into the corresponding role immediately, keeping the writer in flow.
+- *Hybrid preview*: renders formatted roles in place while revealing editable syntax at the active caret, blending plain-text efficiency with immediate visual confirmation.
+
+## Resources & references
+
+- Gruber, J. (2026) [Prestructured WYSIWYG](https://daringfireball.net/2026/10/prestructured_wysiwyg). *Daring Fireball*.
+- Taylor, C. (1996) [What has WYSIWYG done to us?](https://coverpages.org/taylorWYSIWYG.html) *The Seybold Report on Publishing Systems* 26(2).
+- Nielsen, J. (2005) [R.I.P. WYSIWYG](https://www.nngroup.com/articles/rip-wysiwyg/). Nielsen Norman Group.
+- Tidwell, J. (1999) [WYSIWYG editor](https://www.mit.edu/~jtidwell/language/wysiwyg_editor.html). *Common Ground: A Pattern Language for Human-Computer Interface Design*.
+- UI Patterns / [WYSIWYG](https://ui-patterns.com/patterns/WYSIWYG)
+- Wikipedia / [WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG) & [WYSIWYM](https://en.wikipedia.org/wiki/WYSIWYM)

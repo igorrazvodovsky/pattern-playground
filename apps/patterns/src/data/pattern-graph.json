@@ -2438,6 +2438,36 @@
       ]
     },
     {
+      "id": "prestructured-formatting",
+      "title": "Prestructured formatting",
+      "category": "Actions",
+      "path": "/patterns/prestructured-formatting",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the writer is composing text in a [form](/patterns/form), a reply when [commenting](/patterns/commenting), a message in a [conversation](/patterns/conversation), or a document in a [block-based editor](/patterns/block-based-editor). The content needs clear hierarchy, but freeform styling tools distract the writer with visual layout decisions instead of composition. As with [editing in place](/patterns/editing-in-place), the writer needs to structure text directly in the flow of writing without resorting to manual typesetting.",
+        "resulting": "Formatting becomes an act of [bounded choice](/patterns/bounded-choice): the writer declares what each passage means from a fixed set of roles, leaving the system to render how it looks. Choices surface directly at the caret through a [command menu](/patterns/command-menu) or trigger via [keyboard shortcuts](/patterns/keyboard-shortcuts). Because roles capture meaning rather than appearance, changing a role preserves the text and lets [incremental formalisation](/patterns/incremental-formalisation) adjust document structure without restyling. While a [template](/patterns/template) defines the overall container for an artifact, prestructured formatting supplies the structural vocabulary used to build it…"
+      },
+      "group": "application",
+      "realisedBy": [
+        "components-block-based-editor--docs",
+        "components-bubble-menu--docs"
+      ],
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
+        },
+        {
+          "kind": "built"
+        }
+      ]
+    },
+    {
       "id": "privacy",
       "title": "Privacy",
       "category": "Qualities",
@@ -7931,6 +7961,93 @@
       "type": "complements",
       "label": "the shared selection highlight is selection's collaborative face — the treatment its own page defers",
       "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "prestructured-formatting",
+      "target": "form",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "the writer is composing text in a [form](/patterns/form), a reply when [commenting](/patterns/commenting), a message in a [conversation](/patterns/conversation), or a document in a [block-based editor](/patterns/block-based-editor).",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "prestructured-formatting",
+      "target": "commenting",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "the writer is composing text in a [form](/patterns/form), a reply when [commenting](/patterns/commenting), a message in a [conversation](/patterns/conversation), or a document in a [block-based editor](/patterns/block-based-editor).",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "prestructured-formatting",
+      "target": "conversation",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "the writer is composing text in a [form](/patterns/form), a reply when [commenting](/patterns/commenting), a message in a [conversation](/patterns/conversation), or a document in a [block-based editor](/patterns/block-based-editor).",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "prestructured-formatting",
+      "target": "block-based-editor",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "the writer is composing text in a [form](/patterns/form), a reply when [commenting](/patterns/commenting), a message in a [conversation](/patterns/conversation), or a document in a [block-based editor](/patterns/block-based-editor).",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "bounded-choice",
+      "target": "prestructured-formatting",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Formatting becomes an act of [bounded choice](/patterns/bounded-choice): the writer declares what each passage means from a fixed set of roles, leaving the system to render how it looks.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "prestructured-formatting",
+      "target": "command-menu",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Choices surface directly at the caret through a [command menu](/patterns/command-menu) or trigger via [keyboard shortcuts](/patterns/keyboard-shortcuts).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "prestructured-formatting",
+      "target": "keyboard-shortcuts",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Choices surface directly at the caret through a [command menu](/patterns/command-menu) or trigger via [keyboard shortcuts](/patterns/keyboard-shortcuts).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "prestructured-formatting",
+      "target": "editing-in-place",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "As with [editing in place](/patterns/editing-in-place), the writer needs to structure text directly in the flow of writing without resorting to manual typesetting.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "prestructured-formatting",
+      "target": "incremental-formalisation",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Because roles capture meaning rather than appearance, changing a role preserves the text and lets [incremental formalisation](/patterns/incremental-formalisation) adjust document structure without restyling.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "prestructured-formatting",
+      "target": "template",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "While a [template](/patterns/template) defines the overall container for an artifact, prestructured formatting supplies the structural vocabulary used to build it",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "prestructured-formatting",
+      "target": "formality",
+      "type": "enacts",
+      "label": "prestructured formatting lets the writer define text structure using a compact vocabulary of meaning rather than arbitrary styling",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "privacy",

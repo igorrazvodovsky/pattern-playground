@@ -22,6 +22,7 @@ const demos: Record<string, Loader> = {
   'dynamic-explanation': () =>
     import('@pkg/demos/bubble-menu').then((m) => m.DynamicExplanationDemo),
   'text-lens': () => import('@pkg/demos/bubble-menu').then((m) => m.TextLensDemo),
+  'prestructured-formatting': () => import('@pkg/demos/bubble-menu').then((m) => m.BasicDemo),
   'dynamic-hyperlinks': () =>
     import('@pkg/demos/dynamic-hyperlinks/DynamicHyperlinksDemo').then(
       (m) => m.DynamicHyperlinksDemo,

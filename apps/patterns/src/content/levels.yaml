@@ -288,11 +288,12 @@
   groups:
     - title: Fields and values
       lead: >-
-        Shape each field: how the value is entered, what it is chosen from, what
-        is filled in or offered as the actor types, and how a wrong value is
-        reported.
+        Shape each field: how the value is entered, how written text is given
+        structure, what it is chosen from, what is filled in or offered as the
+        actor types, and how a wrong value is reported.
       patterns:
         - data-entry
+        - prestructured-formatting
         - bounded-choice
         - good-defaults
         - autofill
