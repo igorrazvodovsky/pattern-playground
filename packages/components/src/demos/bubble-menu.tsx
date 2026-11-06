@@ -43,7 +43,7 @@ export const BasicDemo: React.FC = () => {
   }
 
   return (
-    <div className="layer">
+    <div>
       <EditorProvider editor={editor} plugins={plugins}>
         <EditorLayout>
           <div className="editor-content-wrapper">

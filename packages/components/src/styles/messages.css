@@ -64,6 +64,33 @@
   padding-block: 0;
 }
 
+/* Without bubble padding the avatar lines up with the author's name. */
+.drawer .message .avatar,
+.popover .message .avatar {
+  margin-top: 0;
+}
+
+/* A popover's text is smaller than the page's, so the inherited fixed line
+   height would pull name, comment and time apart. */
+.popover:has(> .messages) {
+  padding: var(--space-m);
+  line-height: var(--line-height-caption);
+}
+
+.popover .message__body {
+  display: block;
+}
+
+.popover .message__timestamp {
+  margin-block-start: var(--space-2xs);
+}
+
+/* Commands about the commented thing head the thread, on the trailing edge. */
+.popover__header:has(+ .messages) {
+  justify-content: flex-end;
+  margin-block: calc(-1 * var(--space-xs)) var(--space-xs);
+}
+
 /* A popover sizes to its content, which would collapse the composer */
 .popover .messages {
   inline-size: 40ch;
@@ -184,14 +211,30 @@
   flex: 1;
   display: flex;
   align-items: center;
+  border: var(--border);
+  padding: var(--space-2xs) var(--space-2xs) var(--space-2xs) var(--space-s);
+  border-radius: var(--radius-m);
 }
 
 .comment-composer__editor {
   flex: 1;
 }
 
-.comment__input:not(.popover .comment__input) {
-  border: var(--border);
-  padding: var(--space-2xs) 0 var(--space-2xs) var(--space-s);
-  border-radius: var(--radius-m);
+.comment__input:focus-within {
+  border-color: var(--c-active-border);
+}
+
+/* The composer runs without the placeholder extension; an empty editor holds
+   one paragraph with only a trailing break, which is enough to show it. */
+.comment-editor {
+  position: relative;
+  outline: none;
+}
+
+.comment-editor:has(> p:only-child > br:only-child)::before {
+  content: attr(data-placeholder);
+  position: absolute;
+  inset-inline-start: 0;
+  color: var(--c-placeholder);
+  pointer-events: none;
 }

@@ -13,7 +13,7 @@ interface CommentPopoverProps {
   anchor: Element | VirtualElement | null;
   currentUser: string;
   placeholder?: string;
-  /** Commands about the commented thing, shown below the thread. */
+  /** Commands about the commented thing, shown in a header above the thread. */
   actions?: React.ReactNode;
   onClose: () => void;
   /** Runs after `onClose` when the actor leaves with Escape. */
@@ -75,6 +75,11 @@ export const CommentPopover: React.FC<CommentPopoverProps> = ({
           onEscape?.();
         }}
       >
+        {actions && (
+          <div className="popover__header">
+            <div className="toolbar">{actions}</div>
+          </div>
+        )}
         <CommentThread
           pointer={pointer}
           currentUser={user}
@@ -82,7 +87,6 @@ export const CommentPopover: React.FC<CommentPopoverProps> = ({
           placeholder={placeholder}
           onCommentAdded={onCommentAdded}
         />
-        {actions && <div className="toolbar">{actions}</div>}
       </div>
     </pp-popup>
   );

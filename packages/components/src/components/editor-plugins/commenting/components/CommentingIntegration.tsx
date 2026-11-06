@@ -195,11 +195,11 @@ export const CommentingIntegration: React.FC<CommentingIntegrationProps> = ({
               !openThread.pending && (
                 <button
                   type="button"
-                  className="button button--small"
+                  className="button button--small button--plain"
                   onClick={handleQuote}
                   title="Make this passage a quote other documents can refer to. The words stay here."
                 >
-                  <iconify-icon className="icon" icon="ik:quotation-marks"></iconify-icon>
+                  <iconify-icon className="icon" icon="ik:quotation-marks-fill"></iconify-icon>
                   Turn into quote
                 </button>
               )
