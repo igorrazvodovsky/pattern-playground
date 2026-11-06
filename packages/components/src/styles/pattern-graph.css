@@ -10,6 +10,21 @@
     background: var(--c-neutral-0);
   }
 
+  /* Resting view draws only the structural backbone — sequence, composition,
+     placement. Every other edge type appears only when it touches the active
+     node or joins the trail. The hidden edges still shape the layout. */
+
+  pp-network-graph[data-pattern-graph]
+    .network-graph__edge:not(
+      [data-edge-type='precedes'],
+      [data-edge-type='enables'],
+      [data-edge-type='hosts'],
+      .network-graph__edge--active,
+      .network-graph__edge--trail
+    ) {
+    stroke-opacity: 0;
+  }
+
   /* Edge types — only on the active edge, so the resting view stays quiet */
 
   pp-network-graph .network-graph__edge--active[data-edge-type='complements'] {
