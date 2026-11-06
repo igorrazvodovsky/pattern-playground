@@ -456,6 +456,12 @@
     margin-top: var(--space-xs);
   }
 
+  /* Nested lists: the hanging marker sits under the parent item's text. */
+  li > :is(ul, ol) {
+    margin-block-start: var(--space-xs);
+    padding-inline-start: 1.25em;
+  }
+
   a:not([class]) {
     color: inherit;
     text-decoration: underline;
@@ -724,6 +730,39 @@ main.shell__main:has(> .content-inset) {
     & > .annotation__body {
       color: var(--c-body);
     }
+  }
+
+  /* lib/annotations.ts draws a rough-notation highlight over each <mark> in
+     page and article prose and sets data-annotated; the stroke replaces the
+     flat background. A plain <mark> takes the library's default mark colour;
+     <mark class="yellow"> takes yellow. The flat background stays until the
+     highlight is drawn, and wherever none is drawn (link previews), so it
+     carries the same colour. The SVG sits just before the mark. */
+  mark.yellow {
+    background: var(--c-warning-100);
+  }
+
+  :is(article, .content-inset) mark[data-annotated] {
+    background: none;
+  }
+
+  /* The positioned SVG would paint over the text that follows the mark where
+     the stroke runs past it; it goes under the text, inside the mark's parent
+     so it cannot drop behind a background further out. */
+  :is(article, .content-inset) :has(> .rough-annotation + mark[data-annotated]) {
+    isolation: isolate;
+  }
+
+  :is(article, .content-inset) .rough-annotation:has(+ mark[data-annotated]) {
+    z-index: -1;
+  }
+
+  :is(article, .content-inset) .rough-annotation:has(+ mark[data-annotated]) path {
+    stroke: var(--c-accent-100);
+  }
+
+  :is(article, .content-inset) .rough-annotation:has(+ mark.yellow[data-annotated]) path {
+    stroke: var(--c-warning-100);
   }
 
   .annotation__note {

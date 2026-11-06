@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import '@styles/pattern-graph.css';
+import { STORYBOOK_URL } from '../lib/site';
 ---
 
 <Base title="Introduction">
@@ -64,9 +65,12 @@ import '@styles/pattern-graph.css';
 
     <p>
       Everything here is exploratory and evolving — thinking tools rather than deliverables. My
-      interest is in the relationships between things more than the things themselves, so each one
-      is described and implemented <em>only</em> to a degree needed to make the <em>next</em>{' '}
-      connection possible.
+      interest is in the relationships between things more than the things themselves, so{' '}
+      <mark class="yellow">
+        each one is described and implemented <em>only</em> to a degree needed to make the{' '}
+        <em>next</em> connection possible
+      </mark>
+      .
     </p>
 
     <h2>Objective and approach</h2>
@@ -74,21 +78,32 @@ import '@styles/pattern-graph.css';
     <p>
       I think of this as a <em>design repertoire</em> — a personal collection of patterns that shape
       how I approach design problems, an attempt to put on paper what was mostly in my head for the
-      last 10+ years. The result sits across two layers: a budding pattern language and a component
-      catalogue as a support.
+      last 10+ years. The result sits across two layers: a budding pattern language and a{' '}
+      <a href={STORYBOOK_URL}>component catalogue</a> to support it.
     </p>
 
     <p>
       The repertoire is shaped by the context of <a href="https://igorrazvodovsky.com/">my work</a>:
-      professional work-support systems — tools that facilitate work, coordination, and
-      information-intensive activities. That context determines which patterns appear here, how they
-      get evaluated, and which qualities receive attention.
+      i.e. mostly professional work-support systems — tools that facilitate work, coordination, and
+      information-intensive activities.
     </p>
 
     <p>
       The approach is like tending a garden — cultivating ideas over time, refining structures and
-      fostering connections as understanding develops.
+      fostering connections as understanding develops. There are two main input sources:
     </p>
+
+    <ul>
+      <li>
+        Day-to-day work: when something I have just designed can be generalised (especially if it's
+        the N-th time I have designed it), I try to document its generic form.
+      </li>
+      <li>
+        The exploration of AI and its application in design—including ideas gleaned from academic
+        papers or observations of other practitioners' work—is also documented, in order to assess
+        how these elements fit into a broader pattern network.
+      </li>
+    </ul>
 
     <h2>On AI</h2>
 
@@ -97,7 +112,8 @@ import '@styles/pattern-graph.css';
       In 2025 it became a playground for weaving LLMs into component-based structures, using design
       systems as a lens to explore what was emerging. By 2026 the ambition shifted toward{' '}
       <a href="https://github.com/igorrazvodovsky/gen-ui-playground">generative UI</a> specification
-      — exploring how this repertoire might serve as a knowledge base for task-grounded generation.
+      — exploring how this repertoire might serve as a knowledge base for generation grounded in the
+      user's tasks and needs.
     </p>
 
     <hr />
@@ -105,6 +121,32 @@ import '@styles/pattern-graph.css';
     <h2>Working notes</h2>
 
     <p>An occasionally updated log of current focus.</p>
+
+    <h3>Now</h3>
+
+    <ul>
+      <li>
+        Rereading Alexander's <a href="https://www.patternlanguage.com/">A Pattern Language</a>. As
+        a result:
+        <ul>
+          <li>Adding APL-inspired grouping and ordering of the patterns</li>
+          <li>Adding some boilerplates for project-specific languages.</li>
+          <li>
+            Bringing back{' '}
+            <a href="https://essenceofsoftware.com/tutorials/concept-basics/sw-as-concepts/">
+              concepts
+            </a>{' '}
+            as a <em>construction</em> counterpart to patterns.
+          </li>
+        </ul>
+      </li>
+      <li>Untangling navigation "models" from "patterns"</li>
+      <li>
+        Making pattern demos independent from the component library by using{' '}
+        <a href="https://json-render.dev/">json-render</a> and adding{' '}
+        <a href="https://ui.shadcn.com/">shadcn/ui</a> as a second component library.
+      </li>
+    </ul>
 
     <h3>September</h3>
 
