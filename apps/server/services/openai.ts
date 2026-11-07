@@ -5,6 +5,7 @@ import config from '../config.js';
 import logger from '../logger.js';
 import {
   TextLensRequest,
+  RevisionRequest,
   ExplanationRequest,
   TimelineGrouping,
   TimelineGroupingRequest,
@@ -263,6 +264,25 @@ export class OpenAIService {
       logger.error('Error in text lens streaming:', error);
       throw error;
     }
+  }
+
+  async *generateRevisionStream(
+    request: RevisionRequest,
+    signal?: AbortSignal,
+  ): AsyncGenerator<StreamChunk> {
+    const { text, instruction, context } = request;
+    let input = `Revise this text as instructed. Change only what the instruction asks for and keep the facts as they are.\n\nInstruction: ${instruction}\n\nText:\n"${text}"`;
+    if (context) input += `\n\nSurrounding context: ${context}`;
+    input += `\n\nOutput only the revised text, without quotation marks, preamble or commentary.`;
+
+    yield* this.streamText(
+      {
+        instructions:
+          'You revise text on instruction. Return only the revised text, beginning immediately.',
+        input,
+      },
+      signal,
+    );
   }
 
   /**

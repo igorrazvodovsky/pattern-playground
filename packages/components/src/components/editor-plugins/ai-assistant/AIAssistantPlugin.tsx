@@ -7,14 +7,23 @@ import {
 import { AIAssistantBubbleMenu } from './components/AIAssistantBubbleMenu';
 import { AIAssistantToolbar } from './components/AIAssistantToolbar';
 import type { Extension } from '@tiptap/core';
+import { Fragment, Slice } from '@tiptap/pm/model';
+
+/** A quick-action instruction offered in the bubble menu: the selected text is
+    revised as the instruction says and the revision replaces it in the document. */
+export interface RevisionPreset {
+  id: string;
+  label: string;
+  instruction: string;
+}
 
 export interface AIAssistantPluginOptions {
-  enableExplain?: boolean;
   enableSummarize?: boolean;
   enableZoomIn?: boolean;
   enableZoomOut?: boolean;
   streamingEnabled?: boolean;
   zoomIntensity?: number;
+  revisions?: RevisionPreset[];
 }
 
 export class AIAssistantPlugin extends BasePlugin {
@@ -37,7 +46,6 @@ export class AIAssistantPlugin extends BasePlugin {
   constructor(options: AIAssistantPluginOptions = {}) {
     super();
     this.options = {
-      enableExplain: true,
       enableSummarize: true,
       enableZoomIn: true,
       enableZoomOut: true,
@@ -123,29 +131,13 @@ export class AIAssistantPlugin extends BasePlugin {
       'ai-assistant:chunk-received',
       (payload: { action: string; content: string; range: { from: number; to: number } }) => {
         if (this.options.streamingEnabled && this.context?.editor) {
-          const editor = this.context.editor;
-
           try {
-            // Initialize streaming state if this is the first chunk
-            if (this.streamingRange === null) {
-              // Store original selection for first replacement
-              this.streamingRange = { from: payload.range.from, to: payload.range.to };
-              this.streamingContent = payload.content;
-
-              // First chunk: replace the original selection
-              editor
-                .chain()
-                .focus()
-                .setTextSelection({ from: this.streamingRange.from, to: this.streamingRange.to })
-                .insertContent(this.streamingContent)
-                .run();
-            } else {
-              // Accumulate content for subsequent chunks
-              this.streamingContent += payload.content;
-
-              // For subsequent chunks: replace whatever is currently selected with the accumulated content
-              editor.chain().focus().insertContent(this.streamingContent).run();
-            }
+            // The first chunk replaces the selection; each later chunk replaces
+            // what the earlier chunks inserted with the reply so far.
+            const range = this.streamingRange ?? payload.range;
+            this.streamingContent += payload.content;
+            const to = this.replaceText(range, this.streamingContent);
+            this.streamingRange = { from: range.from, to };
           } catch (error) {
             console.error('Error in streaming chunk handler:', error);
             // Reset streaming state on error
@@ -201,7 +193,24 @@ export class AIAssistantPlugin extends BasePlugin {
     selectedText: string,
     range: { from: number; to: number },
   ): Promise<void> {
-    if (!this.context?.editor || !selectedText) return;
+    // The menus show a processing state until one of these two events arrives,
+    // so every way out of this method sends exactly one of them.
+    let settled = false;
+    const complete = () => {
+      if (settled) return;
+      settled = true;
+      this.context?.eventBus.emit('ai-assistant:action-complete', { action });
+    };
+    const fail = (error: string) => {
+      if (settled) return;
+      settled = true;
+      this.context?.eventBus.emit('ai-assistant:action-error', { action, error });
+    };
+
+    if (!this.context?.editor || !selectedText) {
+      fail('Nothing is selected');
+      return;
+    }
 
     // Reset streaming state for new action
     this.streamingContent = '';
@@ -216,21 +225,14 @@ export class AIAssistantPlugin extends BasePlugin {
           range,
         });
       },
-      onComplete: () => {
-        this.context?.eventBus.emit('ai-assistant:action-complete', { action });
-      },
-      onError: (error: string) => {
-        this.context?.eventBus.emit('ai-assistant:action-error', { action, error });
-      },
+      // Completion is reported after the reply has been placed in the document.
+      onError: fail,
     };
 
     try {
       let result = '';
 
       switch (action) {
-        case 'explain':
-          result = await this.explainText(selectedText, callbacks);
-          break;
         case 'summarize':
           result = await this.summarizeText(selectedText, callbacks);
           break;
@@ -240,47 +242,58 @@ export class AIAssistantPlugin extends BasePlugin {
         case 'zoom-out':
           result = await this.zoomOutText(selectedText, callbacks);
           break;
-        default:
-          console.warn('Unknown AI action:', action);
-          return;
-      }
-
-      // Replace selected text with AI result if streaming is not enabled
-      if (!this.options.streamingEnabled && result) {
-        // Use the same reliable chain approach as the working version
-        const success = this.context.editor
-          .chain()
-          .focus()
-          .deleteRange({ from: range.from, to: range.to })
-          .insertContent(result)
-          .run();
-
-        if (success) {
-          // Select the newly inserted text
-          const newTo = range.from + result.length;
-
-          setTimeout(() => {
-            if (this.context?.editor) {
-              this.context.editor.commands.setTextSelection({ from: range.from, to: newTo });
-            }
-          }, 10);
-        } else {
-          console.warn('Failed to insert AI result in non-streaming mode');
+        default: {
+          const preset = this.options.revisions?.find((r) => `revise:${r.id}` === action);
+          if (!preset) {
+            console.warn('Unknown AI action:', action);
+            fail(`Unknown action: ${action}`);
+            return;
+          }
+          result = await textTransformService.revise(selectedText, preset.instruction, callbacks);
         }
       }
+
+      // An empty reply (a failed or cancelled request) leaves the selection as it was.
+      if (result.trim()) {
+        const inserted = this.options.streamingEnabled
+          ? this.streamingRange
+          : { from: range.from, to: this.replaceText(range, result) };
+        if (inserted) this.context.editor.chain().focus().setTextSelection(inserted).run();
+      }
+      complete();
     } catch (error) {
       console.error(`AI Assistant ${action} failed:`, error);
+      fail(error instanceof Error ? error.message : 'Unknown error');
+    } finally {
+      this.streamingContent = '';
+      this.streamingRange = null;
     }
   }
 
-  private async explainText(text: string, callbacks: TextLensCallbacks): Promise<string> {
-    // For explain, we use zoom out to get broader context
-    return textTransformService.zoomOut(text, 50, callbacks, 'Explain this text in detail');
+  /**
+   * Replace a range with the model's reply and return where the reply ends.
+   * The reply is plain text: blank lines separate paragraphs, and nothing in
+   * it is parsed as markup. The reply goes in as an open slice, so its first
+   * and last paragraphs join the text before and after the range: revising
+   * part of a paragraph keeps it one paragraph.
+   */
+  private replaceText(range: { from: number; to: number }, text: string): number {
+    const { state, view } = this.context!.editor;
+    const paragraphs = text
+      .split(/\n\s*\n/)
+      .map((block) => block.replace(/\s*\n\s*/g, ' ').trim())
+      .filter(Boolean)
+      .map((block) => state.schema.nodes.paragraph.create(null, state.schema.text(block)));
+    const slice = paragraphs.length ? new Slice(Fragment.from(paragraphs), 1, 1) : Slice.empty;
+
+    const tr = state.tr.replace(range.from, range.to, slice);
+    const end = tr.mapping.map(range.to);
+    view.dispatch(tr);
+    return end;
   }
 
   private async summarizeText(text: string, callbacks: TextLensCallbacks): Promise<string> {
-    // For summarize, we use zoom in to condense
-    return textTransformService.zoomIn(text, 75, callbacks, 'Create a concise summary');
+    return textTransformService.zoomOut(text, 75, callbacks);
   }
 
   private async zoomInText(text: string, callbacks: TextLensCallbacks): Promise<string> {

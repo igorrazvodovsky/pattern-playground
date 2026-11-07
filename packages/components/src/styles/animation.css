@@ -685,6 +685,44 @@
   background-color: var(--color);
 }
 
+/* Block shimmer: one soft band passes over a whole passage, for text of any
+   length being regenerated. The gradient is sized to the block rather than to
+   a line, so the band crosses every line at once instead of crawling across
+   them as a narrow stripe. With reduced motion the text only dims and fades. */
+@keyframes shimmer-block {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: 0 0;
+  }
+}
+
+@keyframes shimmer-block-fade {
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.shimmer--block {
+  --_dim: oklch(from var(--c-body) l c h / 40%);
+  --_bright: var(--c-body);
+
+  color: transparent;
+  background-image: linear-gradient(100deg, var(--_dim) 40%, var(--_bright) 50%, var(--_dim) 60%);
+  background-size: 300% 100%;
+  background-repeat: no-repeat;
+  background-clip: text;
+  animation: shimmer-block 2s ease-in-out infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    color: var(--_dim);
+    background: none;
+    animation: shimmer-block-fade 2s ease-in-out infinite;
+  }
+}
+
 /* AnimateChangeInHeight: content outside the animated height stays hidden. */
 .animate-height {
   overflow: hidden;

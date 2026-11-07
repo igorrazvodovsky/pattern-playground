@@ -21,7 +21,10 @@ const demos: Record<string, Loader> = {
   'commenting': () => import('@pkg/demos/bubble-menu').then((m) => m.CommentingDemo),
   'dynamic-explanation': () =>
     import('@pkg/demos/bubble-menu').then((m) => m.DynamicExplanationDemo),
-  'text-lens': () => import('@pkg/demos/bubble-menu').then((m) => m.TextLensDemo),
+  'text-lens': () => import('@pkg/demos/text-lens').then((m) => m.TextLensDemo),
+  'instructed-revision': () =>
+    import('@pkg/demos/instructed-revision').then((m) => m.InstructedRevisionDemo),
+  'audience-lens': () => import('@pkg/demos/audience-lens').then((m) => m.AudienceLensDemo),
   'prestructured-formatting': () => import('@pkg/demos/bubble-menu').then((m) => m.BasicDemo),
   'dynamic-hyperlinks': () =>
     import('@pkg/demos/dynamic-hyperlinks/DynamicHyperlinksDemo').then(

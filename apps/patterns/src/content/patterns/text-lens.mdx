@@ -1,8 +1,11 @@
 ---
 title: Text lens
 added: 2025-08-01
-updated: 2026-11-06
+updated: 2026-11-07
 role: pattern
+evidence:
+  - observed
+  - literature
 group: evaluation
 activityLevel: action
 mediation: individual
@@ -10,82 +13,92 @@ lifecycle: evaluation
 fun: 🙂 5/5. A part of a bigger attempt to map LLM-related patterns.
 situation:
   initiating: >-
-    the text says what it needs to say but not at the length or in the register this reader
-    needs it; rewriting it to suit them would lose it for the others, so what's wrong is the
-    framing rather than the content
-  resulting:
-    - >-
-      the reader picks the framing — shorter or longer, formal or plain, technical or
-      accessible — and the original stays underneath as the thing being reframed
-    - >-
-      every lens is a rewrite, so what the reader ends up trusting is a generated telling;
-      how far it may drift and whether the source stays reachable become part of the move
-    - >-
-      applied automatically the lens decides for the reader what they needed; applied by hand
-      it asks them to know which framing helps before they have read the thing
-    - >-
-      when the original is authored and the versions are derived from it, someone has to answer
-      for what a version leaves out; versions prepared and checked by the author are answered
-      for, versions generated on the reader's request are not
+    … a document already says what it needs to say, but this actor needs it at a different
+    length or reading level: a help article for someone new to the product, a clinical paper
+    for a patient, or a post in a second language. Rewriting the original for one reader
+    makes it worse for the rest, so the view adapts the phrasing or length for this actor
+    while leaving the source text intact. A text lens helps complete [help](/patterns/help),
+    where the same documentation serves actors with very different background knowledge, and
+    supplies the coarser text levels that [semantic zoom](/patterns/semantic-zoom) and
+    [focus and context](/patterns/focus-and-context) step through when operating on prose.
+  resulting: >-
+    The actor reads an adapted view while the source text remains unchanged. Each adapted
+    view is [generated content](/patterns/generated-content) derived from the original. Anchor claims in a shortened
+    view to their source passages with [citation](/patterns/citation), so the summary leads
+    back into the document rather than replacing it. Mark the adapted view with
+    [provenance marking](/patterns/provenance-marking) where the actor needs to distinguish
+    the author's wording from generated text. When a text lens reorders and prunes a document
+    around the actor's task, it works like a [purpose-keyed view](/patterns/purpose-keyed-view)
+    on a single text and shares its trade-off: whatever is omitted, the actor must know to
+    look for…
 relationships:
   complements:
     - to: generated-content
-      note: a version produced from the original is generated content, and says so beside the switch that chose it
-    - to: conversation
-      note: filter lenses adapt conversational tone and style based on context and relationship
+      note: an adapted version produced from the source text is generated content
+    - provenance-marking
   related:
     - to: progressive-disclosure
-      note: lenses reveal or conceal information based on the actor's needs
+      note: progressive disclosure reveals detail the author wrote in advance; a text lens generates levels on demand
     - to: localization
-      note: tone adjustment with cultural bounds
+      note: translating content on request is a text lens; adapting the interface's own copy to a locale is localization
+    - to: purpose-keyed-view
+      note: a purpose-based text lens reorders and prunes one document the way a purpose-keyed view shapes a collection
 ---
 
-The transformation of text through a chosen perspective, balancing fidelity to the original with the clarity of a different framing. Actors can switch between lenses to reshape how content is presented:
+* * *
 
-**Magnifying lens:** Adjust detail level
-- Zoom out: summarisation
-- Zoom in: elaboration or expansion
+**A single text often serves actors with different background knowledge, reading fluency, or available time, and the same actor may need a quick summary first and full detail next. One fixed version compromises across all of them, while authoring separate versions for every audience and length multiplies what the author has to write and keep up to date.**
 
-**Filter lens:** Shift tone and style
-- Formal ↔ casual
-- Technical ↔ accessible
-- Assertive ↔ diplomatic
+Five forces shape how a text can be adapted on demand:
 
-**Audience lens:** Re-tell for a named reader
-- Novice ↔ expert
-- Role-based: developer, manager, designer
-- ...
+- *Fixed authoring vs. variable reading depth*: systems like StretchText let actors expand or collapse passages by level of detail, but rarely saw adoption because authors had to write and maintain every level by hand. Generating levels on demand removes that authoring bottleneck.
+- *Fit vs. fidelity*: the further a generated version moves from the source phrasing, the more likely it is to drop qualifiers, soften claims, or introduce errors. In clinical research summaries, generated plain-language versions frequently omit the study population or comparator.
+- *Explicit selection vs. automatic adaptation*: the system can infer some needs from role or account settings, but cannot reliably guess an actor's familiarity with a specific topic. Over-simplifying has a cost: readers who already know a subject tend to overlook caveats and study limitations when given an overly plain version. Automatic adaptation risks serving the wrong level silently; manual controls require the actor to choose before reading.
+- *Editorial accountability vs. maintenance*: authored variants are reviewed by someone accountable for what they omit, but go stale when the source text changes. Generated variants stay in sync with the source, but have no human editor standing behind them.
+- *How audiences differ*: a lens can only reorganise or rephrase information that is already in the source text. Readers differ in three ways:
+  - *Background knowledge and fluency*: the facts stay the same while vocabulary, sentence complexity, or language changes. This is suited to generation from the source.
+  - *Task or purpose*: executing a step, troubleshooting, or evaluating. The underlying facts stay the same, but priority and omissions shift.
+  - *Applicable rules or context*: permissions, pricing tier, platform, or jurisdiction. These require facts outside the passage; generating them invites fabrication, so they belong in authored conditional content instead.
 
-The magnifying and filter lenses name a change to the text. The audience lens names who is reading, and the version follows from that: shorter sentences and no jargon for a newcomer, the same steps reordered around permissions for an admin. Asking "who are you?" is easier to answer than "how should this read?".
+Therefore,
 
-<Demo name="audience-lens" label="A help-centre article with an audience switch: the switch names the version showing, and the original is one of its options." />
+**Let the actor switch the level of detail or reading framing of a document—by passage or as a whole—generating the view strictly from the source text while keeping the original one step away. Use authored content, not generation, for variations that depend on external rules such as permissions, pricing tier, platform, or region.**
 
-## User control
+Where the source is a text of record, such as a contract, policy, or clinical instruction, present the generated view as a reading aid that links back to the binding text rather than replacing it.
 
-Text lenses can be applied with varying degrees of user control:
-- Direct control: Users explicitly select and apply specific lens types
-- Contextual suggestions: System recommends appropriate lenses based on content or context
-- Automatic application: Lenses applied based on user preferences or situational needs
+## In practice
 
-## Examples
+### Adjusting detail by passage
 
-### Interactive text transformation
 
-The <ComponentRef id="components-bubble-menu--docs">Bubble menu</ComponentRef> pattern demonstrates text lens application through text selection and transformation.
-Users can select text and apply different lenses using AI-powered tools to modify content presentation at granular levels.
+<Demo name="text-lens" label="The actor adjusts the detail level of an individual section—condensing it into a summary or expanding it—while the rest of the document stays in place. Stepping back to the default level restores the author's original wording." />
 
-<Demo name="text-lens" label="Text lens via bubble menu" />
+### Adapting for the audience
 
-## To-do
+<Demo name="audience-lens" label="The actor selects a reader profile or framing, and the text adapts its terminology, density, and structure while keeping the same underlying facts." />
 
-- The page holds two situations that may be separate patterns: an actor adapting someone else's finished text to read it (the audience lens, the help centre), and an author reworking their own text while writing it (the bubble menu demo, close to instructed revision). Split if their connections keep diverging.
+## Research on this pattern
 
-- Combined with *citations*, summaries let you capture key takeaways from a long document and then go deeper into the relevant content.
-- Combined with *synthesis*, summaries can take multiple inputs such as an email thread and capture the main ideas.
-- Combined with *workflow*, summaries can be added automatically to specific objects.
-
-{/* Contextual assistance: AI-powered suggestions for appropriate lens selection based on content and situation */}
+- Tailoring helps only when it matches the reader: [simpler versions served readers new to a topic best, while familiar readers tended to overlook details such as study limitations in overly plain versions](https://doi.org/10.1145/3613904.3642289).
+- Omissions in a shortened version are invisible within the summary itself: [dropped details leave no trace, making misrepresentation undetectable without consulting the original text](https://arxiv.org/abs/2401.10873).
+- Generated plain-language summaries of medical trials [frequently omitted or overgeneralised the populations and comparators studied](https://doi.org/10.18653/v1/2024.acl-long.459).
+- [Minimally lossy text simplification raised comprehension by 4% overall and 15% on medical text across more than 4,500 participants](https://www.research.google/blog/making-complex-text-understandable-minimally-lossy-text-simplification-with-gemini/).
 
 ## Resources & references
 
-- [NN/g / Accordion editing](https://www.nngroup.com/articles/accordion-editing-apple-picking/)
+- August, Lo, Smith & Reinecke (2024) [Know your audience: the benefits and pitfalls of generating plain language summaries beyond the "general" audience](https://doi.org/10.1145/3613904.3642289) — simpler versions served readers new to a topic; familiar readers skipped details such as study limitations in overly plain versions
+- Gu, Arawjo, Li, Kummerfeld & Glassman (2024) [An AI-resilient text rendering technique for reading and skimming documents](https://doi.org/10.1145/3613904.3642699) — why omissions in summaries go unnoticed; renders the original text with graded emphasis instead of rewriting it
+- Joseph et al. (2024) [FactPICO: factuality evaluation for plain language summarization of medical evidence](https://doi.org/10.18653/v1/2024.acl-long.459)
+- Fok, Chang, August, Zhang & Weld (2024) [Qlarify: recursively expandable abstracts](https://doi.org/10.1145/3654777.3676397) — StretchText's adjustable detail with generated rather than authored levels
+- Huang, August & Sundaram (2026) [TermSight: making service contracts approachable](https://doi.org/10.1145/3772318.3791387) — plain-language snippets that link back to the binding contract text
+- Brusilovsky (1996) [Methods and techniques of adaptive hypermedia](https://wwwis.win.tue.nl/ah94/Brusilovsky.html) — fragment variants, conditional text, and stretchtext as the authored predecessors of these adaptations
+- Google Research (2025) [Minimally-lossy text simplification with Gemini](https://www.research.google/blog/making-complex-text-understandable-minimally-lossy-text-simplification-with-gemini/) — the study behind Simplify
+- [Wikipedia pauses AI summary experiment](https://www.avclub.com/wikipedia-ai-summary-backlash) — editors' objections to unverified generated summaries published under the site's name
+- Inclusion Europe [European easy-to-read logo](https://easy-to-read.inclusion-europe.eu/european-logo/) — human review by readers with intellectual disabilities as a condition of certification
+
+## To-do
+
+- A summary across multiple documents, such as an email thread or a collection, has no single source text to view through a lens: it is generated content with citations rather than a text lens. The "Generate summaries at several levels" step in [making sense at scale](/sequences/making-sense-at-scale) still routes collection overviews here.
+- Combined with *workflow*, summaries can be generated automatically for specific objects.
+
+{/* Contextual assistance: AI-powered suggestions for appropriate lens selection based on content and situation */}

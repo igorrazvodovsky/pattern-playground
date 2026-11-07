@@ -23,6 +23,19 @@ const textLensRequestSchema = z.object({
   intensity: z.number().min(10).max(100),
 });
 
+// Instructed revision: the actor's instruction applied to a passage.
+export type RevisionRequest = {
+  text: string;
+  instruction: string;
+  context?: string;
+};
+
+const revisionRequestSchema = z.object({
+  text: z.string().min(1).max(10000),
+  instruction: z.string().min(1).max(500),
+  context: z.string().optional(),
+});
+
 // Explanation schemas
 export type ExplanationRequest = {
   text: string;
@@ -192,6 +205,7 @@ const deductionRequestSchema = z.object({
 
 export {
   textLensRequestSchema,
+  revisionRequestSchema,
   explanationRequestSchema,
   suggestionRequestSchema,
   timelineGroupingRequestSchema,

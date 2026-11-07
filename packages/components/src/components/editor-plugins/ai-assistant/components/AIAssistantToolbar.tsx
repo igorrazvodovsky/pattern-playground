@@ -1,4 +1,5 @@
 import { useCallback, useState, useEffect } from 'react';
+import { Selection } from '@tiptap/pm/state';
 import { useEditorContext, usePlugin } from '../../../editor/EditorProvider';
 import type { AIAssistantPlugin, AIAssistantPluginOptions } from '../AIAssistantPlugin';
 
@@ -36,21 +37,18 @@ export function AIAssistantToolbar({ options, onAction }: AIAssistantToolbarProp
     async (action: string) => {
       if (!editor) return;
 
-      const { from, to } = editor.state.selection;
-      const currentSelectedText = editor.state.doc.textBetween(from, to);
-
-      if (!currentSelectedText) {
-        // If no selection, show a message or select all content
-        const allText = editor.state.doc.textContent;
-        if (allText) {
-          editor.commands.selectAll();
-          await onAction(action, allText, { from: 0, to: editor.state.doc.content.size });
-        }
-        return;
-      }
+      // With nothing selected the action applies to the whole document, from
+      // the start of its first text block to the end of its last.
+      const { doc } = editor.state;
+      const { from, to } = editor.state.selection.empty
+        ? { from: Selection.atStart(doc).from, to: Selection.atEnd(doc).to }
+        : editor.state.selection;
+      // Blank lines between blocks, so a selection across paragraphs keeps them apart.
+      const text = doc.textBetween(from, to, '\n\n');
+      if (!text.trim()) return;
 
       setIsProcessing(true);
-      await onAction(action, currentSelectedText, { from, to });
+      await onAction(action, text, { from, to });
     },
     [editor, onAction],
   );
@@ -76,19 +74,6 @@ export function AIAssistantToolbar({ options, onAction }: AIAssistantToolbarProp
         </button>
       ) : (
         <>
-          {options.enableExplain && (
-            <button
-              type="button"
-              className="toolbar-button"
-              onClick={() => handleAction('explain')}
-              title="Explain selected text (or all content if none selected)"
-              disabled={!editor}
-            >
-              <span className="toolbar-button-icon">💡</span>
-              <span className="toolbar-button-label">Explain</span>
-            </button>
-          )}
-
           {options.enableSummarize && (
             <button
               type="button"

@@ -51,7 +51,10 @@ export function AIAssistantBubbleMenu({ options, onAction }: AIAssistantBubbleMe
 
       // Get current selection at action time to ensure accuracy
       const { from, to } = editor?.state.selection || { from: 0, to: 0 };
-      const currentSelectedText = editor ? editor.state.doc.textBetween(from, to) : selectedText;
+      // Blank lines between blocks, so a selection across paragraphs keeps them apart.
+      const currentSelectedText = editor
+        ? editor.state.doc.textBetween(from, to, '\n\n')
+        : selectedText;
       const currentRange = { from, to };
 
       if (!currentSelectedText || currentSelectedText.trim().length === 0) {
@@ -72,17 +75,6 @@ export function AIAssistantBubbleMenu({ options, onAction }: AIAssistantBubbleMe
 
   return (
     <>
-      {options.enableExplain && (
-        <button
-          type="button"
-          className="button button--plain"
-          onClick={() => handleAction('explain')}
-          title="Explain selected text"
-        >
-          💡 Explain
-        </button>
-      )}
-
       {options.enableSummarize && (
         <button
           type="button"
@@ -99,9 +91,10 @@ export function AIAssistantBubbleMenu({ options, onAction }: AIAssistantBubbleMe
           type="button"
           className="button button--plain"
           onClick={() => handleAction('zoom-in')}
-          title="Condense selected text (zoom in)"
+          title="More detail (zoom in)"
         >
           <iconify-icon icon="ik:zoom-in"></iconify-icon>
+          <span className="visually-hidden">More detail</span>
         </button>
       )}
       {options.enableZoomOut && (
@@ -109,12 +102,24 @@ export function AIAssistantBubbleMenu({ options, onAction }: AIAssistantBubbleMe
           type="button"
           className="button button--plain"
           onClick={() => handleAction('zoom-out')}
-          title="Expand selected text (zoom out)"
+          title="Less detail (zoom out)"
         >
           <iconify-icon icon="ik:zoom-out"></iconify-icon>
-          <span className="visually-hidden">Expand</span>
+          <span className="visually-hidden">Less detail</span>
         </button>
       )}
+
+      {options.revisions?.map((preset) => (
+        <button
+          key={preset.id}
+          type="button"
+          className="button button--plain"
+          onClick={() => handleAction(`revise:${preset.id}`)}
+          disabled={isProcessing}
+        >
+          {preset.label}
+        </button>
+      ))}
     </>
   );
 }

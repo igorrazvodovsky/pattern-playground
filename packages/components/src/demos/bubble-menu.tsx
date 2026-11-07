@@ -11,7 +11,6 @@ import { EditorToolbar } from '../components/editor/slots/EditorToolbar.tsx';
 import { formattingPlugin } from '../components/editor-plugins/formatting/FormattingPlugin.ts';
 import { commentingPlugin } from '../components/editor-plugins/commenting/CommentingPlugin.ts';
 import { CommentingIntegration } from '../components/editor-plugins/commenting/components/CommentingIntegration.tsx';
-import { aiAssistantPlugin } from '../components/editor-plugins/ai-assistant/index.ts';
 import { explanationPlugin } from '../components/editor-plugins/explanation/index.ts';
 import { getDocumentContentText, getDocumentContentRich, referenceCategories } from '@shared/data';
 
@@ -44,55 +43,6 @@ export const BasicDemo: React.FC = () => {
 
   return (
     <div>
-      <EditorProvider editor={editor} plugins={plugins}>
-        <EditorLayout>
-          <div className="editor-content-wrapper">
-            <PluginEditorContent />
-            <EditorBubbleMenu />
-          </div>
-        </EditorLayout>
-      </EditorProvider>
-    </div>
-  );
-};
-
-export const TextLensDemo: React.FC = () => {
-  const content = getDocumentContentText('doc-climate-change', 'habitat-displacement');
-  const plugins = React.useMemo(
-    () => [
-      formattingPlugin(),
-      aiAssistantPlugin({
-        enableExplain: false,
-        enableSummarize: false,
-        enableZoomIn: true,
-        enableZoomOut: true,
-        streamingEnabled: false,
-        zoomIntensity: 30,
-      }),
-    ],
-    [],
-  );
-
-  const editor = usePluginEditor(
-    {
-      extensions: [StarterKit, Highlight],
-      content: `<p>${content} As temperatures rise, animals and plants are being pushed out of their natural habitats.</p>`,
-      editorProps: {
-        attributes: {
-          'aria-label': 'Document editor',
-        },
-      },
-      immediatelyRender: false,
-    },
-    plugins,
-  );
-
-  if (!editor) {
-    return <div>Loading editor...</div>;
-  }
-
-  return (
-    <div className="layer">
       <EditorProvider editor={editor} plugins={plugins}>
         <EditorLayout>
           <div className="editor-content-wrapper">

@@ -572,7 +572,7 @@
       "path": "/patterns/citation",
       "role": "pattern",
       "situation": {
-        "initiating": "… the system has produced [generated content](/patterns/generated-content) whose claims the actor did not write and needs to know the source of: an answer in a conversation, a report built from [reference material](/patterns/reference-material), or a [text lens](/patterns/text-lense) summary compressing a longer document. Citation completes these larger patterns by pointing each claim to the source passage behind it, so seeing where a claim comes from and checking it takes following a link rather than researching the question again from scratch.",
+        "initiating": "… the system has produced [generated content](/patterns/generated-content) whose claims the actor did not write and needs to know the source of: an answer in a conversation, a report built from [reference material](/patterns/reference-material), or a [text lens](/patterns/text-lens) summary compressing a longer document. Citation completes these larger patterns by pointing each claim to the source passage behind it, so seeing where a claim comes from and checking it takes following a link rather than researching the question again from scratch.",
         "resulting": "Each cited claim now has a passage to check, so verifying a claim takes following a pointer rather than searching from scratch, while citing narrows the output toward what the sources explicitly state. Give each marker a [link preview](/patterns/link-preview) of the cited span so the actor can weigh the passage in place before opening the full source. Where a claim has no source passage behind it, or its sources disagree, mark the span with [expressed uncertainty](/patterns/expressed-uncertainty) graded by that evidence, rather than attaching a weak link or leaving the gap silent. Place the citations ahead of any [explanation](/patterns/explanation), which answers why the system reached its conclusion rather than where a claim came from and, when read first, makes actors less likely to open the sources. Where the answer took several steps to produce, pair citations with [transparent reasoning](/patterns/transparent-reasoning) so the actor can inspect the path taken alongside the passages each claim rests on. Because citation marks raise trust on sight even when nobody follows them and even when the source does not support the claim, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes require the actor to verify before committing. In [prose](/patterns/prose), a citation is a hyperlink in its reference mode, naming its target so the actor can follow it to check. Citation is not [provenance marking](/patterns/provenance-marking), which records who or what made the content rather than which source passage backs a claim, nor is it [annotation](/patterns/annotation), which is the actor's own layer over content they cannot change…"
       },
       "evidence": [
@@ -3369,26 +3369,24 @@
       "role": "quality"
     },
     {
-      "id": "text-lense",
+      "id": "text-lens",
       "title": "Text lens",
       "category": "Actions",
-      "path": "/patterns/text-lense",
+      "path": "/patterns/text-lens",
       "role": "pattern",
       "situation": {
-        "initiating": "the text says what it needs to say but not at the length or in the register this reader needs it; rewriting it to suit them would lose it for the others, so what's wrong is the framing rather than the content",
-        "resulting": [
-          {
-            "clause": "the reader picks the framing — shorter or longer, formal or plain, technical or accessible — and the original stays underneath as the thing being reframed"
-          },
-          {
-            "clause": "every lens is a rewrite, so what the reader ends up trusting is a generated telling; how far it may drift and whether the source stays reachable become part of the move"
-          },
-          {
-            "clause": "applied automatically the lens decides for the reader what they needed; applied by hand it asks them to know which framing helps before they have read the thing"
-          }
-        ]
+        "initiating": "… a document already says what it needs to say, but this actor needs it at a different length or reading level: a help article for someone new to the product, a clinical paper for a patient, or a post in a second language. Rewriting the original for one reader makes it worse for the rest, so the view adapts the phrasing or length for this actor while leaving the source text intact. A text lens helps complete [help](/patterns/help), where the same documentation serves actors with very different background knowledge, and supplies the coarser text levels that [semantic zoom](/patterns/semantic-zoom) and [focus and context](/patterns/focus-and-context) step through when operating on prose.",
+        "resulting": "The actor reads an adapted view while the source text remains unchanged. Each adapted view is [generated content](/patterns/generated-content) derived from the original, carrying the risk of omitted details or altered meaning. Anchor claims in a shortened view to their source passages with [citation](/patterns/citation), so the summary leads back into the document rather than replacing it. Mark the adapted view with [provenance marking](/patterns/provenance-marking) where the actor needs to distinguish the author's wording from generated text. When a text lens reorders and prunes a document around the actor's task, it works like a [purpose-keyed view](/patterns/purpose-keyed-view) on a single text and shares its trade-off: whatever is omitted, the actor must know to look for. On-demand translation of user or third-party content is a text lens, whereas adapting the interface itself to a locale is [localization](/patterns/localization). A text lens is not [progressive disclosure](/patterns/progressive-disclosure), which reveals detail the author already wrote, nor [instructed revision](/patterns/instructed-revision), which edits the shared document itself…"
       },
-      "group": "evaluation"
+      "group": "evaluation",
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "tool-ecology",
@@ -4735,7 +4733,7 @@
       "target": "citation",
       "type": "precedes",
       "extractedFrom": "frontmatter:follows",
-      "situation": "the system has produced [generated content](/patterns/generated-content) whose claims the actor did not write and needs to know the source of: an answer in a conversation, a report built from [reference material](/patterns/reference-material), or a [text lens](/patterns/text-lense) summary compressing a longer document.",
+      "situation": "the system has produced [generated content](/patterns/generated-content) whose claims the actor did not write and needs to know the source of: an answer in a conversation, a report built from [reference material](/patterns/reference-material), or a [text lens](/patterns/text-lens) summary compressing a longer document.",
       "glossFrom": "target:initiating"
     },
     {
@@ -4789,11 +4787,12 @@
     },
     {
       "source": "citation",
-      "target": "text-lense",
+      "target": "text-lens",
       "type": "related",
       "extractedFrom": "frontmatter:related",
-      "situation": "the system has produced [generated content](/patterns/generated-content) whose claims the actor did not write and needs to know the source of: an answer in a conversation, a report built from [reference material](/patterns/reference-material), or a [text lens](/patterns/text-lense) summary compressing a longer document.",
-      "glossFrom": "source:initiating"
+      "situation": "the system has produced [generated content](/patterns/generated-content) whose claims the actor did not write and needs to know the source of: an answer in a conversation, a report built from [reference material](/patterns/reference-material), or a [text lens](/patterns/text-lens) summary compressing a longer document.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Anchor claims in a shortened view to their source passages with [citation](/patterns/citation), so the summary leads back into the document rather than replacing it."
     },
     {
       "source": "citation",
@@ -6850,10 +6849,12 @@
     },
     {
       "source": "instructed-revision",
-      "target": "text-lense",
+      "target": "text-lens",
       "type": "related",
       "label": "a lens changes how the content reads; a revision changes what it is",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "A text lens is not [progressive disclosure](/patterns/progressive-disclosure), which reveals detail the author already wrote, nor [instructed revision](/patterns/instructed-revision), which edits the shared document itself",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "instructed-revision",
@@ -9118,10 +9119,12 @@
       "extractedFrom": "inline:composed-of"
     },
     {
-      "source": "text-lense",
+      "source": "text-lens",
       "target": "semantic-zoom",
       "type": "enables",
-      "extractedFrom": "inline:composed-of"
+      "extractedFrom": "inline:composed-of",
+      "situation": "A text lens helps complete [help](/patterns/help), where the same documentation serves actors with very different background knowledge, and supplies the coarser text levels that [semantic zoom](/patterns/semantic-zoom) and [focus and context](/patterns/focus-and-context) step through when operating on prose.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "settings",
@@ -9603,25 +9606,48 @@
       "extractedFrom": "frontmatter:related"
     },
     {
-      "source": "text-lense",
-      "target": "conversation",
+      "source": "text-lens",
+      "target": "generated-content",
       "type": "complements",
-      "label": "filter lenses adapt conversational tone and style based on context and relationship",
-      "extractedFrom": "frontmatter:complements"
+      "label": "an adapted version produced from the source text is generated content",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Each adapted view is [generated content](/patterns/generated-content) derived from the original, carrying the risk of omitted details or altered meaning.",
+      "glossFrom": "source:resulting"
     },
     {
-      "source": "text-lense",
+      "source": "text-lens",
+      "target": "provenance-marking",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Mark the adapted view with [provenance marking](/patterns/provenance-marking) where the actor needs to distinguish the author's wording from generated text.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "text-lens",
       "target": "progressive-disclosure",
       "type": "related",
-      "label": "lenses reveal or conceal information based on the actor's needs",
-      "extractedFrom": "frontmatter:related"
+      "label": "progressive disclosure reveals detail the author wrote in advance; a text lens generates levels on demand",
+      "extractedFrom": "frontmatter:related",
+      "situation": "A text lens is not [progressive disclosure](/patterns/progressive-disclosure), which reveals detail the author already wrote, nor [instructed revision](/patterns/instructed-revision), which edits the shared document itself",
+      "glossFrom": "source:resulting"
     },
     {
-      "source": "text-lense",
+      "source": "text-lens",
       "target": "localization",
       "type": "related",
-      "label": "tone adjustment with cultural bounds",
-      "extractedFrom": "frontmatter:related"
+      "label": "translating content on request is a text lens; adapting the interface's own copy to a locale is localization",
+      "extractedFrom": "frontmatter:related",
+      "situation": "On-demand translation of user or third-party content is a text lens, whereas adapting the interface itself to a locale is [localization](/patterns/localization).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "text-lens",
+      "target": "purpose-keyed-view",
+      "type": "related",
+      "label": "a purpose-based text lens reorders and prunes one document the way a purpose-keyed view shapes a collection",
+      "extractedFrom": "frontmatter:related",
+      "situation": "When a text lens reorders and prunes a document around the actor's task, it works like a [purpose-keyed view](/patterns/purpose-keyed-view) on a single text and shares its trade-off: whatever is omitted, the actor must know to look for.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "tool-ecology",

@@ -17,12 +17,8 @@ import {
 } from '../components/editor-plugins/commenting/CommentingPlugin';
 import { getCommentService } from '../services/commenting/core/comment-service-instance';
 import { getQuoteService } from '../services/commenting/quote-service';
-import {
-  BasicDemo,
-  TextLensDemo,
-  CommentingDemo,
-  DynamicExplanationDemo,
-} from '../demos/bubble-menu';
+import { BasicDemo, CommentingDemo, DynamicExplanationDemo } from '../demos/bubble-menu';
+import { InstructedRevisionDemo } from '../demos/instructed-revision';
 
 const meta = {
   title: 'Components/Bubble menu',
@@ -35,8 +31,8 @@ export const Basic: Story = {
   render: () => <BasicDemo />,
 };
 
-export const TextLense: Story = {
-  render: () => <TextLensDemo />,
+export const InstructedRevision: Story = {
+  render: () => <InstructedRevisionDemo />,
 };
 
 export const Commenting: Story = {

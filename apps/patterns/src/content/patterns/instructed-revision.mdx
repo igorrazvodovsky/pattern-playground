@@ -36,7 +36,7 @@ relationships:
     - to: selection
       note: a selected span scopes the revision to the part that needs it
   related:
-    - to: text-lense
+    - to: text-lens
       note: a lens changes how the content reads; a revision changes what it is
   enacts:
     - to: agency
@@ -46,13 +46,22 @@ The actor tells the system what to change about its output — shorter, warmer, 
 
 ## Forms
 
-Recurring forms: quick-action verbs on the output (expand, shorten, restyle, transform, summarise), free-form refinement commands in the conversation, and scoped revision where a selection plus an instruction rewrites just that span.
+Recurring forms: quick-action verbs on the output (expand, shorten, restyle, transform, summarise), free-form refinement commands in the conversation, and scoped revision where a selection plus an instruction rewrites just that span. Restyling covers tone changes a writer makes before sending: formal ↔ casual, technical ↔ accessible, assertive ↔ diplomatic.
+
+## Examples
+
+### Revising a selected passage
+
+The actor selects a passage in a document and picks an instruction from the <ComponentRef id="components-bubble-menu--docs">Bubble menu</ComponentRef>. The revision replaces the passage in the document, so it is what everyone who opens the document reads; undo is the way back.
+
+<Demo name="instructed-revision" label="Selecting a passage and asking for it shorter, longer, more formal or more casual." />
 
 ## Resources & references
 
 - [Shape of AI — Expand, Restyle, Restructure, Transform, Summary](https://www.shapeof.ai)
 - [AI UX Playground — Response Refinement](https://www.aiuxplayground.com/pattern/response-refinement), [Magic Edit](https://www.aiuxplayground.com/pattern/magic-edit)
 - [aiuxpatterns.com — Result Actions](https://www.aiuxpatterns.com)
+- [NN/g — Accordion editing and apple picking](https://www.nngroup.com/articles/accordion-editing-apple-picking/) — people shrinking and expanding chatbot output, and referring back to earlier responses to revise one part
 
 ## To-do
 

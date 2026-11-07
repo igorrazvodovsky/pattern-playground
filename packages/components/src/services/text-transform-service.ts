@@ -1,6 +1,6 @@
 /**
- * Text transformation service for text lens functionality
- * Handles streaming API calls to the backend zoom endpoint
+ * Text transformation service: detail zoom for text lenses and instructed
+ * revision, both streamed from the backend.
  */
 
 import { streamSSE } from './api-client';
@@ -11,6 +11,12 @@ export interface TextLensRequest {
   direction: 'in' | 'out';
   intensity: number;
   currentLevel?: number;
+}
+
+export interface RevisionRequest {
+  text: string;
+  instruction: string;
+  context?: string;
 }
 
 export interface TextLensCallbacks {
@@ -30,6 +36,27 @@ export class TextTransformService {
    * Stream text lens transformation
    */
   async streamZoom(request: TextLensRequest, callbacks: TextLensCallbacks = {}): Promise<string> {
+    return this.stream('/api/text/zoom', request, callbacks);
+  }
+
+  /**
+   * Stream a revision of the text that follows the actor's instruction
+   */
+  async revise(
+    text: string,
+    instruction: string,
+    callbacks: TextLensCallbacks = {},
+    context?: string,
+  ): Promise<string> {
+    const request: RevisionRequest = { text, instruction, context };
+    return this.stream('/api/text/revise', request, callbacks);
+  }
+
+  private async stream(
+    endpoint: string,
+    request: TextLensRequest | RevisionRequest,
+    callbacks: TextLensCallbacks,
+  ): Promise<string> {
     // Cancel any existing stream
     this.cancelStream();
 
@@ -39,7 +66,7 @@ export class TextTransformService {
     let accumulatedContent = '';
 
     try {
-      await streamSSE('/api/text/zoom', request, {
+      await streamSSE(endpoint, request, {
         signal: controller.signal,
         onChunk: (content) => {
           accumulatedContent += content;

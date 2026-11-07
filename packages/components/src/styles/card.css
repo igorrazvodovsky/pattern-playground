@@ -272,6 +272,11 @@ Related concerns live outside this file: collection arrangement (the `.cards` gr
 
   .hover-only-actions:is(:hover, :focus-within) button {
     opacity: 1;
+
+    /* Revealed, a disabled button keeps the button skin's dimmed look. */
+    &:disabled {
+      opacity: 0.5;
+    }
   }
 }
 
