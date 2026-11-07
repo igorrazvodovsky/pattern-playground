@@ -1,7 +1,7 @@
 ---
 title: Text lens
 added: 2025-08-01
-updated:
+updated: 2026-11-06
 role: pattern
 group: evaluation
 activityLevel: action
@@ -23,8 +23,14 @@ situation:
     - >-
       applied automatically the lens decides for the reader what they needed; applied by hand
       it asks them to know which framing helps before they have read the thing
+    - >-
+      when the original is authored and the versions are derived from it, someone has to answer
+      for what a version leaves out; versions prepared and checked by the author are answered
+      for, versions generated on the reader's request are not
 relationships:
   complements:
+    - to: generated-content
+      note: a version produced from the original is generated content, and says so beside the switch that chose it
     - to: conversation
       note: filter lenses adapt conversational tone and style based on context and relationship
   related:
@@ -45,6 +51,15 @@ The transformation of text through a chosen perspective, balancing fidelity to t
 - Technical ↔ accessible
 - Assertive ↔ diplomatic
 
+**Audience lens:** Re-tell for a named reader
+- Novice ↔ expert
+- Role-based: developer, manager, designer
+- ...
+
+The magnifying and filter lenses name a change to the text. The audience lens names who is reading, and the version follows from that: shorter sentences and no jargon for a newcomer, the same steps reordered around permissions for an admin. Asking "who are you?" is easier to answer than "how should this read?".
+
+<Demo name="audience-lens" label="A help-centre article with an audience switch: the switch names the version showing, and the original is one of its options." />
+
 ## User control
 
 Text lenses can be applied with varying degrees of user control:
@@ -62,6 +77,8 @@ Users can select text and apply different lenses using AI-powered tools to modif
 <Demo name="text-lens" label="Text lens via bubble menu" />
 
 ## To-do
+
+- The page holds two situations that may be separate patterns: an actor adapting someone else's finished text to read it (the audience lens, the help centre), and an author reworking their own text while writing it (the bubble menu demo, close to instructed revision). Split if their connections keep diverging.
 
 - Combined with *citations*, summaries let you capture key takeaways from a long document and then go deeper into the relevant content.
 - Combined with *synthesis*, summaries can take multiple inputs such as an email thread and capture the main ideas.

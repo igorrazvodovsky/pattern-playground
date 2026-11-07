@@ -89,6 +89,7 @@
      the top edge as it appears and back up as it goes. */
   pp-toc[variant='bar'] .toc {
     scroll-target-group: none;
+    position: relative;
     display: flex;
     align-items: baseline;
     gap: 1ch;
@@ -103,6 +104,18 @@
     transition:
       opacity 200ms var(--ease-out-3),
       transform 200ms var(--ease-out-3);
+  }
+
+  /* Text passing under the bar fades into it rather than meeting a hard edge,
+     as rows do at the sidebar's scroll edges. */
+  pp-toc[variant='bar'] .toc::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: 100%;
+    block-size: 3rem;
+    background: linear-gradient(to bottom, var(--c-background), transparent);
+    pointer-events: none;
   }
 
   pp-toc[variant='bar'][data-revealed] .toc {
