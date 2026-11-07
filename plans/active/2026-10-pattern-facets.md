@@ -675,7 +675,7 @@ its pilot value.
 |---|---|---|---|
 | semantic-zoom | view | "the whole population changes level together, under one scale control" | author-decided: both readers read `area`, copying overview-detail's level under the alternatives rule; revised, since the choice is made for each surface |
 | focus-and-context | view | "Focus and context grades detail with distance from attention inside one continuous view" | author-decided: both readers read `area`; revised as for semantic-zoom |
-| text-lense | view | "For a whole collection, generate an overview that helps the actor gather items rather than judge them" (the sequence's gloss) | author-decided: both readers read `area`; revised as for semantic-zoom. The page's own form, a lens over selected text, is lower; the region sets the level |
+| text-lens | view | "For a whole collection, generate an overview that helps the actor gather items rather than judge them" (the sequence's gloss) | author-decided: both readers read `area`; revised as for semantic-zoom. The page's own form, a lens over selected text, is lower; the region sets the level |
 | comparing | view | "Show the compared things in one view, aligned on what they share." | agreed |
 | annotation | view | "Annotation creates a meta-layer that preserves the original while enabling interpretation" | agreed |
 | incremental-formalisation | application | "merge these two labels, turn this recurring mark into a field, treat this prose as a table" | author-decided: the first reader read `area`, a collection's schema; the author took `application` to match tag, the vocabulary the page formalises |

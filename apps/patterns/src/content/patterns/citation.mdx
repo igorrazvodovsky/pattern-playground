@@ -11,7 +11,7 @@ activityLevel: operation
 description: "Claims carry pointers to the source passages behind them, so the actor can see where a statement comes from and check it by following rather than by searching from scratch."
 situation:
   initiating: >-
-    … the system has produced [generated content](/patterns/generated-content) whose claims the actor did not write and needs to know the source of: an answer in a conversation, a report built from [reference material](/patterns/reference-material), or a [text lens](/patterns/text-lense) summary compressing a longer document. Citation completes these larger patterns by pointing each claim to the source passage behind it, so seeing where a claim comes from and checking it takes following a link rather than researching the question again from scratch.
+    … the system has produced [generated content](/patterns/generated-content) whose claims the actor did not write and needs to know the source of: an answer in a conversation, a report built from [reference material](/patterns/reference-material), or a [text lens](/patterns/text-lens) summary compressing a longer document. Citation completes these larger patterns by pointing each claim to the source passage behind it, so seeing where a claim comes from and checking it takes following a link rather than researching the question again from scratch.
   resulting: >-
     Each cited claim now has a passage to check, so verifying a claim takes following a pointer rather than searching from scratch, while citing narrows the output toward what the sources explicitly state. Give each marker a [link preview](/patterns/link-preview) of the cited span so the actor can weigh the passage in place before opening the full source. Where a claim has no source passage behind it, or its sources disagree, mark the span with [expressed uncertainty](/patterns/expressed-uncertainty) graded by that evidence, rather than attaching a weak link or leaving the gap silent. Place the citations ahead of any [explanation](/patterns/explanation), which answers why the system reached its conclusion rather than where a claim came from and, when read first, makes actors less likely to open the sources. Where the answer took several steps to produce, pair citations with [transparent reasoning](/patterns/transparent-reasoning) so the actor can inspect the path taken alongside the passages each claim rests on. Because citation marks raise trust on sight even when nobody follows them and even when the source does not support the claim, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes require the actor to verify before committing. In [prose](/patterns/prose), a citation is a hyperlink in its reference mode, naming its target so the actor can follow it to check. Citation is not [provenance marking](/patterns/provenance-marking), which records who or what made the content rather than which source passage backs a claim, nor is it [annotation](/patterns/annotation), which is the actor's own layer over content they cannot change…
 relationships:
@@ -27,7 +27,7 @@ relationships:
     - explanation
   related:
     - annotation
-    - text-lense
+    - text-lens
     - prose
   enacts:
     - to: agency

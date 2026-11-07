@@ -64,7 +64,7 @@ The sequence chiefly enacts *malleability* (the framing, the attribute set, and 
 3. *Decide layout and composition.* Side by side, in place, popover, or new page; how many of each and how they nest. A choice point inside overview-detail's own dimensions — the weak form of a step, since it names no second pattern.
 4. *Couple the views.* Once views multiply past the pair, propagate designation between them so cross-view relationships arrive perceptually. Rule: [coordinated-views]. Guarded by its own parsimony: couple only where coupling demonstrably helps — two views linked by a current item do not need it. Calls *making changes* mid-course: the propagated payload is sometimes a staked [selection], sometimes mere focus (A1's current item).
 
-*Adjacent:* the lens family — semantic-zoom, focus-and-context, text-lense — resolves the same force (detail without losing the whole) by varying representation rather than multiplying views. Those are *making sense at scale*'s steps; this station is where a walk would cross over.
+*Adjacent:* the lens family — semantic-zoom, focus-and-context, text-lens — resolves the same force (detail without losing the whole) by varying representation rather than multiplying views. Those are *making sense at scale*'s steps; this station is where a walk would cross over.
 
 ## The read-aloud walk
 

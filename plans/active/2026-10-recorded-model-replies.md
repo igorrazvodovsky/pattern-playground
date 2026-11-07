@@ -67,7 +67,7 @@ The demos that call the server, by the kind of input they send:
 |---|---|---|---|
 | Fisheye timeline (`demos/focus-and-context/fisheye.tsx`) on focus-and-context | timeline grouping | Fixed records | Yes, one recording |
 | Contextual navigation (`demos/specs/contextual-navigation.ts`) | model deduction | A node of the fixed process model, or a proposal from an earlier reply | Yes, but the inputs include the model's own proposals, so the set is found by following replies |
-| Bubble menu (`demos/bubble-menu.tsx`) on text-lense, selection, dynamic-hyperlinks | text lens, explanation | Any selection of fixed document text | No, the selection is free |
+| Bubble menu (`demos/bubble-menu.tsx`) on text-lens, selection, dynamic-hyperlinks | text lens, explanation | Any selection of fixed document text | No, the selection is free |
 | Filtering (`demos/specs/filtering.ts`) | suggestions | Typed prompt | No, the prompt is free |
 | Command menu story (`stories/CommandMenu.tsx`), Storybook only | suggestions | Typed prompt | No, the prompt is free |
 

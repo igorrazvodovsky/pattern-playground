@@ -761,7 +761,7 @@
       "lifecycle-stage": null,
       "mediation": null
     },
-    "text-lense": {
+    "text-lens": {
       "activity-level": "action",
       "lifecycle-stage": "evaluation",
       "mediation": "individual"
