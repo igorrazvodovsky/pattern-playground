@@ -11,6 +11,11 @@
 // below the reading measure only the demo box narrows and prose holds still. So
 // for those panes we write --demo-w; a lone expandable pane writes --pane-max-w
 // directly, its historical behaviour.
+//
+// Widening a demo also lifts its height cap (lib/demo-height.ts): an actor who
+// asks for more room wants to see the whole thing.
+
+import { revealDemo } from './demo-height';
 
 const READING_PX = 16 * 16; // 16rem, the resize floor
 
@@ -102,6 +107,7 @@ if (typeof document !== 'undefined') {
     const pane = btn.closest<HTMLElement>('.pane');
     if (!pane) return;
     e.preventDefault();
+    revealDemo(btn);
     const next = (currentStepIndex(pane) + 1) % STEPS.length;
     applyStep(pane, next);
   });
@@ -118,6 +124,7 @@ if (typeof document !== 'undefined') {
     if (!pane || !content) return;
     e.preventDefault();
     handle.setPointerCapture(e.pointerId);
+    revealDemo(handle);
     drag = { pane, startX: e.clientX, startW: content.getBoundingClientRect().width };
   });
 
@@ -141,6 +148,7 @@ if (typeof document !== 'undefined') {
     const content = handle.closest<HTMLElement>('.demo-block__content');
     if (!pane || !content) return;
     e.preventDefault();
+    revealDemo(handle);
     const step = 32;
     setDemoWidth(
       pane,

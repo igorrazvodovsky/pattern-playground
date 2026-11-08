@@ -11,6 +11,7 @@ import type { Spec } from '@json-render/core';
 import type { ComponentRegistry } from '@json-render/react';
 import type { SpecSetup } from '@pkg/catalog/SpecDemo';
 import type { Library } from './demo-libraries';
+import { watchDemoHeights } from './demo-height';
 
 type DemoComponent = ComponentType<Record<string, unknown>>;
 type Loader = () => Promise<DemoComponent>;
@@ -124,6 +125,9 @@ export function mountDemos(root: ParentNode): void {
     );
   }
   mountSpecDemos(root);
+  // Every demo frame, mounted or slotted, gets its height cap watched here,
+  // since this runs wherever demos appear.
+  watchDemoHeights(root);
 }
 
 // Mount every unmounted [data-demo-spec] under root, and wire the frame's

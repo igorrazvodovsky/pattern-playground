@@ -33,6 +33,10 @@ interface Props {
   // Either can appear alone; together the button is the preset for the drag.
   expandable?: boolean;
   resizable?: boolean;
+  // Height the demo is clipped to before the actor expands it (lib/demo-height.ts).
+  // Any CSS length; false renders the demo at its natural height. Defaults to
+  // --demo-max-h in app.css.
+  maxHeight?: string | false;
 }
 
 const {
@@ -43,6 +47,7 @@ const {
   surface = 'border',
   expandable,
   resizable,
+  maxHeight,
   registries = Object.keys(libraryLabels) as Library[],
   registry: requestedRegistry,
 } = Astro.props;
@@ -64,14 +69,21 @@ const surfaceClass = {
   <div
     class={`demo-block__content ${surfaceClass[surface]}`}
     data-resizable={resizable || undefined}
+    data-demo-revealed={maxHeight === false || undefined}
+    style={typeof maxHeight === 'string' ? { '--demo-max-h': maxHeight } : undefined}
   >
-    {spec ? (
-      <div data-demo-spec={spec} data-demo-registry={registry}></div>
-    ) : name ? (
-      <div data-demo={name} data-demo-props={props ? JSON.stringify(props) : undefined}></div>
-    ) : (
-      <slot />
-    )}
+    <div class="demo-block__viewport" data-demo-viewport tabindex="-1">
+      {spec ? (
+        <div data-demo-spec={spec} data-demo-registry={registry}></div>
+      ) : name ? (
+        <div data-demo={name} data-demo-props={props ? JSON.stringify(props) : undefined}></div>
+      ) : (
+        <slot />
+      )}
+    </div>
+    <button type="button" class="button demo-block__reveal" data-demo-reveal>
+      Expand
+    </button>
     {resizable && (
       <div
         class="demo-resize-handle"

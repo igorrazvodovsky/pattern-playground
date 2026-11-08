@@ -286,13 +286,55 @@
   }
 
   .demo-block__content {
+    --demo-max-h: 32rem;
+
+    position: relative;
     padding: var(--space-m, 1rem);
     border-radius: var(--radius, 0.5rem);
     container: demo / inline-size;
   }
 
+  /* Height cap (lib/demo-height.ts). Clipped on the block axis only, so a
+     demo's horizontal overflow behaves as before; the clip margin keeps focus
+     rings at the edges visible. */
+  .demo-block__viewport {
+    max-block-size: var(--demo-max-h);
+    overflow: visible clip;
+    overflow-clip-margin: 4px;
+    outline: none;
+  }
+
+  .demo-block__content[data-demo-revealed] .demo-block__viewport {
+    max-block-size: none;
+    overflow: visible;
+  }
+
+  /* A mask rather than a colour gradient, so the fade works on every surface. */
+  .demo-block__content[data-demo-overflowing] .demo-block__viewport {
+    mask-image: linear-gradient(to bottom, black calc(100% - 6rem), transparent);
+  }
+
+  /* The frame's own controls belong to the pattern site, not to the demo, so
+     they take the site's face instead of the demo's neutral one. */
+  :is(.demo-block__reveal, .demo-registry-switch, .demo-expand) {
+    --font: var(--font-prose);
+  }
+
+  .demo-block__reveal {
+    display: none;
+    font-size: 1rem;
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: var(--space-m, 1rem);
+    inline-size: fit-content;
+    margin-inline: auto;
+  }
+
+  .demo-block__content[data-demo-overflowing] .demo-block__reveal {
+    display: inline-flex;
+  }
+
   .demo-block__content[data-resizable] {
-    position: relative;
     inline-size: min(var(--demo-w, 100%), 100%);
     min-inline-size: 16rem;
   }
@@ -344,6 +386,9 @@
     gap: var(--space-s, 0.5rem);
     margin-block-start: var(--space-s, 0.5rem);
     font-size: 0.875em;
+
+    /* The library switch and the widen button share one height. */
+    --demo-control-h: 1.75rem;
   }
 
   .demo-expand {
@@ -352,19 +397,19 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    inline-size: 1.75rem;
-    block-size: 1.75rem;
+    inline-size: var(--demo-control-h);
+    block-size: var(--demo-control-h);
     padding: 0;
     color: var(--c-neutral-600);
     font-size: 1rem;
     cursor: pointer;
-    background: var(--c-neutral-0);
+    background: var(--c-neutral-50);
     border-radius: var(--radius-m);
   }
 
   .demo-expand:hover {
     color: var(--c-neutral-900);
-    background: var(--c-neutral-50);
+    background: var(--c-neutral-100);
   }
 
   .demo-expand:focus-visible {
@@ -387,7 +432,10 @@
   /* Switchable demos: which component library the spec renders through. */
   .demo-registry-switch {
     flex-shrink: 0;
-    display: inline-flex;
+    display: inline-grid;
+    grid-auto-flow: column;
+    box-sizing: border-box;
+    block-size: var(--demo-control-h);
     margin-inline-start: auto;
     padding: 2px;
     background: var(--c-neutral-50);
@@ -399,12 +447,12 @@
   }
 
   .demo-registry-switch button {
-    /* Trim the line box to cap height and baseline so the label sits
-       optically centred in the pill; padding replaces the trimmed space.
-       Block, not the library's flex: text-box trims only block containers. */
+    /* Trim the line box to cap height and baseline, then centre it in the
+       pill's fixed height, so the label sits optically centred. Block, not
+       the library's flex: text-box trims only block containers. */
     display: block;
-    padding: 0.4em 0.5rem;
-    font-size: smaller;
+    align-content: center;
+    padding: 0 0.5rem;
     text-box: trim-both cap alphabetic;
     color: var(--c-neutral-600);
     cursor: pointer;
