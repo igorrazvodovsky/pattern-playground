@@ -132,6 +132,14 @@ declare module 'react' {
         height?: string | number;
         slot?: string;
       };
+      'pp-heading-anchors': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        levels?: string;
+        scope?: string;
+        placement?: 'start' | 'end';
+      };
       'pp-sections': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         affordance?: 'tab-bar' | 'details';
       };

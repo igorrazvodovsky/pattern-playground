@@ -1,0 +1,65 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
+import * as HeadingAnchorsStories from './HeadingAnchors.stories.tsx';
+
+<Meta of={HeadingAnchorsStories} />
+
+{/* > 🥱 **Fun meter: dependency**. */}
+
+# Heading anchors
+
+Each heading links to its own section, so an actor can copy, share, or bookmark a link that lands on that part of the page.
+
+<Canvas>
+  <Story of={HeadingAnchorsStories.Basic} />
+</Canvas>
+
+## The heading text is the link
+
+The link wraps the heading's text rather than sitting beside it as a separate control. The whole heading is the target, and a screen reader announces it as a heading that is also a link, named by its text. The `#` mark is generated content with empty alternative text, so it adds nothing to the link's name or to the heading's text. A table of contents built from the same headings (`pp-toc`) reads them unchanged.
+
+```html
+<pp-heading-anchors>
+  <h2 id="problem">Problem</h2>
+</pp-heading-anchors>
+
+<!-- after the element upgrades -->
+<h2 id="problem">
+  <a class="heading-anchor" href="#problem" draggable="false">Problem</a>
+</h2>
+```
+
+The existing child nodes move into the link; they are not re-created, so inline markup such as `<code>` keeps its identity. A heading without an `id` gets one from its text. The link is not draggable, so dragging across the heading can select its text, and a click that ends a text selection inside the link does not follow it.
+
+<Story of={HeadingAnchorsStories.Start} />
+
+## Where it reaches
+
+By default the element enhances its own content. Where the content cannot be wrapped, for example when its parent spaces direct children, the element can sit inside it and name the ancestor with `scope`.
+
+<Story of={HeadingAnchorsStories.Scoped} />
+
+Headings that arrive after the first pass, for example when an island hydrates, are picked up as they appear.
+
+## Headings it leaves alone
+
+A link cannot hold another link or a control, so some headings stay as written: one that already holds a link, the headings [Sections](../?path=/docs/components-sections--docs) turns into tab and disclosure triggers, headings inside a `<summary>` or a demo, and any subtree marked `data-anchor-ignore`.
+
+<Story of={HeadingAnchorsStories.LeftAlone} />
+
+## Attributes
+
+| Attribute | Default | Effect |
+| --- | --- | --- |
+| `levels` | `h2, h3, h4, h5, h6` | Selector for the headings to enhance |
+| `scope` | — | Ancestor to enhance instead of the element's own content, resolved with `closest()` |
+| `placement` | `end` | `start` hangs the mark in the margin before the text |
+
+## Related components
+
+- [Sections](../?path=/docs/components-sections--docs) — its headings are triggers, so they are not anchored
+
+## Resources & references
+
+- Chris Ferdinandi. [Heading anchors](https://kelpui.com/docs/components/heading-anchors/) — Kelp UI
+- David Darnes (2024). [Heading anchors Web Component](https://darn.es/heading-anchors-web-component/)
+- Amber Wilson (2020). [Are your anchor links accessible?](https://amberwilson.co.uk/blog/are-your-anchor-links-accessible/)

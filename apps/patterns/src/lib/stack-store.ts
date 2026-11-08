@@ -237,6 +237,15 @@ if (typeof document !== 'undefined') {
         if (rawHref.length < 2 || anchor.closest('.demo-block')) return;
         event.preventDefault();
         event.stopPropagation();
+        // Releasing a drag-selection inside the link (a heading anchor wraps
+        // the whole heading) clicks it; the actor is selecting text to copy.
+        const selection = document.getSelection();
+        if (
+          selection &&
+          !selection.isCollapsed &&
+          [selection.anchorNode, selection.focusNode].some((n) => n && anchor.contains(n))
+        )
+          return;
         useStackStore.getState().goTo(paneIndexOf(paneEl), rawHref);
         return;
       }

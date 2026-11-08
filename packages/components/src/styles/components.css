@@ -57,6 +57,7 @@
 @import url('fisheye.css');
 @import url('semantic-zoom.css');
 @import url('toc.css');
+@import url('heading-anchors.css');
 @import url('diagram.css');
 @import url('pattern-graph.css');
 @import url('network-graph.css');

@@ -1,0 +1,54 @@
+@layer components {
+  /* Renders nothing of its own, so it takes no part in the layout of the
+     content it wraps. */
+  pp-heading-anchors {
+    display: contents;
+  }
+
+  /* The heading reads as a heading, not a link: the link takes the heading's
+     colour and no underline. The mark is generated content with empty
+     alternative text, so the link's accessible name stays the heading text. */
+  .heading-anchor {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .heading-anchor::after {
+    content: '#' / '';
+    margin-inline-start: 0.3em;
+    color: var(--c-bodyDimmed);
+    font-weight: normal;
+    opacity: 0;
+    transition: opacity 150ms var(--ease-out-3);
+  }
+
+  .heading-anchor:is(:hover, :focus-visible)::after {
+    color: var(--c-accent-600);
+    opacity: 1;
+  }
+
+  /* Without hover, the mark is the only sign the heading is a link. */
+  @media (hover: none) {
+    .heading-anchor::after {
+      opacity: 1;
+    }
+  }
+
+  /* Mark before the text, hanging in the inline-start margin, so the heading
+     text stays aligned with the text around it. */
+  .heading-anchor--start {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      inset-inline-end: 100%;
+      margin-inline: 0 0.3em;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .heading-anchor::after {
+      transition: none;
+    }
+  }
+}

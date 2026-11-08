@@ -33,8 +33,9 @@ function getPreviewEl(): HTMLElement {
 }
 
 function resolvePath(anchor: HTMLAnchorElement): string | null {
-  // Skip table-of-contents in-page links.
-  if (anchor.closest('pp-toc')) return null;
+  // Skip in-page links (the table of contents, heading anchors, footnotes):
+  // they resolve to the page already being read.
+  if (anchor.getAttribute('href')?.startsWith('#')) return null;
   // Skip search result links so previews don't overlap the results panel.
   if (anchor.closest('.pagefind-ui, pagefind-modal, .pf-result')) return null;
   // Skip anything inside a demo. A demo's links are its own subject matter, not

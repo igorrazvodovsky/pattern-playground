@@ -2,7 +2,7 @@
 // The shell shared by pattern and sequence articles. The root <article> and its
 // <h1> are the contract the client-side pane fetch (lib/pane-content.ts) relies
 // on. Header extras go in the `meta` slot after the dates; the body follows the
-// two pp-toc elements.
+// two pp-toc elements and pp-heading-anchors.
 import PatternDates from './PatternDates.astro';
 
 interface Props {
@@ -45,5 +45,6 @@ const { title, seed = false, dates, pagefind, pageType } = Astro.props;
     reveal-after="pp-toc:not([variant])"
     data-pagefind-ignore
   ></pp-toc>
+  <pp-heading-anchors scope="article"></pp-heading-anchors>
   <slot />
 </article>

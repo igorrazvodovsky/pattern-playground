@@ -30,6 +30,7 @@ import { SimpleTable } from './table/table';
 import { PpTimestamp } from './timestamp/timestamp.js';
 import { PpSections } from './sections/sections.js';
 import { PpToc } from './toc/toc.js';
+import { PpHeadingAnchors } from './heading-anchors/heading-anchors.js';
 import { PpDiagram } from './diagram/diagram.js';
 
 import { PpChartGrid } from './charts/primitives/chart-grid.js';
@@ -86,6 +87,7 @@ export function registerAllComponents(): void {
     // Sections
     { tagName: 'pp-sections', constructor: PpSections },
     { tagName: 'pp-toc', constructor: PpToc },
+    { tagName: 'pp-heading-anchors', constructor: PpHeadingAnchors },
   ]);
 }
 
