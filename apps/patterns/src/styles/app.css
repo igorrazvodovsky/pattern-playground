@@ -509,8 +509,16 @@
     font-size: inherit;
     font-weight: 500;
     line-height: inherit;
-    letter-spacing: var(--letter-spacing-looser);
-    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-loose);
+    font-variant-caps: small-caps;
+
+    /* Half a line above and below keeps the heading on the text's line grid:
+       baselines run 1.5 lines apart on either side of it. */
+    margin-block-start: 0.5lh;
+  }
+
+  :is(.section-mark, :is(:scope:is(article), :scope article) h2) + * {
+    margin-block-start: 0.5lh;
   }
 
   :is(:scope:is(article), :scope article) h3:not(.residue *),
