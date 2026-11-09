@@ -11,7 +11,7 @@ Two framings shape how the vocabulary should be read and used:
 
 1. *Suggestion, not matching.* Edges, tags, and decision-tree conditions are all *suggestion-grade* — they describe what has been useful in similar situations, not predicates to be matched against a query. An actor uses the graph as context for judgement, not as a lookup table.
 
-2. *Patterns as generative moves.* Patterns are not catalogue items to be selected but transformations that produce *centres* (see §"Patterns as generative moves" below). Relationships describe how patterns combine, not how options are picked. Design is sequential unfolding, not selection from a menu.
+2. *Patterns as generative rules.* Patterns are not catalogue items to be selected but rules for making kinds of *centres*; each application is a move that makes a new instance (see §"Patterns as generative rules" below). Relationships describe how patterns combine, not how options are picked. Design is sequential unfolding, not selection from a menu.
 
 These framings are compatible and reinforcing. The first is an epistemic claim about the data (incomplete, fuzzy, hint-grade). The second is an ontological claim about the operation (design is transformation, not selection). Together they push in two directions: the data should be *looser* and the use should be *transformative*.
 
@@ -21,9 +21,9 @@ These framings are compatible and reinforcing. The first is an epistemic claim a
 2. *SKOS alignment where natural*: relationships that have clear SKOS equivalents are mapped to them. This makes the vocabulary interoperable without requiring SKOS tooling. Where SKOS has no equivalent, custom predicates are defined.
 3. *Directionality is semantic, not syntactic*: directed relationships express asymmetric meaning (A enables B does not mean B enables A). Undirected relationships are symmetric (A complements B = B complements A).
 
-## Patterns as generative moves
+## Patterns as generative rules
 
-The vocabulary is written in the *Pattern Language register* of Christopher Alexander's work: patterns are moves, relationships describe how moves combine, and design proceeds through sequences of decisions each acting on what already exists. The library aspires toward the *Nature of Order register* — structural properties as recursive production rules — but is not there yet. See [design-theory.md](./design-theory.md) for the full trajectory and what progress toward it looks like.
+The vocabulary is written in the *Pattern Language register* of Christopher Alexander's work. A pattern is a rule for making a kind of centre, and it states that centre's relation to other centres, so each pattern is a node and an edge at once. Applying a pattern is a move: it makes one instance, fitted to its place. Patterns supply the moves, sequences supply their order, and design proceeds through moves each acting on what already exists. The library aspires toward the *Nature of Order register* — structural properties as recursive production rules — but is not there yet. See [design-theory.md](./design-theory.md) for the full trajectory and what progress toward it looks like.
 
 Two consequences for how the vocabulary should be read now:
 
@@ -36,7 +36,7 @@ The relationships defined below should be read in this register throughout.
 
 ### precedes / follows
 
-*A precedes B*: applying A produces a centre or condition on which B can subsequently act. The relationship is sequential — A sets up B — but the basis is generative, not merely temporal. A is a move whose result B then operates on.
+*A precedes B*: applying A produces a centre or condition on which B can subsequently act. The relationship is sequential — A sets up B — but the basis is generative, not merely temporal. B operates on the result of applying A.
 
 - Directionality: directed
 - Inverse: `follows` (authoring alias — see alias table below)
@@ -50,7 +50,7 @@ The relationships defined below should be read in this register throughout.
 
 ### enables
 
-*A enables B*: A provides a lower-level move, surface, or substrate that B incorporates or builds on. The relationship is compositional — A is a constituent woven into B's realisation — and it holds *within the language*: both endpoints are entries in the graph. B need not strictly depend on A: optional assists and interchangeable constituents count, so long as A is part of how B is realised where it appears (Winston et al.'s component–integral relation does not require necessity, and the corpus has never used it that way). What `enables` does *not* cover: a component implementing a pattern — components are not entries in the language, and the pattern→component relation is a cross-dataset reference, not an edge (see §Component realisation).
+*A enables B*: A provides a lower-level pattern, surface, or substrate that B incorporates or builds on. The relationship is compositional — A is a constituent woven into B's realisation — and it holds *within the language*: both endpoints are entries in the graph. B need not strictly depend on A: optional assists and interchangeable constituents count, so long as A is part of how B is realised where it appears (Winston et al.'s component–integral relation does not require necessity, and the corpus has never used it that way). What `enables` does *not* cover: a component implementing a pattern — components are not entries in the language, and the pattern→component relation is a cross-dataset reference, not an edge (see §Component realisation).
 
 - Directionality: directed
 - Inverse: none stored. "What does A enable?" and "what enables B?" are both answered by traversing `enables` edges in either direction at query time. There is no "used by" or "composed of" stored as data.
@@ -114,7 +114,7 @@ The relationships defined below should be read in this register throughout.
 - The decision tree is the *authorable home* of the judgement; its `recommends` edges are renderings of its rows. Two edges of the same type between the same pair (Notification emits two `recommends` to Transient feedback) are not an anomaly — they are two rows of one decision, distinguishable by their hints, and read together they are one judgement. Never author condition text on the edge to "clarify" such a pair; edit the tree.
 - Situational hints: each recommendation carries the questions and branches that led to it, preserved as raw text rather than canonicalised. The *dimension* (the question) is controlled per tree — a stable authored question local to that judgement — while the *value* (the branch) stays in the author's words. There is no corpus-wide condition vocabulary, and none should be pre-legislated: convergence between trees' dimensions is observed post hoc and normalised through the changelog. The hints exist as context for an actor to consider — not as predicates to be matched (see the consumer contract in the epistemic stance).
 - Example: Deletion *recommends* Undo, with the situational hints "Is the deletion reversible? → Yes" and "How quickly can it be recreated? → Seconds". An actor reads this as "when the situation looks like a fast-recoverable reversible deletion, Undo has been a useful pattern" and applies its own judgement about whether the current situation actually resembles that.
-- Note: under the generative-moves framing, a recommendation is not "given context, choose this pattern" but "in situations of this shape, this transformation has been useful." The actor uses it as a lateral suggestion, not a lookup result.
+- Note: under the generative-rules framing, a recommendation is not "given context, choose this pattern" but "in situations of this shape, this transformation has been useful." The actor uses it as a lateral suggestion, not a lookup result.
 
 ### related
 
@@ -164,7 +164,7 @@ These are different relations and are **not transitive across types**: do not tr
 
 ### serves
 
-*A serves B*: pattern A is a move whose role is articulated within foundation B's frame — A covers a named station of B's anatomy (a touchpoint of delegation's lifecycle, a step of assistance's cognitive cycle, a position on modality's gradient). The claim is *participation*, not parthood: A is not a part B is made of (`enables`), not a kind or application of B (`instantiates`), and B produces nothing A acts on (`precedes`). B's frame is where A's job is located.
+*A serves B*: pattern A has a role articulated within foundation B's frame — A covers a named station of B's anatomy (a touchpoint of delegation's lifecycle, a step of assistance's cognitive cycle, a position on modality's gradient). The claim is *participation*, not parthood: A is not a part B is made of (`enables`), not a kind or application of B (`instantiates`), and B produces nothing A acts on (`precedes`). B's frame is where A's job is located.
 
 - Directionality: directed (pattern → foundation only)
 - Inverse: none stored — and no inverse authoring alias: the pattern side carries the edge. A foundation cannot enumerate its dependents (the set is open-ended, and foundation-side lists trend toward catalogues — the accretion the qualities decision already corrected on that layer); the pattern's author is the one who knows which frame articulates the pattern. If foundation-side voicing ever proves necessary, an alias is a changelog decision.
@@ -179,7 +179,7 @@ These are different relations and are **not transitive across types**: do not tr
 
 ### enacts
 
-*A enacts Q*: pattern A is a move whose effect is legible in the Q dimension — applying A changes the structure in a way that shows up when you read the result through quality Q's lens. This is the bridge between patterns (as patterns) and qualities. The relationship does not assert that Q is maximised or always increased; it asserts that Q is the right lens through which to read what this pattern does.
+*A enacts Q*: pattern A has an effect legible in the Q dimension — applying A changes the structure in a way that shows up when you read the result through quality Q's lens. This is the bridge between patterns (as patterns) and qualities. The relationship does not assert that Q is maximised or always increased; it asserts that Q is the right lens through which to read what this pattern does.
 
 - Directionality: directed (pattern → quality only — qualities don't enact patterns)
 - Inverse: none formal (the inverse "Q is enacted by A" is implicit in graph traversal)
@@ -187,7 +187,7 @@ These are different relations and are **not transitive across types**: do not tr
 - Authoring: `rel="enacts"` inline or `relationships: { enacts: [quality-slug] }` in frontmatter. 
 - Example: Confirmation dialog *enacts* Agency — the pause-before-consequence is a move that strengthens the user's sense of intentional control.
 - *Labelling*: a label should name what the pattern does to the centre such that the effect is legible through Q's lens — not restate the type ("X supports Q") or define the quality. "Creates a moment of intentional pause before acting" is a label; "supports agency" is not.
-- Why this matters: under the generative-moves framing, the qualities act as a vocabulary for what a transformation should accomplish. An actor reasoning "what's weak in the current structure that I should strengthen?" needs to know which patterns enhance which qualities. Promoting these from prose links to typed edges makes that reasoning possible.
+- Why this matters: under the generative-rules framing, the qualities act as a vocabulary for what a transformation should accomplish. An actor reasoning "what's weak in the current structure that I should strengthen?" needs to know which patterns enhance which qualities. Promoting these from prose links to typed edges makes that reasoning possible.
 
 ## Edge axis
 
@@ -423,16 +423,19 @@ situation:
   initiating: >-
     Prose — what already exists when this pattern is worth reaching for: the
     structure in place, what the actor is doing in it, the larger patterns and
-    predecessors it continues from or helps complete, the alternatives ruled
-    out (and a sequence where it helps explain the context). Plain links.
+    predecessors it continues from or helps complete, the alternative the
+    maker would otherwise reach for and what rules it out, where that is part of
+    the situation (and a sequence where it helps explain the context). Plain
+    links.
   resulting: >-
     Prose — what holds after the pattern is applied and what it leads on to:
     the patterns that act on its product, the problems it opens, the
-    look-alikes it is not. Plain links.
+    look-alikes it is not, and what takes over where the rule stops holding.
+    Plain links.
 ```
 
-- *Initiating situation* (`situation.initiating`): renders as the page's opening paragraph, before the first section mark, opening with a typed ellipsis. It grounds the pattern in the larger patterns around it: the wholes it is part of, a predecessor whose product this acts on, a same-level partner used together with it, important alternatives, and a sequence only when naming it helps explain the context. Other neighbours are left to the resulting situation and the index. Where the real content is which alternatives have been ruled out, say that (Disabled state's initiating situation is "the component can't be hidden and can't stay live with an explanation"; arriving there *is* the last-resort claim).
-- *Resulting situation* (`situation.resulting`): renders as the page's connections passage, after the instruction, with the typed index folded beneath it; its last sentence ends with a typed ellipsis. It names the smaller and later patterns and the look-alikes. The index beneath it shows every connection, so the passage and the index can disagree: a neighbour that names this page without being named back is either a one-directional relation (normal for a small, widely used pattern), a missing sentence here, or a weak edge to settle on the far page. The sitting on a page sorts its incoming connections this way before writing (the migration plan, step 2).
+- *Initiating situation* (`situation.initiating`): renders as the page's opening paragraph, before the first section mark, opening with a typed ellipsis. It grounds the pattern in the larger patterns around it: the wholes it is part of, a predecessor whose product this acts on, a same-level partner used together with it, an alternative where ruling it out is part of the situation, and a sequence only when naming it helps explain the context. Other neighbours are left to the resulting situation and the index. An alternative is named with what rules it out: the one the maker would otherwise reach for, not every option. Where the real content is which alternatives have been ruled out, say that (Disabled state's initiating situation is "the component can't be hidden and can't stay live with an explanation"; arriving there *is* the last-resort claim).
+- *Resulting situation* (`situation.resulting`): renders as the page's connections passage, after the instruction, with the typed index folded beneath it; its last sentence ends with a typed ellipsis. It names the smaller and later patterns and the look-alikes. A pattern whose rule stops holding past some condition says so here and names what takes over, with the `alternative` edge beside it. The index beneath it shows every connection, so the passage and the index can disagree: a neighbour that names this page without being named back is either a one-directional relation (normal for a small, widely used pattern), a missing sentence here, or a weak edge to settle on the far page. The sitting on a page sorts its incoming connections this way before writing (the migration plan, step 2).
 - *Edge sentences are derived.* For each edge the page authors, the sentence of the resulting situation that links the target is the edge sentence, carried on the edge as `situation`; where the resulting situation does not link the target, the initiating situation's sentence serves. When the far page's prose links back, its sentence is carried too (`farSituation`), so each page keeps its own words. It is shown beside the connection in both endpoints' lists: the folded index on a shaped page, the Related patterns list on a page not yet shaped. Each list shows one text per connection, near side first: this page's note, this page's own sentence, then the far page's sentence in quotation marks, then the far page's note. The quotation marks say the sentence is the far page's words, written for its reader; a sentence that will be quoted reads better without a dangling pronoun, and that is the only shape it owes. A link back to the page being viewed is shown as plain text, and a sentence that links several neighbours is shown once; a sentence may bundle several neighbours of different types, in which case the later neighbour shows its name alone. A pair carries a directed type or a symmetric one, not both; the extractor reports pairs that break this, and counts mixed-type sentences for information. A `note` in `relationships` is still honoured where authored, but a shaped page does not need one: the prose is the edge sentence's home.
 
 Three rules govern the construct:
@@ -456,11 +459,11 @@ A fourth arm: *the judgement is already a decision tree's*. Rule 1 gives a situa
 Two authoring notes from the backfill sitting:
 
 - *`alternative` on a pair blocks `precedes`.* Two patterns typed `alternative` are different transformations of the same starting structure; `precedes` says one produces what the other acts on. Both at once is a contradiction, so a resulting sentence that escalates to an `alternative` sibling states the condition in its own words and no `precedes` edge is authored. This is why the navigation models set up nothing in their own family — escalation among alternatives is the tree's judgement. `complements` and `related` do not block: there the sentence is the gloss's home and the edge note was only ever a rendering.
-- *Minimal primitives are not skips in a sequential family.* Every conversation-family page names a single minimal move, and all thirteen carry situations: where patterns compose into an encounter, the initiating situation is which stage the encounter has reached, which is pattern-history rather than a restatement of the definition.
+- *Minimal primitives are not skips in a sequential family.* Every conversation-family page names a single minimal pattern, and all thirteen carry situations: where patterns compose into an encounter, the initiating situation is which stage the encounter has reached, which is pattern-history rather than a restatement of the definition.
 
 ## Component realisation (cross-dataset)
 
-*A is realised by C*: pattern A names an interaction move; component C implements it. This relationship deliberately has no edge type. The pattern graph is language-only — so a realisation claim points outside the graph, at Storybook's build-output `index.json`. It is a *cross-dataset reference* with one authorable home: frontmatter `realised_by`, a list of Storybook docs ids.
+*A is realised by C*: pattern A is a rule for making a centre; component C implements it. This relationship deliberately has no edge type. The pattern graph is language-only — so a realisation claim points outside the graph, at Storybook's build-output `index.json`. It is a *cross-dataset reference* with one authorable home: frontmatter `realised_by`, a list of Storybook docs ids.
 
 ```yaml
 realised_by: [actions-application-form--docs]
@@ -470,13 +473,13 @@ realised_by: [actions-application-form--docs]
 - *Validation*: the build-time cross-reference validator (`apps/patterns/integrations/validate-cross-references.ts`) resolves every `realised_by` id and every `<ComponentRef id>` against `index.json` and fails the site build on a dangling reference. Realisation gets the same gate as a typed edge, in the dataset it actually points at.
 - *Projection*: the extractor emits `realised_by` as node metadata (`realisedBy`) in `pattern-graph.json` — machine-legible for graph consumers, still not an edge. This is the reachability patterns-and-components.md promises: the component catalogue stays reachable from the language data without components re-entering the graph. Note what it is and is not — a lookup from a pattern to material already built, never a rule for making material that does not exist yet (see patterns-and-components.md §"The missing layer").
 - *Rendering*: `RelatedPatterns.astro` deliberately renders nothing for realisation. On the page the relation reads in prose, where the context of *how* the component realises the pattern lives. Filtering's reference to the kept command-menu component doc is the worked citation instance: the actor building a filter is making filtering's pattern; what recurs is the command-menu *component* — a reference, not a realisation claim.
-- *The name*: read pattern-side, *realised by* — the pattern points at its components. The correspondence is many-to-many and stays loose: a pattern page illustrates its move with whichever components fit, and one component serves many patterns. `realised_by` marks the crisp subset the pattern actually claims as its material; everything looser stays citation.
+- *The name*: read pattern-side, *realised by* — the pattern points at its components. The correspondence is many-to-many and stays loose: a pattern page illustrates its centre with whichever components fit, and one component serves many patterns. `realised_by` marks the crisp subset the pattern actually claims as its material; everything looser stays citation.
 
 Coverage is deliberately partial until the backfill sitting runs (plans/active/2026-07-realised-by-backfill.md): form is the type specimen; the ~50 pages with ComponentRef mentions each owe a judgement call — realisation or citation — not a mechanical sweep.
 
 ## Concept reference (cross-dataset)
 
-*A acts on K*: pattern A is a move on concept K, an entry in the concept catalogue (`apps/patterns/src/content/concepts/`). The same construction as realisation, pointing the other way from the pattern: no edge type, one authorable home in frontmatter `acts_on` (concept ids, or `{concept, note}` where the move is on one action or one arm of the concept), validated at build time against the collection, kept out of the pattern graph, rendered beside the epistemic status and never in the related-patterns index. Concepts are not graph nodes and never appear in `relationships:`. The field is sparse by design: most patterns are moves over structure with no functional concern behind them. See [patterns-and-concepts.md](patterns-and-concepts.md).
+*A acts on K*: pattern A acts on concept K, an entry in the concept catalogue (`apps/patterns/src/content/concepts/`). The same construction as realisation, pointing the other way from the pattern: no edge type, one authorable home in frontmatter `acts_on` (concept ids, or `{concept, note}` where the pattern acts on one action or one arm of the concept), validated at build time against the collection, kept out of the pattern graph, rendered beside the epistemic status and never in the related-patterns index. Concepts are not graph nodes and never appear in `relationships:`. The field is sparse by design: most patterns are moves over structure with no functional concern behind them. See [patterns-and-concepts.md](patterns-and-concepts.md).
 
 ## Open questions
 
@@ -535,6 +538,12 @@ A running record of why types were added, merged, renamed, or retired, what alte
 Each entry: date, change, why, what was considered, what was lost.
 
 Entries are condensed to what still bears on future decisions; the full records are in this file's git history.
+
+### 2026-11-09 — A pattern is a rule, not a move; alternatives are named with what rules them out
+
+A pattern is a rule for making a kind of centre, and applying it is a move. The vocabulary's framing section and the edge definitions that said "A is a move" now speak of the pattern itself. The naming rule names a pattern by the centre it makes rather than by the interaction move; in this medium that is often an act, so existing names stand. The initiating situation no longer caps alternatives at one: it names an alternative when ruling it out is part of the situation, with what rules it out, and a pattern whose rule stops holding past some condition names what takes over in its resulting situation.
+
+Why: the pattern definition had moved to "a rule for making a kind of centre" (*The Nature of Order* Book 2 ch. 13), and calling the pattern a move merged the rule with its application and dropped the relation each pattern states. The count of alternatives contradicted Disabled state, the worked example, and said nothing about whether a reason is given; *A Pattern Language* names a displaced default with its condition (Row Houses, Building Thoroughfare) and hands off from the general pattern at its end (House Cluster). What was lost: the 2026-08-28 entry's wording "a move is what a pattern names" no longer matches; its point stands as step versus pattern.
 
 ### 2026-10-19 — Edge sentences show in the folded index; "gloss" becomes "edge sentence"
 

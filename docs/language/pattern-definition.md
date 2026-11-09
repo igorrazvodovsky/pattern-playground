@@ -44,9 +44,9 @@ thing, and every instance is a configuration of it. A complete interaction
 contract (semantics, keyboard behaviour, focus model, state behaviour, use
 context) is pattern-grade content because it is a rule, and it usually
 compresses several patterns. Those patterns enter the language under their own
-names, each named by what the actor is doing; the control itself stays in the
+names, each named by the centre it makes; the control itself stays in the
 component catalogue, so a well-specified combobox is not a pattern, but the
-moves its contract bundles may be. How mixed pages are taken apart is
+patterns its contract bundles may be. How mixed pages are taken apart is
 in [docs/specs/pattern-role-model.md](../specs/pattern-role-model.md); the
 two-language framing is in
 [patterns-and-components.md](./patterns-and-components.md).
@@ -54,8 +54,12 @@ two-language framing is in
 *Connective.* Does it have an initiating situation and a resulting situation?
 The initiating situation names the larger things the pattern helps complete
 and the state it acts on; the resulting situation names the smaller and later
-patterns that complete it and the look-alikes it is not; the initiating
-situation may name at most one alternative. An entry with neither situation is
+patterns that complete it and the look-alikes it is not. The initiating
+situation names an alternative only when ruling it out is part of the
+situation, and says what rules it out: the alternative the maker would
+otherwise reach for, not every option. A pattern whose rule stops holding
+past some condition says so in its resulting situation and names what takes
+over. An entry with neither situation is
 a library item, whatever the quality of its body. Typed edges carry the part
 of each situation the vocabulary can hold; the prose carries the rest
 ([relationship-vocabulary.md](./relationship-vocabulary.md) §Situations).
@@ -91,7 +95,7 @@ An anti-pattern is an annotation on the patterns it warns against, not a node
 with generative edges of its own: a collection of anti-patterns lacks the
 connective structure that lets one pattern set up the next.
 
-A collection surveys the patterns over a territory and is not itself a move;
+A collection surveys the patterns over a territory and is not itself a pattern;
 what it may and may not carry is in
 [docs/specs/pattern-role-model.md](../specs/pattern-role-model.md).
 

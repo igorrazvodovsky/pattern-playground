@@ -8,7 +8,8 @@ and graph metadata. The two-language framing behind it is
 
 - A `component` is a unit of the component catalogue: API, rendering, slots, props,
   states, styling, examples, and accessibility contract.
-- A `pattern` is a generative interaction move: a recurring human situation,
+- A `pattern` is a rule for making a kind of centre, with that centre's relation to
+  other centres: a recurring human situation,
   forces, invariant behaviour, consequences, and relations to other patterns. A composite pattern (e.g. Form) and a
   general pattern with variants (e.g. Assisted task completion) are also patterns, not surveys. Scale is carried by `activityLevel` or similar and by edges, never by the role.
 - A `collection` is a labelled grouping of related entries for orientation and

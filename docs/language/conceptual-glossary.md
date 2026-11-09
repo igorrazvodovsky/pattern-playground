@@ -20,7 +20,7 @@ A unit of functionality an actor recognises across systems, defined by its purpo
 
 ## Generative move
 
-A pattern understood not as a catalogue item but as a transformation that produces centres while preserving existing structure (Alexander). Design happens through sequences of such moves, each acting on what already exists. The relationship vocabulary is written in this register — edges describe how patterns combine, not how options are picked. See [design-theory.md](./design-theory.md) for the two-phase trajectory (Pattern Language → Nature of Order).
+One application of a pattern: a transformation that makes one instance of the pattern's centre, fitted to its place, while preserving existing structure (Alexander). The pattern is the rule and the move is its use; patterns supply the moves, and sequences supply their order. Design happens through sequences of moves, each acting on what already exists. The relationship vocabulary is written in this register — edges describe how patterns combine, not how options are picked. See [design-theory.md](./design-theory.md) for the two-phase trajectory (Pattern Language → Nature of Order).
 
 ## Generative sequence
 

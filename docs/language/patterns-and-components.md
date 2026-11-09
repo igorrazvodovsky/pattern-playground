@@ -3,8 +3,8 @@
 The project works with two things whose jobs are different enough that they must
 not share a vocabulary:
 
-- The *pattern language* is the connected structure of *patterns* — generative
-  moves organised so an actor can sequence design decisions. Its job is
+- The *pattern language* is the connected structure of *patterns* — rules for
+  making centres, organised so an actor can sequence design decisions. Its job is
   divergence within invariants: a pattern names a recurring force-resolution that
   is realised differently every time it is applied. It lives in `apps/patterns/`.
 - The *component catalogue* is the connected structure of *components* —
