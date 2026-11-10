@@ -1,87 +1,77 @@
 ---
 title: Searching
 added: 2025-12-12
-updated:
+updated: 2026-11-10
 role: pattern
+evidence:
+  - observed
+  - literature
+  - used
 group: seeking
 activityLevel: action
 mediation: individual
 lifecycle: seeking
 fun: 🗺️ 2/5. Mapping out the basics.
+description: "Retrieving matching items from a collection by stating an intent in a query, when browsing or narrowing in place cannot reach them."
 situation:
-  resulting:
-    - clause: >-
-        a result set now exists — ordered by relevance rather than by the
-        collection's own structure — and presenting it is a design problem of
-        its own
-      sets-up: [data-view]
-    - >-
-      a search can fail, leaving the actor with intent but no result — browsing
-      the structure ("browse by category instead") is the fallback seeking move
+  initiating: >-
+    … in [composing views](/sequences/composing-views) the collection is framed, yet browsing and [filtering](/patterns/filtering) in place cannot reach what the actor wants: their criteria do not fit the exposed attributes, or they recall a name or phrase rather than where the item sits. In [structuring the space](/sequences/structuring-the-space), a [multilevel tree](/patterns/multilevel-tree) or [hub and spoke](/patterns/hub-and-spoke) layout can likewise bury a known item several steps deep, and in [making changes](/sequences/making-changes) a [bounded choice](/patterns/bounded-choice) field can outgrow an inline list. Searching completes the [information environment](/patterns/information-environment) by indexing the names, content, and [tags](/patterns/tag) from its [information architecture](/patterns/information-architecture), so the actor can reach matching items across the collection by query.
+  resulting: >-
+    Searching returns a relevance-ranked set presented in a [data view](/patterns/data-view) and addressable through [deep linking](/patterns/deep-linking). At the input, pair the query box with [recents](/patterns/recents) before typing begins and [autocomplete](/patterns/autocomplete) as the actor types to complete terms or jump straight to a known item. On the results, pair the ranked list with [suggestions](/patterns/suggestion) for query refinements, [filtering](/patterns/filtering) over facets to narrow the set in place, and [navigation](/patterns/navigation-overview) when the query falls short. Over an application's actions and jumps rather than its content, searching specialises into a [command menu](/patterns/command-menu). Searching is not a [prompt](/patterns/prompt), which asks the system to generate or act rather than retrieve existing items, even when one input bar accepts both…
 relationships:
+  precedes:
+    - data-view
   instances:
-    - to: command-menu
-      note: searching is the broader seeking move, applied to a command vocabulary
+    - command-menu
   complements:
-    - to: navigation-overview
-      note: the fallback seeking move when a search fails; browse and search co-deploy over the same structure
-    - to: filtering
-      note: often used after a search to refine results; in AI-search, filters are the output of the search query
-    - to: prompt
-      note: modern search inputs are evolving into prompt interfaces, accepting instructions alongside keywords
-    - to: autocomplete
-      note: real-time narrowing of query suggestions as the actor types
-    - to: suggestion
-      note: '"did you mean?" and related patterns that guide query formulation'
+    - navigation-overview
+    - filtering
+    - prompt
+    - autocomplete
+    - suggestion
 ---
-A transactional method for retrieving specific information by matching actor intent (query) with system content. Unlike [Navigating](/patterns/interaction#navigating) (where actors move through structure) or [Browsing](/patterns/interaction#browsing) (where actors scan for patterns), Search relies on the system to do the heavy lifting of evaluation and discrimination.
 
-## Anatomy
+* * *
 
-The search experience spans three distinct phases, often distributed across different UI components:
+**When a collection outgrows what can be scanned or filtered in place, walking its structure forces the actor to guess how someone else organised it; asking by query shifts that work from recognition to recall, where the actor's words rarely match the system's.**
 
-### 1. Entry & query formulation
-The point where the actor expresses intent.
-- Keyword search: Matches exact strings or tags. Best for specific items (names, IDs).
-- Natural language prompt: Describes the desired outcome or characteristics. Best for complex queries that would otherwise require heavy filtering.
-- Scope:
-    - Global: Searches the entire system.
-    - Local: Searches only within the current context.
+Where [navigation](/patterns/navigation-overview) walks the structure the maker built and [filtering](/patterns/filtering) narrows by exposed attributes, searching ranks the collection against the actor's own words. Because [spontaneous terms for the same object rarely agree](https://doi.org/10.1145/32206.32212) and what comes back often changes what the actor asks next, a query box cannot stand in for the [information architecture](/patterns/information-architecture): it relies on the names and [tags](/patterns/tag) that architecture establishes, and leans on recognition patterns around it—[recents](/patterns/recents) and [autocomplete](/patterns/autocomplete) going in, [suggestions](/patterns/suggestion) and facet [filtering](/patterns/filtering) coming back—to bridge the gap between what the actor types and what the collection holds.
 
-### 2. Processing & translation
-- Lexical and statistical retrieval: explicit algorithms relying on patterns in the text.
-- AI intent translation: The system bridges the gap between the actor's language and the system's taxonomy.
+Therefore,
 
-### 3. Results & refinement
-- Instant results: Popover or dropdown.
-- Search results view: A dedicated [data view](/patterns/data-view).
+**Accept a query in the actor's words, match it across the names, content, and [tags](/patterns/tag) of the collection, and return a relevance-ranked [data view](/patterns/data-view) where matches can be judged and narrowed in place without losing the view the search was launched from.**
 
-### Stability & undo
-Search shouldn't destroy context. It should be easily reversible, returning the actor to their previous state (e.g., scroll position) without friction.
+{/* Do not hide the [information architecture](/patterns/information-architecture) behind a search box alone; when a query returns no exact matches, keep [navigation](/patterns/navigation-overview) and relaxed matches in reach rather than stranding the actor on an empty page. */}
 
-{/* ## Decision tree */}
-{/* ### Search vs. Browsing */}
-{/* - **Do I know where it is?** → Navigation. */}
-{/* - **Do I know what it is called?** → Search. */}
-{/* - **Recall vs. recognition**: Search relies on *recall* (knowing the name), while browsing relies on *recognition*. */}
-{/* - **Mental model**: Navigation teaches the structure and vocabulary of the system. Valid search requires the user to already possess this knowledge. */}
-{/* ### Search vs. Filter */}
-{/* - **Do I want to refine the current set?** → Filter. */}
-{/* - **Do I want to find a specific item?** → Search. */}
-{/* *Note: AI blurs this line. A search query can be "translated" into a set of applied filters.* */}
+## In practice
 
-{/* ### Search vs. Prompt */}
-{/* - **Search**: Typically retrieval of *existing* items. */}
-{/* - **Prompt**: Can be retrieval, but often implies generation or execution of complex tasks. */}
-{/* - **Convergence**: Modern search bars are becoming "Command Bars" that accept both search queries and commands (e.g., "Create a new file"). */}
+### Queries parsed into filters
+
+When a natural-language query is translated into structured attributes, render the inferred criteria as editable [filter](/patterns/filtering) chips on the surface so the actor can see and change how their query was parsed.
+
+### Search beside prompting and composed answers
+
+Where one input accepts both search queries and [prompts](/patterns/prompt), or where search places a [generated content](/patterns/generated-content) summary above the ranked [data view](/patterns/data-view) (or returns matches inside a [conversation](/patterns/conversation) as an [inline interface](/patterns/inline-interface)), the risk shifts from finding nothing to accepting an unsupported synthesis without checking the sources. Ground each claim with [citations](/patterns/citation) back to its passage and keep the ranked source items inspectable below it.
+
+<div class="callout">
+Search also needs to be reachable by an [outside agent](/patterns/outside-agent) acting on the actor's behalf. Expose query, scope, and filter parameters as machine-readable primitives returning structured matches—and, where the agent renders UI in its reply, self-contained result views that take explicit inputs rather than depending on the surrounding page layout.
+</div>
 
 ## Related components
 
-- <ComponentRef id="components-combobox--docs">Combobox</ComponentRef> — the entry-phase mechanism for instant-results
+- <ComponentRef id="components-combobox--docs">Combobox</ComponentRef> — the entry-phase control pairing a text input with a popup of instant results or query completions
+- <ComponentRef id="components-command-menu--docs">Command menu</ComponentRef> — modal search launcher over commands, navigation targets, and recent items
+- <ComponentRef id="components-input--docs">Input</ComponentRef> — the text field primitive that search inputs build on
+
+## Research on this pattern
+
+- Vocabulary mismatch: [two people naming the same object across five domains chose the same term less than 20% of the time](https://doi.org/10.1145/32206.32212), which is why keyword lookup fails without synonym matching and recognition aids around the query box.
+- Search plus structure: [pairing keyword search with faceted navigation reduced dead ends and was preferred by 91% of participants](https://doi.org/10.1145/642611.642681), and [categorised overviews alongside results helped searchers explore deeper](https://doi.org/10.1016/j.ipm.2007.07.014) while skewing collected items toward what the taxonomy covered (82.7% vs 75.4%).
+- Generative and agentic search: commercial generative search engines [varied widely in how many statements their citations supported (11.1%–68.7% recall; 63.6%–89.5% precision)](https://arxiv.org/abs/2304.09848), while participants in low-stakes tasks [clicked fewer than one reference per session](https://arxiv.org/abs/2402.05880) and [switched from chat back to traditional search only when doubt set in](https://doi.org/10.1145/3698204.3716455); across 3.97M agentic search sessions, [machine trajectories iterated across turns (52.2% multi-query) but favoured local refinement over broadening (under 11%)](https://arxiv.org/abs/2601.17637).
 
 ## Resources & references
-- [Luke Wroblewski / Tackling Common UX Hurdles with AI](https://www.lukew.com/ff/entry.asp?2132) — On using *world knowledge* to rethink search inputs
-- [NN/g / Search: Visible and Simple](https://www.nngroup.com/articles/search-visible-and-simple/)
-- [NN/g / Search Is Not Enough](https://www.nngroup.com/articles/search-not-enough/) — Why navigation remains essential for teaching users the "Search Space" and reducing cognitive load
-- [Apple HIG: Search](https://developer.apple.com/design/human-interface-guidelines/searching)
-- [Bruce Tognazzini / Browse vs. Search](https://www.asktog.com/columns/085BrowseVsSearch.html) — Argument for why search dominates efficiency but browse (navigation) remains essential for context
+
+- Hearst, M. A. (2009) [Search User Interfaces](https://searchuserinterfaces.com/). Cambridge University Press.
+- Morville, P. & Callender, J. (2010) *Search Patterns: Design for Discovery*. O'Reilly Media.
+- Rothenberg, M. (2026) [Primitives for generation](https://mattrothenberg.com/notes/primitives-for-generation/)
+- [Luke Wroblewski / Tackling Common UX Hurdles with AI](https://www.lukew.com/ff/entry.asp?2132) — using world knowledge to translate search inputs
