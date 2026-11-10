@@ -152,6 +152,18 @@
     --pf-border: var(--c-neutral-200);
     --pf-border-focus: var(--c-neutral-400);
     --pf-hover: var(--c-neutral-50);
+
+    /* The modal paints its selected result with the skeleton colour. */
+    --pf-skeleton: var(--c-neutral-100);
+    --pf-skeleton-shine: var(--c-neutral-50);
+    --pf-scroll-shadow: light-dark(oklch(0% 0 0deg / 8%), oklch(100% 0 0deg / 10%));
+    --pf-shadow-sm: var(--shadow-m);
+    --pf-shadow-md: var(--shadow-l);
+    --pf-shadow-lg: var(--shadow-xl);
+    --pf-error-bg: var(--c-background-danger);
+    --pf-error-border: var(--c-danger-200);
+    --pf-error-text: var(--c-danger-600);
+    --pf-error-text-secondary: var(--c-danger-700);
     --pf-outline-focus: var(--c-accent-500);
   }
 
