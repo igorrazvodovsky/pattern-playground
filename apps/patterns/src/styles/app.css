@@ -890,8 +890,8 @@ main.shell__main:has(> .content-inset) {
      part of it. Hover and selection tint the row. */
   pagefind-modal {
     .pf-result {
-      gap: 0;
-      padding-block: var(--space-xs);
+      gap: var(--space-2xs);
+      padding-block: var(--space-s);
     }
 
     .pf-result + .pf-result {
@@ -928,7 +928,7 @@ main.shell__main:has(> .content-inset) {
     }
 
     .pf-heading-chip {
-      padding: var(--space-2xs) var(--space-s);
+      padding: var(--space-xs) var(--space-s);
       border-start-start-radius: 0;
       border-end-start-radius: 0;
     }
