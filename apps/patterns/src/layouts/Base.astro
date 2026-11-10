@@ -38,14 +38,22 @@ const umamiWebsiteId = import.meta.env.PROD ? import.meta.env.PUBLIC_UMAMI_WEBSI
          which would fix "components" before "lib" and invert precedence.
          is:inline keeps this tag first. Must match the statement in lib.css. -->
     <style is:inline>
-      @layer lib, shadcn, reset, theme, global, layout, components, utilities, states;
+      @layer lib, shadcn, reset, theme, global, layout, components, pagefind, utilities, states;
+      @layer pagefind.base, pagefind.site;
     </style>
     <meta name="color-scheme" content="light dark" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} — Pattern Playground</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <ClientRouter />
-    <link rel="stylesheet" href="/pagefind/pagefind-component-ui.css" />
+    {/* Pagefind's stylesheet sits above the site's element styles, so its own
+        reset still keeps them out of the search modal, and below
+        pagefind.site, where app.css restyles the modal without matching
+        Pagefind's specificity. Inline, because the file only exists after the
+        build. */}
+    <style is:inline>
+      @import url('/pagefind/pagefind-component-ui.css') layer(pagefind.base);
+    </style>
     <script src="/pagefind/pagefind-component-ui.js" type="module" is:inline></script>
     {/* ClientRouter keeps this tag across swaps, and Umami counts each swap
         through its history.pushState hook. */}
