@@ -9,6 +9,10 @@
      from the drawing instead. */
   pp-network-graph {
     display: block;
+
+    /* Matches the SVG's cap, so a page that reserves the drawing's box with
+       aspect-ratio before the element upgrades gets the same height. */
+    max-height: calc(100svh - var(--space-2xl) * 2);
   }
 
   pp-network-graph .network-graph {

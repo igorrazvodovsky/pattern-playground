@@ -816,6 +816,14 @@ main.shell__main:has(> .content-inset) {
     background: none;
   }
 
+  /* rough-notation places the SVG at the top left of its containing block and
+     draws relative to that point. Making the mark's parent the containing block
+     keeps the stroke on the text when content above it changes height, such
+     as the home page graph drawing in, without waiting for a redraw. */
+  :is(article, .content-inset) :has(> .rough-annotation + mark) {
+    position: relative;
+  }
+
   /* The positioned SVG would paint over the text that follows the mark where
      the stroke runs past it; it goes under the text, inside the mark's parent
      so it cannot drop behind a background further out. */

@@ -2,6 +2,15 @@
 import Base from '../layouts/Base.astro';
 import '@styles/pattern-graph.css';
 import { STORYBOOK_URL } from '../lib/site';
+import { buildData, CATEGORY_ANCHORS } from '../lib/pattern-graph-data';
+import { layoutNetworkGraph } from '@components/charts/network-graph-layout';
+
+// The layout is deterministic, so running it here gives the viewBox the
+// browser will settle on. Reserving that aspect keeps the prose below from
+// moving when the graph draws.
+const [, , graphW, graphH] = layoutNetworkGraph(buildData(), CATEGORY_ANCHORS)
+  .viewBox.split(' ')
+  .map(Number);
 ---
 
 <Base title="Introduction">
@@ -49,7 +58,11 @@ import { STORYBOOK_URL } from '../lib/site';
   </div>
 
   <div class="flow">
-    <pp-network-graph data-pattern-graph data-color-mode="at-level"></pp-network-graph>
+    <pp-network-graph
+      data-pattern-graph
+      data-color-mode="at-level"
+      style={`aspect-ratio: ${graphW} / ${graphH}`}
+    ></pp-network-graph>
 
     <h2>Overview</h2>
 
