@@ -14,14 +14,14 @@ situation:
   initiating: >-
     … the artifact is one of the [tools the user already works with](/patterns/tool-ecology), and they bring an AI agent of their own, an assistant that works across several of those tools, to read and act on the work in it. The agent answers to the user, not to the artifact's maker, and it arrives whether or not the artifact was designed for it.
   resulting: >-
-    The agent works under a grant, which the actor issues and revokes through [sharing](/patterns/sharing), where the agent is listed beside the people who have access. What it may do without asking is set through [bounded autonomy](/patterns/bounded-autonomy), and the acts the actor wants to confirm wait at an [approval gate](/patterns/approval-gate). Its contributions carry [provenance marking](/patterns/provenance-marking), and its acts land in the [activity log](/patterns/activity-log) under its own name rather than the actor's. The artifact's own [agent](/patterns/agent) looks similar but is designed and steered by the artifact's maker, whereas the outside agent answers to the actor and works across tools the maker does not see…
+    The agent works under a grant, which the actor issues and revokes through [sharing](/patterns/sharing), where the agent is listed beside the people who have access. What it may do without asking is set through [bounded autonomy](/patterns/bounded-autonomy), and the acts the actor wants to confirm wait at an [approval gate](/patterns/approval-gate). Its contributions carry [attribution](/patterns/attribution) under its own name rather than the actor's, and its acts land in the [activity log](/patterns/activity-log). The artifact's own [agent](/patterns/agent) looks similar but is designed and steered by the artifact's maker, whereas the outside agent answers to the actor and works across tools the maker does not see…
 relationships:
   composed-of:
     - sharing
   precedes:
     - bounded-autonomy
     - approval-gate
-    - provenance-marking
+    - attribution
     - activity-log
   tangential:
     - agent

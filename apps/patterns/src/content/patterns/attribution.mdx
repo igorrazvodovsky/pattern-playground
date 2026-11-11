@@ -1,0 +1,63 @@
+---
+title: Attribution
+added: 2026-11-11
+updated:
+role: pattern
+evidence:
+  - observed
+  - literature
+  - used
+activityLevel: operation
+mediation: coordination
+description: "Signing each contribution or change in shared work with the person, delegated agent, or named rule that made it, so collaborators know whom to answer and the history can be read by author."
+situation:
+  initiating: >-
+    … people, agents, and automated rules contribute to the same work under [collaboration](/patterns/collaboration), while an [activity log](/patterns/activity-log) keeps the history of what changed. Where [presence](/patterns/presence) shows who is in the space and what they are doing right now, attribution signs each contribution with who or what made it at the moment it is written, so the contributor remains legible after the moment passes. When an [outside agent](/patterns/outside-agent) acts in the workspace under a grant, the same signature records its work under its own name rather than the person's.
+  resulting: >-
+    Each contribution now carries the identity of the person, agent, or rule that made it, so colleagues can answer the author in [commenting](/patterns/commenting), trace who changed what across [version history](/patterns/version-history), and weigh proposed edits in [change review](/patterns/change-review). Where a contribution was generated or revised by a model and actors need to calibrate reliance on it—or where the content will be copied or exported out of the workspace—pair contributor attribution with [provenance marking](/patterns/provenance-marking), which discloses machine involvement and binds that mark to the content itself. Attribution is not [annotation](/patterns/annotation): the signature is attached automatically when the contribution is written to record who made it, whereas annotation is an actor's own layer added over content they did not write…
+relationships:
+  enables:
+    - collaboration
+    - activity-log
+  complements:
+    - presence
+    - commenting
+    - version-history
+    - change-review
+    - provenance-marking
+  related:
+    - annotation
+---
+
+* * *
+
+**When contributions from different people, delegated agents, and automated rules sit in the same document or record and look alike once written, an actor meeting a passage, a comment, or a field change cannot tell whether they are looking at a colleague's deliberate choice, an agent acting under a grant, or a rule firing. Without knowing who or what made it, they do not know whom to ask about it, whether they are free to overwrite it, or which rule to adjust.**
+
+Attribution is the historical counterpart of [presence](/patterns/presence): presence shows who is acting now, and attribution shows who acted earlier. Like presence, it only holds when captured automatically as a by-product of working. Once edits merge into a shared text, who wrote which span cannot be reconstructed after the fact, and asking contributors to sign their own changes manually goes unfed.
+
+Three tensions shape how contributor signatures appear on a surface:
+
+- *Auditability versus reading flow*: a byline on a discrete item such as a comment, a commit, or a log entry stays out of the way, whereas per-span author colours across a heavily edited paragraph turn the document into a patchwork that is harder to read than to inspect. Effective collaborative editors keep inline author marks quiet during normal reading and composition, revealing per-span attribution on demand—through blame views, editor highlights, or hover cards—when someone needs to trace or review a change.
+- *Character tracking versus intellectual ownership*: in co-authored work, one person often rewrites another's draft or reshapes a suggestion in their own words. Automatic span tracking records who typed the characters, not whose idea or judgement the sentence carries. Visible edit attribution also changes how collaborators behave: people hesitate to overwrite a passage when the author's name is pinned to it, and where attribution carries credit or scrutiny, actors need the history of the edit chain—or a way to adjust the attribution—rather than a raw character-count share. Conversely, when a group publishes outward in a single voice, internal per-author marks belong in the workspace and [version history](/patterns/version-history) rather than on the published view.
+- *Delegated agents and automated rules*: when a rule or an [outside agent](/patterns/outside-agent) modifies a record under a person's credentials, attributing the change solely to the human account hides the automation and sends colleagues to ask someone who never made the edit. Naming both the rule or agent that ran and the person who configured or authorised it tells the reader what acted and who governs it.
+
+Therefore,
+
+**Attach the identity of the contributor—a person, a delegated agent, or a named rule—to every edit, comment, and logged change at the moment it is written. Show bylines directly on discrete items such as comments and log entries, and keep per-span authorship in shared documents behind an on-demand view so the work reads cleanly when no one is auditing it. When a rule or agent acts on someone's behalf, name both the mechanism that ran and the person who authorised it.**
+
+Do not carry internal per-span author marks into published or exported views unless the contributors intend to sign their sections publicly, and do not treat character-level edit counts as a measure of intellectual contribution.
+
+## Research on this pattern
+
+- Passive capture as a by-product of work: workspace awareness and attribution depend on information collected automatically from the act of editing rather than separate reporting steps, which impose cost on the producer to benefit later readers ([Dourish & Bellotti, 1992](https://doi.org/10.1145/143457.143468); [Gutwin & Greenberg, 2002](https://doi.org/10.1023/A:1021271517844)).
+- Social effects of visible edit attribution: in collaborative writing, making per-edit attribution visible helps co-authors coordinate and understand why a passage changed, but also introduces social friction around overwriting another person's attributed words, leading writers to negotiate changes in comments rather than editing directly ([Birnholtz & Ibara, 2012](https://doi.org/10.1145/2145204.2145325)).
+- Toggleable and contestable attribution in co-writing: in human-AI co-writing (*HaLLMark*), externalising span-level attribution alongside a prompt timeline increased writers' sense of ownership and reduced unedited machine text, while requiring module toggles to keep visual marks out of the way during composition and manual labelling for indirect influence that automatic text matching cannot detect ([Hoque et al., 2024](https://doi.org/10.1145/3613904.3641895)).
+
+## Resources & references
+
+- Dourish & Bellotti (CSCW 1992) [Awareness and coordination in shared workspaces](https://doi.org/10.1145/143457.143468)
+- Gutwin & Greenberg (2002) [A descriptive framework of workspace awareness for real-time groupware](https://doi.org/10.1023/A:1021271517844)
+- Birnholtz & Ibara (CSCW 2012) [Tracking changes in collaborative writing: edits, visibility and group maintenance](https://doi.org/10.1145/2145204.2145325)
+- Hoque, Mashiat, Ghai, Shelton, Chevalier, Kraus & Elmqvist (CHI 2024) [The HaLLMark effect: supporting provenance and transparent use of large language models in writing with interactive visualization](https://doi.org/10.1145/3613904.3641895)
+- Ink & Switch (2024) [AI bots in version control](https://www.inkandswitch.com/patchwork/notebook/2024-version-control/07/)
+- [AI UX Playground — Agent Identity](https://www.aiuxplayground.com/pattern/agent-identity), [Responsibility Attribution](https://www.aiuxplayground.com/pattern/responsibility-attribution)

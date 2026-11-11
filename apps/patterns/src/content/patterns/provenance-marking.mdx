@@ -1,24 +1,22 @@
 ---
 title: Provenance marking
 added: 2026-08-07
-updated: 2026-10-28
+updated: 2026-11-11
 role: pattern
 evidence:
   - observed
+  - literature
   - used
 activityLevel: operation
-description: "Attaching a legible mark of what produced a piece of content when it is made, so actors meeting it later know whether it came from a person, a rule, or a model and how to respond to it."
+description: "Attaching a legible mark of machine involvement and origin to content when it is produced or exported, so actors meeting it later know what was generated or revised by a model and how to weigh it."
 situation:
   initiating: >-
-    … [generated content](/patterns/generated-content) and human contributions now sit in the same place, where people and agents contribute side by side under [collaboration](/patterns/collaboration) and an [activity log](/patterns/activity-log) keeps the history of what changed. Provenance marking gives these larger patterns a legible sign of what produced each contribution—a person, a named rule, or a model—stamped at the moment it is written, so origin survives when machine output mixes with human work or leaves the surface that made it.
+    … the system has produced [generated content](/patterns/generated-content) that will sit alongside human writing, or work is leaving the surface that made it through [import and export](/patterns/import-and-export). The same question arises when a passage has been rewritten through [instructed revision](/patterns/instructed-revision) or adapted through a [text lens](/patterns/text-lens) and the actor needs to distinguish the author's wording from machine output. Provenance marking stamps the content with its machine involvement and origin when it is made, so that origin survives when machine output mixes with human work or leaves the tool.
   resulting: >-
-    Origin is now legible at the point of reading, and everything left unmarked on the same surface will be read as human-made. Where the marked output makes factual claims, pair the origin mark with [citation](/patterns/citation) so the actor can see not only that the system wrote a claim, but which source passage it rests on. Because a visible disclosure mark can also reassure on sight without prompting closer reading, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes of acting on wrong output are high. Provenance marking is not [annotation](/patterns/annotation): the mark is stamped on the contribution at creation to record what made it, whereas annotation is a reader's own layer added over content they did not write…
+    Machine involvement is now legible at the point of reading, and everything left unmarked on the same surface will be read as human-made. Where the marked output makes factual claims, pair the origin mark with [citation](/patterns/citation) so the actor can see not only that the system wrote a claim, but which source passage it rests on. Because a visible disclosure mark can also reassure on sight without prompting closer reading, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes of acting on wrong output are high. In shared workspaces, provenance marking pairs with [attribution](/patterns/attribution), which records which person, delegated agent, or rule made each edit or comment across the work. Provenance marking is not [annotation](/patterns/annotation): the mark is stamped on the content at creation to record how it was produced, whereas annotation is an actor's own layer added over content they did not write…
 relationships:
   follows:
     - generated-content
-  enables:
-    - collaboration
-    - activity-log
   precedes:
     - cognitive-forcing-functions
   complements:
@@ -29,24 +27,46 @@ relationships:
 
 * * *
 
-**When contributions from different people, automated rules, and models sit in the same document or record and look alike once written, an actor meeting a passage or a change cannot tell whether they are looking at a colleague's deliberate choice, a rule firing, or a model's draft. Without knowing what produced it, they do not know whom to ask about it, whether they are free to overwrite it, or how to check it.**
+**When machine-generated or machine-revised content sits in the same document as human writing or travels outside the tool that made it, an actor meeting a passage cannot tell whether they are reading a person's own words, a light machine edit, or an autonomous draft. Without a legible sign of machine involvement and origin, they cannot tell how to approach it.**
 
-Where a surface already shows who is speaking, such as the system's turn in a dedicated chat thread, an extra badge adds noise without adding information. Provenance marking earns its place when contributions from people, rules, and models share one surface, or when output leaves the surface that made it. Copy, paste, export, and screenshots strip surrounding interface chrome first, so a mark that lives only in the frame disappears at the boundary where the next reader needs it most.
-
-Marking origin also changes what the unmarked means. The moment any part of a document or feed is labelled as machine-made, everything left unlabelled is read as a claim of human origin. Nor can origin be reconstructed after the fact: once generated text is edited by hand or merged into a shared draft, what came from the model and what came from a person is lost unless it was stamped when written.
-
-Across tools, the mark takes four recurring forms: disclosure labels on AI turns and features, visual conventions (colour, iconography) reserved for machine output, per-span or per-event authorship records in shared documents, and watermarks or embedded file metadata readable by people or software after export.
+Where a surface already shows that a model is speaking, such as the assistant's turn in a dedicated chat thread, an extra badge adds noise without adding information. Provenance marking earns its place when machine output mixes with human writing on one surface, or when content leaves the artefact that made it. Once generated text is edited by hand or merged into a draft, what came from the model and what came from a person cannot be reconstructed after the fact unless it was stamped when written. Marking origin also changes what the unmarked means: the moment any part of a document or feed is labelled as machine-made, everything left unlabelled is read as a claim of human origin.
 
 Therefore,
 
-**Attach a mark of what produced the content—a person, a named rule, or a model—at the moment the contribution is written. Keep the mark quiet where the surface already shows who is speaking, and bind it to the content itself wherever the output mixes with other people's work or can be copied and exported out of the tool.**
+**Attach a mark of machine involvement and origin at the moment content is generated, revised, or exported. Keep the mark quiet where the surface already shows that the model is speaking, distinguish assisted revision from autonomous generation rather than stamping both with a binary badge, and bind the mark to the content itself wherever the output mixes with human writing or leaves the tool.**
 
-Do not rely on interface chrome alone when content will be pasted, exported, or shared as a file, since the chrome is the first layer stripped in transit. Because marking some spans turns every unmarked span into an implied claim of human authorship, state what the absence of a mark means whenever older or imported content has no provenance recorded.
+## In practice
+
+### Degrees of involvement
+
+A single binary mark fails where collaboration is subtle. Stamping an entire document or passage with a generic machine badge collapses light editing into autonomous generation. When a model only polishes phrasing, recipients treat machine involvement as routine; when it generates the substantive argument, scrutiny rises. Collapsing these degrees into one mark misrepresents authorship and penalises the human contributor without clarifying what the machine produced.
+
+### Co-writing traces during drafting
+
+During composition, provenance marking serves the writer before it serves the recipient. Showing a granular trace of which spans were generated, which were shaped by a prompt, and which the author rewrote in their own words helps them regulate their own reliance before deciding how the finished piece is disclosed outward. Where a tool tracks span-level involvement during drafting, let the author toggle those marks while writing and correct attributions where they rewrote a suggestion in their own words.
+
+### Forms of the mark
+
+Across tools, the mark takes four recurring forms: disclosure labels on generated blocks and features, visual conventions reserved for machine output, span-level co-writing traces that distinguish generated from human-edited text, and watermarks or embedded file metadata readable by people or software after export. Interface chrome is enough while content stays in the frame that produced it; when a passage is copied, exported, or shared as a file, the mark has to travel with the content or file payload rather than stay in the surrounding chrome.
+
+## Research on this pattern
+
+- The disclosure paradox and third-party exposure: actors routinely state that machine involvement should be disclosed, yet they often rate content lower in authenticity, trustworthiness, and quality when a disclosure mark is present ([Sahebi, Formosa & Bankins, 2024](https://doi.org/10.1016/j.chb.2024.108253)). However, being exposed after the fact by a third party or automated classifier incurs a significantly steeper trust penalty than proactive disclosure by the author ([Dykes, 2026](https://www.nngroup.com/articles/disclose-ai-paced/); [Schilke & Reimann, 2024](https://doi.org/10.1038/s41562-024-01967-y)).
+- Degree and role of involvement: reader reactions depend on the extent and character of the machine's contribution. Disclosing that a model edited text has negligible impact on perceived quality in informational writing, whereas disclosing autonomous generation lowers quality ratings ([Li, Liang, Peng & Yin, 2024](https://doi.org/10.18653/v1/2024.emnlp-main.279)). Ratings of an author's sincerity and trustworthiness fall progressively as the disclosed proportion of machine involvement rises ([Nakano et al., 2026](https://doi.org/10.1145/3742413.3789076)).
+- Context and relational expectations: penalties for machine involvement concentrate in communications where personal commitment, sincerity, or human connection is expected, such as interpersonal correspondence or creative writing, while routine or transactional tasks show minimal penalty ([Nakano et al., 2026](https://doi.org/10.1145/3742413.3789076); [Purcell et al., 2025](https://doi.org/10.1016/j.isci.2025.114092)).
+- Writer and reader asymmetry: authors are significantly less likely than recipients to consider machine disclosure necessary, demonstrating a divergence in expectations across roles ([Fang, Wen & Lee, 2026](https://doi.org/10.1145/3805689.3806724)). Making span-level provenance visible to writers during composition reduced the share of unedited AI text kept from 13.7% to 3.5% and increased writers' sense of ownership ([Hoque et al., 2024](https://doi.org/10.1145/3613904.3641895)).
 
 ## Resources & references
 
+- Dykes (2026) [When Should You Disclose AI Use? The PACED Framework](https://www.nngroup.com/articles/disclose-ai-paced/) — Nielsen Norman Group
+- European Commission (2024) [Guidelines on transparency for AI-generated content under the EU AI Act](https://digital-strategy.ec.europa.eu/en/policies/guidelines-transparency-ai-generated-content)
+- Nakano, Takezawa, Matulic, Yang & Yatani (IUI 2026) [Understanding reader perception shifts upon disclosure of AI authorship](https://doi.org/10.1145/3742413.3789076)
+- Sahebi, Formosa & Bankins (2024) [The AI disclosure paradox: trust, authenticity, and perceived quality](https://doi.org/10.1016/j.chb.2024.108253)
+- Schilke & Reimann (2024) [The transparency dilemma: how AI disclosure erodes trust](https://doi.org/10.1038/s41562-024-01967-y)
+- Li, Liang, Peng & Yin (EMNLP 2024) [How does the disclosure of AI assistance affect the perceptions of writing?](https://doi.org/10.18653/v1/2024.emnlp-main.279)
+- Fang, Wen & Lee (FAccT 2026) [What influences readers' and writers' perceived necessity of AI disclosure?](https://doi.org/10.1145/3805689.3806724)
+- Purcell, Jakesch, Dong, Nussberger & Köbis (2025) [Writing with AI boosts trust-building efficiency](https://doi.org/10.1016/j.isci.2025.114092)
+- Hoque, Mashiat, Ghai, Shelton, Chevalier, Kraus & Elmqvist (CHI 2024) [The HaLLMark effect: supporting provenance and transparent use of large language models in writing with interactive visualization](https://doi.org/10.1145/3613904.3641895)
+- [C2PA — Coalition for Content Provenance and Authenticity (Content Credentials)](https://c2pa.org/)
 - [Shape of AI — Disclosure, Watermark, Color, Iconography](https://www.shapeof.ai)
-- [AI UX Playground — Agent Identity](https://www.aiuxplayground.com/pattern/agent-identity), [Responsibility Attribution](https://www.aiuxplayground.com/pattern/responsibility-attribution)
 - [AI Interaction Atlas — Data Provenance, Attribution Required](https://ai-interaction.com)
-- [European Commission — Guidelines on transparency for AI-generated content](https://digital-strategy.ec.europa.eu/en/policies/guidelines-transparency-ai-generated-content)
-

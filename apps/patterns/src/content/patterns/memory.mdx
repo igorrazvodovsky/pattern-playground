@@ -25,7 +25,7 @@ situation:
     [generated content](/patterns/generated-content) without the actor restating
     their context. When the system saves a new detail during an exchange,
     [transient feedback](/patterns/transient-feedback) marks the update in place
-    and [provenance marking](/patterns/provenance-marking) ties the entry back
+    and [citation](/patterns/citation) ties the entry back
     to the conversation turn it came from. A reviewable list in
     [settings](/patterns/settings) lets the actor read, edit, or remove what is
     kept, while [rule composition](/patterns/rule-composition) lets them set
@@ -45,7 +45,7 @@ relationships:
   complements:
     - standing-instructions
     - transient-feedback
-    - provenance-marking
+    - citation
     - settings
     - rule-composition
     - workspace
@@ -71,14 +71,14 @@ Even when the system provides a list of saved memories, three tensions remain:
 
 Therefore,
 
-**Make everything the system remembers about the actor inspectable, editable, and revocable as plain-language statements. Show inline [transient feedback](/patterns/transient-feedback) whenever a memory is saved or updated, link each entry to the conversation turn that produced it via [provenance marking](/patterns/provenance-marking), and let the actor edit or [delete](/patterns/deletion) entries individually or by topic. Scope memories to a [workspace](/patterns/workspace) where projects or roles differ, let the actor set standing exclusions for topics the system must never retain, and ensure that deleting a memory stops it from being re-inferred from past history.**
+**Make everything the system remembers about the actor inspectable, editable, and revocable as plain-language statements. Show inline [transient feedback](/patterns/transient-feedback) whenever a memory is saved or updated, link each entry to the conversation turn that produced it via [citation](/patterns/citation), and let the actor edit or [delete](/patterns/deletion) entries individually or by topic. Scope memories to a [workspace](/patterns/workspace) where projects or roles differ, let the actor set standing exclusions for topics the system must never retain, and ensure that deleting a memory stops it from being re-inferred from past history.**
 
 Keep system-extracted memory distinct from actor-written [standing instructions](/patterns/standing-instructions) and from conversation transcripts in the [activity log](/patterns/activity-log). When the actor removes a memory, state clearly whether the underlying conversation turn remains in the transcript, and offer to remove both when the detail itself is sensitive.
 
 ## In practice
 
 - *Inline write receipts.* When the system saves or updates a memory during an exchange, show a compact inline indicator ("Saved to memory") that expands to reveal the exact statement stored, with an immediate action to undo or edit it in place rather than requiring a trip to [settings](/patterns/settings).
-- *Editable memory list with provenance.* Present stored memories as discrete, plain-language statements (or grouped topic cards) that the actor can read, reword, or delete. Attach [provenance marking](/patterns/provenance-marking)—the source session and date—so the actor can see where a belief came from and tell stated facts apart from system inferences.
+- *Editable memory list with source links.* Present stored memories as discrete, plain-language statements (or grouped topic cards) that the actor can read, reword, or delete. Attach a [citation](/patterns/citation) to the source session and date so the actor can see where a belief came from and tell stated facts apart from system inferences.
 - *Workspace and project scope.* Allow separate memory stores per [workspace](/patterns/workspace) so client details, coding conventions, or role-specific context stay inside the project they belong to instead of bleeding into personal or unrelated sessions.
 - *Standing exclusions over what is never kept.* Alongside post-hoc deletion, let the actor define upfront rules (through [rule composition](/patterns/rule-composition) or topic toggles) for categories the system must never write to memory—such as health, finances, credentials, or third-party details—or route those exchanges to an [ephemeral session](/patterns/ephemeral-session).
 
