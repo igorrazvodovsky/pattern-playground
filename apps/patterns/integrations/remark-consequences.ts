@@ -18,7 +18,8 @@
  *    and heads the parts the shape leaves unheaded: the first mark becomes a
  *    visible, muted *Problem* heading (`.section-mark`) and the authored
  *    `Therefore,` line a *Solution* heading in the same style (RelatedPatterns
- *    heads the passage *Connections* the same way);
+ *    heads the passage *Connections* the same way); an authored
+ *    `## Related components` section is lifted into the fold as its last group;
  * 3. on a page not yet migrated (`situation.resulting` is a clause list, or
  *    absent) keeps the earlier renders: `<Consequences />` before
  *    `## Resources & references`, then `<SequenceAppearances />` and
@@ -36,11 +37,12 @@ import type { VFile } from 'vfile';
 
 const RESOURCES_HEADING = 'Resources & references';
 const TODO_HEADING = 'To-do';
+const COMPONENTS_HEADING = 'Related components';
 /** The sections that may follow the connections passage, in the order the
  * rule lists them. The passage goes before whichever comes first. */
 const TAIL_HEADINGS = [
   'In practice',
-  'Related components',
+  COMPONENTS_HEADING,
   'Research on this pattern',
   RESOURCES_HEADING,
   TODO_HEADING,
@@ -197,9 +199,9 @@ function headParts(tree: Root): void {
   if (mark !== -1) tree.children.splice(mark, 1, heading('Problem', 'section-mark'));
 }
 
-/** Removes the `## To-do` section (heading through the node before the next h2) and returns it. */
-function liftTodo(tree: Root): RootContent[] {
-  const start = tree.children.findIndex((n) => isH2(n, TODO_HEADING));
+/** Removes an h2 section (heading through the node before the next h2) and returns it. */
+function liftSection(tree: Root, title: string): RootContent[] {
+  const start = tree.children.findIndex((n) => isH2(n, title));
   if (start === -1) return [];
   let end = start + 1;
   while (end < tree.children.length) {
@@ -219,7 +221,7 @@ export default function remarkConsequences() {
       (file.data as { astro?: { frontmatter?: Record<string, unknown> } }).astro?.frontmatter ?? {};
     const situation = fm.situation as { initiating?: unknown; resulting?: unknown } | undefined;
 
-    const todo = liftTodo(tree);
+    const todo = liftSection(tree, TODO_HEADING);
     const shaped = typeof situation?.resulting === 'string';
     if (shaped) headParts(tree);
     renderDinkuses(tree);
@@ -227,12 +229,19 @@ export default function remarkConsequences() {
 
     if (shaped) {
       // The passage is authored content and always renders; `showRelated:
-      // false` folds away only the typed index beneath it.
-      const related = jsx('RelatedPatterns', [
-        stringAttr('slug', slug),
-        situationAttr('resulting', 'resulting'),
-        ...(fm.showRelated === false ? [boolAttr('index', false)] : []),
-      ]);
+      // false` folds away only the typed index beneath it. An authored
+      // `## Related components` section moves into the same fold, without its
+      // heading, as the index's last group.
+      const components = liftSection(tree, COMPONENTS_HEADING).slice(1);
+      const related = jsx(
+        'RelatedPatterns',
+        [
+          stringAttr('slug', slug),
+          situationAttr('resulting', 'resulting'),
+          ...(fm.showRelated === false ? [boolAttr('index', false)] : []),
+        ],
+        components,
+      );
       const at = tree.children.findIndex((n) => TAIL_HEADINGS.some((h) => isH2(n, h)));
       if (at === -1) tree.children.push(related);
       else tree.children.splice(at, 0, related);

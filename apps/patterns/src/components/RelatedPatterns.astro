@@ -258,6 +258,9 @@ const hasRelated = narrated || (!isQuality && sections.length > 0);
 const showIndex = index && !isQuality;
 // On a narrated page the sequence appearances fold into the same index.
 const hasAppearances = narrated && ((await sequenceAppearances()).get(slug)?.length ?? 0) > 0;
+// A shaped page's `## Related components` section arrives as the default slot
+// (integrations/remark-consequences.ts) and folds in as the index's last group.
+const hasComponents = narrated && Astro.slots.has('default');
 
 // Titles after the first on a shared line read mid-sentence ("Command menu,
 // searching"), so drop the leading capital unless the title opens with an acronym.
@@ -273,7 +276,7 @@ const inline = (title: string) =>
     <div class="connections__narrated flow">
       <Situation text={resulting} end="resulting" />
     </div>
-    {(hasAppearances || (showIndex && sections.length > 0)) && (
+    {(hasAppearances || hasComponents || (showIndex && sections.length > 0)) && (
       <details class="connections__formal">
         <summary>All connections</summary>
         {showIndex && sections.length > 0 && (
@@ -313,6 +316,14 @@ const inline = (title: string) =>
           </dl>
         )}
         {hasAppearances && <SequenceAppearances slug={slug} compact />}
+        {hasComponents && (
+          <dl class="description-list description-list--stacked connections__index">
+            <dt>Related components</dt>
+            <dd class="flow">
+              <slot />
+            </dd>
+          </dl>
+        )}
       </details>
     )}
   </section>
