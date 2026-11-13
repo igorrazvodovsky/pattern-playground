@@ -496,7 +496,7 @@ Testable assertions derived from this vocabulary's own definitions. These can be
 4. *No redundant inverses*: if A `precedes` B exists, no separate B `follows` A edge should be stored. `follows` is inferred at query time, not stored as data.
 5. *Hint-only fields are scoped*: `situationalHints` appears only on `recommends` edges.
 6. *Symmetric edges are consistent*: for undirected types (complements, tangential, alternative, related), if A→B exists then B→A must also exist (or the graph component must treat them as bidirectional).
-7. *`surveys` sources are collections*: every edge with `type: 'surveys'` must have a source node with `role: 'collection'` (or the deprecated `role: 'umbrella'` alias).
+7. *`surveys` sources are collections*: every edge with `type: 'surveys'` must have a source node with `role: 'collection'`.
 8. *`situation` is derived*: every edge with a `situation` field has either a `glossFrom` (the sentence of one endpoint's situation prose that links the other, the source's prose read first and the target's when the edge was authored from that side) or `extractedFrom: 'situation:resulting'` (on a page not yet shaped, the resulting clause whose `sets-up` emitted a `precedes` edge); never authored edge-side.
 9. *No consumer evaluates a condition*: no pipeline step matches, filters, or routes on `situation` or `situationalHints` (the consumer contract). Not machine-checkable from the data alone; holds by review of consumers.
 10. *`serves` targets foundations*: every edge with `type: 'serves'` must target a node with `role: 'foundation'` and source a non-foundation, non-quality node.
@@ -530,6 +530,10 @@ Entries are condensed to what still bears on future decisions; the full records 
 A pattern is a rule for making a kind of centre, and applying it is a move. The vocabulary's framing section and the edge definitions that said "A is a move" now speak of the pattern itself. The naming rule names a pattern by the centre it makes rather than by the interaction move; in this medium that is often an act, so existing names stand. The initiating situation no longer caps alternatives at one: it names an alternative when ruling it out is part of the situation, with what rules it out, and a pattern whose rule stops holding past some condition names what takes over in its resulting situation.
 
 Why: the pattern definition had moved to "a rule for making a kind of centre" (*The Nature of Order* Book 2 ch. 13), and calling the pattern a move merged the rule with its application and dropped the relation each pattern states. The count of alternatives contradicted Disabled state, the worked example, and said nothing about whether a reason is given; *A Pattern Language* names a displaced default with its condition (Row Houses, Building Thoroughfare) and hands off from the general pattern at its end (House Cluster). What was lost: the 2026-08-28 entry's wording "a move is what a pattern names" no longer matches; its point stands as step versus pattern.
+
+### 2026-11-13 — The `umbrella` alias leaves the schema
+
+`role: umbrella` was a deprecated alias of `collection` since the 2026-06-22 split, with no instances left in the corpus. The content schema and the extractor no longer accept it, so a page that uses it fails the build instead of passing as a collection.
 
 ### 2026-10-19 — Edge sentences show in the folded index; "gloss" becomes "edge sentence"
 

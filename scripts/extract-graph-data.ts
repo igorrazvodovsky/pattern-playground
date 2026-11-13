@@ -34,13 +34,10 @@ interface EvidenceEntry {
   ref?: string;
 }
 
-// `umbrella` is retained as a deprecated alias of `collection` for back-compat during
-// migration; both trigger the same `surveys` (member-collection) edge behaviour.
 const VALID_ROLES = [
   'component',
   'pattern',
   'collection',
-  'umbrella',
   'quality',
   'foundation',
 ] as const;
@@ -1323,7 +1320,7 @@ const sourceRoleCoverage = roleCoverage([...nodeMap.keys()]);
 const graphRoleCoverage = roleCoverage(nodes.map((node) => node.id));
 const invalidSurveyEdges = edges.filter((edge) => {
   const role = nodeMap.get(edge.source)?.role;
-  return edge.type === 'surveys' && role !== 'collection' && role !== 'umbrella';
+  return edge.type === 'surveys' && role !== 'collection';
 });
 // Invariant 10: `serves` runs pattern → foundation only.
 const invalidServesEdges = edges.filter((edge) => {
