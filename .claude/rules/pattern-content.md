@@ -177,19 +177,22 @@ What each kind means, and why they are kinds rather than a maturity ladder:
 
 ## Situations and conditional edges
 
-A pattern's two situations are the points where its connections meet, told as prose in frontmatter: where the pattern continues from, and where it leads on to. Both speak to whoever is making, in one voice; there is no separate designer's version:
+A pattern's two situations are frontmatter prose: where the pattern continues from, and where it leads on to. Both speak to whoever is making, in one voice; there is no separate designer's version. What they are, how edge sentences are derived from them, and the rules that govern them are in [`docs/language/relationship-vocabulary.md`](../../docs/language/relationship-vocabulary.md) §Situations. What each one says, and which neighbours it names, is in §Shape of a `role: pattern` page below (steps 1 and 6).
 
 ```yaml
 situation:
   initiating: >-
-    prose — what already exists when this pattern applies: the structure in place, what the actor is doing in it, the larger patterns and predecessors it continues from or helps complete, the alternative the maker would otherwise reach for and what rules it out, where that is part of the situation (and a sequence where it helps explain the context); renders as the opening paragraph
+    prose — renders as the opening paragraph (step 1)
   resulting: >-
-    prose — what holds after the pattern is applied and what it leads on to: the patterns that act on its product, the problems it opens, the look-alikes it is not, and what takes over where the rule stops holding; renders as the connections passage
+    prose — renders as the connections passage (step 6)
 ```
 
-Links in both are Markdown links with no `rel=`; `relationships:` remains the home of every edge. For each edge the page authors, the sentence of the resulting situation (or, failing that, the initiating one) that links the target becomes the edge sentence, shown beside the connection on this page and quoted, in quotation marks, on the far page where that page has no sentence of its own. A sentence may link several neighbours; one that will be quoted reads better without a dangling pronoun. The two situations divide the neighbours by direction: the opening names the larger things (wholes, the predecessor whose product this acts on, a same-level partner used together with it, an alternative the situation rules out, and a sequence only when it helps explain the context), the passage names the smaller and later ones, the look-alikes, and what takes over where the rule stops holding. An incoming connection neither situation names is still shown in the index. Never author condition text in an edge note ("takes over when…", "fallback if…"): that judgement's home is the source pattern's resulting situation, with the `precedes` or `alternative` edge authored beside it.
+When writing them:
 
-The earlier form — `resulting` as a list of clauses, a clause with `sets-up:` emitting `precedes` — is still honoured on pages not yet shaped. Converge on edit.
+- Links are plain Markdown links with no `rel=`; `relationships:` remains the home of every edge. Every edge the page authors, except `enacts`, is linked somewhere in the page's prose; the extractor reports any that is not. Only a link in a situation gives the edge its sentence.
+- The sentence that links an edge's target becomes that edge's sentence, and the far page may quote it in quotation marks. A sentence that will be quoted reads better without a dangling pronoun.
+- Never author condition text in an edge note ("takes over when…", "fallback if…"). The condition belongs in the source pattern's resulting situation, with the `precedes` or `alternative` edge authored beside it.
+- The earlier form, `resulting` as a list of clauses with `sets-up:` emitting `precedes`, is still honoured on pages not yet shaped. Converge on edit (relationship-vocabulary.md §Situations, *The earlier representation*).
 
 Decision trees are authored as a Mermaid flowchart in a `## Decision tree` section plus a frontmatter leaf map:
 
@@ -200,8 +203,6 @@ decision-trees:
     leaves:
       "No confirmation (with undo)": undo
 ```
-
-See `docs/language/relationship-vocabulary.md` §Situations for the full rules.
 
 ### Suppressing the rendered block
 
@@ -228,7 +229,7 @@ Every file: YAML frontmatter → body → `## Resources & references` last. The 
 3. *Before Therefore* — what decides whether to reach for the pattern: when it serves and when it constrains, what it costs, what is known about it and how far that is trusted (the evidence, including evidence against it, stated as part of the account rather than argued). For an established pattern this is short. What the pattern costs is said here or in the caution after the instruction.
 4. *Therefore* (a.k.a. solution) — `Therefore,` on a line of its own, then the instruction. A caution may follow in plain prose (what overdoing the pattern costs, where the limit lies); permitted, not required. Limits on the instruction go here.
 5. *After Therefore* — the prescription figure, where the pattern has one: a `<Figure>` drawing the relations the instruction imposes with as few marks as they need, stated in words by the instruction or a caption. A demo may follow it. Either or both; the instruction then runs straight on into the connections passage.
-6. *Connections passage* — the resulting situation, `situation.resulting` in frontmatter, rendered after its own mark before the first tail section: what the pattern leaves behind and leads on to, told as prose with a sentence for what each linked pattern does for this one, the problems it opens, and the distinctions from look-alikes. Its last sentence ends with a typed ellipsis (`…`) and no closing period; the renderer adds nothing. The typed index of the same edges, one line per connection with its note or edge sentence, and the sequence appearances fold beneath it (the "All connections" disclosure), and no Consequences or Related patterns block is generated. Every edge the page authors must be linked in the page's prose. A part of the pattern that is a pattern in its own right is linked here, usually as a `composed-of` edge; where the language has no page for it, or the nearest page covers a different move, seed one (`seed: true`) rather than link a poor fit.
+6. *Connections passage* — the resulting situation, `situation.resulting` in frontmatter, rendered after its own mark before the first tail section: what the pattern leaves behind and leads on to, told as prose with a sentence for what each linked pattern does for this one: the smaller and later patterns that act on its product, the problems it opens, the distinctions from look-alikes, and, where the rule stops holding past some condition, what takes over (with the `alternative` edge beside it). Its last sentence ends with a typed ellipsis (`…`) and no closing period; the renderer adds nothing. The typed index of the same edges and the sequence appearances fold beneath it (the "All connections" disclosure); an incoming connection neither situation names still appears there. No Consequences or Related patterns block is generated. A part of the pattern that is a pattern in its own right is linked here, usually as a `composed-of` edge; where the language has no page for it, or the nearest page covers a different move, seed one (`seed: true`) rather than link a poor fit.
 
 The instruction is the hinge: what decides reaching for the pattern comes before it, and what it leads on to follows it in the passage. The detail of realising it is reference material, kept after the passage so it does not stand between the instruction and the connections. The two bold paragraphs are the skim path.
 

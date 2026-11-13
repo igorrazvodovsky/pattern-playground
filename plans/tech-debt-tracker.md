@@ -1,6 +1,6 @@
 # Tech debt tracker
 
-- *Two quality→foundation edges leak past the purist quality stance* — `privacy enables collaboration-foundation`, `learnability tangential localization`; await a decision. Surfaced at the typed-relationships close (2026-06), see `plans/completed/2026-06-typed-relationships.md`.
+- *Two quality→foundation edges leak past the purist quality stance* — `privacy enables collaboration-foundation`, `learnability tangential localization`; await a decision. Surfaced at the typed-relationships close (2026-06), see `plans/completed/2026-06-typed-relationships.md` (deleted in e3259b1b; recover with `git show e3259b1b^:plans/completed/2026-06-typed-relationships.md`).
 - *View-system reshape leftovers* (close 2026-07-25): `RepresentationType: 'card'` naming question open ('grid' rejected — ARIA grid and Airtable grid both mean table; 'item' collides with ItemView and the item-view pattern); smooth fisheye animation across grain boundaries needs a flat all-grains-mounted renderer, since `fisheye.tsx` swaps subtrees when the lens crosses a level (fidelity, not correctness).
 
 - *TODO/FIXME comments in code* — 14 as of 2026-10-21: 5 in `.ts`/`.tsx`, and 9 in stylesheets whose intent only the author can recover — `reference.css` "Refactor", `variables.css` "Review + overrides", `components.css` `.layer` "move", the fieldset spacing in `form.css`, the empty marker on `a.badge` in `badge.css`, the pane article rule in `apps/patterns/src/styles/stack.css`, and three in `layout.css`. The count excludes `storybook-static/` build output.

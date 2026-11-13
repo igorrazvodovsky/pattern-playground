@@ -186,17 +186,13 @@ A behavioural invariant to preserve: at the leftmost scroll position the first p
 ## Situations
 
 A pattern's two situations live in its frontmatter `situation:` block as
-prose: `initiating` renders as the page's opening paragraph and `resulting`
-as its connections passage, and the extractor emits them as node metadata
-and derives each edge sentence from the sentence that links its target. The
-earlier clause-list form of `resulting` (with `sets-up:` emitting `precedes`)
-is honoured on pages not yet shaped and renders as a generated Consequences
-section. On a shaped page the renderer adds visually hidden *Problem*,
-*Solution* and *Connections* headings so the table of contents reaches
-the unheaded parts. The folded index beneath the passage lists one line per
-connection, grouped by type, with its note or edge sentence beside it. The page shape is in the authoring contract,
-`.claude/rules/pattern-content.md` §Document structure; the construct in
-[relationship-vocabulary.md](../language/relationship-vocabulary.md) §Situations.
+prose. What they mean and how edge sentences are derived from them is in
+[relationship-vocabulary.md](../language/relationship-vocabulary.md)
+§Situations; what to write, and where each renders on a shaped page or one not
+yet shaped, is in the authoring rule,
+`.claude/rules/pattern-content.md` §Situations and conditional edges and
+§Document structure. The page is composed at build time by
+`apps/patterns/integrations/remark-consequences.ts`.
 
 ## Sequences
 

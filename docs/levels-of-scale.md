@@ -39,11 +39,11 @@ Each layer should contextualise the next one down, so that implementation detail
 
 In this repository, levels of scale currently show up through a loose stack:
 
-- [docs/project/core-beliefs.md](../project/core-beliefs.md) provides the coarsest framing: what kind of project this is, what it values, and what kind of design work it is for
-- [docs/language/conceptual-glossary.md](./conceptual-glossary.md) defines the main conceptual vocabulary
-- [docs/language/relationship-vocabulary.md](./relationship-vocabulary.md) describes how patterns combine as generative moves
-- [docs/specs/pattern-site.md](../specs/pattern-site.md) gives the main projection for organising the pattern library
-- [ARCHITECTURE.md](../../ARCHITECTURE.md) describes domain layering and directory structure
+- [docs/project/core-beliefs.md](project/core-beliefs.md) provides the coarsest framing: what kind of project this is, what it values, and what kind of design work it is for
+- [docs/language/conceptual-glossary.md](language/conceptual-glossary.md) defines the main conceptual vocabulary
+- [docs/language/relationship-vocabulary.md](language/relationship-vocabulary.md) describes how patterns combine as generative moves
+- [docs/specs/pattern-site.md](specs/pattern-site.md) gives the main projection for organising the pattern library
+- [ARCHITECTURE.md](../ARCHITECTURE.md) describes domain layering and directory structure
 - `apps/patterns/src/content/patterns/` and `packages/components/src/` hold the patterns and the implementation substrate
 
 This stack is incomplete, but it already points in the right direction: the project is trying to make the pattern space legible at multiple altitudes rather than collapsing everything into stories or code.
