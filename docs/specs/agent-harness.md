@@ -32,7 +32,7 @@ promotion check verifies that every completed plan declares its residue.
 ## Enforcement
 
 The harness prefers small, inspectable checks over broad autonomy. Existing
-checks include the `scripts/check-*.mjs` suite (agent stub, story buckets,
-style boundary, seed staleness, classification health, plan promotions),
-ESLint, and Stylelint. New enforcement should be added only when a rule is
+checks are the repository scripts run by `npm run lint` (seed staleness, plan
+promotions, style boundary, demo registry, world replay), ESLint, and
+Stylelint. New enforcement should be added only when a rule is
 stable enough to keep applying without human reinterpretation.

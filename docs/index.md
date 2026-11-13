@@ -31,7 +31,7 @@ role model to the language, the pattern-site schema to both.
 understanding becomes an implementation plan. Selected specs in [specs/](specs/)
 hold promoted commitments that govern the process.
 
-## Settled Specs
+## Settled specs
 
 - [Specs index](specs/index.md) — broader settled specification map
 - [Agent harness](specs/agent-harness.md) — agent-facing control layer
@@ -43,6 +43,8 @@ hold promoted commitments that govern the process.
   authoring bar, rendering, validation
 - [Graph relationship model](specs/graph-relationship-model.md) — graph edge
   model and epistemic stance
+- [Component authoring](specs/component-authoring.md) — the light-DOM decision
+  ladder, subtree ownership, `data-slot` composition, styling through the cascade
 - [Pattern role model](specs/pattern-role-model.md) — component, pattern,
   collection, quality, and foundation roles; boundary stance and the
   pattern/component decomposition rule
@@ -57,6 +59,8 @@ hold promoted commitments that govern the process.
 - [Operative image](project/operative-image.md) — current working picture of the
   surfaces, substrate, and tooling
 - [Core beliefs](project/core-beliefs.md) — project philosophy, voice, scope
+- [Plan drafting](project/plan-drafting.md) — process notes for writing plans,
+  including the research checkpoint
 
 ## Language
 

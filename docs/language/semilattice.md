@@ -22,11 +22,11 @@ The move toward this is the pattern graph: a force-directed view where nodes are
 
 It sits alongside the tree rather than replacing it: the two are *alternative projections of the same underlying space*. The sidebar tree remains useful as an entry point for people who know roughly where they're going. The graph is for exploration, for discovering unexpected adjacencies, for asking "what connects to this?" rather than "where does this go?"
 
-The node and edge model is still being worked out — what counts as a node, how edges are typed, which relationships earn a place. The current state of that model lives in [graph-relationship-model.md](../docs/specs/graph-relationship-model.md); the [pattern-site spec](../docs/specs/pattern-site.md) covers how the content and routes behind it are structured.
+The node and edge model is still being worked out — what counts as a node, how edges are typed, which relationships earn a place. The current state of that model lives in [graph-relationship-model.md](../specs/graph-relationship-model.md); the [pattern-site spec](../specs/pattern-site.md) covers how the content and routes behind it are structured.
 
 ## Typed relationships
 
-The cross-links started as untyped adjacency and are gaining direction and meaning: distinguishing *precedes* from *enables* from *complements* turns a flat proximity map into something closer to a causal and compositional structure, and opens filtered views — show only the enabling relationships, trace the sequence of moves for a task. The controlled vocabulary and its generative-moves framing live in [relationship-vocabulary.md](../docs/language/relationship-vocabulary.md); this is one of the parts still in motion.
+The cross-links started as untyped adjacency and are gaining direction and meaning: distinguishing *precedes* from *enables* from *complements* turns a flat proximity map into something closer to a causal and compositional structure, and opens filtered views — show only the enabling relationships, trace the sequence of moves for a task. The controlled vocabulary and its generative-moves framing live in [relationship-vocabulary.md](./relationship-vocabulary.md); this is one of the parts still in motion.
 
 ## Further projections
 

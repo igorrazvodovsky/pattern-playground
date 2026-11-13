@@ -1,8 +1,8 @@
 # Decision-dimension inventory
 
-A snapshot of what dimensions the library currently uses to discriminate between patterns, extracted from the 8 active decision trees across the pattern content (`apps/patterns/src/content/patterns/`) and component stories (`packages/components/src/stories/`). The list is descriptive: these are the questions the trees actually branch on, not a normative claim about which dimensions matter.
+A snapshot of what dimensions the library currently uses to discriminate between patterns, extracted from the decision trees that were active when it was written, across the pattern content (`apps/patterns/src/content/patterns/`) and component stories (`packages/components/src/stories/`). The list is descriptive: these are the questions the trees actually branch on, not a normative claim about which dimensions matter.
 
-This is a *current frame*, not an absolute one. The dimensions below are choices, past and accumulating, made by whoever drafted each tree. The absences listed at the end are also choices — places the library hasn't yet found it useful to discriminate. The inventory exists to make both legible. Over time the inventory becomes a map of the library's conceptual reach and a prompt for where to extend it.
+This is a *current frame*, not an absolute one. The dimensions below are choices, past and accumulating, made by whoever drafted each tree. The absences listed at the end are also choices — places the library hasn't yet found it useful to discriminate. The inventory exists to make both legible. Trees since dissolved or removed keep their entries as the record of what they discriminated on, marked as such; the Button tree (`packages/components/src/stories/Button.mdx`) postdates the inventory and is not yet in it. Over time the inventory becomes a map of the library's conceptual reach and a prompt for where to extend it.
 
 The vocabulary is left raw. No mapping to a controlled list, no cross-linking between trees, no canonicalisation of phrasing. The same dimension may appear under different names across trees; the inventory records that variance instead of removing it.
 
@@ -10,7 +10,7 @@ The vocabulary is left raw. No mapping to a controlled list, no cross-linking be
 
 ### BarChart — `packages/components/src/stories/data-visualization/BarChart.mdx`
 
-A list-shaped tree (no flowchart) discriminating on *what the data is and what the reading is for*:
+The tree has since been removed from the page; the dimensions are kept as the record. It was a list-shaped tree (no flowchart) discriminating on *what the data is and what the reading is for*:
 
 - *Data shape*: discrete categories vs. continuous vs. hierarchical vs. temporal/trend
 - *Relationship being shown*: comparison, ranking, part-to-whole, distribution
@@ -18,7 +18,7 @@ A list-shaped tree (no flowchart) discriminating on *what the data is and what t
 
 Notable: orientation choice (vertical vs. horizontal, by label length) is drafted but commented out — the tree currently stops at "use bar charts vs. consider alternatives" and doesn't reach into bar-chart variants.
 
-### Overflow — `packages/components/src/stories/operations/Overflow.mdx`
+### Overflow — `packages/components/src/stories/Overflow.mdx`
 
 - *Content criticality*: is the overflowing content essential to the task?
 - *Container flexibility*: can the container expand to fit?
@@ -35,7 +35,7 @@ The tree ends at "consider redesign/priority" when none of these dimensions yiel
 
 ### Navigation overview — `apps/patterns/src/content/patterns/navigation-overview.mdx`
 
-Dissolved 2026-09-24 (see the relationship-vocabulary changelog). The questions survive in two homes: the first three as the kinds of space the recognition step in the structuring-the-space sequence reads off each context, and the last three as the pains the growth sub-sequence answers per region. Each model page now carries its own initiating situation. The dimensions are kept here as the record of what the tree discriminated on.
+The tree was dissolved 2026-09-24 (see the relationship-vocabulary changelog); the page remains as a collection. The questions survive in two homes: the first three as the kinds of space the recognition step in the structuring-the-space sequence reads off each context, and the last three as the pains the growth sub-sequence answers per region. Each model page now carries its own initiating situation. The dimensions are kept here as the record of what the tree discriminated on.
 
 The tree branched on the *shape of the space being navigated* and then offered refinement axes:
 
@@ -58,7 +58,7 @@ Hybrid combinations are listed explicitly — an acknowledgement that the dimens
 
 ### Form — `apps/patterns/src/content/patterns/form.mdx`
 
-Two trees, picking a different facet each.
+Both trees have since been removed from the page; the dimensions are kept as the record. There were two trees, picking a different facet each.
 
 *Choosing an input* (linear):
 
