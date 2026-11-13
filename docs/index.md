@@ -33,24 +33,8 @@ hold promoted commitments that govern the process.
 
 ## Settled specs
 
-- [Specs index](specs/index.md) — broader settled specification map
-- [Agent harness](specs/agent-harness.md) — agent-facing control layer
-- [Workspace layout](specs/workspace-layout.md) — package structure and what
-  each workspace owns
-- [Pattern site](specs/pattern-site.md) — content schema semantics, file layout
-  and slugs, facets, stacked-notes navigation
-- [Sequences](specs/sequences.md) — the sequence collection: file format,
-  authoring bar, rendering, validation
-- [Graph relationship model](specs/graph-relationship-model.md) — graph edge
-  model and epistemic stance
-- [Component authoring](specs/component-authoring.md) — the light-DOM decision
-  ladder, subtree ownership, `data-slot` composition, styling through the cascade
-- [Pattern role model](specs/pattern-role-model.md) — component, pattern,
-  collection, quality, and foundation roles; boundary stance and the
-  pattern/component decomposition rule
-- [World ontology](specs/world-ontology.md) — individuals, values, actions and
-  facts as the form of the fixture world; log-as-truth, the registries, and
-  what is derived rather than stored
+[specs/index.md](specs/index.md) lists the settled specifications and what
+each one governs.
 
 ## Project
 
