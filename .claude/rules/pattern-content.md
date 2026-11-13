@@ -177,7 +177,7 @@ What each kind means, and why they are kinds rather than a maturity ladder:
 
 ## Situations and conditional edges
 
-A pattern's two situations are frontmatter prose: where the pattern continues from, and where it leads on to. What they are, how edge sentences are derived from them, and the rules that govern them are in [`docs/language/relationship-vocabulary.md`](../../docs/language/relationship-vocabulary.md) §Situations. What each one says, and which neighbours it names, is in §Shape of a `role: pattern` page below (steps 1 and 6).
+A pattern's two situations are frontmatter prose: where the pattern continues from, and where it leads on to. Both speak to whoever is making, in one voice; there is no separate designer's version. What they are, how edge sentences are derived from them, and the rules that govern them are in [`docs/language/relationship-vocabulary.md`](../../docs/language/relationship-vocabulary.md) §Situations. What each one says, and which neighbours it names, is in §Shape of a `role: pattern` page below (steps 1 and 6).
 
 ```yaml
 situation:
