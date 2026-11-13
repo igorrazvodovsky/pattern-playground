@@ -30,12 +30,8 @@ packages/
     │   ├── demos/              Shared demos, used by Storybook and pattern pages
     │   │   └── specs/              Switchable demos: JSON spec + module per slug
     │   ├── catalog/            Component catalog, registries (pp, shadcn), SpecDemo
-    │   ├── stories/            Storybook documentation. AT-level projection for component stories.
-    │   │   ├── operations/         Automatic/infrastructural components
-    │   │   ├── actions/            Conscious/goal-directed components
-    │   │   ├── activities/         Motive-driven compositions
+    │   ├── stories/            Storybook documentation. Component stories sit flat at the top level.
     │   │   ├── foundations/        Material substrate docs + unmigrated language entries
-    │   │   ├── qualities/          Substrate docs + serves as link target (pending cross-ref migration)
     │   │   ├── data-visualization/ Charts and data encoding
     │   │   ├── data/               Shared mock data (JSON)
     │   │   └── utils/              Storybook utility components
@@ -50,7 +46,7 @@ packages/
 apps/
 ├── patterns/               Pattern language site — Astro (:4321)
 │   └── src/
-│       ├── content/patterns/   Pattern MDX/MD (role:pattern, role:umbrella, role:quality, role:foundation)
+│       ├── content/patterns/   Pattern MDX/MD (role:pattern, role:collection, role:quality, role:foundation)
 │       │                       slug = filename stem; classification is frontmatter
 │       │                       facets (activityLevel, lifecycle, group, domain), not folders
 │       ├── content.config.ts   Zod-validated content collection schema

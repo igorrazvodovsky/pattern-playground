@@ -57,8 +57,7 @@ in prose are citations (see the component-realisation section of
 [relationship-vocabulary.md](./relationship-vocabulary.md)).
 
 Parts of the declared apparatus are dormant: the `domain` and `tags` facets and the
-`component` role have no instances, `umbrella` survives only as a deprecated
-alias, `lifecycle` flows into generated data with no consumer, and the inline
+`component` role have no instances, `lifecycle` flows into generated data with no consumer, and the inline
 `rel=` channel has one use in the corpus — frontmatter won as the authoring
 surface in practice.
 

@@ -130,8 +130,7 @@ frontmatter. Storybook pages carry no role: the graph reads only the pattern
 site, and a Storybook entry is a component by being in the catalogue.
 
 Explicit role tags cover `role:component`, `role:pattern`, `role:collection`,
-`role:quality`, and `role:foundation` in frontmatter (`role:umbrella` is a
-deprecated alias of `role:collection`, still accepted by the extractor).
+`role:quality`, and `role:foundation` in frontmatter.
 `role:example` remains uncommitted. `role:concept` was retired rather than
 committed: concepts are a parallel catalogue with their own collection
 ([patterns-and-concepts.md](../language/patterns-and-concepts.md)), reached

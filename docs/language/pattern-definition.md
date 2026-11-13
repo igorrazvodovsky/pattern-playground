@@ -54,15 +54,11 @@ two-language framing is in
 *Connective.* Does it have an initiating situation and a resulting situation?
 The initiating situation names the larger things the pattern helps complete
 and the state it acts on; the resulting situation names the smaller and later
-patterns that complete it and the look-alikes it is not. The initiating
-situation names an alternative only when ruling it out is part of the
-situation, and says what rules it out: the alternative the maker would
-otherwise reach for, not every option. A pattern whose rule stops holding
-past some condition says so in its resulting situation and names what takes
-over. An entry with neither situation is
-a library item, whatever the quality of its body. Typed edges carry the part
-of each situation the vocabulary can hold; the prose carries the rest
-([relationship-vocabulary.md](./relationship-vocabulary.md) §Situations).
+patterns that complete it and the look-alikes it is not. An entry with neither
+situation is a library item, whatever the quality of its body. What the
+situations are is in [relationship-vocabulary.md](./relationship-vocabulary.md)
+§Situations; how to write them is in the authoring rule,
+`.claude/rules/pattern-content.md` §Shape of a `role: pattern` page.
 
 *Falsifiable.* Does it say how sure the author is, and what would count
 against it? Two questions are open on every pattern: does the situation occur

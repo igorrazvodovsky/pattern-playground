@@ -16,7 +16,7 @@ const patterns = defineCollection({
       'title': z.string(),
       'added': z.coerce.date(),
       'updated': z.coerce.date().nullish(),
-      'role': z.enum(['pattern', 'collection', 'umbrella', 'quality', 'foundation', 'component']),
+      'role': z.enum(['pattern', 'collection', 'quality', 'foundation', 'component']),
       'activityLevel': z.enum(['operation', 'action', 'activity']).optional(),
       'lifecycle': z.string().optional(),
       'group': z.string().optional(),

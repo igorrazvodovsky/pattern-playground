@@ -14,7 +14,6 @@ the plan contract and `docs/specs/` for settled specifications.
 - [Refactoring sweep](active/2026-10-refactoring-sweep.md) — a queue of refactoring work across the code workspaces
 - [Shaping the pattern pages](active/2026-10-pattern-shape-migration.md) — the per-page procedure and checklist for moving `role: pattern` pages onto the current page shape
 - [Commenting: open questions](active/2026-10-commenting-open-questions.md) — outline: decisions and small pieces of work left after mark-first commenting
-- [Digesting the agency scoping review](active/2026-09-agency-review-digestion.md) — outline: working Zhang, Wang & Yi's co-creation review out of `agency.mdx` and `collaboration.mdx`
 - [A system of sequences over the language](active/2026-08-sequence-map.md) — the language organised as a system of small, calling sequences: the map of sequences and their presuppositions
 - [Composing views — the pilot sequence](active/2026-08-composing-views-sequence.md) — authoring record for the `composing-views` sequence and the corpus changes it recorded
 - [Making changes — the third sequence](active/2026-08-making-changes-sequence.md) — authoring record for the `making-changes` sequence and the corpus changes it recorded
@@ -34,11 +33,9 @@ the plan contract and `docs/specs/` for settled specifications.
 - [Agent trace fixtures](active/2026-08-agent-trace-fixtures.md) — outline: agent work as typed actions in the shared action log, and a fixture trace for the agent reasoning demo
 - [Platform variance: floor-then-variance](active/2026-08-platform-variance.md) — research-gated pilot: an unconditional floor before any platform variance, with functional equivalence keeping one language
 - [Mine the fifteen properties from the corpus](active/2026-08-property-mining.md) — research-gated: whether the fifteen properties can be derived from the pattern pages, independently of `enacts`
-- [Figures: dates, numbers, and money as design material](active/2026-07-figures.md) — the figures stratum as a Storybook `Foundations` entry, parallel to Prose
 - [Workspace boundary after the view-system reshape](active/2026-07-workspace-boundary.md) — a typed edge between workspace and coordinated-views, and the panelled and tabbed variants
 - [Decision-tree integration](active/2026-07-decision-tree-integration.md) — each decision tree wired, dissolved, or left outside the language
 - [Workflow scripts for the review loops](active/2026-07-review-loop-workflows.md) — outline: the review skills' subagent fan-outs as scripted workflows
-- [Block-editing follow-ups](active/2026-07-block-editing-followups.md) — outline: carried work from the block-editing research
 - [Heatmap + n-gram promotion](active/2026-05-heatmap-ngram-promotion.md) — deferred: promote the heatmap extension and n-gram engine out of the dynamic-hyperlinks demo
 - [Link preview component extraction](active/2026-05-link-preview-component-extraction.md) — extract the link preview surface into a reusable component
 - [Pattern demos migration](active/2026-05-pattern-demos-migration.md) — migrate pattern demos from Storybook to the pattern site
@@ -59,7 +56,6 @@ Closed plans kept for the rationale they carry (README §Closing a plan).
 - [Prescription diagrams](completed/2026-10-prescription-diagrams.md) — why pattern figures are drawn, implementation-neutral, and free of interface; the settled form is in pattern-site.md §Figures
 - [Commenting: mark first, quote later](completed/2026-10-commenting.md) — why a comment marks its passage and quoting is a later, separate step
 - [Switchable demos: one spec, two component libraries](completed/2026-10-switchable-demos.md) — demos as json-render specs rendered through two component libraries, and what does and does not survive the switch
-- [Research organisation after the move to the vault](completed/2026-09-research-organisation.md) — the contract between the vault and the repo
 - [Precedes register sweep and the make-time projection](completed/2026-08-precedes-register-sweep.md) — the audit of `precedes` edges against one test, and why the make-time nav projection was reverted
 - [World re-grounding: individuals, values, actions, facts](completed/2026-08-world-regrounding.md) — `shared/world/` as the authoritative fixture world with `shared/data/` derived from it, and why concepts were not adopted
 - [Component testing depth](completed/2026-08-testing-depth.md) — depth within the story-based Vitest setup, and the deliberate noes with their revisit triggers

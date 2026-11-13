@@ -29,7 +29,7 @@ Plain, design-practitioner language in everything written here — pattern conte
 
 ## Domain vocabulary (read when working on patterns, edges, or taxonomy)
 
-- [docs/language/pattern-definition.md](docs/language/pattern-definition.md) — what counts as a pattern, component, observation, anti-pattern, or umbrella
+- [docs/language/pattern-definition.md](docs/language/pattern-definition.md) — what counts as a pattern, component, observation, anti-pattern, or collection
 - [docs/language/patterns-and-components.md](docs/language/patterns-and-components.md) — pattern language vs component catalogue;
 - [docs/language/patterns-and-concepts.md](docs/language/patterns-and-concepts.md) — the concept catalogue beside both; `acts_on`
 - [docs/language/conceptual-glossary.md](docs/language/conceptual-glossary.md) — terms used across the project
