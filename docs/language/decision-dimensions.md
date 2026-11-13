@@ -58,7 +58,7 @@ Hybrid combinations are listed explicitly — an acknowledgement that the dimens
 
 ### Form — `apps/patterns/src/content/patterns/form.mdx`
 
-Both trees have since been removed from the page; the dimensions are kept as the record. There were two trees, picking a different facet each.
+Both trees have since left the page; the dimensions are kept as the record. *Choosing an input* became prose in the Storybook Form doc (`packages/components/src/stories/Form.mdx` §Choosing an input), and *choosing a control* became a table in `apps/patterns/src/content/patterns/bounded-choice.mdx` §Choosing a control. There were two trees, picking a different facet each.
 
 *Choosing an input* (linear):
 
