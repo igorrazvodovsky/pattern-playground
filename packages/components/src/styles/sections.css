@@ -48,6 +48,11 @@
     display: none;
   }
 
+  /* Space between a panel and the nav or trigger that labels it. */
+  [data-pp-panel] {
+    padding-block: var(--space-m);
+  }
+
   /* Tab-bar: show only the active panel */
   pp-sections[data-pp-mode='tab-bar'] [data-pp-panel]:not([data-pp-active]) {
     display: none;
@@ -119,11 +124,13 @@
       overflow: clip;
       transition:
         block-size 200ms var(--ease-2),
+        padding-block 200ms var(--ease-2),
         content-visibility 200ms allow-discrete;
     }
 
     pp-sections[data-pp-mode='details'] [data-pp-panel]:not([data-pp-open]) {
       block-size: 0;
+      padding-block: 0;
       content-visibility: hidden;
     }
 

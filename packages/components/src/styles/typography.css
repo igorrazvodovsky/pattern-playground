@@ -32,7 +32,7 @@ h4 {
 }
 
 strong {
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-semibold);
 }
 
 /* Colour, not opacity: opacity 0.6 lands body text at 3.6:1, and it compounds
