@@ -1,0 +1,103 @@
+{
+  "root": "conversation",
+  "elements": {
+    "conversation": {
+      "type": "Messages",
+      "props": {},
+      "children": ["request", "ask", "questions-message", "answer", "confirm"]
+    },
+
+    "request": {
+      "type": "Message",
+      "props": { "from": "actor", "parts": ["Book a room for Thursday's design review."] }
+    },
+    "ask": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": [
+          "Three rooms seat eight and are free on Thursday from 14:00 to 15:30. Two things I can't settle without you."
+        ]
+      }
+    },
+    "questions-message": {
+      "type": "Message",
+      "props": { "from": "other", "parts": [] },
+      "visible": { "$state": "/answered", "not": true },
+      "children": ["questions"]
+    },
+    "questions": {
+      "type": "Questionnaire",
+      "props": {
+        "label": "Booking questions",
+        "submitLabel": "Book the room",
+        "answers": { "$bindState": "/answers" },
+        "items": [
+          {
+            "name": "room",
+            "prompt": "Which room should I book?",
+            "description": "All three are free from 14:00 to 15:30 and seat eight.",
+            "required": true,
+            "multiple": null,
+            "choices": [
+              {
+                "value": "atrium",
+                "label": "Atrium",
+                "description": "2nd floor, screen and whiteboard"
+              },
+              {
+                "value": "harbour",
+                "label": "Harbour",
+                "description": "4th floor, screen, next to the kitchen"
+              },
+              {
+                "value": "loft",
+                "label": "Loft",
+                "description": "6th floor, whiteboard only"
+              }
+            ],
+            "input": { "label": "Another room", "placeholder": "Name another room" }
+          },
+          {
+            "name": "invite",
+            "prompt": "Who should get the invite?",
+            "description": "If you skip this, I'll invite the four reviewers named on the review card.",
+            "required": false,
+            "multiple": null,
+            "choices": [
+              {
+                "value": "reviewers",
+                "label": "The four reviewers",
+                "description": null
+              },
+              {
+                "value": "team",
+                "label": "The whole design team",
+                "description": "12 people"
+              }
+            ],
+            "input": null
+          }
+        ]
+      },
+      "on": { "submit": { "action": "book" } }
+    },
+
+    "answer": {
+      "type": "Message",
+      "props": { "from": "actor", "parts": [{ "$state": "/answerText" }] },
+      "visible": { "$state": "/answered" }
+    },
+    "confirm": {
+      "type": "Message",
+      "props": { "from": "other", "parts": [{ "$state": "/confirmation" }] },
+      "visible": { "$state": "/answered" },
+      "children": ["change"]
+    },
+    "change": {
+      "type": "Button",
+      "props": { "label": "Change answers", "variant": "link", "focusOnShow": true },
+      "on": { "press": { "action": "reset" } }
+    }
+  }
+}

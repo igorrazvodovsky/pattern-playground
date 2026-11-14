@@ -445,8 +445,14 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .col-span-full {
     grid-column: 1 / -1;
   }
+.col-start-1 {
+    grid-column-start: 1;
+  }
 .col-start-2 {
     grid-column-start: 2;
+  }
+.col-start-3 {
+    grid-column-start: 3;
   }
 .row-span-2 {
     grid-row: span 2 / span 2;
@@ -650,6 +656,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .min-h-16 {
     min-height: calc(var(--spacing) * 16);
   }
+.min-h-\[1lh\] {
+    min-height: 1lh;
+  }
 .w-3\/4 {
     width: 75%;
   }
@@ -710,6 +719,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .min-w-\[8rem\] {
     min-width: 8rem;
   }
+.min-w-\[14ch\] {
+    min-width: 14ch;
+  }
 .flex-1 {
     flex: 1;
   }
@@ -742,6 +754,10 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .translate-y-0\.5 {
     --tw-translate-y: calc(var(--spacing) * .5);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+.translate-y-\[--spacing\(0\.45\)\] {
+    --tw-translate-y: calc(var(--spacing) * .45);
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
 .translate-y-\[-50\%\] {
@@ -802,6 +818,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .grid-cols-\[calc\(var\(--spacing\)\*4\)_1fr\] {
     grid-template-columns: calc(var(--spacing) * 4) 1fr;
+  }
+.grid-cols-\[minmax\(0\,1fr\)_auto_auto\] {
+    grid-template-columns: minmax(0, 1fr) auto auto;
   }
 .grid-cols-\[minmax\(0\,3fr\)_minmax\(16rem\,2fr\)\] {
     grid-template-columns: minmax(0, 3fr) minmax(16rem, 2fr);
@@ -869,6 +888,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .gap-2 {
     gap: calc(var(--spacing) * 2);
   }
+.gap-2\.5 {
+    gap: calc(var(--spacing) * 2.5);
+  }
 .gap-3 {
     gap: calc(var(--spacing) * 3);
   }
@@ -913,6 +935,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .justify-self-end {
     justify-self: flex-end;
+  }
+.justify-self-start {
+    justify-self: flex-start;
   }
 .truncate {
     text-overflow: ellipsis;
@@ -965,6 +990,10 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .border {
     border-style: var(--tw-border-style);
     border-width: 1px;
+  }
+.border-0 {
+    border-style: var(--tw-border-style);
+    border-width: 0;
   }
 .border-2 {
     border-style: var(--tw-border-style);
@@ -1088,7 +1117,13 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .bg-popover {
     background-color: var(--popover);
   }
-.bg-primary, .bg-primary\/10 {
+.bg-primary {
+    background-color: var(--primary);
+  }
+.bg-primary-foreground {
+    background-color: var(--primary-foreground);
+  }
+.bg-primary\/10 {
     background-color: var(--primary);
   }
 @supports (color: color-mix(in lab, red, red)) {.bg-primary\/10 {
@@ -1158,6 +1193,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .px-2 {
     padding-inline: calc(var(--spacing) * 2);
   }
+.px-2\.5 {
+    padding-inline: calc(var(--spacing) * 2.5);
+  }
 .px-3 {
     padding-inline: calc(var(--spacing) * 3);
   }
@@ -1175,6 +1213,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .py-2 {
     padding-block: calc(var(--spacing) * 2);
+  }
+.py-2\.5 {
+    padding-block: calc(var(--spacing) * 2.5);
   }
 .py-3 {
     padding-block: calc(var(--spacing) * 3);
@@ -1232,6 +1273,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .text-right {
     text-align: right;
+  }
+.text-start {
+    text-align: start;
   }
 .align-baseline {
     vertical-align: baseline;
@@ -1320,6 +1364,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .text-balance {
     text-wrap: balance;
+  }
+.text-pretty {
+    text-wrap: pretty;
   }
 .whitespace-nowrap {
     white-space: nowrap;
@@ -1499,6 +1546,11 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .filter {
     filter: var(--tw-blur, ) var(--tw-brightness, ) var(--tw-contrast, ) var(--tw-grayscale, ) var(--tw-hue-rotate, ) var(--tw-invert, ) var(--tw-saturate, ) var(--tw-sepia, ) var(--tw-drop-shadow, );
   }
+.transition-\[color\,box-shadow\,background-color\] {
+    transition-property: color, box-shadow, background-color;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
 .transition-\[color\,box-shadow\] {
     transition-property: color, box-shadow;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
@@ -1572,6 +1624,10 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .group-has-data-\[slot\=card-footer\]\/card\:pb-4:is(:where(.group\/card):has([data-slot="card-footer"]) *) {
     padding-bottom: calc(var(--spacing) * 4);
   }
+.group-has-data-\[slot\=questionnaire-choice-description\]\/questionnaire-choice\:translate-y-0\.5:is(:where(.group\/questionnaire-choice):has([data-slot="questionnaire-choice-description"]) *) {
+    --tw-translate-y: calc(var(--spacing) * .5);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
 .group-has-data-\[slot\=stat\]\/card\:text-sm:is(:where(.group\/card):has([data-slot="stat"]) *) {
     font-size: var(--text-sm);
     line-height: var(--tw-leading, var(--text-sm--line-height));
@@ -1599,6 +1655,18 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .group-aria-\[current\=true\]\:ring-ring:is(:where(.group)[aria-current="true"] *) {
     --tw-ring-color: var(--ring);
+  }
+.group-data-checked\/questionnaire-choice\:block:is(:where(.group\/questionnaire-choice)[data-checked] *) {
+    display: block;
+  }
+.group-data-checked\/questionnaire-choice\:border-primary:is(:where(.group\/questionnaire-choice)[data-checked] *) {
+    border-color: var(--primary);
+  }
+.group-data-checked\/questionnaire-choice\:bg-primary:is(:where(.group\/questionnaire-choice)[data-checked] *) {
+    background-color: var(--primary);
+  }
+.group-data-checked\/questionnaire-choice\:text-primary-foreground:is(:where(.group\/questionnaire-choice)[data-checked] *) {
+    color: var(--primary-foreground);
   }
 .group-data-\[collapsed\]\/trail\:block:is(:where(.group\/trail)[data-collapsed] *) {
     display: block;
@@ -1639,6 +1707,12 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 @supports (color: color-mix(in lab, red, red)) {.group-data-\[focused\=true\]\:ring-ring\/50:is(:where(.group)[data-focused="true"] *) {
       --tw-ring-color: color-mix(in oklab, var(--ring) 50%, transparent);
     }}
+.group-data-\[type\=checkbox\]\/questionnaire-choice\:hidden:is(:where(.group\/questionnaire-choice)[data-type="checkbox"] *), .group-data-\[type\=radio\]\/questionnaire-choice\:hidden:is(:where(.group\/questionnaire-choice)[data-type="radio"] *) {
+    display: none;
+  }
+.group-data-\[type\=radio\]\/questionnaire-choice\:rounded-full:is(:where(.group\/questionnaire-choice)[data-type="radio"] *) {
+    border-radius: 3.40282e38px;
+  }
 .selection\:bg-primary ::selection {
     background-color: var(--primary);
   }
@@ -1801,6 +1875,10 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .focus-visible\:opacity-100:focus-visible {
     opacity: 1;
   }
+.focus-visible\:ring-3:focus-visible {
+    --tw-ring-shadow: var(--tw-ring-inset, ) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
 .focus-visible\:ring-4:focus-visible {
     --tw-ring-shadow: var(--tw-ring-inset, ) 0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
@@ -1854,6 +1932,12 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .disabled\:cursor-not-allowed:disabled {
     cursor: not-allowed;
   }
+.disabled\:bg-input\/50:disabled {
+    background-color: var(--input);
+  }
+@supports (color: color-mix(in lab, red, red)) {.disabled\:bg-input\/50:disabled {
+      background-color: color-mix(in oklab, var(--input) 50%, transparent);
+    }}
 .disabled\:opacity-50:disabled, .has-disabled\:opacity-50:has(:disabled) {
     opacity: .5;
   }
@@ -1866,6 +1950,19 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .has-data-\[slot\=stat\]\:gap-2:has([data-slot="stat"]) {
     gap: calc(var(--spacing) * 2);
   }
+.has-\[\>input\:focus-visible\]\:border-ring:has( > input:focus-visible) {
+    border-color: var(--ring);
+  }
+.has-\[\>input\:focus-visible\]\:ring-3:has( > input:focus-visible) {
+    --tw-ring-shadow: var(--tw-ring-inset, ) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+.has-\[\>input\:focus-visible\]\:ring-ring\/50:has( > input:focus-visible) {
+    --tw-ring-color: var(--ring);
+  }
+@supports (color: color-mix(in lab, red, red)) {.has-\[\>input\:focus-visible\]\:ring-ring\/50:has( > input:focus-visible) {
+      --tw-ring-color: color-mix(in oklab, var(--ring) 50%, transparent);
+    }}
 .has-\[\>svg\]\:px-3:has( > svg) {
     padding-inline: calc(var(--spacing) * 3);
   }
@@ -1874,6 +1971,10 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .aria-invalid\:border-destructive[aria-invalid="true"] {
     border-color: var(--destructive);
+  }
+.aria-invalid\:ring-3[aria-invalid="true"] {
+    --tw-ring-shadow: var(--tw-ring-inset, ) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
 .aria-invalid\:ring-destructive\/20[aria-invalid="true"] {
     --tw-ring-color: var(--destructive);
@@ -1887,8 +1988,29 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .aria-selected\:text-accent-foreground[aria-selected="true"] {
     color: var(--accent-foreground);
   }
+.data-checked\:border-primary\/40[data-checked] {
+    border-color: var(--primary);
+  }
+@supports (color: color-mix(in lab, red, red)) {.data-checked\:border-primary\/40[data-checked] {
+      border-color: color-mix(in oklab, var(--primary) 40%, transparent);
+    }}
+.data-checked\:bg-muted[data-checked] {
+    background-color: var(--muted);
+  }
 .data-dimmed\:bg-transparent[data-dimmed] {
     background-color: #0000;
+  }
+.data-disabled\:pointer-events-none[data-disabled] {
+    pointer-events: none;
+  }
+.data-disabled\:cursor-not-allowed[data-disabled] {
+    cursor: not-allowed;
+  }
+.data-disabled\:opacity-50[data-disabled] {
+    opacity: .5;
+  }
+.data-invalid\:border-destructive[data-invalid] {
+    border-color: var(--destructive);
   }
 .data-\[active\=true\]\:z-10[data-active="true"] {
     z-index: 10;
@@ -1985,6 +2107,12 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .sm\:bottom-0 {
       bottom: 0;
     }
+.sm\:min-h-0 {
+      min-height: 0;
+    }
+.sm\:min-h-8 {
+      min-height: calc(var(--spacing) * 8);
+    }
 .sm\:max-w-lg {
       max-width: var(--container-lg);
     }
@@ -2052,6 +2180,12 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .dark\:bg-green-950 {
       background-color: var(--color-green-950);
     }
+.dark\:bg-input\/20 {
+      background-color: var(--input);
+    }
+@supports (color: color-mix(in lab, red, red)) {.dark\:bg-input\/20 {
+        background-color: color-mix(in oklab, var(--input) 20%, transparent);
+      }}
 .dark\:bg-input\/30 {
       background-color: var(--input);
     }
@@ -2106,6 +2240,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .dark\:text-yellow-300 {
       color: var(--color-yellow-300);
     }
+.dark\:group-data-checked\/questionnaire-choice\:bg-primary:is(:where(.group\/questionnaire-choice)[data-checked] *) {
+      background-color: var(--primary);
+    }
 @media (hover: hover) {.dark\:hover\:bg-accent\/50:hover {
         background-color: var(--accent);
       }
@@ -2127,12 +2264,27 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 @supports (color: color-mix(in lab, red, red)) {.dark\:focus-visible\:ring-destructive\/40:focus-visible {
         --tw-ring-color: color-mix(in oklab, var(--destructive) 40%, transparent);
       }}
+.dark\:disabled\:bg-input\/80:disabled {
+      background-color: var(--input);
+    }
+@supports (color: color-mix(in lab, red, red)) {.dark\:disabled\:bg-input\/80:disabled {
+        background-color: color-mix(in oklab, var(--input) 80%, transparent);
+      }}
+.dark\:aria-invalid\:border-destructive\/50[aria-invalid="true"] {
+      border-color: var(--destructive);
+    }
+@supports (color: color-mix(in lab, red, red)) {.dark\:aria-invalid\:border-destructive\/50[aria-invalid="true"] {
+        border-color: color-mix(in oklab, var(--destructive) 50%, transparent);
+      }}
 .dark\:aria-invalid\:ring-destructive\/40[aria-invalid="true"] {
       --tw-ring-color: var(--destructive);
     }
 @supports (color: color-mix(in lab, red, red)) {.dark\:aria-invalid\:ring-destructive\/40[aria-invalid="true"] {
         --tw-ring-color: color-mix(in oklab, var(--destructive) 40%, transparent);
       }}
+.dark\:data-checked\:bg-muted[data-checked] {
+      background-color: var(--muted);
+    }
 .dark\:data-dimmed\:bg-transparent[data-dimmed] {
       background-color: #0000;
     }
@@ -2233,6 +2385,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .\[\&_tr\:last-child\]\:border-0 tr:last-child {
     border-style: var(--tw-border-style);
     border-width: 0;
+  }
+.\[\&\:not\(\:has\(\~\[data-slot\=questionnaire-description\]\)\)\]\:mb-4:not(:has( ~ [data-slot="questionnaire-description"])) {
+    margin-bottom: calc(var(--spacing) * 4);
   }
 .\[\&\>dd\:not\(\:last-of-type\)\]\:border-b > dd:not(:last-of-type) {
     border-bottom-style: var(--tw-border-style);

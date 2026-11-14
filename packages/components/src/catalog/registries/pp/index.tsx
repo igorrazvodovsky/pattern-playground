@@ -1649,5 +1649,11 @@ export const { registry } = defineRegistry(catalog, {
         This library has no rule builder with groups.
       </p>
     ),
+
+    Questionnaire: () => (
+      <p className="spec-demo__unsupported" role="note">
+        This library has no questionnaire that steps through its questions.
+      </p>
+    ),
   },
 });

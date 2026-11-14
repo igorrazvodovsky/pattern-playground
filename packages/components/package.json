@@ -21,6 +21,7 @@
     "@json-render/directives": "^0.21.1",
     "@json-render/react": "^0.21.1",
     "@pattern-plgrnd/shared": "*",
+    "@shadcn/react": "^0.3.1",
     "@tiptap/extension-highlight": "^3.31.4",
     "@tiptap/extension-mention": "^3.31.4",
     "@tiptap/extensions": "^3.31.4",

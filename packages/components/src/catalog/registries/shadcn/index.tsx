@@ -138,6 +138,11 @@ import { ComposerField } from './composer-field';
 import { ShadcnMentionEditor } from './mention-editor-lazy';
 import type { Send } from './parts';
 import { LocationMap } from './map';
+import {
+  QuestionnaireForm,
+  type QuestionnaireAnswers,
+  type QuestionnaireItemDef,
+} from './questionnaire';
 import { RuleBuilder, type RuleTree } from './rule-builder';
 import { Subsection, useHeading } from '../../behaviour/heading-level';
 import { Section, Sections } from './sections';
@@ -2019,6 +2024,26 @@ export const { registry } = defineRegistry(catalog, {
         emit(kind);
       };
       return <RuleBuilder label={props.label} tree={props.tree as RuleTree} send={send} />;
+    },
+
+    Questionnaire: ({ props, bindings, emit }) => {
+      const [answers, setAnswers] = useBoundProp(props.answers, bindings?.answers);
+      return (
+        <QuestionnaireForm
+          label={props.label}
+          items={props.items as QuestionnaireItemDef[]}
+          answers={answers as QuestionnaireAnswers | null}
+          submitLabel={props.submitLabel}
+          buttonClass={{
+            primary: clsx(buttonBase, buttonVariant.primary, buttonSize.default),
+            secondary: clsx(buttonBase, buttonVariant.default, buttonSize.default),
+          }}
+          onSubmit={(answers) => {
+            setAnswers(answers);
+            emit('submit');
+          }}
+        />
+      );
     },
   },
 });

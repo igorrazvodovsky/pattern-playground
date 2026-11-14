@@ -800,6 +800,34 @@ export const catalog = defineCatalog(schema, {
       description:
         'A rule shown as one statement whose condition may hold groups. `lead` (the words before the condition) and `tail` (what follows it, if anything) are sentence parts: fixed words (strings) and slots ({ id, kind: choice | add | remove, name, label, options, value, multiple }). `where` is a group ({ id, head, items, addCondition, addGroup, remove }): `head` is a choice slot between all and any, `items` are lines ({ id, parts, remove }) or nested groups, `addCondition` is an add slot over fields and `addGroup` an add slot with one option. A flat group of all reads inline, without its head, so switching it to any goes through adding a group; any other group breaks into indented lines under its head. Bind `edit` with $bindState: before emitting `change`, `add` or `remove`, the component writes { kind, slotId, value } there.',
     },
+    // A composite: the library supplies the whole thing, stepping, validation
+    // and skipping included. Its input is already data (the questions).
+    Questionnaire: {
+      props: z.object({
+        label: z.string(),
+        items: z.array(
+          z.object({
+            name: z.string(),
+            prompt: z.string(),
+            description: z.string().nullable(),
+            required: z.boolean().nullable(),
+            multiple: z.boolean().nullable(),
+            choices: z.array(
+              z.object({
+                value: z.string(),
+                label: z.string(),
+                description: z.string().nullable(),
+              }),
+            ),
+            input: z.object({ label: z.string(), placeholder: z.string().nullable() }).nullable(),
+          }),
+        ),
+        answers: z.record(z.string(), z.unknown()).nullable(),
+        submitLabel: z.string().nullable(),
+      }),
+      description:
+        "A few questions asked one at a time, with the position shown (Question 1 of 2), Previous and Next between them and a submit button on the last. Each item asks `prompt`, explained by `description` when given, such as what skipping it means. `choices` are its fixed answers, each a `label` with an optional `description` beneath; one can be chosen, or any number with `multiple`. `input` adds a text field after the choices for an answer of the actor's own, named by its `label`; typing in it stands in for a choice. A `required` item cannot be passed without an answer and says so; any other item can be skipped. `submitLabel` names the submit button (Submit by default). Bind `answers` with $bindState: on submit the component writes { [name]: answer } there, the answer being the chosen `value` or the typed text, a list of them for a `multiple` item, or null for a skipped item, then emits `submit`. Answers already in `answers` fill the form in when it appears, so it can be shown again to change them. `label` names the questionnaire for assistive technology.",
+    },
     // A composite: each library supplies the whole editor.
     MentionEditor: {
       props: z.object({
