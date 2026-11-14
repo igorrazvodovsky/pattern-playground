@@ -1,0 +1,46 @@
+---
+title: Showing the reading
+added: 2026-11-11
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+activityLevel: action
+mediation: individual
+description: "Showing how the artifact read a request in words, what it took the request to refer to and what it filled in, so the actor can correct the reading rather than restate the request."
+situation:
+  initiating: >-
+    … the actor has said what they want in an artifact [addressable in words](/patterns/addressable-in-words), through a [prompt](/patterns/prompt) or a turn in a conversation, and the words leave open what the request refers to or what it should do. To act at all, the artifact has already settled those gaps.
+  resulting: >-
+    Where several readings are plausible, showing them side by side lets the actor pick one rather than describe it again; where none can be settled without more from the actor, [agent inquiry](/patterns/inquiry-agent) asks for what is missing instead. When the reading turns out wrong, [agent repair](/patterns/agent-repair) can be applied. [Plan preview](/patterns/plan-preview) looks similar but shows what the system will do rather than what it understood; the plan is built on the reading. [Expressed uncertainty](/patterns/expressed-uncertainty) marks how confident the system is rather than what it read…
+relationships:
+  alternative:
+    - inquiry-agent
+  complements:
+    - filtering
+    - agent-repair
+  precedes:
+    - plan-preview
+  related:
+    - expressed-uncertainty
+---
+
+* * *
+
+**An artifact that acts on a request has already decided what the words meant: which items, which values, which of several readings. When that decision stays hidden, the actor finds a misreading only in the result, and has to restate the whole request to correct one part of it.**
+
+Therefore,
+
+**Show how the request was read, before the artifact acts or as it acts: what it took the request to refer to, the values it filled in, and which of these the actor said and which the artifact assumed. Let the actor correct any part of the reading directly, without restating the request.**
+
+## Research on this pattern
+
+- [Furnas, Landauer, Gomez and Dumais (1987)](https://doi.org/10.1145/32206.32212): where the system's guess at a referent is uncertain, show candidates the actor can recognise rather than asking them to find the right word.
+- [Convey (2018)](https://doi.org/10.1145/3173574.3174042) adds a context panel to a chatbot that separates values it inferred from the conversation from values it assumed, for instance from purchase history; confirming an assumed value turns it into an inferred one, and each value can be changed in place. All sixteen participants preferred it.
+- [AmbigChat (2025)](https://doi.org/10.1145/3746059.3747686) lays out the readings of an ambiguous question as a tree the actor walks with widgets inside the chat.
+- [ToMigo (2026)](https://arxiv.org/abs/2602.05825) shows a generative model's reading of design intent as an editable concept graph.
+- [Min and Xia (2025)](https://arxiv.org/abs/2502.14229) argue for feedforward in generative interfaces: showing what will be generated before the prompt is sent, so a misreading costs no extra turn.
+- [AI-Instruments (2025)](https://doi.org/10.1145/3706598.3714259) reflects the latent structure of the intent back to the actor, so ambiguity is resolved by manipulation rather than by rewording.
+- [Elicitive user interfaces (2026)](https://arxiv.org/abs/2609.23642) expose the open decisions a generated interface made, so the actor can settle them.

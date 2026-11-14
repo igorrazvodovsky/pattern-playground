@@ -1,0 +1,33 @@
+---
+title: View as context
+added: 2026-11-11
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+activityLevel: action
+mediation: individual
+description: "Reading what the actor says against where they are when they say it, the open item, what is in view and what is selected, and showing what was taken in."
+situation:
+  initiating: >-
+    … the actor is working in an artifact [addressable in words](/patterns/addressable-in-words) and says something about what is in front of them: "this paragraph", "these two", "make it shorter". Naming the thing outright, as [reference material](/patterns/reference-material) does, costs effort for something they are already looking at.
+  resulting: >-
+    Pointing at things inside the view is [selection](/patterns/selection), which gives a request its narrowest scope. Context the actor pins becomes [reference material](/patterns/reference-material), named and kept with the request rather than read from the view. [Embedded intelligence](/patterns/embedded-intelligence) draws on the same context but acts without being asked, whereas here the context is read only when the actor speaks. Because the view can change between saying and acting, the context is the view at the moment of the request, not at the moment of the act…
+relationships:
+  composed-of:
+    - selection
+  complements:
+    - reference-material
+  related:
+    - embedded-intelligence
+---
+
+* * *
+
+**What the actor has open, in view or selected tells the artifact most of what a request is about. A request read without it means little, and a request read against everything on screen picks up what the actor never meant to include. Context nobody named is also context the actor cannot see being used.**
+
+Therefore,
+
+**Read each request against where the actor is when they make it: the open item, what is in view, the selection and the cursor, narrowest first. Show what was taken in, and let the actor remove it, widen it, or pin it so it stays.**
+

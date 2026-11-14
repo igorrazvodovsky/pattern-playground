@@ -10,13 +10,11 @@ disclosure: "Seeded from looking at different AI pattern libraries and sorting t
 activityLevel: action
 situation:
   initiating: >-
-    the actor has asked for something consequential and the agent is about to act on its
-    reading of the request; acting straight away would spend real work — and possibly real
-    consequences — on a misreading nobody has checked
+    the actor has asked for something consequential that takes several steps; the agent has settled what the request means and is about to choose how to carry it out, and acting straight away would spend real work — and possibly real consequences.
   resulting:
     - clause: >-
         the agent's intention is now a reviewable object — steps, targets, expected effects —
-        so misreadings surface while they are still cheap, and the preview becomes the thing
+        so a wrong course is caught while it is still cheap, and the preview becomes the thing
         an approval can act on
       sets-up: [approval-gate]
     - >-
@@ -29,6 +27,8 @@ relationships:
   follows:
     - to: open-request
       note: a complex request is the situation a plan makes reviewable before work starts
+    - to: showing-the-reading
+      note: showing the reading checks what the request was taken to mean, and the plan preview then checks what will be done about it
   complements:
     - to: transparent-reasoning
       note: the plan before execution; the reasoning trail during and after it

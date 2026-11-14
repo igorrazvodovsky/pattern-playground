@@ -1,0 +1,66 @@
+---
+title: Addressable in words
+added: 2026-11-11
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+activityLevel: activity
+mediation: individual
+description: "An artifact the actor can tell what they want in their own words from anywhere in it, answering from one description of its objects, actions and permissions that every route and every agent shares."
+situation:
+  initiating: >-
+    … the artifact is an [information environment](/patterns/information-environment) whose actors already say some of what they want in words: a search that takes a described outcome, help that answers a question, a command found by name, an [outside agent](/patterns/outside-agent) that reads and acts on the work. Each of these routes reaches its own part of the artifact and draws on its own description of what is there. Some of what actors ask for has no control built for it, although the data and permissions it would need are already in the artifact.
+  resulting: >-
+    An artifact addressable in words answers from the same description that an [outside agent](/patterns/outside-agent) reads, so the artifact's own routes and an agent the actor brings resolve the same words to the same objects. The actor says what they want through a [prompt](/patterns/prompt) wherever the artifact offers one, and through a [conversation](/patterns/conversation) where the exchange runs over several turns; a [search](/patterns/searching) that takes a described outcome, [help](/patterns/help) that answers a question and a [command menu](/patterns/command-menu) that finds a command by name are further routes to the same description. What the actor has open, in view or selected is read as part of what they say through [view as context](/patterns/view-as-context), so "this" or "make it shorter" refers to something without the actor naming it. Where the words leave open what a request refers to or what it should do, [showing the reading](/patterns/showing-the-reading) puts the interpretation in front of the actor before the act, and where they leave too much open for one reading, [agent inquiry](/patterns/inquiry-agent) asks for what is missing. Every act, whether built as a control or put together from a request, is weighed through [action consequences](/patterns/action-consequences), which sets the protection it gets. An invitation to say anything promises more than any artifact holds, so [capability and scope](/patterns/capability-and-scope) says what lies outside the description and where to go instead…
+relationships:
+  complements:
+    - outside-agent
+  composed-of:
+    - prompt
+    - conversation
+    - view-as-context
+    - showing-the-reading
+    - searching
+    - help
+    - command-menu
+  precedes:
+    - inquiry-agent
+    - action-consequences
+    - capability-and-scope
+    - incremental-formalisation
+  related:
+    - embedded-intelligence
+---
+
+* * *
+
+**An actor says what they want in their own words, and the artifact can respond only to what it can connect those words to. Its objects and actions are named in the maker's vocabulary and described separately for each route, so a request that uses the actor's names for things, or asks for something no control was built for, is misread or answered from one part of the artifact.**
+
+### Forces
+
+- *The actor's words vs the maker's names*: actors name things in their own way, and differently from one another. A single vocabulary makes words easier to connect to objects, but asks every actor to learn it; taking each actor's words means holding several names for one thing, and sometimes connecting a word to the wrong one.
+- *What can be asked vs what can be predicted*: the more the artifact can do with a request no control was built for, the less the actor can tell in advance what a sentence will do. An act nobody designed also has no protection or undo designed for it.
+- *Acting on the first reading vs checking it*: words leave much unsaid. Asking back every time makes saying slower than clicking; acting on a guess is fast, and a wrong guess changes the work.
+- *A surface that shows vs words that do not*: controls on screen show what the artifact can do and what its things are called. An input that accepts any words shows neither, so the actor cannot tell what will be understood until they try.
+
+The pattern serves an artifact that holds many objects and actions, which actors want to reach in combinations no set of controls could anticipate, and whose data and permissions already support more than its controls offer. It serves less where the artifact is small enough for its surface to show everything it can do, as in a single form or a calculator: there, words add a route to what is already in view.
+
+It commits the maker to keeping one description of the artifact's objects, actions and permissions current as the artifact changes, since every route and every agent now depends on it. It also has a running cost in interpretation: each request takes time and computation to read, and the reading is sometimes wrong.
+
+Therefore,
+
+**Let the actor say what they want from anywhere in the artifact, and answer from one description of its objects, actions and permissions that every route and every agent shares. Keep the actor's names for things in that description beside the maker's, and use the same names on the surface, so that what the actor can see tells them what they can say. Act on whatever the description allows, including requests no control was built for, and show how a request was read where the words leave open what it refers to or what it should do.**
+
+## Research on this pattern
+
+- [Furnas, Landauer, Gomez and Dumais (1987)](https://doi.org/10.1145/32206.32212) asked people to name the same objects and operations across five domains; two people chose the same term with a probability below 0.20, and a name chosen by the designer matched an untutored actor's first try 7–18% of the time. Many names per object, gathered from use, did far better than any single name.
+- [Direct manipulation and natural language programming, together at last? (2026)](https://arxiv.org/abs/2608.26359) has both routes translate into one edit language for map editing. Given both, eighteen participants made 6.14% of their edits in natural language. Direct manipulation helped them break tasks down, work incrementally, and guess what the model could do.
+- In [a hybrid GUI and language interface for 3D scene customisation (2026)](https://doi.org/10.1145/3800645.3812986), every operation, whether made through controls, a prompt or code, becomes the same selector and layer objects. Language alone was the fastest of the three routes for twelve participants, but its readings needed correcting in 69% of interactions; participants caught 82% of those errors. Those who used the graphical route first recognised errors more often than those who started with prompts (93% against 54%, p = 0.058). Two thirds preferred the hybrid, the graphical route was rated most controllable, and stated preference did not track measured speed.
+- [Masson, Malacria, Casiez and Vogel (2024)](https://doi.org/10.1145/3613904.3642462) turned selections, drags and toolbar clicks into prompts over a chat model. Twelve experienced participants editing text, code and images were about 50% faster and used half as many prompts, 72% shorter, than with chat alone. The tasks had known targets, and the authors doubt the gains carry over to exploratory work.
+- The [Shneiderman and Maes debate (1997)](https://doi.org/10.1145/267505.267514) leaves open the question that matters most here: whether an actor stays responsible for acts carried out by a system whose reading of them is partly hidden.
+- All three studies of language beside direct manipulation are small, run in a single session, and cover one bounded kind of work. None follows an artifact addressable in words through months of use, during which its vocabulary and the actor's would change.
+
+
