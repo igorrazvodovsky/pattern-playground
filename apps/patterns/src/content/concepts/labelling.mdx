@@ -1,0 +1,27 @@
+---
+title: Labelling
+added: 2026-11-14
+purpose: Attach labels to items so the items can be found again by label.
+principle: >-
+  If a member gives several items the same label, they can later ask for that
+  label and get those items back, whatever other labels the items also carry.
+state:
+  - "labels: Item -> set Label"
+actions:
+  createLabel: A member coins a label.
+  addLabel: A member puts a label on an item.
+  removeLabel: A member takes a label off an item.
+  findByLabel: A member asks for a label and gets the items that carry it.
+  deleteLabel: A member removes a label, which takes it off every item that carried it.
+misfits:
+  - A vocabulary nobody controls drifts; near-synonyms accumulate, and one label comes to mean different things to different members.
+  - Labels the system applies itself (an inbox label, a sent label) look like the member's own but behave differently; they cannot be removed, or removing one does something else, such as archiving.
+  - Two concepts that both classify items in one system (labels and categories, labels and folders) split the member's effort, and an item classified in one cannot be found through the other.
+  - Deleting a label takes it off every item at once and leaves no record of which items carried it.
+aliases: [tag, category, hashtag, keyword]
+appears_in:
+  - Gmail
+  - GitHub issues
+  - Linear
+  - Obsidian
+---

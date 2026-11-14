@@ -14,7 +14,8 @@ state:
   - "priority: Task -> opt Priority"
   - "dueDate: Task -> opt Date"
   - "createdBy: Task -> one User"
-actions: [createTask]
+actions:
+  createTask: A member records a piece of work in a project, with its title and, in the same act, its assignee, labels, priority and due date.
 misfits:
   - A task that nobody picks up stays open indefinitely, and a backlog of them is read as noise rather than as work.
   - A task cannot be labelled, prioritised or assigned without first being created, nor assigned without a project; everything is decided at once or not at all.
@@ -28,25 +29,3 @@ appears_in:
   - Asana
   - Things
 ---
-
-In the fixture world a task is created in one act that also assigns it, labels
-it, prioritises it, schedules it and places it in a project. In concept terms
-that is task tracking merged with Assigning, Labelling, Prioritising and Scheduling,
-and the merge is a design move taken on purpose: simplicity over flexibility.
-The facts stay with the action that adds them, so nothing here is split until
-a demo needs to label something that is not a task. The cost of the merge is
-in the misfits: none of these facts can be set without creating the task, and
-none can be changed afterwards except by [Staging](/concepts/staging), which
-moves the task on but does not reassign or relabel it.
-
-Finishing a task is staging's terminal move rather than a task-tracking action, so
-the concept here has one action. What makes it a concept rather than a data
-model is the purpose: a task exists so that work can be picked up by someone
-other than the person who wrote it down.
-
-Who asked for the work and who does it are two relations here, `createdBy` and
-`assignee`. The exchange between them (asking, agreeing, asking for
-clarification, reporting back) is a concept of its own, conversation for
-action, and no part of tracking. Tracking records that the work exists and
-who holds it; the conversation decides whether it was done to the asker's
-satisfaction.

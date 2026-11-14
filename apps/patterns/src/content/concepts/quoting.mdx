@@ -11,7 +11,8 @@ state:
   - "range: Quote -> one Range"
   - "text: Quote -> one Text"
   - "createdBy: Quote -> one User"
-actions: [createQuote]
+actions:
+  createQuote: A member saves a passage of a document as a quote that keeps its text, its source and its range.
 misfits:
   - A quote keeps its text when the source changes, so it can say something the document no longer says.
   - A quote's range is in the source's terms, and a revision that moves the passage leaves the range pointing at the wrong place.
@@ -22,9 +23,3 @@ appears_in:
   - Readwise
   - Notion block references
 ---
-
-Quoting is [Commenting](/concepts/commenting) with the remark removed and the
-passage kept. Both anchor to a range in a document; a quote exists for the
-passage's sake and a comment for the remark's. The third misfit of commenting,
-a passage that starts being referred to and needs an identity of its own, is
-what quoting provides.

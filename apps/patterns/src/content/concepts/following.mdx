@@ -1,0 +1,25 @@
+---
+title: Following
+added: 2026-11-14
+purpose: Let a member receive updates from the sources they choose.
+principle: >-
+  If a member follows a source, what the source does or what happens to it from
+  then on reaches the member without their going to look; when they unfollow,
+  it stops.
+state:
+  - "follows: User -> set Source"
+actions:
+  follow: A member adds a source to those they follow; its updates reach them from then on.
+  unfollow: A member removes a source, and its updates stop reaching them.
+misfits:
+  - Following merges easily with permission. Facebook's friend meant both "may read my posts" and "I want to read theirs", so neither could be given without the other until Twitter's follower separated them.
+  - Following is often implied by another act (commenting on an issue, being assigned it), so a member is subscribed to things they never chose and cannot tell why updates arrive.
+  - A followed source that becomes busy floods the member, and the plain concept offers only all or nothing.
+  - Following a person and following an item go under one name and are different concepts; one tracks what someone does, the other what happens to something.
+aliases: [subscribing, watching, subscription]
+appears_in:
+  - GitHub watching
+  - Jira watchers
+  - YouTube subscriptions
+  - Bluesky
+---

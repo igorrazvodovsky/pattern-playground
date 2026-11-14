@@ -8,7 +8,8 @@ principle: >-
   can follow it to the item it is about.
 state:
   - "notified: User -> set Item"
-actions: [notify]
+actions:
+  notify: The system records a notice for a member about an item.
 misfits:
   - A notice that arrives in the middle of other work costs attention whether or not it was worth it; the concept says nothing about when it is delivered.
   - Notices pile up when nothing clears them, and a long backlog is read as noise rather than as a record.
@@ -21,21 +22,3 @@ appears_in:
   - Linear
   - iOS and Android system notifications
 ---
-
-Notifying is the system's own act, not the actor's. Nothing in the concept says
-who is told or why: that is composition, and a system's rules decide it. In the
-fixture world two rules fire it, one from [Commenting](/concepts/commenting)
-(the document's author hears about a new comment) and one from
-[Staging](/concepts/staging) (whoever asked for a task hears when someone else
-finishes it). The rule's `where` clause is what keeps a member from being told
-about their own acts.
-
-The concept holds only the fact that a member was notified about an item. How
-the notice is delivered, how urgently, and on which surface are not its
-business, which is why the pattern pages that act on it are mostly about
-delivery and attention rather than about the notice itself.
-
-Most shipping systems add a second fact, whether the notice has been seen, and
-an action that clears it. The world holds neither, so the entry lists neither;
-the piling-up misfit above is what their absence costs, and the pattern page
-that needs them is where they get added.

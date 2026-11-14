@@ -1,0 +1,25 @@
+---
+title: Bookmarking
+added: 2026-11-14
+purpose: Make it easy for a member to return to an item later.
+principle: >-
+  If a member bookmarks an item, it appears in their own list of bookmarks;
+  whenever they want it again they open the list and go straight to it, however
+  they reached it the first time.
+state:
+  - "bookmarked: User -> set Item"
+actions:
+  bookmark: A member adds an item to their own list of bookmarks.
+  removeBookmark: A member takes an item off their list; the item itself is untouched.
+misfits:
+  - The list grows without upkeep, and entries go stale when the item moves or is deleted.
+  - A save that others can see serves two purposes, keeping and approving, and members stop saving things they would not want to be seen endorsing.
+  - Several near-identical keeping concepts in one system (bookmarks, favourites, a reading list and frequently visited sites in the same browser) leave the member unsure where they kept something.
+  - A bookmark points at an address, so an item that is renamed or moved without a stable address breaks it.
+aliases: [save for later, favourite, star, saved items, reading list]
+appears_in:
+  - Safari and Chrome
+  - Slack saved items
+  - YouTube Watch later
+  - Pocket
+---

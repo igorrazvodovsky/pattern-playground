@@ -1,0 +1,28 @@
+---
+title: Filtering
+added: 2026-11-14
+purpose: Show only the items in a collection that meet conditions the member states.
+principle: >-
+  If a member states a condition on the items' properties, the collection shows
+  only the items that meet it; as items change, what is shown changes with them,
+  and when the condition is removed every item is back.
+state:
+  - "conditions: View -> set Condition"
+actions:
+  addCondition: A member states a condition, and the view shows only the items that meet the conditions stated.
+  removeCondition: A member withdraws one condition, and the items it alone excluded are shown again.
+  clearConditions: A member withdraws every condition, and the whole collection is shown.
+  saveFilter: A member keeps the current conditions under a name so they can be applied again.
+misfits:
+  - A filter left in place hides items from a member who has forgotten it is on, and a short list reads as the whole collection.
+  - One system offers filtering under several concepts with different options each time (Apple Mail's search, rules and smart mailboxes), so a condition that can be stated in one place cannot be stated in another.
+  - A condition can use only the properties the items record, so a criterion the member has in mind and the system does not record cannot be stated.
+  - A saved filter that also acts on what it matches (moving mail, sending a notice) behaves as a rule, and a member who set it up as a view is surprised by what it does.
+aliases: [filter, saved view, smart folder, smart mailbox, query]
+appears_in:
+  - Gmail
+  - Apple Mail
+  - Linear views
+  - Airtable views
+  - macOS Finder smart folders
+---

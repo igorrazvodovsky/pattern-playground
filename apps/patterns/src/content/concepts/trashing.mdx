@@ -1,0 +1,29 @@
+---
+title: Trashing
+added: 2026-11-14
+purpose: Let a member take back a deletion.
+principle: >-
+  If a member deletes an item, it moves to the trash instead of ceasing to
+  exist; until the trash is emptied they can find it there and restore it, and
+  once it is emptied the item is gone.
+state:
+  - "trashed: set Item"
+  - "trashedBy: Item -> opt User"
+actions:
+  trashItem: A member deletes an item; it leaves its place and waits in the trash.
+  restoreItem: A member returns an item from the trash to where it was.
+  emptyTrash: A member destroys every item in the trash.
+misfits:
+  - Emptying is all or nothing, so freeing the space one item takes destroys the chance to restore every other item. On the Mac, space taken by deleted files on an external drive can be freed only by emptying the whole trash.
+  - An item in the trash still counts against storage, so the protection is paid for in space the member believes they have freed.
+  - Restoring an item whose container has since been deleted leaves it nowhere to go back to.
+  - In shared material one member's deletion takes the item out of everyone's view, and the others do not know it is in someone's trash rather than gone.
+  - A retention period that empties the trash on a schedule turns a recoverable deletion into a permanent one with no act the member sees.
+aliases: [recycle bin, bin, deleted items, soft delete]
+appears_in:
+  - macOS Finder
+  - Windows Recycle Bin
+  - Google Drive
+  - Gmail
+  - Notion
+---

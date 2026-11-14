@@ -10,7 +10,9 @@ state:
   - "role: User -> one Role"
   - "accessLevel: User -> one AccessLevel"
   - "member: Project -> set User"
-actions: [joinWorkspace, joinProject]
+actions:
+  joinWorkspace: A person becomes a member of the workspace, with a profile and a role.
+  joinProject: A member becomes a member of a project, at a given access level.
 misfits:
   - Leaving has no action, so a member who has gone stays a member.
   - Access level is held on the member, not on the membership, so one person cannot have different access on different projects.
@@ -20,9 +22,3 @@ appears_in:
   - GitHub organisations and repositories
   - Notion workspaces
 ---
-
-Joining is applied at two scales in the fixture world: the workspace, where a
-person arrives with a profile, and a project, where a member is added with an
-access level. The second misfit is a merge the world took: access rides on the
-member rather than on the pair of member and project, which is simpler and
-wrong as soon as one person needs different access in two places.
