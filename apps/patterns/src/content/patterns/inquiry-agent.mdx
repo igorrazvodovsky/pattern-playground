@@ -41,6 +41,14 @@ Repeat the question; paraphrase; example of valid input; define technical terms.
 ## Metrics
 Drop-off per slot; correction rate; time-to-complete; data validity rate.
 
+## In practice
+
+### Several questions at once
+
+When the agent needs more than one value before the work can go on, it can ask them together as a short questionnaire in its turn: one question at a time, with the position shown and the answers sent as one reply. The ranked-candidates case fits fixed choices with a field for an answer of the actor's own, and a value the agent could default becomes a question the actor can skip, with its description saying what skipping leaves in place. The confirmation still comes from the agent's next message, which says what it did with the answers.
+
+<Demo spec="inquiry-questionnaire" registries={["shadcn"]} surface="border" label="An agent asks two questions before booking a room" />
+
 ## Resources & references
 
 - Wang et al. (2026) [Turning Intent into Specifications: Evaluating and Improving Proactive Clarification in LLM Agents](https://arxiv.org/abs/2604.07622) — SpecBench; when an agent should clarify before executing

@@ -1,68 +1,90 @@
 ---
 title: Instructed revision
 added: 2026-08-07
-updated:
+updated: 2026-11-14
 role: pattern
-seed: true
 evidence:
   - observed
-disclosure: "Seeded from looking at different AI pattern libraries and sorting them out. It’s not quite ready yet because I haven’t had a chance to consider it closely."
+  - literature
 activityLevel: action
+mediation: individual
+description: "Telling the system what to change about output the actor already has, so it comes back revised rather than drawn again or remade by hand."
 situation:
   initiating: >-
-    the output is close but not right, and the actor can name what's wrong — re-rolling
-    gambles away what already works, and fixing it by hand costs more than saying what to
-    change
-  resulting:
-    - >-
-      iteration proceeds by deltas: the actor directs the change in their own words without
-      remaking the output or rearticulating the request
-    - >-
-      the instruction acts on the whole unless scoped, so an untargeted revision churns the
-      parts that were already right
-    - >-
-      the actor shaped the result without ever touching it, which leaves authorship — and
-      responsibility for the details — ambiguous
+    … in [delegating work](/sequences/delegating-work), the actor has asked for something with a [prompt](/patterns/prompt) and received [generated content](/patterns/generated-content)—a draft, a reply, a passage in a document—that is close, with a flaw they can name: too long, too stiff, the second paragraph is off. [Regeneration](/patterns/regeneration) would draw again from the request alone, which says nothing about the flaw and so is no more likely to fix it, while fixing it by hand costs more than describing the change.
+  resulting: >-
+    The output now changes by a stated difference while the original request stands. An instruction applied to the whole output reaches passages the actor had already settled, so a [selection](/patterns/selection) limits the revision to the span that needs it, while revision chips beneath a reply are a [suggestion](/patterns/suggestion) when the system picks them from the response. Where a revision rewrites several places at once, present it through [change review](/patterns/change-review) against the last accepted version so the actor can see what changed and accept or reject it in parts. Keep the replaced version one step back through [undo](/patterns/undo). Where revision runs through a conversation, a [steering surface](/patterns/steering-surface) holds the work still beside the instructions, so the actor does not carry each revised version back by hand. When a change is a single word, figure, or name the actor already has in mind, [editing in place](/patterns/editing-in-place) is more direct than describing it in prose. When the actor repeats the same correction across outputs, promote it to [standing instructions](/patterns/standing-instructions) so it holds on every run. Where others need to know that machine revision shaped a passage, mark it with [provenance marking](/patterns/provenance-marking). Instructed revision is not a [text lens](/patterns/text-lens), which adapts how a source reads for one actor while leaving the underlying content unchanged…
 relationships:
   follows:
-    - to: generated-content
-      note: acts on output the generation activity produced
+    - generated-content
   alternative:
-    - to: regeneration
-      note: naming the change versus drawing again on the same intent
-    - to: editing-in-place
-      note: saying what to change versus changing it by hand
+    - regeneration
+    - editing-in-place
   complements:
-    - to: selection
-      note: a selected span scopes the revision to the part that needs it
+    - selection
+    - change-review
+    - provenance-marking
+    - suggestion
+    - steering-surface
+  precedes:
+    - undo
   related:
-    - to: text-lens
-      note: a lens changes how the content reads; a revision changes what it is
+    - text-lens
   enacts:
     - to: agency
       note: the actor steers the output with judgement the system executes
 ---
-The actor tells the system what to change about its output — shorter, warmer, restructured, this part only — and gets a revised version rather than a fresh draw or a manual edit.
 
-## Forms
+* * *
 
-Recurring forms: quick-action verbs on the output (expand, shorten, restyle, transform, summarise), free-form refinement commands in the conversation, and scoped revision where a selection plus an instruction rewrites just that span. Restyling covers tone changes a writer makes before sending: formal ↔ casual, technical ↔ accessible, assertive ↔ diplomatic.
+**When generated output is nearly right and the actor can name what is off, re-running the request draws again without knowing what was wrong, restating the whole prompt repeats everything to change one thing, and editing by hand does the rewriting the system was meant to do.**
 
-## Examples
+Unlike a new [prompt](/patterns/prompt), a revision instruction states a difference—"shorter", "warmer", "drop the second point"—against the output already in front of the actor. Describing a change in words pays off when one short instruction reaches across many sentences at once, such as shifting tone, length, reading level, or structure; when the actor already knows the exact word or figure they want at a single spot, describing the edit takes more effort than typing it directly. Because an instruction names a direction rather than the exact wording—many different rewrites satisfy "shorter" or "more formal"—the system has to choose what to cut or rephrase, and the actor still has to inspect how that direction was carried out.
 
-### Revising a selected passage
+Therefore,
 
-The actor selects a passage in a document and picks an instruction from the <ComponentRef id="components-bubble-menu--docs">Bubble menu</ComponentRef>. The revision replaces the passage in the document, so it is what everyone who opens the document reads; undo is the way back.
+**Let the actor state what to change about existing output—in their own words or through a short set of named presets—and apply that change to the output in place rather than generating again from the request. When the actor has selected part of the output, revise only that [selection](/patterns/selection) and leave the rest untouched.**
 
-<Demo name="instructed-revision" label="Selecting a passage and asking for it shorter, longer, more formal or more casual." />
+Reserve preset revisions for passage-wide adjustments such as shorter, longer, simpler, or more formal, and leave literal wording edits to [editing in place](/patterns/editing-in-place).
+
+<Demo name="instructed-revision" label="Selecting a passage and asking for it shorter, longer, more formal, or more casual." />
+
+## In practice
+
+### Presets, continuous controls, and open instructions
+
+Preset verbs (shorter, longer, simpler, fix grammar) and continuous controls (length or reading-level sliders, or touch gestures that preview length as the actor pinches or spreads) save typing when the adjustment is a common dimension. A plain "rewrite" preset can sit with them: it names no direction, but it keeps what the passage says and changes the wording, so the system still works from the passage. When revision chips appear beneath a reply before the actor has judged it, they steer what the actor decides is wrong with the text, so keep an open instruction input beside them—and where actors type the same instruction repeatedly, let them save it as a reusable button.
+
+### Applying the revision
+
+In a [conversation](/patterns/conversation), a follow-up instruction returns a new turn and leaves the actor to carry the revised text back to their work. In a document or code editor, overwriting the selected passage in place is quickest when paired with [undo](/patterns/undo), while proposing the rewrite as an inline diff through [change review](/patterns/change-review) costs an acceptance step in exchange for showing what was cut, added, or rephrased before it enters the text.
+
+## Related components
+
+- <ComponentRef id="components-bubble-menu--docs">Bubble menu</ComponentRef> — floating toolbar anchored to a text selection for invoking preset or custom revisions in place
+
+## Research on this pattern
+
+- Frequency in practice: follow-ups that adjust style or expand generated text appear in [18–30% of assistant writing sessions](https://arxiv.org/abs/2505.16023) across Bing Copilot and WildChat logs.
+- Unrequested changes and drift: on revision instructions for research answers, even the strongest model [fulfilled only 59% of instructions and was weakest at adding specified wording, with unrequested changes (31%) and ignored instructions (21%) the commonest failures](https://arxiv.org/abs/2403.03866). Subjective instructions such as "witty" or "enthusiastic" [frequently shifted tone toward harassing or demeaning phrasing](https://arxiv.org/abs/2503.04113), and doctors refining drafted patient replies found [instructing less effortful than direct editing but prone to introducing errors](https://arxiv.org/abs/2511.19940).
+- In-place comparison and direct controls: keeping rewrites in place and letting writers save recurring instructions as buttons [reduced workload and improved revision ratings over chat-beside-editor workflows](https://doi.org/10.1145/3613904.3641899), inline edit proposals with factuality warnings [helped writers catch unsupported additions](https://arxiv.org/abs/2309.15337), and on touch screens, pinching to shorten and spreading to lengthen text [worked when the gesture previewed the length change in flight](https://doi.org/10.1145/3706598.3713554).
 
 ## Resources & references
 
+- Mysore, Das, Cao & Sarrafzadeh (2025) [Prototypical human-AI collaboration behaviors from LLM-assisted writing in the wild](https://arxiv.org/abs/2505.16023)
+- Xu, Lo, Soldaini, Kuehl, Choi & Wadden (2024) [KIWI: a dataset of knowledge-intensive writing instructions for answering research questions](https://arxiv.org/abs/2403.03866)
+- Jones, Patrawala & Steinhardt (2025) [Uncovering gaps in how humans and LLMs interpret subjective language](https://arxiv.org/abs/2503.04113)
+- Laban, Vig, Hearst, Xiong & Wu (2024) [Beyond the chat: executable and verifiable text-editing with LLMs](https://arxiv.org/abs/2309.15337)
+- Reza et al. (2024) [ABScribe: rapid exploration and organization of multiple writing variations in human-AI co-writing tasks](https://doi.org/10.1145/3613904.3641899)
+- Zindulka, Sekowski, Lehmann & Buschek (2025) [Exploring mobile touch interaction with large language models](https://doi.org/10.1145/3706598.3713554)
+- [Editing with AI: how doctors refine LLM-generated answers to patient queries](https://arxiv.org/abs/2511.19940) (2025)
+- [OpenAI — Using canvas in ChatGPT](https://help.openai.com/en/articles/9930697)
+- [NN/g — Accordion editing and apple picking](https://www.nngroup.com/articles/accordion-editing-apple-picking/)
 - [Shape of AI — Expand, Restyle, Restructure, Transform, Summary](https://www.shapeof.ai)
 - [AI UX Playground — Response Refinement](https://www.aiuxplayground.com/pattern/response-refinement), [Magic Edit](https://www.aiuxplayground.com/pattern/magic-edit)
 - [aiuxpatterns.com — Result Actions](https://www.aiuxpatterns.com)
-- [NN/g — Accordion editing and apple picking](https://www.nngroup.com/articles/accordion-editing-apple-picking/) — people shrinking and expanding chatbot output, and referring back to earlier responses to revise one part
 
 ## To-do
 
-[Generated content](/patterns/generated-content) hosts the "Actions" stub this decomposes; migrate as this matures. The boundary with [prompt](/patterns/prompt) needs drawing: a revision is a delta on standing intent, not a rearticulation of it.
+- Point the "Actions" stub in [generated content](/patterns/generated-content) here when that page is shaped.
+- Settle whether keeping several rewrites of one passage side by side belongs here or under [regeneration](/patterns/regeneration).

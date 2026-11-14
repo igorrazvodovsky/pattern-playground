@@ -6,13 +6,14 @@ role: pattern
 seed: true
 evidence:
   - observed
+  - used
 disclosure: "Seeded from looking at different AI pattern libraries and sorting them out. It’s not quite ready yet because I haven’t had a chance to consider it closely."
 activityLevel: action
 situation:
   initiating: >-
-    the output isn't right, correcting it by hand costs more than asking again, and the
-    intent hasn't changed — the actor wants another answer to the same question, not a new
-    question
+    the output isn't right, correcting it by hand costs more than asking again, and the intent hasn't changed — the actor wants another answer to the same question, not a new
+    question. They have no particular change to name; where they can name one, [instructed revision](/patterns/instructed-revision) works from the output they
+    already have
   resulting:
     - >-
       the same intent yields another draw, so iteration happens without rearticulating the
@@ -33,8 +34,9 @@ relationships:
   complements:
     - to: draft-and-publish
       note: cheap draft modes make re-rolls affordable before committing to the full run
+  precedes:
     - to: undo
-      note: restores what a regeneration replaced
+      note: undo restores what a regeneration replaced
   related:
     - to: coordinated-views
       note: parallel variants are judged side by side
@@ -42,11 +44,11 @@ relationships:
     - to: agency
       note: the actor disposes of output by re-asking rather than accepting what arrived
 ---
-The actor re-runs generation on an unchanged intent — the whole output, a selected part, or several variants at once — trading another draw for the work of fixing what came back.
+The actor re-runs generation on an unchanged intent — the whole output, a selected part, or several variants at once — trading another draw for the work of fixing what came back. The new draw starts from the request, which the actor may have edited first, not from the output it replaces.
 
 ## Forms
 
-Recurring forms: whole-output regenerate, partial regeneration of a selection (inpainting is the visual case), variant sets generated in parallel for comparison, and branches that keep the replaced result reachable.
+Recurring forms: whole-output regenerate, partial regeneration of a selection (inpainting is the visual case when no instruction comes with the selection; with one, it reads more like [instructed revision](/patterns/instructed-revision) of a region), variant sets generated in parallel for comparison, and branches that keep the replaced result reachable.
 
 ## Resources & references
 

@@ -1,89 +1,91 @@
 ---
 title: Generated content
 added: 2025-06-27
-updated:
+updated: 2026-11-14
 role: pattern
+evidence:
+  - observed
+  - literature
+  - used
 activityLevel: activity
 mediation: individual
 fun: 🙂 5/5. A part of a bigger attempt to map LLM-related patterns.
+description: "Treating agent output as a provisional result tied to the request that produced it—easy to regenerate, revise through the prompt, and step back through—rather than as fixed authored text or disposable output."
 situation:
   initiating: >-
-    the system has produced something substantial — prose, a draft, a chart, code — and the
-    actor's job has shifted from making it to judging it; accepting it whole costs nothing
-    and checking it costs whatever the thing is long
-  resulting:
-    - >-
-      the output is a draft the actor negotiates rather than an artefact they receive:
-      rate it, edit it, regenerate part of it, take the half that works
-    - >-
-      the actor owns the result without having made it, so what they can find out about
-      where it came from decides whether they can stand behind it
-    - >-
-      verification cost rises with length, and long output is exactly where accepting
-      quietly takes the place of checking
-    - clause: >-
-        the output is a transition point the system can read — knowing what just arrived,
-        it can propose what to do with it next
-      sets-up: [next-best-action]
+    … the artifact has an [agent](/patterns/agent) in it, and part of what the actor reads and works on was produced by it from a [prompt](/patterns/prompt), [reference material](/patterns/reference-material), and the context it was given, including what [memory](/patterns/memory) carried in. The output may be a reply in a [conversation](/patterns/conversation), a draft, a set of edits, or a generated interface.
+  resulting: >-
+    Let the actor steer the output in words with [instructed revision](/patterns/instructed-revision), which works from the output they have, or request another version through [regeneration](/patterns/regeneration), which draws again from the request, for the whole output or for a selected passage. Where the request itself was at fault, let them change the [prompt](/patterns/prompt) and draw again from it, and where they already have the wording in mind, [editing in place](/patterns/editing-in-place) is more direct. Move corrections that have to be repeated on every run into [standing instructions](/patterns/standing-instructions). Ground individual claims in their sources with [citation](/patterns/citation), mark weakly supported parts with [expressed uncertainty](/patterns/expressed-uncertainty), and label machine output with [provenance marking](/patterns/provenance-marking) when it mixes with human writing or leaves the tool. Pair the result with [transparent reasoning](/patterns/transparent-reasoning) or [explanation](/patterns/explanation) to show how it was produced, and add [cognitive forcing functions](/patterns/cognitive-forcing-functions) before acceptance where an unchecked error would be costly. When the actor is ready to commit the output, use [change review](/patterns/change-review) to accept edits to existing content piece by piece, [extraction](/patterns/extraction) to save a result as a standalone item, or [next-best action](/patterns/next-best-action) to propose the next step…
 relationships:
   follows:
     - to: agent
-      note: generates the output being presented.
+      note: the agent produces the generated content
+  hosted-by:
+    - conversation
+  precedes:
+    - next-best-action
+  complements:
+    - transparent-reasoning
+    - explanation
+  related:
+    - standing-instructions
   enacts:
     - to: agency
-      note: the actor steers, edits, and improves the output rather than receiving a finished artefact
-  hosted-by:
-    - to: conversation
-      note: the reply stream is where generated output first appears
-  complements:
-    - to: transparent-reasoning
-      note: shows the step-by-step process behind the generated content.
-    - to: explanation
-      note: provides contextual information to clarify AI-driven decisions within the output.
-  related:
-    - to: standing-instructions
-      note: the output is where the actor notices that a standing instruction is missing or wrong
+      note: with generated content the actor decides when to regenerate, when to revise the request, and what to keep
 ---
 
-The ongoing negotiation of machine-produced output, transforming raw [agent](/patterns/agent) generation into trusted content through evaluation, refinement, and appropriation over time.
+* * *
 
-## Actions
+**Generated content is cheap, varies from one draw to the next, and follows from what was asked. Used according to its nature, it is neither a record to rely on as it stands nor scrap to discard once read. It is one of the answers a request allows, good for the situation it was asked in, and it can be asked for again.**
 
-Rate, copy, regenerate, expand, more....
+Each property gives the actor something written content does not. Because the output follows from the request and its context, it can be changed by saying what is wanted, without doing the work by hand. Because each draw differs, the one in hand is not the only answer, and asking again is a real option. Because a draw costs little, an actor can start before knowing what they want.
 
-## Variations
+Both ways of mistaking it lose this. Treated as a record, the output is relied on in details nobody chose, repaired by hand when changing the request would have been quicker, and protected from a redraw that would have improved it. Treated as scrap, a good result is gone when the next one arrives, and nothing shows what produced it.
 
-...
+How much infrastructure this requires depends on where the output lands. A single reply in a chat thread needs very little because the thread already preserves the prompt and sequence of turns. A generated draft being inserted into a document, a set of edits to existing files, or a generated interface the actor plans to reuse can easily fail in either direction.
 
-## Follow up
+Therefore,
 
-...
+**Wherever generated output appears, treat it as an answer that holds for now and can be asked for again. Keep the request and context beside the result, so that changing them is the ordinary way to change it. Leave asking again open. Keep draws without the actor having to ask, and keep whatever a new draw replaces within reach, whether an earlier draw or content someone has since changed.**
 
-## Transparency
+## In practice
 
-...
+How these mechanics appear depends on the surface where the generated output lands.
 
-## Section regeneration
+### A reply in a conversation
 
-Engages users in iterative dialogue (clarifying questions, multiple "regenerate" buttons) to refine outputs collaboratively.
+In a conversation thread, the preceding message is the request and the thread history automatically preserves both the prompt and the response. What the interface still needs to provide is version handling on the reply itself: a control to regenerate the response, a way to edit and re-run the prompt, and a switcher to step back through earlier replies.
 
-...
+### A view derived from a source
 
-## Showing the work
+A summary above search results or an overview of a long document is recomputed on demand and is not meant to be stored as content. Here, the priority is linking claims in the summary back to the source passages they came from. If the actor wants to keep a particular version before the view refreshes on their next visit, they need an action to copy, pin, or extract it into a saved note.
 
-...
+### A draft joining a document
 
-## Footprints
+When an agent drafts text for an existing document, hold the draft in a staging state until the actor chooses what to do with it: insert it (in full or in part), regenerate, refine the request, or dismiss it. Once the draft is inserted into the document, it becomes the actor's own text; generating again after they have made manual edits should create a fresh candidate or a reversible change rather than overwriting their edits.
 
-...
+### Changes to existing content
 
-## Caveats
+Here the output is a set of proposed edits. The interface can stage them as a diff for the actor to review, or apply them directly as a coding agent does when working autonomously. In both cases, keep each set of edits linked to the request that triggered it so the actor can judge whether the changes match their intent. Applying edits without up-front review requires a reliable history of what each change replaced so the actor can inspect or revert it afterwards.
 
-...
+### A generated interface
+
+When the agent generates UI controls or layouts rather than prose, the actor can ask for a different layout just as easily as a different paragraph. However, regenerating an interface also moves controls the actor has already learned to use. If the actor intends to return to a generated view, give them a way to lock, name, and reopen that specific version unchanged.
+
+## Research on this pattern
+
+- Comparing multiple outputs reveals information that a single output hides. Shown agreement and disagreement across samples of the same response, [participants used the number of supporting samples as their main cue for which claims to trust](https://doi.org/10.1145/3613904.3641904). Design principles drawn from generative applications [name variability between outputs and imperfection of any one output as properties to design for](https://arxiv.org/abs/2401.14484), not defects to hide. Holding several versions of a passage in place, [without one overwriting another, lowered workload in revision](https://doi.org/10.1145/3613904.3641899).
+- Polished formatting discourages verification. Confident tone and clean formatting lead actors to [treat an early draft as authoritative, and checking it means rebuilding its structure by hand](https://www.nngroup.com/articles/ai-chatbots-discourage-error-checking/).
+- The connection to the original request weakens over a long exchange. In data analysis with a conversational assistant, participants [lost track of the assumptions that had accumulated across long responses; breaking the work into editable steps made correcting and verifying easier](https://arxiv.org/abs/2407.02651).
+- Accepting generated text is not the same as feeling ownership over it. People [do not regard generated text as their own, yet present it under their name](https://doi.org/10.1145/3637875).
 
 ## Resources & references
 
+- Cheng, Zouhar, Arora, Sachan, Strobelt & El-Assady (CHI 2024) [RELIC: investigating large language model responses using self-consistency](https://doi.org/10.1145/3613904.3641904)
+- Weisz, He, Muller, Hoefer, Miles & Geyer (CHI 2024) [Design principles for generative AI applications](https://arxiv.org/abs/2401.14484)
+- Reza et al. (CHI 2024) [ABScribe: rapid exploration and organization of multiple writing variations in human-AI co-writing tasks](https://doi.org/10.1145/3613904.3641899)
+- Samsonov (2025) [AI chatbots discourage error checking](https://www.nngroup.com/articles/ai-chatbots-discourage-error-checking/) — Nielsen Norman Group
+- Kazemitabaar et al. (UIST 2024) [Improving steering and verification in AI-assisted data analysis with interactive task decomposition](https://arxiv.org/abs/2407.02651)
+- Draxler, Werner, Lehmann, Hoppe, Schmidt, Buschek & Welsch (2024) [The AI ghostwriter effect: when users do not perceive ownership of AI-generated text but self-declare as authors](https://doi.org/10.1145/3637875)
 - [shapeof.ai](https://www.shapeof.ai/)
 - [aiuxpatterns.com](https://aiuxpatterns.com/)
-- [NN/g / AI hallucinations](https://www.nngroup.com/articles/ai-hallucinations/)
-- [NN/g / AI chatbots discourage error checking](https://www.nngroup.com/articles/ai-chatbots-discourage-error-checking/)
