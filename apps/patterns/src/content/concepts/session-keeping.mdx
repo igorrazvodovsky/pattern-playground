@@ -1,0 +1,29 @@
+---
+title: Session keeping
+added: 2026-11-14
+purpose: Hold the turns, attached context and working state of one piece of work together and apart from other work, so it can be continued and returned to.
+principle: >-
+  If a member starts a session and works in it, each turn builds on what the
+  session already holds and other sessions are unaffected; when they reopen
+  the session later, everything it held is there.
+state:
+  - "turns: Session -> set Turn"
+  - "context: Session -> set Item"
+  - "title: Session -> one Title"
+actions:
+  startSession: A member opens a new session with nothing in it.
+  addTurn: A member or the system adds a turn, which is read with everything the session already holds.
+  attachContext: A member adds a file or other item to what the session holds.
+  renameSession: A member replaces the title the session was given.
+  reopenSession: A member returns to an earlier session from the list and continues it.
+misfits:
+  - Earlier turns, rejected attempts and assumptions that no longer hold stay in the session and go on steering later results.
+  - Anything that should outlast the session stays inside it unless the member takes it out.
+  - A long session holds more than the system can read at once, and the member cannot see which turns are still being read.
+aliases: [thread, chat, conversation, task run]
+appears_in:
+  - ChatGPT
+  - Claude
+  - Cursor
+  - GitHub Copilot Chat
+---

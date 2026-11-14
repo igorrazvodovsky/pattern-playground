@@ -1,0 +1,30 @@
+---
+title: Versioning
+added: 2026-11-14
+purpose: Keep past states of an item so a member can find one and bring it back.
+principle: >-
+  If a member changes an item over time, earlier states of it are kept; they
+  can open any of them, see how it differs from the current state, and make it
+  the current state again.
+state:
+  - "versions: Item -> set Version"
+  - "name: Version -> opt Name"
+  - "takenAt: Version -> one Date"
+actions:
+  checkpoint: The system keeps the item's current state as a version, at intervals or when something happens.
+  nameVersion: A member gives a version a name, or keeps the current state under one.
+  restoreVersion: A member makes a past state the current one.
+  copyVersion: A member makes a new item from a past state and leaves the current state alone.
+misfits:
+  - An unbroken run of automatic versions is as hard to find a state in as no history.
+  - A version holds less than the member assumes (Google Docs versions do not hold comments), so restoring brings back only part of the past state.
+  - A restore that overwrites the current state causes the loss the history exists to prevent.
+  - Content removed from the current state stays readable in earlier versions, where the member expected removal to be final.
+  - History that reaches back only as far as a plan or a storage limit allows drops old states with no act the member sees.
+aliases: [version history, revision history, checkpoints, snapshots]
+appears_in:
+  - Google Docs
+  - Figma
+  - Notion
+  - Dropbox
+---

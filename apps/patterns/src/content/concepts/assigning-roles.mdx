@@ -1,0 +1,26 @@
+---
+title: Assigning roles
+added: 2026-11-14
+purpose: Let what a member may do in a shared space be given and understood by a named role, instead of action by action for each member.
+principle: >-
+  If a member is given a role in a space, they can do there what the role
+  allows and nothing else; anyone who knows the role's name knows what the
+  member can do, and giving them a different role changes all of it at once.
+state:
+  - "role: Membership -> one Role"
+  - "allows: Role -> set Capability"
+actions:
+  assignRole: Whoever manages the space gives a member a role when they are let in.
+  changeRole: Whoever manages the space gives a member a different role, and what the member can do changes with it.
+misfits:
+  - A set with too many roles, or with custom roles made for each exception, is as hard to read as permissions set person by person.
+  - When no role fits a member's part, the manager gives a wider one for convenience, and the member can do more than their part needs.
+  - A member cannot tell what their role allows until an action is refused.
+aliases: [role-based access, access level, permission level]
+depends_on: [joining]
+appears_in:
+  - Google Docs (owner, editor, commenter, viewer)
+  - GitHub repository roles
+  - Notion
+  - Figma
+---
