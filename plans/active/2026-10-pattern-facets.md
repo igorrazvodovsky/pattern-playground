@@ -1342,25 +1342,35 @@ each size.
 ### The list
 
 `apps/patterns/src/content/levels.yaml` places every design pattern in three
-parts and 22 groups, each group with a connecting sentence. It is one authored
+parts and 27 groups, each group with a connecting sentence. It is one authored
 list, like the sequence and language files, not a value on each page.
 
 - *Root*: how the centre is made, and each part has its own way. *The whole*
-  holds centres that no single act finishes: they form as many surfaces and
-  acts add to them or pass through them, and each is adopted for the whole
-  artifact or one of its divisions, built into each surface as it is made, and
-  revisited as the whole is checked (26 patterns). *Divisions and surfaces*
-  holds centres made in one go for one division, surface, kind of work or
-  occurrence (83). *Finishing* holds the points that complete a surface,
-  applied in a late pass over every surface once its design is settled, which
-  is the sequence map's missing *Finishing the whole* (16). The first two
-  parts follow APL's towns and buildings. APL's third part, Construction, has
-  its counterpart in the components and foundations, outside the list.
-- *Groups*: the whole follows the Towns order (divisions, networks, learning,
-  records, rules, work done without the actor). Divisions and surfaces steps
-  from the division to the surface, then splits by what the surface is for
-  (the space, collections, changes, shared work, work with an agent), with the
-  sequences' regions as groups. Finishing groups by the point completed.
+  holds centres that no single act finishes: many surfaces and acts add to
+  each one or pass through it, and what they add makes one centre (an address
+  space, a record, a vocabulary, a set of rules). Each is adopted for the
+  whole artifact or one of its divisions, built into each surface as it is
+  made, and revisited as the whole is checked (37 patterns). *Divisions and
+  surfaces* holds centres made in one go: a division's layout, entrance and
+  accounts, then each surface by the kind of work it is for (96). *Finishing*
+  holds the points that complete a surface, which is the sequence map's
+  missing *Finishing the whole* (16). The first two parts follow APL's towns
+  and buildings. APL's third part, Construction, has its counterpart in the
+  components and foundations, outside the list.
+- *Between the whole and finishing*: both hold things adopted once and
+  repeated on every surface. In the whole the instances add up to one larger
+  centre; in finishing they stay points, and the surfaces share only a
+  convention. Finishing was first defined as a late pass over settled
+  surfaces, which did not hold for data entry, validation or undo. Undo moved
+  to the whole on this reading, since every act writes to one history; the
+  move is a trial.
+- *Groups*: the whole follows the Towns order (setting, divisions, networks,
+  learning, records, rules, work done without the actor). Divisions and
+  surfaces steps from the division to the surface, then splits by what the
+  surface is for, with the sequences' regions as groups. An optional `section`
+  on a group names that split (divisions, collections, changes, work with an
+  agent), and the sidebar nests consecutive groups of one section under it.
+  Finishing groups by the point completed.
 - *Within a group*, wholes come before the parts that complete them, and the
   sequence's step order breaks ties.
 - *Between the first two parts*, the page's own description decides. Where it

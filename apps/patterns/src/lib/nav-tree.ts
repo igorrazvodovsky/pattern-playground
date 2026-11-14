@@ -150,20 +150,32 @@ function assembleNavTree(
   const placed = new Set<string>();
   const parts = [...levelEntries]
     .sort((a, b) => a.data.order - b.data.order)
-    .map((part): NavBranch => ({
-      label: part.data.title,
-      children: part.data.groups
-        .map((group): NavBranch => ({
-          label: group.title,
-          children: group.patterns.flatMap((slug): NavLeaf[] => {
-            const p = designPatterns.get(slug);
-            if (!p || placed.has(slug)) return [];
-            placed.add(slug);
-            return [{ label: p.data.title, href: panePath('pattern', p.id) }];
-          }),
-        }))
-        .filter((g) => g.children.length > 0),
-    }));
+    .map((part): NavBranch => {
+      // Consecutive groups that name the same section nest under it; a group
+      // without one sits directly under the part.
+      const children: NavBranch[] = [];
+      let open: { section: string; branch: NavBranch } | undefined;
+      for (const group of part.data.groups) {
+        const leaves = group.patterns.flatMap((slug): NavLeaf[] => {
+          const p = designPatterns.get(slug);
+          if (!p || placed.has(slug)) return [];
+          placed.add(slug);
+          return [{ label: p.data.title, href: panePath('pattern', p.id) }];
+        });
+        if (leaves.length === 0) continue;
+        const branch: NavBranch = { label: group.title, children: leaves };
+        if (!group.section) {
+          open = undefined;
+          children.push(branch);
+        } else if (open?.section === group.section) {
+          open.branch.children.push(branch);
+        } else {
+          open = { section: group.section, branch: { label: group.section, children: [branch] } };
+          children.push(open.branch);
+        }
+      }
+      return { label: part.data.title, children };
+    });
   // Design patterns the list does not place yet, so the gap shows.
   const byLevels: NavTreeNode[] = [
     ...parts,

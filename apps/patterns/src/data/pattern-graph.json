@@ -125,6 +125,26 @@
       "role": "quality"
     },
     {
+      "id": "addressable-in-words",
+      "title": "Addressable in words",
+      "category": "Activities",
+      "path": "/patterns/addressable-in-words",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the artifact is an [information environment](/patterns/information-environment) whose actors already say some of what they want in words: a search that takes a described outcome, help that answers a question, a command found by name, an [outside agent](/patterns/outside-agent) that reads and acts on the work. Each of these routes reaches its own part of the artifact and draws on its own description of what is there. Some of what actors ask for has no control built for it, although the data and permissions it would need are already in the artifact.",
+        "resulting": "An artifact addressable in words answers from the same description that an [outside agent](/patterns/outside-agent) reads, so the artifact's own routes and an agent the actor brings resolve the same words to the same objects. The actor says what they want through a [prompt](/patterns/prompt) wherever the artifact offers one, and through a [conversation](/patterns/conversation) where the exchange runs over several turns; a [search](/patterns/searching) that takes a described outcome, [help](/patterns/help) that answers a question and a [command menu](/patterns/command-menu) that finds a command by name are further routes to the same description. What the actor has open, in view or selected is read as part of what they say through [view as context](/patterns/view-as-context), so \"this\" or \"make it shorter\" refers to something without the actor naming it. Where the words leave open what a request refers to or what it should do, [showing the reading](/patterns/showing-the-reading) puts the interpretation in front of the actor before the act, and where they leave too much open for one reading, [agent inquiry](/patterns/inquiry-agent) asks for what is missing. Every act, whether built as a control or put together from a request, is weighed through [action consequences](/patterns/action-consequences), which sets the protection it gets. An invitation to say anything promises more than any artifact holds, so [capability and scope](/patterns/capability-and-scope) says what lies outside the description and where to go instead…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "agency",
       "title": "Agency",
       "category": "Qualities",
@@ -360,6 +380,28 @@
       "evidence": [
         {
           "kind": "literature"
+        }
+      ]
+    },
+    {
+      "id": "attribution",
+      "title": "Attribution",
+      "category": "Operations",
+      "path": "/patterns/attribution",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… people, agents, and automated rules contribute to the same work under [collaboration](/patterns/collaboration), while an [activity log](/patterns/activity-log) keeps the history of what changed. Where [presence](/patterns/presence) shows who is in the space and what they are doing right now, attribution signs each contribution with who or what made it at the moment it is written, so the contributor remains legible after the moment passes. When an [outside agent](/patterns/outside-agent) acts in the workspace under a grant, the same signature records its work under its own name rather than the person's.",
+        "resulting": "Each contribution now carries the identity of the person, agent, or rule that made it, so colleagues can answer the author in [commenting](/patterns/commenting), trace who changed what across [version history](/patterns/version-history), and weigh proposed edits in [change review](/patterns/change-review). Where a contribution was generated or revised by a model and actors need to calibrate reliance on it—or where the content will be copied or exported out of the workspace—pair contributor attribution with [provenance marking](/patterns/provenance-marking), which discloses machine involvement and binds that mark to the content itself. Attribution is not [annotation](/patterns/annotation): the signature is attached automatically when the contribution is written to record who made it, whereas annotation is an actor's own layer added over content they did not write…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -760,6 +802,37 @@
       "evidence": [
         {
           "kind": "literature"
+        }
+      ]
+    },
+    {
+      "id": "contextual-actions",
+      "title": "Contextual actions",
+      "category": "Actions",
+      "path": "/patterns/contextual-actions",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor has designated a target through a [selection](/patterns/selection) or by pointing at an element: a text span, a document block, an object on a canvas, or rows in a list. Keeping the controls for that target in a distant toolbar mixes relevant actions with inapplicable ones and pulls focus away from the work, while a [command menu](/patterns/command-menu) requires recalling an action by name rather than acting directly on the target.",
+        "resulting": "Relevant actions appear adjacent to the target with their scope bound to the selection, so the actor designates the object first and chooses the operation second. On selected text, the same contextual toolbar can host [prestructured formatting](/patterns/prestructured-formatting), [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision). It is part of a [data view](/patterns/data-view), and of a [block-based editor](/patterns/block-based-editor), where it serves both the span and the block. Filtering the menu to valid actions omits irrelevant controls rather than showing them disabled, following [unavailable actions](/patterns/unavailable-actions). Displaying [keyboard shortcuts](/patterns/keyboard-shortcuts) alongside menu items helps actors learn direct key combinations and bypass the menu on repeat use…"
+      },
+      "realisedBy": [
+        "components-bubble-menu--docs",
+        "components-context-menu--docs",
+        "components-action-bar--docs"
+      ],
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "used"
+        },
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "built"
         }
       ]
     },
@@ -1461,25 +1534,20 @@
       "path": "/patterns/generated-content",
       "role": "pattern",
       "situation": {
-        "initiating": "the system has produced something substantial — prose, a draft, a chart, code — and the actor's job has shifted from making it to judging it; accepting it whole costs nothing and checking it costs whatever the thing is long",
-        "resulting": [
-          {
-            "clause": "the output is a draft the actor negotiates rather than an artefact they receive: rate it, edit it, regenerate part of it, take the half that works"
-          },
-          {
-            "clause": "the actor owns the result without having made it, so what they can find out about where it came from decides whether they can stand behind it"
-          },
-          {
-            "clause": "verification cost rises with length, and long output is exactly where accepting quietly takes the place of checking"
-          },
-          {
-            "clause": "the output is a transition point the system can read — knowing what just arrived, it can propose what to do with it next",
-            "setsUp": [
-              "next-best-action"
-            ]
-          }
-        ]
-      }
+        "initiating": "… the artifact has an [agent](/patterns/agent) in it, and part of what the actor reads and works on was produced by it from a [prompt](/patterns/prompt), [reference material](/patterns/reference-material), and the context it was given, including what [memory](/patterns/memory) carried in. The output may be a reply in a [conversation](/patterns/conversation), a draft, a set of edits, or a generated interface.",
+        "resulting": "Let the actor steer the output in words with [instructed revision](/patterns/instructed-revision), which works from the output they have, or request another version through [regeneration](/patterns/regeneration), which draws again from the request, for the whole output or for a selected passage. Where the request itself was at fault, let them change the [prompt](/patterns/prompt) and draw again from it, and where they already have the wording in mind, [editing in place](/patterns/editing-in-place) is more direct. Move corrections that have to be repeated on every run into [standing instructions](/patterns/standing-instructions). Ground individual claims in their sources with [citation](/patterns/citation), mark weakly supported parts with [expressed uncertainty](/patterns/expressed-uncertainty), and label machine output with [provenance marking](/patterns/provenance-marking) when it mixes with human writing or leaves the tool. Pair the result with [transparent reasoning](/patterns/transparent-reasoning) or [explanation](/patterns/explanation) to show how it was produced, and add [cognitive forcing functions](/patterns/cognitive-forcing-functions) before acceptance where an unchecked error would be costly. When the actor is ready to commit the output, use [change review](/patterns/change-review) to accept edits to existing content piece by piece, [extraction](/patterns/extraction) to save a result as a standalone item, or [next-best action](/patterns/next-best-action) to propose the next step…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
+        }
+      ]
     },
     {
       "id": "good-defaults",
@@ -1856,23 +1924,15 @@
       "path": "/patterns/instructed-revision",
       "role": "pattern",
       "situation": {
-        "initiating": "the output is close but not right, and the actor can name what's wrong — re-rolling gambles away what already works, and fixing it by hand costs more than saying what to change",
-        "resulting": [
-          {
-            "clause": "iteration proceeds by deltas: the actor directs the change in their own words without remaking the output or rearticulating the request"
-          },
-          {
-            "clause": "the instruction acts on the whole unless scoped, so an untargeted revision churns the parts that were already right"
-          },
-          {
-            "clause": "the actor shaped the result without ever touching it, which leaves authorship — and responsibility for the details — ambiguous"
-          }
-        ]
+        "initiating": "… in [delegating work](/sequences/delegating-work), the actor has asked for something with a [prompt](/patterns/prompt) and received [generated content](/patterns/generated-content)—a draft, a reply, a passage in a document—that is close, with a flaw they can name: too long, too stiff, the second paragraph is off. [Regeneration](/patterns/regeneration) would draw again from the request alone, which says nothing about the flaw and so is no more likely to fix it, while fixing it by hand costs more than describing the change.",
+        "resulting": "The output now changes by a stated difference while the original request stands. An instruction applied to the whole output reaches passages the actor had already settled, so a [selection](/patterns/selection) limits the revision to the span that needs it, while revision chips beneath a reply are a [suggestion](/patterns/suggestion) when the system picks them from the response. Where a revision rewrites several places at once, present it through [change review](/patterns/change-review) against the last accepted version so the actor can see what changed and accept or reject it in parts. Keep the replaced version one step back through [undo](/patterns/undo). Where revision runs through a conversation, a [steering surface](/patterns/steering-surface) holds the work still beside the instructions, so the actor does not carry each revised version back by hand. When a change is a single word, figure, or name the actor already has in mind, [editing in place](/patterns/editing-in-place) is more direct than describing it in prose. When the actor repeats the same correction across outputs, promote it to [standing instructions](/patterns/standing-instructions) so it holds on every run. Where others need to know that machine revision shaped a passage, mark it with [provenance marking](/patterns/provenance-marking). Instructed revision is not a [text lens](/patterns/text-lens), which adapts how a source reads for one actor while leaving the underlying content unchanged…"
       },
-      "seed": true,
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "literature"
         }
       ]
     },
@@ -2076,7 +2136,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… the actor works with an agent or assistant across multiple [sessions](/patterns/session), and background facts, stated preferences, and recurring context would otherwise have to be repeated every time. Where [remembered state](/patterns/remembered-state) restores how the actor arranged the interface, memory carries facts and preferences about the actor forward to shape what the system generates next. Where [standing instructions](/patterns/standing-instructions) hold rules the actor writes in their own words for every run, memory holds details the system extracts or records from ongoing conversations.",
-        "resulting": "Stored facts and preferences are carried into later runs to tailor [generated content](/patterns/generated-content) without the actor restating their context. When the system saves a new detail during an exchange, [transient feedback](/patterns/transient-feedback) marks the update in place and [provenance marking](/patterns/provenance-marking) ties the entry back to the conversation turn it came from. A reviewable list in [settings](/patterns/settings) lets the actor read, edit, or remove what is kept, while [rule composition](/patterns/rule-composition) lets them set standing exclusions over topics the system must never store. Scoping memory to a [workspace](/patterns/workspace) keeps context for one project or role from bleeding into another, and an [ephemeral session](/patterns/ephemeral-session) lets the actor step outside memory and history for a single exchange. [Deletion](/patterns/deletion) removes individual facts or clears the store so they no longer steer future responses, separately from the [activity log](/patterns/activity-log) that records past transcripts…"
+        "resulting": "Stored facts and preferences are carried into later runs to tailor [generated content](/patterns/generated-content) without the actor restating their context. When the system saves a new detail during an exchange, [transient feedback](/patterns/transient-feedback) marks the update in place and [citation](/patterns/citation) ties the entry back to the conversation turn it came from. A reviewable list in [settings](/patterns/settings) lets the actor read, edit, or remove what is kept, while [rule composition](/patterns/rule-composition) lets them set standing exclusions over topics the system must never store. Scoping memory to a [workspace](/patterns/workspace) keeps context for one project or role from bleeding into another, and an [ephemeral session](/patterns/ephemeral-session) lets the actor step outside memory and history for a single exchange. [Deletion](/patterns/deletion) removes individual facts or clears the store so they no longer steer future responses, separately from the [activity log](/patterns/activity-log) that records past transcripts…"
       },
       "evidence": [
         {
@@ -2245,7 +2305,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… the artifact is one of the [tools the user already works with](/patterns/tool-ecology), and they bring an AI agent of their own, an assistant that works across several of those tools, to read and act on the work in it. The agent answers to the user, not to the artifact's maker, and it arrives whether or not the artifact was designed for it.",
-        "resulting": "The agent works under a grant, which the actor issues and revokes through [sharing](/patterns/sharing), where the agent is listed beside the people who have access. What it may do without asking is set through [bounded autonomy](/patterns/bounded-autonomy), and the acts the actor wants to confirm wait at an [approval gate](/patterns/approval-gate). Its contributions carry [provenance marking](/patterns/provenance-marking), and its acts land in the [activity log](/patterns/activity-log) under its own name rather than the actor's. The artifact's own [agent](/patterns/agent) looks similar but is designed and steered by the artifact's maker, whereas the outside agent answers to the actor and works across tools the maker does not see…"
+        "resulting": "The agent works under a grant, which the actor issues and revokes through [sharing](/patterns/sharing), where the agent is listed beside the people who have access. What it may do without asking is set through [bounded autonomy](/patterns/bounded-autonomy), and the acts the actor wants to confirm wait at an [approval gate](/patterns/approval-gate). Its contributions carry [attribution](/patterns/attribution) under its own name rather than the actor's, and its acts land in the [activity log](/patterns/activity-log). The artifact's own [agent](/patterns/agent) looks similar but is designed and steered by the artifact's maker, whereas the outside agent answers to the actor and works across tools the maker does not see…"
       },
       "seed": true,
       "evidence": [
@@ -2383,10 +2443,10 @@
       "path": "/patterns/plan-preview",
       "role": "pattern",
       "situation": {
-        "initiating": "the actor has asked for something consequential and the agent is about to act on its reading of the request; acting straight away would spend real work — and possibly real consequences — on a misreading nobody has checked",
+        "initiating": "the actor has asked for something consequential that takes several steps; the agent has settled what the request means and is about to choose how to carry it out, and acting straight away would spend real work — and possibly real consequences — on a course of action nobody has checked",
         "resulting": [
           {
-            "clause": "the agent's intention is now a reviewable object — steps, targets, expected effects — so misreadings surface while they are still cheap, and the preview becomes the thing an approval can act on",
+            "clause": "the agent's intention is now a reviewable object — steps, targets, expected effects — so a wrong course is caught while it is still cheap, and the preview becomes the thing an approval can act on",
             "setsUp": [
               "approval-gate"
             ]
@@ -2557,8 +2617,8 @@
       "path": "/patterns/prompt",
       "role": "pattern",
       "situation": {
-        "initiating": "… the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), or through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words. The intent has no control or command name to reach it by; where it does, a [command menu](/patterns/command-menu) finds it faster and with a predictable result.",
-        "resulting": "The request is now written in the actor's own words as a durable object that can be edited, re-sent, or kept, while everything the phrasing left unsaid is left for the system to interpret or ask about. Where a blank input leaves the actor unsure what the system can do or how much to say, host starter [suggestions](/patterns/suggestion) on the prompt surface to seed or send an example request. Let the actor attach or @-mention [reference material](/patterns/reference-material) inside the prompt so the system works from named files, selections, or data sources rather than from generalities. Where the task is repetitive and high-constraint and open prose keeps leaving required parameters out, structure the input with [prompt scaffolding](/patterns/prompt-scaffolding) into labelled slots or pre-submission checks. Where the request states a complex goal in conversation with missing constraints that would be costly to guess wrong, treat it as an [open request](/patterns/open-request) and let [agent inquiry](/patterns/inquiry-agent) ask back for what is missing rather than forcing the actor to front-load every detail. Once submitted, the prompt produces [generated content](/patterns/generated-content) from the framed request and its attached context, or sets a multi-step run in motion. Because actors often discover their criteria only by reacting to a concrete attempt, follow the initial output with [instructed revision](/patterns/instructed-revision) to steer what came back in words, or [regeneration](/patterns/regeneration) to draw another attempt from the same request. When a working prompt recurs across items, let the actor save it as a [template](/patterns/template); when the same instruction has to be repeated in every session, promote it to [standing instructions](/patterns/standing-instructions) so it is read on every run. A prompt is not [searching](/patterns/searching), which retrieves existing items matching a query rather than generating a new response or executing a task, even when one input bar accepts both…"
+        "initiating": "… the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words. The intent has no control or command name to reach it by; where it does, a [command menu](/patterns/command-menu) finds it faster and with a predictable result.",
+        "resulting": "The request is now written in the actor's own words as a durable object that can be edited, re-sent, or kept, while everything the phrasing left unsaid is left for the system to interpret or ask about. Where a blank input leaves the actor unsure what the system can do or how much to say, host starter [suggestions](/patterns/suggestion) on the prompt surface to seed or send an example request. Let the actor attach or @-mention [reference material](/patterns/reference-material) inside the prompt so the system works from named files or data sources rather than from generalities. Read what they have open or selected through [view as context](/patterns/view-as-context), so they do not have to name what is in front of them. Where the task is repetitive and high-constraint and open prose keeps leaving required parameters out, structure the input with [prompt scaffolding](/patterns/prompt-scaffolding) into labelled slots or pre-submission checks. Where the request states a complex goal in conversation with missing constraints that would be costly to guess wrong, treat it as an [open request](/patterns/open-request) and let [agent inquiry](/patterns/inquiry-agent) ask back for what is missing rather than forcing the actor to front-load every detail. Once submitted, the prompt produces [generated content](/patterns/generated-content) from the framed request and its attached context, or sets a multi-step run in motion. Because actors often discover their criteria only by reacting to a concrete attempt, follow the initial output with [instructed revision](/patterns/instructed-revision) to steer what came back in words, or [regeneration](/patterns/regeneration) to draw another attempt from the same request. When a working prompt recurs across items, let the actor save it as a [template](/patterns/template); when the same instruction has to be repeated in every session, promote it to [standing instructions](/patterns/standing-instructions) so it is read on every run. A prompt is not [searching](/patterns/searching), which retrieves existing items matching a query rather than generating a new response or executing a task, even when one input bar accepts both…"
       },
       "evidence": [
         {
@@ -2583,12 +2643,15 @@
       "path": "/patterns/provenance-marking",
       "role": "pattern",
       "situation": {
-        "initiating": "… [generated content](/patterns/generated-content) and human contributions now sit in the same place, where people and agents contribute side by side under [collaboration](/patterns/collaboration) and an [activity log](/patterns/activity-log) keeps the history of what changed. Provenance marking gives these larger patterns a legible sign of what produced each contribution—a person, a named rule, or a model—stamped at the moment it is written, so origin survives when machine output mixes with human work or leaves the surface that made it.",
-        "resulting": "Origin is now legible at the point of reading, and everything left unmarked on the same surface will be read as human-made. Where the marked output makes factual claims, pair the origin mark with [citation](/patterns/citation) so the actor can see not only that the system wrote a claim, but which source passage it rests on. Because a visible disclosure mark can also reassure on sight without prompting closer reading, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes of acting on wrong output are high. Provenance marking is not [annotation](/patterns/annotation): the mark is stamped on the contribution at creation to record what made it, whereas annotation is a reader's own layer added over content they did not write…"
+        "initiating": "… the system has produced [generated content](/patterns/generated-content) that will sit alongside human writing, or work is leaving the surface that made it through [import and export](/patterns/import-and-export). The same question arises when a passage has been rewritten through [instructed revision](/patterns/instructed-revision) or adapted through a [text lens](/patterns/text-lens) and the actor needs to distinguish the author's wording from machine output. Provenance marking stamps the content with its machine involvement and origin when it is made, so that origin survives when machine output mixes with human work or leaves the tool.",
+        "resulting": "Machine involvement is now legible at the point of reading, and everything left unmarked on the same surface will be read as human-made. Where the marked output makes factual claims, pair the origin mark with [citation](/patterns/citation) so the actor can see not only that the system wrote a claim, but which source passage it rests on. Because a visible disclosure mark can also reassure on sight without prompting closer reading, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes of acting on wrong output are high. In shared workspaces, provenance marking pairs with [attribution](/patterns/attribution), which records which person, delegated agent, or rule made each edit or comment across the work. Provenance marking is not [annotation](/patterns/annotation): the mark is stamped on the content at creation to record how it was produced, whereas annotation is an actor's own layer added over content they did not write…"
       },
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "literature"
         },
         {
           "kind": "used"
@@ -2716,7 +2779,7 @@
       "path": "/patterns/reference-material",
       "role": "pattern",
       "situation": {
-        "initiating": "the request needs grounding the system does not have — this document, that image, the actual dataset — and without it the system answers from generalities while sounding specific",
+        "initiating": "the request needs grounding the system does not have and cannot read from where the actor is — this document, that image, the actual dataset — and without it the system answers from generalities while sounding specific",
         "resulting": [
           {
             "clause": "the output is anchored in named material, and can point back to it — the attachment that went in is what a citation can later point out",
@@ -2749,7 +2812,7 @@
       "path": "/patterns/regeneration",
       "role": "pattern",
       "situation": {
-        "initiating": "the output isn't right, correcting it by hand costs more than asking again, and the intent hasn't changed — the actor wants another answer to the same question, not a new question",
+        "initiating": "the output isn't right, correcting it by hand costs more than asking again, and the intent hasn't changed — the actor wants another answer to the same question, not a new question. They have no particular change to name; where they can name one, [instructed revision](/patterns/instructed-revision) works from the output they already have",
         "resulting": [
           {
             "clause": "the same intent yields another draw, so iteration happens without rearticulating the request — judgement cycles replace composition cycles"
@@ -2766,6 +2829,9 @@
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -2909,19 +2975,21 @@
       "path": "/patterns/searching",
       "role": "pattern",
       "situation": {
-        "resulting": [
-          {
-            "clause": "a result set now exists — ordered by relevance rather than by the collection's own structure — and presenting it is a design problem of its own",
-            "setsUp": [
-              "data-view"
-            ]
-          },
-          {
-            "clause": "a search can fail, leaving the actor with intent but no result — browsing the structure (\"browse by category instead\") is the fallback seeking move"
-          }
-        ]
+        "initiating": "… in [composing views](/sequences/composing-views) the collection is framed, yet browsing and [filtering](/patterns/filtering) in place cannot reach what the actor wants: their criteria do not fit the exposed attributes, or they recall a name or phrase rather than where the item sits. In [structuring the space](/sequences/structuring-the-space), a [multilevel tree](/patterns/multilevel-tree) or [hub and spoke](/patterns/hub-and-spoke) layout can likewise bury a known item several steps deep, and in [making changes](/sequences/making-changes) a [bounded choice](/patterns/bounded-choice) field can outgrow an inline list. Searching completes the [information environment](/patterns/information-environment) by indexing the names, content, and [tags](/patterns/tag) from its [information architecture](/patterns/information-architecture), so the actor can reach matching items across the collection by query.",
+        "resulting": "Searching returns a relevance-ranked set presented in a [data view](/patterns/data-view) and addressable through [deep linking](/patterns/deep-linking). At the input, pair the query box with [recents](/patterns/recents) before typing begins and [autocomplete](/patterns/autocomplete) as the actor types to complete terms or jump straight to a known item. On the results, pair the ranked list with [suggestions](/patterns/suggestion) for query refinements, [filtering](/patterns/filtering) over facets to narrow the set in place, and [navigation](/patterns/navigation-overview) when the query falls short. Over an application's actions and jumps rather than its content, searching specialises into a [command menu](/patterns/command-menu). Searching is not a [prompt](/patterns/prompt), which asks the system to generate or act rather than retrieve existing items, even when one input bar accepts both…"
       },
-      "group": "seeking"
+      "group": "seeking",
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
+        }
+      ]
     },
     {
       "id": "sections",
@@ -3110,6 +3178,26 @@
       "evidence": [
         {
           "kind": "observed"
+        }
+      ]
+    },
+    {
+      "id": "showing-the-reading",
+      "title": "Showing the reading",
+      "category": "Actions",
+      "path": "/patterns/showing-the-reading",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor has said what they want in an artifact [addressable in words](/patterns/addressable-in-words), through a [prompt](/patterns/prompt) or a turn in a conversation, and the words leave open what the request refers to or what it should do. To act at all, the artifact has already settled those gaps.",
+        "resulting": "Where several readings are plausible, showing them side by side lets the actor pick one rather than describe it again; where none can be settled without more from the actor, [agent inquiry](/patterns/inquiry-agent) asks for what is missing instead. When the reading turns out wrong, [agent repair](/patterns/agent-repair) can be applied. [Plan preview](/patterns/plan-preview) looks similar but shows what the system will do rather than what it understood; the plan is built on the reading. [Expressed uncertainty](/patterns/expressed-uncertainty) marks how confident the system is rather than what it read…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
         }
       ]
     },
@@ -3376,7 +3464,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… a document already says what it needs to say, but this actor needs it at a different length or reading level: a help article for someone new to the product, a clinical paper for a patient, or a post in a second language. Rewriting the original for one reader makes it worse for the rest, so the view adapts the phrasing or length for this actor while leaving the source text intact. A text lens helps complete [help](/patterns/help), where the same documentation serves actors with very different background knowledge, and supplies the coarser text levels that [semantic zoom](/patterns/semantic-zoom) and [focus and context](/patterns/focus-and-context) step through when operating on prose.",
-        "resulting": "The actor reads an adapted view while the source text remains unchanged. Each adapted view is [generated content](/patterns/generated-content) derived from the original, carrying the risk of omitted details or altered meaning. Anchor claims in a shortened view to their source passages with [citation](/patterns/citation), so the summary leads back into the document rather than replacing it. Mark the adapted view with [provenance marking](/patterns/provenance-marking) where the actor needs to distinguish the author's wording from generated text. When a text lens reorders and prunes a document around the actor's task, it works like a [purpose-keyed view](/patterns/purpose-keyed-view) on a single text and shares its trade-off: whatever is omitted, the actor must know to look for. On-demand translation of user or third-party content is a text lens, whereas adapting the interface itself to a locale is [localization](/patterns/localization). A text lens is not [progressive disclosure](/patterns/progressive-disclosure), which reveals detail the author already wrote, nor [instructed revision](/patterns/instructed-revision), which edits the shared document itself…"
+        "resulting": "The actor reads an adapted view while the source text remains unchanged. Each adapted view is [generated content](/patterns/generated-content) derived from the original. Anchor claims in a shortened view to their source passages with [citation](/patterns/citation), so the summary leads back into the document rather than replacing it. Mark the adapted view with [provenance marking](/patterns/provenance-marking) where the actor needs to distinguish the author's wording from generated text. When a text lens reorders and prunes a document around the actor's task, it works like a [purpose-keyed view](/patterns/purpose-keyed-view) on a single text and shares its trade-off: whatever is omitted, the actor must know to look for…"
       },
       "group": "evaluation",
       "evidence": [
@@ -3579,6 +3667,23 @@
         },
         {
           "kind": "literature"
+        }
+      ]
+    },
+    {
+      "id": "view-as-context",
+      "title": "View as context",
+      "category": "Actions",
+      "path": "/patterns/view-as-context",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor is working in an artifact [addressable in words](/patterns/addressable-in-words) and says something about what is in front of them: \"this paragraph\", \"these two\", \"make it shorter\". Naming the thing outright, as [reference material](/patterns/reference-material) does, costs effort for something they are already looking at.",
+        "resulting": "Pointing at things inside the view is [selection](/patterns/selection), which gives a request its narrowest scope. Context the actor pins becomes [reference material](/patterns/reference-material), named and kept with the request rather than read from the view. [Embedded intelligence](/patterns/embedded-intelligence) draws on the same context but acts without being asked, whereas here the context is read only when the actor speaks. Because the view can change between saying and acting, the context is the view at the moment of the request, not at the moment of the act…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
         }
       ]
     },
@@ -3963,6 +4068,109 @@
       "extractedFrom": "frontmatter:related"
     },
     {
+      "source": "addressable-in-words",
+      "target": "outside-agent",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "An artifact addressable in words answers from the same description that an [outside agent](/patterns/outside-agent) reads, so the artifact's own routes and an agent the actor brings resolve the same words to the same objects.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "prompt",
+      "target": "addressable-in-words",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
+      "glossFrom": "source:initiating",
+      "farSituation": "The actor says what they want through a [prompt](/patterns/prompt) wherever the artifact offers one, and through a [conversation](/patterns/conversation) where the exchange runs over several turns; a [search](/patterns/searching) that takes a described outcome, [help](/patterns/help) that answers a question and a [command menu](/patterns/command-menu) that finds a command by name are further routes to the same description."
+    },
+    {
+      "source": "conversation",
+      "target": "addressable-in-words",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "The actor says what they want through a [prompt](/patterns/prompt) wherever the artifact offers one, and through a [conversation](/patterns/conversation) where the exchange runs over several turns; a [search](/patterns/searching) that takes a described outcome, [help](/patterns/help) that answers a question and a [command menu](/patterns/command-menu) that finds a command by name are further routes to the same description.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "view-as-context",
+      "target": "addressable-in-words",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the actor is working in an artifact [addressable in words](/patterns/addressable-in-words) and says something about what is in front of them: \"this paragraph\", \"these two\", \"make it shorter\".",
+      "glossFrom": "source:initiating",
+      "farSituation": "What the actor has open, in view or selected is read as part of what they say through [view as context](/patterns/view-as-context), so \"this\" or \"make it shorter\" refers to something without the actor naming it."
+    },
+    {
+      "source": "showing-the-reading",
+      "target": "addressable-in-words",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the actor has said what they want in an artifact [addressable in words](/patterns/addressable-in-words), through a [prompt](/patterns/prompt) or a turn in a conversation, and the words leave open what the request refers to or what it should do.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Where the words leave open what a request refers to or what it should do, [showing the reading](/patterns/showing-the-reading) puts the interpretation in front of the actor before the act, and where they leave too much open for one reading, [agent inquiry](/patterns/inquiry-agent) asks for what is missing."
+    },
+    {
+      "source": "searching",
+      "target": "addressable-in-words",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "The actor says what they want through a [prompt](/patterns/prompt) wherever the artifact offers one, and through a [conversation](/patterns/conversation) where the exchange runs over several turns; a [search](/patterns/searching) that takes a described outcome, [help](/patterns/help) that answers a question and a [command menu](/patterns/command-menu) that finds a command by name are further routes to the same description.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "help",
+      "target": "addressable-in-words",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "The actor says what they want through a [prompt](/patterns/prompt) wherever the artifact offers one, and through a [conversation](/patterns/conversation) where the exchange runs over several turns; a [search](/patterns/searching) that takes a described outcome, [help](/patterns/help) that answers a question and a [command menu](/patterns/command-menu) that finds a command by name are further routes to the same description.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "command-menu",
+      "target": "addressable-in-words",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "The actor says what they want through a [prompt](/patterns/prompt) wherever the artifact offers one, and through a [conversation](/patterns/conversation) where the exchange runs over several turns; a [search](/patterns/searching) that takes a described outcome, [help](/patterns/help) that answers a question and a [command menu](/patterns/command-menu) that finds a command by name are further routes to the same description.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "addressable-in-words",
+      "target": "inquiry-agent",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where the words leave open what a request refers to or what it should do, [showing the reading](/patterns/showing-the-reading) puts the interpretation in front of the actor before the act, and where they leave too much open for one reading, [agent inquiry](/patterns/inquiry-agent) asks for what is missing.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "addressable-in-words",
+      "target": "action-consequences",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Every act, whether built as a control or put together from a request, is weighed through [action consequences](/patterns/action-consequences), which sets the protection it gets.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "addressable-in-words",
+      "target": "capability-and-scope",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "An invitation to say anything promises more than any artifact holds, so [capability and scope](/patterns/capability-and-scope) says what lies outside the description and where to go instead",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "addressable-in-words",
+      "target": "incremental-formalisation",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "addressable-in-words",
+      "target": "embedded-intelligence",
+      "type": "related",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
       "source": "agency",
       "target": "adaptation",
       "type": "related",
@@ -4045,7 +4253,9 @@
       "type": "precedes",
       "label": "presentation and manipulation of AI's output.",
       "extractedFrom": "frontmatter:precedes",
-      "incomingNote": "generates the output being presented."
+      "incomingNote": "the agent produces the generated content",
+      "situation": "the artifact has an [agent](/patterns/agent) in it, and part of what the actor reads and works on was produced by it from a [prompt](/patterns/prompt), [reference material](/patterns/reference-material), and the context it was given, including what [memory](/patterns/memory) carried in.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "agent",
@@ -4339,6 +4549,71 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
+      "source": "attribution",
+      "target": "collaboration",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "people, agents, and automated rules contribute to the same work under [collaboration](/patterns/collaboration), while an [activity log](/patterns/activity-log) keeps the history of what changed.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "attribution",
+      "target": "activity-log",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "people, agents, and automated rules contribute to the same work under [collaboration](/patterns/collaboration), while an [activity log](/patterns/activity-log) keeps the history of what changed.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "attribution",
+      "target": "presence",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where [presence](/patterns/presence) shows who is in the space and what they are doing right now, attribution signs each contribution with who or what made it at the moment it is written, so the contributor remains legible after the moment passes.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "attribution",
+      "target": "commenting",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Each contribution now carries the identity of the person, agent, or rule that made it, so colleagues can answer the author in [commenting](/patterns/commenting), trace who changed what across [version history](/patterns/version-history), and weigh proposed edits in [change review](/patterns/change-review).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "attribution",
+      "target": "version-history",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Each contribution now carries the identity of the person, agent, or rule that made it, so colleagues can answer the author in [commenting](/patterns/commenting), trace who changed what across [version history](/patterns/version-history), and weigh proposed edits in [change review](/patterns/change-review).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "attribution",
+      "target": "change-review",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Each contribution now carries the identity of the person, agent, or rule that made it, so colleagues can answer the author in [commenting](/patterns/commenting), trace who changed what across [version history](/patterns/version-history), and weigh proposed edits in [change review](/patterns/change-review).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "attribution",
+      "target": "provenance-marking",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where a contribution was generated or revised by a model and actors need to calibrate reliance on it—or where the content will be copied or exported out of the workspace—pair contributor attribution with [provenance marking](/patterns/provenance-marking), which discloses machine involvement and binds that mark to the content itself.",
+      "glossFrom": "source:resulting",
+      "farSituation": "In shared workspaces, provenance marking pairs with [attribution](/patterns/attribution), which records which person, delegated agent, or rule made each edit or comment across the work."
+    },
+    {
+      "source": "attribution",
+      "target": "annotation",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "Attribution is not [annotation](/patterns/annotation): the signature is attached automatically when the contribution is written to record who made it, whereas annotation is an actor's own layer added over content they did not write",
+      "glossFrom": "source:resulting"
+    },
+    {
       "source": "autocomplete",
       "target": "data-entry",
       "type": "enables",
@@ -4387,7 +4662,9 @@
       "target": "searching",
       "type": "complements",
       "label": "autocomplete in search fields is really a seeking pattern",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "At the input, pair the query box with [recents](/patterns/recents) before typing begins and [autocomplete](/patterns/autocomplete) as the actor types to complete terms or jump straight to a known item.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "autocomplete",
@@ -4618,7 +4895,9 @@
       "target": "searching",
       "type": "complements",
       "label": "where the move escalates when the set outgrows narrowing",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "In [structuring the space](/sequences/structuring-the-space), a [multilevel tree](/patterns/multilevel-tree) or [hub and spoke](/patterns/hub-and-spoke) layout can likewise bury a known item several steps deep, and in [making changes](/sequences/making-changes) a [bounded choice](/patterns/bounded-choice) field can outgrow an inline list.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "bounded-choice",
@@ -4669,8 +4948,9 @@
       "target": "change-review",
       "type": "precedes",
       "extractedFrom": "frontmatter:follows",
-      "situation": "In [delegating work](/sequences/delegating-work) the result of a run arrives as changes to existing content, [generated content](/patterns/generated-content) the actor has to check rather than write.",
-      "glossFrom": "target:initiating"
+      "situation": "When the actor is ready to commit the output, use [change review](/patterns/change-review) to accept edits to existing content piece by piece, [extraction](/patterns/extraction) to save a result as a standalone item, or [next-best action](/patterns/next-best-action) to propose the next step",
+      "glossFrom": "source:resulting",
+      "farSituation": "In [delegating work](/sequences/delegating-work) the result of a run arrives as changes to existing content, [generated content](/patterns/generated-content) the actor has to check rather than write."
     },
     {
       "source": "draft-and-publish",
@@ -4733,8 +5013,9 @@
       "target": "citation",
       "type": "precedes",
       "extractedFrom": "frontmatter:follows",
-      "situation": "the system has produced [generated content](/patterns/generated-content) whose claims the actor did not write and needs to know the source of: an answer in a conversation, a report built from [reference material](/patterns/reference-material), or a [text lens](/patterns/text-lens) summary compressing a longer document.",
-      "glossFrom": "target:initiating"
+      "situation": "Ground individual claims in their sources with [citation](/patterns/citation), mark weakly supported parts with [expressed uncertainty](/patterns/expressed-uncertainty), and label machine output with [provenance marking](/patterns/provenance-marking) when it mixes with human writing or leaves the tool.",
+      "glossFrom": "source:resulting",
+      "farSituation": "the system has produced [generated content](/patterns/generated-content) whose claims the actor did not write and needs to know the source of: an answer in a conversation, a report built from [reference material](/patterns/reference-material), or a [text lens](/patterns/text-lens) summary compressing a longer document."
     },
     {
       "source": "citation",
@@ -4849,7 +5130,9 @@
       "target": "generated-content",
       "type": "complements",
       "label": "long-form output especially prone to over-reliance because verification cost is high",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Pair the result with [transparent reasoning](/patterns/transparent-reasoning) or [explanation](/patterns/explanation) to show how it was produced, and add [cognitive forcing functions](/patterns/cognitive-forcing-functions) before acceptance where an unchecked error would be costly.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "cognitive-forcing-functions",
@@ -5063,6 +5346,111 @@
       "extractedFrom": "frontmatter:composed-of",
       "situation": "the actor has two or more things in front of them, designated by [selection](/patterns/selection) or by the system: versions of one item, instances of a kind, subsets of a collection.",
       "glossFrom": "target:initiating"
+    },
+    {
+      "source": "selection",
+      "target": "contextual-actions",
+      "type": "precedes",
+      "incomingNote": "selection designates the target that contextual actions operate on",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "the actor has designated a target through a [selection](/patterns/selection) or by pointing at an element: a text span, a document block, an object on a canvas, or rows in a list.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "contextual-actions",
+      "target": "instructed-revision",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosts",
+      "situation": "On selected text, the same contextual toolbar can host [prestructured formatting](/patterns/prestructured-formatting), [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "contextual-actions",
+      "target": "commenting",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosts",
+      "situation": "On selected text, the same contextual toolbar can host [prestructured formatting](/patterns/prestructured-formatting), [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "contextual-actions",
+      "target": "prestructured-formatting",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosts",
+      "situation": "On selected text, the same contextual toolbar can host [prestructured formatting](/patterns/prestructured-formatting), [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "contextual-actions",
+      "target": "deletion",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosts"
+    },
+    {
+      "source": "contextual-actions",
+      "target": "tag",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosts"
+    },
+    {
+      "source": "contextual-actions",
+      "target": "comparing",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosts"
+    },
+    {
+      "source": "contextual-actions",
+      "target": "data-view",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "It is part of a [data view](/patterns/data-view), and of a [block-based editor](/patterns/block-based-editor), where it serves both the span and the block.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "contextual-actions",
+      "target": "block-based-editor",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "It is part of a [data view](/patterns/data-view), and of a [block-based editor](/patterns/block-based-editor), where it serves both the span and the block.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "contextual-actions",
+      "target": "command-menu",
+      "type": "alternative",
+      "label": "invoking an action from a selected target rather than searching for it by name",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Keeping the controls for that target in a distant toolbar mixes relevant actions with inapplicable ones and pulls focus away from the work, while a [command menu](/patterns/command-menu) requires recalling an action by name rather than acting directly on the target.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "contextual-actions",
+      "target": "drag-and-drop",
+      "type": "alternative",
+      "label": "choosing an action for the selected item rather than carrying it to a destination that stands for the change",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "contextual-actions",
+      "target": "unavailable-actions",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Filtering the menu to valid actions omits irrelevant controls rather than showing them disabled, following [unavailable actions](/patterns/unavailable-actions).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "contextual-actions",
+      "target": "keyboard-shortcuts",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Displaying [keyboard shortcuts](/patterns/keyboard-shortcuts) alongside menu items helps actors learn direct key combinations and bypass the menu on repeat use",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "contextual-actions",
+      "target": "view-as-context",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "conversation-quality",
@@ -5832,8 +6220,9 @@
       "target": "expressed-uncertainty",
       "type": "precedes",
       "extractedFrom": "frontmatter:follows",
-      "situation": "the system has produced [generated content](/patterns/generated-content) or offered a [suggestion](/patterns/suggestion) whose parts are not equally well supported, including claims that [citation](/patterns/citation) could not link to any source passage or whose sources disagree.",
-      "glossFrom": "target:initiating"
+      "situation": "Ground individual claims in their sources with [citation](/patterns/citation), mark weakly supported parts with [expressed uncertainty](/patterns/expressed-uncertainty), and label machine output with [provenance marking](/patterns/provenance-marking) when it mixes with human writing or leaves the tool.",
+      "glossFrom": "source:resulting",
+      "farSituation": "the system has produced [generated content](/patterns/generated-content) or offered a [suggestion](/patterns/suggestion) whose parts are not equally well supported, including claims that [citation](/patterns/citation) could not link to any source passage or whose sources disagree."
     },
     {
       "source": "expressed-uncertainty",
@@ -5892,7 +6281,9 @@
       "target": "extraction",
       "type": "precedes",
       "incomingNote": "generated output in a reply stream is the AI route into this move",
-      "extractedFrom": "frontmatter:follows"
+      "extractedFrom": "frontmatter:follows",
+      "situation": "When the actor is ready to commit the output, use [change review](/patterns/change-review) to accept edits to existing content piece by piece, [extraction](/patterns/extraction) to save a result as a standalone item, or [next-best action](/patterns/next-best-action) to propose the next step",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "extraction",
@@ -6146,41 +6537,52 @@
       "extractedFrom": "frontmatter:alternative"
     },
     {
-      "source": "generated-content",
-      "target": "agency",
-      "type": "enacts",
-      "label": "the actor steers, edits, and improves the output rather than receiving a finished artefact",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
       "source": "conversation",
       "target": "generated-content",
       "type": "hosts",
-      "incomingNote": "the reply stream is where generated output first appears",
-      "extractedFrom": "frontmatter:hosted-by"
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "The output may be a reply in a [conversation](/patterns/conversation), a draft, a set of edits, or a generated interface.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "generated-content",
+      "target": "next-best-action",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "When the actor is ready to commit the output, use [change review](/patterns/change-review) to accept edits to existing content piece by piece, [extraction](/patterns/extraction) to save a result as a standalone item, or [next-best action](/patterns/next-best-action) to propose the next step",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "generated-content",
       "target": "transparent-reasoning",
       "type": "complements",
-      "label": "shows the step-by-step process behind the generated content.",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Pair the result with [transparent reasoning](/patterns/transparent-reasoning) or [explanation](/patterns/explanation) to show how it was produced, and add [cognitive forcing functions](/patterns/cognitive-forcing-functions) before acceptance where an unchecked error would be costly.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "generated-content",
       "target": "explanation",
       "type": "complements",
-      "label": "provides contextual information to clarify AI-driven decisions within the output.",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Pair the result with [transparent reasoning](/patterns/transparent-reasoning) or [explanation](/patterns/explanation) to show how it was produced, and add [cognitive forcing functions](/patterns/cognitive-forcing-functions) before acceptance where an unchecked error would be costly.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "generated-content",
       "target": "standing-instructions",
       "type": "related",
-      "label": "the output is where the actor notices that a standing instruction is missing or wrong",
       "extractedFrom": "frontmatter:related",
-      "situation": "What should hold is written down in the actor's words and read at the start of every run, so a correction made once stops recurring, and every piece of [generated content](/patterns/generated-content) from then on carries its mark.",
-      "glossFrom": "target:resulting"
+      "situation": "Move corrections that have to be repeated on every run into [standing instructions](/patterns/standing-instructions).",
+      "glossFrom": "source:resulting",
+      "farSituation": "What should hold is written down in the actor's words and read at the start of every run, so a correction made once stops recurring, and every piece of [generated content](/patterns/generated-content) from then on carries its mark."
+    },
+    {
+      "source": "generated-content",
+      "target": "agency",
+      "type": "enacts",
+      "label": "with generated content the actor decides when to regenerate, when to revise the request, and what to keep",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "good-defaults",
@@ -6380,7 +6782,8 @@
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
       "situation": "Give actors who know their destination a [command menu](/patterns/command-menu) and [searching](/patterns/searching) that reach a spoke without the hub, and let [deep linking](/patterns/deep-linking) reach one from outside the structure altogether.",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "In [structuring the space](/sequences/structuring-the-space), a [multilevel tree](/patterns/multilevel-tree) or [hub and spoke](/patterns/hub-and-spoke) layout can likewise bury a known item several steps deep, and in [making changes](/sequences/making-changes) a [bounded choice](/patterns/bounded-choice) field can outgrow an inline list."
     },
     {
       "source": "hub-and-spoke",
@@ -6558,7 +6961,8 @@
       "type": "precedes",
       "extractedFrom": "frontmatter:precedes",
       "situation": "The copy and its source now change independently, so the copy carries [provenance marking](/patterns/provenance-marking) of where and when it was made, which lets a later reader tell which of two diverging versions is the source.",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "the system has produced [generated content](/patterns/generated-content) that will sit alongside human writing, or work is leaving the surface that made it through [import and export](/patterns/import-and-export)."
     },
     {
       "source": "import-and-export",
@@ -6667,7 +7071,9 @@
       "target": "searching",
       "type": "precedes",
       "label": "the underlying structure and labelling system that search indexes — without good IA, search is brittle",
-      "extractedFrom": "frontmatter:precedes"
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Searching completes the [information environment](/patterns/information-environment) by indexing the names, content, and [tags](/patterns/tag) from its [information architecture](/patterns/information-architecture), so the actor can reach matching items across the collection by query.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "information-architecture",
@@ -6702,7 +7108,8 @@
       "type": "precedes",
       "extractedFrom": "frontmatter:precedes",
       "situation": "[Searching](/patterns/searching) indexes the structure and vocabulary the environment keeps, so a search finds things under the names the actor meets everywhere else.",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "Searching completes the [information environment](/patterns/information-environment) by indexing the names, content, and [tags](/patterns/tag) from its [information architecture](/patterns/information-architecture), so the actor can reach matching items across the collection by query."
     },
     {
       "source": "information-environment",
@@ -6745,7 +7152,7 @@
       "source": "inline-interface",
       "target": "conversation",
       "type": "related",
-      "label": "the exchange this move renders into; the <ComponentRef id=\"components-messaging--docs\">Messaging</ComponentRef> component is its mechanism.",
+      "label": "the exchange this pattern renders into.",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -6823,38 +7230,83 @@
       "source": "generated-content",
       "target": "instructed-revision",
       "type": "precedes",
-      "incomingNote": "acts on output the generation activity produced",
-      "extractedFrom": "frontmatter:follows"
+      "extractedFrom": "frontmatter:follows",
+      "situation": "Let the actor steer the output in words with [instructed revision](/patterns/instructed-revision), which works from the output they have, or request another version through [regeneration](/patterns/regeneration), which draws again from the request, for the whole output or for a selected passage.",
+      "glossFrom": "source:resulting",
+      "farSituation": "in [delegating work](/sequences/delegating-work), the actor has asked for something with a [prompt](/patterns/prompt) and received [generated content](/patterns/generated-content)—a draft, a reply, a passage in a document—that is close, with a flaw they can name: too long, too stiff, the second paragraph is off."
     },
     {
       "source": "instructed-revision",
       "target": "regeneration",
       "type": "alternative",
-      "label": "naming the change versus drawing again on the same intent",
-      "extractedFrom": "frontmatter:alternative"
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "[Regeneration](/patterns/regeneration) would draw again from the request alone, which says nothing about the flaw and so is no more likely to fix it, while fixing it by hand costs more than describing the change.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "instructed-revision",
       "target": "editing-in-place",
       "type": "alternative",
-      "label": "saying what to change versus changing it by hand",
-      "extractedFrom": "frontmatter:alternative"
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "When a change is a single word, figure, or name the actor already has in mind, [editing in place](/patterns/editing-in-place) is more direct than describing it in prose.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "instructed-revision",
       "target": "selection",
       "type": "complements",
-      "label": "a selected span scopes the revision to the part that needs it",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "An instruction applied to the whole output reaches passages the actor had already settled, so a [selection](/patterns/selection) limits the revision to the span that needs it, while revision chips beneath a reply are a [suggestion](/patterns/suggestion) when the system picks them from the response.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "instructed-revision",
+      "target": "change-review",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where a revision rewrites several places at once, present it through [change review](/patterns/change-review) against the last accepted version so the actor can see what changed and accept or reject it in parts.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "instructed-revision",
+      "target": "provenance-marking",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where others need to know that machine revision shaped a passage, mark it with [provenance marking](/patterns/provenance-marking).",
+      "glossFrom": "source:resulting",
+      "farSituation": "The same question arises when a passage has been rewritten through [instructed revision](/patterns/instructed-revision) or adapted through a [text lens](/patterns/text-lens) and the actor needs to distinguish the author's wording from machine output."
+    },
+    {
+      "source": "instructed-revision",
+      "target": "suggestion",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "An instruction applied to the whole output reaches passages the actor had already settled, so a [selection](/patterns/selection) limits the revision to the span that needs it, while revision chips beneath a reply are a [suggestion](/patterns/suggestion) when the system picks them from the response.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "instructed-revision",
+      "target": "steering-surface",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where revision runs through a conversation, a [steering surface](/patterns/steering-surface) holds the work still beside the instructions, so the actor does not carry each revised version back by hand.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "instructed-revision",
+      "target": "undo",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Keep the replaced version one step back through [undo](/patterns/undo).",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "instructed-revision",
       "target": "text-lens",
       "type": "related",
-      "label": "a lens changes how the content reads; a revision changes what it is",
       "extractedFrom": "frontmatter:related",
-      "situation": "A text lens is not [progressive disclosure](/patterns/progressive-disclosure), which reveals detail the author already wrote, nor [instructed revision](/patterns/instructed-revision), which edits the shared document itself",
-      "glossFrom": "target:resulting"
+      "situation": "Instructed revision is not a [text lens](/patterns/text-lens), which adapts how a source reads for one actor while leaving the underlying content unchanged",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "instructed-revision",
@@ -7275,7 +7727,8 @@
       "type": "precedes",
       "extractedFrom": "frontmatter:precedes",
       "situation": "Stored facts and preferences are carried into later runs to tailor [generated content](/patterns/generated-content) without the actor restating their context.",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "the artifact has an [agent](/patterns/agent) in it, and part of what the actor reads and works on was produced by it from a [prompt](/patterns/prompt), [reference material](/patterns/reference-material), and the context it was given, including what [memory](/patterns/memory) carried in."
     },
     {
       "source": "memory",
@@ -7291,15 +7744,15 @@
       "target": "transient-feedback",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "When the system saves a new detail during an exchange, [transient feedback](/patterns/transient-feedback) marks the update in place and [provenance marking](/patterns/provenance-marking) ties the entry back to the conversation turn it came from.",
+      "situation": "When the system saves a new detail during an exchange, [transient feedback](/patterns/transient-feedback) marks the update in place and [citation](/patterns/citation) ties the entry back to the conversation turn it came from.",
       "glossFrom": "source:resulting"
     },
     {
       "source": "memory",
-      "target": "provenance-marking",
+      "target": "citation",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "When the system saves a new detail during an exchange, [transient feedback](/patterns/transient-feedback) marks the update in place and [provenance marking](/patterns/provenance-marking) ties the entry back to the conversation turn it came from.",
+      "situation": "When the system saves a new detail during an exchange, [transient feedback](/patterns/transient-feedback) marks the update in place and [citation](/patterns/citation) ties the entry back to the conversation turn it came from.",
       "glossFrom": "source:resulting"
     },
     {
@@ -7382,7 +7835,9 @@
       "target": "searching",
       "type": "complements",
       "label": "escape hatch when hierarchy fails",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "In [structuring the space](/sequences/structuring-the-space), a [multilevel tree](/patterns/multilevel-tree) or [hub and spoke](/patterns/hub-and-spoke) layout can likewise bury a known item several steps deep, and in [making changes](/sequences/making-changes) a [bounded choice](/patterns/bounded-choice) field can outgrow an inline list.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "multilevel-tree",
@@ -7684,18 +8139,19 @@
     },
     {
       "source": "outside-agent",
-      "target": "provenance-marking",
+      "target": "attribution",
       "type": "precedes",
       "extractedFrom": "frontmatter:precedes",
-      "situation": "Its contributions carry [provenance marking](/patterns/provenance-marking), and its acts land in the [activity log](/patterns/activity-log) under its own name rather than the actor's.",
-      "glossFrom": "source:resulting"
+      "situation": "Its contributions carry [attribution](/patterns/attribution) under its own name rather than the actor's, and its acts land in the [activity log](/patterns/activity-log).",
+      "glossFrom": "source:resulting",
+      "farSituation": "When an [outside agent](/patterns/outside-agent) acts in the workspace under a grant, the same signature records its work under its own name rather than the person's."
     },
     {
       "source": "outside-agent",
       "target": "activity-log",
       "type": "precedes",
       "extractedFrom": "frontmatter:precedes",
-      "situation": "Its contributions carry [provenance marking](/patterns/provenance-marking), and its acts land in the [activity log](/patterns/activity-log) under its own name rather than the actor's.",
+      "situation": "Its contributions carry [attribution](/patterns/attribution) under its own name rather than the actor's, and its acts land in the [activity log](/patterns/activity-log).",
       "glossFrom": "source:resulting"
     },
     {
@@ -7913,6 +8369,15 @@
       "type": "precedes",
       "incomingNote": "a complex request is the situation a plan makes reviewable before work starts",
       "extractedFrom": "frontmatter:follows"
+    },
+    {
+      "source": "showing-the-reading",
+      "target": "plan-preview",
+      "type": "precedes",
+      "incomingNote": "showing the reading checks what the request was taken to mean, and the plan preview then checks what will be done about it",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "[Plan preview](/patterns/plan-preview) looks similar but shows what the system will do rather than what it understood; the plan is built on the reading.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "plan-preview",
@@ -8252,7 +8717,7 @@
       "target": "agent",
       "type": "enables",
       "extractedFrom": "frontmatter:enables",
-      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), or through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
+      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
       "glossFrom": "source:initiating"
     },
     {
@@ -8260,7 +8725,7 @@
       "target": "conversation",
       "type": "enables",
       "extractedFrom": "frontmatter:enables",
-      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), or through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
+      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
       "glossFrom": "source:initiating"
     },
     {
@@ -8268,7 +8733,7 @@
       "target": "session",
       "type": "enables",
       "extractedFrom": "frontmatter:enables",
-      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), or through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
+      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
       "glossFrom": "source:initiating"
     },
     {
@@ -8277,7 +8742,8 @@
       "type": "precedes",
       "extractedFrom": "frontmatter:precedes",
       "situation": "Once submitted, the prompt produces [generated content](/patterns/generated-content) from the framed request and its attached context, or sets a multi-step run in motion.",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "Where the request itself was at fault, let them change the [prompt](/patterns/prompt) and draw again from it, and where they already have the wording in mind, [editing in place](/patterns/editing-in-place) is more direct."
     },
     {
       "source": "prompt",
@@ -8302,6 +8768,15 @@
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
       "situation": "Because actors often discover their criteria only by reacting to a concrete attempt, follow the initial output with [instructed revision](/patterns/instructed-revision) to steer what came back in words, or [regeneration](/patterns/regeneration) to draw another attempt from the same request.",
+      "glossFrom": "source:resulting",
+      "farSituation": "in [delegating work](/sequences/delegating-work), the actor has asked for something with a [prompt](/patterns/prompt) and received [generated content](/patterns/generated-content)—a draft, a reply, a passage in a document—that is close, with a flaw they can name: too long, too stiff, the second paragraph is off."
+    },
+    {
+      "source": "prompt",
+      "target": "view-as-context",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Read what they have open or selected through [view as context](/patterns/view-as-context), so they do not have to name what is in front of them.",
       "glossFrom": "source:resulting"
     },
     {
@@ -8438,24 +8913,9 @@
       "target": "provenance-marking",
       "type": "precedes",
       "extractedFrom": "frontmatter:follows",
-      "situation": "[generated content](/patterns/generated-content) and human contributions now sit in the same place, where people and agents contribute side by side under [collaboration](/patterns/collaboration) and an [activity log](/patterns/activity-log) keeps the history of what changed.",
-      "glossFrom": "target:initiating"
-    },
-    {
-      "source": "provenance-marking",
-      "target": "collaboration",
-      "type": "enables",
-      "extractedFrom": "frontmatter:enables",
-      "situation": "[generated content](/patterns/generated-content) and human contributions now sit in the same place, where people and agents contribute side by side under [collaboration](/patterns/collaboration) and an [activity log](/patterns/activity-log) keeps the history of what changed.",
-      "glossFrom": "source:initiating"
-    },
-    {
-      "source": "provenance-marking",
-      "target": "activity-log",
-      "type": "enables",
-      "extractedFrom": "frontmatter:enables",
-      "situation": "[generated content](/patterns/generated-content) and human contributions now sit in the same place, where people and agents contribute side by side under [collaboration](/patterns/collaboration) and an [activity log](/patterns/activity-log) keeps the history of what changed.",
-      "glossFrom": "source:initiating"
+      "situation": "Ground individual claims in their sources with [citation](/patterns/citation), mark weakly supported parts with [expressed uncertainty](/patterns/expressed-uncertainty), and label machine output with [provenance marking](/patterns/provenance-marking) when it mixes with human writing or leaves the tool.",
+      "glossFrom": "source:resulting",
+      "farSituation": "the system has produced [generated content](/patterns/generated-content) that will sit alongside human writing, or work is leaving the surface that made it through [import and export](/patterns/import-and-export)."
     },
     {
       "source": "provenance-marking",
@@ -8479,7 +8939,7 @@
       "target": "annotation",
       "type": "related",
       "extractedFrom": "frontmatter:related",
-      "situation": "Provenance marking is not [annotation](/patterns/annotation): the mark is stamped on the contribution at creation to record what made it, whereas annotation is a reader's own layer added over content they did not write",
+      "situation": "Provenance marking is not [annotation](/patterns/annotation): the mark is stamped on the content at creation to record how it was produced, whereas annotation is an actor's own layer added over content they did not write",
       "glossFrom": "source:resulting"
     },
     {
@@ -8666,7 +9126,16 @@
       "type": "enables",
       "label": "grounding material is a constituent of the articulated request",
       "extractedFrom": "frontmatter:enables",
-      "situation": "Let the actor attach or @-mention [reference material](/patterns/reference-material) inside the prompt so the system works from named files, selections, or data sources rather than from generalities.",
+      "situation": "Let the actor attach or @-mention [reference material](/patterns/reference-material) inside the prompt so the system works from named files or data sources rather than from generalities.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "reference-material",
+      "target": "view-as-context",
+      "type": "complements",
+      "label": "reference material is named by the actor and kept with the request, while view as context is read from where the actor is when they ask",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Context the actor pins becomes [reference material](/patterns/reference-material), named and kept with the request rather than read from the view.",
       "glossFrom": "target:resulting"
     },
     {
@@ -8688,7 +9157,9 @@
       "target": "regeneration",
       "type": "precedes",
       "incomingNote": "acts on the output the generation activity produced",
-      "extractedFrom": "frontmatter:follows"
+      "extractedFrom": "frontmatter:follows",
+      "situation": "Let the actor steer the output in words with [instructed revision](/patterns/instructed-revision), which works from the output they have, or request another version through [regeneration](/patterns/regeneration), which draws again from the request, for the whole output or for a selected passage.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "regeneration",
@@ -8707,9 +9178,9 @@
     {
       "source": "regeneration",
       "target": "undo",
-      "type": "complements",
-      "label": "restores what a regeneration replaced",
-      "extractedFrom": "frontmatter:complements"
+      "type": "precedes",
+      "label": "undo restores what a regeneration replaced",
+      "extractedFrom": "frontmatter:precedes"
     },
     {
       "source": "regeneration",
@@ -8969,48 +9440,61 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
+      "source": "searching",
+      "target": "data-view",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Searching returns a relevance-ranked set presented in a [data view](/patterns/data-view) and addressable through [deep linking](/patterns/deep-linking).",
+      "glossFrom": "source:resulting"
+    },
+    {
       "source": "command-menu",
       "target": "searching",
       "type": "instantiates",
-      "incomingNote": "searching is the broader seeking move, applied to a command vocabulary",
-      "extractedFrom": "frontmatter:instances"
+      "extractedFrom": "frontmatter:instances",
+      "situation": "Over an application's actions and jumps rather than its content, searching specialises into a [command menu](/patterns/command-menu).",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "searching",
       "target": "navigation-overview",
       "type": "complements",
-      "label": "the fallback seeking move when a search fails; browse and search co-deploy over the same structure",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "On the results, pair the ranked list with [suggestions](/patterns/suggestion) for query refinements, [filtering](/patterns/filtering) over facets to narrow the set in place, and [navigation](/patterns/navigation-overview) when the query falls short.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "searching",
       "target": "filtering",
       "type": "complements",
-      "label": "often used after a search to refine results; in AI-search, filters are the output of the search query",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "On the results, pair the ranked list with [suggestions](/patterns/suggestion) for query refinements, [filtering](/patterns/filtering) over facets to narrow the set in place, and [navigation](/patterns/navigation-overview) when the query falls short.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "searching",
       "target": "prompt",
       "type": "complements",
-      "label": "modern search inputs are evolving into prompt interfaces, accepting instructions alongside keywords",
       "extractedFrom": "frontmatter:complements",
-      "situation": "A prompt is not [searching](/patterns/searching), which retrieves existing items matching a query rather than generating a new response or executing a task, even when one input bar accepts both",
-      "glossFrom": "target:resulting"
+      "situation": "Searching is not a [prompt](/patterns/prompt), which asks the system to generate or act rather than retrieve existing items, even when one input bar accepts both",
+      "glossFrom": "source:resulting",
+      "farSituation": "A prompt is not [searching](/patterns/searching), which retrieves existing items matching a query rather than generating a new response or executing a task, even when one input bar accepts both"
     },
     {
       "source": "searching",
       "target": "autocomplete",
       "type": "complements",
-      "label": "real-time narrowing of query suggestions as the actor types",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "At the input, pair the query box with [recents](/patterns/recents) before typing begins and [autocomplete](/patterns/autocomplete) as the actor types to complete terms or jump straight to a known item.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "searching",
       "target": "suggestion",
       "type": "complements",
-      "label": "\"did you mean?\" and related patterns that guide query formulation",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "On the results, pair the ranked list with [suggestions](/patterns/suggestion) for query refinements, [filtering](/patterns/filtering) over facets to narrow the set in place, and [navigation](/patterns/navigation-overview) when the query falls short.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "sections",
@@ -9280,6 +9764,36 @@
       "glossFrom": "target:resulting"
     },
     {
+      "source": "showing-the-reading",
+      "target": "inquiry-agent",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where several readings are plausible, showing them side by side lets the actor pick one rather than describe it again; where none can be settled without more from the actor, [agent inquiry](/patterns/inquiry-agent) asks for what is missing instead.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "showing-the-reading",
+      "target": "filtering",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "showing-the-reading",
+      "target": "agent-repair",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "When the reading turns out wrong, [agent repair](/patterns/agent-repair) can be applied.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "showing-the-reading",
+      "target": "expressed-uncertainty",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "[Expressed uncertainty](/patterns/expressed-uncertainty) marks how confident the system is rather than what it read",
+      "glossFrom": "source:resulting"
+    },
+    {
       "source": "data-view",
       "target": "sorting",
       "type": "precedes",
@@ -9306,8 +9820,9 @@
       "type": "precedes",
       "incomingNote": "the correction that keeps recurring is the one worth making standing",
       "extractedFrom": "frontmatter:follows",
-      "situation": "Saying it in the [prompt](/patterns/prompt) fixes one run; saying it as an [instructed revision](/patterns/instructed-revision) fixes one output.",
-      "glossFrom": "target:initiating"
+      "situation": "When the actor repeats the same correction across outputs, promote it to [standing instructions](/patterns/standing-instructions) so it holds on every run.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Saying it in the [prompt](/patterns/prompt) fixes one run; saying it as an [instructed revision](/patterns/instructed-revision) fixes one output."
     },
     {
       "source": "standing-instructions",
@@ -9332,7 +9847,8 @@
       "label": "a standing instruction shapes every output without appearing in any of them",
       "extractedFrom": "frontmatter:related",
       "situation": "What should hold is written down in the actor's words and read at the start of every run, so a correction made once stops recurring, and every piece of [generated content](/patterns/generated-content) from then on carries its mark.",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "Move corrections that have to be repeated on every run into [standing instructions](/patterns/standing-instructions)."
     },
     {
       "source": "state-disabled",
@@ -9562,7 +10078,9 @@
       "target": "searching",
       "type": "precedes",
       "label": "an applied label is a facet a search can narrow by",
-      "extractedFrom": "frontmatter:precedes"
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Searching completes the [information environment](/patterns/information-environment) by indexing the names, content, and [tags](/patterns/tag) from its [information architecture](/patterns/information-architecture), so the actor can reach matching items across the collection by query.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "tag",
@@ -9611,7 +10129,7 @@
       "type": "complements",
       "label": "an adapted version produced from the source text is generated content",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Each adapted view is [generated content](/patterns/generated-content) derived from the original, carrying the risk of omitted details or altered meaning.",
+      "situation": "Each adapted view is [generated content](/patterns/generated-content) derived from the original.",
       "glossFrom": "source:resulting"
     },
     {
@@ -9620,25 +10138,22 @@
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
       "situation": "Mark the adapted view with [provenance marking](/patterns/provenance-marking) where the actor needs to distinguish the author's wording from generated text.",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "The same question arises when a passage has been rewritten through [instructed revision](/patterns/instructed-revision) or adapted through a [text lens](/patterns/text-lens) and the actor needs to distinguish the author's wording from machine output."
     },
     {
       "source": "text-lens",
       "target": "progressive-disclosure",
       "type": "related",
       "label": "progressive disclosure reveals detail the author wrote in advance; a text lens generates levels on demand",
-      "extractedFrom": "frontmatter:related",
-      "situation": "A text lens is not [progressive disclosure](/patterns/progressive-disclosure), which reveals detail the author already wrote, nor [instructed revision](/patterns/instructed-revision), which edits the shared document itself",
-      "glossFrom": "source:resulting"
+      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "text-lens",
       "target": "localization",
       "type": "related",
       "label": "translating content on request is a text lens; adapting the interface's own copy to a locale is localization",
-      "extractedFrom": "frontmatter:related",
-      "situation": "On-demand translation of user or third-party content is a text lens, whereas adapting the interface itself to a locale is [localization](/patterns/localization).",
-      "glossFrom": "source:resulting"
+      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "text-lens",
@@ -9646,7 +10161,7 @@
       "type": "related",
       "label": "a purpose-based text lens reorders and prunes one document the way a purpose-keyed view shapes a collection",
       "extractedFrom": "frontmatter:related",
-      "situation": "When a text lens reorders and prunes a document around the actor's task, it works like a [purpose-keyed view](/patterns/purpose-keyed-view) on a single text and shares its trade-off: whatever is omitted, the actor must know to look for.",
+      "situation": "When a text lens reorders and prunes a document around the actor's task, it works like a [purpose-keyed view](/patterns/purpose-keyed-view) on a single text and shares its trade-off: whatever is omitted, the actor must know to look for",
       "glossFrom": "source:resulting"
     },
     {
@@ -9952,6 +10467,30 @@
       "type": "enacts",
       "label": "lets the actor return to an earlier state of the work after the session has ended",
       "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "selection",
+      "target": "view-as-context",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Pointing at things inside the view is [selection](/patterns/selection), which gives a request its narrowest scope.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "view-as-context",
+      "target": "reference-material",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Context the actor pins becomes [reference material](/patterns/reference-material), named and kept with the request rather than read from the view.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "view-as-context",
+      "target": "embedded-intelligence",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "[Embedded intelligence](/patterns/embedded-intelligence) draws on the same context but acts without being asked, whereas here the context is read only when the actor speaks.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "waiting",
@@ -10398,13 +10937,6 @@
       "extractedFrom": "situation:resulting"
     },
     {
-      "source": "generated-content",
-      "target": "next-best-action",
-      "type": "precedes",
-      "situation": "the output is a transition point the system can read — knowing what just arrived, it can propose what to do with it next",
-      "extractedFrom": "situation:resulting"
-    },
-    {
       "source": "good-defaults",
       "target": "autocomplete",
       "type": "precedes",
@@ -10471,7 +11003,7 @@
       "source": "plan-preview",
       "target": "approval-gate",
       "type": "precedes",
-      "situation": "the agent's intention is now a reviewable object — steps, targets, expected effects — so misreadings surface while they are still cheap, and the preview becomes the thing an approval can act on",
+      "situation": "the agent's intention is now a reviewable object — steps, targets, expected effects — so a wrong course is caught while it is still cheap, and the preview becomes the thing an approval can act on",
       "extractedFrom": "situation:resulting"
     },
     {
@@ -10493,13 +11025,6 @@
       "target": "draft-and-publish",
       "type": "precedes",
       "situation": "saving no longer says anything about whether work is ready for others, so publishing becomes a separate, deliberate act",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "searching",
-      "target": "data-view",
-      "type": "precedes",
-      "situation": "a result set now exists — ordered by relevance rather than by the collection's own structure — and presenting it is a design problem of its own",
       "extractedFrom": "situation:resulting"
     },
     {

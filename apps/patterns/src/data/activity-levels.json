@@ -41,6 +41,11 @@
       "lifecycle-stage": null,
       "mediation": null
     },
+    "addressable-in-words": {
+      "activity-level": "activity",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "agency": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
@@ -90,6 +95,11 @@
       "activity-level": "action",
       "lifecycle-stage": "seeking",
       "mediation": "individual"
+    },
+    "attribution": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
+      "mediation": "coordination"
     },
     "autocomplete": {
       "activity-level": "operation",
@@ -169,6 +179,11 @@
     "comparing": {
       "activity-level": "action",
       "lifecycle-stage": null,
+      "mediation": "individual"
+    },
+    "contextual-actions": {
+      "activity-level": "action",
+      "lifecycle-stage": "application",
       "mediation": "individual"
     },
     "conversation-quality": {
@@ -424,7 +439,7 @@
     "instructed-revision": {
       "activity-level": "action",
       "lifecycle-stage": null,
-      "mediation": null
+      "mediation": "individual"
     },
     "interaction": {
       "activity-level": "cross-cutting",
@@ -701,6 +716,11 @@
       "lifecycle-stage": null,
       "mediation": "coordination"
     },
+    "showing-the-reading": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "sorting": {
       "activity-level": "action",
       "lifecycle-stage": "seeking",
@@ -809,6 +829,11 @@
     "version-history": {
       "activity-level": "action",
       "lifecycle-stage": "application",
+      "mediation": "individual"
+    },
+    "view-as-context": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
       "mediation": "individual"
     },
     "waiting": {

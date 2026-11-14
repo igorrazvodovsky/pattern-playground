@@ -306,7 +306,6 @@ const languages = defineCollection({
   }),
 });
 
-
 const levels = defineCollection({
   loader: file('src/content/levels.yaml'),
   schema: z.object({
@@ -319,13 +318,47 @@ const levels = defineCollection({
       .array(
         z.object({
           title: z.string(),
+          // The kind of work this group shares with its neighbours. Consecutive
+          // groups with the same section are gathered under it in the sidebar.
+          section: z.string().optional(),
           // The connecting sentence: the region the group works in and what its
           // patterns do there. Read in order, the leads summarise the language.
           lead: z.string(),
           patterns: z.array(z.string()).min(1),
         }),
       )
-      .min(1),
+      .min(1)
+      // The sidebar names and remembers branches by label, so each label must
+      // be unique among its siblings, and a section must be one run of groups.
+      .superRefine((groups, ctx) => {
+        const top = new Set<string>();
+        const inSection = new Map<string, Set<string>>();
+        let previous: string | undefined;
+        groups.forEach((group, i) => {
+          const { section, title } = group;
+          if (section && section !== previous) {
+            if (inSection.has(section) || top.has(section)) {
+              ctx.addIssue({
+                code: 'custom',
+                path: [i, 'section'],
+                message: `Section "${section}" repeats a sibling label or is split by other groups`,
+              });
+            }
+            top.add(section);
+            inSection.set(section, new Set());
+          }
+          const siblings = section ? inSection.get(section)! : top;
+          if (siblings.has(title) || (!section && inSection.has(title))) {
+            ctx.addIssue({
+              code: 'custom',
+              path: [i, 'title'],
+              message: `Group "${title}" repeats a sibling label`,
+            });
+          }
+          siblings.add(title);
+          previous = section;
+        });
+      }),
   }),
 });
 

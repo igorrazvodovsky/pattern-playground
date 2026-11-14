@@ -1,38 +1,44 @@
 # The language arranged by levels of scale
 # (plans/active/2026-10-pattern-facets.md). Three parts, each with its own way
 # of making: centres that no single act of making finishes, centres made in one
-# go, and points applied in a late pass over every surface. The first two
-# follow A Pattern Language's division between towns and buildings. Each design
-# pattern is placed once, where most of its forces operate; a need that recurs
-# at several sizes stays one pattern with a variant for each size. Within a
-# group, wholes come before the parts that complete them, and the build warns
-# when a part sits above a whole it helps complete. Read in order, the leads
-# should give an overview of the language; a lead that strains marks a
-# boundary to move.
+# go, and points that repeat on every surface without adding up to a larger
+# centre. The first two follow A Pattern Language's division between towns and
+# buildings. Each design pattern is placed once, where most of its forces
+# operate; a need that recurs at several sizes stays one pattern with a variant
+# for each size. In the second part, a `section` names the kind of work that
+# neighbouring groups share. Within a group, wholes come before the parts that
+# complete them, and the build warns when a part sits above a whole it helps
+# complete. Read in order, the leads should give an overview of the language; a
+# lead that strains marks a boundary to move.
 
 - id: whole
   order: 1
   title: The whole
   lead: >-
-    Centres that no single act of making finishes. They form as many
-    surfaces, features and acts add to them or pass through them. Each is
+    Centres that no single act of making finishes. Many surfaces, features and
+    acts add to each one or pass through it, and what they add makes one
+    centre: an address space, a record, a vocabulary, a set of rules. Each is
     adopted for the whole artifact or one of its divisions, built into each
     surface as it is made, and revisited as the whole is checked.
   groups:
-    - title: Setting and divisions
+    - title: Setting
       lead: >-
         Place the artifact among the tools its actors already use, give it one
-        logic across its surfaces and the channels it is reached through,
-        divide the work into workspaces, keep the work on the actor's device
-        where it can be, ask for identity only as each need calls for it, let
-        in the agents actors bring under grants of their own, decide who is let
-        into each workspace, and let the people inside coordinate their work.
+        logic across its surfaces and the channels it is reached through, and
+        keep the work on the actor's device where it can be.
       patterns:
         - tool-ecology
         - information-environment
         - cross-channel-continuity
-        - workspace
         - local-first-ownership
+    - title: Workspaces and who is let in
+      lead: >-
+        Divide the work into workspaces, ask for identity only as each need
+        calls for it, let in the agents actors bring under grants of their own,
+        decide who is let into each workspace, and let the people inside
+        coordinate their work.
+      patterns:
+        - workspace
         - identity-at-the-point-of-need
         - outside-agent
         - sharing
@@ -40,12 +46,14 @@
     - title: Connecting and naming
       lead: >-
         Connect the divisions so that anything can be reached from anywhere: an
-        address for every state, search across all of it, ways back to what
-        the actor opened recently or chose to keep, links found across the
-        content, and labels and structure that grow from use.
+        address for every state, search across all of it, a way for actors to
+        say what they want in their own words, ways back to what the actor
+        opened recently or chose to keep, links found across the content, and
+        labels and structure that grow from use.
       patterns:
         - deep-linking
         - searching
+        - addressable-in-words
         - recents
         - bookmarking
         - dynamic-hyperlinks
@@ -69,19 +77,20 @@
     - title: Records
       lead: >-
         Keep a record that every act adds to: what happened and who did it, a
-        feed of what arrives, and the origin of each piece of content.
+        feed of what arrives, and who or what made each contribution.
       patterns:
         - activity-log
         - activity-feed
-        - provenance-marking
+        - attribution
     - title: Rules every act passes through
       lead: >-
         Set the rules every act and event passes through: how much protection
-        each action gets, how urgent each kind of event is and where it goes,
-        the defaults the actor can retune, and the arrangements kept between
-        visits.
+        each action gets, the history that lets an act be taken back, how
+        urgent each kind of event is and where it goes, the defaults the actor
+        can retune, and the arrangements kept between visits.
       patterns:
         - action-consequences
+        - undo
         - status-feedback
         - notification
         - settings
@@ -90,24 +99,26 @@
       lead: >-
         Wherever work is done without the actor, set what holds across every
         run: the agent that does it, the authority it is granted, the
-        instructions and memory it carries, and the procedures handed over to
-        run.
+        instructions and memory it carries, how what it produces is treated,
+        and the procedures handed over to run.
       patterns:
         - agent
         - bounded-autonomy
         - standing-instructions
         - memory
+        - generated-content
         - workflow
 
 - id: divisions-and-surfaces
   order: 2
   title: Divisions and surfaces
   lead: >-
-    Centres made in one go, for one division, one surface, one kind of work or
-    one occurrence.
+    Centres made in one go. First a division's layout, its entrance and its
+    accounts, then each surface, taken by the kind of work it is for:
+    collections, changes, shared work and work with an agent.
   groups:
-    # The space
     - title: Laying out a division
+      section: Divisions
       lead: >-
         Within each division, choose how the actor moves between its sections
         from the kind of space it is, and recombine the models as the division
@@ -122,24 +133,30 @@
         - pan-and-zoom
         - hybrid-patterns
     - title: The entrance
+      section: Divisions
       lead: >-
         Give the artifact an entrance: admit the actor without demanding
-        identity, sync through storage the actor holds,
-        establish accounts predictably, and orient the newcomer when they
-        arrive.
+        identity, orient the newcomer when they arrive, and give each empty
+        place a first step or a starting shape.
       patterns:
         - immediate-use
-        - sync-through-own-storage
+        - onboarding
+        - state-empty
+        - template
+    - title: Accounts
+      section: Divisions
+      lead: >-
+        Where identity is needed, establish accounts predictably: by password,
+        without one, or through an identity the actor already holds, with a way
+        back in when access is lost.
+      patterns:
         - account-access
         - password
         - account-recovery
         - passwordless-access
         - federated-identity
-        - onboarding
-        - state-empty
-        - template
-    # Collections
     - title: Framing a collection
+      section: Collections
       lead: >-
         Where a division holds a collection, frame it for the actor's purpose in
         one view or several, at a scale that keeps it readable, and show each
@@ -154,11 +171,11 @@
         - focus-and-context
         - text-lens
         - item-view
-    - title: Moves on a view
+    - title: Shaping a view
+      section: Collections
       lead: >-
         On each view, let the actor choose its attributes, order and grouping,
-        narrow it by criteria or by rules they compose, compare items, and
-        select what to act on.
+        narrow it by criteria or by rules they compose, and compare items.
       patterns:
         - attribute-visibility
         - sorting
@@ -166,9 +183,17 @@
         - filtering
         - rule-composition
         - comparing
+    - title: Acting on items
+      section: Collections
+      lead: >-
+        Let the actor select what to act on, find the actions for it right
+        there, and carry items to where they belong.
+      patterns:
         - selection
-    # Changes
+        - contextual-actions
+        - drag-and-drop
     - title: Where a change is made
+      section: Changes
       lead: >-
         Decide for each kind of change where it is made, in a wizard, a form, a
         block document or in place, and how a long change is reviewed and
@@ -181,18 +206,20 @@
         - block-based-editor
         - editing-in-place
     - title: Storing and removing
+      section: Changes
       lead: >-
         Decide when changes are stored, published and kept as versions, how
-        work is copied in from and out to other tools, how a bulk change is
-        previewed, and how things are removed.
+        they sync through storage the actor holds, how work is copied in from
+        and out to other tools, how a bulk change is previewed, and how things
+        are removed.
       patterns:
         - saving
         - draft-and-publish
         - version-history
+        - sync-through-own-storage
         - import-and-export
         - dry-run
         - deletion
-    # Shared work
     - title: Working on the same thing
       lead: >-
         Where people work on the same thing, show who is there, let them mark
@@ -205,8 +232,8 @@
         - change-review
         - reconciliation
         - handoff
-    # Work with an agent
     - title: Help inside the work
+      section: Work with an agent
       lead: >-
         Let the system offer help inside the work, from a suggestion to the
         whole next step, raised or lowered on the evidence of use.
@@ -216,9 +243,10 @@
         - next-best-action
         - suggestion
     - title: Conversation
+      section: Work with an agent
       lead: >-
         Where the actor talks with an agent, bound each exchange or run one that
-        keeps nothing, open it, and carry each kind of request.
+        keeps nothing, open it from either side, and say what the agent can do.
       patterns:
         - session
         - ephemeral-session
@@ -226,12 +254,19 @@
         - agent-opening
         - user-opening
         - capability-and-scope
+    - title: Carrying a request
+      section: Work with an agent
+      lead: >-
+        Carry each kind of request through the exchange: questions from either
+        side, open requests, long answers, and controls placed in the exchange.
+      patterns:
         - inquiry-user
         - open-request
         - inquiry-agent
         - extended-telling
         - inline-interface
     - title: Trouble and endings
+      section: Work with an agent
       lead: >-
         Repair the exchange when understanding breaks, and end or park it
         deliberately.
@@ -243,34 +278,40 @@
         - closing
         - disengage-without-closing
     - title: Handing work over
+      section: Work with an agent
       lead: >-
         Where the actor hands work to an agent, let them state it, ground it in
-        their own material, lay the instructions beside the work, and see the
-        plan and the cost.
+        their own material and in what they have in view, lay the instructions
+        beside the work, and see how it was read, the plan and the cost.
       patterns:
         - prompt
         - prompt-scaffolding
         - reference-material
+        - view-as-context
         - steering-surface
+        - showing-the-reading
         - plan-preview
         - cost-transparency
     - title: Following and receiving work
+      section: Work with an agent
       lead: >-
         Show the work while it runs, stop it at consequential points, and let
-        the actor place, revise or redraw what comes back.
+        the actor place, revise or redraw what comes back, whole or in part.
       patterns:
         - live-presentation
         - transparent-reasoning
         - approval-gate
-        - generated-content
         - extraction
         - instructed-revision
         - regeneration
     - title: Checking machine output
+      section: Work with an agent
       lead: >-
-        Give machine output evidence the actor can check, and make accepting it
-        take a moment of judgement where the stakes call for it.
+        Mark machine involvement where output mixes or travels, give its claims
+        evidence the actor can check, and make accepting it take a moment of
+        judgement where the stakes call for it.
       patterns:
+        - provenance-marking
         - citation
         - expressed-uncertainty
         - explanation
@@ -283,8 +324,8 @@
   title: Finishing
   lead: >-
     Points that complete a surface, such as a field, a control, a state or a
-    message. They are applied in a late pass over every surface once its design
-    is settled, wherever the point recurs.
+    message. Each recurs on every surface and stays a point where it is: what
+    the surfaces share is a convention for it, not a larger centre.
   groups:
     - title: Fields and values
       lead: >-
@@ -300,24 +341,22 @@
         - autocomplete
         - ai-completion
         - validation
-    - title: Disclosure and handling
+    - title: Disclosure
       lead: >-
-        Disclose what a surface holds as it is needed, in sections, and let
-        items be carried and links previewed in place.
+        Disclose what a surface holds as it is needed: step by step, in
+        sections, and in previews of what a link leads to.
       patterns:
         - progressive-disclosure
         - sections
-        - drag-and-drop
         - link-preview
     - title: States and messages
       lead: >-
-        Give every surface its unavailable states, mark the wait while a
-        request runs, confirm destructive acts in place, offer undo, and report
-        outcomes in messages that pass.
+        Mark the wait while a request runs, give every surface its unavailable
+        states, confirm destructive acts in place, and report outcomes in
+        messages that pass.
       patterns:
         - waiting
         - state-disabled
         - unavailable-actions
         - inline-confirmation
-        - undo
         - transient-feedback
