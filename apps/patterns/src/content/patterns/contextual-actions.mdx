@@ -1,0 +1,87 @@
+---
+title: Contextual actions
+added: 2026-11-08
+updated:
+role: pattern
+seed: true
+evidence:
+  - used
+  - observed
+  - literature
+activityLevel: action
+lifecycle: application
+mediation: individual
+description: "Surfacing the actions that apply to a selected passage, block, or set of items directly beside the target, scoped to the selection."
+realised_by:
+  - components-bubble-menu--docs
+  - components-context-menu--docs
+  - components-action-bar--docs
+situation:
+  initiating: >-
+    … the actor has designated a target through a [selection](/patterns/selection) or by pointing
+    at an element: a text span, a document block, an object on a canvas, or rows in a list.
+    Keeping the controls for that target in a distant toolbar mixes relevant actions with
+    inapplicable ones and pulls focus away from the work, while a
+    [command menu](/patterns/command-menu) requires recalling an action by name rather than acting
+    directly on the target.
+  resulting: >-
+    Relevant actions appear adjacent to the target with their scope bound to the selection, so the
+    actor designates the object first and chooses the operation second. On selected text, the same
+    contextual toolbar can host [prestructured formatting](/patterns/prestructured-formatting),
+    [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision). It is part of a [data view](/patterns/data-view), and of a [block-based editor](/patterns/block-based-editor), where it serves both the span and the block. Filtering the menu to valid actions omits irrelevant controls rather than showing them disabled, following [unavailable actions](/patterns/unavailable-actions). Displaying [keyboard shortcuts](/patterns/keyboard-shortcuts) alongside menu items helps actors learn direct key combinations and bypass the menu on repeat use…
+relationships:
+  follows:
+    - to: selection
+      note: selection designates the target that contextual actions operate on
+  hosts:
+    - instructed-revision
+    - commenting
+    - prestructured-formatting
+    - deletion
+    - tag
+    - comparing
+  enables:
+    - data-view
+    - block-based-editor
+  alternative:
+    - to: command-menu
+      note: invoking an action from a selected target rather than searching for it by name
+    - to: drag-and-drop
+      note: choosing an action for the selected item rather than carrying it to a destination that stands for the change
+  complements:
+    - unavailable-actions
+    - keyboard-shortcuts
+    - view-as-context
+---
+
+<Demo name="contextual-actions" label="Bubble, /slash, and @reference menus." />
+
+* * *
+
+**When the actions for a selected item sit in a distant toolbar or a searchable command list, the actor has to move focus away from the target, scan past controls that do not apply, or recall a command by name. In nested content—such as a word inside a paragraph inside a section—an action can also modify a larger container than the selection without making that scope clear.**
+
+Contextual actions appear through several mechanisms: a floating toolbar on text selection, a popover menu on right-click or long press, hover actions on a list row or card, a menu attached to a block handle, or an action bar that appears when list items are selected. Each mechanism trades discoverability against visual interference. A floating toolbar that appears on every text selection keeps actions close at hand, but covers adjacent lines and interrupts actors who highlight text to read or copy it. A right-click or long-press menu avoids visual clutter until requested, but hides available actions behind an unlabelled gesture. Hover toolbars reveal actions without persistent chrome, though they have no direct equivalent on touch screens.
+
+Scope ambiguity is the primary failure mode when content is nested. A text selection sits inside a block, and some operations apply to the inline span (bold, link, rewrite sentence) while others apply to the containing block (convert to heading, move, comment on block). Mixing both levels in a single menu without distinguishing their reach causes actions to modify more than the actor selected. Multi-block selections compound the ambiguity when the same operation, such as an AI revision, can run either on the highlighted span or on the surrounding blocks. When scope is explicit, selecting a target first and invoking a reusable prompt action from a toolbar is faster and requires shorter instructions than describing the target in chat ([Masson et al., 2024](https://arxiv.org/abs/2310.03691)).
+
+Therefore,
+
+**Surface the actions that apply to the selected or targeted item directly beside it, and omit actions that do not apply. Let the selection define the scope of every action. When an action operates on a larger container than the selection—such as the whole block or row—preview that container boundary before execution and name the target in the action's label. Keep the contextual surface limited to high-frequency actions, leaving the full command set to a searchable [command menu](/patterns/command-menu).**
+
+## Related components
+
+- <ComponentRef id="components-bubble-menu--docs">Bubble menu</ComponentRef> — floating toolbar anchored to a text selection for inline formatting, commenting, and revision actions
+- <ComponentRef id="components-context-menu--docs">Context menu</ComponentRef> — menu opened on right-click or long press at the pointer target
+- <ComponentRef id="components-action-bar--docs">Action bar</ComponentRef> — bar that appears when one or more items in a list or collection are selected
+
+## Resources & references
+
+- [Shape of AI — Inline action](https://www.shapeof.ai/patterns/inline-action) — preset actions on selected content in AI tools; letting the actor set the scope (word, sentence, section, block) before invoking; presenting results as a suggestion rather than an immediate overwrite
+- Scott & Neil (2009) [Designing web interfaces](https://www.oreilly.com/library/view/designing-web-interfaces/9780596155353/) — contextual tools: always visible, revealed on hover, revealed on toggle, multi-level, and secondary menus
+- Tidwell, Brewer & Valencia (2020) [Designing interfaces, 3rd edition](https://www.oreilly.com/library/view/designing-interfaces-3rd/9781492051954/) — hover and pop-up tools
+- Masson, Malacria, Casiez & Vogel (2024) [DirectGPT: a direct manipulation interface to interact with large language models](https://arxiv.org/abs/2310.03691) — selecting an object and applying a reusable prompt tool; faster editing with fewer and shorter prompts than chat
+- [AI UX Playground — Slash commands](https://aiuxplayground.com/pattern/slash-command)
+
+## To-do
+
+- Decide whether bulk actions on selected items in a list belong as a separate pattern from contextual actions on selected content.

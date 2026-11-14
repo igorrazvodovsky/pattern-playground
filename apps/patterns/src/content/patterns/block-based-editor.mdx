@@ -59,7 +59,7 @@ Whichever way it's triggered, the [menu](/patterns/command-menu) opens right whe
 
 ### Slash commands
 
-...
+Typing a slash at the caret opens the [command menu](/patterns/command-menu) at that position. Nothing is selected yet, so the actor names the action first and the block it inserts or converts follows from where the caret is.
 
 ### Passing to LLM
 
@@ -71,7 +71,7 @@ Whichever way it's triggered, the [menu](/patterns/command-menu) opens right whe
 
 ## Contextual actions
 
-Select block(s) or text spans and invoke LLM from contextual menu.
+Selecting a text span or one or more blocks brings up the actions that apply to them; see [contextual actions](/patterns/contextual-actions). The block editor has two levels of selection, the span and the block, and an action offered on a span can act on the whole block that holds it.
 
 ## Co-editing & attribution
 {/* Parallel human/AI editing with attribution chips or overlays. */}
