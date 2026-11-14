@@ -19,6 +19,8 @@ type Loader = () => Promise<DemoComponent>;
 const demos: Record<string, Loader> = {
   'block-based-editor': () =>
     import('@pkg/demos/block-based-editor').then((m) => m.BlockBasedEditorDemo),
+  'contextual-actions': () =>
+    import('@pkg/demos/contextual-actions').then((m) => m.ContextualActionsDemo),
   'commenting': () => import('@pkg/demos/bubble-menu').then((m) => m.CommentingDemo),
   'dynamic-explanation': () =>
     import('@pkg/demos/bubble-menu').then((m) => m.DynamicExplanationDemo),

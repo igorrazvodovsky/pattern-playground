@@ -81,6 +81,27 @@
   /* min-height: 80px; */
 }
 
+/* The reset strips list markers; blocks made in the pp editor need them back
+   to read as lists and quotes. `.rich-editor` sits on the editor or on its
+   wrapper, and other libraries' editors keep their own styling. */
+.rich-editor :is(ul, ol) {
+  padding-inline-start: 1.5em;
+}
+
+.rich-editor ul {
+  list-style: disc;
+}
+
+.rich-editor ol {
+  list-style: decimal;
+}
+
+.rich-editor blockquote {
+  border-inline-start: var(--border);
+  padding-inline-start: var(--space-m);
+  color: var(--c-bodyDimmed);
+}
+
 .ProseMirror-focused:focus-visible {
   outline: none !important;
 }
@@ -90,8 +111,9 @@
   box-shadow: 0 0 0 3px var(--c-primary-100);
 }
 
-.rich-editor .ProseMirror p.is-editor-empty:first-child::before {
-  color: var(--c-neutral-500);
+/* Tiptap's Placeholder extension marks the empty block at the caret. */
+.rich-editor .is-empty[data-placeholder]::before {
+  color: var(--c-placeholder);
   content: attr(data-placeholder);
   float: left;
   height: 0;
