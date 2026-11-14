@@ -239,7 +239,7 @@ const sequences = defineCollection({
 //
 // Jackson's concepts as a catalogue beside the language: one entry per unit of
 // functionality an actor recognises across systems. Entries are definitions
-// only; how a concept reaches a surface is what patterns (`acts_on`) and
+// only, held entirely in frontmatter with no body; how a concept reaches a surface is what patterns (`acts_on`) and
 // components (`realised_by`) say. See docs/language/patterns-and-concepts.md.
 
 const concepts = defineCollection({
@@ -258,9 +258,12 @@ const concepts = defineCollection({
     principle: z.string(),
     // Relations in the world's terms, `name: Kind -> one | opt | set Kind`.
     state: z.array(z.string()).optional(),
-    // Action names. Where the fixture world has the action, the name is the
-    // world's and the cross-reference validator checks the assignment both ways.
-    actions: z.array(z.string()).min(1),
+    // Action name → its effect in one sentence. Where the fixture world has the
+    // action, the name is the world's and the cross-reference validator checks
+    // the assignment both ways.
+    actions: z
+      .record(z.string(), z.string())
+      .refine((actions) => Object.keys(actions).length > 0, 'a concept has at least one action'),
     // Known complications: scenarios in which the concept fails its purpose.
     // Where a pattern names this concept, it is usually a move on one of these.
     misfits: z.array(z.string()).optional(),

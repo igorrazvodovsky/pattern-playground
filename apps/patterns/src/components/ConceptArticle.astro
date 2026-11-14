@@ -1,11 +1,11 @@
 ---
 // The one rendering of a concept entry, shared by the full page
 // (pages/concepts/[id].astro) and the pane partial (pages/concepts/[id]/pane.astro)
-// so the two cannot drift. The frontmatter carries the definition in Jackson's
-// shape (purpose, operational principle, state, actions); the body carries the
-// variants that matter to design. The patterns that act on the concept are the
+// so the two cannot drift. The frontmatter carries the whole entry: the
+// definition in Jackson's shape (purpose, operational principle, state, actions)
+// and its misfits. An entry has no body. The patterns that act on the concept are the
 // inverse of their `acts_on` and are rendered, never authored.
-import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import ArticleShell from './ArticleShell.astro';
 import Label from './Label.astro';
 import { panePath } from '../lib/pane-path';
@@ -19,7 +19,6 @@ interface Props {
 }
 
 const { entry, pagefind = true } = Astro.props;
-const { Content } = await render(entry);
 const data = entry.data;
 
 const concepts = await getCollection('concepts');
@@ -64,9 +63,9 @@ const patterns = (await getCollection('patterns'))
     <dt>Actions</dt>
     <dd>
       <ul>
-        {data.actions.map((action) => (
+        {Object.entries(data.actions).map(([action, effect]) => (
           <li>
-            <code>{action}</code>
+            <code>{action}</code> <Label text={effect} />
             {worldActions.has(action) && (
               <small class="muted" title="Instantiated in the fixture world (shared/world)">
                 {' '}
@@ -121,8 +120,6 @@ const patterns = (await getCollection('patterns'))
       </>
     )}
   </dl>
-
-  <Content />
 
   {patterns.length > 0 && (
     <section class="flow" aria-label="Patterns that act on this concept">

@@ -25,6 +25,63 @@ where the catalogue meets the language: a pattern's forces line up with a
 concept's misfits far more closely than with its principle, so a pattern that
 names a concept is usually a move on one of its misfits.
 
+## Telling them apart
+
+The two pages answer different questions about the same thing. The concept
+entry says what the system does and what the actor's acts mean. The pattern
+page says when the thing is worth reaching for and how to make it good in a
+situation. A pattern may argue for introducing a concept; it should not have to
+define it.
+
+Questions to ask of new content, and of a pattern page that shares a name or a
+subject with a concept:
+
+1. *Can it be said without a moment, a place or a cost?* State, actions and a
+   principle ("if the member does this, that follows") make a concept.
+   Content that needs "at the moment of", "in one step from", "before" or "at
+   the cost of" belongs to a pattern. *Following* is who follows what; asking
+   for access at the moment a feature needs it is a pattern.
+2. *Is its value recognition or fit?* A concept is the same in every system
+   that has it, and an entry succeeds when an actor recognises it. A pattern
+   produces a different instance each time, and succeeds when the instance
+   suits its situation.
+3. *What is left after subtracting the concept?* From the pattern page, set
+   aside everything the concept entry says or should say: the definition, the
+   state, the actions, the misfits. What remains should include a tension and
+   an instruction that depends on the situation. If only restated misfits
+   remain, the page has no move of its own; anything it adds goes into the
+   entry's misfits.
+4. *What does a variant change?* A variant that changes state or what an action
+   does is a different concept (a reading list adds read state to
+   bookmarking), with an entry of its own once a pattern needs to name it. A
+   variant that changes only how the same behaviour is offered is a variant of
+   the pattern.
+5. *Do several pages share one unnamed thing?* When several patterns each open
+   with a different action on the same thing (start it, hold it, end it, show
+   its state), a concept is missing. The check is that the patterns' problem
+   statements read as that concept's misfits.
+
+Signals that a page should be put to these questions: its title is the noun an
+actor would use for the stored thing (Tag, Session); its lead defines a thing
+where a shaped page would state a situation; its description reads as a
+purpose sentence ("… so that …") with no situation in it.
+
+What goes where, when both exist:
+
+- *Concept entry:* the definition and its misfits, and nothing else. It does
+  not discuss variants, neighbouring concepts or how it is composed with
+  others.
+- *Pattern page:* the situation, the tension, the instruction, and the
+  variants of realisation. It refers to the concept through `acts_on` and
+  does not redefine it.
+- *A misfit* is stated once, in the entry. The pattern page states the move on
+  it.
+
+A pattern's name follows the move where the move has a name of its own
+(*Identity at the point of need* acts on *Joining*). A shared name is kept
+where the move is simply offering the concept well (*Bookmarking*,
+*Commenting*).
+
 ## Where it lives
 
 `apps/patterns/src/content/concepts/`, a third Astro content collection
@@ -38,11 +95,11 @@ components) in the footer, the way the pattern corner's footer points at
 concepts and components. A concept page still hosts the stack, so a pattern
 that acts on it opens beside it.
 
-Frontmatter carries the definition; the body carries the variants that matter
-to design. Fields: `purpose` (one sentence), `principle` (prose), `state`
-(relations in the world's notation, `name: Kind -> one | opt | set Kind`),
-`actions` (names), `misfits`, `aliases`, `depends_on` (concept ids), and
-`appears_in` (shipping systems, by name). The schema is in
+Frontmatter carries the whole entry; a concept file has no body. Fields:
+`purpose` (one sentence), `principle` (prose), `state` (relations in the
+world's notation, `name: Kind -> one | opt | set Kind`), `actions` (each name
+with its effect in one sentence), `misfits`, `aliases`, `depends_on` (concept
+ids), and `appears_in` (shipping systems, by name). The schema is in
 `apps/patterns/src/content.config.ts`.
 
 Synchronisations are not entries. Concepts are reusable; their composition is

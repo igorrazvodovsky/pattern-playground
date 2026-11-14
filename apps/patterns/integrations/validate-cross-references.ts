@@ -391,9 +391,11 @@ function checkWorldConcepts(logger: AstroIntegrationLogger): Violation[] {
   const listed = new Map<string, Set<string>>();
   for (const { file, content, fm } of frontmatterFiles(conceptsDir)) {
     const id = fileStem(file);
-    const actions = (Array.isArray(fm.actions) ? fm.actions : []).filter(
-      (a): a is string => typeof a === 'string',
-    );
+    // `actions` maps each action name to its effect.
+    const actions =
+      fm.actions && typeof fm.actions === 'object' && !Array.isArray(fm.actions)
+        ? Object.keys(fm.actions)
+        : [];
     listed.set(id, new Set(actions));
     for (const action of actions) {
       if (!(action in actionTypes)) continue;

@@ -126,7 +126,7 @@ Alternatives considered:
 
 ### What an entry holds
 
-Frontmatter carries the structured parts; the body carries the rest.
+Frontmatter carries the whole entry; a concept file has no body.
 
 ```yaml
 title: Commenting
@@ -141,7 +141,10 @@ state:
   - thread: Comment -> one Thread
   - replyTo: Comment -> opt Comment
   - resolvedBy: Thread -> opt User
-actions: [addComment, replyToComment, resolveThread]
+actions:
+  addComment: A member writes a remark about an item, or about a passage of it, which starts a thread.
+  replyToComment: A member adds a remark to a thread in answer to an earlier one.
+  resolveThread: A member marks a thread settled; it leaves view, its remarks are kept, and who resolved it is recorded.
 misfits:
   - A thread whose passage is deleted keeps its remarks and loses its place.
   - Resolving hides a thread from the people who have not read it yet.
@@ -159,7 +162,8 @@ appears_in:
   opt | set Kind`, and nothing more. No preconditions, no invariants. The
   entry is as light as a page can be and still say what the concept is;
   weight is added only when a pattern page needs it.
-- `actions` are names. Where the world has the action, the name is the world's
+- `actions` map each name to its effect in one sentence, the form Jackson's
+  concept specifications give them. Where the world has the action, the name is the world's
   and the cross-reference validator checks it exists in
   `shared/world/action-types.json` and is assigned to this concept. Where the
   world has no instance, the name is the entry's own and nothing checks it.
@@ -198,11 +202,12 @@ concept to surface is what the pattern language and the component catalogue
 are for, reached through `acts_on` on one side and `realised_by` on the
 other, which is the three-way split in the source's own terms.
 
-The body is short prose: what the concept is for in an actor's terms, the
-variants that matter to design (a thread that resolves against one that
-deletes; a comment anchored to a range against one on the whole item), and
-the patterns that act on it, rendered from the inverse of the reference
-below rather than authored.
+An entry has no body. A variant that changes state or what an action does (a
+thread that deletes where this one resolves) is a different concept and gets an
+entry when a pattern needs to name it; neighbouring concepts and
+synchronisations are not discussed in the entry. The page lists the patterns
+that act on the concept, rendered from the inverse of the reference below
+rather than authored.
 
 Synchronisations are not entries. Concepts are reusable and their
 composition is specific to a system, so the composition lives with the
@@ -437,12 +442,22 @@ Done (2026-10-18):
   glossary entry, pattern-site.md, ARCHITECTURE.md, the content rule, and the
   doc indexes.
 
+Done (2026-11-14):
+
+- Five entries from Jackson's own examples, chosen as generic and already
+  claimed by a pattern page: Labelling, Trashing, Bookmarking, Following and
+  Filtering. None has a world instance, so their actions are the entries'
+  own. `acts_on` added in frontmatter only, with notes naming the misfit each
+  page moves on: `tag` → Labelling, `deletion` → Trashing (the soft-delete
+  arm), `bookmarking` → Bookmarking and Following, `activity-feed` →
+  Following, `filtering` and `rule-composition` → Filtering. The page bodies
+  were not revised, so these are references, not sittings.
+
 Remaining:
 
-- `acts_on` sittings on `deletion`, `sharing`, `tag`, `activity-log`,
-  `searching`, `activity-feed`, `undo`. Each needs its concept authored
-  first (deletion's three arms, sharing as grant, copy and link, Labelling
-  for tag) and is a sitting on that page; the vault overlay's remaining items
+- Sittings on the pages above, plus `sharing`, `activity-log`, `searching`
+  and `undo`. Deletion's other two arms (removing from view, destroying) and
+  sharing as grant, copy and link still need entries. The vault overlay's remaining items
   for *Making Software Meaningful* (one gesture, several concepts; the
   grant/revoke asymmetry; the concept behind an unchanged action) are what
   those sittings write.

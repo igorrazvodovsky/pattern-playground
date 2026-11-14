@@ -10,6 +10,9 @@ activityLevel: action
 lifecycle: seeking
 mediation: individual
 description: "Letting the actor save a direct reference to an item or view so they can return to it later from a persistent personal list."
+acts_on:
+  - { concept: bookmarking, note: "single-action save and one-step return; the warning against overloaded saves is the move on the second misfit" }
+  - { concept: following, note: "named to keep the two apart: a save that also subscribes is the overload the page warns against" }
 situation:
   initiating: >-
     … the actor has reached an item, view, conversation, or position they expect to need again.
