@@ -117,6 +117,16 @@ Differentiate an existing pattern into siblings when:
   not the page: edges can only land on nodes, so a sub-pattern that other entries
   relate to specifically has outgrown being a named force (Selection →
   Bounded choice)
+- frame–evidence mismatch — the problem and instruction state a broad rule across
+  several regimes (e.g. person, rule, and model), while the forces and research
+  only hold for one of them and do not apply to the others (Provenance marking →
+  Attribution + Provenance marking)
+- lexical stretch across callers — incoming links from sequences and neighbour
+  pages attach to different senses of a polysemous title word rather than to the
+  same generative move
+- scale disagreement in `levels.yaml` — the group where the pattern is placed in
+  `levels.yaml` sits at a different scale from the sequence siblings whose forces
+  it shares
 - its prose accumulates "in some variants…" clauses
 
 These are findings to take through the normal classification process

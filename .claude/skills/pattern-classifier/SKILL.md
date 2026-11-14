@@ -248,10 +248,9 @@ Research should inform the pattern's design considerations and the *forces* it b
 
 For new patterns, follow the authoring contract in `.claude/rules/pattern-content.md` (frontmatter, section order, link format, writing style). Focus on:
 
-- The relational definition (one sentence after the `# Title`) — phrased as a pattern that produces a centre
-- Forces, consequences, and design considerations structured around tensions and trade-offs rather than prescriptive rules — these are what make patterns generative
-- Cross-references woven into prose, not just listed in Related Patterns
-- Headers that the extraction script will pick up (`Precursors`, `Follow-ups`, `Containers and primitives`, `Foundation`, `Complementary`, `Tangentially related`, `Alternatives`) so edges land in the graph with the right type
+- Frontmatter `description` framed from the human situation, plus `situation.initiating` and `situation.resulting` prose
+- Keep one relationship type per sentence in `situation.initiating` and `situation.resulting` so the extractor's axis-sanity check does not flag mixed-type sentences, and ensure every edge in `relationships:` is linked in the page's prose
+- The bold *Problem* and *Therefore* skim path, with forces and evidence in the account before `Therefore,`
 
 For enrichment of existing patterns, the changes might be:
 
@@ -263,11 +262,12 @@ For enrichment of existing patterns, the changes might be:
 
 ### Update neighbours
 
-Adding or changing a pattern changes the topology. Check:
+Adding, splitting, or changing a pattern changes the topology. Check:
 
-- Do any existing patterns need new cross-references to this one?
-- Do section overview pages (e.g., `actions.mdx`) need updating?
-- After writing, regenerate the graph data: `npm run extract-graph`
+- Do any existing patterns need new cross-references to this one, or need polysemous links re-routed to a more specific neighbour?
+- Place every `role: pattern` entry once in `apps/patterns/src/content/levels.yaml`, ensuring any part (`enables`) sits after the wholes it helps complete
+- Check `apps/patterns/src/content/sequences/*.mdx` (`rule:`, `aspect:`, `constituents:`, and `via:`) and `apps/patterns/src/content/languages/*.mdx` (`patterns:` and `gaps:`)
+- Regenerate the graph data (`npm run extract-graph`) and verify zero new axis-sanity warnings (`edges unspoken on shaped pages`, `sentences linking neighbours of different types`), then run `npx -w @pattern-plgrnd/patterns astro build` to run cross-reference validation
 
 ## What this skill is not
 
