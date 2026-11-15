@@ -22,9 +22,9 @@ situation:
     actor can attach items from it as [reference material](/patterns/reference-material). Where
     an agent uses the connection, permissions settle what it can reach, while
     [bounded autonomy](/patterns/bounded-autonomy) settles what it may do there without asking.
-    When the standing work a grant was given for ends or goes unused,
-    [standing down](/patterns/standing-down) revokes the access. [Sharing](/patterns/sharing)
-    and [roles](/patterns/roles) solve the inverse problem: they govern what other participants
+    A grant given for standing work is withdrawn when the work ends, and one left unused can
+    lapse after a set time, as phones do for apps left unopened. [Sharing](/patterns/sharing)
+    and [roles](/patterns/roles) draw a different line: they govern what other participants
     may do inside the actor's workspace, whereas permissions govern what the artifact may reach
     outside itself…
 relationships:
@@ -32,7 +32,6 @@ relationships:
     - to: bounded-autonomy
       note: permissions settle what the agent can reach, and bounded autonomy settles what it may do there without asking
     - reference-material
-    - standing-down
   related:
     - sharing
     - roles

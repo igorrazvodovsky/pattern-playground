@@ -1,7 +1,7 @@
 ---
 title: Notification
 added: 2025-07-07
-updated:
+updated: 2026-11-15
 role: pattern
 group: coordination
 activityLevel: action
@@ -10,7 +10,7 @@ lifecycle: coordination
 fun: 🙂 3/5. Included as a prerequisite for more interesting things.
 realised_by: [components-toast--docs, components-callout--docs, components-dialog--docs]
 acts_on:
-  - { concept: notifying, note: "delivery and urgency; the concept itself says nothing about either" }
+  - { concept: notifying, note: "delivery, urgency, and timing ahead of a limit; the concept itself says nothing about when a notice arrives" }
 situation:
   initiating: >-
     a system event whose existence the actor needs to know about, alongside an
@@ -51,12 +51,12 @@ The delivery of system events to the actor's attention, balancing awareness agai
 
 ## Purpose
 
-Signifies the intention and the emotional tone of the information being communicated. Each status is associated with a specific color and icon, ensuring a consistent and universal user experience.
+Signifies the intention and the emotional tone of the information being communicated. Each status is associated with a specific colour and icon, ensuring a consistent and universal experience.
 
-- Information
-- Success
-- Warning
-- Error
+- *Information* — neutral events and background updates that need no action.
+- *Success* — confirmation that an operation or background run completed as intended.
+- *Warning* — a measure, deadline, or allowance tracked for the actor is approaching a limit while there is still time to act.
+- *Error* — something failed or stopped and could not complete on its own.
 
 ## Type
 

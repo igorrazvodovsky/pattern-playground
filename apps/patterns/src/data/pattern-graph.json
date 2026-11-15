@@ -21,6 +21,12 @@
           },
           {
             "clause": "whatever the sequence collected is now a loose end — a part-filled draft, a half-applied change — and the actor has to be able to see it to decide whether it stays"
+          },
+          {
+            "clause": "changes applied before the halt stay applied; abort states them and does not reverse them, so each one still needs a way back",
+            "setsUp": [
+              "undo"
+            ]
           }
         ]
       },
@@ -82,19 +88,14 @@
       "path": "/patterns/activity-feed",
       "role": "pattern",
       "situation": {
-        "initiating": "what's worth the actor's attention arrives from many sources on nobody's schedule, and checking each one costs time proportional to the number of sources rather than to how much actually happened",
-        "resulting": [
-          {
-            "clause": "updates from everywhere arrive in one scannable flow, so noticing what changed costs one look instead of several rounds"
-          },
-          {
-            "clause": "the ordering is a claim about what matters: chronological is predictable and treats everything as equal, algorithmic is relevant and unaccountable"
-          },
-          {
-            "clause": "a feed has no end, so there is no state in which the actor is finished with it — which is both why it sustains attention and why it is hard to put down"
-          }
-        ]
-      }
+        "initiating": "… updates worth the actor's attention arrive from many sources on nobody's schedule across [collaboration](/patterns/collaboration), [delegation](/patterns/delegation), and [assistance](/patterns/assistance). [Notification](/patterns/notification) carries the few events urgent enough to interrupt, leaving everything else scattered where it happened. Checking each source costs time proportional to how many there are rather than to how much actually changed, so [attention and tempo](/sequences/attention-and-tempo#glance) needs one place where waiting updates can be scanned and left.",
+        "resulting": "Keep the stream distinguishable from an [activity log](/patterns/activity-log), which records actions taken by an entity for accountability and reconstruction rather than aggregating updates of interest for awareness. When volume grows, give the actor [filtering](/patterns/filtering) by source or event type so noisy streams do not crowd out consequential ones, and pair the stream with a clear [empty state](/patterns/state-empty) when nothing new has arrived. Where items invite discussion, attach a [conversation](/patterns/conversation) thread to the item so replies stay anchored rather than spilling into the top-level stream…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
     },
     {
       "id": "activity-log",
@@ -113,6 +114,9 @@
           },
           {
             "clause": "histories only grow, so the log is useful in proportion to how narrowable it is — a complete record nobody can read is the same as no record"
+          },
+          {
+            "clause": "corrections and overrides that recur show in the record as a run that no single case reveals, and that run is the evidence later changes are made on: a default changed, a standing instruction written, a rule tuned, a limit widened or narrowed"
           }
         ]
       }
@@ -275,7 +279,7 @@
             "clause": "the actor's interpretation sits over the content without touching it, and the marks accumulate as wear — traces of where attention and effort actually went, readable long after"
           },
           {
-            "clause": "once the marks are visible to others the layer stops being a private reading aid: other people read the actor's attention, and a mark becomes something that can be answered rather than only added to",
+            "clause": "once the marks are visible to others the layer stops being a private reading aid: other people read the actor's attention, and a mark becomes something that can be answered rather than only added to; few private marks are ever shared, and sharing one means rewriting it and its anchor for other readers",
             "setsUp": [
               "commenting"
             ]
@@ -316,6 +320,9 @@
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "literature"
         }
       ]
     },
@@ -336,7 +343,10 @@
         "initiating": "pre-population has run out: the values that could be guessed from context or pulled from what the system already stores are in place, and what's left is work the actor would otherwise do themselves — which the system could take part of, if it were allowed to offer",
         "resulting": [
           {
-            "clause": "the loop is the system offering and the actor deciding, which makes dismissal the load-bearing half: an offer that can't be waved away cheaply stops being an offer"
+            "clause": "the loop is the system offering and the actor deciding, so dismissal has to stay cheap: an offer that cannot be waved away quickly is no longer an offer"
+          },
+          {
+            "clause": "each surface offers help at some level, usually chosen for typical use; some systems move the level up or down as accepted and dismissed offers accumulate"
           },
           {
             "clause": "the more of the work the system takes on, the more trust the actor has to extend before accepting anything — so how an offer accounts for itself stops being decoration",
@@ -514,27 +524,15 @@
       "path": "/patterns/bounded-autonomy",
       "role": "pattern",
       "situation": {
-        "initiating": "the actor wants work to proceed without them but not without limits — full supervision defeats the point of delegating, and open-ended authority asks for more trust than the agent has earned",
-        "resulting": [
-          {
-            "clause": "granted authority now has explicit edges — scope, spend, time, risk class — so trust can be extended in increments instead of all at once"
-          },
-          {
-            "clause": "crossing a bound is a designed event rather than a failure: the work pauses and control returns to the actor for renewal, escalation, or takeback",
-            "setsUp": [
-              "handoff",
-              "approval-gate"
-            ]
-          },
-          {
-            "clause": "the bounds only bind if the actor understood them at grant time; authority granted through an unread scope screen is consent in name only"
-          }
-        ]
+        "initiating": "… the actor is delegating work to an [agent](/patterns/agent) or an [outside agent](/patterns/outside-agent), and [permissions](/patterns/permissions) have established what it can reach. Which actions it may take there on its own is still undecided: putting an [approval gate](/patterns/approval-gate) on every step keeps the actor watching the screen, while letting the agent act without limits risks unwanted changes, messages, or spend while the actor is away.",
+        "resulting": "The agent acts on its own within explicit boundaries enforced by the platform, and stops at predictable points. When it reaches a reserved action or exhausts an allowance, the run pauses at an [approval gate](/patterns/approval-gate) to authorise that action or extend the limit, or transfers control through a [handoff](/patterns/handoff) with a summary of what was used and what remains. An action the actor ruled out is refused without a pause, and the run carries on without it. A [status feedback](/patterns/status-feedback) warns the actor before a spend or quota ceiling is hit. Budget and usage limits rely on [cost transparency](/patterns/cost-transparency) to show consumption against the remaining allowance. Deciding which actions may run freely and which require a checkpoint follows the severity and reversibility ratings in [action consequences](/patterns/action-consequences). When boundaries combine several conditions, the actor edits them as structured statements through [rule composition](/patterns/rule-composition). A [trial run](/patterns/trial-run) rehearses what the limits let through on sample cases before they apply to live work. Standing grants live in [settings](/patterns/settings) between runs, where a limit set months ago is easy to forget. [Capability and scope](/patterns/capability-and-scope) states what the agent is able to do, and the grant states what it is allowed to do on this occasion. For a single requested run, the plan approved in a [plan preview](/patterns/plan-preview) limits that run, whereas a grant holds across runs. The [activity log](/patterns/activity-log) records every autonomous action, refusal, and limit reached so the actor can widen or narrow the grant from evidence…"
       },
-      "seed": true,
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "literature"
         }
       ]
     },
@@ -566,6 +564,25 @@
       ]
     },
     {
+      "id": "branching",
+      "title": "Branching",
+      "category": "Actions",
+      "path": "/patterns/branching",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor is working in a [session](/patterns/session), a [conversation](/patterns/conversation), or a [version history](/patterns/version-history), and needs several threads running from an earlier point rather than a single sequence. [Undo](/patterns/undo) only steps back along one line and discards what followed, while keeping everything in one thread mixes separate lines of work together.",
+        "resulting": "The earlier state now has two or more sibling continuations, and the active path scopes both what the actor sees and what the system reads as context. Where the actor needs to weigh what diverged across branches, align the sibling outputs or paths through [comparing](/patterns/comparing). Where a tree overview sits beside the active transcript, link them as [coordinated views](/patterns/coordinated-views) so selecting a node scopes the view. Where a branch only retries a single turn at the leaf, [regeneration](/patterns/regeneration) or [instructed revision](/patterns/instructed-revision) handles the local change without adding long-lived branches. When a branch settles on a result that should replace or join the main line, bring it back through [change review](/patterns/change-review) or [reconciliation](/patterns/reconciliation). When only a finished piece needs to carry forward, lift it out of the thread with [extraction](/patterns/extraction). Branching is not [draft and publish](/patterns/draft-and-publish), which separates one working copy from what others read so unfinished edits stay private until published, though a collaborative branch can serve both roles at once…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "capability-and-scope",
       "title": "Capability & scope",
       "category": "Operations",
@@ -579,10 +596,33 @@
           },
           {
             "clause": "the statement is now a promise the rest of the exchange is held to; capability that turns out narrower than stated reads as the agent having misled them"
+          },
+          {
+            "clause": "the statement is true for this encounter only; what the agent can do changes between visits, so the boundary is stated again on return wherever it has changed"
           }
         ]
       },
       "group": "conversation/conversation-management"
+    },
+    {
+      "id": "case-correction",
+      "title": "Case correction",
+      "category": "Actions",
+      "path": "/patterns/case-correction",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… a standing rule, filter, recommender, or agent has acted on a case the actor did not want touched, or left alone one they did, and the actor is looking at that case: in the result, in a [notification](/patterns/notification), or among the items the rule refused. Even where a [trial run](/patterns/trial-run) checked the rule beforehand, cases arrive in use that the trial did not meet, and the governing logic sits in settings the actor seldom visits. Where the fault is in the wording or shape of a generated draft rather than in a standing decision on a case, the repair is an [instructed revision](/patterns/instructed-revision) of that output.",
+        "resulting": "The case is put right on the spot, and what governs future cases can stay as it is or change from here. The smallest repair is an [undo](/patterns/undo) or a one-off skip that leaves the standing behaviour untouched. An [explanation](/patterns/explanation) on the case shows which rule, signal, or preference produced it, and is where a deeper change starts. When an override should hold beyond this item, or when the same correction recurs across cases, it opens [rule composition](/patterns/rule-composition) on the clauses that matched this case or becomes a [standing instruction](/patterns/standing-instructions) in the actor's own words. Where the actor can show the right handling on the case more easily than state a rule for it, [tuning by demonstration](/patterns/tuning-by-demonstration) takes the place of editing the rule. Dismissing a [suggestion](/patterns/suggestion) is the same move at lower stakes, since the system only proposed the act. Standing exceptions that build up out of sight can end up cancelling the rule they qualify, so the list of them stays open to review…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "change-review",
@@ -591,8 +631,8 @@
       "path": "/patterns/change-review",
       "role": "pattern",
       "situation": {
-        "initiating": "… someone other than the actor has proposed changes to something that already exists and that the actor is responsible for. In [delegating work](/sequences/delegating-work) the result of a run arrives as changes to existing content, [generated content](/patterns/generated-content) the actor has to check rather than write. In [working on the same thing](/sequences/working-on-the-same-thing) a colleague's edits, made in a separate draft under [draft and publish](/patterns/draft-and-publish), come back to be merged. A [dry run](/patterns/dry-run) produces a before and after across many cases. In each of these, if the actor can see only the changed result, they can either accept all of it without checking or reject all of it. Change review shows what is there now next to what would replace it, so the actor can check the change and accept it in parts.",
-        "resulting": "The change can now be decided on part by part. Draw it with [comparing](/patterns/comparing)'s version case: the shared structure is assumed and only the difference is shown. Where the system proposed the change and applying it has consequences, an [approval gate](/patterns/approval-gate) can act on the review, so that the approval refers to a specific change. [Commenting](/patterns/commenting) attaches discussion to particular changes rather than to the document as a whole, and where colleagues review each other's work, [status feedback](/patterns/status-feedback) records the outcome in a set form. Rejecting a proposed change is [undo](/patterns/undo) before the change is applied; changes that have been accepted and applied still need undo afterwards. Change review differs from [plan preview](/patterns/plan-preview), which shows what the system intends to do before the work rather than the change after it, and from [review before submitting](/patterns/review-before-submitting), which shows the actor their own answers rather than a change someone else proposes…"
+        "initiating": "… someone other than the actor has proposed changes to something that already exists and that the actor is responsible for. In [delegating a task](/sequences/delegating-a-task) the result of a run arrives as changes to existing content, [generated content](/patterns/generated-content) the actor has to check rather than write. In [working on the same thing](/sequences/working-on-the-same-thing) a colleague's edits, made in a separate draft under [draft and publish](/patterns/draft-and-publish), come back to be merged. A [trial run](/patterns/trial-run) produces a before and after across many cases. In each of these, if the actor can see only the changed result, they can either accept all of it without checking or reject all of it. Change review shows what is there now next to what would replace it, so the actor can check the change and accept it in parts.",
+        "resulting": "The change can now be decided on part by part. Draw it with [comparing](/patterns/comparing)'s version case: the shared structure is assumed and only the difference is shown. Where the system proposed the change and applying it has consequences, an [approval gate](/patterns/approval-gate) can act on the review, so that the approval refers to a specific change. [Commenting](/patterns/commenting) attaches discussion to particular changes rather than to the document as a whole, and where colleagues review each other's work, [status feedback](/patterns/status-feedback) records the outcome in a set form. Rejecting a proposed change is [undo](/patterns/undo) before the change is applied; changes that have been accepted and applied still need undo afterwards. When a change is hard to follow, the usual repair is to ask whoever made it. Where the system made it there may be nobody to ask, and [transparent reasoning](/patterns/transparent-reasoning) gives an account of the work in the author's place, though it is the system's own report and can be wrong. Change review differs from the [activity log](/patterns/activity-log), which records what was done over time rather than one change proposed to one thing, from [plan preview](/patterns/plan-preview), which shows what the system intends to do before the work rather than the change after it, and from [review before submitting](/patterns/review-before-submitting), which shows the actor their own answers rather than a change someone else proposes…"
       },
       "seed": true,
       "evidence": [
@@ -1095,6 +1135,30 @@
       "group": "conversation/conversation-management"
     },
     {
+      "id": "division-of-responsibility",
+      "title": "Division of responsibility",
+      "category": "Activities",
+      "path": "/patterns/division-of-responsibility",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… several people, teams or organisations take part in the same work in a [workspace](/patterns/workspace), each answering for a different part of it, and an organisation that brings others in still has to answer for what happens to its own work and members.",
+        "resulting": "Each part of the work has a party who answers for it, and the lines between parts are visible to everyone working across them. [Sharing](/patterns/sharing) lets people across a line, and [roles](/patterns/roles) grade what they may do once inside…"
+      },
+      "group": "coordination",
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
+        }
+      ]
+    },
+    {
       "id": "draft-and-publish",
       "title": "Draft and publish",
       "category": "Actions",
@@ -1111,6 +1175,12 @@
           },
           {
             "clause": "the artefact now exists in two versions, and the actor has to manage the gap: forgetting to publish leaves readers on an outdated version"
+          },
+          {
+            "clause": "publishing reaches every reader at once, so in a shared artefact it can be a heavier act than any deletion, and it is rated for confirmation and a way back like the other acts",
+            "setsUp": [
+              "action-consequences"
+            ]
           }
         ]
       },
@@ -1143,26 +1213,6 @@
         ]
       },
       "evidence": [
-        {
-          "kind": "literature"
-        }
-      ]
-    },
-    {
-      "id": "dry-run",
-      "title": "Dry run",
-      "category": "Actions",
-      "path": "/patterns/dry-run",
-      "role": "pattern",
-      "situation": {
-        "initiating": "… the actor has written something that will act on many items at once: a rule made with [rule composition](/patterns/rule-composition), a step in a [workflow](/patterns/workflow), a find-and-replace, a batch rename, a mail merge, a formula filled down a column. Reading it does not tell them what it will do, and the items it will act on are out of sight or have not arrived yet. A filter shows its result as it is typed; a rule or a bulk edit shows nothing until it runs, and the first run is the real one. A dry run gives the rule and the workflow step that same check: it runs what was written against real items and shows what would change, without changing anything.",
-        "resulting": "The actor can now judge what they wrote by what it does to items they know, rather than by reading it. Where every item was in view, the dry run is a full before and after; hand it to [change review](/patterns/change-review) so the actor can accept or reject each change rather than all of them at once. Where the items arrive later, the dry run is a rehearsal, and a rule that passed it can still go wrong on an item the sample did not include; catching a rule after it goes wrong is a pattern of its own, not written here yet. [Plan preview](/patterns/plan-preview) is the neighbour where what is shown is the system's own plan rather than something the actor wrote, and a plan preview that runs its plan on a few items is both at once. [Filtering](/patterns/filtering) is not a dry run: a filter over a visible list shows its real result as it is typed, which is the check a dry run adds where the result cannot be seen…"
-      },
-      "seed": true,
-      "evidence": [
-        {
-          "kind": "observed"
-        },
         {
           "kind": "literature"
         }
@@ -1245,7 +1295,7 @@
       "path": "/patterns/embedded-intelligence",
       "role": "pattern",
       "situation": {
-        "initiating": "the actor has a workflow they already know, and what would help sits inside it rather than beside it; a separate AI surface asks them to leave what they're doing, restate their context somewhere else, and carry the answer back by hand",
+        "initiating": "the actor has a workflow they already know, and what would help sits inside it rather than beside it; a separate AI surface asks them to leave what they're doing, restate their context somewhere else, and carry the answer back by hand; the help can be asked for in place or offered from what the actor is doing",
         "resulting": [
           {
             "clause": "intelligence acts inside the existing workflow on context the system already holds, so the actor never restates what they're doing in order to get help with it"
@@ -1476,7 +1526,7 @@
       "path": "/patterns/form",
       "role": "pattern",
       "situation": {
-        "initiating": "… in [making changes](/sequences/making-changes) the actor has reached the point of saying what the change is, and it takes several related answers: the fields only make sense together, need more room than the display offers, or apply to a set rather than the item in view. [Editing in place](/patterns/editing-in-place) handles the single value; a form is the surface for the set. The rule editor in [delegating work](/sequences/delegating-work) uses the same surface for a set of fields that stays open.",
+        "initiating": "… in [making changes](/sequences/making-changes) the actor has reached the point of saying what the change is, and it takes several related answers: the fields only make sense together, need more room than the display offers, or apply to a set rather than the item in view. [Editing in place](/patterns/editing-in-place) handles the single value; a form is the surface for the set. The editor for a standing instruction in [delegating a task](/sequences/delegating-a-task) uses the same surface for a set of fields that stays open.",
         "resulting": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it. Where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting), and let [status feedback](/patterns/status-feedback) report what the submission did. A form that has outgrown one screen is split by [sections](/patterns/sections) into parts, by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another it has become a [wizard](/patterns/wizard). A form holds pending state until it is committed, so decide with [saving](/patterns/saving) what happens to a half-filled one, and let [localization](/patterns/localization) decide which formats its fields accept…"
       },
       "group": "application",
@@ -1509,7 +1559,10 @@
             "clause": "every destination is one move from every other, and the shape of the whole is visible from anywhere — bought with screen space on every page, spent whether or not the actor on that page needs it"
           },
           {
-            "clause": "the global menu is a fixed budget that content growth eats into; the set that has to fit the chrome stops fitting long before the content stops arriving, and what gives is either the depth on show or the topology"
+            "clause": "the global menu is a fixed budget that content growth eats into; the set that has to fit the chrome stops fitting long before the content stops arriving, and what gives is either the depth on show or the topology",
+            "setsUp": [
+              "hybrid-patterns"
+            ]
           }
         ]
       },
@@ -1615,23 +1668,19 @@
       "path": "/patterns/handoff",
       "role": "pattern",
       "situation": {
-        "initiating": "whoever currently holds the work — agent or actor — cannot or should not continue: a bound was crossed, confidence ran out, a judgement call arrived, or the actor simply wants it back",
-        "resulting": [
-          {
-            "clause": "control moves with its context attached — what was done, what remains, why the transfer — so the receiver continues the work instead of restarting it"
-          },
-          {
-            "clause": "the seam is where accountability changes hands, and where it is most easily lost: after a transfer, each side can believe the other is watching"
-          },
-          {
-            "clause": "transfers have a rate above which delegation stops paying for itself; a system that hands back constantly was never really delegated to"
-          }
-        ]
+        "initiating": "… work is under way—assigned to an [agent](/patterns/agent) in [governing autonomy](/sequences/governing-autonomy) or [delegating standing work](/sequences/delegating-standing-work), or carried by a participant in [working on the same thing](/sequences/working-on-the-same-thing)—and whoever holds it cannot or should not continue alone. A limit set in [bounded autonomy](/patterns/bounded-autonomy) was reached, or a warning announced that one was approaching; confidence ran out; a step arrived that requires human credentials or a colleague's review; or the actor stepped in to take over. When the trouble is only a missing parameter or an ambiguous instruction, [agent repair](/patterns/agent-repair) resolves it in place and keeps the current holder going. When the goal itself is abandoned, [abort](/patterns/abort) halts the run rather than passing it on. And when the actor suspends standing work without taking it on themselves, the work is held in place and nothing is transferred.",
+        "resulting": "Control and context move together as an inspectable transfer object. The transition closes only when the receiver accepts or declines it in a set form through [status feedback](/patterns/status-feedback), and [deep linking](/patterns/deep-linking) carries them directly into the state and item where the work stopped. When the receiver is not already looking at the surface, the request reaches them as a [notification](/patterns/notification). Where the transfer has to find a human owner, admin, or support specialist outside the current run, [reaching a person](/patterns/reaching-a-person) names who can act and opens the channel to them. The full trail behind the brief stays open to inspection in the [activity log](/patterns/activity-log), and every handoff, acceptance, and return is signed through [attribution](/patterns/attribution) so the record shows who held the work at each point. Where the actor may need to step in and do the task themselves, [mastery](/patterns/mastery) keeps the underlying skill in practice. Once the actor takes over to work directly on the artefact, [editing in place](/patterns/editing-in-place) gives them the surface to act on. If the agent could have continued once a limit was raised or a single action authorised, an [approval gate](/patterns/approval-gate) handles the checkpoint without transferring the rest of the task. When a temporary takeover is never returned to the agent and stays held indefinitely, a limit on how long the work may go unused eventually asks whether the standing arrangement should end. In sustained [collaboration](/patterns/collaboration), passing control stops being an exception boundary and becomes routine turn-taking…"
       },
       "seed": true,
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -1652,6 +1701,12 @@
           },
           {
             "clause": "the content is a second telling of the system that has to be kept true as the system changes, or it goes on teaching the old one"
+          },
+          {
+            "clause": "written help runs out where the question needs reasoning about the actor's own situation; one route on from there is a conversation with an agent, a move to another surface where help is embedded and no move at all where the conversation is already the surface, and where the fix needs someone else's access or judgement the route is a person",
+            "setsUp": [
+              "agent"
+            ]
           }
         ]
       }
@@ -1664,7 +1719,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… the work has been divided into contexts in [structuring the space](/sequences/structuring-the-space), and this context holds sections that differ in kind and are used one at a time; or it began as one [flat surface](/patterns/flat-navigation) and its tools have outgrown the screen. The switcher over a set of [workspaces](/patterns/workspace) is the same case, the list of workspaces being the hub and each workspace a spoke. A hub gives the sequence its simplest answer: one list that every section is reached from, and sections that need to know nothing of each other.",
-        "resulting": "Design what the hub reports across the spokes as a [purpose-keyed view](/patterns/purpose-keyed-view) in its own right, built for the actor's recurring question rather than inherited from the topology; [making sense at scale](/sequences/making-sense-at-scale) takes that up. Give actors who know their destination a [command menu](/patterns/command-menu) and [searching](/patterns/searching) that reach a spoke without the hub, and let [deep linking](/patterns/deep-linking) reach one from outside the structure altogether. When cross-spoke traffic becomes general, give up the pattern rather than patch it: [fully connected](/patterns/fully-connected) puts every section one move from every other, at the cost of chrome on every page, and a persistent tab bar is already that [hybrid](/patterns/hybrid-patterns), a hub that never leaves the screen. Where the sections nest rather than sit beside each other, hold the depth in a [multilevel tree](/patterns/multilevel-tree). Two neighbours share the look but not the ground: [overview and detail](/patterns/overview-detail) shows one collection at two levels of detail, where a hub routes between sections with no model in common, and a [pyramid](/patterns/pyramid) is the hub for items that form a sequence…"
+        "resulting": "Design what the hub reports across the spokes as a [purpose-keyed view](/patterns/purpose-keyed-view) in its own right, built for the actor's recurring question rather than inherited from the topology; [making sense at scale](/sequences/making-sense-at-scale) takes that up. Give actors who know their destination a [command menu](/patterns/command-menu) and [searching](/patterns/searching) that reach a spoke without the hub, and let [deep linking](/patterns/deep-linking) reach one from outside the structure altogether. When cross-spoke traffic becomes general, give up the pattern rather than patch it: [fully connected](/patterns/fully-connected) puts every section one move from every other, at the cost of chrome on every page, and a persistent tab bar is its usual form on a phone. A [hybrid](/patterns/hybrid-patterns) keeps the hub for most sections and connects directly the few the actor travels between. Where the sections nest rather than sit beside each other, hold the depth in a [multilevel tree](/patterns/multilevel-tree). Two neighbours share the look but not the ground: [overview and detail](/patterns/overview-detail) shows one collection at two levels of detail, where a hub routes between sections with no model in common, and a [pyramid](/patterns/pyramid) is the hub for items that form a sequence…"
       },
       "group": "navigation",
       "evidence": [
@@ -1924,7 +1979,7 @@
       "path": "/patterns/instructed-revision",
       "role": "pattern",
       "situation": {
-        "initiating": "… in [delegating work](/sequences/delegating-work), the actor has asked for something with a [prompt](/patterns/prompt) and received [generated content](/patterns/generated-content)—a draft, a reply, a passage in a document—that is close, with a flaw they can name: too long, too stiff, the second paragraph is off. [Regeneration](/patterns/regeneration) would draw again from the request alone, which says nothing about the flaw and so is no more likely to fix it, while fixing it by hand costs more than describing the change.",
+        "initiating": "… in [delegating a task](/sequences/delegating-a-task), the actor has asked for something with a [prompt](/patterns/prompt) and received [generated content](/patterns/generated-content)—a draft, a reply, a passage in a document—that is close, with a flaw they can name: too long, too stiff, the second paragraph is off. [Regeneration](/patterns/regeneration) would draw again from the request alone, which says nothing about the flaw and so is no more likely to fix it, while fixing it by hand costs more than describing the change.",
         "resulting": "The output now changes by a stated difference while the original request stands. An instruction applied to the whole output reaches passages the actor had already settled, so a [selection](/patterns/selection) limits the revision to the span that needs it, while revision chips beneath a reply are a [suggestion](/patterns/suggestion) when the system picks them from the response. Where a revision rewrites several places at once, present it through [change review](/patterns/change-review) against the last accepted version so the actor can see what changed and accept or reject it in parts. Keep the replaced version one step back through [undo](/patterns/undo). Where revision runs through a conversation, a [steering surface](/patterns/steering-surface) holds the work still beside the instructions, so the actor does not carry each revised version back by hand. When a change is a single word, figure, or name the actor already has in mind, [editing in place](/patterns/editing-in-place) is more direct than describing it in prose. When the actor repeats the same correction across outputs, promote it to [standing instructions](/patterns/standing-instructions) so it holds on every run. Where others need to know that machine revision shaped a passage, mark it with [provenance marking](/patterns/provenance-marking). Instructed revision is not a [text lens](/patterns/text-lens), which adapts how a source reads for one actor while leaving the underlying content unchanged…"
       },
       "evidence": [
@@ -2119,6 +2174,9 @@
           },
           {
             "clause": "a surface tuned for mastery is denser than a beginner can read, so one system has to serve both without splitting into two"
+          },
+          {
+            "clause": "actors mostly pick up the optional routes from someone working beside them who already uses them, which the artifact can make visible but cannot arrange"
           }
         ]
       },
@@ -2240,6 +2298,12 @@
         "resulting": [
           {
             "clause": "a delivery surface tuned to the event's urgency and the actor's availability"
+          },
+          {
+            "clause": "every notification spends attention the actor did not offer; when the spend outruns what the notifications are worth to them, they turn the channel off, and it then carries nothing, the urgent events included"
+          },
+          {
+            "clause": "a kind of event the actor keeps muting or dismissing unread was graded too high, and the muting is the evidence to regrade it on"
           }
         ]
       },
@@ -2384,7 +2448,10 @@
             ]
           },
           {
-            "clause": "a continuous space has no addresses of its own; position and scale have to be made nameable before anything in it can be linked to, bookmarked, or returned to"
+            "clause": "a continuous space has no addresses of its own; position and scale have to be made nameable before anything in it can be linked to, bookmarked, or returned to",
+            "setsUp": [
+              "deep-linking"
+            ]
           },
           {
             "clause": "what's on screen is a fraction of what exists, so the space has to decide what to load and what detail to draw at each scale — and those are visible to the actor as waiting, not as engineering"
@@ -2437,13 +2504,33 @@
       ]
     },
     {
+      "id": "permissions",
+      "title": "Permissions",
+      "category": "Actions",
+      "path": "/patterns/permissions",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… to carry out a task, the artifact needs access to something the actor controls outside it—a camera or location sensor, local files, contacts, or an external account such as a calendar or mailbox—either for a feature the actor just triggered or for an [agent](/patterns/agent) working under [delegation](/patterns/delegation).",
+        "resulting": "The artifact holds only the access the actor has explicitly granted, and active grants can be reviewed and revoked in [settings](/patterns/settings). Once a source is connected, the actor can attach items from it as [reference material](/patterns/reference-material). Where an agent uses the connection, permissions settle what it can reach, while [bounded autonomy](/patterns/bounded-autonomy) settles what it may do there without asking. A grant given for standing work is withdrawn when the work ends, and one left unused can lapse after a set time, as phones do for apps left unopened. [Sharing](/patterns/sharing) and [roles](/patterns/roles) draw a different line: they govern what other participants may do inside the actor's workspace, whereas permissions govern what the artifact may reach outside itself…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "plan-preview",
       "title": "Plan preview",
       "category": "Actions",
       "path": "/patterns/plan-preview",
       "role": "pattern",
       "situation": {
-        "initiating": "the actor has asked for something consequential that takes several steps; the agent has settled what the request means and is about to choose how to carry it out, and acting straight away would spend real work — and possibly real consequences — on a course of action nobody has checked",
+        "initiating": "the actor has asked for something consequential that takes several steps; the agent has settled what the request means and is about to choose how to carry it out, and acting straight away would spend real work — and possibly real consequences.",
         "resulting": [
           {
             "clause": "the agent's intention is now a reviewable object — steps, targets, expected effects — so a wrong course is caught while it is still cheap, and the preview becomes the thing an approval can act on",
@@ -2598,7 +2685,7 @@
       "path": "/patterns/prompt-scaffolding",
       "role": "pattern",
       "situation": {
-        "initiating": "… now the actor has reached the point of framing a [prompt](/patterns/prompt) in [delegating work](/sequences/delegating-work), but they do not yet have their intent formulated in words, and an empty input provides no structure for articulating what the task requires. Where the relevant questions are known in advance, prompt scaffolding gives the prompt explicit structure up front, turning anticipated parameters and criteria into inspectable slots and checks so the request is complete before it runs. Where the intent is exploratory or emergent and the questions cannot be anticipated, an [open request](/patterns/open-request) drawn out through conversation serves better.",
+        "initiating": "… now the actor has reached the point of framing a [prompt](/patterns/prompt) in [delegating a task](/sequences/delegating-a-task), but they do not yet have their intent formulated in words, and an empty input provides no structure for articulating what the task requires. Where the relevant questions are known in advance, prompt scaffolding gives the prompt explicit structure up front, turning anticipated parameters and criteria into inspectable slots and checks so the request is complete before it runs. Where the intent is exploratory or emergent and the questions cannot be anticipated, an [open request](/patterns/open-request) drawn out through conversation serves better.",
         "resulting": "Break each parameter into a separate control, using [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set of options, criteria, or schemas. Check the request before it runs with [validation](/patterns/validation) to warn about missing parameters or underspecified instructions at the field that needs attention. Where starter values help illustrate the slots, offer them through [suggestion](/patterns/suggestion), but keep them light so they do not anchor the actor or narrow output diversity. When a scaffold requires several interdependent configuration steps, paginate the flow with a [wizard](/patterns/wizard). When a successful scaffold configuration recurs across tasks, save it as a [template](/patterns/template) with fillable slots. Occupying the structure enacts [learnability](/patterns/learnability) by showing the actor which dimensions a complete request needs, but structure narrows expression: what the scaffold omits tends not to get asked, and the form continues proposing past assumptions until its slots are revised. A scaffold is not a conventional [form](/patterns/form), which commits structured records to a fixed store rather than assembling a prompt for generative execution…"
       },
       "evidence": [
@@ -2617,7 +2704,7 @@
       "path": "/patterns/prompt",
       "role": "pattern",
       "situation": {
-        "initiating": "… the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words. The intent has no control or command name to reach it by; where it does, a [command menu](/patterns/command-menu) finds it faster and with a predictable result.",
+        "initiating": "… the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating a task](/sequences/delegating-a-task), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words. The intent has no control or command name to reach it by; where it does, a [command menu](/patterns/command-menu) finds it faster and with a predictable result.",
         "resulting": "The request is now written in the actor's own words as a durable object that can be edited, re-sent, or kept, while everything the phrasing left unsaid is left for the system to interpret or ask about. Where a blank input leaves the actor unsure what the system can do or how much to say, host starter [suggestions](/patterns/suggestion) on the prompt surface to seed or send an example request. Let the actor attach or @-mention [reference material](/patterns/reference-material) inside the prompt so the system works from named files or data sources rather than from generalities. Read what they have open or selected through [view as context](/patterns/view-as-context), so they do not have to name what is in front of them. Where the task is repetitive and high-constraint and open prose keeps leaving required parameters out, structure the input with [prompt scaffolding](/patterns/prompt-scaffolding) into labelled slots or pre-submission checks. Where the request states a complex goal in conversation with missing constraints that would be costly to guess wrong, treat it as an [open request](/patterns/open-request) and let [agent inquiry](/patterns/inquiry-agent) ask back for what is missing rather than forcing the actor to front-load every detail. Once submitted, the prompt produces [generated content](/patterns/generated-content) from the framed request and its attached context, or sets a multi-step run in motion. Because actors often discover their criteria only by reacting to a concrete attempt, follow the initial output with [instructed revision](/patterns/instructed-revision) to steer what came back in words, or [regeneration](/patterns/regeneration) to draw another attempt from the same request. When a working prompt recurs across items, let the actor save it as a [template](/patterns/template); when the same instruction has to be repeated in every session, promote it to [standing instructions](/patterns/standing-instructions) so it is read on every run. A prompt is not [searching](/patterns/searching), which retrieves existing items matching a query rather than generating a new response or executing a task, even when one input bar accepts both…"
       },
       "evidence": [
@@ -2720,7 +2807,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… the actor needs something the artifact cannot do on its own: access to a document someone else controls, a permission only an admin can grant, an account they cannot get back into after [account recovery](/patterns/account-recovery) has failed, a review of a decision made about them, a charge they dispute. [Help](/patterns/help) has nothing more to tell them, because the fix needs access, authority, judgement or knowledge that some person holds: the owner of the item, a workspace admin, a contact the actor named in advance, a moderator, or the provider's support.",
-        "resulting": "The request sits with someone who can act on it, with enough attached that they can act without asking the actor to explain it again. What follows, the reply and the actor's sense of where the request stands, belongs to the request rather than to reaching the person…"
+        "resulting": "The request sits with someone who can act on it, with enough attached that they can act without asking the actor to explain it again. Where an agent was already working on the task or triaging the conversation before passing it on, [handoff](/patterns/handoff) packages the progress so far and governs the transfer of responsibility and any return to the agent…"
       },
       "seed": true,
       "evidence": [
@@ -2812,23 +2899,15 @@
       "path": "/patterns/regeneration",
       "role": "pattern",
       "situation": {
-        "initiating": "the output isn't right, correcting it by hand costs more than asking again, and the intent hasn't changed — the actor wants another answer to the same question, not a new question. They have no particular change to name; where they can name one, [instructed revision](/patterns/instructed-revision) works from the output they already have",
-        "resulting": [
-          {
-            "clause": "the same intent yields another draw, so iteration happens without rearticulating the request — judgement cycles replace composition cycles"
-          },
-          {
-            "clause": "drawing again discards silently: without branches or history the replaced result is simply gone, and the actor gambles what they have on getting something better"
-          },
-          {
-            "clause": "parallel variants turn judgement into comparison, which is easier than absolute assessment and quietly caps how many drafts anyone will weigh"
-          }
-        ]
+        "initiating": "… in [delegating a task](/sequences/delegating-a-task), the actor has asked for something with a [prompt](/patterns/prompt) and received [generated content](/patterns/generated-content) that misses the mark, while the intent behind the request still holds. They have no specific change to describe—where they can name what is off, [instructed revision](/patterns/instructed-revision) steers the output they have, and where they know the exact fix, [editing in place](/patterns/editing-in-place) applies it directly.",
+        "resulting": "Another draw now runs from the same request. Where most of the output already works, scope the redraw to a [selection](/patterns/selection) so the settled surroundings stay untouched. Keep the replaced result one step back through [undo](/patterns/undo) or version stepping on the turn. Where the actor returns to an earlier turn in a thread to try a different direction, fork the exchange with [branching](/patterns/branching) so the subsequent turns stay intact. When the actor draws several candidates at once, align them through [comparing](/patterns/comparing) so differences can be read directly rather than held in memory. Where a full run is slow or costly, pair regeneration with [draft and publish](/patterns/draft-and-publish) to redraw cheaply in a draft state before committing to the final result…"
       },
-      "seed": true,
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "literature"
         },
         {
           "kind": "used"
@@ -2897,6 +2976,30 @@
       ]
     },
     {
+      "id": "roles",
+      "title": "Roles",
+      "category": "Activities",
+      "path": "/patterns/roles",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… [division of responsibility](/patterns/division-of-responsibility) has settled which parts of the work each party answers for. Inside one part of a [workspace](/patterns/workspace), people still take part in different ways: some run it, some contribute, some review and some only read.",
+        "resulting": "Every person in the part holds a named role. [Sharing](/patterns/sharing) gives one of them to each person it lets in, so the levels it offers are these roles. When an actor meets an action their role does not allow, [explanation](/patterns/explanation) says which role allows it and who can give it, and [unavailable actions](/patterns/unavailable-actions) hides only the actions that are not theirs to ask for. An [outside agent](/patterns/outside-agent) holds a role as a person does, and what it may do there without asking is limited further by [bounded autonomy](/patterns/bounded-autonomy). [Permissions](/patterns/permissions) covers a different line, around what the artifact may reach on the actor's own device and accounts…"
+      },
+      "group": "coordination",
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "used"
+        },
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "rule-composition",
       "title": "Rule composition",
       "category": "Actions",
@@ -2911,7 +3014,7 @@
           {
             "clause": "reading the statement does not tell the actor what it matches or does; a selecting rule shows its result on the collection at once, an acting rule shows nothing until it fires",
             "setsUp": [
-              "dry-run"
+              "trial-run"
             ]
           },
           {
@@ -3106,6 +3209,12 @@
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -3125,7 +3234,10 @@
             "clause": "the surface accumulates: every option added is one more thing to look past, and the ones nobody ever changes still cost the actors hunting for the ones they do"
           },
           {
-            "clause": "a preference set once and honoured indefinitely stops being visible to the actor who set it, so behaviour that follows from it reads later as a fault rather than as their own earlier decision"
+            "clause": "a preference set once and honoured indefinitely stops being visible to the actor who set it, so behaviour that follows from it reads later as a fault rather than as their own earlier decision — the setting has to be named where the behaviour shows",
+            "setsUp": [
+              "explanation"
+            ]
           },
           {
             "clause": "in shared configuration, one actor's change alters what others see without their doing anything — something has to carry the change across to them",
@@ -3151,33 +3263,17 @@
       "path": "/patterns/sharing",
       "role": "pattern",
       "situation": {
-        "initiating": "the work is its maker's alone, and it now needs others inside it; handing copies around forks it, and opening everything to everyone destroys the freedom to work rough — so who can see and touch what has to be decided at the boundary, before any joint mechanism exists",
-        "resulting": [
-          {
-            "clause": "the grant names a capability tier, not just a person — viewer, commenter, editor — and every tier above viewing is a promise: granting comment access promises a commenting surface, granting edit access promises everything an editor collides with"
-          },
-          {
-            "clause": "grants inherit and cap: a container's grant flows down to what it holds, and nobody grants above what they themselves hold — so the sharing model is also the shape of the space"
-          },
-          {
-            "clause": "once anyone besides the maker can see the document, what unfinished work shows stops being an accident: the boundary between working and showing has to be declared, and a boundary declared distinct needs its crossing built",
-            "setsUp": [
-              "draft-and-publish"
-            ]
-          },
-          {
-            "clause": "participants granted into one document behind separate screens can see everything except each other; the grant creates the awareness debt presence pays",
-            "setsUp": [
-              "presence"
-            ]
-          }
-        ]
+        "initiating": "… a [workspace](/patterns/workspace) holds a person's private work or the shared work of a team or organisation, and new items start with the access of the place they are made in. Where several parties take part in the work, [division of responsibility](/patterns/division-of-responsibility) draws the lines between the parts each party answers for and settles who may let others in. Soon someone outside a part, or outside the workspace altogether, needs to see, review or edit a folder or a single item without being given the rest.",
+        "resulting": "Each person or group let in gets one of the [roles](/patterns/roles) the space offers, and everyone with access is listed on the folder or item where their access can be changed or removed. An [outside agent](/patterns/outside-agent) is let in and removed through the same list, and can never be given more access than the person who brings it has. A [deep link](/patterns/deep-linking) either opens only for people who already have access, or carries a role of its own so anyone with the link can open it without an account. Once several people have the same live work open on separate screens, [presence](/patterns/presence) shows who else is there, and a role that lets people review or discuss needs [commenting](/patterns/commenting). Where rough work should not be seen as it is being written, [draft and publish](/patterns/draft-and-publish) keeps a working copy separate from what others read; where different parties need different issued sets rather than one published version for everyone, each set is its own part with its own access. [Permissions](/patterns/permissions) covers a different line, around what the artifact may reach on the actor's own device and accounts…"
       },
       "group": "coordination",
       "seed": true,
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "literature"
         }
       ]
     },
@@ -3228,7 +3324,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… the actor works with an agent or assistant across many sessions. Its default behaviour is close but not right, and the same correction comes back each time: the spelling, the length, the tool it should reach for, the thing it must never do. Saying it in the [prompt](/patterns/prompt) fixes one run; saying it as an [instructed revision](/patterns/instructed-revision) fixes one output. By the third time the actor wants to say it once and have it hold.",
-        "resulting": "What should hold is written down in the actor's words and read at the start of every run, so a correction made once stops recurring, and every piece of [generated content](/patterns/generated-content) from then on carries its mark. [Rule composition](/patterns/rule-composition) is the other form a standing correction takes: a condition built from parts the system offers, exact enough to run on its own, where an instruction is prose the system interprets. [Memory](/patterns/memory) is the neighbouring channel, written by the system rather than the actor; the two need separate controls, or a fact the actor erased survives as behaviour they once asked for. [Settings](/patterns/settings) hold the preferences that fit an enumerated axis, and an instruction holds what no axis anticipated. A [workflow](/patterns/workflow) or a skill is a procedure the actor invokes; an instruction is read whether or not anything invokes it. The instruction accumulates and goes quiet: behaviour set months ago reads later as how the system is, and a file that grew by one line per correction starts to contradict itself with nothing to say which line wins. Reading it does not say what it will do, which is the gap a [dry run](/patterns/dry-run) fills where the effect can be rehearsed. How far the system may act on its own is not an instruction but a grant, and recurring renewals of the grant become standing bounds the way recurring corrections become standing instructions; that is [bounded autonomy](/patterns/bounded-autonomy)'s side of the same escalation…"
+        "resulting": "What should hold is written down in the actor's words and read at the start of every run, so a correction made once stops recurring, and every piece of [generated content](/patterns/generated-content) from then on carries its mark. [Rule composition](/patterns/rule-composition) is the other form a standing correction takes: a condition built from parts the system offers, exact enough to run on its own, where an instruction is prose the system interprets. [Memory](/patterns/memory) is the neighbouring channel, written by the system rather than the actor; the two need separate controls, or a fact the actor erased survives as behaviour they once asked for. [Settings](/patterns/settings) hold the preferences that fit an enumerated axis, and an instruction holds what no axis anticipated. A [workflow](/patterns/workflow) or a skill is a procedure the actor invokes; an instruction is read whether or not anything invokes it. The instruction accumulates and goes quiet: behaviour set months ago reads later as how the system is, and a file that grew by one line per correction starts to contradict itself with nothing to say which line wins. Reading it does not say what it will do, which is the gap a [trial run](/patterns/trial-run) fills where the effect can be rehearsed. How far the system may act on its own is not an instruction but a grant, and recurring renewals of the grant become standing bounds the way recurring corrections become standing instructions; that is [bounded autonomy](/patterns/bounded-autonomy)'s side of the same escalation…"
       },
       "evidence": [
         {
@@ -3541,6 +3637,46 @@
       ]
     },
     {
+      "id": "trial-run",
+      "title": "Trial run",
+      "category": "Actions",
+      "path": "/patterns/trial-run",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor has configured a bulk edit, a standing rule in [rule composition](/patterns/rule-composition), or an agent set to start by itself under [bounded autonomy](/patterns/bounded-autonomy). It may also be a step inside a [workflow](/patterns/workflow). Unlike a live filter over a visible list, a rule, batch operation, or background agent shows no result while it is being configured, and the items it will act on may be out of view or have not arrived yet.",
+        "resulting": "The actor can evaluate the configuration by inspecting its actual output rather than guessing from its syntax. Where the trial previews edits to existing items, [change review](/patterns/change-review) lets the actor inspect and accept or reject individual changes before committing the batch. Each trial result can include an [explanation](/patterns/explanation) of which condition matched, so the actor can spot a right outcome reached for the wrong reason. For rules and agents that filter or select, the trial can also show the cases that narrowly missed. Because a rehearsal over sample data cannot cover every future input, live runs still rely on [case correction](/patterns/case-correction) when an unanticipated case misfires. [Plan preview](/patterns/plan-preview) solves the adjacent problem where an agent presents its own intended steps before acting, rather than testing a configuration the actor set up…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
+      "id": "tuning-by-demonstration",
+      "title": "Tuning by demonstration",
+      "category": "Actions",
+      "path": "/patterns/tuning-by-demonstration",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor wants an agent, or a tool such as a spreadsheet, to do something their way and cannot easily say what that way is: a tone, a route, a manner of handling a certain kind of case. [Standing instructions](/patterns/standing-instructions) need the preference in words, and [rule composition](/patterns/rule-composition) needs it in the system's terms. The actor can do the thing, or can point to an instance of it done well.",
+        "resulting": "The agent holds a preference the actor never stated, and the actor cannot check it unless it is shown. What was taken from the demonstration is kept in words in [memory](/patterns/memory), which is also where what the system picks up from ordinary use, without being shown, is kept and corrected. An example the actor points to is attached as [reference material](/patterns/reference-material), and the demonstration lies in saying what about it to follow. A procedure recorded step by step becomes a [workflow](/patterns/workflow) the actor can read and repair. Because a single demonstration fits many generalisations, a [trial run](/patterns/trial-run) over new cases lets the actor see which interpretation the system took before relying on it…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "unavailable-actions",
       "title": "Unavailable actions",
       "category": "Operations",
@@ -3790,13 +3926,6 @@
   "edges": [
     {
       "source": "abort",
-      "target": "undo",
-      "type": "related",
-      "label": "related non-destructive exit; offer undo and restore affordances when state has been modified",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "abort",
       "target": "conversation",
       "type": "enables",
       "extractedFrom": "frontmatter:enables",
@@ -3971,7 +4100,7 @@
     },
     {
       "source": "action-consequences",
-      "target": "dry-run",
+      "target": "trial-run",
       "type": "related",
       "label": "a severity reducer for many-case actions: the review step before a rule, replace-all or bulk edit commits across its whole scope",
       "extractedFrom": "frontmatter:related"
@@ -3981,42 +4110,50 @@
       "target": "assistance",
       "type": "serves",
       "label": "assistance's perceiving step — keeping recent events visible so the actor can notice what matters",
-      "extractedFrom": "frontmatter:serves"
+      "extractedFrom": "frontmatter:serves",
+      "situation": "updates worth the actor's attention arrive from many sources on nobody's schedule across [collaboration](/patterns/collaboration), [delegation](/patterns/delegation), and [assistance](/patterns/assistance).",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "activity-feed",
       "target": "delegation",
       "type": "serves",
-      "label": "the feed gives the user awareness of background agent activity during delegation's execution stage",
-      "extractedFrom": "frontmatter:serves"
+      "label": "delegation's execution stage — giving the actor awareness of background agent activity",
+      "extractedFrom": "frontmatter:serves",
+      "situation": "updates worth the actor's attention arrive from many sources on nobody's schedule across [collaboration](/patterns/collaboration), [delegation](/patterns/delegation), and [assistance](/patterns/assistance).",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "activity-feed",
       "target": "activity-log",
       "type": "complements",
-      "label": "distinct from feeds; logs are histories of _actions taken by_ an entity, whilst feeds aggregate content _of interest to_ users from diverse sources",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Keep the stream distinguishable from an [activity log](/patterns/activity-log), which records actions taken by an entity for accountability and reconstruction rather than aggregating updates of interest for awareness.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "activity-feed",
       "target": "collaboration",
       "type": "complements",
-      "label": "uses feeds to surface updates and changes in shared workspaces",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "updates worth the actor's attention arrive from many sources on nobody's schedule across [collaboration](/patterns/collaboration), [delegation](/patterns/delegation), and [assistance](/patterns/assistance).",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "activity-feed",
       "target": "notification",
       "type": "complements",
-      "label": "alerts users to new feed activity requiring attention",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Notification](/patterns/notification) carries the few events urgent enough to interrupt, leaving everything else scattered where it happened.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "activity-feed",
       "target": "conversation",
       "type": "complements",
-      "label": "comment threads enable conversations around feed items",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where items invite discussion, attach a [conversation](/patterns/conversation) thread to the item so replies stay anchored rather than spilling into the top-level stream",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "activity-log",
@@ -4037,7 +4174,9 @@
       "target": "activity-feed",
       "type": "complements",
       "label": "distinct from activity logs; feeds aggregate content _of interest to_ users from diverse sources, whilst logs are histories of _actions taken by_ a specific entity",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Keep the stream distinguishable from an [activity log](/patterns/activity-log), which records actions taken by an entity for accountability and reconstruction rather than aggregating updates of interest for awareness.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "progressive-disclosure",
@@ -4080,7 +4219,7 @@
       "target": "addressable-in-words",
       "type": "enables",
       "extractedFrom": "frontmatter:composed-of",
-      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
+      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating a task](/sequences/delegating-a-task), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
       "glossFrom": "source:initiating",
       "farSituation": "The actor says what they want through a [prompt](/patterns/prompt) wherever the artifact offers one, and through a [conversation](/patterns/conversation) where the exchange runs over several turns; a [search](/patterns/searching) that takes a described outcome, [help](/patterns/help) that answers a question and a [command menu](/patterns/command-menu) that finds a command by name are further routes to the same description."
     },
@@ -4238,7 +4377,9 @@
       "target": "bounded-autonomy",
       "type": "precedes",
       "label": "the agent's degree of freedom is a setting rather than a fixed property; bounded autonomy is where the actor sets it",
-      "extractedFrom": "frontmatter:precedes"
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "the actor is delegating work to an [agent](/patterns/agent) or an [outside agent](/patterns/outside-agent), and [permissions](/patterns/permissions) have established what it can reach.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "agent",
@@ -4251,7 +4392,7 @@
       "source": "agent",
       "target": "generated-content",
       "type": "precedes",
-      "label": "presentation and manipulation of AI's output.",
+      "label": "generated content is the form an agent's output takes once a run ends, whether or not anyone watched it; live presentation shows the output while the run is under way",
       "extractedFrom": "frontmatter:precedes",
       "incomingNote": "the agent produces the generated content",
       "situation": "the artifact has an [agent](/patterns/agent) in it, and part of what the actor reads and works on was produced by it from a [prompt](/patterns/prompt), [reference material](/patterns/reference-material), and the context it was given, including what [memory](/patterns/memory) carried in.",
@@ -4843,31 +4984,81 @@
     },
     {
       "source": "bounded-autonomy",
-      "target": "delegation",
-      "type": "serves",
-      "label": "bounded autonomy covers delegation's set-up station — the shape of the authority granted before the agent runs",
-      "extractedFrom": "frontmatter:serves"
+      "target": "handoff",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "When it reaches a reserved action or exhausts an allowance, the run pauses at an [approval gate](/patterns/approval-gate) to authorise that action or extend the limit, or transfers control through a [handoff](/patterns/handoff) with a summary of what was used and what remains.",
+      "glossFrom": "source:resulting",
+      "farSituation": "A limit set in [bounded autonomy](/patterns/bounded-autonomy) was reached, or a warning announced that one was approaching; confidence ran out; a step arrived that requires human credentials or a colleague's review; or the actor stepped in to take over."
+    },
+    {
+      "source": "bounded-autonomy",
+      "target": "approval-gate",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "When it reaches a reserved action or exhausts an allowance, the run pauses at an [approval gate](/patterns/approval-gate) to authorise that action or extend the limit, or transfers control through a [handoff](/patterns/handoff) with a summary of what was used and what remains.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "bounded-autonomy",
       "target": "cost-transparency",
       "type": "complements",
-      "label": "a budget only binds when spend is visible against it",
-      "extractedFrom": "frontmatter:complements"
+      "label": "a spending limit set through bounded autonomy holds only when cost transparency shows the spend against it",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Budget and usage limits rely on [cost transparency](/patterns/cost-transparency) to show consumption against the remaining allowance.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "bounded-autonomy",
       "target": "capability-and-scope",
       "type": "complements",
-      "label": "what the system can do versus what it may do on this occasion",
-      "extractedFrom": "frontmatter:complements"
+      "label": "capability and scope states what the agent can do, and bounded autonomy what it may do on this occasion",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Capability and scope](/patterns/capability-and-scope) states what the agent is able to do, and the grant states what it is allowed to do on this occasion.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "bounded-autonomy",
+      "target": "action-consequences",
+      "type": "complements",
+      "label": "action consequences supplies the rating by which bounded autonomy decides which kinds of act get a limit",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Deciding which actions may run freely and which require a checkpoint follows the severity and reversibility ratings in [action consequences](/patterns/action-consequences).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "bounded-autonomy",
+      "target": "activity-log",
+      "type": "complements",
+      "label": "the activity log is the record from which the limits of bounded autonomy are widened or narrowed",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The [activity log](/patterns/activity-log) records every autonomous action, refusal, and limit reached so the actor can widen or narrow the grant from evidence",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "bounded-autonomy",
       "target": "settings",
       "type": "related",
-      "label": "where standing bounds tend to live between grants",
-      "extractedFrom": "frontmatter:related"
+      "label": "settings is where the limits of bounded autonomy are kept between runs",
+      "extractedFrom": "frontmatter:related",
+      "situation": "Standing grants live in [settings](/patterns/settings) between runs, where a limit set months ago is easy to forget.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "bounded-autonomy",
+      "target": "plan-preview",
+      "type": "related",
+      "label": "an approved plan limits one run, and bounded autonomy sets limits that hold across runs",
+      "extractedFrom": "frontmatter:related",
+      "situation": "For a single requested run, the plan approved in a [plan preview](/patterns/plan-preview) limits that run, whereas a grant holds across runs.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "bounded-autonomy",
+      "target": "delegation",
+      "type": "serves",
+      "label": "bounded autonomy covers delegation's set-up station, the shape of the authority granted before the agent runs, and the check-ins of its disengagement stage through the limit on disuse",
+      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "bounded-autonomy",
@@ -4923,6 +5114,123 @@
       "extractedFrom": "frontmatter:instantiates"
     },
     {
+      "source": "branching",
+      "target": "session",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "the actor is working in a [session](/patterns/session), a [conversation](/patterns/conversation), or a [version history](/patterns/version-history), and needs several threads running from an earlier point rather than a single sequence.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "branching",
+      "target": "conversation",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "the actor is working in a [session](/patterns/session), a [conversation](/patterns/conversation), or a [version history](/patterns/version-history), and needs several threads running from an earlier point rather than a single sequence.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "branching",
+      "target": "version-history",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "the actor is working in a [session](/patterns/session), a [conversation](/patterns/conversation), or a [version history](/patterns/version-history), and needs several threads running from an earlier point rather than a single sequence.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "branching",
+      "target": "undo",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "[Undo](/patterns/undo) only steps back along one line and discards what followed, while keeping everything in one thread mixes separate lines of work together.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "branching",
+      "target": "prompt",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "branching",
+      "target": "regeneration",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where a branch only retries a single turn at the leaf, [regeneration](/patterns/regeneration) or [instructed revision](/patterns/instructed-revision) handles the local change without adding long-lived branches.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Where the actor returns to an earlier turn in a thread to try a different direction, fork the exchange with [branching](/patterns/branching) so the subsequent turns stay intact."
+    },
+    {
+      "source": "branching",
+      "target": "instructed-revision",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where a branch only retries a single turn at the leaf, [regeneration](/patterns/regeneration) or [instructed revision](/patterns/instructed-revision) handles the local change without adding long-lived branches.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "branching",
+      "target": "comparing",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the actor needs to weigh what diverged across branches, align the sibling outputs or paths through [comparing](/patterns/comparing).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "branching",
+      "target": "extraction",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "When only a finished piece needs to carry forward, lift it out of the thread with [extraction](/patterns/extraction).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "branching",
+      "target": "change-review",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "When a branch settles on a result that should replace or join the main line, bring it back through [change review](/patterns/change-review) or [reconciliation](/patterns/reconciliation).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "branching",
+      "target": "reconciliation",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "When a branch settles on a result that should replace or join the main line, bring it back through [change review](/patterns/change-review) or [reconciliation](/patterns/reconciliation).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "branching",
+      "target": "coordinated-views",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "Where a tree overview sits beside the active transcript, link them as [coordinated views](/patterns/coordinated-views) so selecting a node scopes the view.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "branching",
+      "target": "draft-and-publish",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "Branching is not [draft and publish](/patterns/draft-and-publish), which separates one working copy from what others read so unfinished edits stay private until published, though a collaborative branch can serve both roles at once",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "branching",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor can open and pursue several threads from any prior point in the history",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "branching",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "turns linear history into a tree of coexisting timelines the actor can step between",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "capability-and-scope",
       "target": "agent",
       "type": "related",
@@ -4944,13 +5252,102 @@
       "incomingNote": "an explicit statement of what the conversation can and cannot do"
     },
     {
+      "source": "trial-run",
+      "target": "case-correction",
+      "type": "precedes",
+      "incomingNote": "case correction handles the live case that a trial run did not meet and the running rule got wrong",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "Because a rehearsal over sample data cannot cover every future input, live runs still rely on [case correction](/patterns/case-correction) when an unanticipated case misfires.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Even where a [trial run](/patterns/trial-run) checked the rule beforehand, cases arrive in use that the trial did not meet, and the governing logic sits in settings the actor seldom visits."
+    },
+    {
+      "source": "explanation",
+      "target": "case-correction",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "An [explanation](/patterns/explanation) on the case shows which rule, signal, or preference produced it, and is where a deeper change starts.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "case-correction",
+      "target": "undo",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The smallest repair is an [undo](/patterns/undo) or a one-off skip that leaves the standing behaviour untouched.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "case-correction",
+      "target": "standing-instructions",
+      "type": "precedes",
+      "label": "a case correction that keeps recurring is what a standing instruction is written from",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "When an override should hold beyond this item, or when the same correction recurs across cases, it opens [rule composition](/patterns/rule-composition) on the clauses that matched this case or becomes a [standing instruction](/patterns/standing-instructions) in the actor's own words.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "case-correction",
+      "target": "rule-composition",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "When an override should hold beyond this item, or when the same correction recurs across cases, it opens [rule composition](/patterns/rule-composition) on the clauses that matched this case or becomes a [standing instruction](/patterns/standing-instructions) in the actor's own words.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "case-correction",
+      "target": "instructed-revision",
+      "type": "alternative",
+      "label": "case correction overrides a standing decision on a case, and instructed revision reshapes a generated output",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where the fault is in the wording or shape of a generated draft rather than in a standing decision on a case, the repair is an [instructed revision](/patterns/instructed-revision) of that output.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "case-correction",
+      "target": "tuning-by-demonstration",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where the actor can show the right handling on the case more easily than state a rule for it, [tuning by demonstration](/patterns/tuning-by-demonstration) takes the place of editing the rule.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "case-correction",
+      "target": "suggestion",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "Dismissing a [suggestion](/patterns/suggestion) is the same move at lower stakes, since the system only proposed the act.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "case-correction",
+      "target": "delegation",
+      "type": "serves",
+      "label": "covers the repair use of tuning tools in delegation's exception handling",
+      "extractedFrom": "frontmatter:serves"
+    },
+    {
+      "source": "case-correction",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor overrules standing behaviour where they meet its mistake",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "case-correction",
+      "target": "malleability",
+      "type": "enacts",
+      "label": "standing behaviour changes through small corrections made in use",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "generated-content",
       "target": "change-review",
       "type": "precedes",
       "extractedFrom": "frontmatter:follows",
       "situation": "When the actor is ready to commit the output, use [change review](/patterns/change-review) to accept edits to existing content piece by piece, [extraction](/patterns/extraction) to save a result as a standalone item, or [next-best action](/patterns/next-best-action) to propose the next step",
       "glossFrom": "source:resulting",
-      "farSituation": "In [delegating work](/sequences/delegating-work) the result of a run arrives as changes to existing content, [generated content](/patterns/generated-content) the actor has to check rather than write."
+      "farSituation": "In [delegating a task](/sequences/delegating-a-task) the result of a run arrives as changes to existing content, [generated content](/patterns/generated-content) the actor has to check rather than write."
     },
     {
       "source": "draft-and-publish",
@@ -4985,6 +5382,14 @@
       "glossFrom": "source:resulting"
     },
     {
+      "source": "change-review",
+      "target": "transparent-reasoning",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the system made it there may be nobody to ask, and [transparent reasoning](/patterns/transparent-reasoning) gives an account of the work in the author's place, though it is the system's own report and can be wrong.",
+      "glossFrom": "source:resulting"
+    },
+    {
       "source": "comparing",
       "target": "change-review",
       "type": "enables",
@@ -4998,7 +5403,15 @@
       "target": "plan-preview",
       "type": "related",
       "extractedFrom": "frontmatter:related",
-      "situation": "Change review differs from [plan preview](/patterns/plan-preview), which shows what the system intends to do before the work rather than the change after it, and from [review before submitting](/patterns/review-before-submitting), which shows the actor their own answers rather than a change someone else proposes",
+      "situation": "Change review differs from the [activity log](/patterns/activity-log), which records what was done over time rather than one change proposed to one thing, from [plan preview](/patterns/plan-preview), which shows what the system intends to do before the work rather than the change after it, and from [review before submitting](/patterns/review-before-submitting), which shows the actor their own answers rather than a change someone else proposes",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "change-review",
+      "target": "activity-log",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "Change review differs from the [activity log](/patterns/activity-log), which records what was done over time rather than one change proposed to one thing, from [plan preview](/patterns/plan-preview), which shows what the system intends to do before the work rather than the change after it, and from [review before submitting](/patterns/review-before-submitting), which shows the actor their own answers rather than a change someone else proposes",
       "glossFrom": "source:resulting"
     },
     {
@@ -5101,7 +5514,7 @@
       "source": "closing",
       "target": "disengage-without-closing",
       "type": "alternative",
-      "label": "alternative when the user steps away without a formal close",
+      "label": "alternative when the actor steps away without a formal close",
       "extractedFrom": "frontmatter:alternative"
     },
     {
@@ -5866,7 +6279,7 @@
       "source": "disengage-without-closing",
       "target": "closing",
       "type": "alternative",
-      "label": "the preferred alternative when a formal close is possible",
+      "label": "closing is the deliberate ending, for when the goal is met and both sides should know the encounter is over",
       "extractedFrom": "frontmatter:alternative"
     },
     {
@@ -5919,39 +6332,6 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
-      "source": "dry-run",
-      "target": "change-review",
-      "type": "precedes",
-      "extractedFrom": "frontmatter:precedes",
-      "situation": "Where every item was in view, the dry run is a full before and after; hand it to [change review](/patterns/change-review) so the actor can accept or reject each change rather than all of them at once.",
-      "glossFrom": "source:resulting",
-      "farSituation": "A [dry run](/patterns/dry-run) produces a before and after across many cases."
-    },
-    {
-      "source": "dry-run",
-      "target": "workflow",
-      "type": "enables",
-      "extractedFrom": "frontmatter:enables",
-      "situation": "the actor has written something that will act on many items at once: a rule made with [rule composition](/patterns/rule-composition), a step in a [workflow](/patterns/workflow), a find-and-replace, a batch rename, a mail merge, a formula filled down a column.",
-      "glossFrom": "source:initiating"
-    },
-    {
-      "source": "dry-run",
-      "target": "plan-preview",
-      "type": "complements",
-      "extractedFrom": "frontmatter:complements",
-      "situation": "[Plan preview](/patterns/plan-preview) is the neighbour where what is shown is the system's own plan rather than something the actor wrote, and a plan preview that runs its plan on a few items is both at once.",
-      "glossFrom": "source:resulting"
-    },
-    {
-      "source": "dry-run",
-      "target": "filtering",
-      "type": "related",
-      "extractedFrom": "frontmatter:related",
-      "situation": "[Filtering](/patterns/filtering) is not a dry run: a filter over a visible list shows its real result as it is typed, which is the check a dry run adds where the result cannot be seen",
-      "glossFrom": "source:resulting"
-    },
-    {
       "source": "dynamic-hyperlinks",
       "target": "link-preview",
       "type": "complements",
@@ -5983,7 +6363,7 @@
       "source": "editing-in-place",
       "target": "form",
       "type": "complements",
-      "label": "the two ends of where a change happens — form gathers input on a surface of its own, editing in place puts it on the artefact",
+      "label": "the two ends of where a change happens — form gathers input on a surface of its own, editing in place puts it on the artefact, and one page often uses both",
       "extractedFrom": "frontmatter:complements",
       "situation": "[Editing in place](/patterns/editing-in-place) handles the single value; a form is the surface for the set.",
       "glossFrom": "target:initiating"
@@ -6508,18 +6888,11 @@
     },
     {
       "source": "fully-connected",
-      "target": "hybrid-patterns",
-      "type": "complements",
-      "label": "can be combined with a multilevel tree as content grows",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "fully-connected",
       "target": "hub-and-spoke",
       "type": "alternative",
       "label": "for mobile or simpler structures",
       "extractedFrom": "frontmatter:alternative",
-      "situation": "When cross-spoke traffic becomes general, give up the pattern rather than patch it: [fully connected](/patterns/fully-connected) puts every section one move from every other, at the cost of chrome on every page, and a persistent tab bar is already that [hybrid](/patterns/hybrid-patterns), a hub that never leaves the screen.",
+      "situation": "When cross-spoke traffic becomes general, give up the pattern rather than patch it: [fully connected](/patterns/fully-connected) puts every section one move from every other, at the cost of chrome on every page, and a persistent tab bar is its usual form on a phone.",
       "glossFrom": "target:resulting"
     },
     {
@@ -6657,6 +7030,111 @@
       "extractedFrom": "frontmatter:complements"
     },
     {
+      "source": "agent",
+      "target": "handoff",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "work is under way—assigned to an [agent](/patterns/agent) in [governing autonomy](/sequences/governing-autonomy) or [delegating standing work](/sequences/delegating-standing-work), or carried by a participant in [working on the same thing](/sequences/working-on-the-same-thing)—and whoever holds it cannot or should not continue alone.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "handoff",
+      "target": "agent-repair",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "When the trouble is only a missing parameter or an ambiguous instruction, [agent repair](/patterns/agent-repair) resolves it in place and keeps the current holder going.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "handoff",
+      "target": "abort",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "When the goal itself is abandoned, [abort](/patterns/abort) halts the run rather than passing it on.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "handoff",
+      "target": "approval-gate",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "If the agent could have continued once a limit was raised or a single action authorised, an [approval gate](/patterns/approval-gate) handles the checkpoint without transferring the rest of the task.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "handoff",
+      "target": "status-feedback",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The transition closes only when the receiver accepts or declines it in a set form through [status feedback](/patterns/status-feedback), and [deep linking](/patterns/deep-linking) carries them directly into the state and item where the work stopped.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "handoff",
+      "target": "deep-linking",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The transition closes only when the receiver accepts or declines it in a set form through [status feedback](/patterns/status-feedback), and [deep linking](/patterns/deep-linking) carries them directly into the state and item where the work stopped.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "handoff",
+      "target": "notification",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "When the receiver is not already looking at the surface, the request reaches them as a [notification](/patterns/notification).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "handoff",
+      "target": "reaching-a-person",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the transfer has to find a human owner, admin, or support specialist outside the current run, [reaching a person](/patterns/reaching-a-person) names who can act and opens the channel to them.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Where an agent was already working on the task or triaging the conversation before passing it on, [handoff](/patterns/handoff) packages the progress so far and governs the transfer of responsibility and any return to the agent"
+    },
+    {
+      "source": "handoff",
+      "target": "activity-log",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The full trail behind the brief stays open to inspection in the [activity log](/patterns/activity-log), and every handoff, acceptance, and return is signed through [attribution](/patterns/attribution) so the record shows who held the work at each point.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "handoff",
+      "target": "mastery",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the actor may need to step in and do the task themselves, [mastery](/patterns/mastery) keeps the underlying skill in practice.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "handoff",
+      "target": "attribution",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The full trail behind the brief stays open to inspection in the [activity log](/patterns/activity-log), and every handoff, acceptance, and return is signed through [attribution](/patterns/attribution) so the record shows who held the work at each point.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "handoff",
+      "target": "editing-in-place",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Once the actor takes over to work directly on the artefact, [editing in place](/patterns/editing-in-place) gives them the surface to act on.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "handoff",
+      "target": "collaboration",
+      "type": "tangential",
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "In sustained [collaboration](/patterns/collaboration), passing control stops being an exception boundary and becomes routine turn-taking",
+      "glossFrom": "source:resulting"
+    },
+    {
       "source": "handoff",
       "target": "delegation",
       "type": "serves",
@@ -6665,37 +7143,9 @@
     },
     {
       "source": "handoff",
-      "target": "agent-repair",
-      "type": "related",
-      "label": "repair keeps the current holder going; handoff gives up on the current holder without giving up on the work",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "handoff",
-      "target": "abort",
-      "type": "related",
-      "label": "abort ends the work; handoff continues it in other hands",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "handoff",
-      "target": "collaboration",
-      "type": "related",
-      "label": "in sustained co-work the transfer becomes routine turn-passing rather than an exception",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "handoff",
-      "target": "notification",
-      "type": "related",
-      "label": "a handoff to an actor who isn't watching arrives as a notification",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "handoff",
       "target": "agency",
       "type": "enacts",
-      "label": "control is explicitly held, passed, and reclaimable rather than ambient",
+      "label": "control is explicitly held, passed, and reclaimable rather than left ambiguous between actor and system",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -6722,12 +7172,6 @@
     {
       "source": "help",
       "target": "command-menu",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "help",
-      "target": "agent",
       "type": "related",
       "extractedFrom": "frontmatter:related"
     },
@@ -6799,7 +7243,7 @@
       "target": "fully-connected",
       "type": "alternative",
       "extractedFrom": "frontmatter:alternative",
-      "situation": "When cross-spoke traffic becomes general, give up the pattern rather than patch it: [fully connected](/patterns/fully-connected) puts every section one move from every other, at the cost of chrome on every page, and a persistent tab bar is already that [hybrid](/patterns/hybrid-patterns), a hub that never leaves the screen.",
+      "situation": "When cross-spoke traffic becomes general, give up the pattern rather than patch it: [fully connected](/patterns/fully-connected) puts every section one move from every other, at the cost of chrome on every page, and a persistent tab bar is its usual form on a phone.",
       "glossFrom": "source:resulting"
     },
     {
@@ -6815,7 +7259,7 @@
       "target": "hybrid-patterns",
       "type": "alternative",
       "extractedFrom": "frontmatter:alternative",
-      "situation": "When cross-spoke traffic becomes general, give up the pattern rather than patch it: [fully connected](/patterns/fully-connected) puts every section one move from every other, at the cost of chrome on every page, and a persistent tab bar is already that [hybrid](/patterns/hybrid-patterns), a hub that never leaves the screen.",
+      "situation": "A [hybrid](/patterns/hybrid-patterns) keeps the hub for most sections and connects directly the few the actor travels between.",
       "glossFrom": "source:resulting"
     },
     {
@@ -7233,7 +7677,7 @@
       "extractedFrom": "frontmatter:follows",
       "situation": "Let the actor steer the output in words with [instructed revision](/patterns/instructed-revision), which works from the output they have, or request another version through [regeneration](/patterns/regeneration), which draws again from the request, for the whole output or for a selected passage.",
       "glossFrom": "source:resulting",
-      "farSituation": "in [delegating work](/sequences/delegating-work), the actor has asked for something with a [prompt](/patterns/prompt) and received [generated content](/patterns/generated-content)—a draft, a reply, a passage in a document—that is close, with a flaw they can name: too long, too stiff, the second paragraph is off."
+      "farSituation": "in [delegating a task](/sequences/delegating-a-task), the actor has asked for something with a [prompt](/patterns/prompt) and received [generated content](/patterns/generated-content)—a draft, a reply, a passage in a document—that is close, with a flaw they can name: too long, too stiff, the second paragraph is off."
     },
     {
       "source": "instructed-revision",
@@ -7241,7 +7685,8 @@
       "type": "alternative",
       "extractedFrom": "frontmatter:alternative",
       "situation": "[Regeneration](/patterns/regeneration) would draw again from the request alone, which says nothing about the flaw and so is no more likely to fix it, while fixing it by hand costs more than describing the change.",
-      "glossFrom": "source:initiating"
+      "glossFrom": "source:initiating",
+      "farSituation": "They have no specific change to describe—where they can name what is off, [instructed revision](/patterns/instructed-revision) steers the output they have, and where they know the exact fix, [editing in place](/patterns/editing-in-place) applies it directly."
     },
     {
       "source": "instructed-revision",
@@ -7475,6 +7920,13 @@
       "extractedFrom": "frontmatter:complements",
       "situation": "Addressable state has left the actor's control: a link travels, and whoever holds it reaches what it points at, so decide with [sharing](/patterns/sharing) who may open it, and give the holder a [link preview](/patterns/link-preview) of what they are about to open, scrolled to the part the address points inside.",
       "glossFrom": "target:resulting"
+    },
+    {
+      "source": "link-preview",
+      "target": "item-view",
+      "type": "complements",
+      "label": "for a destination that is an entity, the link preview shows the item view's summary level",
+      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "link-preview",
@@ -7712,6 +8164,22 @@
       "type": "complements",
       "label": "where customisation lives",
       "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "mastery",
+      "target": "handoff",
+      "type": "complements",
+      "label": "mastery's retention keeps the actor able to do the work a handoff returns to them",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the actor may need to step in and do the task themselves, [mastery](/patterns/mastery) keeps the underlying skill in practice.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "mastery",
+      "target": "human-goes-first",
+      "type": "related",
+      "label": "human goes first keeps one judgement in use at the moment of a decision, and mastery's retention keeps a whole handed-over task in use",
+      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "session",
@@ -8118,8 +8586,9 @@
       "target": "outside-agent",
       "type": "enables",
       "extractedFrom": "frontmatter:composed-of",
-      "situation": "The agent works under a grant, which the actor issues and revokes through [sharing](/patterns/sharing), where the agent is listed beside the people who have access.",
-      "glossFrom": "target:resulting"
+      "situation": "An [outside agent](/patterns/outside-agent) is let in and removed through the same list, and can never be given more access than the person who brings it has.",
+      "glossFrom": "source:resulting",
+      "farSituation": "The agent works under a grant, which the actor issues and revokes through [sharing](/patterns/sharing), where the agent is listed beside the people who have access."
     },
     {
       "source": "outside-agent",
@@ -8127,7 +8596,8 @@
       "type": "precedes",
       "extractedFrom": "frontmatter:precedes",
       "situation": "What it may do without asking is set through [bounded autonomy](/patterns/bounded-autonomy), and the acts the actor wants to confirm wait at an [approval gate](/patterns/approval-gate).",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "the actor is delegating work to an [agent](/patterns/agent) or an [outside agent](/patterns/outside-agent), and [permissions](/patterns/permissions) have established what it can reach."
     },
     {
       "source": "outside-agent",
@@ -8257,15 +8727,6 @@
     },
     {
       "source": "pan-and-zoom",
-      "target": "deep-linking",
-      "type": "complements",
-      "label": "encode position and zoom in URLs for sharing",
-      "extractedFrom": "frontmatter:complements",
-      "situation": "[structuring the space](/sequences/structuring-the-space) has produced a layout, and the actor can stand in a state that took several moves to reach: a context switched to, an item opened, a list narrowed, a step reached in [step by step](/patterns/step-by-step), a position and scale in a [pan and zoom](/patterns/pan-and-zoom) space.",
-      "glossFrom": "target:initiating"
-    },
-    {
-      "source": "pan-and-zoom",
       "target": "hybrid-patterns",
       "type": "complements",
       "label": "global nav for sections, spatial within sections",
@@ -8361,6 +8822,73 @@
       "target": "learnability",
       "type": "enacts",
       "label": "replaces abstract password complexity rules with the familiar physical act of checking messages",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "permissions",
+      "target": "bounded-autonomy",
+      "type": "precedes",
+      "label": "permissions settle what the agent can reach, and bounded autonomy settles what it may do there without asking",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where an agent uses the connection, permissions settle what it can reach, while [bounded autonomy](/patterns/bounded-autonomy) settles what it may do there without asking.",
+      "glossFrom": "source:resulting",
+      "farSituation": "the actor is delegating work to an [agent](/patterns/agent) or an [outside agent](/patterns/outside-agent), and [permissions](/patterns/permissions) have established what it can reach."
+    },
+    {
+      "source": "permissions",
+      "target": "reference-material",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Once a source is connected, the actor can attach items from it as [reference material](/patterns/reference-material).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "permissions",
+      "target": "sharing",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "[Sharing](/patterns/sharing) and [roles](/patterns/roles) draw a different line: they govern what other participants may do inside the actor's workspace, whereas permissions govern what the artifact may reach outside itself",
+      "glossFrom": "source:resulting",
+      "farSituation": "[Permissions](/patterns/permissions) covers a different line, around what the artifact may reach on the actor's own device and accounts"
+    },
+    {
+      "source": "permissions",
+      "target": "roles",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "[Sharing](/patterns/sharing) and [roles](/patterns/roles) draw a different line: they govern what other participants may do inside the actor's workspace, whereas permissions govern what the artifact may reach outside itself",
+      "glossFrom": "source:resulting",
+      "farSituation": "[Permissions](/patterns/permissions) covers a different line, around what the artifact may reach on the actor's own device and accounts"
+    },
+    {
+      "source": "permissions",
+      "target": "settings",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "The artifact holds only the access the actor has explicitly granted, and active grants can be reviewed and revoked in [settings](/patterns/settings).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "permissions",
+      "target": "delegation",
+      "type": "serves",
+      "label": "covers the permissions and authorisation touchpoint of delegation's set-up stage",
+      "extractedFrom": "frontmatter:serves",
+      "situation": "to carry out a task, the artifact needs access to something the actor controls outside it—a camera or location sensor, local files, contacts, or an external account such as a calendar or mailbox—either for a feature the actor just triggered or for an [agent](/patterns/agent) working under [delegation](/patterns/delegation).",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "permissions",
+      "target": "privacy",
+      "type": "enacts",
+      "label": "access to the actor's devices, data, and accounts is granted in scoped parts for a clear purpose and can be revoked",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "permissions",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor decides what the artifact can reach and for how long",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -8643,7 +9171,7 @@
       "target": "prompt",
       "type": "instantiates",
       "extractedFrom": "frontmatter:instantiates",
-      "situation": "now the actor has reached the point of framing a [prompt](/patterns/prompt) in [delegating work](/sequences/delegating-work), but they do not yet have their intent formulated in words, and an empty input provides no structure for articulating what the task requires.",
+      "situation": "now the actor has reached the point of framing a [prompt](/patterns/prompt) in [delegating a task](/sequences/delegating-a-task), but they do not yet have their intent formulated in words, and an empty input provides no structure for articulating what the task requires.",
       "glossFrom": "source:initiating",
       "farSituation": "Where the task is repetitive and high-constraint and open prose keeps leaving required parameters out, structure the input with [prompt scaffolding](/patterns/prompt-scaffolding) into labelled slots or pre-submission checks."
     },
@@ -8717,7 +9245,7 @@
       "target": "agent",
       "type": "enables",
       "extractedFrom": "frontmatter:enables",
-      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
+      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating a task](/sequences/delegating-a-task), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
       "glossFrom": "source:initiating"
     },
     {
@@ -8725,7 +9253,7 @@
       "target": "conversation",
       "type": "enables",
       "extractedFrom": "frontmatter:enables",
-      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
+      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating a task](/sequences/delegating-a-task), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
       "glossFrom": "source:initiating"
     },
     {
@@ -8733,7 +9261,7 @@
       "target": "session",
       "type": "enables",
       "extractedFrom": "frontmatter:enables",
-      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating work](/sequences/delegating-work), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
+      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating a task](/sequences/delegating-a-task), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
       "glossFrom": "source:initiating"
     },
     {
@@ -8769,7 +9297,7 @@
       "extractedFrom": "frontmatter:complements",
       "situation": "Because actors often discover their criteria only by reacting to a concrete attempt, follow the initial output with [instructed revision](/patterns/instructed-revision) to steer what came back in words, or [regeneration](/patterns/regeneration) to draw another attempt from the same request.",
       "glossFrom": "source:resulting",
-      "farSituation": "in [delegating work](/sequences/delegating-work), the actor has asked for something with a [prompt](/patterns/prompt) and received [generated content](/patterns/generated-content)—a draft, a reply, a passage in a document—that is close, with a flaw they can name: too long, too stiff, the second paragraph is off."
+      "farSituation": "in [delegating a task](/sequences/delegating-a-task), the actor has asked for something with a [prompt](/patterns/prompt) and received [generated content](/patterns/generated-content)—a draft, a reply, a passage in a document—that is close, with a flaw they can name: too long, too stiff, the second paragraph is off."
     },
     {
       "source": "prompt",
@@ -9016,6 +9544,15 @@
       "glossFrom": "source:initiating"
     },
     {
+      "source": "reaching-a-person",
+      "target": "handoff",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where an agent was already working on the task or triaging the conversation before passing it on, [handoff](/patterns/handoff) packages the progress so far and governs the transfer of responsibility and any return to the agent",
+      "glossFrom": "source:resulting",
+      "farSituation": "Where the transfer has to find a human owner, admin, or support specialist outside the current run, [reaching a person](/patterns/reaching-a-person) names who can act and opens the channel to them."
+    },
+    {
       "source": "deep-linking",
       "target": "recents",
       "type": "precedes",
@@ -9156,38 +9693,68 @@
       "source": "generated-content",
       "target": "regeneration",
       "type": "precedes",
-      "incomingNote": "acts on the output the generation activity produced",
       "extractedFrom": "frontmatter:follows",
       "situation": "Let the actor steer the output in words with [instructed revision](/patterns/instructed-revision), which works from the output they have, or request another version through [regeneration](/patterns/regeneration), which draws again from the request, for the whole output or for a selected passage.",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "in [delegating a task](/sequences/delegating-a-task), the actor has asked for something with a [prompt](/patterns/prompt) and received [generated content](/patterns/generated-content) that misses the mark, while the intent behind the request still holds."
+    },
+    {
+      "source": "regeneration",
+      "target": "instructed-revision",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "They have no specific change to describe—where they can name what is off, [instructed revision](/patterns/instructed-revision) steers the output they have, and where they know the exact fix, [editing in place](/patterns/editing-in-place) applies it directly.",
+      "glossFrom": "source:initiating",
+      "farSituation": "[Regeneration](/patterns/regeneration) would draw again from the request alone, which says nothing about the flaw and so is no more likely to fix it, while fixing it by hand costs more than describing the change."
     },
     {
       "source": "regeneration",
       "target": "editing-in-place",
       "type": "alternative",
-      "label": "re-rolling versus hand-correcting the same output",
-      "extractedFrom": "frontmatter:alternative"
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "They have no specific change to describe—where they can name what is off, [instructed revision](/patterns/instructed-revision) steers the output they have, and where they know the exact fix, [editing in place](/patterns/editing-in-place) applies it directly.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "regeneration",
+      "target": "selection",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where most of the output already works, scope the redraw to a [selection](/patterns/selection) so the settled surroundings stay untouched.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "regeneration",
+      "target": "branching",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the actor returns to an earlier turn in a thread to try a different direction, fork the exchange with [branching](/patterns/branching) so the subsequent turns stay intact.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Where a branch only retries a single turn at the leaf, [regeneration](/patterns/regeneration) or [instructed revision](/patterns/instructed-revision) handles the local change without adding long-lived branches."
+    },
+    {
+      "source": "regeneration",
+      "target": "comparing",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "When the actor draws several candidates at once, align them through [comparing](/patterns/comparing) so differences can be read directly rather than held in memory.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "regeneration",
       "target": "draft-and-publish",
       "type": "complements",
-      "label": "cheap draft modes make re-rolls affordable before committing to the full run",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where a full run is slow or costly, pair regeneration with [draft and publish](/patterns/draft-and-publish) to redraw cheaply in a draft state before committing to the final result",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "regeneration",
       "target": "undo",
       "type": "precedes",
-      "label": "undo restores what a regeneration replaced",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "regeneration",
-      "target": "coordinated-views",
-      "type": "related",
-      "label": "parallel variants are judged side by side",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Keep the replaced result one step back through [undo](/patterns/undo) or version stepping on the turn.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "regeneration",
@@ -9329,8 +9896,84 @@
       "type": "related",
       "label": "change review shows a change the system proposes to existing content; review before submitting shows the actor their own answers",
       "extractedFrom": "frontmatter:related",
-      "situation": "Change review differs from [plan preview](/patterns/plan-preview), which shows what the system intends to do before the work rather than the change after it, and from [review before submitting](/patterns/review-before-submitting), which shows the actor their own answers rather than a change someone else proposes",
+      "situation": "Change review differs from the [activity log](/patterns/activity-log), which records what was done over time rather than one change proposed to one thing, from [plan preview](/patterns/plan-preview), which shows what the system intends to do before the work rather than the change after it, and from [review before submitting](/patterns/review-before-submitting), which shows the actor their own answers rather than a change someone else proposes",
       "glossFrom": "target:resulting"
+    },
+    {
+      "source": "roles",
+      "target": "division-of-responsibility",
+      "type": "enables",
+      "label": "roles grade what each person may do inside the part their party answers for",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "[division of responsibility](/patterns/division-of-responsibility) has settled which parts of the work each party answers for.",
+      "glossFrom": "source:initiating",
+      "farSituation": "[Sharing](/patterns/sharing) lets people across a line, and [roles](/patterns/roles) grade what they may do once inside"
+    },
+    {
+      "source": "roles",
+      "target": "sharing",
+      "type": "complements",
+      "label": "sharing gives each person it lets in one of the roles",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Sharing](/patterns/sharing) gives one of them to each person it lets in, so the levels it offers are these roles.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Each person or group let in gets one of the [roles](/patterns/roles) the space offers, and everyone with access is listed on the folder or item where their access can be changed or removed."
+    },
+    {
+      "source": "roles",
+      "target": "explanation",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "When an actor meets an action their role does not allow, [explanation](/patterns/explanation) says which role allows it and who can give it, and [unavailable actions](/patterns/unavailable-actions) hides only the actions that are not theirs to ask for.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "roles",
+      "target": "unavailable-actions",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "When an actor meets an action their role does not allow, [explanation](/patterns/explanation) says which role allows it and who can give it, and [unavailable actions](/patterns/unavailable-actions) hides only the actions that are not theirs to ask for.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "roles",
+      "target": "workspace",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "Inside one part of a [workspace](/patterns/workspace), people still take part in different ways: some run it, some contribute, some review and some only read.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "roles",
+      "target": "outside-agent",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "An [outside agent](/patterns/outside-agent) holds a role as a person does, and what it may do there without asking is limited further by [bounded autonomy](/patterns/bounded-autonomy).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "roles",
+      "target": "bounded-autonomy",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "An [outside agent](/patterns/outside-agent) holds a role as a person does, and what it may do there without asking is limited further by [bounded autonomy](/patterns/bounded-autonomy).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "roles",
+      "target": "permissions",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "[Permissions](/patterns/permissions) covers a different line, around what the artifact may reach on the actor's own device and accounts",
+      "glossFrom": "source:resulting",
+      "farSituation": "[Sharing](/patterns/sharing) and [roles](/patterns/roles) draw a different line: they govern what other participants may do inside the actor's workspace, whereas permissions govern what the artifact may reach outside itself"
+    },
+    {
+      "source": "roles",
+      "target": "agency",
+      "type": "enacts",
+      "label": "each person can see their role and what it allows them to do",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "rule-composition",
@@ -9351,7 +9994,9 @@
       "target": "bounded-autonomy",
       "type": "complements",
       "label": "scope, spend and time bounds are composed the same way — clauses on what the system may do, rather than on when it acts",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "When boundaries combine several conditions, the actor edits them as structured statements through [rule composition](/patterns/rule-composition).",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "rule-composition",
@@ -9749,19 +10394,88 @@
     },
     {
       "source": "sharing",
-      "target": "privacy",
-      "type": "enacts",
-      "label": "the grant is the privacy boundary made explicit and graded, rather than implied by where a file happens to live",
-      "extractedFrom": "frontmatter:enacts"
+      "target": "division-of-responsibility",
+      "type": "enables",
+      "label": "sharing is how people are let across the lines division of responsibility draws",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "Where several parties take part in the work, [division of responsibility](/patterns/division-of-responsibility) draws the lines between the parts each party answers for and settles who may let others in.",
+      "glossFrom": "source:initiating",
+      "farSituation": "[Sharing](/patterns/sharing) lets people across a line, and [roles](/patterns/roles) grade what they may do once inside"
     },
     {
       "source": "sharing",
       "target": "workspace",
       "type": "complements",
-      "label": "the workspace partitions the actor's contexts; sharing decides who else is inside one",
+      "label": "the workspace sets the default boundary; sharing lets people into a workspace, folder or item",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Decide who else is inside each workspace with [sharing](/patterns/sharing), and let its grants follow the workspace boundaries rather than cut across them.",
-      "glossFrom": "target:resulting"
+      "situation": "a [workspace](/patterns/workspace) holds a person's private work or the shared work of a team or organisation, and new items start with the access of the place they are made in.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Decide who else is inside each workspace with [sharing](/patterns/sharing), and let its grants follow the workspace boundaries rather than cut across them."
+    },
+    {
+      "source": "sharing",
+      "target": "roles",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Each person or group let in gets one of the [roles](/patterns/roles) the space offers, and everyone with access is listed on the folder or item where their access can be changed or removed.",
+      "glossFrom": "source:resulting",
+      "farSituation": "[Sharing](/patterns/sharing) gives one of them to each person it lets in, so the levels it offers are these roles."
+    },
+    {
+      "source": "sharing",
+      "target": "deep-linking",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A [deep link](/patterns/deep-linking) either opens only for people who already have access, or carries a role of its own so anyone with the link can open it without an account.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Addressable state has left the actor's control: a link travels, and whoever holds it reaches what it points at, so decide with [sharing](/patterns/sharing) who may open it, and give the holder a [link preview](/patterns/link-preview) of what they are about to open, scrolled to the part the address points inside."
+    },
+    {
+      "source": "sharing",
+      "target": "presence",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Once several people have the same live work open on separate screens, [presence](/patterns/presence) shows who else is there, and a role that lets people review or discuss needs [commenting](/patterns/commenting).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "sharing",
+      "target": "commenting",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Once several people have the same live work open on separate screens, [presence](/patterns/presence) shows who else is there, and a role that lets people review or discuss needs [commenting](/patterns/commenting).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "sharing",
+      "target": "draft-and-publish",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where rough work should not be seen as it is being written, [draft and publish](/patterns/draft-and-publish) keeps a working copy separate from what others read; where different parties need different issued sets rather than one published version for everyone, each set is its own part with its own access.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "sharing",
+      "target": "permissions",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "[Permissions](/patterns/permissions) covers a different line, around what the artifact may reach on the actor's own device and accounts",
+      "glossFrom": "source:resulting",
+      "farSituation": "[Sharing](/patterns/sharing) and [roles](/patterns/roles) draw a different line: they govern what other participants may do inside the actor's workspace, whereas permissions govern what the artifact may reach outside itself"
+    },
+    {
+      "source": "sharing",
+      "target": "privacy",
+      "type": "enacts",
+      "label": "the actor decides who can see each folder or item, and can see and change that list",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "sharing",
+      "target": "agency",
+      "type": "enacts",
+      "label": "whoever answers for the work decides who else may reach it and what they may do there",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "showing-the-reading",
@@ -9826,10 +10540,10 @@
     },
     {
       "source": "standing-instructions",
-      "target": "dry-run",
+      "target": "trial-run",
       "type": "related",
       "extractedFrom": "frontmatter:related",
-      "situation": "Reading it does not say what it will do, which is the gap a [dry run](/patterns/dry-run) fills where the effect can be rehearsed.",
+      "situation": "Reading it does not say what it will do, which is the gap a [trial run](/patterns/trial-run) fills where the effect can be rehearsed.",
       "glossFrom": "source:resulting"
     },
     {
@@ -9897,6 +10611,13 @@
       "type": "enables",
       "label": "Status feedback provides awareness of system state and action effects in collaborative environments",
       "extractedFrom": "frontmatter:enables"
+    },
+    {
+      "source": "status-feedback",
+      "target": "delegation",
+      "type": "serves",
+      "label": "covers the monitoring station of delegation's execution stage, showing how delegated work stands on the place it already has",
+      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "status-feedback",
@@ -10323,6 +11044,127 @@
       "type": "complements",
       "label": "Transparent reasoning makes AI decision-making processes inspectable for human collaborators",
       "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "bounded-autonomy",
+      "target": "trial-run",
+      "type": "precedes",
+      "incomingNote": "a trial run tests the agent inside the limits bounded autonomy sets before those limits apply to live work",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "A [trial run](/patterns/trial-run) rehearses what the limits let through on sample cases before they apply to live work.",
+      "glossFrom": "source:resulting",
+      "farSituation": "the actor has configured a bulk edit, a standing rule in [rule composition](/patterns/rule-composition), or an agent set to start by itself under [bounded autonomy](/patterns/bounded-autonomy)."
+    },
+    {
+      "source": "trial-run",
+      "target": "change-review",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where the trial previews edits to existing items, [change review](/patterns/change-review) lets the actor inspect and accept or reject individual changes before committing the batch.",
+      "glossFrom": "source:resulting",
+      "farSituation": "A [trial run](/patterns/trial-run) produces a before and after across many cases."
+    },
+    {
+      "source": "trial-run",
+      "target": "workflow",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "It may also be a step inside a [workflow](/patterns/workflow).",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "explanation",
+      "target": "trial-run",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Each trial result can include an [explanation](/patterns/explanation) of which condition matched, so the actor can spot a right outcome reached for the wrong reason.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "trial-run",
+      "target": "plan-preview",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Plan preview](/patterns/plan-preview) solves the adjacent problem where an agent presents its own intended steps before acting, rather than testing a configuration the actor set up",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "trial-run",
+      "target": "delegation",
+      "type": "serves",
+      "label": "covers the test-drive touchpoint of delegation's set-up stage",
+      "extractedFrom": "frontmatter:serves"
+    },
+    {
+      "source": "trial-run",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor commits based on observed behaviour rather than on reading a configuration",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "tuning-by-demonstration",
+      "target": "standing-instructions",
+      "type": "alternative",
+      "label": "standing instructions hold what the actor can say, and tuning by demonstration takes in what they can only show",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "[Standing instructions](/patterns/standing-instructions) need the preference in words, and [rule composition](/patterns/rule-composition) needs it in the system's terms.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "tuning-by-demonstration",
+      "target": "rule-composition",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "[Standing instructions](/patterns/standing-instructions) need the preference in words, and [rule composition](/patterns/rule-composition) needs it in the system's terms.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "tuning-by-demonstration",
+      "target": "reference-material",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "An example the actor points to is attached as [reference material](/patterns/reference-material), and the demonstration lies in saying what about it to follow.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "tuning-by-demonstration",
+      "target": "memory",
+      "type": "precedes",
+      "label": "tuning by demonstration leaves a learned preference, and memory is where the actor reads and corrects it",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "What was taken from the demonstration is kept in words in [memory](/patterns/memory), which is also where what the system picks up from ordinary use, without being shown, is kept and corrected.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "tuning-by-demonstration",
+      "target": "workflow",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "A procedure recorded step by step becomes a [workflow](/patterns/workflow) the actor can read and repair.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "tuning-by-demonstration",
+      "target": "trial-run",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Because a single demonstration fits many generalisations, a [trial run](/patterns/trial-run) over new cases lets the actor see which interpretation the system took before relying on it",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "tuning-by-demonstration",
+      "target": "delegation",
+      "type": "serves",
+      "label": "covers one way of conveying goals and preferences at delegation's set-up, and of repairing them later",
+      "extractedFrom": "frontmatter:serves"
+    },
+    {
+      "source": "tuning-by-demonstration",
+      "target": "malleability",
+      "type": "enacts",
+      "label": "the agent's behaviour is reshaped by an actor who cannot or need not describe the change",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "unavailable-actions",
@@ -10776,6 +11618,13 @@
       "extractedFrom": "frontmatter:related"
     },
     {
+      "source": "abort",
+      "target": "undo",
+      "type": "precedes",
+      "situation": "changes applied before the halt stay applied; abort states them and does not reverse them, so each one still needs a way back",
+      "extractedFrom": "situation:resulting"
+    },
+    {
       "source": "agent-opening",
       "target": "open-request",
       "type": "precedes",
@@ -10814,7 +11663,7 @@
       "source": "annotation",
       "target": "commenting",
       "type": "precedes",
-      "situation": "once the marks are visible to others the layer stops being a private reading aid: other people read the actor's attention, and a mark becomes something that can be answered rather than only added to",
+      "situation": "once the marks are visible to others the layer stops being a private reading aid: other people read the actor's attention, and a mark becomes something that can be answered rather than only added to; few private marks are ever shared, and sharing one means rewriting it and its anchor for other readers",
       "extractedFrom": "situation:resulting"
     },
     {
@@ -10829,20 +11678,6 @@
       "target": "ai-completion",
       "type": "precedes",
       "situation": "autocomplete's candidates are looked up, not produced — deterministic completion ends where the continuation has to be generated; AI completion extends the same interaction to generated content",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "bounded-autonomy",
-      "target": "handoff",
-      "type": "precedes",
-      "situation": "crossing a bound is a designed event rather than a failure: the work pauses and control returns to the actor for renewal, escalation, or takeback",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "bounded-autonomy",
-      "target": "approval-gate",
-      "type": "precedes",
-      "situation": "crossing a bound is a designed event rather than a failure: the work pauses and control returns to the actor for renewal, escalation, or takeback",
       "extractedFrom": "situation:resulting"
     },
     {
@@ -10909,6 +11744,13 @@
       "extractedFrom": "situation:resulting"
     },
     {
+      "source": "draft-and-publish",
+      "target": "action-consequences",
+      "type": "precedes",
+      "situation": "publishing reaches every reader at once, so in a shared artefact it can be a heavier act than any deletion, and it is rated for confirmation and a way back like the other acts",
+      "extractedFrom": "situation:resulting"
+    },
+    {
       "source": "editing-in-place",
       "target": "undo",
       "type": "precedes",
@@ -10937,6 +11779,13 @@
       "extractedFrom": "situation:resulting"
     },
     {
+      "source": "fully-connected",
+      "target": "hybrid-patterns",
+      "type": "precedes",
+      "situation": "the global menu is a fixed budget that content growth eats into; the set that has to fit the chrome stops fitting long before the content stops arriving, and what gives is either the depth on show or the topology",
+      "extractedFrom": "situation:resulting"
+    },
+    {
       "source": "good-defaults",
       "target": "autocomplete",
       "type": "precedes",
@@ -10955,6 +11804,13 @@
       "target": "assisted-task-completion",
       "type": "precedes",
       "situation": "pre-population ends where the task needs the system to participate in the work itself — the assisted-completion spectrum picks up where a static guess stops sufficing",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "help",
+      "target": "agent",
+      "type": "precedes",
+      "situation": "written help runs out where the question needs reasoning about the actor's own situation; one route on from there is a conversation with an agent, a move to another surface where help is embedded and no move at all where the conversation is already the surface, and where the fix needs someone else's access or judgement the route is a person",
       "extractedFrom": "situation:resulting"
     },
     {
@@ -11000,6 +11856,13 @@
       "extractedFrom": "situation:resulting"
     },
     {
+      "source": "pan-and-zoom",
+      "target": "deep-linking",
+      "type": "precedes",
+      "situation": "a continuous space has no addresses of its own; position and scale have to be made nameable before anything in it can be linked to, bookmarked, or returned to",
+      "extractedFrom": "situation:resulting"
+    },
+    {
       "source": "plan-preview",
       "target": "approval-gate",
       "type": "precedes",
@@ -11015,7 +11878,7 @@
     },
     {
       "source": "rule-composition",
-      "target": "dry-run",
+      "target": "trial-run",
       "type": "precedes",
       "situation": "reading the statement does not tell the actor what it matches or does; a selecting rule shows its result on the collection at once, an acting rule shows nothing until it fires",
       "extractedFrom": "situation:resulting"
@@ -11036,23 +11899,16 @@
     },
     {
       "source": "settings",
+      "target": "explanation",
+      "type": "precedes",
+      "situation": "a preference set once and honoured indefinitely stops being visible to the actor who set it, so behaviour that follows from it reads later as a fault rather than as their own earlier decision — the setting has to be named where the behaviour shows",
+      "extractedFrom": "situation:resulting"
+    },
+    {
+      "source": "settings",
       "target": "notification",
       "type": "precedes",
       "situation": "in shared configuration, one actor's change alters what others see without their doing anything — something has to carry the change across to them",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "sharing",
-      "target": "draft-and-publish",
-      "type": "precedes",
-      "situation": "once anyone besides the maker can see the document, what unfinished work shows stops being an accident: the boundary between working and showing has to be declared, and a boundary declared distinct needs its crossing built",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "sharing",
-      "target": "presence",
-      "type": "precedes",
-      "situation": "participants granted into one document behind separate screens can see everything except each other; the grant creates the awareness debt presence pays",
       "extractedFrom": "situation:resulting"
     },
     {

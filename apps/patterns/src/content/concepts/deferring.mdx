@@ -1,0 +1,31 @@
+---
+title: Deferring
+added: 2026-11-15
+purpose: Put something off until a named time and have it come back then without anyone having to remember it.
+principle: >-
+  If a member, or the system working for them, defers something to a time, it
+  leaves what they are attending to now; when the time comes the system brings
+  it back or carries it out, once, and the deferral is over.
+state:
+  - "deferrals: User -> set Deferral"
+  - "subject: Deferral -> one Item"
+  - "due: Deferral -> one Time"
+actions:
+  defer: A member, or the system working for them, puts something off until a time; until then it is out of the way.
+  comeDue: The system brings the deferred thing back, or carries it out, because its time has come, and the deferral ends.
+  changeDeferral: Whoever set the deferral names a different time.
+  cancelDeferral: Whoever set the deferral withdraws it, and nothing happens when the time comes.
+misfits:
+  - The time is chosen in advance, so the thing comes back when the member may be no freer to deal with it than before.
+  - What was deferred can change or be settled in the meantime (the reply arrived, the task was done), and it comes back anyway.
+  - A deferred thing is out of view until it is due, so a member cannot tell what is pending or when without a place that lists it.
+  - Nothing limits deferring the same thing again, so something can be put off each time it returns and never dealt with.
+  - A deferral the system sets for itself is one the member did not make and may not know is pending.
+aliases: [reminder, snooze, follow-up, send later, scheduled send, remind me]
+appears_in:
+  - Gmail snooze and scheduled send
+  - Slack reminders
+  - iOS Reminders
+  - GitHub notification reminders
+  - agents that say they will check back later
+---

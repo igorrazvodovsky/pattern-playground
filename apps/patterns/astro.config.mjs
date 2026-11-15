@@ -18,6 +18,7 @@ export default defineConfig({
   publicDir: path.resolve(__dirname, '../../public'),
   redirects: {
     '/patterns/dashboard': '/patterns/purpose-keyed-view',
+    '/patterns/dry-run': '/patterns/trial-run',
     '/patterns/text-lense': '/patterns/text-lens',
   },
   // Astro 7 defaults Markdown/MDX to the native Sätteri pipeline, which does

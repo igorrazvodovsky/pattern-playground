@@ -67,7 +67,7 @@ The workflow is authored to delegate and read to supervise, and these are the sa
 
 ## First draft
 
-The draft can be generated from an instruction and rendered for repair, or induced from the system's own successful and failed runs and handed back as a reusable, guarded procedure. Workflows are also *grown* — trigger–action pairs added in situ while partial versions already run, formality entered gradually rather than specified upfront. In every direction the actor's core interaction is the same: *inspect and repair*, not construct. 
+The draft can be generated from an instruction and rendered for repair, or induced from the system's own successful and failed runs and handed back as a reusable, guarded procedure. It can also be shown: the actor does the task once and the system takes the procedure from it, which is [tuning by demonstration](/patterns/tuning-by-demonstration). Workflows are also *grown* — trigger–action pairs added in situ while partial versions already run, formality entered gradually rather than specified upfront. In every direction the actor's core interaction is the same: *inspect and repair*, not construct. 
 
 ## Map or script
 
@@ -80,7 +80,7 @@ Whether the artifact merely orients its executors or genuinely binds them is set
 
 Procedures fail after deployment, and the run-time affordances decide whether the pattern holds:
 
-- *Effect preview* — rehearse the rule against real or historical cases before committing authority to it; this is [delegation](/patterns/delegation)'s *test drive* touchpoint, and for rule edits it is the difference between tuning and gambling. [Rule composition](/patterns/rule-composition) holds the forms this takes and what is known about each
+- *Effect preview* — rehearse the rule against real or historical cases before committing authority to it; this is [delegation](/patterns/delegation)'s *test drive* touchpoint, and for rule edits it is the difference between tuning and gambling. [Trial run](/patterns/trial-run) is the rehearsal as a move of its own, and [rule composition](/patterns/rule-composition) holds what is known about foreseeing a single rule
 - *Step-level attribution* — when a run goes wrong, the actor needs the failure pinned to a step or an agent, at the representation, not in a log dump
 - *The prescription–account gap* — what ran never quite matches what was drawn; keep the [activity log](/patterns/activity-log) readable against the workflow rather than pretending the two are one
 

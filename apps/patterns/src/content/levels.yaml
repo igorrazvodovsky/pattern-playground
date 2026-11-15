@@ -24,24 +24,29 @@
     - title: Setting
       lead: >-
         Place the artifact among the tools its actors already use, give it one
-        logic across its surfaces and the channels it is reached through, and
-        keep the work on the actor's device where it can be.
+        logic across its surfaces and the channels it is reached through, keep
+        the work on the actor's device where it can be, and reach for what else
+        is the actor's only as they allow.
       patterns:
         - tool-ecology
         - information-environment
         - cross-channel-continuity
         - local-first-ownership
+        - permissions
     - title: Workspaces and who is let in
       lead: >-
         Divide the work into workspaces, ask for identity only as each need
         calls for it, let in the agents actors bring under grants of their own,
-        decide who is let into each workspace, and let the people inside
-        coordinate their work.
+        draw the lines of who answers for which part of the work, decide who is
+        let into each workspace and what each participant may do
+        there, and let the people inside coordinate their work.
       patterns:
         - workspace
         - identity-at-the-point-of-need
         - outside-agent
+        - division-of-responsibility
         - sharing
+        - roles
         - collaboration
     - title: Connecting and naming
       lead: >-
@@ -98,9 +103,8 @@
     - title: Work done without the actor
       lead: >-
         Wherever work is done without the actor, set what holds across every
-        run: the agent that does it, the authority it is granted, the
-        instructions and memory it carries, how what it produces is treated,
-        and the procedures handed over to run.
+        run: the agent that does it, the authority it is granted, the instructions and memory it carries, how what it
+        produces is treated, and the procedures handed over to run.
       patterns:
         - agent
         - bounded-autonomy
@@ -210,15 +214,15 @@
       lead: >-
         Decide when changes are stored, published and kept as versions, how
         they sync through storage the actor holds, how work is copied in from
-        and out to other tools, how a bulk change is previewed, and how things
-        are removed.
+        and out to other tools, how a rule or a bulk change is tried before it
+        counts, and how things are removed.
       patterns:
         - saving
         - draft-and-publish
         - version-history
         - sync-through-own-storage
         - import-and-export
-        - dry-run
+        - trial-run
         - deletion
     - title: Working on the same thing
       lead: >-
@@ -268,11 +272,12 @@
     - title: Trouble and endings
       section: Work with an agent
       lead: >-
-        Repair the exchange when understanding breaks, and end or park it
-        deliberately.
+        Repair the exchange when understanding breaks, fork it when trying an
+        alternative from an earlier turn, and end or park it deliberately.
       patterns:
         - agent-repair
         - user-repair
+        - branching
         - abort
         - sequence-completion
         - closing
@@ -304,6 +309,15 @@
         - extraction
         - instructed-revision
         - regeneration
+    - title: Correcting standing behaviour
+      section: Work with an agent
+      lead: >-
+        Where the system acts under rules or learned preferences, let the
+        actor correct it at the case it got wrong, and let them show what
+        they cannot say.
+      patterns:
+        - case-correction
+        - tuning-by-demonstration
     - title: Checking machine output
       section: Work with an agent
       lead: >-

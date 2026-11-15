@@ -11,11 +11,12 @@ activityLevel: action
 lifecycle: evaluation
 mediation: individual
 description: "Running a rule, bulk operation, or agent against sample or simulated cases so the actor can inspect what it does before applying it for real."
+acts_on:
+  - { concept: automating, note: "the first run, which otherwise happens with nobody watching" }
 situation:
   initiating: >-
     … the actor has configured a bulk edit, a standing rule in
-    [rule composition](/patterns/rule-composition), or an agent set to run on a
-    [triggered run](/patterns/triggered-run) under
+    [rule composition](/patterns/rule-composition), or an agent set to start by itself under
     [bounded autonomy](/patterns/bounded-autonomy). It may also be a step inside a
     [workflow](/patterns/workflow). Unlike a live filter over a visible list, a rule, batch
     operation, or background agent shows no result while it is being configured, and the items
@@ -27,8 +28,7 @@ situation:
     individual changes before committing the batch. Each trial result can include an
     [explanation](/patterns/explanation) of which condition matched, so the actor can spot a
     right outcome reached for the wrong reason. For rules and agents that filter or select, the
-    trial can also surface [passed-over cases](/patterns/passed-over-cases) that narrowly
-    missed. Because a rehearsal over sample data cannot cover every future input, live runs
+    trial can also show the cases that narrowly missed. Because a rehearsal over sample data cannot cover every future input, live runs
     still rely on [case correction](/patterns/case-correction) when an unanticipated case
     misfires. [Plan preview](/patterns/plan-preview) solves the adjacent problem where an
     agent presents its own intended steps before acting, rather than testing a configuration

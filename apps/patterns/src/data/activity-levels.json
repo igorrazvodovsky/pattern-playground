@@ -124,10 +124,15 @@
     "bounded-autonomy": {
       "activity-level": "action",
       "lifecycle-stage": null,
-      "mediation": null
+      "mediation": "individual"
     },
     "bounded-choice": {
       "activity-level": "operation",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
+    "branching": {
+      "activity-level": "action",
       "lifecycle-stage": null,
       "mediation": "individual"
     },
@@ -135,6 +140,11 @@
       "activity-level": "operation",
       "lifecycle-stage": null,
       "mediation": "coordination"
+    },
+    "case-correction": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
     },
     "change-review": {
       "activity-level": "action",
@@ -256,6 +266,11 @@
       "lifecycle-stage": null,
       "mediation": "coordination"
     },
+    "division-of-responsibility": {
+      "activity-level": "activity",
+      "lifecycle-stage": null,
+      "mediation": "coordination"
+    },
     "draft-and-publish": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -264,11 +279,6 @@
     "drag-and-drop": {
       "activity-level": "operation",
       "lifecycle-stage": null,
-      "mediation": "individual"
-    },
-    "dry-run": {
-      "activity-level": "action",
-      "lifecycle-stage": "evaluation",
       "mediation": "individual"
     },
     "dynamic-hyperlinks": {
@@ -364,7 +374,7 @@
     "handoff": {
       "activity-level": "action",
       "lifecycle-stage": null,
-      "mediation": null
+      "mediation": "coordination"
     },
     "help": {
       "activity-level": "activity",
@@ -561,6 +571,11 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
+    "permissions": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "plan-preview": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -644,7 +659,7 @@
     "regeneration": {
       "activity-level": "action",
       "lifecycle-stage": null,
-      "mediation": null
+      "mediation": "individual"
     },
     "remembered-state": {
       "activity-level": "operation",
@@ -660,6 +675,11 @@
       "activity-level": "action",
       "lifecycle-stage": null,
       "mediation": "individual"
+    },
+    "roles": {
+      "activity-level": "activity",
+      "lifecycle-stage": null,
+      "mediation": "coordination"
     },
     "rule-composition": {
       "activity-level": "action",
@@ -798,6 +818,16 @@
     },
     "transparent-reasoning": {
       "activity-level": "activity",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
+    "trial-run": {
+      "activity-level": "action",
+      "lifecycle-stage": "evaluation",
+      "mediation": "individual"
+    },
+    "tuning-by-demonstration": {
+      "activity-level": "action",
       "lifecycle-stage": null,
       "mediation": "individual"
     },

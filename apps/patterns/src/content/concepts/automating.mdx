@@ -1,0 +1,43 @@
+---
+title: Automating
+added: 2026-11-15
+purpose: Have a piece of work carried out each time its occasion comes, without the member asking for it.
+principle: >-
+  If a member attaches a request to an occasion, a time or something that
+  happens, the system carries the request out each time the occasion comes,
+  whether or not the member is there, and keeps a record of each run; this goes
+  on until the member holds it or ends it.
+state:
+  - "automations: User -> set Automation"
+  - "request: Automation -> one Request"
+  - "occasion: Automation -> one Occasion"
+  - "held: set Automation"
+  - "resumesOn: Automation -> opt Occasion"
+  - "runs: Automation -> set Run"
+  - "outcome: Run -> one Outcome"
+actions:
+  setUpAutomation: A member attaches a request to an occasion; from then on the system runs the request each time the occasion comes.
+  runAutomation: The system carries out the request because its occasion came, and records the run and how it went.
+  changeAutomation: A member replaces the request or the occasion; runs already made are unaffected.
+  holdAutomation: A member stops the automation from running while keeping its request, occasion and record, and may name a time or a condition on which it resumes.
+  resumeAutomation: A held automation runs again from the next occasion, because a member resumes it or because the time or condition named when it was held has come.
+  endAutomation: A member removes the automation, and it never runs again.
+misfits:
+  - Between occasions nothing happens, so an automation that is waiting, one that is held and one that has stopped working look the same.
+  - The occasion can come far more often than the member pictured, and each time brings a whole run; a rule meant to send one message a day sends forty.
+  - An occasion written in advance picks out cases the member did not mean and lets go by ones they did, and they see neither unless they go looking.
+  - An occasion can come while the run from the last one is still going, and the concept does not say whether the new one waits, joins that run or replaces it.
+  - The first run happens when nobody is watching, so a mistake in the request is found by what it did.
+  - A run that fails is recorded with its outcome, and the concept does not say whether the occasion is tried again, so the work for that occasion may never be done.
+  - Nothing in an automation ends it, so it keeps running after its reason has gone.
+  - Occasions that come while an automation is held are neither run nor recorded as missed, and the concept does not say which should happen on resuming.
+  - An automation acts with what its owner could reach when they set it up, so it breaks, or keeps reaching things it should not, when the owner's access changes or the owner leaves.
+aliases: [automation, scheduled task, recurring task, routine, trigger, rule, cron job]
+appears_in:
+  - cron
+  - Gmail and Apple Mail rules
+  - Zapier
+  - GitHub Actions
+  - iOS Shortcuts automations
+  - scheduled tasks in ChatGPT and Claude
+---

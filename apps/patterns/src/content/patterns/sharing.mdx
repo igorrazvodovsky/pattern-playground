@@ -1,65 +1,81 @@
 ---
 title: Sharing
 added: 2026-08-29
-updated:
+updated: 2026-11-15
 role: pattern
 seed: true
 evidence:
   - observed
+  - literature
 group: coordination
 activityLevel: action
 mediation: coordination
-description: "Opening private work to named others at a graded capability — view, comment, edit — as an explicit act rather than a side effect of working together."
+description: "Letting named people, groups or agents into a workspace, folder or item, or opening it by link, at one of the space's roles, with a clear list of who has access and a way to change or remove it."
 acts_on:
-  - { concept: assigning-roles }
+  - { concept: assigning-roles, note: "giving the narrowest role that fits when letting someone in, and raising or removing it later" }
+  - { concept: joining, note: "letting a person or group into a workspace, folder or item" }
 situation:
   initiating: >-
-    the work is its maker's alone, and it now needs others inside it; handing
-    copies around forks it, and opening everything to everyone destroys the
-    freedom to work rough — so who can see and touch what has to be decided at the
-    boundary, before any joint mechanism exists
-  resulting:
-    - >-
-      the grant names a capability tier, not just a person — viewer, commenter, editor —
-      and every tier above viewing is a promise: granting comment access promises a
-      commenting surface, granting edit access promises everything an editor collides with
-    - >-
-      grants inherit and cap: a container's grant flows down to what it holds, and nobody
-      grants above what they themselves hold — so the sharing model is also the shape of
-      the space
-    - clause: >-
-        once anyone besides the maker can see the document, what unfinished work shows
-        stops being an accident: the boundary between working and showing has to be
-        declared, and a boundary declared distinct needs its crossing built
-      sets-up: [draft-and-publish]
-    - clause: >-
-        participants granted into one document behind separate screens can see everything
-        except each other; the grant creates the awareness debt presence pays
-      sets-up: [presence]
+    … a [workspace](/patterns/workspace) holds a person's private work or the shared work of a
+    team or organisation, and new items start with the access of the place they are made in.
+    Where several parties take part in the work,
+    [division of responsibility](/patterns/division-of-responsibility) draws the lines between
+    the parts each party answers for and settles who may let others in. Soon someone outside a
+    part, or outside the workspace altogether, needs to see, review or edit a folder or a
+    single item without being given the rest.
+  resulting: >-
+    Each person or group let in gets one of the [roles](/patterns/roles) the space offers, and
+    everyone with access is listed on the folder or item where their access can be changed or
+    removed. An [outside agent](/patterns/outside-agent) is let in and removed through the same
+    list, and can never be given more access than the person who brings it has. A
+    [deep link](/patterns/deep-linking) either opens only for people who already have access, or
+    carries a role of its own so anyone with the link can open it without an account. Once
+    several people have the same live work open on separate screens,
+    [presence](/patterns/presence) shows who else is there, and a role that lets people review
+    or discuss needs [commenting](/patterns/commenting). Where rough work should not be seen as
+    it is being written, [draft and publish](/patterns/draft-and-publish) keeps a working copy
+    separate from what others read; where different parties need different issued sets rather
+    than one published version for everyone, each set is its own part with its own access.
+    [Permissions](/patterns/permissions) covers a different line, around what the artifact may
+    reach on the actor's own device and accounts…
 relationships:
-  enacts:
-    - to: privacy
-      note: "the grant is the privacy boundary made explicit and graded, rather than implied by where a file happens to live"
+  enables:
+    - to: division-of-responsibility
+      note: "sharing is how people are let across the lines division of responsibility draws"
+    - outside-agent
   complements:
     - to: workspace
-      note: "the workspace partitions the actor's contexts; sharing decides who else is inside one"
-disclosure: >-
-  Seeded during the working-on-the-same-thing sequence sitting. Needs its classification sitting; the
-  relation to the shareability quality (what a link carries) and to access-request
-  flows is unworked.
+      note: "the workspace sets the default boundary; sharing lets people into a workspace, folder or item"
+    - roles
+    - deep-linking
+  precedes:
+    - presence
+    - commenting
+    - draft-and-publish
+  related:
+    - permissions
+  enacts:
+    - to: privacy
+      note: "the actor decides who can see each folder or item, and can see and change that list"
+    - to: agency
+      note: "whoever answers for the work decides who else may reach it and what they may do there"
 ---
 
-The work is its maker's alone, and it now needs others inside it. Handing copies around forks it; opening everything to everyone destroys the freedom to work rough. Sharing is the explicit act at the boundary: named others are let in at a graded capability — view, comment, edit — before any joint mechanism exists.
+* * *
 
-The grant is the first collaboration decision, not a detail of storage. Every surveyed shipping product stages it the same way: new work defaults to private, the share act names people (or a container's membership) at a tier, tiers inherit downward, and nobody grants above what they hold. A viewer can be offered a request path to the higher tier, which keeps the boundary explicit in both directions.
+**When the only way to let someone else see or work on something is to send a copy or let them into the whole workspace, copies soon diverge and opening the workspace exposes rough or unrelated work. Letting people in by folder or by item fixes that, but access quickly becomes hard to read. A folder's access passes down to what is inside it while single items get exceptions of their own, links get forwarded to people they were not meant for, and someone who hits a link or an action they cannot use is left stuck with no way to ask for access.**
 
-## Forces
+Therefore,
 
-- Reach vs roughness: the more people the grant admits, the less freely the maker explores in front of them.
-- Fine grants vs common ground: permissions cut too fine leave collaborators unable to see the same thing, and the conversation falls back to screenshots.
+**Let whoever answers for a workspace, folder or item invite named people, groups or an outside agent—or create a link that carries access when recipients should not need an account—and give each one of the space's roles, starting with the narrowest role that fits. Pass a folder's access down to what it holds, allow a single item to be shared without opening the rest of its folder, and never let anyone give more access than they have themselves. Show on every folder and item who can reach it, whether their access was given here or inherited from above, and how to change or remove it. When someone opens a link they cannot reach, or tries an action above their role, let them ask for the access right there and send the request to the person who can grant it.**
 
 ## Resources & references
 
 - Google Workspace: [Restricted default sharing](https://support.google.com/a/answer/12732365) and [graded roles](https://support.google.com/docs/answer/2494822)
 - Figma: [sharing and permissions guide](https://help.figma.com/hc/en-us/articles/1500007609322-Guide-to-sharing-and-permissions) — inheritance and the grant cap
 - Burghardt (2009) *Working Through Screens*, C5 "Permissions and views tailored to workers' identities", B7 "Object ownership and availability rules"
+
+## To-do
+
+- Sharing as a grant, as a copy and as a link are three concepts behind one gesture. Each needs a concept entry, and the page should say which one a share control names.
+- Granting access is one act and taking it back often is not: copies and forwarded links outlive the grant. State the asymmetry as a misfit in the entries and the move on it here.

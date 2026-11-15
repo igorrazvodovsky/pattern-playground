@@ -1,0 +1,32 @@
+---
+title: Remembering
+added: 2026-11-15
+purpose: Carry what the system has learned about a member and their work from one session into later ones, so they do not have to say it again.
+principle: >-
+  If a member says something about themselves or their work in one session and
+  the system keeps it, later sessions start with it already known; if the
+  member removes it, later sessions no longer have it.
+state:
+  - "memories: User -> set Memory"
+  - "content: Memory -> one Text"
+  - "learnedIn: Memory -> opt Session"
+actions:
+  remember: The system keeps something it learned in a session, by its own judgement or because the member asked.
+  recall: The system brings what it has kept into a new session, where it shapes what the system does.
+  correctMemory: A member replaces what a memory says.
+  forget: A member removes a memory, and later sessions start without it.
+misfits:
+  - The system decides what to keep, so a member can be remembered in ways they did not choose and do not know about.
+  - A fact that was true when kept goes on shaping results after it has stopped being true.
+  - A memory shapes a result with no sign that it did, so the member cannot tell why two sessions answer the same request differently.
+  - What was learned in one part of a member's life or work is brought into another where it does not belong.
+  - Something the system inferred is kept in the same form as something the member said.
+  - Forgetting removes the memory but not the session it was learned in, nor what was already made with it.
+aliases: [memory, saved memories, personalisation, long-term memory]
+depends_on: [session-keeping]
+appears_in:
+  - ChatGPT memory
+  - Claude memory
+  - Gemini saved info
+  - Cursor memories
+---

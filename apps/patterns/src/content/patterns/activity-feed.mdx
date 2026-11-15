@@ -1,64 +1,57 @@
 ---
 title: Activity feed
 added: 2025-11-18
-updated:
+updated: 2026-11-15
 role: pattern
 activityLevel: activity
+evidence:
+  - observed
 fun: 🗺️ 2/5. Mapping out the basics.
+description: "Aggregating non-interrupting updates from multiple sources into one scannable stream that can be checked and left."
 acts_on:
   - { concept: following, note: "the feed is where followed sources are read when no notice is sent" }
 situation:
   initiating: >-
-    what's worth the actor's attention arrives from many sources on nobody's schedule, and
-    checking each one costs time proportional to the number of sources rather than to how
-    much actually happened
-  resulting:
-    - >-
-      updates from everywhere arrive in one scannable flow, so noticing what changed costs one
-      look instead of several rounds
-    - >-
-      the ordering is a claim about what matters: chronological is predictable and treats
-      everything as equal, algorithmic is relevant and unaccountable
-    - >-
-      a feed has no end, so there is no state in which the actor is finished with it — which
-      is both why it sustains attention and why it is hard to put down
+    … updates worth the actor's attention arrive from many sources on nobody's schedule
+    across [collaboration](/patterns/collaboration), [delegation](/patterns/delegation),
+    and [assistance](/patterns/assistance). [Notification](/patterns/notification) carries
+    the few events urgent enough to interrupt, leaving everything else scattered where it
+    happened. Checking each source costs time proportional to how many there are rather than
+    to how much actually changed, so [attention and tempo](/sequences/attention-and-tempo#glance)
+    needs one place where waiting updates can be scanned and left.
+  resulting: >-
+    Keep the stream distinguishable from an [activity log](/patterns/activity-log),
+    which records actions taken by an entity for accountability and reconstruction rather
+    than aggregating updates of interest for awareness. When volume grows, give the actor
+    [filtering](/patterns/filtering) by source or event type so noisy streams do not crowd
+    out consequential ones, and pair the stream with a clear
+    [empty state](/patterns/state-empty) when nothing new has arrived. Where items invite
+    discussion, attach a [conversation](/patterns/conversation) thread to the item so
+    replies stay anchored rather than spilling into the top-level stream…
 relationships:
   serves:
     - to: assistance
       note: assistance's perceiving step — keeping recent events visible so the actor can notice what matters
     - to: delegation
-      note: the feed gives the user awareness of background agent activity during delegation's execution stage
+      note: delegation's execution stage — giving the actor awareness of background agent activity
   complements:
-    - to: activity-log
-      note: distinct from feeds; logs are histories of _actions taken by_ an entity, whilst feeds aggregate content _of interest to_ users from diverse sources
-    - to: collaboration
-      note: uses feeds to surface updates and changes in shared workspaces
-    - to: notification
-      note: alerts users to new feed activity requiring attention
-    - to: conversation
-      note: comment threads enable conversations around feed items
+    - activity-log
+    - collaboration
+    - notification
+    - conversation
 ---
-The continuous aggregation of diverse content into a single scannable flow, transforming scattered updates from multiple sources into an ongoing stream that sustains engagement over time. Unlike [activity logs](/patterns/activity-log) that record system events, feeds aggregate content types — posts, updates, articles, media — for consumption and quick engagement, prioritising recency.
 
-## Ordering strategies
+* * *
 
-- Chronological: reverse-chronological ordering where newest items always appear first. Simple and predictable – users know where to look for updates.
-- Algorithmic: Sequence determined by relevance algorithms. Orders content based on predicted interest rather than strict time order.
+**When updates are scattered across the people, organisations, projects, actors either check each source in turn or stop checking and miss changes.**
 
-## Variants
+The design choice is less about how items are collected—whether by [following](/concepts/following), shared workspace, or explicit rules—than about order and stopping. Reverse-chronological order is predictable and lets the actor see when they have reached what they already saw; algorithmic ranking surfaces signal under high volume, but hides what was left out. Because a feed has no natural end, noisy sources and uniform visual weight drown out consequential updates and make the stream hard to put down.
 
-- Personal: Aggregates content relevant to individual user – posts from connections, subscribed sources, or topics of interest. Single unified feed across multiple sources.
-- Curated: Publisher-defined collections organised by topic, source type, or editorial selection. Users browse multiple feeds (e.g., "Technology", "Design", "News") alongside personal feed.
-- Custom: User-created filters based on topics, tags, or lists of specific sources. Advanced functionality for power users wanting precise control over content feeds.
+Therefore,
 
-## Item anatomy
+**Collect non-interrupting updates from the sources into one scannable stream, with each item carrying its source, content, timestamp, and actions. Default to reverse-chronological order, mark where the actor last caught up or when nothing has changed, and bound the stream so it can be checked and left.**
 
-Each feed item typically includes:
-
-- Content: full text for micro-updates, or title/teaser with thumbnail for longer content
-- Source: actor (person, organisation, system) who created or triggered the item
-- Timestamp: relative time for recent items ("2 hours ago"), switching to absolute timestamps as content ages
-- Actions: lightweight engagement options (like, star, bookmark) alongside deeper responses (comment, share)
+Keep urgent, time-critical events in [notification](/patterns/notification) so the actor is not forced to poll the feed as an inbox, and keep infinite scroll out of work feeds where catching up is the point.
 
 ## Related components
 
@@ -73,4 +66,4 @@ Each feed item typically includes:
 
 ## To-do
 
-- Infinite scrolling — loads additional content as the user reaches the end of current items.
+- Infinite scrolling — whether loading additional content at the end of current items belongs here as a bounded-vs-unbounded variant or anti-pattern.

@@ -10,12 +10,14 @@ evidence:
 activityLevel: action
 mediation: individual
 description: "Letting the actor repair standing behaviour at the case it got wrong: this once, for cases like this from now on, or by changing the rule."
+acts_on:
+  - { concept: automating, note: "an occasion written in advance that picks out the wrong cases or lets the right ones go by" }
 situation:
   initiating: >-
     … a standing rule, filter, recommender, or agent has acted on a case the actor did not
     want touched, or left alone one they did, and the actor is looking at that case: in the
-    result, in a [notification](/patterns/notification), or among the
-    [passed-over cases](/patterns/passed-over-cases). Even where a [trial run](/patterns/trial-run)
+    result, in a [notification](/patterns/notification), or among the items the rule refused.
+    Even where a [trial run](/patterns/trial-run)
     checked the rule beforehand, cases arrive in use that the trial did not meet, and the
     governing logic sits in settings the actor seldom visits. Where the fault is in the wording
     or shape of a generated draft rather than in a standing decision on a case, the repair is
@@ -74,6 +76,8 @@ Therefore,
 
 Keep standing exceptions in a list the actor can review and clear, so overrides accumulated one by one do not silently cancel the rule they qualify.
 
+A wrong refusal is harder to meet than a wrong act, because the message filtered out or the payment declined is out of sight. Where the rule refuses or filters out, keep what it refused where the actor can open it and reverse it, as a spam folder does, with the reason on each entry and the least certain entries first. Few people open such a list unasked, so now and then ask about a close call, as a bank asks whether a declined payment was the actor's own. Where a held item may be harmful, show enough to recognise it, such as the sender and subject, and not the item itself.
+
 ## Research on this pattern
 
 - Separating a one-off override from a standing change: when a learning thermostat treated every manual adjustment as a change to the standing schedule, [temporary exceptions corrupted future behaviour and people hesitated to adjust it at all](https://doi.org/10.1145/2493432.2493489) — the basis for keeping "this once" distinct from an exception or rule change.
@@ -82,7 +86,9 @@ Keep standing exceptions in a list the actor can review and clear, so overrides 
 
 ## Resources & references
 
-- Noessel (2017) [Designing agentive technology](https://rosenfeldmedia.com/books/designing-agentive-technology/) — skipping a case, exception lists in both directions, and changing a rule from the case that broke it
+- Noessel (2017) [Designing agentive technology](https://rosenfeldmedia.com/books/designing-agentive-technology/) — skipping a case, exception lists in both directions, changing a rule from the case that broke it, and the list of rejects with a filter for low-confidence cases
+- [Microsoft Defender — quarantine notifications](https://learn.microsoft.com/en-us/defender-office-365/quarantine-quarantine-notifications) — a periodic digest of held messages with release and review actions
+- Parasuraman & Riley (1997) [Humans and automation: use, misuse, disuse, abuse](https://doi.org/10.1518/001872097778543886) — misses and false alarms weigh differently on reliance
 - Yang & Newman (2013) [Learning from a learning thermostat: lessons for intelligent systems for the home](https://doi.org/10.1145/2493432.2493489) — one-off overrides mistaken for standing schedule changes
 - Kulesza, Burnett, Wong & Stumpf (2015) [Principles of explanatory debugging to personalize interactive machine learning](https://doi.org/10.1145/2678025.2701399) — corrections made on the explanation of a single prediction
 - Dietvorst, Simmons & Massey (2018) [Overcoming algorithm aversion: people will use imperfect algorithms if they can (even slightly) modify them](https://doi.org/10.1287/mnsc.2016.2643)

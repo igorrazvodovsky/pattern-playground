@@ -1,0 +1,93 @@
+---
+title: Branching
+added: 2026-11-14
+updated: 2026-11-15
+role: pattern
+evidence:
+  - observed
+  - literature
+activityLevel: action
+mediation: individual
+description: "Forking a new thread from an earlier point in a session or history so several lines of work can proceed in parallel from a shared state."
+acts_on:
+  - { concept: session-keeping, note: "splits a session into separate threads from an earlier turn so each line carries only its own turns" }
+  - { concept: versioning, note: "forks a new thread from a checkpoint instead of restoring over the current state" }
+situation:
+  initiating: >-
+    … the actor is working in a [session](/patterns/session), a [conversation](/patterns/conversation), or a [version history](/patterns/version-history), and needs several threads running from an earlier point rather than a single sequence. [Undo](/patterns/undo) only steps back along one line and discards what followed, while keeping everything in one thread mixes separate lines of work together.
+  resulting: >-
+    The earlier state now has two or more sibling continuations, and the active path scopes both what the actor sees and what the system reads as context. Where the actor needs to weigh what diverged across branches, align the sibling outputs or paths through [comparing](/patterns/comparing). Where a tree overview sits beside the active transcript, link them as [coordinated views](/patterns/coordinated-views) so selecting a node scopes the view. Where a branch only retries a single turn at the leaf, [regeneration](/patterns/regeneration) or [instructed revision](/patterns/instructed-revision) handles the local change without adding long-lived branches. When a branch settles on a result that should replace or join the main line, bring it back through [change review](/patterns/change-review) or [reconciliation](/patterns/reconciliation). When only a finished piece needs to carry forward, lift it out of the thread with [extraction](/patterns/extraction). Branching is not [draft and publish](/patterns/draft-and-publish), which separates one working copy from what others read so unfinished edits stay private until published, though a collaborative branch can serve both roles at once…
+relationships:
+  enables:
+    - session
+    - conversation
+    - version-history
+  alternative:
+    - undo
+  complements:
+    - prompt
+    - regeneration
+    - instructed-revision
+    - comparing
+    - extraction
+  precedes:
+    - change-review
+    - reconciliation
+  related:
+    - coordinated-views
+    - draft-and-publish
+  enacts:
+    - to: agency
+      note: the actor can open and pursue several threads from any prior point in the history
+    - to: temporality
+      note: turns linear history into a tree of coexisting timelines the actor can step between
+---
+
+* * *
+
+**When a multi-step exchange or history is held as a single sequence, the actor cannot run several threads from a shared point. Continuing at the end of the thread mixes separate lines of work into one context, starting a new session forces the actor to rebuild the shared history up to that point, and editing or rolling back to an earlier point replaces everything that followed it.**
+
+Representing the history as a tree rather than a single line lets several threads share an ancestor and diverge from it. Any committed turn, checkpoint, or state can serve as the parent of a new branch; each branch inherits the history up to that point and keeps its subsequent turns or changes separate from its siblings.
+
+Branches are easy to create, especially in generative tools where a single prompt can start a new thread. Without clear names, active-path highlighting, and ways to archive, remove, or bring results back from finished branches, a tree past a few dozen nodes becomes harder to navigate than a linear thread.
+
+Therefore,
+
+**Let the actor fork a new thread from any prior turn or state in the history, keeping existing threads intact alongside the new one. Scope the active view and the system's working context to the selected root-to-node path, make the active lineage and branch points visible, and let the actor name, prune, or bring results back from a branch.**
+
+Keep single-turn retries at the leaf on a lightweight switcher through [regeneration](/patterns/regeneration) rather than adding a full tree node for every re-roll. When an interface shows the full tree, pair it with a linear view of the active path rather than replacing the readable transcript with a graph alone.
+
+## In practice
+
+### Inline switchers and explicit tree views
+
+Chat interfaces often hide the tree inside a linear column: editing an earlier [prompt](/patterns/prompt) or regenerating a reply creates a sibling branch behind a `< 2 / 2 >` switcher on that turn, flipping the transcript below it between timelines. This keeps the reading surface simple for two or three forks, but hides where else in the thread branches exist and prevents reading two branches side by side. When multi-branch work is common, an explicit tree overview beside the transcript—with short auto-generated titles on each node and the active path highlighted—lets the actor jump directly between threads.
+
+### Artifact and version branches
+
+In document, design, and code tools (such as Git or Figma branches), an entire working state forks from a checkpoint so a person or an agent can work on a separate thread in isolation before deciding whether to bring changes back into the main line via [change review](/patterns/change-review) and [reconciliation](/patterns/reconciliation).
+
+## Research on this pattern
+
+- *Tree-structured revisitation and active-context legibility*: in a within-subjects study ($N = 12$) of long-horizon LLM conversations, [Li, Qin & Lee (2026)](https://doi.org/10.1145/3772363.3798792) (*Branchat*) found that pairing a tree overview of auto-titled turn nodes with a path-scoped chat panel reduced revisitation completion time ($12.24$ vs. $15.71$ min, $d = 0.66$), scroll distance ($43\%$ reduction, $d = 1.00$), search queries ($56\%$ reduction, $d = 1.01$), and workload ($d = 1.76$) compared to linear chat. Participants shifted from continuous scrolling to structure-driven node jumps ($21.67$ vs. $9.08$ per task) and reported gains in usability ($d = 1.92$), trust ($d = 2.17$), and self-efficacy ($d = 2.83$); participants noted that trees past roughly 50 nodes needed convergence operations such as merging and summarisation.
+- *Version-control semantics for exploratory chats*: [Nanjundappa & Maaheshwari (2025)](https://arxiv.org/abs/2512.13914) (*ContextBranch*) evaluated four version-control primitives for LLM conversations—checkpoint, branch, switch, and selective context injection—finding that isolating tangents on branches and injecting only their conclusions back into the trunk prevented logical context poisoning and reduced context size while improving response quality.
+- *Multilevel and non-linear exploration canvases*: [Suh, Min, Palani & Xia (2023)](https://doi.org/10.1145/3586183.3606756) (*Sensecape*) and [Jiang et al. (2023)](https://doi.org/10.1145/3586183.3606737) (*Graphologue*) showed that representing branching LLM explorations as navigable hierarchies and interactive diagrams helps actors pursue subtopics without losing their place in the overarching inquiry.
+
+## Resources & references
+
+- Li, Qin & Lee (CHI EA 2026) [Branchat: a tree-structured interface for efficient revisitation in long-horizon LLM conversations](https://doi.org/10.1145/3772363.3798792)
+- Nanjundappa & Maaheshwari (2025) [Context branching for LLM conversations: a version control approach to exploratory programming](https://arxiv.org/abs/2512.13914)
+- Suh, Min, Palani & Xia (UIST 2023) [Sensecape: enabling multilevel exploration and sensemaking with large language models](https://doi.org/10.1145/3586183.3606756)
+- Jiang, Rayan, Dow & Xia (UIST 2023) [Graphologue: exploring large language model responses with interactive diagrams](https://doi.org/10.1145/3586183.3606737)
+- Ink & Switch (2024) [Patchwork: AI bots in version control](https://www.inkandswitch.com/patchwork/notebook/2024-version-control/07/)
+- [Shape of AI — Branches](https://www.shapeof.ai/patterns/branches)
+- [AI UX Playground — Thread Branch](https://aiuxplayground.com/pattern/thread-branch)
+- [LangChain — Branching Chat](https://docs.langchain.com/oss/python/langchain/frontend/branching-chat)
+- [Tldraw — Branching chat](https://tldraw.dev/starter-kits/branching-chat) on a canvas
+- [assistant-ui — Branching](https://www.assistant-ui.com/docs/guides/branching)
+- [Beyond Chat — Conversation Branches](https://beyondchat.design/patterns/conversation-branches/)
+
+## To-do
+
+- Work out whether selective context injection or summarising a branch back into the main thread belongs as a section here or alongside [extraction](/patterns/extraction) and [reconciliation](/patterns/reconciliation).
+- Settle the boundary with [showing the reading](/patterns/showing-the-reading) and a <mark>potential active-context inspection pattern</mark> when the actor edits which turns on the current path stay in scope without forking a new branch.

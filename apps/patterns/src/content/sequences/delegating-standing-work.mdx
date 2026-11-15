@@ -1,0 +1,209 @@
+---
+title: "Delegating standing work"
+added: 2026-11-14
+updated: 2026-11-15
+description: "Attach a request to an occasion so it runs without being asked, keep it in view while it runs unattended, correct it from the cases it gets wrong, and end it when its purpose has gone."
+order: 6
+presupposes: >-
+  The actor has work with no point of completion: it comes back on a
+  schedule or whenever something happens, and it will go on for months or
+  years. They have judged it worth leaving to run without asking each time,
+  and have judged what a wrong run would cost. Neither judgement is made by
+  a pattern here. The request for one run can be written, as in
+  [delegating a task](/sequences/delegating-a-task#framing).
+enacts: [agency, temporality, malleability]
+sub-sequences:
+  - id: commission
+    title: "Setting it going"
+    steps:
+      - step: "Say when the work runs"
+        rule: rule-composition
+        gloss: >-
+          Attach the request to an occasion, a time or something that
+          happens, with its exceptions and a limit on how much one run may
+          do, set together with the other limits in
+          [governing autonomy](/sequences/governing-autonomy#grant). Show when it next runs. Call
+          the request, the occasion and the limit together the arrangement;
+          every later step acts on it or on a run it started.
+        constituents:
+          - slug: good-defaults
+            note: "an arrangement that works acceptably before the actor has adjusted anything"
+      - cluster: "Ready the arrangement before it goes live"
+        gloss: >-
+          Neither of these comes first. A trial over real past cases needs
+          access to read them, a trial on stand-ins needs none, and access
+          to act is not needed until the arrangement goes live.
+        steps:
+          - step: "Try it before it counts"
+            rule: trial-run
+            optional: true
+            gloss: >-
+              Run the arrangement before its occasion comes, in a form where
+              a mistake costs little, and tell the actor which form it was.
+              Where a run decides between cases, show the reason for each
+              decision. Skip this where a wrong run is cheap and easy to put
+              right; the first real runs then serve as the trial.
+          - step: "Ask for the access that holds between runs"
+            rule: permissions
+            optional: true
+            gloss: >-
+              Ask for what the runs will have to reach while the actor is
+              away, each grant at the point it is first needed and with its
+              purpose. Keep the grants listed beside the arrangement; the
+              last step of the walk withdraws them. Skip this where the
+              arrangement reaches nothing outside the artifact.
+      - cluster: "Start the work in view"
+        gloss: >-
+          Going live is a separate act from setting up. At that moment give
+          the actor two things for the live arrangement. Both are owed from
+          the first run and neither depends on the other.
+        steps:
+          - step: "Give the actor a pause"
+            gloss: >-
+              Introduce the pause as the arrangement goes live, so the actor
+              knows how to hold it before they need to.
+          - step: "Show whether the work is live, paused or waiting"
+            rule: status-feedback
+            gloss: >-
+              On the arrangement's own entry, show whether it is live or
+              paused, what it last did, and what it is waiting for, so that
+              idle work can be told from broken work. Call this the status;
+              choose its measures now, because the warnings later are drawn
+              from them.
+  - id: watch
+    title: "While it runs"
+    initiating: >-
+      The arrangement is live and mostly unattended. The actor looks at the
+      status often in the first days and seldom after that, so what they
+      need to know has to reach them.
+    steps:
+      - step: "Bring a run's result to the actor"
+        rule: notification
+        optional: true
+        gloss: >-
+          Where a run produces something for the actor to judge, such as a
+          draft, a report, or a list of matches, send it to them, and
+          receive it as in
+          [delegating a task](/sequences/delegating-a-task#receive). Skip
+          this where runs only act; the status and the record show what
+          they did.
+      - step: "Warn while there is time to act"
+        rule: notification
+        optional: true
+        gloss: >-
+          From the measures in the status, pick those whose limit would stop
+          the work or call for the actor, and warn before the limit is
+          reached. Each warning promises what happens if it is crossed, and
+          the handover in
+          [governing autonomy](/sequences/governing-autonomy#transfer) has to
+          keep that promise. Skip this where no measure has a limit or an
+          end date.
+      - step: "Keep the actor able to take over"
+        rule: mastery
+        optional: true
+        gloss: >-
+          Where a warning can end in the actor doing the work themselves,
+          change the arrangement so that it leaves them a share of the work
+          or schedules turns at it, for the skills chosen in
+          [learning](/sequences/learning#upkeep). Skip this where a poor
+          takeover would cost little.
+  - id: correct
+    title: "Putting it right"
+    initiating: >-
+      A run has got a case wrong, or the actor suspects cases are being
+      missed. The arrangement was reasonable when set up, and the fault
+      shows only in what it did.
+    steps:
+      - step: "Keep what was passed over where the actor can open it"
+        optional: true
+        gloss: >-
+          Keep the cases and occasions the arrangement refused or skipped,
+          least certain first, each with its reason. Call this the
+          passed-over list; the next step corrects from it as well as from
+          wrong results. Skip this where a missed case costs the actor
+          little.
+      - step: "Correct the work at the case it got wrong"
+        rule: case-correction
+        gloss: >-
+          On a wrong result or an entry in the passed-over list, let the
+          actor fix this one, make a standing exception, or change what
+          decided it, and show which part of the arrangement that was: the
+          occasion, an exception, or the request. Keep the exceptions as a
+          list; the next step works from it.
+      - choice: "Choose how the arrangement itself changes"
+        gloss: >-
+          Choose for each fault. A fault that never recurs needs none of
+          these, and its exception is enough. When the list of exceptions
+          shows the same correction several times, offer the change; either
+          side can notice the repetition.
+        alternatives:
+          - step: "Edit the part that decided the case"
+            rule: rule-composition
+            gloss: >-
+              Open the arrangement on the occasion or the exception that
+              produced the wrong case and let the actor change it there.
+          - step: "Add an instruction in the actor's words"
+            rule: standing-instructions
+            gloss: >-
+              Where the fault lies in how the request was carried out, and
+              whatever runs it can take an instruction in prose, let the
+              actor state the correction once so that it holds for every
+              later run, as for a task in
+              [delegating a task](/sequences/delegating-a-task#iterate).
+          - step: "Show what was wanted"
+            rule: tuning-by-demonstration
+            gloss: >-
+              Where the actor can do the right thing more easily than state
+              it, let them do it on the wrong case and say what was taken
+              from it.
+      - step: "Replay the changed arrangement over past cases"
+        rule: trial-run
+        optional: true
+        gloss: >-
+          Run the changed arrangement over past cases and show which results
+          differ, including the case that prompted the change and those that
+          only just match or miss. Skip this where the change is plain to
+          read and a wrong run is cheap to put right.
+  - id: end
+    title: "Ending it"
+    initiating: >-
+      The purpose of the work has gone or is going. The goal was met,
+      nothing has matched for months, a pause was never lifted, or the
+      actor has stopped answering.
+    steps:
+      - step: "Let the actor end it from any message"
+        gloss: >-
+          Put a way to end the arrangement in every message it sends, and
+          ask for no reason.
+      - step: "Ask whether to carry on after a long silence"
+        rule: bounded-autonomy
+        gloss: >-
+          Set how long the arrangement may go with nothing to do, or with no
+          answer from the actor, before it asks, and hold it if nobody
+          answers.
+      - cluster: "Close the arrangement"
+        gloss: >-
+          Neither comes first. Say what happens to runs in progress, and
+          pass unfinished work to someone through a
+          [handoff](/patterns/handoff) where there is one to take it.
+        steps:
+          - step: "Withdraw the grants it held"
+            rule: permissions
+          - step: "Hand over its record and the list of exceptions"
+            rule: import-and-export
+            gloss: >-
+              Say what cannot be taken away, such as what an agent learned
+              about the actor, rather than imply it goes with them.
+    resulting: >-
+      The work ran for as long as it was wanted and stopped by a decision.
+      The actor could see it and correct it throughout, at a cost in
+      attention that standing work never brings to nothing.
+---
+
+The actor has work that cannot be finished, only kept up, and wants it to run without being asked each time. The walk leaves an arrangement that starts by itself, can be seen and held while it runs, is corrected from its own mistakes, and has an end.
+
+The first sub-sequence is walked once for each arrangement. Correcting recurs for as long as the work runs, and most of the design effort goes there, because the occasions when a run is wrong are the occasions when the actor is in contact with the work.
+
+Each run is a task. [Delegating a task](/sequences/delegating-a-task) covers how its request is written and how the run is followed, recorded and received, and [governing autonomy](/sequences/governing-autonomy) covers what may be done without asking. This sequence adds what continuing adds. Standing work often begins as a task handed over several times, or as a procedure that [assistance escalation](/sequences/assistance-escalation) found recurring whole.
+
+An agent may carry the arrangement, or a plain rule such as a saved search or a scheduled transfer. The steps hold for both, and a step that needs an agent says so.

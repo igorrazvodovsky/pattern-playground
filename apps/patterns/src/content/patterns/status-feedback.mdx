@@ -1,7 +1,7 @@
 ---
 title: Status feedback
 added: 2025-07-07
-updated: 2026-07-07
+updated: 2026-11-15
 role: pattern
 activityLevel: operation
 mediation: individual
@@ -16,6 +16,9 @@ relationships:
   enables:
     - to: collaboration
       note: Status feedback provides awareness of system state and action effects in collaborative environments
+  serves:
+    - to: delegation
+      note: covers the monitoring station of delegation's execution stage, showing how delegated work stands on the place it already has
   enacts:
     - to: temporality
       note: the timing and latency with which the system reports a change back to the actor
@@ -34,6 +37,8 @@ The dimensions route to three delivery shapes.
 ## Indication
 
 State worn by the element itself: typographic emphasis, colour, an icon, a badge, an animation — placed on or beside the thing whose state changed, readable in passing.
+
+Where an indication warns of an approaching limit — a task nearing its deadline, a quota passing four fifths, a credential about to lapse — show or escalate the mark only once the measure enters the warning band. Badging every item in every state with equal weight turns the view into noise and hides the items that need action. When the actor is not looking at the surface and remaining time shrinks toward the time the remedy takes, a passive indication is no longer enough and the change escalates to a [notification](/patterns/notification).
 
 <Demo spec="status-feedback" />
 

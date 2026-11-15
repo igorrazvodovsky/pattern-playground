@@ -99,8 +99,7 @@ Frontmatter carries the whole entry; a concept file has no body. Fields:
 `purpose` (one sentence), `principle` (prose), `state` (relations in the
 world's notation, `name: Kind -> one | opt | set Kind`), `actions` (each name
 with its effect in one sentence), `misfits`, `aliases`, `depends_on` (concept
-ids), and `appears_in` (shipping systems, by name). The schema is in
-`apps/patterns/src/content.config.ts`.
+ids). The schema is in `apps/patterns/src/content.config.ts`.
 
 Synchronisations are not entries. Concepts are reusable; their composition is
 specific to a system and lives with that system. Here `shared/world/rules.json`
@@ -140,8 +139,7 @@ is the fixture world's synchronisation set.
   systems. An action that belongs to the fixture's own domain (its
   circular-economy catalogue, its ledger, its lifecycle assessment) carries no
   `concept`; it is the demos' material, not something the language has a view
-  on. The test is `appears_in`: an entry that could name no shipping system
-  outside the demos does not belong.
+  on.
 
 ## Naming
 

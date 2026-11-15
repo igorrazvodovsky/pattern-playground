@@ -1,7 +1,7 @@
 ---
 title: Roles
 added: 2026-11-14
-updated:
+updated: 2026-11-15
 role: pattern
 seed: true
 evidence:
@@ -11,49 +11,65 @@ evidence:
 group: coordination
 activityLevel: activity
 mediation: coordination
-description: "Grouping capabilities into a small set of named roles—such as owner, admin, editor, commenter, or viewer—so access in shared spaces can be assigned and understood by role rather than configured action by action for each participant."
+description: "Giving the people who take part in one part of shared work a small set of named roles, such as owner, editor, commenter or viewer, so access is assigned and understood by the part a person plays, with any role an organisation adds made from one of the set."
 acts_on:
-  - assigning-roles
+  - { concept: assigning-roles, note: "the shape of the role set: a small stock set, and custom roles made from it" }
 situation:
   initiating: >-
-    … a [workspace](/patterns/workspace) has multiple participants with different
-    responsibilities—some administer the space, some edit, and some only comment or read.
-    [Sharing](/patterns/sharing) admits participants to a workspace or document; roles define
-    the named levels of capability each participant can hold.
+    … [division of responsibility](/patterns/division-of-responsibility) has settled which
+    parts of the work each party answers for. Inside one part of a
+    [workspace](/patterns/workspace), people still take part in different ways: some run it,
+    some contribute, some review and some only read.
   resulting: >-
-    Every participant holds a named role, and [sharing](/patterns/sharing) a workspace or
-    document assigns one of those roles to each recipient. Actions that fall outside an
-    actor's role are handled through [unavailable actions](/patterns/unavailable-actions).
-    An [outside agent](/patterns/outside-agent) added to a workspace can be assigned a role on
-    the same terms as a human participant. [Permissions](/patterns/permissions) solves the
-    inverse problem: rather than governing what participants may do inside shared work, it
-    governs what the artifact may reach on the actor's device or external accounts…
+    Every person in the part holds a named role. [Sharing](/patterns/sharing) gives one of
+    them to each person it lets in, so the levels it offers are these roles. When an actor
+    meets an action their role does not allow, [explanation](/patterns/explanation) says which
+    role allows it and who can give it, and
+    [unavailable actions](/patterns/unavailable-actions) hides only the actions that are not
+    theirs to ask for. An [outside agent](/patterns/outside-agent) holds a role as a person
+    does, and what it may do there without asking is limited further by
+    [bounded autonomy](/patterns/bounded-autonomy).
+    [Permissions](/patterns/permissions) covers a different line, around what the artifact may
+    reach on the actor's own device and accounts…
 relationships:
+  enables:
+    - to: division-of-responsibility
+      note: roles grade what each person may do inside the part their party answers for
   complements:
     - to: sharing
-      note: roles define the named capability levels that sharing assigns to participants
+      note: sharing gives each person it lets in one of the roles
   precedes:
+    - explanation
     - unavailable-actions
   related:
     - workspace
     - outside-agent
+    - bounded-autonomy
     - permissions
   enacts:
     - to: agency
-      note: each participant can see their role and what it allows them to do
+      note: each person can see their role and what it allows them to do
 ---
 
 * * *
 
-**When access is configured person by person and action by action, nobody can tell at a glance who is allowed to do what. Assigning access becomes a checklist of individual permissions for every new member, so administrators either grant everyone full access for convenience or leave people blocked from routine work.**
-
-Individual permission toggles do not match how teams think about shared work. Collaborators already understand participation in terms of working relationships—whether someone owns a space, contributes to it, reviews it, or only reads it. Bundling capabilities into a small set of named roles turns each grant into a single choice that both the administrator and the participant can understand. The trade-off is granularity: if a tool defines too many roles or encourages custom roles for every edge case, the role list becomes as hard to read and maintain as per-person permissions.
+**When access is set action by action for each person, nobody can read who plays which part, and every new member is a checklist. Named roles fix that, but no small, fixed set fits how every organisation divides its work. When no role fits, whoever manages the space gives a wider one for convenience. When the product lets them build roles from scratch instead, each exception gets a role of its own, and the list soon becomes as hard to read as access set person by person.**
 
 Therefore,
 
-**Bundle capabilities into a small, fixed set of named roles that match how participants take part in the work—such as owner, admin, editor, commenter, and viewer. State clearly what each role can view, change, and administer. Assign every participant a role when they join a workspace or document, defaulting to the narrowest role that fits their part, and make each participant's current role visible both to them and to whoever manages the space.**
+**Offer a small set of stock roles named after the parts people play in the work. Let an organisation add a role only by copying a stock role and changing it, so every role keeps a named role it was made from. Describe each role in plain sentences of what it allows, and show on each role the people who hold it.**
 
 ## Resources & references
 
 - Sandhu, Coyne, Feinstein & Youman (1996) [Role-based access control models](https://doi.org/10.1109/2.485845) — rights attached to roles and roles to people, with role hierarchies and constraints
 - Burghardt (2009) *Working Through Screens*, C5 "Permissions and views tailored to workers' identities", B7 "Object ownership and availability rules"
+- GitHub: [About custom repository roles](https://docs.github.com/en/enterprise-cloud@latest/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/about-custom-repository-roles) — every custom role starts from a stock role and adds to it
+- Choate. [Roles and permissions redesign](https://edwinchoate.com/articles/roles-permissions-redesign/) — copying an existing role and stock templates; assigned users shown on the role
+- Figr. [Permission management UI](https://figr.design/blog/permission-management-ui) — grants readable as one sentence; templates against the pull toward broad roles
+- Kosmalenar. [Roles and permissions UX](https://kosmalenar.com/en/guides/roles-and-permissions-ux/) — role names that show their limits
+
+## To-do
+
+- Decide whether copied roles may only narrow their stock role, or also extend it, as GitHub's do.
+- Find the point at which a role stops being a set of allowed actions and becomes a view of its own (Burghardt C5); whether that belongs here or on Division of responsibility.
+- Where several roles and grants combine on one person, what they can actually do and why is unreadable; seed that move as its own page if the sources hold.

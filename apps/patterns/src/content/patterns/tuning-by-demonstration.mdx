@@ -1,0 +1,75 @@
+---
+title: Tuning by demonstration
+added: 2026-11-14
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+disclosure: "A first draft. The forms listed are sightings sorted by eye, and the claim that the agent should state what it learned is taken from a few products that do."
+activityLevel: action
+mediation: individual
+description: "Letting the actor show an agent or a tool how they want something done, by doing it or pointing to an example, instead of describing it."
+situation:
+  initiating: >-
+    … the actor wants an agent, or a tool such as a spreadsheet, to do something their way and cannot easily say what that way
+    is: a tone, a route, a manner of handling a certain kind of case.
+    [Standing instructions](/patterns/standing-instructions) need the preference in words, and
+    [rule composition](/patterns/rule-composition) needs it in the system's terms. The actor
+    can do the thing, or can point to an instance of it done well.
+  resulting: >-
+    The agent holds a preference the actor never stated, and the actor cannot check it unless
+    it is shown. What was taken from the demonstration is kept in words in
+    [memory](/patterns/memory), which is also where what the system picks up from ordinary use,
+    without being shown, is kept and corrected. An example the actor points to is attached as
+    [reference material](/patterns/reference-material), and the demonstration lies in saying
+    what about it to follow. A procedure recorded step by step becomes a
+    [workflow](/patterns/workflow) the actor can read and repair. Because a single
+    demonstration fits many generalisations, a [trial run](/patterns/trial-run) over new cases
+    lets the actor see which interpretation the system took before relying on it…
+relationships:
+  alternative:
+    - to: standing-instructions
+      note: standing instructions hold what the actor can say, and tuning by demonstration takes in what they can only show
+    - rule-composition
+  complements:
+    - reference-material
+  precedes:
+    - to: memory
+      note: tuning by demonstration leaves a learned preference, and memory is where the actor reads and corrects it
+    - workflow
+    - trial-run
+  serves:
+    - to: delegation
+      note: covers one way of conveying goals and preferences at delegation's set-up, and of repairing them later
+  enacts:
+    - to: malleability
+      note: the agent's behaviour is reshaped by an actor who cannot or need not describe the change
+---
+
+* * *
+
+**Much of what people know about how they want work done they cannot put into words, and what they do put into words leaves out what seemed too obvious to say. An agent that can only be told is limited to what its actor can articulate.**
+
+Showing takes several forms, and [delegation](/patterns/delegation) uses them both when an agent is set up and when it is corrected. The actor demonstrates on purpose: fills in two cells and lets the spreadsheet complete the column, or records the steps once. The actor points to an example: write like this sample, set this device up like the last one. Or the actor marks a limit in the world the agent works in, as with a barrier a robot will not cross.
+
+A single demonstration rarely pins down one rule. When actors choose examples themselves, they pick typical cases and leave out edge cases, so several plausible generalisations fit what they showed. Rather than guessing silently, the system can test candidate interpretations against the remaining items and surface the distinguishing cases where those interpretations disagree.
+
+Therefore,
+
+**Let the actor teach by showing: doing the task once while the agent observes, correcting the agent's attempt by hand, or pointing to an example to follow. Say before a demonstration what the agent will attend to. Afterwards state in plain words what it took from the example, surface any cases where plausible interpretations disagree so the actor can resolve the ambiguity, and let the actor edit or discard the inferred rule.**
+
+## Resources & references
+
+- Noessel (2017) [Designing agentive technology](https://rosenfeldmedia.com/books/designing-agentive-technology/) — "do it like this" and "do it like that", and watching how a task is performed as a way of gathering preferences
+- Cypher, ed. (1993) [Watch what I do: programming by demonstration](http://acypher.com/wwid/)
+- Gulwani (2011) [Automating string processing in spreadsheets using input-output examples](https://doi.org/10.1145/1926385.1926423) — the work behind Flash Fill
+- Mayer, Soares, Grechkin, Le, Marron, Polozov, Singh, Zorn & Gulwani (2015) [User interaction models for disambiguation in programming by example](https://doi.org/10.1145/2807442.2807459), UIST '15 — surfacing distinguishing inputs where candidate programs disagree so the actor can disambiguate an example
+- Jayagopal, Lubin & Chasins (2022) [Exploring the learnability of program synthesizers by novice programmers](https://doi.org/10.1145/3526113.3545659), UIST '22 — actors picking examples on their own leave out edge cases that would disambiguate the synthesised program
+- Yang & Newman (2013) [Learning from a learning thermostat: lessons for intelligent systems for the home](https://doi.org/10.1145/2493432.2493489) — what goes wrong when a system learns from use without saying what it learned
+- [Apple Human Interface Guidelines — machine learning](https://developer.apple.com/design/human-interface-guidelines/machine-learning) — implicit feedback and corrections
+
+## To-do
+
+- Collect sightings of agents stating what they took from an example, and of the actor editing it.

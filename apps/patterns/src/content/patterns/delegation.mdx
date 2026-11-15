@@ -1,7 +1,7 @@
 ---
 title: Delegation
 added: 2026-04-08
-updated:
+updated: 2026-11-15
 role: foundation
 fun: 🧪 5/5. An attempt at grouping all that is unique to user-facing AI "agents" under one roof.
 relationships:
@@ -49,17 +49,17 @@ The stages are not strictly sequential — a system may cycle between execution 
 The human is learning what the system can and can't do & defines goals while the system is learning what the human wants.
 Design concerns centre on calibrating expectations and getting the agent running without front-loading more specification than the user can provide.
 
-*Capabilities and constraints* — the user learns what the agent can and can't do before committing authority to it.
+*Capabilities and constraints* — the user learns what the agent can and can't do before committing authority to it. [Capability and scope](/patterns/capability-and-scope).
 
-*Goals and preferences* — the agent learns what outcome the user wants and how it should be shaped.
+*Goals and preferences* — the agent learns what outcome the user wants and how it should be shaped. [Prompt](/patterns/prompt), [standing instructions](/patterns/standing-instructions), [good defaults](/patterns/good-defaults), [tuning by demonstration](/patterns/tuning-by-demonstration).
 
-*Permissions and authorisation* — the system requests data access and delegated authority it needs to act on the user's behalf.
+*Permissions and authorisation* — the system requests data access and delegated authority it needs to act on the user's behalf. [Permissions](/patterns/permissions), [bounded autonomy](/patterns/bounded-autonomy).
 
-*Test drive* — the user rehearses the agent's likely behaviour before real stakes begin.
+*Test drive* — the user rehearses the agent's likely behaviour before real stakes begin. [Trial run](/patterns/trial-run).
 
-*Tuning tools* — the user inspects or edits the rules that govern when the agent acts.
+*Tuning tools* — the user inspects or edits the rules that govern when the agent acts. [Rule composition](/patterns/rule-composition), [workflow](/patterns/workflow).
 
-*Launch* — the system goes live; must show liveness and an immediate stop control.
+*Launch* — the system goes live; must show liveness and an immediate stop control. [Status feedback](/patterns/status-feedback).
 
 *Distributed customisation* — lower-priority setup is deferred into early use rather than front-loaded.
 
@@ -67,45 +67,45 @@ Design concerns centre on calibrating expectations and getting the agent running
 
 Interaction shifts to lightweight maintenance. The design concern is keeping the agent actions legible without requiring constant babysitting.
 
-*Monitoring* — the user checks status, trends, and next triggers at a glance.
+*Monitoring* — the user checks status, trends, and next triggers at a glance. [Status feedback](/patterns/status-feedback) on the place the work already has, [waiting](/patterns/waiting), [activity log](/patterns/activity-log).
 
-*Pause and restart* — the user temporarily suspends the agent or resumes it when conditions change.
+*Pause and restart* — the user temporarily suspends the agent or resumes it when conditions change. Holding and resuming are actions of [automating](/concepts/automating).
 
-*Notifications* — suggestions, performance, or completion.
+*Notifications* — suggestions, performance, or completion. [Notification](/patterns/notification).
 
-*A hood to look under* — the affordance to inspect the system's current state and reasoning.
+*A hood to look under* — the affordance to inspect the system's current state and reasoning. [Transparent reasoning](/patterns/transparent-reasoning), [explanation](/patterns/explanation).
 
-{/* *False negatives* — the system reveals near-misses or cases it failed to catch, so the user can inspect what the agent missed. */}
+*False negatives* — the system reveals near-misses or cases it failed to catch, so the user can inspect what the agent missed. The [activity log](/patterns/activity-log) records a refusal as an act, and [case correction](/patterns/case-correction) keeps what was refused where it can be reversed.
 
 ### Exception handling
 
 The agent has encountered something it cannot handle and must return the human to the loop without losing the context they need to act.
 
-*Steering* — direct mid-stream controls to correct the agent without taking over wholesale.
+*Steering* — direct mid-stream controls to correct the agent without taking over wholesale. [Steering surface](/patterns/steering-surface), [instructed revision](/patterns/instructed-revision).
 
-*Notifications* — problems, concerns, or low resources.
+*Notifications* — problems, concerns, or low resources. [Notification](/patterns/notification).
 
-*Tuning tools (repair)* — the user repairs triggers or behaviours when the agent misfires.
+*Tuning tools (repair)* — the user repairs triggers or behaviours when the agent misfires. [Case correction](/patterns/case-correction), [tuning by demonstration](/patterns/tuning-by-demonstration).
 
 ### Handoff and takeback
 
 Authority shifts in either direction: the system hands back because it cannot safely proceed, or the human takes back to intervene.
 
-*Handoff* — control shifts from agent to human because the agent cannot safely continue.
+*Handoff* — control shifts from agent to human because the agent cannot safely continue. [Handoff](/patterns/handoff).
 
-*Takeback* — control returns to the agent once stability is restored; needs a readiness signal and a confidence-repair window.
+*Return* — control goes back to the agent once stability is restored; needs a readiness signal and a confidence-repair window.
 
-*Practice* — the user maintains recovery skills through rehearsal so takeover is meaningful when needed.
+*Practice* — the user maintains recovery skills through rehearsal so takeover is meaningful when needed. [Mastery](/patterns/mastery), [human goes first](/patterns/human-goes-first).
 
 ### Disengagement
 
-The work is doen or the human stops using the system — deliberately or by neglect.
+The work is done or the human stops using the system — deliberately or by neglect.
 
-*Disengagement check-ins* — the agent checks whether a persistent task is still worth continuing.
+*Disengagement check-ins* — the agent checks whether a persistent task is still worth continuing. A limit on disuse in [bounded autonomy](/patterns/bounded-autonomy#dimensions-of-a-boundary).
 
-*Graceful shutdown* — how a human turns the system off without losing context.
+*Graceful shutdown* — how a human turns the system off without losing context. Ending an [automation](/concepts/automating).
 
-*Data portability* — what the human takes with them when they leave.
+*Data portability* — what the human takes with them when they leave. [Import and export](/patterns/import-and-export).
 
 *Death and succession* — in higher-stakes or longer-lived systems, handling when the user can no longer disengage themselves.
 

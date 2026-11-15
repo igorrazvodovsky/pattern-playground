@@ -1,14 +1,18 @@
 ---
 title: Session
 added: 2026-10-29
-updated:
+updated: 2026-11-15
 role: pattern
 seed: true
 evidence:
   - observed
+  - literature
+  - used
 activityLevel: activity
 mediation: individual
 description: "Bounding an exchange or agent run into a named, reopenable container that holds its turns, attached context, and working state together, separate from other tasks."
+acts_on:
+  - session-keeping
 disclosure: >-
   Seeded from prompt while shaping its initiating situation. It has not been
   looked at closely yet.
@@ -34,11 +38,19 @@ situation:
 
 When an actor works with a conversational system or an [agent](/patterns/agent) across more than a single turn, the exchange needs a boundary that says which turns, files, and intermediate results belong to the same piece of work. A session (often called a thread, chat, or task run) gives that work a container with a beginning, an accumulated context window, a title derived from the opening request or set by the actor, and an entry in a list of past and active sessions. Inside the session, each turn builds on what is already in scope; outside it, other sessions hold unrelated tasks without their context bleeding across.
 
-Giving the exchange a container creates two boundaries the actor has to manage: starting a new session to clear accumulated context when switching tasks, and returning to an existing session to pick work back up. Where the actor needs that bounded context during the exchange without leaving a record in history or memory afterwards, an [ephemeral session](/patterns/ephemeral-session) discards the thread when it closes. Over a long run, failed attempts and superseded instructions pile up in the transcript and pull subsequent outputs off course, so systems pair the session boundary with ways to branch from an earlier turn, compact the history, or lift finished work onto a surface of its own.
+Giving the exchange a container creates two boundaries the actor has to manage: starting a new session to clear accumulated context when switching tasks, and returning to an existing session to pick work back up. Where the actor needs that bounded context during the exchange without leaving a record in history or memory afterwards, an [ephemeral session](/patterns/ephemeral-session) discards the thread when it closes. Over a long run, failed attempts and superseded instructions pile up in the transcript and pull subsequent outputs off course, so systems pair the session boundary with [branching](/patterns/branching) from an earlier turn, compacting the history, or lifting finished work onto a surface of its own.
 
 A session can sit inside a [workspace](/patterns/workspace), and then starts with what the workspace hands down: its reference material, its standing instructions and, in some products, a memory limited to that workspace. A project-level container in an AI tool is a workspace in this sense, not a larger kind of session.
+
+## Research on this pattern
+
+- *Defensive workarounds under linear history*: in a study of long-horizon LLM conversations ($N = 12$), [Li, Qin & Lee (2026)](https://doi.org/10.1145/3772363.3798792) (*Branchat*) documented that when active context is opaque in linear chat, actors distrust multi-turn sessions and resort to starting new chats and repeatedly re-pasting constraints to avoid context drift.
+
+## Resources & references
+
+- Li, Qin & Lee (CHI EA 2026) [Branchat: a tree-structured interface for efficient revisitation in long-horizon LLM conversations](https://doi.org/10.1145/3772363.3798792)
 
 ## To-do
 
 - Where a session ends and [conversation](/patterns/conversation) (the turn-taking exchange itself) and [disengage without closing](/patterns/disengage-without-closing) or [resuming](/patterns/resuming) begin.
-- Whether branching, forking, or compacting a session when context drifts belongs inside this pattern or alongside [instructed revision](/patterns/instructed-revision) and [version history](/patterns/version-history).
+- Whether compacting a session when context drifts belongs inside this pattern or as a pattern of its own alongside [branching](/patterns/branching).

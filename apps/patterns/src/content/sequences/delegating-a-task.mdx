@@ -1,17 +1,15 @@
 ---
-title: "Delegating work"
+title: "Delegating a task"
 added: 2026-08-28
 updated: 2026-11-15
-description: "Write a request grounded in the actor's own sources, keep the work visible while it runs out of sight, send what arrives to the right place, and turn corrections that keep recurring into standing rules."
+description: "Write a request grounded in the actor's own sources, keep the work visible while it runs out of sight, send what arrives to the right place, and correct it until the task is done."
 order: 5
 presupposes: >-
-  The actor has work that an agent could do and has judged that handing it
-  over is worth more than doing it themselves. That judgement happens before
-  this sequence, and no pattern here makes it. The sources the agent should
-  work from exist, and the actor can point to it. Setting permissions and
-  trying the agent out first are settled in
-  [keeping a standing agent](/sequences/keeping-a-standing-agent), where
-  they are needed at all.
+  The actor has a piece of work that can be finished: there is an outcome
+  they want now, and they will know when they have it. They have judged that
+  handing it to an agent is worth more than doing it themselves. That
+  judgement happens before this sequence, and no pattern here makes it. The
+  sources the agent should work from exist, and the actor can point to them.
 enacts: [agency, temporality, malleability]
 sub-sequences:
   - id: framing
@@ -22,7 +20,7 @@ sub-sequences:
         gloss: >-
           Help the actor turn what they want into a request the agent can act
           on, in their own words and without special syntax. Ask only for
-          what this run is missing, and leave standing preferences until
+          what this task is missing, and leave standing preferences until
           early use gives the agent a reason to ask. Keep the request so the
           actor can edit it, reuse it, or make it a template.
         constituents:
@@ -30,14 +28,31 @@ sub-sequences:
             note: "slots and feedback on the request, for an actor who does not yet know what a complete request contains"
           - slug: good-defaults
             note: "the agent works acceptably when the actor leaves things unspecified, and a pre-filled preference is a first draft the actor corrects"
-      - step: "Attach the sources to work from"
-        rule: reference-material
+      - cluster: "Give the agent what the task needs"
         gloss: >-
-          Let the actor attach files, mentions, and connected sources inside
-          the request, so the agent works from their sources rather than
-          from general knowledge. Show what is attached and let the actor
-          remove it. Citations later point back to these sources, as set up in
-          [calibrating reliance](/sequences/calibrating-reliance#evidence).
+          Both act on the request, and neither comes first: a source may need
+          access before it can be attached, and access to act is not needed
+          until the agent starts.
+        steps:
+          - step: "Attach the sources to work from"
+            rule: reference-material
+            gloss: >-
+              Let the actor attach files, mentions, and connected sources
+              inside the request, so the agent works from their sources
+              rather than from general knowledge. Show what is attached and
+              let the actor remove it. Citations later point back to these
+              sources, as set up in
+              [calibrating reliance](/sequences/calibrating-reliance#evidence).
+          - step: "Ask for the access the task needs"
+            rule: permissions
+            optional: true
+            gloss: >-
+              Where the task reaches something the actor controls outside
+              the artifact, such as a calendar or a mailbox, ask for it at
+              the point it is needed, with its purpose. Say whether the
+              grant ends with the task or stays for later ones. Skip this
+              where everything the task needs is attached or already inside
+              the artifact.
       - step: "Hand the goal to an agent"
         rule: agent
         gloss: >-
@@ -62,20 +77,17 @@ sub-sequences:
           Show the output as it forms, so the actor can read ahead, judge
           early, and stop the run with the stop designed in
           [the encounter](/sequences/the-encounter#trouble). Skip this for a run nobody watches by
-          design, such as an overnight agent; the status and the record
+          design, such as an overnight run; the status and the record
           cover it.
       - step: "Keep the run's status visible at a glance"
-        rule: run-status
+        rule: status-feedback
         gloss: >-
-          Show whether the run is still on task, what it has produced so
-          far, when it acts next, and which way its measures are moving. A
-          run waiting for its next trigger still shows that it is live, with
-          a countdown or a current reading. When a measure moves in a
-          worrying direction, the status becomes an interruption, graded in
-          [attention and tempo](/sequences/attention-and-tempo).
-        constituents:
-          - slug: status-feedback
-            note: "sets how the status is delivered: shown on the surface itself, escalating to an interruption only as urgency requires"
+          Show the status on the place the work already has, the session or
+          the item the agent was given, as the work of a person would show
+          there: whether the run is still on task, what it has produced so
+          far, and which way its measures are moving. When a measure moves
+          in a worrying direction, the status becomes an interruption,
+          graded in [attention and tempo](/sequences/attention-and-tempo).
       - step: "Show the reasoning"
         rule: transparent-reasoning
         gloss: >-
@@ -163,28 +175,31 @@ sub-sequences:
               whole, a part, or several versions side by side to compare. A
               new attempt replaces the previous one, and the way back to it is
               the undo in [making changes](/sequences/making-changes#safety).
-      - step: "Turn a repeated correction into a standing rule"
+      - step: "Make a repeated correction a standing instruction"
         rule: standing-instructions
         gloss: >-
           When the actor gives the same correction for the third time, offer
-          to make it a rule for every session. Either side can notice the
-          repetition: the actor promotes the correction, or the agent counts
-          the repeats and proposes the rule. The rule editor uses the form
-          parts of [making changes](/sequences/making-changes#surface), with
-          its set of fields left open.
+          to make it an instruction for every later task. Either side can
+          notice the repetition: the actor promotes the correction, or the
+          agent counts the repeats and proposes the instruction. The editor
+          for it uses the form parts of
+          [making changes](/sequences/making-changes#surface), with its set
+          of fields left open.
         constituents:
           - slug: rule-composition
-            note: "the rule is written as conditions the actor can read, edit, and check against the record before it takes effect"
+            note: "the instruction is written as conditions the actor can read, edit, and check against the record before it takes effect"
     resulting: >-
-      The actor corrects results by judging rather than writing, and
-      corrections that recur have become standing rules. The actor has
-      shaped a result they never wrote, so it is unclear who authored it
-      and who answers for its details.
+      The task is done: the actor has a result they corrected by judging
+      rather than writing, and corrections that recurred have become
+      standing instructions. The actor has shaped a result they never wrote,
+      so it is unclear who authored it and who answers for its details. A
+      task the actor finds themselves handing over again and again is made
+      standing in
+      [delegating standing work](/sequences/delegating-standing-work).
 ---
 
-The actor has work worth handing to an agent, and the sources it should work from are at hand. The run can happen both while the actor watches or they don't, and several steps differ between the two.
+The actor has a piece of work that can be finished and wants it done now, with the sources it should be done from at hand. The walk leaves a result the actor can stand behind without having made it, and it is walked once for each task. The run can happen while the actor watches or while they are away, and several steps differ between the two.
 
-Other sequences lead here: [the encounter](/sequences/the-encounter), where an open request becomes
-the prompt; [assistance escalation](/sequences/assistance-escalation), where a procedure that keeps recurring
-whole is handed over to run; and [learning](/sequences/learning), where a newcomer's starting content is
-generated from what they say they want.
+Other sequences lead here: [the encounter](/sequences/the-encounter), where an open request becomes the prompt, and [learning](/sequences/learning), where a newcomer's starting content is generated from what they say they want.
+
+Work that has no point of completion, because it comes back on a schedule or whenever something happens, is [delegating standing work](/sequences/delegating-standing-work), which uses this walk for each of its runs. A task that waits on an event, such as telling the actor when a price drops, can be finished but leaves the actor's attention with no known time of return, so it borrows that sequence's steps for watching and ending.

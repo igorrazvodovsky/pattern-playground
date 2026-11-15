@@ -1,0 +1,36 @@
+---
+title: Authorising
+added: 2026-11-15
+purpose: Let another party act for a member on things the member controls, within limits the member sets.
+principle: >-
+  If a member gives a party a grant that names what it may reach and what it
+  may do there, the party can act within the grant as the member could, and
+  anything outside it is refused; when the member revokes the grant, or it
+  lapses, the party can no longer act.
+state:
+  - "grants: User -> set Grant"
+  - "holder: Grant -> one Party"
+  - "allows: Grant -> set Capability"
+  - "limit: Grant -> opt Limit"
+  - "lapsesOn: Grant -> opt Time"
+actions:
+  grant: A member allows a party to reach and act on something they control, and may set a limit on how much and a time at which the grant lapses.
+  actUnderGrant: The holder does something the grant allows, and the system lets it; an act outside the grant is refused.
+  changeGrant: A member widens or narrows what a grant allows or its limit.
+  revoke: A member withdraws a grant, and the holder can no longer act under it.
+  lapse: The system ends a grant because its time has come or its limit is used up.
+misfits:
+  - A grant is asked for before the work has shown what it needs, so the member gives it wide to be safe or refuses it without knowing the cost.
+  - What can be granted comes in the units the system offers (the whole mailbox, every repository), which are seldom the units of the task.
+  - Nothing ties a grant to the work it was given for, so it stays in force after the work has ended.
+  - The grant says what the holder may do and not what it did, so the member cannot judge from the grant whether to widen or narrow it.
+  - A refusal reaches the holder in the middle of its work, often when the member is not there to be asked.
+  - A holder that asks each time it meets a limit turns granting into a habit, and the member stops reading what they allow.
+aliases: [permission, grant, consent, connected app, app access, delegated access, allowance]
+appears_in:
+  - OAuth consent screens ("Sign in with Google", GitHub app installation)
+  - iOS and Android app permissions
+  - Slack app installation
+  - Claude Code permission modes and allow lists
+  - API keys with scopes and spending limits
+---

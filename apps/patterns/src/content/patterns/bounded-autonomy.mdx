@@ -1,7 +1,7 @@
 ---
 title: Bounded autonomy
 added: 2026-08-07
-updated: 2026-11-14
+updated: 2026-11-15
 role: pattern
 evidence:
   - observed
@@ -9,6 +9,8 @@ evidence:
 activityLevel: action
 mediation: individual
 description: "Granting an agent scoped authority to act on its own—by consequence, amount, place, and duration—enforced by the platform, and pausing work when a limit is reached."
+acts_on:
+  - { concept: automating, note: "the limit on one run, for an occasion that comes more often than the actor pictured, and the limit on disuse, for an automation whose reason has gone" }
 situation:
   initiating: >-
     … the actor is delegating work to an [agent](/patterns/agent) or an
@@ -23,7 +25,7 @@ situation:
     pauses at an [approval gate](/patterns/approval-gate) to authorise that action or extend the
     limit, or transfers control through a [handoff](/patterns/handoff) with a summary of what was
     used and what remains. An action the actor ruled out is refused without a pause, and the run
-    carries on without it. An [early warning](/patterns/early-warning) notifies the actor before
+    carries on without it. A [status feedback](/patterns/status-feedback) warns the actor before
     a spend or quota ceiling is hit. Budget and usage limits rely on
     [cost transparency](/patterns/cost-transparency) to show consumption against the remaining
     allowance. Deciding which actions may run freely and which require a checkpoint follows the
@@ -57,7 +59,7 @@ relationships:
       note: an approved plan limits one run, and bounded autonomy sets limits that hold across runs
   serves:
     - to: delegation
-      note: bounded autonomy covers delegation's set-up station — the shape of the authority granted before the agent runs
+      note: bounded autonomy covers delegation's set-up station, the shape of the authority granted before the agent runs, and the check-ins of its disengagement stage through the limit on disuse
   enacts:
     - to: agency
       note: autonomy becomes something the actor meters out rather than switches on
@@ -83,14 +85,15 @@ Reserve "ask every time" for high-consequence actions that are only sometimes ac
 
 - *Action categories (allow, ask, deny).* Group capabilities by the consequence they carry—reading, editing local drafts, spending money, sending or publishing externally, deleting—rather than by internal tool names. Let the actor set each category to run freely, pause at an [approval gate](/patterns/approval-gate), or never run.
 - *Autonomy presets.* A single mode switch (such as *suggest*, *confirm*, or *act*, or *read-only* vs *allow all*) adjusts several action categories at once. Presets are quick to understand and switch mid-session, though they need per-category overrides when a task requires free editing alongside strict limits on external communication.
-- *Quotas and ceilings.* Cap spending, token use, number of actions, or runtime per task or billing period. Pair the cap with [cost transparency](/patterns/cost-transparency) so the actor can see consumption against the remaining allowance.
+- *Quotas and ceilings.* Cap spending, token use, number of actions, or runtime per task or billing period. Pair the cap with [cost transparency](/patterns/cost-transparency) so the actor can see consumption against the remaining allowance. Give work that starts itself a limit on how much one run may do, so that a time or condition that comes round more often than expected does not send forty messages in a day.
 - *Target boundaries and exclusions.* Restrict where the agent may act—specific folders, repositories, domains, or recipient lists—and support standing exclusions (such as sensitive files or blocked merchant categories) that override broader "allow" grants.
 - *Duration.* Scope a grant to a single action, the current run, the current session, or standing use. Time- and session-bounded grants expire on their own without relying on the actor to remember to revoke them in [settings](/patterns/settings).
+- *Disengagement*
 
 ### What happens at a limit
 
 - *Ask the actor.* The run holds at an [approval gate](/patterns/approval-gate). 
-- *Refuse and continue.* A deny rule or a declined card payment stops the action. The refusal is reported in the run's report.
+- *Refuse and continue.* A deny rule or a declined card payment stops the action. The refusal is reported in the run's report, and where it was a close call the actor is asked afterwards whether it was right.
 - *Send the refusal back to the agent.* Where a reviewer model applies the limit the blocked call returns to the agent, which tries another route. The agent may reach a similar effect by the other route, so this outcome suits limits on means more than limits on consequences.
 - *Ask someone else.* Needs a stated wait and a fallback, as any [handoff](/patterns/handoff) does.
 
@@ -123,5 +126,5 @@ Some systems estimate action risk dynamically or learn from the actor's past app
 - Mitchell, Ghosh & Passi (2026) [AI agents push humans out of the loop](https://arxiv.org/abs/2608.23642) — pre-configured boundaries and sandboxing as remedies for approval fatigue
 - Cavalcante Siebert et al. (2022) [Meaningful human control: actionable properties for AI system development](https://arxiv.org/abs/2112.01298) — keeping an actor's responsibility proportional to what they can foresee and control
 - Dhanorkar, Passi & Vorvoreanu (2026) [Human oversight of agentic systems in practice](https://doi.org/10.1145/3805689.3812402), FAccT '26 — pre-task configuration habits and reliance on defaults
-- Noessel (2017) [Designing agentive technology](https://rosenfeldmedia.com/books/designing-agentive-technology/) — permissions, authorisation limits, and post-handoff tightening
+- Noessel (2017) [Designing agentive technology](https://rosenfeldmedia.com/books/designing-agentive-technology/) — permissions, authorisation limits, post-handoff tightening, and disengagement check-ins
 
