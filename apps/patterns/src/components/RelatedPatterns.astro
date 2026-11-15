@@ -13,9 +13,11 @@
  */
 
 import graphData from '../data/pattern-graph.json';
+import ActsOn from './ActsOn.astro';
 import Label from './Label.astro';
 import SequenceAppearances from './SequenceAppearances.astro';
 import Situation from './Situation.astro';
+import { actsOnRefs } from '../lib/concept';
 import { sequenceAppearances } from '../lib/sequence';
 
 interface Props {
@@ -254,7 +256,9 @@ const quote = (text: string, far?: boolean) => (far ? `“${text}”` : text);
 const narrated = typeof resulting === 'string';
 // The passage is authored prose and renders on any page that has one; the
 // quality rule and `showRelated` govern the index only.
-const hasRelated = narrated || (!isQuality && sections.length > 0);
+const actsOn = await actsOnRefs(slug);
+const hasActsOn = actsOn.length > 0;
+const hasRelated = narrated || hasActsOn || (!isQuality && sections.length > 0);
 const showIndex = index && !isQuality;
 // On a narrated page the sequence appearances fold into the same index.
 const hasAppearances = narrated && ((await sequenceAppearances()).get(slug)?.length ?? 0) > 0;
@@ -276,7 +280,7 @@ const inline = (title: string) =>
     <div class="connections__narrated flow">
       <Situation text={resulting} end="resulting" />
     </div>
-    {(hasAppearances || hasComponents || (showIndex && sections.length > 0)) && (
+    {(hasActsOn || hasAppearances || hasComponents || (showIndex && sections.length > 0)) && (
       <details class="connections__formal">
         <summary>All connections</summary>
         {showIndex && sections.length > 0 && (
@@ -315,6 +319,7 @@ const inline = (title: string) =>
             ))}
           </dl>
         )}
+        {hasActsOn && <ActsOn refs={actsOn} compact />}
         {hasAppearances && <SequenceAppearances slug={slug} compact />}
         {hasComponents && (
           <dl class="description-list description-list--stacked connections__index">
@@ -332,23 +337,25 @@ const inline = (title: string) =>
 {hasRelated && !narrated && (
   <section class="flow" aria-label="Related patterns">
     <h2>Related patterns</h2>
-    {listSections.map(({ heading, entries }) => (
-      <div class="flow">
-        <h3>{heading}</h3>
-        <ul>
-          {entries.map(({ node, label, far }) => (
-            <li>
-              <a href={node.path}>{node.title}</a>
-              {label && (
-                <>
-                  {' '}
-                  — <Label text={quote(unlink(label, [node.id]), far)} />
-                </>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
-    ))}
+    {!isQuality &&
+      listSections.map(({ heading, entries }) => (
+        <div class="flow">
+          <h3>{heading}</h3>
+          <ul>
+            {entries.map(({ node, label, far }) => (
+              <li>
+                <a href={node.path}>{node.title}</a>
+                {label && (
+                  <>
+                    {' '}
+                    — <Label text={quote(unlink(label, [node.id]), far)} />
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    <ActsOn refs={actsOn} />
   </section>
 )}

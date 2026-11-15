@@ -4,7 +4,7 @@ import type { Locale } from '@shared/format';
 import { CONCEPTS_PUBLISHED } from './concepts-published';
 
 // Until the catalogue is published (lib/concepts-published.ts), its pages,
-// sidebar link, pane stacking and the "Acts on" line on pattern pages exist
+// sidebar link, pane stacking and the "Acts on" group on pattern pages exist
 // only under `astro dev`. A production build emits none of them.
 export const CONCEPTS_ENABLED: boolean = CONCEPTS_PUBLISHED || import.meta.env.DEV;
 

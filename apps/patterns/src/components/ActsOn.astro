@@ -1,40 +1,54 @@
 ---
-// Renders a pattern's `acts_on`: the concepts this pattern is a move on. A
-// cross-dataset reference like realisation, so it sits in the header meta
-// beside the epistemic status rather than in the related-patterns index.
-// Concept ids are resolved to titles here; the cross-reference validator gates
-// dangling ids at build time, so an unresolved id means the build was skipped.
-import { getCollection, type CollectionEntry } from 'astro:content';
+// Renders a pattern's `acts_on`: the concepts this pattern is a move on. It
+// sits with the pattern's connections: one group of the folded "All
+// connections" index on a page with a connections passage, a list in the
+// "Related patterns" section otherwise. RelatedPatterns resolves the refs
+// (lib/concept.ts `actsOnRefs`) and passes them in.
 import Label from './Label.astro';
-import { actsOnOf } from '../lib/concept';
+import type { TitledActsOnRef } from '../lib/concept';
 import { panePath } from '../lib/pane-path';
-import { humaniseSlug } from '../lib/sequence';
-import { CONCEPTS_ENABLED } from '../lib/site';
 
 interface Props {
-  entry: CollectionEntry<'patterns'>;
+  refs: TitledActsOnRef[];
+  /** Render as one group of the folded "All connections" index. */
+  compact?: boolean;
 }
 
-const { entry } = Astro.props;
-const refs = CONCEPTS_ENABLED ? actsOnOf(entry.data.acts_on) : [];
-const concepts = refs.length > 0 ? await getCollection('concepts') : [];
-const titleOf = (id: string) => concepts.find((c) => c.id === id)?.data.title ?? humaniseSlug(id);
+const { refs, compact = false } = Astro.props;
 ---
 
-{refs.length > 0 && (
-  <p class="muted" data-pagefind-ignore>
-    Acts on{' '}
-    {refs.map((ref, i) => (
-      <>
-        {i > 0 && '; '}
-        <a href={panePath('concept', ref.concept)}>{titleOf(ref.concept)}</a>
+{refs.length > 0 && compact && (
+  <dl class="description-list description-list--stacked connections__index" data-pagefind-ignore>
+    <dt>Acts on</dt>
+    {refs.map((ref) => (
+      <dd>
+        <a href={panePath('concept', ref.concept)}>{ref.title}</a>
         {ref.note && (
-          <Fragment>
+          <>
             {' '}
-            (<Label text={ref.note} />)
-          </Fragment>
+            — <Label text={ref.note} />
+          </>
         )}
-      </>
+      </dd>
     ))}
-  </p>
+  </dl>
+)}
+
+{refs.length > 0 && !compact && (
+  <div class="flow" data-pagefind-ignore>
+    <h3>Acts on</h3>
+    <ul>
+      {refs.map((ref) => (
+        <li>
+          <a href={panePath('concept', ref.concept)}>{ref.title}</a>
+          {ref.note && (
+            <>
+              {' '}
+              — <Label text={ref.note} />
+            </>
+          )}
+        </li>
+      ))}
+    </ul>
+  </div>
 )}

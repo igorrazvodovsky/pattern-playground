@@ -9,8 +9,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import ArticleShell from './ArticleShell.astro';
 import Label from './Label.astro';
 import { panePath } from '../lib/pane-path';
-import { actsOnOf, worldActionsByConcept } from '../lib/concept';
-import { humaniseSlug } from '../lib/sequence';
+import { actsOnOf, conceptTitle, worldActionsByConcept } from '../lib/concept';
 
 interface Props {
   entry: CollectionEntry<'concepts'>;
@@ -22,8 +21,7 @@ const { entry, pagefind = true } = Astro.props;
 const data = entry.data;
 
 const concepts = await getCollection('concepts');
-// The validator gates dangling ids at build time; the fallback matches ActsOn.astro.
-const titleOf = (id: string) => concepts.find((c) => c.id === id)?.data.title ?? humaniseSlug(id);
+const titleOf = (id: string) => conceptTitle(id, concepts);
 
 const worldActions = worldActionsByConcept().get(entry.id) ?? new Set<string>();
 

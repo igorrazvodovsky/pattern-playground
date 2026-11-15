@@ -12,7 +12,6 @@ import Consequences from './Consequences.astro';
 import Situation from './Situation.astro';
 import ArticleShell from './ArticleShell.astro';
 import EpistemicStatus from './EpistemicStatus.astro';
-import ActsOn from './ActsOn.astro';
 import SequenceAppearances from './SequenceAppearances.astro';
 import RelatedPatterns from './RelatedPatterns.astro';
 import Residue from './Residue.astro';
@@ -40,7 +39,6 @@ const { Content } = await render(entry);
 >
   <Fragment slot="meta">
     <EpistemicStatus entry={entry} />
-    <ActsOn entry={entry} />
   </Fragment>
   {/* Consequences, SequenceAppearances, RelatedPatterns and Residue are not
       authored: integrations/remark-consequences.ts injects them into the body
