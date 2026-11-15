@@ -1,58 +1,127 @@
 ---
 title: Bounded autonomy
 added: 2026-08-07
-updated:
+updated: 2026-11-14
 role: pattern
-seed: true
 evidence:
   - observed
-disclosure: "Seeded from looking at different AI pattern libraries and sorting them out. It’s not quite ready yet because I haven’t had a chance to consider it closely."
+  - literature
 activityLevel: action
+mediation: individual
+description: "Granting an agent scoped authority to act on its own—by consequence, amount, place, and duration—enforced by the platform, and pausing work when a limit is reached."
 situation:
   initiating: >-
-    the actor wants work to proceed without them but not without limits — full supervision
-    defeats the point of delegating, and open-ended authority asks for more trust than the
-    agent has earned
-  resulting:
-    - >-
-      granted authority now has explicit edges — scope, spend, time, risk class — so trust
-      can be extended in increments instead of all at once
-    - clause: >-
-        crossing a bound is a designed event rather than a failure: the work pauses and
-        control returns to the actor for renewal, escalation, or takeback
-      sets-up: [handoff, approval-gate]
-    - >-
-      the bounds only bind if the actor understood them at grant time; authority granted
-      through an unread scope screen is consent in name only
+    … the actor is delegating work to an [agent](/patterns/agent) or an
+    [outside agent](/patterns/outside-agent), and [permissions](/patterns/permissions) have
+    established what it can reach. Which actions it may take there on
+    its own is still undecided: putting an [approval gate](/patterns/approval-gate) on every
+    step keeps the actor watching the screen, while letting the agent act without limits risks
+    unwanted changes, messages, or spend while the actor is away.
+  resulting: >-
+    The agent acts on its own within explicit boundaries enforced by the platform, and stops at
+    predictable points. When it reaches a reserved action or exhausts an allowance, the run
+    pauses at an [approval gate](/patterns/approval-gate) to authorise that action or extend the
+    limit, or transfers control through a [handoff](/patterns/handoff) with a summary of what was
+    used and what remains. An action the actor ruled out is refused without a pause, and the run
+    carries on without it. An [early warning](/patterns/early-warning) notifies the actor before
+    a spend or quota ceiling is hit. Budget and usage limits rely on
+    [cost transparency](/patterns/cost-transparency) to show consumption against the remaining
+    allowance. Deciding which actions may run freely and which require a checkpoint follows the
+    severity and reversibility ratings in [action consequences](/patterns/action-consequences).
+    When boundaries combine several conditions, the actor edits them as structured statements
+    through [rule composition](/patterns/rule-composition). A [trial run](/patterns/trial-run)
+    rehearses what the limits let through on sample cases before they apply to live work.
+    Standing grants live in [settings](/patterns/settings) between runs, where a limit set months
+    ago is easy to forget. [Capability and scope](/patterns/capability-and-scope) states what the
+    agent is able to do, and the grant states what it is allowed to do on this occasion. For a
+    single requested run, the plan approved in a [plan preview](/patterns/plan-preview) limits
+    that run, whereas a grant holds across runs. The [activity log](/patterns/activity-log) records every autonomous
+    action, refusal, and limit reached so the actor can widen or narrow the grant from evidence…
 relationships:
+  precedes:
+    - handoff
+    - approval-gate
+  complements:
+    - to: cost-transparency
+      note: a spending limit set through bounded autonomy holds only when cost transparency shows the spend against it
+    - to: capability-and-scope
+      note: capability and scope states what the agent can do, and bounded autonomy what it may do on this occasion
+    - to: action-consequences
+      note: action consequences supplies the rating by which bounded autonomy decides which kinds of act get a limit
+    - to: activity-log
+      note: the activity log is the record from which the limits of bounded autonomy are widened or narrowed
+  related:
+    - to: settings
+      note: settings is where the limits of bounded autonomy are kept between runs
+    - to: plan-preview
+      note: an approved plan limits one run, and bounded autonomy sets limits that hold across runs
   serves:
     - to: delegation
       note: bounded autonomy covers delegation's set-up station — the shape of the authority granted before the agent runs
-  complements:
-    - to: cost-transparency
-      note: a budget only binds when spend is visible against it
-    - to: capability-and-scope
-      note: what the system can do versus what it may do on this occasion
-  related:
-    - to: settings
-      note: where standing bounds tend to live between grants
   enacts:
     - to: agency
       note: autonomy becomes something the actor meters out rather than switches on
 ---
-The actor grants the system authority with explicit edges — how much it may spend, touch, or decide, and for how long — so delegation can start small and grow with demonstrated competence.
 
-## Forms
+* * *
 
-Recurring forms: autonomy levels per task (suggest / confirm / execute), budgets in time, actions, or money, per-capability rather than per-application grants, and thresholds that automatically demote autonomy when risk rises.
+**When delegating work to an agent, actors are usually forced to choose between approving every step and giving the agent a blank cheque. Approving every action turns delegation back into constant supervision and quickly leads to rubber-stamping; granting unrestricted autonomy means the actor discovers an unwanted purchase, sent message, or deleted file only after it has happened.**
 
-Each of these is stated as a clause, and past the simplest grant the actor is composing several of
-them at once — which makes the editing surface [rule composition](/patterns/rule-composition), with
-the same problem of reading back what the bounds will actually permit.
+Setting limits on an agent is difficult for two reasons: the actor does not know in advance which steps the agent will take, and the actor thinks in real-world consequences (spending, sending, publishing, deleting) while the system operates through general-purpose tools. When boundaries are offered as tool toggles or upfront permission tables, actors cannot tell what a grant will let through, so they either set everything to "ask me" and drown in prompts, or click "always allow" mid-run and permanently widen access they cannot easily take back.
+
+For a boundary to work under [delegation](/patterns/delegation), the actor has to understand what it covers in domain terms, and the platform—not the model—has to enforce it. Tighter limits buy safety at the cost of interruptions; wider limits buy uninterrupted progress at the cost of exposure.
+
+Therefore,
+
+**Let the actor grant authority bounded by consequence, amount, location, and duration—stating which categories of action the agent may take on its own, up to what budget or volume, in which folders, sites, or accounts, and for how long. Enforce these limits in the platform outside the model so the agent cannot bypass them. Start with narrow defaults, keep the active grant visible alongside the running work, and settle in the grant what each limit does when it is reached: hold the run and return the decision to the actor, or refuse the action and carry on. Make narrowing a grant as simple as widening it, and let temporary grants expire automatically when the run or session ends.**
+
+Reserve "ask every time" for high-consequence actions that are only sometimes acceptable, where an [approval gate](/patterns/approval-gate) is worth the interruption; allow routine reversible actions outright and block unacceptable ones completely. Whenever possible, run the agent inside a sandbox, draft, or staging branch where its work can be reviewed or discarded as a whole—lowering the [action consequences](/patterns/action-consequences) removes the need for step-by-step prompts more effectively than any rule set.
+
+## In practice
+
+### Dimensions of a boundary
+
+- *Action categories (allow, ask, deny).* Group capabilities by the consequence they carry—reading, editing local drafts, spending money, sending or publishing externally, deleting—rather than by internal tool names. Let the actor set each category to run freely, pause at an [approval gate](/patterns/approval-gate), or never run.
+- *Autonomy presets.* A single mode switch (such as *suggest*, *confirm*, or *act*, or *read-only* vs *allow all*) adjusts several action categories at once. Presets are quick to understand and switch mid-session, though they need per-category overrides when a task requires free editing alongside strict limits on external communication.
+- *Quotas and ceilings.* Cap spending, token use, number of actions, or runtime per task or billing period. Pair the cap with [cost transparency](/patterns/cost-transparency) so the actor can see consumption against the remaining allowance.
+- *Target boundaries and exclusions.* Restrict where the agent may act—specific folders, repositories, domains, or recipient lists—and support standing exclusions (such as sensitive files or blocked merchant categories) that override broader "allow" grants.
+- *Duration.* Scope a grant to a single action, the current run, the current session, or standing use. Time- and session-bounded grants expire on their own without relying on the actor to remember to revoke them in [settings](/patterns/settings).
+
+### What happens at a limit
+
+- *Ask the actor.* The run holds at an [approval gate](/patterns/approval-gate). 
+- *Refuse and continue.* A deny rule or a declined card payment stops the action. The refusal is reported in the run's report.
+- *Send the refusal back to the agent.* Where a reviewer model applies the limit the blocked call returns to the agent, which tries another route. The agent may reach a similar effect by the other route, so this outcome suits limits on means more than limits on consequences.
+- *Ask someone else.* Needs a stated wait and a fallback, as any [handoff](/patterns/handoff) does.
+
+### Adjusting grants from runtime prompts
+
+Most standing grants are created mid-run when the agent hits a limit and the actor clicks "allow similar" or "always allow". State clearly in the prompt what the wider rule will cover in domain terms—this folder, this recipient, or purchases under this amount—rather than hiding a broad tool permission behind a one-line button. Place narrower options (*this once*, *for this run*) alongside the permanent choice, and log every runtime-created rule in the same list as deliberate settings so the actor can inspect and revoke them later. When a run fails or requires a [handoff](/patterns/handoff) or correction, offer to tighten the limits while trust is being rebuilt.
+
+### Learned and risk-based thresholds
+
+Some systems estimate action risk dynamically or learn from the actor's past approvals which steps to take without asking. Because adaptive thresholds make it harder for the actor to predict where the agent will stop, keep hard exclusions and budget ceilings fixed outside the adaptive layer. When the agent pauses, state whether it stopped for a hard rule or because its own confidence or risk score crossed a threshold, and summarise in the [activity log](/patterns/activity-log) which actions were taken autonomously under learned rules.
+
+## Research on this pattern
+
+- Levels of autonomy vs fixed roles: [Feng, McDonald & Zhang (2025)](https://arxiv.org/abs/2506.12469) frame agent autonomy as a design decision separable from model capability, defining levels by the supervisory role left to the actor. In a study of computer-use agents, [Cheng, Liang, Schoop & Nichols (2026)](https://arxiv.org/abs/2602.07283) found that actors shift between active control and oversight as task stakes change, drawing a hard line at irreversible actions while scaling tolerance below that line by financial exposure and early task success.
+- Up-front rule authoring vs runtime overreach: [Yan (2026)](https://arxiv.org/abs/2608.27443) tested lay users writing *allow*, *ask*, or *never* policies across four consequence categories before running an agent; 114 of 140 rules were set to "ask", and up-front policies caught less overreach than per-action prompts because participants struggled to anticipate what the agent would do and then approved overreaching actions when prompted. Comparing four oversight designs for a browser agent, [Chen et al. (2026)](https://arxiv.org/abs/2604.04918) found that an "approve similar" option let undesired actions through in 28 of 53 failure cases, as actors misjudged what future steps a blanket approval covered.
+- Production gaps and one-way widening: surveying 21 production agents, [Wang, Li & Tian (2026)](https://arxiv.org/abs/2605.24309) found that while most combine scope settings with runtime prompts, "always allow" grants only ever widen authority, only two systems provide a way to narrow grants back down, and natural-language boundaries depend entirely on model compliance.
+- Dynamic and learned thresholds: [Shukla, Feng, Wang, Rostami & Zhang (2026)](https://arxiv.org/abs/2605.11495) demonstrate keeping hard safety constraints outside the model while adjusting softer approval thresholds from the actor's history of approvals and denials, explicitly distinguishing rule-triggered stops from model-uncertainty stops. [Herrmann (2026)](https://doi.org/10.1007/978-3-031-83512-4_9) separates temporary interventions that expire automatically from permanent reconfigurations, noting that repeated interventions on the same boundary are the signal to reconfigure it. [Park et al. (2026)](https://arxiv.org/abs/2609.24234) observe that as developers shift supervision into standing configuration files and permission lists, maintaining and auditing that configuration becomes supervisory work of its own.
+- Anthropic says people accept [93% of permission prompts](https://www.anthropic.com/engineering/claude-code-auto-mode) in Claude Code, and that the reviewer model that replaces the prompts still lets through 17% of the actions it should have stopped; confining the agent to a sandbox [cut prompts by 84%](https://www.anthropic.com/engineering/claude-code-sandboxing). These are a vendor's own figures for one product.
 
 ## Resources & references
 
-- [AI UX Playground — Autonomy Budgets](https://www.aiuxplayground.com/pattern/autonomy-budgets), [Per-Action Autonomy](https://www.aiuxplayground.com/pattern/per-action-autonomy), [Escalation Thresholds](https://www.aiuxplayground.com/pattern/escalation-thresholds)
-- [aiuxdesign.guide — Autonomy Spectrum, Mixed-Initiative Control](https://aiuxdesign.guide)
-- [AI Interaction Atlas — Delegate Authority](https://ai-interaction.com)
+- Feng, McDonald & Zhang (2025) [Levels of autonomy for AI agents](https://arxiv.org/abs/2506.12469) — autonomy as a design decision separable from model capability
+- Cheng, Liang, Schoop & Nichols (2026) [Mapping the design space of user experience for computer use agents](https://arxiv.org/abs/2602.07283), IUI '26 — impact tiers, irreversibility thresholds, and standing exclusions
+- Yan (2026) [Do user-authored permission policies improve protection against AI agent overreach?](https://arxiv.org/abs/2608.27443) — up-front allow/ask/never policies and why over-using "ask" pushes failures back to runtime prompts
+- Chen et al. (2026) [Comparing human oversight strategies for computer-use agents](https://arxiv.org/abs/2604.04918) — failure rates of "approve similar" grants when scope is unclear
+- Wang, Li & Tian (2026) [Reframing LLM agent security as an agent-human interaction problem](https://arxiv.org/abs/2605.24309) — survey of 21 production agents; one-way permission widening and un-enforced prose limits
+- Shukla, Feng, Wang, Rostami & Zhang (2026) [Hedwig: dynamic autonomy for coding agents under local oversight](https://arxiv.org/abs/2605.11495), CAIS '26 — hard platform constraints separated from learned approval thresholds
+- Park, Arvi, Lee, Lim, Ma & Kim (2026) [The work behind delegation: a framework for supervising AI coding agents](https://arxiv.org/abs/2609.24234) — how runtime supervision hardens into configuration that must be maintained
+- Herrmann (2026) [Intervenability as a design requirement for autonomy and oversight within human-centered AI](https://doi.org/10.1007/978-3-031-83512-4_9) — temporary interventions versus permanent reconfiguration
+- Mitchell, Ghosh & Passi (2026) [AI agents push humans out of the loop](https://arxiv.org/abs/2608.23642) — pre-configured boundaries and sandboxing as remedies for approval fatigue
+- Cavalcante Siebert et al. (2022) [Meaningful human control: actionable properties for AI system development](https://arxiv.org/abs/2112.01298) — keeping an actor's responsibility proportional to what they can foresee and control
+- Dhanorkar, Passi & Vorvoreanu (2026) [Human oversight of agentic systems in practice](https://doi.org/10.1145/3805689.3812402), FAccT '26 — pre-task configuration habits and reliance on defaults
+- Noessel (2017) [Designing agentive technology](https://rosenfeldmedia.com/books/designing-agentive-technology/) — permissions, authorisation limits, and post-handoff tightening
 

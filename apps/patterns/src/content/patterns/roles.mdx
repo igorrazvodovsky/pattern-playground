@@ -1,0 +1,59 @@
+---
+title: Roles
+added: 2026-11-14
+updated:
+role: pattern
+seed: true
+evidence:
+  - used
+  - observed
+  - literature
+group: coordination
+activityLevel: activity
+mediation: coordination
+description: "Grouping capabilities into a small set of named roles—such as owner, admin, editor, commenter, or viewer—so access in shared spaces can be assigned and understood by role rather than configured action by action for each participant."
+acts_on:
+  - assigning-roles
+situation:
+  initiating: >-
+    … a [workspace](/patterns/workspace) has multiple participants with different
+    responsibilities—some administer the space, some edit, and some only comment or read.
+    [Sharing](/patterns/sharing) admits participants to a workspace or document; roles define
+    the named levels of capability each participant can hold.
+  resulting: >-
+    Every participant holds a named role, and [sharing](/patterns/sharing) a workspace or
+    document assigns one of those roles to each recipient. Actions that fall outside an
+    actor's role are handled through [unavailable actions](/patterns/unavailable-actions).
+    An [outside agent](/patterns/outside-agent) added to a workspace can be assigned a role on
+    the same terms as a human participant. [Permissions](/patterns/permissions) solves the
+    inverse problem: rather than governing what participants may do inside shared work, it
+    governs what the artifact may reach on the actor's device or external accounts…
+relationships:
+  complements:
+    - to: sharing
+      note: roles define the named capability levels that sharing assigns to participants
+  precedes:
+    - unavailable-actions
+  related:
+    - workspace
+    - outside-agent
+    - permissions
+  enacts:
+    - to: agency
+      note: each participant can see their role and what it allows them to do
+---
+
+* * *
+
+**When access is configured person by person and action by action, nobody can tell at a glance who is allowed to do what. Assigning access becomes a checklist of individual permissions for every new member, so administrators either grant everyone full access for convenience or leave people blocked from routine work.**
+
+Individual permission toggles do not match how teams think about shared work. Collaborators already understand participation in terms of working relationships—whether someone owns a space, contributes to it, reviews it, or only reads it. Bundling capabilities into a small set of named roles turns each grant into a single choice that both the administrator and the participant can understand. The trade-off is granularity: if a tool defines too many roles or encourages custom roles for every edge case, the role list becomes as hard to read and maintain as per-person permissions.
+
+Therefore,
+
+**Bundle capabilities into a small, fixed set of named roles that match how participants take part in the work—such as owner, admin, editor, commenter, and viewer. State clearly what each role can view, change, and administer. Assign every participant a role when they join a workspace or document, defaulting to the narrowest role that fits their part, and make each participant's current role visible both to them and to whoever manages the space.**
+
+## Resources & references
+
+- Sandhu, Coyne, Feinstein & Youman (1996) [Role-based access control models](https://doi.org/10.1109/2.485845) — rights attached to roles and roles to people, with role hierarchies and constraints
+- Burghardt (2009) *Working Through Screens*, C5 "Permissions and views tailored to workers' identities", B7 "Object ownership and availability rules"

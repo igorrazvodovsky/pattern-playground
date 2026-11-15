@@ -1,11 +1,12 @@
 ---
 title: Approval gate
 added: 2026-08-07
-updated:
+updated: 2026-11-14
 role: pattern
 seed: true
 evidence:
   - observed
+  - literature
 disclosure: "Seeded from looking at different AI pattern libraries and sorting them out. It’s not quite ready yet because I haven’t had a chance to consider it closely."
 activityLevel: action
 situation:
@@ -50,12 +51,20 @@ Machine-initiated work pauses at a gate until the actor consents — per action,
 
 Recurring forms: approve/reject on a single proposed action, batch review of queued actions, diff review of proposed changes, and graduated modes (suggest, confirm, execute) that move the gate rather than remove it.
 
+## Research on this pattern
+
+- Judging task progress rather than safety: comparing oversight designs for a browser agent, [Chen et al. (2026)](https://arxiv.org/abs/2604.04918) found that actors at an approval gate often evaluate whether the proposed step advances the immediate page task rather than whether the action is safe or appropriate, and that offering an "approve similar" shortcut at the gate frequently lets later harmful actions through when the scope of the approval is unclear.
+- Approval fatigue and high prompt volume: [Mitchell, Ghosh & Passi (2026)](https://arxiv.org/abs/2608.23642) document how frequent runtime checkpoints in agent workflows lead actors to rubber-stamp requests or disable approval gates altogether rather than reading every prompt.
+
 ## Resources & references
 
+- Chen et al. (2026) [Comparing human oversight strategies for computer-use agents](https://arxiv.org/abs/2604.04918) — how actors evaluate runtime approval prompts and "approve similar" options
+- Mitchell, Ghosh & Passi (2026) [AI agents push humans out of the loop](https://arxiv.org/abs/2608.23642) — approval fatigue and its remedies
 - [AI UX Playground — Approval Workflows](https://www.aiuxplayground.com/pattern/approval-workflows), [Human in the Loop](https://www.aiuxplayground.com/pattern/human-in-the-loop), [Suggest / Confirm / Execute](https://www.aiuxplayground.com/pattern/suggest-confirm-execute)
 - [Shape of AI — Verification](https://www.shapeof.ai)
 - [aiuxdesign.guide — Human-in-the-Loop](https://aiuxdesign.guide)
 
 ## To-do
 
-The rubber-stamping force deserves evidence (overlaps the overreliance literature already cited on [cognitive forcing functions](/patterns/cognitive-forcing-functions)). Where batching turns review into [problem-curated view](/patterns/problem-curated-view) territory is worth mapping.
+Where batching turns review into [problem-curated view](/patterns/problem-curated-view) territory is worth mapping.
+

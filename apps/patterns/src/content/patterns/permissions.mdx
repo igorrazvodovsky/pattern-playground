@@ -1,0 +1,86 @@
+---
+title: Permissions
+added: 2026-11-14
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+activityLevel: action
+mediation: individual
+description: "Requesting access to the actor's device capabilities, files, or external accounts at the point of need, scoped to the task, with a clear place to review and revoke grants."
+situation:
+  initiating: >-
+    … to carry out a task, the artifact needs access to something the actor controls outside
+    it—a camera or location sensor, local files, contacts, or an external account such as a
+    calendar or mailbox—either for a feature the actor just triggered or for an
+    [agent](/patterns/agent) working under [delegation](/patterns/delegation).
+  resulting: >-
+    The artifact holds only the access the actor has explicitly granted, and active grants can
+    be reviewed and revoked in [settings](/patterns/settings). Once a source is connected, the
+    actor can attach items from it as [reference material](/patterns/reference-material). Where
+    an agent uses the connection, permissions settle what it can reach, while
+    [bounded autonomy](/patterns/bounded-autonomy) settles what it may do there without asking.
+    When the standing work a grant was given for ends or goes unused,
+    [standing down](/patterns/standing-down) revokes the access. [Sharing](/patterns/sharing)
+    and [roles](/patterns/roles) solve the inverse problem: they govern what other participants
+    may do inside the actor's workspace, whereas permissions govern what the artifact may reach
+    outside itself…
+relationships:
+  precedes:
+    - to: bounded-autonomy
+      note: permissions settle what the agent can reach, and bounded autonomy settles what it may do there without asking
+    - reference-material
+    - standing-down
+  related:
+    - sharing
+    - roles
+    - settings
+  serves:
+    - to: delegation
+      note: covers the permissions and authorisation touchpoint of delegation's set-up stage
+  enacts:
+    - to: privacy
+      note: access to the actor's devices, data, and accounts is granted in scoped parts for a clear purpose and can be revoked
+    - to: agency
+      note: the actor decides what the artifact can reach and for how long
+---
+
+* * *
+
+**When an artifact asks for broad access up front—before the actor has tried the feature that needs it—actors either click through blindly to get past the barrier or refuse because the request feels invasive. Once access is granted, it stays active out of sight with no obvious way to check what the artifact can still reach or revoke it.**
+
+Up-front permission walls ask for a trust decision without context. Studies of mobile and web permissions consistently show that actors rarely read install-time or onboarding scope lists, whereas they readily judge runtime requests that clearly follow from an action they just took. The problem sharpens under [delegation](/patterns/delegation): an agent uses connected accounts and tools in the background, and asking for every integration during onboarding forces the actor to hand over wide access before seeing what the agent can do.
+
+Therefore,
+
+**Ask for access at the moment the actor triggers the feature or task that needs it, and state clearly what the access is for. Request the narrowest scope and duration that will serve the task—read-only before read-write, a single item or folder before a whole account, and one-time or session access before a standing grant. If the actor declines, keep the rest of the artifact working and show at the blocked feature how to complete the task another way or grant access later. List all active grants in one place where the actor can inspect and revoke them.**
+
+Do not interrupt the actor with a separate prompt for every minor step when a single task needs a handful of related scopes; group the scopes required for that task into one request and let the actor approve or untick them individually.
+
+## In practice
+
+### Scope, duration, and system pickers
+
+- *System pickers before permissions.* When the actor only needs to attach a file, choose a photo, or pick a contact once, use the platform's file, photo, or contact picker. Selecting the item grants access to that item alone without a permission prompt or a standing grant to manage.
+- *One-time, session, and standing grants.* Where the platform or artifact manages the grant (such as location, microphone, or local folder access for an agent), offer *this time*, *for this session* (or while in use), and *always*. Withdraw session grants automatically when the session closes; if the actor grants the same one-off access repeatedly, offer to make it standing.
+- *Incremental and granular account scopes.* In OAuth and connector flows, request sign-in first and ask for resource scopes (such as calendar read or message send) only when the actor enables the feature that uses them. Where a feature requests multiple scopes, allow partial grants and adjust the feature to work with whichever scopes the actor approved.
+
+### Working with OS and browser prompts
+
+Operating-system and browser permission dialogues have fixed copy, cannot be styled, and lock out further prompts after the actor declines once or twice:
+- *Ask on a clear action, or explain first.* Trigger the native prompt directly when the actor clicks a control whose label already implies the access (such as "Record audio" or "Use my location"). When the need is not obvious from the control, show a brief in-context explanation first so a "Not now" response does not spend the platform's one-shot prompt.
+- *Degrade gracefully in place.* When the actor declines, keep the surrounding workflow usable and offer a manual alternative at the control (such as typing an address instead of sharing location, or uploading an image instead of opening the camera).
+- *Guide recovery when blocked by the platform.* Once the browser or OS blocks further prompts, clicking the control cannot re-open the native dialogue. Detect the blocked state and show specific instructions for re-enabling access in browser or system settings.
+
+## Resources & references
+
+- Noessel (2017) [Designing agentive technology](https://rosenfeldmedia.com/books/designing-agentive-technology/) — permissions and authorisation at set-up, and asking only where necessary with the benefit explained
+- Felt, Ha, Egelman, Haney, Chin & Wagner (2012) [Android permissions: user attention, comprehension, and behavior](https://doi.org/10.1145/2335356.2335360) — few people read or understood permissions shown at installation
+- Wijesekera, Baokar, Hosseini, Egelman, Wagner & Beznosov (2015) [Android permissions remystified: a field study on contextual integrity](https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/wijesekera) — unexpected background access violates contextual integrity; visibility and task-scoped grants reduce privacy violations
+- Bonné, Peddinti, Bilogrevic & Taft (2017) [Exploring decision making with Android's runtime permission dialogs using in-context surveys](https://www.usenix.org/conference/soups2017/technical-sessions/presentation/bonne) — people grant runtime requests when the purpose is clear from what they just did, and refuse when the connection to their task is opaque
+- [Apple Human Interface Guidelines — privacy](https://developer.apple.com/design/human-interface-guidelines/privacy) — requesting access at the point of need, with a purpose stated, and using system pickers that need no persistent grant
+- [Android — request runtime permissions](https://developer.android.com/training/permissions/requesting) and [one-time permissions](https://developer.android.com/training/permissions/requesting#one-time) — one-time and while-in-use grants, and degrading gracefully when refused
+- [web.dev — web permissions best practices](https://web.dev/articles/permissions-best-practices) — asking in response to the actor's own action, explaining before the browser's dialogue, and recovering when a permission is blocked in browser settings
+- [Google — incremental authorization](https://developers.google.com/identity/protocols/oauth2/web-server#incrementalAuth) and [granular account permissions](https://developers.google.com/identity/protocols/oauth2/resources/granular-permissions) — asking for each scope when a feature first needs it, and handling partial grants when the actor approves only some of the requested scopes

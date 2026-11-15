@@ -12,6 +12,8 @@ activityLevel: action
 lifecycle: application
 mediation: individual
 description: "Keeping past states of the work that the actor can find, compare, and restore after the session ends and undo no longer reaches them."
+acts_on:
+  - { concept: versioning }
 situation:
   initiating: >-
     the work is stored continuously or across many sessions, and the actor wants a state
@@ -114,6 +116,6 @@ Naming every version adds work the actor will not do, so automatic checkpoints c
 ## To-do
 
 - Decide whether automatic checkpoints and named versions are one pattern or two.
-- Work out the boundary with selective undo and branching undo, which `undo` lists as variants.
+- Work out the boundary with selective undo (`undo`) and [branching](/patterns/branching).
 - Work out retention and redaction: what happens when content in an old version has to be forgotten.
 - The `complements` edge to [comparing](/patterns/comparing) reads as a part: showing a past version against the current one is comparing's version case put to work, as change review and reconciliation author it. Retype to `composed-of` at this page's sitting.

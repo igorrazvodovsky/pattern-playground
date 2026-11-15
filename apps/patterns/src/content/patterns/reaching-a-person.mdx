@@ -14,10 +14,11 @@ situation:
   initiating: >-
     … the actor needs something the artifact cannot do on its own: access to a document someone else controls, a permission only an admin can grant, an account they cannot get back into after [account recovery](/patterns/account-recovery) has failed, a review of a decision made about them, a charge they dispute. [Help](/patterns/help) has nothing more to tell them, because the fix needs access, authority, judgement or knowledge that some person holds: the owner of the item, a workspace admin, a contact the actor named in advance, a moderator, or the provider's support.
   resulting: >-
-    The request sits with someone who can act on it, with enough attached that they can act without asking the actor to explain it again. What follows, the reply and the actor's sense of where the request stands, belongs to the request rather than to reaching the person…
+    The request sits with someone who can act on it, with enough attached that they can act without asking the actor to explain it again. Where an agent was already working on the task or triaging the conversation before passing it on, [handoff](/patterns/handoff) packages the progress so far and governs the transfer of responsibility and any return to the agent…
 relationships:
   complements:
     - help
+    - handoff
 ---
 
 * * *

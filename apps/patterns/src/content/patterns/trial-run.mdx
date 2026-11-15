@@ -1,0 +1,94 @@
+---
+title: Trial run
+added: 2026-10-09
+updated: 2026-11-14
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+activityLevel: action
+lifecycle: evaluation
+mediation: individual
+description: "Running a rule, bulk operation, or agent against sample or simulated cases so the actor can inspect what it does before applying it for real."
+situation:
+  initiating: >-
+    … the actor has configured a bulk edit, a standing rule in
+    [rule composition](/patterns/rule-composition), or an agent set to run on a
+    [triggered run](/patterns/triggered-run) under
+    [bounded autonomy](/patterns/bounded-autonomy). It may also be a step inside a
+    [workflow](/patterns/workflow). Unlike a live filter over a visible list, a rule, batch
+    operation, or background agent shows no result while it is being configured, and the items
+    it will act on may be out of view or have not arrived yet.
+  resulting: >-
+    The actor can evaluate the configuration by inspecting its actual output rather than
+    guessing from its syntax. Where the trial previews edits to existing items,
+    [change review](/patterns/change-review) lets the actor inspect and accept or reject
+    individual changes before committing the batch. Each trial result can include an
+    [explanation](/patterns/explanation) of which condition matched, so the actor can spot a
+    right outcome reached for the wrong reason. For rules and agents that filter or select, the
+    trial can also surface [passed-over cases](/patterns/passed-over-cases) that narrowly
+    missed. Because a rehearsal over sample data cannot cover every future input, live runs
+    still rely on [case correction](/patterns/case-correction) when an unanticipated case
+    misfires. [Plan preview](/patterns/plan-preview) solves the adjacent problem where an
+    agent presents its own intended steps before acting, rather than testing a configuration
+    the actor set up…
+relationships:
+  follows:
+    - to: bounded-autonomy
+      note: a trial run tests the agent inside the limits bounded autonomy sets before those limits apply to live work
+  precedes:
+    - change-review
+  enables:
+    - workflow
+  composed-of:
+    - explanation
+  complements:
+    - plan-preview
+  serves:
+    - to: delegation
+      note: covers the test-drive touchpoint of delegation's set-up stage
+  enacts:
+    - to: agency
+      note: the actor commits based on observed behaviour rather than on reading a configuration
+---
+
+* * *
+
+**When an actor configures a rule, a bulk edit, or an agent, reading the configuration rarely reveals how it will behave across real cases. If the only way to see what it does is to run it live, any mistake in the conditions or actions takes effect across every item at once or while nobody is watching.**
+
+Whether an action needs a trial depends on its [action consequences](/patterns/action-consequences): easily reversible edits on a single item do not need a rehearsal, whereas batch modifications, standing rules, and agents working under [delegation](/patterns/delegation) are hard to unwind once they fire. A trial run closes the gap between writing a configuration and trusting it by executing the logic safely and showing the resulting matches, changes, or actions alongside the reasons behind them.
+
+Because interfaces often label every test button the same way, the actor cannot tell whether clicking "Test" previews changes without saving, runs in a sandbox, or fires a real action on one sample item unless the artifact states what the test will do.
+
+Therefore,
+
+**Before a rule, bulk operation, or agent runs live, let the actor test it against real or representative cases and inspect what it did to each item and why. State clearly whether the trial withholds side effects, runs against sandboxed stand-ins, or executes live on a single sample item. Keep the configuration and the trial results side by side so the actor can edit and re-run immediately, and make activating the live version a separate, explicit action.**
+
+A trial only shows how the setup behaves on the cases tested. When the sample is small or historical data is sparse, state the sample size rather than presenting the trial as a complete check.
+
+## In practice
+
+### Trial modes
+
+- *Dry run (withholding side effects)* — runs the logic against target or historical items and previews what would match or change without committing. Fits find-and-replace, batch renames, rule matching, and backtests where outcomes can be calculated without external side effects.
+- *Sandbox (stand-in environment)* — executes the full procedure against isolated test data, simulated accounts, or a test recipient. Needed when later steps depend on the effects of earlier ones. When promoting to live, state clearly that only the configuration carries over, not the sandbox data.
+- *Single-item live run* — executes the action for real on one sample item while the actor watches (such as "Test this step" in an automation builder). Lowest cost to offer, but must warn the actor before firing that a real message or change will occur.
+
+### Choosing test cases
+
+- *Known items in view* — for a one-off bulk edit, run the preview across the entire target set so the actor can scan the full before-and-after.
+- *Historical replay and existing rules* — for a standing rule or agent whose targets arrive later, replay the rule over recent past items and evaluate it alongside existing active rules so conflicts, overrides, and missed cases surface before launch. Let the actor supply custom test cases for specific edge conditions.
+- *On-demand triggers* — where work waits on a schedule or rare event, let the actor fire the trigger manually during testing rather than waiting for the condition to occur naturally.
+
+{/* <Figure name="dry-run" /> */}
+
+## Resources & references
+
+- Zhang, Zhou, Littman, Ur & Lu (2022) [Helping users debug trigger-action programs](https://dl.acm.org/doi/10.1145/3569506) — replaying rules against historical events to expose bugs
+- Corno, De Russis & Monge Roffarello (2019) [Empowering end users in debugging trigger-action rules](https://dl.acm.org/doi/10.1145/3290605.3300618) — simulating a new rule against the existing rule set to catch conflicts and loops
+- Noessel (2017) [Designing agentive technology](https://rosenfeldmedia.com/books/designing-agentive-technology/) — the test drive, compressed simulation schedules, and showing the reason for each decision
+- [Alpaca — paper trading](https://docs.alpaca.markets/us/docs/paper-trading) — running an automated strategy against live market data with simulated money
+- [Stripe — sandboxes](https://docs.stripe.com/sandboxes) — isolated test environments for verifying payment and webhook logic before going live
+- Lee & See (2004) [Trust in automation: designing for appropriate reliance](https://doi.org/10.1518/hfes.46.1.50_30392) — calibrating reliance through observed performance rather than stated capability
+

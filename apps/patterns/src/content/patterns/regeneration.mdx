@@ -1,61 +1,85 @@
 ---
 title: Regeneration
 added: 2026-08-07
-updated:
+updated: 2026-11-14
 role: pattern
-seed: true
 evidence:
   - observed
+  - literature
   - used
-disclosure: "Seeded from looking at different AI pattern libraries and sorting them out. It’s not quite ready yet because I haven’t had a chance to consider it closely."
 activityLevel: action
+mediation: individual
+description: "Drawing another output from the same request—for the whole result, a selected span, or several variants at once—when what came back is off in a way that is cheaper to redraw than to describe or fix by hand."
 situation:
   initiating: >-
-    the output isn't right, correcting it by hand costs more than asking again, and the intent hasn't changed — the actor wants another answer to the same question, not a new
-    question. They have no particular change to name; where they can name one, [instructed revision](/patterns/instructed-revision) works from the output they
-    already have
-  resulting:
-    - >-
-      the same intent yields another draw, so iteration happens without rearticulating the
-      request — judgement cycles replace composition cycles
-    - >-
-      drawing again discards silently: without branches or history the replaced result is
-      simply gone, and the actor gambles what they have on getting something better
-    - >-
-      parallel variants turn judgement into comparison, which is easier than absolute
-      assessment and quietly caps how many drafts anyone will weigh
+    … in [delegating work](/sequences/delegating-work), the actor has asked for something with a [prompt](/patterns/prompt) and received [generated content](/patterns/generated-content) that misses the mark, while the intent behind the request still holds. They have no specific change to describe—where they can name what is off, [instructed revision](/patterns/instructed-revision) steers the output they have, and where they know the exact fix, [editing in place](/patterns/editing-in-place) applies it directly.
+  resulting: >-
+    Another draw now runs from the same request. Where most of the output already works, scope the redraw to a [selection](/patterns/selection) so the settled surroundings stay untouched. Keep the replaced result one step back through [undo](/patterns/undo) or version stepping on the turn. Where the actor returns to an earlier turn in a thread to try a different direction, fork the exchange with [branching](/patterns/branching) so the subsequent turns stay intact. When the actor draws several candidates at once, align them through [comparing](/patterns/comparing) so differences can be read directly rather than held in memory. Where a full run is slow or costly, pair regeneration with [draft and publish](/patterns/draft-and-publish) to redraw cheaply in a draft state before committing to the final result…
 relationships:
   follows:
-    - to: generated-content
-      note: acts on the output the generation activity produced
+    - generated-content
   alternative:
-    - to: editing-in-place
-      note: re-rolling versus hand-correcting the same output
+    - instructed-revision
+    - editing-in-place
   complements:
-    - to: draft-and-publish
-      note: cheap draft modes make re-rolls affordable before committing to the full run
+    - selection
+    - branching
+    - comparing
+    - draft-and-publish
   precedes:
-    - to: undo
-      note: undo restores what a regeneration replaced
-  related:
-    - to: coordinated-views
-      note: parallel variants are judged side by side
+    - undo
   enacts:
     - to: agency
       note: the actor disposes of output by re-asking rather than accepting what arrived
 ---
-The actor re-runs generation on an unchanged intent — the whole output, a selected part, or several variants at once — trading another draw for the work of fixing what came back. The new draw starts from the request, which the actor may have edited first, not from the output it replaces.
 
-## Forms
+* * *
 
-Recurring forms: whole-output regenerate, partial regeneration of a selection (inpainting is the visual case when no instruction comes with the selection; with one, it reads more like [instructed revision](/patterns/instructed-revision) of a region), variant sets generated in parallel for comparison, and branches that keep the replaced result reachable.
+**When a generated result misses the mark in a way the actor can recognise on sight but cannot easily put into words, rewriting the prompt from scratch guesses blindly at which words were to blame, and repairing a poor draft by hand takes on the work the system was meant to do. Yet if asking again simply overwrites what is there, every redraw is a gamble that risks trading a flawed but usable draft for a worse one.**
+
+Because a generative model samples from a distribution of plausible answers, a single output is only one draw from what the request already allows. Drawing again tests the request without rearticulating it, shifting effort from composing instructions to judging candidates. Drawing multiple candidates in parallel turns that judgement into side-by-side comparison, reducing fixation on the first draft and revealing where the model is consistent versus guessing. Across all forms—whole output, selected region, or parallel variants—the new draw runs from the request rather than taking the rejected output as material to revise.
+
+The move has a clear ceiling. When the prompt lacks a required constraint or rests on the wrong sources, redrawing only samples more wrong answers from the same underspecified distribution, and each extra candidate adds reading and comparison work.
+
+Therefore,
+
+**Let the actor draw another output from the same request with a single action—for the whole result, for a selected region, or as a small set of parallel variants—and keep every replaced draw reachable so the actor can step back or compare before choosing which version to keep.**
+
+Cap parallel variants at a small set—typically two to four—so comparing them does not become a second reading burden, and never let a redraw silently destroy a draft the actor has already edited by hand. When the actor regenerates repeatedly without accepting a result, surface the prompt or its parameters for editing rather than encouraging endless re-rolls against a request that cannot produce what they want.
+
+## In practice
+
+### Whole-output redraw and version stepping
+
+In a [conversation](/patterns/conversation) or single-shot generator, a regenerate control on the response draws a replacement turn from the same prompt. Keep the previous answer in a numbered version switcher (`1 / 2`, `2 / 2`) attached to the turn so the actor can step between draws and pick the better one.
+
+### Scoped regeneration and inpainting
+
+Selecting a span of text or masking an image region scopes the redraw to that selection while passing the surrounding content as fixed context, so the new draw fits its neighbours. When the selection is accompanied by a directive naming how the span should change, the move crosses into [instructed revision](/patterns/instructed-revision); when the actor simply asks for another try in that spot, it remains regeneration.
+
+### Parallel variants
+
+Instead of making the actor ask again after a disappointing single draw, a tool can generate parallel candidates up front or on demand—common in image generation, copy drafting, and layout exploration. Present them in place via a carousel, hover switcher, or side-by-side grid, and hand off to [comparing](/patterns/comparing) when differences need to be read directly across longer outputs.
+
+## Research on this pattern
+
+- *Parallel candidates vs. serial iteration*: [Dow et al. (2010)](https://doi.org/10.1145/1879831.1879836) found that generating and comparing multiple candidates in parallel before refining produced more diverse exploration, higher-rated outcomes, and less fixation on the initial draft than serial iteration.
+- *Designing for generative variability*: [Weisz et al. (2024)](https://arxiv.org/abs/2401.14484) identify generative variability as a defining property of generative AI and recommend surfacing multiple outputs, legible differences, and version tracking rather than forcing a single answer.
+- *In-place variation management*: [Reza et al. (2024)](https://doi.org/10.1145/3613904.3641899) (*ABScribe*) showed that storing text variations adjacently in place for rapid hover-and-click comparison lowered task workload ($d = 1.20$) and improved writers' revision experience ($d = 2.41$) compared with sequential overwriting.
+- *Self-consistency across samples*: [Cheng et al. (2024)](https://doi.org/10.1145/3613904.3641904) (*RELIC*) demonstrated that sampling multiple responses to the same prompt and visualising agreement and divergence helps actors judge which claims in long-form output are reliable.
 
 ## Resources & references
 
-- [Shape of AI — Regenerate, Variations, Branches, Inpainting](https://www.shapeof.ai)
+- Dow, Glassco, Kass, Schwarz, Schwartz & Klemmer (TOCHI 2010) [Parallel prototyping leads to better design results, more divergence, and increased self-efficacy](https://doi.org/10.1145/1879831.1879836)
+- Weisz, He, Muller, Hoefer, Miles & Geyer (CHI 2024) [Design principles for generative AI applications](https://arxiv.org/abs/2401.14484)
+- Reza, Laundry, Musabirov, Dushniku, Yu, Mittal, Grossman, Liut, Kuzminykh & Williams (CHI 2024) [ABScribe: rapid exploration and organization of multiple writing variations in human-AI co-writing tasks](https://doi.org/10.1145/3613904.3641899)
+- Cheng, Zouhar, Arora, Sachan, Strobelt & El-Assady (CHI 2024) [RELIC: investigating large language model responses using self-consistency](https://doi.org/10.1145/3613904.3641904)
+- Wang, Chakravarthy, ul-Haq & Glassman (CHI 2024) [PromptCharm: text-to-image generation through multi-modal prompting and refinement](https://arxiv.org/abs/2403.04014) — localised image inpainting to re-render unsatisfactory regions without rewriting the prompt
+- [Shape of AI — Regenerate, Variations, Inpainting](https://www.shapeof.ai)
 - [aiuxpatterns.com — Full Result Regeneration, Partial Regeneration, Result Variations](https://www.aiuxpatterns.com)
 - [AI UX Playground — Regeneration Carousel](https://www.aiuxplayground.com/pattern/regen-carousel), [Variation Picker](https://www.aiuxplayground.com/pattern/variation-grid), [Output Comparison View](https://www.aiuxplayground.com/pattern/output-comparison-view)
 
 ## To-do
 
-[Generated content](/patterns/generated-content) hosts the section-regeneration and variations stubs; migrate as this matures. Whether parallel variants deserve their own node is a fission question to revisit once examples accumulate.
+- Whether parallel variants deserve their own node is a fission question to revisit as examples accumulate across non-text media.
+

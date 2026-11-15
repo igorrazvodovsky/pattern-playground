@@ -1,7 +1,7 @@
 ---
 title: Waiting
 added: 2026-10-21
-updated: 2026-11-04
+updated: 2026-11-14
 role: pattern
 evidence:
   - used
@@ -25,7 +25,8 @@ situation:
     to bring the result back to their attention. Waiting reports time the system genuinely
     needs, unlike the deliberate delays that
     [cognitive forcing functions](/patterns/cognitive-forcing-functions) introduce to slow down
-    premature acceptance…
+    premature acceptance. Work that is live while nobody waits on it, such as a run waiting for
+    its next trigger, shows a [run status](/patterns/run-status)…
 relationships:
   instantiates:
     - status-feedback
@@ -83,5 +84,4 @@ Search and generative systems often display current steps during a wait ("search
 
 ## To-do
 
-- Clarify whether "keep the run's status visible at a glance" in delegating work belongs here or in a separate monitoring pattern, since a scheduled or trigger-waiting run is active without anyone waiting on it.
 - Add a demo comparing indeterminate, step-based, and determinate indicators across a single request.

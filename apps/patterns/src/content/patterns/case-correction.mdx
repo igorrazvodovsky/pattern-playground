@@ -1,0 +1,89 @@
+---
+title: Case correction
+added: 2026-11-14
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+activityLevel: action
+mediation: individual
+description: "Letting the actor repair standing behaviour at the case it got wrong: this once, for cases like this from now on, or by changing the rule."
+situation:
+  initiating: >-
+    … a standing rule, filter, recommender, or agent has acted on a case the actor did not
+    want touched, or left alone one they did, and the actor is looking at that case: in the
+    result, in a [notification](/patterns/notification), or among the
+    [passed-over cases](/patterns/passed-over-cases). Even where a [trial run](/patterns/trial-run)
+    checked the rule beforehand, cases arrive in use that the trial did not meet, and the
+    governing logic sits in settings the actor seldom visits. Where the fault is in the wording
+    or shape of a generated draft rather than in a standing decision on a case, the repair is
+    an [instructed revision](/patterns/instructed-revision) of that output.
+  resulting: >-
+    The case is put right on the spot, and what governs future cases can stay as it is or
+    change from here. The smallest repair is an [undo](/patterns/undo) or a one-off skip that
+    leaves the standing behaviour untouched. An [explanation](/patterns/explanation) on the
+    case shows which rule, signal, or preference produced it, and is where a deeper change
+    starts. When an override should hold beyond this item, or when the same correction recurs
+    across cases, it opens [rule composition](/patterns/rule-composition) on the clauses that
+    matched this case or becomes a [standing instruction](/patterns/standing-instructions) in
+    the actor's own words. Where the actor can show the right handling on the case more easily
+    than state a rule for it, [tuning by demonstration](/patterns/tuning-by-demonstration)
+    takes the place of editing the rule. Dismissing a [suggestion](/patterns/suggestion) is the
+    same move at lower stakes, since the system only proposed the act. Standing exceptions that
+    build up out of sight can end up cancelling the rule they qualify, so the list of them
+    stays open to review…
+relationships:
+  follows:
+    - to: trial-run
+      note: case correction handles the live case that a trial run did not meet and the running rule got wrong
+  composed-of:
+    - explanation
+  complements:
+    - undo
+  precedes:
+    - to: standing-instructions
+      note: a case correction that keeps recurring is what a standing instruction is written from
+    - rule-composition
+  alternative:
+    - to: instructed-revision
+      note: case correction overrides a standing decision on a case, and instructed revision reshapes a generated output
+    - tuning-by-demonstration
+  related:
+    - suggestion
+  serves:
+    - to: delegation
+      note: covers the repair use of tuning tools in delegation's exception handling
+  enacts:
+    - to: agency
+      note: the actor overrules standing behaviour where they meet its mistake
+    - to: malleability
+      note: standing behaviour changes through small corrections made in use
+---
+
+* * *
+
+**When a standing rule, filter, recommender, or agent gets one case wrong, the actor meets the mistake on that case and wants it fixed there, with or without changing what happens next time. If the only remedy is to leave the work and edit the rule in settings, most people put up with the error or turn the automation off; if every one-off fix silently rewrites the rule, a temporary exception corrupts future behaviour.**
+
+Skipping a song and hiding it for good are different requests, and music services offer both on the track. A spellchecker's "Ignore once" and "Add to dictionary", a mail client's "Not spam" and "Filter messages like these", a browser blocker's "Allow this time" and "Always allow on this site", and a feed's "Not interested" and "Don't recommend channel" all separate the immediate override from the standing change, and put both on the item itself. That separation is what keeps [delegation](/patterns/delegation) workable once a rule or model starts making mistakes in use.
+
+Therefore,
+
+**Put the repair on the case itself, and separate fixing this case now from changing what happens next time. Offer, in rising order of commitment: undo or skip this once; make a standing exception for this item or attribute in either direction; or change the rule or preference that produced it, starting from an explanation of why this case matched. Accept the smaller corrections in one gesture without demanding a reason, while letting the actor narrow why if they choose.**
+
+Keep standing exceptions in a list the actor can review and clear, so overrides accumulated one by one do not silently cancel the rule they qualify.
+
+## Research on this pattern
+
+- Separating a one-off override from a standing change: when a learning thermostat treated every manual adjustment as a change to the standing schedule, [temporary exceptions corrupted future behaviour and people hesitated to adjust it at all](https://doi.org/10.1145/2493432.2493489) — the basis for keeping "this once" distinct from an exception or rule change.
+- Correcting the reasons on the case rather than only relabelling the item: when a classifier showed why it predicted a label on a single item and let the actor adjust those reasons, [actors formed a more accurate picture of the system's logic and fixed mistakes with far fewer corrections than through item-level feedback alone](https://doi.org/10.1145/2678025.2701399) — the basis for starting a rule or preference change from the case's explanation.
+- Reliance after seeing a mistake: people who saw a forecasting algorithm err abandoned it when they had to take or leave its output whole, and [kept using it when they could modify what it did, even slightly](https://doi.org/10.1287/mnsc.2016.2643).
+
+## Resources & references
+
+- Noessel (2017) [Designing agentive technology](https://rosenfeldmedia.com/books/designing-agentive-technology/) — skipping a case, exception lists in both directions, and changing a rule from the case that broke it
+- Yang & Newman (2013) [Learning from a learning thermostat: lessons for intelligent systems for the home](https://doi.org/10.1145/2493432.2493489) — one-off overrides mistaken for standing schedule changes
+- Kulesza, Burnett, Wong & Stumpf (2015) [Principles of explanatory debugging to personalize interactive machine learning](https://doi.org/10.1145/2678025.2701399) — corrections made on the explanation of a single prediction
+- Dietvorst, Simmons & Massey (2018) [Overcoming algorithm aversion: people will use imperfect algorithms if they can (even slightly) modify them](https://doi.org/10.1287/mnsc.2016.2643)
+

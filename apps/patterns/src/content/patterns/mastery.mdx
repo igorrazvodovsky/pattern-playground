@@ -42,6 +42,11 @@ relationships:
       note: key enabler of mastery, accessible to intermediates
     - to: settings
       note: where customisation lives
+    - to: handoff
+      note: mastery's retention keeps the actor able to do the work a handoff returns to them
+  related:
+    - to: human-goes-first
+      note: human goes first keeps one judgement in use at the moment of a decision, and mastery's retention keeps a whole handed-over task in use
 ---
 While [onboarding](/patterns/onboarding) focuses on *initial* [learning](/patterns/learnability), mastery focuses on *extended* learnability—building proficiency for the subset of users who become experts.
 
@@ -79,6 +84,17 @@ Retention mechanisms address the forgetting curve for infrequently-used but impo
 - *Spaced re-exposure:* Gradually surface advanced features as foundations solidify
 - *Decision echoes:* Show past decisions when users return to complex areas
 
+### Skills handed over
+
+Work handed to an agent stops being practised, and the actor is still expected to take it back through a [handoff](/patterns/handoff) when the agent fails or reaches its limits. The better the agent, the less often that happens and the less able the actor is when it does. Asking them to watch closely is no substitute: people can watch a system for a rare event for about half an hour before they start missing it.
+
+- *A share kept back:* Leave part of the real work with the actor, such as some of the cases or one area of the whole
+- *A scheduled turn:* Return the whole task to the actor at intervals they can plan for, with the agent assisting
+- *Rehearsal on a copy:* Where the real thing cannot be risked, practise on a copy or a simulation, including the takeover itself
+- *Not a drill:* When a real takeover is asked for, say plainly that it is not practice
+
+Practice spends some of the time that delegating saved, so it is kept for the skills whose loss would be costly. [Human goes first](/patterns/human-goes-first) does the same thing at the size of a single decision, and supplies the comparison between what the actor did and what the system would have done.
+
 
 {/* ## Variants */}
 
@@ -98,4 +114,9 @@ Retention mechanisms address the forgetting curve for infrequently-used but impo
 - [About Face](https://en.wikipedia.org/wiki/Alan_Cooper_(software_designer)#About_Face) (Cooper et al.) on *perpetual intermediates*
 - Brenda Laurel (2013) *Computers as Theatre*, 2nd ed.
 - Carroll, J. M., & Rosson, M. B. (1987). [The Paradox of the Active User](https://www.semanticscholar.org/paper/Paradox-of-the-active-user-Carroll-Rosson/f560d34c1266abdea5a6fd2ddc11961995acf1a3)
+- Bainbridge (1983) [Ironies of automation](https://doi.org/10.1016/0005-1098(83)90046-8) — the operator asked to take over is the one automation has left out of practice
+- Endsley & Kiris (1995) [The out-of-the-loop performance problem and level of control in automation](https://doi.org/10.1518/001872095779064555)
+- Casner, Geven, Recker & Schooler (2014) [The retention of manual flying skills in the automated cockpit](https://doi.org/10.1177/0018720814535628) — hand skills hold up, and the thinking that goes with them fades
+- [FAA SAFO 13002 — manual flight operations](https://www.faa.gov/sites/faa.gov/files/other_visit/aviation_industry/airline_operators/airline_safety/SAFO13002.pdf)
+- Noessel (2017) [Designing agentive technology](https://rosenfeldmedia.com/books/designing-agentive-technology/) — practice for takeover, and playing alongside the agent
 - Mayer, R. E., & Moreno, R. (2003). [Nine ways to reduce cognitive load in multimedia learning](https://www.tandfonline.com/doi/abs/10.1207/S15326985EP3801_6). Educational Psychologist, 38(1), 43-52.

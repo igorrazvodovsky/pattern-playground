@@ -1,58 +1,146 @@
 ---
 title: Handoff
 added: 2026-08-07
-updated:
+updated: 2026-11-14
 role: pattern
 seed: true
 evidence:
   - observed
-disclosure: "Seeded from looking at different AI pattern libraries and sorting them out. It’s not quite ready yet because I haven’t had a chance to consider it closely."
+  - literature
+  - used
 activityLevel: action
+mediation: coordination
+description: "Passing active responsibility for in-progress work between an agent and a person—or from one person to another—with a structured brief of what was done, what remains, and why it is changing hands, plus an explicit acknowledgment of who holds the watch."
+acts_on:
+  - { concept: conversation-for-action }
 situation:
   initiating: >-
-    whoever currently holds the work — agent or actor — cannot or should not continue: a
-    bound was crossed, confidence ran out, a judgement call arrived, or the actor simply
-    wants it back
-  resulting:
-    - >-
-      control moves with its context attached — what was done, what remains, why the
-      transfer — so the receiver continues the work instead of restarting it
-    - >-
-      the seam is where accountability changes hands, and where it is most easily lost:
-      after a transfer, each side can believe the other is watching
-    - >-
-      transfers have a rate above which delegation stops paying for itself; a system that
-      hands back constantly was never really delegated to
+    … work is under way—assigned to an [agent](/patterns/agent) in
+    [governing autonomy](/sequences/governing-autonomy) or
+    [keeping a standing agent](/sequences/keeping-a-standing-agent), or carried by a participant
+    in [working on the same thing](/sequences/working-on-the-same-thing)—and whoever holds it
+    cannot or should not continue alone. A limit set in
+    [bounded autonomy](/patterns/bounded-autonomy) was reached, or an
+    [early warning](/patterns/early-warning) announced that one was approaching; confidence ran
+    out; a step arrived that requires human credentials or a colleague's review; or the actor
+    stepped in to take over. When the trouble is only a missing parameter or an ambiguous
+    instruction, [agent repair](/patterns/agent-repair) resolves it in place and keeps the
+    current holder going. When the goal itself is abandoned, [abort](/patterns/abort) halts the
+    run rather than passing it on. And when the actor suspends standing work without taking it on
+    themselves, [pause](/patterns/pause) holds it in place.
+  resulting: >-
+    Control and context move together as an inspectable transfer object. The transition closes
+    only when the receiver accepts or declines it in a set form through
+    [status feedback](/patterns/status-feedback), and [deep linking](/patterns/deep-linking)
+    carries them directly into the state and item where the work stopped. When the receiver is
+    not already looking at the surface, the request reaches them as a
+    [notification](/patterns/notification). Where the transfer has to find a human owner, admin,
+    or support specialist outside the current run, [reaching a person](/patterns/reaching-a-person)
+    names who can act and opens the channel to them. The full trail behind the brief stays open
+    to inspection in the [activity log](/patterns/activity-log), and every handoff, acceptance,
+    and return is signed through [attribution](/patterns/attribution) so the record shows who
+    held the work at each point. Where the actor may need to step in and do the task themselves,
+    [mastery](/patterns/mastery) keeps the underlying skill in practice. Once the actor takes
+    over to work directly on the artefact, [editing in place](/patterns/editing-in-place) gives
+    them the surface to act on. If the agent could have continued once a limit was raised or a
+    single action authorised, an [approval gate](/patterns/approval-gate) handles the checkpoint
+    without transferring the rest of the task. When a temporary takeover is never returned to the
+    agent and stays held indefinitely, [standing down](/patterns/standing-down) eventually asks
+    whether the standing arrangement should end. In sustained
+    [collaboration](/patterns/collaboration), passing control stops being an exception boundary
+    and becomes routine turn-taking…
 relationships:
+  follows:
+    - agent
+  alternative:
+    - agent-repair
+    - abort
+    - pause
+    - approval-gate
+  complements:
+    - status-feedback
+    - deep-linking
+    - notification
+    - reaching-a-person
+    - activity-log
+    - mastery
+    - attribution
+  precedes:
+    - editing-in-place
+    - standing-down
+  tangential:
+    - collaboration
   serves:
     - to: delegation
       note: covers the handoff-and-takeback station of delegation's lifecycle
-  related:
-    - to: agent-repair
-      note: repair keeps the current holder going; handoff gives up on the current holder without giving up on the work
-    - to: abort
-      note: abort ends the work; handoff continues it in other hands
-    - to: collaboration
-      note: in sustained co-work the transfer becomes routine turn-passing rather than an exception
-    - to: notification
-      note: a handoff to an actor who isn't watching arrives as a notification
   enacts:
     - to: agency
-      note: control is explicitly held, passed, and reclaimable rather than ambient
+      note: control is explicitly held, passed, and reclaimable rather than left ambiguous between actor and system
 ---
-Control of in-progress work passes between system and actor — in either direction — with enough context that the receiver can carry on where the giver stopped.
 
-<Figure name="handoff" />
+{/* <Figure name="handoff" /> */}
 
-## Forms
+* * *
 
-Recurring forms: escalation to the actor when the agent's confidence or authority runs out, actor takeback mid-run, escalation from an automated channel to a human one, and the scheduled return of finished-but-unreviewed work.
+**When in-progress work has to change hands—because an agent reached a limit, an automation hit a step only a person can do, or one collaborator is passing a task to another—a bare transfer either drops the context or dumps an unreadably long history on the receiver.**
+
+When an agent or a person has been working out of sight under [delegation](/patterns/delegation), the incoming receiver starts out of the loop. They lack a working picture of what was tried, what constraints were discovered, and what changed in the environment. Giving them nothing forces the actor or customer to repeat themselves from the beginning—the cold transfer that makes people abandon support bots. Dumping the raw execution trace or a fifty-message transcript fails in the opposite direction: under time pressure, receivers skim past critical constraints buried in the middle. What works across shift handovers and support escalations is pairing a short, structured brief at the top—stating the goal, what is already done and verified, why the transfer is happening now, and what specific next step is needed—with one-click access to the underlying [activity log](/patterns/activity-log) or transcript. Stating why the automation stopped also keeps trust calibrated: an actor told why a system handed back control understands its limits instead of treating the transfer as a random failure.
+
+Every handoff carries a coordination cost. If an agent hands work back so often that the actor spends more effort reading handover briefs than doing the task directly, delegation stops paying for itself and the limits set in [bounded autonomy](/patterns/bounded-autonomy) need widening or the task belongs in direct [assistance](/patterns/assistance).
+
+Therefore,
+
+**Treat every transfer of control as an explicit object rather than a silent state change. Attach a structured brief—the goal, what has been done, why control is changing hands now, and what action is needed next—linked directly to the live state of the work and its full history. Address the handoff to a named receiver, state how the work behaves while waiting to be picked up, and shift responsibility only when the receiver explicitly accepts it. When the transfer is a temporary intervention in ongoing agent work, keep a one-step path to return the work right beside the task.**
+
+## In practice
+
+### Escalating from an agent to a person
+
+An agent hands work to the actor—or to a human operator—when its confidence falls below a threshold, when a policy or [bounded autonomy](/patterns/bounded-autonomy) rule forbids the next action, when an external tool requires human authentication, or when the person explicitly asks to take over:
+
+- *Keep the promise of an early warning.* A handoff that was preceded by an [early warning](/patterns/early-warning) goes smoothly only if the handoff honours what the warning announced—holding at the stated threshold and asking for the exact intervention the actor was told to prepare for.
+- *Package the brief above the trace.* Show the four-part summary (intent, completed and verified steps, trigger reason, required action) above the fold, with the full conversation or execution trace expandable below. Distinguish verified facts from the agent's unverified assumptions so the human does not inherit a hallucination as ground truth.
+- *Handle unanswered handoffs explicitly.* When handing off to an asynchronous person or a team queue, address the request to one person rather than everyone, show a clear waiting state, and define a timeout policy: escalate to the next person on call, hold safely in [pause](/patterns/pause), or—where a delayed reply costs more than an imperfect one—let the agent proceed with a bounded fallback (such as Intercom's Fin sending its own draft if a teammate does not answer within the time limit).
+
+### Actor takeback mid-run
+
+When the actor interrupts a running agent to take over—because they see the run drifting in [live presentation](/patterns/live-presentation) or simply prefer to handle a step by hand—halt the agent's actions immediately at a clean step boundary. Do not discard what the agent has assembled so far: surface the partial work and state clearly which changes have already been committed and which were still staged, so the actor can continue on the surface through [editing in place](/patterns/editing-in-place) rather than cleaning up a half-applied state.
+
+### Returning the work to the agent
+
+Most handoffs to the actor during delegated work are temporary: the actor signs in, resolves an edge case, or overrides a schedule for an afternoon, and the agent is meant to carry on afterwards. Products differ on the return in three ways:
+
+- *Who initiates the return.* Where the human's task has an unmistakable completion event and a wrong resumption costs little—such as completing a sign-in or CAPTCHA in a cloud browser, or answering a single teammate question—the agent can detect completion or immediately offer to resume. Where the actor may still be working across several steps, the agent should signal that it is ready and wait rather than grabbing the controls back. Where the override is time-bounded, such as a manual hold on a smart thermostat, let the actor choose the return rule at the moment they take over: resume at the next scheduled change, after a set number of hours, or only when told.
+- *How the actor agrees.* The actor has just handled the step the agent could not, and their focus is on the work itself. Returning control should take a single action right where they are working—clicking "Continue run" on the paused banner, sending the reply, or pressing resume—never a trip into [settings](/patterns/settings) to re-enable the automation.
+- *What happens right after.* Because the agent recently hit a limit or failed at this task, trust is lower immediately after a return. Confirm what the agent is resuming and under which limits, show its next actions with fuller [run status](/patterns/run-status) or [transparent reasoning](/patterns/transparent-reasoning) for a short period, and keep taking over again one step away. If the actor never returns the work—leaving an automation paused after a fault or a schedule on permanent hold—keep the held state visible through [pause](/patterns/pause) and let [standing down](/patterns/standing-down) eventually check whether the standing arrangement should be closed cleanly.
+
+### Person-to-person handoff in shared work
+
+When collaborators pass work to one another—assigning an issue, requesting a [change review](/patterns/change-review), or handing over a shift—the same structure applies. Make the transfer a trackable object rather than a chat mention that scrolls away: bind a [deep link](/patterns/deep-linking) to the exact view and item, name the requested responsibility (*review*, *approve*, *resolve*, *complete*), and let the recipient answer in a set [status feedback](/patterns/status-feedback) form (*accepted*, *declined*, *changes requested*, *done*) so both sides can see who currently holds the item.
+
+## Research on this pattern
+
+- High-consequence shift handovers: studying mission control, nuclear power plants, railroad dispatch, and ambulance dispatch, [Patterson, Roth, Woods, Chow & Gomes (2004)](https://doi.org/10.1093/intqhc/mzh026) identified core handover strategies that prevent dropped responsibility: face-to-face or synchronous read-back where possible, standardised summary ordering, reviewing captured records before the transfer, unambiguous triggers for when responsibility officially shifts, and making it clear to everyone else in the workspace who now holds the console.
+- Out-of-the-loop performance and bumpy transfers: [Bainbridge (1983)](https://doi.org/10.1016/0005-1098(83)90046-8) and [Endsley & Kiris (1995)](https://doi.org/10.1518/001872095779064555) showed that passive supervisors lose situation awareness and take significantly longer to orient and act when automation abruptly hands back control. [Woods & Sarter (2000)](https://doi.org/10.1201/9781003064909-14) describe the failure mode as a *bumpy transfer of control*: automation compensates silently until it runs out of authority and drops the problem on an unprepared human at the worst moment, which [early warning](/patterns/early-warning) and structured context briefs are designed to prevent.
+- Explaining why the handoff happened: in conditionally automated driving, [Körber, Prasch & Bengler (2018)](https://doi.org/10.1177/0018720817747730) found that explaining the reason for a takeover request significantly increased actors' understanding of system limits and prevented trust from collapsing across the rest of the system.
+- Conversational escalation and context preservation: in customer-service chatbots, [Følstad & Skjuve (2019)](https://doi.org/10.1145/3342775.3342784) and [Ashktorab, Jain, Liao & Weisz (2019)](https://doi.org/10.1145/3290605.3300484) show that users tolerate narrow bot capabilities when the system recognises breakdown early and offers a smooth escalation path to a human agent with the conversation history intact, whereas forcing users to repeat context or trapping them in repair loops causes abandonment.
 
 ## Resources & references
 
+- Patterson, Roth, Woods, Chow & Gomes (2004) [Handoff strategies in settings with high consequences for failure: lessons for health care operations](https://doi.org/10.1093/intqhc/mzh026), *International Journal for Quality in Health Care*
+- Endsley & Kiris (1995) [The out-of-the-loop performance problem and level of control in automation](https://doi.org/10.1518/001872095779064555), *Human Factors*
+- Endsley (2017) [From here to autonomy: lessons learned from human–automation research](https://doi.org/10.1177/0018720816681350), *Human Factors*
+- Woods & Sarter (2000) [Learning from automation surprises and "going sour" accidents](https://doi.org/10.1201/9781003064909-14), in *Cognitive Engineering in the Aviation Domain*
+- Bainbridge (1983) [Ironies of automation](https://doi.org/10.1016/0005-1098(83)90046-8), *Automatica*
+- Körber, Prasch & Bengler (2018) [Why do I have to drive now? Post hoc explanations of takeover requests](https://doi.org/10.1177/0018720817747730), *Human Factors*
+- Følstad & Skjuve (2019) [Chatbots for customer service: user experience and motivation](https://doi.org/10.1145/3342775.3342784), CUI '19
+- Ashktorab, Jain, Liao & Weisz (2019) [Resilient chatbots: repair strategy preferences for conversational breakdowns](https://doi.org/10.1145/3290605.3300484), CHI '19
+- Noessel (2017) [Designing agentive technology](https://rosenfeldmedia.com/books/designing-agentive-technology/) — handoff and takeback, readiness signals, task-intrinsic agreement, post-return reassurance, and targeted escalation alarms
+- [OpenAI — Using cloud browser in ChatGPT](https://help.openai.com/en/articles/20001280) — browser agent pauses at sign-in and sensitive checkpoints, hands control to the actor in the live view, and resumes once the step is completed
+- [Intercom — Ask a teammate for help with Fin's replies](https://www.intercom.com/help/en/articles/16198358-ask-a-teammate-for-help-with-fin-s-replies-human-in-the-loop) — a question handed to a teammate and returned to the agent, with a timeout fallback
+- [Carrier — What does hold mean on a thermostat?](https://www.carrier.com/us/en/residential/hvac-resources/smart-thermostats/what-does-hold-mean-on-thermostat/) — temporary holds (until next schedule change or for a set duration) versus permanent holds
+- [Zapier status — Zap error notifications](https://status.zapier.com/incidents/01KQZ4FRSDVSVE53CFEJYSVFNP) — automations paused on repeated faults, requiring manual re-enabling
 - [AI UX Playground — Human Handoff](https://www.aiuxplayground.com/pattern/human-handoff), [Escalation Thresholds](https://www.aiuxplayground.com/pattern/escalation-thresholds)
 - [aiuxdesign.guide — Graceful Handoff, Escalation Pathways](https://aiuxdesign.guide)
 
-## To-do
 
-The context-transfer half (what travels with the work) is thinner in the catalogues than the trigger half; ground it in support-desk escalation practice, which predates AI.
