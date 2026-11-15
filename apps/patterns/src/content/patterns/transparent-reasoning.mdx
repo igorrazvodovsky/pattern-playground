@@ -47,7 +47,7 @@ relationships:
       note: Transparent reasoning makes AI decision-making processes inspectable for human collaborators
 ---
 
-The exposure of an [agent's](/patterns/agent) reasoning process as a legible trail of steps and decisions, transforming opaque computation into something the actor can inspect, trust, and challenge over time.
+The exposure of an [agent's](/patterns/agent) reasoning process as a legible trail of steps and decisions, transforming opaque computation into something the actor can inspect, trust, and challenge over time. The pattern applies where the output took several steps to reach. A single-move output, such as a completion or a label, usually has no trail to show; what it needs is an [explanation](/patterns/explanation) of why, rather than a narrated sequence of steps.
 
 Steps are arranged sequentially — like a conversation or narrative — with separation between user inputs, model responses, and intermediate reasoning. Actors can scroll, expand, comment on, or revisit earlier steps, and if needed, branch the thread to explore alternatives.
 

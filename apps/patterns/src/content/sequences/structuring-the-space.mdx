@@ -1,7 +1,7 @@
 ---
 title: "Structuring the space"
 added: 2026-08-28
-updated: 2026-09-27
+updated: 2026-11-15
 description: "Turning a settled information architecture into a space that is partitioned, navigable, and addressable."
 order: 1
 presupposes: >-
@@ -23,17 +23,19 @@ sub-sequences:
           Draw the boundaries where attention and responsibility divide. A
           context also decides who can see what it holds, so usually
           the permission lines come first and the attention lines follow.
-          Decide the switcher between contexts here too. Where the work
-          forms one context, say so and move on.
+          Decide a switcher here too, one for each axis the contexts divide
+          on, such as organisation and project; how a change in a
+          context the actor is not looking at reaches them is decided in
+          [attention and tempo](/sequences/attention-and-tempo). Where the
+          work forms one context, say so and move on.
         constituents:
           - slug: hub-and-spoke
             note: "the switcher over the contexts: the workspace list is the hub and each context a spoke"
       - choice: "Recognise what kind of space each context is"
-        exclusive: true
         gloss: >-
           Read the kind from what each context holds and how the actor moves
           through it: one continuous space, an ordered sequence, one
-          collection, or sections that differ in kind. Take one arm per
+          collection, or sections that differ in kind. Pick one arm per
           region, where a region begins wherever the movement rule changes: a
           file browser and the open file are two regions of one workspace.
           Recognise again per platform, since the same space is often a hub
@@ -43,30 +45,32 @@ sub-sequences:
           done or cancel is a corridor, decided in the routing choice of
           [making changes](/sequences/making-changes).
         alternatives:
-          - step: "Navigate by viewport"
+          - step: "Move a viewport over one continuous space"
             rule: pan-and-zoom
             gloss: >-
               One continuous space. Make position and scale nameable, so the
-              addressing steps can give them addresses.
+              addressing steps can give them addresses. A second, wider
+              viewport kept in step with this one is decided in
+              [composing views](/sequences/composing-views#splitting).
           - step: "Prescribe the order"
             rule: step-by-step
             gloss: >-
               An ordered sequence whose later steps depend on earlier ones.
               What has been entered has to survive a stop: the addressing
               steps give each step an address, and keeping the entered state
-              is handed to [memory and continuity](/sequences/memory-and-continuity).
-          - step: "Offer the sequence, allow jumps"
+              is handed to [memory and continuity](/sequences/memory-and-continuity#return).
+          - step: "Lay out the steps in order and allow jumps"
             rule: pyramid
             gloss: >-
               An ordered sequence without dependencies. The actor expects
               their progress remembered, which is handed to
               [memory and continuity](/sequences/memory-and-continuity).
-          - step: "Dissolve into the collection"
+          - step: "Treat the context as one collection"
             rule: overview-detail
             gloss: >-
               One collection browsed item by item. There is no topology to
-              choose, and the design continues in
-              [composing views](/sequences/composing-views).
+              choose, and the design continues in the splitting steps of
+              [composing views](/sequences/composing-views#splitting).
           - step: "File into a hierarchy"
             rule: multilevel-tree
             gloss: >-
@@ -78,7 +82,7 @@ sub-sequences:
             rule: flat-navigation
             gloss: >-
               Tools that differ in kind but fit on one surface.
-          - step: "Connect everything to everything"
+          - step: "Link every section to every other"
             rule: fully-connected
             gloss: >-
               Sections that differ in kind, with routine journeys between
@@ -99,26 +103,18 @@ sub-sequences:
       - step: "Give every state worth returning to an address"
         rule: deep-linking
         gloss: >-
-          Address each of those states, including the step reached and the
-          position and scale named by the layout arms. Decide which job each
-          value in the address does: identify the thing, narrow the view, or
-          point inside it. Leave out what the actor set once for themselves.
+          Address each of the states the layout produced, including the step
+          reached and the position and scale named by the layout arms, and
+          decide which job each value in the address does: identify the thing,
+          narrow the view, or point inside it. Leave out what the actor set once
+          for themselves. Decide which of the layout's moves get a Back step
+          (switching context, opening an item, moving within a space); moves a
+          view makes on its own, such as a filter changed or a panel opened,
+          belong to [composing views](/sequences/composing-views). Add a
+          copy-link control wherever a surface has no address bar of its own.
           Every address issued has to keep resolving, which the growth steps
-          have to honour.
-      - step: "Decide which changes deserve a Back step"
-        rule: deep-linking
-        aspect: "its history dimension"
-        gloss: >-
-          Decide over the moves the layout produces: switching context,
-          opening an item, moving within a space. Moves a view makes on its
-          own, such as a filter changed or a panel opened, belong to
-          [composing views](/sequences/composing-views).
-      - step: "Expose the link"
-        rule: deep-linking
-        aspect: "its sharing surface"
-        gloss: >-
-          Add a copy-link control wherever the layout produced a surface with
-          no address bar of its own.
+          honour and [link previews](/sequences/composing-views#cross-references)
+          rely on.
   - id: growth
     title: "Growing past the model"
     initiating: >-
@@ -129,12 +125,13 @@ sub-sequences:
       lives. The topologies are weighed against each other here, for the
       region that hurts.
     steps:
-      - choice: "Step up within the family"
-        exclusive: true
+      - choice: "Change the model of the region that hurts"
         gloss: >-
-          Take one arm per pain, re-running the recognition over that region
+          Pick one arm per pain, re-running the recognition over that region
           alone. Count the actors' relearning as part of the cost, since every
-          arm changes a model they have learned.
+          arm changes a model they have learned. Where the genre makes a
+          pain foreseeable, as sideways traffic is in documentation, take
+          its arm at layout.
         alternatives:
           - step: "Split the surface into a hub and spokes"
             rule: hub-and-spoke
@@ -171,45 +168,8 @@ sub-sequences:
           the whole.
       - step: "Keep named states resolving"
         rule: deep-linking
-        aspect: "its contract"
         gloss: >-
           Make the reorganised space answer at every address it ever issued.
-connections:
-  - kind: hands-off
-    at: layout
-    to: composing-views
-    via: workspace
-    note: "the layout gives composing views a surface to host its views"
-  - kind: hands-off
-    at: layout/1
-    to: attention-and-tempo
-    via: notification
-    note: "partitioned work is somewhere the actor is not looking, so changes there have to reach across the boundary"
-  - kind: hands-off
-    at: layout/2
-    to: composing-views/splitting
-    via: overview-detail
-    note: "the collection arm has no topology to choose, and the design continues in that sequence's splitting steps"
-  - kind: hands-off
-    at: layout/2
-    to: composing-views/splitting/4
-    via: pan-and-zoom
-    note: "a continuous space needs a second, wider viewport kept in step, which that sequence's coupling step provides"
-  - kind: hands-off
-    at: layout/2
-    to: making-sense-at-scale
-    via: purpose-keyed-view
-    note: "the hub is the natural place to report across the spokes, and what to show there is decided in that sequence"
-  - kind: hands-off
-    at: layout/2
-    to: memory-and-continuity/return/1
-    via: step-by-step
-    note: "the ordered arms leave a step reached and progress made, which that sequence keeps across a stop"
-  - kind: hands-off
-    at: addressing/1
-    to: composing-views/cross-references
-    via: link-preview
-    note: "a link can be previewed in place only when its target has an address that resolves"
 ---
 
 The actor's objects, activities, and labels have names, and the space they

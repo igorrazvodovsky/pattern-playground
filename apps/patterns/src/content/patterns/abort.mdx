@@ -22,10 +22,11 @@ situation:
       whatever the sequence collected is now a loose end — a part-filled draft,
       a half-applied change — and the actor has to be able to see it to decide
       whether it stays
+    - clause: >-
+        changes applied before the halt stay applied; abort states them and
+        does not reverse them, so each one still needs a way back
+      sets-up: [undo]
 relationships:
-  related:
-    - to: undo
-      note: related non-destructive exit; offer undo and restore affordances when state has been modified
   enables:
     - conversation
   alternative:

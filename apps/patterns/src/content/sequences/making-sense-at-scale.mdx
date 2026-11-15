@@ -1,7 +1,7 @@
 ---
 title: "Making sense at scale"
 added: 2026-08-29
-updated: 2026-09-27
+updated: 2026-11-15
 description: "Work through a collection too large for one view: decide how detail and the overview share the screen, let the actor mark items while reading, and save the views that answer recurring questions."
 order: 3
 presupposes: >-
@@ -28,7 +28,7 @@ sub-sequences:
             rule: overview-detail
             gloss: >-
               Show the overview and the detail as two linked views. The
-              splitting steps of [composing views](/sequences/composing-views)
+              splitting steps of [composing views](/sequences/composing-views#splitting)
               continue from here.
           - step: "Change the representation with scale"
             rule: semantic-zoom
@@ -55,7 +55,8 @@ sub-sequences:
               full text, instead of writing them in advance. For a whole
               collection, generate an overview that helps the actor gather
               items rather than judge them, and link every claim in it to its
-              source.
+              source, as set up in
+              [calibrating reliance](/sequences/calibrating-reliance#evidence).
       - step: "Show the difference directly"
         rule: comparing
         optional: true
@@ -91,14 +92,8 @@ sub-sequences:
             gloss: >-
               Let the actor apply reusable labels, several per item if
               needed, and accept near-synonyms while the vocabulary settles.
-              Each label becomes a facet to filter by.
-      - step: "Offer structure once the marks show it"
-        rule: incremental-formalisation
-        gloss: >-
-          When marks have accumulated, offer to add structure: merge
-          near-synonyms, confirm the vocabulary, turn a recurring label into
-          a field, or turn list-like prose into a list. Offer these changes
-          rather than applying them automatically, and make them reversible.
+              Each label becomes a facet that the framing steps of
+              [composing views](/sequences/composing-views#framing) filter by.
       - step: "Share selected marks with others"
         rule: commenting
         optional: true
@@ -106,8 +101,18 @@ sub-sequences:
           For the few marks that need a reply, rewrite the note and its
           anchor so that someone else can find and understand them; making
           private marks visible as they are is not enough. A shared mark
-          becomes a thread others can reply to. Skip this step when the actor
+          becomes a thread others can reply to and resolve, as in
+          [working on the same thing](/sequences/working-on-the-same-thing#contribution). Skip this step when the actor
           is the only reader.
+      - step: "Offer structure once the marks show it"
+        rule: incremental-formalisation
+        gloss: >-
+          When marks have accumulated, offer to add structure: merge
+          near-synonyms, confirm the vocabulary, turn a recurring label into
+          a field, turn list-like prose into a list, or give a passage that
+          people keep referring to an identity of its own, keeping its place
+          and its thread. Offer these changes rather than applying them
+          automatically, and make them reversible.
   - id: curation
     title: "Saving useful views"
     initiating: >-
@@ -119,7 +124,6 @@ sub-sequences:
     steps:
       - step: "Save the view that answered the question"
         rule: data-view
-        aspect: "its saved-views dimension"
         gloss: >-
           Save the view under a name, as a saved search, a smart folder, or a
           label opened as a view, for one person, for a role, or as the
@@ -130,8 +134,9 @@ sub-sequences:
           Give each recurring purpose behind the saved views, such as a quick
           check, a review, or a follow-up, its own view, and keep the general
           view reachable from each. When the system offers a view on its own
-          schedule, treat it as an interruption and show where its contents
-          come from.
+          schedule, treat it as an interruption, graded in
+          [attention and tempo](/sequences/attention-and-tempo), and show where
+          its contents come from.
       - step: "Write the judgement down as rules"
         rule: problem-curated-view
         optional: true
@@ -146,36 +151,6 @@ sub-sequences:
       views removed, rules corrected, and the general view kept one step
       away. The marks and saved views are now part of the collection, and
       the next actor starts from them.
-connections:
-  - kind: hands-off
-    at: lens/1
-    to: composing-views
-    via: overview-detail
-    note: "the split-view option continues in that sequence's splitting steps, which cover how the two views are paired and kept in sync"
-  - kind: calls
-    at: lens/1
-    to: calibrating-reliance
-    via: citation
-    note: "a generated summary, outline, or overview is an AI surface whose claims link back to their sources, which that sequence sets up for each surface"
-  - kind: hands-off
-    at: marking/1
-    to: composing-views
-    via: filtering
-    note: "an applied label is a facet that sequence's framing steps filter by"
-  - kind: hands-off
-    at: marking/3
-    to: working-on-the-same-thing
-    via: status-feedback
-    note: "threads need someone to close them, and that sequence covers the review conversation itself"
-  - kind: hands-off
-    at: curation/1
-    to: working-on-the-same-thing
-    note: "a named view shared with the team passes on how the collection is organised, which often helps the next actor more than the content itself"
-  - kind: hands-off
-    at: curation/2
-    to: attention-and-tempo
-    via: notification
-    note: "a view the system offers on its own, such as a weekly view or a digest of flags, arrives as an event, and that sequence decides how prominently to show it"
 ---
 
 An actor is working with a collection too large to take in through one view. They do not yet know exactly what they are looking for, so they cannot simply search or filter for it.

@@ -18,7 +18,6 @@ const rule = step.rule ? patternRef(titles, step.rule) : undefined;
     <Fragment>
       {' — '}
       {rule.href ? <a href={rule.href}>{rule.label}</a> : rule.label}
-      {step.aspect && <em>, {step.aspect}</em>}
     </Fragment>
   )}
   {step.optional && (

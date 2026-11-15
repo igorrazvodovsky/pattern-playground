@@ -1,7 +1,7 @@
 ---
 title: "Governing autonomy"
 added: 2026-08-29
-updated: 2026-09-27
+updated: 2026-11-15
 description: "Set clear limits on what an agent may do on its own, add checkpoints where mistakes would be costly, hand work back and forth without losing context, and keep a record so the next set of limits is based on evidence."
 order: 7
 presupposes: >-
@@ -69,7 +69,9 @@ sub-sequences:
           review of changes from delegated work, and a limit that has been
           reached. Approving makes the actor responsible for the outcome,
           which is why the record later needs to show what each approval
-          covered.
+          covered. Where the record shows approvals given without review, add
+          the friction from
+          [calibrating reliance](/sequences/calibrating-reliance#acceptance).
       - step: "Keep the run within what was approved"
         gloss: >-
           If the agent starts doing something the approval did not cover,
@@ -87,8 +89,10 @@ sub-sequences:
       - choice: "Decide what happens to the paused run"
         gloss: >-
           Decide for each pause. Two other outcomes lead out of this
-          sequence: the actor takes over the work directly, or gives up on
-          the goal.
+          sequence: the actor takes over the work directly, in
+          [making changes](/sequences/making-changes#routing), or gives up on
+          the goal, which stops the work and lists what it changed, as the
+          abort in [the encounter](/sequences/the-encounter#trouble) does.
         alternatives:
           - step: "Extend the limit and continue"
             rule: approval-gate
@@ -102,12 +106,14 @@ sub-sequences:
             gloss: >-
               Pass the work on with its context: what has been done, what is
               left, and why it was handed over. The person taking over may
-              be the actor, or someone with permissions or knowledge the
-              agent lacked. Make clear who is responsible for keeping watch
-              after the handover.
+              be the actor, whose skills
+              [learning](/sequences/learning#upkeep) has kept in use, or
+              someone with permissions or knowledge the agent lacked. Make
+              clear who is responsible for keeping watch after the handover,
+              and grade how the handover reaches someone who is not watching
+              in [attention and tempo](/sequences/attention-and-tempo).
       - step: "Hand the work back to the agent"
         rule: handoff
-        aspect: "its takeback direction"
         gloss: >-
           Treat giving the work back to the agent as a separate step. Confirm
           that whatever caused the pause has been dealt with, agree on what
@@ -126,10 +132,12 @@ sub-sequences:
         gloss: >-
           Record every limit set, approval given, handover, and limit
           reached, with who acted, what they did, what it applied to, and
-          when. The record should show exactly what each approval covered.
-      - step: "Adjust the limits based on the record"
+          when. The record should show exactly what each approval covered. It
+          is part of what
+          [memory and continuity](/sequences/memory-and-continuity#keeping)
+          keeps across sessions.
+      - step: "Widen or narrow the limits from the record"
         rule: bounded-autonomy
-        aspect: "its incremental regrant"
         gloss: >-
           Widen the limits after a history of runs without problems, and
           narrow them when the risk goes up. Make each change explicit and
@@ -140,40 +148,6 @@ sub-sequences:
       The actor decides how much the agent may do based on evidence. They
       are still responsible for work they only saw at its checkpoints, and
       that remains the cost of delegating.
-connections:
-  - kind: calls
-    at: gate/3
-    to: calibrating-reliance
-    via: cognitive-forcing-functions
-    note: "after many approvals, saying yes becomes a habit; that sequence adds friction so each approval stays a real decision, applied where the record shows approvals being given without review"
-  - kind: hands-off
-    at: transfer/1
-    to: making-changes/routing/2
-    via: editing-in-place
-    note: "when the actor takes over the paused work directly, they move from supervising to doing the work, and that sequence covers where they do it"
-  - kind: hands-off
-    at: transfer/1
-    to: the-encounter/trouble/2
-    via: abort
-    note: "giving up on the goal mid-run ends the work rather than handing it on; the work stops where it is, and the changes made so far are listed"
-  - kind: hands-off
-    at: transfer/1
-    to: working-on-the-same-thing
-    note: "the person taking over can be someone else, while handoff covers only handovers between a person and an agent"
-  - kind: hands-off
-    at: transfer/1
-    to: attention-and-tempo
-    via: notification
-    note: "when work is handed back to an actor who is not watching, it reaches them as an interruption, and that sequence decides how urgent it should be"
-  - kind: calls
-    at: transfer/2
-    to: learning
-    via: mastery
-    note: "taking work back only helps if the actor still has the skills to do it after delegating, and that sequence keeps those skills in use"
-  - kind: hands-off
-    at: account/1
-    to: memory-and-continuity
-    note: "the record of limits and approvals is part of what the collaboration keeps across sessions"
 ---
 
 The actor has handed work to an agent and now has to decide how much the

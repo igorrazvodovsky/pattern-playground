@@ -1,7 +1,7 @@
 ---
 title: "Calibrating reliance"
 added: 2026-08-29
-updated: 2026-10-31
+updated: 2026-11-15
 description: "Put evidence on AI output so there is something to check, make accepting it take a moment of judgement where the stakes call for it, and keep a record that shows whether trust matches accuracy."
 order: 6
 presupposes: >-
@@ -17,23 +17,25 @@ sub-sequences:
   - id: evidence
     title: "Making the output checkable"
     steps:
-      - step: "Mark what made it"
+      - step: "Mark machine-made content"
         rule: provenance-marking
         optional: true
         gloss: >-
           Decide first whether machine-made content is marked, because once
           anything is marked, unmarked content reads as human-made. Decide it
-          where the output travels, such as an export, a shared document, or
-          a mixed thread, and make the mark survive copying. Skip this where
+          where the output travels, such as an export, a mixed thread, or a
+          document whose contributions are signed per author in
+          [working on the same thing](/sequences/working-on-the-same-thing#visibility),
+          and make the mark survive copying. Skip this where
           the surface already shows its origin, as a conversation does.
-      - cluster: "Put the evidence on the claims"
+      - cluster: "Attach evidence to the claims"
         gloss: >-
           Three marks answer three questions about the same claims: where
           they came from, how sure the system is, and how it got there. Let
           the stakes decide which ones this surface carries, and use each
           only where its question is the one the actor would ask.
         steps:
-          - step: "Ground the claims"
+          - step: "Link claims to their sources"
             rule: citation
             gloss: >-
               Link each claim that needs it to the passage it rests on.
@@ -43,22 +45,21 @@ sub-sequences:
             constituents:
               - slug: link-preview
                 note: "lets a source be weighed without leaving the claim, with the passage as the first step and the document as the second"
-          - step: "Let the confidence show"
+          - step: "Show how sure the system is"
             rule: expressed-uncertainty
             gloss: >-
               Mark doubtful spans with hedges, ranges, or visual marks, so
               scrutiny lands where it is needed. A claim the grounding step
               could not link to anything needs this mark.
-          - step: "Expose the path"
+          - step: "Show the steps that produced the output"
             rule: transparent-reasoning
             optional: true
             gloss: >-
               Where the output was reached through several steps, show them
               as a trail the actor can scroll, expand, and challenge. Skip
               this for single-move output, such as a completion or a label.
-      - step: "Answer why on demand"
+      - step: "Explain the output when the actor asks"
         rule: explanation
-        aspect: "its AI explanations"
         gloss: >-
           Let the actor open an explanation of the output, such as the
           factors behind a recommendation and the limits of what it drew on,
@@ -73,19 +74,20 @@ sub-sequences:
       than evaluating. The actor could judge and the stakes call for it, but
       nothing asks them to.
     steps:
-      - step: "Make the acceptance cost a thought"
+      - step: "Ask for a moment of thought before accepting"
         rule: cognitive-forcing-functions
         gloss: >-
           Put a moment of active thought between the output and its
           acceptance: a wait, a reveal on demand, an answer given first, or a
           reason written down. Use it only where the stakes keep justifying
           it. Reasons written down here are kept for the record steps.
-      - cluster: "Sharpen the friction"
+      - cluster: "Add further checks where they fit"
         gloss: >-
           Two further forms, in no set order: one structures a single review,
-          the other keeps the actor's skill up across many.
+          the other keeps the actor's skill up across many, with the skills
+          to keep chosen in [learning](/sequences/learning#upkeep).
         steps:
-          - step: "Structure what the review checks"
+          - step: "List what the review checks"
             rule: overreliance-checklist
             optional: true
             gloss: >-
@@ -107,7 +109,7 @@ sub-sequences:
       up over the surface's use. Without a record, how far actors rely on
       the output is judged on impressions.
     steps:
-      - step: "Keep the record of the judgements"
+      - step: "Record what was accepted and what was overridden"
         rule: activity-log
         gloss: >-
           Record what was accepted and what was overridden, which sources
@@ -119,37 +121,18 @@ sub-sequences:
           from outside the actor's judgement set beside it, such as tests,
           reconciled figures, or an audited sample. Where none arrive, the
           record cannot say whether the acceptances were right.
-      - step: "Move the friction on evidence"
+      - step: "Move the checks to where acceptances go through unread"
         rule: cognitive-forcing-functions
-        aspect: "where it is spent"
         gloss: >-
           Add friction where acceptances go through unread, and move or
           remove a check that every actor clears in one motion, as an explicit
-          decision. An override that keeps recurring goes to tuning.
+          decision. An override that keeps recurring becomes a standing rule
+          in [delegating work](/sequences/delegating-work#iterate).
     resulting: >-
       The output shows what it rests on, accepting it takes a judgement
       where a wrong answer would cost more, and the record shows how far
       actors rely on it and, where verdicts arrive, whether that reliance
       was warranted. Every mark and pause costs the actor attention.
-connections:
-  - kind: hands-off
-    at: evidence/1
-    to: working-on-the-same-thing
-    note: "the origin mark matters most where machine and human contributions mix in one document, which that sequence handles per contribution"
-  - kind: calls
-    at: acceptance/2
-    to: learning
-    via: mastery
-    note: "withholding the answer is practice, and keeping skills practised is that sequence's work"
-  - kind: hands-off
-    at: account/1
-    to: memory-and-continuity
-    note: "the record of judgements is part of what the collaboration remembers across sessions"
-  - kind: hands-off
-    at: account/2
-    to: delegating-work/iterate/2
-    via: standing-instructions
-    note: "an override that keeps recurring becomes a standing rule in that sequence"
 ---
 
 An AI is in use, and its output is about to be acted on by an actor who did not produce it and cannot tell how far to trust it. These steps are taken for each AI surface rather than once for the whole system: every other AI sequence arrives here where its output meets the actor.

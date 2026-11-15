@@ -1,7 +1,7 @@
 ---
 title: "Memory and continuity"
 added: 2026-08-29
-updated: 2026-11-04
+updated: 2026-11-15
 description: "Decide what the collaboration keeps across sessions, what an actor sees when they come back, and how kept information is removed."
 order: 7
 presupposes: >-
@@ -13,7 +13,7 @@ sub-sequences:
   - id: keeping
     title: "Deciding what is kept"
     steps:
-      - step: "Keep one record"
+      - step: "Collect the accounts into one record"
         rule: activity-log
         constituents:
           - slug: progressive-disclosure
@@ -26,7 +26,6 @@ sub-sequences:
           and design it for new and returning actors as well as for audits.
       - step: "Record who made each change and why"
         rule: attribution
-        aspect: "recording who or what made a change"
         gloss: >-
           Mark each change in the record with who or what made it (a person, a
           named rule, or a model run) when the change is made, because
@@ -44,9 +43,11 @@ sub-sequences:
           the default (remember unless asked, or forget unless asked),
           knowing that most actors never change it. Let the actor see and
           edit what is kept, and offer a session that keeps nothing.
+          Corrections to behaviour become standing rules in
+          [delegating work](/sequences/delegating-work#iterate), and the memory
+          controls show which kind of memory an edit changes.
       - step: "Keep the arrangement the actor leaves"
         rule: remembered-state
-        aspect: "what is kept and for whom"
         gloss: >-
           Keep how the actor arranged each view, the place they reached in
           it, including how far they had read, and the values they last
@@ -68,12 +69,12 @@ sub-sequences:
         gloss: >-
           Restore what the actor left, in either order: the arrangement, and
           work they had not finished. A conversation they set aside, with any
-          commitment deferred when it closed, resumes through its opening.
+          commitment deferred when it closed, resumes through its opening in
+          [the encounter](/sequences/the-encounter#footing).
           Keep the option to start fresh.
         steps:
           - step: "Restore the arrangement"
             rule: remembered-state
-            aspect: "restoring"
             constituents:
               - slug: deep-linking
                 note: "where an address names a state, it wins over the arrangement"
@@ -93,13 +94,19 @@ sub-sequences:
           limited to what they have open, without asking them to accept or
           reject anything: which parts changed, who or what changed them,
           and why. Include only changes that could wait; anything urgent was
-          sent when it happened. If the summary is generated, mark its evidence.
+          sent when it happened. If the summary is generated, mark its evidence
+          as in [calibrating reliance](/sequences/calibrating-reliance#evidence).
+          When the system itself has changed, the return works like a smaller
+          first encounter, designed in [learning](/sequences/learning#arrival).
       - step: "Let the actor return to named versions"
+        rule: version-history
         gloss: >-
           Beyond the current session, where undo no longer applies, let the
           actor restore named versions, such as a publish, a release, or a
           version saved on purpose. Decide which moments get names, who
-          names them, and how far back the history goes.
+          names them, and how far back the history goes. Restoring a named
+          version is itself a change, graded and reversible like any other in
+          [making changes](/sequences/making-changes#safety).
     resulting: >-
       The returning actor can see where they were, what changed, and how it
       changed. Each of these depends on what the keeping steps recorded.
@@ -115,18 +122,17 @@ sub-sequences:
         gloss: >-
           Apply the policy to two kinds of kept information that are removed
           differently, in either order: what is remembered about the actor,
-          and the actor's content with its history.
+          and the actor's content with its history. The arrangement kept
+          for the actor is cleared with what is remembered about them.
         steps:
           - step: "Let the actor remove what is remembered"
             rule: memory
-            aspect: "its forgetting controls"
             gloss: >-
               Let the actor remove remembered information per fact, per
               session, or per mode. Make sure a removed fact does not return,
               including through behaviour the system learned from it.
           - step: "Decide what removal leaves behind"
             rule: deletion
-            aspect: "what remains after removal"
             gloss: >-
               Decide whether removing an item also removes its history: offer
               a recovery period, leave a placeholder, or keep an entry for the
@@ -135,37 +141,6 @@ sub-sequences:
     resulting: >-
       What the collaboration remembers is limited by the design, not by
       storage, and the actor can see it, correct it, and remove it.
-connections:
-  - kind: hands-off
-    at: keeping/3
-    to: delegating-work
-    via: standing-instructions
-    note: "remembered facts and learned behaviour are parts of the same memory: corrections to behaviour go to that sequence's tuning steps, and the memory controls show which part an edit changes"
-  - kind: hands-off
-    at: return/1
-    to: the-encounter
-    via: user-opening
-    note: "a conversation the actor set aside resumes through an opening that shows its history, which that sequence designs"
-  - kind: calls
-    at: return/2
-    to: calibrating-reliance
-    via: citation
-    note: "a generated summary of changes is AI output, so each claim links to the changes it summarises"
-  - kind: hands-off
-    at: return/2
-    to: attention-and-tempo
-    via: notification
-    note: "what could not wait was sent at the time, as that sequence decides"
-  - kind: hands-off
-    at: return/2
-    to: learning
-    via: onboarding
-    note: "when the system itself has changed, the return works like a smaller first encounter, which that sequence designs"
-  - kind: hands-off
-    at: return/3
-    to: making-changes
-    via: undo
-    note: "restoring a named state is itself a change, graded and reversible like any other in that sequence's safety steps"
 ---
 
 Other sequences produce records: committed changes, reviewed runs, granted

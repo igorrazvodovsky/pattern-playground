@@ -1,7 +1,7 @@
 ---
 title: "Working on the same thing"
 added: 2026-08-29
-updated: 2026-09-27
+updated: 2026-11-15
 description: "Share work with named people, let them see each other working, contribute without interrupting, work apart and merge back, and pass work on with its context."
 order: 3
 presupposes: >-
@@ -67,8 +67,8 @@ sub-sequences:
               edit, the comment, the version. The signature lets others reply
               to the author and read the history later. When a contributor is
               a machine, the same signature routes its output to the checks
-              on relying on it.
-      - step: "Give everyone the same view"
+              in [calibrating reliance](/sequences/calibrating-reliance#evidence).
+      - step: "Let the actor pass on a view"
         constituents:
           - slug: deep-linking
             note: "the view travels as a link, so opening it is one click rather than a rebuilt display"
@@ -87,7 +87,7 @@ sub-sequences:
       channel, and a note that waits to be read is preferred over a message
       that interrupts.
     steps:
-      - step: "Leave a mark in place"
+      - step: "Let the actor mark a place in the work"
         rule: annotation
         optional: true
         gloss: >-
@@ -109,7 +109,8 @@ sub-sequences:
           or a review's conclusion, a small shared set of forms, so the
           sender does not have to write them and the reader does not have to
           interpret them. Anything a colleague must see now goes out as a
-          notification instead.
+          notification instead, graded in
+          [attention and tempo](/sequences/attention-and-tempo).
   - id: parting
     title: "Working apart and returning"
     initiating: >-
@@ -124,24 +125,28 @@ sub-sequences:
           Separate the working copy from what others read, with a deliberate
           act that moves one into the other: for the whole piece, such as a
           draft or a branch, or per change, such as a suggestion held for
-          review. Each publish is a named version the history can keep.
+          review. Each publish is a named version the history in
+          [memory and continuity](/sequences/memory-and-continuity#keeping)
+          can keep.
           Working apart creates a return, which the next two steps handle.
       - step: "Review the returning changes"
         rule: change-review
-        aspect: "its person-to-person face"
         gloss: >-
           Show what comes back as changes, what was there and what would
           replace it, and let the reviewer accept or reject them at the level
           the parting chose. Record the conclusion in the set report forms.
+          Where accepting the changes has consequences, they meet the
+          approval in [governing autonomy](/sequences/governing-autonomy#gate).
       - step: "Resolve conflicting changes"
         rule: reconciliation
         gloss: >-
           Where both sides changed the same thing, merge what can be merged
           and hold back the rest until a person picks between versions shown
-          side by side. Show this only when deliberate parting returns. On
-          live work, edits merge silently, and a conflict appearing
-          mid-flow means the live-or-reviewed decision was wrong for that
-          kind of work.
+          side by side, and keep the version not picked recoverable through the
+          undo in [making changes](/sequences/making-changes#safety). Show this
+          only when deliberate parting returns; on live work edits merge
+          silently, and a conflict appearing mid-flow means the
+          live-or-reviewed decision was wrong for that kind of work.
   - id: handoff
     title: "Passing work on"
     initiating: >-
@@ -150,9 +155,8 @@ sub-sequences:
       the work itself. This happens at each transfer, whether or not anyone worked
       apart.
     steps:
-      - step: "Pass the work on with its context"
+      - step: "Pass the work to a colleague with its context"
         rule: handoff
-        aspect: "its person-to-person face"
         optional: true
         gloss: >-
           Make the transfer an object, not only a message: a link into the
@@ -162,9 +166,8 @@ sub-sequences:
           is owed a view of whether it was received, reviewed, and acted on,
           which the next step provides. Skip this where the organisation
           already handles the transfer outside the tool.
-      - step: "Answer the handoff openly"
+      - step: "Let the recipient answer in the set report forms"
         rule: status-feedback
-        aspect: "its typed-answer shape"
         gloss: >-
           Let the recipient answer in the same set forms the reports use,
           such as accepted, done, declined, or changes requested, shown where
@@ -174,31 +177,6 @@ sub-sequences:
       Responsibility moves with its context and is answered openly. Work
       continues with the next person instead of restarting, and nobody holds
       work without knowing it.
-connections:
-  - kind: calls
-    at: visibility/1
-    to: calibrating-reliance
-    via: provenance-marking
-    note: "a machine contributor's signed output is an AI surface in shared work, where that sequence's checks apply and mixed authorship makes the signature matter most"
-  - kind: hands-off
-    at: contribution/3
-    to: attention-and-tempo
-    via: notification
-    note: "a mention, a reply, or a change to someone's item is an interruption that sequence grades, and scheduled send is the same decision from the sender's side"
-  - kind: hands-off
-    at: parting/1
-    to: memory-and-continuity
-    note: "each publish is a named version, and the history of working apart feeds that sequence's named states"
-  - kind: hands-off
-    at: parting/3
-    to: making-changes
-    via: undo
-    note: "the version not picked when resolving a conflict is a deletion, and recovering it belongs to that sequence's safety steps"
-  - kind: hands-off
-    at: handoff/1
-    to: attention-and-tempo
-    via: notification
-    note: "an assignment or review request claims a colleague's attention directly"
 ---
 
 Several people work on the same thing, each on their own screen and often at

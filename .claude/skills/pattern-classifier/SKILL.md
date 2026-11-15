@@ -266,7 +266,7 @@ Adding, splitting, or changing a pattern changes the topology. Check:
 
 - Do any existing patterns need new cross-references to this one, or need polysemous links re-routed to a more specific neighbour?
 - Place every `role: pattern` entry once in `apps/patterns/src/content/levels.yaml`, ensuring any part (`enables`) sits after the wholes it helps complete
-- Check `apps/patterns/src/content/sequences/*.mdx` (`rule:`, `aspect:`, `constituents:`, and `via:`) and `apps/patterns/src/content/languages/*.mdx` (`patterns:` and `gaps:`)
+- Check `apps/patterns/src/content/sequences/*.mdx` (`rule:` and `constituents:`) and `apps/patterns/src/content/languages/*.mdx` (`patterns:` and `gaps:`)
 - Regenerate the graph data (`npm run extract-graph`) and verify zero new axis-sanity warnings (`edges unspoken on shaped pages`, `sentences linking neighbours of different types`), then run `npx -w @pattern-plgrnd/patterns astro build` to run cross-reference validation
 
 ## What this skill is not

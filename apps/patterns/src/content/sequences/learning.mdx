@@ -1,7 +1,7 @@
 ---
 title: "Learning"
 added: 2026-08-29
-updated: 2026-09-27
+updated: 2026-11-15
 description: "Bring an actor from the first encounter to competent use, give them somewhere to take friction, open optional routes past the interface, and keep the skills that stop being exercised."
 order: 8
 presupposes: >-
@@ -15,7 +15,7 @@ sub-sequences:
   - id: arrival
     title: "Shaping the first encounter"
     steps:
-      - step: "Bound the first encounter"
+      - step: "Design the first run as a bounded period"
         rule: onboarding
         gloss: >-
           Make the first run a designed, bounded period with low stakes,
@@ -24,29 +24,31 @@ sub-sequences:
           where state lives, what happens when the actor acts, and what the
           system will do on its own. For an actor joining a system already
           in use, add what is already here and why, and let them trace how
-          it came to be. Every scaffold put up here has to be cleared later.
-      - step: "Make the emptiness speak"
+          it came to be through the record kept in
+          [memory and continuity](/sequences/memory-and-continuity#keeping). Every scaffold put up here has to be cleared later.
+      - step: "Use empty surfaces to teach"
         rule: state-empty
         gloss: >-
           Use the first run's empty surfaces to teach: each says why there is
           nothing here and what would put something here. Decide only the
           first-run empty states here; the ones that come later, for filters
           and permissions, belong to the pass over every surface at the end.
-      - choice: "Choose what the newcomer occupies"
+      - choice: "Give the newcomer something to start from"
         gloss: >-
           Fill the empty surface with something to occupy where
           possible, since occupying competent work teaches faster than reading
           about it. The options combine, and taking neither leaves the empty
           surface as the start. Generating the starting content from what the
-          actor says they want is delegation, reached from here.
+          actor says they want is [delegating work](/sequences/delegating-work),
+          reached from here.
         alternatives:
-          - step: "Start them inside competent work"
+          - step: "Start them from a template of competent work"
             rule: template
             gloss: >-
               Give the newcomer a shape that already reflects competent work,
               to adapt rather than invent. Give the set of templates an owner
               who revisits it as conventions change.
-          - step: "Walk them through dependent setup"
+          - step: "Take them through setup one decision at a time"
             rule: wizard
             gloss: >-
               Where the first decisions depend on each other and are made
@@ -62,7 +64,7 @@ sub-sequences:
       what a term means, or how to do a thing, and the answer is somewhere
       other than where they are looking.
     steps:
-      - step: "Meet friction where it happens"
+      - step: "Answer questions where they come up"
         rule: help
         constituents:
           - slug: annotation
@@ -71,7 +73,10 @@ sub-sequences:
           Keep a channel the actor can come to for the life of the surface.
           Place each answer at its point of need and pitch it at its subject:
           how to operate the interface, or why the domain works this way.
-          Keep it true as the system changes. It re-teaches on demand what
+          Keep it true as the system changes. When the question needs
+          reasoning about the actor's own situation, help becomes a
+          conversation, opened as in [the encounter](/sequences/the-encounter).
+          It re-teaches on demand what
           the first encounter taught ahead of time, and remains once the
           scaffolding is cleared.
   - id: expertise
@@ -82,7 +87,7 @@ sub-sequences:
       their understanding of the work. Most actors stay comfortable
       intermediates, so everything opened here has to be optional.
     steps:
-      - step: "Clear the scaffolding and open optional routes"
+      - step: "Remove the first-run aids and open optional routes"
         rule: mastery
         gloss: >-
           Clear the first encounter's scaffolding as competence grows. Open
@@ -90,15 +95,16 @@ sub-sequences:
           depth for understanding, and the tool's movable parts for
           reshaping it. Keep the main path sufficient for those who never
           take them.
-      - step: "Name every command"
+      - step: "Make every command reachable by name"
         rule: command-menu
         gloss: >-
           Make every command reachable by name, so the chrome no longer has
           to show everything and discovery becomes typing a guess. This is
           the first optional route most actors take. The menu shows only what
           applies here, so explaining a command the actor expected but cannot
-          find is left to the pass at the end.
-      - step: "Bind the names to keys"
+          find is left to finishing the whole, the pass over every surface at
+          the end.
+      - step: "Give frequent commands keyboard shortcuts"
         rule: keyboard-shortcuts
         gloss: >-
           Bind keys to the named commands the actor uses often enough for
@@ -113,16 +119,15 @@ sub-sequences:
       fades, and two other sequences assume it has not: taking paused work
       back from the agent, and answering before the system does.
     steps:
-      - step: "Choose what stays practised"
+      - step: "Choose which skills stay practised"
         gloss: >-
           From the record of what has been handed over, list the skills that
           must stay alive on the actor's side, graded by what losing them
           would cost: the work a takeback would return, the judgement that
           reviewing the system's output depends on, and the rare procedure
           that matters when it comes.
-      - step: "Re-expose what would fade"
+      - step: "Schedule practice for the skills on the list"
         rule: mastery
-        aspect: "its retention face"
         gloss: >-
           Schedule re-exposure for the skills on that list: a reminder on
           return, an echo of past decisions when a complex area is re-entered,
@@ -133,27 +138,6 @@ sub-sequences:
       The competence the collaboration depends on is kept up deliberately.
       Practice costs attention, so the list stays short and is revisited as
       more work is handed over.
-connections:
-  - kind: calls
-    at: arrival/1
-    to: memory-and-continuity
-    via: activity-log
-    note: "an actor joining a system in use learns what is already here by reading the kept record of how it came to be"
-  - kind: calls
-    at: arrival/3
-    to: delegating-work
-    via: prompt
-    note: "a draft generated from what the newcomer says they want is that sequence's output, fetched at first run"
-  - kind: hands-off
-    at: channel/1
-    to: the-encounter
-    via: inquiry-user
-    note: "when the question needs reasoning about the actor's own situation, help becomes a conversation, which that sequence opens"
-  - kind: hands-off
-    at: expertise/2
-    to: finishing-the-whole
-    via: unavailable-actions
-    note: "a menu that shows only what applies leaves the expected but missing command unexplained, which that sequence's pass over every surface handles"
 ---
 
 An actor arrives without a working model of the system, and every other

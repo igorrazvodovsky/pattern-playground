@@ -11,7 +11,7 @@ superseded_by:
 
 # Rule composition — classifying the rule-builder territory
 
-The [delegating-work sitting](2026-08-delegating-work-sequence.md) read the authored
+The delegating-work sitting read the authored
 sequence against Noessel's *Designing Agentive Technology* and surfaced the
 *constrained natural language builder* as a pattern-shaped gap (finding 15 holds one
 half of it). This document is the classification trace: the residue attribution that

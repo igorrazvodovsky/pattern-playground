@@ -53,7 +53,7 @@ Part of the [assisted task completion](/patterns/assisted-task-completion) spect
 ## Design considerations
 
 - Recent and frequent items often beat algorithmic suggestions, or at least deserve a spot alongside them
-- Worth distinguishing *narrowing* (filtering a known list) from *expanding* (proposing related or trending terms the actor hasn't thought of)
+- Distinguish *narrowing* (filtering a known list) from *expanding* (proposing related or trending terms the actor hasn't thought of). Narrowing is looked up and expanding is inferred. The same dropdown can cross from one to the other without changing shape, so the actor cannot see the crossing unless the inferred candidates are marked.
 
 ## Related components
 

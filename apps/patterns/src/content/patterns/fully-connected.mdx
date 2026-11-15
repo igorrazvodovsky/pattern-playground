@@ -23,10 +23,11 @@ situation:
       every destination is one move from every other, and the shape of the whole is
       visible from anywhere — bought with screen space on every page, spent whether
       or not the actor on that page needs it
-    - >-
-      the global menu is a fixed budget that content growth eats into; the set that
-      has to fit the chrome stops fitting long before the content stops arriving,
-      and what gives is either the depth on show or the topology
+    - clause: >-
+        the global menu is a fixed budget that content growth eats into; the set that
+        has to fit the chrome stops fitting long before the content stops arriving,
+        and what gives is either the depth on show or the topology
+      sets-up: [hybrid-patterns]
 relationships:
   complements:
     - to: command-menu
@@ -35,8 +36,6 @@ relationships:
       note: alternative navigation path
     - to: deep-linking
       note: enables direct access to any page
-    - to: hybrid-patterns
-      note: can be combined with a multilevel tree as content grows
   alternative:
     - to: hub-and-spoke
       note: for mobile or simpler structures

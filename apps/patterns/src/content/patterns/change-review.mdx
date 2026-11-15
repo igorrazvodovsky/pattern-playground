@@ -14,7 +14,7 @@ situation:
   initiating: >-
     … someone other than the actor has proposed changes to something that already exists and that the actor is responsible for. In [delegating work](/sequences/delegating-work) the result of a run arrives as changes to existing content, [generated content](/patterns/generated-content) the actor has to check rather than write. In [working on the same thing](/sequences/working-on-the-same-thing) a colleague's edits, made in a separate draft under [draft and publish](/patterns/draft-and-publish), come back to be merged. A [trial run](/patterns/trial-run) produces a before and after across many cases. In each of these, if the actor can see only the changed result, they can either accept all of it without checking or reject all of it. Change review shows what is there now next to what would replace it, so the actor can check the change and accept it in parts.
   resulting: >-
-    The change can now be decided on part by part. Draw it with [comparing](/patterns/comparing)'s version case: the shared structure is assumed and only the difference is shown. Where the system proposed the change and applying it has consequences, an [approval gate](/patterns/approval-gate) can act on the review, so that the approval refers to a specific change. [Commenting](/patterns/commenting) attaches discussion to particular changes rather than to the document as a whole, and where colleagues review each other's work, [status feedback](/patterns/status-feedback) records the outcome in a set form. Rejecting a proposed change is [undo](/patterns/undo) before the change is applied; changes that have been accepted and applied still need undo afterwards. Change review differs from [plan preview](/patterns/plan-preview), which shows what the system intends to do before the work rather than the change after it, and from [review before submitting](/patterns/review-before-submitting), which shows the actor their own answers rather than a change someone else proposes…
+    The change can now be decided on part by part. Draw it with [comparing](/patterns/comparing)'s version case: the shared structure is assumed and only the difference is shown. Where the system proposed the change and applying it has consequences, an [approval gate](/patterns/approval-gate) can act on the review, so that the approval refers to a specific change. [Commenting](/patterns/commenting) attaches discussion to particular changes rather than to the document as a whole, and where colleagues review each other's work, [status feedback](/patterns/status-feedback) records the outcome in a set form. Rejecting a proposed change is [undo](/patterns/undo) before the change is applied; changes that have been accepted and applied still need undo afterwards. When a change is hard to follow, the usual repair is to ask whoever made it. Where the system made it there may be nobody to ask, and [transparent reasoning](/patterns/transparent-reasoning) gives an account of the work in the author's place, though it is the system's own report and can be wrong. Change review differs from the [activity log](/patterns/activity-log), which records what was done over time rather than one change proposed to one thing, from [plan preview](/patterns/plan-preview), which shows what the system intends to do before the work rather than the change after it, and from [review before submitting](/patterns/review-before-submitting), which shows the actor their own answers rather than a change someone else proposes…
 relationships:
   follows:
     - generated-content
@@ -24,10 +24,12 @@ relationships:
   complements:
     - undo
     - commenting
+    - transparent-reasoning
   composed-of:
     - comparing
   related:
     - plan-preview
+    - activity-log
   enacts:
     - to: agency
       note: the actor decides on each change rather than accepting the whole batch
@@ -49,7 +51,7 @@ Therefore,
 
 **Show the proposed change separately from the content it would alter: what is there now next to what would replace it, side by side or inline. Split it into parts the actor can judge on their own, show enough of the unchanged content around each part to judge it, and let the actor accept or reject each part separately.**
 
-Some problems are outside what any view of the change can show. The faults code reviewers most often miss are omissions: places that should have changed but did not. Whatever the review leaves out, the actor will not check, so where omissions matter, the review needs a check over the whole content alongside it. An "accept all" control is useful once the actor has looked through the change, but if it is the first option offered, people use it instead of reviewing.
+Some problems are outside what any view of the change can show. The faults code reviewers most often miss are omissions: places that should have changed but did not. Whatever the review leaves out, the actor will not check, so where omissions matter, the review needs a check over the whole content alongside it. Where a part sits in the review also affects whether it is examined: parts shown later get less attention, so the order should follow what matters most and not an arbitrary default such as the alphabet. An "accept all" control is useful once the actor has looked through the change, but if it is the first option offered, people use it instead of reviewing.
 
 ## Resources & references
 
@@ -58,5 +60,6 @@ Some problems are outside what any view of the change can show. The faults code 
 - Laban, Vig, Hearst, Xiong & Wu (2024), [Beyond the chat: executable and verifiable text-editing with LLMs](https://doi.org/10.1145/3654777.3676419), UIST '24: each suggested edit shown in the document with its own accept and dismiss controls
 - Bacchelli & Bird (2013), [Expectations, outcomes, and challenges of modern code review](https://doi.org/10.1109/ICSE.2013.6606617), ICSE '13: understanding the change is most of a reviewer's work, and review tools support it poorly
 - Barnett, Bird, Brunet & Lahiri (2015), [Helping developers help themselves: automatic decomposition of code review changesets](https://doi.org/10.1109/ICSE.2015.35), ICSE '15: splitting a change into related parts helps reviewers understand it
+- Fregnan, Braz, D'Ambros, Çalikli & Bacchelli (2022), [First come first served: the impact of file position on code review](https://arxiv.org/abs/2208.04259), ESEC/FSE '22: files shown later in a review receive fewer comments, and a defect in the last file is found less often
 - Rahman, Codabux & Roy (2026), [Breaking the alphabet: rethinking file ordering in code review](https://arxiv.org/abs/2609.04207), ICSE '26: reviewers struggle to notice omissions and to see enough of the surrounding code
 

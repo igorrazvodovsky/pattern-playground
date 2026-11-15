@@ -14,20 +14,8 @@ the plan contract and `docs/specs/` for settled specifications.
 - [Refactoring sweep](active/2026-10-refactoring-sweep.md) — a queue of refactoring work across the code workspaces
 - [Shaping the pattern pages](active/2026-10-pattern-shape-migration.md) — the per-page procedure and checklist for moving `role: pattern` pages onto the current page shape
 - [Commenting: open questions](active/2026-10-commenting-open-questions.md) — outline: decisions and small pieces of work left after mark-first commenting
-- [A system of sequences over the language](active/2026-08-sequence-map.md) — the language organised as a system of small, calling sequences: the map of sequences and their presuppositions
-- [Composing views — the pilot sequence](active/2026-08-composing-views-sequence.md) — authoring record for the `composing-views` sequence and the corpus changes it recorded
-- [Making changes — the third sequence](active/2026-08-making-changes-sequence.md) — authoring record for the `making-changes` sequence and the corpus changes it recorded
-- [Structuring the space — the second sequence](active/2026-08-structuring-the-space-sequence.md) — authoring record for the `structuring-the-space` sequence and the corpus changes it recorded
-- [The encounter — the fourth sequence](active/2026-08-the-encounter-sequence.md) — authoring record for the `the-encounter` sequence and the corpus changes it recorded
-- [Delegating work — the fifth sequence](active/2026-08-delegating-work-sequence.md) — authoring record for the `delegating-work` sequence and the corpus changes it recorded
-- [Governing autonomy — the sixth sequence](active/2026-08-governing-autonomy-sequence.md) — authoring record for the `governing-autonomy` sequence and the corpus changes it recorded
-- [Calibrating reliance — the seventh sequence](active/2026-08-calibrating-reliance-sequence.md) — authoring record for the `calibrating-reliance` sequence and the corpus changes it recorded
-- [Assistance escalation — the eighth sequence](active/2026-08-assistance-escalation-sequence.md) — authoring record for the `assistance-escalation` sequence and the corpus changes it recorded
-- [Learning — the ninth sequence](active/2026-08-learning-sequence.md) — authoring record for the `learning` sequence and the corpus changes it recorded
-- [Memory and continuity — the tenth sequence](active/2026-08-memory-and-continuity-sequence.md) — authoring record for the `memory-and-continuity` sequence and the corpus changes it recorded
-- [Attention and tempo — the eleventh sequence](active/2026-08-attention-and-tempo-sequence.md) — authoring record for the `attention-and-tempo` sequence and the corpus changes it recorded
-- [Making sense at scale — the twelfth sequence](active/2026-08-making-sense-at-scale-sequence.md) — authoring record for the `making-sense-at-scale` sequence and the corpus changes it recorded
-- [Working on the same thing — the thirteenth sequence](active/2026-08-working-on-the-same-thing-sequence.md) — authoring record for the `working-on-the-same-thing` sequence and the corpus changes it recorded
+- [A system of sequences over the language](active/2026-08-sequence-map.md) — the language organised as a system of linked sequences: the map of sequences and their presuppositions
+- [Sequence findings registry](sequence-findings-registry.md) — corpus changes the thirteen August sequence sittings proposed, with what is still open
 - [Rule composition — classifying the rule-builder territory](active/2026-08-rule-composition.md) — why the constrained natural-language rule builder is its own node, separate from `workflow` and filtering
 - [Change review: mature the seed, and correct the force it states backwards](active/2026-08-change-review-verdict.md) — why change review stays proposal-shaped, and the corrections proposed to its situation and clauses
 - [Agent trace fixtures](active/2026-08-agent-trace-fixtures.md) — outline: agent work as typed actions in the shared action log, and a fixture trace for the agent reasoning demo
@@ -53,6 +41,7 @@ the plan contract and `docs/specs/` for settled specifications.
 Closed plans kept for the rationale they carry (README §Closing a plan).
 `git log --diff-filter=D -- plans/` lists the closed plans that were deleted.
 
+- [Composing views — the pilot sequence](completed/2026-08-composing-views-sequence.md) — authoring record for the pilot sequence, whose authoring produced the sequence format
 - [Prescription diagrams](completed/2026-10-prescription-diagrams.md) — why pattern figures are drawn, implementation-neutral, and free of interface; the settled form is in pattern-site.md §Figures
 - [Commenting: mark first, quote later](completed/2026-10-commenting.md) — why a comment marks its passage and quoting is a later, separate step
 - [Switchable demos: one spec, two component libraries](completed/2026-10-switchable-demos.md) — demos as json-render specs rendered through two component libraries, and what does and does not survive the switch

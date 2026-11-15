@@ -118,11 +118,8 @@ const patterns = defineCollection({
 const sequenceStep = z.object({
   // The decision, as a verb phrase.
   step: z.string(),
-  // Absent = the weak form: a decision the sequence needs that names no pattern.
+  // The pattern that says how to take the step, where there is one.
   rule: z.string().optional(),
-  // Which side of the rule the step invokes, when not the pattern plain —
-  // for example, "its writable dimension". Meaningless without `rule`.
-  aspect: z.string().optional(),
   gloss: z.string().optional(),
   // The gloss carries the condition under which the step is skipped.
   optional: z.boolean().optional(),
@@ -144,13 +141,10 @@ const sequencePosition = z.union([
     gloss: z.string().optional(),
     steps: z.array(sequenceStep).min(2),
   }),
-  // Alternatives combine unless marked exclusive; `tree` names the pattern page
-  // whose decision tree owns the judgement.
+  // Alternatives combine unless the gloss says otherwise.
   z.object({
     choice: z.string(),
     gloss: z.string().optional(),
-    exclusive: z.boolean().optional(),
-    tree: z.string().optional(),
     alternatives: z.array(sequenceStep).min(2),
   }),
 ]);
@@ -189,8 +183,8 @@ const sequences = defineCollection({
       .min(1)
       .superRefine((subs, ctx) => {
         // Ids become heading anchors on one page, alongside the step anchors
-        // `<id>-<n>` and the fixed Connections heading, so none may coincide.
-        const taken = new Set(['sequence-connections-heading']);
+        // `<id>-<n>` that "Appears in" links to, so none may coincide.
+        const taken = new Set<string>();
         for (const sub of subs) {
           for (let n = 1; n <= sub.steps.length; n++) taken.add(`${sub.id}-${n}`);
         }
@@ -205,33 +199,11 @@ const sequences = defineCollection({
             ctx.addIssue({
               code: 'custom',
               path: [i, 'id'],
-              message: `sub-sequence id "${sub.id}" collides with a step anchor or a reserved heading id`,
+              message: `sub-sequence id "${sub.id}" collides with a step anchor`,
             });
           }
         });
       }),
-    // Cross-sequence only; a call within this sequence is narrated in the
-    // calling step's gloss. `at` is `<sub-sequence>[/<step>]`, `to`/`from` is
-    // `<sequence>[/<sub-sequence>[/<step>]]`. A far sequence need not exist yet:
-    // forward references mark work, not errors.
-    'connections': z
-      .array(
-        z
-          .object({
-            kind: z.enum(['calls', 'hands-off', 'interleaves']),
-            at: z.string(),
-            to: z.string().optional(),
-            from: z.string().optional(),
-            // Pattern slug where the connection lands, when one carries it.
-            via: z.string().optional(),
-            note: z.string().optional(),
-          })
-          .refine((c) => (c.to === undefined) !== (c.from === undefined), {
-            message:
-              'a connection names exactly one far end: to (outgoing) or from (incoming); the outgoing side owns the entry once both sequences exist',
-          }),
-      )
-      .optional(),
   }),
 });
 

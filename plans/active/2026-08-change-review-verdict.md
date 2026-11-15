@@ -1,6 +1,6 @@
 # Change review: mature the seed, and correct the force it states backwards
 
-Proposed, not executed. The research gate is complete; no pattern files have been touched.
+Executed except for the seed flag. `change-review.mdx` now carries the reviewer's position, parts drawn by meaning, the surrounding-context and position cautions, the absent author with its link to transparent reasoning, the distinction from the activity log, and the code-review sources the body relies on. Still open: whether `seed: true` comes off, and whether this plan moves to `completed/` as the gate's digest. The sections below record the gate and the verdict as proposed; the edit set was not followed item by item.
 
 `change-review` has been a seed since 2026-08-07, carrying one citation, a disclosure that it came from the cross-catalogue triage, and two standing to-dos. A `/deep-research` gate ran on 2026-08-25, producing a query and a literature note. The gate was framed around one discriminating question, because the seed and the way the node is often described pull in different directions: the seed's initiating situation is proposal-shaped, about a change that has not landed, while the broader framing — making sense of an agent's output the actor neither observed nor produced — is retrospective, about work already done. If the literature treated those as two problems, the node would split and its retrospective half would merge into neighbours that already exist. This plan records what the gate returned and what executing on it would touch.
 

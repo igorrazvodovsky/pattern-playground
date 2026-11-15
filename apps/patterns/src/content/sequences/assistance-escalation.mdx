@@ -1,7 +1,7 @@
 ---
 title: "Assistance escalation"
 added: 2026-08-29
-updated: 2026-09-27
+updated: 2026-11-15
 description: "How much of the work the system takes on, from a default guess to a procedure the actor hands over, raised or lowered one level at a time on the evidence of use."
 order: 4
 presupposes: >-
@@ -62,7 +62,7 @@ sub-sequences:
           actor never has to restate it to get help. The next step turns the
           inference into offers. Skip this where the actor states the intent,
           as in a conversation.
-      - step: "Make everything it produces an offer"
+      - step: "Present everything the system produces as an offer"
         rule: suggestion
         gloss: >-
           Settle once the terms every higher level inherits: the system
@@ -70,7 +70,8 @@ sub-sequences:
           declining is cheaper than weighing the offer, and each offer shows
           its confidence. An offer shown before the actor has formed their
           own idea narrows what they consider next, and checking how far they
-          rely on it is handled elsewhere.
+          rely on it is handled in
+          [calibrating reliance](/sequences/calibrating-reliance#acceptance).
       - step: "Continue what the actor is writing"
         rule: ai-completion
         optional: true
@@ -93,9 +94,10 @@ sub-sequences:
           At a transition point, such as a closed record or a finished
           output, offer a whole action with the reason for it. These offers
           arrive uninvited, so spend the channel as carefully as the offers
-          in it. If the system performs the action instead of proposing it,
+          in it; when they may interrupt is decided in
+          [attention and tempo](/sequences/attention-and-tempo). If the system performs the action instead of proposing it,
           that is delegation, and this sequence ends there.
-      - step: "Guard the accept by what it does"
+      - step: "Size the confirmation to what the action does"
         rule: action-consequences
         gloss: >-
           Grade each proposed action by its consequences and size the guard
@@ -123,7 +125,9 @@ sub-sequences:
           Raise a surface's level where its offers are routinely accepted and
           the grade allows it, and lower it where they are routinely
           dismissed. Decide the lowering too, rather than letting a level
-          fall out of use. A higher level must explain more of itself, and
+          fall out of use. A higher level must explain more of itself, through
+          the evidence steps of
+          [calibrating reliance](/sequences/calibrating-reliance#evidence), and
           routine acceptance never raises a consequential one past its grade.
       - step: "Hand the recurring procedure over"
         rule: workflow
@@ -134,33 +138,13 @@ sub-sequences:
           When the record shows the same proposals accepted whole in the same
           situations, turn them into a procedure both the actor and the
           system can read, with steps, conditions, and transitions, and hand
-          it over to run. The actor now inspects and repairs the procedure
+          it over to run as a standing request in
+          [delegating work](/sequences/delegating-work#framing). The actor now inspects and repairs the procedure
           instead of accepting offers, which leaves this sequence.
     resulting: >-
       Each surface sits at the level its record supports, and what recurred
       whole now runs as a procedure. The cost stays: every level rests on
       typical use, and it fits worst the actor who is least typical.
-connections:
-  - kind: calls
-    at: offer/2
-    to: calibrating-reliance
-    via: cognitive-forcing-functions
-    note: "an offer shown before the actor has formed their own view narrows it, and that sequence supplies the friction that answers it, at each offer surface's own grade"
-  - kind: calls
-    at: climb/2
-    to: calibrating-reliance
-    via: transparent-reasoning
-    note: "a surface that moves up owes a fuller account of its offers, which that sequence's evidence steps provide"
-  - kind: hands-off
-    at: forward/1
-    to: attention-and-tempo
-    via: notification
-    note: "proposals arrive uninvited at moments the system picks, and what may interrupt whom, and when, is that sequence's decision"
-  - kind: hands-off
-    at: climb/3
-    to: delegating-work/framing/1
-    via: workflow
-    note: "the procedure is handed over as a standing request, one of the two ways into that sequence"
 ---
 
 An actor is doing work the system can see, and the system could do part of

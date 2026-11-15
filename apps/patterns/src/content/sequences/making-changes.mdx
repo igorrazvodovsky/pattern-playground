@@ -1,7 +1,7 @@
 ---
 title: "Making changes"
 added: 2026-08-28
-updated: 2026-09-27
+updated: 2026-11-15
 description: "Decide how the actor selects what to change, where each kind of change is made, when a change is saved, and how it can be undone, with safeguards matched to how costly each change is."
 order: 3
 presupposes: >-
@@ -29,7 +29,10 @@ sub-sequences:
         gloss: >-
           Decide this for each kind of change, not once for the whole system.
           The same system can handle a title edit and a record import in
-          different places.
+          different places. Fields whose questions are still changing can be
+          asked one at a time in a conversation, designed in
+          [the encounter](/sequences/the-encounter), until they settle into a
+          form.
         alternatives:
           - step: "Let the actor change the item where it is shown"
             rule: editing-in-place
@@ -86,14 +89,15 @@ sub-sequences:
             gloss: >-
               Where the value must come from a set the actor did not define,
               let them choose from it, and pick a control that suits the size
-              of the set. For a set too large to browse, use search.
+              of the set. For a set too large to browse, use search, designed in
+              [composing views](/sequences/composing-views#search).
           - step: "Pre-fill values the system can guess"
             rule: good-defaults
             gloss: >-
               Fill in fields with the system's best guess before the actor
               reaches them. Where the system already knows the value, or takes
-              part in the work itself, the assistance escalation sequence
-              covers the design.
+              part in the work itself, continue in
+              [assistance escalation](/sequences/assistance-escalation).
       - step: "Divide a long form into sections"
         rule: sections
         optional: true
@@ -116,21 +120,19 @@ sub-sequences:
       made in place are saved one at a time, and a form keeps its values until
       it is submitted.
     steps:
-      - step: "Separate saving from the other actions on the Save button"
+      - step: "Decide what saving stores and when it happens"
         rule: saving
         gloss: >-
           Separate storing the work from other actions that are often attached
           to the Save button, such as creating a version, discarding a draft,
-          or marking work as done, and give each action its own control.
-      - step: "Choose between automatic and manual saving"
-        rule: saving
-        aspect: "its arrangements"
-        gloss: >-
-          Save automatically for open-ended work. Use manual saving where a
-          real constraint or transaction requires a pending state that the
-          actor can review or cancel. Where both are used, show which applies
-          where. In both cases, show the save status: what has been stored and
-          what has not.
+          or marking work as done, and give each action its own control. Save
+          automatically for open-ended work, and manually where a real
+          constraint or transaction requires a pending state that the actor
+          can review or cancel. Where both are used, show which applies where,
+          and in both cases show what has been stored and what has not. Where
+          two actors can edit the same item, saving is where they find out
+          about each other, and the conflict is resolved in
+          [working on the same thing](/sequences/working-on-the-same-thing#parting).
       - step: "Separate publishing from saving"
         rule: draft-and-publish
         optional: true
@@ -138,8 +140,9 @@ sub-sequences:
           When work is saved continuously and other people can see it, keep a
           working copy and add a separate publish action. Publishing marks the
           point where work is ready for others, and where review, versioning,
-          and notifications can apply. Skip this step if no one else sees the
-          work.
+          and notifications can apply; who is notified and when is decided in
+          [attention and tempo](/sequences/attention-and-tempo). Skip this
+          step if no one else sees the work.
   - id: safety
     title: "Making changes safe"
     initiating: >-
@@ -170,37 +173,8 @@ sub-sequences:
           for Back in a wizard. An action that can be undone needs less
           confirmation, so update its risk rating once. Decide how many steps
           undo can go back and whether undo history is kept after the session
-          ends.
-connections:
-  - kind: hands-off
-    at: routing/2
-    to: the-encounter
-    via: conversation
-    note: "fields can also be asked and answered one at a time in a conversation; that sequence covers this while the questions are still changing, and the conversation becomes a form once they are fixed"
-  - kind: calls
-    at: surface/3
-    to: composing-views/search
-    via: searching
-    note: "a set too large to browse needs search, which that sequence designs"
-  - kind: hands-off
-    at: surface/3
-    to: assistance-escalation
-    via: good-defaults
-    note: "a pre-filled guess is the first level of help, and that sequence takes over where the system already knows the value or takes part in the work"
-  - kind: interleaves
-    at: committing/2
-    to: working-on-the-same-thing
-    note: "two actors editing the same item find out about each other when they save, so resolving conflicts alternates with this sequence's saving steps"
-  - kind: hands-off
-    at: committing/3
-    to: attention-and-tempo
-    via: notification
-    note: "publishing gives notifications a point to attach to, and that sequence decides who is notified and when"
-  - kind: hands-off
-    at: safety/3
-    to: memory-and-continuity
-    via: activity-log
-    note: "undo history ends with the session, and longer-term history, such as named versions, is covered in that sequence"
+          ends; longer-term history, such as named versions, is returned to in
+          [memory and continuity](/sequences/memory-and-continuity#return).
 ---
 
 A collection is in front of the actor, and the operations on it are named.

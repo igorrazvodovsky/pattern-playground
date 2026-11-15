@@ -1,7 +1,7 @@
 ---
 title: "The encounter"
 added: 2026-08-28
-updated: 2026-09-27
+updated: 2026-11-15
 description: "State what the agent can do, carry each kind of request, check before consequential acts, recover when the exchange breaks, and end or pause the conversation deliberately."
 order: 4
 presupposes: >-
@@ -15,26 +15,28 @@ sub-sequences:
   - id: footing
     title: "Setting the footing"
     steps:
-      - step: "Draw the capability boundary"
+      - step: "State what the agent can and cannot do"
         rule: capability-and-scope
         gloss: >-
           State what the agent can act on, look up, or only discuss, and
           decide what it may promise. Give an out-of-scope request somewhere
           to go, never a dead end. Restate the boundary at each encounter,
-          since capabilities change between visits.
-      - choice: "Decide who can open"
+          since capabilities change between visits. The first statement is
+          part of the actor's first encounter in
+          [learning](/sequences/learning#arrival).
+      - choice: "Decide who starts the conversation"
         gloss: >-
           Most designs take both arms. Either way the actor has committed to
           nothing yet, so a way out before any activity starts is owed; the
           trouble steps build it.
         alternatives:
-          - step: "Let the agent open"
+          - step: "Let the agent start"
             rule: agent-opening
             gloss: >-
               Open by saying who is speaking, what it can do, and what this
               is about, including the capability statement, and propose a
               first topic the actor can accept, replace, or turn down.
-          - step: "Recognise the actor's open"
+          - step: "Respond to however the actor starts"
             rule: user-opening
             gloss: >-
               Align to whatever the actor brought, and route it by shape: a
@@ -48,22 +50,25 @@ sub-sequences:
       question answerable as asked, a goal with steps behind it, or content
       too long for one turn.
     steps:
-      - step: "Answer the askable directly"
+      - step: "Answer a question directly"
         rule: inquiry-user
         gloss: >-
           Answer first, offer next moves after, and keep turns short. For
-          anything non-trivial, attach the evidence to the answer.
-      - step: "Frame the goal-shaped request"
+          anything non-trivial, attach the evidence to the answer, as built in
+          [calibrating reliance](/sequences/calibrating-reliance#evidence).
+      - step: "Spell out a request for a goal"
         rule: open-request
         gloss: >-
           Make the goal, constraints, assumptions, and sources explicit, so
-          what is missing shows as named gaps.
+          what is missing shows as named gaps. A request the agent will go away
+          and work on becomes the prompt in
+          [delegating work](/sequences/delegating-work).
         constituents:
           - slug: inquiry-agent
             note: "the agent asks only for what it genuinely lacks, as early as the loose opening"
           - slug: prompt-scaffolding
             note: "structure for composing a complete request without already knowing what a complete one contains"
-      - step: "Hold the floor for the long telling"
+      - step: "Deliver long content in parts the actor controls"
         rule: extended-telling
         optional: true
         gloss: >-
@@ -71,7 +76,7 @@ sub-sequences:
           actor controls: announce the scope, advance when they signal to go
           on, and keep skip, back, and stop available. The repair steps also
           hand over to this. Skip it where answers fit single turns.
-      - step: "Give turns a working surface"
+      - step: "Put controls into the messages"
         rule: inline-interface
         optional: true
         gloss: >-
@@ -87,19 +92,21 @@ sub-sequences:
       reading can be wrong. The check is decided per act, by its
       consequences, and routine acts go ahead.
     steps:
-      - cluster: "Match the check to the act"
+      - cluster: "Check consequential acts before they run"
         gloss: >-
           Two checks, in no set order. Each act takes the one its
           consequences call for, and an act that can be cleanly undone takes
           neither.
         steps:
-          - step: "Preview the substantial work"
+          - step: "Preview substantial work"
             rule: plan-preview
             gloss: >-
               Show the steps, targets, expected effects, and cost before
               substantial work, so a misreading surfaces while it is cheap.
-              Preview only work that warrants it.
-          - step: "Take the go-ahead in place"
+              Preview only work that warrants it. Keeping the work to what was
+              previewed is decided in
+              [governing autonomy](/sequences/governing-autonomy#gate).
+          - step: "Confirm a step that cannot be undone in place"
             rule: inline-confirmation
             gloss: >-
               For a single step that cannot be undone, ask for confirmation
@@ -112,31 +119,31 @@ sub-sequences:
       request, or the actor does not follow the agent. Sometimes the actor
       simply wants out with the goal unmet.
     steps:
-      - cluster: "Repair from both sides"
+      - cluster: "Repair misunderstandings on both sides"
         gloss: >-
           Two directions of trouble, in no set order. Both resume the
           activity at the step that broke, not from the beginning.
         steps:
-          - step: "Show the agent's reading for correction"
+          - step: "Show the agent's reading so the actor can correct it"
             rule: agent-repair
             gloss: >-
               Show the agent's interpretation and parameters, and let the
               actor edit them. Where one specific value is missing, ask for
               that value instead of guessing again.
-          - step: "Re-deliver what did not land"
+          - step: "Explain again what the actor did not follow"
             rule: user-repair
             gloss: >-
               Offer a paraphrase, a definition, or a worked example without
               the actor having to diagnose their own confusion. When none of
               them is enough, switch to a long telling.
-      - step: "Build the exit that is not failure"
+      - step: "Let the actor stop an activity they no longer want"
         rule: abort
         gloss: >-
           Let the actor stop an activity whose goal is no longer wanted: halt
           where it stands, state what changed, and keep what it collected
           visible for the actor to keep or discard. This is the way out owed
-          since the opening. Changes already made are undone outside the
-          conversation.
+          since the opening. Changes already made are undone through the undo
+          in [making changes](/sequences/making-changes#safety).
   - id: ending
     title: "Ending and parking"
     initiating: >-
@@ -145,62 +152,34 @@ sub-sequences:
       and to pause without ending, with the difference visible to both
       sides.
     steps:
-      - step: "Close the loop on each activity"
+      - step: "Take the acknowledgement as the end of an activity"
         rule: sequence-completion
         gloss: >-
           Treat the actor's acknowledgement, such as "thanks" or "got it", as
           the close of the activity. Offer a next move there only when the
           actor is likely to want one.
-      - cluster: "Settle the two endings"
+      - cluster: "Design both ending and pausing"
         gloss: >-
           Design both endings, and let the kind of interface decide which one
           the defaults serve: a conversation-first interface ends deliberately
           and parks as the exception, and an embedded surface is mostly left
-          open and rarely closed on purpose.
+          open and rarely closed on purpose. What either ending leaves behind
+          is kept across sessions in
+          [memory and continuity](/sequences/memory-and-continuity).
         steps:
-          - step: "End the encounter deliberately"
+          - step: "End the conversation deliberately"
             rule: closing
             gloss: >-
               Invite last topics and either handle or schedule them, so both
               sides know it is over rather than paused. Anything deferred here
               is a commitment the actor expects kept.
-          - step: "Let it park without ending"
+          - step: "Let the conversation pause without ending"
             rule: disengage-without-closing
             gloss: >-
               Keep the state saved, show that it is saved, and keep resume
               within reach. On return, pick up with the history, and confirm
               any assumptions that may have gone stale, including the
               capability boundary.
-connections:
-  - kind: calls
-    at: business/1
-    to: calibrating-reliance
-    via: citation
-    note: "the evidence attached to a direct answer, such as source, time, and uncertainty, is built in that sequence for each surface"
-  - kind: hands-off
-    at: business/2
-    to: delegating-work
-    via: prompt
-    note: "a framed request the agent will go away and work on becomes that sequence's prompt"
-  - kind: hands-off
-    at: gate/1
-    to: governing-autonomy
-    via: approval-gate
-    note: "the preview is what an approval acts on, and keeping the work to what was approved is that sequence's step"
-  - kind: hands-off
-    at: trouble/2
-    to: making-changes/safety/3
-    via: undo
-    note: "changes an aborted activity already made are undone through that sequence's safety steps"
-  - kind: hands-off
-    at: footing/1
-    to: learning
-    via: onboarding
-    note: "the first statement of what the agent can do is part of the actor's first encounter, which that sequence designs"
-  - kind: hands-off
-    at: ending/2
-    to: memory-and-continuity
-    note: "both endings leave something behind, commitments deferred at the close or state parked without one, which that sequence keeps across sessions"
 ---
 
 An actor and an AI agent meet in conversation, and the conversation carries the

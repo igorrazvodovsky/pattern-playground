@@ -1,7 +1,7 @@
 ---
 title: "Attention and tempo"
 added: 2026-08-29
-updated: 2026-09-27
+updated: 2026-11-15
 description: "Decide when the system may interrupt the actor: grade each kind of event once, give events that can wait a place where the actor can check them, and time each notification so the actor can get back to their work."
 order: 7
 presupposes: >-
@@ -29,7 +29,8 @@ sub-sequences:
           announce without interrupting, or add silently to what is waiting.
           Below the top grade, let the notification say that something needs
           attention and let the actor decide when to look. Handle an event that
-          needs a decision from the actor as the start of an exchange, not as a
+          needs a decision from the actor as the start of an exchange in
+          [the encounter](/sequences/the-encounter#footing), not as a
           notification.
       - step: "Protect focused time"
         gloss: >-
@@ -65,9 +66,8 @@ sub-sequences:
           the screens the actor already uses, and a feed that collects the
           rest. When nothing has changed, both should say so clearly.
         steps:
-          - step: "Show status where the actor already looks"
+          - step: "Show indicators where the actor already looks"
             rule: status-feedback
-            aspect: "its indication shape"
             gloss: >-
               Grade indicators the same way as events: nothing, a dot, or a
               count. Reserve the count for messages addressed to the actor, so
@@ -81,8 +81,10 @@ sub-sequences:
       - step: "Let the actor choose when to deal with things"
         gloss: >-
           Let the actor snooze a notification, ask to be reminded later, or
-          schedule a message they send. Offer presets that point to the start
-          of the next working block.
+          schedule a message they send, which applies a colleague's budget from
+          the sender's side in
+          [working on the same thing](/sequences/working-on-the-same-thing#contribution).
+          Offer presets that point to the start of the next working block.
   - id: arrival
     title: "Timing each notification"
     initiating: >-
@@ -94,7 +96,8 @@ sub-sequences:
         gloss: >-
           Delay delivery by seconds or minutes, until the actor reaches a
           natural break in their task; anything that can wait for hours
-          belongs in the feed. Move a notification to the interrupting channel
+          belongs in the feed, or in the catch-up on return in
+          [memory and continuity](/sequences/memory-and-continuity#return). Move a notification to the interrupting channel
           only if the quiet one went unnoticed. Batch notifications only on a
           schedule the actor chose.
       - step: "Summarise batches of events, and say so"
@@ -102,14 +105,16 @@ sub-sequences:
         gloss: >-
           Where events arrive in large numbers, offer a summary as an opt-in
           feature. Mark it as a summary rather than the original, and link
-          each point in it to the event it came from. Skip this step when
+          each point in it to the event it came from, as in
+          [calibrating reliance](/sequences/calibrating-reliance#evidence). Skip this step when
           events are few enough to show one at a time.
       - step: "Show brief messages that dismiss themselves"
         rule: transient-feedback
         gloss: >-
           For events that only need to be noticed, show a short message that
           disappears on its own and never makes the actor stop. Decide how
-          long it stays and whether it offers one action, usually undo.
+          long it stays and whether it offers one action, usually the undo
+          from [making changes](/sequences/making-changes#safety).
           Anything important shown this way also goes to the feed.
       - step: "Help the actor return to their work"
         constituents:
@@ -119,40 +124,13 @@ sub-sequences:
           At every grade, keep what the actor needs to resume: their place,
           their unsaved draft, and enough context that they do not have to
           work out again where they were. Do this for delayed notifications
-          too.
+          too; an interruption that outlasts the session is restored by
+          [memory and continuity](/sequences/memory-and-continuity#return).
     resulting: >-
       Each event arrives at a suitable moment, in a form that matches its
       grade, with any summary clearly marked, and with a way back to the work.
       Each notification also makes the actor a little more likely to switch
       notifications off.
-connections:
-  - kind: hands-off
-    at: budget/2
-    to: the-encounter
-    via: agent-opening
-    note: "an event that needs a decision rather than a look starts an exchange, and the budget's top grades decide when the agent may start one"
-  - kind: hands-off
-    at: glance/2
-    to: working-on-the-same-thing
-    note: "scheduled send and working hours decide when the actor's own message reaches a colleague, which is the same budget seen from the sender's side"
-  - kind: hands-off
-    at: arrival/1
-    to: memory-and-continuity
-    note: "events kept out of the interrupting channels entirely wait for the catch-up when the actor returns"
-  - kind: calls
-    at: arrival/2
-    to: calibrating-reliance
-    via: provenance-marking
-    note: "a generated summary is AI output, so it is marked as such and its points link back to the events they summarise"
-  - kind: hands-off
-    at: arrival/3
-    to: making-changes
-    via: undo
-    note: "the time before a brief message disappears is also the time to undo, and the undo it offers is built in that sequence"
-  - kind: hands-off
-    at: arrival/4
-    to: memory-and-continuity
-    note: "when an interruption lasts beyond the session, that sequence restores the actor's place"
 ---
 
 This sequence decides which events may interrupt the actor, when, and in what form. The events come from the other sequences: a document is published, a run finishes or fails, a limit is reached, a proposal arrives, a colleague makes an edit. Events that can wait until the actor comes back are covered by [memory and continuity](/sequences/memory-and-continuity).

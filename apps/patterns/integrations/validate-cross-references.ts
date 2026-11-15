@@ -69,6 +69,8 @@ const PATTERN_REF_RE = /<PatternRef\b([^>]*?)(?:\/?>|>[^<]*<\/PatternRef>)/g;
 // `href={`/patterns/${…}`}` uses backticks and is skipped.
 const CONTENT_LINK_RE = /\]\(\/patterns\/([A-Za-z0-9/_-]+)(?:#[A-Za-z0-9/_-]*)?\)/g;
 const CONCEPT_LINK_RE = /\]\(\/concepts\/([A-Za-z0-9/_-]+)(?:#[A-Za-z0-9/_-]*)?\)/g;
+// A sequence link keeps its anchor: one may land on a sub-sequence, by its id.
+const SEQUENCE_LINK_RE = /\]\(\/sequences\/([A-Za-z0-9_-]+(?:#[A-Za-z0-9_-]*)?)\)/g;
 const ASTRO_LINK_RE = /href=(["'])\/patterns\/([A-Za-z0-9/_-]+)(?:#[A-Za-z0-9/_-]*)?\1/g;
 const ASTRO_CONCEPT_LINK_RE = /href=(["'])\/concepts\/([A-Za-z0-9/_-]+)(?:#[A-Za-z0-9/_-]*)?\1/g;
 
@@ -522,6 +524,50 @@ function checkIntraSiteLinks(logger: AstroIntegrationLogger): Violation[] {
   logger.info(
     `Checked ${conceptUses.length} intra-site /concepts/ link(s) against ${concepts.size} concept entries.`,
   );
+
+  // Sequence links sit in glosses, `resulting` clauses, and bodies. A sequence
+  // not yet authored is named in plain text, so every link must resolve, and an
+  // anchor must name one of the target's sub-sequences.
+  const sequenceSections = new Map<string, Set<string>>();
+  for (const { file, fm } of frontmatterFiles(join(patternsContentDir, 'sequences'))) {
+    const subs = Array.isArray(fm['sub-sequences']) ? fm['sub-sequences'] : [];
+    sequenceSections.set(
+      fileStem(file),
+      new Set((subs as Record<string, unknown>[]).map((sub) => String(sub.id))),
+    );
+  }
+  const sequenceUses = collectLinks(
+    walkMdx(patternsContentDir),
+    SEQUENCE_LINK_RE,
+    1,
+    stripComments,
+  );
+  for (const use of sequenceUses) {
+    const [id, anchor] = use.value.split('#');
+    const sections = sequenceSections.get(id);
+    if (!sections) {
+      const suggestion = nearest(id, sequenceSections.keys());
+      violations.push({
+        file: relPath(use.file),
+        line: use.line,
+        message:
+          `/sequences/${id} resolves to no sequence ` +
+          `(apps/patterns/src/content/sequences/${id}.{md,mdx}); name an unauthored sequence in plain text` +
+          (suggestion ? ` — or did you mean "/sequences/${suggestion}"?` : '.'),
+      });
+    } else if (anchor !== undefined && !sections.has(anchor)) {
+      violations.push({
+        file: relPath(use.file),
+        line: use.line,
+        message:
+          `/sequences/${use.value} names no sub-sequence of "${id}" ` +
+          `(it has ${[...sections].join(', ')}).`,
+      });
+    }
+  }
+  logger.info(
+    `Checked ${sequenceUses.length} intra-site /sequences/ link(s) against ${sequenceSections.size} sequences.`,
+  );
   return violations;
 }
 
@@ -560,13 +606,10 @@ function checkSequenceRefs(logger: AstroIntegrationLogger): Violation[] {
       });
     };
 
-    const positionCounts = new Map<string, number>();
     const subSequences = Array.isArray(fm['sub-sequences']) ? fm['sub-sequences'] : [];
     for (const sub of subSequences as Record<string, unknown>[]) {
       const positions = Array.isArray(sub.steps) ? (sub.steps as Record<string, unknown>[]) : [];
-      if (typeof sub.id === 'string') positionCounts.set(sub.id, positions.length);
       for (const position of positions) {
-        if (typeof position.tree === 'string') report(position.tree, 'tree');
         const steps = Array.isArray(position.steps)
           ? position.steps
           : Array.isArray(position.alternatives)
@@ -575,33 +618,6 @@ function checkSequenceRefs(logger: AstroIntegrationLogger): Violation[] {
         for (const step of steps as Record<string, unknown>[]) {
           for (const slug of patternSlugs(step)) report(slug, 'rule/constituent');
         }
-      }
-    }
-
-    for (const connection of (Array.isArray(fm.connections) ? fm.connections : []) as Record<
-      string,
-      unknown
-    >[]) {
-      if (typeof connection.via === 'string') report(connection.via, 'connection via');
-      if (typeof connection.at !== 'string') continue;
-      const [subId, position] = connection.at.split('/');
-      const count = positionCounts.get(subId);
-      const index = content.indexOf(connection.at);
-      if (count === undefined) {
-        violations.push({
-          file: relPath(file),
-          line: index === -1 ? 1 : lineOf(content, index),
-          message: `connection at: "${connection.at}" names no sub-sequence in this file.`,
-        });
-      } else if (position !== undefined && !(Number(position) >= 1 && Number(position) <= count)) {
-        violations.push({
-          file: relPath(file),
-          line: index === -1 ? 1 : lineOf(content, index),
-          message:
-            `connection at: "${connection.at}" points past the end of "${subId}", ` +
-            `which has ${count} numbered step(s). Numbers are one-based, and a ` +
-            'cluster or choice point takes one number for the steps it holds.',
-        });
       }
     }
   }

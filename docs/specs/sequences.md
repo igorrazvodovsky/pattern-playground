@@ -19,10 +19,10 @@ ordering, their interconnections) is
 - One coherent stretch of design work, walked as steps. The order is authored
   and fixed, but approximate: each step keeps latitude to respond to what is
   already made, and the order is revised as authoring and use teach.
-- The *step* is the unit: a decision written as a verb, invoking a pattern as
-  its rule, or opening a choice point that delegates to a decision tree. A
-  step is not called a move — in this corpus a move is what a pattern names,
-  and a step invokes a pattern rather than being one.
+- The *step* is the unit: a concrete instruction to the maker, acting on what
+  the earlier steps made, and usually invoking a pattern as its rule. A step
+  is not called a move — in this corpus a move is what a pattern names, and a
+  step invokes a pattern rather than being one.
 - A sequence orders *decisions*, not construction: steps taken in order may be
   realised together, and each decision remains to be tested in the adopting
   design's own material. The sequence stores the order; the actor still
@@ -36,13 +36,11 @@ ordering, their interconnections) is
   renders in a sequence as part of an initiating situation, never as a step.
   Qualities are reading dimensions, never steps.
 - Constituents (`enables`-only patterns) ride inside steps, not as steps.
-- A sequence decomposes into *sub-sequences* of roughly five to twenty steps,
-  each with its own initiating situation and adoptable singly, because small
-  sequences get adopted and large indivisible ones do not.
-- Sequences connect three ways: a sequence *calls* another mid-course when
-  the centers it makes need supporting centers; it *hands off* when its
-  results set up another's starting conditions; two sequences *interleave*
-  when their steps must alternate.
+- A sequence is divided into *sub-sequences*: sections of the one walk, each
+  with a title and, after the first, a condition for entering it.
+- A sequence refers to another in prose, with a link at the step where the
+  other is used, or in a section's `resulting` clause when what is handed on
+  is the product of the whole section. The link records no kind.
 - A sequence takes no process-register steps. What a design team does to
   ground the work (task analysis, posture decisions, scope judgement) is
   stated at sequence heads as *presuppositions* — initiating-situation
@@ -85,33 +83,32 @@ What the fields mean:
   the lead, which is not folded away behind a disclosure.
 - `enacts` — quality slugs the sequence chiefly enacts. Node metadata; sequences
   are not graph nodes, so no edge is emitted.
-- `sub-sequences` — each with an `id`, its own `initiating` situation (the
-  head sub-sequence omits it, `presupposes` covers it), ordered `steps`, and an
-  optional `resulting` context. Each is meant to be adoptable singly. An
-  `initiating` is one to three sentences. A `resulting` is written only when it
+- `sub-sequences` — sections of the walk, each with an `id`, a `title`, its own
+  `initiating` situation (the head sub-sequence omits it, `presupposes` covers
+  it), ordered `steps`, and an optional `resulting` context. An `initiating`
+  is one to three sentences. A `resulting` is written only when it
   says something the next sub-sequence's `initiating` does not, which usually
   leaves it on the last sub-sequence alone.
-- A `step` (verb phrase) invokes a pattern as its `rule`, optionally one
-  `aspect` of it. Steps are required by default; `optional` marks a skippable
-  step, with the skip condition in the gloss. A step with no `rule` is the
-  weak form and is legitimate but marked by its absence. The same rule may be
-  invoked at more than one step.
+- A `step` (verb phrase) may link to the pattern that says how to take it, as
+  its `rule`. Many steps have none. The step line says what the step does,
+  including which side of a pattern it uses. Steps are required by default;
+  `optional` marks a skippable step, with the skip condition in the gloss. The
+  same rule may be invoked at more than one step.
 - `constituents` ride inside steps, never as steps. Their edges stay
   `enables`/`hosts`; step-versus-constituent status is not derivable from edge
   type, which is why the sequence layer stores it.
 - A `cluster` takes one number for the several `steps` it holds. Nothing
   orders a cluster's steps among themselves, and any order they are listed in
   elsewhere is for readability and claims nothing.
-- A `choice` opens alternatives that combine unless `exclusive: true`;
-  `tree` names the pattern page whose decision tree owns the judgement.
-- `connections` are cross-sequence links, typed `calls` (mid-course, the
-  centers made need supporting centers), `hands-off` (results set up another
-  sequence's starting conditions), or `interleaves` (steps must alternate).
-  `at` names the step on this side; `to`/`from` the far sequence, which may
-  not be authored yet — forward references are allowed and mark work still to
-  do. A connection's `note` says in one sentence what crosses and why. A call
-  to a step of the same sequence is narrated in the calling step's gloss
-  instead.
+- A `choice` opens alternatives. They combine unless the choice's gloss says
+  to pick one.
+- A link to another sequence is a markdown link in a gloss or a `resulting`
+  clause, `[making changes](/sequences/making-changes)`, written as an
+  instruction or a plain statement of where the work continues. It may point
+  at a section, `/sequences/making-changes#safety`, where the reader should
+  land on one; step numbers are not addressed. A sequence not yet authored is
+  named in plain text. A reference to a step of the same sequence is narrated
+  in the gloss without a link.
 
 ## Authoring
 
@@ -131,9 +128,12 @@ descends from:
   has already made this step acts on, which keeps a pattern from being applied
   as a cut-and-paste image. It does not explain the pattern: the pattern's
   reasons, costs, and forces are on its page, and repeating them here makes
-  every step longer without adding a decision. Authoring status (a weak form,
-  a finding) is not written in the gloss either; the missing `rule` marks the
-  weak form, and findings belong in the plan file. In a cluster, the cluster
+  every step longer without adding a decision. Authoring status, such as a
+  finding, is not written in the gloss either; findings belong in the plan
+  file. Whether a step with no `rule` deserves a pattern is a question for a
+  pattern sitting. A link to another sequence keeps to the same length: where
+  a step would collect three or more, keep the ones a maker would follow at
+  that moment. In a cluster, the cluster
   gloss may carry the binding and leave its members thin. Outside a cluster, a
   gloss that names nothing already made is an omission, except at the head
   step, whose material is the presupposition.
@@ -145,8 +145,8 @@ descends from:
   outcomes; where the order is not known, the cluster declines it. An
   optional step names its skip condition.
 - *Reshaping is not backtracking.* Later steps are expected to reshape earlier
-  steps' outputs — a rule re-invoked at a later site through `aspect`, an earlier
-  grading revised once. A sequence fails only when a later step forces an
+  steps' outputs — a rule invoked again at a later site, an earlier grading
+  revised once. A sequence fails only when a later step forces an
   earlier *decision* to be revoked; test walks record those as backtracks.
 - *Obligations are recorded when created.* When a step creates a debt a later
   step must pay (an exit owed, a contract to keep resolving), the creating
@@ -185,46 +185,45 @@ render has to hold to:
 
 - *A sub-sequence is one of the page's own sections.* Its heading takes the same
   rank as any other section of the article, so the table of contents lists the
-  sub-sequences alongside Connections. The heading carries the sub-sequence id,
-  so a `connections.at` address survives a retitling, where an id derived from
-  heading text would not.
-- *The numbering is referenced data.* `connections.at` addresses a numbered
-  step as `<sub-sequence>/<n>`, one-based within the sub-sequence, and a cluster
-  or choice point takes one number for the several steps it holds. The markup is
-  one `<ol>` per sub-sequence with a cluster's steps as a nested unordered list
-  inside their single item — which is also how the cluster reads as unordered
-  rather than as a serialisation.
-- *A step with no `rule` renders with no pattern link.* That absence is the
-  marking of the weak form; nothing is added to announce it.
-- *Forward references stay legible.* A connection naming a sequence nobody has
-  authored yet renders as plain text marked unauthored, never as a dead link.
+  sub-sequences. The heading carries the sub-sequence id, so a link to the
+  section survives a retitling, where an id derived from heading text would
+  not.
+- *A cluster or choice takes one number.* The markup is one `<ol>` per
+  sub-sequence with a cluster's or choice's steps as a nested unordered list
+  inside their single item, which is also how the cluster reads as unordered
+  rather than as a serialisation. Each numbered item carries the anchor
+  `<sub-sequence>-<n>`, which "Appears in" links to.
+- *A step with no `rule` renders as its line alone.* Nothing is added to mark
+  the absence.
 
-The rendered labels are not the field names. `presupposes`, `initiating`, and
+A choice's alternatives are introduced as "One or more of:"; a restriction to
+one is in the gloss. The rendered labels are not the field names. `presupposes`, `initiating`, and
 `resulting` read on the page as *Prerequisites*, *Applies when*, and *Leaves*,
 where the field names are the schema's terms. The first two label the same kind
 of thing at two scales — a condition gating entry to what follows. *Prerequisites*
 renders folded, as a line the reader opens ahead of the walk. *Applies when*
-renders open (since 2026-09-25): a sub-sequence's first step reads as
-unmotivated without it, so the reader meets the situation before the step.
+renders open: a sub-sequence's first step reads as unmotivated without it, so
+the reader meets the situation before the step.
 `resulting` is read on the way past and stays open.
 
 Read in reverse, the same frontmatter gives each pattern page an "Appears in"
-block naming the sequences that invoke it — as a step's rule, as a constituent, or
-as the pattern whose decision tree owns a choice point. It renders between
+block naming the sequences that invoke it, as a step's rule or as a
+constituent. It renders between
 Consequences and Related patterns and, like both, is machine-rendered from the
 one authored home.
 
 ## Validation
 
 The site build resolves every pattern slug a sequence names (`rule`,
-`constituents`, `tree`, a connection's `via`) and every internal `at` address,
-and fails on a slug or step number that does not resolve
-(`integrations/validate-cross-references.ts`). A connection's `to`/`from` is
-deliberately exempt, because forward references are allowed. Checking that
-within-sub-sequence order never reverses a `precedes` edge stays deferred
-tooling; the schema gate checks shape only.
+`constituents`) and every `/sequences/<id>` link in content, including links
+in glosses and `resulting` clauses, and fails on a slug or sequence that does
+not resolve or a section anchor that names no sub-sequence of its target
+(`integrations/validate-cross-references.ts`). Sequence order is not checked
+against `precedes` edges: an edge says one pattern leaves something another
+acts on, and a sequence gives the order of decisions for one kind of work, so
+neither is derived from the other.
 
 Origin and rationale: [2026-08-sequence-map.md](../../plans/active/2026-08-sequence-map.md)
 (the representation decision),
-[2026-08-composing-views-sequence.md](../../plans/active/2026-08-composing-views-sequence.md)
+[2026-08-composing-views-sequence.md](../../plans/completed/2026-08-composing-views-sequence.md)
 (the pilot whose authoring produced the shape).

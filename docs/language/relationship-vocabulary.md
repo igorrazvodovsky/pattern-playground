@@ -486,6 +486,8 @@ before the first query function is written.
 
 8. ~~*Pattern–foundation edge treatment*~~ — resolved 2026-07-12: `serves` minted as the pattern → foundation participation edge, and the foundation tiebreaker grew to four arms (see the `serves` section and the changelog entry). The related-residue audit's foundation-target rows are unblocked with the four-arm guide as their rule.
 
+9. *Is the record-driven re-decision an edge?* Four patterns revise a standing decision on the evidence of the activity log: standing instructions (behaviour), bounded autonomy (authority), cognitive forcing functions (scrutiny) and assisted task completion (the level of help). Only bounded autonomy types the connection, as `complements`. The rest is told in activity log's resulting situation and in the sequences. Open: whether prose is enough, or whether the four are a `precedes` from the record that the vocabulary should name.
+
 ## Structural invariants
 
 Testable assertions derived from this vocabulary's own definitions. These can be checked against `pattern-graph.json` by a script or by an actor reviewing extraction output.
@@ -524,6 +526,12 @@ A running record of why types were added, merged, renamed, or retired, what alte
 Each entry: date, change, why, what was considered, what was lost.
 
 Entries are condensed to what still bears on future decisions; the full records are in this file's git history.
+
+### 2026-11-15 — Sequences link to each other in prose; aspects and the reversal check go
+
+The sequence format lost four pieces: the typed `connections` block (calls, hands-off, interleaves), the step `aspect`, the choice fields `tree` and `exclusive`, and the reading of a step without a `rule` as a marked weak form. A sequence now reaches another through a markdown link in the gloss of the step where the other is used, or in a section's `resulting` clause, and the site build checks those links. The deferred check that a sequence's order never reverses a `precedes` edge was dropped rather than built. The format is in [docs/specs/sequences.md](../specs/sequences.md).
+
+Why: compared with *The Nature of Order* Book 2 chs. 11 and 20 and the published sequences in Book 3, the format carried machinery Alexander's sequences do not have. Chapter 20 gives one relation between sequences; hand-off and interleaving were this project's additions, and most of the 60 hand-offs repeated what a `resulting` clause or a pattern edge already said. Aspects let one pattern fill several consecutive steps, against the one-invocation rule. Rule-less steps were often the most concrete in their file, and Alexander's steps mostly name no pattern. The reversal check rested on reading sequence order and `precedes` as one claim: an edge says one pattern leaves something another acts on, wherever both are used, and a sequence orders the decisions of one kind of work, so a sequence may run against an edge without error. The four pairs that ran the other way when the check was considered were read and none was an error of order. What was considered: renaming `sub-sequences` to `sections`, since a sub-sequence is now a section of one walk rather than a unit adopted alone (rejected: the spec's description corrects the name). What was lost: a link no longer says whether it is a call or a hand-off, which no render or check used, and the sequence-to-sequence picture is no longer queryable from one block; it can be derived from the links. The 23 aspects are kept in `plans/sequence-findings-registry.md` as split evidence. The 2026-08-28 entry's "deferred tooling" for the reversal check no longer holds.
 
 ### 2026-11-09 — A pattern is a rule, not a move; alternatives are named with what rules them out
 

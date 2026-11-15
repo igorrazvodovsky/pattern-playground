@@ -1,17 +1,17 @@
 ---
 title: Composing views — the pilot sequence
-status: active
+status: completed
 kind: exec-spec
 created: 2026-08-28
-last_reviewed: 2026-09-27
+last_reviewed: 2026-11-15
 area: language / organisation
-promoted_to:
+promoted_to: docs/specs/sequences.md
 superseded_by:
 ---
 
 # Composing views — the pilot sequence
 
-Phase 2 of [the sequence-map plan](2026-08-sequence-map.md): the first sequence authored end-to-end. The sequence's authoritative home is `apps/patterns/src/content/sequences/composing-views.mdx`, the representation phase 3 settled (docs/specs/sequences.md); this document is the authoring trace — the sequence as first written, the read-aloud walk, the test walks with their backtracks, and the corpus changes the authoring surfaced. The corpus changes are recorded here, not executed — each is judgment work for its own sitting.
+Phase 2 of [the sequence-map plan](../active/2026-08-sequence-map.md): the first sequence authored end-to-end. The sequence's authoritative home is `apps/patterns/src/content/sequences/composing-views.mdx`, the representation phase 3 settled (docs/specs/sequences.md); this document is the authoring trace — the sequence as first written, the read-aloud walk, the test walks with their backtracks, and the corpus changes the authoring surfaced. The corpus changes are recorded here, not executed — each is judgment work for its own sitting.
 
 Steps are decisions, written as verbs, each invoking a pattern as its rule. Constituents ride inside steps in parentheses. A step marked *(parallel)* belongs to an unordered cluster: the decisions are taken in whatever order the work suggests, and the serial presentation is a readable rationalisation, not a claim. The order of the sequence is the order of decisions, not of construction — steps taken in order are often realised together.
 

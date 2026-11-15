@@ -3,7 +3,9 @@
    unlayered inside an @scope donut, so a layered rule here could not override
    its `li + li` default. */
 
-/* The library's `details` is a bordered card; here it's an inline fold. */
+/* The library's `details` is a bordered card; here it's an inline fold. The
+   head's Prerequisites fold uses it; a sub-sequence's Applies when renders as
+   an open paragraph with the same class. */
 details.sequence-initiating {
   border: none;
   padding: 0;
@@ -14,9 +16,9 @@ details.sequence-initiating > summary {
 }
 
 /* Rhythm comes from `--flow-space`, set per level: wide between the
-   sub-sequences and Connections, the prose gap inside one, a wider gap either
-   side of the steps so the walk stands apart from its conditions, and a tight
-   gap between the lines of a single step or connection. Each value is set on
+   sub-sequences, the prose gap inside one, a wider gap either side of the
+   steps so the walk stands apart from its conditions, and a tight gap between
+   the lines of a single step. Each value is set on
    the children it spaces, so a nested flow container doesn't also move itself. */
 .sequence {
   --flow-space: var(--space-2xl);
@@ -26,21 +28,21 @@ details.sequence-initiating > summary {
   --flow-space: var(--space-m);
 }
 
-.sequence > section > h2 + details {
+.sequence > section > h2 + .sequence-initiating {
   --flow-space: var(--space-s);
 }
 
-.sequence > section > :is(details + .sequence__steps, .sequence__steps + *) {
+.sequence > section > :is(.sequence-initiating + .sequence__steps, .sequence__steps + *) {
   --flow-space: var(--space-xl);
 }
 
-:is(.sequence__steps, .sequence-connections__list) li {
+.sequence__steps li {
   --flow-space: var(--space-2xs);
 }
 
-/* The lists aren't flow containers (the prose `li + li` gap would win over
+/* The list isn't a flow container (the prose `li + li` gap would win over
    one), so the gap between items is set directly. */
-:is(.sequence__steps, .sequence-connections__list) > li + li {
+.sequence__steps > li + li {
   margin-block-start: var(--space-m);
 }
 

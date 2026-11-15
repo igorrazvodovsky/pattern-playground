@@ -125,6 +125,10 @@ This approach aligns with the [Saving](/patterns/saving#save-cancel-as-confirmat
 - Soft delete: Items moved to archive; configurable retention period
 - [Version history](/patterns/version-history)
 
+## What removal leaves behind
+
+Removing an item rarely removes everything about it. Decide what stays: a copy held for a recovery period, a placeholder where the item was so that links and replies to it still make sense, an entry in the [activity log](/patterns/activity-log) saying what was removed and by whom, and whatever the system learned from the item. Tell the actor which of these apply before they confirm. Where they asked for the item to be forgotten, make sure it does not come back through what remains.
+
 ## Decision tree
 
 <Diagram source={`

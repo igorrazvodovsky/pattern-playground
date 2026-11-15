@@ -29,6 +29,8 @@ relationships:
       note: inferred links benefit even more from preview, since actors have less prior expectation of where they lead
     - to: deep-linking
       note: when a link targets a specific section, the preview can scroll to and highlight the anchored fragment
+    - to: item-view
+      note: for a destination that is an entity, the link preview shows the item view's summary level
   enacts:
     - to: learnability
       note: previews help actors build a mental map of the knowledge base without navigating away from their current reading
@@ -67,7 +69,7 @@ Link preview and stacked-note navigation form a natural pair:
 - *Click* = stack (higher commitment, opens alongside)
 - *Modifier-click* = new tab (full commitment, separate context)
 
-The preview acts as the first tier of [progressive disclosure](/patterns/progressive-disclosure) for cross-references: sample, then open, then read.
+The preview acts as the first tier of [progressive disclosure](/patterns/progressive-disclosure) for cross-references: sample, then open, then read. Where the destination is an entity with an [item view](/patterns/item-view), the preview is that item at its summary level, so it looks the same here as anywhere else the item appears. A page-shaped destination has no such level, and its preview is the title and opening.
 
 ## Anti-patterns
 
