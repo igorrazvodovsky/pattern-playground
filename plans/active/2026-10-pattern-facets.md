@@ -611,7 +611,6 @@ data-view and autocomplete, so both were read blind.
 | good-defaults | element | "Pre-fill fields and pre-select options with intelligent guesses" | agreed |
 | drag-and-drop | view | "the item to operate on and the destination that stands for the outcome are both on screen" | agreed |
 | bounded-choice | element | "Committing a value from a bounded set the actor didn't author and may not be able to survey." | agreed |
-| embedded-intelligence | application | "extensions of the actor's existing ways of thinking and acting" | agreed |
 | autocomplete | element | "Predicting and suggesting completions for a value the actor is actively typing" | agreed (pilot) |
 | suggestion | view | "The offer of a system-generated recommendation that the actor can accept, modify, or reject" | agreed |
 
@@ -740,7 +739,7 @@ so. No page was listed for a later edit.
 
 Six patterns: every `role: pattern` page the sequence names as a step or a
 constituent that no earlier sitting classified. Good-defaults, autocomplete,
-embedded-intelligence, suggestion and action-consequences were classified in
+suggestion and action-consequences were classified in
 earlier sittings. Cognitive-forcing-functions, transparent-reasoning and
 notification are named only as hand-off vehicles and wait for the sequences
 that name them as steps.

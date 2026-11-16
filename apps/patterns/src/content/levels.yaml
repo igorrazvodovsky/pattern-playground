@@ -286,8 +286,9 @@
     - title: Handing work over
       section: Work with an agent
       lead: >-
-        Where the actor hands work to an agent, let them state it, ground it in
-        their own material and in what they have in view, lay the instructions
+        Where the actor hands work to an agent, let them state it or pass on a
+        task a control could not finish, ground it in their own material and in
+        what they have in view, lay the instructions
         beside the work, and see how it was read, the plan and the cost.
       patterns:
         - prompt
