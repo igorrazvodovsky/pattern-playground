@@ -162,8 +162,8 @@
       "path": "/patterns/agent-fallback",
       "role": "pattern",
       "situation": {
-        "initiating": "… the actor is partway through a task in a control with a fixed vocabulary, such as a [command menu](/patterns/command-menu) or [help](/patterns/help), in an artifact [addressable in words](/patterns/addressable-in-words). What they typed matches nothing the control offers, and the task is unfinished.",
-        "resulting": "The agent reads the request against where the actor is through [view as context](/patterns/view-as-context), so the handover needs no restating. Where the answer comes back as a state of the control, [showing the reading](/patterns/showing-the-reading) lets the actor see how their words were taken and correct one part of it. Where the agent cannot do what was asked either, [capability and scope](/patterns/capability-and-scope) says so and where to go instead…"
+        "initiating": "… the actor is partway through a task in a control with a fixed vocabulary, such as a [command menu](/patterns/command-menu), a [filter](/patterns/filtering) or [help](/patterns/help), in an artifact [addressable in words](/patterns/addressable-in-words). What they typed matches nothing the control offers, and the task is unfinished. [Searching](/patterns/searching) is the way on where what they want is an item that already exists, and does not help where the answer has to be worked out.",
+        "resulting": "The offer sits in the [empty state](/patterns/state-empty) the control would otherwise show. What was typed arrives as a [prompt](/patterns/prompt), which the actor can add to before sending it. An [agent](/patterns/agent) takes the task from there. The agent reads the request against where the actor is through [view as context](/patterns/view-as-context), so the handover needs no restating. Where the answer comes back as a state of the control, [showing the reading](/patterns/showing-the-reading) lets the actor see how their words were taken and correct one part of it. Where the agent cannot do what was asked either, [capability and scope](/patterns/capability-and-scope) says so and where to go instead…"
       },
       "seed": true,
       "evidence": [
@@ -4234,7 +4234,7 @@
       "target": "addressable-in-words",
       "type": "enables",
       "extractedFrom": "frontmatter:composed-of",
-      "situation": "the actor is partway through a task in a control with a fixed vocabulary, such as a [command menu](/patterns/command-menu) or [help](/patterns/help), in an artifact [addressable in words](/patterns/addressable-in-words).",
+      "situation": "the actor is partway through a task in a control with a fixed vocabulary, such as a [command menu](/patterns/command-menu), a [filter](/patterns/filtering) or [help](/patterns/help), in an artifact [addressable in words](/patterns/addressable-in-words).",
       "glossFrom": "source:initiating",
       "farSituation": "Where one of these routes has nothing for what the actor typed, an [agent fallback](/patterns/agent-fallback) passes the unfinished request on with what was already said."
     },
@@ -4282,6 +4282,14 @@
       "extractedFrom": "frontmatter:related"
     },
     {
+      "source": "agent-fallback",
+      "target": "filtering",
+      "type": "enables",
+      "extractedFrom": "frontmatter:enables",
+      "situation": "the actor is partway through a task in a control with a fixed vocabulary, such as a [command menu](/patterns/command-menu), a [filter](/patterns/filtering) or [help](/patterns/help), in an artifact [addressable in words](/patterns/addressable-in-words).",
+      "glossFrom": "source:initiating"
+    },
+    {
       "source": "view-as-context",
       "target": "agent-fallback",
       "type": "enables",
@@ -4296,6 +4304,38 @@
       "extractedFrom": "frontmatter:composed-of",
       "situation": "Where the answer comes back as a state of the control, [showing the reading](/patterns/showing-the-reading) lets the actor see how their words were taken and correct one part of it.",
       "glossFrom": "target:resulting"
+    },
+    {
+      "source": "prompt",
+      "target": "agent-fallback",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "What was typed arrives as a [prompt](/patterns/prompt), which the actor can add to before sending it.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "state-empty",
+      "target": "agent-fallback",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "The offer sits in the [empty state](/patterns/state-empty) the control would otherwise show.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "agent-fallback",
+      "target": "searching",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "[Searching](/patterns/searching) is the way on where what they want is an item that already exists, and does not help where the answer has to be worked out.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "agent-fallback",
+      "target": "agent",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "An [agent](/patterns/agent) takes the task from there.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "agent-fallback",
@@ -5701,7 +5741,7 @@
       "target": "command-menu",
       "type": "enables",
       "extractedFrom": "frontmatter:composed-of",
-      "situation": "the actor is partway through a task in a control with a fixed vocabulary, such as a [command menu](/patterns/command-menu) or [help](/patterns/help), in an artifact [addressable in words](/patterns/addressable-in-words).",
+      "situation": "the actor is partway through a task in a control with a fixed vocabulary, such as a [command menu](/patterns/command-menu), a [filter](/patterns/filtering) or [help](/patterns/help), in an artifact [addressable in words](/patterns/addressable-in-words).",
       "glossFrom": "source:initiating",
       "farSituation": "Where the actor describes an outcome in their own words and no command matches, offer an [agent fallback](/patterns/agent-fallback), which takes what they typed and returns the matching command with its arguments filled in."
     },
@@ -7166,7 +7206,7 @@
       "type": "enables",
       "incomingNote": "agent fallback gives a question the written help does not cover a way on to an agent",
       "extractedFrom": "frontmatter:composed-of",
-      "situation": "the actor is partway through a task in a control with a fixed vocabulary, such as a [command menu](/patterns/command-menu) or [help](/patterns/help), in an artifact [addressable in words](/patterns/addressable-in-words).",
+      "situation": "the actor is partway through a task in a control with a fixed vocabulary, such as a [command menu](/patterns/command-menu), a [filter](/patterns/filtering) or [help](/patterns/help), in an artifact [addressable in words](/patterns/addressable-in-words).",
       "glossFrom": "source:initiating"
     },
     {

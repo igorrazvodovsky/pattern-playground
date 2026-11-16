@@ -11,14 +11,22 @@ mediation: individual
 description: "A way on for a task that a control with a fixed vocabulary could not finish: the control passes what the actor typed, and where they are, to an agent."
 situation:
   initiating: >-
-    … the actor is partway through a task in a control with a fixed vocabulary, such as a [command menu](/patterns/command-menu) or [help](/patterns/help), in an artifact [addressable in words](/patterns/addressable-in-words). What they typed matches nothing the control offers, and the task is unfinished.
+    … the actor is partway through a task in a control with a fixed vocabulary, such as a [command menu](/patterns/command-menu), a [filter](/patterns/filtering) or [help](/patterns/help), in an artifact [addressable in words](/patterns/addressable-in-words). What they typed matches nothing the control offers, and the task is unfinished. [Searching](/patterns/searching) is the way on where what they want is an item that already exists, and does not help where the answer has to be worked out.
   resulting: >-
-    The agent reads the request against where the actor is through [view as context](/patterns/view-as-context), so the handover needs no restating. Where the answer comes back as a state of the control, [showing the reading](/patterns/showing-the-reading) lets the actor see how their words were taken and correct one part of it. Where the agent cannot do what was asked either, [capability and scope](/patterns/capability-and-scope) says so and where to go instead…
+    The offer sits in the [empty state](/patterns/state-empty) the control would otherwise show. What was typed arrives as a [prompt](/patterns/prompt), which the actor can add to before sending it. An [agent](/patterns/agent) takes the task from there. The agent reads the request against where the actor is through [view as context](/patterns/view-as-context), so the handover needs no restating. Where the answer comes back as a state of the control, [showing the reading](/patterns/showing-the-reading) lets the actor see how their words were taken and correct one part of it. Where the agent cannot do what was asked either, [capability and scope](/patterns/capability-and-scope) says so and where to go instead…
 relationships:
+  enables:
+    - filtering
   composed-of:
     - view-as-context
     - showing-the-reading
+    - prompt
+  hosted-by:
+    - state-empty
+  alternative:
+    - searching
   precedes:
+    - agent
     - capability-and-scope
 ---
 
