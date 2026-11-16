@@ -1,7 +1,7 @@
 ---
 title: Commenting
 added: 2025-08-06
-updated: 2026-10-10
+updated: 2026-11-16
 role: pattern
 evidence:
   - observed
@@ -10,89 +10,67 @@ activityLevel: action
 mediation: coordination
 lifecycle: coordination
 fun: 🙂 3/5. Dependency.
+description: "Letting the people working on shared content raise a point about one passage of it, beside the passage and outside the content, and settle it there."
 acts_on:
-  - { concept: commenting, note: "the anchored, resolvable form; the moves here are on its first two misfits" }
+  - commenting
 situation:
   initiating: >-
-    the content is under review and the discussion about it belongs to particular places
-    inside it rather than to the whole; a separate channel loses the anchor, and editing the
-    content to raise the point destroys the thing being discussed
-  resulting:
-    - >-
-      discussion is anchored where it applies and stays out of the content itself, so the
-      primary reading survives an active review
-    - clause: >-
-        comments acquire a lifecycle of their own — open, answered, resolved — and something
-        has to say when a thread is finished, or the layer only ever grows
-      sets-up: [status-feedback]
-    - >-
-      the thread beside the content is a second place where decisions get made, and whatever
-      was settled there is invisible to anyone reading only the content
-    - clause: >-
-        some commented passages start being referred to, not only discussed, and a highlight
-        with a thread is too weak an object for that; the passage needs an identity of its
-        own, without leaving its place in the text or losing its thread
-      sets-up: [incremental-formalisation]
+    … several people are working on the same document, design or change, brought together
+    by [sharing](/patterns/sharing) or a [change review](/patterns/change-review), as part of
+    a wider [collaboration](/patterns/collaboration). What they have to say belongs to
+    particular places in the content rather than to the whole. Private
+    [annotation](/patterns/annotation) marks a passage for the person who made the mark; here
+    the mark is meant to be answered by someone else.
+  resulting: >-
+    Threads now have a course of their own, from open to answered to resolved, and
+    [status feedback](/patterns/status-feedback) shows where each one stands so the layer does
+    not only grow. [Notifications](/patterns/notification) tell people when a thread they are
+    part of gets a reply, and the [activity log](/patterns/activity-log) keeps the record of who
+    said what over time. A commented passage that people start referring to, not only
+    discussing, can become a quote with an identity of its own through
+    [incremental formalisation](/patterns/incremental-formalisation), keeping its place in the
+    text and its thread. A thread is a short [conversation](/patterns/conversation) held in
+    place: it stays with its passage and ends when the point is settled…
 relationships:
+  precedes:
+    - status-feedback
+    - incremental-formalisation
   complements:
-    - to: collaboration
-      note: provides broader collaborative context
-    - to: activity-log
-      note: tracks commenting activity over time
-    - to: notification
-      note: alerts users to comment activity
+    - collaboration
+    - activity-log
+    - notification
   tangential:
-    - to: conversation
-      note: provides dialogue interaction principles
+    - conversation
 ---
 
-The attachment of discussion and annotation to a specific piece of content, balancing collaborative input with the integrity of the primary experience.
+* * *
 
-## Variants
+**When people review shared work, most of what they have to say is about a particular passage, frame or line, and it needs an answer from someone else. Raised in chat or email, the point loses its place and the reader has to find what it refers to. Written into the work itself, it changes what is being discussed and has to be cleaned out later.**
 
-{/* ### Attachment modes */}
-{/* Floating: Comments appear as overlays or callouts */}
-{/* Sidebar: Comments collect in a dedicated panel */}
+Google Docs, Figma, Notion and GitHub pull-request review all keep comments in a layer beside the content, tied to a range, a point or a line. They differ mainly in what happens when the content under a comment changes: GitHub, for one, marks the comment outdated rather than dropping it.
 
-{/* ### Threading models */}
-- Flat: Simple comment lists without nesting
-- Threaded: Nested replies supporting conversation depth
+Therefore,
 
-### Resolution states
-Persistent: Comments remain visible until manually resolved
-- Supports ongoing discussions and reference
-- Useful for documentation and knowledge capture
-- Maintains historical context
+**Let anyone who can read the work attach a [comment](/concepts/commenting) to a passage, a point or a line, and keep the thread in a layer beside the content, so the work reads as it is with the comments hidden. Show which passage each open thread belongs to, and keep that tie through edits. When the passage under a thread changes or is removed, keep the thread and show what it was about. Resolving a thread takes it out of the way, not out of reach: keep resolved threads listed and readable.**
 
-Ephemeral: Comments fade over time
-- Reduces interface clutter for transient feedback
-- Suitable for iterative design and development workflows
-- Focuses attention on current issues
+## In practice
 
-## States
+### Threading
 
-### Empty state
-- No comments exist yet
-- Clear invitation to start discussions
-- Might show commenting capabilities subtly
+- *Flat.* Replies form one list under the first comment. Enough where a point is usually settled in a few replies.
+- *Threaded.* Replies can answer other replies. Suits longer discussions, at the cost of a thread that is harder to follow beside the content.
 
-### Active commenting
-- Comment threads in progress
-- Clear visual indicators for commented elements
-- Easy navigation between comment locations
+### Resolution
 
-### Resolved discussions
-- Completed or archived comment threads
-- Optional visibility controls for resolved items
-- Historical context preservation
+- *Kept until resolved.* A thread stays open until someone resolves it, which suits documentation and decisions that will be looked up later.
+- *Fading.* Comments drop out of view after a while without being resolved, which suits quick feedback on work that changes daily.
 
-### Draft states
-- Unsaved comment composition
-- Auto-save and recovery capabilities
-- Clear indication of draft vs published status
+### States
 
-## Examples
-Commenting can be integrated into any interface or content type, including:
+- *No comments yet.* The way to add one is visible where a passage is selected, without taking space from the content.
+- *Open threads.* Each commented passage is marked, and the actor can move from one thread to the next.
+- *Resolved threads.* Hidden by default and available on request, with who resolved them.
+- *Draft.* A comment being written is saved as it is typed and is clearly not yet posted.
 
 ### Text documents
 
@@ -105,11 +83,8 @@ A comment marks its passage without changing the text, and overlapping comments 
 ...
 
 {/* TODO: relations set aside, kept for review (not active edges):
-Precursors:
-- [Annotation](/patterns/annotation) – establishes content marking concepts
-Follow-ups:
 - Review workflow – structures commenting into formal processes
-- Knowledge capture – transforms discussions into documentation (turning a passage into a quote is now the incremental-formalisation edge)
+- Knowledge capture – transforms discussions into documentation
 */}
 
 ## Resources & references
@@ -118,4 +93,4 @@ Follow-ups:
 - [Google Docs / Comments](https://support.google.com/docs/answer/65129)
 - [Notion / Comments, mentions & reactions](https://www.notion.com/help/comments-mentions-and-reminders)
 - [Figma / Comments](https://help.figma.com/hc/en-us/articles/360041068574-Add-comments-to-files)
-{/* - [GitHub / Review System](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests) – Code commenting workflows */}
+- [GitHub / Commenting on a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/commenting-on-a-pull-request)

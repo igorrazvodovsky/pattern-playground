@@ -1,7 +1,7 @@
 ---
 title: Bookmarking
 added: 2026-10-23
-updated: 2026-11-04
+updated: 2026-11-16
 role: pattern
 evidence:
   - used
@@ -9,33 +9,28 @@ evidence:
 activityLevel: action
 lifecycle: seeking
 mediation: individual
-description: "Letting the actor save a direct reference to an item or view so they can return to it later from a persistent personal list."
+description: "Letting the actor save any addressable item or view in one action, with nothing asked at the moment of saving, and reach their saved list in one step from wherever navigation starts."
 acts_on:
-  - { concept: bookmarking, note: "single-action save and one-step return; the warning against overloaded saves is the move on the second misfit" }
-  - { concept: following, note: "named to keep the two apart: a save that also subscribes is the overload the page warns against" }
+  - bookmarking
 situation:
   initiating: >-
-    … the actor has reached an item, view, conversation, or position they expect to need again.
-    Getting there took navigation steps they do not want to repeat or a search query they are
-    unlikely to remember, and the system cannot infer on its own that this item matters for the
-    long term. [Deep linking](/patterns/deep-linking) gives each state a stable address that
-    restores it; bookmarking gives the actor a personal place to keep those addresses. Where the
-    actor has saved nothing explicitly, [recents](/patterns/recents) provide an automatic
-    alternative for returning to recently opened items.
+    … the actor has reached an item, view, conversation, or position they expect to need again
+    later. Getting there took navigation steps they do not want to repeat or a
+    search query they are unlikely to remember, and the system cannot infer on its own that this
+    item matters for the long term. [Deep linking](/patterns/deep-linking) gives each state a
+    stable address that restores it. [Recents](/patterns/recents) cover items opened minutes or
+    hours ago without asking the actor to save anything, but later activity pushes older items
+    out of a recency list before a long-term return.
   resulting: >-
-    The actor maintains a curated list of saved items chosen for future return. Because the
-    actor explicitly decides what matters and builds a personal navigation layer over the
-    system's hierarchy, bookmarking enacts both [agency](/patterns/agency) and
-    [malleability](/patterns/malleability). Saved lists tend to grow without maintenance, and
-    entries go stale when target items move or are deleted. Once a collection grows past a
-    short scannable list, [tags](/patterns/tag) or folders let the actor organise it without
-    planning a structure upfront. A bookmark or collection can also be passed to others as a
-    recommendation or curated list through [sharing](/patterns/sharing). Saving a filtered and
-    sorted collection query rather than a single item is a
+    Saved items sit one step from navigation starting points such as a sidebar, start page, or
+    [command menu](/patterns/command-menu). Once the list grows past what can be scanned at a
+    glance, [tags](/patterns/tag) or folders let the actor organise it without having had to
+    plan a structure at the moment of saving. A saved item or collection can be passed to others
+    as a recommendation or curated list through [sharing](/patterns/sharing). Saving a filtered
+    and sorted collection query rather than a single item is a
     [saved view](/patterns/data-view#saved-views). Pinning files or sources into a prompt or
     workspace context is [reference material](/patterns/reference-material), which keeps items
-    in scope for generation rather than for navigation. Bookmarks surface at navigation starting
-    points such as a sidebar, start page, or [command menu](/patterns/command-menu)…
+    in scope for generation rather than for navigation…
 relationships:
   follows:
     - to: deep-linking
@@ -66,25 +61,23 @@ relationships:
 
 * * *
 
-**When an actor reaches an item or view they will need again weeks or months later, the system has no way to know it matters. Without a direct way to save it, they must repeat the search or navigation steps next time, or fall back on workarounds such as leaving tabs open, messaging links to themselves, or taking screenshots.**
+**When an actor reaches an item or view they will need again later, the system cannot tell that it matters. Even where they could [bookmark](/concepts/bookmarking) it, they often repeat the search or leave tabs open instead.**
 
-Browser studies show that while most revisits happen within minutes or hours and are served by the back button and [recents](/patterns/recents), long-term returns after days or weeks are poorly served by automatic history (Tauscher and Greenberg 1997; Cockburn and McKenzie 2001; Obendorf et al. 2007). Bookmarks fill that gap, but they carry a timing mismatch: they require an explicit action now, while the actor is focused on their current task, for a future return that may never happen (Jones, Bruce and Dumais 2001).
-
-Because of that upfront cost, any extra prompt at the moment of saving—asking for a title, a folder, or tags—discourages the actor from bookmarking at all. Collections that do get used grow steadily, are organised only in occasional bursts once the list becomes unwieldy, and accumulate entries that are never opened again or whose targets have moved or been deleted (Abrams, Baecker and Chignell 1998).
+Long-term returns are a small share of revisits but the ones automatic history serves worst (Obendorf et al. 2007), and people keep things by whichever method costs least at that moment, so a save that asks for anything loses to an open tab (Jones, Bruce and Dumais 2001). Collections that do get used are organised only in occasional bursts (Abrams, Baecker and Chignell 1998), so filing can wait until the list needs it.
 
 Therefore,
 
-**Let the actor save any addressable item or view with a single action, and make their saved list reachable in one step from wherever navigation starts. Save immediately without prompting for a name, folder, or tag; let the actor rename or organise entries later through [incremental formalisation](/patterns/incremental-formalisation). Keep saved links resolving when targets are renamed or moved, and mark broken or deleted targets directly in the list rather than failing only after the actor clicks.**
+**Let the actor save any addressable item or view with a single action, and make their saved list reachable in one step from wherever navigation starts. Save immediately without prompting for a name, folder, or tag; let the actor rename or organise entries later through [incremental formalisation](/patterns/incremental-formalisation). Keep saved links resolving when targets are renamed or moved, and mark broken or deleted targets directly in the list rather than failing only after the actor clicks. Keep one saved list per system, however many places offer the save.**
 
-Avoid overloading the bookmark action with secondary behaviours unless the actor expects them together. A star that also acts as a public endorsement, a pin that consumes limited layout space, or a follow that subscribes to [notifications](/patterns/notification) makes the mark mean two things at once and makes the actor hesitate to add or remove it.
+Keep the save private to the actor. Where an item can also be followed for [notifications](/patterns/notification), offer [following](/concepts/following) as a separate action so neither implies the other.
 
 ## In practice
 
-- *Bookmark.* An entry in a personal list owned by the actor, ordered by when it was saved or arranged manually. Show enough context—or a [link preview](/patterns/link-preview)—so the actor can recognise the target before opening it.
-- *Pin.* Fixes an item to a persistent spatial slot, such as the top of a sidebar, tab bar, or message thread. Because screen space bounds the set to a handful of items, pinning suits active working items rather than long-term archives.
-- *Favourite or star.* Doubles as a filter and sort key across a collection, and in shared workspaces is often visible to others as a rating or endorsement.
-- *Follow or watch.* Subscribes the actor to [notifications](/patterns/notification) when the item changes, bringing updates to the actor rather than waiting for them to return.
-- *Saved view.* Saves a collection's query, sort order, grouping, and visible attributes as a reusable perspective in a [data view](/patterns/data-view#saved-views).
+The variants below are ways into the same list, not separate stores.
+
+- *Saved list.* Ordered by when items were saved or arranged manually, showing enough context—or a [link preview](/patterns/link-preview)—so the actor can recognise each target before opening it.
+- *Pin.* Shows saved items in a persistent spatial slot, such as the top of a sidebar, tab bar, or message thread. Because screen space bounds the set to a handful of items, pinning suits active working items rather than long-term archives.
+- *Favourite or star.* Marks a saved item in place so the saved set can also act as a filter or sort key inside its home collection.
 
 ## Research on this pattern
 
@@ -97,7 +90,3 @@ Avoid overloading the bookmark action with secondary behaviours unless the actor
 ## Resources & references
 
 - Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.
-
-## To-do
-
-- The body predates the *Bookmarking* and *Following* concept entries. Revise it against the entries: what it restates of the definition, state or misfits goes to the entries, and the page keeps the moves.

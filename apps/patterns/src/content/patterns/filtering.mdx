@@ -1,67 +1,77 @@
 ---
 title: Filtering
 added: 2025-05-21
-updated:
+updated: 2026-11-16
 role: pattern
 group: seeking
 activityLevel: action
 mediation: individual
 lifecycle: seeking
 fun: 🙂 3/5. Dependency.
+description: "Letting the actor narrow a collection to the items that meet conditions they state on its properties, with every condition in force kept in view beside the results."
 acts_on:
-  - { concept: filtering, note: "keeping the conditions on the surface is the move on the first misfit" }
+  - filtering
 situation:
   initiating: >-
-    a collection framing is in place and the actor's question concerns a subset of
-    it — too many items to scan through, and they can say what distinguishes the
-    ones they want
-  resulting:
-    - >-
-      the visible set is the actor's criteria made operative, and the criteria stay
-      on the surface as chips or clauses so the actor can read what they are not
-      being shown
-    - >-
-      an empty result is a dead end the actor reaches still holding their intent,
-      and an over-full one means the criteria they have aren't the criteria the
-      attributes can express — both are where narrowing stops being enough
+    … a [data view](/patterns/data-view) has framed a collection, and the actor's question
+    concerns only part of it. There are too many items to scan, and the actor can say what
+    distinguishes the ones they want.
+  resulting: >-
+    The shown items are the actor's conditions in force, so [sorting](/patterns/sorting) orders
+    what the conditions let through and [grouping](/patterns/grouping) arranges it.
+    [Selection](/patterns/selection) narrows the same collection from the other end, by picking
+    items one by one rather than stating a condition. Once conditions have to be combined with
+    and, or and not, or kept to run again later, they become
+    [rule composition](/patterns/rule-composition). Where the criterion the actor has in mind is
+    not among the properties the items record, no condition can state it, and narrowing stops
+    being enough…
 relationships:
   complements:
     - grouping
     - sorting
-    - to: selection
-      note: the imperative dual; filter narrows by predicate, selection narrows by enumeration
+    - selection
   follows:
     - to: data-view
       note: acts on the framed collection the view already holds
 ---
 
-The narrowing of a collection to items that match the actor's criteria, balancing precision with the risk of hiding relevant results.
-
 <Demo spec="filtering" surface="white" label="Building a filter" expandable />
 
-## Placement
+* * *
+
+**When the actor wants only the items in a large collection that share some properties, scanning or sorting the whole list is slow, and they miss items they were looking for.**
+
+Design systems such as PatternFly, GitLab Pajamas and Carbon show the filters in force as removable chips or tokens above the results, with a way to clear them all.
+
+Therefore,
+
+**Let the actor narrow the collection by stating [filter](/concepts/filtering) conditions on the properties its items record, each one a [bounded choice](/patterns/bounded-choice) over a property's values, and update the shown items as each condition changes. Keep every condition in force beside the results as a chip or clause the actor can read, change or remove on its own, with a way to clear them all, and say how many items are shown out of how many. When nothing matches, keep the conditions in place and show which ones emptied the list.**
+
+## In practice
+
+### Placement
 
 - inline, popover, drawer...
 - pairing with table header
 
-## Navigation as filtering
+### Navigation as filtering
 
 ...
 
-## LLM-powered attribute search
+### LLM-powered attribute search
 
-When simple filter fails, the attribute search query is passed to LLM to find a match in the available attributes.
+When no attribute matches what the actor types, the query is passed to a language model to find a match among the available attributes.
 
-If that fails, users can delegate filtering to an [agent](/patterns/agent) via a task. Agent can have access to data beyond the attributes and values visible to the user.
+If that fails, the actor can hand the filtering to an [agent](/patterns/agent) as a task. The agent can reach data beyond the attributes and values the actor sees.
 
-### Flow 1
+#### Flow 1
 
 1. Enter a query that does not have a match in the available attributes
 2. Create a task to handle it
 3. Show "thinking..." placeholder
 4. Replace it with a task result reference.
 
-### Flow 2
+#### Flow 2
 
 1. Create a task outside filtering whose result can be used to filter the collection.
 2. Follow steps 3-4 from Flow 1.
@@ -79,7 +89,3 @@ If that fails, users can delegate filtering to an [agent](/patterns/agent) via a
 - Gitlab Pajamas / [Filtering](https://design.gitlab.com/patterns/filtering/)
 - IBM Carbon / [Filtering](https://carbondesignsystem.com/patterns/filtering/)
 - Salesforce Lightning / [Rules, filters, and logic](https://www.lightningdesignsystem.com/2e1ef8501/p/58ff5f-rules-filters-and-logic/)
-
-## To-do
-
-- The body predates the *Filtering* concept entry. Revise it against the entry: what it restates of the definition, state or misfits goes to the entry, and the page keeps the moves.

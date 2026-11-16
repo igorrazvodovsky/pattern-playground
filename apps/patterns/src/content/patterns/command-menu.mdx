@@ -1,66 +1,96 @@
 ---
 title: Command menu
 added: 2025-05-23
-updated:
+updated: 2026-11-16
 role: pattern
 evidence:
   - observed
+  - literature
   - used
 group: seeking
 activityLevel: action
 mediation: individual
 lifecycle: seeking
 fun: 🙂 4/5.
+description: "Invoking an action or jumping to a destination by typing its name, when the capability has outgrown persistent chrome or walking a menu hierarchy costs more than naming the intent."
 realised_by: [components-command-menu--docs]
 situation:
   initiating: >-
-    the actor knows what they want to do but not where its control lives; the
-    capability has accumulated more commands than any toolbar or menu bar can
-    hold, so hunting for one costs more than naming it would
-  resulting:
-    - >-
-      commands are reachable by name, which lifts the obligation on the chrome to
-      display everything the surface can do; discovery moves from scanning to
-      typing a guess
-    - clause: >-
-        the menu shows only what applies here, so commands that don't apply are
-        absent rather than visibly out of reach — which is a kindness for the
-        irrelevant ones and a mystery for the ones the actor expected to find
-      sets-up: [unavailable-actions]
-    - >-
-      naming needs the name: the move is fast for actors who already have the
-      vocabulary and no help at all to actors who came looking for it
+    … in [learning](/sequences/learning) and [structuring the space](/sequences/structuring-the-space), the capability has accumulated more operations and destinations than persistent toolbars and menus can show without burying them: a command menu helps complete an artifact [addressable in words](/patterns/addressable-in-words), and at the caret a [block-based editor](/patterns/block-based-editor), by giving the actor one input to invoke any action or jump by name so the surrounding chrome only has to carry everyday controls. A command menu specialises [searching](/patterns/searching) over the artifact's commands and destinations rather than its content, shifting discovery from scanning a hierarchy to typing a guess. Where the actor has already selected a target on screen and only needs one of its routine operations, [contextual actions](/patterns/contextual-actions) put those controls directly beside the selection without asking them to recall a name.
+  resulting: >-
+    Before the actor types a character, open the command menu onto [recents](/patterns/recents) and saved [bookmarks](/patterns/bookmarking) so returning to a recent action or a pinned destination takes no typing at all. As the actor types, pair the input with [autocomplete](/patterns/autocomplete) that matches fragments, initials, and synonyms across command names and parameters, since naming only helps when the actor does not need the exact label up front. Show [keyboard shortcuts](/patterns/keyboard-shortcuts) beside each entry so every lookup rehearses the direct key bindings that carry the actor toward [mastery](/patterns/mastery). Inside a text field or editor, let a trigger character such as a slash open the command menu at the caret to apply [prestructured formatting](/patterns/prestructured-formatting) without leaving the line. Filter the list to actions that apply in the current state, and handle [unavailable actions](/patterns/unavailable-actions) that the actor still expects to find by keeping them searchable with the reason they cannot run here rather than letting them vanish without trace. Where the actor describes an outcome in their own words and no command matches, offer an [agent fallback](/patterns/agent-fallback), which takes what they typed and returns the matching command with its arguments filled in. When the request combines several operations or asks for new content that no single command in the vocabulary covers, hand the input off to a [prompt](/patterns/prompt)…
 relationships:
+  precedes:
+    - unavailable-actions
   complements:
-    - to: autocomplete
-      note: supports command menu functionality by reducing typing effort and increasing discoverability of commands.
-    - to: embedded-intelligence
-      note: helps the actor find relevant commands when exact matches aren't available
-    - to: collaboration
-      note: Command menus provide quick access to collaborative actions and workflows
-    - to: keyboard-shortcuts
-      note: "surfaces shortcuts alongside each command name, making the invisible visible — the command menu is often the primary discovery mechanism for a shortcut system"
+    - autocomplete
+    - keyboard-shortcuts
+  composed-of:
+    - agent-fallback
 ---
 
-The invocation of commands by name, navigating the tension between discoverability and speed.
+* * *
 
-## Global
+**When an interface exposes every capability in persistent toolbars and nested menus, the surface crowds and actors spend their attention hunting through someone else's hierarchy; when it hides capabilities behind keyboard shortcuts, only actors who have memorised the bindings can reach them. Invoking commands by name cuts through the hierarchy, but shifts the work from recognition to recall: actors often do not know what the system calls the action they want, and an unprompted text box hides what the surface can do.**
 
-Pop up in the middle of the screen...
+Most actors remain perpetual intermediates ([mastery](/patterns/mastery)): they use a tool daily and know what they want to do, yet never memorise a full set of [keyboard shortcuts](/patterns/keyboard-shortcuts) ([Cockburn et al., 2014](https://doi.org/10.1145/2659796)). A command menu sits between visual menu scanning and memorised key bindings. The actor only has to recall a fragment of a name—a verb, an object, or a few initials—and incremental filtering turns the rest of the act back into recognition over a short ranked list. Because each entry displays its keyboard shortcut beside the label, every lookup also rehearses the faster path at the moment of intent ([Malacria et al., 2013](https://doi.org/10.1145/2470654.2470735)).
 
-## Local
+Two failure modes limit the pattern. First, naming requires a shared vocabulary: two people naming the same operation spontaneously choose the same word less than 20% of the time ([Furnas et al., 1987](https://doi.org/10.1145/32206.32212)), and actors often query by the effect they want rather than the feature's name ([Fourney et al., 2011](https://doi.org/10.1145/2047196.2047224)). A menu that matches only exact labels is fast for actors who already speak the tool's language and no help to actors who came looking for it. Second, because the menu shows only what applies in the current context, inapplicable commands are absent rather than visibly out of reach—which clears away irrelevant clutter, but turns a command the actor expected to find into a mystery unless [unavailable actions](/patterns/unavailable-actions) are accounted for.
 
-The move recurs wherever a capability has a command space of its own. For instance choosing a block in a [block-based editor](/patterns/block-based-editor) TODO: Add demo.
+Across tools, the pattern appears at two scales:
+
+- *Global command palette*: summoned from anywhere by a shortcut (such as `⌘K` or `⌘⇧P`) or a header trigger as a transient overlay over the [workspace](/patterns/workspace). It spans application-wide actions, navigation jumps across sections, settings, and [recent items](/patterns/recents).
+- *Local inline menu*: summoned where a capability has a command space of its own, such as inside a text field, composer, or [block-based editor](/patterns/block-based-editor), by typing a trigger character (usually a slash). It opens at the caret, the actor names the action first, and what the action applies to follows from where the caret is. Nothing has to be selected beforehand, which is the difference from [contextual actions](/patterns/contextual-actions).
+
+What holds constant across both scales is that a transient text input filters a ranked list of executable commands in place, matches fragments and aliases rather than exact prefixes alone, shows the shortcut or trigger beside each entry, and closes cleanly to return focus to the work as soon as the command runs or the actor cancels.
+
+Therefore,
+
+**Give the actor a keyboard-summoned input—opened globally from anywhere in the workspace or locally by a trigger character at the caret—that filters the available actions and destinations as they type and executes the chosen entry on commit. Before a query is typed, open with recent and bookmarked items; as the actor types, match across command names, synonyms, and initials, rank context-relevant and recently used commands first, and show each command's keyboard shortcut or trigger beside its label.**
+
+Do not use a command menu to justify stripping everyday actions from the visible surface: actors who do not yet know what the tool can do cannot guess its names, so the main workflow must stay operable without opening the menu. In an inline slash menu, treat the trigger character as ordinary text whenever the actor keeps typing past the last match or presses Escape, so writing a literal slash in prose never traps the cursor.
+
+## In practice
+
+### Parameter drill-in and action–object order
+
+Many commands need both an operation and a target (*Move issue to… → Backlog*, *Change status… → In progress*, *Insert block → Heading 2*). A command menu handles multi-part commands by drilling into a secondary list inside the same input: choosing the parent command pins it as a scope token in the input and swaps the list to its valid arguments, with Backspace or Escape stepping back one level. Supporting both orders—picking the action first (*Assign to… → Alice*) and picking the object first (*Alice → Assign*)—lets the actor start with whichever part is top of mind.
+
+### Prefix modes in unified launchers
+
+When one input combines command execution with content [searching](/patterns/searching), [workspace](/patterns/workspace) switching, or [prompting](/patterns/prompt), lightweight mode prefixes keep the lists from colliding: typing `>` scopes the bar to commands, `@` to people or references, `#` to tags or issues, and `/` inside a composer to inline commands. Render the active scope as a removable chip in the input so the mode stays visible and escapable ([modality](/patterns/modality)).
+
+### Vocabulary aliases and fallback
+
+Because actors type the words they know rather than the label in the menu, index each command with common synonyms, task verbs, and category names alongside its display title, and support subsequence or initial matching (`gi` for *Go to inbox*). When a query returns no lexical match, offer a way on rather than stranding the actor on an empty list: an [agent fallback](/patterns/agent-fallback) that finds the command by meaning, or handing the query to [search](/patterns/searching) or a [prompt](/patterns/prompt).
 
 ## Related components
+
 - <ComponentRef id="components-command-menu--docs">Command menu</ComponentRef> — the mechanism: the combobox composition with hierarchical drill-in and AI fallback
 - <ComponentRef id="components-combobox--docs">Combobox</ComponentRef> — the mechanism this pattern builds on; `src/components/combobox/` drives the text input, filtered list, and keyboard model
-- <ComponentRef id="components-keyboard-key--docs">Keyboard key</ComponentRef>
+- <ComponentRef id="components-keyboard-key--docs">Keyboard key</ComponentRef> — renders the shortcut hints alongside each command
 - <ComponentRef id="components-context-menu--docs">Context menu</ComponentRef> — pointer-driven and target-aware; command menu is keyboard-driven and name-based
 - <ComponentRef id="components-toolbar--docs">Toolbar</ComponentRef> — exposes a persistent subset of commands; the command menu offers the full set on demand
 
+## Research on this pattern
+
+- *Vocabulary mismatch in command naming*: [Furnas, Landauer, Gomez and Dumais (1987)](https://doi.org/10.1145/32206.32212) found that two people naming the same command or object spontaneously chose the same term less than 20% of the time, and a single designer-chosen name matched an untutored actor's first try only 7–18% of the time. Indexing multiple aliases gathered from use did far better than any single label.
+- *Bridging goal descriptions to feature names*: [Fourney, Mann and Terry (2011)](https://doi.org/10.1145/2047196.2047224) (*Query-Feature Graphs*) and [Adar, Dontcheva and Laput (2014)](https://doi.org/10.1145/2642918.2647395) (*CommandSpace*) showed that actors often search by desired outcomes ("black and white") rather than system command names ("desaturate"), and that mapping natural-language task phrases onto command vocabularies bridges that execution gap.
+- *From menu scanning to shortcut adoption*: [Cockburn, Gutwin, Scarr and Malacria (2014)](https://doi.org/10.1145/2659796) reviewed why actors remain in visual menu navigation even when faster accelerators exist, and [Malacria, Bailly, Harrison, Cockburn and Gutwin (2013)](https://doi.org/10.1145/2470654.2470735) showed that exposing hotkey bindings during active command selection promotes shortcut rehearsal and adoption in the flow of work.
+- *Named commands beside open prompts*: [Lehmann and Buschek (2024)](https://arxiv.org/abs/2410.10644) observed that repeated prompts for the same operation compress toward one- or two-word commands, with actors relying on named commands and controls for predictable, recurring operations and open prompts for novel combinations.
+
+## Resources & references
+
+- Furnas, G. W., Landauer, T. K., Gomez, L. M., & Dumais, S. T. (1987) [The vocabulary problem in human-system communication](https://doi.org/10.1145/32206.32212), *Communications of the ACM*, 30(11), 964–971
+- Raskin, J. (2000) *The Humane Interface*, Addison-Wesley
+- Fourney, A., Mann, R., & Terry, M. (2011) [Query-feature graphs: bridging user vocabulary and system functionality](https://doi.org/10.1145/2047196.2047224), *UIST '11*
+- Malacria, S., Bailly, G., Harrison, J., Cockburn, A., & Gutwin, C. (2013) [Promoting hotkey use through rehearsal with ExposeHK](https://doi.org/10.1145/2470654.2470735), *CHI '13*
+- Adar, E., Dontcheva, M., & Laput, G. (2014) [CommandSpace: modeling the relationships between tasks, descriptions and features](https://doi.org/10.1145/2642918.2647395), *UIST '14*
+- Cockburn, A., Gutwin, C., Scarr, J., & Malacria, S. (2014) [Supporting novice to expert transitions in user interfaces](https://doi.org/10.1145/2659796), *ACM Computing Surveys*, 47(2)
+- Bailly, G., Lecolinet, E., & Nigay, L. (2016) [Visual menu techniques](https://doi.org/10.1145/3002171), *ACM Computing Surveys*, 49(4)
+- Lehmann, F., & Buschek, D. (2024) [Functional flexibility: how users combine prompts and GUI actions over time](https://arxiv.org/abs/2410.10644)
+- [AI UX Playground — Slash commands](https://aiuxplayground.com/pattern/slash-command)
+
 ## To-do
 
-Related patterns to capture: search (including local search).
-
-{/* Follow-up: *action history* may streamline repetitive workflows */}
+- Migrate the global command-menu demo (`packages/components/src/stories/CommandMenu.tsx`) and a dedicated inline slash-command demo to `packages/components/src/demos/`.

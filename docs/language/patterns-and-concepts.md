@@ -25,6 +25,19 @@ where the catalogue meets the language: a pattern's forces line up with a
 concept's misfits far more closely than with its principle, so a pattern that
 names a concept is usually a move on one of its misfits.
 
+A pattern that shares its concept's name (*Bookmarking*, *Commenting*) does
+other work. Its move is offering the concept well, so it does not answer the
+misfits one by one. It connects the concept to the rest of the language and
+holds the details of realisation the entry cannot: what an act costs at the
+moment it is asked for, where the thing sits, and how it behaves when its
+targets change.
+
+In pattern prose a concept is an ordinary noun, the way a window or a column
+is in *A Pattern Language*: named where the argument needs it and linked
+there, never introduced as an entry or discussed as a concept. The problem is
+stated in the actor's situation; what the concept is and how it fails stays in
+the entry.
+
 ## Telling them apart
 
 The two pages answer different questions about the same thing. The concept
