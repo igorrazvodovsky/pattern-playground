@@ -39,7 +39,8 @@
         calls for it, let in the agents actors bring under grants of their own,
         draw the lines of who answers for which part of the work, decide who is
         let into each workspace and what each participant may do
-        there, and let the people inside coordinate their work.
+        there, show who can do what once access comes from several places,
+        and let the people inside coordinate their work.
       patterns:
         - workspace
         - identity-at-the-point-of-need
@@ -47,6 +48,7 @@
         - division-of-responsibility
         - sharing
         - roles
+        - effective-access
         - collaboration
     - title: Connecting and naming
       lead: >-
@@ -242,7 +244,6 @@
         Let the system offer help inside the work, from a suggestion to the
         whole next step, raised or lowered on the evidence of use.
       patterns:
-        - embedded-intelligence
         - assisted-task-completion
         - next-best-action
         - suggestion
@@ -293,6 +294,7 @@
         - prompt-scaffolding
         - reference-material
         - view-as-context
+        - agent-fallback
         - steering-surface
         - showing-the-reading
         - plan-preview

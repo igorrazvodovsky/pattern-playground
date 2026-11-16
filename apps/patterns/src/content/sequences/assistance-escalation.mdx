@@ -1,7 +1,7 @@
 ---
 title: "Assistance escalation"
 added: 2026-08-29
-updated: 2026-11-15
+updated: 2026-11-16
 description: "How much of the work the system takes on, from a default guess to a procedure the actor hands over, raised or lowered one level at a time on the evidence of use."
 order: 4
 presupposes: >-
@@ -54,7 +54,6 @@ sub-sequences:
       of it by producing content, which rests on inferred intent.
     steps:
       - step: "Read the intent from context"
-        rule: embedded-intelligence
         optional: true
         gloss: >-
           Infer what the actor is doing from what the system already holds,

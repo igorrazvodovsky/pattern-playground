@@ -136,7 +136,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… the artifact is an [information environment](/patterns/information-environment) whose actors already say some of what they want in words: a search that takes a described outcome, help that answers a question, a command found by name, an [outside agent](/patterns/outside-agent) that reads and acts on the work. Each of these routes reaches its own part of the artifact and draws on its own description of what is there. Some of what actors ask for has no control built for it, although the data and permissions it would need are already in the artifact.",
-        "resulting": "An artifact addressable in words answers from the same description that an [outside agent](/patterns/outside-agent) reads, so the artifact's own routes and an agent the actor brings resolve the same words to the same objects. The actor says what they want through a [prompt](/patterns/prompt) wherever the artifact offers one, and through a [conversation](/patterns/conversation) where the exchange runs over several turns; a [search](/patterns/searching) that takes a described outcome, [help](/patterns/help) that answers a question and a [command menu](/patterns/command-menu) that finds a command by name are further routes to the same description. What the actor has open, in view or selected is read as part of what they say through [view as context](/patterns/view-as-context), so \"this\" or \"make it shorter\" refers to something without the actor naming it. Where the words leave open what a request refers to or what it should do, [showing the reading](/patterns/showing-the-reading) puts the interpretation in front of the actor before the act, and where they leave too much open for one reading, [agent inquiry](/patterns/inquiry-agent) asks for what is missing. Every act, whether built as a control or put together from a request, is weighed through [action consequences](/patterns/action-consequences), which sets the protection it gets. An invitation to say anything promises more than any artifact holds, so [capability and scope](/patterns/capability-and-scope) says what lies outside the description and where to go instead…"
+        "resulting": "An artifact addressable in words answers from the same description that an [outside agent](/patterns/outside-agent) reads, so the artifact's own routes and an agent the actor brings resolve the same words to the same objects. The actor says what they want through a [prompt](/patterns/prompt) wherever the artifact offers one, and through a [conversation](/patterns/conversation) where the exchange runs over several turns; a [search](/patterns/searching) that takes a described outcome, [help](/patterns/help) that answers a question and a [command menu](/patterns/command-menu) that finds a command by name are further routes to the same description. Where one of these routes has nothing for what the actor typed, an [agent fallback](/patterns/agent-fallback) passes the unfinished request on with what was already said. What the actor has open, in view or selected is read as part of what they say through [view as context](/patterns/view-as-context), so \"this\" or \"make it shorter\" refers to something without the actor naming it. Where the words leave open what a request refers to or what it should do, [showing the reading](/patterns/showing-the-reading) puts the interpretation in front of the actor before the act, and where they leave too much open for one reading, [agent inquiry](/patterns/inquiry-agent) asks for what is missing. Every act, whether built as a control or put together from a request, is weighed through [action consequences](/patterns/action-consequences), which sets the protection it gets. An invitation to say anything promises more than any artifact holds, so [capability and scope](/patterns/capability-and-scope) says what lies outside the description and where to go instead…"
       },
       "seed": true,
       "evidence": [
@@ -154,6 +154,23 @@
       "category": "Qualities",
       "path": "/patterns/agency",
       "role": "quality"
+    },
+    {
+      "id": "agent-fallback",
+      "title": "Agent fallback",
+      "category": "Actions",
+      "path": "/patterns/agent-fallback",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor is partway through a task in a control with a fixed vocabulary, such as a [command menu](/patterns/command-menu) or [help](/patterns/help), in an artifact [addressable in words](/patterns/addressable-in-words). What they typed matches nothing the control offers, and the task is unfinished.",
+        "resulting": "The agent reads the request against where the actor is through [view as context](/patterns/view-as-context), so the handover needs no restating. Where the answer comes back as a state of the control, [showing the reading](/patterns/showing-the-reading) lets the actor see how their words were taken and correct one part of it. Where the agent cannot do what was asked either, [capability and scope](/patterns/capability-and-scope) says so and where to go instead…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        }
+      ]
     },
     {
       "id": "agent-opening",
@@ -505,8 +522,8 @@
       "path": "/patterns/bookmarking",
       "role": "pattern",
       "situation": {
-        "initiating": "… the actor has reached an item, view, conversation, or position they expect to need again. Getting there took navigation steps they do not want to repeat or a search query they are unlikely to remember, and the system cannot infer on its own that this item matters for the long term. [Deep linking](/patterns/deep-linking) gives each state a stable address that restores it; bookmarking gives the actor a personal place to keep those addresses. Where the actor has saved nothing explicitly, [recents](/patterns/recents) provide an automatic alternative for returning to recently opened items.",
-        "resulting": "The actor maintains a curated list of saved items chosen for future return. Because the actor explicitly decides what matters and builds a personal navigation layer over the system's hierarchy, bookmarking enacts both [agency](/patterns/agency) and [malleability](/patterns/malleability). Saved lists tend to grow without maintenance, and entries go stale when target items move or are deleted. Once a collection grows past a short scannable list, [tags](/patterns/tag) or folders let the actor organise it without planning a structure upfront. A bookmark or collection can also be passed to others as a recommendation or curated list through [sharing](/patterns/sharing). Saving a filtered and sorted collection query rather than a single item is a [saved view](/patterns/data-view#saved-views). Pinning files or sources into a prompt or workspace context is [reference material](/patterns/reference-material), which keeps items in scope for generation rather than for navigation. Bookmarks surface at navigation starting points such as a sidebar, start page, or [command menu](/patterns/command-menu)…"
+        "initiating": "… the actor has reached an item, view, conversation, or position they expect to need again later. Getting there took navigation steps they do not want to repeat or a search query they are unlikely to remember, and the system cannot infer on its own that this item matters for the long term. [Deep linking](/patterns/deep-linking) gives each state a stable address that restores it. [Recents](/patterns/recents) cover items opened minutes or hours ago without asking the actor to save anything, but later activity pushes older items out of a recency list before a long-term return.",
+        "resulting": "Saved items sit one step from navigation starting points such as a sidebar, start page, or [command menu](/patterns/command-menu). Once the list grows past what can be scanned at a glance, [tags](/patterns/tag) or folders let the actor organise it without having had to plan a structure at the moment of saving. A saved item or collection can be passed to others as a recommendation or curated list through [sharing](/patterns/sharing). Saving a filtered and sorted collection query rather than a single item is a [saved view](/patterns/data-view#saved-views). Pinning files or sources into a prompt or workspace context is [reference material](/patterns/reference-material), which keeps items in scope for generation rather than for navigation…"
       },
       "evidence": [
         {
@@ -759,21 +776,8 @@
       "path": "/patterns/command-menu",
       "role": "pattern",
       "situation": {
-        "initiating": "the actor knows what they want to do but not where its control lives; the capability has accumulated more commands than any toolbar or menu bar can hold, so hunting for one costs more than naming it would",
-        "resulting": [
-          {
-            "clause": "commands are reachable by name, which lifts the obligation on the chrome to display everything the surface can do; discovery moves from scanning to typing a guess"
-          },
-          {
-            "clause": "the menu shows only what applies here, so commands that don't apply are absent rather than visibly out of reach — which is a kindness for the irrelevant ones and a mystery for the ones the actor expected to find",
-            "setsUp": [
-              "unavailable-actions"
-            ]
-          },
-          {
-            "clause": "naming needs the name: the move is fast for actors who already have the vocabulary and no help at all to actors who came looking for it"
-          }
-        ]
+        "initiating": "… in [learning](/sequences/learning) and [structuring the space](/sequences/structuring-the-space), the capability has accumulated more operations and destinations than persistent toolbars and menus can show without burying them: a command menu helps complete an artifact [addressable in words](/patterns/addressable-in-words), and at the caret a [block-based editor](/patterns/block-based-editor), by giving the actor one input to invoke any action or jump by name so the surrounding chrome only has to carry everyday controls. A command menu specialises [searching](/patterns/searching) over the artifact's commands and destinations rather than its content, shifting discovery from scanning a hierarchy to typing a guess. Where the actor has already selected a target on screen and only needs one of its routine operations, [contextual actions](/patterns/contextual-actions) put those controls directly beside the selection without asking them to recall a name.",
+        "resulting": "Before the actor types a character, open the command menu onto [recents](/patterns/recents) and saved [bookmarks](/patterns/bookmarking) so returning to a recent action or a pinned destination takes no typing at all. As the actor types, pair the input with [autocomplete](/patterns/autocomplete) that matches fragments, initials, and synonyms across command names and parameters, since naming only helps when the actor does not need the exact label up front. Show [keyboard shortcuts](/patterns/keyboard-shortcuts) beside each entry so every lookup rehearses the direct key bindings that carry the actor toward [mastery](/patterns/mastery). Inside a text field or editor, let a trigger character such as a slash open the command menu at the caret to apply [prestructured formatting](/patterns/prestructured-formatting) without leaving the line. Filter the list to actions that apply in the current state, and handle [unavailable actions](/patterns/unavailable-actions) that the actor still expects to find by keeping them searchable with the reason they cannot run here rather than letting them vanish without trace. Where the actor describes an outcome in their own words and no command matches, offer an [agent fallback](/patterns/agent-fallback), which takes what they typed and returns the matching command with its arguments filled in. When the request combines several operations or asks for new content that no single command in the vocabulary covers, hand the input off to a [prompt](/patterns/prompt)…"
       },
       "group": "seeking",
       "realisedBy": [
@@ -782,6 +786,9 @@
       "evidence": [
         {
           "kind": "observed"
+        },
+        {
+          "kind": "literature"
         },
         {
           "kind": "used"
@@ -798,27 +805,8 @@
       "path": "/patterns/commenting",
       "role": "pattern",
       "situation": {
-        "initiating": "the content is under review and the discussion about it belongs to particular places inside it rather than to the whole; a separate channel loses the anchor, and editing the content to raise the point destroys the thing being discussed",
-        "resulting": [
-          {
-            "clause": "discussion is anchored where it applies and stays out of the content itself, so the primary reading survives an active review"
-          },
-          {
-            "clause": "comments acquire a lifecycle of their own — open, answered, resolved — and something has to say when a thread is finished, or the layer only ever grows",
-            "setsUp": [
-              "status-feedback"
-            ]
-          },
-          {
-            "clause": "the thread beside the content is a second place where decisions get made, and whatever was settled there is invisible to anyone reading only the content"
-          },
-          {
-            "clause": "some commented passages start being referred to, not only discussed, and a highlight with a thread is too weak an object for that; the passage needs an identity of its own, without leaving its place in the text or losing its thread",
-            "setsUp": [
-              "incremental-formalisation"
-            ]
-          }
-        ]
+        "initiating": "… several people are working on the same document, design or change, brought together by [sharing](/patterns/sharing) or a [change review](/patterns/change-review), as part of a wider [collaboration](/patterns/collaboration). What they have to say belongs to particular places in the content rather than to the whole. Private [annotation](/patterns/annotation) marks a passage for the person who made the mark; here the mark is meant to be answered by someone else.",
+        "resulting": "Threads now have a course of their own, from open to answered to resolved, and [status feedback](/patterns/status-feedback) shows where each one stands so the layer does not only grow. [Notifications](/patterns/notification) tell people when a thread they are part of gets a reply, and the [activity log](/patterns/activity-log) keeps the record of who said what over time. A commented passage that people start referring to, not only discussing, can become a quote with an identity of its own through [incremental formalisation](/patterns/incremental-formalisation), keeping its place in the text and its thread. A thread is a short [conversation](/patterns/conversation) held in place: it stays with its passage and ends when the point is settled…"
       },
       "group": "coordination",
       "evidence": [
@@ -1289,32 +1277,6 @@
       ]
     },
     {
-      "id": "embedded-intelligence",
-      "title": "Embedded intelligence",
-      "category": "Activities",
-      "path": "/patterns/embedded-intelligence",
-      "role": "pattern",
-      "situation": {
-        "initiating": "the actor has a workflow they already know, and what would help sits inside it rather than beside it; a separate AI surface asks them to leave what they're doing, restate their context somewhere else, and carry the answer back by hand; the help can be asked for in place or offered from what the actor is doing",
-        "resulting": [
-          {
-            "clause": "intelligence acts inside the existing workflow on context the system already holds, so the actor never restates what they're doing in order to get help with it"
-          },
-          {
-            "clause": "the system is now acting on inferred intent rather than stated intent, which means it will sometimes be confidently wrong about what the actor wanted"
-          },
-          {
-            "clause": "because the help is woven in, which part of the result was the actor's and which the system's stops being obvious — and that boundary only exists if something shows it"
-          }
-        ]
-      },
-      "evidence": [
-        {
-          "kind": "literature"
-        }
-      ]
-    },
-    {
       "id": "ephemeral-session",
       "title": "Ephemeral session",
       "category": "Actions",
@@ -1461,15 +1423,8 @@
       "path": "/patterns/filtering",
       "role": "pattern",
       "situation": {
-        "initiating": "a collection framing is in place and the actor's question concerns a subset of it — too many items to scan through, and they can say what distinguishes the ones they want",
-        "resulting": [
-          {
-            "clause": "the visible set is the actor's criteria made operative, and the criteria stay on the surface as chips or clauses so the actor can read what they are not being shown"
-          },
-          {
-            "clause": "an empty result is a dead end the actor reaches still holding their intent, and an over-full one means the criteria they have aren't the criteria the attributes can express — both are where narrowing stops being enough"
-          }
-        ]
+        "initiating": "… a [data view](/patterns/data-view) has framed a collection, and the actor's question concerns only part of it. There are too many items to scan, and the actor can say what distinguishes the ones they want.",
+        "resulting": "The shown items are the actor's conditions in force, so [sorting](/patterns/sorting) orders what the conditions let through and [grouping](/patterns/grouping) arranges it. [Selection](/patterns/selection) narrows the same collection from the other end, by picking items one by one rather than stating a condition. Once conditions have to be combined with and, or and not, or kept to run again later, they become [rule composition](/patterns/rule-composition). Where the criterion the actor has in mind is not among the properties the items record, no condition can state it, and narrowing stops being enough…"
       },
       "group": "seeking"
     },
@@ -2704,7 +2659,7 @@
       "path": "/patterns/prompt",
       "role": "pattern",
       "situation": {
-        "initiating": "… the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating a task](/sequences/delegating-a-task), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words. The intent has no control or command name to reach it by; where it does, a [command menu](/patterns/command-menu) finds it faster and with a predictable result.",
+        "initiating": "… the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating a task](/sequences/delegating-a-task), or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words. The intent has no control or command name to reach it by; where it does, a [command menu](/patterns/command-menu) finds it faster and with a predictable result.",
         "resulting": "The request is now written in the actor's own words as a durable object that can be edited, re-sent, or kept, while everything the phrasing left unsaid is left for the system to interpret or ask about. Where a blank input leaves the actor unsure what the system can do or how much to say, host starter [suggestions](/patterns/suggestion) on the prompt surface to seed or send an example request. Let the actor attach or @-mention [reference material](/patterns/reference-material) inside the prompt so the system works from named files or data sources rather than from generalities. Read what they have open or selected through [view as context](/patterns/view-as-context), so they do not have to name what is in front of them. Where the task is repetitive and high-constraint and open prose keeps leaving required parameters out, structure the input with [prompt scaffolding](/patterns/prompt-scaffolding) into labelled slots or pre-submission checks. Where the request states a complex goal in conversation with missing constraints that would be costly to guess wrong, treat it as an [open request](/patterns/open-request) and let [agent inquiry](/patterns/inquiry-agent) ask back for what is missing rather than forcing the actor to front-load every detail. Once submitted, the prompt produces [generated content](/patterns/generated-content) from the framed request and its attached context, or sets a multi-step run in motion. Because actors often discover their criteria only by reacting to a concrete attempt, follow the initial output with [instructed revision](/patterns/instructed-revision) to steer what came back in words, or [regeneration](/patterns/regeneration) to draw another attempt from the same request. When a working prompt recurs across items, let the actor save it as a [template](/patterns/template); when the same instruction has to be repeated in every session, promote it to [standing instructions](/patterns/standing-instructions) so it is read on every run. A prompt is not [searching](/patterns/searching), which retrieves existing items matching a query rather than generating a new response or executing a task, even when one input bar accepts both…"
       },
       "evidence": [
@@ -2983,7 +2938,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… [division of responsibility](/patterns/division-of-responsibility) has settled which parts of the work each party answers for. Inside one part of a [workspace](/patterns/workspace), people still take part in different ways: some run it, some contribute, some review and some only read.",
-        "resulting": "Every person in the part holds a named role. [Sharing](/patterns/sharing) gives one of them to each person it lets in, so the levels it offers are these roles. When an actor meets an action their role does not allow, [explanation](/patterns/explanation) says which role allows it and who can give it, and [unavailable actions](/patterns/unavailable-actions) hides only the actions that are not theirs to ask for. An [outside agent](/patterns/outside-agent) holds a role as a person does, and what it may do there without asking is limited further by [bounded autonomy](/patterns/bounded-autonomy). [Permissions](/patterns/permissions) covers a different line, around what the artifact may reach on the actor's own device and accounts…"
+        "resulting": "Every person in the part holds a named role. [Sharing](/patterns/sharing) gives one of them to each person it lets in, so the levels it offers are these roles. When an actor meets an action their role does not allow, [explanation](/patterns/explanation) says which role allows it, and the actor asks for that role where they are through the request that sharing offers; [unavailable actions](/patterns/unavailable-actions) hides only the actions that are not theirs to ask for. An [outside agent](/patterns/outside-agent) holds a role as a person does, and what it may do there without asking is limited further by [bounded autonomy](/patterns/bounded-autonomy). [Permissions](/patterns/permissions) covers a different line, around what the artifact may reach on the actor's own device and accounts…"
       },
       "group": "coordination",
       "seed": true,
@@ -3814,7 +3769,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… the actor is working in an artifact [addressable in words](/patterns/addressable-in-words) and says something about what is in front of them: \"this paragraph\", \"these two\", \"make it shorter\". Naming the thing outright, as [reference material](/patterns/reference-material) does, costs effort for something they are already looking at.",
-        "resulting": "Pointing at things inside the view is [selection](/patterns/selection), which gives a request its narrowest scope. Context the actor pins becomes [reference material](/patterns/reference-material), named and kept with the request rather than read from the view. [Embedded intelligence](/patterns/embedded-intelligence) draws on the same context but acts without being asked, whereas here the context is read only when the actor speaks. Because the view can change between saying and acting, the context is the view at the moment of the request, not at the moment of the act…"
+        "resulting": "Pointing at things inside the view is [selection](/patterns/selection), which gives a request its narrowest scope. Context the actor pins becomes [reference material](/patterns/reference-material), named and kept with the request rather than read from the view. A [suggestion](/patterns/suggestion) draws on the same context without being asked, whereas here the context is read only when the actor speaks. Because the view can change between saying and acting, the context is the view at the moment of the request, not at the moment of the act…"
       },
       "seed": true,
       "evidence": [
@@ -4219,7 +4174,7 @@
       "target": "addressable-in-words",
       "type": "enables",
       "extractedFrom": "frontmatter:composed-of",
-      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating a task](/sequences/delegating-a-task), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
+      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating a task](/sequences/delegating-a-task), or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
       "glossFrom": "source:initiating",
       "farSituation": "The actor says what they want through a [prompt](/patterns/prompt) wherever the artifact offers one, and through a [conversation](/patterns/conversation) where the exchange runs over several turns; a [search](/patterns/searching) that takes a described outcome, [help](/patterns/help) that answers a question and a [command menu](/patterns/command-menu) that finds a command by name are further routes to the same description."
     },
@@ -4270,8 +4225,18 @@
       "target": "addressable-in-words",
       "type": "enables",
       "extractedFrom": "frontmatter:composed-of",
-      "situation": "The actor says what they want through a [prompt](/patterns/prompt) wherever the artifact offers one, and through a [conversation](/patterns/conversation) where the exchange runs over several turns; a [search](/patterns/searching) that takes a described outcome, [help](/patterns/help) that answers a question and a [command menu](/patterns/command-menu) that finds a command by name are further routes to the same description.",
-      "glossFrom": "target:resulting"
+      "situation": "in [learning](/sequences/learning) and [structuring the space](/sequences/structuring-the-space), the capability has accumulated more operations and destinations than persistent toolbars and menus can show without burying them: a command menu helps complete an artifact [addressable in words](/patterns/addressable-in-words), and at the caret a [block-based editor](/patterns/block-based-editor), by giving the actor one input to invoke any action or jump by name so the surrounding chrome only has to carry everyday controls.",
+      "glossFrom": "source:initiating",
+      "farSituation": "The actor says what they want through a [prompt](/patterns/prompt) wherever the artifact offers one, and through a [conversation](/patterns/conversation) where the exchange runs over several turns; a [search](/patterns/searching) that takes a described outcome, [help](/patterns/help) that answers a question and a [command menu](/patterns/command-menu) that finds a command by name are further routes to the same description."
+    },
+    {
+      "source": "agent-fallback",
+      "target": "addressable-in-words",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the actor is partway through a task in a control with a fixed vocabulary, such as a [command menu](/patterns/command-menu) or [help](/patterns/help), in an artifact [addressable in words](/patterns/addressable-in-words).",
+      "glossFrom": "source:initiating",
+      "farSituation": "Where one of these routes has nothing for what the actor typed, an [agent fallback](/patterns/agent-fallback) passes the unfinished request on with what was already said."
     },
     {
       "source": "addressable-in-words",
@@ -4304,12 +4269,6 @@
       "extractedFrom": "frontmatter:precedes"
     },
     {
-      "source": "addressable-in-words",
-      "target": "embedded-intelligence",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
       "source": "agency",
       "target": "adaptation",
       "type": "related",
@@ -4321,6 +4280,30 @@
       "target": "learnability",
       "type": "related",
       "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "view-as-context",
+      "target": "agent-fallback",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "The agent reads the request against where the actor is through [view as context](/patterns/view-as-context), so the handover needs no restating.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "showing-the-reading",
+      "target": "agent-fallback",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Where the answer comes back as a state of the control, [showing the reading](/patterns/showing-the-reading) lets the actor see how their words were taken and correct one part of it.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "agent-fallback",
+      "target": "capability-and-scope",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where the agent cannot do what was asked either, [capability and scope](/patterns/capability-and-scope) says so and where to go instead",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "agent-opening",
@@ -4812,7 +4795,9 @@
       "target": "command-menu",
       "type": "complements",
       "label": "autocomplete applied to actions and navigation",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "As the actor types, pair the input with [autocomplete](/patterns/autocomplete) that matches fragments, initials, and synonyms across command names and parameters, since naming only helps when the actor does not need the exact label up front.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "autocomplete",
@@ -4891,7 +4876,9 @@
       "target": "block-based-editor",
       "type": "enables",
       "incomingNote": "picking a block and placing it; summoned at the current position",
-      "extractedFrom": "frontmatter:composed-of"
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "in [learning](/sequences/learning) and [structuring the space](/sequences/structuring-the-space), the capability has accumulated more operations and destinations than persistent toolbars and menus can show without burying them: a command menu helps complete an artifact [addressable in words](/patterns/addressable-in-words), and at the caret a [block-based editor](/patterns/block-based-editor), by giving the actor one input to invoke any action or jump by name so the surrounding chrome only has to carry everyday controls.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "block-based-editor",
@@ -4906,7 +4893,7 @@
       "type": "precedes",
       "incomingNote": "each bookmark stores a restorable address; deep linking makes states addressable",
       "extractedFrom": "frontmatter:follows",
-      "situation": "[Deep linking](/patterns/deep-linking) gives each state a stable address that restores it; bookmarking gives the actor a personal place to keep those addresses.",
+      "situation": "[Deep linking](/patterns/deep-linking) gives each state a stable address that restores it.",
       "glossFrom": "target:initiating"
     },
     {
@@ -4915,7 +4902,7 @@
       "type": "alternative",
       "label": "bookmarks keep items the actor explicitly saves; recents track items the system saw them open lately",
       "extractedFrom": "frontmatter:alternative",
-      "situation": "Where the actor has saved nothing explicitly, [recents](/patterns/recents) provide an automatic alternative for returning to recently opened items.",
+      "situation": "[Recents](/patterns/recents) cover items opened minutes or hours ago without asking the actor to save anything, but later activity pushes older items out of a recency list before a long-term return.",
       "glossFrom": "source:initiating",
       "farSituation": "[Bookmarking](/patterns/bookmarking) covers the items the actor explicitly chooses to keep; recents cover the much larger number they do not."
     },
@@ -4925,7 +4912,7 @@
       "type": "complements",
       "label": "tags let the actor organise a growing set of bookmarks without a predefined folder hierarchy",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Once a collection grows past a short scannable list, [tags](/patterns/tag) or folders let the actor organise it without planning a structure upfront.",
+      "situation": "Once the list grows past what can be scanned at a glance, [tags](/patterns/tag) or folders let the actor organise it without having had to plan a structure at the moment of saving.",
       "glossFrom": "source:resulting"
     },
     {
@@ -4934,7 +4921,7 @@
       "type": "complements",
       "label": "sharing turns a personal bookmark or collection into a recommendation for others",
       "extractedFrom": "frontmatter:complements",
-      "situation": "A bookmark or collection can also be passed to others as a recommendation or curated list through [sharing](/patterns/sharing).",
+      "situation": "A saved item or collection can be passed to others as a recommendation or curated list through [sharing](/patterns/sharing).",
       "glossFrom": "source:resulting"
     },
     {
@@ -4952,7 +4939,7 @@
       "type": "tangential",
       "label": "pinned reference material keeps sources in scope for a prompt or agent rather than saving a place to navigate back to",
       "extractedFrom": "frontmatter:tangential",
-      "situation": "Pinning files or sources into a prompt or workspace context is [reference material](/patterns/reference-material), which keeps items in scope for generation rather than for navigation.",
+      "situation": "Pinning files or sources into a prompt or workspace context is [reference material](/patterns/reference-material), which keeps items in scope for generation rather than for navigation",
       "glossFrom": "source:resulting"
     },
     {
@@ -4961,26 +4948,23 @@
       "type": "hosts",
       "incomingNote": "the command menu surfaces saved bookmarks from anywhere in the interface",
       "extractedFrom": "frontmatter:hosted-by",
-      "situation": "Bookmarks surface at navigation starting points such as a sidebar, start page, or [command menu](/patterns/command-menu)",
-      "glossFrom": "target:resulting"
+      "situation": "Before the actor types a character, open the command menu onto [recents](/patterns/recents) and saved [bookmarks](/patterns/bookmarking) so returning to a recent action or a pinned destination takes no typing at all.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Saved items sit one step from navigation starting points such as a sidebar, start page, or [command menu](/patterns/command-menu)."
     },
     {
       "source": "bookmarking",
       "target": "agency",
       "type": "enacts",
       "label": "lets the actor explicitly decide which items and states are worth keeping",
-      "extractedFrom": "frontmatter:enacts",
-      "situation": "Because the actor explicitly decides what matters and builds a personal navigation layer over the system's hierarchy, bookmarking enacts both [agency](/patterns/agency) and [malleability](/patterns/malleability).",
-      "glossFrom": "source:resulting"
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "bookmarking",
       "target": "malleability",
       "type": "enacts",
       "label": "lets the actor build a personal navigation layer over the shared structure",
-      "extractedFrom": "frontmatter:enacts",
-      "situation": "Because the actor explicitly decides what matters and builds a personal navigation layer over the system's hierarchy, bookmarking enacts both [agency](/patterns/agency) and [malleability](/patterns/malleability).",
-      "glossFrom": "source:resulting"
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "bounded-autonomy",
@@ -5379,7 +5363,8 @@
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
       "situation": "[Commenting](/patterns/commenting) attaches discussion to particular changes rather than to the document as a whole, and where colleagues review each other's work, [status feedback](/patterns/status-feedback) records the outcome in a set form.",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "several people are working on the same document, design or change, brought together by [sharing](/patterns/sharing) or a [change review](/patterns/change-review), as part of a wider [collaboration](/patterns/collaboration)."
     },
     {
       "source": "change-review",
@@ -5689,59 +5674,84 @@
     },
     {
       "source": "command-menu",
+      "target": "unavailable-actions",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Filter the list to actions that apply in the current state, and handle [unavailable actions](/patterns/unavailable-actions) that the actor still expects to find by keeping them searchable with the reason they cannot run here rather than letting them vanish without trace.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "command-menu",
       "target": "autocomplete",
       "type": "complements",
-      "label": "supports command menu functionality by reducing typing effort and increasing discoverability of commands.",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "command-menu",
-      "target": "embedded-intelligence",
-      "type": "complements",
-      "label": "helps the actor find relevant commands when exact matches aren't available",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "command-menu",
-      "target": "collaboration",
-      "type": "complements",
-      "label": "Command menus provide quick access to collaborative actions and workflows",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "As the actor types, pair the input with [autocomplete](/patterns/autocomplete) that matches fragments, initials, and synonyms across command names and parameters, since naming only helps when the actor does not need the exact label up front.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "command-menu",
       "target": "keyboard-shortcuts",
       "type": "complements",
-      "label": "surfaces shortcuts alongside each command name, making the invisible visible — the command menu is often the primary discovery mechanism for a shortcut system",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Show [keyboard shortcuts](/patterns/keyboard-shortcuts) beside each entry so every lookup rehearses the direct key bindings that carry the actor toward [mastery](/patterns/mastery).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "agent-fallback",
+      "target": "command-menu",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the actor is partway through a task in a control with a fixed vocabulary, such as a [command menu](/patterns/command-menu) or [help](/patterns/help), in an artifact [addressable in words](/patterns/addressable-in-words).",
+      "glossFrom": "source:initiating",
+      "farSituation": "Where the actor describes an outcome in their own words and no command matches, offer an [agent fallback](/patterns/agent-fallback), which takes what they typed and returns the matching command with its arguments filled in."
+    },
+    {
+      "source": "commenting",
+      "target": "status-feedback",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Threads now have a course of their own, from open to answered to resolved, and [status feedback](/patterns/status-feedback) shows where each one stands so the layer does not only grow.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "commenting",
+      "target": "incremental-formalisation",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "A commented passage that people start referring to, not only discussing, can become a quote with an identity of its own through [incremental formalisation](/patterns/incremental-formalisation), keeping its place in the text and its thread.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "commenting",
       "target": "collaboration",
       "type": "complements",
-      "label": "provides broader collaborative context",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "several people are working on the same document, design or change, brought together by [sharing](/patterns/sharing) or a [change review](/patterns/change-review), as part of a wider [collaboration](/patterns/collaboration).",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "commenting",
       "target": "activity-log",
       "type": "complements",
-      "label": "tracks commenting activity over time",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Notifications](/patterns/notification) tell people when a thread they are part of gets a reply, and the [activity log](/patterns/activity-log) keeps the record of who said what over time.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "commenting",
       "target": "notification",
       "type": "complements",
-      "label": "alerts users to comment activity",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Notifications](/patterns/notification) tell people when a thread they are part of gets a reply, and the [activity log](/patterns/activity-log) keeps the record of who said what over time.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "commenting",
       "target": "conversation",
       "type": "tangential",
-      "label": "provides dialogue interaction principles",
-      "extractedFrom": "frontmatter:tangential"
+      "extractedFrom": "frontmatter:tangential",
+      "situation": "A thread is a short [conversation](/patterns/conversation) held in place: it stays with its passage and ends when the point is settled",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "comparing",
@@ -5834,7 +5844,8 @@
       "label": "invoking an action from a selected target rather than searching for it by name",
       "extractedFrom": "frontmatter:alternative",
       "situation": "Keeping the controls for that target in a distant toolbar mixes relevant actions with inapplicable ones and pulls focus away from the work, while a [command menu](/patterns/command-menu) requires recalling an action by name rather than acting directly on the target.",
-      "glossFrom": "source:initiating"
+      "glossFrom": "source:initiating",
+      "farSituation": "Where the actor has already selected a target on screen and only needs one of its routine operations, [contextual actions](/patterns/contextual-actions) put those controls directly beside the selection without asking them to recall a name."
     },
     {
       "source": "contextual-actions",
@@ -6411,48 +6422,6 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
-      "source": "embedded-intelligence",
-      "target": "adaptation",
-      "type": "enacts",
-      "label": "the system mixes rule-driven and inferred responses, so behaviour shifts with context rather than staying fixed",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "embedded-intelligence",
-      "target": "agency",
-      "type": "enacts",
-      "label": "the system decides and acts on its own behalf rather than only responding to the actor's explicit moves",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "embedded-intelligence",
-      "target": "command-menu",
-      "type": "complements",
-      "label": "a natural home for embedded intelligence, turning a command line into an intent-driven interface",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "embedded-intelligence",
-      "target": "filtering",
-      "type": "enables",
-      "label": "the constituent that turns a natural-language query into structured filters",
-      "extractedFrom": "frontmatter:enables"
-    },
-    {
-      "source": "embedded-intelligence",
-      "target": "focus-and-context",
-      "type": "enables",
-      "label": "the constituent that infers what contextual information is most relevant to the actor's current focus",
-      "extractedFrom": "frontmatter:enables"
-    },
-    {
-      "source": "embedded-intelligence",
-      "target": "suggestion",
-      "type": "precedes",
-      "label": "the inference produces an offer — content the suggestion surface presents for the actor to accept, reject, or modify",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
       "source": "ephemeral-session",
       "target": "session",
       "type": "instantiates",
@@ -6727,27 +6696,34 @@
       "source": "filtering",
       "target": "grouping",
       "type": "complements",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The shown items are the actor's conditions in force, so [sorting](/patterns/sorting) orders what the conditions let through and [grouping](/patterns/grouping) arranges it.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "filtering",
       "target": "sorting",
       "type": "complements",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The shown items are the actor's conditions in force, so [sorting](/patterns/sorting) orders what the conditions let through and [grouping](/patterns/grouping) arranges it.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "filtering",
       "target": "selection",
       "type": "complements",
-      "label": "the imperative dual; filter narrows by predicate, selection narrows by enumeration",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Selection](/patterns/selection) narrows the same collection from the other end, by picking items one by one rather than stating a condition.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "data-view",
       "target": "filtering",
       "type": "precedes",
       "incomingNote": "acts on the framed collection the view already holds",
-      "extractedFrom": "frontmatter:follows"
+      "extractedFrom": "frontmatter:follows",
+      "situation": "a [data view](/patterns/data-view) has framed a collection, and the actor's question concerns only part of it.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "flat-navigation",
@@ -7020,7 +6996,9 @@
       "target": "filtering",
       "type": "complements",
       "label": "narrows what groups show up",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The shown items are the actor's conditions in force, so [sorting](/patterns/sorting) orders what the conditions let through and [grouping](/patterns/grouping) arranges it.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "grouping",
@@ -7150,13 +7128,6 @@
     },
     {
       "source": "help",
-      "target": "embedded-intelligence",
-      "type": "related",
-      "label": "The proactive sibling to Help. If Help explains how to do X, Embedded Intelligence offers to do X for you.",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "help",
       "target": "explanation",
       "type": "related",
       "label": "The core content unit of high-quality help.",
@@ -7188,6 +7159,15 @@
       "type": "enacts",
       "label": "help is a dialogue: the actor asks at the point of friction and the system answers in context",
       "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "agent-fallback",
+      "target": "help",
+      "type": "enables",
+      "incomingNote": "agent fallback gives a question the written help does not cover a way on to an agent",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the actor is partway through a task in a control with a fixed vocabulary, such as a [command menu](/patterns/command-menu) or [help](/patterns/help), in an artifact [addressable in words](/patterns/addressable-in-words).",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "annotation",
@@ -7882,7 +7862,9 @@
       "target": "command-menu",
       "type": "complements",
       "label": "the command menu surfaces shortcuts alongside each command name, making the invisible visible; together they span the full spectrum from exploration to direct execution",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Show [keyboard shortcuts](/patterns/keyboard-shortcuts) beside each entry so every lookup rehearses the direct key bindings that carry the actor toward [mastery](/patterns/mastery).",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "keyboard-shortcuts",
@@ -8156,7 +8138,9 @@
       "target": "command-menu",
       "type": "complements",
       "label": "key enabler of mastery, accessible to intermediates",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Show [keyboard shortcuts](/patterns/keyboard-shortcuts) beside each entry so every lookup rehearses the direct key bindings that carry the actor toward [mastery](/patterns/mastery).",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "mastery",
@@ -8465,13 +8449,6 @@
       "target": "agent",
       "type": "complements",
       "label": "powers next-best action via the [ambient mode](/patterns/agent#modes-of-interaction) of interaction",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "next-best-action",
-      "target": "embedded-intelligence",
-      "type": "complements",
-      "label": "next-best action as intelligence woven into the workflow",
       "extractedFrom": "frontmatter:complements"
     },
     {
@@ -9002,7 +8979,8 @@
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
       "situation": "Choices surface directly at the caret through a [command menu](/patterns/command-menu) or trigger via [keyboard shortcuts](/patterns/keyboard-shortcuts).",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "Inside a text field or editor, let a trigger character such as a slash open the command menu at the caret to apply [prestructured formatting](/patterns/prestructured-formatting) without leaving the line."
     },
     {
       "source": "prestructured-formatting",
@@ -9245,7 +9223,7 @@
       "target": "agent",
       "type": "enables",
       "extractedFrom": "frontmatter:enables",
-      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating a task](/sequences/delegating-a-task), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
+      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating a task](/sequences/delegating-a-task), or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
       "glossFrom": "source:initiating"
     },
     {
@@ -9253,7 +9231,7 @@
       "target": "conversation",
       "type": "enables",
       "extractedFrom": "frontmatter:enables",
-      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating a task](/sequences/delegating-a-task), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
+      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating a task](/sequences/delegating-a-task), or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
       "glossFrom": "source:initiating"
     },
     {
@@ -9261,7 +9239,7 @@
       "target": "session",
       "type": "enables",
       "extractedFrom": "frontmatter:enables",
-      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating a task](/sequences/delegating-a-task), through [embedded intelligence](/patterns/embedded-intelligence) inside an existing view, or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
+      "situation": "the actor is working in a [conversation](/patterns/conversation), inside a bounded [session](/patterns/session) that holds the task's working context across turns, with an [agent](/patterns/agent) in [delegating a task](/sequences/delegating-a-task), or anywhere in an artifact [addressable in words](/patterns/addressable-in-words), and has reached the point of telling the system what to make or do: a prompt helps complete these larger patterns by giving them the open input where the actor states the goal, constraints, and context in their own words.",
       "glossFrom": "source:initiating"
     },
     {
@@ -9313,7 +9291,8 @@
       "type": "alternative",
       "extractedFrom": "frontmatter:alternative",
       "situation": "The intent has no control or command name to reach it by; where it does, a [command menu](/patterns/command-menu) finds it faster and with a predictable result.",
-      "glossFrom": "source:initiating"
+      "glossFrom": "source:initiating",
+      "farSituation": "When the request combines several operations or asks for new content that no single command in the vocabulary covers, hand the input off to a [prompt](/patterns/prompt)"
     },
     {
       "source": "prompt",
@@ -9576,8 +9555,9 @@
       "type": "hosts",
       "incomingNote": "the command menu shows recent items before the actor types a query",
       "extractedFrom": "frontmatter:hosted-by",
-      "situation": "Recents usually appear at starting points such as a [command menu](/patterns/command-menu) before a query is typed or the [empty state](/patterns/state-empty) of a workspace.",
-      "glossFrom": "target:resulting"
+      "situation": "Before the actor types a character, open the command menu onto [recents](/patterns/recents) and saved [bookmarks](/patterns/bookmarking) so returning to a recent action or a pinned destination takes no typing at all.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Recents usually appear at starting points such as a [command menu](/patterns/command-menu) before a query is typed or the [empty state](/patterns/state-empty) of a workspace."
     },
     {
       "source": "state-empty",
@@ -9924,7 +9904,7 @@
       "target": "explanation",
       "type": "precedes",
       "extractedFrom": "frontmatter:precedes",
-      "situation": "When an actor meets an action their role does not allow, [explanation](/patterns/explanation) says which role allows it and who can give it, and [unavailable actions](/patterns/unavailable-actions) hides only the actions that are not theirs to ask for.",
+      "situation": "When an actor meets an action their role does not allow, [explanation](/patterns/explanation) says which role allows it, and the actor asks for that role where they are through the request that sharing offers; [unavailable actions](/patterns/unavailable-actions) hides only the actions that are not theirs to ask for.",
       "glossFrom": "source:resulting"
     },
     {
@@ -9932,7 +9912,7 @@
       "target": "unavailable-actions",
       "type": "precedes",
       "extractedFrom": "frontmatter:precedes",
-      "situation": "When an actor meets an action their role does not allow, [explanation](/patterns/explanation) says which role allows it and who can give it, and [unavailable actions](/patterns/unavailable-actions) hides only the actions that are not theirs to ask for.",
+      "situation": "When an actor meets an action their role does not allow, [explanation](/patterns/explanation) says which role allows it, and the actor asks for that role where they are through the request that sharing offers; [unavailable actions](/patterns/unavailable-actions) hides only the actions that are not theirs to ask for.",
       "glossFrom": "source:resulting"
     },
     {
@@ -10010,7 +9990,9 @@
       "target": "filtering",
       "type": "complements",
       "label": "a filter is the selecting rule over a visible collection, where the result updates as each part changes and checking the rule needs no separate step",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Once conditions have to be combined with and, or and not, or kept to run again later, they become [rule composition](/patterns/rule-composition).",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "rule-composition",
@@ -10097,8 +10079,9 @@
       "target": "searching",
       "type": "instantiates",
       "extractedFrom": "frontmatter:instances",
-      "situation": "Over an application's actions and jumps rather than its content, searching specialises into a [command menu](/patterns/command-menu).",
-      "glossFrom": "target:resulting"
+      "situation": "A command menu specialises [searching](/patterns/searching) over the artifact's commands and destinations rather than its content, shifting discovery from scanning a hierarchy to typing a guess.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Over an application's actions and jumps rather than its content, searching specialises into a [command menu](/patterns/command-menu)."
     },
     {
       "source": "searching",
@@ -10197,7 +10180,9 @@
       "target": "filtering",
       "type": "complements",
       "label": "Filtering and selection cover the same job from opposite ends — filter narrows by predicate, selection narrows by enumeration",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "[Selection](/patterns/selection) narrows the same collection from the other end, by picking items one by one rather than stating a condition.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "selection",
@@ -10444,7 +10429,8 @@
       "type": "precedes",
       "extractedFrom": "frontmatter:precedes",
       "situation": "Once several people have the same live work open on separate screens, [presence](/patterns/presence) shows who else is there, and a role that lets people review or discuss needs [commenting](/patterns/commenting).",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "several people are working on the same document, design or change, brought together by [sharing](/patterns/sharing) or a [change review](/patterns/change-review), as part of a wider [collaboration](/patterns/collaboration)."
     },
     {
       "source": "sharing",
@@ -10526,7 +10512,9 @@
       "target": "filtering",
       "type": "complements",
       "label": "orders what filtering lets through",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The shown items are the actor's conditions in force, so [sorting](/patterns/sorting) orders what the conditions let through and [grouping](/patterns/grouping) arranges it.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "instructed-revision",
@@ -11328,10 +11316,10 @@
     },
     {
       "source": "view-as-context",
-      "target": "embedded-intelligence",
+      "target": "suggestion",
       "type": "related",
       "extractedFrom": "frontmatter:related",
-      "situation": "[Embedded intelligence](/patterns/embedded-intelligence) draws on the same context but acts without being asked, whereas here the context is read only when the actor speaks.",
+      "situation": "A [suggestion](/patterns/suggestion) draws on the same context without being asked, whereas here the context is read only when the actor speaks.",
       "glossFrom": "source:resulting"
     },
     {
@@ -11685,27 +11673,6 @@
       "target": "activity-log",
       "type": "precedes",
       "situation": "the actor has had to do something — wait, commit an answer first, name a reason, finish an incomplete argument — before accepting, so the judgement on record is theirs; where that something was writing down why, the reasons accumulate into a trail somebody else can read",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "command-menu",
-      "target": "unavailable-actions",
-      "type": "precedes",
-      "situation": "the menu shows only what applies here, so commands that don't apply are absent rather than visibly out of reach — which is a kindness for the irrelevant ones and a mystery for the ones the actor expected to find",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "commenting",
-      "target": "status-feedback",
-      "type": "precedes",
-      "situation": "comments acquire a lifecycle of their own — open, answered, resolved — and something has to say when a thread is finished, or the layer only ever grows",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "commenting",
-      "target": "incremental-formalisation",
-      "type": "precedes",
-      "situation": "some commented passages start being referred to, not only discussed, and a highlight with a thread is too weak an object for that; the passage needs an identity of its own, without leaving its place in the text or losing its thread",
       "extractedFrom": "situation:resulting"
     },
     {

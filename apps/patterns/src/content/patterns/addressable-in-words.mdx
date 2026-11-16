@@ -14,7 +14,7 @@ situation:
   initiating: >-
     … the artifact is an [information environment](/patterns/information-environment) whose actors already say some of what they want in words: a search that takes a described outcome, help that answers a question, a command found by name, an [outside agent](/patterns/outside-agent) that reads and acts on the work. Each of these routes reaches its own part of the artifact and draws on its own description of what is there. Some of what actors ask for has no control built for it, although the data and permissions it would need are already in the artifact.
   resulting: >-
-    An artifact addressable in words answers from the same description that an [outside agent](/patterns/outside-agent) reads, so the artifact's own routes and an agent the actor brings resolve the same words to the same objects. The actor says what they want through a [prompt](/patterns/prompt) wherever the artifact offers one, and through a [conversation](/patterns/conversation) where the exchange runs over several turns; a [search](/patterns/searching) that takes a described outcome, [help](/patterns/help) that answers a question and a [command menu](/patterns/command-menu) that finds a command by name are further routes to the same description. What the actor has open, in view or selected is read as part of what they say through [view as context](/patterns/view-as-context), so "this" or "make it shorter" refers to something without the actor naming it. Where the words leave open what a request refers to or what it should do, [showing the reading](/patterns/showing-the-reading) puts the interpretation in front of the actor before the act, and where they leave too much open for one reading, [agent inquiry](/patterns/inquiry-agent) asks for what is missing. Every act, whether built as a control or put together from a request, is weighed through [action consequences](/patterns/action-consequences), which sets the protection it gets. An invitation to say anything promises more than any artifact holds, so [capability and scope](/patterns/capability-and-scope) says what lies outside the description and where to go instead…
+    An artifact addressable in words answers from the same description that an [outside agent](/patterns/outside-agent) reads, so the artifact's own routes and an agent the actor brings resolve the same words to the same objects. The actor says what they want through a [prompt](/patterns/prompt) wherever the artifact offers one, and through a [conversation](/patterns/conversation) where the exchange runs over several turns; a [search](/patterns/searching) that takes a described outcome, [help](/patterns/help) that answers a question and a [command menu](/patterns/command-menu) that finds a command by name are further routes to the same description. Where one of these routes has nothing for what the actor typed, an [agent fallback](/patterns/agent-fallback) passes the unfinished request on with what was already said. What the actor has open, in view or selected is read as part of what they say through [view as context](/patterns/view-as-context), so "this" or "make it shorter" refers to something without the actor naming it. Where the words leave open what a request refers to or what it should do, [showing the reading](/patterns/showing-the-reading) puts the interpretation in front of the actor before the act, and where they leave too much open for one reading, [agent inquiry](/patterns/inquiry-agent) asks for what is missing. Every act, whether built as a control or put together from a request, is weighed through [action consequences](/patterns/action-consequences), which sets the protection it gets. An invitation to say anything promises more than any artifact holds, so [capability and scope](/patterns/capability-and-scope) says what lies outside the description and where to go instead…
 relationships:
   complements:
     - outside-agent
@@ -26,13 +26,12 @@ relationships:
     - searching
     - help
     - command-menu
+    - agent-fallback
   precedes:
     - inquiry-agent
     - action-consequences
     - capability-and-scope
     - incremental-formalisation
-  related:
-    - embedded-intelligence
 ---
 
 * * *

@@ -13,14 +13,14 @@ situation:
   initiating: >-
     … the actor is working in an artifact [addressable in words](/patterns/addressable-in-words) and says something about what is in front of them: "this paragraph", "these two", "make it shorter". Naming the thing outright, as [reference material](/patterns/reference-material) does, costs effort for something they are already looking at.
   resulting: >-
-    Pointing at things inside the view is [selection](/patterns/selection), which gives a request its narrowest scope. Context the actor pins becomes [reference material](/patterns/reference-material), named and kept with the request rather than read from the view. [Embedded intelligence](/patterns/embedded-intelligence) draws on the same context but acts without being asked, whereas here the context is read only when the actor speaks. Because the view can change between saying and acting, the context is the view at the moment of the request, not at the moment of the act…
+    Pointing at things inside the view is [selection](/patterns/selection), which gives a request its narrowest scope. Context the actor pins becomes [reference material](/patterns/reference-material), named and kept with the request rather than read from the view. A [suggestion](/patterns/suggestion) draws on the same context without being asked, whereas here the context is read only when the actor speaks. Because the view can change between saying and acting, the context is the view at the moment of the request, not at the moment of the act…
 relationships:
   composed-of:
     - selection
   complements:
     - reference-material
   related:
-    - embedded-intelligence
+    - suggestion
 ---
 
 * * *

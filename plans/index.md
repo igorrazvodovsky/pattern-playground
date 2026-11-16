@@ -5,7 +5,6 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Active
 
-- [Concept catalogue](active/2026-10-concept-catalogue.md) — Jackson's concepts as a third collection beside patterns and sequences, with `acts_on` on patterns
 - [Scale facets and sidebar grouping](active/2026-10-pattern-facets.md) — grouping the sidebar's pattern list by facet
 - [Project languages](active/2026-10-project-languages.md) — lists of patterns chosen for one project, starting with hard-coded starters for typical artifact shapes and collaboration postures
 - [Generated demos](active/2026-10-generated-demos.md) — outline: a control on the demo frame that asks a model for a variant of a spec demo
@@ -31,7 +30,7 @@ the plan contract and `docs/specs/` for settled specifications.
 - [Stacked notes](active/2026-04-stacked-notes) — stacked-notes presentation for the pattern site: panes, spines, URL-recorded stacks
 - [Interaction See-Think-Do reframe](active/2026-04-interaction-see-think-do-reframe.md) — reframe the interaction model
 - [Agency attentional coupling](active/2026-04-agency-attentional-coupling.md) — add attentional coupling and appropriate reliance
-- [Agentive touchpoint patterns](active/2026-04-agentive-touchpoint-patterns.md) — document AI touchpoints in workflows
+- [Standing-agent patterns and sequence](active/2026-11-standing-agent-patterns.md) — seed patterns and a sequence for work that keeps running without the actor; test walks and open decisions
 - [Action bar story](active/2026-04-action-bar-story.md) — add action bar Storybook examples
 - [Transient layers split](active/2026-04-transient-layers-split.md) — split Popover and Toast documentation
 - [Transient layers tech](active/2026-04-transient-layers-tech.md) — technical implementation for Popover, Tooltip, and Toast

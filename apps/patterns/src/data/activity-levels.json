@@ -51,6 +51,11 @@
       "lifecycle-stage": null,
       "mediation": null
     },
+    "agent-fallback": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "agent-opening": {
       "activity-level": "operation",
       "lifecycle-stage": null,
@@ -288,11 +293,6 @@
     },
     "editing-in-place": {
       "activity-level": "action",
-      "lifecycle-stage": null,
-      "mediation": "individual"
-    },
-    "embedded-intelligence": {
-      "activity-level": "activity",
       "lifecycle-stage": null,
       "mediation": "individual"
     },

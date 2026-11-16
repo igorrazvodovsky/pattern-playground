@@ -1,7 +1,7 @@
 ---
 title: "Delegating a task"
 added: 2026-08-28
-updated: 2026-11-15
+updated: 2026-11-16
 description: "Write a request grounded in the actor's own sources, keep the work visible while it runs out of sight, send what arrives to the right place, and correct it until the task is done."
 order: 5
 presupposes: >-
@@ -30,9 +30,10 @@ sub-sequences:
             note: "the agent works acceptably when the actor leaves things unspecified, and a pre-filled preference is a first draft the actor corrects"
       - cluster: "Give the agent what the task needs"
         gloss: >-
-          Both act on the request, and neither comes first: a source may need
-          access before it can be attached, and access to act is not needed
-          until the agent starts.
+          All three act on the request, and none comes first: a source may
+          need access before it can be attached, what the actor has open may
+          already be the source, and access to act is not needed until the
+          agent starts.
         steps:
           - step: "Attach the sources to work from"
             rule: reference-material
@@ -43,6 +44,17 @@ sub-sequences:
               let the actor remove it. Citations later point back to these
               sources, as set up in
               [calibrating reliance](/sequences/calibrating-reliance#evidence).
+          - step: "Read the request against what the actor has open"
+            rule: view-as-context
+            optional: true
+            gloss: >-
+              Where the request is written beside the work, take the open
+              item, what is in view and the selection as part of it,
+              narrowest first, so the actor does not attach what is already
+              in front of them. Show what was taken in beside the attached
+              sources, and let the actor remove it or pin it as a source.
+              Skip this where the request is written away from the work,
+              with nothing open.
           - step: "Ask for the access the task needs"
             rule: permissions
             optional: true
@@ -53,6 +65,17 @@ sub-sequences:
               grant ends with the task or stays for later ones. Skip this
               where everything the task needs is attached or already inside
               the artifact.
+      - step: "Show how the request was read"
+        rule: showing-the-reading
+        optional: true
+        gloss: >-
+          Before the run starts, show what the request and its sources were
+          taken to refer to and which values were filled in, and let the
+          actor correct one part without rewriting the request. Where too
+          much is open to settle on one reading, ask, as designed in
+          [the encounter](/sequences/the-encounter#business). Skip this
+          where the request leaves nothing open, such as a preset applied
+          to a selection.
       - step: "Hand the goal to an agent"
         rule: agent
         gloss: >-

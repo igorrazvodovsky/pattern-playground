@@ -1,7 +1,7 @@
 ---
 title: "Making changes"
 added: 2026-08-28
-updated: 2026-11-15
+updated: 2026-11-16
 description: "Decide how the actor selects what to change, where each kind of change is made, when a change is saved, and how it can be undone, with safeguards matched to how costly each change is."
 order: 3
 presupposes: >-
@@ -25,6 +25,13 @@ sub-sequences:
           visible, shown on hover or focus, or available only in a separate
           mode. Later steps rely on this selection model. Creating a new item
           selects nothing, so it skips this step.
+      - step: "Put the actions for a selection beside it"
+        rule: contextual-actions
+        gloss: >-
+          Offer the actions that apply to the selection next to it, and leave
+          out those that do not apply. Where an action reaches further than
+          the selection, to the whole block or row, say so in its label. The
+          places for changes chosen in the next step are opened from here.
       - choice: "Decide where each kind of change is made"
         gloss: >-
           Decide this for each kind of change, not once for the whole system.

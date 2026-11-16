@@ -1,0 +1,42 @@
+---
+title: Agent fallback
+added: 2026-11-16
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+activityLevel: action
+mediation: individual
+description: "A way on for a task that a control with a fixed vocabulary could not finish: the control passes what the actor typed, and where they are, to an agent."
+situation:
+  initiating: >-
+    … the actor is partway through a task in a control with a fixed vocabulary, such as a [command menu](/patterns/command-menu) or [help](/patterns/help), in an artifact [addressable in words](/patterns/addressable-in-words). What they typed matches nothing the control offers, and the task is unfinished.
+  resulting: >-
+    The agent reads the request against where the actor is through [view as context](/patterns/view-as-context), so the handover needs no restating. Where the answer comes back as a state of the control, [showing the reading](/patterns/showing-the-reading) lets the actor see how their words were taken and correct one part of it. Where the agent cannot do what was asked either, [capability and scope](/patterns/capability-and-scope) says so and where to go instead…
+relationships:
+  composed-of:
+    - view-as-context
+    - showing-the-reading
+  precedes:
+    - capability-and-scope
+---
+
+* * *
+
+**A control with a fixed vocabulary stops helping where the actor's words match nothing in it. The actor is left with an empty list and an unfinished task, and the ways on are to guess other words or to start again somewhere else and say it all a second time.**
+
+Therefore,
+
+**Where the control has nothing for what the actor typed, offer in the same place to pass the task to an agent. Give the agent what was typed, which control it was typed in and what the actor has open. Where the answer is something the control could have produced, return it in that form: the filters set, or the command chosen with its arguments filled in.**
+
+## Resources & references
+
+- Heer, J. (2019). [Agency plus automation: Designing artificial intelligence into interactive systems](https://www.pnas.org/doi/10.1073/pnas.1807184115). *PNAS*.
+- Wroblewski, L. (2025). [Tackling common UX hurdles with AI](https://www.lukew.com/ff/2132/tackling-common-ux-hurdles-with-ai).
+
+## To-do
+
+- Decide whether returning the answer as a state of the control belongs here or on [addressable in words](/patterns/addressable-in-words).
+- Look at what happens to a control's own vocabulary where actors reach for the fallback first.
+- Examples beyond command menus: search, filter builders, formula bars and help.

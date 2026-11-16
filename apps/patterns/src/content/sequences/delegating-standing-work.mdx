@@ -20,14 +20,17 @@ sub-sequences:
         rule: rule-composition
         gloss: >-
           Attach the request to an occasion, a time or something that
-          happens, with its exceptions and a limit on how much one run may
-          do, set together with the other limits in
-          [governing autonomy](/sequences/governing-autonomy#grant). Show when it next runs. Call
+          happens, with its exceptions and a limit on how much one run, or
+          the runs over a period, may do, set together with the other limits
+          in [governing autonomy](/sequences/governing-autonomy#grant). Settle the questions a run would otherwise ask, since the
+          actor will not be there to answer. Show when it next runs. Call
           the request, the occasion and the limit together the arrangement;
           every later step acts on it or on a run it started.
         constituents:
           - slug: good-defaults
             note: "an arrangement that works acceptably before the actor has adjusted anything"
+          - slug: tuning-by-demonstration
+            note: "an occasion or a method set by showing it, where the actor can do it more easily than describe it"
       - cluster: "Ready the arrangement before it goes live"
         gloss: >-
           Neither of these comes first. A trial over real past cases needs
@@ -87,17 +90,25 @@ sub-sequences:
           [delegating a task](/sequences/delegating-a-task#receive). Skip
           this where runs only act; the status and the record show what
           they did.
+      - step: "Ask what a run needs to go on"
+        optional: true
+        gloss: >-
+          Where a run cannot go on without something only the actor knows, ask questions, with the choices when possible and what each would do, and hold only that case while other runs go on. Where the same answer keeps being given, make it a standing change.
       - step: "Warn while there is time to act"
         rule: notification
         optional: true
         gloss: >-
           From the measures in the status, pick those whose limit would stop
           the work or call for the actor, and warn before the limit is
-          reached. Each warning promises what happens if it is crossed, and
-          the handover in
+          reached. Warn too when a run that was expected has not come,
+          judged against the longest quiet the arrangement normally has, so
+          that stopped work is not taken for quiet work. Each warning says
+          what the actor will need in order to act, and has it ready where
+          the arrangement can arrange it. Each promises what happens if the
+          limit is crossed, and the handover in
           [governing autonomy](/sequences/governing-autonomy#transfer) has to
           keep that promise. Skip this where no measure has a limit or an
-          end date.
+          end date and a missed run would cost little.
       - step: "Keep the actor able to take over"
         rule: mastery
         optional: true
@@ -118,9 +129,10 @@ sub-sequences:
         optional: true
         gloss: >-
           Keep the cases and occasions the arrangement refused or skipped,
-          least certain first, each with its reason. Call this the
-          passed-over list; the next step corrects from it as well as from
-          wrong results. Skip this where a missed case costs the actor
+          least certain first, each with its reason. Now and then bring one
+          to the actor, or a result that only just passed, because most
+          missed cases are never looked for. Where the actor cannot judge
+          the cases, send the least certain to someone who can. Skip this where a missed case costs the actor
           little.
       - step: "Correct the work at the case it got wrong"
         rule: case-correction
@@ -128,7 +140,7 @@ sub-sequences:
           On a wrong result or an entry in the passed-over list, let the
           actor fix this one, make a standing exception, or change what
           decided it, and show which part of the arrangement that was: the
-          occasion, an exception, or the request. Keep the exceptions as a
+          occasion, an exception, the limit, or the request. Keep the exceptions as a
           list; the next step works from it.
       - choice: "Choose how the arrangement itself changes"
         gloss: >-
@@ -179,8 +191,7 @@ sub-sequences:
         rule: bounded-autonomy
         gloss: >-
           Set how long the arrangement may go with nothing to do, or with no
-          answer from the actor, before it asks, and hold it if nobody
-          answers.
+          answer from the actor.
       - cluster: "Close the arrangement"
         gloss: >-
           Neither comes first. Say what happens to runs in progress, and

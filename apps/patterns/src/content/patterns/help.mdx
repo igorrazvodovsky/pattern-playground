@@ -31,8 +31,6 @@ situation:
       sets-up: [agent]
 relationships:
   related:
-    - to: embedded-intelligence
-      note: The proactive sibling to Help. If Help explains how to do X, Embedded Intelligence offers to do X for you.
     - to: explanation
       note: The core content unit of high-quality help.
     - to: status-feedback
@@ -44,13 +42,15 @@ relationships:
     - to: conversation-quality
       note: 'help is a dialogue: the actor asks at the point of friction and the system answers in context'
   composed-of:
+    - to: agent-fallback
+      note: agent fallback gives a question the written help does not cover a way on to an agent
     - to: annotation
       note: annotation supplies the mechanism for attaching help to specific elements
 ---
 
 A [conversation](/patterns/conversation-quality) channel for sensemaking. It allows users to recover context ("Where am I?"), acquire domain knowledge ("What does this mean?"), and bridge the gulf of execution ("How do I do this?").
 
-> 💭 Help is primarily *pull-based* (user seeks understanding). When the system proactively offers to *do* things, that is [embedded intelligence](/patterns/embedded-intelligence).
+> 💭 Help is primarily *pull-based* (user seeks understanding). When the system offers to *do* things without being asked, that is a [suggestion](/patterns/suggestion) or a [next-best action](/patterns/next-best-action). Where the written help does not cover the actor's case, an [agent fallback](/patterns/agent-fallback) passes the question on.
 
 ## Why users seek help
 

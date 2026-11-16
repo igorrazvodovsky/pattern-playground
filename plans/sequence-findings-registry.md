@@ -2,13 +2,13 @@
 
 The corpus changes proposed while authoring the thirteen sequences of August 2026, collected from their plan files and checked against the content files on 2026-11-15, together with two left by the simplification of the sequence format on the same day. Each finding is a judgement about a pattern or a sequence that waits for its own sitting; nothing here has been acted on.
 
-The findings of the standing-agent sequence stay in [2026-11-standing-agent-patterns.md](active/2026-11-standing-agent-patterns.md) §Findings, because that plan is still open.
+The findings of the standing-agent sequence, now titled *delegating standing work*, stay in [2026-11-standing-agent-patterns.md](active/2026-11-standing-agent-patterns.md) §Findings, because that plan is still open.
 
 ## How to read an entry
 
 An entry names the finding by plan and number, for example *composing views 5*. The plans are:
 
-- composing views, structuring the space, making changes, the encounter, delegating work, governing autonomy, calibrating reliance, assistance escalation, learning, memory and continuity, attention and tempo, making sense at scale, working on the same thing.
+- composing views, structuring the space, making changes, the encounter, delegating work (the sequence is now titled *delegating a task*), governing autonomy, calibrating reliance, assistance escalation, learning, memory and continuity, attention and tempo, making sense at scale, working on the same thing.
 
 The plans were closed on 2026-11-15. [Composing views](completed/2026-08-composing-views-sequence.md) is kept as the pilot. The other twelve were deleted; read one with `git show 9c27a32e:plans/active/2026-08-<name>-sequence.md`, where `<name>` is the sequence's slug.
 
@@ -52,11 +52,11 @@ Classification-sitting candidates. A step without a rule is not evidence of a ga
 - *Recording the reason for a change when it is made*: attribution owns who made it, and nothing owns why. Memory and continuity 4.
 - *Retention of the record itself*: log retention, redaction, and the record outliving its subjects. Memory and continuity 9.
 - *Attention stations*: the protected stretch (focus modes, allowed hours), the breakthrough valve, the delivery moment (breakpoint deferral, escalate-only-if-unseen, coarse batching), the generated digest (whose opt-in bar was set by the public failure of default-on summaries), and the way back after an interruption. resuming is a candidate rule for the last one (arrival/4). Attention and tempo 3, 4, 6.
-- *The deferred act*: scheduled send, remind-me, snooze. Partly overtaken: triggered-run owns a standing request tied to an occasion, and nothing owns the one-off deferral. It may be one pattern with the delivery moment's deferral. Attention and tempo 3; delegating work sighted.
+- *The deferred act*: scheduled send, remind-me, snooze. Partly overtaken: the automating concept holds a standing request tied to an occasion, and nothing owns the one-off deferral. It may be one pattern with the delivery moment's deferral. Attention and tempo 3; delegating work sighted.
 - *Working and showing*: declaring per kind of material how much unfinished work others see. Working on the same thing 4.
 - *The handable shared view*: follow and spotlight live, the view's address later. Working on the same thing 4.
 - *Asking for a higher access tier*: sharing mentions it and its disclosure says it is unworked; permissions covers what the artifact asks of the actor, not a viewer asking up. Working on the same thing 4.
-- *The agent's performance report*: the agent showing its own value, bad news included, to feed the re-judgement of whether the work is worth delegating. standing-down covers check-in and shutdown only. Delegating work 12; delegating work sighted.
+- *The agent's performance report*: the agent showing its own value, bad news included, to feed the re-judgement of whether the work is worth delegating. The limit on disuse in bounded-autonomy covers the check-in, and ending is an action of the automating concept. Delegating work 12; delegating work sighted.
 - *Distributed customisation*: still without a page; the standing-agent plan chose not to pursue it. Delegating work sighted.
 - *The landing surface*: what the actor meets first in a region laid out as a tree or as fully connected sections. No step in structuring the space decides it and no page owns it. Structuring the space 9.
 - *Signposting*: showing the actor where they are, whatever the topology; breadcrumbs and section markers are its components. Structuring the space 9, 14.
@@ -113,15 +113,15 @@ Evidence is from the working tree on 2026-11-15.
 | The encounter 9 (pattern half) | dropped | Triaged 2026-11-15. The claim is about the first run, which the sequence link to learning's arrival region states; onboarding's page has nothing for a pattern edge to act on. |
 | Delegating work 1–5 | done | framing/1 prompt, framing/2 reference-material; receive and iterate choices; iterate/2 standing-instructions with `follows: instructed-revision`; watch/1 optional. |
 | Delegating work 6 | done | regeneration and instructed-revision both `precedes: undo` in shaped prose. The map's missing-links paragraph now says so. |
-| Delegating work 7 | overtaken | permissions and trial-run seeded; presupposition points to keeping a standing agent. |
+| Delegating work 7 | overtaken | permissions and trial-run seeded; permissions is an optional step of the sequence's first region, and trial-run a step of delegating standing work. |
 | Delegating work 8 | done | Triaged 2026-11-15. The note on `agent precedes generated-content` says it is the path for a run nobody watched, with live-presentation as the watched one. |
 | Delegating work 9 | observation | Map lists activity-log. |
 | Delegating work 10 (edit set) | done | Triaged 2026-11-15. change-review gained the absent-author sentence with `complements transparent-reasoning`, `related activity-log`, the position caution and its source. The seed flag is carried above. |
-| Delegating work 11 | overtaken | watch/2 `rule: run-status`. |
-| Delegating work 12 | partly overtaken | standing-down covers check-in and shutdown; performance report carried above. |
-| Delegating work 13, 14 | overtaken | passed-over-cases and pause seeded. |
+| Delegating work 11 | overtaken | watch/2 `rule: status-feedback`, shown on the session or item the work already has. |
+| Delegating work 12 | partly overtaken | check-in is bounded-autonomy's limit on disuse, shutdown an action of automating; performance report carried above. |
+| Delegating work 13, 14 | overtaken | holding and resuming are actions of the automating concept; keeping what was passed over is part of case-correction. |
 | Delegating work 15, 16 | done | Discharged 2026-08-29 by [2026-08-rule-composition.md](active/2026-08-rule-composition.md). |
-| Delegating work sighted: tuning by demonstration, practice against atrophy, escalation to another person, staged pre-warning | overtaken | tuning-by-demonstration and early-warning seeded; mastery §Skills handed over; handoff's person-to-person section and reaching-a-person. |
+| Delegating work sighted: tuning by demonstration, practice against atrophy, escalation to another person, staged pre-warning | overtaken | tuning-by-demonstration seeded; staged pre-warning folded into notification and status-feedback; mastery §Skills handed over; handoff's person-to-person section and reaching-a-person. |
 | Governing autonomy 1 | done | Map entry. |
 | Governing autonomy 2, 6, 8, 10 | observation | Edges and map list as the findings say. settings now has two make-time edges plus the `sets-up: notification` clause. |
 | Governing autonomy 3 | done | Triaged 2026-11-15. plan-preview §Forms says a standing run's granted limits take the plan's place, previewed once at grant time. |
@@ -141,8 +141,8 @@ Evidence is from the working tree on 2026-11-15.
 | Assistance escalation 2 | done | Triaged 2026-11-15. assisted-task-completion's body gives the offer-and-decide loop to suggestion and links the climb region; its first resulting clause now states the level a surface sits at. |
 | Assistance escalation 3 | done | Triaged 2026-11-15. embedded-intelligence's `initiating` names stated intent as the case where the pattern is skipped. |
 | Assistance escalation 4 | done | Triaged 2026-11-15. autocomplete's narrowing and expanding bullet equates them with looked-up and inferred candidates. |
-| Assistance escalation 7; learning 7 | done | Triaged 2026-11-15. delegating-work.mdx's lead names the encounter, assistance escalation and learning as leading in, without a count. |
-| Assistance escalation 8 | done | Triaged 2026-11-15. delegating work's "Present the result for judgement" gloss links to assistance escalation's forward region. |
+| Assistance escalation 7; learning 7 | done | Triaged 2026-11-15. The lead of delegating a task names the encounter and learning as leading in, without a count; assistance escalation's handed-over procedure leads into delegating standing work, whose lead names it. |
+| Assistance escalation 8 | done | Triaged 2026-11-15. delegating a task's "Present the result for judgement" gloss links to assistance escalation's forward region. |
 | Assistance escalation 9 | done / overtaken | Map lists action-consequences; the arrival count left the acceptance gloss. |
 | Learning 1, 6 | done | Arrival choice gloss; command-menu `sets-up: unavailable-actions`. |
 | Learning 3 | done | mastery §Skills handed over; the glosses linking to learning's upkeep region do not say "maintenance". |

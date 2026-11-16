@@ -1,0 +1,27 @@
+---
+title: Grouping members
+added: 2026-11-15
+purpose: Let access be given to a named group of members at once, so that joining or leaving the group changes what each of them can reach.
+principle: >-
+  If a group is given a role in a space, every member of the group can act
+  there at that role; adding someone to the group gives them that access, and
+  removing them takes it away, without anyone changing the space itself.
+state:
+  - "member: Group -> set User"
+  - "role: GroupMembership -> one Role"
+actions:
+  addToGroup: Whoever manages the group adds a member, who gains every access the group holds.
+  removeFromGroup: Whoever manages the group removes a member, who loses the access they held through it.
+  grantToGroup: Whoever manages a space gives a group a role there.
+misfits:
+  - Once access comes through several groups and direct grants, nobody can tell what a member can do or which grant gives it.
+  - Removing a member from a space leaves the access they still hold through a group.
+  - A group made for another purpose, such as a mailing list or a team for mentions, is reused to give access, and everyone who joins it for that purpose gains the access too.
+aliases: [groups, teams, user groups]
+depends_on: [joining, assigning-roles]
+appears_in:
+  - Google Workspace groups in Drive sharing
+  - GitHub teams
+  - Microsoft Entra groups
+  - Notion groups
+---
