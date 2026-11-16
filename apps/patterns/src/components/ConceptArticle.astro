@@ -67,12 +67,6 @@ const patterns = (await getCollection('patterns'))
         {Object.entries(data.actions).map(([action, effect]) => (
           <li>
             <code>{action}</code> <Label text={effect} />
-            {worldActions.has(action) && (
-              <small class="muted" title="Instantiated in the fixture world (shared/world)">
-                {' '}
-                · in the world
-              </small>
-            )}
           </li>
         ))}
       </ul>
