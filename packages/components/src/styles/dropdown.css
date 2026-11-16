@@ -15,6 +15,14 @@ pp-popup.dropdown__panel[top-layer] {
   border-radius: var(--radius-m);
 }
 
+/* A hoisted submenu is a [popover]; popover.css's box styles belong to
+   panels with their own frame, and the submenu's content brings its own. */
+pp-popup.dropdown__submenu[top-layer] {
+  font-size: inherit;
+  box-shadow: none;
+  border-radius: 0;
+}
+
 pp-popup.dropdown__panel[data-current-placement^='top'] {
   transform-origin: bottom;
 }

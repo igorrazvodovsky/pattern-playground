@@ -103,7 +103,7 @@ export function FilterTag({
         {label}
       </div>
 
-      <pp-dropdown placement="bottom-start">
+      <pp-dropdown placement="bottom-start" hoist>
         <button type="button" data-slot="trigger" className="tag">
           {operator}
         </button>
@@ -126,6 +126,7 @@ export function FilterTag({
       <pp-dropdown
         ref={dropdownRef}
         placement="bottom-start"
+        hoist
         onPp-show={handleDropdownShow}
         onPp-hide={handleDropdownHide}
       >

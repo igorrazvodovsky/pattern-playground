@@ -108,8 +108,8 @@ export class PpPopup extends Elena(HTMLElement) {
    * it inherits every ancestor's `overflow` clipping and competes on z-index
    * with its anchor's siblings — a later sibling that raises its own z-index
    * paints over it. The top layer sits above all of that, unconditionally.
-   * Off by default: it changes where the popup paints, and existing consumers
-   * (dropdown, tooltip) are positioned to be fine without it.
+   * Off by default: it changes where the popup paints. A dropdown turns it on
+   * for its panel and submenus when hoisted.
    */
   'top-layer' = false;
 
@@ -349,6 +349,16 @@ export class PpPopup extends Elena(HTMLElement) {
       // shifted containing block, so the offsets above land somewhere else.
       // Measure where it actually is and take the difference out.
       if (this['top-layer'] && this.matches(':popover-open')) {
+        // The measured box includes transforms, so a running entry animation
+        // (a dropdown's scale-in) would read as a shift. Measure once it ends.
+        const running = this.getAnimations().filter((a) => a.playState === 'running');
+        if (running.length > 0) {
+          Promise.all(running.map((a) => a.finished)).then(
+            () => this.reposition(),
+            () => {},
+          );
+          return;
+        }
         const rect = this.getBoundingClientRect();
         const dx = rect.left - x;
         const dy = rect.top - y;

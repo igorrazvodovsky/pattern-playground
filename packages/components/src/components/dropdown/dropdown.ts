@@ -94,6 +94,12 @@ export class PpDropdown extends Elena(HTMLElement) {
   'containingElement'?: Element;
   'distance' = 4;
   'skidding' = 0;
+  /**
+   * Paint the panel in the top layer, clear of every ancestor's overflow
+   * clipping. `position: fixed` alone is not enough: an ancestor that is a
+   * size container (or has a transform or filter) becomes the containing
+   * block for fixed descendants and clips them like an absolute one.
+   */
   'hoist' = false;
   'sync': 'width' | 'height' | 'both' | '' = '';
 
@@ -145,6 +151,7 @@ export class PpDropdown extends Elena(HTMLElement) {
     popup.distance = this.distance;
     popup.skidding = this.skidding;
     popup.strategy = this.hoist ? 'fixed' : 'absolute';
+    popup['top-layer'] = this.hoist;
     popup.flip = this.flip;
     popup.shift = this.shift;
     if (this['auto-size']) popup['auto-size'] = this['auto-size'];
@@ -544,6 +551,9 @@ export class PpDropdown extends Elena(HTMLElement) {
     popup.placement = item['submenu-placement'] || 'right-start';
     popup.distance = 4;
     popup.strategy = this.hoist ? 'fixed' : 'absolute';
+    // Shown after a top-layer parent panel, so it paints above it.
+    popup['top-layer'] = this.hoist;
+    popup.classList.add('dropdown__submenu');
     popup.flip = this.flip;
     popup.shift = this.shift;
     popup['auto-size'] = 'vertical';
