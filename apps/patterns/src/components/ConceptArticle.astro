@@ -35,9 +35,12 @@ const patterns = (await getCollection('patterns'))
 ---
 
 <ArticleShell title={data.title} dates={entry} pagefind={pagefind} pageType="concept">
-  <p>{data.purpose}</p>
-
   <dl class="description-list">
+    <dt>Purpose</dt>
+    <dd>
+      <Label text={data.purpose} />
+    </dd>
+
     <dt>Operational principle</dt>
     <dd>
       <Label text={data.principle} />

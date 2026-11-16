@@ -352,8 +352,10 @@ export function Nav({
       ? narrow(active.children, new Set(activeLanguage.members))
       : active.children,
   };
+  // The concepts corner holds one flat catalogue, so its entries sit directly
+  // under Overview rather than inside a collapsible Concepts branch.
   const groups: NavTreeNode[] =
-    corner === 'concepts' ? [concepts] : [...shared, sequences, patternsBranch];
+    corner === 'concepts' ? concepts.children : [...shared, sequences, patternsBranch];
   // The trigger names whatever differs from the default arrangement.
   const note =
     [activeLanguage?.label, active.id === DEFAULT_GROUPING ? undefined : active.label]
@@ -407,7 +409,7 @@ export function Nav({
                 </SidebarMenuButton>
               </SidebarMenuItem>
               {groups
-                .filter((group) => isBranch(group) && group.children.length > 0)
+                .filter((group) => !isBranch(group) || group.children.length > 0)
                 .map((group) =>
                   group === patternsBranch ? (
                     <NavNode
@@ -435,7 +437,7 @@ export function Nav({
                     />
                   ) : (
                     <NavNode
-                      key={group.label}
+                      key={isBranch(group) ? group.label : group.href}
                       node={group}
                       currentPath={currentPath}
                       isOpen={isOpen}
