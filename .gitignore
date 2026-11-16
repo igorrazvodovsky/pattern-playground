@@ -50,3 +50,4 @@ apps/patterns/storybook-index/
 apps/patterns/src/data/pattern-graph.baseline.json
 .claude/settings.local.json
 
+.mcp.json

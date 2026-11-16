@@ -15,7 +15,7 @@ The reasoning is grounded in the project's `docs/` knowledge base. Read the docu
 - `docs/language/pattern-definition.md` — operational test for what counts as a pattern (vs. component, contract, observation, anti-pattern, collection). The minimum-pattern checklist lives here.
 - `docs/language/relationship-vocabulary.md` — describes relationships between patterns.
 - `docs/language/conceptual-glossary.md` — working definitions of pattern, centre, generative move, quality, semilattice, suggestion-grade, etc.
-- `docs/specs/pattern-role-model.md` — the settled role set (component, pattern, collection, quality, foundation, concept, the boundary stance, and the pattern/component decomposition rule with its fission signals.
+- `docs/specs/pattern-role-model.md` — the settled role set (component, pattern, collection, quality, foundation; concepts are a parallel catalogue, not a role), the boundary stance, and the pattern/component decomposition rule with its fission signals.
 - `docs/language/patterns-and-components.md` — generative pattern language vs normative component catalogue
 - `docs/specs/pattern-site.md` — the answer to "where does a new pattern go?"
 - `docs/language/semilattice.md` — the pattern space is a semilattice, not a tree. Every tree placement is lossy; the question is which loss is least harmful. Multiple projections, not a better tree.
@@ -42,7 +42,7 @@ If the candidate isn't a generative move, name what it actually is and route it 
 - *component* — component, primitive, control, visual element, implementation substrate → Storybook (`packages/components/src/stories/`)
 - *quality* — an experiential dimension (Agency, Learnability, Conversation, …) → `apps/patterns/src/content/patterns/` with `role: quality`
 - *foundation* — theory, model, principle, or material substrate → `apps/patterns/src/content/patterns/` with `role: foundation`
-- *concept* — a Jackson-style software concept vocabulary entry → top-level `concepts/`
+- *concept* — a Jackson-style software concept vocabulary entry → `apps/patterns/src/content/concepts/` (shape in `docs/language/patterns-and-concepts.md`)
 - *collection* — a survey page that gathers a grouping of members for browsing but isn't the authoritative source for any pattern. Distinct from a *composite pattern*, which gathers constituents that **make it up** and **is** a source — that stays `role: pattern`. See step 5.
 - *variant* — a concrete instantiation, story variant, screenshot, prototype, product case → lives inside the pattern it illustrates
 
@@ -160,7 +160,7 @@ Apply Leontiev's hierarchy:
 Watch for level ambiguity:
 
 - Some patterns shift levels through habituation (autocomplete starts as conscious action, becomes operational). File where the *design challenge* lives — if the design work is about making it invisible, it's operational.
-- Some patterns straddle levels (toolbar is both operational affordance and action container). The tree picks one; tags and graph edges capture the other.
+- Some patterns straddle levels (toolbar is both operational affordance and action container). The `activityLevel` facet takes one; graph edges and prose capture the other.
 - Cross-cutting concerns that *describe* levels rather than sitting at one belong in qualities or foundations.
 
 ### 4. Lifecycle stage (actions only): where in intent resolution?
@@ -173,14 +173,14 @@ If the pattern is an action, determine which stage of the intent lifecycle it pr
 - *Application* — taking decisions, completing tasks
 - *Coordination* — multi-actor alignment
 
-Many actions serve multiple stages. The tree picks the *primary* stage; add `lifecycle:*` tags for secondary stages. If a pattern serves all stages roughly equally, that's a signal it might not be an action — reconsider AT level.
+Many actions serve multiple stages. The `lifecycle` facet holds the *primary* stage; name secondary stages in the page's prose. If a pattern serves all stages roughly equally, that's a signal it might not be an action — reconsider AT level.
 
 ### 5. Higher-altitude strategy: composite pattern, collection, or implicit
 
 A page that gathers smaller pages is one of three things. The sorting instrument is Winston et al.'s (1987) part-whole test — *how do the children relate to the parent?* — which also picks the edge type:
 
-- *Do the children **make up** the thing?* (component–integral) → it is a **composite pattern**: `role: pattern`. The children link to it by `enables` (part → whole), via a "Composed from" / "Constituent patterns" header. A composite pattern is the authoritative source for *its own* pattern — it is **not** a collection. Example: Form is a single act assembled from data entry, bounded choice, sectioning; filling it is one pattern.
-- *Are the children **kinds of** the thing?* (genus–species) → it is a **general pattern with variants**: `role: pattern`. The variants link to it by `instantiates` (species → genus), via a "Foundation" / "Applied in" header on each variant. Example: Assisted task completion is the general pattern; Autocomplete, Autofill, AI completion *instantiate* it.
+- *Do the children **make up** the thing?* (component–integral) → it is a **composite pattern**: `role: pattern`. The whole declares its parts with `composed-of` in `relationships:` (stored as `enables`, part → whole). A composite pattern is the authoritative source for *its own* pattern — it is **not** a collection. Example: Form is a single act assembled from data entry, bounded choice, sectioning; filling it is one pattern.
+- *Are the children **kinds of** the thing?* (genus–species) → it is a **general pattern with variants**: `role: pattern`. Each variant declares `instantiates` (species → genus) in its `relationships:`. Example: Assisted task completion is the general pattern; Autocomplete, Autofill, AI completion *instantiate* it.
 - *Are the children merely **filed under** it for browsing?* (member–collection) → it is a **collection**: `role: collection`. It is a survey, not a source; its links emit `surveys` (≈ `skos:member`). Per SKOS, a collection sits *outside* the `enables`/`instantiates` hierarchy. Example: Navigation overview gathers the navigation models; Operations gathers its operation patterns.
 - *Does it need a node at all?* If membership is already computable from a facet (e.g. the AT-altitude strata are derivable from `activityLevel`) or the link lives fine in cross-references, prefer *implicit* — generated nav or edges, no authored node. Test: would anyone navigate *to* this page, or always straight to a child?
 
@@ -210,7 +210,7 @@ Consider domain `tags` (e.g., `ai`, `navigation-structure`, `async`) for graph c
 
 Before finalising, consider the topology:
 
-- Which typed edges does this create? Every edge is authored (`relationships:`, inline `rel=`, `<PatternRef rel>`) or emitted by a judgement home (a `sets-up:` resulting clause, a decision tree) — untyped prose links produce nothing, so the question is what to declare, not what will be inferred.
+- Which typed edges does this create? Every edge is authored (`relationships:`, inline `{rel="…"}`, `<PatternRef rel>`) or emitted by a decision tree — untyped prose links produce nothing, so the question is what to declare, not what will be inferred.
 - Does this node clarify the graph or clutter it? A node with 2 edges might not justify its existence. A node with 20 edges might be too broad and need splitting.
 - Does this create or join a meaningful cluster? Check whether the neighbourhood forms a recognisable group or scatters across unrelated areas.
 - Sanity-check the axis of each edge against the altitude difference between its endpoints. Surface anomalies (an `instantiates` within one altitude, a `complements` across two) for the user — they're findings, not failures.
@@ -221,7 +221,7 @@ Synthesise the answers into a concrete proposal:
 
 - File path(s) and frontmatter title(s)
 - Frontmatter fields and tags
-- Umbrella strategy (if applicable)
+- Higher-altitude strategy (if applicable; step 5)
 - Key edges, *typed* — at minimum precursors (`precedes`/`follows`), components (`enables`), foundations (`instantiates`), complementary patterns, alternatives, and the qualities the pattern enacts
 - Any existing patterns that need updating (new cross-references, absorbed content, redirects)
 

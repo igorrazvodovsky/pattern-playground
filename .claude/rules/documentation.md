@@ -43,7 +43,7 @@ Standard section order:
 6. `## Resources & references` for external sources
 
 ## Behavioural framework
-Use the Intent & Interaction framework (`src/stories/foundations/Interaction.mdx`) to select and design patterns that support how users move through the interface and perform tasks. The framework is grounded in temporal movement and treats interaction as conversational alignment with turn-taking and cooperative principles.
+Use the Intent & Interaction framework (the foundation page on the pattern site, `apps/patterns/src/content/patterns/interaction.mdx`; link it as `<PatternRef slug="interaction">`) to select and design patterns that support how users move through the interface and perform tasks. The framework is grounded in temporal movement and treats interaction as conversational alignment with turn-taking and cooperative principles.
 
 ## Content guidelines
 - Focus on relational definitions over static properties

@@ -13,9 +13,10 @@ skill is the method; in this project categorical series colours come from the
 
 Project integration points:
 
-- `packages/components/src/components/PatternGraph.tsx` — the existing
-  force-directed pattern graph (React with `d3-force` + `d3-scale`); extend it
-  rather than starting a second graph component.
+- `<pp-network-graph>` (`packages/components/src/components/charts/network-graph.ts`,
+  layout in `network-graph-layout.ts`) — the existing force-directed graph, a
+  web component on `d3-force` + `d3-scale`; extend it rather than starting a
+  second graph component.
 - Import per-module (`d3-force`, `d3-scale`, …) or `import * as d3 from 'd3'`;
   clean up simulations, timers, and listeners on disconnect/unmount.
 
