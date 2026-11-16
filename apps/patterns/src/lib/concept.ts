@@ -4,7 +4,6 @@
 import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
 import actionTypes from '@shared/world/action-types.json' with { type: 'json' };
 import { humaniseSlug } from './sequence';
-import { CONCEPTS_ENABLED } from './site';
 
 export type ActsOnRef = { concept: string; note?: string };
 export type TitledActsOnRef = ActsOnRef & { title: string };
@@ -22,10 +21,8 @@ export function conceptTitle(id: string, concepts: CollectionEntry<'concepts'>[]
   return concepts.find((c) => c.id === id)?.data.title ?? humaniseSlug(id);
 }
 
-// A pattern's `acts_on` with each concept's title resolved, or nothing while
-// the catalogue is unpublished.
+// A pattern's `acts_on` with each concept's title resolved.
 export async function actsOnRefs(slug: string): Promise<TitledActsOnRef[]> {
-  if (!CONCEPTS_ENABLED) return [];
   const entry = await getEntry('patterns', slug);
   const refs = actsOnOf(entry?.data.acts_on);
   if (refs.length === 0) return [];

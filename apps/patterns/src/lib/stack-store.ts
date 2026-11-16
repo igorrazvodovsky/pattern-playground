@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import { getPaneContent } from './pane-content';
 import { buildURL, decodePaneParam, panePath, paneIndexOf, parsePanePath } from './pane-path';
 import { fileStem } from './stem';
-import { conceptFiles } from './concept-files';
 
 export type Pane = {
   // `/patterns/<slug>`, `/sequences/<id>`, `/concepts/<id>` or `/languages/<id>`: the
@@ -185,7 +184,7 @@ export const singlePaneQuery =
 const stems = (files: Record<string, unknown>) => new Set(Object.keys(files).map(fileStem));
 export const validSlugs = stems(import.meta.glob('/src/content/patterns/**/*.{md,mdx}'));
 export const validSequenceIds = stems(import.meta.glob('/src/content/sequences/**/*.{md,mdx}'));
-export const validConceptIds = stems(conceptFiles);
+export const validConceptIds = stems(import.meta.glob('/src/content/concepts/**/*.{md,mdx}'));
 export const validLanguageIds = stems(import.meta.glob('/src/content/languages/**/*.{md,mdx}'));
 
 const VALID_IDS = {

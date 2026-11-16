@@ -17,7 +17,7 @@ import { useNavStore, useNavHydration, DEFAULT_GROUPING, ALL_PATTERNS } from '..
 import { useActivePath, isActivePath } from '../lib/active-path';
 
 import type { NavBranch, NavGrouping, NavLanguage, NavTree, NavTreeNode } from '../lib/nav-tree';
-import { CONCEPTS_ENABLED, STORYBOOK_URL } from '../lib/site';
+import { STORYBOOK_URL } from '../lib/site';
 
 function isBranch(node: NavTreeNode): node is NavBranch {
   return 'children' in node;
@@ -454,7 +454,7 @@ export function Nav({
         <SidebarFooter>
           <SidebarMenu>
             {corner !== 'patterns' && <CornerLink href="/" icon="ik:sitemap" label="Patterns" />}
-            {CONCEPTS_ENABLED && corner !== 'concepts' && (
+            {corner !== 'concepts' && (
               <CornerLink href="/concepts" icon="ik:base-shapes" label="Concepts" />
             )}
             <CornerLink href={STORYBOOK_URL} icon="ik:puzzle" label="Components" external />

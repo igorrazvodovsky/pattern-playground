@@ -2,7 +2,6 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { panePath } from './pane-path';
 import { bySequenceOrder, humaniseSlug } from './sequence';
-import { CONCEPTS_ENABLED } from './site';
 
 // `overview` marks a family's collection page, which opens its branch.
 export type NavLeaf = { label: string; href: string; overview?: boolean };
@@ -79,7 +78,7 @@ let navCache: { key: string; tree: NavTree } | undefined;
 export async function buildNavTree(): Promise<NavTree> {
   const patterns = await getCollection('patterns');
   const sequences = await getCollection('sequences');
-  const concepts = CONCEPTS_ENABLED ? await getCollection('concepts') : [];
+  const concepts = await getCollection('concepts');
   const languages = await getCollection('languages');
   const levels = await getCollection('levels');
   const key = [...patterns, ...sequences, ...concepts, ...languages, ...levels]
