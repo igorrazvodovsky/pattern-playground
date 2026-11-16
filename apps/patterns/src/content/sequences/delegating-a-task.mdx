@@ -48,13 +48,10 @@ sub-sequences:
             rule: view-as-context
             optional: true
             gloss: >-
-              Where the request is written beside the work, take the open
-              item, what is in view and the selection as part of it,
-              narrowest first, so the actor does not attach what is already
-              in front of them. Show what was taken in beside the attached
-              sources, and let the actor remove it or pin it as a source.
-              Skip this where the request is written away from the work,
-              with nothing open.
+              Where the request is written beside the work, take what the
+              actor has open as part of it, and show what was taken in beside
+              the attached sources. Skip this where the request is written
+              away from the work, with nothing open.
           - step: "Ask for the access the task needs"
             rule: permissions
             optional: true
@@ -69,10 +66,9 @@ sub-sequences:
         rule: showing-the-reading
         optional: true
         gloss: >-
-          Before the run starts, show what the request and its sources were
-          taken to refer to and which values were filled in, and let the
-          actor correct one part without rewriting the request. Where too
-          much is open to settle on one reading, ask, as designed in
+          Before the run starts, show how the request, its sources and what
+          was taken from the view were read. Where too much is open to
+          settle on one reading, ask, as designed in
           [the encounter](/sequences/the-encounter#business). Skip this
           where the request leaves nothing open, such as a preset applied
           to a selection.
@@ -139,10 +135,9 @@ sub-sequences:
       - step: "Present the result for judgement"
         rule: generated-content
         gloss: >-
-          Let the actor rate the result, take parts of it, and trace each
-          part to the source it came from, so they can stand behind a
-          result they did not make. Proposing what to do next with the
-          result is decided in
+          Hand the result back beside the request it answers and the sources
+          attached to it, so the actor judges it against what they asked
+          for. Proposing what to do next with the result is decided in
           [assistance escalation](/sequences/assistance-escalation#forward).
       - choice: "Decide where the result goes"
         gloss: >-

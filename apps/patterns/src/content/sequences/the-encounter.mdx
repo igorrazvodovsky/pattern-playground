@@ -66,6 +66,8 @@ sub-sequences:
         constituents:
           - slug: inquiry-agent
             note: "the agent asks only for what it genuinely lacks, as early as the loose opening"
+          - slug: showing-the-reading
+            note: "where one reading is likely, the agent shows how it took the request instead of asking"
           - slug: prompt-scaffolding
             note: "structure for composing a complete request without already knowing what a complete one contains"
       - step: "Deliver long content in parts the actor controls"
@@ -89,8 +91,8 @@ sub-sequences:
     initiating: >-
       Some requests end with the agent acting on its reading of them, by
       spending real work or making changes that are hard to undo, and the
-      reading can be wrong. The check is decided per act, by its
-      consequences, and routine acts go ahead.
+      reading, or the course chosen from it, can be wrong. The check is
+      decided per act, by its consequences, and routine acts go ahead.
     steps:
       - cluster: "Check consequential acts before they run"
         gloss: >-

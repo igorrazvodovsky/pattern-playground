@@ -116,6 +116,15 @@ sub-sequences:
         gloss: >-
           Keep the context the search was launched from, so returning finds
           the actor's scroll position and framing intact.
+      - step: "Give a query that found nothing a way on"
+        rule: agent-fallback
+        optional: true
+        gloss: >-
+          Where the filter and the search both come back empty, offer to pass
+          on what the actor typed, with the collection and framing it was
+          typed over. The request continues in
+          [delegating a task](/sequences/delegating-a-task). Skip this where
+          the artifact has no agent to pass it to.
   - id: cross-references
     title: "Cross-references in place"
     initiating: >-
