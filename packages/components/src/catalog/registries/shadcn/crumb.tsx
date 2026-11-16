@@ -1,11 +1,15 @@
 import { useLayoutEffect, useRef, type ReactNode } from 'react';
 import { DropdownMenu } from 'radix-ui';
 import { ChevronRight, More } from 'iconoteka-react';
-import clsx from 'clsx';
+import { cn } from './cn';
 import { observeTrailFit } from '../../../utility/trail-fit';
 import { useFocusHandoff, useMenuFocusHandoff } from '../../behaviour/focus-handoff';
+import { menuContent, menuItem } from './parts';
 import { scopedPortal } from './portal';
 
+// shadcn/ui Breadcrumb (radix-nova), with the list kept on one line: the
+// trail collapses its items when they do not fit, rather than wrapping.
+//
 // Every class used here must be visible to Tailwind: catalog/shadcn.css lists
 // this file as a source.
 
@@ -24,7 +28,7 @@ export const Trail = ({ label, children }: { label: string; children: ReactNode 
     <nav aria-label={label} className="min-w-0 flex-1">
       <ol
         ref={ref}
-        className="group/trail flex items-center gap-1.5 text-sm whitespace-nowrap text-muted-foreground sm:gap-2.5"
+        className="group/trail flex items-center gap-1.5 text-sm whitespace-nowrap text-muted-foreground"
       >
         {children}
       </ol>
@@ -47,7 +51,7 @@ export const Crumb = ({
   const ref = useFocusHandoff<HTMLAnchorElement>(null);
   return (
     <>
-      <li className={clsx('inline-flex items-center gap-1.5', gives)}>
+      <li className={cn('inline-flex items-center gap-1', gives)}>
         <a
           ref={ref}
           href="#"
@@ -60,7 +64,7 @@ export const Crumb = ({
           {label}
         </a>
       </li>
-      <li role="presentation" aria-hidden="true" className={clsx('[&>svg]:size-3.5', gives)}>
+      <li role="presentation" aria-hidden="true" className={cn('[&>svg]:size-3.5', gives)}>
         <ChevronRight />
       </li>
     </>
@@ -87,27 +91,22 @@ export const CrumbOverflow = ({
     : 'group-data-[collapsed=all]/trail:block';
   return (
     <>
-      <li className={clsx('hidden items-center gap-1.5', shows)}>
+      <li className={cn('hidden items-center gap-1', shows)}>
         <DropdownMenu.Root onOpenChange={(open) => !open && closed()}>
           <DropdownMenu.Trigger
             ref={trigger}
             aria-label="Hidden items"
-            className="flex size-9 items-center justify-center rounded-md outline-none hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
+            className="flex size-5 items-center justify-center rounded-sm outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 [&>svg]:size-4"
           >
-            <More aria-hidden="true" className="size-4" />
+            <More aria-hidden="true" />
           </DropdownMenu.Trigger>
           <DropdownMenu.Portal container={scopedPortal()}>
-            <DropdownMenu.Content
-              ref={list}
-              align="start"
-              sideOffset={4}
-              className="z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md"
-            >
+            <DropdownMenu.Content ref={list} align="start" sideOffset={4} className={menuContent}>
               {items.map((item) => (
                 <DropdownMenu.Item
                   key={item.id}
                   onSelect={() => onPick(item.id)}
-                  className="relative flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground"
+                  className={menuItem}
                 >
                   {item.label}
                 </DropdownMenu.Item>
@@ -119,7 +118,7 @@ export const CrumbOverflow = ({
       <li
         role="presentation"
         aria-hidden="true"
-        className={clsx('hidden [&>svg]:size-3.5', separates)}
+        className={cn('hidden [&>svg]:size-3.5', separates)}
       >
         <ChevronRight />
       </li>

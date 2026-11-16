@@ -29,12 +29,14 @@ type Context = {
 
 const SectionsContext = createContext<Context | null>(null);
 
+// shadcn/ui Tabs (default variant) and Accordion (radix-nova). The accordion
+// turns one chevron where Nova swaps a down chevron for an up one.
 const tabsList =
-  'inline-flex h-9 w-fit items-center justify-center rounded-lg bg-muted p-[3px] text-muted-foreground';
+  'inline-flex h-8 w-fit items-center justify-center rounded-lg bg-muted p-[3px] text-muted-foreground';
 const tabsTrigger =
-  "relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap text-foreground/60 transition-all hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm dark:text-muted-foreground dark:hover:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4";
+  "relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-1.5 py-0.5 text-sm font-medium whitespace-nowrap text-foreground/60 transition-all hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 data-active:bg-background data-active:text-foreground data-active:shadow-sm dark:text-muted-foreground dark:hover:text-foreground dark:data-active:border-input dark:data-active:bg-input/30 dark:data-active:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4";
 const accordionTrigger =
-  'flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180';
+  'group/accordion-trigger relative flex flex-1 items-start justify-between gap-4 rounded-lg border border-transparent py-2.5 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180';
 
 export const Sections = ({
   affordance,
@@ -118,7 +120,7 @@ export const Section = ({ title, children }: { title: string; children?: ReactNo
 
   if (context.affordance === 'details') {
     return (
-      <Accordion.Item value={value} data-slot="accordion-item" className="border-b last:border-b-0">
+      <Accordion.Item value={value} data-slot="accordion-item" className="not-last:border-b">
         <Accordion.Header asChild>
           <Heading className="flex">
             <Accordion.Trigger data-slot="accordion-trigger" className={accordionTrigger}>
@@ -131,14 +133,14 @@ export const Section = ({ title, children }: { title: string; children?: ReactNo
           </Heading>
         </Accordion.Header>
         <Accordion.Content data-slot="accordion-content" className="overflow-hidden">
-          <div className="pt-0 pb-4">{body}</div>
+          <div className="pt-0 pb-2.5">{body}</div>
         </Accordion.Content>
       </Accordion.Item>
     );
   }
 
   return (
-    <Tabs.Content value={value} data-slot="tabs-content" className="flex-1 outline-none">
+    <Tabs.Content value={value} data-slot="tabs-content" className="flex-1 text-sm outline-none">
       {body}
     </Tabs.Content>
   );

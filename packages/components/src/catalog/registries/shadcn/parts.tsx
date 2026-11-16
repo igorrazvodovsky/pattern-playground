@@ -4,27 +4,55 @@ import type { RulePart, RuleSlot } from '../../rule-parts';
 import { scopedPortal } from './portal';
 
 // The sentence slot (a word that opens a menu) that the shadcn registry's rule
-// composites are built from, with shadcn's menu classes.
+// composites are built from, and the menu and popover classes every part of
+// the registry shares.
 //
 // Every class used here must be visible to Tailwind: catalog/shadcn.css lists
 // this file as a source.
 
-// shadcn/ui DropdownMenu content and item (new-york, v4).
-const menuContent =
-  'z-50 max-h-(--radix-dropdown-menu-content-available-height) min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md';
-const menuItem =
-  "relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4";
-const menuIndicator =
-  'pointer-events-none absolute left-2 flex size-3.5 items-center justify-center';
+// shadcn/ui DropdownMenu content and items (radix-nova), shared by every menu
+// in the registry, without the enter and exit animations, which the registry
+// leaves out throughout. A checkbox or radio item takes its indicator on the
+// right, in `menuIndicator`.
+export const menuContent =
+  'z-50 max-h-(--radix-dropdown-menu-content-available-height) min-w-32 origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-lg bg-popover p-1 text-popover-foreground shadow-md ring-1 ring-foreground/10';
+const itemBase =
+  "relative flex cursor-default items-center gap-1.5 rounded-md py-1 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4";
+export const menuItem = `${itemBase} px-1.5`;
+export const menuCheckItem = `${itemBase} pr-8 pl-1.5`;
+export const menuIndicator =
+  'pointer-events-none absolute right-2 flex items-center justify-center';
+
+// shadcn/ui Popover content (radix-nova); each use sets its own width.
+export const popoverSurface =
+  'z-50 flex flex-col gap-2.5 rounded-lg bg-popover p-2.5 text-sm text-popover-foreground shadow-md ring-1 ring-foreground/10 outline-hidden';
+
+// shadcn/ui Command (radix-nova). The input sits in an Input Group: a muted
+// field with the search icon leading. Items mark the active one with
+// data-selected rather than focus.
+export const commandInputWrapper = 'p-1 pb-0';
+export const commandInputGroup =
+  'flex h-8 w-full min-w-0 items-center gap-2 rounded-lg border border-input/30 bg-input/30 px-2';
+export const commandInput =
+  'w-full min-w-0 bg-transparent text-sm outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50';
+export const commandSearchIcon = 'size-4 shrink-0 opacity-50';
+export const commandList =
+  'no-scrollbar max-h-72 scroll-py-1 overflow-x-hidden overflow-y-auto outline-none';
+export const commandGroup =
+  'overflow-hidden p-1 text-foreground **:[[cmdk-group-heading]]:px-2 **:[[cmdk-group-heading]]:py-1.5 **:[[cmdk-group-heading]]:text-xs **:[[cmdk-group-heading]]:font-medium **:[[cmdk-group-heading]]:text-muted-foreground';
+export const commandItem =
+  "relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-selected:bg-muted data-selected:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-selected:*:[svg]:text-foreground";
 
 // The sentence's slots: a choice is underlined wording that opens a menu.
 export const slotTrigger =
-  'rounded-sm underline decoration-muted-foreground/50 decoration-dotted underline-offset-4 outline-none hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring/50 data-[state=open]:bg-accent';
+  'rounded-sm underline decoration-muted-foreground/50 decoration-dotted underline-offset-4 outline-none hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50 data-open:bg-muted';
+// A ghost icon-xs Button.
 const slotIcon =
-  'mx-0.5 inline-flex size-6 items-center justify-center rounded-md align-middle text-muted-foreground outline-none hover:bg-accent hover:text-accent-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 data-[state=open]:bg-accent';
-// An add slot with its wording shown, for a line of its own under a group.
+  'mx-0.5 inline-flex size-6 items-center justify-center rounded-[min(var(--radius-md),10px)] align-middle text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 data-open:bg-muted data-open:text-foreground';
+// An add slot with its wording shown, for a line of its own under a group: a
+// ghost sm Button.
 const slotAddLabelled =
-  'inline-flex h-7 items-center gap-1 rounded-md px-2 text-xs text-muted-foreground outline-none hover:bg-accent hover:text-accent-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 data-[state=open]:bg-accent';
+  'inline-flex h-7 items-center gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 data-open:bg-muted data-open:text-foreground has-[>svg]:pl-1.5';
 
 export type Send = (kind: 'change' | 'add' | 'remove', slotId: string, value: unknown) => void;
 
@@ -102,7 +130,7 @@ export const SentenceSlot = ({
             slot.options?.map((option) => (
               <DropdownMenu.CheckboxItem
                 key={option.value}
-                className={menuItem}
+                className={menuCheckItem}
                 checked={current.includes(option.value)}
                 onSelect={(event) => event.preventDefault()}
                 onCheckedChange={(checked) => {
@@ -130,7 +158,7 @@ export const SentenceSlot = ({
                 <DropdownMenu.RadioItem
                   key={option.value}
                   value={option.value}
-                  className={menuItem}
+                  className={menuCheckItem}
                 >
                   <span className={menuIndicator}>
                     <DropdownMenu.ItemIndicator>

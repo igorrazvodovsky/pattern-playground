@@ -24,7 +24,7 @@ import {
   Tooltip,
 } from 'radix-ui';
 import { Command } from 'cmdk';
-import clsx from 'clsx';
+import { cn } from './cn';
 import {
   Archives,
   SwapVertical,
@@ -136,7 +136,20 @@ import { CheckboxField } from './checkbox';
 import { CodeField } from './code-input';
 import { ComposerField } from './composer-field';
 import { ShadcnMentionEditor } from './mention-editor-lazy';
-import type { Send } from './parts';
+import {
+  commandGroup,
+  commandInput,
+  commandInputGroup,
+  commandInputWrapper,
+  commandItem,
+  commandList,
+  commandSearchIcon,
+  menuCheckItem,
+  menuContent,
+  menuIndicator,
+  popoverSurface,
+  type Send,
+} from './parts';
 import { LocationMap } from './map';
 import {
   QuestionnaireForm,
@@ -339,25 +352,29 @@ const purposeSurface: Record<Purpose, string> = {
 };
 
 type Tone = (typeof tones)[number];
+// shadcn/ui Badge (radix-nova). Nova's destructive badge is a tint rather
+// than a fill, and success follows it in green.
 const badgeFill: Record<Tone, string> = {
   neutral: 'bg-secondary text-secondary-foreground',
   accent: 'bg-primary text-primary-foreground',
-  success: 'bg-green-700 text-white dark:bg-green-800',
-  danger: 'bg-destructive text-white dark:bg-destructive/60',
+  success: 'bg-green-600/10 text-green-700 dark:bg-green-400/20 dark:text-green-300',
+  danger: 'bg-destructive/10 text-destructive dark:bg-destructive/20',
 };
 const badgeBase =
-  'inline-flex w-fit shrink-0 items-center justify-center gap-1 border px-2 py-0.5 text-xs font-medium whitespace-nowrap [&>svg]:pointer-events-none [&>svg]:size-3';
+  'group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden border px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-all [&>svg]:pointer-events-none [&>svg]:size-3!';
 const badgeOutline: Record<Tone, string> = {
   neutral: 'text-foreground',
   accent: 'border-primary text-foreground',
   success: purposeText.success,
   danger: purposeText.danger,
 };
-// A filled badge, or an outlined one, as a Badge with an icon reads.
+// A filled badge, or an outlined one, as a Badge with an icon reads. Nova's
+// badge is a pill; a badge not asked to be one keeps the corners of Nova's
+// controls, so the two still differ.
 const badgeClass = (tone: Tone, outline: boolean, pill?: boolean | null) =>
-  clsx(
+  cn(
     badgeBase,
-    pill ? 'rounded-full' : 'rounded-md',
+    pill ? 'rounded-4xl' : 'rounded-md',
     outline ? ['border-border', badgeOutline[tone]] : ['border-transparent', badgeFill[tone]],
   );
 
@@ -367,30 +384,41 @@ const customAttributes: Record<string, (item: object) => ReactNode> = {
   'reference.metadata': (item) => <DescriptionRows rows={referenceMetadataEntries(item)} />,
 };
 
-// shadcn/ui Button (new-york, v4), variants and sizes as published.
+// shadcn/ui Button (radix-nova), variants and sizes as published: default is
+// shadcn's outline, primary its default, plain its ghost, danger its
+// destructive. The link variant is this registry's own, muted until hovered.
+// A leading icon carries data-icon="inline-start", which trims the padding.
 const buttonBase =
-  "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50";
+  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4";
 const buttonVariant = {
   default:
-    'border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50',
-  primary: 'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
-  plain: 'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
+    'border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50',
+  primary: 'bg-primary text-primary-foreground hover:bg-primary/80',
+  plain:
+    'hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50',
   danger:
-    'bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
+    'bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40',
   link: 'text-muted-foreground underline underline-offset-4 hover:text-foreground',
 } as const;
-const buttonSize = { default: 'h-9 px-4 py-2 has-[>svg]:px-3', icon: 'size-9' } as const;
+const buttonSize = {
+  'default': 'h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2',
+  'sm': "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
+  'icon': 'size-8',
+  'icon-sm': 'size-7 rounded-[min(var(--radius-md),12px)]',
+} as const;
+// The close button of a Dialog or a Sheet: a ghost icon-sm Button.
+const closeButton = cn(buttonBase, buttonVariant.plain, buttonSize['icon-sm']);
 
 const markClass = 'rounded-sm bg-yellow-200/70 px-1 text-foreground dark:bg-yellow-800/60';
 
-const label = 'flex items-center gap-2 text-sm leading-none font-medium select-none';
+// shadcn/ui Label (radix-nova).
+const label =
+  'flex items-center gap-2 text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50';
 const fieldError = (props: FieldErrorProps, message: string) => (
   <p {...props} className="text-sm text-destructive">
     <span className="sr-only">{errorPrefix}</span> {message}
   </p>
 );
-const invalidRing =
-  'aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40';
 
 export const { registry } = defineRegistry(catalog, {
   components: {
@@ -402,12 +430,12 @@ export const { registry } = defineRegistry(catalog, {
         <Element
           ref={ref}
           aria-label={props.label ?? undefined}
-          className={clsx(
+          className={cn(
             'flex',
             horizontal ? 'flex-row flex-wrap' : 'flex-col',
             gap[props.gap ?? 'm'],
             align[props.align ?? (horizontal ? 'center' : 'stretch')],
-            props.dropTarget && 'rounded-lg',
+            props.dropTarget && 'rounded-xl',
             over && 'outline-2 outline-offset-2 outline-primary outline-dashed',
           )}
         >
@@ -437,13 +465,13 @@ export const { registry } = defineRegistry(catalog, {
       return (
         <div
           ref={dragRef}
-          className={clsx(
-            'group/card flex flex-col gap-4 rounded-xl border py-4 text-sm text-card-foreground has-data-[slot=card-footer]:pb-0 has-data-[slot=stat]:gap-2',
+          className={cn(
+            'group/card flex flex-col gap-4 rounded-xl py-4 text-sm text-card-foreground has-data-[slot=card-footer]:pb-0 has-data-[slot=stat]:gap-2',
             props.emphasis && props.emphasis !== 'full'
-              ? 'border-dashed bg-transparent'
-              : 'bg-card shadow-sm',
+              ? 'border border-dashed bg-transparent'
+              : 'bg-card ring-1 ring-foreground/10',
             props.opens && 'relative',
-            props.selected && 'border-primary ring-1 ring-primary',
+            props.selected && 'ring-2 ring-primary',
             props.dragId != null && 'cursor-grab',
             dragging && 'opacity-50',
             props.emphasis === 'faint' && 'text-muted-foreground',
@@ -451,12 +479,12 @@ export const { registry } = defineRegistry(catalog, {
           data-popover-host=""
         >
           {(props.title || slots?.suffix) && (
-            <div className="grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-4 has-data-[slot=card-action]:grid-cols-[1fr_auto]">
+            <div className="grid auto-rows-min grid-rows-[auto_auto] items-start gap-1 px-4 has-data-[slot=card-action]:grid-cols-[1fr_auto]">
               {props.title && (
                 <Heading
                   data-slot="card-title"
-                  className={clsx(
-                    'text-base leading-snug font-semibold group-has-data-[slot=stat]/card:text-sm group-has-data-[slot=stat]/card:leading-snug group-has-data-[slot=stat]/card:font-normal group-has-data-[slot=stat]/card:text-muted-foreground',
+                  className={cn(
+                    'text-base leading-snug font-medium group-has-data-[slot=stat]/card:text-sm group-has-data-[slot=stat]/card:leading-snug group-has-data-[slot=stat]/card:font-normal group-has-data-[slot=stat]/card:text-muted-foreground',
                     Icon && 'flex items-start gap-2',
                   )}
                 >
@@ -468,7 +496,7 @@ export const { registry } = defineRegistry(catalog, {
                   {props.opens ? (
                     <button
                       {...titleButton}
-                      className="cursor-pointer text-left outline-none after:absolute after:inset-0 after:rounded-xl hover:underline focus-visible:after:ring-[3px] focus-visible:after:ring-ring/50"
+                      className="cursor-pointer text-left outline-none after:absolute after:inset-0 after:rounded-xl hover:underline focus-visible:after:ring-3 focus-visible:after:ring-ring/50"
                     >
                       {props.title}
                     </button>
@@ -480,7 +508,7 @@ export const { registry } = defineRegistry(catalog, {
               {slots?.suffix && (
                 <div
                   data-slot="card-action"
-                  className={clsx(
+                  className={cn(
                     'col-start-2 row-span-2 row-start-1 flex items-center gap-2 self-start justify-self-end',
                     above,
                   )}
@@ -493,7 +521,7 @@ export const { registry } = defineRegistry(catalog, {
           <div className="flex flex-1 flex-col gap-3 px-4">
             {slots?.attributes && (
               <div
-                className={clsx(
+                className={cn(
                   'flex flex-wrap items-center gap-2',
                   props.opens && '[&_button]:relative [&_button]:z-10',
                 )}
@@ -506,7 +534,7 @@ export const { registry } = defineRegistry(catalog, {
           {slots?.actions && (
             <div
               data-slot="card-footer"
-              className={clsx(
+              className={cn(
                 'flex items-center justify-end gap-2 rounded-b-xl border-t bg-muted/50 p-4 not-last:rounded-b-none [&>p]:mr-auto',
                 above,
               )}
@@ -566,7 +594,7 @@ export const { registry } = defineRegistry(catalog, {
       const Icon = props.pending ? Loader75 : purpose ? purposeIcons[purpose] : null;
       if (props.inline) {
         return (
-          <span className={clsx(props.muted && 'text-muted-foreground')}>
+          <span className={cn(props.muted && 'text-muted-foreground')}>
             {text}
             {children && <> {children}</>}
           </span>
@@ -574,7 +602,7 @@ export const { registry } = defineRegistry(catalog, {
       }
       return (
         <p
-          className={clsx(
+          className={cn(
             props.size === 'small'
               ? 'text-xs'
               : props.size === 'large'
@@ -590,7 +618,7 @@ export const { registry } = defineRegistry(catalog, {
           {Icon && (
             <Icon
               aria-hidden="true"
-              className={clsx(props.pending && 'animate-spin motion-reduce:animate-none')}
+              className={cn(props.pending && 'animate-spin motion-reduce:animate-none')}
             />
           )}
           {text}
@@ -604,16 +632,21 @@ export const { registry } = defineRegistry(catalog, {
       const Icon = purposeIcons[props.purpose ?? 'info'];
       return (
         <div
-          className={clsx(
-            'relative grid w-full grid-cols-[calc(var(--spacing)*4)_1fr] items-start gap-x-3 gap-y-0.5 rounded-lg border px-4 py-3 text-sm [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current',
+          className={cn(
+            'relative grid w-full grid-cols-[auto_1fr] items-start gap-x-2 gap-y-0.5 rounded-lg border px-2.5 py-2 text-left text-sm *:[svg]:translate-y-0.5 *:[svg]:text-current *:[svg:not([class*=size-])]:size-4',
             props.purpose ? purposeSurface[props.purpose] : 'bg-card text-card-foreground',
           )}
         >
-          <Icon aria-hidden="true" />
-          {props.title && (
-            <div className="col-start-2 min-h-4 font-medium tracking-tight">{props.title}</div>
-          )}
-          <div className="col-start-2">{props.text}</div>
+          <Icon aria-hidden="true" className="row-span-2" />
+          {props.title && <div className="col-start-2 font-medium">{props.title}</div>}
+          <div
+            className={cn(
+              'col-start-2 text-sm text-balance md:text-pretty',
+              !props.purpose && 'text-muted-foreground',
+            )}
+          >
+            {props.text}
+          </div>
           {slots?.actions && <div className="col-start-2 mt-2 flex gap-2">{slots.actions}</div>}
         </div>
       );
@@ -625,20 +658,20 @@ export const { registry } = defineRegistry(catalog, {
       const Icon = props.icon ? icons[props.icon] : null;
       const Heading = useHeading();
       return (
-        <div className="flex min-w-0 flex-1 flex-col items-center justify-center gap-6 rounded-lg border-dashed p-6 text-center text-balance md:p-12">
-          <div className="flex max-w-sm flex-col items-center gap-2 text-center">
+        <div className="flex w-full min-w-0 flex-1 flex-col items-center justify-center gap-4 rounded-xl border-dashed p-6 text-center text-balance">
+          <div className="flex max-w-sm flex-col items-center gap-2">
             {Icon && (
-              <div className="mb-2 flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-6">
+              <div className="mb-2 flex size-8 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
                 <Icon aria-hidden="true" />
               </div>
             )}
-            <Heading className="text-lg font-medium tracking-tight">{props.title}</Heading>
+            <Heading className="text-sm font-medium tracking-tight">{props.title}</Heading>
             {props.description && (
               <div className="text-sm/relaxed text-muted-foreground">{props.description}</div>
             )}
           </div>
           {slots?.actions && (
-            <div className="flex w-full max-w-sm min-w-0 flex-col items-center gap-4 text-sm text-balance">
+            <div className="flex w-full max-w-sm min-w-0 flex-col items-center gap-2.5 text-sm text-balance">
               <div className="flex gap-2">{slots.actions}</div>
             </div>
           )}
@@ -678,16 +711,16 @@ export const { registry } = defineRegistry(catalog, {
           open={open}
           onOpenChange={change}
           data-slot="collapsible"
-          className={clsx(
+          className={cn(
             'flex flex-col gap-2',
-            axis && 'rounded-lg bg-muted/50 p-2',
+            axis && 'rounded-xl bg-muted/50 p-2',
             axis === 'lanes' && (open ? 'w-72 shrink-0' : 'shrink-0'),
             over && 'ring-2 ring-ring',
           )}
         >
           <Collapsible.Trigger
             data-slot="collapsible-trigger"
-            className="flex items-center gap-2 rounded-md px-1 py-2 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] focus-visible:ring-ring/50 [&[data-state=open]>svg]:rotate-90"
+            className="flex items-center gap-2 rounded-lg px-1 py-2 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50 [&[data-state=open]>svg]:rotate-90"
           >
             <ChevronRight
               aria-hidden="true"
@@ -695,18 +728,16 @@ export const { registry } = defineRegistry(catalog, {
             />
             {props.title}
             {props.count != null && (
-              <span className="inline-flex w-fit shrink-0 items-center justify-center rounded-md border border-transparent bg-secondary px-2 py-0.5 text-xs font-medium whitespace-nowrap text-secondary-foreground">
-                {props.count}
-              </span>
+              <span className={badgeClass('neutral', false)}>{props.count}</span>
             )}
           </Collapsible.Trigger>
           <Collapsible.Content
             data-slot="collapsible-content"
-            className={clsx(
+            className={cn(
               axis === 'lanes' && 'grid gap-2',
               axis === 'sections' && 'grid grid-cols-[repeat(auto-fill,minmax(14rem,1fr))] gap-2',
               !axis && 'flex flex-col gap-4',
-              axis && 'empty:min-h-16 empty:rounded-md empty:border empty:border-dashed',
+              axis && 'empty:min-h-16 empty:rounded-lg empty:border empty:border-dashed',
             )}
           >
             {children}
@@ -769,7 +800,7 @@ export const { registry } = defineRegistry(catalog, {
       // badges, as pp's does; a fuller view leads with the badges.
       const mini = props.scope === 'mini';
       return (
-        <div className={clsx('flex flex-col', mini ? 'gap-2' : 'gap-4')}>
+        <div className={cn('flex flex-col', mini ? 'gap-2' : 'gap-4')}>
           {!mini && badges}
           {layout.keyAttributes.map((entry) =>
             line(entry, mini ? 'text-sm font-semibold' : 'text-2xl font-semibold tracking-tight'),
@@ -819,7 +850,7 @@ export const { registry } = defineRegistry(catalog, {
           {middle.map((item) => (
             <Crumb key={item.id} label={item.label} stage="middle" onPick={() => pick(item.id)} />
           ))}
-          <li className="inline-flex min-w-0 items-center gap-1.5">
+          <li className="inline-flex min-w-0 items-center gap-1">
             <span
               role="link"
               aria-disabled="true"
@@ -840,15 +871,15 @@ export const { registry } = defineRegistry(catalog, {
         role="region"
         aria-label={props.label}
         tabIndex={0}
-        className="relative w-full overflow-x-auto rounded-md outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
+        className="relative w-full overflow-x-auto rounded-lg outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
       >
-        <table className="w-full text-sm">
+        <table className="w-full caption-bottom text-sm">
           <thead className="[&_tr]:border-b">
-            <tr className="border-b transition-colors hover:bg-muted/50">
+            <tr className="border-b transition-colors">
               {props.columns.map((column, index) => (
                 <th
                   key={index}
-                  className={clsx(
+                  className={cn(
                     'h-10 px-2 align-middle font-medium whitespace-nowrap text-foreground',
                     column.align === 'end' ? 'text-right' : 'text-left',
                   )}
@@ -864,15 +895,14 @@ export const { registry } = defineRegistry(catalog, {
     ),
 
     TableRow: ({ children }) => (
-      <tr className="border-b transition-colors hover:bg-muted/50">{children}</tr>
+      <tr className="border-b transition-colors hover:bg-muted/50 has-aria-expanded:bg-muted/50">
+        {children}
+      </tr>
     ),
 
     TableCell: ({ props, children }) => (
       <td
-        className={clsx(
-          'p-2 align-middle whitespace-nowrap',
-          props.align === 'end' && 'text-right',
-        )}
+        className={cn('p-2 align-middle whitespace-nowrap', props.align === 'end' && 'text-right')}
       >
         {props.text}
         {children}
@@ -892,7 +922,7 @@ export const { registry } = defineRegistry(catalog, {
       return (
         <Tooltip.Provider delayDuration={150}>
           <div
-            className={clsx(
+            className={cn(
               'w-fit max-w-[80%]',
               props.from === 'actor' && 'ml-auto',
               props.from === 'actor' && props.parts.length > 0
@@ -903,11 +933,11 @@ export const { registry } = defineRegistry(catalog, {
             {props.parts.map((part, index) => {
               if (typeof part === 'string') return part;
               const { dimmed, linkedTo, handlers } = tracing(index);
-              const className = clsx(
+              const className = cn(
                 markClass,
                 'transition-colors data-dimmed:bg-transparent dark:data-dimmed:bg-transparent',
                 (part.note || part.link) &&
-                  'outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50',
+                  'outline-none focus-visible:ring-3 focus-visible:ring-ring/50',
                 part.note && 'cursor-help underline decoration-dotted underline-offset-4',
               );
               const mark = (
@@ -931,7 +961,7 @@ export const { registry } = defineRegistry(catalog, {
                   <Tooltip.Portal container={scopedPortal()}>
                     <Tooltip.Content
                       sideOffset={4}
-                      className="z-50 w-fit rounded-md bg-foreground px-3 py-1.5 text-xs text-balance text-background"
+                      className="z-50 inline-flex w-fit max-w-xs items-center gap-1.5 rounded-md bg-foreground px-3 py-1.5 text-xs text-balance text-background"
                     >
                       {part.note}
                       <Tooltip.Arrow className="z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px] bg-foreground fill-foreground" />
@@ -949,7 +979,7 @@ export const { registry } = defineRegistry(catalog, {
     Composer: ({ props, slots, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       return (
-        <div className="flex flex-col gap-1 rounded-xl border border-input bg-background p-2 shadow-xs transition-[color,box-shadow] focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/50 dark:bg-input/30">
+        <div className="flex flex-col gap-1 rounded-xl border border-input bg-background p-2 transition-colors focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50 dark:bg-input/30">
           {slots?.field ? (
             <ComposerField value>{slots.field}</ComposerField>
           ) : (
@@ -958,7 +988,7 @@ export const { registry } = defineRegistry(catalog, {
               placeholder={props.placeholder ?? undefined}
               value={value ?? ''}
               onChange={(event) => setValue(event.target.value)}
-              className="h-9 w-full min-w-0 bg-transparent px-2 text-base outline-none placeholder:text-muted-foreground md:text-sm"
+              className="h-8 w-full min-w-0 bg-transparent px-2 text-base outline-none placeholder:text-muted-foreground md:text-sm"
             />
           )}
           {(slots?.actions || slots?.send) && (
@@ -995,9 +1025,9 @@ export const { registry } = defineRegistry(catalog, {
 
     List: ({ props, children }) => (
       <ul
-        className={clsx(
-          'divide-y rounded-lg bg-card text-card-foreground',
-          !props.borderless && 'border',
+        className={cn(
+          'divide-y rounded-xl bg-card text-card-foreground',
+          !props.borderless && 'ring-1 ring-foreground/10',
         )}
       >
         {children}
@@ -1016,7 +1046,7 @@ export const { registry } = defineRegistry(catalog, {
       return (
         <li className="flex min-h-11 items-center justify-between gap-3 px-3 py-1.5 text-sm">
           <span
-            className={clsx(
+            className={cn(
               glyph && !props.checkbox && 'flex items-center gap-2',
               props.struck && 'text-muted-foreground line-through',
             )}
@@ -1077,11 +1107,11 @@ export const { registry } = defineRegistry(catalog, {
           <div
             data-slot="item"
             data-popover-host=""
-            className={clsx(
-              'group/item flex flex-wrap items-center gap-4 rounded-md border p-4 text-sm transition-colors duration-100',
+            className={cn(
+              'group/item flex w-full flex-wrap items-center gap-2.5 rounded-lg border px-3 py-2.5 text-sm transition-colors duration-100 outline-none',
               props.opens && 'relative',
-              props.opens && !detail && 'hover:bg-accent/50',
-              props.focused && 'bg-accent/50',
+              props.opens && !detail && 'hover:bg-muted',
+              props.focused && 'bg-muted',
               props.selected ? 'border-primary ring-1 ring-primary' : 'border-transparent',
             )}
           >
@@ -1093,7 +1123,7 @@ export const { registry } = defineRegistry(catalog, {
                 {props.opens ? (
                   <button
                     {...titleButton}
-                    className="cursor-pointer text-left outline-none after:absolute after:inset-0 after:rounded-md focus-visible:after:ring-[3px] focus-visible:after:ring-ring/50"
+                    className="cursor-pointer text-left underline-offset-4 outline-none after:absolute after:inset-0 after:rounded-lg focus-visible:after:ring-3 focus-visible:after:ring-ring/50"
                   >
                     {props.title}
                   </button>
@@ -1105,14 +1135,14 @@ export const { registry } = defineRegistry(catalog, {
               {props.description && (
                 <p
                   data-slot="item-description"
-                  className="text-sm leading-normal font-normal text-balance text-muted-foreground"
+                  className="text-left text-sm leading-normal font-normal text-balance text-muted-foreground"
                 >
                   {props.description}
                 </p>
               )}
               {slots?.attributes && (
                 <div
-                  className={clsx(
+                  className={cn(
                     'flex flex-wrap items-center gap-2',
                     props.opens && '[&_button]:relative [&_button]:z-10',
                   )}
@@ -1124,7 +1154,7 @@ export const { registry } = defineRegistry(catalog, {
             {slots?.suffix && (
               <div
                 data-slot="item-actions"
-                className={clsx('flex items-center gap-2', props.opens && 'relative z-10')}
+                className={cn('flex items-center gap-2', props.opens && 'relative z-10')}
               >
                 {slots.suffix}
               </div>
@@ -1132,7 +1162,7 @@ export const { registry } = defineRegistry(catalog, {
             {detail && (
               <div
                 data-slot="item-footer"
-                className="relative flex basis-full flex-col gap-3 border-t pt-4"
+                className="relative flex basis-full flex-col gap-3 border-t pt-2.5"
               >
                 <Subsection>{slots.detail}</Subsection>
               </div>
@@ -1144,9 +1174,7 @@ export const { registry } = defineRegistry(catalog, {
 
     Stat: ({ props }) => (
       <div data-slot="stat" className="flex flex-col text-sm">
-        <p
-          className={clsx('text-3xl font-semibold tabular-nums', props.alert && 'text-destructive')}
-        >
+        <p className={cn('text-3xl font-semibold tabular-nums', props.alert && 'text-destructive')}>
           {props.value}
           {props.unit && (
             <span className="text-sm font-normal text-muted-foreground"> {props.unit}</span>
@@ -1169,9 +1197,9 @@ export const { registry } = defineRegistry(catalog, {
         <Root
           type={props.pressable ? 'button' : undefined}
           onClick={props.pressable ? () => void emit('press') : undefined}
-          className={clsx(
+          className={cn(
             props.pressable &&
-              'cursor-pointer outline-none transition-[color,box-shadow] hover:opacity-90 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50',
+              'cursor-pointer outline-none hover:opacity-80 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50',
             badgeClass(tone, Boolean(Icon), props.pill),
             props.pulse && 'animate-pulse',
           )}
@@ -1183,7 +1211,7 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // The Badge classes without overflow-hidden, which would clip the remove
+    // A pill Badge without overflow-hidden, which would clip the remove
     // button's focus ring.
     Tag: ({ props, emit }) => {
       const removeRef = useFocusHandoff(props.focusNext);
@@ -1197,16 +1225,17 @@ export const { registry } = defineRegistry(catalog, {
           type={props.opens ? 'button' : undefined}
           data-focus-key={(props.opens && props.focusKey) || undefined}
           onClick={props.opens ? () => emit('open') : undefined}
-          className={clsx(
-            'inline-flex w-fit shrink-0 items-center justify-center gap-1 rounded-md border border-transparent bg-secondary px-2 py-0.5 text-xs font-medium whitespace-nowrap text-secondary-foreground [&>svg]:pointer-events-none [&>svg]:size-3',
+          className={cn(
+            badgeClass('neutral', false, true),
+            'overflow-visible',
             props.opens &&
-              'cursor-pointer outline-none transition-[color,box-shadow] hover:bg-secondary/90 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50',
+              'cursor-pointer outline-none hover:bg-secondary/80 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50',
           )}
         >
           {Icon && (
             <Icon
               aria-hidden="true"
-              className={clsx(props.pending && 'animate-spin motion-reduce:animate-none')}
+              className={cn(props.pending && 'animate-spin motion-reduce:animate-none')}
             />
           )}
           <span className={props.pending ? 'text-muted-foreground' : undefined}>{props.label}</span>
@@ -1217,7 +1246,7 @@ export const { registry } = defineRegistry(catalog, {
               aria-label={props.removeLabel}
               data-focus-key={props.focusKey ?? undefined}
               onClick={() => emit('remove')}
-              className="-mr-1 rounded-sm p-0.5 opacity-70 outline-none hover:bg-foreground/10 hover:opacity-100 focus-visible:ring-[3px] focus-visible:ring-ring/50 [&>svg]:size-3"
+              className="-mr-1 rounded-full p-0.5 opacity-70 outline-none hover:bg-foreground/10 hover:opacity-100 focus-visible:ring-3 focus-visible:ring-ring/50 [&>svg]:size-3"
             >
               <Cross aria-hidden="true" />
             </button>
@@ -1277,7 +1306,7 @@ export const { registry } = defineRegistry(catalog, {
                 close();
                 emit('open');
               }}
-              className="cursor-pointer rounded-sm bg-primary/10 px-1 font-medium text-primary outline-none hover:bg-primary/15 focus-visible:ring-[3px] focus-visible:ring-ring/50"
+              className="cursor-pointer rounded-sm bg-primary/10 px-1 font-medium text-primary outline-none hover:bg-primary/15 focus-visible:ring-3 focus-visible:ring-ring/50"
             >
               {props.label}
             </button>
@@ -1296,15 +1325,12 @@ export const { registry } = defineRegistry(catalog, {
                 if (triggerRef.current?.contains(event.target as Node)) event.preventDefault();
               }}
               {...content}
-              className="z-50 w-72 rounded-md border bg-popover p-4 text-sm text-popover-foreground shadow-md outline-hidden"
+              className={cn(popoverSurface, 'w-72')}
             >
               <div className="flex items-start justify-between gap-4">
-                <div className="flex min-w-0 flex-col gap-2">
+                <div className="flex min-w-0 flex-col gap-2.5">
                   <Heading
-                    className={clsx(
-                      'leading-none font-semibold',
-                      Glyph && 'flex items-center gap-2',
-                    )}
+                    className={cn('leading-snug font-medium', Glyph && 'flex items-center gap-2')}
                   >
                     {Glyph && (
                       <Glyph aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />
@@ -1314,7 +1340,7 @@ export const { registry } = defineRegistry(catalog, {
                   <Subsection>{children}</Subsection>
                 </div>
                 {slots?.suffix && (
-                  <div className="-mt-2 -mr-2 flex shrink-0 gap-1">{slots.suffix}</div>
+                  <div className="-mt-1.5 -mr-1.5 flex shrink-0 gap-1">{slots.suffix}</div>
                 )}
               </div>
             </Popover.Content>
@@ -1354,15 +1380,15 @@ export const { registry } = defineRegistry(catalog, {
                 if (!active || active === document.body) settleFocus(null, opener.current);
                 opener.current = null;
               }}
-              className="z-50 w-80 max-w-[calc(100vw-2rem)] rounded-md border bg-popover p-4 text-sm text-popover-foreground shadow-md outline-hidden"
+              className={cn(popoverSurface, 'w-80 max-w-[calc(100vw-2rem)]')}
             >
               <div className="flex items-start justify-between gap-4">
-                <div className="flex min-w-0 flex-col gap-3">
-                  <Heading className="leading-none font-semibold">{props.title}</Heading>
+                <div className="flex min-w-0 flex-col gap-2.5">
+                  <Heading className="leading-snug font-medium">{props.title}</Heading>
                   <Subsection>{children}</Subsection>
                 </div>
                 {slots?.suffix && (
-                  <div className="-mt-2 -mr-2 flex shrink-0 gap-1">{slots.suffix}</div>
+                  <div className="-mt-1.5 -mr-1.5 flex shrink-0 gap-1">{slots.suffix}</div>
                 )}
               </div>
             </Popover.Content>
@@ -1381,7 +1407,7 @@ export const { registry } = defineRegistry(catalog, {
             aria-label={props.label}
             title={props.label}
             data-focus-key={props.focusKey ?? undefined}
-            className={clsx(buttonBase, buttonVariant.plain, buttonSize[Icon ? 'icon' : 'default'])}
+            className={cn(buttonBase, buttonVariant.plain, buttonSize[Icon ? 'icon' : 'default'])}
           >
             {Icon ? <Icon aria-hidden="true" /> : props.label}
           </DropdownMenu.Trigger>
@@ -1390,7 +1416,7 @@ export const { registry } = defineRegistry(catalog, {
               ref={list}
               align={props.align ?? 'start'}
               sideOffset={4}
-              className="z-50 max-h-(--radix-dropdown-menu-content-available-height) min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md"
+              className={menuContent}
             >
               <MenuMultiple value={props.multiple ?? false}>{children}</MenuMultiple>
             </DropdownMenu.Content>
@@ -1401,7 +1427,7 @@ export const { registry } = defineRegistry(catalog, {
 
     // A checkbox item in the role of a radio item: Radix's radio items take
     // their state from a group value, and here each item says for itself
-    // whether it is the one in force.
+    // whether it is the one in force. Nova ticks both kinds on the right.
     MenuItem: ({ props, emit }) => {
       const Icon = props.icon ? icons[props.icon] : null;
       const multiple = useContext(MenuMultiple);
@@ -1414,19 +1440,15 @@ export const { registry } = defineRegistry(catalog, {
             if (multiple) event.preventDefault();
             void emit('press');
           }}
-          className="relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+          className={menuCheckItem}
         >
-          <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
-            <DropdownMenu.ItemIndicator>
-              {multiple ? (
-                <Checkmark aria-hidden="true" className="size-4" />
-              ) : (
-                <Circle variant="fill" aria-hidden="true" className="size-2" />
-              )}
-            </DropdownMenu.ItemIndicator>
-          </span>
           {Icon && <Icon aria-hidden="true" className="text-muted-foreground" />}
           {props.label}
+          <span className={menuIndicator}>
+            <DropdownMenu.ItemIndicator>
+              <Checkmark aria-hidden="true" />
+            </DropdownMenu.ItemIndicator>
+          </span>
         </DropdownMenu.CheckboxItem>
       );
     },
@@ -1440,7 +1462,7 @@ export const { registry } = defineRegistry(catalog, {
           ref={ref}
           type={props.submit ? 'submit' : 'button'}
           data-focus-key={props.focusKey ?? undefined}
-          className={clsx(
+          className={cn(
             buttonBase,
             buttonVariant[props.variant ?? 'default'],
             props.variant === 'link'
@@ -1456,6 +1478,7 @@ export const { registry } = defineRegistry(catalog, {
           {Icon && (
             <Icon
               aria-hidden="true"
+              data-icon={props.hideLabel ? undefined : 'inline-start'}
               fill={props.icon === 'delete-confirm' ? 'currentColor' : 'none'}
             />
           )}
@@ -1482,10 +1505,7 @@ export const { registry } = defineRegistry(catalog, {
             data-autofocus={props.initialFocus || undefined}
             value={value}
             onChange={(event) => setValue(event.target.value)}
-            className={clsx(
-              'flex h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30',
-              invalidRing,
-            )}
+            className="h-8 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40"
           />
           {error && fieldError(errorProps, error)}
         </div>
@@ -1529,7 +1549,7 @@ export const { registry } = defineRegistry(catalog, {
             placeholder={props.placeholder ?? undefined}
             value={value}
             onChange={(event) => setValue(event.target.value)}
-            className="flex field-sizing-content min-h-16 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30"
+            className="flex field-sizing-content min-h-16 w-full rounded-lg border border-input bg-transparent px-2.5 py-2 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40"
           />
         </div>
       );
@@ -1546,32 +1566,32 @@ export const { registry } = defineRegistry(catalog, {
             <Select.Trigger
               {...control}
               aria-invalid={error ? true : undefined}
-              className={clsx(
-                "flex h-9 w-fit items-center justify-between gap-2 rounded-md border border-input bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 data-[placeholder]:text-muted-foreground dark:bg-input/30 dark:hover:bg-input/50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-                invalidRing,
-              )}
+              className="flex h-8 w-fit items-center justify-between gap-1.5 rounded-lg border border-input bg-transparent py-2 pr-2 pl-2.5 text-sm whitespace-nowrap transition-colors outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-placeholder:text-muted-foreground dark:bg-input/30 dark:hover:bg-input/50 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
             >
               <Select.Value placeholder={props.placeholder ?? undefined} />
               <Select.Icon asChild>
-                <ChevronDown aria-hidden="true" className="size-4 opacity-50" />
+                <ChevronDown
+                  aria-hidden="true"
+                  className="pointer-events-none size-4 text-muted-foreground"
+                />
               </Select.Icon>
             </Select.Trigger>
             <Select.Portal container={scopedPortal()}>
               <Select.Content
                 position="popper"
                 sideOffset={4}
-                className="relative z-50 max-h-(--radix-select-content-available-height) min-w-[8rem] origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border bg-popover text-popover-foreground shadow-md"
+                className="relative z-50 max-h-(--radix-select-content-available-height) min-w-36 origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-lg bg-popover text-popover-foreground shadow-md ring-1 ring-foreground/10"
               >
                 <Select.Viewport className="h-(--radix-select-trigger-height) w-full min-w-(--radix-select-trigger-width) scroll-my-1 p-1">
                   {props.options.map((option) => (
                     <Select.Item
                       key={option.value}
                       value={option.value}
-                      className="relative flex w-full cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                      className={cn(menuCheckItem, 'w-full')}
                     >
-                      <span className="absolute right-2 flex size-3.5 items-center justify-center">
+                      <span className={cn(menuIndicator, 'size-4')}>
                         <Select.ItemIndicator>
-                          <Checkmark aria-hidden="true" className="size-4" />
+                          <Checkmark aria-hidden="true" />
                         </Select.ItemIndicator>
                       </span>
                       <Select.ItemText>{option.label}</Select.ItemText>
@@ -1627,35 +1647,35 @@ export const { registry } = defineRegistry(catalog, {
         <Command
           label={props.label}
           {...root}
-          className={clsx(
+          className={cn(
             'flex w-full flex-col overflow-hidden bg-popover text-popover-foreground',
-            !props.popup &&
-              'rounded-md border shadow-xs focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/50',
+            !props.popup && 'rounded-xl p-1 ring-1 ring-foreground/10',
           )}
         >
-          <div
-            className={clsx(
-              'flex h-9 items-center gap-2 px-3',
-              (open || status?.text) && 'border-b',
-            )}
-          >
-            <Search aria-hidden="true" className="size-4 shrink-0 opacity-50" />
-            <Command.Input
-              placeholder={props.placeholder ?? undefined}
-              {...input}
-              className="flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden placeholder:text-muted-foreground"
-            />
+          {/* Inline, the field is the control on the page, so it shows focus. */}
+          <div className={props.popup ? commandInputWrapper : undefined}>
+            <div
+              className={cn(
+                commandInputGroup,
+                !props.popup &&
+                  'focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50',
+              )}
+            >
+              <Search aria-hidden="true" className={commandSearchIcon} />
+              <Command.Input
+                placeholder={props.placeholder ?? undefined}
+                {...input}
+                className={commandInput}
+              />
+            </div>
           </div>
           {open && (
-            <Command.List
-              {...list}
-              className="max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto"
-            >
+            <Command.List {...list} className={commandList}>
               {groups.map((group, index) => (
                 <Command.Group
                   key={group.heading ?? index}
                   heading={group.heading ?? undefined}
-                  className="overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground"
+                  className={commandGroup}
                 >
                   {group.options.map((option) => {
                     const Icon = option.icon ? icons[option.icon] : null;
@@ -1664,11 +1684,9 @@ export const { registry } = defineRegistry(catalog, {
                         key={option.value}
                         value={option.value}
                         onSelect={pick}
-                        className="relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground"
+                        className={commandItem}
                       >
-                        {Icon && (
-                          <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
-                        )}
+                        {Icon && <Icon aria-hidden="true" className="text-muted-foreground" />}
                         {option.label}
                       </Command.Item>
                     );
@@ -1680,16 +1698,16 @@ export const { registry } = defineRegistry(catalog, {
           {status && (
             <p
               role="status"
-              className={clsx(
+              className={cn(
                 'flex items-center gap-2 text-xs [&>svg]:size-3.5 [&>svg]:shrink-0',
-                status.text && 'px-3 py-2',
+                status.text && 'px-2 py-1.5',
                 purpose ? purposeText[purpose] : 'text-muted-foreground',
               )}
             >
               {status.text && StatusIcon && (
                 <StatusIcon
                   aria-hidden="true"
-                  className={clsx(status.pending && 'animate-spin motion-reduce:animate-none')}
+                  className={cn(status.pending && 'animate-spin motion-reduce:animate-none')}
                 />
               )}
               {status.text}
@@ -1716,20 +1734,22 @@ export const { registry } = defineRegistry(catalog, {
           <Popover.Trigger
             aria-label={iconOnly ? props.label : undefined}
             data-focus-key={props.focusKey ?? undefined}
-            className={clsx(
+            className={cn(
               buttonBase,
               buttonVariant.default,
               buttonSize[iconOnly ? 'icon' : 'default'],
             )}
           >
-            {TriggerIcon && <TriggerIcon aria-hidden="true" />}
+            {TriggerIcon && (
+              <TriggerIcon aria-hidden="true" data-icon={iconOnly ? undefined : 'inline-start'} />
+            )}
             {!iconOnly && props.label}
           </Popover.Trigger>
           <Popover.Portal container={scopedPortal()}>
             <Popover.Content
               align="start"
               sideOffset={4}
-              className="z-50 w-72 max-w-[calc(100vw-2rem)] overflow-hidden rounded-md border bg-popover p-0 text-popover-foreground shadow-md outline-hidden"
+              className={cn(popoverSurface, 'w-72 max-w-[calc(100vw-2rem)] overflow-hidden p-0')}
             >
               <AnimateChangeInHeight>{field}</AnimateChangeInHeight>
             </Popover.Content>
@@ -1750,24 +1770,20 @@ export const { registry } = defineRegistry(catalog, {
             aria-labelledby={id}
             value={value ?? undefined}
             onValueChange={setValue}
-            className="grid gap-3"
+            className="grid w-full gap-3"
           >
             {props.options.map((option) => (
               <div key={option.value} className="flex items-center gap-3">
                 <RadioGroup.Item
                   id={`${id}-${option.value}`}
                   value={option.value}
-                  className="aspect-square size-4 shrink-0 rounded-full border border-input text-primary shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-input/30"
+                  className="group/radio-group-item peer relative flex aspect-square size-4 shrink-0 rounded-full border border-input outline-none after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground dark:data-checked:bg-primary"
                 >
-                  <RadioGroup.Indicator className="relative flex items-center justify-center">
-                    <Circle
-                      variant="fill"
-                      aria-hidden="true"
-                      className="absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 text-primary"
-                    />
+                  <RadioGroup.Indicator className="flex size-4 items-center justify-center">
+                    <span className="absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-foreground" />
                   </RadioGroup.Indicator>
                 </RadioGroup.Item>
-                <label htmlFor={`${id}-${option.value}`} className={clsx(label, 'font-normal')}>
+                <label htmlFor={`${id}-${option.value}`} className={cn(label, 'font-normal')}>
                   {option.label}
                 </label>
               </div>
@@ -1777,8 +1793,9 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
-    // A pressed toggle takes the primary fill rather than the accent, which
-    // is also the surface of the actor's message, so the selection shows there.
+    // shadcn/ui Toggle (radix-nova, outline). A pressed toggle takes the
+    // primary fill rather than Nova's muted one, which is also near the
+    // surface of the actor's message, so the selection shows there.
     SelectableTags: ({ props, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
       const id = useId();
@@ -1798,7 +1815,7 @@ export const { registry } = defineRegistry(catalog, {
               <ToggleGroup.Item
                 key={option.value}
                 value={option.value}
-                className="inline-flex h-9 min-w-9 items-center justify-center gap-2 rounded-md border border-input bg-background px-3 text-sm font-medium whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none hover:bg-accent hover:text-accent-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 data-[state=on]:border-primary data-[state=on]:bg-primary data-[state=on]:text-primary-foreground dark:bg-input/30 dark:data-[state=on]:bg-primary"
+                className="group/toggle inline-flex h-8 min-w-8 shrink-0 items-center justify-center gap-1 rounded-lg border border-input bg-transparent px-2.5 text-sm font-medium whitespace-nowrap transition-all outline-none hover:bg-muted hover:text-foreground focus-visible:z-10 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 data-[state=on]:border-primary data-[state=on]:bg-primary data-[state=on]:text-primary-foreground dark:bg-input/30 dark:data-[state=on]:bg-primary"
               >
                 {option.label}
               </ToggleGroup.Item>
@@ -1832,14 +1849,14 @@ export const { registry } = defineRegistry(catalog, {
               step={props.step ?? 1}
               value={[current]}
               onValueChange={([next]) => setValue(next ?? props.min)}
-              className="relative flex w-full touch-none items-center select-none data-[disabled]:opacity-50"
+              className="relative flex w-full touch-none items-center select-none data-disabled:opacity-50"
             >
-              <Slider.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-muted">
-                <Slider.Range className="absolute h-full bg-primary" />
+              <Slider.Track className="relative h-1 w-full grow overflow-hidden rounded-full bg-muted">
+                <Slider.Range className="absolute h-full bg-primary select-none" />
               </Slider.Track>
               <Slider.Thumb
                 aria-labelledby={id}
-                className="block size-4 shrink-0 rounded-full border border-primary bg-white shadow-sm ring-ring/50 transition-[color,box-shadow] hover:ring-4 focus-visible:ring-4 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50"
+                className="relative block size-3 shrink-0 rounded-full border border-ring bg-white ring-ring/50 transition-[color,box-shadow] select-none after:absolute after:-inset-2 hover:ring-3 focus-visible:ring-3 focus-visible:outline-hidden active:ring-3 disabled:pointer-events-none disabled:opacity-50"
               />
             </Slider.Root>
             {props.showBounds && <span aria-hidden="true">{props.max}</span>}
@@ -1874,7 +1891,7 @@ export const { registry } = defineRegistry(catalog, {
       return (
         <Dialog.Root open={open ?? false} onOpenChange={setOpen}>
           <Dialog.Portal container={scopedPortal()}>
-            <Dialog.Overlay className="fixed inset-0 z-50 bg-black/50" />
+            <Dialog.Overlay className="fixed inset-0 isolate z-50 bg-black/10 supports-backdrop-filter:backdrop-blur-xs" />
             <Dialog.Content
               // Radix links a Dialog.Description itself; without one it wants
               // aria-describedby set to undefined explicitly.
@@ -1897,29 +1914,29 @@ export const { registry } = defineRegistry(catalog, {
                 settleFocus(returnTarget(), opener.current);
                 opener.current = null;
               }}
-              className="fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 text-sm shadow-lg sm:max-w-lg"
+              className="fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-popover p-4 text-sm text-popover-foreground ring-1 ring-foreground/10 outline-none sm:max-w-sm"
             >
-              <div className="flex flex-col gap-2 text-center sm:text-left">
+              <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2 pr-6">
-                  <Dialog.Title className="flex-1 text-lg leading-none font-semibold text-foreground">
+                  <Dialog.Title className="flex-1 text-base leading-none font-medium">
                     {props.title}
                   </Dialog.Title>
                   {slots?.suffix && <div className="-my-2 flex shrink-0 gap-1">{slots.suffix}</div>}
                 </div>
                 {props.description && (
-                  <Dialog.Description className="text-sm text-muted-foreground">
+                  <Dialog.Description className="text-sm text-muted-foreground *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground">
                     {props.description}
                   </Dialog.Description>
                 )}
               </div>
               <div className="flex flex-col gap-4">{children}</div>
               {slots?.actions && (
-                <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+                <div className="-mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t bg-muted/50 p-4 sm:flex-row sm:justify-end">
                   {slots.actions}
                 </div>
               )}
-              <Dialog.Close className="absolute top-4 right-4 rounded-xs opacity-70 transition-opacity outline-none hover:opacity-100 focus-visible:ring-[3px] focus-visible:ring-ring/50">
-                <Cross aria-hidden="true" className="size-4" />
+              <Dialog.Close className={cn(closeButton, 'absolute top-2 right-2')}>
+                <Cross aria-hidden="true" />
                 <span className="sr-only">Close</span>
               </Dialog.Close>
             </Dialog.Content>
@@ -1948,19 +1965,17 @@ export const { registry } = defineRegistry(catalog, {
                 settleFocus(returnTarget(), opener.current);
                 opener.current = null;
               }}
-              className="fixed inset-y-0 right-0 z-50 flex h-full w-3/4 flex-col gap-4 border-l bg-background shadow-lg sm:max-w-sm"
+              className="fixed inset-y-0 right-0 z-50 flex h-full w-3/4 flex-col gap-4 border-l bg-popover bg-clip-padding text-sm text-popover-foreground shadow-lg sm:max-w-sm"
             >
               <div className="flex items-center gap-2 p-4 pr-10">
-                <Dialog.Title className="flex-1 font-semibold text-foreground">
+                <Dialog.Title className="flex-1 text-base font-medium text-foreground">
                   {props.title}
                 </Dialog.Title>
                 {slots?.suffix && <div className="-my-2 flex shrink-0 gap-1">{slots.suffix}</div>}
               </div>
-              <div className="flex flex-col gap-4 overflow-y-auto px-4 pb-4 text-sm">
-                {children}
-              </div>
-              <Dialog.Close className="absolute top-4 right-4 rounded-xs opacity-70 transition-opacity outline-none hover:opacity-100 focus-visible:ring-[3px] focus-visible:ring-ring/50">
-                <Cross aria-hidden="true" className="size-4" />
+              <div className="flex flex-col gap-4 overflow-y-auto px-4 pb-4">{children}</div>
+              <Dialog.Close className={cn(closeButton, 'absolute top-3 right-3')}>
+                <Cross aria-hidden="true" />
                 <span className="sr-only">Close</span>
               </Dialog.Close>
             </Dialog.Content>
@@ -1980,21 +1995,21 @@ export const { registry } = defineRegistry(catalog, {
               onOpenChange={(open) => {
                 if (!open) dismiss(toast.id);
               }}
-              className="group pointer-events-auto relative flex w-full items-center justify-between gap-4 overflow-hidden rounded-md border bg-background p-4 pr-8 text-foreground shadow-lg data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-(--radix-toast-swipe-end-x) data-[swipe=move]:translate-x-(--radix-toast-swipe-move-x)"
+              className="group pointer-events-auto relative flex w-full items-center justify-between gap-4 overflow-hidden rounded-lg bg-popover p-4 pr-8 text-popover-foreground shadow-lg ring-1 ring-foreground/10 data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-(--radix-toast-swipe-end-x) data-[swipe=move]:translate-x-(--radix-toast-swipe-move-x)"
             >
               <Toast.Description className="text-sm">{toast.message}</Toast.Description>
               {toast.actionLabel && (
                 <Toast.Action
                   altText={toast.actionLabel}
                   onClick={() => void press(toast)}
-                  className="inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium transition-colors outline-none hover:bg-secondary focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                  className={cn(buttonBase, buttonVariant.default, buttonSize.sm)}
                 >
                   {toast.actionLabel}
                 </Toast.Action>
               )}
               <Toast.Close
                 aria-label="Close"
-                className="absolute top-1 right-1 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity outline-none group-hover:opacity-100 hover:text-foreground focus-visible:opacity-100 focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                className="absolute top-1 right-1 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity outline-none group-hover:opacity-100 hover:text-foreground focus-visible:opacity-100 focus-visible:ring-3 focus-visible:ring-ring/50"
               >
                 <Cross aria-hidden="true" className="size-4" />
               </Toast.Close>
@@ -2035,8 +2050,8 @@ export const { registry } = defineRegistry(catalog, {
           answers={answers as QuestionnaireAnswers | null}
           submitLabel={props.submitLabel}
           buttonClass={{
-            primary: clsx(buttonBase, buttonVariant.primary, buttonSize.default),
-            secondary: clsx(buttonBase, buttonVariant.default, buttonSize.default),
+            primary: cn(buttonBase, buttonVariant.primary, buttonSize.default),
+            secondary: cn(buttonBase, buttonVariant.default, buttonSize.default),
           }}
           onSubmit={(answers) => {
             setAnswers(answers);

@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import clsx from 'clsx';
+import { cn } from './cn';
 import { useDragRow } from '../../behaviour/drag-drop';
 
 // Every class used here must be visible to Tailwind: catalog/shadcn.css lists
@@ -19,7 +19,7 @@ export const DraggableRow = ({
   return (
     <div
       ref={ref}
-      className={clsx(
+      className={cn(
         'col-span-full grid cursor-grab grid-cols-subgrid border-b last:border-b-0',
         dragging && 'opacity-40',
       )}

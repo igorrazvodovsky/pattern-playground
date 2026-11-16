@@ -2,9 +2,10 @@ import { Fragment, useContext } from 'react';
 import { OTPInput, OTPInputContext, REGEXP_ONLY_DIGITS } from 'input-otp';
 import { Minus } from 'iconoteka-react';
 
-// shadcn's Input OTP (base style), on the input-otp package: one transparent
+// shadcn's Input OTP (radix-nova), on the input-otp package: one transparent
 // input laid over the boxes, so paste, one-time-code autofill and screen
-// readers all meet a single field.
+// readers all meet a single field. The boxes are larger than Nova's size-8
+// and share the width of the field, as a code typed on a phone wants.
 //
 // Every class used here must be visible to Tailwind: catalog/shadcn.css lists
 // this file as a source.
@@ -15,7 +16,7 @@ const Slot = ({ index, invalid }: { index: number; invalid: boolean }) => {
     <div
       data-active={isActive}
       aria-invalid={invalid || undefined}
-      className="relative flex h-12 min-w-11 flex-1 items-center justify-center border-y border-r border-input text-xl shadow-xs transition-all outline-none first:rounded-l-lg first:border-l last:rounded-r-lg aria-invalid:border-destructive data-[active=true]:z-10 data-[active=true]:border-ring data-[active=true]:ring-[3px] data-[active=true]:ring-ring/50 data-[active=true]:aria-invalid:border-destructive data-[active=true]:aria-invalid:ring-destructive/20 dark:bg-input/30 dark:data-[active=true]:aria-invalid:ring-destructive/40"
+      className="relative flex h-12 min-w-11 flex-1 items-center justify-center border-y border-r border-input text-xl transition-all outline-none first:rounded-l-lg first:border-l last:rounded-r-lg aria-invalid:border-destructive data-[active=true]:z-10 data-[active=true]:border-ring data-[active=true]:ring-3 data-[active=true]:ring-ring/50 data-[active=true]:aria-invalid:border-destructive data-[active=true]:aria-invalid:ring-destructive/20 dark:bg-input/30 dark:data-[active=true]:aria-invalid:ring-destructive/40"
     >
       {char}
       {hasFakeCaret && (
@@ -83,8 +84,8 @@ export const CodeField = ({
     {runs(length, groups).map((run, i) => (
       <Fragment key={run[0]}>
         {i > 0 && (
-          <div role="separator" className="flex items-center">
-            <Minus aria-hidden="true" className="size-5" />
+          <div role="separator" className="flex items-center [&_svg:not([class*='size-'])]:size-4">
+            <Minus aria-hidden="true" />
           </div>
         )}
         <div className="flex flex-1 items-center">

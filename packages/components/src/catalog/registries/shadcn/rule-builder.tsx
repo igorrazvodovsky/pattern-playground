@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { cn } from './cn';
 import type { RulePart, RuleSlot } from '../../rule-parts';
 import { Parts, SentenceSlot, type Send } from './parts';
 
@@ -70,7 +70,7 @@ const Head = ({ group, send }: { group: RuleGroup; send: Send }) => (
   <span className="inline-flex items-baseline gap-2">
     <span
       aria-hidden="true"
-      className={clsx(
+      className={cn(
         'rounded-full px-2 py-0.5 text-xs font-medium uppercase tracking-wide',
         toneOf(group).pill,
       )}
@@ -100,7 +100,7 @@ const Group = ({ group, send }: { group: RuleGroup; send: Send }) => (
 );
 
 const GroupItems = ({ group, send }: { group: RuleGroup; send: Send }) => (
-  <ul className={clsx('ml-2 flex flex-col gap-1 border-l-2 pl-4', toneOf(group).rail)}>
+  <ul className={cn('ml-2 flex flex-col gap-1 border-l-2 pl-4', toneOf(group).rail)}>
     {group.items.map((item) =>
       isGroup(item) ? (
         <Group key={item.id} group={item} send={send} />

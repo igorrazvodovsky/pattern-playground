@@ -1,7 +1,7 @@
 import { createContext, useContext, useId, type ReactNode } from 'react';
 import { Collapsible } from 'radix-ui';
 import { ChevronRight, Loader75 } from 'iconoteka-react';
-import clsx from 'clsx';
+import { cn } from './cn';
 
 // shadcn/ui has no timeline, so this one is drawn from Tailwind classes in
 // shadcn's tokens. The chevron alone is the trigger of an expandable entry, so
@@ -20,7 +20,7 @@ export const Timeline = ({ density, children }: { density: Density; children?: R
   return (
     <TimelineContext.Provider value={{ density, nested }}>
       <ol
-        className={clsx(
+        className={cn(
           'flex flex-col text-sm',
           nested ? 'gap-2 pt-2 text-muted-foreground' : 'gap-0',
         )}
@@ -60,7 +60,7 @@ export const TimelineEntry = ({
   const compact = density === 'compact';
   const headingId = useId();
   const heading = (
-    <span id={headingId} className={clsx('min-w-0 flex-1', pending && 'text-muted-foreground')}>
+    <span id={headingId} className={cn('min-w-0 flex-1', pending && 'text-muted-foreground')}>
       {typeof by === 'string' && <span className="font-medium text-foreground">{by} </span>}
       {by && typeof by === 'object' && (
         <>
@@ -81,7 +81,7 @@ export const TimelineEntry = ({
         {heading}
         <Collapsible.Trigger
           aria-labelledby={headingId}
-          className="shrink-0 rounded-sm text-muted-foreground outline-none hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 [&[data-state=open]>svg]:rotate-90"
+          className="shrink-0 rounded-sm text-muted-foreground outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 [&[data-state=open]>svg]:rotate-90"
         >
           <ChevronRight aria-hidden="true" className="mt-0.5 size-4 transition-transform" />
         </Collapsible.Trigger>
@@ -95,7 +95,7 @@ export const TimelineEntry = ({
     </>
   );
   return (
-    <li className={clsx('group/entry relative flex gap-3', !nested && 'pb-5 last:pb-0')}>
+    <li className={cn('group/entry relative flex gap-3', !nested && 'pb-5 last:pb-0')}>
       {!nested && (
         <>
           <span
@@ -110,7 +110,7 @@ export const TimelineEntry = ({
           ) : (
             <span
               aria-hidden="true"
-              className={clsx(
+              className={cn(
                 'shrink-0 rounded-full bg-muted-foreground/40',
                 compact ? 'mt-1.5 ml-[2px] size-2' : 'mt-1 size-3',
               )}
@@ -119,7 +119,7 @@ export const TimelineEntry = ({
         </>
       )}
       <div
-        className={clsx(
+        className={cn(
           'flex min-w-0 flex-1 flex-col gap-1',
           fromActor && 'rounded-lg bg-secondary px-3 py-2 text-secondary-foreground',
         )}
