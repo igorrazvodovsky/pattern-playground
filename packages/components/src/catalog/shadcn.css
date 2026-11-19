@@ -112,6 +112,38 @@
   }
 }
 
+/* Trace's running line: a highlight passes along the title while the step is
+   under way. `shimmer-none` turns it off, under reduced motion. */
+@utility shimmer {
+  background-image: linear-gradient(
+    90deg,
+    var(--muted-foreground) 0%,
+    var(--muted-foreground) 40%,
+    var(--foreground) 50%,
+    var(--muted-foreground) 60%,
+    var(--muted-foreground) 100%
+  );
+  background-size: 200% 100%;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 2s linear infinite;
+}
+
+@utility shimmer-none {
+  background-image: none;
+  color: inherit;
+  animation: none;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
 /* The fake caret of Input OTP. */
 @theme {
   --animate-caret-blink: caret-blink 1.25s ease-out infinite;
@@ -147,7 +179,9 @@
     @apply border-border outline-ring/50;
   }
 
+  /* No background: the demo frame is the page, and a scope root painted in
+     shadcn's own would show as a box the size of the demo's content. */
   :root {
-    @apply bg-background text-foreground font-sans;
+    @apply text-foreground font-sans;
   }
 }
