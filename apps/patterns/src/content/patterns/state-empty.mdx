@@ -5,17 +5,19 @@ updated: 2026-11-19
 role: pattern
 evidence:
   - observed
+  - used
 activityLevel: operation
 mediation: individual
 fun: "🥱 boring but important groundwork."
 situation:
   initiating: >-
-    … a surface that normally holds content has none, and the reason matters: the actor has not made anything yet, their filter excludes everything, or they do not have access. An empty region does not say which, and it looks broken.
+    … a surface that normally holds a collection, document, or view has nothing to show, and the reason matters: the actor has not created anything yet, their search or filter excluded every item, a queue has been cleared, or they lack permission to see what is there. A blank region does not say which state the actor is in, and reads as broken.
   resulting: >-
-    On first use, the empty state is usually where the actor's [first steps](/patterns/first-steps) begin, since it is the actor's first view of the surface they will work on, and it is also the best place for the first run to end, rather than a busier screen where the next action gets lost. Filling the surface with starting content is the job of a [template](/patterns/template). Empty states multiply with every filter, permission boundary and new container, and each one needs its own explanation…
+    On first use, the empty state is where [onboarding](/patterns/onboarding) begins, since it is the actor's first view of the surface they will work on, and it is also the clearest place for a first-run flow to land so the next action is unmistakable. Where starting from nothing is slow, offer a [template](/patterns/template) that gives the actor a structure to fill, or host a [starter example](/patterns/starter-example) on the surface so they can inspect a finished item and clear it when ready. Beyond first use, empty states multiply with every filter, search query, permission boundary, and cleared inbox, and each one owes the actor the specific reason it is empty and the action that resolves it…
 relationships:
   hosts:
-    - first-steps
+    - onboarding
+    - starter-example
   enacts:
     - to: learnability
       note: teaches the surface from inside the gap, by saying what belongs there and how to put it there
@@ -23,13 +25,17 @@ relationships:
 
 * * *
 
-**An empty surface gives no reason for being empty and no way forward. On first use it is the first thing the actor sees of the place they will work, and a blank one tells them nothing about what goes there.**
+**A blank container gives the actor no way to tell whether the surface is newly created, filtered down to zero matches, restricted by permissions, or broken. On first use it is the first view of the place where the actor will work, and an unexplained gap leaves them staring at chrome with no sign of what belongs there or how to begin.**
 
-Hulick describes three ways to fill an empty state: material that teaches, such as instructions or a preview of a full space; a call to action that creates the missing content; and personality, such as an illustration or a light line of copy, as long as it does not displace the other two. An empty state that only decorates, such as an illustration with no next step, is a dead end.
+An empty surface occurs for several distinct reasons across the life of an artifact, and each reason calls for a different response. On first use, the container is empty because the actor has not put anything in it yet; the surface has to teach what kind of work lives there and offer the direct action, template, or sample item that starts it. During everyday work, a surface becomes empty because a search or filter excluded every item, because the actor finished everything in a queue, or because they do not have access to the contents; there, teaching the feature again is noise, and the actor instead needs to know what hid the content and how to widen the query, request access, or move on.
+
+Across all of these cases, an empty state has two jobs: stating plainly why nothing is shown, and placing the action that resolves the gap—creating the first item, clearing the active filter, or requesting permission—right inside the empty region so the actor does not have to hunt through surrounding toolbars. Visual personality or illustration can soften a blank screen or mark a cleared queue, but an empty state that only decorates without offering a way forward is a dead end.
 
 Therefore,
 
-**Make every empty surface say why it is empty and what would put something in it, and offer the one action that does so where the actor can take it. On first use, add enough explanation or sample content to show what the surface is for.**
+**Make every empty surface state clearly why it is empty and what would put content into it, and place the primary action that resolves the gap directly inside the empty region. On first use, show what the surface is for and offer a way to create a first item, start from a template, or explore a starter example; on filtered, cleared, or restricted views, name the condition that left the view empty and offer the action to reset or resolve it.**
+
+Do not show first-run promotional copy or introductory tutorials when a view is empty only because a filter matched nothing or an error occurred. Keep illustrations and decorative copy subordinate to the explanation and the call to action.
 
 ## In practice
 
@@ -37,27 +43,31 @@ Every empty state uses a <ComponentRef id="components-button--docs">Button</Comp
 
 ### Blank slate
 
-The basic empty state for first use.
+The basic empty state for first use, naming what the surface holds and offering the primary creation action.
 
 <Demo spec="empty-state-blank-slate" />
 
 ### Informational
 
-Says why there is nothing here and what to do next.
+States why there is nothing to show—such as a permission boundary or an unmatched filter—and offers the action to resolve it.
 
 <Demo spec="empty-state-informational" label="Access denied empty state" />
 
 ### Educational
 
-Teaches the surface in place, as part of the first run.
+Explains what the surface does in place as part of the first run before the actor creates their first item.
 
 <Demo spec="empty-state-educational" />
 
 ### Guiding
 
-Lets the actor learn the surface by trying it or setting up their own data.
+Gives the actor a way to learn the surface by trying a starter action or setting up their own data.
 
 <Demo spec="empty-state-guiding" />
+
+## Research on this pattern
+
+- *First-run empty states as instructional surfaces*: reviewing empty states across production applications, [Hulick](https://www.useronboard.com/onboarding-ux-patterns/empty-states/) identifies three elements that make a first-use blank slate functional: educational context showing what the populated surface will do, a direct prompt to create or load content, and personality that stays subordinate to both.
 
 ## Resources & references
 

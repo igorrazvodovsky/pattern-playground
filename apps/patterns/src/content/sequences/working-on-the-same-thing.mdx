@@ -1,8 +1,8 @@
 ---
 title: "Working on the same thing"
 added: 2026-08-29
-updated: 2026-11-15
-description: "Share work with named people, let them see each other working, contribute without interrupting, work apart and merge back, and pass work on with its context."
+updated: 2026-11-19
+description: "Share work with named people, let them see each other working, contribute without interrupting, work apart and merge back, pass work on with its context, and bring newcomers into work already under way."
 order: 3
 presupposes: >-
   The working relationships are known: who shares what with whom, in which
@@ -177,6 +177,38 @@ sub-sequences:
       Responsibility moves with its context and is answered openly. Work
       continues with the next person instead of restarting, and nobody holds
       work without knowing it.
+  - id: joining
+    title: "Bringing someone into work under way"
+    initiating: >-
+      Someone joins work that others have been doing for some time. The space is full, and what fills it reflects decisions made before they arrived. Onboarding teaches the artifact; what the newcomer lacks is this space: what is here, which of it still matters, and whom to ask.
+    steps:
+      - step: "Admit the newcomer at a level they can work at"
+        rule: roles
+        gloss: >-
+          Give access that lets them do small, real tasks from the start, since newcomers learn a space mostly by working in it, and keep out of reach what they could break before they understand it. Widen the role as they learn, rather than granting everything and
+          relying on caution.
+      - step: "Teach the artifact, not the space"
+        rule: onboarding
+        optional: true
+        gloss: >-
+          Skip where the newcomer already knows the tool. Otherwise their onboarding covers how the artifact works; what others built in this space is the next steps' job, and no first-run tour can explain it.
+      - step: "Lead from each structure to who made it and where it was decided"
+        rule: attribution
+        gloss: >-
+          Let the newcomer see, on each folder, view, field, rule or template they meet, who made it, when it last changed, and where it was discussed. Newcomers mostly learn why things are as they are from the people who made them, and the signature is how they find those people.
+      - step: "Let them see what is still in use"
+        rule: version-history
+        gloss: >-
+          Let the history show whether a structure is maintained or has not been touched in a long time.
+      - step: "Show them round"
+        rule: presence
+        optional: true
+        gloss: >-
+          Skip where nobody is available to do it. Otherwise let a teammate take the newcomer through the space live, with the newcomer following their view. 
+      - step: "Keep the answers beside the structures they explain"
+        rule: annotation
+    resulting: >-
+      The newcomer does real work at a level that cannot break what they do not yet understand.
 ---
 
 Several people work on the same thing, each on their own screen and often at

@@ -70,6 +70,7 @@ Do not interrupt the actor with a separate prompt for every minor step when a si
 
 Operating-system and browser permission dialogues have fixed copy, cannot be styled, and lock out further prompts after the actor declines once or twice:
 - *Ask on a clear action, or explain first.* Trigger the native prompt directly when the actor clicks a control whose label already implies the access (such as "Record audio" or "Use my location"). When the need is not obvious from the control, show a brief in-context explanation first so a "Not now" response does not spend the platform's one-shot prompt.
+- *When access is the value.* If the artifact can do nothing useful without the access, ask during [onboarding](/patterns/onboarding), before the first task, and say what the access makes possible.
 - *Do not imitate the system dialogue.* An explanation styled to look like the platform's own prompt misleads the actor about who is asking and what declining will do. Make it look like part of the artifact.
 - *Degrade gracefully in place.* When the actor declines, keep the surrounding workflow usable and offer a manual alternative at the control (such as typing an address instead of sharing location, or uploading an image instead of opening the camera).
 - *Guide recovery when blocked by the platform.* Once the browser or OS blocks further prompts, clicking the control cannot re-open the native dialogue. Detect the blocked state and show specific instructions for re-enabling access in browser or system settings.

@@ -1,0 +1,60 @@
+---
+title: Starter example
+added: 2026-11-19
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+activityLevel: action
+mediation: individual
+description: "Putting a finished, clearly marked example of competent work where the actor's own work will go, for them to inspect, modify, and clear in one action."
+situation:
+  initiating: >-
+    … during [onboarding](/patterns/onboarding), the actor arrives at an [empty state](/patterns/state-empty) on a surface—such as a board, a database, a timeline, or an analytics view—whose structure and value only become clear once it holds populated content. A [template](/patterns/template) gives the actor an empty frame to fill, but not a finished instance they can inspect and manipulate before creating their own.
+  resulting: >-
+    Pair the example with a [template](/patterns/template) so that once the actor has seen how a finished item is put together, they have a clean structure ready for their own work. Keep the sample content isolated from live metrics, notifications, and exports, and let the actor remove all of it in a single action as soon as their own work begins…
+relationships:
+  complements:
+    - template
+  enacts:
+    - to: learnability
+      note: the actor learns what competent work looks like by taking a finished piece apart
+---
+
+* * *
+
+**Many surfaces—boards, notebooks, dashboards, and structured databases—make sense only when populated with interconnected items. Facing a blank structure, newcomers cannot tell what good work looks like there or what the controls do; yet if sample content is mixed silently into their workspace, it gets mistaken for real data and pollutes counts, reports, notifications, and shared views.**
+
+When an artifact organises complex relationships—tasks across stages, linked notes, or charts over a dataset—an empty frame shows the containers without showing how work moves through them. Studying and tinkering with a finished, realistic specimen teaches the conventions of the space faster than reading instructions or inventing a first item from scratch.
+
+A starter example differs from a [template](/patterns/template) in what happens to it after the actor understands the surface. A template is an unfilled scaffold the actor populates and keeps as their own document; a starter example is a pre-populated specimen meant to be explored, taken apart, and then discarded. Confusing the two forces the actor to delete sample paragraphs or dummy rows one by one before they can use the space for real work.
+
+The risk of pre-populated content is contamination. Sample items that look identical to real records, trigger real reminders, or count toward quotas and analytics erode trust and create cleanup work. The boundary between the specimen and the actor's own material has to stay obvious until the specimen is cleared.
+
+Therefore,
+
+**Populate the newcomer's workspace with one small, realistic example of finished work that demonstrates how the surface's parts fit together, and mark it unmistakably as sample content. Let the actor inspect, edit, and run actions on it freely, isolate it from live counts, notifications, and external integrations, and provide a single action that removes the entire example cleanly when they are ready to start their own work.**
+
+Do not force the actor to delete sample items individually to clean up their workspace, and do not load starter examples for experienced actors creating a new project or workspace when they already know the tool.
+
+## In practice
+
+### Self-referential examples
+
+Where the medium allows—such as a document editor, a note-taking tool, or a task board—make the content of the starter example explain how to use the surface itself. An example card whose checklist items walk through moving, tagging, and archiving the card lets the actor learn the mechanics by operating directly on the instructions.
+
+### Isolation and one-step removal
+
+Badge sample items or group them inside a dedicated sample project or bannered mode so they are never mistaken for live records. Exclude them from search totals, billing quotas, automated workflows, and outbound emails, and place a persistent control on the surface to clear all sample data in one step once the actor starts their own content.
+
+## Research on this pattern
+
+- *The worked-example effect in initial skill acquisition*: instructional design research starting with Sweller and Cooper (1985), summarised in the [worked-example literature](https://en.wikipedia.org/wiki/Worked-example_effect), shows that novices acquire schemas more effectively by studying and manipulating worked examples than by solving equivalent problems from scratch, whereas the advantage reverses as learners gain expertise (*the expertise-reversal effect*)—supporting removable examples for newcomers and blank or template starts for experienced actors.
+- *Pre-populated empty states in practice*: surveying first-run surfaces across productivity software, [Hulick](https://www.useronboard.com/onboarding-ux-patterns/empty-states/) documents how pre-populated sample projects, notes, and boards let newcomers test interactions immediately while illustrating the target data structure.
+
+## Resources & references
+
+- Samuel Hulick, UserOnboard. [Empty states](https://www.useronboard.com/onboarding-ux-patterns/empty-states/)
+- [Worked-example effect](https://en.wikipedia.org/wiki/Worked-example_effect). Wikipedia

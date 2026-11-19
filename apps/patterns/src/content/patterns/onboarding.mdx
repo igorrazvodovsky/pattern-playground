@@ -1,0 +1,99 @@
+---
+title: Onboarding
+added: 2025-05-20
+updated: 2026-11-19
+role: pattern
+evidence:
+  - observed
+  - literature
+  - used
+activityLevel: activity
+mediation: individual
+description: "Making the actor's first stretch of use a bounded period with low stakes, in which they reach a result they came for by doing real work, and which comes to an end."
+situation:
+  initiating: >-
+    … an actor arrives at an artifact for the first time, through [immediate use](/patterns/immediate-use) or [account access](/patterns/account-access), and has no working model yet of what it holds, what their actions will do, or what it will do on its own. This is the start of the actor's [learning](/sequences/learning).
+  resulting: >-
+    Onboarding is assembled from smaller patterns according to what the first run has to cover. Begin on the [empty state](/patterns/state-empty) of the surface the actor will work on, so the first view shows what belongs there and how to create it, and use [good defaults](/patterns/good-defaults) to settle decisions that do not change the first result. Give the actor a [template](/patterns/template) when they need a starting shape to fill, or a [starter example](/patterns/starter-example) when they need a finished item to inspect, modify, and clear. Use a [wizard](/patterns/wizard) only where early setup decisions depend on one another. Where the artifact has more capabilities than a newcomer can take in at once, hold advanced functions back in a [layered interface](/patterns/layered-interface), surface individual capabilities at the moment they become relevant through [feature discovery](/patterns/feature-discovery), and lay out the route across sittings with [charted progress](/patterns/charted-progress). Defer access grants until the actor triggers the feature that needs them, as [permissions](/patterns/permissions) prescribes. Where an [agent](/patterns/agent) will act on the actor's behalf, introduce what it can and cannot do during the first run and state its [capability and scope](/patterns/capability-and-scope) before the first turn. When the newcomer is entering a shared workspace that already holds other people's work, pair onboarding with [joining work in progress](/patterns/joining-work-in-progress) so they can tell why existing structures were set up that way. Leave unanticipated questions to [help](/patterns/help), which stays available after the first run ends, and let [mastery](/patterns/mastery) clear the first-run scaffolding away once the actor is working fluently…
+relationships:
+  composed-of:
+    - good-defaults
+    - template
+    - starter-example
+    - wizard
+    - layered-interface
+    - feature-discovery
+    - charted-progress
+  complements:
+    - help
+    - permissions
+    - joining-work-in-progress
+  precedes:
+    - mastery
+  enacts:
+    - to: learnability
+      note: the actor's first climb up the learning curve, shaped so that early mistakes are cheap
+    - to: temporality
+      note: marks the early, steep part of the actor's time with the artifact and gives it an end
+---
+
+* * *
+
+**Newcomers start acting before they understand an artifact, and they skip instructions written for them. When a first run teaches by explaining, actors dismiss or forget the guidance before they need it; when it asks for accounts, configuration, and permissions before giving anything back, it spends the interest they arrived with; and when it drops them into the full interface without protection, early mistakes cost them work or confidence.**
+
+People arrive at an artifact to get something done, not to study how the interface works. They try the controls in front of them, carry over habits from tools they already know, and read explanations only after they get stuck. Up-front tutorials and slide decks fail because they deliver answers before the actor has a question or a task to attach them to.
+
+At the same time, an actor's willingness to invest effort is fragile at arrival. Every gate placed in front of the work—creating an account, completing a profile, configuring preferences, granting permissions, or stepping through a tour—asks for commitment before the actor knows whether the artifact suits their purpose. The same tension applies to safety: newcomers learn fastest by acting on real content, yet unfamiliar controls and irreversible actions make early exploration risky.
+
+Onboarding resolves these tensions by treating the first stretch of use as a bounded design problem with two jobs: getting the actor to a first meaningful result before asking for setup or commitment, and giving them a safe environment to build a working model of the artifact by using it. That scaffolding comes at a cost: every prompt, sample item, or simplified view put up for the newcomer turns into friction once they know their way around, so the first run has to end cleanly and take its aids down with it.
+
+Therefore,
+
+**Design the actor's first stretch of use as a bounded period with a clear start and end. Order it so that the first thing the actor finishes is a real result of the kind they came for, moving account creation, configuration, and permission requests after that result and asking for each at the point where the work requires it. Let the actor learn by doing real work rather than reading about the interface, make early mistakes cheap to undo, and end the first run once they have completed a real task, removing its scaffolding when it is done.**
+
+Do not make onboarding a gate: an actor who already knows the artifact, or who wants to look around first, must be able to skip or dismiss it and reach it again later. Do not mistake setup tasks—such as filling in a profile or picking a theme—for the first result; check each early step by asking whether the actor is better off in their own work for having completed it.
+
+## In practice
+
+### What the first run establishes
+
+- *What exists*: the core objects the actor works with and where their state is kept.
+- *What acting does*: the effect of primary actions, demonstrated on working content rather than described in the abstract.
+- *What the artifact does on its own*: any automated or delegated behaviour, when it runs, and how to inspect or override it.
+- *What the limits are*: constraints stated in domain terms rather than surfaced as unexpected errors.
+
+### Shortening the path to the first result
+
+Remove steps that stand between arrival and the first outcome. Some moves eliminate an entire stage—such as letting the actor try the tool before signing up, starting from a working template, or carrying state across devices with a single scan—while others trim friction inside a step, such as focusing the first input or pre-selecting a sensible default.
+
+### Generating a first draft from intent
+
+Where the artifact can generate content, let the newcomer state what they want to make and produce a working first draft for them to refine, rather than presenting an empty canvas and explaining the tools first. Editing a concrete draft teaches the controls in context. Because the draft is machine output, it carries the same review obligations as any other [delegated task](/sequences/delegating-a-task).
+
+### Making early mistakes cheap
+
+Protect early exploration with [undo](/patterns/undo), drafts, previews, or a sandbox space where changes cannot damage live data. Where certain functions are easy for newcomers to misuse with costly consequences, a [layered interface](/patterns/layered-interface) can hold them back until the basics are settled.
+
+### Ending the first run
+
+Record completed or dismissed onboarding steps in [remembered state](/patterns/remembered-state) so prompts and checklists do not reappear in later sessions, and keep a way to replay or consult the first-run guidance from [help](/patterns/help).
+
+## Research on this pattern
+
+- *The paradox of the active user*: [Carroll and Rosson (1987)](https://www.semanticscholar.org/paper/Paradox-of-the-active-user-Carroll-Rosson/f560d34c1266abdea5a6fd2ddc11961995acf1a3) observed that new users consistently try to accomplish real tasks immediately, skip manuals and tutorials, and apply procedures from familiar tools even when better methods exist—grounding the rule that onboarding must teach through active task completion rather than upfront instruction.
+- *Blocking error-prone functions during initial learning*: in [Carroll and Carrithers' (1984)](https://doi.org/10.1145/358198.358218) training-wheels study on a word processor, disabling advanced, error-prone states allowed newcomers to complete tasks faster and score higher on comprehension tests than users given the full interface, who spent nearly a quarter of their session time recovering from errors the reduced system prevented.
+- *Failure of upfront tutorial overlays*: usability evaluations summarised by [Laubheimer (2023)](https://www.nngroup.com/articles/onboarding-tutorials/) show that multi-screen tours and tutorial overlays presented before the actor enters the workspace are routinely skipped, interrupt the actor's goal, and tax working memory by explaining controls before the actor has a context to apply them.
+- *Deferring registration and front-loading value*: practitioner studies and teardowns by [Wroblewski (2008)](https://alistapart.com/article/signupforms/) and [Hulick](https://www.useronboard.com/onboarding-ux-patterns/front-loaded-user-value/) document that upfront sign-up walls cause high abandonment because actors are asked to commit credentials and effort before seeing whether the product delivers value.
+
+## Resources & references
+
+- Carroll, J. M. & Rosson, M. B. (1987). [The paradox of the active user](https://www.semanticscholar.org/paper/Paradox-of-the-active-user-Carroll-Rosson/f560d34c1266abdea5a6fd2ddc11961995acf1a3)
+- Carroll, J. M. & Carrithers, C. (1984). [Training wheels in a user interface](https://doi.org/10.1145/358198.358218). Communications of the ACM 27(8)
+- Page Laubheimer (2023). [Onboarding tutorials vs. contextual help](https://www.nngroup.com/articles/onboarding-tutorials/). Nielsen Norman Group
+- Samuel Hulick, UserOnboard. [Onboarding UX patterns](https://www.useronboard.com/onboarding-ux-patterns/) and [Front-loaded user value](https://www.useronboard.com/onboarding-ux-patterns/front-loaded-user-value/)
+- Luke Wroblewski (2008). [Sign up forms must die](https://alistapart.com/article/signupforms/). A List Apart
+- Luke Wroblewski. [Let the AI do the onboarding](https://lukew.com/ff/entry.asp?2130)
+- Andy Matuschak (2025). [How might we learn?](https://andymatuschak.org/hmwl/) – learning through authentic contexts
+- Brenda Laurel (2013). *Computers as Theatre*, 2nd ed.
+- GOV.UK Design System. [Help users to start using a service](https://design-system.service.gov.uk/patterns/start-using-a-service/)
+- Apple Human Interface Guidelines. [Onboarding](https://developer.apple.com/design/human-interface-guidelines/onboarding)

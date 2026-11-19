@@ -7,15 +7,15 @@ seed: true
 evidence:
   - observed
   - literature
+  - used
 activityLevel: action
 mediation: individual
-description: "Also called a progression system or getting-started checklist. Showing the actor the route from new to capable as a short list of steps, each ending in a real outcome, and where they are on it."
-disclosure: "The goal-gradient evidence comes from reward programmes, not software; that it carries over to first-run checklists is an assumption."
+description: "Also called a progression system or getting-started checklist. Showing the actor the route from newcomer to capable use as a short list of outcome-named steps, marking what is already done and removing the list once complete."
 situation:
   initiating: >-
-    … the actor's [first steps](/patterns/first-steps) cover more than one sitting, and several of them can be taken in any order. Without a view of the whole, they cannot tell how much is left or which step to take next, and they stop at the first one that looks optional.
+    … [onboarding](/patterns/onboarding) spans more than one sitting, and several of the tasks that bring the actor to competent use can be taken in any order. Without a visible map of the whole, the actor cannot tell how much setup remains or which step is worth taking next, and they often stop after the first step that looks optional.
   resulting: >-
-    The list reports through [status feedback](/patterns/status-feedback): each completed step is confirmed when it happens, and the list is where the actor sees where they stand. Within a single step that has ordered parts of its own, [step by step](/patterns/step-by-step) carries the actor through. Where the right next step differs from actor to actor and the artifact can tell what they have already done, a [next-best action](/patterns/next-best-action) inferred from that takes over from a fixed list. The list belongs to the first run and is removed when its steps are done…
+    Report each completed milestone through [status feedback](/patterns/status-feedback) at the moment it finishes, and update the list so the actor always sees where they stand. Where a single milestone involves an ordered sequence of inputs of its own, let [step by step](/patterns/step-by-step) carry the actor through that item before returning them to the list. Where the right next move depends on the actor's specific data or behaviour rather than a shared set of milestones, an inferred [next-best action](/patterns/next-best-action) takes over from a fixed checklist. Because the list is scaffolding for the first run, remove it from the surface once its milestones are complete…
 relationships:
   composed-of:
     - status-feedback
@@ -30,25 +30,34 @@ relationships:
 
 * * *
 
-**A first run with many steps gives the actor no sense of how far they have come or how far they still have to go. A checklist made of activities rather than outcomes makes this worse: the actor ticks items off and is no more capable at the end.**
+**When reaching competent use requires several setup and learning tasks across multiple sessions, an actor given no view of the whole cannot tell what remains or which task matters next. A checklist made of trivial interface clicks rather than real outcomes makes this worse: the actor ticks every box and still has nothing working at the end.**
 
-Hulick's analysis of shipped checklists puts their usefulness down to two things: how the steps are broken down, and whether each step moves the actor towards a real outcome. GetResponse's list ends with a newsletter sent and Zendesk's with real tickets answered, whereas QuickBooks' stops before invoicing, the work people bought it for. From outside software, Kivetz, Urminsky and Zheng found that people speed up as they approach a goal, and that a card with two stamps already given was completed faster than a shorter blank card of the same effort. Each extra step is also a point where the actor can drop off, and a list the actor did not need is clutter.
+A getting-started checklist works when an artifact cannot deliver its full value in a single first action—for example, when the actor has to connect a data source, configure a workspace, and run a first workflow before the tool becomes useful in daily work. Laying those milestones out in one visible list turns an ambiguous setup period into a bounded set of tasks the actor can finish at their own pace.
+
+What decides whether the list helps or gets dismissed is how the steps are chosen and framed. Steps named after interface mechanics—such as opening a settings page or viewing a tour—teach the actor to click through for completion's sake without making them any more capable. Steps named after real outcomes in the actor's work—such as publishing a first page or answering a first request—leave the actor with a working setup when the list ends.
+
+Starting a checklist at zero after the actor has already completed registration or initial setup is discouraging; crediting the steps they have already finished gives the list momentum from the start. Conversely, every extra item on the list is another point where the actor can abandon it, and a persistent checklist that stays on screen after the actor knows the tool becomes permanent visual clutter.
 
 Therefore,
 
-**Show the first run as a short list of steps, each named by the outcome it gives the actor, marking what is done, what is next and roughly how long the rest will take. Count work the actor has already done, and remove the list when it is complete.**
+**Present a multi-step first run as a short checklist of three to seven steps, naming each step by the outcome it produces for the actor rather than the control it exercises. Show what is completed, what to do next, and how much remains; credit any step the actor has already finished before the list appears; and remove or fold away the list once every step is done.**
 
-Do not start the list at zero after the actor has already answered setup questions, and do not mix finished and unfinished steps so that what remains is hard to see.
+Do not start the progress counter at zero after the actor has already answered setup questions, and do not interleave finished and unfinished items in a way that hides what is left. Always let the actor dismiss the checklist early if they already know the tool or do not need the remaining milestones.
 
 ## In practice
 
-### Marking milestones
+### Framing and marking milestones
 
-Mark the completion of an outcome that matters to the actor, such as a site going live, and not one that matters only to the maker, such as an account being created. Follow it with one clear next step. Praise given for every small step loses its effect.
+Tie completion to outcomes that matter to the actor's work rather than administrative events that matter only to the system. When a milestone finishes, confirm it in place and highlight the next uncompleted item. Reserve celebratory feedback for substantial milestones; praising every minor click quickly feels patronising.
 
-### Placement
+### Placement and lifecycle
 
-The list can sit on the main surface, have a view of its own, or collapse to a small indicator that opens it. Whichever is chosen, it has to stand out from the rest of the interface, or it is overlooked.
+Place the checklist where the actor can return to it between tasks—on the home surface, in a collapsible sidebar card, or behind a compact progress badge in the chrome. Keep it visually distinct from ongoing task lists so sample milestones are never confused with the actor's own work, and retire the container once the list is completed or dismissed.
+
+## Research on this pattern
+
+- *Goal-gradient acceleration and endowed progress*: in field experiments on reward programmes, [Kivetz, Urminsky and Zheng (2006)](https://business.columbia.edu/sites/default/files-efs/pubfiles/1200/goalgradient.pdf) found that people accelerate their effort as they get closer to completing a goal, and that participants given a ten-stamp card with two stamps already credited completed it at a higher rate and faster pace than participants given an eight-stamp blank card requiring the exact same effort. First-run checklists apply this by crediting account creation or initial setup as the first completed step.
+- *Outcome-centred vs activity-centred checklists*: reviewing onboarding progression systems across production software, [Hulick](https://www.useronboard.com/onboarding-ux-patterns/progression-systems/) contrasts checklists whose steps culminate in the core domain outcome the actor came for against checklists that stop at account housekeeping or interface tours, observing that activity-only lists leave actors with a completed meter and an unconfigured tool.
 
 ## Resources & references
 

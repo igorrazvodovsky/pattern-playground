@@ -1,19 +1,20 @@
 ---
 title: Layered interface
 added: 2026-11-19
-updated: 2026-11-19
+updated:
 role: pattern
 seed: true
 evidence:
   - literature
+  - observed
 activityLevel: action
 mediation: individual
 description: "Also called training wheels or a multi-layer interface. Giving a newcomer a reduced set of functions that is complete for simple work, and letting them move to fuller sets as they need them."
 situation:
   initiating: >-
-    … the artifact has far more functions than a newcomer needs, and during the actor's [first steps](/patterns/first-steps) the unfamiliar ones are where early mistakes happen. This is [progressive disclosure](/patterns/progressive-disclosure) applied to the actor's experience rather than to the task in front of them: functions are held back until the actor is ready for them, not until a view calls for them, and the holding back lasts across sessions.
+    … the artifact holds far more functions than a newcomer needs, and during [onboarding](/patterns/onboarding) the unfamiliar controls are where early mistakes happen. A layered interface applies [progressive disclosure](/patterns/progressive-disclosure) across the actor's developing competence rather than within a single view: advanced functions are held back across sessions until the actor is ready for them.
   resulting: >-
-    The layers leave functions that exist but are not available yet. Each can be left out of the surface, which is [unavailable actions](/patterns/unavailable-actions), or shown inactive with a way to unlock it, which is a [disabled state](/patterns/state-disabled); showing it tells the actor that more exists. Each move to a fuller layer is the actor's to make, kept in [settings](/patterns/settings), and the artifact may propose one when the actor reaches for something the current layer lacks. Leaving the reduced layers behind is part of [mastery](/patterns/mastery)…
+    Holding functions back leaves capabilities that exist in the artifact but are absent from the active layer. Omit them from the surface entirely as [unavailable actions](/patterns/unavailable-actions) when keeping the view uncluttered matters most, or show them inactive in a [disabled state](/patterns/state-disabled) with a path to unlock them when the actor needs to see what higher layers hold, at the cost of putting some visual complexity back on screen. Keep the layer switcher visible and hold the same choice in [settings](/patterns/settings) as a lasting preference, so the move to a fuller layer is always the actor's decision, and let [feature discovery](/patterns/feature-discovery) offer the same switch when the actor's work reaches a capability the current layer hides. Outgrowing the reduced layers and moving into the full toolset is part of [mastery](/patterns/mastery)…
 relationships:
   precedes:
     - unavailable-actions
@@ -30,15 +31,45 @@ relationships:
 
 * * *
 
-**A newcomer facing every function at once has to work out what matters before doing anything, and the functions they misuse in early attempts can damage their work or leave the artifact in states they cannot explain.**
+**When an interface exposes its full set of functions from the first session, newcomers have to sort out which controls matter before they can accomplish basic work, and accidentally triggering advanced options can corrupt their work or put the artifact into states they do not know how to recover from.**
 
-Carroll and Carrithers blocked the error-prone functions of a word processor for new users, and those users learned faster and understood more than users of the full system. Shneiderman proposed multi-layer designs in which first-time users start with a limited set of functions in layer 1, stay there as long as they like, and move up when they need more. McGrenere, Baecker and Booth compared a two-interface word processor, a personal interface with only chosen features beside the full default, against adaptive menus, and participants felt better able to navigate, control and learn the software with the two interfaces. That study was of experienced users cutting the interface down to what they already used, and it measured experience, not speed. In a follow-up lab study, Findlater and McGrenere found a menu the actor arranged as fast as an ideal fixed one when people did arrange it, and faster than an adaptive one, but some people did not arrange it at all without guidance. Gajos and colleagues traced the annoyance of adaptive interfaces to lost spatial stability: the one adaptive design people accepted copied commands into a separate, marked area and left the familiar parts untouched. The two bodies of evidence point in different directions over time. For newcomers it was the designer who chose the reduced layer, and it worked; for experienced users, choosing for themselves gave more satisfaction and control. The costs are that experienced actors are slowed if they cannot leave the reduced layer, functions in higher layers are harder to discover, and the layers assume an order of learning that not every actor follows.
+Feature-rich tools serve both novices doing straightforward tasks and experts running complex workflows. A single static surface compromises both: showing every tool, mode, and configuration option overwhelms newcomers and invites early errors, while permanently stripping advanced capabilities leaves experienced actors without the tools they need.
+
+A layered interface partitions the toolset into cumulative levels of complexity. The initial layer exposes only the controls needed to complete a basic version of the work from start to finish, while higher layers add specialised functions without removing or rearranging what the earlier layer taught. Because the first layer is a complete working environment rather than a restricted demo, newcomers can produce real work immediately without running into advanced states they cannot interpret.
+
+Two tensions govern how actors move between layers. First, hiding advanced functions improves speed and confidence on basic tasks, but makes those hidden capabilities harder to know about; showing them as disabled placeholders advertises what exists, yet reintroduces the visual clutter the layer was meant to remove. Second, while newcomers benefit from starting in a designer-chosen basic layer, actors resent having the interface rearrange itself automatically around them. Keeping spatial positions stable and letting the actor control when to step up to a fuller layer preserves their sense of control.
 
 Therefore,
 
-**Offer a first layer with a small set of functions that is complete for the simple version of the work, and make each further layer contain everything in the one before. Choose the first layer for the newcomer, show them that more exists, and from then on let them make each move between layers, with the artifact proposing a move rather than making it.**
+**Partition the interface into cumulative layers, starting with a small initial layer that is self-contained for basic work and making each subsequent layer a superset of the one before it. Start newcomers in the initial layer, make the existence of fuller layers and the switch to reach them visible, and keep every transition between layers under the actor's explicit control.**
 
-Do not trap the actor in a layer, and do not move them between layers or reorder what a layer shows without telling them. Where the artifact adapts on its own, keep the familiar parts in place and confine the changes to a marked area.
+Never trap an actor in a reduced layer or force them through a tutorial to unlock the full interface; experienced actors arriving on a new account or device need an immediate switch to the full toolset. Do not move controls to new positions when a higher layer is enabled, and if the system suggests moving up a layer, keep the suggestion confined to a separate prompt rather than silently mutating menus in place.
+
+<div class="callout">
+  Each layer should add a coherent group of functions. One switch that hides unrelated options across the artifact does not work as a layer; when only a few scattered options need hiding, use [progressive disclosure](/patterns/progressive-disclosure) for them. Name a layer by what it adds. Avoid skill-level names such as "advanced". Do not hide the switch in settings alone.
+</div>
+
+## In practice
+
+### Designing the layer boundaries
+
+Define the first layer around a complete, end-to-end basic workflow rather than a random subset of popular controls. An actor in the first layer should be able to create, edit, and finish a simple item without hitting a dead end that forces them to switch layers mid-task. Each higher layer should add coherent groups of capabilities—such as automation, batch operations, or advanced formatting—while leaving the first layer's controls in the same places.
+
+### Signalling what lies in higher layers
+
+Keep the reduced surface clean: advanced controls shown disabled crowd it almost as much as the full interface. Put the layer switch in the workspace chrome and label it by what the fuller layer adds. [Settings](/patterns/settings) can store the choice, but a switch that only lives there is easy to miss. When the actor searches for a hidden command or reaches the limit of the basic workflow, use [feature discovery](/patterns/feature-discovery) or the search result to say the capability exists and offer the switch.
+
+### Delegation as the first layer
+
+In agent-assisted tools the first layer is often a conversation. The actor says what they want and the agent uses the full toolset for them, so the layer is complete for simple work while most functions stay out of sight. The next layer lets the actor work on the artifact directly, for example by opening the code behind an app built through chat. The actor decides when to make that move, and the conversation stays open beside the artifact so they can hand work back.
+
+## Research on this pattern
+
+- *Training-wheels interfaces and error recovery*: [Carroll and Carrithers (1984)](https://doi.org/10.1145/358198.358218) blocked the advanced, error-prone functions of a word processor for novices and found that participants completed tasks faster, spent far less time recovering from errors, and scored higher on post-task comprehension than participants using the full interface.
+- *Multi-layer progression and user-controlled interfaces*: [Shneiderman (2003)](https://doi.org/10.1145/957205.957206) formulated multi-layer interface design as a universal-usability strategy in which users begin at layer 1 and advance at their own pace. Comparing a user-chosen personal interface beside the full default against system-driven adaptive menus, [McGrenere, Baecker and Booth (2002](https://doi.org/10.1145/503376.503406), [2007)](https://doi.org/10.1145/1229855.1229858) and [Findlater and McGrenere (2004)](https://www.cs.ubc.ca/labs/edapt/papers/findlater2004.pdf) found that user-controlled layering gave participants greater perceived control, navigability, and speed than automatic adaptation.
+- *Findability vs awareness in reduced interfaces*: in a lab study with 30 novice users, [Findlater and McGrenere (2007)](https://faculty.washington.edu/leahkf/pubs/Interact2007-findlater.pdf) found that a minimal first layer improved speed on basic commands at the cost of awareness of advanced ones, whereas keeping advanced commands visible in a blocked state overwhelmed novices—nine of the ten participants in the visible-but-blocked condition preferred the full interface instead.
+- *Spatial stability in adaptive interfaces*: [Gajos, Czerwinski, Tan and Weld (2006)](https://doi.org/10.1145/1133265.1133306) traced user frustration with adaptive interfaces to lost spatial stability when menus reordered themselves; the design participants accepted copied promoted commands into a separate, clearly marked area while leaving the standard layout untouched.
+- *Guided automation in feature-rich software*: comparing a copilot that completed tasks itself with one that automated trivial steps and guided the actor through the rest, [Khurana, Su, Wang and Chilana (2025)](https://doi.org/10.1145/3706598.3713431) found that most participants preferred to keep control of complex tasks and used the guided version to learn the application, especially for unfamiliar tasks.
 
 ## Resources & references
 
@@ -47,5 +78,7 @@ Do not trap the actor in a layer, and do not move them between layers or reorder
 - McGrenere, J., Baecker, R. & Booth, K. S. (2002). [An evaluation of a multiple interface design solution for bloated software](https://doi.org/10.1145/503376.503406). CHI 2002
 - McGrenere, J., Baecker, R. M. & Booth, K. S. (2007). [A field evaluation of an adaptable two-interface design for feature-rich software](https://doi.org/10.1145/1229855.1229858). ACM TOCHI
 - Findlater, L. & McGrenere, J. (2004). [A comparison of static, adaptive, and adaptable menus](https://www.cs.ubc.ca/labs/edapt/papers/findlater2004.pdf). CHI 2004
+- Findlater, L. & McGrenere, J. (2007). [Evaluating reduced-functionality interfaces according to feature findability and awareness](https://faculty.washington.edu/leahkf/pubs/Interact2007-findlater.pdf). INTERACT 2007
 - Gajos, K. Z., Czerwinski, M., Tan, D. S. & Weld, D. S. (2006). [Exploring the design space for adaptive graphical user interfaces](https://doi.org/10.1145/1133265.1133306). AVI 2006
+- Khurana, A., Su, X., Wang, A. Y. & Chilana, P. K. (2025). [Do it for me vs. do it with me: investigating user perceptions of different paradigms of automation in copilots for feature-rich software](https://doi.org/10.1145/3706598.3713431). CHI 2025
 - Forsey et al. (2024). [Designing for learnability: improvement through layered interfaces](https://journals.sagepub.com/doi/10.1177/10648046241273291). Ergonomics in Design

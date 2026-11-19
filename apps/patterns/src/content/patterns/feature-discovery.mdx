@@ -1,0 +1,77 @@
+---
+title: Feature discovery
+added: 2026-11-19
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+  - used
+activityLevel: action
+mediation: individual
+description: "Showing the actor a capability at the place and moment it becomes usable, once and dismissibly, instead of explaining it ahead of time or waiting to be asked."
+situation:
+  initiating: >-
+    … the actor is working in the artifact, during [onboarding](/patterns/onboarding) or long after it, and a capability that would serve what they are doing is one they have not met: either an existing function they never discovered, or one that has just been added or changed. [Help](/patterns/help) answers only the questions the actor knows to ask, while explaining every capability up front is skipped and forgotten.
+  resulting: >-
+    Record whether the actor has seen, dismissed, or tried the prompt in [remembered state](/patterns/remembered-state), so the same tip is never shown twice and returns only if the capability itself changes. Keep [help](/patterns/help) as the pull channel the actor can consult on demand, so proactive offers and actor-initiated lookup divide the work between them. Surface faster execution routes in the same way, placing [keyboard shortcuts](/patterns/keyboard-shortcuts) as hints beside the slower controls the actor is already using. In a [layered interface](/patterns/layered-interface), use contextual discovery to show what the next layer holds when the actor's work reaches the boundary of the current one. When an important change must reach actors who are away from the surface where it lives, route the announcement through a [notification](/patterns/notification)…
+relationships:
+  composed-of:
+    - remembered-state
+  complements:
+    - help
+    - keyboard-shortcuts
+    - layered-interface
+    - notification
+  enacts:
+    - to: learnability
+      note: teaches a capability at the point where it can be used, so it does not have to be remembered until then
+    - to: agency
+      note: the actor decides whether to take up a capability, and when to adopt a change to a tool they rely on
+---
+
+* * *
+
+**Actors do not search for capabilities they do not know exist, and they ignore explanations of features they have no immediate use for. Pushing feature tours at launch interrupts their task and is forgotten before the feature is needed, while changing an existing control silently breaks habits without telling the actor why.**
+
+Passive documentation and upfront tutorials fail on opposite sides of the same problem. Waiting for the actor to open help assumes they realise a better tool exists and know what the system calls it; in practice, actors keep using familiar workarounds because nothing in their workflow suggests another way. Conversely, explaining features at launch or at arbitrary moments interrupts the actor when their attention is on something else, so the prompt is dismissed as noise.
+
+Feature discovery works when the offer is tied to a concrete signal in the actor's current task—reaching a surface for the first time, repeating a manual action that a tool could automate, or encountering a control that has moved or changed. Placed beside the control at the moment it applies, a brief prompt connects the capability directly to what the actor is already trying to do.
+
+Every unsolicited tip spends attention the actor did not offer. If multiple prompts compete on the same screen, reappear after dismissal, or misread what the actor is doing, actors develop banner blindness and dismiss useful notices along with the intrusive ones.
+
+Therefore,
+
+**Surface an unlearned or changed capability beside the control where it lives, at the moment the actor's current activity makes it useful, and frame it in terms of what it does for their task. Show at most one prompt at a time and each prompt only once, let the actor try or dismiss it in a single action, and keep dismissed guidance reachable in help or a changelog. Always prefer placing a capability where normal work will encounter it over adding an announcement for it.**
+
+Cap how many discovery prompts can appear across a session, give every announcement campaign an expiry date, and never point a tip at a control that is hidden, disabled, or outside the current view.
+
+## In practice
+
+### Graduating from placement to interruption
+
+Use the quietest form that suffices. First, place the control along the path of the work with a clear label so actors find it without any prompt. Where placement alone is not enough, attach a subtle marker or inline callout beside the control when the actor enters that workflow. Reserve interrupting modals or banners for breaking changes that alter an existing workflow the actor is about to run.
+
+### Multi-step tours
+
+A guided tour strings several tips together in a fixed order, usually before the actor has started a task, which makes it the weakest form of discovery. When a tour is necessary—for example, when an interface introduces a spatial or interaction model that cannot be read from the controls alone—keep it to a handful of stops on live elements, show the step count, let the actor exit at any point, and trigger it when the actor first enters that area rather than at application launch.
+
+### Introducing changes to experienced actors
+
+Actors who already have a working model of the artifact face interference rather than unfamiliarity: a moved control, a changed default, or a retired workflow contradicts habits they rely on. Keep existing routes working through a transition period where possible, explain what changed and why at the point where the old habit meets the new design, and let the actor try a workflow change with a clear way to switch back before it becomes permanent. In shared workspaces, make clear who else is affected when a change alters shared state or conventions.
+
+## Research on this pattern
+
+- *Contextual tips vs upfront tutorials*: reviewing onboarding and feature-discovery mechanisms, [Laubheimer (2023)](https://www.nngroup.com/articles/onboarding-tutorials/) distinguishes contextual help triggered by the actor's immediate activity from upfront tutorials pushed at launch, finding that in-context prompts succeed because they arrive when the actor has a task that matches the instruction.
+- *Limits of user-initiated help seeking*: in an observational study of newcomers learning a complex design application, [Kiani et al. (2019)](https://hci.cs.sfu.ca/KianiCHI2019.pdf) found that only 38.2% of help-seeking attempts succeeded, largely because participants could not identify which feature or terminology applied to their problem and often did not recognise when a better tool existed.
+- *Taxonomy of learnability and awareness*: [Grossman, Fitzmaurice and Attar (2009)](https://doi.org/10.1145/1518701.1518803) separate feature awareness (knowing a capability exists) from feature comprehension (knowing how to use it), showing that interfaces that rely solely on pull documentation fail on the awareness dimension.
+
+## Resources & references
+
+- Page Laubheimer (2023). [Onboarding tutorials vs. contextual help](https://www.nngroup.com/articles/onboarding-tutorials/). Nielsen Norman Group
+- Kiani, K., Cui, G., Bunt, A., McGrenere, J. & Chilana, P. K. (2019). [Beyond "one-size-fits-all": understanding the diversity in how software newcomers discover and make use of help resources](https://hci.cs.sfu.ca/KianiCHI2019.pdf). CHI 2019
+- Grossman, T., Fitzmaurice, G. & Attar, R. (2009). [A survey of software learnability: metrics, methodologies and guidelines](https://doi.org/10.1145/1518701.1518803). CHI 2009
+- GitHub Primer. [Feature onboarding](https://primer.style/product/ui-patterns/feature-onboarding/)
+- GitLab Pajamas. [Feature discovery](https://design.gitlab.com/patterns/feature-discovery/)
+- Apple Human Interface Guidelines. [Onboarding](https://developer.apple.com/design/human-interface-guidelines/onboarding)

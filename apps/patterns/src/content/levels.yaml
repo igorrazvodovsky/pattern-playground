@@ -77,14 +77,14 @@
       lead: >-
         Make the whole learnable over time: a reduced set of functions to start
         from, routes past the interface for those who use it daily, commands by
-        name and then by key, and changes introduced without breaking what
-        actors already know.
+        name and then by key, capabilities shown where they become usable, and
+        changes introduced without breaking what actors already know.
       patterns:
         - layered-interface
         - mastery
         - command-menu
         - keyboard-shortcuts
-        - introducing-a-change
+        - feature-discovery
     - title: Records
       lead: >-
         Keep a record that every act adds to: what happened and who did it, a
@@ -146,18 +146,18 @@
       section: Divisions
       lead: >-
         Give the artifact an entrance: admit the actor without demanding
-        identity, give the newcomer first steps that reach a
-        result they came for early and shows the route onward, explain what is
-        already there to someone joining a space in use, and give each empty
-        place a first step or a starting shape.
+        identity, onboard the newcomer to a result they came for early and show
+        the route onward, explain what is already there to someone joining a
+        space in use, and give each empty place a first step, a starting shape
+        or an example to take apart.
       patterns:
         - immediate-use
-        - first-steps
-        - early-win
+        - onboarding
         - charted-progress
         - joining-work-in-progress
         - state-empty
         - template
+        - starter-example
     - title: Accounts
       section: Divisions
       lead: >-
@@ -312,11 +312,13 @@
     - title: Following and receiving work
       section: Work with an agent
       lead: >-
-        Show the work while it runs, stop it at consequential points, and let
+        Show the work while it runs and what is left of it, stop it at
+        consequential points, and let
         the actor place, revise or redraw what comes back, whole or in part.
       patterns:
         - live-presentation
         - transparent-reasoning
+        - working-plan
         - approval-gate
         - extraction
         - instructed-revision

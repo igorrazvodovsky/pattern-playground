@@ -16,10 +16,12 @@ sub-sequences:
     title: "Shaping the first encounter"
     steps:
       - step: "Design the first run as a bounded period"
-        rule: first-steps
+        rule: onboarding
         gloss: >-
           Make the first run a designed, bounded period with low stakes,
-          doing preferred to reading, and safe failure. Decide what it must
+          doing preferred to reading, and safe failure. Order it so that the
+          first thing the actor finishes is a result they came for, with
+          sign-up, settings, permissions and tours moved after it. Decide what it must
           teach from the picture of competent use: which objects exist and
           where state lives, what happens when the actor acts, and what the
           system will do on its own. For an actor joining a system already
@@ -49,6 +51,12 @@ sub-sequences:
               Give the newcomer a shape that already reflects competent work,
               to adapt rather than invent. Give the set of templates an owner
               who revisits it as conventions change.
+          - step: "Show them a finished example to take apart"
+            rule: starter-example
+            gloss: >-
+              Put one small, marked example of competent work where their own
+              work will go, keep it out of anything that counts real work, and
+              let them clear it in one action once they start their own.
           - step: "Take them through setup one decision at a time"
             rule: wizard
             gloss: >-
@@ -57,12 +65,6 @@ sub-sequences:
               includes that setup takes it, usually the first into a
               workspace; later joiners arrive into a system already
               configured.
-      - step: "Put the first real result before every request"
-        rule: early-win
-        gloss: >-
-          Order the first run so that the first thing the actor finishes is
-          a result they came for, and move sign-up, settings, permissions and
-          tours after it, each asked where it is needed.
       - step: "Hold back the functions a newcomer does not need yet"
         rule: layered-interface
         optional: true
@@ -100,6 +102,15 @@ sub-sequences:
           It re-teaches on demand what
           the first encounter taught ahead of time, and remains once the
           scaffolding is cleared.
+      - step: "Show a capability where it becomes usable"
+        rule: feature-discovery
+        optional: true
+        gloss: >-
+          Skip where the surface is small enough that nothing goes unfound.
+          Otherwise offer what the actor has not asked about at the place and
+          moment it applies, once and dismissibly, and prefer placing a
+          capability where it will be found over announcing it. Help waits to
+          be asked; this offers.
   - id: expertise
     title: "Opening routes past the interface"
     initiating: >-
@@ -165,5 +176,5 @@ An actor arrives without a working model of the system, and every other
 sequence assumes they end up with one. Every actor goes through this. A
 smaller version repeats whenever the system changes under them, such as a
 new feature, a changed workflow, or the first run of a delegated capability;
-[introducing a change](/patterns/introducing-a-change) says how to bring an
+[feature discovery](/patterns/feature-discovery) says how to bring an
 actor who already has a model up to date.

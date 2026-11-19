@@ -16,7 +16,7 @@ situation:
   initiating: >-
     … the actor needs something only a full account provides: a hosted workspace, a purchase or subscription that has to stay theirs, or an organisation's access control. They arrive at it through [identity at the point of need](/patterns/identity-at-the-point-of-need), at the door of a space that is closed from the outset, or on returning to an account they already hold. The access flow is hosted on a [form](/patterns/form) that structures the inputs and binds them to a single submission. Entering and returning both demand that the actor establish presence with credentials, and the interface must make the path for new and returning actors clear without conflating them.
   resulting: >-
-    The actor has established or verified their identity within the artifact. The credential is one of three parts, offered alone or side by side: [passwordless access](/patterns/passwordless-access) through a code or link sent to a channel the actor controls, [federated identity](/patterns/federated-identity) through a provider they already trust, or a [password](/patterns/password) they create and store. Lead with the first two where most actors have a dependable inbox or provider account, and keep a password for those who do not. Where credentials fail or are forgotten, [account recovery](/patterns/account-recovery) provides the fallback. Problems with the identifier or other details reach the actor through [validation](/patterns/validation) at the field. Once access is granted, lead into [first steps](/patterns/first-steps) to orient the newcomer, or return the actor to their workspace…
+    The actor has established or verified their identity within the artifact. The credential is one of three parts, offered alone or side by side: [passwordless access](/patterns/passwordless-access) through a code or link sent to a channel the actor controls, [federated identity](/patterns/federated-identity) through a provider they already trust, or a [password](/patterns/password) they create and store. Lead with the first two where most actors have a dependable inbox or provider account, and keep a password for those who do not. Where credentials fail or are forgotten, [account recovery](/patterns/account-recovery) provides the fallback. Problems with the identifier or other details reach the actor through [validation](/patterns/validation) at the field. Once access is granted, lead into [onboarding](/patterns/onboarding) to orient the newcomer, or return the actor to their workspace…
 relationships:
   follows:
     - identity-at-the-point-of-need
@@ -30,7 +30,7 @@ relationships:
   hosted-by:
     - form
   precedes:
-    - first-steps
+    - onboarding
   enacts:
     - to: learnability
       note: makes the rules of admission legible before submission
