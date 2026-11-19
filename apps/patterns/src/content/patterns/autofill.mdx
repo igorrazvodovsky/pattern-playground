@@ -1,77 +1,69 @@
 ---
 title: Autofill
 added: 2026-03-25
-updated:
+updated: 2026-11-19
 role: pattern
 evidence:
   - literature
 activityLevel: operation
 mediation: individual
 fun: 🙂 2/5. Dependency.
+description: "Populating fields from stored values the browser, password manager, or application already holds so the actor can check rather than retype them."
 situation:
   initiating: >-
-    the values the fields need are ones the system already holds — from the actor's profile, a
-    prior session, the browser — so asking them to type what is already known is work with no
-    purpose; and the confidence is high enough that filling won't be wrong
-  resulting:
-    - >-
-      the fields arrive already populated from the actor's own data, and what's left for them
-      is checking rather than typing
-    - >-
-      filling a field silently shows the actor what the system knows about them, in a place
-      they hadn't asked the question
-    - >-
-      pre-filled values get submitted without being read, so a wrong stored value travels
-      further than a wrong typed one would have
+    … in [assistance escalation](/sequences/assistance-escalation) or inside a
+    [form](/patterns/form), a static guess from
+    [good defaults](/patterns/good-defaults) is not enough because the field
+    requires the actor's own specific value, and plain
+    [data entry](/patterns/data-entry) would ask them to retype what is already
+    stored. Autofill sits near the floor of
+    [assisted task completion](/patterns/assisted-task-completion), supplying
+    known values from the browser, a password manager, or the application's own
+    record before typing begins.
+  resulting: >-
+    Fields now arrive populated from the actor's stored records, shifting their
+    work from typing to checking before submission. Where the actor is typing a
+    value that is not stored in full—such as a lookup from a large
+    index—[autocomplete](/patterns/autocomplete) handles completion in flight
+    rather than filling up front. Unlike a
+    [suggestion](/patterns/suggestion), which proposes an inferred option for
+    the actor to weigh, autofill writes a stored value directly into the field
+    without asking first. Because pre-filled values are often submitted unread,
+    stale or misapplied records travel further than typed errors, so pair
+    autofill with [review before submitting](/patterns/review-before-submitting)
+    when a wrong value carries a real cost…
 relationships:
+  enables:
+    - data-entry
+  hosted-by:
+    - form
   complements:
-    - to: autocomplete
-      note: "the reactive counterpart: completes what the actor is actively typing rather than pre-populating from stored values"
-    - to: assisted-task-completion
-      note: the spectrum this pattern belongs to
-    - to: suggestion
-      note: autofill as a form of implicit recommendation
+    - autocomplete
+    - assisted-task-completion
+    - suggestion
+    - review-before-submitting
   enacts:
     - to: privacy
-      note: autofill surfaces what the system knows about the actor
+      note: autofill surfaces what the system or browser holds about the actor, sometimes in fields they did not expect it to know
     - to: adaptation
-      note: autofill that learns from corrections over time
-  enables:
-    - to: data-entry
-      note: autofill as a strategy for frictionless input
-  hosted-by:
-    - to: form
-      note: form fields are the surface where autofill most commonly appears
+      note: autofill reduces repeated entry by carrying the actor's stored and corrected values across sessions
 ---
-Populating fields with previously known or stored values, pulled from actor profiles, prior sessions, browser data, or contextual defaults.
 
-Part of the [assisted task completion](/patterns/assisted-task-completion) spectrum. Preemptive, silent, and only useful when confidence is high.
+* * *
 
-{/* ## When it works */}
+**Asking an actor to retype structured personal data—addresses, credentials, payment details, or profile fields—repeats work the browser or application already holds and invites transcription errors. Yet silent pre-filling carries asymmetric costs: stale personal values slip past review more easily than generic guesses, clearing a wrong pre-fill takes more effort than typing from scratch, and filling a field silently shows what the system holds about the actor in a place they had not asked the question.**
 
-{/* - The data is structured and repetitive: addresses, payment details, profile fields */}
-{/* - Stored values are almost always correct */}
-{/* - Pre-filled values look different from typed ones (Chrome's yellow highlight, for instance) so the actor can tell what came from the system */}
+The source of the value changes what the actor notices and controls. Browser and password-manager autofill keeps storage under the actor's control and signals which tool supplied the values; application-side autofill draws silently from backend records the actor may not realise the system kept.
 
-{/* ## When it fails */}
+Therefore,
 
-{/* - Pre-populated data is wrong, and deleting before correcting costs more effort than typing from scratch */}
-{/* - The system fills fields the actor didn't expect it to know about, raising [privacy](/patterns/privacy) questions */}
-{/* - Hidden fields get silently filled and read via JavaScript before submission. This is the autofill dark pattern (Friedman 2021) */}
+**Populate structured fields from stored values only when confidence is high and the actor can tell at a glance which fields were filled automatically. Preserve standard semantic `autocomplete` hints so browsers and password managers can supply and manage the actor's data, distinguish pre-filled values visually from typed text, indicate the source when the application fills from its own record, and keep every filled value easy to clear or overwrite before submission.**
 
-## Data sources
-
-### Browser
-
-Address, payment, and identity data that the actor manages through browser settings. The actor controls what gets stored; the browser matches fields by name attributes and autocomplete hints.
-
-### System
-
-The application fills fields from its own knowledge of the actor: account details, preferences, prior entries. Less transparent than browser autofill because the actor may not realise what the system has on file.
+Never let hidden or off-screen fields receive autofilled data—they can be filled silently and read by script before the actor ever submits the form—and do not break browser autofill with custom split inputs or non-standard field names.
 
 ## Related components
 
-- <ComponentRef id="components-input--docs">Input</ComponentRef> — the primitive autofill populates
+- <ComponentRef id="components-input--docs">Input</ComponentRef> — the text-field primitive that autofill populates
 
 ## Resources & references
 
