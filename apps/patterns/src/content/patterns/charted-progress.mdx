@@ -1,0 +1,56 @@
+---
+title: Charted progress
+added: 2026-11-19
+updated:
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+activityLevel: action
+mediation: individual
+description: "Also called a progression system or getting-started checklist. Showing the actor the route from new to capable as a short list of steps, each ending in a real outcome, and where they are on it."
+disclosure: "The goal-gradient evidence comes from reward programmes, not software; that it carries over to first-run checklists is an assumption."
+situation:
+  initiating: >-
+    … the actor's [first steps](/patterns/first-steps) cover more than one sitting, and several of them can be taken in any order. Without a view of the whole, they cannot tell how much is left or which step to take next, and they stop at the first one that looks optional.
+  resulting: >-
+    The list reports through [status feedback](/patterns/status-feedback): each completed step is confirmed when it happens, and the list is where the actor sees where they stand. Within a single step that has ordered parts of its own, [step by step](/patterns/step-by-step) carries the actor through. Where the right next step differs from actor to actor and the artifact can tell what they have already done, a [next-best action](/patterns/next-best-action) inferred from that takes over from a fixed list. The list belongs to the first run and is removed when its steps are done…
+relationships:
+  composed-of:
+    - status-feedback
+  complements:
+    - step-by-step
+  alternative:
+    - next-best-action
+  enacts:
+    - to: learnability
+      note: lays out what competent use involves as a set of outcomes the actor can reach one at a time
+---
+
+* * *
+
+**A first run with many steps gives the actor no sense of how far they have come or how far they still have to go. A checklist made of activities rather than outcomes makes this worse: the actor ticks items off and is no more capable at the end.**
+
+Hulick's analysis of shipped checklists puts their usefulness down to two things: how the steps are broken down, and whether each step moves the actor towards a real outcome. GetResponse's list ends with a newsletter sent and Zendesk's with real tickets answered, whereas QuickBooks' stops before invoicing, the work people bought it for. From outside software, Kivetz, Urminsky and Zheng found that people speed up as they approach a goal, and that a card with two stamps already given was completed faster than a shorter blank card of the same effort. Each extra step is also a point where the actor can drop off, and a list the actor did not need is clutter.
+
+Therefore,
+
+**Show the first run as a short list of steps, each named by the outcome it gives the actor, marking what is done, what is next and roughly how long the rest will take. Count work the actor has already done, and remove the list when it is complete.**
+
+Do not start the list at zero after the actor has already answered setup questions, and do not mix finished and unfinished steps so that what remains is hard to see.
+
+## In practice
+
+### Marking milestones
+
+Mark the completion of an outcome that matters to the actor, such as a site going live, and not one that matters only to the maker, such as an account being created. Follow it with one clear next step. Praise given for every small step loses its effect.
+
+### Placement
+
+The list can sit on the main surface, have a view of its own, or collapse to a small indicator that opens it. Whichever is chosen, it has to stand out from the rest of the interface, or it is overlooked.
+
+## Resources & references
+
+- Samuel Hulick, UserOnboard. [Progression systems](https://www.useronboard.com/onboarding-ux-patterns/progression-systems/) and [Success states](https://www.useronboard.com/onboarding-ux-patterns/success-states/)
+- Kivetz, R., Urminsky, O. & Zheng, Y. (2006). [The goal-gradient hypothesis resurrected: purchase acceleration, illusionary goal progress, and customer retention](https://business.columbia.edu/sites/default/files-efs/pubfiles/1200/goalgradient.pdf). Journal of Marketing Research 43(1)

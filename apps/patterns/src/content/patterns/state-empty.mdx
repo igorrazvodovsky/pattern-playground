@@ -1,59 +1,64 @@
 ---
 title: "Empty state"
 added: 2025-05-20
-updated:
+updated: 2026-11-19
 role: pattern
+evidence:
+  - observed
 activityLevel: operation
 mediation: individual
 fun: "🥱 boring but important groundwork."
 situation:
   initiating: >-
-    the surface has nothing to show and the reason matters — the actor hasn't made anything
-    yet, or their filter excluded everything, or they don't have access; an empty region says
-    none of that on its own and reads as broken
-  resulting:
-    - >-
-      the gap explains itself and points somewhere: the actor knows why there is nothing here
-      and what would put something here
-    - >-
-      first-run emptiness is the largest uninterrupted surface the system ever gets, and it
-      arrives in front of an actor who has committed nothing yet
-    - >-
-      the empty states multiply — every filter, every permission boundary, every new
-      container has one — and the ones nobody wrote say nothing
+    … a surface that normally holds content has none, and the reason matters: the actor has not made anything yet, their filter excludes everything, or they do not have access. An empty region does not say which, and it looks broken.
+  resulting: >-
+    On first use, the empty state is usually where the actor's [first steps](/patterns/first-steps) begin, since it is the actor's first view of the surface they will work on, and it is also the best place for the first run to end, rather than a busier screen where the next action gets lost. Filling the surface with starting content is the job of a [template](/patterns/template). Empty states multiply with every filter, permission boundary and new container, and each one needs its own explanation…
 relationships:
   hosts:
-    - to: onboarding
-      note: the empty state is often the canvas onboarding builds on
+    - first-steps
   enacts:
     - to: learnability
-      note: the educational and guiding variants teach the system from inside the gap they announce
+      note: teaches the surface from inside the gap, by saying what belongs there and how to put it there
 ---
 
-Tells actors that there’s no content to display. Provides explanation and guidance to help actor progress. Typically surfaces a <ComponentRef id="components-button--docs">Button</ComponentRef> as the primary call to action.
+* * *
 
-## Variants
+**An empty surface gives no reason for being empty and no way forward. On first use it is the first thing the actor sees of the place they will work, and a blank one tells them nothing about what goes there.**
+
+Hulick describes three ways to fill an empty state: material that teaches, such as instructions or a preview of a full space; a call to action that creates the missing content; and personality, such as an illustration or a light line of copy, as long as it does not displace the other two. An empty state that only decorates, such as an illustration with no next step, is a dead end.
+
+Therefore,
+
+**Make every empty surface say why it is empty and what would put something in it, and offer the one action that does so where the actor can take it. On first use, add enough explanation or sample content to show what the surface is for.**
+
+## In practice
+
+Every empty state uses a <ComponentRef id="components-button--docs">Button</ComponentRef> for its primary action where there is one.
 
 ### Blank slate
 
-Basic empty state for first use experience.
+The basic empty state for first use.
 
 <Demo spec="empty-state-blank-slate" />
 
-## Informational
+### Informational
 
-Provides information about what to do next.
+Says why there is nothing here and what to do next.
 
 <Demo spec="empty-state-informational" label="Access denied empty state" />
 
-## Educational
+### Educational
 
-A contextual onboarding flow to gain deeper understanding of the system.
+Teaches the surface in place, as part of the first run.
 
 <Demo spec="empty-state-educational" />
 
-## Guiding
+### Guiding
 
-Starter that allows users to learn the system by tinkering or setting up their data.
+Lets the actor learn the surface by trying it or setting up their own data.
 
 <Demo spec="empty-state-guiding" />
+
+## Resources & references
+
+- Samuel Hulick, UserOnboard. [Empty states](https://www.useronboard.com/onboarding-ux-patterns/empty-states/)

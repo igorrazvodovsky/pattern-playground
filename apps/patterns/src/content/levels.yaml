@@ -75,12 +75,16 @@
         - reaching-a-person
     - title: Learning the whole
       lead: >-
-        Make the whole learnable over time: routes past the interface for those
-        who use it daily, and commands by name and then by key.
+        Make the whole learnable over time: a reduced set of functions to start
+        from, routes past the interface for those who use it daily, commands by
+        name and then by key, and changes introduced without breaking what
+        actors already know.
       patterns:
+        - layered-interface
         - mastery
         - command-menu
         - keyboard-shortcuts
+        - introducing-a-change
     - title: Records
       lead: >-
         Keep a record that every act adds to: what happened and who did it, a
@@ -142,11 +146,16 @@
       section: Divisions
       lead: >-
         Give the artifact an entrance: admit the actor without demanding
-        identity, orient the newcomer when they arrive, and give each empty
+        identity, give the newcomer first steps that reach a
+        result they came for early and shows the route onward, explain what is
+        already there to someone joining a space in use, and give each empty
         place a first step or a starting shape.
       patterns:
         - immediate-use
-        - onboarding
+        - first-steps
+        - early-win
+        - charted-progress
+        - joining-work-in-progress
         - state-empty
         - template
     - title: Accounts

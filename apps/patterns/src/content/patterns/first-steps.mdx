@@ -1,0 +1,74 @@
+---
+title: First steps
+added: 2025-05-20
+updated: 2026-11-19
+role: pattern
+evidence:
+  - observed
+  - literature
+activityLevel: activity
+mediation: individual
+description: "Also called onboarding. Making the actor's first stretch of use a bounded period with low stakes, in which they learn by doing and which comes to an end."
+situation:
+  initiating: >-
+    … an actor arrives at an artifact for the first time, through [immediate use](/patterns/immediate-use) or [account access](/patterns/account-access), and has no working model yet of what it holds, what their actions will do, or what it will do on its own. This is the start of the actor's [learning](/sequences/learning).
+  resulting: >-
+    The first run is built from smaller patterns, each optional. [Early win](/patterns/early-win) orders it so that the first thing the actor finishes is a result they came for. A [wizard](/patterns/wizard) takes them through setup where the first decisions depend on each other. A [layered interface](/patterns/layered-interface) holds back the functions a newcomer does not need yet, and [charted progress](/patterns/charted-progress) shows the route from new to capable when the first run has more steps than one sitting. The first run usually begins on an [empty state](/patterns/state-empty), which says what would put something there. Where an [agent](/patterns/agent) will act on the actor's behalf, what it can and cannot do is part of what the first run teaches, and the first statement of [capability and scope](/patterns/capability-and-scope) is made here. An actor joining a space that others already use needs a first run and also [joining work in progress](/patterns/joining-work-in-progress), which explains what is already there. Questions the first run did not anticipate go to [help](/patterns/help), which stays after the first run ends. Actors who already know the artifact and meet a change to it are in a different situation, covered by [introducing a change](/patterns/introducing-a-change). When the first run ends, its scaffolding is what [mastery](/patterns/mastery) clears away…
+relationships:
+  composed-of:
+    - early-win
+    - wizard
+    - layered-interface
+    - charted-progress
+  complements:
+    - help
+    - joining-work-in-progress
+  tangential:
+    - introducing-a-change
+  precedes:
+    - mastery
+  enacts:
+    - to: learnability
+      note: the actor's first climb up the learning curve, shaped so that early mistakes are cheap
+    - to: temporality
+      note: marks the early, steep part of the actor's time with the artifact and gives it an end
+---
+
+* * *
+
+**Newcomers start acting before they understand an artifact, and they skip instructions written for them. A first run that teaches by explaining is mostly ignored. A first run that lets them act without protection lets early mistakes cost them work or confidence, and they form wrong ideas about what the artifact is for.**
+
+Carroll and Rosson describe this as the paradox of the active user: people want to get something done straight away, skip manuals, and carry over methods from tools they already know, even where new methods would serve them better. In Carroll and Carrithers' training-wheels study, a word processor with its error-prone functions blocked let new users learn faster and understand more than the full system did, and the control group spent almost a quarter of their time recovering from errors the reduced system made unreachable. The cost is that every scaffold put up for the first run has to come down later. A first run that is long, mandatory or never ends delays the result the actor came for and gets in the way once they are competent.
+
+Therefore,
+
+**Make the actor's first stretch of use a designed period with a clear start and end. Let them do real work in it rather than read about it, and make mistakes cheap to undo. Decide in advance what it must teach: which things exist and where they are kept, what happens when the actor acts, and what the artifact will do on its own. End it when the actor has completed something real, and take its scaffolding down.**
+
+Do not make the first run a gate. An actor who already knows the artifact, or who wants to look around first, should be able to skip it and come back to it.
+
+## In practice
+
+### What the first run teaches
+
+- *What exists*: the objects the actor will work with and where their state is kept.
+- *What acting does*: the consequence of the main actions, shown on the actor's own content where possible.
+- *What the artifact does on its own*: anything automated or delegated, with when it acts and how to override it.
+- *What the limits are*: constraints stated in the terms of the domain rather than as unexplained rules.
+
+### Making mistakes cheap
+
+Give the first run [undo](/patterns/undo), drafts and previews, or a sample space the actor can change freely without affecting real data. A [layered interface](/patterns/layered-interface) removes some mistakes altogether by holding back the functions where they happen.
+
+### Ending the first run
+
+Record what the actor has completed or dismissed in [remembered state](/patterns/remembered-state), so that tips and tours do not come back, and keep a way to restart the first run from [help](/patterns/help).
+
+## Resources & references
+
+- Carroll, J. M. & Rosson, M. B. (1987). [The paradox of the active user](https://www.semanticscholar.org/paper/Paradox-of-the-active-user-Carroll-Rosson/f560d34c1266abdea5a6fd2ddc11961995acf1a3)
+- Carroll, J. M. & Carrithers, C. (1984). [Training wheels in a user interface](https://doi.org/10.1145/358198.358218). Communications of the ACM 27(8)
+- Andy Matuschak (2025). [How might we learn?](https://andymatuschak.org/hmwl/) – learning through authentic contexts
+- Brenda Laurel (2013). *Computers as Theatre*, 2nd ed.
+- GOV.UK Design System. [Help users to start using a service](https://design-system.service.gov.uk/patterns/start-using-a-service/)
+- Apple Human Interface Guidelines. [Onboarding](https://developer.apple.com/design/human-interface-guidelines/onboarding)
+- Samuel Hulick, UserOnboard. [Onboarding UX patterns](https://www.useronboard.com/onboarding-ux-patterns/)

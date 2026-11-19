@@ -31,8 +31,6 @@ relationships:
     - to: localization
       note: a locale guess is a good default applied to localization's axes
   related:
-    - to: onboarding
-      note: Often sets the initial state and defaults for the application
     - to: settings
       note: Where global defaults are managed and overridden
     - to: suggestion
@@ -63,6 +61,10 @@ Apply to all users universally.
 Tailored to the individual actor.
 - Persistent defaults: Based on the actor's past choices (e.g., "Use my last address"), kept by [remembered state](/patterns/remembered-state).
 - Adaptive defaults: Updated in real-time based on immediate context or behavior.
+
+## In a first run
+
+In a first run, a default belongs only if it changes the result the actor came for, by removing a decision between them and that result. Defaults that do not affect the result, such as a licence or a notification preference, can wait, because every question asked in the first run takes attention away from the result. Used this way, defaults are part of an [early win](/patterns/early-win).
 
 ## Risks & ethical considerations
 

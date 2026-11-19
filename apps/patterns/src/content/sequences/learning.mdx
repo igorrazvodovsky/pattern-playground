@@ -16,14 +16,15 @@ sub-sequences:
     title: "Shaping the first encounter"
     steps:
       - step: "Design the first run as a bounded period"
-        rule: onboarding
+        rule: first-steps
         gloss: >-
           Make the first run a designed, bounded period with low stakes,
           doing preferred to reading, and safe failure. Decide what it must
           teach from the picture of competent use: which objects exist and
           where state lives, what happens when the actor acts, and what the
           system will do on its own. For an actor joining a system already
-          in use, add what is already here and why, and let them trace how
+          in use, add what is already here and why, as in
+          [joining work in progress](/patterns/joining-work-in-progress), and let them trace how
           it came to be through the record kept in
           [memory and continuity](/sequences/memory-and-continuity#keeping). Every scaffold put up here has to be cleared later.
       - step: "Use empty surfaces to teach"
@@ -56,6 +57,26 @@ sub-sequences:
               includes that setup takes it, usually the first into a
               workspace; later joiners arrive into a system already
               configured.
+      - step: "Put the first real result before every request"
+        rule: early-win
+        gloss: >-
+          Order the first run so that the first thing the actor finishes is
+          a result they came for, and move sign-up, settings, permissions and
+          tours after it, each asked where it is needed.
+      - step: "Hold back the functions a newcomer does not need yet"
+        rule: layered-interface
+        optional: true
+        gloss: >-
+          Skip where the artifact is small enough to meet whole. Otherwise
+          start the actor in a reduced layer that is complete for simple
+          work, show that more exists, and let them move up when they choose.
+      - step: "Show the route when the first run spans sittings"
+        rule: charted-progress
+        optional: true
+        gloss: >-
+          Skip where the first run fits one sitting. Otherwise list its steps
+          by the outcome each gives the actor, count what they have already
+          done, and remove the list when it is complete.
   - id: channel
     title: "Meeting friction"
     initiating: >-
@@ -143,4 +164,6 @@ sub-sequences:
 An actor arrives without a working model of the system, and every other
 sequence assumes they end up with one. Every actor goes through this. A
 smaller version repeats whenever the system changes under them, such as a
-new feature, a changed workflow, or the first run of a delegated capability.
+new feature, a changed workflow, or the first run of a delegated capability;
+[introducing a change](/patterns/introducing-a-change) says how to bring an
+actor who already has a model up to date.

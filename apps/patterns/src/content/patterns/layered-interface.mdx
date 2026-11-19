@@ -1,0 +1,51 @@
+---
+title: Layered interface
+added: 2026-11-19
+updated: 2026-11-19
+role: pattern
+seed: true
+evidence:
+  - literature
+activityLevel: action
+mediation: individual
+description: "Also called training wheels or a multi-layer interface. Giving a newcomer a reduced set of functions that is complete for simple work, and letting them move to fuller sets as they need them."
+situation:
+  initiating: >-
+    … the artifact has far more functions than a newcomer needs, and during the actor's [first steps](/patterns/first-steps) the unfamiliar ones are where early mistakes happen. This is [progressive disclosure](/patterns/progressive-disclosure) applied to the actor's experience rather than to the task in front of them: functions are held back until the actor is ready for them, not until a view calls for them, and the holding back lasts across sessions.
+  resulting: >-
+    The layers leave functions that exist but are not available yet. Each can be left out of the surface, which is [unavailable actions](/patterns/unavailable-actions), or shown inactive with a way to unlock it, which is a [disabled state](/patterns/state-disabled); showing it tells the actor that more exists. Each move to a fuller layer is the actor's to make, kept in [settings](/patterns/settings), and the artifact may propose one when the actor reaches for something the current layer lacks. Leaving the reduced layers behind is part of [mastery](/patterns/mastery)…
+relationships:
+  precedes:
+    - unavailable-actions
+    - state-disabled
+    - mastery
+  instantiates:
+    - progressive-disclosure
+  enacts:
+    - to: learnability
+      note: removes the functions where newcomers' early mistakes happen until the actor is ready for them
+    - to: adaptation
+      note: the interface changes with the actor's stage, heavier scaffolding first and less as competence grows
+---
+
+* * *
+
+**A newcomer facing every function at once has to work out what matters before doing anything, and the functions they misuse in early attempts can damage their work or leave the artifact in states they cannot explain.**
+
+Carroll and Carrithers blocked the error-prone functions of a word processor for new users, and those users learned faster and understood more than users of the full system. Shneiderman proposed multi-layer designs in which first-time users start with a limited set of functions in layer 1, stay there as long as they like, and move up when they need more. McGrenere, Baecker and Booth compared a two-interface word processor, a personal interface with only chosen features beside the full default, against adaptive menus, and participants felt better able to navigate, control and learn the software with the two interfaces. That study was of experienced users cutting the interface down to what they already used, and it measured experience, not speed. In a follow-up lab study, Findlater and McGrenere found a menu the actor arranged as fast as an ideal fixed one when people did arrange it, and faster than an adaptive one, but some people did not arrange it at all without guidance. Gajos and colleagues traced the annoyance of adaptive interfaces to lost spatial stability: the one adaptive design people accepted copied commands into a separate, marked area and left the familiar parts untouched. The two bodies of evidence point in different directions over time. For newcomers it was the designer who chose the reduced layer, and it worked; for experienced users, choosing for themselves gave more satisfaction and control. The costs are that experienced actors are slowed if they cannot leave the reduced layer, functions in higher layers are harder to discover, and the layers assume an order of learning that not every actor follows.
+
+Therefore,
+
+**Offer a first layer with a small set of functions that is complete for the simple version of the work, and make each further layer contain everything in the one before. Choose the first layer for the newcomer, show them that more exists, and from then on let them make each move between layers, with the artifact proposing a move rather than making it.**
+
+Do not trap the actor in a layer, and do not move them between layers or reorder what a layer shows without telling them. Where the artifact adapts on its own, keep the familiar parts in place and confine the changes to a marked area.
+
+## Resources & references
+
+- Carroll, J. M. & Carrithers, C. (1984). [Training wheels in a user interface](https://doi.org/10.1145/358198.358218). Communications of the ACM 27(8)
+- Shneiderman, B. (2003). [Promoting universal usability with multi-layer interface design](https://doi.org/10.1145/957205.957206). Conference on Universal Usability
+- McGrenere, J., Baecker, R. & Booth, K. S. (2002). [An evaluation of a multiple interface design solution for bloated software](https://doi.org/10.1145/503376.503406). CHI 2002
+- McGrenere, J., Baecker, R. M. & Booth, K. S. (2007). [A field evaluation of an adaptable two-interface design for feature-rich software](https://doi.org/10.1145/1229855.1229858). ACM TOCHI
+- Findlater, L. & McGrenere, J. (2004). [A comparison of static, adaptive, and adaptable menus](https://www.cs.ubc.ca/labs/edapt/papers/findlater2004.pdf). CHI 2004
+- Gajos, K. Z., Czerwinski, M., Tan, D. S. & Weld, D. S. (2006). [Exploring the design space for adaptive graphical user interfaces](https://doi.org/10.1145/1133265.1133306). AVI 2006
+- Forsey et al. (2024). [Designing for learnability: improvement through layered interfaces](https://journals.sagepub.com/doi/10.1177/10648046241273291). Ergonomics in Design
