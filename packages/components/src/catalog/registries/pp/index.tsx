@@ -24,6 +24,7 @@ import type { ToastHandle } from '../../../components/toast/toast';
 import {
   Combobox,
   ComboboxGroup,
+  ComboboxFieldInput,
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
@@ -1260,11 +1261,17 @@ export const { registry } = defineRegistry(catalog, {
       // A pick empties the field only once `select` has run, since the
       // handler's later steps can still read the picked value.
       const picking = useRef(false);
+      const [anchor, setAnchor] = useState<HTMLElement | null>(null);
       const { open, groups, root, label, input, list, pick, close } = useCandidateList(
         props.groups,
         value ?? '',
         setValue,
+        // Inline, the picked value stays in the field; only a popup empties it.
         () => {
+          if (!props.popup) {
+            void emit('select');
+            return;
+          }
           picking.current = true;
           dropdown.current?.hide();
           dropdown.current?.focusOnTrigger();
@@ -1299,29 +1306,71 @@ export const { registry } = defineRegistry(catalog, {
       }, [props.popup]);
       const status = props.status;
       const purpose = status?.pending ? null : status?.purpose;
-      const field = (
-        <Combobox label={props.label} {...root}>
-          <ComboboxInput placeholder={props.placeholder ?? ''} {...input} />
-          {open && (
-            <ComboboxList {...list}>
-              {groups.map((group, index) => (
-                <ComboboxGroup key={group.heading ?? index} heading={group.heading ?? undefined}>
-                  {group.options.map((option) => (
-                    <ComboboxItem key={option.value} value={option.value} onSelect={pick}>
-                      {option.icon && (
-                        <iconify-icon
-                          slot="prefix"
-                          className="icon"
-                          icon={icons[option.icon]}
-                          aria-hidden="true"
-                        />
-                      )}
-                      {option.label}
-                    </ComboboxItem>
-                  ))}
-                </ComboboxGroup>
+      const candidates = open && (
+        <ComboboxList {...list}>
+          {groups.map((group, index) => (
+            <ComboboxGroup key={group.heading ?? index} heading={group.heading ?? undefined}>
+              {group.options.map((option) => (
+                <ComboboxItem
+                  key={option.value}
+                  value={option.value}
+                  checked={option.value === value}
+                  onSelect={pick}
+                >
+                  {option.icon && (
+                    <iconify-icon
+                      slot="prefix"
+                      className="icon"
+                      icon={icons[option.icon]}
+                      aria-hidden="true"
+                    />
+                  )}
+                  {option.label}
+                </ComboboxItem>
               ))}
-            </ComboboxList>
+            </ComboboxGroup>
+          ))}
+        </ComboboxList>
+      );
+      const field = (
+        <Combobox
+          label={props.label}
+          {...root}
+          className={props.popup ? undefined : 'combobox--field'}
+        >
+          {props.popup ? (
+            <>
+              <ComboboxInput placeholder={props.placeholder ?? ''} {...input} />
+              {candidates}
+            </>
+          ) : (
+            // Inline, the field is an input of its own and the candidates
+            // float below it, over what follows.
+            <>
+              <pp-input ref={setAnchor}>
+                <iconify-icon
+                  data-slot="prefix"
+                  className="icon"
+                  icon="ik:search"
+                  aria-hidden="true"
+                />
+                <ComboboxFieldInput placeholder={props.placeholder ?? ''} {...input} />
+              </pp-input>
+              <pp-popup
+                className="dropdown__panel combobox__panel"
+                anchor={anchor ?? undefined}
+                active={open}
+                placement="bottom-start"
+                distance={6}
+                sync="width"
+                auto-size="vertical"
+                auto-size-padding={8}
+                flip
+                top-layer
+              >
+                {candidates}
+              </pp-popup>
+            </>
           )}
           {status && (
             <p className={clsx('combobox-status', purpose ?? 'muted')} role="status">

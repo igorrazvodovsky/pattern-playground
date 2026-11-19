@@ -1,6 +1,7 @@
 export {
   Combobox,
   ComboboxInput,
+  ComboboxFieldInput,
   ComboboxList,
   ComboboxEmpty,
   ComboboxGroup,

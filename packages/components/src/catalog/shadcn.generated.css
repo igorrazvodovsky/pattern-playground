@@ -450,6 +450,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .z-100 {
     z-index: 100;
   }
+.order-last {
+    order: 9999;
+  }
 .col-span-full {
     grid-column: 1 / -1;
   }
@@ -486,6 +489,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 @media (min-width: 96rem) {.container {
       max-width: 96rem;
     }}
+.-mx-1 {
+    margin-inline: calc(var(--spacing) * -1);
+  }
 .-mx-4 {
     margin-inline: calc(var(--spacing) * -4);
   }
@@ -494,6 +500,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .-my-2 {
     margin-block: calc(var(--spacing) * -2);
+  }
+.my-1 {
+    margin-block: var(--spacing);
   }
 .-mt-1\.5 {
     margin-top: calc(var(--spacing) * -1.5);
@@ -659,11 +668,17 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .max-h-\(--radix-dropdown-menu-content-available-height\) {
     max-height: var(--radix-dropdown-menu-content-available-height);
   }
+.max-h-\(--radix-popover-content-available-height\) {
+    max-height: var(--radix-popover-content-available-height);
+  }
 .max-h-\(--radix-select-content-available-height\) {
     max-height: var(--radix-select-content-available-height);
   }
 .max-h-72 {
     max-height: calc(var(--spacing) * 72);
+  }
+.max-h-\[min\(--spacing\(72\)\,calc\(var\(--radix-popover-content-available-height\)-1rem\)\)\] {
+    max-height: min(calc(var(--spacing) * 72), calc(var(--radix-popover-content-available-height) - 1rem));
   }
 .max-h-screen {
     max-height: 100vh;
@@ -676,6 +691,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .min-h-\[1lh\] {
     min-height: 1lh;
+  }
+.w-\(--radix-popover-trigger-width\) {
+    width: var(--radix-popover-trigger-width);
   }
 .w-3\/4 {
     width: 75%;
@@ -763,6 +781,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .origin-\(--radix-dropdown-menu-content-transform-origin\) {
     transform-origin: var(--radix-dropdown-menu-content-transform-origin);
+  }
+.origin-\(--radix-popover-content-transform-origin\) {
+    transform-origin: var(--radix-popover-content-transform-origin);
   }
 .origin-\(--radix-select-content-transform-origin\) {
     transform-origin: var(--radix-select-content-transform-origin);
@@ -978,6 +999,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .overflow-y-auto {
     overflow-y: auto;
   }
+.overscroll-contain {
+    overscroll-behavior: contain;
+  }
 .rounded-4xl {
     border-radius: var(--radius-4xl);
   }
@@ -986,6 +1010,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .rounded-\[4px\] {
     border-radius: 4px;
+  }
+.rounded-\[calc\(var\(--radius\)-3px\)\] {
+    border-radius: calc(var(--radius) - 3px);
   }
 .rounded-\[min\(var\(--radius-md\)\,10px\)\] {
     border-radius: min(var(--radius-md), 10px);
@@ -1001,6 +1028,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .rounded-md {
     border-radius: calc(var(--radius) - 2px);
+  }
+.rounded-none {
+    border-radius: 0;
   }
 .rounded-sm {
     border-radius: calc(var(--radius) - 4px);
@@ -2031,6 +2061,22 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .has-data-\[slot\=stat\]\:gap-2:has([data-slot="stat"]) {
     gap: calc(var(--spacing) * 2);
   }
+.has-\[input\:focus-visible\]\:border-ring:has(:is(input:focus-visible)) {
+    border-color: var(--ring);
+  }
+.has-\[input\:focus-visible\]\:ring-3:has(:is(input:focus-visible)) {
+    --tw-ring-shadow: var(--tw-ring-inset, ) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+.has-\[input\:focus-visible\]\:ring-ring\/50:has(:is(input:focus-visible)) {
+    --tw-ring-color: var(--ring);
+  }
+@supports (color: color-mix(in lab, red, red)) {.has-\[input\:focus-visible\]\:ring-ring\/50:has(:is(input:focus-visible)) {
+      --tw-ring-color: color-mix(in oklab, var(--ring) 50%, transparent);
+    }}
+.has-\[\>button\]\:mr-\[-0\.3rem\]:has( > button) {
+    margin-right: -.3rem;
+  }
 .has-\[\>input\:focus-visible\]\:border-ring:has( > input:focus-visible) {
     border-color: var(--ring);
   }
@@ -2114,6 +2160,12 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .data-\[disabled\=true\]\:opacity-50[data-disabled="true"] {
     opacity: .5;
+  }
+.data-\[selected\=true\]\:bg-accent[data-selected="true"] {
+    background-color: var(--accent);
+  }
+.data-\[selected\=true\]\:text-accent-foreground[data-selected="true"] {
+    color: var(--accent-foreground);
   }
 .data-\[state\=on\]\:border-primary[data-state="on"] {
     border-color: var(--primary);

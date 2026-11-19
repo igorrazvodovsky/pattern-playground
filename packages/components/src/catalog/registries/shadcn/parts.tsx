@@ -43,6 +43,28 @@ export const commandGroup =
 export const commandItem =
   "relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-selected:bg-muted data-selected:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-selected:*:[svg]:text-foreground";
 
+// shadcn/ui Combobox (radix-nova) as a field: an Input Group with the
+// trigger button at its end, and the list in a popover the anchor's width.
+// shadcn builds it on Base UI; here cmdk's parts take the same classes, and
+// Base UI's data-highlighted is cmdk's data-selected.
+export const comboboxInputGroup =
+  'group/input-group relative flex h-8 w-full min-w-0 items-center rounded-lg border border-input transition-colors outline-none has-[input:focus-visible]:border-ring has-[input:focus-visible]:ring-3 has-[input:focus-visible]:ring-ring/50 dark:bg-input/30';
+export const comboboxInput =
+  'h-full min-w-0 flex-1 rounded-none border-0 bg-transparent px-2.5 py-1 text-base outline-none placeholder:text-muted-foreground md:text-sm';
+export const comboboxAddonEnd =
+  'order-last flex h-auto items-center justify-center gap-2 py-1.5 pr-2 text-sm font-medium text-muted-foreground select-none has-[>button]:mr-[-0.3rem]';
+export const comboboxTrigger =
+  "flex size-6 items-center justify-center rounded-[calc(var(--radius)-3px)] p-0 outline-none hover:bg-muted hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 [&_svg:not([class*='size-'])]:size-4";
+export const comboboxContent =
+  'z-50 max-h-(--radix-popover-content-available-height) w-(--radix-popover-trigger-width) origin-(--radix-popover-content-transform-origin) overflow-hidden rounded-lg bg-popover text-popover-foreground shadow-md ring-1 ring-foreground/10 outline-hidden';
+export const comboboxList =
+  'no-scrollbar max-h-[min(--spacing(72),calc(var(--radix-popover-content-available-height)-1rem))] scroll-py-1 overflow-y-auto overscroll-contain p-1 **:[[cmdk-group-heading]]:px-2 **:[[cmdk-group-heading]]:py-1.5 **:[[cmdk-group-heading]]:text-xs **:[[cmdk-group-heading]]:text-muted-foreground';
+export const comboboxItem =
+  "relative flex w-full cursor-default items-center gap-2 rounded-md py-1 pr-8 pl-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4";
+export const comboboxIndicator =
+  'pointer-events-none absolute right-2 flex size-4 items-center justify-center';
+export const comboboxSeparator = '-mx-1 my-1 h-px bg-border';
+
 // The sentence's slots: a choice is underlined wording that opens a menu.
 export const slotTrigger =
   'rounded-sm underline decoration-muted-foreground/50 decoration-dotted underline-offset-4 outline-none hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50 data-open:bg-muted';

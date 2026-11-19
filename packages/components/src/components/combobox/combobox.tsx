@@ -73,6 +73,14 @@ const ComboboxInput = React.forwardRef<
 
 ComboboxInput.displayName = ComboboxPrimitive.Input.displayName;
 
+/** The bare input, for composing inside a `pp-input` when the combobox is a field. */
+const ComboboxFieldInput = React.forwardRef<
+  React.ElementRef<typeof ComboboxPrimitive.Input>,
+  React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Input>
+>((props, ref) => <ComboboxPrimitive.Input ref={ref} {...props} />);
+
+ComboboxFieldInput.displayName = 'ComboboxFieldInput';
+
 const ComboboxList = React.forwardRef<
   React.ElementRef<typeof ComboboxPrimitive.List>,
   React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.List>
@@ -183,6 +191,7 @@ ComboboxItemSuffix.displayName = 'ComboboxItemSuffix';
 export {
   Combobox,
   ComboboxInput,
+  ComboboxFieldInput,
   ComboboxList,
   ComboboxEmpty,
   ComboboxGroup,

@@ -137,6 +137,15 @@ import { CodeField } from './code-input';
 import { ComposerField } from './composer-field';
 import { ShadcnMentionEditor } from './mention-editor-lazy';
 import {
+  comboboxAddonEnd,
+  comboboxContent,
+  comboboxIndicator,
+  comboboxInput,
+  comboboxInputGroup,
+  comboboxItem,
+  comboboxList,
+  comboboxSeparator,
+  comboboxTrigger,
   commandGroup,
   commandInput,
   commandInputGroup,
@@ -1626,14 +1635,19 @@ export const { registry } = defineRegistry(catalog, {
         list,
         pick,
         close,
+        toggle,
       } = useCandidateList(
         props.groups,
         value ?? '',
         setValue,
-        // Radix does not report a close it is told to make, so the field is
-        // emptied here, once `select` has run: its later steps can still read
-        // the picked value.
+        // Inline, the picked value stays in the field. In a popup, Radix does
+        // not report a close it is told to make, so the field is emptied here,
+        // once `select` has run: its later steps can still read the picked value.
         () => {
+          if (!props.popup) {
+            void emit('select');
+            return;
+          }
           setShown(false);
           void Promise.resolve(emit('select')).finally(() => setValue(''));
         },
@@ -1643,24 +1657,55 @@ export const { registry } = defineRegistry(catalog, {
       const status = props.status;
       const purpose = status?.pending ? null : status?.purpose;
       const StatusIcon = status?.pending ? Loader75 : purpose ? purposeIcons[purpose] : null;
-      const field = (
+      const statusLine = status && (
+        <p
+          role="status"
+          className={cn(
+            'flex items-center gap-2 text-xs [&>svg]:size-3.5 [&>svg]:shrink-0',
+            status.text && 'px-2 py-1.5',
+            purpose ? purposeText[purpose] : 'text-muted-foreground',
+          )}
+        >
+          {status.text && StatusIcon && (
+            <StatusIcon
+              aria-hidden="true"
+              className={cn(status.pending && 'animate-spin motion-reduce:animate-none')}
+            />
+          )}
+          {status.text}
+        </p>
+      );
+      const item = (
+        option: (typeof groups)[number]['options'][number],
+        itemClass: string,
+        checked?: boolean,
+      ) => {
+        const Icon = option.icon ? icons[option.icon] : null;
+        return (
+          <Command.Item
+            key={option.value}
+            value={option.value}
+            onSelect={pick}
+            className={itemClass}
+          >
+            {Icon && <Icon aria-hidden="true" className="text-muted-foreground" />}
+            {option.label}
+            {checked && (
+              <span className={comboboxIndicator}>
+                <Checkmark aria-hidden="true" />
+              </span>
+            )}
+          </Command.Item>
+        );
+      };
+      const field = props.popup ? (
         <Command
           label={props.label}
           {...root}
-          className={cn(
-            'flex w-full flex-col overflow-hidden bg-popover text-popover-foreground',
-            !props.popup && 'rounded-xl p-1 ring-1 ring-foreground/10',
-          )}
+          className="flex w-full flex-col overflow-hidden bg-popover text-popover-foreground"
         >
-          {/* Inline, the field is the control on the page, so it shows focus. */}
-          <div className={props.popup ? commandInputWrapper : undefined}>
-            <div
-              className={cn(
-                commandInputGroup,
-                !props.popup &&
-                  'focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50',
-              )}
-            >
+          <div className={commandInputWrapper}>
+            <div className={commandInputGroup}>
               <Search aria-hidden="true" className={commandSearchIcon} />
               <Command.Input
                 placeholder={props.placeholder ?? undefined}
@@ -1677,42 +1722,73 @@ export const { registry } = defineRegistry(catalog, {
                   heading={group.heading ?? undefined}
                   className={commandGroup}
                 >
-                  {group.options.map((option) => {
-                    const Icon = option.icon ? icons[option.icon] : null;
-                    return (
-                      <Command.Item
-                        key={option.value}
-                        value={option.value}
-                        onSelect={pick}
-                        className={commandItem}
-                      >
-                        {Icon && <Icon aria-hidden="true" className="text-muted-foreground" />}
-                        {option.label}
-                      </Command.Item>
-                    );
-                  })}
+                  {group.options.map((option) => item(option, commandItem))}
                 </Command.Group>
               ))}
             </Command.List>
           )}
-          {status && (
-            <p
-              role="status"
-              className={cn(
-                'flex items-center gap-2 text-xs [&>svg]:size-3.5 [&>svg]:shrink-0',
-                status.text && 'px-2 py-1.5',
-                purpose ? purposeText[purpose] : 'text-muted-foreground',
-              )}
-            >
-              {status.text && StatusIcon && (
-                <StatusIcon
-                  aria-hidden="true"
-                  className={cn(status.pending && 'animate-spin motion-reduce:animate-none')}
+          {statusLine}
+        </Command>
+      ) : (
+        // Inline, the field is shadcn's Combobox: an input with its trigger
+        // button, and the candidates in a popover anchored to it.
+        <Command label={props.label} {...root} className="flex w-full flex-col gap-2">
+          <Popover.Root open={open}>
+            <Popover.Anchor asChild>
+              <div className={comboboxInputGroup}>
+                <Command.Input
+                  placeholder={props.placeholder ?? undefined}
+                  {...input}
+                  className={comboboxInput}
                 />
-              )}
-              {status.text}
-            </p>
-          )}
+                <div className={comboboxAddonEnd}>
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    aria-label="Suggestions"
+                    aria-expanded={open}
+                    onMouseDown={(event) => event.preventDefault()}
+                    onClick={toggle}
+                    className={comboboxTrigger}
+                  >
+                    <ChevronDown
+                      aria-hidden="true"
+                      className="pointer-events-none size-4 text-muted-foreground"
+                    />
+                  </button>
+                </div>
+              </div>
+            </Popover.Anchor>
+            <Popover.Portal container={scopedPortal()}>
+              {/* Focus stays in the field: the list is reached with
+                  aria-activedescendant, so the content takes no focus and no
+                  dialog role. */}
+              <Popover.Content
+                role="presentation"
+                align="start"
+                sideOffset={6}
+                onOpenAutoFocus={(event) => event.preventDefault()}
+                onCloseAutoFocus={(event) => event.preventDefault()}
+                className={comboboxContent}
+              >
+                <Command.List {...list} className={comboboxList}>
+                  {groups.map((group, index) => (
+                    <Fragment key={group.heading ?? index}>
+                      {index > 0 && (
+                        <Command.Separator alwaysRender className={comboboxSeparator} />
+                      )}
+                      <Command.Group heading={group.heading ?? undefined}>
+                        {group.options.map((option) =>
+                          item(option, comboboxItem, option.value === value),
+                        )}
+                      </Command.Group>
+                    </Fragment>
+                  ))}
+                </Command.List>
+              </Popover.Content>
+            </Popover.Portal>
+          </Popover.Root>
+          {statusLine}
         </Command>
       );
       if (!props.popup) {

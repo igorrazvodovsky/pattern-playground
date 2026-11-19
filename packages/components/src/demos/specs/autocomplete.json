@@ -15,6 +15,16 @@
             "recent": { "$state": "/recent" },
             "known": { "$state": "/known" }
           }
+        },
+        "status": {
+          "text": {
+            "$computed": "noMatches",
+            "args": {
+              "query": { "$state": "/query" },
+              "recent": { "$state": "/recent" },
+              "known": { "$state": "/known" }
+            }
+          }
         }
       }
     }

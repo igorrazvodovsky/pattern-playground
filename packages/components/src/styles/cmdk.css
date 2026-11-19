@@ -33,6 +33,22 @@ pp-dialog [cmdk-root] {
   border-bottom: none;
 }
 
+/* As a field, the combobox is an input with its candidates floating below it,
+   so the root draws no frame of its own. */
+[cmdk-root].combobox--field {
+  width: min(24rem, 100%);
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  box-shadow: none;
+}
+
+pp-popup.combobox__panel {
+  padding-block: var(--_cmdk-spacing);
+  overflow-y: auto;
+}
+
 [cmdk-input-wrapper] {
   display: flex;
   align-items: center;

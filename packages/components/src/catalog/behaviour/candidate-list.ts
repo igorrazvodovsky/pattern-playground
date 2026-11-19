@@ -62,10 +62,22 @@ export function useCandidateList(
     if (scope?.value != null) scope.set(null);
   };
 
+  // For a button beside the field: it opens the list with focus in the field,
+  // or closes it.
+  const toggle = () => {
+    if (open) {
+      close();
+      return;
+    }
+    field.current?.focus();
+    setOpen(true);
+  };
+
   return {
     open,
     groups,
     close,
+    toggle,
     root: {
       shouldFilter: false,
       value: highlighted || (refusals % 2 ? ' ' : ''),
