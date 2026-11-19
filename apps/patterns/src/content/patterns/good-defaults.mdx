@@ -1,7 +1,7 @@
 ---
 title: Good defaults
 added: 2025-12-09
-updated:
+updated: 2026-11-19
 role: pattern
 evidence:
   - literature
@@ -9,78 +9,72 @@ evidence:
 activityLevel: operation
 mediation: individual
 fun: 🗺️ 2/5. Mapping out the basics.
+description: "Pre-filling fields and pre-selecting options with the system's best safe guess so the actor does not have to supply routine answers."
 situation:
-  resulting:
-    - clause: >-
-        fields hold the system's best static guess — which serves only until the
-        actor starts typing a value of their own; completion then has to happen
-        in flight rather than up front
-      sets-up: [autocomplete]
-    - clause: >-
-        a good default is a guess at the value; where the system already holds
-        the actual value in the actor's record, pre-filling from the record takes
-        over from guessing
-      sets-up: [autofill]
-    - clause: >-
-        pre-population ends where the task needs the system to participate in the
-        work itself — the assisted-completion spectrum picks up where a static
-        guess stops sufficing
-      sets-up: [assisted-task-completion]
+  initiating: >-
+    … in [making changes](/sequences/making-changes) or at the start of
+    [assistance escalation](/sequences/assistance-escalation), a [form](/patterns/form)
+    or a [wizard](/patterns/wizard) step now holds fields and
+    [bounded choices](/patterns/bounded-choice) that ask the actor for answers, and
+    [onboarding](/patterns/onboarding) needs decisions that do not change the first
+    result settled out of the way. Plain [data entry](/patterns/data-entry) asks the
+    actor to supply every value from scratch. Good defaults resolve those routine
+    fields up front from typical use, general context, or a past choice kept by
+    [remembered state](/patterns/remembered-state), so the actor only has to answer
+    what differs.
+  resulting: >-
+    Fields now hold the system's best static guess, which serves only until the
+    actor starts typing a value of their own; hand over to
+    [autocomplete](/patterns/autocomplete) so completion happens in flight rather
+    than up front. Where the system already holds the actor's actual value in a
+    profile, earlier session, or browser record, let [autofill](/patterns/autofill)
+    take over from guessing. Where the task needs the system to participate in the
+    work itself and a static guess stops sufficing, continue into
+    [assisted task completion](/patterns/assisted-task-completion). Pair defaults
+    with [localization](/patterns/localization) so locale-dependent guesses such as
+    language, timezone, and formats match the actor's region. Where a standing
+    default does not fit an actor on an axis they care about, let them override it
+    once in [settings](/patterns/settings) so the preference holds across sessions.
+    Where confidence is too low to pre-fill a value directly, offer a
+    [suggestion](/patterns/suggestion) instead of committing a guess on the actor's
+    behalf…
 relationships:
-  complements:
-    - to: localization
-      note: a locale guess is a good default applied to localization's axes
-  related:
-    - to: settings
-      note: Where global defaults are managed and overridden
-    - to: suggestion
-      note: A weaker form of default ("Did you mean X?") or a dynamic default
   hosted-by:
-    - to: form
-      note: form fields are the primary surface where defaults are encountered
+    - form
+  alternative:
+    - data-entry
+  precedes:
+    - autocomplete
+    - autofill
+    - assisted-task-completion
+  complements:
+    - localization
+  related:
+    - settings
+    - suggestion
   enacts:
     - to: agency
-      note: a default is the system making the small decision so the actor doesn't have to; the actor still has the final say but doesn't have to spend it on this field
-  alternative:
-    - to: data-entry
-      note: The alternative when a default cannot be guessed
+      note: a default is the system making the small decision so the actor does not have to; the actor keeps the final say without spending it on routine fields
 ---
-Pre-fill fields and pre-select options with intelligent guesses to save user effort and reduce errors.
-Defaults also serve as *examples*, showing users the expected answer format.
 
-## Types of defaults
+* * *
 
-### Mass defaults
-Apply to all users universally.
-- Benign defaults: The "best guess" for the majority (e.g., standard shipping).
-- Occasional-use interfaces: In installers or setup wizards, users often prefer "whatever the system decides" to save effort.
-- Smart defaults: Optimization based on general data (e.g., current location, time, or session metadata).
-- Random defaults: Arbitrary assignment when no preference exists.
+**Asking the actor to supply every routine value from scratch spends their attention on choices whose answer is predictable most of the time, invites avoidable format errors, and slows them down before they reach the work they came for. At the same time, people rarely change a value the system has already filled in, so a poor or self-serving guess goes through unread.**
 
-### Personalized defaults
-Tailored to the individual actor.
-- Persistent defaults: Based on the actor's past choices (e.g., "Use my last address"), kept by [remembered state](/patterns/remembered-state).
-- Adaptive defaults: Updated in real-time based on immediate context or behavior.
+A default does two jobs at once: it spares the actor from making a routine decision, and it shows the expected format of the answer. In a first run, a default belongs when it settles a decision that does not change the result the actor came for—such as a licence or a notification preference—so every question that can wait stays out of the way of reaching that result.
 
-## In a first run
+Whatever the source of the guess, the test is whether it is safe to go through unread. Even a reasonable guess carries two subtle costs: skipping a pre-filled field can leave the actor unaware that the setting or behaviour exists at all, and in social or consent contexts, switching a choice from opt-in to opt-out changes what declining means.
 
-In a first run, a default belongs only if it changes the result the actor came for, by removing a decision between them and that result. Defaults that do not affect the result, such as a licence or a notification preference, can wait, because every question asked in the first run takes attention away from the result. Used this way, defaults are part of [onboarding](/patterns/onboarding).
+Therefore,
 
-## Risks & ethical considerations
+**Pre-fill fields and pre-select options with the system's best safe guess whenever one value fits most actors or follows from their context or past choices, and use the pre-filled value to show the expected format. Leave the field empty for identity, consent, and any choice where a wrong guess submitted unread would cause harm or carry unintended meaning, and make pre-filled values easy to spot and overwrite before submission.**
 
-- *Dark patterns*: "Hidden options" or pre-checking consent boxes (e.g., for marketing) exploits the default effect to the user's detriment.
-- *Social signaling*: In some contexts, the default changes the meaning of the choice (e.g., opting out feels like a stronger rejection than not opting in).
-- *Sensitive data risks*: Avoid defaults for identity (gender, citizenship) or sensitive choices. Pre-filling these can make users uncomfortable or imply assumptions.
-- *Status quo bias*: Users rarely change defaults.
-- *Invisibility*: Users might not notice a default value and submit incorrect data.
-- *Blindness*: If a user can skip a field, the question might not "register" mentally, reducing their understanding of the system settings.
+If an actor cannot tell which values the system filled in and which they entered themselves, the default hides mistakes instead of preventing them.
 
-{/* TODO: relations set aside, kept for review (not active edges):
-- [Profile](/patterns/compositions-profile) - Source of truth for personalized defaults.
-*/}
+## Resources & references
 
-## Resources
 - [UI Patterns - Good Defaults](https://ui-patterns.com/patterns/GoodDefaults)
 - [NN/g - The Power of Defaults](https://www.nngroup.com/articles/the-power-of-defaults/)
 - [Wikipedia - Default effect](https://en.wikipedia.org/wiki/Default_effect)
-- Tidwell, Brewer, Valencia (2020) Designing Interfaces, 3rd ed.
+- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.
+
