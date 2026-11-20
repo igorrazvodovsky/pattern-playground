@@ -8,10 +8,11 @@ import type { RoughAnnotation, RoughAnnotationType } from 'rough-notation/lib/mo
 
 const mounted = new WeakSet<HTMLElement>();
 
-// With anchor positioning the note is fixed beside the block and free of the
-// pane's clipping. Without it, the note hangs in the margin only if it fits
-// inside the pane (or the viewport, outside the stack); otherwise it takes a
-// column beside the block.
+// With anchor positioning the note is fixed beside the block, shown as a
+// manual popover so neither the pane's clipping nor a later pane covers it.
+// Without it, the note hangs in the margin only if it fits inside the pane
+// (or the viewport, outside the stack); otherwise it takes a column beside
+// the block.
 const anchored = () => CSS.supports('anchor-scope', '--a');
 
 function place(el: HTMLElement, note: HTMLElement) {
@@ -133,6 +134,9 @@ export function mountAnnotations(root: ParentNode): void {
     const note = el.querySelector<HTMLElement>('.annotation__note');
     if (note && anchored()) {
       el.dataset.placement = 'anchored';
+      // The top layer lifts the note above later panes in the stack.
+      note.popover = 'manual';
+      note.showPopover();
     } else if (note) {
       place(el, note);
       entry.observer = new ResizeObserver(() => place(el, note));

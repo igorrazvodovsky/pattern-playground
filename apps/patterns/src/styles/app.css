@@ -857,8 +857,11 @@ main.shell__main:has(> .content-inset) {
 
   /* Fixed to the block rather than inside it, so the note is not clipped by
      the scrolling pane and can run past the article margin and the pane's
-     edge. It hides while the block is scrolled out of view. A later pane in
-     the stack paints over it. */
+     edge. lib/annotations.ts shows it as a manual popover, so it sits in the
+     top layer and a later pane in the stack does not paint over it. The
+     resets undo the popover's default box. It hides while the block is
+     scrolled out of view, and while its pane is collapsed to a spine under
+     another pane. */
   .annotation[data-placement='anchored'] {
     & > .annotation__body {
       anchor-name: --annotation;
@@ -869,10 +872,22 @@ main.shell__main:has(> .content-inset) {
       position-anchor: --annotation;
       /* stylelint-disable-next-line declaration-property-value-no-unknown -- valid, missing from Stylelint's data */
       position-visibility: anchors-visible;
+      inset: auto;
       inset-block-start: anchor(center);
       inset-inline-start: calc(anchor(right) + var(--annotation-gap));
       translate: 0 -50%;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      overflow: visible;
+      color: inherit;
+      background: none;
+      box-shadow: none;
     }
+  }
+
+  .pane[data-collapsed] .annotation[data-placement='anchored'] > .annotation__note {
+    display: none;
   }
 
   .annotation[data-placement='margin'] > .annotation__note {
