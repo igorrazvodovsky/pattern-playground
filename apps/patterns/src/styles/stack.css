@@ -114,6 +114,13 @@
     outline-offset: -2px;
   }
 
+  /* StackManager focuses a revealed pane's h1 or anchor target so keyboard and
+     screen-reader position follows the navigation; these are not controls,
+     so they take no ring. */
+  .pane :is(h1, [id])[tabindex='-1']:focus-visible {
+    outline: none;
+  }
+
   .pane.pane--active,
   .pane:only-child {
     opacity: 1;
