@@ -67,26 +67,8 @@
     "empty-state": {
       "type": "Text",
       "props": { "text": "No items left.", "muted": true },
-      "visible": { "$state": "/items/0", "not": true },
-      "children": ["reset"]
+      "visible": { "$state": "/items/0", "not": true }
     },
-    "reset": {
-      "type": "Button",
-      "props": { "label": "Reset", "variant": "plain" },
-      "on": {
-        "press": [
-          {
-            "action": "setState",
-            "params": { "statePath": "/items", "value": { "$state": "/listings" } }
-          },
-          {
-            "action": "setState",
-            "params": { "statePath": "/saved", "value": { "$state": "/listings" } }
-          }
-        ]
-      }
-    },
-
     "session-actions": {
       "type": "Stack",
       "props": { "direction": "horizontal", "gap": "s" },

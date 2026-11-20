@@ -19,7 +19,8 @@ const staged = (args: Record<string, unknown>) => (args.items as StagedItem[] | 
 export default {
   spec: spec as Spec,
   setup: {
-    initialState: { listings: items, items, saved: items, changed: false, notice: '' },
+    replay: true,
+    initialState: { items, saved: items, changed: false, notice: '' },
     actions: { notify },
     handlers: notifyHandler,
     functions: {

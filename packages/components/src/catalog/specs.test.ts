@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import { createStateStore, validateSpec, type Spec } from '@json-render/core';
 import type { z } from 'zod';
 import { catalog } from './catalog';
@@ -142,12 +142,51 @@ const paramProblems = (
   ];
 };
 
+// A spec's `start` runs on its own once the demo is in view, so nothing in the
+// spec reads what it writes unless the path is already in `initialState`. It
+// runs here to the end on fake timers, recording each path it writes.
+const startProblems = ({ start, initialState = {} }: SpecSetup): string[] => {
+  if (!start) return [];
+  const store = createStateStore(initialState);
+  const written = new Set<string>();
+  const top = (path: string) => path.split('/')[1] ?? '';
+  const watched = {
+    ...store,
+    set: (path: string, value: unknown) => {
+      written.add(path);
+      store.set(path, value);
+    },
+    update: (updates: Record<string, unknown>) => {
+      Object.keys(updates).forEach((path) => written.add(path));
+      store.update(updates);
+    },
+  };
+  const problems: string[] = [];
+  vi.useFakeTimers();
+  try {
+    start(watched, () => true);
+    vi.runAllTimers();
+  } catch (err) {
+    problems.push(`setup: start failed: ${err instanceof Error ? err.message : String(err)}`);
+  } finally {
+    vi.useRealTimers();
+  }
+  if (written.size === 0) problems.push('setup: start writes nothing');
+  for (const path of written) {
+    if (!Object.hasOwn(initialState, top(path))) {
+      problems.push(`setup: start writes ${path}, which is not in initialState`);
+    }
+  }
+  return problems;
+};
+
 const lintSpec = (spec: Spec, setup: SpecSetup = {}): string[] => {
   const problems = validateSpec(spec).issues.map(
     (issue) => `${issue.elementKey ?? 'spec'}: ${issue.message}`,
   );
   const actions = setup.actions ?? {};
   const handlers = setup.handlers?.(createStateStore(setup.initialState ?? {}), () => false) ?? {};
+  problems.push(...startProblems(setup));
   const functions = setup.functions ?? {};
 
   for (const name of Object.keys(actions)) {
@@ -321,6 +360,17 @@ describe('the lint', () => {
       }),
       'notify statePath:',
       { actions: { notify }, handlers: notifyHandler },
+    ],
+    [
+      'start',
+      specWith({ root: button({ props: { label: { $state: '/n' } } }) }),
+      'start writes /m, which is not in initialState',
+      {
+        initialState: { n: 0 },
+        start: (store, connected) => {
+          setTimeout(() => connected() && store.set('/m', 1), 1000);
+        },
+      },
     ],
     [
       'function',

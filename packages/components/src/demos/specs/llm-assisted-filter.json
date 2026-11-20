@@ -4,7 +4,7 @@
     "filters": {
       "type": "Stack",
       "props": { "direction": "horizontal", "gap": "s" },
-      "children": ["task-in-progress", "task-result", "reset"]
+      "children": ["task-in-progress", "task-result"]
     },
     "task-in-progress": {
       "type": "Tag",
@@ -15,26 +15,11 @@
       "props": {
         "label": "Things that are good for me",
         "icon": "generated",
-        "removeLabel": "Clear filter",
-        "focusKey": "task-result",
-        "focusNext": "reset"
+        "removeLabel": "Clear filter"
       },
       "visible": { "$state": "/applied" },
       "on": {
         "remove": { "action": "setState", "params": { "statePath": "/applied", "value": false } }
-      }
-    },
-    "reset": {
-      "type": "Button",
-      "props": {
-        "label": "Reset",
-        "variant": "plain",
-        "focusKey": "reset",
-        "focusNext": "task-result"
-      },
-      "visible": { "$state": "/applied", "not": true },
-      "on": {
-        "press": { "action": "setState", "params": { "statePath": "/applied", "value": true } }
       }
     }
   }

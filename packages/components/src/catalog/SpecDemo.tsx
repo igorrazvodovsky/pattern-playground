@@ -35,6 +35,19 @@ export interface SpecSetup {
    * the React tree, so unmounting the demo does not stop them.
    */
   handlers?: (store: StateStore, connected: () => boolean) => Record<string, ActionHandler>;
+  /**
+   * Starts what the demo does on its own, such as an agent's turn. Runs when
+   * the demo is first in view, and again when the actor replays it from the
+   * frame, each time on a fresh store. Timed writes check `connected` first,
+   * as in `handlers`.
+   */
+  start?: (store: StateStore, connected: () => boolean) => void;
+  /**
+   * Whether the site's demo frame offers a button that mounts the demo again
+   * from `initialState`, for a demo the actor can leave changed (an item
+   * deleted, a question answered). A spec with `start` always gets it.
+   */
+  replay?: boolean;
   /** Named functions for `$computed` props. Generic values belong in ./directives. */
   functions?: Record<string, ComputedFunction>;
 }

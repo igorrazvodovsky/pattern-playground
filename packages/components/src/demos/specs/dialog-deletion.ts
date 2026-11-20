@@ -16,6 +16,7 @@ const listings: Listing[] = reuseListings.map(({ id, name }) => ({ id, name }));
 export default {
   spec: spec as Spec,
   setup: {
-    initialState: { listings, items: listings, pending: null, question: '', confirming: false },
+    replay: true,
+    initialState: { items: listings, pending: null, question: '', confirming: false },
   } satisfies SpecSetup,
 };

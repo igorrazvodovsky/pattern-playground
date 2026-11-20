@@ -121,7 +121,10 @@ data against the component catalog, and `demos/specs/<slug>.ts` beside it,
 when the demo needs one, supplies what JSON cannot carry: initial state
 (fixtures enter here, never through the spec), the actions the spec can bind
 beyond json-render's built-ins (each with its params, description and
-handler), and `$computed` functions for the demo's own logic. The catalog
+handler), `$computed` functions for the demo's own logic, and `start` for
+what the demo does on its own, such as an agent's turn. The frame calls
+`start` when the demo is first in view, so a timed demo does not run before
+anyone sees it. The catalog
 declares components only. A static spec has no module.
 A module can also build its spec in TypeScript, from a factory another spec
 shares, with no JSON of its own. Code and JSON that several specs share live
@@ -145,6 +148,12 @@ its library's markup and styles. The site
 finds specs by glob in `apps/patterns/src/lib/demo-registry.ts`, so a new spec
 needs no registration; MDX writes `<Demo spec="<slug>">`, and the demo frame
 offers a switch between the libraries listed in `lib/demo-libraries.ts`.
+A spec whose setup has `start`, or declares `replay: true`, gets a frame
+button that mounts the demo again from its initial state, in the library
+already chosen ("Replay" when the spec has `start`, "Reset" otherwise). Replaying or resetting a demo is for watching
+it, not part of the pattern, so it belongs to the frame and a spec carries no
+reset control of its own. A control the pattern does have, such as changing
+earlier answers, stays in the spec.
 
 A demo is its own interface with mock data, so its headings do not continue
 the page's outline. Every demo frame is a region named "Demo", described by

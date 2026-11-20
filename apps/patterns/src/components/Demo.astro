@@ -103,6 +103,15 @@ const surfaceClass = {
           {label}
         </span>
       )}
+      {/* A switchable demo's replay: apparatus for watching the demo, so it
+          lives in the frame, not the spec. lib/demo-registry.ts shows it once
+          the spec has loaded, when the spec declares SpecSetup.replay or
+          start, and names it "Replay" or "Reset". */}
+      {spec && (
+        <button type="button" class="demo-replay" data-demo-replay hidden>
+          <iconify-icon icon="ik:rotate-ccw" aria-hidden="true"></iconify-icon>
+        </button>
+      )}
       {spec && registries.length > 1 && (
         <div class="demo-registry-switch" role="group" aria-label="Component library">
           {registries.map((r) => (

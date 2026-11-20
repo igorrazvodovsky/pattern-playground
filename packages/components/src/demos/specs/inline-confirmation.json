@@ -71,18 +71,7 @@
     "empty-state": {
       "type": "Text",
       "props": { "text": "No items left.", "muted": true },
-      "visible": { "$state": "/items/0", "not": true },
-      "children": ["reset"]
-    },
-    "reset": {
-      "type": "Button",
-      "props": { "label": "Reset", "variant": "plain" },
-      "on": {
-        "press": {
-          "action": "setState",
-          "params": { "statePath": "/items", "value": { "$state": "/listings" } }
-        }
-      }
+      "visible": { "$state": "/items/0", "not": true }
     }
   }
 }

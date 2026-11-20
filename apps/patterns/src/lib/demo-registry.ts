@@ -75,6 +75,7 @@ const registries: Record<Library, () => Promise<ComponentRegistry>> = {
 // Panes and pages leave as plain DOM, which React does not see, so the roots
 // inside them have to be unmounted by hand or their effects never clean up.
 const roots = new Map<HTMLElement, Root>();
+const observers = new Map<HTMLElement, IntersectionObserver>();
 
 function mountRoot(el: HTMLElement): Root {
   const root = createRoot(el);
@@ -90,6 +91,11 @@ export function unmountDetachedDemos(): void {
       if (el.isConnected) continue;
       roots.delete(el);
       root.unmount();
+    }
+    for (const [el, observer] of observers) {
+      if (el.isConnected) continue;
+      observers.delete(el);
+      observer.disconnect();
     }
   });
 }
@@ -133,8 +139,13 @@ export function mountDemos(root: ParentNode): void {
 }
 
 // Mount every unmounted [data-demo-spec] under root, and wire the frame's
-// library switch. The state store is created once per mount and handed to each
+// controls. The state store is created once per mount and handed to each
 // render, so switching libraries keeps the demo where the actor left it.
+// Replaying mounts the demo again: a new store from `initialState`, new
+// handlers, and a new React tree, in the library already chosen. Each mount
+// has its own `connected`, which turns false once a later mount replaces it,
+// so the old mount's timers stop writing. A spec's `start` runs once the demo
+// is first in view, and again on each replay.
 function mountSpecDemos(root: ParentNode): void {
   for (const el of root.querySelectorAll<HTMLElement>(
     '[data-demo-spec]:not([data-demo-mounted])',
@@ -146,13 +157,12 @@ function mountSpecDemos(root: ParentNode): void {
       continue;
     }
     el.setAttribute('data-demo-mounted', '');
-    const options =
-      el
-        .closest('.demo-block')
-        ?.querySelectorAll<HTMLButtonElement>('[data-demo-registry-option]') ?? [];
+    const frame = el.closest('.demo-block');
+    const options = frame?.querySelectorAll<HTMLButtonElement>('[data-demo-registry-option]') ?? [];
+    const replayButton = frame?.querySelector<HTMLButtonElement>('[data-demo-replay]');
 
-    let reactRoot: Root | null = null;
     let render: ((registryName: string) => Promise<void>) | null = null;
+    let replay: (() => Promise<void>) | null = null;
 
     const ready = Promise.all([
       loadSpec(),
@@ -163,9 +173,23 @@ function mountSpecDemos(root: ParentNode): void {
         el.removeAttribute('data-demo-mounted');
         return;
       }
-      const store = createStateStore(setup.initialState ?? {});
-      const handlers = setup.handlers?.(store, () => el.isConnected);
-      reactRoot = mountRoot(el);
+      const reactRoot = mountRoot(el);
+      let count = 0;
+      const create = () => {
+        count += 1;
+        const id = count;
+        const connected = () => el.isConnected && id === count;
+        const store = createStateStore(setup.initialState ?? {});
+        return { id, store, connected, handlers: setup.handlers?.(store, connected) };
+      };
+      let mount = create();
+      // Start the mount that was current when the caller began, and only if it
+      // still is: two replays awaiting one render would otherwise both start the
+      // newest mount, and two timer chains would drive one store.
+      const startIfCurrent = (m: typeof mount) => {
+        if (m === mount && m.connected()) setup.start?.(m.store, m.connected);
+      };
+
       render = async (registryName) => {
         if (!Object.hasOwn(registries, registryName)) {
           return console.warn(`[demo-registry] no registry "${registryName}"`);
@@ -179,18 +203,40 @@ function mountSpecDemos(root: ParentNode): void {
             String(option.dataset.demoRegistryOption === registryName),
           );
         }
-        reactRoot?.render(
+        reactRoot.render(
           createElement(SpecDemo, {
+            key: mount.id,
             spec,
             registry,
             registryName,
-            store,
-            handlers,
+            store: mount.store,
+            handlers: mount.handlers,
             functions: setup.functions,
           }),
         );
       };
-      return render(el.dataset.demoRegistry ?? 'pp');
+
+      // The actor asked for the replay beside the demo, so it starts at once.
+      replay = async () => {
+        observers.get(el)?.disconnect();
+        observers.delete(el);
+        const m = create();
+        mount = m;
+        await render?.(el.dataset.demoRegistry ?? 'pp');
+        startIfCurrent(m);
+      };
+
+      if (replayButton && (setup.start || setup.replay)) {
+        const name = setup.start ? 'Replay this demo' : 'Reset this demo';
+        replayButton.setAttribute('aria-label', name);
+        replayButton.title = name;
+        replayButton.hidden = false;
+      }
+
+      const first = mount;
+      return render(el.dataset.demoRegistry ?? 'pp').then(() => {
+        if (setup.start && first === mount) startWhenSeen(el, () => startIfCurrent(first));
+      });
     });
 
     ready.catch((err) => {
@@ -204,5 +250,30 @@ function mountSpecDemos(root: ParentNode): void {
         if (next && next !== el.dataset.demoRegistry) void ready.then(() => render?.(next));
       });
     }
+    replayButton?.addEventListener('click', () => void ready.then(() => replay?.()));
   }
+}
+
+// Seen means half the demo is on screen, or half the screen is demo when the
+// demo is taller than that. The thresholds step finely so a very tall demo,
+// whose visible ratio never nears 0.5, still reports as it scrolls in. The
+// observer goes once it has fired, and with the demo's root when the demo
+// leaves the page unseen.
+const SEEN_THRESHOLDS = Array.from({ length: 51 }, (_, i) => i / 100);
+
+function startWhenSeen(el: HTMLElement, start: () => void): void {
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (!entry?.isIntersecting) return;
+      const seen =
+        entry.intersectionRatio >= 0.5 || entry.intersectionRect.height >= window.innerHeight / 2;
+      if (!seen) return;
+      observer.disconnect();
+      observers.delete(el);
+      start();
+    },
+    { threshold: SEEN_THRESHOLDS },
+  );
+  observer.observe(el);
+  observers.set(el, observer);
 }

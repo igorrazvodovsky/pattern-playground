@@ -17,7 +17,8 @@ const listings: Listing[] = reuseListings.map(({ id, name }) => ({ id, name, arm
 export default {
   spec: spec as Spec,
   setup: {
-    initialState: { listings, items: listings },
+    replay: true,
+    initialState: { items: listings },
     actions: { arm },
     handlers: armHandler,
   } satisfies SpecSetup,

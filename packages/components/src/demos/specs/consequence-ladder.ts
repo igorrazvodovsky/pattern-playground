@@ -7,6 +7,7 @@ import spec from './consequence-ladder.json' with { type: 'json' };
 export default {
   spec: spec as Spec,
   setup: {
+    replay: true,
     initialState: {
       project: nameOf('PRJ-4'),
       member: { name: nameOf('user-11'), armed: false },

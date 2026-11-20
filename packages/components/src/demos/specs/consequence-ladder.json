@@ -4,7 +4,7 @@
     "consequence-ladder-demo": {
       "type": "Stack",
       "props": { "gap": "m" },
-      "children": ["actions", "reset", "toasts", "publish-dialog", "transfer-dialog"],
+      "children": ["actions", "toasts", "publish-dialog", "transfer-dialog"],
       "watch": {
         "/transferring": {
           "action": "setState",
@@ -213,34 +213,6 @@
       "props": {
         "text": { "$template": "${/newOwner} controls this workspace now." },
         "muted": true
-      }
-    },
-
-    "reset": {
-      "type": "Button",
-      "props": { "label": "Reset", "variant": "plain" },
-      "visible": {
-        "$or": [
-          { "$state": "/archived" },
-          { "$state": "/removed" },
-          { "$state": "/published" },
-          { "$state": "/transferred" }
-        ]
-      },
-      "on": {
-        "press": [
-          { "action": "setState", "params": { "statePath": "/archived", "value": false } },
-          { "action": "setState", "params": { "statePath": "/removed", "value": false } },
-          { "action": "setState", "params": { "statePath": "/published", "value": false } },
-          { "action": "setState", "params": { "statePath": "/transferred", "value": false } },
-          { "action": "setState", "params": { "statePath": "/member/armed", "value": false } },
-          {
-            "action": "setState",
-            "params": { "statePath": "/confirmation", "value": { "typed": "", "attempted": false } }
-          },
-          { "action": "setState", "params": { "statePath": "/toasts", "value": [] } },
-          { "action": "setState", "params": { "statePath": "/pressed", "value": null } }
-        ]
       }
     },
 

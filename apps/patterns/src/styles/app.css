@@ -329,7 +329,7 @@
 
   /* The frame's own controls belong to the pattern site, not to the demo, so
      they take the site's face instead of the demo's neutral one. */
-  :is(.demo-block__reveal, .demo-registry-switch, .demo-expand) {
+  :is(.demo-block__reveal, .demo-registry-switch, .demo-expand, .demo-replay) {
     --font: var(--font-prose);
   }
 
@@ -404,7 +404,7 @@
     --demo-control-h: 1.75rem;
   }
 
-  .demo-expand {
+  :is(.demo-expand, .demo-replay) {
     flex-shrink: 0;
     margin-inline-start: auto;
     display: inline-flex;
@@ -420,12 +420,12 @@
     border-radius: var(--radius-m);
   }
 
-  .demo-expand:hover {
+  :is(.demo-expand, .demo-replay):hover {
     color: var(--c-neutral-900);
     background: var(--c-neutral-100);
   }
 
-  .demo-expand:focus-visible {
+  :is(.demo-expand, .demo-replay):focus-visible {
     outline: 2px solid var(--c-accent-500);
     outline-offset: 2px;
   }
@@ -455,8 +455,14 @@
     border-radius: var(--radius-m);
   }
 
-  .demo-registry-switch + .demo-expand {
+  /* The first control after the label takes the free space. */
+  :is(.demo-registry-switch, .demo-replay:not([hidden]))
+    ~ :is(.demo-registry-switch, .demo-expand) {
     margin-inline-start: 0;
+  }
+
+  .demo-replay[hidden] {
+    display: none;
   }
 
   .demo-registry-switch button {

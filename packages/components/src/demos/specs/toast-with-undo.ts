@@ -44,6 +44,7 @@ const undoDeletion = ({ items, listings, toast }: Record<string, unknown>) => {
 export default {
   spec: spec as Spec,
   setup: {
+    replay: true,
     initialState: { listings, items: listings, toasts: [], pressed: null },
     functions: { deletionToast, undoDeletion },
   } satisfies SpecSetup,
