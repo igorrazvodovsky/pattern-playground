@@ -147,14 +147,12 @@
       lead: >-
         Give the artifact an entrance: admit the actor without demanding
         identity, onboard the newcomer to a result they came for early and show
-        the route onward, explain what is already there to someone joining a
-        space in use, and give each empty place a first step, a starting shape
-        or an example to take apart.
+        the route onward, and give each empty place a first step, a starting
+        shape or an example to take apart.
       patterns:
         - immediate-use
         - onboarding
         - charted-progress
-        - joining-work-in-progress
         - state-empty
         - template
         - starter-example

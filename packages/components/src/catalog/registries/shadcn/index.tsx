@@ -1845,7 +1845,7 @@ export const { registry } = defineRegistry(catalog, {
       ) : (
         // Inline, the field is shadcn's Combobox: an input with its trigger
         // button, and the candidates in a popover anchored to it.
-        <Command label={props.label} {...root} className="flex w-full flex-col gap-2">
+        <Command label={props.label} {...root} className="flex w-full flex-col">
           <Popover.Root open={open}>
             <Popover.Anchor asChild>
               <div className={comboboxInputGroup}>

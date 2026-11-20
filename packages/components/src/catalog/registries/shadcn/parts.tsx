@@ -52,7 +52,7 @@ export const comboboxInputGroup =
 export const comboboxInput =
   'h-full min-w-0 flex-1 rounded-none border-0 bg-transparent px-2.5 py-1 text-base outline-none placeholder:text-muted-foreground md:text-sm';
 export const comboboxAddonEnd =
-  'order-last flex h-auto items-center justify-center gap-2 py-1.5 pr-2 text-sm font-medium text-muted-foreground select-none has-[>button]:mr-[-0.3rem]';
+  'order-last flex h-auto items-center justify-center gap-2 pr-2 text-sm font-medium text-muted-foreground select-none has-[>button]:mr-[-0.3rem]';
 export const comboboxTrigger =
   "flex size-6 items-center justify-center rounded-[calc(var(--radius)-3px)] p-0 outline-none hover:bg-muted hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 [&_svg:not([class*='size-'])]:size-4";
 export const comboboxContent =

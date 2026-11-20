@@ -1,105 +1,145 @@
 ---
 title: Help
 added: 2025-12-15
-updated:
+updated: 2026-11-19
 role: pattern
+evidence:
+  - observed
+  - literature
 activityLevel: activity
 mediation: individual
 fun: 🗺️ 2/5. Mapping out the basics.
+description: "Answering the question an actor brings at the point it comes up, shaped by what they came for, whether the answer sits in the interface or in documentation outside it."
 situation:
   initiating: >-
-    the actor has hit friction they can't resolve from the surface — they don't know where they
-    are, what a term means, or how to do the thing — and the answer exists somewhere other than
-    where they are looking; they came to it, which is what separates this from the system
-    offering
-  resulting:
-    - >-
-      the answer arrives at the point of friction and in context, so learning happens when the
-      actor needs it rather than ahead of time
-    - >-
-      the channel is pull-based: it reaches the actors who thought to ask, and says nothing to
-      the ones who didn't know there was something to ask about
-    - >-
-      the content is a second telling of the system that has to be kept true as the system
-      changes, or it goes on teaching the old one
-    - clause: >-
-        written help runs out where the question needs reasoning about the actor's own
-        situation; one route on from there is a conversation with an agent, a move to
-        another surface where help is embedded and no move at all where the conversation
-        is already the surface, and where the fix needs someone else's access or
-        judgement the route is a person
-      sets-up: [agent]
+    … the actor is working in the artifact, during [onboarding](/patterns/onboarding) or long after
+    it, and hits friction they cannot resolve from the surface: they do not know how to do
+    something, what a term or value means, or why the artifact behaves as it does. The answer is not
+    on the surface itself: it sits beside the control, in a panel, or in a help
+    centre or documentation site outside the interface that is still part of the artifact's
+    [information environment](/patterns/information-environment). The actor comes to help with a
+    question, which separates it from [feature discovery](/patterns/feature-discovery), where the
+    artifact offers what nobody asked about.
+  resulting: >-
+    Attach an answer to the element that raised the question with
+    [annotation](/patterns/annotation), and give the reason behind one specific event, such as a
+    disabled option or a rule that fired, as an [explanation](/patterns/explanation) at that
+    point. Recovery from a failure starts at [status feedback](/patterns/status-feedback), which
+    reports what went wrong; help says what to do about it. The actor reaches help pages through
+    [searching](/patterns/searching) and the [command menu](/patterns/command-menu), so index them
+    under the words actors use as well as the artifact's own terms. Documentation outside the
+    interface is one of the channels [cross-channel continuity](/patterns/cross-channel-continuity)
+    keeps consistent, with the same items under the same names and addresses, so a page can open
+    the setting it describes and the setting can open its page. A [text lens](/patterns/text-lens)
+    re-tells a page for what the actor already knows or how much detail they want; versions that
+    differ by plan, role, platform or release are written by the author. In an artifact
+    [addressable in words](/patterns/addressable-in-words), a question typed into help resolves
+    against the same description of objects and actions that the command menu and every agent
+    read, so the facts help gives and the facts agents act on describe the same artifact. Where
+    the written help does not cover the actor's case, [agent fallback](/patterns/agent-fallback)
+    passes the question to an [agent](/patterns/agent), which answers from the help pages and the
+    actor's own situation and can link each claim to the page behind it with
+    [citation](/patterns/citation). Where the fix needs access, authority or judgement someone
+    else holds, no page will do, and the route is [reaching a person](/patterns/reaching-a-person).
+    Help waits to be asked, while a [suggestion](/patterns/suggestion) or a
+    [next-best action](/patterns/next-best-action) offers to do the thing for the actor…
 relationships:
-  related:
-    - to: explanation
-      note: The core content unit of high-quality help.
-    - to: status-feedback
-      note: Communicates system state; the "Recover" purpose often begins with status feedback.
+  enables:
+    - information-environment
+  complements:
+    - explanation
+    - status-feedback
+    - searching
     - command-menu
+    - cross-channel-continuity
+  composed-of:
+    - annotation
+    - text-lens
+    - agent-fallback
+  precedes:
+    - agent
   enacts:
     - to: learnability
       note: help meets the actor at the moment of friction, both on first use and later when memory fades; learning happens in context rather than ahead of time
     - to: conversation-quality
       note: 'help is a dialogue: the actor asks at the point of friction and the system answers in context'
-  composed-of:
-    - to: agent-fallback
-      note: agent fallback gives a question the written help does not cover a way on to an agent
-    - to: annotation
-      note: annotation supplies the mechanism for attaching help to specific elements
 ---
 
-A [conversation](/patterns/conversation-quality) channel for sensemaking. It allows users to recover context ("Where am I?"), acquire domain knowledge ("What does this mean?"), and bridge the gulf of execution ("How do I do this?").
+* * *
 
-> 💭 Help is primarily *pull-based* (user seeks understanding). When the system offers to *do* things without being asked, that is a [suggestion](/patterns/suggestion) or a [next-best action](/patterns/next-best-action). Where the written help does not cover the actor's case, an [agent fallback](/patterns/agent-fallback) passes the question on.
+**The actor needs an answer in the middle of their work, and the artifact can say only so much on its surface. Answers kept anywhere else are a second telling of the artifact. They go out of date when it changes, use names that differ from the ones on screen, describe features this actor does not have, and are hard to find with the words the actor has.**
 
-## Why users seek help
+What the actor came for decides what the answer has to look like. Four needs recur, and each needs a differently shaped answer:
 
-### Do: How do I execute this task?
+- *Doing a task*: steps toward a goal the actor already has, in the order they will take them, with the branches real work runs into. The actor wants to get back to work, not to read about it.
+- *Looking something up*: what a setting, field, value, limit or shortcut is, laid out the way the artifact itself is laid out, so the actor can find the entry from where they stand.
+- *Understanding why*: how the artifact or the domain works and why it is built that way. This is read when the actor steps back from the task; mixed into steps, it slows both down.
+- *Learning the basics*: a guided first experience with a known outcome. Inside the artifact this is the first run that onboarding designs, and help keeps it available to replay.
 
-Users need to act but face interface friction. Help here is operational—tooltips, input hints, empty states, wizards. The goal is immediate unblocking, not deep understanding.
+Each question also concerns either the interface (where to click, what a field accepts) or the domain (business rules, regulations, how the data relates), and any of the four needs can be about either. Finding where something lives is not a fifth need: it is how the actor reaches any of the four, through search, an index or a command menu. Recovering from an error is not one either. It begins with the report of what failed and turns into a task or an explanation.
 
-### Study: Why does this work this way?"
+Where an answer lives is the main design decision. Answers placed in the interface are found at the moment of need and change with it, but they fix the guidance to one path and take space on every view. Tasks and facts move into the interface well: steps become controls, a wizard or an agent's actions, and facts become hints beside the fields they describe. Reasons mostly stay outside, since they are read away from the work. Answers kept outside have room for detail, but the actor has to leave their work to reach them, and they go out of date without anyone noticing.
 
-Users want to build mental models of the underlying system or domain logic. Help here is conceptual—[explanations](/patterns/explanation), documentation, "learn more" sidebars. Example: "Why is this option disabled? Because the fiscal year is closed."
+Help is pulled. It reaches the actors who think to ask, and says nothing to those who do not know there is something to ask about. Newcomers often cannot name the feature or the term their problem involves, so they search with the wrong words, and only a minority of their attempts to find help succeed.
 
-### Locate: Where is X?
+Agents now read help too. The artifact's own agent answers questions from it, and an [outside agent](/patterns/outside-agent) the actor brings reads it to learn what the artifact holds and what it can do. A page that has gone out of date then misleads more than one reader, and can turn into a wrong action taken for the actor.
 
-Users know something exists but can't find it. This cuts across depth levels—locating a button is operational, locating a policy definition is conceptual. Mechanisms include search, index, [command menu](/patterns/command-menu), and glossary.
+The words are usually written by someone other than the person designing the interface, but the design decides what help has to exist and what it can rely on: names that stay stable, places it can link to, and a way to know what applies to this actor.
 
-### Recover: Something went wrong—now what?
+Therefore,
 
-Users encounter errors or get stuck. Recovery may require quick interface correction (operational) or deeper diagnostic understanding (conceptual). Often begins with [status feedback](/patterns/status-feedback) that signals the problem.
-The report of the failure itself is [status feedback](/patterns/status-feedback).
-When recovery needs exceed what static content can provide, help shifts to *conversation*—[agents](/patterns/agent) or chat interfaces that can reason about the specific context. When the fix needs access, authority or judgement that someone else holds, no explanation will do and the actor needs [reaching a person](/patterns/reaching-a-person).
+**Answer each question where it comes up, in the shape of what the actor came for: steps for a task, an entry for a fact, a reasoned account for a why. Move tasks and facts into the interface where they fit, and keep reasons and longer material in a place outside it that the artifact links to from the point of need. Give both places the artifact's own names, let each link to the other, and show the actor the version that applies to their plan, role and release.**
 
-## Subject matter
+Every page kept outside the interface has to be kept true as the artifact changes, or it goes on teaching the old one. Give each page an owner and say which release it describes. Where a control needs a page to be understood, fixing the control usually serves the actor better than writing the page.
 
-Each help request concerns either:
+## In practice
 
-- *Interface*: How to operate the UI—where to click, what fields to fill, how to navigate. Help here addresses execution mechanics.
-- *Domain*: Why the system works this way—business rules, data relationships, regulatory constraints. Help here builds mental models of the underlying logic.
+### Where each kind of answer lives
 
-The same purpose can require either. A user seeking to "Do" might need interface help ("Where's the export button?") or domain help ("What format meets compliance requirements?"). "Locate" cuts across both—finding a button is interface; finding a policy definition is domain.
-
-## Contextual availability
-
-Help effectiveness depends on *proximity to point of need*. The closer help is to where users encounter friction, the less cognitive overhead required to find and apply it.
-
-- *Inline*: Guidance embedded directly in the flow—[input hints](/patterns/data-entry#input-hints), [empty states](/patterns/state-empty), field-level [validation messages](/patterns/validation).
-- *Just-in-time*: Revealed on specific interaction—tooltips on hover, contextual panels on focus.
-
-### What belongs where
+| Need | In the interface | Beside it | Outside it |
+|---|---|---|---|
+| Doing a task | [wizard](/patterns/wizard), [template](/patterns/template), an agent doing the task | contextual help panel | help-centre article |
+| Looking something up | [input hints](/patterns/form#input-hints), tooltips, shortcut hints | glossary, shortcut sheet | reference pages |
+| Understanding why | [explanation](/patterns/explanation) of one event, [validation](/patterns/validation) messages that say why | "learn more" sidebar | conceptual articles |
+| Learning the basics | first run, [empty states](/patterns/state-empty) that teach, [starter examples](/patterns/starter-example) | replayable first-run guidance | courses, walkthroughs |
 
 <Diagram source={`
 flowchart TD
   A[Placing help content]
   A --> B{Error prevention or warning?}
-  B -->|Yes| INLINE[Inline]
+  B -->|Yes| INLINE[In the interface]
   B -->|No| C{Requires sustained attention?}
-  C -->|Yes| STANDALONE[Standalone]
-  C -->|No| D{User mid-task?}
+  C -->|Yes| OUTSIDE[Outside the interface]
+  C -->|No| D{Actor mid-task?}
   D -->|Yes| INLINE
-  D -->|No| JIT[Just-in-time]
+  D -->|No| JIT[Beside it, on request]
 `} />
 
-When the artifact offers what the actor has not asked about, at the place it applies, that is [feature discovery](/patterns/feature-discovery); tours are its weakest form.
+### Documentation outside the interface
+
+The help centre or documentation site is a separate place, but the interface decides most of what it can do:
+
+- *Names*: pages use the labels the actor sees on screen. A renamed label is usually the first thing that makes a page wrong, so renames go through the pages that mention them.
+- *Addresses in both directions*: the interface links to the page for the control at hand, and the page links back into the interface, to open the setting it describes or the view it explains.
+- *What applies*: a page that describes a feature this actor's plan, role, platform or release does not have sends them looking for something that is not there. Let the actor pick the version, and pre-select it from what the artifact knows about them.
+- *Agents as readers*: publish the pages in a form a program can read, such as plain text or a documentation server an agent can query, laid out the way the artifact is laid out.
+
+## Research on this pattern
+
+- Newcomers rarely find help with their own words: in an observational study of people learning a complex design application, [Kiani et al. (2019)](https://hci.cs.sfu.ca/KianiCHI2019.pdf) found that only 38.2% of help-seeking attempts succeeded, largely because participants could not identify which feature or term applied to their problem.
+- Pull help fails on awareness: [Grossman, Fitzmaurice and Attar (2009)](https://doi.org/10.1145/1518701.1518803) separate knowing that a capability exists from knowing how to use it, and help that waits to be asked serves only the second.
+- People act before they read: [the paradox of the active user](https://www.nngroup.com/articles/paradox-of-the-active-user/) describes people starting their task at once instead of learning the system first, which is why answers placed at the point of need get read and manuals do not.
+
+## Resources & references
+
+- Kiani, K., Cui, G., Bunt, A., McGrenere, J. & Chilana, P. K. (2019). [Beyond "one-size-fits-all": understanding the diversity in how software newcomers discover and make use of help resources](https://hci.cs.sfu.ca/KianiCHI2019.pdf). CHI 2019
+- Grossman, T., Fitzmaurice, G. & Attar, R. (2009). [A survey of software learnability: metrics, methodologies and guidelines](https://doi.org/10.1145/1518701.1518803). CHI 2009
+- Nielsen, J. (1998). [Paradox of the active user](https://www.nngroup.com/articles/paradox-of-the-active-user/), after Carroll & Rosson (1987)
+- Procida, D. [Diátaxis](https://diataxis.fr/): tutorials, how-to guides, reference and explanation as four kinds of documentation, each for a different need
+- GitHub Docs. [About versions of GitHub Docs](https://docs.github.com/en/get-started/using-github-docs/about-versions-of-github-docs): a version picker on every page that sets which plan the page describes
+- [The /llms.txt file](https://llmstxt.org/): a proposal for a plain overview of a site's documentation for agents to read
+- Microsoft Learn. [MCP Server overview](https://learn.microsoft.com/en-us/training/support/mcp): documentation an agent can search and fetch while it works
+
+## To-do
+
+- [Information environment](/patterns/information-environment) still lacks the pattern that keeps vocabulary consistent across places; the names point above depends on it.
