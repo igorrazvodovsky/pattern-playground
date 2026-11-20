@@ -46,14 +46,14 @@ Communication directness (high-context vs low-context cultures), formality expec
 
 ### Regional
 
-Date, time, number, currency, and address formats. Measurement units. First day of week. Legal and regulatory requirements (GDPR, data residency, accessibility mandates). Links to [data entry](/patterns/data-entry) (forgiving format parsing), [good defaults](/patterns/good-defaults) (smart defaults from location), [settings](/patterns/settings) (language and timezone preferences), [privacy](/patterns/privacy).
+Date, time, number, currency, and address formats. Measurement units. First day of week. Legal and regulatory requirements (GDPR, data residency, accessibility mandates). Links to [forgiving format](/patterns/forgiving-format) (locale-aware parsing), [structured format](/patterns/structured-format) (locale-dependent syntax), [good defaults](/patterns/good-defaults) (smart defaults from location), [settings](/patterns/settings) (language and timezone preferences), [privacy](/patterns/privacy).
 
 {/* ## Locale resolution */}
 {/* How the system determines locale: browser signal → account setting → URL parameter → explicit selection. */}
 {/* The cascade should be transparent — actors should understand *why* the interface appears in a given language and how to change it. */}
 
 {/* ## Format adapters */}
-{/* Data display adjusting to locale — dates, numbers, currencies rendered through locale-aware formatters rather than hardcoded patterns. The same underlying value appears differently depending on context. Links to [data entry](/patterns/data-entry). */}
+{/* Data display adjusting to locale — dates, numbers, currencies rendered through locale-aware formatters rather than hardcoded patterns. The same underlying value appears differently depending on context. Links to [forgiving format](/patterns/forgiving-format) and [structured format](/patterns/structured-format). */}
 
 {/* ## Layout response */}
 {/* Accommodating text expansion (German, Finnish), contraction (Chinese, Korean), RTL script direction (Arabic, Hebrew), and content density variation. Layout must flex without breaking hierarchy or truncating meaning. */}

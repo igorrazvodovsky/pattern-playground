@@ -77,13 +77,22 @@ sub-sequences:
           Include a field only if the system needs the value and cannot work
           it out itself. Each extra field adds effort and makes it more likely
           that the actor abandons the form.
-      - step: "Choose the input format for each field"
-        rule: data-entry
+      - choice: "Choose the input format for each field"
         gloss: >-
-          Accept free-form input where people write the value in different
-          ways and the system can interpret it, and show the interpreted value
-          before it is accepted. Use a structured input where a misreading
-          would cause harm or the format is strict.
+          Decide this per field from how variable human expression is and how
+          costly a misreading would be.
+        alternatives:
+          - step: "Accept loose input and confirm the reading"
+            rule: forgiving-format
+            gloss: >-
+              Accept free-form or unstructured input where people write the
+              value in different ways and the system can parse it reliably, and
+              show the interpreted value before it counts as agreed.
+          - step: "Shape the field to a strict syntax"
+            rule: structured-format
+            gloss: >-
+              Use a structured input—chunked into short readable groups for long
+              codes—where a misreading would cause harm or the format is strict.
       - cluster: "Help the actor answer"
         gloss: >-
           Two ways of helping the actor fill in the fields. They can be applied

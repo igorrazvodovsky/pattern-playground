@@ -19,7 +19,7 @@ relationships:
     - standing-instructions
     - to: information-architecture
       note: IA owns the labelling vocabulary; prose owns how those labels get phrased and where they tolerate ambiguity.
-    - data-entry
+    - form
     - status-feedback
     - notification
     - to: data
@@ -91,7 +91,7 @@ Helper text, placeholders, empty states, confirmations, error messages, toasts �
 
 The anchoring tension: *silence versus scaffolding*. Every microcopy surface has a no-prose option (absent helper text, blank empty state, no toast) that is sometimes better than the filled option. Over-narrated interfaces feel patronising; under-narrated ones feel indifferent. The decision is per-surface.
 
-Microcopy touches several patterns without being owned by any. [Data entry](/patterns/data-entry) covers helper text and placeholder; [status feedback](/patterns/status-feedback) covers validation and notification categories; <ComponentRef id="components-toast--docs">toast</ComponentRef> covers brief confirmations; <ComponentRef id="components-callout--docs">callout</ComponentRef> covers unskippable messages; [notification](/patterns/notification) covers the information/success/warning/error taxonomy. Each is a surface where prose-as-move decisions get made.
+Microcopy touches several patterns without being owned by any. [Form](/patterns/form#input-hints) covers helper text and placeholder; [status feedback](/patterns/status-feedback) covers validation and notification categories; <ComponentRef id="components-toast--docs">toast</ComponentRef> covers brief confirmations; <ComponentRef id="components-callout--docs">callout</ComponentRef> covers unskippable messages; [notification](/patterns/notification) covers the information/success/warning/error taxonomy. Each is a surface where prose-as-move decisions get made.
 
 {/* TODO: treat each microcopy surface in one paragraph — entry, confirmation, error, empty, toast — per surface */}
 {/* TODO: document the "silence as default" heuristic and when to override it */}

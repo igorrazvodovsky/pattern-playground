@@ -17,8 +17,10 @@ situation:
     or a [wizard](/patterns/wizard) step now holds fields and
     [bounded choices](/patterns/bounded-choice) that ask the actor for answers, and
     [onboarding](/patterns/onboarding) needs decisions that do not change the first
-    result settled out of the way. Plain [data entry](/patterns/data-entry) asks the
-    actor to supply every value from scratch. Good defaults resolve those routine
+    result settled out of the way. Leaving those fields blank for
+    [forgiving](/patterns/forgiving-format) or
+    [structured format](/patterns/structured-format) entry asks the actor to
+    supply every value from scratch. Good defaults resolve those routine
     fields up front from typical use, general context, or a past choice kept by
     [remembered state](/patterns/remembered-state), so the actor only has to answer
     what differs.
@@ -41,8 +43,6 @@ situation:
 relationships:
   hosted-by:
     - form
-  alternative:
-    - data-entry
   precedes:
     - autocomplete
     - autofill

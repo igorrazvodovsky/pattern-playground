@@ -1,0 +1,65 @@
+---
+title: Structured format
+added: 2026-11-19
+role: pattern
+evidence:
+  - literature
+  - observed
+group: application
+activityLevel: operation
+mediation: individual
+description: "Shaping an input to mirror a strict, familiar syntax so the actor sees the expected format and makes fewer transcription errors without breaking paste or autofill."
+situation:
+  initiating: >-
+    … in [making changes](/sequences/making-changes), a [form](/patterns/form)
+    or a [wizard](/patterns/wizard) step needs a value with a strict, familiar
+    syntax—such as a card number, licence key, or verification code—where
+    [forgiving format](/patterns/forgiving-format) parsing would risk a costly
+    misreading.
+  resulting: >-
+    Follow entry with [validation](/patterns/validation) at the field, since a
+    value that matches the syntax can still fail semantic checks such as an
+    expired card or an unknown code. Adapt the shape through
+    [localization](/patterns/localization) wherever formats vary by region, and
+    preserve single-field semantics so [autofill](/patterns/autofill) can supply
+    stored records cleanly. Where the value must come from a fixed set rather
+    than a formatted string, use [bounded choice](/patterns/bounded-choice)
+    instead…
+relationships:
+  hosted-by:
+    - form
+  precedes:
+    - validation
+  complements:
+    - localization
+    - autofill
+  related:
+    - bounded-choice
+  enacts:
+    - to: formality
+      note: structured format demands a fixed syntax up front so the control's shape communicates the rule and prevents ambiguity
+---
+
+* * *
+
+**Typing a strict code or identifier into an undifferentiated box gives no clue about the expected syntax and invites transcription errors on long strings. Yet rigid input masks and split fields break copy-paste, reject valid regional formats, and defeat browser autofill.**
+
+Up-front [formality](/patterns/formality) pays off only when the syntax is genuinely fixed and ambiguity is costly. The common mistake is applying a rigid mask to values that only *look* uniform within one country—names, phone numbers, or postcodes—or building visual structure by splitting one value across separate inputs.
+
+Therefore,
+
+**Signal the expected syntax and display long structured values in visual chunks of two to five characters whenever the format is genuinely strict and ambiguity is dangerous. Keep the underlying control a single pasteable input with standard semantic hints so actors can paste, edit, and autofill without fighting the mask.**
+
+## Related components
+
+- <ComponentRef id="components-input--docs">Input</ComponentRef> — the text-entry control that carries structured formatting and chunking.
+
+## Resources & references
+
+- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.
+- [UI Patterns — Structured Format](https://ui-patterns.com/patterns/StructuredFormat)
+- GOV.UK Design System — [Text input](https://design-system.service.gov.uk/components/text-input/) (avoiding split inputs and restrictive masks)
+
+## To-do
+
+- Add an example comparing single-field visual chunking against forgiving parsing for a code or date input.

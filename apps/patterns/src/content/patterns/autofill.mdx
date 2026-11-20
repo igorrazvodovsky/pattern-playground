@@ -14,9 +14,8 @@ situation:
     … in [assistance escalation](/sequences/assistance-escalation) or inside a
     [form](/patterns/form), a static guess from
     [good defaults](/patterns/good-defaults) is not enough because the field
-    requires the actor's own specific value, and plain
-    [data entry](/patterns/data-entry) would ask them to retype what is already
-    stored. Autofill sits near the floor of
+    requires the actor's own specific value, and typing it from scratch would
+    ask them to retype what is already stored. Autofill sits near the floor of
     [assisted task completion](/patterns/assisted-task-completion), supplying
     known values from the browser, a password manager, or the application's own
     record before typing begins.
@@ -33,8 +32,6 @@ situation:
     autofill with [review before submitting](/patterns/review-before-submitting)
     when a wrong value carries a real cost…
 relationships:
-  enables:
-    - data-entry
   hosted-by:
     - form
   complements:

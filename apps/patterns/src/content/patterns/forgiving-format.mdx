@@ -1,0 +1,87 @@
+---
+title: Forgiving format
+added: 2026-11-19
+role: pattern
+evidence:
+  - literature
+  - observed
+group: application
+activityLevel: operation
+mediation: individual
+description: "Accepting loose, natural, or unstructured input and parsing it into structured values, then showing the reading back before it counts as agreed."
+situation:
+  initiating: >-
+    … in [making changes](/sequences/making-changes), a [form](/patterns/form),
+    a [conversation](/patterns/conversation) turn, or an
+    [inline interface](/patterns/inline-interface) needs a value the actor holds
+    in a loose or variable form, where a
+    [structured format](/patterns/structured-format) would force needless
+    translation. Forgiving format lets the actor express the value naturally and
+    shifts the work of structuring it onto the system.
+  resulting: >-
+    Because the system or an [agent](/patterns/agent) did the structuring,
+    report what was parsed through [status feedback](/patterns/status-feedback)
+    and confirm it with [showing the reading](/patterns/showing-the-reading)
+    before it counts as agreed. Mark doubtful readings with
+    [expressed uncertainty](/patterns/expressed-uncertainty), and expose why a
+    reading was chosen through [explanation](/patterns/explanation) when stakes
+    warrant it. Follow parsing with [validation](/patterns/validation) for
+    errors the parser cannot catch, and pair it with
+    [localization](/patterns/localization) so regional dates, numbers, and
+    addresses are read in the actor's locale. Where loose input populates
+    several fields at once, end with
+    [review before submitting](/patterns/review-before-submitting) so extracted
+    values do not go through unread. Unlike
+    [incremental formalisation](/patterns/incremental-formalisation), which lets
+    content stay informal and promotes structure only later, forgiving format
+    parses into an existing schema at the moment of entry…
+relationships:
+  hosted-by:
+    - form
+    - conversation
+    - inline-interface
+  precedes:
+    - status-feedback
+    - validation
+    - showing-the-reading
+  complements:
+    - expressed-uncertainty
+    - localization
+    - review-before-submitting
+    - incremental-formalisation
+  alternative:
+    - structured-format
+  related:
+    - agent
+    - explanation
+  enacts:
+    - to: formality
+      note: forgiving format lets the actor answer in their own loose form while the system absorbs the work of structuring it
+---
+
+* * *
+
+**Forcing an actor to translate variable human input into a rigid syntax turns routine entry into avoidable formatting errors, whereas parsing loose input silently commits misreadings the actor never notices.**
+
+The same move operates at two scales. At the field scale, a single input accepts multiple valid ways of writing one value—dates such as "tomorrow", "12/12", or "Dec 12", phone numbers with arbitrary punctuation, or a unified box accepting an ID, name, or status. At the form scale, an interpreter or model normalises unstructured input—pasted text, an image via OCR, or a voice transcript—directly into structured fields.
+
+Both scales lower [formality](/patterns/formality) at capture by shifting the actor's work from typing to verifying. The asymmetric risk is that regional ambiguity (such as `04/05`) and plausible-looking model extractions go through unread and travel further than typed mistakes.
+
+Therefore,
+
+**Accept free-form input in whatever natural syntax or medium the actor uses whenever the system can parse it reliably into the required structure, and show the interpreted value back beside the input for confirmation or correction before it counts as agreed.**
+
+## Related components
+
+- <ComponentRef id="components-input--docs">Input</ComponentRef> — the free-text control that forgiving format parses.
+
+## Resources & references
+
+- Tidwell, Brewer, Valencia (2020) *Designing Interfaces*, 3rd ed.
+- [UI Patterns — Forgiving Format](https://ui-patterns.com/patterns/ForgivingFormat)
+- [Luke Wroblewski / Unstructured Input in AI Apps](https://lukew.com/ff/entry.asp?2120)
+- Reicherts et al. (2025) *AI, Help Me Think—but for Myself* (arXiv:2504.06771)
+
+## To-do
+
+- Add an interactive example of a forgiving-format date input (accepting "next friday") that shows its parsed reading before commit.

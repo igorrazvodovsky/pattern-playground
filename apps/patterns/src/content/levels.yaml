@@ -361,7 +361,8 @@
         structure, what it is chosen from, what is filled in or offered as the
         actor types, and how a wrong value is reported.
       patterns:
-        - data-entry
+        - forgiving-format
+        - structured-format
         - prestructured-formatting
         - bounded-choice
         - good-defaults

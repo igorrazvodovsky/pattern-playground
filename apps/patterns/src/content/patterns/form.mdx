@@ -13,7 +13,7 @@ situation:
   initiating: >-
     … in [making changes](/sequences/making-changes) the actor has reached the point of saying what the change is, and it takes several related answers: the fields only make sense together, need more room than the display offers, or apply to a set rather than the item in view. [Editing in place](/patterns/editing-in-place) handles the single value; a form is the surface for the set. The editor for a standing instruction in [delegating a task](/sequences/delegating-a-task) uses the same surface for a set of fields that stays open.
   resulting: >-
-    Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it. Where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting), and let [status feedback](/patterns/status-feedback) report what the submission did. A form that has outgrown one screen is split by [sections](/patterns/sections) into parts, by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another it has become a [wizard](/patterns/wizard). A form holds pending state until it is committed, so decide with [saving](/patterns/saving) what happens to a half-filled one, and let [localization](/patterns/localization) decide which formats its fields accept…
+    Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [forgiving format](/patterns/forgiving-format) or [structured format](/patterns/structured-format) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it. Where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting), and let [status feedback](/patterns/status-feedback) report what the submission did. A form that has outgrown one screen is split by [sections](/patterns/sections) into parts, by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another it has become a [wizard](/patterns/wizard). A form holds pending state until it is committed, so decide with [saving](/patterns/saving) what happens to a half-filled one, and let [localization](/patterns/localization) decide which formats its fields accept…
 relationships:
   enacts:
     - to: formality
@@ -46,9 +46,16 @@ Ask for nothing the system can infer. A form that has grown past one screen want
 
 A question that takes several controls, a radio group, an address, a day-month-year date, is bound into one labelled group. That binding is anatomy of the form component rather than a move of its own, and is distinct from sections (disclosure) and grouping (comparison).
 
+### Input hints
+
+When a field's label alone does not make the expected format or detail clear and there is no good default, pair the control with a short hint:
+
+- *Helper text*: placed below or beside the input so format rules and constraints stay visible while the actor types.
+- *Placeholder text*: placed inside an empty control as an example value or brief prompt when no good default exists. Because it disappears as soon as typing begins, reserve it for examples rather than instructions the actor still needs mid-entry.
+
 ### Raw input
 
-When the system can parse an image, a pasted text or a voice note against the form's fields, the actor's work shifts from entry to checking pre-filled answers; that shift, and the trust it asks for, belong to [data entry](/patterns/data-entry#ai--verification).
+When the system can parse an image, a pasted text or a voice note against the form's fields, the actor's work shifts from entry to checking pre-filled answers; that shift, and the trust it asks for, belong to [forgiving format](/patterns/forgiving-format).
 
 ### The form as conversation
 
