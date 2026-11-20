@@ -156,6 +156,11 @@
       "lifecycle-stage": null,
       "mediation": null
     },
+    "charted-progress": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "citation": {
       "activity-level": "operation",
       "lifecycle-stage": null,
@@ -223,11 +228,6 @@
     },
     "cross-channel-continuity": {
       "activity-level": "activity",
-      "lifecycle-stage": null,
-      "mediation": "individual"
-    },
-    "data-entry": {
-      "activity-level": "action",
       "lifecycle-stage": null,
       "mediation": "individual"
     },
@@ -321,6 +321,11 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
+    "feature-discovery": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "federated-identity": {
       "activity-level": "operation",
       "lifecycle-stage": null,
@@ -339,6 +344,11 @@
     "focus-and-context": {
       "activity-level": "action",
       "lifecycle-stage": "evaluation",
+      "mediation": "individual"
+    },
+    "forgiving-format": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
       "mediation": "individual"
     },
     "form": {
@@ -466,6 +476,11 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
+    "layered-interface": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "learnability": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
@@ -502,6 +517,11 @@
       "mediation": "individual"
     },
     "memory": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
+    "mid-run-redirection": {
       "activity-level": "action",
       "lifecycle-stage": null,
       "mediation": "individual"
@@ -751,6 +771,11 @@
       "lifecycle-stage": "application",
       "mediation": "individual"
     },
+    "starter-example": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "state-disabled": {
       "activity-level": "operation",
       "lifecycle-stage": null,
@@ -774,6 +799,11 @@
     "step-by-step": {
       "activity-level": "action",
       "lifecycle-stage": "application",
+      "mediation": "individual"
+    },
+    "structured-format": {
+      "activity-level": "operation",
+      "lifecycle-stage": null,
       "mediation": "individual"
     },
     "suggestion": {
@@ -813,11 +843,6 @@
     },
     "transient-feedback": {
       "activity-level": "operation",
-      "lifecycle-stage": null,
-      "mediation": "individual"
-    },
-    "transparent-reasoning": {
-      "activity-level": "activity",
       "lifecycle-stage": null,
       "mediation": "individual"
     },
@@ -876,10 +901,20 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
+    "work-trail": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "workflow": {
       "activity-level": "activity",
       "lifecycle-stage": null,
       "mediation": "coordination"
+    },
+    "working-plan": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
     },
     "workspace": {
       "activity-level": "activity",

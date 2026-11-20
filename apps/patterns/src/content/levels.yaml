@@ -317,8 +317,9 @@
         the actor place, revise or redraw what comes back, whole or in part.
       patterns:
         - live-presentation
-        - transparent-reasoning
+        - work-trail
         - working-plan
+        - mid-run-redirection
         - approval-gate
         - extraction
         - instructed-revision

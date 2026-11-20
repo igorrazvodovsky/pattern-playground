@@ -1,0 +1,34 @@
+---
+title: Plan keeping
+added: 2026-11-19
+purpose: Keep the steps of one piece of work in the order they will be done, so what is left can be changed before it happens.
+principle: >-
+  If the party doing a piece of work writes down the steps it means to take, it
+  works through them in order and marks each as it goes; whoever can see the
+  list can drop, move or add a step that has not started, and the work then
+  follows the changed list rather than the one first written.
+state:
+  - "steps: Plan -> seq Step"
+  - "addedBy: Step -> one Party"
+  - "keeper: Plan -> one Party"
+actions:
+  addStep: A party puts a step into the plan at a place in its order.
+  startStep: The keeper begins the next step.
+  finishStep: The keeper marks the current step done.
+  dropStep: A party removes a step that has not started.
+  moveStep: A party moves a step that has not started to another place in the order.
+misfits:
+  - The list shows only its current form, so someone who read it earlier cannot tell which steps were added, dropped or moved since.
+  - The list is written before the work has taught the keeper anything, and can go on being marked off after it has stopped describing the work.
+  - A step names an act, not what the act will touch or cost, so the whole list can be read without learning what it will change.
+  - Steps run in order, so a step that waits on someone holds up every step after it, and nothing in the list says it is waiting.
+  - A step marked done says it was carried out, not that it worked.
+  - A step can itself be done by keeping a plan, and the outer list shows that plan as a single step.
+  - Two parties can change the list at once, and a step one of them drops may be the one the keeper has just started.
+aliases: [task list, plan, checklist, agent to-dos]
+depends_on: [staging]
+appears_in:
+  - Claude Code, Codex and Gemini CLI task lists
+  - Cursor and Warp agent plans
+  - checklists in GitHub issue and pull-request descriptions
+---

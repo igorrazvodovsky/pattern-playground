@@ -1,0 +1,63 @@
+---
+title: Working plan
+added: 2026-11-19
+role: pattern
+seed: true
+evidence:
+  - observed
+activityLevel: action
+mediation: individual
+description: "Following an agent's run with what is left of it in view, kept current by the agent as it works."
+acts_on:
+  - { concept: plan-keeping, note: "the agent as keeper, starting, finishing and adding steps, with the actor reading the list" }
+  - { concept: conversation-for-action, note: "the request stays an open conversation while the work goes on" }
+situation:
+  initiating: >-
+    … the actor has handed an agent a piece of work that takes several steps, in a
+    conversation or in [delegation](/patterns/delegation), and the agent is now working
+    through them. Often the actor approved the plan beforehand in a
+    [plan preview](/patterns/plan-preview). The actor wants to know how far the run has got
+    and what it will do next, without stopping it to ask.
+  resulting: >-
+    What is left of the run stays in front of the actor as it shrinks, and as it grows when the
+    agent finds a step it needs. Once a step is done it passes into the [activity log](/patterns/activity-log),
+    which keeps the record after the run ends. The done, current and next steps report
+    progress in the work's own units, which [waiting](/patterns/waiting) would otherwise report
+    in time. A step that needs the actor's decision stands in the list as an
+    [approval gate](/patterns/approval-gate). The list shows what will be done, and why the
+    agent chose those steps and what it did is for the [work trail](/patterns/work-trail) to
+    show. The list is the agent's: the actor who wants the run to go differently steers it
+    through [mid-run redirection](/patterns/mid-run-redirection), and one who wants the work
+    back takes it over through [handoff](/patterns/handoff)…
+relationships:
+  complements:
+    - to: activity-log
+      note: the working plan holds what is left of a run, and the activity log what was done
+    - waiting
+    - approval-gate
+    - work-trail
+  alternative:
+    - handoff
+  serves:
+    - to: delegation
+      note: "the working plan covers delegation's monitoring touchpoint during execution: what is left of the run"
+  enacts:
+    - to: agency
+      note: the actor can judge the run while it is still under way
+    - to: temporality
+      note: the run's past, present and remaining steps are legible at once
+---
+
+* * *
+
+**While an agent works through a run of several steps, the actor can see the step under way and perhaps the ones already done, but not what is left, so they cannot tell how far the run has got or what it will do next. When the agent changes its plan along the way, nothing shows it.**
+
+Therefore,
+
+**Keep the run's steps in view in the agent's reply, split into what is left and what is done, with the step under way marked. The agent keeps the list current, adding steps as it finds it needs them, and the conversation stays open while it works.**
+
+<Demo spec="working-plan" registries={["shadcn"]} label="The agent’s to-do list during its turn, split into what is left and what is done, with the conversation open while it works" />
+
+## Resources & references
+
+- [Shape of AI — Stream of thought](https://www.shapeof.ai/patterns/stream-of-thought)

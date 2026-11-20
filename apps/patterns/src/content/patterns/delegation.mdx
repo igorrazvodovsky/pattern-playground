@@ -67,13 +67,13 @@ Design concerns centre on calibrating expectations and getting the agent running
 
 Interaction shifts to lightweight maintenance. The design concern is keeping the agent actions legible without requiring constant babysitting.
 
-*Monitoring* — the user checks status, trends, and next triggers at a glance. [Status feedback](/patterns/status-feedback) on the place the work already has, [waiting](/patterns/waiting), [activity log](/patterns/activity-log).
+*Monitoring* — the user checks status, trends, and next triggers at a glance. [Status feedback](/patterns/status-feedback) on the place the work already has, [waiting](/patterns/waiting), [working plan](/patterns/working-plan) for what is left of a run, [activity log](/patterns/activity-log).
 
 *Pause and restart* — the user temporarily suspends the agent or resumes it when conditions change. Holding and resuming are actions of [automating](/concepts/automating).
 
 *Notifications* — suggestions, performance, or completion. [Notification](/patterns/notification).
 
-*A hood to look under* — the affordance to inspect the system's current state and reasoning. [Transparent reasoning](/patterns/transparent-reasoning), [explanation](/patterns/explanation).
+*A hood to look under* — the affordance to inspect the system's current state, actions, and reasoning. [Work trail](/patterns/work-trail), [explanation](/patterns/explanation).
 
 *False negatives* — the system reveals near-misses or cases it failed to catch, so the user can inspect what the agent missed. The [activity log](/patterns/activity-log) records a refusal as an act, and [case correction](/patterns/case-correction) keeps what was refused where it can be reversed.
 
@@ -81,7 +81,7 @@ Interaction shifts to lightweight maintenance. The design concern is keeping the
 
 The agent has encountered something it cannot handle and must return the human to the loop without losing the context they need to act.
 
-*Steering* — direct mid-stream controls to correct the agent without taking over wholesale. [Steering surface](/patterns/steering-surface), [instructed revision](/patterns/instructed-revision).
+*Steering* — direct mid-stream controls to correct the agent without taking over wholesale. [Steering surface](/patterns/steering-surface), [mid-run redirection](/patterns/mid-run-redirection), [instructed revision](/patterns/instructed-revision).
 
 *Notifications* — problems, concerns, or low resources. [Notification](/patterns/notification).
 

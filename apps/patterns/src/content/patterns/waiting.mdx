@@ -60,11 +60,11 @@ Therefore,
 
 **Match the indicator to the duration of the wait and to what the system can measure, state when the actor is free to leave, and replace the indicator as soon as the request finishes or fails.**
 
-Delay the indicator by 200–500 ms so sub-second operations show nothing. Use an indeterminate spinner or skeleton screen for waits of a few seconds, and show determinate progress in domain units ("3 of 12 files", or a stage checklist) once the wait passes ten seconds, reserving time estimates for operations whose remaining duration can be predicted reliably. When a task runs long enough for the actor to leave, move its status to a persistent surface such as a task tray, queue row, or [activity log](/patterns/activity-log).
+Delay the indicator by 200–500 ms so sub-second operations show nothing. Use an indeterminate spinner or skeleton screen for waits of a few seconds, and show determinate progress in domain units ("3 of 12 files", or a list of steps as in a [working plan](/patterns/working-plan)) once the wait passes ten seconds, reserving time estimates for operations whose remaining duration can be predicted reliably. When a task runs long enough for the actor to leave, move its status to a persistent surface such as a task tray, queue row, or [activity log](/patterns/activity-log).
 
 ## In practice
 
-Search and generative systems often display current steps during a wait ("searching the web", "reading 3 sources"). Keep these labels tied to real system stages rather than decorative cycling text. Where the text exposes the model's reasoning rather than status labels, use [transparent reasoning](/patterns/transparent-reasoning); the test is whether the content remains useful to read after the result arrives.
+Search and generative systems often display current steps during a wait ("searching the web", "reading 3 sources"). Keep these labels tied to real system stages rather than decorative cycling text. Where the text exposes the agent's actions and reasoning rather than status labels, use a [work trail](/patterns/work-trail); the test is whether the content remains useful to read after the result arrives.
 
 ## Research on this pattern
 

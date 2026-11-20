@@ -1,37 +1,45 @@
 ---
 title: Plan preview
 added: 2026-08-07
-updated:
+updated: 2026-11-19
 role: pattern
 seed: true
 evidence:
   - observed
-disclosure: "Seeded from looking at different AI pattern libraries and sorting them out. It’s not quite ready yet because I haven’t had a chance to consider it closely."
 activityLevel: action
+acts_on:
+  - { concept: plan-keeping, note: "the third misfit: a step names an act, not what it will touch or cost" }
 situation:
   initiating: >-
-    the actor has asked for something consequential that takes several steps; the agent has settled what the request means and is about to choose how to carry it out, and acting straight away would spend real work — and possibly real consequences.
-  resulting:
-    - clause: >-
-        the agent's intention is now a reviewable object — steps, targets, expected effects —
-        so a wrong course is caught while it is still cheap, and the preview becomes the thing
-        an approval can act on
-      sets-up: [approval-gate]
-    - >-
-      the plan and the execution can drift apart, so the preview only means something while
-      the system is held to what it showed
-    - >-
-      every preview spends actor attention; asked to review too often, the actor stops
-      reading plans and the preview becomes ritual
+    … the actor has made an [open request](/patterns/open-request) of an agent for something
+    consequential that takes several steps, and
+    [showing the reading](/patterns/showing-the-reading) has settled what it means. The work may
+    be done in reply or handed over in [delegation](/patterns/delegation). Starting at once would
+    spend real work, and possibly real consequences, before the actor has seen what it will
+    change.
+  resulting: >-
+    The agent's intention can be judged before it costs anything: the steps, what they will
+    touch and what they will cost, with [cost transparency](/patterns/cost-transparency)
+    supplying the spend. Holding the plan until the actor starts it puts an
+    [approval gate](/patterns/approval-gate) in front of the whole run. Once the run starts, the
+    previewed plan becomes the [working plan](/patterns/working-plan), which the agent keeps
+    current as it works. How much preview a request
+    warrants follows from its [action consequences](/patterns/action-consequences), since an
+    actor asked to review too often stops reading plans and the preview becomes a ritual. The
+    reasoning and actions behind the steps are for the [work trail](/patterns/work-trail)
+    to show…
 relationships:
   follows:
     - to: open-request
       note: a complex request is the situation a plan makes reviewable before work starts
     - to: showing-the-reading
       note: showing the reading checks what the request was taken to mean, and the plan preview then checks what will be done about it
+  precedes:
+    - approval-gate
+    - to: working-plan
+      note: the plan the actor approved in the preview is the one the working plan keeps in view as the run goes on
   complements:
-    - to: transparent-reasoning
-      note: the plan before execution; the reasoning trail during and after it
+    - work-trail
     - to: cost-transparency
       note: cost estimates are the spend half of a previewed plan — what it will do and what it will cost
   serves:
@@ -44,11 +52,20 @@ relationships:
     - to: agency
       note: the actor judges the intention rather than the fait accompli
 ---
-Before the system does substantial work on the actor's behalf, it states what it intends to do — the steps, what they touch, and what they will cost — as something the actor can read, correct, or refuse.
 
-## Forms
+* * *
+
+**A list of steps says what the agent will do, not what the steps will touch or cost. An actor who approves a plan on that basis learns what it changed only once the work is done, when a wrong course is expensive to undo.**
+
+Therefore,
+
+**Before substantial work starts, state the plan as something the actor can read, correct or refuse: the steps, and for the run as a whole, what it will touch and what it will cost. Hold the plan until the actor starts it.**
+
+## In practice
 
 Recurring forms across the catalogues: a step list before execution, a scope statement ("this will modify 14 files"), and—where the preview executes the plan on a sample of items or simulates its side effects before the full run—a [trial run](/patterns/trial-run) paired with the plan.
+
+<Demo spec="plan-preview" registries={["shadcn"]} label="A step list and its scope, held until the actor starts it; the run then works through the same steps" />
 
 A standing run often has no plan to show before each run. Then the limits granted in [bounded autonomy](/patterns/bounded-autonomy) take the plan's place, previewed once when they are granted.
 
@@ -60,4 +77,4 @@ A standing run often has no plan to show before each run. Then the limits grante
 
 ## To-do
 
-Named product studies (agentic coding tools' plan modes are the richest current material). The plan-drift force needs its own treatment: what binds execution to the previewed plan.
+Named product studies (agentic coding tools' plan modes are the richest current material).

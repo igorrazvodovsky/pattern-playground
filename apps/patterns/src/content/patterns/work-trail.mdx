@@ -1,0 +1,132 @@
+---
+title: Work trail
+added: 2025-06-26
+updated: 2026-11-20
+role: pattern
+evidence:
+  - literature
+  - observed
+activityLevel: action
+mediation: individual
+description: "Showing the steps an agent took and its stated rationale as an inspectable trail, keeping verifiable actions distinct from unverified narration."
+situation:
+  initiating: >-
+    … an [agent](/patterns/agent) has taken on work that requires several steps—searching,
+    reading, calling tools, or working through a problem—and returning only the final output
+    would leave the actor with nothing to judge it by. The run may happen in a conversation or
+    out of sight in [delegation](/patterns/delegation), where the actor needs a hood to look
+    under during or after execution. Where a [plan preview](/patterns/plan-preview) stated what
+    the run intended beforehand and a [working plan](/patterns/working-plan) tracks what steps
+    are left, the work trail carries the path actually taken, streamed through
+    [live presentation](/patterns/live-presentation) while the run is under way.
+  resulting: >-
+    The intermediate steps sit beside the work as an inspectable trail, folded behind
+    [progressive disclosure](/patterns/progressive-disclosure) once the turn settles so the
+    path does not bury the answer. When the actor spots a wrong premise or a wasted branch
+    while the run is still moving, [mid-run redirection](/patterns/mid-run-redirection) lets
+    them steer the agent onto another path without discarding the work already done. Because a
+    fluent trail anchors as readily as it informs—inviting the actor to stop reading and defer
+    on appearance alone—pair it with [cognitive forcing functions](/patterns/cognitive-forcing-functions)
+    before acceptance where an unchecked error would be costly. Once the run ends, the trail
+    attaches to [generated content](/patterns/generated-content), grounds an absent author's
+    edits in [change review](/patterns/change-review), anchors into the lasting
+    [activity log](/patterns/activity-log), and keeps the basis of agent decisions auditable
+    in [collaboration](/patterns/collaboration). Pair the trail with
+    [citation](/patterns/citation) to bind specific claims to the source passages retrieved
+    along the way, and with [expressed uncertainty](/patterns/expressed-uncertainty) when
+    backtracking or conflicting tool results leave a part of the answer thinly supported. How
+    much of the trail stays open by default versus folded into a summary follows from
+    [action consequences](/patterns/action-consequences). A work trail is not an
+    [explanation](/patterns/explanation): where a single-move output has no multi-step path to
+    inspect, an explanation lays out the factors, rules, or domain rationale behind the result
+    instead…
+relationships:
+  follows:
+    - to: agent
+      note: generates the multi-step work and rationale that the work trail makes inspectable
+  serves:
+    - to: delegation
+      note: "work trail covers delegation's hood-to-look-under station during execution — inspecting how the agent worked and what it touched"
+  composed-of:
+    - to: progressive-disclosure
+      note: collapses the trail behind a summary line once the reply settles, letting the actor expand steps on demand
+  precedes:
+    - to: mid-run-redirection
+      note: spotting a flawed premise or wasted branch in the trail sets up steering the active run onto another path
+    - to: cognitive-forcing-functions
+      note: a fluent trail invites rubber-stamping, which deliberate friction before acceptance interrupts
+  complements:
+    - live-presentation
+    - to: plan-preview
+      note: plan preview shows what the run will do before it starts; work trail shows what it actually did and why
+    - to: working-plan
+      note: working plan holds which steps are left; work trail holds the actions and rationale behind them
+    - to: activity-log
+      note: the live and turn-scoped trail paired with the lasting record of the same work
+    - to: generated-content
+      note: pairs the finished output with the path that produced it
+    - to: change-review
+      note: accounts for how machine-proposed edits were reached when there is no human author to ask
+    - collaboration
+    - to: citation
+      note: pairs the path taken across steps with the source passages backing individual claims
+    - to: expressed-uncertainty
+      note: backtracking and conflicting tool results in the trail surface where support is thin
+    - explanation
+  related:
+    - to: action-consequences
+      note: governs how much of the trail warrants default visibility versus folding into a summary
+  enacts:
+    - to: agency
+      note: gives the actor checkable evidence of what the agent did and why, supporting calibrated trust and intervention
+    - to: learnability
+      note: exposing the path an agent took lets the actor learn its capabilities, limits, and failure modes over time
+---
+
+<Demo spec="work-trail-in-chat" registries={["shadcn"]} label="An agent’s trail above its reply: its stated thinking between the tool calls it made, open while it works and folded once the reply arrives" />
+
+* * *
+
+**When an agent reaches an answer through several steps, returning only the result leaves trusting it and doubting it equally uninformed. Yet dumping raw model monologue onto the surface buries the answer, invites actors to rely on plausible-looking text rather than check it, and blurs what the agent actually did with what it says it thought.**
+
+Four tensions govern the trail:
+
+- *Verifiable actions versus unverified narration*: external tool calls and their outputs are checkable facts about what happened. <mark>Model chain-of-thought and thinking summaries are generated accounts that can omit hints, shortcuts, or biases that actually drove the result.</mark> Presenting both in the same voice lends the narration an authority it does not have.
+- *Legibility versus compression*: collapsing raw thinking into milestone summaries reduces cognitive load, yet adds a second layer of omission over an already unfaithful account, stripping out the hesitation or dead end that would have warranted inspection.
+- *Persuasion versus verification*: a fluent, step-by-step account makes an output look self-audited, raising overconfidence when reading the trail feels costlier than accepting the answer; flat text streams also make logical errors harder to spot than structured steps.
+- *Exposure versus privacy*: <mark>a clean final answer does not guarantee a clean trail</mark>—internal reasoning and raw tool returns can resurface credentials, personal data, or system instructions that the reply omitted.
+
+Therefore,
+
+**Expose the intermediate path of a multi-step run as an inspectable trail that keeps observable actions—tool calls, retrieved sources, commands, and their results—visually distinct from the model's stated reasoning. Stream or group steps so the actor can follow progress while the run is under way, fold the trail to a compact summary once the reply settles so it stays reachable without pushing the answer away, and let the actor expand individual steps to inspect the underlying detail.**
+
+Do not present model thinking or its summary as a literal record of computation. Filter or redact sensitive tool inputs, returns, and prompt material before surfacing a trail to other actors or saving it to a shared log.
+
+## In practice
+
+### Dedicated run views
+
+Outside a chat turn—in a side panel, coding agent, or run log—the trail stays expanded beside the work rather than folding above a reply.
+
+<Demo spec="work-trail-run" registries={["shadcn"]} label="A research run in its own view, part way through: the trail grouped by what the agent set out to find, each group holding its thinking, searches and reading" />
+
+### Grouped and hierarchical trails
+
+When a run spawns sub-agents, parallel tool calls, or backtracking branches, a flat chronological list buries where a branch went wrong. Grouping steps by sub-goal or showing a collapsible hierarchy makes errors easier to locate than a linear stream.
+
+## Related components
+
+- <ComponentRef id="components-messaging--docs">Messaging</ComponentRef> — provides the conversational surface where a collapsed trail sits above a reply.
+- <ComponentRef id="components-details--docs">Details</ComponentRef> — collapses and expands the trail or individual tool-call blocks.
+- <ComponentRef id="components-timeline--docs">Timeline</ComponentRef> — orders multi-step tool actions and reasoning phases in sequence.
+
+## Research on this pattern
+
+- *Unfaithful chain-of-thought*: [Chen et al. (2025)](https://arxiv.org/abs/2505.05410) tested reasoning models when subtle hints influenced the answer and found that models frequently used the hints without mentioning them in their reasoning trace, showing that visible chain-of-thought is a generated account rather than a reliable printout of computation.
+- *Structured interactive reasoning*: [Pang et al. (2025)](https://arxiv.org/abs/2506.23678) organised verbose chain-of-thought into a navigable hierarchy of topics and found that actors spotted errors earlier, steered outputs more effectively, and formed clearer mental models than with flat text streams.
+
+## Resources & references
+
+- Chen, Y., Benton, J., Radhakrishnan, A., Uesato, J., Denison, C., Schulman, J., Somani, A., Hase, P., Wagner, M., Roger, F., Mikulik, V., Bowman, S. R., Leike, J., Kaplan, J., & Perez, E. (2025). [Reasoning Models Don't Always Say What They Think](https://arxiv.org/abs/2505.05410)
+- Pang, R. Y., Feng, K. J. K., Feng, S., Li, C., Shi, W., Tsvetkov, Y., Heer, J., & Reinecke, K. (2025). [Interactive Reasoning: Visualizing and Controlling Chain-of-Thought Reasoning in Large Language Models](https://arxiv.org/abs/2506.23678)
+- [Shape of AI — Stream of thought](https://www.shapeof.ai/patterns/stream-of-thought)

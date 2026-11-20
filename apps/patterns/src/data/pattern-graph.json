@@ -368,7 +368,7 @@
           {
             "clause": "the more of the work the system takes on, the more trust the actor has to extend before accepting anything — so how an offer accounts for itself stops being decoration",
             "setsUp": [
-              "transparent-reasoning"
+              "work-trail"
             ]
           },
           {
@@ -439,19 +439,23 @@
       "path": "/patterns/autocomplete",
       "role": "pattern",
       "situation": {
-        "initiating": "a free-form input where the set of valid answers is large or the actor is still formulating the query",
-        "resulting": [
-          {
-            "clause": "a narrowing surface of candidate completions running alongside what's been typed"
-          },
-          {
-            "clause": "autocomplete's candidates are looked up, not produced — deterministic completion ends where the continuation has to be generated; AI completion extends the same interaction to generated content",
-            "setsUp": [
-              "ai-completion"
-            ]
-          }
-        ]
-      }
+        "initiating": "… in [assistance escalation](/sequences/assistance-escalation) or inside a [form](/patterns/form) field, a static guess from [good defaults](/patterns/good-defaults) has given way to the actor typing their own value, or a field asks for an answer from a set too large to show in full. Autocomplete sits at the reactive end of [assisted task completion](/patterns/assisted-task-completion), helping the actor finish or locate a known value while they type.",
+        "resulting": "A narrowing list of looked-up candidates now runs alongside the input. When the field requires a value from a fixed set too large to display up front, autocomplete serves [bounded choice](/patterns/bounded-choice) by turning the list into a searchable picker. Where the system already holds the actor's value in a profile, earlier session, or browser record, [autofill](/patterns/autofill) supplies it before typing begins rather than completing it in flight. In a query box, autocomplete pairs with [searching](/patterns/searching) to complete terms or jump straight to a known item; in [filtering](/patterns/filtering), it narrows available attribute values inside a filter clause; and in a [command menu](/patterns/command-menu), the same typed narrowing locates actions and navigation targets. Where candidates shift from matching a known index to proposing related or inferred options, autocomplete crosses into [suggestion](/patterns/suggestion). Deterministic completion ends where the continuation has to be generated rather than looked up, so hand over to [AI completion](/patterns/ai-completion) when the actor is composing new text…"
+      },
+      "realisedBy": [
+        "components-combobox--docs"
+      ],
+      "evidence": [
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
+        },
+        {
+          "kind": "built"
+        }
+      ]
     },
     {
       "id": "autofill",
@@ -460,18 +464,8 @@
       "path": "/patterns/autofill",
       "role": "pattern",
       "situation": {
-        "initiating": "the values the fields need are ones the system already holds — from the actor's profile, a prior session, the browser — so asking them to type what is already known is work with no purpose; and the confidence is high enough that filling won't be wrong",
-        "resulting": [
-          {
-            "clause": "the fields arrive already populated from the actor's own data, and what's left for them is checking rather than typing"
-          },
-          {
-            "clause": "filling a field silently shows the actor what the system knows about them, in a place they hadn't asked the question"
-          },
-          {
-            "clause": "pre-filled values get submitted without being read, so a wrong stored value travels further than a wrong typed one would have"
-          }
-        ]
+        "initiating": "… in [assistance escalation](/sequences/assistance-escalation) or inside a [form](/patterns/form), a static guess from [good defaults](/patterns/good-defaults) is not enough because the field requires the actor's own specific value, and typing it from scratch would ask them to retype what is already stored. Autofill sits near the floor of [assisted task completion](/patterns/assisted-task-completion), supplying known values from the browser, a password manager, or the application's own record before typing begins.",
+        "resulting": "Fields now arrive populated from the actor's stored records, shifting their work from typing to checking before submission. Where the actor is typing a value that is not stored in full—such as a lookup from a large index—[autocomplete](/patterns/autocomplete) handles completion in flight rather than filling up front. Unlike a [suggestion](/patterns/suggestion), which proposes an inferred option for the actor to weigh, autofill writes a stored value directly into the field without asking first. Because pre-filled values are often submitted unread, stale or misapplied records travel further than typed errors, so pair autofill with [review before submitting](/patterns/review-before-submitting) when a wrong value carries a real cost…"
       },
       "evidence": [
         {
@@ -649,7 +643,30 @@
       "role": "pattern",
       "situation": {
         "initiating": "… someone other than the actor has proposed changes to something that already exists and that the actor is responsible for. In [delegating a task](/sequences/delegating-a-task) the result of a run arrives as changes to existing content, [generated content](/patterns/generated-content) the actor has to check rather than write. In [working on the same thing](/sequences/working-on-the-same-thing) a colleague's edits, made in a separate draft under [draft and publish](/patterns/draft-and-publish), come back to be merged. A [trial run](/patterns/trial-run) produces a before and after across many cases. In each of these, if the actor can see only the changed result, they can either accept all of it without checking or reject all of it. Change review shows what is there now next to what would replace it, so the actor can check the change and accept it in parts.",
-        "resulting": "The change can now be decided on part by part. Draw it with [comparing](/patterns/comparing)'s version case: the shared structure is assumed and only the difference is shown. Where the system proposed the change and applying it has consequences, an [approval gate](/patterns/approval-gate) can act on the review, so that the approval refers to a specific change. [Commenting](/patterns/commenting) attaches discussion to particular changes rather than to the document as a whole, and where colleagues review each other's work, [status feedback](/patterns/status-feedback) records the outcome in a set form. Rejecting a proposed change is [undo](/patterns/undo) before the change is applied; changes that have been accepted and applied still need undo afterwards. When a change is hard to follow, the usual repair is to ask whoever made it. Where the system made it there may be nobody to ask, and [transparent reasoning](/patterns/transparent-reasoning) gives an account of the work in the author's place, though it is the system's own report and can be wrong. Change review differs from the [activity log](/patterns/activity-log), which records what was done over time rather than one change proposed to one thing, from [plan preview](/patterns/plan-preview), which shows what the system intends to do before the work rather than the change after it, and from [review before submitting](/patterns/review-before-submitting), which shows the actor their own answers rather than a change someone else proposes…"
+        "resulting": "The change can now be decided on part by part. Draw it with [comparing](/patterns/comparing)'s version case: the shared structure is assumed and only the difference is shown. Where the system proposed the change and applying it has consequences, an [approval gate](/patterns/approval-gate) can act on the review, so that the approval refers to a specific change. [Commenting](/patterns/commenting) attaches discussion to particular changes rather than to the document as a whole, and where colleagues review each other's work, [status feedback](/patterns/status-feedback) records the outcome in a set form. Rejecting a proposed change is [undo](/patterns/undo) before the change is applied; changes that have been accepted and applied still need undo afterwards. When a change is hard to follow, the usual repair is to ask whoever made it. Where the system made it there may be nobody to ask, and a [work trail](/patterns/work-trail) gives an account of the work in the author's place, though the model's narration is its own report and can be wrong. Change review differs from the [activity log](/patterns/activity-log), which records what was done over time rather than one change proposed to one thing, from [plan preview](/patterns/plan-preview), which shows what the system intends to do before the work rather than the change after it, and from [review before submitting](/patterns/review-before-submitting), which shows the actor their own answers rather than a change someone else proposes…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
+        }
+      ]
+    },
+    {
+      "id": "charted-progress",
+      "title": "Charted progress",
+      "category": "Actions",
+      "path": "/patterns/charted-progress",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… [onboarding](/patterns/onboarding) spans more than one sitting, and several of the tasks that bring the actor to competent use can be taken in any order. Without a visible map of the whole, the actor cannot tell how much setup remains or which step is worth taking next, and they often stop after the first step that looks optional.",
+        "resulting": "Report each completed milestone through [status feedback](/patterns/status-feedback) at the moment it finishes, and update the list so the actor always sees where they stand. Where a single milestone involves an ordered sequence of inputs of its own, let [step by step](/patterns/step-by-step) carry the actor through that item before returning them to the list. Where the right next move depends on the actor's specific data or behaviour rather than a shared set of milestones, an inferred [next-best action](/patterns/next-best-action) takes over from a fixed checklist. Because the list is scaffolding for the first run, remove it from the surface once its milestones are complete…"
       },
       "seed": true,
       "evidence": [
@@ -672,7 +689,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… the system has produced [generated content](/patterns/generated-content) whose claims the actor did not write and needs to know the source of: an answer in a conversation, a report built from [reference material](/patterns/reference-material), or a [text lens](/patterns/text-lens) summary compressing a longer document. Citation completes these larger patterns by pointing each claim to the source passage behind it, so seeing where a claim comes from and checking it takes following a link rather than researching the question again from scratch.",
-        "resulting": "Each cited claim now has a passage to check, so verifying a claim takes following a pointer rather than searching from scratch, while citing narrows the output toward what the sources explicitly state. Give each marker a [link preview](/patterns/link-preview) of the cited span so the actor can weigh the passage in place before opening the full source. Where a claim has no source passage behind it, or its sources disagree, mark the span with [expressed uncertainty](/patterns/expressed-uncertainty) graded by that evidence, rather than attaching a weak link or leaving the gap silent. Place the citations ahead of any [explanation](/patterns/explanation), which answers why the system reached its conclusion rather than where a claim came from and, when read first, makes actors less likely to open the sources. Where the answer took several steps to produce, pair citations with [transparent reasoning](/patterns/transparent-reasoning) so the actor can inspect the path taken alongside the passages each claim rests on. Because citation marks raise trust on sight even when nobody follows them and even when the source does not support the claim, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes require the actor to verify before committing. In [prose](/patterns/prose), a citation is a hyperlink in its reference mode, naming its target so the actor can follow it to check. Citation is not [provenance marking](/patterns/provenance-marking), which records who or what made the content rather than which source passage backs a claim, nor is it [annotation](/patterns/annotation), which is the actor's own layer over content they cannot change…"
+        "resulting": "Each cited claim now has a passage to check, so verifying a claim takes following a pointer rather than searching from scratch, while citing narrows the output toward what the sources explicitly state. Give each marker a [link preview](/patterns/link-preview) of the cited span so the actor can weigh the passage in place before opening the full source. Where a claim has no source passage behind it, or its sources disagree, mark the span with [expressed uncertainty](/patterns/expressed-uncertainty) graded by that evidence, rather than attaching a weak link or leaving the gap silent. Place the citations ahead of any [explanation](/patterns/explanation), which answers why the system reached its conclusion rather than where a claim came from and, when read first, makes actors less likely to open the sources. Where the answer took several steps to produce, pair citations with a [work trail](/patterns/work-trail) so the actor can inspect the path taken alongside the passages each claim rests on. Because citation marks raise trust on sight even when nobody follows them and even when the source does not support the claim, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes require the actor to verify before committing. In [prose](/patterns/prose), a citation is a hyperlink in its reference mode, naming its target so the actor can follow it to check. Citation is not [provenance marking](/patterns/provenance-marking), which records who or what made the content rather than which source passage backs a claim, nor is it [annotation](/patterns/annotation), which is the actor's own layer over content they cannot change…"
       },
       "evidence": [
         {
@@ -968,39 +985,6 @@
         },
         {
           "kind": "used"
-        }
-      ]
-    },
-    {
-      "id": "data-entry",
-      "title": "Data entry",
-      "category": "Actions",
-      "path": "/patterns/data-entry",
-      "role": "pattern",
-      "situation": {
-        "initiating": "the actor holds something the system needs — a date, a name, a measurement — in their own loose form, and guessing it isn't available because they are the only source; the system needs it structured and they expressed it however came naturally",
-        "resulting": [
-          {
-            "clause": "the expression is in and structured — and where the system did the structuring rather than the actor, its reading of what they meant has to be shown back before it counts as agreed",
-            "setsUp": [
-              "status-feedback"
-            ]
-          },
-          {
-            "clause": "input that arrived cleanly can still be wrong in ways the control can't catch, so accepting a value and accepting it as correct are separate steps",
-            "setsUp": [
-              "validation"
-            ]
-          },
-          {
-            "clause": "the entry move is now spread across whatever surfaces host it — a form field, a conversational turn, a control in the inline interface — and the same value can arrive by any of them, in a different shape each time"
-          }
-        ]
-      },
-      "group": "application",
-      "evidence": [
-        {
-          "kind": "literature"
         }
       ]
     },
@@ -1398,6 +1382,29 @@
       ]
     },
     {
+      "id": "feature-discovery",
+      "title": "Feature discovery",
+      "category": "Actions",
+      "path": "/patterns/feature-discovery",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor is working in the artifact, during [onboarding](/patterns/onboarding) or long after it, and a capability that would serve what they are doing is one they have not met: either an existing function they never discovered, or one that has just been added or changed. [Help](/patterns/help) answers only the questions the actor knows to ask, while explaining every capability up front is skipped and forgotten.",
+        "resulting": "Record whether the actor has seen, dismissed, or tried the prompt in [remembered state](/patterns/remembered-state), so the same tip is never shown twice and returns only if the capability itself changes. Keep [help](/patterns/help) as the pull channel the actor can consult on demand, so proactive offers and actor-initiated lookup divide the work between them. Surface faster execution routes in the same way, placing [keyboard shortcuts](/patterns/keyboard-shortcuts) as hints beside the slower controls the actor is already using. In a [layered interface](/patterns/layered-interface), use contextual discovery to show what the next layer holds when the actor's work reaches the boundary of the current one. When an important change must reach actors who are away from the surface where it lives, route the announcement through a [notification](/patterns/notification)…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
+        }
+      ]
+    },
+    {
       "id": "federated-identity",
       "title": "Federated identity",
       "category": "Operations",
@@ -1475,6 +1482,26 @@
       ]
     },
     {
+      "id": "forgiving-format",
+      "title": "Forgiving format",
+      "category": "Operations",
+      "path": "/patterns/forgiving-format",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… in [making changes](/sequences/making-changes), a [form](/patterns/form), a [conversation](/patterns/conversation) turn, or an [inline interface](/patterns/inline-interface) needs a value the actor holds in a loose or variable form, where a [structured format](/patterns/structured-format) would force needless translation. Forgiving format lets the actor express the value naturally and shifts the work of structuring it onto the system.",
+        "resulting": "Because the system or an [agent](/patterns/agent) did the structuring, report what was parsed through [status feedback](/patterns/status-feedback) and confirm it with [showing the reading](/patterns/showing-the-reading) before it counts as agreed. Mark doubtful readings with [expressed uncertainty](/patterns/expressed-uncertainty), and expose why a reading was chosen through [explanation](/patterns/explanation) when stakes warrant it. Follow parsing with [validation](/patterns/validation) for errors the parser cannot catch, and pair it with [localization](/patterns/localization) so regional dates, numbers, and addresses are read in the actor's locale. Where loose input populates several fields at once, end with [review before submitting](/patterns/review-before-submitting) so extracted values do not go through unread. Unlike [incremental formalisation](/patterns/incremental-formalisation), which lets content stay informal and promotes structure only later, forgiving format parses into an existing schema at the moment of entry…"
+      },
+      "group": "application",
+      "evidence": [
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "observed"
+        }
+      ]
+    },
+    {
       "id": "form",
       "title": "Form",
       "category": "Actions",
@@ -1482,7 +1509,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… in [making changes](/sequences/making-changes) the actor has reached the point of saying what the change is, and it takes several related answers: the fields only make sense together, need more room than the display offers, or apply to a set rather than the item in view. [Editing in place](/patterns/editing-in-place) handles the single value; a form is the surface for the set. The editor for a standing instruction in [delegating a task](/sequences/delegating-a-task) uses the same surface for a set of fields that stays open.",
-        "resulting": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it. Where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting), and let [status feedback](/patterns/status-feedback) report what the submission did. A form that has outgrown one screen is split by [sections](/patterns/sections) into parts, by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another it has become a [wizard](/patterns/wizard). A form holds pending state until it is committed, so decide with [saving](/patterns/saving) what happens to a half-filled one, and let [localization](/patterns/localization) decide which formats its fields accept…"
+        "resulting": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [forgiving format](/patterns/forgiving-format) or [structured format](/patterns/structured-format) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it. Where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting), and let [status feedback](/patterns/status-feedback) report what the submission did. A form that has outgrown one screen is split by [sections](/patterns/sections) into parts, by [progressive disclosure](/patterns/progressive-disclosure) into depth shown as it becomes relevant, or by [step by step](/patterns/step-by-step) into one question per page; where the steps depend on one another it has become a [wizard](/patterns/wizard). A form holds pending state until it is committed, so decide with [saving](/patterns/saving) what happens to a half-filled one, and let [localization](/patterns/localization) decide which formats its fields accept…"
       },
       "group": "application",
       "realisedBy": [
@@ -1543,7 +1570,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… the artifact has an [agent](/patterns/agent) in it, and part of what the actor reads and works on was produced by it from a [prompt](/patterns/prompt), [reference material](/patterns/reference-material), and the context it was given, including what [memory](/patterns/memory) carried in. The output may be a reply in a [conversation](/patterns/conversation), a draft, a set of edits, or a generated interface.",
-        "resulting": "Let the actor steer the output in words with [instructed revision](/patterns/instructed-revision), which works from the output they have, or request another version through [regeneration](/patterns/regeneration), which draws again from the request, for the whole output or for a selected passage. Where the request itself was at fault, let them change the [prompt](/patterns/prompt) and draw again from it, and where they already have the wording in mind, [editing in place](/patterns/editing-in-place) is more direct. Move corrections that have to be repeated on every run into [standing instructions](/patterns/standing-instructions). Ground individual claims in their sources with [citation](/patterns/citation), mark weakly supported parts with [expressed uncertainty](/patterns/expressed-uncertainty), and label machine output with [provenance marking](/patterns/provenance-marking) when it mixes with human writing or leaves the tool. Pair the result with [transparent reasoning](/patterns/transparent-reasoning) or [explanation](/patterns/explanation) to show how it was produced, and add [cognitive forcing functions](/patterns/cognitive-forcing-functions) before acceptance where an unchecked error would be costly. When the actor is ready to commit the output, use [change review](/patterns/change-review) to accept edits to existing content piece by piece, [extraction](/patterns/extraction) to save a result as a standalone item, or [next-best action](/patterns/next-best-action) to propose the next step…"
+        "resulting": "Let the actor steer the output in words with [instructed revision](/patterns/instructed-revision), which works from the output they have, or request another version through [regeneration](/patterns/regeneration), which draws again from the request, for the whole output or for a selected passage. Where the request itself was at fault, let them change the [prompt](/patterns/prompt) and draw again from it, and where they already have the wording in mind, [editing in place](/patterns/editing-in-place) is more direct. Move corrections that have to be repeated on every run into [standing instructions](/patterns/standing-instructions). Ground individual claims in their sources with [citation](/patterns/citation), mark weakly supported parts with [expressed uncertainty](/patterns/expressed-uncertainty), and label machine output with [provenance marking](/patterns/provenance-marking) when it mixes with human writing or leaves the tool. Pair the result with a [work trail](/patterns/work-trail) or [explanation](/patterns/explanation) to show how it was produced, and add [cognitive forcing functions](/patterns/cognitive-forcing-functions) before acceptance where an unchecked error would be costly. When the actor is ready to commit the output, use [change review](/patterns/change-review) to accept edits to existing content piece by piece, [extraction](/patterns/extraction) to save a result as a standalone item, or [next-best action](/patterns/next-best-action) to propose the next step…"
       },
       "evidence": [
         {
@@ -1564,26 +1591,8 @@
       "path": "/patterns/good-defaults",
       "role": "pattern",
       "situation": {
-        "resulting": [
-          {
-            "clause": "fields hold the system's best static guess — which serves only until the actor starts typing a value of their own; completion then has to happen in flight rather than up front",
-            "setsUp": [
-              "autocomplete"
-            ]
-          },
-          {
-            "clause": "a good default is a guess at the value; where the system already holds the actual value in the actor's record, pre-filling from the record takes over from guessing",
-            "setsUp": [
-              "autofill"
-            ]
-          },
-          {
-            "clause": "pre-population ends where the task needs the system to participate in the work itself — the assisted-completion spectrum picks up where a static guess stops sufficing",
-            "setsUp": [
-              "assisted-task-completion"
-            ]
-          }
-        ]
+        "initiating": "… in [making changes](/sequences/making-changes) or at the start of [assistance escalation](/sequences/assistance-escalation), a [form](/patterns/form) or a [wizard](/patterns/wizard) step now holds fields and [bounded choices](/patterns/bounded-choice) that ask the actor for answers, and [onboarding](/patterns/onboarding) needs decisions that do not change the first result settled out of the way. Leaving those fields blank for [forgiving](/patterns/forgiving-format) or [structured format](/patterns/structured-format) entry asks the actor to supply every value from scratch. Good defaults resolve those routine fields up front from typical use, general context, or a past choice kept by [remembered state](/patterns/remembered-state), so the actor only has to answer what differs.",
+        "resulting": "Fields now hold the system's best static guess, which serves only until the actor starts typing a value of their own; hand over to [autocomplete](/patterns/autocomplete) so completion happens in flight rather than up front. Where the system already holds the actor's actual value in a profile, earlier session, or browser record, let [autofill](/patterns/autofill) take over from guessing. Where the task needs the system to participate in the work itself and a static guess stops sufficing, continue into [assisted task completion](/patterns/assisted-task-completion). Pair defaults with [localization](/patterns/localization) so locale-dependent guesses such as language, timezone, and formats match the actor's region. Where a standing default does not fit an actor on an axis they care about, let them override it once in [settings](/patterns/settings) so the preference holds across sessions. Where confidence is too low to pre-fill a value directly, offer a [suggestion](/patterns/suggestion) instead of committing a guess on the actor's behalf…"
       },
       "evidence": [
         {
@@ -1756,7 +1765,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… under [identity at the point of need](/patterns/identity-at-the-point-of-need), an artifact asks for an identity only when a task genuinely requires one. An actor arrives at the artifact to explore its tools, evaluate its fit, or complete a discrete task, before any need for an account has arisen. This pattern gives the artifact its entrance at that opening threshold, where no identity has yet been declared.",
-        "resulting": "The actor can use the artifact immediately without creating an account or proving identity. Draft state stays in browser storage or in [deep linking](/patterns/deep-linking). Pair with [resuming](/patterns/resuming) so that in-flight work survives across visits and browser reloads. Where the artifact offers starter templates or exploratory tasks, lead directly into [onboarding](/patterns/onboarding) to orient the newcomer…"
+        "resulting": "The actor can use the artifact immediately without creating an account or proving identity. Draft state stays in browser storage or in [deep linking](/patterns/deep-linking). Pair with [resuming](/patterns/resuming) so that in-flight work survives across visits and browser reloads. Where the artifact offers starter templates or exploratory tasks, lead directly into [onboarding](/patterns/onboarding) to orient the newcomer, where this pattern is what lets the first result come before any request for an account…"
       },
       "evidence": [
         {
@@ -2007,6 +2016,26 @@
       ]
     },
     {
+      "id": "layered-interface",
+      "title": "Layered interface",
+      "category": "Actions",
+      "path": "/patterns/layered-interface",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the artifact holds far more functions than a newcomer needs, and during [onboarding](/patterns/onboarding) the unfamiliar controls are where early mistakes happen. A layered interface applies [progressive disclosure](/patterns/progressive-disclosure) across the actor's developing competence rather than within a single view: advanced functions are held back across sessions until the actor is ready for them.",
+        "resulting": "Holding functions back leaves capabilities that exist in the artifact but are absent from the active layer. Omit them from the surface entirely as [unavailable actions](/patterns/unavailable-actions) when keeping the view uncluttered matters most, or show them inactive in a [disabled state](/patterns/state-disabled) with a path to unlock them when the actor needs to see what higher layers hold, at the cost of putting some visual complexity back on screen. Keep the layer switcher visible and hold the same choice in [settings](/patterns/settings) as a lasting preference, so the move to a fuller layer is always the actor's decision, and let [feature discovery](/patterns/feature-discovery) offer the same switch when the actor's work reaches a capability the current layer hides. Outgrowing the reduced layers and moving into the full toolset is part of [mastery](/patterns/mastery)…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "observed"
+        }
+      ]
+    },
+    {
       "id": "learnability",
       "title": "Learnability",
       "category": "Qualities",
@@ -2161,6 +2190,29 @@
       ]
     },
     {
+      "id": "mid-run-redirection",
+      "title": "Mid-run redirection",
+      "category": "Actions",
+      "path": "/patterns/mid-run-redirection",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… an agent is partway through a multi-step run, and its [work trail](/patterns/work-trail) or [working plan](/patterns/working-plan) shows a wrong assumption, a missing constraint, or a branch heading the wrong way. Stopping the run with [abort](/patterns/abort) would discard valid work already done, while waiting for it to finish spends time and cost on a result the actor already knows is off course.",
+        "resulting": "The run absorbs the correction at its next step—or rewinds to the disputed step—keeping earlier progress intact while the [work trail](/patterns/work-trail) records where the actor intervened. Where the run has already finished, [instructed revision](/patterns/instructed-revision) reshapes the result after the fact, and where the agent cannot recover even with guidance, [handoff](/patterns/handoff) transfers the work back to the actor. Where the actor wants to compare the corrected direction against the original path rather than replace it, [branching](/patterns/branching) forks the run from the disputed step. In [delegation](/patterns/delegation), mid-run redirection covers the steering touchpoint during exception handling without requiring a full takeover…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
+        }
+      ]
+    },
+    {
       "id": "modality",
       "title": "Modality",
       "category": "Foundations",
@@ -2281,16 +2333,18 @@
       "path": "/patterns/onboarding",
       "role": "pattern",
       "situation": {
-        "initiating": "an actor's first encounter with a system (or a changed part of one) before they have a working mental model of what's possible and what will happen",
-        "resulting": [
-          {
-            "clause": "a bounded period in which the actor can build that model with low stakes, often by doing rather than reading"
-          }
-        ]
+        "initiating": "… an actor arrives at an artifact for the first time, through [immediate use](/patterns/immediate-use) or [account access](/patterns/account-access), and has no working model yet of what it holds, what their actions will do, or what it will do on its own. This is the start of the actor's [learning](/sequences/learning).",
+        "resulting": "Onboarding is assembled from smaller patterns according to what the first run has to cover. Begin on the [empty state](/patterns/state-empty) of the surface the actor will work on, so the first view shows what belongs there and how to create it, and use [good defaults](/patterns/good-defaults) to settle decisions that do not change the first result. Give the actor a [template](/patterns/template) when they need a starting shape to fill, or a [starter example](/patterns/starter-example) when they need a finished item to inspect, modify, and clear. Use a [wizard](/patterns/wizard) only where early setup decisions depend on one another. Where the artifact has more capabilities than a newcomer can take in at once, hold advanced functions back in a [layered interface](/patterns/layered-interface), surface individual capabilities at the moment they become relevant through [feature discovery](/patterns/feature-discovery), and lay out the route across sittings with [charted progress](/patterns/charted-progress). Defer access grants until the actor triggers the feature that needs them, as [permissions](/patterns/permissions) prescribes. Where an [agent](/patterns/agent) will act on the actor's behalf, introduce what it can and cannot do during the first run and state its [capability and scope](/patterns/capability-and-scope) before the first turn. When the newcomer is entering a shared workspace that already holds other people's work, pair onboarding with [joining work in progress](/patterns/joining-work-in-progress) so they can tell why existing structures were set up that way. Leave unanticipated questions to [help](/patterns/help), which stays available after the first run ends, and let [mastery](/patterns/mastery) clear the first-run scaffolding away once the actor is working fluently…"
       },
       "evidence": [
         {
+          "kind": "observed"
+        },
+        {
           "kind": "literature"
+        },
+        {
+          "kind": "used"
         }
       ]
     },
@@ -2485,21 +2539,8 @@
       "path": "/patterns/plan-preview",
       "role": "pattern",
       "situation": {
-        "initiating": "the actor has asked for something consequential that takes several steps; the agent has settled what the request means and is about to choose how to carry it out, and acting straight away would spend real work — and possibly real consequences.",
-        "resulting": [
-          {
-            "clause": "the agent's intention is now a reviewable object — steps, targets, expected effects — so a wrong course is caught while it is still cheap, and the preview becomes the thing an approval can act on",
-            "setsUp": [
-              "approval-gate"
-            ]
-          },
-          {
-            "clause": "the plan and the execution can drift apart, so the preview only means something while the system is held to what it showed"
-          },
-          {
-            "clause": "every preview spends actor attention; asked to review too often, the actor stops reading plans and the preview becomes ritual"
-          }
-        ]
+        "initiating": "… the actor has made an [open request](/patterns/open-request) of an agent for something consequential that takes several steps, and [showing the reading](/patterns/showing-the-reading) has settled what it means. The work may be done in reply or handed over in [delegation](/patterns/delegation). Starting at once would spend real work, and possibly real consequences, before the actor has seen what it will change.",
+        "resulting": "The agent's intention can be judged before it costs anything: the steps, what they will touch and what they will cost, with [cost transparency](/patterns/cost-transparency) supplying the spend. Holding the plan until the actor starts it puts an [approval gate](/patterns/approval-gate) in front of the whole run. Once the run starts, the previewed plan becomes the [working plan](/patterns/working-plan), which the agent keeps current as it works. How much preview a request warrants follows from its [action consequences](/patterns/action-consequences), since an actor asked to review too often stops reading plans and the preview becomes a ritual. The The reasoning and actions behind the steps are for the [work trail](/patterns/work-trail) to show…"
       },
       "seed": true,
       "evidence": [
@@ -3291,6 +3332,26 @@
       ]
     },
     {
+      "id": "starter-example",
+      "title": "Starter example",
+      "category": "Actions",
+      "path": "/patterns/starter-example",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… during [onboarding](/patterns/onboarding), the actor arrives at an [empty state](/patterns/state-empty) on a surface—such as a board, a database, a timeline, or an analytics view—whose structure and value only become clear once it holds populated content. A [template](/patterns/template) gives the actor an empty frame to fill, but not a finished instance they can inspect and manipulate before creating their own.",
+        "resulting": "Pair the example with a [template](/patterns/template) so that once the actor has seen how a finished item is put together, they have a clean structure ready for their own work. Keep the sample content isolated from live metrics, notifications, and exports, and let the actor remove all of it in a single action as soon as their own work begins…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
+    },
+    {
       "id": "state-disabled",
       "title": "Disabled state",
       "category": "Operations",
@@ -3307,19 +3368,17 @@
       "path": "/patterns/state-empty",
       "role": "pattern",
       "situation": {
-        "initiating": "the surface has nothing to show and the reason matters — the actor hasn't made anything yet, or their filter excluded everything, or they don't have access; an empty region says none of that on its own and reads as broken",
-        "resulting": [
-          {
-            "clause": "the gap explains itself and points somewhere: the actor knows why there is nothing here and what would put something here"
-          },
-          {
-            "clause": "first-run emptiness is the largest uninterrupted surface the system ever gets, and it arrives in front of an actor who has committed nothing yet"
-          },
-          {
-            "clause": "the empty states multiply — every filter, every permission boundary, every new container has one — and the ones nobody wrote say nothing"
-          }
-        ]
-      }
+        "initiating": "… a surface that normally holds a collection, document, or view has nothing to show, and the reason matters: the actor has not created anything yet, their search or filter excluded every item, a queue has been cleared, or they lack permission to see what is there. A blank region does not say which state the actor is in, and reads as broken.",
+        "resulting": "On first use, the empty state is where [onboarding](/patterns/onboarding) begins, since it is the actor's first view of the surface they will work on, and it is also the clearest place for a first-run flow to land so the next action is unmistakable. Where starting from nothing is slow, offer a [template](/patterns/template) that gives the actor a structure to fill, or host a [starter example](/patterns/starter-example) on the surface so they can inspect a finished item and clear it when ready. Beyond first use, empty states multiply with every filter, search query, permission boundary, and cleared inbox, and each one owes the actor the specific reason it is empty and the action that resolves it…"
+      },
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "used"
+        }
+      ]
     },
     {
       "id": "status-feedback",
@@ -3392,6 +3451,26 @@
       "evidence": [
         {
           "kind": "literature"
+        }
+      ]
+    },
+    {
+      "id": "structured-format",
+      "title": "Structured format",
+      "category": "Operations",
+      "path": "/patterns/structured-format",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… in [making changes](/sequences/making-changes), a [form](/patterns/form) or a [wizard](/patterns/wizard) step needs a value with a strict, familiar syntax—such as a card number, licence key, or verification code—where [forgiving format](/patterns/forgiving-format) parsing would risk a costly misreading.",
+        "resulting": "Follow entry with [validation](/patterns/validation) at the field, since a value that matches the syntax can still fail semantic checks such as an expired card or an unknown code. Adapt the shape through [localization](/patterns/localization) wherever formats vary by region, and preserve single-field semantics so [autofill](/patterns/autofill) can supply stored records cleanly. Where the value must come from a fixed set rather than a formatted string, use [bounded choice](/patterns/bounded-choice) instead…"
+      },
+      "group": "application",
+      "evidence": [
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "observed"
         }
       ]
     },
@@ -3559,35 +3638,6 @@
       "evidence": [
         {
           "kind": "built"
-        }
-      ]
-    },
-    {
-      "id": "transparent-reasoning",
-      "title": "Transparent reasoning",
-      "category": "Activities",
-      "path": "/patterns/transparent-reasoning",
-      "role": "pattern",
-      "situation": {
-        "initiating": "the reasoning is where the actor's judgement would have to attach, and it isn't there — the output arrives with no account of how it was reached, which leaves trusting it and doubting it equally uninformed",
-        "resulting": [
-          {
-            "clause": "the reasoning is a legible trail the actor can scroll, expand, revisit and challenge, which is what makes selective trust possible instead of all-or-nothing"
-          },
-          {
-            "clause": "visible reasoning anchors as readily as it informs: a trail that looks thorough invites the actor to stop reading it and start relying on it, which is the state a deliberate interruption exists for",
-            "setsUp": [
-              "cognitive-forcing-functions"
-            ]
-          },
-          {
-            "clause": "the trail is itself a claim about how the answer was reached, and whether it is the actual computation or a narration produced alongside it isn't visible from the trail"
-          }
-        ]
-      },
-      "evidence": [
-        {
-          "kind": "literature"
         }
       ]
     },
@@ -3810,8 +3860,8 @@
       "path": "/patterns/wizard",
       "role": "pattern",
       "situation": {
-        "initiating": "… the actor is about to start a task in [making changes](/sequences/making-changes), or in the first encounter of [learning](/sequences/learning), that they meet so rarely they have no model of it, and whose early answers decide which questions exist later; [onboarding](/patterns/onboarding) runs its first-time setup this way for the same reason, since the actor has to choose before understanding what each control means. A [form](/patterns/form) would put every field on one page, and most tasks are better served by one. A wizard gives these sequences a task the actor can finish without a model of it, by applying [progressive disclosure](/patterns/progressive-disclosure) one decision at a time and letting each answer remove the questions that no longer apply; [step by step](/patterns/step-by-step) gives it its navigation when the sequence also decides how the actor moves through the interface.",
-        "resulting": "Each part of the instruction is a smaller pattern, and they follow the actor's path through the steps. Throughout, let [status feedback](/patterns/status-feedback) say where the actor is, what failed, and at the end what the submission produced. In each step, pre-fill with [good defaults](/patterns/good-defaults) whatever the system can guess or remembers from last time, which is also most of the faster path for returning actors. Put [help](/patterns/help) beside the [fields](/patterns/data-entry) it explains, so guidance never takes the actor out of the step. Check each step's inputs with [validation](/patterns/validation) at the field, before the actor can advance, so an early mistake does not carry into the steps that depend on it. Make going back free, since the flow hides everything but the current step: give it a non-destructive [undo](/patterns/undo) and a Back that keeps every answer. Where the flow runs longer than one sitting, give it [resuming](/patterns/resuming), and ask before any exit that would discard what was entered. End with a [review before submitting](/patterns/review-before-submitting), every answer in one place and each linked back to its step, so the actor checks the whole before committing it…"
+        "initiating": "… the actor is about to start a task in [making changes](/sequences/making-changes), or in the first encounter of [learning](/sequences/learning), that they meet so rarely they have no model of it, and whose early answers decide which questions exist later; [onboarding](/patterns/onboarding) takes first-time setup this way for the same reason, since the actor has to choose before understanding what each control means. A [form](/patterns/form) would put every field on one page, and most tasks are better served by one. A wizard gives these sequences a task the actor can finish without a model of it, by applying [progressive disclosure](/patterns/progressive-disclosure) one decision at a time and letting each answer remove the questions that no longer apply; [step by step](/patterns/step-by-step) gives it its navigation when the sequence also decides how the actor moves through the interface.",
+        "resulting": "Each part of the instruction is a smaller pattern, and they follow the actor's path through the steps. Throughout, let [status feedback](/patterns/status-feedback) say where the actor is, what failed, and at the end what the submission produced. In each step, pre-fill with [good defaults](/patterns/good-defaults) whatever the system can guess or remembers from last time, which is also most of the faster path for returning actors. Put [help](/patterns/help) beside the fields it explains, so guidance never takes the actor out of the step. Check each step's inputs with [validation](/patterns/validation) at the field, before the actor can advance, so an early mistake does not carry into the steps that depend on it. Make going back free, since the flow hides everything but the current step: give it a non-destructive [undo](/patterns/undo) and a Back that keeps every answer. Where the flow runs longer than one sitting, give it [resuming](/patterns/resuming), and ask before any exit that would discard what was entered. End with a [review before submitting](/patterns/review-before-submitting), every answer in one place and each linked back to its step, so the actor checks the whole before committing it…"
       },
       "group": "application",
       "evidence": [
@@ -3823,6 +3873,25 @@
         },
         {
           "kind": "used"
+        }
+      ]
+    },
+    {
+      "id": "work-trail",
+      "title": "Work trail",
+      "category": "Actions",
+      "path": "/patterns/work-trail",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… an [agent](/patterns/agent) has taken on work that requires several steps—searching, reading, calling tools, or working through a problem—and returning only the final output would leave the actor with nothing to judge it by. The run may happen in a conversation or out of sight in [delegation](/patterns/delegation), where the actor needs a hood to look under during or after execution. Where a [plan preview](/patterns/plan-preview) stated what the run intended beforehand and a [working plan](/patterns/working-plan) tracks what steps are left, the work trail carries the path actually taken, streamed through [live presentation](/patterns/live-presentation) while the run is under way.",
+        "resulting": "The intermediate steps sit beside the work as an inspectable trail, folded behind [progressive disclosure](/patterns/progressive-disclosure) once the turn settles so the path does not bury the answer. When the actor spots a wrong premise or a wasted branch while the run is still moving, [mid-run redirection](/patterns/mid-run-redirection) lets them steer the agent onto another path without discarding the work already done. Because a fluent trail anchors as readily as it informs—inviting the actor to stop reading and defer on appearance alone—pair it with [cognitive forcing functions](/patterns/cognitive-forcing-functions) before acceptance where an unchecked error would be costly. Once the run ends, the trail attaches to [generated content](/patterns/generated-content), grounds an absent author's edits in [change review](/patterns/change-review), anchors into the lasting [activity log](/patterns/activity-log), and keeps the basis of agent decisions auditable in [collaboration](/patterns/collaboration). Pair the trail with [citation](/patterns/citation) to bind specific claims to the source passages retrieved along the way, and with [expressed uncertainty](/patterns/expressed-uncertainty) when backtracking or conflicting tool results leave a part of the answer thinly supported. How much of the trail stays open by default versus folded into a summary follows from [action consequences](/patterns/action-consequences). A work trail is not an [explanation](/patterns/explanation): where a single-move output has no multi-step path to inspect, an explanation lays out the factors, rules, or domain rationale behind the result instead…"
+      },
+      "evidence": [
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "observed"
         }
       ]
     },
@@ -3855,6 +3924,23 @@
         },
         {
           "kind": "built"
+        }
+      ]
+    },
+    {
+      "id": "working-plan",
+      "title": "Working plan",
+      "category": "Actions",
+      "path": "/patterns/working-plan",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… the actor has handed an agent a piece of work that takes several steps, in a conversation or in [delegation](/patterns/delegation), and the agent is now working through them. Often the actor approved the plan beforehand in a [plan preview](/patterns/plan-preview). The actor wants to know how far the run has got and what it will do next, without stopping it to ask.",
+        "resulting": "What is left of the run stays in front of the actor as it shrinks, and as it grows when the agent finds a step it needs. Once a step is done it passes into the [activity log](/patterns/activity-log), which keeps the record after the run ends. The done, current and next steps report progress in the work's own units, which [waiting](/patterns/waiting) would otherwise report in time. A step that needs the actor's decision stands in the list as an [approval gate](/patterns/approval-gate). The list shows what will be done, and why the agent chose those steps and what it did is for the [work trail](/patterns/work-trail) to show. The list is the agent's: the actor who wants the run to go differently says so in the conversation, and one who wants the work back takes it over through [handoff](/patterns/handoff)…"
+      },
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "observed"
         }
       ]
     },
@@ -3960,7 +4046,8 @@
       "type": "precedes",
       "extractedFrom": "frontmatter:precedes",
       "situation": "Once access is granted, lead into [onboarding](/patterns/onboarding) to orient the newcomer, or return the actor to their workspace",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "an actor arrives at an artifact for the first time, through [immediate use](/patterns/immediate-use) or [account access](/patterns/account-access), and has no working model yet of what it holds, what their actions will do, or what it will do on its own."
     },
     {
       "source": "account-access",
@@ -4408,8 +4495,10 @@
       "source": "agent",
       "target": "onboarding",
       "type": "precedes",
-      "label": "the agent's capabilities and limits are what a first encounter is designed to introduce",
-      "extractedFrom": "frontmatter:precedes"
+      "label": "the agent's capabilities and limits are what a first run is designed to introduce",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where an [agent](/patterns/agent) will act on the actor's behalf, introduce what it can and cannot do during the first run and state its [capability and scope](/patterns/capability-and-scope) before the first turn.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "agent",
@@ -4423,10 +4512,12 @@
     },
     {
       "source": "agent",
-      "target": "transparent-reasoning",
+      "target": "work-trail",
       "type": "precedes",
       "extractedFrom": "frontmatter:precedes",
-      "incomingNote": "generates the reasoning that transparent reasoning makes visible and inspectable."
+      "incomingNote": "generates the multi-step work and rationale that the work trail makes inspectable",
+      "situation": "an [agent](/patterns/agent) has taken on work that requires several steps—searching, reading, calling tools, or working through a problem—and returning only the final output would leave the actor with nothing to judge it by.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "agent",
@@ -4521,7 +4612,7 @@
     },
     {
       "source": "ai-completion",
-      "target": "transparent-reasoning",
+      "target": "explanation",
       "type": "complements",
       "label": "explaining *why* a completion was suggested, especially for derived values",
       "extractedFrom": "frontmatter:complements"
@@ -4778,131 +4869,143 @@
       "glossFrom": "source:resulting"
     },
     {
-      "source": "autocomplete",
-      "target": "data-entry",
-      "type": "enables",
-      "label": "autocomplete as a way to reduce input friction",
-      "extractedFrom": "frontmatter:enables"
-    },
-    {
       "source": "form",
       "target": "autocomplete",
       "type": "hosts",
-      "incomingNote": "form fields are where the completion surface most commonly lives",
       "extractedFrom": "frontmatter:hosted-by",
-      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
+      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [forgiving format](/patterns/forgiving-format) or [structured format](/patterns/structured-format) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
+      "glossFrom": "source:resulting",
+      "farSituation": "in [assistance escalation](/sequences/assistance-escalation) or inside a [form](/patterns/form) field, a static guess from [good defaults](/patterns/good-defaults) has given way to the actor typing their own value, or a field asks for an answer from a set too large to show in full."
+    },
+    {
+      "source": "autocomplete",
+      "target": "ai-completion",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Deterministic completion ends where the continuation has to be generated rather than looked up, so hand over to [AI completion](/patterns/ai-completion) when the actor is composing new text",
       "glossFrom": "source:resulting"
     },
     {
       "source": "autocomplete",
       "target": "autofill",
       "type": "complements",
-      "label": "the preemptive counterpart: pre-populates from stored values rather than completing what the actor types (and what the HTML `autocomplete` attribute actually controls)",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the system already holds the actor's value in a profile, earlier session, or browser record, [autofill](/patterns/autofill) supplies it before typing begins rather than completing it in flight.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Where the actor is typing a value that is not stored in full—such as a lookup from a large index—[autocomplete](/patterns/autocomplete) handles completion in flight rather than filling up front."
     },
     {
       "source": "autocomplete",
       "target": "bounded-choice",
       "type": "complements",
-      "label": "the selection autocomplete often serves",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "When the field requires a value from a fixed set too large to display up front, autocomplete serves [bounded choice](/patterns/bounded-choice) by turning the list into a searchable picker.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "autocomplete",
       "target": "assisted-task-completion",
       "type": "complements",
-      "label": "the spectrum autocomplete sits within",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Autocomplete sits at the reactive end of [assisted task completion](/patterns/assisted-task-completion), helping the actor finish or locate a known value while they type.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "autocomplete",
       "target": "suggestion",
       "type": "complements",
-      "label": "system-generated recommendations more broadly",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where candidates shift from matching a known index to proposing related or inferred options, autocomplete crosses into [suggestion](/patterns/suggestion).",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "autocomplete",
       "target": "searching",
       "type": "complements",
-      "label": "autocomplete in search fields is really a seeking pattern",
       "extractedFrom": "frontmatter:complements",
-      "situation": "At the input, pair the query box with [recents](/patterns/recents) before typing begins and [autocomplete](/patterns/autocomplete) as the actor types to complete terms or jump straight to a known item.",
-      "glossFrom": "target:resulting"
+      "situation": "In a query box, autocomplete pairs with [searching](/patterns/searching) to complete terms or jump straight to a known item; in [filtering](/patterns/filtering), it narrows available attribute values inside a filter clause; and in a [command menu](/patterns/command-menu), the same typed narrowing locates actions and navigation targets.",
+      "glossFrom": "source:resulting",
+      "farSituation": "At the input, pair the query box with [recents](/patterns/recents) before typing begins and [autocomplete](/patterns/autocomplete) as the actor types to complete terms or jump straight to a known item."
     },
     {
       "source": "autocomplete",
       "target": "command-menu",
       "type": "complements",
-      "label": "autocomplete applied to actions and navigation",
       "extractedFrom": "frontmatter:complements",
-      "situation": "As the actor types, pair the input with [autocomplete](/patterns/autocomplete) that matches fragments, initials, and synonyms across command names and parameters, since naming only helps when the actor does not need the exact label up front.",
-      "glossFrom": "target:resulting"
+      "situation": "In a query box, autocomplete pairs with [searching](/patterns/searching) to complete terms or jump straight to a known item; in [filtering](/patterns/filtering), it narrows available attribute values inside a filter clause; and in a [command menu](/patterns/command-menu), the same typed narrowing locates actions and navigation targets.",
+      "glossFrom": "source:resulting",
+      "farSituation": "As the actor types, pair the input with [autocomplete](/patterns/autocomplete) that matches fragments, initials, and synonyms across command names and parameters, since naming only helps when the actor does not need the exact label up front."
     },
     {
       "source": "autocomplete",
       "target": "filtering",
       "type": "complements",
-      "label": "autocomplete within filter value selection",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "In a query box, autocomplete pairs with [searching](/patterns/searching) to complete terms or jump straight to a known item; in [filtering](/patterns/filtering), it narrows available attribute values inside a filter clause; and in a [command menu](/patterns/command-menu), the same typed narrowing locates actions and navigation targets.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "autocomplete",
       "target": "learnability",
       "type": "enacts",
-      "label": "suggestions teach people what options exist",
+      "label": "autocomplete candidates show what valid options and vocabulary exist as the actor types",
       "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "form",
+      "target": "autofill",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [forgiving format](/patterns/forgiving-format) or [structured format](/patterns/structured-format) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
+      "glossFrom": "source:resulting",
+      "farSituation": "in [assistance escalation](/sequences/assistance-escalation) or inside a [form](/patterns/form), a static guess from [good defaults](/patterns/good-defaults) is not enough because the field requires the actor's own specific value, and typing it from scratch would ask them to retype what is already stored."
     },
     {
       "source": "autofill",
       "target": "autocomplete",
       "type": "complements",
-      "label": "the reactive counterpart: completes what the actor is actively typing rather than pre-populating from stored values",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the actor is typing a value that is not stored in full—such as a lookup from a large index—[autocomplete](/patterns/autocomplete) handles completion in flight rather than filling up front.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Where the system already holds the actor's value in a profile, earlier session, or browser record, [autofill](/patterns/autofill) supplies it before typing begins rather than completing it in flight."
     },
     {
       "source": "autofill",
       "target": "assisted-task-completion",
       "type": "complements",
-      "label": "the spectrum this pattern belongs to",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Autofill sits near the floor of [assisted task completion](/patterns/assisted-task-completion), supplying known values from the browser, a password manager, or the application's own record before typing begins.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "autofill",
       "target": "suggestion",
       "type": "complements",
-      "label": "autofill as a form of implicit recommendation",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Unlike a [suggestion](/patterns/suggestion), which proposes an inferred option for the actor to weigh, autofill writes a stored value directly into the field without asking first.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "autofill",
+      "target": "review-before-submitting",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Because pre-filled values are often submitted unread, stale or misapplied records travel further than typed errors, so pair autofill with [review before submitting](/patterns/review-before-submitting) when a wrong value carries a real cost",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "autofill",
       "target": "privacy",
       "type": "enacts",
-      "label": "autofill surfaces what the system knows about the actor",
+      "label": "autofill surfaces what the system or browser holds about the actor, sometimes in fields they did not expect it to know",
       "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "autofill",
       "target": "adaptation",
       "type": "enacts",
-      "label": "autofill that learns from corrections over time",
+      "label": "autofill reduces repeated entry by carrying the actor's stored and corrected values across sessions",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "autofill",
-      "target": "data-entry",
-      "type": "enables",
-      "label": "autofill as a strategy for frictionless input",
-      "extractedFrom": "frontmatter:enables"
-    },
-    {
-      "source": "form",
-      "target": "autofill",
-      "type": "hosts",
-      "incomingNote": "form fields are the surface where autofill most commonly appears",
-      "extractedFrom": "frontmatter:hosted-by",
-      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
-      "glossFrom": "source:resulting"
     },
     {
       "source": "block-based-editor",
@@ -5103,7 +5206,9 @@
       "target": "good-defaults",
       "type": "complements",
       "label": "pre-selecting the likely value can resolve the choice before the actor engages with it",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "in [making changes](/sequences/making-changes) or at the start of [assistance escalation](/sequences/assistance-escalation), a [form](/patterns/form) or a [wizard](/patterns/wizard) step now holds fields and [bounded choices](/patterns/bounded-choice) that ask the actor for answers, and [onboarding](/patterns/onboarding) needs decisions that do not change the first result settled out of the way.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "bounded-choice",
@@ -5127,7 +5232,7 @@
       "type": "enables",
       "label": "committing a value from a set the actor didn't author; the move behind a form's selects, radios, and checkboxes.",
       "extractedFrom": "frontmatter:enables",
-      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
+      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [forgiving format](/patterns/forgiving-format) or [structured format](/patterns/structured-format) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
       "glossFrom": "target:resulting"
     },
     {
@@ -5408,11 +5513,12 @@
     },
     {
       "source": "change-review",
-      "target": "transparent-reasoning",
+      "target": "work-trail",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Where the system made it there may be nobody to ask, and [transparent reasoning](/patterns/transparent-reasoning) gives an account of the work in the author's place, though it is the system's own report and can be wrong.",
-      "glossFrom": "source:resulting"
+      "situation": "Where the system made it there may be nobody to ask, and a [work trail](/patterns/work-trail) gives an account of the work in the author's place, though the model's narration is its own report and can be wrong.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Once the run ends, the trail attaches to [generated content](/patterns/generated-content), grounds an absent author's edits in [change review](/patterns/change-review), anchors into the lasting [activity log](/patterns/activity-log), and keeps the basis of agent decisions auditable in [collaboration](/patterns/collaboration)."
     },
     {
       "source": "comparing",
@@ -5444,6 +5550,37 @@
       "target": "agency",
       "type": "enacts",
       "label": "the actor decides on each change rather than accepting the whole batch",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "status-feedback",
+      "target": "charted-progress",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Report each completed milestone through [status feedback](/patterns/status-feedback) at the moment it finishes, and update the list so the actor always sees where they stand.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "charted-progress",
+      "target": "step-by-step",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where a single milestone involves an ordered sequence of inputs of its own, let [step by step](/patterns/step-by-step) carry the actor through that item before returning them to the list.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "charted-progress",
+      "target": "next-best-action",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where the right next move depends on the actor's specific data or behaviour rather than a shared set of milestones, an inferred [next-best action](/patterns/next-best-action) takes over from a fixed checklist.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "charted-progress",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "lays out what competent use involves as a set of outcomes the actor can reach one at a time",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -5482,11 +5619,12 @@
     },
     {
       "source": "citation",
-      "target": "transparent-reasoning",
+      "target": "work-trail",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Where the answer took several steps to produce, pair citations with [transparent reasoning](/patterns/transparent-reasoning) so the actor can inspect the path taken alongside the passages each claim rests on.",
-      "glossFrom": "source:resulting"
+      "situation": "Where the answer took several steps to produce, pair citations with a [work trail](/patterns/work-trail) so the actor can inspect the path taken alongside the passages each claim rests on.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Pair the trail with [citation](/patterns/citation) to bind specific claims to the source passages retrieved along the way, and with [expressed uncertainty](/patterns/expressed-uncertainty) when backtracking or conflicting tool results leave a part of the answer thinly supported."
     },
     {
       "source": "citation",
@@ -5569,7 +5707,7 @@
       "type": "complements",
       "label": "long-form output especially prone to over-reliance because verification cost is high",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Pair the result with [transparent reasoning](/patterns/transparent-reasoning) or [explanation](/patterns/explanation) to show how it was produced, and add [cognitive forcing functions](/patterns/cognitive-forcing-functions) before acceptance where an unchecked error would be costly.",
+      "situation": "Pair the result with a [work trail](/patterns/work-trail) or [explanation](/patterns/explanation) to show how it was produced, and add [cognitive forcing functions](/patterns/cognitive-forcing-functions) before acceptance where an unchecked error would be costly.",
       "glossFrom": "target:resulting"
     },
     {
@@ -5679,10 +5817,12 @@
     },
     {
       "source": "collaboration",
-      "target": "transparent-reasoning",
+      "target": "work-trail",
       "type": "complements",
       "label": "makes the basis of decisions auditable",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Once the run ends, the trail attaches to [generated content](/patterns/generated-content), grounds an absent author's edits in [change review](/patterns/change-review), anchors into the lasting [activity log](/patterns/activity-log), and keeps the basis of agent decisions auditable in [collaboration](/patterns/collaboration).",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "collaboration",
@@ -5726,7 +5866,8 @@
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
       "situation": "As the actor types, pair the input with [autocomplete](/patterns/autocomplete) that matches fragments, initials, and synonyms across command names and parameters, since naming only helps when the actor does not need the exact label up front.",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "In a query box, autocomplete pairs with [searching](/patterns/searching) to complete terms or jump straight to a known item; in [filtering](/patterns/filtering), it narrows available attribute values inside a filter clause; and in a [command menu](/patterns/command-menu), the same typed narrowing locates actions and navigation targets."
     },
     {
       "source": "command-menu",
@@ -6078,62 +6219,6 @@
       "extractedFrom": "frontmatter:tangential",
       "situation": "Returning to the same channel after time away is [resuming](/patterns/resuming), which shares the concern with picking work back up but does not involve a change of channel",
       "glossFrom": "source:resulting"
-    },
-    {
-      "source": "ai-completion",
-      "target": "data-entry",
-      "type": "enables",
-      "incomingNote": "AI completion as the AI-driven end of the input strategy spectrum",
-      "extractedFrom": "frontmatter:composed-of"
-    },
-    {
-      "source": "data-entry",
-      "target": "conversation",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "data-entry",
-      "target": "inline-interface",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "data-entry",
-      "target": "agent",
-      "type": "related",
-      "label": "the agent often responsible for interpreting forgiving input.",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "data-entry",
-      "target": "transparent-reasoning",
-      "type": "related",
-      "label": "explaining *why* a specific interpretation was made.",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "form",
-      "target": "data-entry",
-      "type": "hosts",
-      "incomingNote": "one of the surfaces that host the entry move — structured, multi-field, committed up front. [Conversation](/patterns/conversation) and the [inline interface](/patterns/inline-interface) are others.",
-      "extractedFrom": "frontmatter:hosted-by",
-      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
-      "glossFrom": "source:resulting"
-    },
-    {
-      "source": "data-entry",
-      "target": "good-defaults",
-      "type": "alternative",
-      "label": "use when you can make a good guess to avoid data entry entirely.",
-      "extractedFrom": "frontmatter:alternative"
-    },
-    {
-      "source": "data-entry",
-      "target": "formality",
-      "type": "enacts",
-      "label": "every data entry field is a choice about how formal the input has to be",
-      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "data-view",
@@ -6571,10 +6656,12 @@
     },
     {
       "source": "explanation",
-      "target": "transparent-reasoning",
+      "target": "work-trail",
       "type": "complements",
-      "label": "shows step-by-step process while explanation encourages understanding through interaction",
-      "extractedFrom": "frontmatter:complements"
+      "label": "shows the step-by-step path while explanation lays out factors, rules, or domain rationale",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A work trail is not an [explanation](/patterns/explanation): where a single-move output has no multi-step path to inspect, an explanation lays out the factors, rules, or domain rationale behind the result instead",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "explanation",
@@ -6710,6 +6797,61 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
+      "source": "remembered-state",
+      "target": "feature-discovery",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Record whether the actor has seen, dismissed, or tried the prompt in [remembered state](/patterns/remembered-state), so the same tip is never shown twice and returns only if the capability itself changes.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "feature-discovery",
+      "target": "help",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Keep [help](/patterns/help) as the pull channel the actor can consult on demand, so proactive offers and actor-initiated lookup divide the work between them.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "feature-discovery",
+      "target": "keyboard-shortcuts",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Surface faster execution routes in the same way, placing [keyboard shortcuts](/patterns/keyboard-shortcuts) as hints beside the slower controls the actor is already using.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "feature-discovery",
+      "target": "layered-interface",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "In a [layered interface](/patterns/layered-interface), use contextual discovery to show what the next layer holds when the actor's work reaches the boundary of the current one.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Keep the layer switcher visible and hold the same choice in [settings](/patterns/settings) as a lasting preference, so the move to a fuller layer is always the actor's decision, and let [feature discovery](/patterns/feature-discovery) offer the same switch when the actor's work reaches a capability the current layer hides."
+    },
+    {
+      "source": "feature-discovery",
+      "target": "notification",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "When an important change must reach actors who are away from the surface where it lives, route the announcement through a [notification](/patterns/notification)",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "feature-discovery",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "teaches a capability at the point where it can be used, so it does not have to be remembered until then",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "feature-discovery",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor decides whether to take up a capability, and when to adopt a change to a tool they rely on",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "federated-identity",
       "target": "passwordless-access",
       "type": "alternative",
@@ -6820,6 +6962,119 @@
       "type": "alternative",
       "label": "keeps focus and context simultaneous — detail follows the actor's attention, non-uniformly, inside one continuous view; semantic zoom shows one uniform level at a time under a global scale control",
       "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "form",
+      "target": "forgiving-format",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [forgiving format](/patterns/forgiving-format) or [structured format](/patterns/structured-format) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
+      "glossFrom": "source:resulting",
+      "farSituation": "in [making changes](/sequences/making-changes), a [form](/patterns/form), a [conversation](/patterns/conversation) turn, or an [inline interface](/patterns/inline-interface) needs a value the actor holds in a loose or variable form, where a [structured format](/patterns/structured-format) would force needless translation."
+    },
+    {
+      "source": "conversation",
+      "target": "forgiving-format",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "in [making changes](/sequences/making-changes), a [form](/patterns/form), a [conversation](/patterns/conversation) turn, or an [inline interface](/patterns/inline-interface) needs a value the actor holds in a loose or variable form, where a [structured format](/patterns/structured-format) would force needless translation.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "inline-interface",
+      "target": "forgiving-format",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "in [making changes](/sequences/making-changes), a [form](/patterns/form), a [conversation](/patterns/conversation) turn, or an [inline interface](/patterns/inline-interface) needs a value the actor holds in a loose or variable form, where a [structured format](/patterns/structured-format) would force needless translation.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "forgiving-format",
+      "target": "status-feedback",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Because the system or an [agent](/patterns/agent) did the structuring, report what was parsed through [status feedback](/patterns/status-feedback) and confirm it with [showing the reading](/patterns/showing-the-reading) before it counts as agreed.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "forgiving-format",
+      "target": "validation",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Follow parsing with [validation](/patterns/validation) for errors the parser cannot catch, and pair it with [localization](/patterns/localization) so regional dates, numbers, and addresses are read in the actor's locale.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "forgiving-format",
+      "target": "showing-the-reading",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Because the system or an [agent](/patterns/agent) did the structuring, report what was parsed through [status feedback](/patterns/status-feedback) and confirm it with [showing the reading](/patterns/showing-the-reading) before it counts as agreed.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "forgiving-format",
+      "target": "expressed-uncertainty",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Mark doubtful readings with [expressed uncertainty](/patterns/expressed-uncertainty), and expose why a reading was chosen through [explanation](/patterns/explanation) when stakes warrant it.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "forgiving-format",
+      "target": "localization",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Follow parsing with [validation](/patterns/validation) for errors the parser cannot catch, and pair it with [localization](/patterns/localization) so regional dates, numbers, and addresses are read in the actor's locale.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "forgiving-format",
+      "target": "review-before-submitting",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where loose input populates several fields at once, end with [review before submitting](/patterns/review-before-submitting) so extracted values do not go through unread.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "forgiving-format",
+      "target": "incremental-formalisation",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Unlike [incremental formalisation](/patterns/incremental-formalisation), which lets content stay informal and promotes structure only later, forgiving format parses into an existing schema at the moment of entry",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "forgiving-format",
+      "target": "structured-format",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "in [making changes](/sequences/making-changes), a [form](/patterns/form), a [conversation](/patterns/conversation) turn, or an [inline interface](/patterns/inline-interface) needs a value the actor holds in a loose or variable form, where a [structured format](/patterns/structured-format) would force needless translation.",
+      "glossFrom": "source:initiating",
+      "farSituation": "in [making changes](/sequences/making-changes), a [form](/patterns/form) or a [wizard](/patterns/wizard) step needs a value with a strict, familiar syntax—such as a card number, licence key, or verification code—where [forgiving format](/patterns/forgiving-format) parsing would risk a costly misreading."
+    },
+    {
+      "source": "forgiving-format",
+      "target": "agent",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "Because the system or an [agent](/patterns/agent) did the structuring, report what was parsed through [status feedback](/patterns/status-feedback) and confirm it with [showing the reading](/patterns/showing-the-reading) before it counts as agreed.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "forgiving-format",
+      "target": "explanation",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "Mark doubtful readings with [expressed uncertainty](/patterns/expressed-uncertainty), and expose why a reading was chosen through [explanation](/patterns/explanation) when stakes warrant it.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "forgiving-format",
+      "target": "formality",
+      "type": "enacts",
+      "label": "forgiving format lets the actor answer in their own loose form while the system absorbs the work of structuring it",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "form",
@@ -6943,18 +7198,19 @@
     },
     {
       "source": "generated-content",
-      "target": "transparent-reasoning",
+      "target": "work-trail",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Pair the result with [transparent reasoning](/patterns/transparent-reasoning) or [explanation](/patterns/explanation) to show how it was produced, and add [cognitive forcing functions](/patterns/cognitive-forcing-functions) before acceptance where an unchecked error would be costly.",
-      "glossFrom": "source:resulting"
+      "situation": "Pair the result with a [work trail](/patterns/work-trail) or [explanation](/patterns/explanation) to show how it was produced, and add [cognitive forcing functions](/patterns/cognitive-forcing-functions) before acceptance where an unchecked error would be costly.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Once the run ends, the trail attaches to [generated content](/patterns/generated-content), grounds an absent author's edits in [change review](/patterns/change-review), anchors into the lasting [activity log](/patterns/activity-log), and keeps the basis of agent decisions auditable in [collaboration](/patterns/collaboration)."
     },
     {
       "source": "generated-content",
       "target": "explanation",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Pair the result with [transparent reasoning](/patterns/transparent-reasoning) or [explanation](/patterns/explanation) to show how it was produced, and add [cognitive forcing functions](/patterns/cognitive-forcing-functions) before acceptance where an unchecked error would be costly.",
+      "situation": "Pair the result with a [work trail](/patterns/work-trail) or [explanation](/patterns/explanation) to show how it was produced, and add [cognitive forcing functions](/patterns/cognitive-forcing-functions) before acceptance where an unchecked error would be costly.",
       "glossFrom": "source:resulting"
     },
     {
@@ -6974,55 +7230,70 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
-      "source": "good-defaults",
-      "target": "localization",
-      "type": "complements",
-      "label": "a locale guess is a good default applied to localization's axes",
-      "extractedFrom": "frontmatter:complements"
+      "source": "form",
+      "target": "good-defaults",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [forgiving format](/patterns/forgiving-format) or [structured format](/patterns/structured-format) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
+      "glossFrom": "source:resulting",
+      "farSituation": "in [making changes](/sequences/making-changes) or at the start of [assistance escalation](/sequences/assistance-escalation), a [form](/patterns/form) or a [wizard](/patterns/wizard) step now holds fields and [bounded choices](/patterns/bounded-choice) that ask the actor for answers, and [onboarding](/patterns/onboarding) needs decisions that do not change the first result settled out of the way."
     },
     {
       "source": "good-defaults",
-      "target": "onboarding",
-      "type": "related",
-      "label": "Often sets the initial state and defaults for the application",
-      "extractedFrom": "frontmatter:related"
+      "target": "autocomplete",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Fields now hold the system's best static guess, which serves only until the actor starts typing a value of their own; hand over to [autocomplete](/patterns/autocomplete) so completion happens in flight rather than up front.",
+      "glossFrom": "source:resulting",
+      "farSituation": "in [assistance escalation](/sequences/assistance-escalation) or inside a [form](/patterns/form) field, a static guess from [good defaults](/patterns/good-defaults) has given way to the actor typing their own value, or a field asks for an answer from a set too large to show in full."
+    },
+    {
+      "source": "good-defaults",
+      "target": "autofill",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where the system already holds the actor's actual value in a profile, earlier session, or browser record, let [autofill](/patterns/autofill) take over from guessing.",
+      "glossFrom": "source:resulting",
+      "farSituation": "in [assistance escalation](/sequences/assistance-escalation) or inside a [form](/patterns/form), a static guess from [good defaults](/patterns/good-defaults) is not enough because the field requires the actor's own specific value, and typing it from scratch would ask them to retype what is already stored."
+    },
+    {
+      "source": "good-defaults",
+      "target": "assisted-task-completion",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where the task needs the system to participate in the work itself and a static guess stops sufficing, continue into [assisted task completion](/patterns/assisted-task-completion).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "good-defaults",
+      "target": "localization",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Pair defaults with [localization](/patterns/localization) so locale-dependent guesses such as language, timezone, and formats match the actor's region.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "good-defaults",
       "target": "settings",
       "type": "related",
-      "label": "Where global defaults are managed and overridden",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "Where a standing default does not fit an actor on an axis they care about, let them override it once in [settings](/patterns/settings) so the preference holds across sessions.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "good-defaults",
       "target": "suggestion",
       "type": "related",
-      "label": "A weaker form of default (\"Did you mean X?\") or a dynamic default",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "form",
-      "target": "good-defaults",
-      "type": "hosts",
-      "incomingNote": "form fields are the primary surface where defaults are encountered",
-      "extractedFrom": "frontmatter:hosted-by",
-      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
+      "extractedFrom": "frontmatter:related",
+      "situation": "Where confidence is too low to pre-fill a value directly, offer a [suggestion](/patterns/suggestion) instead of committing a guess on the actor's behalf",
       "glossFrom": "source:resulting"
     },
     {
       "source": "good-defaults",
       "target": "agency",
       "type": "enacts",
-      "label": "a default is the system making the small decision so the actor doesn't have to; the actor still has the final say but doesn't have to spend it on this field",
+      "label": "a default is the system making the small decision so the actor does not have to; the actor keeps the final say without spending it on routine fields",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "good-defaults",
-      "target": "data-entry",
-      "type": "alternative",
-      "label": "The alternative when a default cannot be guessed",
-      "extractedFrom": "frontmatter:alternative"
     },
     {
       "source": "data-view",
@@ -7386,8 +7657,9 @@
       "target": "onboarding",
       "type": "precedes",
       "extractedFrom": "frontmatter:precedes",
-      "situation": "Where the artifact offers starter templates or exploratory tasks, lead directly into [onboarding](/patterns/onboarding) to orient the newcomer",
-      "glossFrom": "source:resulting"
+      "situation": "Where the artifact offers starter templates or exploratory tasks, lead directly into [onboarding](/patterns/onboarding) to orient the newcomer, where this pattern is what lets the first result come before any request for an account",
+      "glossFrom": "source:resulting",
+      "farSituation": "an actor arrives at an artifact for the first time, through [immediate use](/patterns/immediate-use) or [account access](/patterns/account-access), and has no working model yet of what it holds, what their actions will do, or what it will do on its own."
     },
     {
       "source": "immediate-use",
@@ -7921,6 +8193,52 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
+      "source": "layered-interface",
+      "target": "unavailable-actions",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Omit them from the surface entirely as [unavailable actions](/patterns/unavailable-actions) when keeping the view uncluttered matters most, or show them inactive in a [disabled state](/patterns/state-disabled) with a path to unlock them when the actor needs to see what higher layers hold, at the cost of putting some visual complexity back on screen.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "layered-interface",
+      "target": "state-disabled",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Omit them from the surface entirely as [unavailable actions](/patterns/unavailable-actions) when keeping the view uncluttered matters most, or show them inactive in a [disabled state](/patterns/state-disabled) with a path to unlock them when the actor needs to see what higher layers hold, at the cost of putting some visual complexity back on screen.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "layered-interface",
+      "target": "mastery",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Outgrowing the reduced layers and moving into the full toolset is part of [mastery](/patterns/mastery)",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "layered-interface",
+      "target": "progressive-disclosure",
+      "type": "instantiates",
+      "extractedFrom": "frontmatter:instantiates",
+      "situation": "A layered interface applies [progressive disclosure](/patterns/progressive-disclosure) across the actor's developing competence rather than within a single view: advanced functions are held back across sessions until the actor is ready for them.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "layered-interface",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "removes the functions where newcomers' early mistakes happen until the actor is ready for them",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "layered-interface",
+      "target": "adaptation",
+      "type": "enacts",
+      "label": "the interface changes with the actor's stage, heavier scaffolding first and less as competence grows",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "learnability",
       "target": "agency",
       "type": "related",
@@ -7966,10 +8284,12 @@
     },
     {
       "source": "live-presentation",
-      "target": "transparent-reasoning",
+      "target": "work-trail",
       "type": "complements",
-      "label": "its \"stream of thought\" mode rides on the same rendering substrate",
-      "extractedFrom": "frontmatter:complements"
+      "label": "streams the agent's actions and reasoning on the same rendering substrate",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where a [plan preview](/patterns/plan-preview) stated what the run intended beforehand and a [working plan](/patterns/working-plan) tracks what steps are left, the work trail carries the path actually taken, streamed through [live presentation](/patterns/live-presentation) while the run is under way.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "live-presentation",
@@ -8040,13 +8360,6 @@
       "type": "enacts",
       "label": "translation quality decides whether the interface still teaches in the new language",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "localization",
-      "target": "onboarding",
-      "type": "complements",
-      "label": "first-run locale detection and selection",
-      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "localization",
@@ -8131,18 +8444,10 @@
       "extractedFrom": "frontmatter:related"
     },
     {
-      "source": "onboarding",
-      "target": "mastery",
-      "type": "precedes",
-      "incomingNote": "initial phase before the actor develops efficiency",
-      "extractedFrom": "frontmatter:follows",
-      "label": "onboarding leaves scaffolding and a first working model; mastery acts on both — deepening the model, clearing the scaffolding"
-    },
-    {
       "source": "mastery",
       "target": "learnability",
       "type": "enacts",
-      "label": "extended learnability: the long curve after onboarding",
+      "label": "extended learnability: the long curve after the first run",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -8299,6 +8604,74 @@
       "target": "adaptation",
       "type": "enacts",
       "label": "tailors subsequent responses using an editable record of facts and preferences",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "work-trail",
+      "target": "mid-run-redirection",
+      "type": "precedes",
+      "incomingNote": "spotting a wrong premise or wasted branch in the trail is what prompts redirecting the run",
+      "extractedFrom": "frontmatter:follows",
+      "label": "spotting a flawed premise or wasted branch in the trail sets up steering the active run onto another path",
+      "situation": "When the actor spots a wrong premise or a wasted branch while the run is still moving, [mid-run redirection](/patterns/mid-run-redirection) lets them steer the agent onto another path without discarding the work already done.",
+      "glossFrom": "source:resulting",
+      "farSituation": "The run absorbs the correction at its next step—or rewinds to the disputed step—keeping earlier progress intact while the [work trail](/patterns/work-trail) records where the actor intervened."
+    },
+    {
+      "source": "working-plan",
+      "target": "mid-run-redirection",
+      "type": "precedes",
+      "incomingNote": "seeing an unwanted upcoming step in the working plan lets the actor redirect before it executes",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "an agent is partway through a multi-step run, and its [work trail](/patterns/work-trail) or [working plan](/patterns/working-plan) shows a wrong assumption, a missing constraint, or a branch heading the wrong way.",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "mid-run-redirection",
+      "target": "abort",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Stopping the run with [abort](/patterns/abort) would discard valid work already done, while waiting for it to finish spends time and cost on a result the actor already knows is off course.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "mid-run-redirection",
+      "target": "instructed-revision",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where the run has already finished, [instructed revision](/patterns/instructed-revision) reshapes the result after the fact, and where the agent cannot recover even with guidance, [handoff](/patterns/handoff) transfers the work back to the actor.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "mid-run-redirection",
+      "target": "handoff",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where the run has already finished, [instructed revision](/patterns/instructed-revision) reshapes the result after the fact, and where the agent cannot recover even with guidance, [handoff](/patterns/handoff) transfers the work back to the actor.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "mid-run-redirection",
+      "target": "branching",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the actor wants to compare the corrected direction against the original path rather than replace it, [branching](/patterns/branching) forks the run from the disputed step.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "mid-run-redirection",
+      "target": "delegation",
+      "type": "serves",
+      "label": "mid-run redirection covers delegation's steering touchpoint — correcting an active run without full takeover",
+      "extractedFrom": "frontmatter:serves",
+      "situation": "In [delegation](/patterns/delegation), mid-run redirection covers the steering touchpoint during exception handling without requiring a full takeover",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "mid-run-redirection",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor corrects course while work is in flight rather than choosing between full cancellation and post-hoc cleanup",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -8493,7 +8866,7 @@
     },
     {
       "source": "next-best-action",
-      "target": "transparent-reasoning",
+      "target": "explanation",
       "type": "complements",
       "label": "explaining the rationale behind recommendations",
       "extractedFrom": "frontmatter:complements"
@@ -8503,13 +8876,6 @@
       "target": "notification",
       "type": "complements",
       "label": "a common delivery mechanism for next-best action prompts",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "next-best-action",
-      "target": "onboarding",
-      "type": "complements",
-      "label": "next-best action as guided first-use experience",
       "extractedFrom": "frontmatter:complements"
     },
     {
@@ -8548,55 +8914,104 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
-      "source": "wizard",
+      "source": "good-defaults",
       "target": "onboarding",
       "type": "enables",
-      "incomingNote": "often employs wizards for initial setup and configuration",
       "extractedFrom": "frontmatter:composed-of",
-      "situation": "the actor is about to start a task in [making changes](/sequences/making-changes), or in the first encounter of [learning](/sequences/learning), that they meet so rarely they have no model of it, and whose early answers decide which questions exist later; [onboarding](/patterns/onboarding) runs its first-time setup this way for the same reason, since the actor has to choose before understanding what each control means.",
-      "glossFrom": "source:initiating"
+      "situation": "in [making changes](/sequences/making-changes) or at the start of [assistance escalation](/sequences/assistance-escalation), a [form](/patterns/form) or a [wizard](/patterns/wizard) step now holds fields and [bounded choices](/patterns/bounded-choice) that ask the actor for answers, and [onboarding](/patterns/onboarding) needs decisions that do not change the first result settled out of the way.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Begin on the [empty state](/patterns/state-empty) of the surface the actor will work on, so the first view shows what belongs there and how to create it, and use [good defaults](/patterns/good-defaults) to settle decisions that do not change the first result."
     },
     {
       "source": "template",
       "target": "onboarding",
       "type": "enables",
-      "incomingNote": "starter templates give the newcomer competent work to occupy",
-      "extractedFrom": "frontmatter:composed-of"
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Give the actor a [template](/patterns/template) when they need a starting shape to fill, or a [starter example](/patterns/starter-example) when they need a finished item to inspect, modify, and clear.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "starter-example",
+      "target": "onboarding",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "during [onboarding](/patterns/onboarding), the actor arrives at an [empty state](/patterns/state-empty) on a surface—such as a board, a database, a timeline, or an analytics view—whose structure and value only become clear once it holds populated content.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Give the actor a [template](/patterns/template) when they need a starting shape to fill, or a [starter example](/patterns/starter-example) when they need a finished item to inspect, modify, and clear."
+    },
+    {
+      "source": "wizard",
+      "target": "onboarding",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the actor is about to start a task in [making changes](/sequences/making-changes), or in the first encounter of [learning](/sequences/learning), that they meet so rarely they have no model of it, and whose early answers decide which questions exist later; [onboarding](/patterns/onboarding) takes first-time setup this way for the same reason, since the actor has to choose before understanding what each control means.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Use a [wizard](/patterns/wizard) only where early setup decisions depend on one another."
+    },
+    {
+      "source": "layered-interface",
+      "target": "onboarding",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the artifact holds far more functions than a newcomer needs, and during [onboarding](/patterns/onboarding) the unfamiliar controls are where early mistakes happen.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Where the artifact has more capabilities than a newcomer can take in at once, hold advanced functions back in a [layered interface](/patterns/layered-interface), surface individual capabilities at the moment they become relevant through [feature discovery](/patterns/feature-discovery), and lay out the route across sittings with [charted progress](/patterns/charted-progress)."
+    },
+    {
+      "source": "feature-discovery",
+      "target": "onboarding",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the actor is working in the artifact, during [onboarding](/patterns/onboarding) or long after it, and a capability that would serve what they are doing is one they have not met: either an existing function they never discovered, or one that has just been added or changed.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Where the artifact has more capabilities than a newcomer can take in at once, hold advanced functions back in a [layered interface](/patterns/layered-interface), surface individual capabilities at the moment they become relevant through [feature discovery](/patterns/feature-discovery), and lay out the route across sittings with [charted progress](/patterns/charted-progress)."
+    },
+    {
+      "source": "charted-progress",
+      "target": "onboarding",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "[onboarding](/patterns/onboarding) spans more than one sitting, and several of the tasks that bring the actor to competent use can be taken in any order.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Where the artifact has more capabilities than a newcomer can take in at once, hold advanced functions back in a [layered interface](/patterns/layered-interface), surface individual capabilities at the moment they become relevant through [feature discovery](/patterns/feature-discovery), and lay out the route across sittings with [charted progress](/patterns/charted-progress)."
+    },
+    {
+      "source": "onboarding",
+      "target": "help",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Leave unanticipated questions to [help](/patterns/help), which stays available after the first run ends, and let [mastery](/patterns/mastery) clear the first-run scaffolding away once the actor is working fluently",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "onboarding",
+      "target": "permissions",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Defer access grants until the actor triggers the feature that needs them, as [permissions](/patterns/permissions) prescribes.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "onboarding",
+      "target": "mastery",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Leave unanticipated questions to [help](/patterns/help), which stays available after the first run ends, and let [mastery](/patterns/mastery) clear the first-run scaffolding away once the actor is working fluently",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "onboarding",
       "target": "learnability",
       "type": "enacts",
-      "label": "the actor's first climb up the learning curve, deliberately shaped",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "onboarding",
-      "target": "adaptation",
-      "type": "enacts",
-      "label": "scaffolding that adapts to the newcomer, heavier at first and fading as competence grows",
+      "label": "the actor's first climb up the learning curve, shaped so that early mistakes are cheap",
       "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "onboarding",
       "target": "temporality",
       "type": "enacts",
-      "label": "the early, high-slope phase of the actor's arc with the tool",
+      "label": "marks the early, steep part of the actor's time with the artifact and gives it an end",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "onboarding",
-      "target": "help",
-      "type": "complements",
-      "label": "provides just-in-time assistance.",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "onboarding",
-      "target": "localization",
-      "type": "complements",
-      "label": "first-run locale detection and selection",
-      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "sharing",
@@ -8913,7 +9328,9 @@
       "target": "plan-preview",
       "type": "precedes",
       "incomingNote": "a complex request is the situation a plan makes reviewable before work starts",
-      "extractedFrom": "frontmatter:follows"
+      "extractedFrom": "frontmatter:follows",
+      "situation": "the actor has made an [open request](/patterns/open-request) of an agent for something consequential that takes several steps, and [showing the reading](/patterns/showing-the-reading) has settled what it means.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "showing-the-reading",
@@ -8922,35 +9339,63 @@
       "incomingNote": "showing the reading checks what the request was taken to mean, and the plan preview then checks what will be done about it",
       "extractedFrom": "frontmatter:follows",
       "situation": "[Plan preview](/patterns/plan-preview) looks similar but shows what the system will do rather than what it understood; the plan is built on the reading.",
+      "glossFrom": "source:resulting",
+      "farSituation": "the actor has made an [open request](/patterns/open-request) of an agent for something consequential that takes several steps, and [showing the reading](/patterns/showing-the-reading) has settled what it means."
+    },
+    {
+      "source": "plan-preview",
+      "target": "approval-gate",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Holding the plan until the actor starts it puts an [approval gate](/patterns/approval-gate) in front of the whole run.",
       "glossFrom": "source:resulting"
     },
     {
       "source": "plan-preview",
-      "target": "transparent-reasoning",
+      "target": "working-plan",
+      "type": "precedes",
+      "label": "the plan the actor approved in the preview is the one the working plan keeps in view as the run goes on",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Once the run starts, the previewed plan becomes the [working plan](/patterns/working-plan), which the agent keeps current as it works.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Often the actor approved the plan beforehand in a [plan preview](/patterns/plan-preview)."
+    },
+    {
+      "source": "plan-preview",
+      "target": "work-trail",
       "type": "complements",
-      "label": "the plan before execution; the reasoning trail during and after it",
-      "extractedFrom": "frontmatter:complements"
+      "label": "the plan preview shows what the run will do and change, and the work trail what it actually did and why",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The The reasoning and actions behind the steps are for the [work trail](/patterns/work-trail) to show",
+      "glossFrom": "source:resulting",
+      "farSituation": "Where a [plan preview](/patterns/plan-preview) stated what the run intended beforehand and a [working plan](/patterns/working-plan) tracks what steps are left, the work trail carries the path actually taken, streamed through [live presentation](/patterns/live-presentation) while the run is under way."
     },
     {
       "source": "plan-preview",
       "target": "cost-transparency",
       "type": "complements",
       "label": "cost estimates are the spend half of a previewed plan — what it will do and what it will cost",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The agent's intention can be judged before it costs anything: the steps, what they will touch and what they will cost, with [cost transparency](/patterns/cost-transparency) supplying the spend.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "plan-preview",
       "target": "delegation",
       "type": "serves",
       "label": "plan preview covers delegation's set-up station — surfacing what the agent intends before authority transfers",
-      "extractedFrom": "frontmatter:serves"
+      "extractedFrom": "frontmatter:serves",
+      "situation": "The work may be done in reply or handed over in [delegation](/patterns/delegation).",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "plan-preview",
       "target": "action-consequences",
       "type": "related",
       "label": "the severity framework that decides when intended work warrants a preview at all",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "How much preview a request warrants follows from its [action consequences](/patterns/action-consequences), since an actor asked to review too often stops reading plans and the preview becomes a ritual.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "plan-preview",
@@ -9144,13 +9589,6 @@
     },
     {
       "source": "progressive-disclosure",
-      "target": "transparent-reasoning",
-      "type": "complements",
-      "label": "a specialized high-detail form of disclosure for AI systems",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "progressive-disclosure",
       "target": "focus-and-context",
       "type": "complements",
       "label": "helps preserve orientation while moving between shallow and deep views",
@@ -9175,13 +9613,6 @@
       "target": "link-preview",
       "type": "tangential",
       "label": "hover-to-peek at a linked destination; the lightest disclosure tier for cross-references",
-      "extractedFrom": "frontmatter:tangential"
-    },
-    {
-      "source": "progressive-disclosure",
-      "target": "onboarding",
-      "type": "tangential",
-      "label": "stretches disclosure across an initial learning journey rather than a single view",
       "extractedFrom": "frontmatter:tangential"
     },
     {
@@ -9371,7 +9802,7 @@
     },
     {
       "source": "prose",
-      "target": "transparent-reasoning",
+      "target": "work-trail",
       "type": "related",
       "extractedFrom": "frontmatter:related"
     },
@@ -9390,7 +9821,7 @@
     },
     {
       "source": "prose",
-      "target": "data-entry",
+      "target": "form",
       "type": "related",
       "extractedFrom": "frontmatter:related"
     },
@@ -9835,7 +10266,8 @@
       "label": "remembered state supplies the actor's last-chosen value as a persistent starting default",
       "extractedFrom": "frontmatter:precedes",
       "situation": "A value chosen last time gives [good defaults](/patterns/good-defaults) a personal starting value for the next session.",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "Good defaults resolve those routine fields up front from typical use, general context, or a past choice kept by [remembered state](/patterns/remembered-state), so the actor only has to answer what differs."
     },
     {
       "source": "remembered-state",
@@ -10154,7 +10586,8 @@
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
       "situation": "At the input, pair the query box with [recents](/patterns/recents) before typing begins and [autocomplete](/patterns/autocomplete) as the actor types to complete terms or jump straight to a known item.",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "In a query box, autocomplete pairs with [searching](/patterns/searching) to complete terms or jump straight to a known item; in [filtering](/patterns/filtering), it narrows available attribute values inside a filter clause; and in a [command menu](/patterns/command-menu), the same typed narrowing locates actions and navigation targets."
     },
     {
       "source": "searching",
@@ -10341,13 +10774,6 @@
       "target": "wizard",
       "type": "complements",
       "label": "may guide actors through initial settings configuration during setup",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "settings",
-      "target": "onboarding",
-      "type": "complements",
-      "label": "settings can be introduced gradually during first-time experience",
       "extractedFrom": "frontmatter:complements"
     },
     {
@@ -10593,6 +11019,21 @@
       "farSituation": "Move corrections that have to be repeated on every run into [standing instructions](/patterns/standing-instructions)."
     },
     {
+      "source": "starter-example",
+      "target": "template",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Pair the example with a [template](/patterns/template) so that once the actor has seen how a finished item is put together, they have a clean structure ready for their own work.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "starter-example",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "the actor learns what competent work looks like by taking a finished piece apart",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "state-disabled",
       "target": "explanation",
       "type": "alternative",
@@ -10610,14 +11051,25 @@
       "source": "state-empty",
       "target": "onboarding",
       "type": "hosts",
-      "label": "the empty state is often the canvas onboarding builds on",
-      "extractedFrom": "frontmatter:hosts"
+      "extractedFrom": "frontmatter:hosts",
+      "situation": "On first use, the empty state is where [onboarding](/patterns/onboarding) begins, since it is the actor's first view of the surface they will work on, and it is also the clearest place for a first-run flow to land so the next action is unmistakable.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Begin on the [empty state](/patterns/state-empty) of the surface the actor will work on, so the first view shows what belongs there and how to create it, and use [good defaults](/patterns/good-defaults) to settle decisions that do not change the first result."
+    },
+    {
+      "source": "state-empty",
+      "target": "starter-example",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosts",
+      "situation": "Where starting from nothing is slow, offer a [template](/patterns/template) that gives the actor a structure to fill, or host a [starter example](/patterns/starter-example) on the surface so they can inspect a finished item and clear it when ready.",
+      "glossFrom": "source:resulting",
+      "farSituation": "during [onboarding](/patterns/onboarding), the actor arrives at an [empty state](/patterns/state-empty) on a surface—such as a board, a database, a timeline, or an analytics view—whose structure and value only become clear once it holds populated content."
     },
     {
       "source": "state-empty",
       "target": "learnability",
       "type": "enacts",
-      "label": "the educational and guiding variants teach the system from inside the gap they announce",
+      "label": "teaches the surface from inside the gap, by saying what belongs there and how to put it there",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -10742,6 +11194,54 @@
       "type": "alternative",
       "label": "for structured but non-linear content",
       "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "form",
+      "target": "structured-format",
+      "type": "hosts",
+      "extractedFrom": "frontmatter:hosted-by",
+      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [forgiving format](/patterns/forgiving-format) or [structured format](/patterns/structured-format) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
+      "glossFrom": "source:resulting",
+      "farSituation": "in [making changes](/sequences/making-changes), a [form](/patterns/form) or a [wizard](/patterns/wizard) step needs a value with a strict, familiar syntax—such as a card number, licence key, or verification code—where [forgiving format](/patterns/forgiving-format) parsing would risk a costly misreading."
+    },
+    {
+      "source": "structured-format",
+      "target": "validation",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Follow entry with [validation](/patterns/validation) at the field, since a value that matches the syntax can still fail semantic checks such as an expired card or an unknown code.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "structured-format",
+      "target": "localization",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Adapt the shape through [localization](/patterns/localization) wherever formats vary by region, and preserve single-field semantics so [autofill](/patterns/autofill) can supply stored records cleanly.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "structured-format",
+      "target": "autofill",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Adapt the shape through [localization](/patterns/localization) wherever formats vary by region, and preserve single-field semantics so [autofill](/patterns/autofill) can supply stored records cleanly.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "structured-format",
+      "target": "bounded-choice",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "Where the value must come from a fixed set rather than a formatted string, use [bounded choice](/patterns/bounded-choice) instead",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "structured-format",
+      "target": "formality",
+      "type": "enacts",
+      "label": "structured format demands a fixed syntax up front so the control's shape communicates the rule and prevents ambiguity",
+      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "prompt",
@@ -11020,60 +11520,6 @@
       "extractedFrom": "frontmatter:complements"
     },
     {
-      "source": "transparent-reasoning",
-      "target": "learnability",
-      "type": "enacts",
-      "label": "by observing *why* the system made a decision, the actor implicitly learns its logic and capabilities",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "transparent-reasoning",
-      "target": "agency",
-      "type": "enacts",
-      "label": "visible reasoning is one of the levers for reliance calibration, helping the actor judge when to trust and when to override",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "transparent-reasoning",
-      "target": "activity-log",
-      "type": "complements",
-      "label": "the live reasoning trail and the durable record of the same work",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "transparent-reasoning",
-      "target": "assistance",
-      "type": "complements",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "transparent-reasoning",
-      "target": "delegation",
-      "type": "complements",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "transparent-reasoning",
-      "target": "explanation",
-      "type": "complements",
-      "label": "encourages understanding through interaction, while transparent reasoning shows the step-by-step process.",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "transparent-reasoning",
-      "target": "suggestion",
-      "type": "complements",
-      "label": "can emerge from the visible reasoning process.",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "transparent-reasoning",
-      "target": "collaboration",
-      "type": "complements",
-      "label": "Transparent reasoning makes AI decision-making processes inspectable for human collaborators",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
       "source": "bounded-autonomy",
       "target": "trial-run",
       "type": "precedes",
@@ -11256,7 +11702,7 @@
       "type": "hosts",
       "incomingNote": "the form is the surface that hosts fieldwise messages and wires them to submission",
       "extractedFrom": "frontmatter:hosted-by",
-      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [data entry](/patterns/data-entry) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
+      "situation": "Each field now needs a move chosen for it, and the form sub-sequence of [making changes](/sequences/making-changes) orders the choice: [forgiving format](/patterns/forgiving-format) or [structured format](/patterns/structured-format) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value as the actor types, and [validation](/patterns/validation) answering an input the system cannot accept at the field that produced it.",
       "glossFrom": "source:resulting"
     },
     {
@@ -11471,15 +11917,7 @@
       "target": "wizard",
       "type": "enables",
       "extractedFrom": "frontmatter:composed-of",
-      "situation": "Put [help](/patterns/help) beside the [fields](/patterns/data-entry) it explains, so guidance never takes the actor out of the step.",
-      "glossFrom": "target:resulting"
-    },
-    {
-      "source": "data-entry",
-      "target": "wizard",
-      "type": "enables",
-      "extractedFrom": "frontmatter:composed-of",
-      "situation": "Put [help](/patterns/help) beside the [fields](/patterns/data-entry) it explains, so guidance never takes the actor out of the step.",
+      "situation": "Put [help](/patterns/help) beside the fields it explains, so guidance never takes the actor out of the step.",
       "glossFrom": "target:resulting"
     },
     {
@@ -11487,8 +11925,9 @@
       "target": "wizard",
       "type": "enables",
       "extractedFrom": "frontmatter:composed-of",
-      "situation": "In each step, pre-fill with [good defaults](/patterns/good-defaults) whatever the system can guess or remembers from last time, which is also most of the faster path for returning actors.",
-      "glossFrom": "target:resulting"
+      "situation": "in [making changes](/sequences/making-changes) or at the start of [assistance escalation](/sequences/assistance-escalation), a [form](/patterns/form) or a [wizard](/patterns/wizard) step now holds fields and [bounded choices](/patterns/bounded-choice) that ask the actor for answers, and [onboarding](/patterns/onboarding) needs decisions that do not change the first result settled out of the way.",
+      "glossFrom": "source:initiating",
+      "farSituation": "In each step, pre-fill with [good defaults](/patterns/good-defaults) whatever the system can guess or remembers from last time, which is also most of the faster path for returning actors."
     },
     {
       "source": "wizard",
@@ -11516,6 +11955,151 @@
       "target": "temporality",
       "type": "enacts",
       "label": "paces a task into an ordered sequence of steps",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "work-trail",
+      "target": "delegation",
+      "type": "serves",
+      "label": "work trail covers delegation's hood-to-look-under station during execution — inspecting how the agent worked and what it touched",
+      "extractedFrom": "frontmatter:serves",
+      "situation": "The run may happen in a conversation or out of sight in [delegation](/patterns/delegation), where the actor needs a hood to look under during or after execution.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "progressive-disclosure",
+      "target": "work-trail",
+      "type": "enables",
+      "incomingNote": "collapses the trail behind a summary line once the reply settles, letting the actor expand steps on demand",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "The intermediate steps sit beside the work as an inspectable trail, folded behind [progressive disclosure](/patterns/progressive-disclosure) once the turn settles so the path does not bury the answer.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "work-trail",
+      "target": "cognitive-forcing-functions",
+      "type": "precedes",
+      "label": "a fluent trail invites rubber-stamping, which deliberate friction before acceptance interrupts",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Because a fluent trail anchors as readily as it informs—inviting the actor to stop reading and defer on appearance alone—pair it with [cognitive forcing functions](/patterns/cognitive-forcing-functions) before acceptance where an unchecked error would be costly.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "work-trail",
+      "target": "live-presentation",
+      "type": "complements",
+      "label": "streams the trail in flight on the same rendering substrate",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where a [plan preview](/patterns/plan-preview) stated what the run intended beforehand and a [working plan](/patterns/working-plan) tracks what steps are left, the work trail carries the path actually taken, streamed through [live presentation](/patterns/live-presentation) while the run is under way.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "work-trail",
+      "target": "plan-preview",
+      "type": "complements",
+      "label": "plan preview shows what the run will do before it starts; work trail shows what it actually did and why",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where a [plan preview](/patterns/plan-preview) stated what the run intended beforehand and a [working plan](/patterns/working-plan) tracks what steps are left, the work trail carries the path actually taken, streamed through [live presentation](/patterns/live-presentation) while the run is under way.",
+      "glossFrom": "source:initiating",
+      "farSituation": "The The reasoning and actions behind the steps are for the [work trail](/patterns/work-trail) to show"
+    },
+    {
+      "source": "work-trail",
+      "target": "working-plan",
+      "type": "complements",
+      "label": "working plan holds which steps are left; work trail holds the actions and rationale behind them",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where a [plan preview](/patterns/plan-preview) stated what the run intended beforehand and a [working plan](/patterns/working-plan) tracks what steps are left, the work trail carries the path actually taken, streamed through [live presentation](/patterns/live-presentation) while the run is under way.",
+      "glossFrom": "source:initiating",
+      "farSituation": "The list shows what will be done, and why the agent chose those steps and what it did is for the [work trail](/patterns/work-trail) to show."
+    },
+    {
+      "source": "work-trail",
+      "target": "activity-log",
+      "type": "complements",
+      "label": "the live and turn-scoped trail paired with the lasting record of the same work",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Once the run ends, the trail attaches to [generated content](/patterns/generated-content), grounds an absent author's edits in [change review](/patterns/change-review), anchors into the lasting [activity log](/patterns/activity-log), and keeps the basis of agent decisions auditable in [collaboration](/patterns/collaboration).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "work-trail",
+      "target": "generated-content",
+      "type": "complements",
+      "label": "pairs the finished output with the path that produced it",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Once the run ends, the trail attaches to [generated content](/patterns/generated-content), grounds an absent author's edits in [change review](/patterns/change-review), anchors into the lasting [activity log](/patterns/activity-log), and keeps the basis of agent decisions auditable in [collaboration](/patterns/collaboration).",
+      "glossFrom": "source:resulting",
+      "farSituation": "Pair the result with a [work trail](/patterns/work-trail) or [explanation](/patterns/explanation) to show how it was produced, and add [cognitive forcing functions](/patterns/cognitive-forcing-functions) before acceptance where an unchecked error would be costly."
+    },
+    {
+      "source": "work-trail",
+      "target": "change-review",
+      "type": "complements",
+      "label": "accounts for how machine-proposed edits were reached when there is no human author to ask",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Once the run ends, the trail attaches to [generated content](/patterns/generated-content), grounds an absent author's edits in [change review](/patterns/change-review), anchors into the lasting [activity log](/patterns/activity-log), and keeps the basis of agent decisions auditable in [collaboration](/patterns/collaboration).",
+      "glossFrom": "source:resulting",
+      "farSituation": "Where the system made it there may be nobody to ask, and a [work trail](/patterns/work-trail) gives an account of the work in the author's place, though the model's narration is its own report and can be wrong."
+    },
+    {
+      "source": "work-trail",
+      "target": "collaboration",
+      "type": "complements",
+      "label": "makes an agent's steps and rationale auditable to human collaborators",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Once the run ends, the trail attaches to [generated content](/patterns/generated-content), grounds an absent author's edits in [change review](/patterns/change-review), anchors into the lasting [activity log](/patterns/activity-log), and keeps the basis of agent decisions auditable in [collaboration](/patterns/collaboration).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "work-trail",
+      "target": "citation",
+      "type": "complements",
+      "label": "pairs the path taken across steps with the source passages backing individual claims",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Pair the trail with [citation](/patterns/citation) to bind specific claims to the source passages retrieved along the way, and with [expressed uncertainty](/patterns/expressed-uncertainty) when backtracking or conflicting tool results leave a part of the answer thinly supported.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Where the answer took several steps to produce, pair citations with a [work trail](/patterns/work-trail) so the actor can inspect the path taken alongside the passages each claim rests on."
+    },
+    {
+      "source": "work-trail",
+      "target": "expressed-uncertainty",
+      "type": "complements",
+      "label": "backtracking and conflicting tool results in the trail surface where support is thin",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Pair the trail with [citation](/patterns/citation) to bind specific claims to the source passages retrieved along the way, and with [expressed uncertainty](/patterns/expressed-uncertainty) when backtracking or conflicting tool results leave a part of the answer thinly supported.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "work-trail",
+      "target": "explanation",
+      "type": "complements",
+      "label": "explanation lays out factors or rules for a result, including single-move outputs, while work trail shows a multi-step path",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A work trail is not an [explanation](/patterns/explanation): where a single-move output has no multi-step path to inspect, an explanation lays out the factors, rules, or domain rationale behind the result instead",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "work-trail",
+      "target": "action-consequences",
+      "type": "related",
+      "label": "governs how much of the trail warrants default visibility versus folding into a summary",
+      "extractedFrom": "frontmatter:related",
+      "situation": "How much of the trail stays open by default versus folded into a summary follows from [action consequences](/patterns/action-consequences).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "work-trail",
+      "target": "agency",
+      "type": "enacts",
+      "label": "gives the actor checkable evidence of what the agent did and why, supporting calibrated trust and intervention",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "work-trail",
+      "target": "learnability",
+      "type": "enacts",
+      "label": "exposing the path an agent took lets the actor learn its capabilities, limits, and failure modes over time",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -11567,6 +12151,72 @@
       "target": "formality",
       "type": "enacts",
       "label": "the procedure-as-artifact sits on the formality spectrum — from natural-language instruction to executable code, entered gradually rather than specified upfront",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "working-plan",
+      "target": "activity-log",
+      "type": "complements",
+      "label": "the working plan holds what is left of a run, and the activity log what was done",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Once a step is done it passes into the [activity log](/patterns/activity-log), which keeps the record after the run ends.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "working-plan",
+      "target": "waiting",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The done, current and next steps report progress in the work's own units, which [waiting](/patterns/waiting) would otherwise report in time.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "working-plan",
+      "target": "approval-gate",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "A step that needs the actor's decision stands in the list as an [approval gate](/patterns/approval-gate).",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "working-plan",
+      "target": "work-trail",
+      "type": "complements",
+      "label": "the working plan shows which steps are left, and the work trail what the agent did and why",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "The list shows what will be done, and why the agent chose those steps and what it did is for the [work trail](/patterns/work-trail) to show.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Where a [plan preview](/patterns/plan-preview) stated what the run intended beforehand and a [working plan](/patterns/working-plan) tracks what steps are left, the work trail carries the path actually taken, streamed through [live presentation](/patterns/live-presentation) while the run is under way."
+    },
+    {
+      "source": "working-plan",
+      "target": "handoff",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "The list is the agent's: the actor who wants the run to go differently says so in the conversation, and one who wants the work back takes it over through [handoff](/patterns/handoff)",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "working-plan",
+      "target": "delegation",
+      "type": "serves",
+      "label": "the working plan covers delegation's monitoring touchpoint during execution: what is left of the run",
+      "extractedFrom": "frontmatter:serves",
+      "situation": "the actor has handed an agent a piece of work that takes several steps, in a conversation or in [delegation](/patterns/delegation), and the agent is now working through them.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "working-plan",
+      "target": "agency",
+      "type": "enacts",
+      "label": "the actor can judge the run while it is still under way",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "working-plan",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "the run's past, present and remaining steps are legible at once",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -11696,16 +12346,9 @@
     },
     {
       "source": "assisted-task-completion",
-      "target": "transparent-reasoning",
+      "target": "work-trail",
       "type": "precedes",
       "situation": "the more of the work the system takes on, the more trust the actor has to extend before accepting anything — so how an offer accounts for itself stops being decoration",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "autocomplete",
-      "target": "ai-completion",
-      "type": "precedes",
-      "situation": "autocomplete's candidates are looked up, not produced — deterministic completion ends where the continuation has to be generated; AI completion extends the same interaction to generated content",
       "extractedFrom": "situation:resulting"
     },
     {
@@ -11713,20 +12356,6 @@
       "target": "activity-log",
       "type": "precedes",
       "situation": "the actor has had to do something — wait, commit an answer first, name a reason, finish an incomplete argument — before accepting, so the judgement on record is theirs; where that something was writing down why, the reasons accumulate into a trail somebody else can read",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "data-entry",
-      "target": "status-feedback",
-      "type": "precedes",
-      "situation": "the expression is in and structured — and where the system did the structuring rather than the actor, its reading of what they meant has to be shown back before it counts as agreed",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "data-entry",
-      "target": "validation",
-      "type": "precedes",
-      "situation": "input that arrived cleanly can still be wrong in ways the control can't catch, so accepting a value and accepting it as correct are separate steps",
       "extractedFrom": "situation:resulting"
     },
     {
@@ -11793,27 +12422,6 @@
       "extractedFrom": "situation:resulting"
     },
     {
-      "source": "good-defaults",
-      "target": "autocomplete",
-      "type": "precedes",
-      "situation": "fields hold the system's best static guess — which serves only until the actor starts typing a value of their own; completion then has to happen in flight rather than up front",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "good-defaults",
-      "target": "autofill",
-      "type": "precedes",
-      "situation": "a good default is a guess at the value; where the system already holds the actual value in the actor's record, pre-filling from the record takes over from guessing",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "good-defaults",
-      "target": "assisted-task-completion",
-      "type": "precedes",
-      "situation": "pre-population ends where the task needs the system to participate in the work itself — the assisted-completion spectrum picks up where a static guess stops sufficing",
-      "extractedFrom": "situation:resulting"
-    },
-    {
       "source": "help",
       "target": "agent",
       "type": "precedes",
@@ -11870,13 +12478,6 @@
       "extractedFrom": "situation:resulting"
     },
     {
-      "source": "plan-preview",
-      "target": "approval-gate",
-      "type": "precedes",
-      "situation": "the agent's intention is now a reviewable object — steps, targets, expected effects — so a wrong course is caught while it is still cheap, and the preview becomes the thing an approval can act on",
-      "extractedFrom": "situation:resulting"
-    },
-    {
       "source": "reference-material",
       "target": "citation",
       "type": "precedes",
@@ -11930,13 +12531,6 @@
       "target": "filtering",
       "type": "precedes",
       "situation": "an applied label is a handle: whatever has been tagged becomes a facet to narrow by, which is where the value of tagging is actually collected",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "transparent-reasoning",
-      "target": "cognitive-forcing-functions",
-      "type": "precedes",
-      "situation": "visible reasoning anchors as readily as it informs: a trail that looks thorough invites the actor to stop reading it and start relying on it, which is the state a deliberate interruption exists for",
       "extractedFrom": "situation:resulting"
     },
     {

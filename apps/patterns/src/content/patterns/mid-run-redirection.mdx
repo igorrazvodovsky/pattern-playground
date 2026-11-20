@@ -1,0 +1,58 @@
+---
+title: Mid-run redirection
+added: 2026-11-20
+role: pattern
+seed: true
+evidence:
+  - observed
+  - literature
+  - used
+activityLevel: action
+mediation: individual
+description: "Steering an active agent run onto a corrected path when the actor spots a wrong premise or wasted branch, without aborting and starting from scratch."
+situation:
+  initiating: >-
+    … an agent is partway through a multi-step run, and its
+    [work trail](/patterns/work-trail) or [working plan](/patterns/working-plan) shows a wrong
+    assumption, a missing constraint, or a branch heading the wrong way. Stopping the run with
+    [abort](/patterns/abort) would discard valid work already done, while waiting for it to
+    finish spends time and cost on a result the actor already knows is off course.
+  resulting: >-
+    The run absorbs the correction at its next step—or rewinds to the disputed step—keeping
+    earlier progress intact while the [work trail](/patterns/work-trail) records where the
+    actor intervened. Where the run has already finished,
+    [instructed revision](/patterns/instructed-revision) reshapes the result after the fact,
+    and where the agent cannot recover even with guidance, [handoff](/patterns/handoff)
+    transfers the work back to the actor. Where the actor wants to compare the corrected
+    direction against the original path rather than replace it,
+    [branching](/patterns/branching) forks the run from the disputed step. In
+    [delegation](/patterns/delegation), mid-run redirection covers the steering touchpoint
+    during exception handling without requiring a full takeover…
+relationships:
+  follows:
+    - work-trail
+    - to: working-plan
+      note: seeing an unwanted upcoming step in the working plan lets the actor redirect before it executes
+  alternative:
+    - abort
+    - instructed-revision
+    - handoff
+  complements:
+    - branching
+  serves:
+    - to: delegation
+      note: "mid-run redirection covers delegation's steering touchpoint — correcting an active run without full takeover"
+  enacts:
+    - to: agency
+      note: the actor corrects course while work is in flight rather than choosing between full cancellation and post-hoc cleanup
+---
+
+* * *
+
+**Watching an agent pursue a wrong assumption leaves the actor with two poor options: cancel the run and lose the work already done, or wait for a flawed result and revise it afterwards.**
+
+Intervening mid-run trades some simplicity for recovered time and control. Research on interactive reasoning shows that letting actors edit or redirect an active reasoning path increases felt agency and catches errors early, while also adding cognitive load if the actor must parse a long trace or accidentally disturbs a fragile intermediate state.
+
+Therefore,
+
+**Let the actor inject a correction or edit a disputed step while the run is under way, so the agent adjusts its remaining steps from that point without restarting from scratch. Mark where the correction took effect in the trail so the actor can tell which steps came before and after the change.**

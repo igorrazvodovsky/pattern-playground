@@ -20,6 +20,7 @@ export default defineConfig({
     '/patterns/dry-run': '/patterns/trial-run',
     '/patterns/embedded-intelligence': '/patterns/agent-fallback',
     '/patterns/text-lense': '/patterns/text-lens',
+    '/patterns/transparent-reasoning': '/patterns/work-trail',
   },
   // Astro 7 defaults Markdown/MDX to the native Sätteri pipeline, which does
   // not run remark plugins. Switch both .md and .mdx back to the unified
