@@ -58,12 +58,14 @@ const interfaceIcons = [
   'clear',
   'columns',
   'confirm',
+  'copy',
   'decrease',
   'delete',
   'delete-confirm',
   'descending',
   'detail',
   'document',
+  'edit',
   'example',
   'external',
   'filter',
@@ -86,6 +88,7 @@ const interfaceIcons = [
   'part',
   'people',
   'person',
+  'plan',
   'popover',
   'previous',
   'product',
@@ -93,6 +96,7 @@ const interfaceIcons = [
   'publish',
   'quote',
   'reasoning',
+  'regenerate',
   'remove-person',
   'restore',
   'rows',
@@ -194,13 +198,14 @@ export const catalog = defineCatalog(schema, {
         direction: z.enum(['vertical', 'horizontal']).nullable(),
         gap: z.enum(['none', 's', 'm', 'l']).nullable(),
         align: z.enum(['start', 'center', 'baseline']).nullable(),
+        justify: z.enum(['start', 'end']).nullable(),
         label: z.string().nullable(),
         dropTarget: z.boolean().nullable(),
         dropped: z.string().nullable(),
       }),
       slots: ['default'],
       description:
-        'Lays children out in a column (default) or a row. Children of a column take its full width; `align: start` keeps them at their own width, as for a lone Button. `label` names what the children are a group of, such as one of several lists in a detail: the Stack becomes a region of that name for assistive technology. A visible caption for the group is a separate Text. With `dropTarget` the Stack takes what is dragged in the same demo, rows of a draggable DescriptionList or Cards with a `dragId`: it is marked while a row is over it, and a drop writes the `id` it carries to `dropped`, then emits `drop`. Bind `dropped` with $bindState. Dragging needs a pointer, so give the actor another way to do what a drop does, such as a Menu.',
+        'Lays children out in a column (default) or a row. Children of a column take its full width; `align: start` keeps them at their own width, as for a lone Button. In a row, `justify: end` lines the children up at the end, as the buttons that close an editor are. `label` names what the children are a group of, such as one of several lists in a detail: the Stack becomes a region of that name for assistive technology. A visible caption for the group is a separate Text. With `dropTarget` the Stack takes what is dragged in the same demo, rows of a draggable DescriptionList or Cards with a `dragId`: it is marked while a row is over it, and a drop writes the `id` it carries to `dropped`, then emits `drop`. Bind `dropped` with $bindState. Dragging needs a pointer, so give the actor another way to do what a drop does, such as a Menu.',
     },
     Grid: {
       props: z.object({
@@ -386,9 +391,9 @@ export const catalog = defineCatalog(schema, {
           ]),
         ),
       }),
-      slots: ['default'],
+      slots: ['default', 'status', 'actions'],
       description:
-        "One message in Messages. `from` says who sent it: the actor, or the other side (a person or the system). `parts` is its text in order: plain runs as strings, and marked runs as { text, note, link } for a part the actor should notice. A marked run's `note` says why it is marked; it shows when the actor points at or focuses the run, and the run is underlined to say a note is there. A marked run's `link` ties it to the runs in other messages that stand for the same thing, such as a passage in a prompt and its summary in the answer; one link can join several runs. Pointing at or focusing a linked run keeps the runs on its link highlighted and drops the highlight from the other linked runs. With `note` and `link` both null the run is only highlighted. Keep the spaces between runs in the strings. Children render inside the message, after its text: controls the actor answers with in place, such as SelectableTags or a Slider, for a message that is a piece of interface rather than words. A message of controls alone has empty `parts`, and sits on the plain surface rather than in a bubble, so the controls read as interface rather than as text the actor sent.",
+        "One message in Messages. `from` says who sent it: the actor, or the other side (a person or the system). `parts` is its text in order: plain runs as strings, and marked runs as { text, note, link } for a part the actor should notice. A marked run's `note` says why it is marked; it shows when the actor points at or focuses the run, and the run is underlined to say a note is there. A marked run's `link` ties it to the runs in other messages that stand for the same thing, such as a passage in a prompt and its summary in the answer; one link can join several runs. Pointing at or focusing a linked run keeps the runs on its link highlighted and drops the highlight from the other linked runs. With `note` and `link` both null the run is only highlighted. Keep the spaces between runs in the strings. Children render inside the message, after its text: controls the actor answers with in place, such as SelectableTags or a Slider, for a message that is a piece of interface rather than words. A message of controls alone has empty `parts`, and sits on the plain surface rather than in a bubble, so the controls read as interface rather than as text the actor sent. The `actions` slot holds plain Buttons that act on the message itself, such as copying or editing it, in a row just beneath it on its side. They show while the pointer is over the message or focus is in it, and always on a screen without hover; they keep their place while hidden, so the conversation does not shift. The `status` slot starts that row and stays in view, for what the actor should see without looking for it, such as which version of the message is shown and the controls that step between versions, or the actions on the latest reply, which chat products keep in view.",
     },
     Composer: {
       props: z.object({
@@ -421,6 +426,44 @@ export const catalog = defineCatalog(schema, {
       slots: ['default'],
       description:
         "One event or step in a Timeline. `title` says what happened. `by` names who did it and leads the title, set apart: a string for a name with nowhere to go, such as the system, or { name, href } to make the name a link to that actor. `time` says when, beneath the entry. `from: actor` sets apart an entry the actor made themselves, such as the request the rest of a trace works on. `pending` marks a step still under way: the title says so, and the entry shows it is busy. Children are the entry's content beneath the title. With `expandable` they sit behind a disclosure that the title opens and closes, for detail the actor asks for, such as why the event happened; `open` says whether it is open. Bind `open` with $bindState, or $bindItem inside a repeat, so the entry keeps its state when the library switches.",
+    },
+    Trace: {
+      props: z.object({}),
+      slots: ['default'],
+      description:
+        "An agent's work told as lines, one per step, such as its thinking, the steps of a plan, the tools it ran or the sources it read. Its children are TraceLine elements in the order the work happens. A Trace inside a TraceLine is that line's own steps. Use it inside a Message from the other side, beside the reply's text. A Timeline is for events in a history, with who made them and when.",
+    },
+    TraceLine: {
+      props: z.object({
+        title: z.string(),
+        detail: z.string().nullable(),
+        icon: z.enum(iconNames).nullable(),
+        status: z.enum(['done', 'running', 'pending', 'error']).nullable(),
+        href: z.string().nullable(),
+        expandable: z.boolean().nullable(),
+        open: z.boolean().nullable(),
+      }),
+      slots: ['default'],
+      description:
+        "One step in a Trace. `title` says what the step is or did, in a few words (Thought, Plan: move the launch tasks, Archived 214 files). `detail` follows the title in lighter text, for a short figure about the step, such as how long it took or how many of its steps are done. `status` says where the step stands: `running` marks the step under way, `pending` one not started, `error` one that failed or was refused, `done` one finished; without a status the line is plain. The line is led by an icon for its status, or by `icon` when given, named by meaning, such as `plan` for a plan's summary line. `href` makes the line a link that opens elsewhere, for a source the agent read; give it no children. Children are the step's content beneath its line, such as its own steps as a Trace, or its output as Text. With `expandable` they sit behind a disclosure the line opens and closes; `open` says whether it is open. Bind `open` with $bindState so the line keeps its state. For a tool call, let the title say what was run and how it went (Running…, Ran…, Failed to run…), and put what it returned in a CodeBlock behind the line.",
+    },
+    CodeBlock: {
+      props: z.object({
+        code: z.string(),
+        language: z.string().nullable(),
+      }),
+      description:
+        'Literal text read as it is, such as what a tool was called with or what it returned, kept in its lines and set apart from the prose around it. `code` is the text, with its line breaks. `language` says what the text is written in (json, sql, shell); the block is not highlighted. Long lines scroll rather than wrap.',
+    },
+    Citation: {
+      props: z.object({
+        label: z.string(),
+        title: z.string(),
+        description: z.string().nullable(),
+        href: z.string(),
+      }),
+      description:
+        "A source named in the sentence it supports, as a child of a Text, after the claim: a small chip reading `label`, usually the source's site (nngroup.com), that links to the source at `href`. Pointing at the chip or focusing it previews the source: its `title`, and `description` for what it says that bears on the claim. Go on with the sentence in an inline Text after it.",
     },
     List: {
       props: z.object({
@@ -591,11 +634,20 @@ export const catalog = defineCatalog(schema, {
     Textarea: {
       props: z.object({
         label: z.string(),
+        hideLabel: z.boolean().nullable(),
         placeholder: z.string().nullable(),
         value: z.string().nullable(),
       }),
       description:
-        'A multi-line text field that grows with its text. Bind `value` with $bindState.',
+        'A multi-line text field that grows with its text. Bind `value` with $bindState. With `hideLabel` the label is read by assistive technology only, for a field whose place says what it holds, such as a sent message opened for editing.',
+    },
+    InfoTip: {
+      props: z.object({
+        label: z.string(),
+        text: z.string(),
+      }),
+      description:
+        'A small information icon that shows `text` in a tooltip when the actor points at it or focuses it, for a note on what the controls beside it will do that the actor needs to read once, not every time. `label` names the icon for assistive technology (About saving); `text` is read as its description.',
     },
     Select: {
       props: z.object({

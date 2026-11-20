@@ -63,6 +63,8 @@ Keep single-turn retries at the leaf on a lightweight switcher through [regenera
 
 Chat interfaces often hide the tree inside a linear column: editing an earlier [prompt](/patterns/prompt) or regenerating a reply creates a sibling branch behind a `< 2 / 2 >` switcher on that turn, flipping the transcript below it between timelines. This keeps the reading surface simple for two or three forks, but hides where else in the thread branches exist and prevents reading two branches side by side. When multi-branch work is common, an explicit tree overview beside the transcript—with short auto-generated titles on each node and the active path highlighted—lets the actor jump directly between threads.
 
+<Demo spec="prompt-editing" label="Editing a sent prompt starts a new version of the conversation from it; the earlier one stays a step back" />
+
 ### Artifact and version branches
 
 In document, design, and code tools (such as Git or Figma branches), an entire working state forks from a checkpoint so a person or an agent can work on a separate thread in isolation before deciding whether to bring changes back into the main line via [change review](/patterns/change-review) and [reconciliation](/patterns/reconciliation).

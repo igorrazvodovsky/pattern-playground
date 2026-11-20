@@ -352,7 +352,6 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
       outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
     }}
 :scope {
-    background-color: var(--background);
     font-family: var(--font-sans);
     color: var(--foreground);
   }
@@ -489,6 +488,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 @media (min-width: 96rem) {.container {
       max-width: 96rem;
     }}
+.m-0 {
+    margin: 0;
+  }
 .-mx-1 {
     margin-inline: calc(var(--spacing) * -1);
   }
@@ -528,8 +530,14 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .-mr-1\.5 {
     margin-right: calc(var(--spacing) * -1.5);
   }
+.-mr-2 {
+    margin-right: calc(var(--spacing) * -2);
+  }
 .-mb-4 {
     margin-bottom: calc(var(--spacing) * -4);
+  }
+.mb-1 {
+    margin-bottom: var(--spacing);
   }
 .mb-2 {
     margin-bottom: calc(var(--spacing) * 2);
@@ -545,6 +553,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .ml-\[2px\] {
     margin-left: 2px;
+  }
+.ml-\[calc\(--spacing\(2\)-1px\)\] {
+    margin-left: calc(calc(var(--spacing) * 2) - 1px);
   }
 .ml-auto {
     margin-left: auto;
@@ -634,6 +645,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .h-5 {
     height: calc(var(--spacing) * 5);
+  }
+.h-6 {
+    height: calc(var(--spacing) * 6);
   }
 .h-7 {
     height: calc(var(--spacing) * 7);
@@ -970,6 +984,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .self-center {
     align-self: center;
   }
+.self-end {
+    align-self: flex-end;
+  }
 .self-start {
     align-self: flex-start;
   }
@@ -1251,6 +1268,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .p-2\.5 {
     padding: calc(var(--spacing) * 2.5);
   }
+.p-3 {
+    padding: calc(var(--spacing) * 3);
+  }
 .p-4 {
     padding: calc(var(--spacing) * 4);
   }
@@ -1293,9 +1313,6 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .py-2\.5 {
     padding-block: calc(var(--spacing) * 2.5);
   }
-.py-3 {
-    padding-block: calc(var(--spacing) * 3);
-  }
 .py-4 {
     padding-block: calc(var(--spacing) * 4);
   }
@@ -1313,6 +1330,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .pt-4 {
     padding-top: calc(var(--spacing) * 4);
+  }
+.pr-1 {
+    padding-right: var(--spacing);
   }
 .pr-2 {
     padding-right: calc(var(--spacing) * 2);
@@ -1368,6 +1388,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .align-middle {
     vertical-align: middle;
   }
+.font-mono {
+    font-family: var(--font-mono);
+  }
 .text-2xl {
     font-size: var(--text-2xl);
     line-height: var(--tw-leading, var(--text-2xl--line-height));
@@ -1418,6 +1441,10 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
     --tw-leading: var(--leading-normal);
     line-height: var(--leading-normal);
   }
+.leading-relaxed {
+    --tw-leading: var(--leading-relaxed);
+    line-height: var(--leading-relaxed);
+  }
 .leading-snug {
     --tw-leading: var(--leading-snug);
     line-height: var(--leading-snug);
@@ -1451,6 +1478,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .text-pretty {
     text-wrap: pretty;
+  }
+.wrap-break-word {
+    overflow-wrap: break-word;
   }
 .whitespace-nowrap {
     white-space: nowrap;
@@ -1494,9 +1524,12 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .text-green-900 {
     color: var(--color-green-900);
   }
-.text-muted-foreground {
+.text-muted-foreground, .text-muted-foreground\/70 {
     color: var(--muted-foreground);
   }
+@supports (color: color-mix(in lab, red, red)) {.text-muted-foreground\/70 {
+      color: color-mix(in oklab, var(--muted-foreground) 70%, transparent);
+    }}
 .text-popover-foreground {
     color: var(--popover-foreground);
   }
@@ -1530,6 +1563,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .line-through {
     text-decoration-line: line-through;
+  }
+.no-underline {
+    text-decoration-line: none;
   }
 .underline {
     text-decoration-line: underline;
@@ -1624,6 +1660,11 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .filter {
     filter: var(--tw-blur, ) var(--tw-brightness, ) var(--tw-contrast, ) var(--tw-grayscale, ) var(--tw-hue-rotate, ) var(--tw-invert, ) var(--tw-saturate, ) var(--tw-sepia, ) var(--tw-drop-shadow, );
+  }
+.transition {
+    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
 .transition-\[color\,box-shadow\,background-color\] {
     transition-property: color, box-shadow, background-color;
@@ -1721,6 +1762,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .group-has-data-\[slot\=stat\]\/card\:text-muted-foreground:is(:where(.group\/card):has([data-slot="stat"]) *) {
     color: var(--muted-foreground);
   }
+.group-aria-expanded\/trace-collapsible-trigger\:rotate-90:is(:where(.group\/trace-collapsible-trigger)[aria-expanded="true"] *) {
+    rotate: 90deg;
+  }
 .group-aria-\[current\=true\]\:scale-140:is(:where(.group)[aria-current="true"] *) {
     --tw-scale-x: 140%;
     --tw-scale-y: 140%;
@@ -1733,6 +1777,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .group-aria-\[current\=true\]\:ring-ring:is(:where(.group)[aria-current="true"] *) {
     --tw-ring-color: var(--ring);
+  }
+.group-data-\[align\=end\]\/bubble\:self-end:is(:where(.group\/bubble)[data-align="end"] *), .group-data-\[align\=end\]\/message\:self-end:is(:where(.group\/message)[data-align="end"] *) {
+    align-self: flex-end;
   }
 .group-data-\[collapsed\]\/trail\:block:is(:where(.group\/trail)[data-collapsed] *) {
     display: block;
@@ -2031,7 +2078,16 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 @supports (color: color-mix(in lab, red, red)) {.disabled\:bg-input\/50:disabled {
       background-color: color-mix(in oklab, var(--input) 50%, transparent);
     }}
-.disabled\:opacity-50:disabled, .has-disabled\:opacity-50:has(:disabled) {
+.disabled\:opacity-50:disabled {
+    opacity: .5;
+  }
+:where(:is(a, button)) .in-\[a\,button\]\:cursor-pointer {
+    cursor: pointer;
+  }
+:where(:is(a:hover, button:hover)) .in-\[a\:hover\,button\:hover\]\:text-foreground {
+    color: var(--foreground);
+  }
+.has-disabled\:opacity-50:has(:disabled) {
     opacity: .5;
   }
 .has-aria-expanded\:bg-muted\/50:has([aria-expanded="true"]) {
@@ -2061,6 +2117,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .has-data-\[slot\=stat\]\:gap-2:has([data-slot="stat"]) {
     gap: calc(var(--spacing) * 2);
   }
+.has-\[\[data-status\=error\]\]\:text-destructive:has([data-status="error"]) {
+    color: var(--destructive);
+  }
 .has-\[input\:focus-visible\]\:border-ring:has(:is(input:focus-visible)) {
     border-color: var(--ring);
   }
@@ -2072,6 +2131,38 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
     --tw-ring-color: var(--ring);
   }
 @supports (color: color-mix(in lab, red, red)) {.has-\[input\:focus-visible\]\:ring-ring\/50:has(:is(input:focus-visible)) {
+      --tw-ring-color: color-mix(in oklab, var(--ring) 50%, transparent);
+    }}
+:is(.\*\:has-\[\>\[data-slot\=trace-line\]\]\:flex > *):has( > [data-slot="trace-line"]) {
+    display: flex;
+  }
+:is(.\*\:has-\[\>\[data-slot\=trace-line\]\]\:w-fit > *):has( > [data-slot="trace-line"]) {
+    width: fit-content;
+  }
+:is(.\*\:has-\[\>\[data-slot\=trace-line\]\]\:max-w-full > *):has( > [data-slot="trace-line"]) {
+    max-width: 100%;
+  }
+:is(.\*\:has-\[\>\[data-slot\=trace-line\]\]\:min-w-0 > *):has( > [data-slot="trace-line"]) {
+    min-width: 0;
+  }
+:is(.\*\:has-\[\>\[data-slot\=trace-line\]\]\:rounded-md > *):has( > [data-slot="trace-line"]) {
+    border-radius: calc(var(--radius) - 2px);
+  }
+:is(.\*\:has-\[\>\[data-slot\=trace-line\]\]\:text-left > *):has( > [data-slot="trace-line"]) {
+    text-align: left;
+  }
+:is(.\*\:has-\[\>\[data-slot\=trace-line\]\]\:outline-none > *):has( > [data-slot="trace-line"]) {
+    --tw-outline-style: none;
+    outline-style: none;
+  }
+:is(.\*\:has-\[\>\[data-slot\=trace-line\]\]\:focus-visible\:ring-3 > *):has( > [data-slot="trace-line"]):focus-visible {
+    --tw-ring-shadow: var(--tw-ring-inset, ) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+:is(.\*\:has-\[\>\[data-slot\=trace-line\]\]\:focus-visible\:ring-ring\/50 > *):has( > [data-slot="trace-line"]):focus-visible {
+    --tw-ring-color: var(--ring);
+  }
+@supports (color: color-mix(in lab, red, red)) {:is(.\*\:has-\[\>\[data-slot\=trace-line\]\]\:focus-visible\:ring-ring\/50 > *):has( > [data-slot="trace-line"]):focus-visible {
       --tw-ring-color: color-mix(in oklab, var(--ring) 50%, transparent);
     }}
 .has-\[\>button\]\:mr-\[-0\.3rem\]:has( > button) {
@@ -2130,6 +2221,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .data-placeholder\:text-muted-foreground[data-placeholder] {
     color: var(--muted-foreground);
   }
+:is(.group-data-\[align\=end\]\/message\:\*\:data-slot\:self-end:is(:where(.group\/message)[data-align="end"] *) > *)[data-slot] {
+    align-self: flex-end;
+  }
 .data-\[active\=true\]\:z-10[data-active="true"] {
     z-index: 10;
   }
@@ -2155,6 +2249,12 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 @supports (color: color-mix(in lab, red, red)) {.data-\[active\=true\]\:aria-invalid\:ring-destructive\/20[data-active="true"][aria-invalid="true"] {
       --tw-ring-color: color-mix(in oklab, var(--destructive) 20%, transparent);
     }}
+.data-\[align\=end\]\:flex-row-reverse[data-align="end"] {
+    flex-direction: row-reverse;
+  }
+.data-\[align\=end\]\:self-end[data-align="end"] {
+    align-self: flex-end;
+  }
 .data-\[disabled\=true\]\:pointer-events-none[data-disabled="true"] {
     pointer-events: none;
   }
@@ -2167,6 +2267,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .data-\[selected\=true\]\:text-accent-foreground[data-selected="true"] {
     color: var(--accent-foreground);
   }
+:is(.\*\:data-\[slot\=bubble-content\]\:bg-muted > *)[data-slot="bubble-content"] {
+    background-color: var(--muted);
+  }
 .data-\[state\=on\]\:border-primary[data-state="on"] {
     border-color: var(--primary);
   }
@@ -2175,6 +2278,20 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   }
 .data-\[state\=on\]\:text-primary-foreground[data-state="on"] {
     color: var(--primary-foreground);
+  }
+.data-\[status\=error\]\:text-destructive[data-status="error"], :where(:is(a:hover, button:hover)) .data-\[status\=error\]\:in-\[a\:hover\,button\:hover\]\:text-destructive[data-status="error"] {
+    color: var(--destructive);
+  }
+.data-\[status\=pending\]\:opacity-60[data-status="pending"] {
+    opacity: .6;
+  }
+:is(.data-\[status\=running\]\:\*\:data-\[slot\=trace-title\]\:shimmer[data-status="running"] > *)[data-slot="trace-title"] {
+    background-image: linear-gradient(90deg, var(--muted-foreground) 0%, var(--muted-foreground) 40%, var(--foreground) 50%, var(--muted-foreground) 60%, var(--muted-foreground) 100%);
+    color: #0000;
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: 2s linear infinite shadcn-shimmer;
   }
 .data-\[swipe\=cancel\]\:translate-x-0[data-swipe="cancel"] {
     --tw-translate-x: 0px;
@@ -2193,7 +2310,12 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
       -webkit-backdrop-filter: var(--tw-backdrop-blur, ) var(--tw-backdrop-brightness, ) var(--tw-backdrop-contrast, ) var(--tw-backdrop-grayscale, ) var(--tw-backdrop-hue-rotate, ) var(--tw-backdrop-invert, ) var(--tw-backdrop-opacity, ) var(--tw-backdrop-saturate, ) var(--tw-backdrop-sepia, );
       backdrop-filter: var(--tw-backdrop-blur, ) var(--tw-backdrop-brightness, ) var(--tw-backdrop-contrast, ) var(--tw-backdrop-grayscale, ) var(--tw-backdrop-hue-rotate, ) var(--tw-backdrop-invert, ) var(--tw-backdrop-opacity, ) var(--tw-backdrop-saturate, ) var(--tw-backdrop-sepia, );
     }}
-@media (prefers-reduced-motion: reduce) {.motion-reduce\:animate-none {
+@media (prefers-reduced-motion: reduce) {.motion-reduce\:shimmer-none {
+      color: inherit;
+      background-image: none;
+      animation: none;
+    }
+.motion-reduce\:animate-none {
       animation: none;
     }}
 @media (min-width: 40rem) {.sm\:top-auto {
@@ -2601,6 +2723,18 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .\[\&\[data-state\=open\]\>svg\]\:rotate-180[data-state="open"] > svg {
     rotate: 180deg;
   }
+@media (hover: hover) {.\[\@media\(hover\:hover\)\]\:opacity-0 {
+      opacity: 0;
+    }
+.\[\@media\(hover\:hover\)\]\:group-focus-within\/message\:opacity-100:is(:where(.group\/message):focus-within *) {
+      opacity: 1;
+    }
+@media (hover: hover) {.\[\@media\(hover\:hover\)\]\:group-hover\/message\:opacity-100:is(:where(.group\/message):hover *) {
+        opacity: 1;
+      }}}
+[data-slot="trace-title"] ~ .\[\[data-slot\=trace-title\]\~\&\]\:-ml-1 {
+    margin-left: calc(var(--spacing) * -1);
+  }
 }
 }
 @scope ([data-registry="shadcn"]) {
@@ -2625,6 +2759,15 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
   --input: light-dark(oklch(92.2% 0 0), oklch(100% 0 0 / .15));
   --ring: light-dark(oklch(70.8% 0 0), oklch(55.6% 0 0));
 }
+}
+@keyframes shadcn-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: -100% 0;
+  }
 }
 @property --tw-translate-x {
   syntax: "*";

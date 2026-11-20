@@ -1,0 +1,169 @@
+{
+  "root": "conversation",
+  "elements": {
+    "conversation": {
+      "type": "Messages",
+      "props": {},
+      "children": ["request", "editing", "reply", "writing", "follow-up", "follow-up-reply"]
+    },
+    "request": {
+      "type": "Message",
+      "props": { "from": "actor", "parts": [{ "$state": "/prompt" }] },
+      "visible": { "$state": "/editing", "not": true },
+      "slots": { "status": ["switcher"], "actions": ["copy-request", "edit"] }
+    },
+    "switcher": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "none", "align": "center" },
+      "visible": { "$state": "/count", "neq": "1" },
+      "children": ["previous", "position", "next"]
+    },
+    "previous": {
+      "type": "Button",
+      "props": {
+        "label": "Previous version",
+        "icon": "previous",
+        "hideLabel": true,
+        "variant": "plain",
+        "disabled": { "$state": "/first" },
+        "focusKey": "previous",
+        "focusNext": "next"
+      },
+      "on": { "press": { "action": "step", "params": { "by": -1 } } }
+    },
+    "position": {
+      "type": "Text",
+      "props": {
+        "text": { "$template": "${/position} / ${/count}" },
+        "size": "small",
+        "muted": true
+      }
+    },
+    "next": {
+      "type": "Button",
+      "props": {
+        "label": "Next version",
+        "icon": "next",
+        "hideLabel": true,
+        "variant": "plain",
+        "disabled": { "$state": "/last" },
+        "focusKey": "next",
+        "focusNext": "previous"
+      },
+      "on": { "press": { "action": "step", "params": { "by": 1 } } }
+    },
+    "copy-request": {
+      "type": "Button",
+      "props": { "label": "Copy message", "icon": "copy", "hideLabel": true, "variant": "plain" }
+    },
+    "copy-reply": {
+      "type": "Button",
+      "visible": { "$state": "/hasLater" },
+      "props": { "label": "Copy message", "icon": "copy", "hideLabel": true, "variant": "plain" }
+    },
+    "copy-latest-reply": {
+      "type": "Button",
+      "visible": { "$state": "/hasLater", "not": true },
+      "props": { "label": "Copy message", "icon": "copy", "hideLabel": true, "variant": "plain" }
+    },
+    "copy-follow-up": {
+      "type": "Button",
+      "props": { "label": "Copy message", "icon": "copy", "hideLabel": true, "variant": "plain" }
+    },
+    "copy-follow-up-reply": {
+      "type": "Button",
+      "props": { "label": "Copy message", "icon": "copy", "hideLabel": true, "variant": "plain" }
+    },
+    "edit": {
+      "type": "Button",
+      "props": {
+        "label": "Edit message",
+        "icon": "edit",
+        "hideLabel": true,
+        "variant": "plain",
+        "disabled": { "$state": "/writing" },
+        "focusKey": "edit",
+        "focusNext": "cancel"
+      },
+      "on": { "press": { "action": "edit" } }
+    },
+    "editing": {
+      "type": "Message",
+      "props": { "from": "actor", "parts": [] },
+      "visible": { "$state": "/editing" },
+      "children": ["editor"]
+    },
+    "editor": {
+      "type": "Stack",
+      "props": { "gap": "s" },
+      "children": ["draft", "editor-actions"]
+    },
+    "draft": {
+      "type": "Textarea",
+      "props": { "label": "Edit message", "hideLabel": true, "value": { "$bindState": "/draft" } }
+    },
+    "editor-actions": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s", "justify": "end" },
+      "children": ["about-saving", "cancel", "save"]
+    },
+    "about-saving": {
+      "type": "InfoTip",
+      "props": {
+        "label": "About saving",
+        "text": "Saving sends this as a new version of your message and continues the conversation from here. The earlier version stays a step back."
+      }
+    },
+    "cancel": {
+      "type": "Button",
+      "props": { "label": "Cancel", "variant": "plain", "focusKey": "cancel", "focusNext": "edit" },
+      "on": { "press": { "action": "cancel" } }
+    },
+    "save": {
+      "type": "Button",
+      "props": {
+        "label": "Save",
+        "variant": "primary",
+        "disabled": {
+          "$computed": "unchanged",
+          "args": { "draft": { "$state": "/draft" }, "prompt": { "$state": "/prompt" } }
+        },
+        "focusNext": "edit"
+      },
+      "on": { "press": { "action": "send", "params": { "text": { "$state": "/draft" } } } }
+    },
+    "reply": {
+      "type": "Message",
+      "props": { "from": "other", "parts": [{ "$state": "/reply" }] },
+      "visible": { "$state": "/writing", "not": true },
+      "slots": { "status": ["copy-latest-reply"], "actions": ["copy-reply"] }
+    },
+    "writing": {
+      "type": "Message",
+      "props": { "from": "other", "parts": [] },
+      "visible": { "$state": "/writing" },
+      "children": ["writing-text"]
+    },
+    "writing-text": {
+      "type": "Text",
+      "props": { "text": "Writing…", "pending": true, "status": true }
+    },
+    "follow-up": {
+      "type": "Message",
+      "props": { "from": "actor", "parts": ["Shorter, please, and leave out the channel."] },
+      "visible": { "$state": "/hasLater" },
+      "slots": { "actions": ["copy-follow-up"] }
+    },
+    "follow-up-reply": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": [
+          "Launch brings new pricing, the onboarding tour and a public changelog to customers on 4 December."
+        ]
+      },
+      "visible": { "$state": "/hasLater" },
+      "slots": { "status": ["copy-follow-up-reply"] }
+    }
+  }
+}

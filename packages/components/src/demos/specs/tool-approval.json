@@ -1,0 +1,106 @@
+{
+  "root": "conversation",
+  "elements": {
+    "conversation": {
+      "type": "Messages",
+      "props": {},
+      "children": ["request", "reply", "approved", "denied"]
+    },
+    "request": {
+      "type": "Message",
+      "props": {
+        "from": "actor",
+        "parts": [
+          "Clean up the shared Marketing drive. Archive anything nobody has opened in a year."
+        ]
+      }
+    },
+    "reply": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": ["I found 214 files that nobody has opened since last November."]
+      },
+      "children": ["thinking", "gate", "outcome"]
+    },
+    "thinking": {
+      "type": "Trace",
+      "props": {},
+      "children": ["thought"]
+    },
+    "thought": {
+      "type": "TraceLine",
+      "props": {
+        "title": "Thought",
+        "detail": "4s",
+        "icon": "reasoning",
+        "expandable": true,
+        "open": { "$bindState": "/thoughtOpen" }
+      },
+      "children": ["thought-text"]
+    },
+    "thought-text": {
+      "type": "Text",
+      "props": {
+        "text": "Archiving takes the files out of search and stops their shared links working, which reaches people outside this drive. That is not something to do without asking."
+      }
+    },
+    "gate": {
+      "type": "ItemGroup",
+      "props": { "label": "Waiting for your approval" },
+      "visible": { "$state": "/answer", "eq": "asked" },
+      "children": ["gate-item"]
+    },
+    "gate-item": {
+      "type": "Item",
+      "props": {
+        "title": "Archive 214 files in Shared / Marketing?",
+        "description": "Only these files, in this drive. Their shared links stop working, and you can restore any of them for 30 days."
+      },
+      "slots": { "suffix": ["deny", "approve"] }
+    },
+    "deny": {
+      "type": "Button",
+      "props": { "label": "Deny" },
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/answer", "value": "denied" } }
+      }
+    },
+    "approve": {
+      "type": "Button",
+      "props": { "label": "Approve", "variant": "primary" },
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/answer", "value": "approved" } }
+      }
+    },
+    "outcome": {
+      "type": "Trace",
+      "props": {},
+      "visible": { "$state": "/answer", "neq": "asked" },
+      "children": ["ran", "refused"]
+    },
+    "ran": {
+      "type": "TraceLine",
+      "props": { "title": "Archived 214 files", "icon": "archive", "status": "done" },
+      "visible": { "$state": "/answer", "eq": "approved" }
+    },
+    "refused": {
+      "type": "TraceLine",
+      "props": { "title": "Denied: archive 214 files", "status": "error" },
+      "visible": { "$state": "/answer", "eq": "denied" }
+    },
+    "approved": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": ["Done. Any of them can be restored from the drive’s archive until 16 December."]
+      },
+      "visible": { "$state": "/answer", "eq": "approved" }
+    },
+    "denied": {
+      "type": "Message",
+      "props": { "from": "other", "parts": ["Okay, I left the files in place."] },
+      "visible": { "$state": "/answer", "eq": "denied" }
+    }
+  }
+}

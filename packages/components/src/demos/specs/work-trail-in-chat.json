@@ -1,0 +1,82 @@
+{
+  "root": "conversation",
+  "elements": {
+    "conversation": {
+      "type": "Messages",
+      "props": {},
+      "children": ["request", "reply"]
+    },
+    "request": {
+      "type": "Message",
+      "props": { "from": "actor", "parts": ["Which of the Q3 launch tasks are at risk?"] }
+    },
+    "reply": {
+      "type": "Message",
+      "props": { "from": "other", "parts": [] },
+      "children": ["trail", "answer"]
+    },
+    "trail": {
+      "type": "Trace",
+      "props": {},
+      "children": ["summary"]
+    },
+    "summary": {
+      "type": "TraceLine",
+      "props": {
+        "title": {
+          "$cond": { "$state": "/phase", "eq": "working" },
+          "$then": "Working",
+          "$else": "Worked"
+        },
+        "detail": {
+          "$cond": { "$state": "/phase", "eq": "working" },
+          "$then": null,
+          "$else": { "$template": "${/toolCount} tool calls, ${/seconds}s" }
+        },
+        "status": {
+          "$cond": { "$state": "/phase", "eq": "working" },
+          "$then": "running",
+          "$else": "done"
+        },
+        "expandable": true,
+        "open": { "$bindState": "/open" }
+      },
+      "children": ["steps"]
+    },
+    "steps": {
+      "type": "Trace",
+      "props": {},
+      "repeat": { "statePath": "/steps", "key": "id" },
+      "children": ["step"]
+    },
+    "step": {
+      "type": "TraceLine",
+      "props": {
+        "title": { "$item": "title" },
+        "detail": { "$item": "detail" },
+        "icon": { "$item": "icon" },
+        "status": { "$item": "status" },
+        "expandable": { "$item": "expandable" },
+        "open": { "$bindItem": "open" }
+      },
+      "children": ["narration", "result"]
+    },
+    "narration": {
+      "type": "Text",
+      "props": { "text": { "$item": "narration" }, "muted": true },
+      "visible": { "$item": "narration" }
+    },
+    "result": {
+      "type": "CodeBlock",
+      "props": { "code": { "$item": "result" }, "language": "json" },
+      "visible": { "$item": "result" }
+    },
+    "answer": {
+      "type": "Text",
+      "props": {
+        "text": "Three are at risk: the design review, the pricing page copy and the press kit. The design review waits on two of Sam’s tasks, and the other two wait on the design review. Sam took over Dana’s open tasks yesterday and now has 11 due by Friday, so moving the two that block the review to someone else would free it."
+      },
+      "visible": { "$state": "/phase", "eq": "done" }
+    }
+  }
+}

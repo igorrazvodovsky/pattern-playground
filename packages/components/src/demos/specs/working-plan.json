@@ -1,0 +1,109 @@
+{
+  "root": "conversation",
+  "elements": {
+    "conversation": {
+      "type": "Messages",
+      "props": {},
+      "children": ["request", "reply", "follow-ups", "finished", "composer"]
+    },
+    "request": {
+      "type": "Message",
+      "props": {
+        "from": "actor",
+        "parts": [
+          "Move every task tagged Q3 launch into the new Launch project, and give Dana’s open ones to Sam."
+        ]
+      }
+    },
+    "reply": {
+      "type": "Message",
+      "props": { "from": "other", "parts": ["On it."] },
+      "children": ["queue"]
+    },
+    "queue": {
+      "type": "Trace",
+      "props": {},
+      "children": ["to-do", "completed"]
+    },
+    "to-do": {
+      "type": "TraceLine",
+      "props": {
+        "title": { "$template": "${/leftCount} to do" },
+        "icon": "plan",
+        "status": {
+          "$cond": { "$state": "/phase", "eq": "working" },
+          "$then": "running",
+          "$else": null
+        },
+        "expandable": true,
+        "open": { "$bindState": "/leftOpen" }
+      },
+      "visible": { "$state": "/phase", "eq": "working" },
+      "children": ["left"]
+    },
+    "left": {
+      "type": "Trace",
+      "props": {},
+      "repeat": { "statePath": "/left", "key": "id" },
+      "children": ["left-step"]
+    },
+    "left-step": {
+      "type": "TraceLine",
+      "props": { "title": { "$item": "title" }, "status": { "$item": "status" } }
+    },
+    "completed": {
+      "type": "TraceLine",
+      "props": {
+        "title": { "$template": "${/doneCount} completed" },
+        "icon": "confirm",
+        "expandable": true,
+        "open": { "$bindState": "/doneOpen" }
+      },
+      "visible": { "$state": "/doneCount", "neq": 0 },
+      "children": ["done"]
+    },
+    "done": {
+      "type": "Trace",
+      "props": {},
+      "repeat": { "statePath": "/done", "key": "id" },
+      "children": ["done-step"]
+    },
+    "done-step": {
+      "type": "TraceLine",
+      "props": { "title": { "$item": "title" }, "status": "done" }
+    },
+    "follow-ups": {
+      "type": "Stack",
+      "props": { "gap": "l" },
+      "repeat": { "statePath": "/followUps", "key": "id" },
+      "children": ["follow-up"]
+    },
+    "follow-up": {
+      "type": "Message",
+      "props": { "from": "actor", "parts": [{ "$item": "text" }] }
+    },
+    "finished": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": ["Done. Each change is in the Launch project’s activity log."]
+      },
+      "visible": { "$state": "/phase", "eq": "done" }
+    },
+    "composer": {
+      "type": "Composer",
+      "props": {
+        "label": "Message",
+        "placeholder": "Add to the request while the agent works…",
+        "value": { "$bindState": "/draft" }
+      },
+      "visible": { "$state": "/phase", "eq": "working" },
+      "slots": { "send": ["send"] }
+    },
+    "send": {
+      "type": "Button",
+      "props": { "label": "Send", "icon": "send", "hideLabel": true, "variant": "primary" },
+      "on": { "press": { "action": "send", "params": { "text": { "$state": "/draft" } } } }
+    }
+  }
+}

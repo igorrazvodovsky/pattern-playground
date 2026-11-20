@@ -123,6 +123,10 @@
     align-items: baseline;
   }
 
+  .justify-end {
+    justify-content: end;
+  }
+
   /* One step up from the surrounding text, wherever it sits. */
   .text-larger {
     font-size: larger;

@@ -110,6 +110,8 @@ export const icons: Record<(typeof iconNames)[number], string> = {
   'clear': 'ik:eraser',
   'columns': 'ik:columns',
   'confirm': 'ik:checkmark',
+  'copy': 'ik:copy',
+  'edit': 'ik:pen',
   'decrease': 'ik:arrow-down-right',
   'delete': 'ik:trash',
   'delete-confirm': 'ik:trash-fill',
@@ -138,6 +140,7 @@ export const icons: Record<(typeof iconNames)[number], string> = {
   'part': 'ik:puzzle',
   'people': 'ik:group',
   'person': 'ik:user',
+  'plan': 'ik:route',
   'popover': 'ik:message',
   'previous': 'ik:chevron-left',
   'product': 'ik:cardboard',
@@ -145,6 +148,7 @@ export const icons: Record<(typeof iconNames)[number], string> = {
   'publish': 'ik:earth-americas',
   'quote': 'ik:quotation-marks',
   'reasoning': 'ik:light-bulb',
+  'regenerate': 'ik:rotate-cw',
   'remove-person': 'ik:remove-user',
   'restore': 'ik:rotate-ccw',
   'rows': 'ik:view-list',
@@ -235,7 +239,11 @@ export const { registry } = defineRegistry(catalog, {
       const attributes = {
         'className': clsx(
           horizontal
-            ? ['flex wrap', `items-${props.align ?? 'center'}`]
+            ? [
+                'flex wrap',
+                `items-${props.align ?? 'center'}`,
+                props.justify === 'end' && 'justify-end',
+              ]
             : ['grid-stack', props.align === 'start' && 'grid-stack--start'],
           gapClass[gap],
           props.dropTarget && 'view-family__pane',
@@ -551,7 +559,7 @@ export const { registry } = defineRegistry(catalog, {
       </TracingProvider>
     ),
 
-    Message: ({ props, children }) => {
+    Message: ({ props, children, slots }) => {
       const tracing = useMarkTracing(props.parts);
       return (
         <div
@@ -594,6 +602,12 @@ export const { registry } = defineRegistry(catalog, {
               })}
               {children}
             </div>
+            {(slots?.status || slots?.actions) && (
+              <div className="message__actions">
+                {slots.status}
+                {slots.actions && <div className="message__reveal">{slots.actions}</div>}
+              </div>
+            )}
           </div>
         </div>
       );
@@ -1184,6 +1198,15 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
+    InfoTip: ({ props }) => (
+      <pp-tooltip content={props.text}>
+        <button type="button" className="button button--plain">
+          <iconify-icon className="icon" icon={purposeIcons.info} aria-hidden="true" />
+          <span className="visually-hidden">{props.label}</span>
+        </button>
+      </pp-tooltip>
+    ),
+
     Input: ({ props, bindings }) => {
       const { id, value, setValue, error, control, errorProps } = useField(props, bindings);
       const field = (
@@ -1215,10 +1238,11 @@ export const { registry } = defineRegistry(catalog, {
       const { id, value, setValue } = useBoundField(props, bindings);
       return (
         <div className="grid-stack">
-          <label htmlFor={id}>{props.label}</label>
+          {!props.hideLabel && <label htmlFor={id}>{props.label}</label>}
           <div className="grow-wrap" data-replicated-value={value}>
             <textarea
               id={id}
+              aria-label={props.hideLabel ? props.label : undefined}
               rows={3}
               placeholder={props.placeholder ?? undefined}
               value={value}
@@ -1697,6 +1721,29 @@ export const { registry } = defineRegistry(catalog, {
       <p className="spec-demo__unsupported" role="note">
         This library has no rule builder with groups.
       </p>
+    ),
+
+    CodeBlock: ({ props }) => (
+      <pre data-language={props.language ?? undefined}>
+        <code>{props.code}</code>
+      </pre>
+    ),
+
+    Trace: () => (
+      <p className="spec-demo__unsupported" role="note">
+        This library has no trace of an agent&rsquo;s steps.
+      </p>
+    ),
+
+    // A Trace says so once; its lines render nothing of their own.
+    TraceLine: () => null,
+
+    // A Citation sits inside a Text's paragraph, so its notice runs inline.
+    Citation: () => (
+      <span className="spec-demo__unsupported" role="note">
+        {' '}
+        (This library has no inline citation.)
+      </span>
     ),
 
     Questionnaire: () => (

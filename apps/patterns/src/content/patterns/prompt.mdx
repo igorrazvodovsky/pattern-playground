@@ -34,6 +34,8 @@ relationships:
       note: the actor directs the system in their own words; initiative stays with whoever frames the request
 ---
 
+<Demo spec="prompt-basic" label="Structured prompt composer" />
+
 * * *
 
 **An actor can state an open-ended intent in their own words, but the system can act only on what those words make specific. An open box shows nothing of what the system can do, how much context it already holds, or how much the request has to say, so the actor guesses, and the system fills in whatever the words leave unstated.**
@@ -52,11 +54,11 @@ Therefore,
 
 Do not push actors to write longer prompts when the attached material already carries the criteria, or when a quick first draft would let them react to a concrete output instead of guessing in the abstract. Avoid rewriting the actor's prompt behind their back: silent prompt expansion often distorts the constraints they chose, and if the system expands or restructures a request it should show the revision as something the actor can inspect and undo. When the same phrasing is typed repeatedly across runs, stop asking for prose and let it graduate into a command button, a saved template, or a standing instruction.
 
-<Demo spec="prompt-basic" label="Structured prompt composer" />
-
 ## In practice
 
 Non-experts iterate on prompts opportunistically, over-generalise from a single run, and struggle more with judging whether a prompt revision helped than with writing the words. Keeping the sent prompt editable in place—and [branching](/patterns/branching) the thread or keeping the prior output reachable for comparison when a revised prompt is run—lets the actor see what their change actually did. Because writing a thorough specification is expensive for a single run and economical when reused, give a working prompt a direct path to become a [template](/patterns/template) with fillable slots, or to promote a recurring rule into [standing instructions](/patterns/standing-instructions).
+
+<Demo spec="prompt-editing" label="Editing a sent prompt starts a new version of the conversation from it; the earlier one stays a step back" />
 
 ## Research on this pattern
 

@@ -1,0 +1,69 @@
+{
+  "root": "conversation",
+  "elements": {
+    "conversation": {
+      "type": "Messages",
+      "props": {},
+      "children": ["request", "reply"]
+    },
+    "request": {
+      "type": "Message",
+      "props": {
+        "from": "actor",
+        "parts": ["Do people actually check the sources an AI answer cites?"]
+      }
+    },
+    "reply": {
+      "type": "Message",
+      "props": { "from": "other", "parts": [] },
+      "children": ["support", "trust"]
+    },
+    "support": {
+      "type": "Text",
+      "props": {
+        "text": "Rarely, and the citations often would not hold up. In an audit of generative search engines, only about half of the generated sentences were fully supported by their citations."
+      },
+      "children": ["cite-audit"]
+    },
+    "cite-audit": {
+      "type": "Citation",
+      "props": {
+        "label": "arxiv.org",
+        "title": "Evaluating verifiability in generative search engines",
+        "description": "Liu, Zhang and Liang (2023): about half of generated sentences fully supported, and a quarter of citations not supporting their sentence.",
+        "href": "https://arxiv.org/abs/2304.09848"
+      }
+    },
+    "trust": {
+      "type": "Text",
+      "props": { "text": "The marks still raise trust, even when the citations are random." },
+      "children": ["cite-trust", "follow"]
+    },
+    "cite-trust": {
+      "type": "Citation",
+      "props": {
+        "label": "arxiv.org",
+        "title": "Citations and trust in LLM generated responses",
+        "description": "Ding et al. (AAAI 2025): trust rises with citations present, whether or not they are relevant, and falls when people check them.",
+        "href": "https://arxiv.org/abs/2501.01303"
+      }
+    },
+    "follow": {
+      "type": "Text",
+      "props": {
+        "text": " Few follow them: links inside Google’s AI summaries are clicked on about 1% of visits.",
+        "inline": true
+      },
+      "children": ["cite-clicks"]
+    },
+    "cite-clicks": {
+      "type": "Citation",
+      "props": {
+        "label": "pewresearch.org",
+        "title": "Google users are less likely to click on links when an AI summary appears",
+        "description": "Pew Research Center (2025): a link inside the summary was clicked on 1% of visits that showed one.",
+        "href": "https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/"
+      }
+    }
+  }
+}

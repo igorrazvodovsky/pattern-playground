@@ -53,6 +53,8 @@ Cap parallel variants at a small set—typically two to four—so comparing them
 
 In a [conversation](/patterns/conversation) or single-shot generator, a regenerate control on the response draws a replacement turn from the same prompt. Keep the previous answer in a numbered version switcher (`1 / 2`, `2 / 2`) attached to the turn so the actor can step between draws and pick the better one.
 
+<Demo spec="regenerate-reply" label="Asking again adds a version; the earlier ones stay a step back" />
+
 ### Scoped regeneration and inpainting
 
 Selecting a span of text or masking an image region scopes the redraw to that selection while passing the surrounding content as fixed context, so the new draw fits its neighbours. When the selection is accompanied by a directive naming how the span should change, the move crosses into [instructed revision](/patterns/instructed-revision); when the actor simply asks for another try in that spot, it remains regeneration.

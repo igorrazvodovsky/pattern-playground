@@ -115,6 +115,10 @@ import {
   Scroll,
   TruckDelivery,
   ArrowHookLeftUp,
+  Copy,
+  Pen,
+  RotateCw,
+  Route,
   type IconComponent,
 } from 'iconoteka-react';
 import { catalog, toastDuration, type iconNames, type purposes, type tones } from '../../catalog';
@@ -157,6 +161,8 @@ import {
   menuContent,
   menuIndicator,
   popoverSurface,
+  tooltipArrow,
+  tooltipContent,
   type Send,
 } from './parts';
 import { LocationMap } from './map';
@@ -169,6 +175,9 @@ import { RuleBuilder, type RuleTree } from './rule-builder';
 import { Subsection, useHeading } from '../../behaviour/heading-level';
 import { Section, Sections } from './sections';
 import { Timeline, TimelineEntry } from './timeline';
+import { Bubble, BubbleContent, Message as ShadcnMessage, MessageContent } from './message';
+import { TraceList, TraceStep } from './trace-step';
+import { Citation } from './citation';
 import { useDisclosureOpen, useDisclosureState } from '../../behaviour/disclosure-state';
 import { BoardAxis } from '../../behaviour/board-axis';
 import { useDisclosureDrop, useDragRow, useStackDrop } from '../../behaviour/drag-drop';
@@ -240,6 +249,8 @@ export const icons: Record<(typeof iconNames)[number], IconComponent> = {
   'clear': Eraser,
   'columns': Columns,
   'confirm': Checkmark,
+  'copy': Copy,
+  'edit': Pen,
   'decrease': TrendDown,
   'delete': Trash,
   'delete-confirm': Trash,
@@ -268,6 +279,7 @@ export const icons: Record<(typeof iconNames)[number], IconComponent> = {
   'part': Puzzle,
   'people': Group,
   'person': User,
+  'plan': Route,
   'popover': Message,
   'previous': ChevronLeft,
   'product': Cardboard,
@@ -275,6 +287,7 @@ export const icons: Record<(typeof iconNames)[number], IconComponent> = {
   'publish': Globe,
   'quote': QuotationMarks,
   'reasoning': LightBulb,
+  'regenerate': RotateCw,
   'remove-person': RemoveUser,
   'restore': RotateCcw,
   'rows': ViewList,
@@ -450,6 +463,7 @@ export const { registry } = defineRegistry(catalog, {
           className={cn(
             'flex',
             horizontal ? 'flex-row flex-wrap' : 'flex-col',
+            horizontal && props.justify === 'end' && 'justify-end',
             gap[props.gap ?? 'm'],
             align[props.align ?? (horizontal ? 'center' : 'stretch')],
             props.dropTarget && 'rounded-xl',
@@ -932,63 +946,86 @@ export const { registry } = defineRegistry(catalog, {
       </TracingProvider>
     ),
 
-    // Each Message brings the tooltip provider, so a Message renders outside
-    // Messages too.
-    Message: ({ props, children }) => {
+    // AI Elements' Message: the actor's text is a muted Bubble at the end, the
+    // other side's reply sits on the Message without one, and the children
+    // follow the text. Each Message brings the tooltip provider, so a Message
+    // renders outside Messages too.
+    Message: ({ props, children, slots }) => {
       const tracing = useMarkTracing(props.parts);
+      const actor = props.from === 'actor';
+      const runs = props.parts.map((part, index) => {
+        if (typeof part === 'string') return part;
+        const { dimmed, linkedTo, handlers } = tracing(index);
+        const className = cn(
+          markClass,
+          'transition-colors data-dimmed:bg-transparent dark:data-dimmed:bg-transparent',
+          (part.note || part.link) &&
+            'outline-none focus-visible:ring-3 focus-visible:ring-ring/50',
+          part.note && 'cursor-help underline decoration-dotted underline-offset-4',
+        );
+        const mark = (
+          <mark
+            key={index}
+            tabIndex={part.note ? 0 : undefined}
+            data-dimmed={dimmed || undefined}
+            {...handlers}
+            className={className}
+          >
+            {part.text}
+            {linkedTo.length > 0 && (
+              <span className="sr-only">, linked to: {linkedTo.join('; ')}</span>
+            )}
+          </mark>
+        );
+        if (!part.note) return mark;
+        return (
+          <Tooltip.Root key={index}>
+            <Tooltip.Trigger asChild>{mark}</Tooltip.Trigger>
+            <Tooltip.Portal container={scopedPortal()}>
+              <Tooltip.Content sideOffset={4} className={tooltipContent}>
+                {part.note}
+                <Tooltip.Arrow className={tooltipArrow} />
+              </Tooltip.Content>
+            </Tooltip.Portal>
+          </Tooltip.Root>
+        );
+      });
+      const text =
+        props.parts.length === 0 ? null : actor ? (
+          <Bubble align="end">
+            <BubbleContent>{runs}</BubbleContent>
+          </Bubble>
+        ) : (
+          <p className="leading-relaxed text-foreground">{runs}</p>
+        );
       return (
         <Tooltip.Provider delayDuration={150}>
-          <div
-            className={cn(
-              'w-fit max-w-[80%]',
-              props.from === 'actor' && 'ml-auto',
-              props.from === 'actor' && props.parts.length > 0
-                ? 'rounded-lg bg-secondary px-4 py-3 text-secondary-foreground'
-                : 'text-foreground',
-            )}
-          >
-            {props.parts.map((part, index) => {
-              if (typeof part === 'string') return part;
-              const { dimmed, linkedTo, handlers } = tracing(index);
-              const className = cn(
-                markClass,
-                'transition-colors data-dimmed:bg-transparent dark:data-dimmed:bg-transparent',
-                (part.note || part.link) &&
-                  'outline-none focus-visible:ring-3 focus-visible:ring-ring/50',
-                part.note && 'cursor-help underline decoration-dotted underline-offset-4',
-              );
-              const mark = (
-                <mark
-                  key={index}
-                  tabIndex={part.note ? 0 : undefined}
-                  data-dimmed={dimmed || undefined}
-                  {...handlers}
-                  className={className}
-                >
-                  {part.text}
-                  {linkedTo.length > 0 && (
-                    <span className="sr-only">, linked to: {linkedTo.join('; ')}</span>
+          <ShadcnMessage align={actor ? 'end' : 'start'}>
+            <MessageContent>
+              {text}
+              {children &&
+                (actor ? <div className="w-fit max-w-[80%] self-end">{children}</div> : children)}
+              {(slots?.status || slots?.actions) && (
+                // AI Elements' MessageActions, revealed as chat products
+                // reveal them: on hover or focus, and always without hover.
+                <div
+                  className={cn(
+                    // Pulled out by an icon button's inset, so the icons line
+                    // up with the edge of the text.
+                    '-mt-1.5 flex items-center gap-1 text-muted-foreground',
+                    actor ? '-mr-2 self-end' : '-ml-2 self-start',
                   )}
-                </mark>
-              );
-              if (!part.note) return mark;
-              return (
-                <Tooltip.Root key={index}>
-                  <Tooltip.Trigger asChild>{mark}</Tooltip.Trigger>
-                  <Tooltip.Portal container={scopedPortal()}>
-                    <Tooltip.Content
-                      sideOffset={4}
-                      className="z-50 inline-flex w-fit max-w-xs items-center gap-1.5 rounded-md bg-foreground px-3 py-1.5 text-xs text-balance text-background"
-                    >
-                      {part.note}
-                      <Tooltip.Arrow className="z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px] bg-foreground fill-foreground" />
-                    </Tooltip.Content>
-                  </Tooltip.Portal>
-                </Tooltip.Root>
-              );
-            })}
-            {children}
-          </div>
+                >
+                  {slots.status}
+                  {slots.actions && (
+                    <div className="flex items-center gap-1 transition-opacity [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-focus-within/message:opacity-100 [@media(hover:hover)]:group-hover/message:opacity-100">
+                      {slots.actions}
+                    </div>
+                  )}
+                </div>
+              )}
+            </MessageContent>
+          </ShadcnMessage>
         </Tooltip.Provider>
       );
     },
@@ -1039,6 +1076,45 @@ export const { registry } = defineRegistry(catalog, {
         </TimelineEntry>
       );
     },
+
+    Trace: ({ children }) => <TraceList>{children}</TraceList>,
+
+    TraceLine: ({ props, children, bindings }) => {
+      const [open, setOpen] = useDisclosureState(props.open, bindings?.open);
+      return (
+        <TraceStep
+          title={props.title}
+          detail={props.detail ?? null}
+          icon={props.icon ? icons[props.icon] : null}
+          status={props.status ?? null}
+          href={props.href ?? null}
+          expandable={props.expandable ?? false}
+          open={open}
+          onOpenChange={setOpen}
+        >
+          {children}
+        </TraceStep>
+      );
+    },
+
+    // AI Elements' CodeBlock, without its highlighting or its header.
+    CodeBlock: ({ props }) => (
+      <pre
+        className="m-0 min-w-0 overflow-x-auto rounded-md border bg-muted/50 p-3 font-mono text-xs text-foreground"
+        data-language={props.language ?? undefined}
+      >
+        <code>{props.code}</code>
+      </pre>
+    ),
+
+    Citation: ({ props }) => (
+      <Citation
+        label={props.label}
+        title={props.title}
+        description={props.description ?? null}
+        href={props.href}
+      />
+    ),
 
     List: ({ props, children }) => (
       <ul
@@ -1554,11 +1630,40 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
+    // shadcn/ui Tooltip on a ghost icon Button, as Claude marks a note beside
+    // the buttons that close its message editor.
+    InfoTip: ({ props }) => (
+      <Tooltip.Provider delayDuration={150}>
+        <Tooltip.Root>
+          <Tooltip.Trigger asChild>
+            <button
+              type="button"
+              aria-label={props.label}
+              className={cn(
+                buttonBase,
+                buttonVariant.plain,
+                buttonSize.icon,
+                'text-muted-foreground',
+              )}
+            >
+              <Information aria-hidden="true" />
+            </button>
+          </Tooltip.Trigger>
+          <Tooltip.Portal container={scopedPortal()}>
+            <Tooltip.Content sideOffset={4} className={tooltipContent}>
+              {props.text}
+              <Tooltip.Arrow className={tooltipArrow} />
+            </Tooltip.Content>
+          </Tooltip.Portal>
+        </Tooltip.Root>
+      </Tooltip.Provider>
+    ),
+
     Textarea: ({ props, bindings }) => {
       const { id, value, setValue } = useBoundField(props, bindings);
       return (
         <div className="flex flex-col gap-2">
-          <label htmlFor={id} className={label}>
+          <label htmlFor={id} className={props.hideLabel ? 'sr-only' : label}>
             {props.label}
           </label>
           <textarea

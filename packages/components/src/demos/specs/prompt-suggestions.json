@@ -1,0 +1,51 @@
+{
+  "root": "conversation",
+  "elements": {
+    "conversation": {
+      "type": "Messages",
+      "props": {},
+      "children": ["turns", "suggestions", "composer"]
+    },
+    "turns": {
+      "type": "Stack",
+      "props": { "gap": "l" },
+      "repeat": { "statePath": "/turns", "key": "id" },
+      "children": ["asked", "answered"]
+    },
+    "asked": {
+      "type": "Message",
+      "props": { "from": "actor", "parts": [{ "$item": "prompt" }] }
+    },
+    "answered": {
+      "type": "Message",
+      "props": { "from": "other", "parts": [{ "$item": "reply" }] }
+    },
+    "suggestions": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s", "label": "Suggested prompts" },
+      "repeat": { "statePath": "/suggestions", "key": "id" },
+      "children": ["suggestion"]
+    },
+    "suggestion": {
+      "type": "Button",
+      "props": { "label": { "$item": "label" } },
+      "on": {
+        "press": { "action": "send", "params": { "prompt": { "$value": { "$item": "label" } } } }
+      }
+    },
+    "composer": {
+      "type": "Composer",
+      "props": {
+        "label": "Message",
+        "placeholder": "Ask about the project…",
+        "value": { "$bindState": "/draft" }
+      },
+      "slots": { "send": ["send"] }
+    },
+    "send": {
+      "type": "Button",
+      "props": { "label": "Send", "icon": "send", "hideLabel": true, "variant": "primary" },
+      "on": { "press": { "action": "send", "params": { "prompt": { "$state": "/draft" } } } }
+    }
+  }
+}

@@ -50,6 +50,67 @@
   padding-inline: 0;
 }
 
+/* A sent message opened for editing keeps the bubble's place, shape and
+   size: the field is sized by its text, as the bubble is, rather than by a
+   fixed number of rows, so the conversation does not shift between the two. */
+.message--outbound .message__body:has(.grow-wrap) {
+  padding-block: 0;
+}
+
+.message--outbound .grow-wrap {
+  position: relative;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  margin-inline-start: auto;
+}
+
+.message--outbound .grow-wrap > textarea {
+  position: absolute;
+  inset: 0;
+}
+
+.message--outbound .grow-wrap > textarea,
+.message--outbound .grow-wrap::after {
+  padding: var(--space-s) var(--space-l);
+  border-radius: var(--radius-xl);
+}
+
+/* What acts on a message sits in a row just beneath it, on its side. The
+   actions show on hover or focus, as chat products show them, and keep their
+   place while hidden so the conversation does not shift; without hover they
+   always show. */
+.message__actions,
+.message__reveal {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.message__actions {
+  margin-block-start: var(--space-2xs);
+}
+
+/* Pulled out by an icon button's padding and border, so the icons line up
+   with the edge of the text. */
+.message--inbound .message__actions {
+  margin-inline-start: calc(-0.5em - 1px);
+}
+
+.message--outbound .message__actions {
+  justify-content: flex-end;
+  margin-inline-end: calc(-0.5em - 1px);
+}
+
+@media (hover: hover) {
+  .message__reveal {
+    transition: var(--transition-fast) opacity;
+  }
+
+  .message:not(:hover, :focus-within) .message__reveal {
+    opacity: 0;
+  }
+}
+
 /* While one link is traced, runs on other links drop their highlight. */
 .message__body mark {
   transition: var(--transition-fast) background;
@@ -102,8 +163,10 @@
   margin-inline-end: var(--space-2xl);
 }
 
+/* The bubble sits at the end, and its lines read from the start. */
 .message--outbound .message__body {
   border-bottom-right-radius: var(--radius-m);
+  text-align: start;
 }
 
 .message__author {

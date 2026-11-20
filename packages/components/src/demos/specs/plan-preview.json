@@ -1,0 +1,99 @@
+{
+  "root": "conversation",
+  "elements": {
+    "conversation": {
+      "type": "Messages",
+      "props": {},
+      "children": ["request", "reply", "done", "cancelled"]
+    },
+    "request": {
+      "type": "Message",
+      "props": {
+        "from": "actor",
+        "parts": [
+          "Move every task tagged Q3 launch into the new Launch project, and give Dana’s open ones to Sam."
+        ]
+      }
+    },
+    "reply": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": ["Here is what I will do. Nothing changes until you start it."]
+      },
+      "children": ["plan", "scope", "decide"]
+    },
+    "plan": {
+      "type": "Trace",
+      "props": {},
+      "children": ["plan-line"]
+    },
+    "plan-line": {
+      "type": "TraceLine",
+      "props": {
+        "title": "Plan: move the Q3 launch tasks",
+        "icon": "plan",
+        "detail": { "$template": "${/done} of 4 done" },
+        "status": {
+          "$cond": { "$state": "/phase", "eq": "running" },
+          "$then": "running",
+          "$else": null
+        },
+        "expandable": true,
+        "open": { "$bindState": "/open" }
+      },
+      "children": ["steps"]
+    },
+    "steps": {
+      "type": "Trace",
+      "props": {},
+      "repeat": { "statePath": "/steps", "key": "id" },
+      "children": ["step"]
+    },
+    "step": {
+      "type": "TraceLine",
+      "props": { "title": { "$item": "title" }, "status": { "$item": "status" } }
+    },
+    "scope": {
+      "type": "Text",
+      "props": {
+        "text": "This changes 23 tasks in 2 projects. Sam gets 6 of them, and Dana is told which.",
+        "size": "small",
+        "muted": true
+      }
+    },
+    "decide": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "visible": { "$state": "/phase", "eq": "proposed" },
+      "children": ["start", "decline"]
+    },
+    "start": {
+      "type": "Button",
+      "props": { "label": "Start", "variant": "primary" },
+      "on": { "press": { "action": "start" } }
+    },
+    "decline": {
+      "type": "Button",
+      "props": { "label": "Not now", "variant": "plain" },
+      "on": {
+        "press": { "action": "setState", "params": { "statePath": "/phase", "value": "cancelled" } }
+      }
+    },
+    "done": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": [
+          "Moved 23 tasks to Launch and gave Sam the 6 that were Dana’s. Each change is in the project’s activity log."
+        ]
+      },
+      "visible": { "$state": "/phase", "eq": "done" }
+    },
+    "cancelled": {
+      "type": "Message",
+      "props": { "from": "other", "parts": ["I left the tasks where they are."] },
+      "visible": { "$state": "/phase", "eq": "cancelled" }
+    }
+  }
+}

@@ -5,6 +5,7 @@ the plan contract and `docs/specs/` for settled specifications.
 
 ## Active
 
+- [AI Elements in the demos](active/2026-11-ai-elements-demos.md) — shadcn AI Elements as the shadcn registry's rendering of conversation and agent-work types; remaining demos and gaps
 - [Scale facets and sidebar grouping](active/2026-10-pattern-facets.md) — grouping the sidebar's pattern list by facet
 - [Project languages](active/2026-10-project-languages.md) — lists of patterns chosen for one project, starting with hard-coded starters for typical artifact shapes and collaboration postures
 - [Generated demos](active/2026-10-generated-demos.md) — outline: a control on the demo frame that asks a model for a variant of a spec demo

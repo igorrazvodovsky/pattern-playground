@@ -51,6 +51,8 @@ Machine-initiated work pauses at a gate until the actor consents — per action,
 
 Recurring forms: approve/reject on a single proposed action, batch review of queued actions, diff review of proposed changes, and graduated modes (suggest, confirm, execute) that move the gate rather than remove it.
 
+<Demo spec="tool-approval" registries={["shadcn"]} label="Approval for one proposed action, scoped to what it names; the answer becomes a line in the agent's work" />
+
 ## Research on this pattern
 
 - Judging task progress rather than safety: comparing oversight designs for a browser agent, [Chen et al. (2026)](https://arxiv.org/abs/2604.04918) found that actors at an approval gate often evaluate whether the proposed step advances the immediate page task rather than whether the action is safe or appropriate, and that offering an "approve similar" shortcut at the gate frequently lets later harmful actions through when the scope of the approval is unclear.

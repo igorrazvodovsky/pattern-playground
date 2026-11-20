@@ -1,0 +1,68 @@
+{
+  "root": "conversation",
+  "elements": {
+    "conversation": {
+      "type": "Messages",
+      "props": {},
+      "children": ["request", "reply"]
+    },
+    "request": {
+      "type": "Message",
+      "props": {
+        "from": "actor",
+        "parts": ["Do people actually check the sources an AI answer cites?"]
+      }
+    },
+    "reply": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": [
+          "Rarely, and the citations often would not hold up. In an audit of generative search engines, only about half of the generated sentences were fully supported by their citations. The marks still raise trust, even when the citations are random, and few people follow them: links inside Google’s AI summaries are clicked on about 1% of visits."
+        ]
+      },
+      "children": ["sources"]
+    },
+    "sources": {
+      "type": "Trace",
+      "props": {},
+      "children": ["sources-line"]
+    },
+    "sources-line": {
+      "type": "TraceLine",
+      "props": {
+        "title": "Used 3 sources",
+        "icon": "web",
+        "expandable": true,
+        "open": { "$bindState": "/open" }
+      },
+      "children": ["source-list"]
+    },
+    "source-list": {
+      "type": "Trace",
+      "props": {},
+      "children": ["source-audit", "source-trust", "source-clicks"]
+    },
+    "source-audit": {
+      "type": "TraceLine",
+      "props": {
+        "title": "Evaluating verifiability in generative search engines | arxiv.org",
+        "href": "https://arxiv.org/abs/2304.09848"
+      }
+    },
+    "source-trust": {
+      "type": "TraceLine",
+      "props": {
+        "title": "Citations and trust in LLM generated responses | arxiv.org",
+        "href": "https://arxiv.org/abs/2501.01303"
+      }
+    },
+    "source-clicks": {
+      "type": "TraceLine",
+      "props": {
+        "title": "Google users are less likely to click on links when an AI summary appears | pewresearch.org",
+        "href": "https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/"
+      }
+    }
+  }
+}

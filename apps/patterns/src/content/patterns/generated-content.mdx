@@ -56,6 +56,8 @@ How these mechanics appear depends on the surface where the generated output lan
 
 In a conversation thread, the preceding message is the request and the thread history automatically preserves both the prompt and the response. What the interface still needs to provide is version handling on the reply itself: a control to regenerate the response, a way to edit and re-run the prompt, and a switcher to step back through earlier replies.
 
+<Demo spec="regenerate-reply" label="Asking again adds a version; the earlier ones stay a step back" />
+
 ### A view derived from a source
 
 A summary above search results or an overview of a long document is recomputed on demand and is not meant to be stored as content. Here, the priority is linking claims in the summary back to the source passages they came from. If the actor wants to keep a particular version before the view refreshes on their next visit, they need an action to copy, pin, or extract it into a saved note.

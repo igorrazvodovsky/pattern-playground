@@ -1,0 +1,173 @@
+{
+  "root": "run",
+  "elements": {
+    "run": {
+      "type": "Stack",
+      "props": { "gap": "m" },
+      "children": ["task", "trail"]
+    },
+    "task": {
+      "type": "Text",
+      "props": {
+        "text": "Describe why ontological design matters for designing LLM-powered software, and for using LLMs in the user-centred design process."
+      }
+    },
+    "trail": {
+      "type": "Trace",
+      "props": {},
+      "children": ["ontologies", "shaping", "writing"]
+    },
+    "ontologies": {
+      "type": "TraceLine",
+      "props": {
+        "title": "Exploring how ontologies are used in design",
+        "status": "done",
+        "detail": "2 tool calls",
+        "expandable": true,
+        "open": { "$bindState": "/open/ontologies" }
+      },
+      "children": ["ontologies-steps"]
+    },
+    "ontologies-steps": {
+      "type": "Trace",
+      "props": {},
+      "children": ["ontologies-thought", "ontologies-searched", "ontologies-read"]
+    },
+    "ontologies-thought": {
+      "type": "TraceLine",
+      "props": { "title": "Thought", "icon": "reasoning" },
+      "children": ["ontologies-thought-text"]
+    },
+    "ontologies-thought-text": {
+      "type": "Text",
+      "props": {
+        "text": "I want to see how ontologies are used in design, through its methods and practical approaches, to understand the principles of designing with them.",
+        "muted": true
+      }
+    },
+    "ontologies-searched": {
+      "type": "TraceLine",
+      "props": { "title": "Searched the web", "icon": "search", "detail": "3 queries" },
+      "children": ["ontologies-queries"]
+    },
+    "ontologies-queries": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "children": ["ontologies-query-1", "ontologies-query-2", "ontologies-query-3"]
+    },
+    "ontologies-query-1": {
+      "type": "Tag",
+      "props": { "label": "ontological design definition", "icon": "search" }
+    },
+    "ontologies-query-2": {
+      "type": "Tag",
+      "props": { "label": "ontological design meaning", "icon": "search" }
+    },
+    "ontologies-query-3": {
+      "type": "Tag",
+      "props": { "label": "ontological design theory", "icon": "search" }
+    },
+    "ontologies-read": {
+      "type": "TraceLine",
+      "props": {
+        "title": "Read 2 sources",
+        "icon": "document",
+        "expandable": true,
+        "open": { "$bindState": "/open/ontologiesRead" }
+      },
+      "children": ["ontologies-sources"]
+    },
+    "ontologies-sources": {
+      "type": "Trace",
+      "props": {},
+      "children": ["ontologies-source-1", "ontologies-source-2"]
+    },
+    "ontologies-source-1": {
+      "type": "TraceLine",
+      "props": {
+        "title": "Ontological design — Wikipedia",
+        "href": "https://en.wikipedia.org/wiki/Ontological_design"
+      }
+    },
+    "ontologies-source-2": {
+      "type": "TraceLine",
+      "props": { "title": "Eye on Design — AIGA", "href": "https://eyeondesign.aiga.org/" }
+    },
+    "shaping": {
+      "type": "TraceLine",
+      "props": {
+        "title": "Exploring how what we design shapes us",
+        "status": "done",
+        "detail": "2 tool calls",
+        "expandable": true,
+        "open": { "$bindState": "/open/shaping" }
+      },
+      "children": ["shaping-steps"]
+    },
+    "shaping-steps": {
+      "type": "Trace",
+      "props": {},
+      "children": ["shaping-thought", "shaping-searched", "shaping-read"]
+    },
+    "shaping-thought": {
+      "type": "TraceLine",
+      "props": { "title": "Thought", "icon": "reasoning" },
+      "children": ["shaping-thought-text"]
+    },
+    "shaping-thought-text": {
+      "type": "Text",
+      "props": {
+        "text": "Next, how technology and design influence each other: the idea that we are shaped by the things we make, and what that means for the relationship between people and their designs.",
+        "muted": true
+      }
+    },
+    "shaping-searched": {
+      "type": "TraceLine",
+      "props": { "title": "Searched the web", "icon": "search", "detail": "3 queries" },
+      "children": ["shaping-queries"]
+    },
+    "shaping-queries": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "s" },
+      "children": ["shaping-query-1", "shaping-query-2", "shaping-query-3"]
+    },
+    "shaping-query-1": {
+      "type": "Tag",
+      "props": { "label": "we shape our tools and our tools shape us", "icon": "search" }
+    },
+    "shaping-query-2": {
+      "type": "Tag",
+      "props": { "label": "ontological designing Willis", "icon": "search" }
+    },
+    "shaping-query-3": {
+      "type": "Tag",
+      "props": { "label": "Winograd Flores design and being", "icon": "search" }
+    },
+    "shaping-read": {
+      "type": "TraceLine",
+      "props": {
+        "title": "Read 1 source",
+        "icon": "document",
+        "expandable": true,
+        "open": { "$bindState": "/open/shapingRead" }
+      },
+      "children": ["shaping-sources"]
+    },
+    "shaping-sources": {
+      "type": "Trace",
+      "props": {},
+      "children": ["shaping-source-1"]
+    },
+    "shaping-source-1": {
+      "type": "TraceLine",
+      "props": {
+        "title": "Understanding Computers and Cognition — Wikipedia",
+        "href": "https://en.wikipedia.org/wiki/Understanding_Computers_and_Cognition"
+      }
+    },
+    "writing": {
+      "type": "TraceLine",
+      "props": { "title": "Writing the report", "status": "running" }
+    }
+  }
+}

@@ -210,3 +210,9 @@ export const Parts = ({ parts, send }: { parts: RulePart[]; send: Send }) => (
     )}
   </>
 );
+
+// shadcn/ui Tooltip's content and arrow, for a note shown on pointing or focus.
+export const tooltipContent =
+  'z-50 inline-flex w-fit max-w-xs items-center gap-1.5 rounded-md bg-foreground px-3 py-1.5 text-xs text-balance text-background';
+export const tooltipArrow =
+  'z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px] bg-foreground fill-foreground';

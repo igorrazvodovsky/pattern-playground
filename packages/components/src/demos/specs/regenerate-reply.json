@@ -1,0 +1,154 @@
+{
+  "root": "conversation",
+  "elements": {
+    "conversation": {
+      "type": "Messages",
+      "props": {},
+      "children": ["request", "reply", "drawing"]
+    },
+    "request": {
+      "type": "Message",
+      "props": {
+        "from": "actor",
+        "parts": ["Write a two-line description of the Launch project for the team page."]
+      }
+    },
+    "reply": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": [
+          {
+            "$state": "/current"
+          }
+        ]
+      },
+      "slots": {
+        "status": ["switcher", "copy", "regenerate", "copied"]
+      }
+    },
+    "drawing": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": []
+      },
+      "visible": {
+        "$state": "/drawing"
+      },
+      "children": ["drawing-text"]
+    },
+    "drawing-text": {
+      "type": "Text",
+      "props": {
+        "text": "Writing another version…",
+        "pending": true,
+        "status": true
+      }
+    },
+    "switcher": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "none", "align": "center" },
+      "visible": { "$state": "/count", "neq": "1" },
+      "children": ["previous", "position", "next"]
+    },
+    "previous": {
+      "type": "Button",
+      "props": {
+        "label": "Previous version",
+        "icon": "previous",
+        "hideLabel": true,
+        "variant": "plain",
+        "disabled": {
+          "$state": "/first"
+        },
+        "focusKey": "previous",
+        "focusNext": "next"
+      },
+      "on": {
+        "press": {
+          "action": "step",
+          "params": {
+            "by": -1
+          }
+        }
+      }
+    },
+    "position": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$template": "${/position} / ${/count}"
+        },
+        "size": "small",
+        "muted": true
+      }
+    },
+    "next": {
+      "type": "Button",
+      "props": {
+        "label": "Next version",
+        "icon": "next",
+        "hideLabel": true,
+        "variant": "plain",
+        "disabled": {
+          "$state": "/last"
+        },
+        "focusKey": "next",
+        "focusNext": "previous"
+      },
+      "on": {
+        "press": {
+          "action": "step",
+          "params": {
+            "by": 1
+          }
+        }
+      }
+    },
+    "regenerate": {
+      "type": "Button",
+      "props": {
+        "label": "Write another version",
+        "icon": "regenerate",
+        "hideLabel": true,
+        "variant": "plain",
+        "disabled": {
+          "$state": "/exhausted"
+        },
+        "focusKey": "regenerate",
+        "focusNext": "previous"
+      },
+      "on": {
+        "press": {
+          "action": "regenerate"
+        }
+      }
+    },
+    "copy": {
+      "type": "Button",
+      "props": {
+        "label": "Copy",
+        "icon": "copy",
+        "hideLabel": true,
+        "variant": "plain"
+      },
+      "on": {
+        "press": {
+          "action": "copy"
+        }
+      }
+    },
+    "copied": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$state": "/copied"
+        },
+        "size": "small",
+        "muted": true,
+        "status": true
+      }
+    }
+  }
+}
