@@ -193,25 +193,33 @@ import sheetUrl from '../../shadcn.generated.css?url';
 // The stylesheet is linked by URL, not imported as a module: Astro hoists CSS
 // imported anywhere under a client script into every page's <head>, which
 // would load Tailwind on pages that never render a shadcn demo. Callers await
-// `stylesheet` before rendering so the first frame is styled.
+// `stylesheet()` before rendering so the first frame is styled. It checks the
+// head on every call: ClientRouter removes head elements the next page's HTML
+// lacks, which includes this link, so a sheet loaded on an earlier page is gone
+// after a navigation.
 //
 // Tailwind scans this file and every registries/shadcn*.tsx beside it
 // (catalog/shadcn.css), so a class written elsewhere is not in the sheet.
 // Rebuild the sheet after changing classes:
 //   npm run build:shadcn-css
 
-const loadStylesheet = (href: string) =>
-  new Promise<void>((resolve, reject) => {
-    const existing = document.querySelector<HTMLLinkElement>(`link[data-registry-sheet="shadcn"]`);
-    if (existing) return resolve();
-    const link = Object.assign(document.createElement('link'), { rel: 'stylesheet', href });
-    link.dataset.registrySheet = 'shadcn';
-    link.addEventListener('load', () => resolve());
-    link.addEventListener('error', () => reject(new Error(`could not load ${href}`)));
-    document.head.append(link);
-  });
+let loading: Promise<void> | undefined;
 
-export const stylesheet = loadStylesheet(sheetUrl);
+export function stylesheet(): Promise<void> {
+  const selector = 'link[data-registry-sheet="shadcn"]';
+  if (loading && document.head.querySelector(selector)) return loading;
+  const link = Object.assign(document.createElement('link'), { rel: 'stylesheet', href: sheetUrl });
+  link.dataset.registrySheet = 'shadcn';
+  loading = new Promise<void>((resolve, reject) => {
+    link.addEventListener('load', () => resolve());
+    link.addEventListener('error', () => {
+      link.remove();
+      reject(new Error(`could not load ${sheetUrl}`));
+    });
+  });
+  document.head.append(link);
+  return loading;
+}
 
 const gap = { none: 'gap-0', s: 'gap-2', m: 'gap-3', l: 'gap-4' } as const;
 const align = {

@@ -69,7 +69,7 @@ const specs: Record<string, () => Promise<SpecModule>> = {
 const registries: Record<Library, () => Promise<ComponentRegistry>> = {
   pp: () => import('@pkg/catalog/registries/pp').then((m) => m.registry),
   shadcn: () =>
-    import('@pkg/catalog/registries/shadcn').then(async (m) => (await m.stylesheet, m.registry)),
+    import('@pkg/catalog/registries/shadcn').then(async (m) => (await m.stylesheet(), m.registry)),
 };
 
 // Panes and pages leave as plain DOM, which React does not see, so the roots
