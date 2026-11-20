@@ -18,7 +18,7 @@
  *    and heads the parts the shape leaves unheaded: the first mark becomes a
  *    visible, muted *Problem* heading (`.section-mark`) and the authored
  *    `Therefore,` line a *Solution* heading in the same style (RelatedPatterns
- *    heads the passage *Connections* the same way); an authored
+ *    heads the passage *Continuation* the same way); an authored
  *    `## Related components` section is lifted into the fold as its last group;
  * 3. on a page not yet migrated (`situation.resulting` is a clause list, or
  *    absent) keeps the earlier renders: `<Consequences />` before

@@ -12,22 +12,18 @@ mediation: individual
 description: "Steering an active agent run onto a corrected path when the actor spots a wrong premise or wasted branch, without aborting and starting from scratch."
 situation:
   initiating: >-
-    … an agent is partway through a multi-step run, and its
-    [work trail](/patterns/work-trail) or [working plan](/patterns/working-plan) shows a wrong
-    assumption, a missing constraint, or a branch heading the wrong way. Stopping the run with
-    [abort](/patterns/abort) would discard valid work already done, while waiting for it to
-    finish spends time and cost on a result the actor already knows is off course.
+    … an agent is partway through a multi-step run under [delegation](/patterns/delegation),
+    and its [work trail](/patterns/work-trail) or [working plan](/patterns/working-plan) shows
+    a wrong assumption, a missing constraint, or a branch heading the wrong way. The work
+    already done is worth keeping rather than cancelling with [abort](/patterns/abort).
   resulting: >-
-    The run absorbs the correction at its next step—or rewinds to the disputed step—keeping
-    earlier progress intact while the [work trail](/patterns/work-trail) records where the
-    actor intervened. Where the run has already finished,
-    [instructed revision](/patterns/instructed-revision) reshapes the result after the fact,
-    and where the agent cannot recover even with guidance, [handoff](/patterns/handoff)
-    transfers the work back to the actor. Where the actor wants to compare the corrected
-    direction against the original path rather than replace it,
-    [branching](/patterns/branching) forks the run from the disputed step. In
-    [delegation](/patterns/delegation), mid-run redirection covers the steering touchpoint
-    during exception handling without requiring a full takeover…
+    Mark the intervention point in the [work trail](/patterns/work-trail) so the actor can tell
+    which steps came before and after the change. Where the actor wants to compare the corrected
+    direction against the original path rather than replace it, offer
+    [branching](/patterns/branching) from the disputed step. Where the run has already finished,
+    use [instructed revision](/patterns/instructed-revision) instead, and where the agent cannot
+    recover even with guidance, transfer the work back through a
+    [handoff](/patterns/handoff)…
 relationships:
   follows:
     - work-trail

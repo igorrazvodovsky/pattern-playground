@@ -11,9 +11,9 @@ activityLevel: operation
 description: "Attaching a legible mark of machine involvement and origin to content when it is produced or exported, so actors meeting it later know what was generated or revised by a model and how to weigh it."
 situation:
   initiating: >-
-    … the system has produced [generated content](/patterns/generated-content) that will sit alongside human writing, or work is leaving the surface that made it through [import and export](/patterns/import-and-export). The same question arises when a passage has been rewritten through [instructed revision](/patterns/instructed-revision) or adapted through a [text lens](/patterns/text-lens) and the actor needs to distinguish the author's wording from machine output. Provenance marking stamps the content with its machine involvement and origin when it is made, so that origin survives when machine output mixes with human work or leaves the tool.
+    … the system has produced [generated content](/patterns/generated-content) that will sit alongside human writing, or work is leaving the surface that made it through [import and export](/patterns/import-and-export). The same situation arises when a passage has been rewritten through [instructed revision](/patterns/instructed-revision) or adapted through a [text lens](/patterns/text-lens). Provenance marking helps complete these patterns when later readers need to tell machine output from human wording.
   resulting: >-
-    Machine involvement is now legible at the point of reading, and everything left unmarked on the same surface will be read as human-made. Where the marked output makes factual claims, pair the origin mark with [citation](/patterns/citation) so the actor can see not only that the system wrote a claim, but which source passage it rests on. Because a visible disclosure mark can also reassure on sight without prompting closer reading, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes of acting on wrong output are high. In shared workspaces, provenance marking pairs with [attribution](/patterns/attribution), which records which person, delegated agent, or rule made each edit or comment across the work. Provenance marking is not [annotation](/patterns/annotation): the mark is stamped on the content at creation to record how it was produced, whereas annotation is an actor's own layer added over content they did not write…
+    Where marked output makes factual claims, pair the origin mark with [citation](/patterns/citation) so the actor can see both that the system wrote a claim and which source passage backs it. Because a visible disclosure mark can reassure on sight without prompting closer reading, add [cognitive forcing functions](/patterns/cognitive-forcing-functions) at acceptance where the stakes of acting on wrong output are high. In shared workspaces, pair provenance marking with [attribution](/patterns/attribution) to record which person, delegated agent, or rule made each edit or comment across the work…
 relationships:
   follows:
     - generated-content
@@ -22,7 +22,8 @@ relationships:
   complements:
     - citation
   related:
-    - annotation
+    - to: annotation
+      note: provenance marking is stamped on content at creation or export to record machine involvement, whereas annotation is an actor's own layer added over existing content
 ---
 
 * * *

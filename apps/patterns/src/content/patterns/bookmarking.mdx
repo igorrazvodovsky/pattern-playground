@@ -14,23 +14,18 @@ acts_on:
   - bookmarking
 situation:
   initiating: >-
-    … the actor has reached an item, view, conversation, or position they expect to need again
-    later. Getting there took navigation steps they do not want to repeat or a
-    search query they are unlikely to remember, and the system cannot infer on its own that this
-    item matters for the long term. [Deep linking](/patterns/deep-linking) gives each state a
-    stable address that restores it. [Recents](/patterns/recents) cover items opened minutes or
-    hours ago without asking the actor to save anything, but later activity pushes older items
-    out of a recency list before a long-term return.
+    … [deep linking](/patterns/deep-linking) gives items and views stable addresses that restore
+    them, and [recents](/patterns/recents) already cover short-term returns. Here the actor has
+    reached an item, view, conversation, or position they expect to need again well after later
+    activity has pushed it out of recents.
   resulting: >-
-    Saved items sit one step from navigation starting points such as a sidebar, start page, or
-    [command menu](/patterns/command-menu). Once the list grows past what can be scanned at a
-    glance, [tags](/patterns/tag) or folders let the actor organise it without having had to
-    plan a structure at the moment of saving. A saved item or collection can be passed to others
-    as a recommendation or curated list through [sharing](/patterns/sharing). Saving a filtered
-    and sorted collection query rather than a single item is a
-    [saved view](/patterns/data-view#saved-views). Pinning files or sources into a prompt or
-    workspace context is [reference material](/patterns/reference-material), which keeps items
-    in scope for generation rather than for navigation…
+    Surface the saved list one step from navigation starting points such as a sidebar, start
+    page, or [command menu](/patterns/command-menu). Once the list grows past what can be scanned
+    at a glance, add [tags](/patterns/tag) or folders so the actor can organise it without
+    planning a structure up front. Where a saved item or collection should travel to others as a
+    curated list, pair it with [sharing](/patterns/sharing). Where the actor needs to save a
+    filtered and sorted query rather than a single item, offer a
+    [saved view](/patterns/data-view#saved-views)…
 relationships:
   follows:
     - to: deep-linking

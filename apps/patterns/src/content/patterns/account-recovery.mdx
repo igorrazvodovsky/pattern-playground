@@ -11,9 +11,9 @@ acts_on:
   - signing-in
 situation:
   initiating: >-
-    … an actor attempts to [sign in](/patterns/account-access), but cannot provide their [password](/patterns/password). The credential is forgotten, lost, or compromised, and the actor needs a dependable path to confirm identity and regain access without creating an unlinked duplicate account.
+    … [account access](/patterns/account-access) relies on a [password](/patterns/password) or another device-bound credential, and a returning actor cannot provide it because the secret is forgotten, lost, or compromised.
   resulting: >-
-    The actor verifies their identity through an alternative communication channel and sets a replacement credential. Check requirements on the new secret as the actor types using [validation](/patterns/validation) before restoring access. When every automated route fails, because the actor has lost the email address or phone the flow relies on, the flow ends in [reaching a person](/patterns/reaching-a-person) who can restore access, rather than in an error…
+    Check requirements on the replacement secret as the actor types with [validation](/patterns/validation) before restoring access. When every automated route fails—because the actor has lost the email address or phone the flow relies on—hand the request off through [reaching a person](/patterns/reaching-a-person) who can restore access rather than ending in an error…
 relationships:
   follows:
     - password

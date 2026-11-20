@@ -18,24 +18,22 @@ situation:
     want touched, or left alone one they did, and the actor is looking at that case: in the
     result, in a [notification](/patterns/notification), or among the items the rule refused.
     Even where a [trial run](/patterns/trial-run)
-    checked the rule beforehand, cases arrive in use that the trial did not meet, and the
-    governing logic sits in settings the actor seldom visits. Where the fault is in the wording
-    or shape of a generated draft rather than in a standing decision on a case, the repair is
-    an [instructed revision](/patterns/instructed-revision) of that output.
+    checked the rule beforehand, cases arrive in use that the trial did not meet. Where the
+    fault is in the wording or shape of a generated draft rather than in a standing decision on
+    a case, the repair is an [instructed revision](/patterns/instructed-revision) of that
+    output.
   resulting: >-
-    The case is put right on the spot, and what governs future cases can stay as it is or
-    change from here. The smallest repair is an [undo](/patterns/undo) or a one-off skip that
-    leaves the standing behaviour untouched. An [explanation](/patterns/explanation) on the
-    case shows which rule, signal, or preference produced it, and is where a deeper change
-    starts. When an override should hold beyond this item, or when the same correction recurs
-    across cases, it opens [rule composition](/patterns/rule-composition) on the clauses that
-    matched this case or becomes a [standing instruction](/patterns/standing-instructions) in
-    the actor's own words. Where the actor can show the right handling on the case more easily
-    than state a rule for it, [tuning by demonstration](/patterns/tuning-by-demonstration)
-    takes the place of editing the rule. Dismissing a [suggestion](/patterns/suggestion) is the
-    same move at lower stakes, since the system only proposed the act. Standing exceptions that
-    build up out of sight can end up cancelling the rule they qualify, so the list of them
-    stays open to review…
+    Support the smallest repair with [undo](/patterns/undo) or a one-off skip that leaves the
+    standing behaviour untouched. Attach an [explanation](/patterns/explanation) to the case
+    showing which rule, signal, or preference produced it, so a deeper change can start from
+    the matching reason. When an override should hold beyond this item or the same correction
+    recurs across cases, lead from the case into [rule composition](/patterns/rule-composition)
+    on the matching clauses or into a [standing instruction](/patterns/standing-instructions)
+    in the actor's own words. Where the actor can show the right handling on the case more
+    easily than state a rule for it, hand over to
+    [tuning by demonstration](/patterns/tuning-by-demonstration). Keep the list of standing
+    exceptions open to review so accumulated overrides do not silently cancel the rule they
+    qualify…
 relationships:
   follows:
     - to: trial-run
@@ -53,7 +51,8 @@ relationships:
       note: case correction overrides a standing decision on a case, and instructed revision reshapes a generated output
     - tuning-by-demonstration
   related:
-    - suggestion
+    - to: suggestion
+      note: dismissing a suggestion is the same on-the-spot correction at lower stakes, since the system only proposed the act
   serves:
     - to: delegation
       note: covers the repair use of tuning tools in delegation's exception handling

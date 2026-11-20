@@ -13,24 +13,18 @@ lifecycle: evaluation
 fun: 🙂 5/5. A part of a bigger attempt to map LLM-related patterns.
 situation:
   initiating: >-
-    … a document already says what it needs to say, but this actor needs it at a different
-    length or reading level: a help article for someone new to the product, a clinical paper
-    for a patient, or a post in a second language. Rewriting the original for one reader
-    makes it worse for the rest, so the view adapts the phrasing or length for this actor
-    while leaving the source text intact. A text lens helps complete [help](/patterns/help),
-    where the same documentation serves actors with very different background knowledge, and
-    supplies the coarser text levels that [semantic zoom](/patterns/semantic-zoom) and
-    [focus and context](/patterns/focus-and-context) step through when operating on prose.
+    … the artifact holds [help](/patterns/help) documentation, articles, or records that
+    serve readers with different background knowledge, or uses
+    [semantic zoom](/patterns/semantic-zoom) and [focus and context](/patterns/focus-and-context)
+    over prose. A text lens helps complete these larger patterns when a reader needs the same
+    document at a different length, reading level, or language without altering the original.
   resulting: >-
-    The actor reads an adapted view while the source text remains unchanged. Each adapted
-    view is [generated content](/patterns/generated-content) derived from the original. Anchor claims in a shortened
-    view to their source passages with [citation](/patterns/citation), so the summary leads
-    back into the document rather than replacing it. Mark the adapted view with
-    [provenance marking](/patterns/provenance-marking) where the actor needs to distinguish
-    the author's wording from generated text. When a text lens reorders and prunes a document
-    around the actor's task, it works like a [purpose-keyed view](/patterns/purpose-keyed-view)
-    on a single text and shares its trade-off: whatever is omitted, the actor must know to
-    look for…
+    Treat each adapted view as [generated content](/patterns/generated-content) derived from
+    the original so the actor can step back or redraw it without touching the source. Anchor
+    claims in a shortened view to their source passages with [citation](/patterns/citation) so
+    the summary leads back into the document rather than replacing it. Mark the adapted view
+    with [provenance marking](/patterns/provenance-marking) wherever the actor needs to
+    distinguish the author's wording from generated text…
 relationships:
   complements:
     - to: generated-content

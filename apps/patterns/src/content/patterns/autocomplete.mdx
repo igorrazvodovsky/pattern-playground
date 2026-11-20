@@ -17,28 +17,23 @@ situation:
     … in [assistance escalation](/sequences/assistance-escalation) or inside a
     [form](/patterns/form) field, a static guess from
     [good defaults](/patterns/good-defaults) has given way to the actor typing
-    their own value, or a field asks for an answer
-    from a set too large to show in full. Autocomplete sits at the reactive end
-    of [assisted task completion](/patterns/assisted-task-completion), helping
-    the actor finish or locate a known value while they type.
+    their own value, or a field draws from a set too large to show in full.
+    This forms the reactive tier of
+    [assisted task completion](/patterns/assisted-task-completion).
   resulting: >-
-    A narrowing list of looked-up candidates now runs alongside the input. When
-    the field requires a value from a fixed set too large to display up front,
-    autocomplete serves [bounded choice](/patterns/bounded-choice) by turning
-    the list into a searchable picker. Where the system already holds the
-    actor's value in a profile, earlier session, or browser record,
-    [autofill](/patterns/autofill) supplies it before typing begins rather than
-    completing it in flight. In a query box, autocomplete pairs with
-    [searching](/patterns/searching) to complete terms or jump straight to a
-    known item; in [filtering](/patterns/filtering), it narrows available
-    attribute values inside a filter clause; and in a
-    [command menu](/patterns/command-menu), the same typed narrowing locates
-    actions and navigation targets. Where candidates shift from matching a known
-    index to proposing related or inferred options, autocomplete crosses into
-    [suggestion](/patterns/suggestion). Deterministic completion ends where the
-    continuation has to be generated rather than looked up, so hand over to
-    [AI completion](/patterns/ai-completion) when the actor is composing new
-    text…
+    When the field requires a value from a fixed set too large to display up
+    front, pair autocomplete with [bounded choice](/patterns/bounded-choice) to
+    turn the list into a searchable picker. Where the system already holds the
+    actor's value in a profile, earlier session, or browser record, let
+    [autofill](/patterns/autofill) supply it before typing begins. Pair the same
+    narrowing list with [searching](/patterns/searching) in a query box, with
+    [filtering](/patterns/filtering) inside a filter clause, and with a
+    [command menu](/patterns/command-menu) to locate actions and navigation
+    targets. Where candidates shift from matching a known index to proposing
+    related or inferred options, treat them as a
+    [suggestion](/patterns/suggestion); and where the continuation must be
+    generated rather than looked up, hand over to
+    [AI completion](/patterns/ai-completion)…
 relationships:
   hosted-by:
     - form

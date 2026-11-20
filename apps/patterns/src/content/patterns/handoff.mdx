@@ -19,35 +19,26 @@ situation:
     [governing autonomy](/sequences/governing-autonomy) or
     [delegating standing work](/sequences/delegating-standing-work), or carried by a participant
     in [working on the same thing](/sequences/working-on-the-same-thing)—and whoever holds it
-    cannot or should not continue alone. A limit set in
-    [bounded autonomy](/patterns/bounded-autonomy) was reached, or a warning announced that one
-    was approaching; confidence ran out; a step arrived that requires human credentials or a colleague's review; or the actor
-    stepped in to take over. When the trouble is only a missing parameter or an ambiguous
-    instruction, [agent repair](/patterns/agent-repair) resolves it in place and keeps the
-    current holder going. When the goal itself is abandoned, [abort](/patterns/abort) halts the
-    run rather than passing it on. And when the actor suspends standing work without taking it on
-    themselves, the work is held in place and nothing is transferred.
+    cannot continue alone because a limit in [bounded autonomy](/patterns/bounded-autonomy) was
+    reached, human credentials or a colleague's review are needed, or the actor stepped in to
+    take over. The work is still live rather than halted with [abort](/patterns/abort), and the
+    obstacle calls for a change of holder rather than an in-place fix through
+    [agent repair](/patterns/agent-repair).
   resulting: >-
-    Control and context move together as an inspectable transfer object. The transition closes
-    only when the receiver accepts or declines it in a set form through
-    [status feedback](/patterns/status-feedback), and [deep linking](/patterns/deep-linking)
-    carries them directly into the state and item where the work stopped. When the receiver is
-    not already looking at the surface, the request reaches them as a
-    [notification](/patterns/notification). Where the transfer has to find a human owner, admin,
-    or support specialist outside the current run, [reaching a person](/patterns/reaching-a-person)
-    names who can act and opens the channel to them. The full trail behind the brief stays open
-    to inspection in the [activity log](/patterns/activity-log), and every handoff, acceptance,
-    and return is signed through [attribution](/patterns/attribution) so the record shows who
-    held the work at each point. Where the actor may need to step in and do the task themselves,
-    [mastery](/patterns/mastery) keeps the underlying skill in practice. Once the actor takes
-    over to work directly on the artefact, [editing in place](/patterns/editing-in-place) gives
-    them the surface to act on. If the agent could have continued once a limit was raised or a
-    single action authorised, an [approval gate](/patterns/approval-gate) handles the checkpoint
-    without transferring the rest of the task. When a temporary takeover is never returned to the
-    agent and stays held indefinitely, a limit on how long the work may go unused eventually asks
-    whether the standing arrangement should end. In sustained
-    [collaboration](/patterns/collaboration), passing control stops being an exception boundary
-    and becomes routine turn-taking…
+    Close the transfer through explicit acceptance or refusal in
+    [status feedback](/patterns/status-feedback), bind a
+    [deep link](/patterns/deep-linking) directly to the stopped item and state, and alert an
+    absent receiver with a [notification](/patterns/notification). Where the transfer must locate
+    an owner, admin, or specialist outside the current run, open the route through
+    [reaching a person](/patterns/reaching-a-person). Keep the underlying trace inspectable in
+    the [activity log](/patterns/activity-log) and sign every handoff, acceptance, and return
+    with [attribution](/patterns/attribution) so the record shows who held the work at each
+    point. Once the actor takes over directly, give them
+    [editing in place](/patterns/editing-in-place) on the live artifact, and where they must
+    remain able to perform the task themselves, support [mastery](/patterns/mastery) alongside
+    delegated runs. Where the agent only needed a single action authorised or a limit raised to
+    carry on, use an [approval gate](/patterns/approval-gate) instead of transferring the rest
+    of the task…
 relationships:
   follows:
     - agent
@@ -66,7 +57,8 @@ relationships:
   precedes:
     - editing-in-place
   tangential:
-    - collaboration
+    - to: collaboration
+      note: in sustained collaboration, passing control shifts from an exception boundary to routine turn-taking
   serves:
     - to: delegation
       note: covers the handoff-and-takeback station of delegation's lifecycle

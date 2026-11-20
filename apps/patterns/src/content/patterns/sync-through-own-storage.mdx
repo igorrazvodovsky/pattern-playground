@@ -11,7 +11,7 @@ situation:
   initiating: >-
     … the actor keeps their work in an artifact on their own device under [local-first ownership](/patterns/local-first-ownership), works on it alone, and wants it on every device they use, or kept safe off the device, through [identity at the point of need](/patterns/identity-at-the-point-of-need). They already have storage that follows them, such as iCloud, Dropbox or another service, and it is one of the [tools they already work with](/patterns/tool-ecology).
   resulting: >-
-    The work reaches the actor's other devices through storage they already hold, and the artifact keeps no identity of its own for them…
+    Where edits on two devices can collide before the storage provider syncs them, settle the clash with [reconciliation](/patterns/reconciliation) rather than leaving an opaque conflicted copy beside the original. Surface sync state with [status feedback](/patterns/status-feedback) so the actor can tell when a device is still behind. Where another tool cannot read the synced files directly, pair the storage format with [import and export](/patterns/import-and-export)…
 ---
 
 * * *

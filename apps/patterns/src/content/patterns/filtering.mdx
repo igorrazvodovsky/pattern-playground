@@ -17,19 +17,21 @@ situation:
     concerns only part of it. There are too many items to scan, and the actor can say what
     distinguishes the ones they want.
   resulting: >-
-    The shown items are the actor's conditions in force, so [sorting](/patterns/sorting) orders
-    what the conditions let through and [grouping](/patterns/grouping) arranges it.
-    [Selection](/patterns/selection) narrows the same collection from the other end, by picking
-    items one by one rather than stating a condition. Once conditions have to be combined with
-    and, or and not, or kept to run again later, they become
-    [rule composition](/patterns/rule-composition). Where the criterion the actor has in mind is
-    not among the properties the items record, no condition can state it, and narrowing stops
-    being enough…
+    Build each condition's value picker as a [bounded choice](/patterns/bounded-choice) over
+    the property's known values, and pair the filtered view with [sorting](/patterns/sorting)
+    and [grouping](/patterns/grouping) so the actor can order and arrange what the conditions
+    let through. When no items match, keep the active conditions in view inside the
+    [empty state](/patterns/state-empty) and show which one emptied the list. Where conditions
+    have to be combined with and, or and not, or saved to run again later, hand off to
+    [rule composition](/patterns/rule-composition); where the actor types a criterion that no
+    recorded property names, pass the unfinished query on through an
+    [agent fallback](/patterns/agent-fallback)…
 relationships:
   complements:
     - grouping
     - sorting
-    - selection
+    - to: selection
+      note: filtering narrows a collection by condition, while selection picks items one by one
   follows:
     - to: data-view
       note: acts on the framed collection the view already holds

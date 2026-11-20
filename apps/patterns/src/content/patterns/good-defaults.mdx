@@ -15,31 +15,28 @@ situation:
     … in [making changes](/sequences/making-changes) or at the start of
     [assistance escalation](/sequences/assistance-escalation), a [form](/patterns/form)
     or a [wizard](/patterns/wizard) step now holds fields and
-    [bounded choices](/patterns/bounded-choice) that ask the actor for answers, and
-    [onboarding](/patterns/onboarding) needs decisions that do not change the first
-    result settled out of the way. Leaving those fields blank for
+    [bounded choices](/patterns/bounded-choice), and
+    [onboarding](/patterns/onboarding) has routine setup decisions to settle
+    before the actor reaches their first result. Where typical use, general
+    context, or [remembered state](/patterns/remembered-state) already points to
+    a safe value, those fields do not need to start blank for
     [forgiving](/patterns/forgiving-format) or
-    [structured format](/patterns/structured-format) entry asks the actor to
-    supply every value from scratch. Good defaults resolve those routine
-    fields up front from typical use, general context, or a past choice kept by
-    [remembered state](/patterns/remembered-state), so the actor only has to answer
-    what differs.
+    [structured format](/patterns/structured-format) entry.
   resulting: >-
-    Fields now hold the system's best static guess, which serves only until the
-    actor starts typing a value of their own; hand over to
-    [autocomplete](/patterns/autocomplete) so completion happens in flight rather
-    than up front. Where the system already holds the actor's actual value in a
-    profile, earlier session, or browser record, let [autofill](/patterns/autofill)
-    take over from guessing. Where the task needs the system to participate in the
-    work itself and a static guess stops sufficing, continue into
-    [assisted task completion](/patterns/assisted-task-completion). Pair defaults
-    with [localization](/patterns/localization) so locale-dependent guesses such as
-    language, timezone, and formats match the actor's region. Where a standing
-    default does not fit an actor on an axis they care about, let them override it
-    once in [settings](/patterns/settings) so the preference holds across sessions.
-    Where confidence is too low to pre-fill a value directly, offer a
-    [suggestion](/patterns/suggestion) instead of committing a guess on the actor's
-    behalf…
+    Pair defaults with [localization](/patterns/localization) so locale-dependent
+    guesses such as language, timezone, and formats match the actor's region.
+    Where the actor starts typing a value of their own, hand over to
+    [autocomplete](/patterns/autocomplete) for completion in flight; where the
+    system already holds the actor's actual value in a profile, earlier session,
+    or browser record, let [autofill](/patterns/autofill) take over from
+    guessing. Where a static guess stops sufficing and the system needs to
+    participate in the work itself, continue into
+    [assisted task completion](/patterns/assisted-task-completion). Where a
+    standing default does not fit an actor on an axis they care about, let them
+    override it once in [settings](/patterns/settings) so the preference holds
+    across sessions; and where confidence is too low to pre-fill a value
+    directly, offer a [suggestion](/patterns/suggestion) instead of committing a
+    guess on the actor's behalf…
 relationships:
   hosted-by:
     - form

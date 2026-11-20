@@ -19,21 +19,19 @@ situation:
     [plan preview](/patterns/plan-preview). The actor wants to know how far the run has got
     and what it will do next, without stopping it to ask.
   resulting: >-
-    What is left of the run stays in front of the actor as it shrinks, and as it grows when the
-    agent finds a step it needs. Once a step is done it passes into the [activity log](/patterns/activity-log),
-    which keeps the record after the run ends. The done, current and next steps report
-    progress in the work's own units, which [waiting](/patterns/waiting) would otherwise report
-    in time. A step that needs the actor's decision stands in the list as an
-    [approval gate](/patterns/approval-gate). The list shows what will be done, and why the
-    agent chose those steps and what it did is for the [work trail](/patterns/work-trail) to
-    show. The list is the agent's: the actor who wants the run to go differently steers it
-    through [mid-run redirection](/patterns/mid-run-redirection), and one who wants the work
-    back takes it over through [handoff](/patterns/handoff)…
+    Put an [approval gate](/patterns/approval-gate) on any step in the list that needs the
+    actor's decision before the agent acts. As each step finishes, pass it into the
+    [activity log](/patterns/activity-log) so the record survives after the run ends, and
+    attach a [work trail](/patterns/work-trail) where the actor needs to see what the agent
+    did and why. While the run is still under way, let the actor steer the remaining steps
+    through [mid-run redirection](/patterns/mid-run-redirection); when they want to take the
+    work back altogether, turn it over through [handoff](/patterns/handoff)…
 relationships:
   complements:
     - to: activity-log
       note: the working plan holds what is left of a run, and the activity log what was done
-    - waiting
+    - to: waiting
+      note: working plan reports progress in steps where waiting reports it in time
     - approval-gate
     - work-trail
   alternative:

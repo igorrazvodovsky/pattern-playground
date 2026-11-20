@@ -17,15 +17,12 @@ situation:
     [delegation](/patterns/delegation). Unlike [live presentation](/patterns/live-presentation),
     there is no partial result to stream as it forms.
   resulting: >-
-    Waiting is the duration-reporting form of [status feedback](/patterns/status-feedback) for
-    an operation still in progress. Pair any wait longer than a few seconds with
-    [abort](/patterns/abort) so the actor can cancel the request. When a backgrounded wait
-    finishes after the actor has left the view, use
-    [transient feedback](/patterns/transient-feedback) or a [notification](/patterns/notification)
-    to bring the result back to their attention. Waiting reports time the system genuinely
-    needs, unlike the deliberate delays that
-    [cognitive forcing functions](/patterns/cognitive-forcing-functions) introduce to slow down
-    premature acceptance…
+    Deliver the indicator through the artifact's [status feedback](/patterns/status-feedback)
+    conventions, and pair any wait longer than a few seconds with [abort](/patterns/abort) so
+    the actor can cancel the request. When a backgrounded wait finishes after the actor has
+    left the view, bring the result back to their attention with
+    [transient feedback](/patterns/transient-feedback) or a
+    [notification](/patterns/notification)…
 relationships:
   instantiates:
     - status-feedback
@@ -35,7 +32,8 @@ relationships:
     - abort
     - transient-feedback
   tangential:
-    - cognitive-forcing-functions
+    - to: cognitive-forcing-functions
+      note: waiting reports time the system genuinely needs, whereas cognitive forcing functions introduce deliberate delay to slow premature acceptance
   serves:
     - to: delegation
       note: "covers delegation's liveness monitoring: showing that delegated work is still running and how far along it is"

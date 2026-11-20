@@ -12,9 +12,9 @@ mediation: coordination
 description: "Signing each contribution or change in shared work with the person, delegated agent, or named rule that made it, so collaborators know whom to answer and the history can be read by author."
 situation:
   initiating: >-
-    … people, agents, and automated rules contribute to the same work under [collaboration](/patterns/collaboration), while an [activity log](/patterns/activity-log) keeps the history of what changed. Where [presence](/patterns/presence) shows who is in the space and what they are doing right now, attribution signs each contribution with who or what made it at the moment it is written, so the contributor remains legible after the moment passes. When an [outside agent](/patterns/outside-agent) acts in the workspace under a grant, the same signature records its work under its own name rather than the person's.
+    … people, delegated agents, and automated rules contribute to the same work under [collaboration](/patterns/collaboration), while an [activity log](/patterns/activity-log) keeps the history of what changed and [presence](/patterns/presence) shows who is active in the space right now. An [outside agent](/patterns/outside-agent) may also act in the workspace under a grant. Attribution helps complete these larger patterns by keeping contributor identity legible after the moment passes.
   resulting: >-
-    Each contribution now carries the identity of the person, agent, or rule that made it, so colleagues can answer the author in [commenting](/patterns/commenting), trace who changed what across [version history](/patterns/version-history), and weigh proposed edits in [change review](/patterns/change-review). Where a contribution was generated or revised by a model and actors need to calibrate reliance on it—or where the content will be copied or exported out of the workspace—pair contributor attribution with [provenance marking](/patterns/provenance-marking), which discloses machine involvement and binds that mark to the content itself. Attribution is not [annotation](/patterns/annotation): the signature is attached automatically when the contribution is written to record who made it, whereas annotation is an actor's own layer added over content they did not write…
+    Carry contributor identities into [commenting](/patterns/commenting) so colleagues know whom to answer, into [version history](/patterns/version-history) so actors can trace who changed what, and into [change review](/patterns/change-review) so reviewers can weigh proposed edits by author. Where a contribution was generated or revised by a model and actors need to calibrate reliance on it—or where content will be copied or exported out of the workspace—pair contributor attribution with [provenance marking](/patterns/provenance-marking) so machine involvement travels with the content itself…
 relationships:
   enables:
     - collaboration
@@ -26,7 +26,8 @@ relationships:
     - change-review
     - provenance-marking
   related:
-    - annotation
+    - to: annotation
+      note: attribution attaches a contributor signature automatically when a change is written, whereas annotation is an actor's own layer added over existing content
 ---
 
 * * *

@@ -15,9 +15,7 @@ situation:
     a [conversation](/patterns/conversation) turn, or an
     [inline interface](/patterns/inline-interface) needs a value the actor holds
     in a loose or variable form, where a
-    [structured format](/patterns/structured-format) would force needless
-    translation. Forgiving format lets the actor express the value naturally and
-    shifts the work of structuring it onto the system.
+    [structured format](/patterns/structured-format) does not fit the input.
   resulting: >-
     Because the system or an [agent](/patterns/agent) did the structuring,
     report what was parsed through [status feedback](/patterns/status-feedback)
@@ -31,10 +29,7 @@ situation:
     addresses are read in the actor's locale. Where loose input populates
     several fields at once, end with
     [review before submitting](/patterns/review-before-submitting) so extracted
-    values do not go through unread. Unlike
-    [incremental formalisation](/patterns/incremental-formalisation), which lets
-    content stay informal and promotes structure only later, forgiving format
-    parses into an existing schema at the moment of entry…
+    values do not go through unread…
 relationships:
   hosted-by:
     - form
@@ -48,7 +43,8 @@ relationships:
     - expressed-uncertainty
     - localization
     - review-before-submitting
-    - incremental-formalisation
+    - to: incremental-formalisation
+      note: forgiving format parses loose input into a schema at entry, whereas incremental formalisation lets content stay informal and promotes structure later
   alternative:
     - structured-format
   related:

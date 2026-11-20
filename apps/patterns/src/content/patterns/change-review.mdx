@@ -12,9 +12,9 @@ activityLevel: action
 description: "Showing a change someone else proposes to existing content as what is there now next to what would replace it, so the actor can check it and accept it in parts."
 situation:
   initiating: >-
-    … someone other than the actor has proposed changes to something that already exists and that the actor is responsible for. In [delegating a task](/sequences/delegating-a-task) the result of a run arrives as changes to existing content, [generated content](/patterns/generated-content) the actor has to check rather than write. In [working on the same thing](/sequences/working-on-the-same-thing) a colleague's edits, made in a separate draft under [draft and publish](/patterns/draft-and-publish), come back to be merged. A [trial run](/patterns/trial-run) produces a before and after across many cases. In each of these, if the actor can see only the changed result, they can either accept all of it without checking or reject all of it. Change review shows what is there now next to what would replace it, so the actor can check the change and accept it in parts.
+    … someone else—a colleague returning a separate copy under [draft and publish](/patterns/draft-and-publish) in [working on the same thing](/sequences/working-on-the-same-thing), or an agent returning [generated content](/patterns/generated-content) in [delegating a task](/sequences/delegating-a-task) or a [trial run](/patterns/trial-run)—has proposed changes to existing work the actor is responsible for. The proposed changes have arrived and are waiting for the actor's decision before taking effect.
   resulting: >-
-    The change can now be decided on part by part. Draw it with [comparing](/patterns/comparing)'s version case: the shared structure is assumed and only the difference is shown. Where the system proposed the change and applying it has consequences, an [approval gate](/patterns/approval-gate) can act on the review, so that the approval refers to a specific change. [Commenting](/patterns/commenting) attaches discussion to particular changes rather than to the document as a whole, and where colleagues review each other's work, [status feedback](/patterns/status-feedback) records the outcome in a set form. Rejecting a proposed change is [undo](/patterns/undo) before the change is applied; changes that have been accepted and applied still need undo afterwards. When a change is hard to follow, the usual repair is to ask whoever made it. Where the system made it there may be nobody to ask, and a [work trail](/patterns/work-trail) gives an account of the work in the author's place, though the model's narration is its own report and can be wrong. Change review differs from the [activity log](/patterns/activity-log), which records what was done over time rather than one change proposed to one thing, from [plan preview](/patterns/plan-preview), which shows what the system intends to do before the work rather than the change after it, and from [review before submitting](/patterns/review-before-submitting), which shows the actor their own answers rather than a change someone else proposes…
+    Draw the diff with [comparing](/patterns/comparing)'s version case, assuming the shared structure and showing only what changed. Where the system proposed the change and applying it carries consequences, place an [approval gate](/patterns/approval-gate) on the review so approval binds to the specific change. Pair the review with [commenting](/patterns/commenting) so discussion attaches to individual changes rather than the whole document, and use [status feedback](/patterns/status-feedback) to record the review outcome when colleagues review each other's work. Keep [undo](/patterns/undo) available after changes are accepted and applied, not only as rejection beforehand. Where the system made the change and there is no author to ask, attach a [work trail](/patterns/work-trail) alongside the diff so the actor can check how it was produced, keeping in mind that the model's narration can be wrong…
 relationships:
   follows:
     - generated-content
@@ -28,8 +28,10 @@ relationships:
   composed-of:
     - comparing
   related:
-    - plan-preview
-    - activity-log
+    - to: plan-preview
+      note: "plan preview shows what the system intends to do before running; change review shows the proposed diff after the work is done"
+    - to: activity-log
+      note: "an activity log records events over time; change review isolates one proposed change for part-by-part decision"
   enacts:
     - to: agency
       note: the actor decides on each change rather than accepting the whole batch

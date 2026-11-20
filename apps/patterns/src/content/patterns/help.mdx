@@ -12,37 +12,29 @@ fun: 🗺️ 2/5. Mapping out the basics.
 description: "Answering the question an actor brings at the point it comes up, shaped by what they came for, whether the answer sits in the interface or in documentation outside it."
 situation:
   initiating: >-
-    … the actor is working in the artifact, during [onboarding](/patterns/onboarding) or long after
-    it, and hits friction they cannot resolve from the surface: they do not know how to do
-    something, what a term or value means, or why the artifact behaves as it does. The answer is not
-    on the surface itself: it sits beside the control, in a panel, or in a help
-    centre or documentation site outside the interface that is still part of the artifact's
-    [information environment](/patterns/information-environment). The actor comes to help with a
-    question, which separates it from [feature discovery](/patterns/feature-discovery), where the
-    artifact offers what nobody asked about.
+    … within the artifact's [information environment](/patterns/information-environment), during
+    [onboarding](/patterns/onboarding) or long after it, the actor encounters a task, term, or
+    behaviour they cannot work out from the surface alone. Unlike
+    [feature discovery](/patterns/feature-discovery), where the artifact offers capabilities
+    nobody asked about, help serves an actor who brings a question.
   resulting: >-
-    Attach an answer to the element that raised the question with
-    [annotation](/patterns/annotation), and give the reason behind one specific event, such as a
-    disabled option or a rule that fired, as an [explanation](/patterns/explanation) at that
-    point. Recovery from a failure starts at [status feedback](/patterns/status-feedback), which
-    reports what went wrong; help says what to do about it. The actor reaches help pages through
-    [searching](/patterns/searching) and the [command menu](/patterns/command-menu), so index them
-    under the words actors use as well as the artifact's own terms. Documentation outside the
-    interface is one of the channels [cross-channel continuity](/patterns/cross-channel-continuity)
-    keeps consistent, with the same items under the same names and addresses, so a page can open
-    the setting it describes and the setting can open its page. A [text lens](/patterns/text-lens)
-    re-tells a page for what the actor already knows or how much detail they want; versions that
-    differ by plan, role, platform or release are written by the author. In an artifact
-    [addressable in words](/patterns/addressable-in-words), a question typed into help resolves
-    against the same description of objects and actions that the command menu and every agent
-    read, so the facts help gives and the facts agents act on describe the same artifact. Where
-    the written help does not cover the actor's case, [agent fallback](/patterns/agent-fallback)
-    passes the question to an [agent](/patterns/agent), which answers from the help pages and the
-    actor's own situation and can link each claim to the page behind it with
-    [citation](/patterns/citation). Where the fix needs access, authority or judgement someone
-    else holds, no page will do, and the route is [reaching a person](/patterns/reaching-a-person).
-    Help waits to be asked, while a [suggestion](/patterns/suggestion) or a
-    [next-best action](/patterns/next-best-action) offers to do the thing for the actor…
+    Attach brief in-place answers to the controls that raise questions using
+    [annotation](/patterns/annotation), and give the reason behind a specific event—such as a
+    disabled option or a rule that fired—as an [explanation](/patterns/explanation) at that
+    point. Pair failure recovery in [status feedback](/patterns/status-feedback) with help that
+    says what to do next. Index help pages for [searching](/patterns/searching) and the
+    [command menu](/patterns/command-menu) under the words actors use as well as the artifact's
+    own labels, and keep external documentation aligned with the interface through
+    [cross-channel continuity](/patterns/cross-channel-continuity) so each links to the other
+    under the same names. Where a page must serve readers at different levels of familiarity or
+    detail, add a [text lens](/patterns/text-lens); author separate versions where content
+    differs by plan, role, platform, or release. In an artifact
+    [addressable in words](/patterns/addressable-in-words), resolve help queries against the
+    same description of objects and actions that the command menu and agents read. Where written
+    pages do not cover the actor's case, use [agent fallback](/patterns/agent-fallback) to pass
+    the question to an [agent](/patterns/agent) grounded in the help pages with
+    [citations](/patterns/citation), and where the fix requires access, authority, or judgement
+    someone else holds, route the actor to [reaching a person](/patterns/reaching-a-person)…
 relationships:
   enables:
     - information-environment

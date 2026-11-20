@@ -11,32 +11,27 @@ evidence:
 description: "Letting the actor inspect, edit, scope, and remove the facts and preferences the system keeps about them across sessions."
 situation:
   initiating: >-
-    … the actor works with an agent or assistant across multiple
-    [sessions](/patterns/session), and background facts, stated preferences, and
-    recurring context would otherwise have to be repeated every time. Where
-    [remembered state](/patterns/remembered-state) restores how the actor
-    arranged the interface, memory carries facts and preferences about
-    the actor forward to shape what the system generates next. Where
-    [standing instructions](/patterns/standing-instructions) hold rules the
-    actor writes in their own words for every run, memory holds
-    details the system extracts or records from ongoing conversations.
+    … the actor works with an [agent](/patterns/agent) across multiple
+    [sessions](/patterns/session), carrying background facts, preferences, and
+    recurring project context that go beyond explicit rules in
+    [standing instructions](/patterns/standing-instructions). Memory helps
+    complete multi-session work when the system retains details about the actor
+    from ongoing exchanges.
   resulting: >-
-    Stored facts and preferences are carried into later runs to tailor
-    [generated content](/patterns/generated-content) without the actor restating
-    their context. When the system saves a new detail during an exchange,
-    [transient feedback](/patterns/transient-feedback) marks the update in place
-    and [citation](/patterns/citation) ties the entry back
-    to the conversation turn it came from. A reviewable list in
-    [settings](/patterns/settings) lets the actor read, edit, or remove what is
-    kept, while [rule composition](/patterns/rule-composition) lets them set
-    standing exclusions over topics the system must never store. Scoping memory
-    to a [workspace](/patterns/workspace) keeps context for one project or role
-    from bleeding into another, and an
-    [ephemeral session](/patterns/ephemeral-session) lets the actor step outside
-    memory and history for a single exchange. [Deletion](/patterns/deletion)
-    removes individual facts or clears the store so they no longer steer future
-    responses, separately from the [activity log](/patterns/activity-log) that
-    records past transcripts…
+    Carry stored facts and preferences into later runs to tailor
+    [generated content](/patterns/generated-content). Whenever the system saves
+    or updates a detail during an exchange, show
+    [transient feedback](/patterns/transient-feedback) in place and attach a
+    [citation](/patterns/citation) back to the conversation turn it came from.
+    Expose the full store as a reviewable list in
+    [settings](/patterns/settings) with [deletion](/patterns/deletion) for
+    individual facts or topics, kept separate from past transcripts in the
+    [activity log](/patterns/activity-log) so removing a memory does not quietly
+    re-infer it. Let the actor set standing exclusions over topics that must
+    never be stored with [rule composition](/patterns/rule-composition), scope
+    separate stores per [workspace](/patterns/workspace) where projects or roles
+    differ, and offer an [ephemeral session](/patterns/ephemeral-session) when
+    an exchange should stay outside memory and history altogether…
 relationships:
   follows:
     - session

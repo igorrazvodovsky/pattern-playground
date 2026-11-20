@@ -11,9 +11,9 @@ mediation: individual
 description: "Telling the system what to change about output the actor already has, so it comes back revised rather than drawn again or remade by hand."
 situation:
   initiating: >-
-    … in [delegating a task](/sequences/delegating-a-task), the actor has asked for something with a [prompt](/patterns/prompt) and received [generated content](/patterns/generated-content)—a draft, a reply, a passage in a document—that is close, with a flaw they can name: too long, too stiff, the second paragraph is off. [Regeneration](/patterns/regeneration) would draw again from the request alone, which says nothing about the flaw and so is no more likely to fix it, while fixing it by hand costs more than describing the change.
+    … in [delegating a task](/sequences/delegating-a-task), the actor has asked for something with a [prompt](/patterns/prompt) and received [generated content](/patterns/generated-content)—a draft, a reply, or a passage in a document—that is close, with a flaw they can name. Rather than drawing again with [regeneration](/patterns/regeneration), they want to steer the draft already in front of them.
   resulting: >-
-    The output now changes by a stated difference while the original request stands. An instruction applied to the whole output reaches passages the actor had already settled, so a [selection](/patterns/selection) limits the revision to the span that needs it, while revision chips beneath a reply are a [suggestion](/patterns/suggestion) when the system picks them from the response. Where a revision rewrites several places at once, present it through [change review](/patterns/change-review) against the last accepted version so the actor can see what changed and accept or reject it in parts. Keep the replaced version one step back through [undo](/patterns/undo). Where revision runs through a conversation, a [steering surface](/patterns/steering-surface) holds the work still beside the instructions, so the actor does not carry each revised version back by hand. When a change is a single word, figure, or name the actor already has in mind, [editing in place](/patterns/editing-in-place) is more direct than describing it in prose. When the actor repeats the same correction across outputs, promote it to [standing instructions](/patterns/standing-instructions) so it holds on every run. Where others need to know that machine revision shaped a passage, mark it with [provenance marking](/patterns/provenance-marking). Instructed revision is not a [text lens](/patterns/text-lens), which adapts how a source reads for one actor while leaving the underlying content unchanged…
+    Scope revisions to a [selection](/patterns/selection) so an instruction does not disturb passages the actor has already settled, and offer quick revision presets as [suggestions](/patterns/suggestion) beside an open instruction field. Keep the replaced version one step back through [undo](/patterns/undo), and where a revision rewrites several places at once, present it through [change review](/patterns/change-review) against the last accepted version so the actor can accept or reject changes in parts. Where revision runs through a conversation, pair it with a [steering surface](/patterns/steering-surface) that holds the work still beside the instructions so the actor does not carry each revised version back by hand. Where a change is a single word, figure, or name the actor already has in mind, hand off to [editing in place](/patterns/editing-in-place); where the actor repeats the same correction across outputs, promote it to [standing instructions](/patterns/standing-instructions). Where others need to know that machine revision shaped a passage, mark it with [provenance marking](/patterns/provenance-marking)…
 relationships:
   follows:
     - generated-content
@@ -29,7 +29,8 @@ relationships:
   precedes:
     - undo
   related:
-    - text-lens
+    - to: text-lens
+      note: instructed revision changes the draft itself, whereas a text lens adapts how a source reads for one actor while leaving the underlying content unchanged
   enacts:
     - to: agency
       note: the actor steers the output with judgement the system executes

@@ -11,30 +11,19 @@ evidence:
 description: "Restoring an artifact's view configuration, reading position, and last-used values automatically when the actor returns."
 situation:
   initiating: >-
-    … the actor returns to an artifact they have already adjusted during normal use:
-    they configured a [data view](/patterns/data-view), selected a tab, resized a
-    panel, scrolled partway through a document, or picked an export format. They did
-    not save these adjustments in [settings](/patterns/settings) because they were
-    simply working in the interface. Where [deep linking](/patterns/deep-linking)
-    encodes state in the URL so a specific view can be shared or bookmarked,
-    remembered state persists it in storage for this actor's return.
+    … the actor returns to an artifact they adjusted during normal use—configuring a
+    [data view](/patterns/data-view), selecting a tab, resizing a panel, scrolling partway
+    through a document, or picking an export format—without visiting
+    [settings](/patterns/settings). [Deep linking](/patterns/deep-linking) covers views
+    that need a shareable URL; here the actor is simply coming back to their own working
+    arrangement.
   resulting: >-
-    The interface reopens as the actor left it without requiring manual setup,
-    enacting [adaptation](/patterns/adaptation) through deterministic state
-    persistence rather than inference. Restored filters stay legible only when
-    [filtering](/patterns/filtering) keeps active criteria visible on the surface.
-    A value chosen last time gives [good defaults](/patterns/good-defaults) a
-    personal starting value for the next session. While remembered state reopens
-    the active view in place, [recents](/patterns/recents) list the other items
-    and views the actor opened lately. [Bookmarking](/patterns/bookmarking) holds
-    the ones they explicitly saved for long-term return. Returning to an
-    unfinished multi-step workflow with in-progress inputs intact is covered by
-    [resuming](/patterns/resuming). Carrying stated facts or standing preferences
-    forward to shape model generation is covered by
-    [memory](/patterns/memory). Because persisted views,
-    scroll positions, and filters reveal what the last person was doing,
-    remembered state raises [privacy](/patterns/privacy) concerns on shared
-    devices…
+    Keep active criteria visible on the surface through [filtering](/patterns/filtering) so
+    a restored filter never looks like missing data. Feed the actor's last-chosen option
+    values into [good defaults](/patterns/good-defaults) as personal starting values for the
+    next session. Where the actor also needs to jump back to other items they opened lately,
+    pair this with [recents](/patterns/recents), and where work on a shared device should
+    leave no trace, offer [ephemeral session](/patterns/ephemeral-session)…
 relationships:
   follows:
     - to: data-view

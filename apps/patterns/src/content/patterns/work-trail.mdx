@@ -11,35 +11,26 @@ mediation: individual
 description: "Showing the steps an agent took and its stated rationale as an inspectable trail, keeping verifiable actions distinct from unverified narration."
 situation:
   initiating: >-
-    … an [agent](/patterns/agent) has taken on work that requires several steps—searching,
-    reading, calling tools, or working through a problem—and returning only the final output
-    would leave the actor with nothing to judge it by. The run may happen in a conversation or
-    out of sight in [delegation](/patterns/delegation), where the actor needs a hood to look
-    under during or after execution. Where a [plan preview](/patterns/plan-preview) stated what
-    the run intended beforehand and a [working plan](/patterns/working-plan) tracks what steps
-    are left, the work trail carries the path actually taken, streamed through
-    [live presentation](/patterns/live-presentation) while the run is under way.
+    … an [agent](/patterns/agent) has taken on multi-step work—searching, reading, calling
+    tools, or working through a problem—either inside a conversation or out of sight under
+    [delegation](/patterns/delegation). A [plan preview](/patterns/plan-preview) may have
+    stated what the run intended beforehand and a [working plan](/patterns/working-plan) may
+    track which steps remain, leaving the actual execution path still to be exposed.
   resulting: >-
-    The intermediate steps sit beside the work as an inspectable trail, folded behind
-    [progressive disclosure](/patterns/progressive-disclosure) once the turn settles so the
-    path does not bury the answer. When the actor spots a wrong premise or a wasted branch
-    while the run is still moving, [mid-run redirection](/patterns/mid-run-redirection) lets
-    them steer the agent onto another path without discarding the work already done. Because a
-    fluent trail anchors as readily as it informs—inviting the actor to stop reading and defer
-    on appearance alone—pair it with [cognitive forcing functions](/patterns/cognitive-forcing-functions)
-    before acceptance where an unchecked error would be costly. Once the run ends, the trail
-    attaches to [generated content](/patterns/generated-content), grounds an absent author's
-    edits in [change review](/patterns/change-review), anchors into the lasting
-    [activity log](/patterns/activity-log), and keeps the basis of agent decisions auditable
-    in [collaboration](/patterns/collaboration). Pair the trail with
-    [citation](/patterns/citation) to bind specific claims to the source passages retrieved
-    along the way, and with [expressed uncertainty](/patterns/expressed-uncertainty) when
-    backtracking or conflicting tool results leave a part of the answer thinly supported. How
-    much of the trail stays open by default versus folded into a summary follows from
-    [action consequences](/patterns/action-consequences). A work trail is not an
-    [explanation](/patterns/explanation): where a single-move output has no multi-step path to
-    inspect, an explanation lays out the factors, rules, or domain rationale behind the result
-    instead…
+    Stream steps as they happen through [live presentation](/patterns/live-presentation), and
+    fold the settled trail behind [progressive disclosure](/patterns/progressive-disclosure) so
+    it does not bury the answer, using [action consequences](/patterns/action-consequences) to
+    decide how much stays open by default. Add [mid-run redirection](/patterns/mid-run-redirection)
+    so the actor can steer off a wrong premise or wasted branch without restarting, and where an
+    unchecked error would be costly, pair the fluent trail with
+    [cognitive forcing functions](/patterns/cognitive-forcing-functions) before acceptance. Pair
+    the trail with [citation](/patterns/citation) to bind claims to retrieved passages and with
+    [expressed uncertainty](/patterns/expressed-uncertainty) where backtracking or conflicting
+    tool results leave support thin. Once the run ends, attach the trail to
+    [generated content](/patterns/generated-content), carry it into
+    [change review](/patterns/change-review) to ground machine-proposed edits, anchor it into
+    the lasting [activity log](/patterns/activity-log), and preserve it for audit in
+    [collaboration](/patterns/collaboration)…
 relationships:
   follows:
     - to: agent
@@ -72,7 +63,8 @@ relationships:
       note: pairs the path taken across steps with the source passages backing individual claims
     - to: expressed-uncertainty
       note: backtracking and conflicting tool results in the trail surface where support is thin
-    - explanation
+    - to: explanation
+      note: work trail exposes the multi-step path an agent took, whereas explanation lays out the factors, rules, or domain rationale behind a single-move output
   related:
     - to: action-consequences
       note: governs how much of the trail warrants default visibility versus folding into a summary

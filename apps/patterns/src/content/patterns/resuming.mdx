@@ -13,18 +13,17 @@ description: "Letting the actor pick a long task back up after a gap, with what 
 situation:
   initiating: >-
     … the actor is partway through a task in a [wizard](/patterns/wizard) or a long form
-    that will not finish in one sitting: it needs information they do not have to hand,
-    or more time than they have now, or they cannot safely continue where they are. People
-    leave such tasks in proportion to their length, and most of them come back to nothing,
-    so what they entered goes with them.
+    that will not finish in one sitting—they need information they do not have to hand,
+    more time than they have now, or a quieter place to finish. They leave the task and
+    return hours or weeks later.
   resulting: >-
-    What the system keeps is not the question here. [Saving](/patterns/saving) asks whether
-    the actor manages persistence at all; this pattern assumes the work is kept, silently or
-    on request, and asks how the actor finds it again and takes it up. Whichever way it is
-    kept, [status feedback](/patterns/status-feedback) owes the actor a report that it was,
-    at the moment they leave and when they return. [Draft and publish](/patterns/draft-and-publish)
-    looks alike but answers a different question, whether the work is ready for others; a
-    half-finished application is not a draft of anything, it is an unfinished task…
+    Confirm with [status feedback](/patterns/status-feedback) that the work is kept at the
+    moment the actor leaves and again when it is restored on return. Where the return shows
+    a full summary of entries after a long gap, share the view with
+    [review before submitting](/patterns/review-before-submitting) so each entry links
+    directly to where it can be edited. Where an account is the way back across devices,
+    introduce it through [identity at the point of need](/patterns/identity-at-the-point-of-need)
+    after the actor has already entered work rather than before they start…
 relationships:
   related:
     - to: saving

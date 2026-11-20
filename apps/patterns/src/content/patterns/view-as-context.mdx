@@ -13,14 +13,15 @@ situation:
   initiating: >-
     … the actor is working in an artifact [addressable in words](/patterns/addressable-in-words) and says something about what is in front of them: "this paragraph", "these two", "make it shorter". Naming the thing outright, as [reference material](/patterns/reference-material) does, costs effort for something they are already looking at.
   resulting: >-
-    Pointing at things inside the view is [selection](/patterns/selection), which gives a request its narrowest scope. Context the actor pins becomes [reference material](/patterns/reference-material), named and kept with the request rather than read from the view. A [suggestion](/patterns/suggestion) draws on the same context without being asked, whereas here the context is read only when the actor speaks. Because the view can change between saying and acting, the context is the view at the moment of the request, not at the moment of the act…
+    Use [selection](/patterns/selection) inside the view to give a request its narrowest scope, and freeze the captured view at the moment the request is sent rather than when the artifact acts. Where the actor pins an item so it stays with the request after they navigate away, promote it into [reference material](/patterns/reference-material)…
 relationships:
   composed-of:
     - selection
   complements:
     - reference-material
   related:
-    - suggestion
+    - to: suggestion
+      note: suggestion draws on the same view context unprompted, whereas view as context reads it only when the actor speaks
 ---
 
 * * *

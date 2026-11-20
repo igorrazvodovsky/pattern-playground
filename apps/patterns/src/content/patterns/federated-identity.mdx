@@ -12,9 +12,9 @@ acts_on:
   - signing-in
 situation:
   initiating: >-
-    … the actor is creating an account or returning to sign in through [account access](/patterns/account-access), and already holds a trusted, verified identity with an external provider such as Google, Apple, enterprise SSO, or other  identification system. Signing in through that provider spares them creating a [password](/patterns/password) for one more artifact.
+    … [account access](/patterns/account-access) is in place for registration and sign-in, and the actor already holds a verified identity with an external provider such as Google, Apple, or an enterprise directory, rather than relying on a standalone [password](/patterns/password).
   resulting: >-
-    The actor authenticates with a single gesture through their existing provider, without creating or maintaining standalone credentials. Where the actor prefers direct communication tokens without third-party platform coupling, [passwordless access](/patterns/passwordless-access) provides the alternative…
+    Where actors need sign-in without third-party platform coupling, offer [passwordless access](/patterns/passwordless-access) instead, and where an actor holds no supported provider account, keep a [password](/patterns/password) alongside it…
 relationships:
   enables:
     - account-access

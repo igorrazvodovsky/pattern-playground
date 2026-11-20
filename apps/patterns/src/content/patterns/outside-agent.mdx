@@ -12,9 +12,9 @@ mediation: individual
 description: "Letting an agent the actor brings from outside read and act on the work in the artifact, under a grant the actor issues and with its acts recorded as its own."
 situation:
   initiating: >-
-    … the artifact is one of the [tools the user already works with](/patterns/tool-ecology), and they bring an AI agent of their own, an assistant that works across several of those tools, to read and act on the work in it. The agent answers to the user, not to the artifact's maker, and it arrives whether or not the artifact was designed for it.
+    … the artifact sits within the [tools the actor already works with](/patterns/tool-ecology), and the actor brings an AI agent of their own—an assistant that works across several of those tools—to read and act on the work in it. That agent answers to the actor rather than the artifact's maker, and arrives whether or not the artifact was designed for it.
   resulting: >-
-    The agent works under a grant, which the actor issues and revokes through [sharing](/patterns/sharing), where the agent is listed beside the people who have access. What it may do without asking is set through [bounded autonomy](/patterns/bounded-autonomy), and the acts the actor wants to confirm wait at an [approval gate](/patterns/approval-gate). Its contributions carry [attribution](/patterns/attribution) under its own name rather than the actor's, and its acts land in the [activity log](/patterns/activity-log). The artifact's own [agent](/patterns/agent) looks similar but is designed and steered by the artifact's maker, whereas the outside agent answers to the actor and works across tools the maker does not see…
+    Let the actor issue and revoke the agent's grant through [sharing](/patterns/sharing), listing the agent beside the people who have access. Scope what it may do without asking through [bounded autonomy](/patterns/bounded-autonomy), and hold acts that need confirmation at an [approval gate](/patterns/approval-gate). Sign its contributions under its own name with [attribution](/patterns/attribution), and record its acts in the [activity log](/patterns/activity-log)…
 relationships:
   composed-of:
     - sharing
@@ -24,7 +24,8 @@ relationships:
     - attribution
     - activity-log
   tangential:
-    - agent
+    - to: agent
+      note: the artifact's own agent is designed and steered by the artifact's maker, whereas an outside agent answers to the actor and works across tools the maker does not see
   enacts:
     - to: agency
       note: the actor chooses which agent works for them across their tools, rather than taking the agent each artifact supplies

@@ -12,22 +12,17 @@ acts_on:
   - { concept: following, note: "the feed is where followed sources are read when no notice is sent" }
 situation:
   initiating: >-
-    … updates worth the actor's attention arrive from many sources on nobody's schedule
-    across [collaboration](/patterns/collaboration), [delegation](/patterns/delegation),
-    and [assistance](/patterns/assistance). [Notification](/patterns/notification) carries
-    the few events urgent enough to interrupt, leaving everything else scattered where it
-    happened. Checking each source costs time proportional to how many there are rather than
-    to how much actually changed, so [attention and tempo](/sequences/attention-and-tempo#glance)
-    needs one place where waiting updates can be scanned and left.
+    … in [collaboration](/patterns/collaboration), [delegation](/patterns/delegation),
+    and [assistance](/patterns/assistance), updates arrive from many sources across the
+    actor's work. [Notification](/patterns/notification) carries the few events urgent
+    enough to interrupt, while the rest wait in the places where they happened for the
+    glance stage of [attention and tempo](/sequences/attention-and-tempo#glance).
   resulting: >-
-    Keep the stream distinguishable from an [activity log](/patterns/activity-log),
-    which records actions taken by an entity for accountability and reconstruction rather
-    than aggregating updates of interest for awareness. When volume grows, give the actor
-    [filtering](/patterns/filtering) by source or event type so noisy streams do not crowd
-    out consequential ones, and pair the stream with a clear
-    [empty state](/patterns/state-empty) when nothing new has arrived. Where items invite
-    discussion, attach a [conversation](/patterns/conversation) thread to the item so
-    replies stay anchored rather than spilling into the top-level stream…
+    When volume grows, give the actor [filtering](/patterns/filtering) by source or event
+    type so noisy streams do not crowd out consequential ones, and pair the stream with a
+    clear [empty state](/patterns/state-empty) when nothing new has arrived. Where items
+    invite discussion, attach a [conversation](/patterns/conversation) thread to the item
+    so replies stay anchored rather than spilling into the top-level stream…
 relationships:
   serves:
     - to: assistance
@@ -35,7 +30,8 @@ relationships:
     - to: delegation
       note: delegation's execution stage — giving the actor awareness of background agent activity
   complements:
-    - activity-log
+    - to: activity-log
+      note: an activity feed aggregates updates of interest for awareness, while an activity log records an entity's actions for accountability and reconstruction
     - collaboration
     - notification
     - conversation

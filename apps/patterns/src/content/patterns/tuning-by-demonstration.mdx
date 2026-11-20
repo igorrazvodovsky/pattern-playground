@@ -13,21 +13,20 @@ mediation: individual
 description: "Letting the actor show an agent or a tool how they want something done, by doing it or pointing to an example, instead of describing it."
 situation:
   initiating: >-
-    … the actor wants an agent, or a tool such as a spreadsheet, to do something their way and cannot easily say what that way
-    is: a tone, a route, a manner of handling a certain kind of case.
-    [Standing instructions](/patterns/standing-instructions) need the preference in words, and
-    [rule composition](/patterns/rule-composition) needs it in the system's terms. The actor
-    can do the thing, or can point to an instance of it done well.
+    … the actor is configuring or correcting an [agent](/patterns/agent) under
+    [delegation](/patterns/delegation)—or a tool such as a spreadsheet—where the desired tone,
+    route, or handling of a case does not fit
+    [standing instructions](/patterns/standing-instructions) in words or
+    [rule composition](/patterns/rule-composition) in system terms. The actor can perform the
+    task once or point to an instance done well.
   resulting: >-
-    The agent holds a preference the actor never stated, and the actor cannot check it unless
-    it is shown. What was taken from the demonstration is kept in words in
-    [memory](/patterns/memory), which is also where what the system picks up from ordinary use,
-    without being shown, is kept and corrected. An example the actor points to is attached as
-    [reference material](/patterns/reference-material), and the demonstration lies in saying
-    what about it to follow. A procedure recorded step by step becomes a
-    [workflow](/patterns/workflow) the actor can read and repair. Because a single
-    demonstration fits many generalisations, a [trial run](/patterns/trial-run) over new cases
-    lets the actor see which interpretation the system took before relying on it…
+    Store what was inferred in plain words inside [memory](/patterns/memory) so the actor can
+    inspect and edit it alongside preferences picked up from ordinary use. Where the actor
+    points to an existing sample, attach it as [reference material](/patterns/reference-material)
+    paired with what about it to follow; where the actor records a multi-step procedure, turn it
+    into an inspectable [workflow](/patterns/workflow) they can read and repair. Because a
+    single demonstration fits many generalisations, follow it with a
+    [trial run](/patterns/trial-run) over new cases before relying on the learned rule…
 relationships:
   alternative:
     - to: standing-instructions

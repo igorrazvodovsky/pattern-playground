@@ -10,9 +10,9 @@ activityLevel: operation
 description: "Letting the system's confidence vary visibly across its output—through hedged wording, ranges, or marks on doubtful spans—so the actor knows which parts need checking."
 situation:
   initiating: >-
-    … the system has produced [generated content](/patterns/generated-content) or offered a [suggestion](/patterns/suggestion) whose parts are not equally well supported, including claims that [citation](/patterns/citation) could not link to any source passage or whose sources disagree. Expressed uncertainty completes these by letting confidence vary visibly across the output, so the actor's scrutiny lands on the guesses rather than spreading evenly across the whole piece or trusting all of it on tone.
+    … the system has produced [generated content](/patterns/generated-content) or offered a [suggestion](/patterns/suggestion) whose parts are not equally well supported, including claims that [citation](/patterns/citation) could not link to a source passage or whose sources disagree. Expressed uncertainty helps complete these patterns when the actor needs to tell well-supported parts from guesses.
   resulting: >-
-    Confidence now varies across the output's surface, and the value of the mark lies in the difference between what is marked and what is left plain, while a numeric score risks claiming calibration the model does not have. Where the stakes of accepting a doubtful span or proposal are high, pair the uncertainty mark with [cognitive forcing functions](/patterns/cognitive-forcing-functions), excluding low-confidence items from bulk acceptance so the actor's pause lands on the uncertain parts. Expressed uncertainty is not [explanation](/patterns/explanation): the mark tells the actor which part of the output is doubtful, whereas an explanation lays out the factors or rules that produced the prediction…
+    Where the stakes of accepting a doubtful span or proposal are high, pair the uncertainty mark with [cognitive forcing functions](/patterns/cognitive-forcing-functions) and exclude low-confidence items from bulk acceptance so the actor's pause lands on the uncertain parts. Where the output draws on external sources, pair the marks with [citation](/patterns/citation) so the actor can inspect the agreeing or conflicting passages directly…
 relationships:
   follows:
     - generated-content
@@ -24,7 +24,8 @@ relationships:
     - to: assistance
       note: expressed uncertainty covers assistance's signal-raising step — qualifying output so attention goes where confidence is thin
   related:
-    - explanation
+    - to: explanation
+      note: expressed uncertainty marks which part of an output is doubtful, whereas an explanation lays out the factors or rules that produced the result
   enacts:
     - to: agency
       note: the actor keeps the judgement that uniform fluency would otherwise take

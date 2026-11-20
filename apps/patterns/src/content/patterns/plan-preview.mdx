@@ -11,23 +11,18 @@ acts_on:
   - { concept: plan-keeping, note: "the third misfit: a step names an act, not what it will touch or cost" }
 situation:
   initiating: >-
-    … the actor has made an [open request](/patterns/open-request) of an agent for something
-    consequential that takes several steps, and
-    [showing the reading](/patterns/showing-the-reading) has settled what it means. The work may
-    be done in reply or handed over in [delegation](/patterns/delegation). Starting at once would
-    spend real work, and possibly real consequences, before the actor has seen what it will
-    change.
+    … the actor has made an [open request](/patterns/open-request) of an agent for multi-step
+    work with real consequences, and [showing the reading](/patterns/showing-the-reading) has
+    settled what the request means. The work may run in reply or be handed over in
+    [delegation](/patterns/delegation).
   resulting: >-
-    The agent's intention can be judged before it costs anything: the steps, what they will
-    touch and what they will cost, with [cost transparency](/patterns/cost-transparency)
-    supplying the spend. Holding the plan until the actor starts it puts an
-    [approval gate](/patterns/approval-gate) in front of the whole run. Once the run starts, the
-    previewed plan becomes the [working plan](/patterns/working-plan), which the agent keeps
-    current as it works. How much preview a request
-    warrants follows from its [action consequences](/patterns/action-consequences), since an
-    actor asked to review too often stops reading plans and the preview becomes a ritual. The
-    reasoning and actions behind the steps are for the [work trail](/patterns/work-trail)
-    to show…
+    Pair the plan with [cost transparency](/patterns/cost-transparency) to state expected spend,
+    and place an [approval gate](/patterns/approval-gate) in front of the whole run so work
+    waits until the actor starts it. Carry the approved steps straight into the
+    [working plan](/patterns/working-plan) as the run proceeds, and expose the actions and
+    reasoning behind each step through a [work trail](/patterns/work-trail). Gate which requests
+    warrant a preview using [action consequences](/patterns/action-consequences) so routine
+    low-stakes work does not turn plan review into a ritual…
 relationships:
   follows:
     - to: open-request

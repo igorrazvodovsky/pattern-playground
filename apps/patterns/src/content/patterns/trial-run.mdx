@@ -16,23 +16,18 @@ acts_on:
 situation:
   initiating: >-
     … the actor has configured a bulk edit, a standing rule in
-    [rule composition](/patterns/rule-composition), or an agent set to start by itself under
-    [bounded autonomy](/patterns/bounded-autonomy). It may also be a step inside a
-    [workflow](/patterns/workflow). Unlike a live filter over a visible list, a rule, batch
-    operation, or background agent shows no result while it is being configured, and the items
-    it will act on may be out of view or have not arrived yet.
+    [rule composition](/patterns/rule-composition), a step inside a
+    [workflow](/patterns/workflow), or an agent set to start by itself under
+    [bounded autonomy](/patterns/bounded-autonomy). The setup is ready to activate, and the
+    items it will act on are out of view or have not arrived yet.
   resulting: >-
-    The actor can evaluate the configuration by inspecting its actual output rather than
-    guessing from its syntax. Where the trial previews edits to existing items,
-    [change review](/patterns/change-review) lets the actor inspect and accept or reject
-    individual changes before committing the batch. Each trial result can include an
-    [explanation](/patterns/explanation) of which condition matched, so the actor can spot a
-    right outcome reached for the wrong reason. For rules and agents that filter or select, the
-    trial can also show the cases that narrowly missed. Because a rehearsal over sample data cannot cover every future input, live runs
-    still rely on [case correction](/patterns/case-correction) when an unanticipated case
-    misfires. [Plan preview](/patterns/plan-preview) solves the adjacent problem where an
-    agent presents its own intended steps before acting, rather than testing a configuration
-    the actor set up…
+    Attach an [explanation](/patterns/explanation) to each trial result showing which condition
+    matched—and for filtering or selection rules, include the cases that narrowly missed—so the
+    actor can spot a right outcome reached for the wrong reason. Where the trial previews edits
+    to existing items, pass the batch into [change review](/patterns/change-review) so
+    individual changes can be accepted or rejected before committing. Because a sample cannot
+    cover every future input, pair live runs with [case correction](/patterns/case-correction)
+    for unanticipated cases that misfire later…
 relationships:
   follows:
     - to: bounded-autonomy
@@ -44,7 +39,8 @@ relationships:
   composed-of:
     - explanation
   complements:
-    - plan-preview
+    - to: plan-preview
+      note: trial run tests an actor-authored configuration against sample cases, whereas plan preview lets an agent present its own intended steps before acting
   serves:
     - to: delegation
       note: covers the test-drive touchpoint of delegation's set-up stage

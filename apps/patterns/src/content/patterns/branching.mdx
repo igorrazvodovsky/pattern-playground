@@ -14,9 +14,9 @@ acts_on:
   - { concept: versioning, note: "forks a new thread from a checkpoint instead of restoring over the current state" }
 situation:
   initiating: >-
-    … the actor is working in a [session](/patterns/session) or a [conversation](/patterns/conversation) and needs several threads running from an earlier point rather than a single sequence. The same need arises in a [version history](/patterns/version-history) when an earlier checkpoint needs a separate line of work rather than a restore over the main line. [Undo](/patterns/undo) only steps back along one line and discards what followed, while keeping everything in one thread mixes separate lines of work together.
+    … the actor is working in a [session](/patterns/session), a [conversation](/patterns/conversation), or a [version history](/patterns/version-history) where [undo](/patterns/undo) only moves along one sequence. Here they are at an earlier turn or checkpoint and want to take more than one direction from it.
   resulting: >-
-    The earlier state now has two or more sibling continuations, and the active path scopes both what the actor sees and what the system reads as context. Where the actor needs to weigh what diverged across branches, align the sibling outputs or paths through [comparing](/patterns/comparing). Where a tree overview sits beside the active transcript, link them as [coordinated views](/patterns/coordinated-views) so selecting a node scopes the view. Where a branch only retries a single turn at the leaf, [regeneration](/patterns/regeneration) or [instructed revision](/patterns/instructed-revision) handles the local change without adding long-lived branches. When a branch settles on a result that should replace or join the main line, bring it back through [change review](/patterns/change-review) or [reconciliation](/patterns/reconciliation). When only a finished piece needs to carry forward, lift it out of the thread with [extraction](/patterns/extraction). Branching is not [draft and publish](/patterns/draft-and-publish), which separates one working copy from what others read so unfinished edits stay private until published, though a collaborative branch can serve both roles at once…
+    Where the actor needs to weigh what diverged across sibling branches, align their outputs or paths with [comparing](/patterns/comparing). Where a tree overview sits beside the active transcript, link them as [coordinated views](/patterns/coordinated-views) so selecting a node scopes the view. Where the change only retries a single turn at the leaf, use [regeneration](/patterns/regeneration) or [instructed revision](/patterns/instructed-revision) rather than adding a long-lived branch. When a branch settles on a result that should replace or join the main line, bring it back through [change review](/patterns/change-review) or [reconciliation](/patterns/reconciliation); when only a finished piece needs to carry forward, lift it out with [extraction](/patterns/extraction)…
 relationships:
   enables:
     - session
@@ -35,7 +35,8 @@ relationships:
     - reconciliation
   related:
     - coordinated-views
-    - draft-and-publish
+    - to: draft-and-publish
+      note: "branching splits parallel lines of work from a shared state; draft and publish keeps one working copy private until it is ready for others"
   enacts:
     - to: agency
       note: the actor can open and pursue several threads from any prior point in the history

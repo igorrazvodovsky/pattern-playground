@@ -12,9 +12,9 @@ mediation: individual
 description: "Showing how the artifact read a request in words, what it took the request to refer to and what it filled in, so the actor can correct the reading rather than restate the request."
 situation:
   initiating: >-
-    … the actor has said what they want in an artifact [addressable in words](/patterns/addressable-in-words), through a [prompt](/patterns/prompt) or a turn in a conversation, and the words leave open what the request refers to or what it should do. To act at all, the artifact has already settled those gaps.
+    … the actor has stated a request in an artifact [addressable in words](/patterns/addressable-in-words), through a [prompt](/patterns/prompt) or a turn in a [conversation](/patterns/conversation), and the words leave open what the request refers to or what it should do.
   resulting: >-
-    Where several readings are plausible, showing them side by side lets the actor pick one rather than describe it again; where none can be settled without more from the actor, [agent inquiry](/patterns/inquiry-agent) asks for what is missing instead. When the reading turns out wrong, [agent repair](/patterns/agent-repair) can be applied. [Plan preview](/patterns/plan-preview) looks similar but shows what the system will do rather than what it understood; the plan is built on the reading. [Expressed uncertainty](/patterns/expressed-uncertainty) marks how confident the system is rather than what it read…
+    Where several readings are plausible, show them side by side so the actor can pick one; where too much is missing to form a reading at all, hand off to [agent inquiry](/patterns/inquiry-agent) instead. Where the request maps onto structured criteria, render the reading as editable [filtering](/patterns/filtering) controls so individual terms can be adjusted in place. Once the reading is settled for multi-step work, follow it with a [plan preview](/patterns/plan-preview) to show what the artifact will do about it, and provide [agent repair](/patterns/agent-repair) for when a reading still turns out wrong…
 relationships:
   alternative:
     - inquiry-agent
@@ -24,7 +24,8 @@ relationships:
   precedes:
     - plan-preview
   related:
-    - expressed-uncertainty
+    - to: expressed-uncertainty
+      note: expressed uncertainty marks how confident the system is, whereas showing the reading exposes what the system took the request to mean
 ---
 
 * * *

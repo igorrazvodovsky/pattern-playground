@@ -34,13 +34,7 @@ interface EvidenceEntry {
   ref?: string;
 }
 
-const VALID_ROLES = [
-  'component',
-  'pattern',
-  'collection',
-  'quality',
-  'foundation',
-] as const;
+const VALID_ROLES = ['component', 'pattern', 'collection', 'quality', 'foundation'] as const;
 type Role = (typeof VALID_ROLES)[number];
 
 type RoleSource = 'explicit' | 'inferred' | 'unset';
@@ -280,8 +274,11 @@ function stripComments(content: string): string {
 // from the sentence of the prose that links its target: the resulting
 // situation first (what this pattern leads on to), then the initiating one
 // (what it continues from). A shaped page (`resulting` is prose) renders no
-// generated Consequences or Related list, so every edge the page authors has
-// to be linked in its prose; the advisory names the ones that are not.
+// generated Consequences or Related list, so every structural or generative
+// edge the page authors has to be linked in its prose; the advisory names the
+// ones that are not. Lateral edges (`tangential`, `related`, `alternative`,
+// and noted `complements`) and `enacts` are exempt so the closing passage
+// stays generative continuation rather than an inventory of graph neighbours.
 // Frontmatter stays the edge home; the prose link is plain and carries no
 // `rel=`.
 const SENTENCE_BREAK = /(?<=[.!?…])\s+(?=[A-Z"'(\[*_])/;
@@ -314,6 +311,8 @@ function linkedSlugs(body: string): Set<string> {
 
 const unspokenFindings: string[] = [];
 
+const UNSPOKEN_EXEMPT_TYPES = new Set<EdgeType>(['enacts', 'tangential', 'related', 'alternative']);
+
 function checkUnspokenEdges(
   id: string,
   rawContent: string,
@@ -327,10 +326,13 @@ function checkUnspokenEdges(
   const owed = new Map<string, string>();
   for (const link of typed) {
     // Edges this page authors from its own side; an inverting alias claims
-    // the other page as subject, but the mention is still owed here. Quality
-    // edges are exempt: a quality is a reading lens, not a pattern the
-    // passage leads on to, and quality pages render no list either way.
-    if (link.type === 'enacts') continue;
+    // the other page as subject, but the mention is still owed here. Exempt
+    // qualities (`enacts`), lateral/associative types (`tangential`, `related`,
+    // `alternative`), and `complements` that carry an explicit `note` for the
+    // folded index — forcing those into prose turns the closing continuation
+    // into graph-topology commentary.
+    if (UNSPOKEN_EXEMPT_TYPES.has(link.type)) continue;
+    if (link.type === 'complements' && link.label) continue;
     owed.set(link.target, link.type);
   }
   for (const [target, type] of owed) {

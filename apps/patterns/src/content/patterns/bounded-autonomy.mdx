@@ -13,32 +13,24 @@ acts_on:
   - { concept: automating, note: "the limit on one run, for an occasion that comes more often than the actor pictured, and the limit on disuse, for an automation whose reason has gone" }
 situation:
   initiating: >-
-    … the actor is delegating work to an [agent](/patterns/agent) or an
-    [outside agent](/patterns/outside-agent), and [permissions](/patterns/permissions) have
-    established what it can reach. Which actions it may take there on
-    its own is still undecided: putting an [approval gate](/patterns/approval-gate) on every
-    step keeps the actor watching the screen, while letting the agent act without limits risks
-    unwanted changes, messages, or spend while the actor is away.
+    … under [delegation](/patterns/delegation), the actor is handing work to an
+    [agent](/patterns/agent) or an [outside agent](/patterns/outside-agent), and
+    [permissions](/patterns/permissions) have established what it can reach. The maker now needs
+    to let the actor settle which actions the agent may take on its own within that reach.
   resulting: >-
-    The agent acts on its own within explicit boundaries enforced by the platform, and stops at
-    predictable points. When it reaches a reserved action or exhausts an allowance, the run
-    pauses at an [approval gate](/patterns/approval-gate) to authorise that action or extend the
-    limit, or transfers control through a [handoff](/patterns/handoff) with a summary of what was
-    used and what remains. An action the actor ruled out is refused without a pause, and the run
-    carries on without it. A [status feedback](/patterns/status-feedback) warns the actor before
-    a spend or quota ceiling is hit. Budget and usage limits rely on
-    [cost transparency](/patterns/cost-transparency) to show consumption against the remaining
-    allowance. Deciding which actions may run freely and which require a checkpoint follows the
-    severity and reversibility ratings in [action consequences](/patterns/action-consequences).
-    When boundaries combine several conditions, the actor edits them as structured statements
-    through [rule composition](/patterns/rule-composition). A [trial run](/patterns/trial-run)
-    rehearses what the limits let through on sample cases before they apply to live work.
-    Standing grants live in [settings](/patterns/settings) between runs, where a limit set months
-    ago is easy to forget. [Capability and scope](/patterns/capability-and-scope) states what the
-    agent is able to do, and the grant states what it is allowed to do on this occasion. For a
-    single requested run, the plan approved in a [plan preview](/patterns/plan-preview) limits
-    that run, whereas a grant holds across runs. The [activity log](/patterns/activity-log) records every autonomous
-    action, refusal, and limit reached so the actor can widen or narrow the grant from evidence…
+    Route pauses at a reserved action or exhausted allowance into an
+    [approval gate](/patterns/approval-gate) to authorise the step or extend the limit, or
+    transfer control through a [handoff](/patterns/handoff) with a summary of what was used and
+    what remains. Rate which categories of act may run freely and which need a checkpoint using
+    [action consequences](/patterns/action-consequences), pair spend and quota caps with
+    [cost transparency](/patterns/cost-transparency), and warn before a ceiling is hit through
+    [status feedback](/patterns/status-feedback). Where boundaries combine several conditions,
+    let the actor edit them through [rule composition](/patterns/rule-composition), and offer a
+    [trial run](/patterns/trial-run) over sample cases before live work begins. Keep standing
+    grants inspectable and revocable in [settings](/patterns/settings) between runs, and record
+    every autonomous action, refusal, and limit reached in the
+    [activity log](/patterns/activity-log) so the actor can widen or narrow the grant from
+    evidence…
 relationships:
   precedes:
     - handoff

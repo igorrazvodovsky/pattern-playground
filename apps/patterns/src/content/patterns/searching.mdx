@@ -15,9 +15,9 @@ fun: 🗺️ 2/5. Mapping out the basics.
 description: "Retrieving matching items from a collection by stating an intent in a query, when browsing or narrowing in place cannot reach them."
 situation:
   initiating: >-
-    … in [composing views](/sequences/composing-views) the collection is framed, yet browsing and [filtering](/patterns/filtering) in place cannot reach what the actor wants: their criteria do not fit the exposed attributes, or they recall a name or phrase rather than where the item sits. In [structuring the space](/sequences/structuring-the-space), a [multilevel tree](/patterns/multilevel-tree) or [hub and spoke](/patterns/hub-and-spoke) layout can likewise bury a known item several steps deep, and in [making changes](/sequences/making-changes) a [bounded choice](/patterns/bounded-choice) field can outgrow an inline list. Searching completes the [information environment](/patterns/information-environment) by indexing the names, content, and [tags](/patterns/tag) from its [information architecture](/patterns/information-architecture), so the actor can reach matching items across the collection by query.
+    … in [composing views](/sequences/composing-views) a collection is already framed for browsing and [filtering](/patterns/filtering); in [structuring the space](/sequences/structuring-the-space) sections are arranged in a [multilevel tree](/patterns/multilevel-tree) or [hub and spoke](/patterns/hub-and-spoke) layout; and in [making changes](/sequences/making-changes) a [bounded choice](/patterns/bounded-choice) field holds more options than scan well inline. Searching helps complete the [information environment](/patterns/information-environment) built on the names, content, and [tags](/patterns/tag) of its [information architecture](/patterns/information-architecture), serving actors who know a word or phrase rather than where an item sits.
   resulting: >-
-    Searching returns a relevance-ranked set presented in a [data view](/patterns/data-view) and addressable through [deep linking](/patterns/deep-linking). At the input, pair the query box with [recents](/patterns/recents) before typing begins and [autocomplete](/patterns/autocomplete) as the actor types to complete terms or jump straight to a known item. On the results, pair the ranked list with [suggestions](/patterns/suggestion) for query refinements, [filtering](/patterns/filtering) over facets to narrow the set in place, and [navigation](/patterns/navigation-overview) when the query falls short. Over an application's actions and jumps rather than its content, searching specialises into a [command menu](/patterns/command-menu). Searching is not a [prompt](/patterns/prompt), which asks the system to generate or act rather than retrieve existing items, even when one input bar accepts both…
+    Present the ranked results in a [data view](/patterns/data-view) and make each query state addressable through [deep linking](/patterns/deep-linking). At the input, pair the query box with [recents](/patterns/recents) before typing begins and [autocomplete](/patterns/autocomplete) as the actor types to complete terms or jump straight to a known item. On the results, pair the ranked list with [suggestions](/patterns/suggestion) for query refinements, [filtering](/patterns/filtering) over facets to narrow the set in place, and [navigation](/patterns/navigation-overview) when the query falls short. Where the query targets the artifact's actions and destinations rather than its content, specialise into a [command menu](/patterns/command-menu)…
 relationships:
   precedes:
     - data-view
@@ -26,7 +26,8 @@ relationships:
   complements:
     - navigation-overview
     - filtering
-    - prompt
+    - to: prompt
+      note: searching retrieves existing items by query, while a prompt asks the system to generate or act, even when one input bar accepts both
     - autocomplete
     - suggestion
 ---

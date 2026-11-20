@@ -15,22 +15,19 @@ acts_on:
   - commenting
 situation:
   initiating: >-
-    … several people are working on the same document, design or change, brought together
-    by [sharing](/patterns/sharing) or a [change review](/patterns/change-review), as part of
-    a wider [collaboration](/patterns/collaboration). What they have to say belongs to
-    particular places in the content rather than to the whole. Private
-    [annotation](/patterns/annotation) marks a passage for the person who made the mark; here
-    the mark is meant to be answered by someone else.
+    … [sharing](/patterns/sharing) or a [change review](/patterns/change-review) has
+    brought several people onto the same document, design, or change inside a wider
+    [collaboration](/patterns/collaboration). Unlike private
+    [annotation](/patterns/annotation), which marks a passage for the person who made the
+    mark, the remarks here are directed at other collaborators.
   resulting: >-
-    Threads now have a course of their own, from open to answered to resolved, and
-    [status feedback](/patterns/status-feedback) shows where each one stands so the layer does
-    not only grow. [Notifications](/patterns/notification) tell people when a thread they are
-    part of gets a reply, and the [activity log](/patterns/activity-log) keeps the record of who
-    said what over time. A commented passage that people start referring to, not only
-    discussing, can become a quote with an identity of its own through
-    [incremental formalisation](/patterns/incremental-formalisation), keeping its place in the
-    text and its thread. A thread is a short [conversation](/patterns/conversation) held in
-    place: it stays with its passage and ends when the point is settled…
+    Show where each thread stands—open, answered, or resolved—with
+    [status feedback](/patterns/status-feedback) so the comment layer does not only grow.
+    Alert participants to replies through [notifications](/patterns/notification), and
+    record who said what over time in the [activity log](/patterns/activity-log). Where
+    people begin referring to a commented passage rather than only discussing it, let
+    [incremental formalisation](/patterns/incremental-formalisation) promote it into an
+    addressable quote while keeping its place in the text and its thread…
 relationships:
   precedes:
     - status-feedback
@@ -40,7 +37,8 @@ relationships:
     - activity-log
     - notification
   tangential:
-    - conversation
+    - to: conversation
+      note: a comment thread is a short conversation anchored to a passage and ending when the point is settled
 ---
 
 * * *

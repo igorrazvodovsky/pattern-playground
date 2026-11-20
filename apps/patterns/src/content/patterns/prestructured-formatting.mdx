@@ -13,27 +13,26 @@ description: "Formatting text by choosing structural roles rendered by the syste
 realised_by: [components-block-based-editor--docs, components-bubble-menu--docs]
 situation:
   initiating: >-
-    … the writer is composing text in a [form](/patterns/form), a reply when
+    … the actor is composing text inside a [form](/patterns/form), a reply when
     [commenting](/patterns/commenting), a message in a [conversation](/patterns/conversation),
-    or a document in a [block-based editor](/patterns/block-based-editor). The content needs
-    clear hierarchy, but freeform styling tools distract the writer with visual layout decisions
-    instead of composition. As with [editing in place](/patterns/editing-in-place), the writer
-    needs to structure text directly in the flow of writing without resorting to manual typesetting.
+    or a document in a [block-based editor](/patterns/block-based-editor), and needs to mark
+    hierarchy and emphasis directly in the flow of writing, much as
+    [editing in place](/patterns/editing-in-place) keeps edits on the surface itself.
   resulting: >-
-    Formatting becomes an act of [bounded choice](/patterns/bounded-choice): the writer declares
-    what each passage means from a fixed set of roles, leaving the system to render how it looks.
-    Choices surface directly at the caret through a [command menu](/patterns/command-menu) or
-    trigger via [keyboard shortcuts](/patterns/keyboard-shortcuts). Because roles capture
-    meaning rather than appearance, changing a role preserves the text and lets
-    [incremental formalisation](/patterns/incremental-formalisation) adjust document structure
-    without restyling. While a [template](/patterns/template) defines the overall container for
-    an artifact, prestructured formatting supplies the structural vocabulary used to build it…
+    Offer the role set as a [bounded choice](/patterns/bounded-choice) sized to the writing
+    surface, and surface it directly at the caret through a
+    [command menu](/patterns/command-menu) or [keyboard shortcuts](/patterns/keyboard-shortcuts).
+    Because each role marks meaning rather than appearance, let the actor promote or change
+    roles over time through [incremental formalisation](/patterns/incremental-formalisation)
+    without restyling the text…
 relationships:
   enables: [form, commenting, conversation, block-based-editor]
   composed-of: [bounded-choice]
   complements: [command-menu, keyboard-shortcuts, editing-in-place]
   precedes: [incremental-formalisation]
-  related: [template]
+  related:
+    - to: template
+      note: a template supplies the overall starting structure of an artifact, whereas prestructured formatting supplies the role vocabulary used to build text inside it
   enacts:
     - to: formality
       note: "prestructured formatting lets the writer define text structure using a compact vocabulary of meaning rather than arbitrary styling"

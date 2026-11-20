@@ -21,17 +21,13 @@ situation:
     [workspace](/patterns/workspace), people still take part in different ways: some run it,
     some contribute, some review and some only read.
   resulting: >-
-    Every person in the part holds a named role. [Sharing](/patterns/sharing) gives one of
-    them to each person it lets in, so the levels it offers are these roles. When an actor
-    meets an action their role does not allow, [explanation](/patterns/explanation) says which
-    role allows it, and the actor asks for that role where they are through the request that
-    sharing offers;
-    [unavailable actions](/patterns/unavailable-actions) hides only the actions that are not
-    theirs to ask for. An [outside agent](/patterns/outside-agent) holds a role as a person
-    does, and what it may do there without asking is limited further by
-    [bounded autonomy](/patterns/bounded-autonomy).
-    [Permissions](/patterns/permissions) covers a different line, around what the artifact may
-    reach on the actor's own device and accounts…
+    Offer these roles as the access levels in [sharing](/patterns/sharing) when letting people
+    in. When an actor meets an action their role does not allow, use
+    [explanation](/patterns/explanation) to name the role required—letting them ask for it from
+    there—and use [unavailable actions](/patterns/unavailable-actions) to hide only the actions
+    that are not theirs to ask for. Give an [outside agent](/patterns/outside-agent) a role in
+    the same way, and limit what it may do there without asking through
+    [bounded autonomy](/patterns/bounded-autonomy)…
 relationships:
   enables:
     - to: division-of-responsibility
@@ -46,7 +42,8 @@ relationships:
     - workspace
     - outside-agent
     - bounded-autonomy
-    - permissions
+    - to: permissions
+      note: roles grade what participants may do inside shared work, whereas permissions govern what the artifact may reach on the actor's own devices and accounts
   enacts:
     - to: agency
       note: each person can see their role and what it allows them to do

@@ -18,17 +18,22 @@ realised_by:
   - components-action-bar--docs
 situation:
   initiating: >-
-    … the actor has designated a target through a [selection](/patterns/selection) or by pointing
-    at an element: a text span, a document block, an object on a canvas, or rows in a list.
-    Keeping the controls for that target in a distant toolbar mixes relevant actions with
-    inapplicable ones and pulls focus away from the work, while a
-    [command menu](/patterns/command-menu) requires recalling an action by name rather than acting
-    directly on the target.
+    … inside a [data view](/patterns/data-view), a [block-based editor](/patterns/block-based-editor),
+    or a canvas, the actor has designated a target through a [selection](/patterns/selection) or by
+    pointing at an element—a text span, a document block, an object, or rows in a list—and is about
+    to act on it directly rather than searching for an operation by name in a
+    [command menu](/patterns/command-menu).
   resulting: >-
-    Relevant actions appear adjacent to the target with their scope bound to the selection, so the
-    actor designates the object first and chooses the operation second. On selected text, the same
-    contextual toolbar can host [prestructured formatting](/patterns/prestructured-formatting),
-    [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision). It is part of a [data view](/patterns/data-view), and of a [block-based editor](/patterns/block-based-editor), where it serves both the span and the block. Filtering the menu to valid actions omits irrelevant controls rather than showing them disabled, following [unavailable actions](/patterns/unavailable-actions). Displaying [keyboard shortcuts](/patterns/keyboard-shortcuts) alongside menu items helps actors learn direct key combinations and bypass the menu on repeat use…
+    On selected text or blocks, host [prestructured formatting](/patterns/prestructured-formatting),
+    [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision)
+    directly on the floating toolbar; on selected items or rows, host [tag](/patterns/tag)
+    assignment, [deletion](/patterns/deletion), and, when two or more items are selected,
+    [comparing](/patterns/comparing). Omit controls that do not apply rather than showing them
+    disabled, following [unavailable actions](/patterns/unavailable-actions), and display
+    [keyboard shortcuts](/patterns/keyboard-shortcuts) beside menu items so actors can bypass the
+    menu on repeat use. Where the actor states a request in words against the same selection rather
+    than picking a preset action, bind the target through
+    [view as context](/patterns/view-as-context)…
 relationships:
   follows:
     - to: selection

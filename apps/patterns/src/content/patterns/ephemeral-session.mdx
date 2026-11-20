@@ -11,26 +11,20 @@ description: "Running a session that keeps its working context while open and sa
 situation:
   initiating: >-
     … the actor is working in an artifact that keeps [sessions](/patterns/session),
-    history, recent items, and personal context by default. For a specific task—a
-    sensitive question, a search on a shared device, a prompt that should not steer
-    future answers, or a one-off job they will not return to—they need a working
-    session that leaves no record behind when it closes.
+    history, recent items, and personal context by default. Here they are starting a
+    sensitive question, a search on a shared device, an off-profile experiment, or a
+    one-off task they do not want carried into their account record.
   resulting: >-
-    When the session ends, nothing from it is recorded in the
-    [activity log](/patterns/activity-log), added to [recents](/patterns/recents),
-    saved over [remembered state](/patterns/remembered-state), or kept in
-    [memory](/patterns/memory). While it stays open,
-    [status feedback](/patterns/status-feedback) marks the non-saving state on the
-    surface, and an opening [explanation](/patterns/explanation) states what is
-    withheld and what still leaves a trace outside the artifact. If the exchange
-    produces a result worth keeping, [extraction](/patterns/extraction) lifts that
-    output into an object of its own while the surrounding thread still disappears
-    on close. When the actor runs a normal session and decides only at the end that
-    the thread has no future value, lightweight [deletion](/patterns/deletion)
-    discards the finished session after the fact. Unlike
-    [immediate use](/patterns/immediate-use), which holds work in temporary state
-    only because a newcomer has not signed in yet, an ephemeral session is a
-    deliberate opt-out available to a signed-in actor…
+    Keep the non-saving state visible throughout with
+    [status feedback](/patterns/status-feedback), and open the session with a brief
+    [explanation](/patterns/explanation) of what is withheld from the
+    [activity log](/patterns/activity-log), [recents](/patterns/recents),
+    [remembered state](/patterns/remembered-state), and [memory](/patterns/memory)—and
+    what still leaves a record outside the artifact. Where an ephemeral exchange produces
+    a result worth keeping, let the actor lift it out with
+    [extraction](/patterns/extraction) without logging the surrounding thread. For normal
+    sessions that turn out to be disposable only at the end, pair this with single-action
+    [deletion](/patterns/deletion) so the actor does not have to decide up front…
 relationships:
   instantiates:
     - session
@@ -44,7 +38,8 @@ relationships:
     - extraction
     - deletion
   tangential:
-    - immediate-use
+    - to: immediate-use
+      note: "immediate use holds work in temporary state until a newcomer signs in; an ephemeral session is a deliberate opt-out for a signed-in actor"
   enacts:
     - to: privacy
       note: "withholds sensitive or one-off activity from history, recent lists, remembered state, and memory"

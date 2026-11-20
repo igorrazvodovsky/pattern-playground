@@ -16,15 +16,11 @@ acts_on:
   - { concept: versioning }
 situation:
   initiating: >-
-    the work keeps changing across sessions, collaborators, or large agent runs, and the
-    actor wants an earlier version of it: last week's draft, the copy sent to the client,
-    or the work before a rewrite went wrong. [Undo](/patterns/undo) cannot reach it,
-    because undo only steps back through recent edits (including selective undo of one
-    edit) rather than letting the actor find an earlier version by time or name. The
-    [activity log](/patterns/activity-log) records what happened without letting anyone
-    return to how the work looked then. Once [saving](/patterns/saving) happens
-    automatically, pressing Save no longer marks a version that counts, so marking and
-    returning to versions needs a place of its own.
+    … [saving](/patterns/saving) happens automatically as work evolves across sessions,
+    collaborators, or large agent runs, and [undo](/patterns/undo) only steps back through
+    recent edits while the [activity log](/patterns/activity-log) records events without
+    restoring past states. Here the actor needs an earlier state of the work—last week's
+    draft, the copy sent to a client, or the file before a rewrite.
   resulting: >-
     Show how an earlier version differs from the current one with
     [comparing](/patterns/comparing) before the actor returns to it. Record who or what

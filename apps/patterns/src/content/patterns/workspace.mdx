@@ -12,9 +12,9 @@ fun: 😊 4/5
 description: "Dividing the actor's work into contexts that each decide what is present, who can see it, and what new work inside them starts with."
 situation:
   initiating: >-
-    … the [information architecture](/patterns/information-architecture) has named the actor's objects and the divisions between them, and the first step of [structuring the space](/sequences/structuring-the-space) is to decide which of those divisions the actor works in apart from the rest. Until then, work of different ownership, topic and state of activity sits in one space, and focusing on any part of it means ignoring the rest by effort. A workspace gives the space its first boundaries, so that each context opens with only its own work, people and defaults present, and the layout steps that follow can work inside one context at a time.
+    … the [information architecture](/patterns/information-architecture) has named the actor's objects and the divisions between them, and [structuring the space](/sequences/structuring-the-space) begins by deciding which of those divisions the actor works in apart from the rest. A workspace establishes those first context boundaries so the layout steps that follow can work inside one context at a time.
   resulting: >-
-    Give the set of workspaces a switcher: a list of workspaces works as a [hub](/patterns/hub-and-spoke), and a [command menu](/patterns/command-menu) lets an actor who knows the name go straight to one. Decide who else is inside each workspace with [sharing](/patterns/sharing), and let its grants follow the workspace boundaries rather than cut across them. Some of the actor's work is now somewhere they are not looking, and changes there go unseen until they switch, so carry what matters across the boundary with [notification](/patterns/notification). Where the workspace has to account for what happened in it, host an [activity log](/patterns/activity-log) scoped to its work. Put the defaults a workspace hands down where the actor can find and change them: its configuration in [settings](/patterns/settings), the shapes new work starts from as [templates](/patterns/template), and, where a model works inside the workspace, the [standing instructions](/patterns/standing-instructions) and [reference material](/patterns/reference-material) that every [session](/patterns/session) in it starts with. [Focus and context](/patterns/focus-and-context) looks similar but works inside one context, grading detail by distance from the actor's attention, where a workspace separates contexts and decides which of them are present…
+    Give the set of workspaces a switcher: a list of workspaces works as a [hub](/patterns/hub-and-spoke), and a [command menu](/patterns/command-menu) lets an actor who knows the name go straight to one. Decide who else is inside each workspace with [sharing](/patterns/sharing), and let its grants follow the workspace boundaries rather than cut across them. Carry what matters across workspace boundaries with [notification](/patterns/notification) so changes in workspaces the actor is not viewing do not go unseen. Where the workspace has to account for what happened in it, host an [activity log](/patterns/activity-log) scoped to its work. Put the defaults a workspace hands down where the actor can find and change them: its configuration in [settings](/patterns/settings), the shapes new work starts from as [templates](/patterns/template), and, where a model works inside the workspace, the [standing instructions](/patterns/standing-instructions) and [reference material](/patterns/reference-material) that every [session](/patterns/session) in it starts with…
 relationships:
   precedes:
     - notification
@@ -24,7 +24,8 @@ relationships:
     - reference-material
     - session
   complements:
-    - focus-and-context
+    - to: focus-and-context
+      note: a workspace separates distinct contexts and decides which are present, while focus and context works inside one context by grading detail by distance from attention
     - command-menu
   enacts:
     - to: privacy

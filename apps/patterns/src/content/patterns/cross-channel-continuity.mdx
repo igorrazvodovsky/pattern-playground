@@ -14,7 +14,7 @@ situation:
   initiating: >-
     … the artifact is an [information environment](/patterns/information-environment) that the actor reaches through more than one channel: a website and a phone app, an email or a notification that points into it, an agent that answers questions about it. The channels were often made by different teams or at different times, and the actor moves between them in the middle of a piece of work.
   resulting: >-
-    An address that resolves in every channel comes from [deep linking](/patterns/deep-linking). A [notification](/patterns/notification) that carries such an address opens the item it is about rather than the start of the artifact. View arrangements travel with [remembered state](/patterns/remembered-state) when it is kept with the actor rather than with one device. Where the work lives on the actor's own device, [sync through own storage](/patterns/sync-through-own-storage) brings it to the other devices the actor uses. Returning to the same channel after time away is [resuming](/patterns/resuming), which shares the concern with picking work back up but does not involve a change of channel…
+    Give every item an address that resolves across channels with [deep linking](/patterns/deep-linking), and carry that address in every [notification](/patterns/notification) so it opens the item itself rather than the artifact's front door. Keep view arrangements with the actor's account through [remembered state](/patterns/remembered-state) so they travel across devices. Where the work lives on the actor's own device, use [sync through own storage](/patterns/sync-through-own-storage) to bring it to their other devices…
 relationships:
   composed-of:
     - deep-linking
@@ -23,7 +23,8 @@ relationships:
     - notification
     - sync-through-own-storage
   tangential:
-    - resuming
+    - to: resuming
+      note: "resuming picks up an unfinished task in the same channel after a gap; cross-channel continuity keeps the same items and state reachable across channels"
 ---
 
 * * *

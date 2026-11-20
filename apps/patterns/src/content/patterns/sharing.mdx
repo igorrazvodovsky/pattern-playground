@@ -24,20 +24,16 @@ situation:
     part, or outside the workspace altogether, needs to see, review or edit a folder or a
     single item without being given the rest.
   resulting: >-
-    Each person or group let in gets one of the [roles](/patterns/roles) the space offers, and
-    everyone with access is listed on the folder or item where their access can be changed or
-    removed. An [outside agent](/patterns/outside-agent) is let in and removed through the same
-    list, and can never be given more access than the person who brings it has. A
-    [deep link](/patterns/deep-linking) either opens only for people who already have access, or
-    carries a role of its own so anyone with the link can open it without an account. Once
-    several people have the same live work open on separate screens,
-    [presence](/patterns/presence) shows who else is there, and a role that lets people review
-    or discuss needs [commenting](/patterns/commenting). Where rough work should not be seen as
-    it is being written, [draft and publish](/patterns/draft-and-publish) keeps a working copy
-    separate from what others read; where different parties need different issued sets rather
-    than one published version for everyone, each set is its own part with its own access.
-    [Permissions](/patterns/permissions) covers a different line, around what the artifact may
-    reach on the actor's own device and accounts…
+    Assign each invited person or group one of the space's [roles](/patterns/roles), and let an
+    [outside agent](/patterns/outside-agent) in or remove it through the same list without
+    exceeding its bringer's access. Pair access links with [deep linking](/patterns/deep-linking)
+    so a link either opens only for people who already hold access or carries a role of its own
+    for recipients without an account. Once several people open the same live work together,
+    add [presence](/patterns/presence) to show who else is there and
+    [commenting](/patterns/commenting) for roles that review or discuss. Where rough work
+    should stay private until ready, separate the working copy with
+    [draft and publish](/patterns/draft-and-publish)—or give each party its own part with its
+    own access when they need different issued sets…
 relationships:
   enables:
     - to: division-of-responsibility
@@ -53,7 +49,8 @@ relationships:
     - commenting
     - draft-and-publish
   related:
-    - permissions
+    - to: permissions
+      note: sharing governs what other participants may reach inside a workspace, whereas permissions govern what the artifact may reach on the actor's own devices and accounts
   enacts:
     - to: privacy
       note: "the actor decides who can see each folder or item, and can see and change that list"

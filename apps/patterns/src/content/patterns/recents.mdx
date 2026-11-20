@@ -11,26 +11,21 @@ mediation: individual
 description: "Letting the actor return to items and views they used recently without having bookmarked them."
 situation:
   initiating: >-
-    … the actor needs to return to something from earlier in the session or the day:
-    a file from this morning, yesterday's conversation, or a search they ran before lunch.
-    They did not save it at the time because they were simply working in it.
-    [Deep linking](/patterns/deep-linking) gives each view or item a stable address that
-    restores it, making a history list possible. [Bookmarking](/patterns/bookmarking)
-    covers the items the actor explicitly chooses to keep; recents cover the much larger
-    number they do not.
+    … [deep linking](/patterns/deep-linking) gives items and views stable addresses that
+    restore them, and [bookmarking](/patterns/bookmarking) covers what the actor explicitly
+    chose to keep. Here the actor wants to return to something from earlier in the session
+    or the day—a file from this morning, yesterday's conversation, or a search from before
+    lunch—that they did not save at the time.
   resulting: >-
-    The system maintains a short, time-ordered list of recent items that requires no setup
-    from the actor. Recents project the [activity log](/patterns/activity-log) for quick
-    navigation rather than auditing, deduplicating entries and trimming the list to what is
-    still recognisable. Because the list updates from actual use and drops older items as new
-    ones arrive, it enacts both [adaptation](/patterns/adaptation) and
-    [temporality](/patterns/temporality). Recents usually appear at starting points such as a
+    Surface the list at navigation starting points such as a
     [command menu](/patterns/command-menu) before a query is typed or the
-    [empty state](/patterns/state-empty) of a workspace. In [autocomplete](/patterns/autocomplete),
-    the actor's own recent entries rank above guessed suggestions. Because a recent list reveals what the actor was
-    working on, it raises [privacy](/patterns/privacy) concerns on shared screens or accounts.
-    Returning to a single unfinished workflow with its in-progress inputs intact is covered by
-    [resuming](/patterns/resuming) rather than recents…
+    [empty state](/patterns/state-empty) of a workspace. Feed recent entries into
+    [autocomplete](/patterns/autocomplete) so the actor's own recent items rank above system
+    guesses. Where an [activity log](/patterns/activity-log) already exists, project recents
+    from it by deduplicating and trimming rather than maintaining a second store. On shared
+    screens or for sensitive tasks, pair recents with
+    [ephemeral session](/patterns/ephemeral-session) so off-the-record work never enters the
+    list…
 relationships:
   follows:
     - to: deep-linking

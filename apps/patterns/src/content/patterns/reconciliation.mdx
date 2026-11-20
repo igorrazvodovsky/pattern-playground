@@ -13,14 +13,15 @@ mediation: coordination
 description: "When lines of work that were allowed to diverge come back together and both touched the same thing, the collision is shown as both versions and reintegration waits for a person to pick."
 situation:
   initiating: >-
-    … in [working on the same thing](/sequences/working-on-the-same-thing) two lines of work were allowed to part under [draft and publish](/patterns/draft-and-publish), as a branch, a draft or a stretch offline, and now one of them returns. [Change review](/patterns/change-review) shows what comes back and lets the reviewer accept it, and the two are used together at the return; but where both sides changed the same thing, merging silently would discard one intent without anyone deciding, and refusing to merge stops the work. Reconciliation gives the sequence the collision as something a person can settle, by showing both versions and holding reintegration until one is picked.
+    … in [working on the same thing](/sequences/working-on-the-same-thing), two lines of work parted under [draft and publish](/patterns/draft-and-publish)—as a branch, a separate draft, or a stretch offline—and now one returns alongside [change review](/patterns/change-review). Both sides have edited the same part of the work.
   resulting: >-
-    The collision is now a thing with a record. Show the colliding versions with [comparing](/patterns/comparing)'s version case, so that the pick is made on the difference rather than on two full copies. The version not picked is a removal, so give it [undo](/patterns/undo) as its recovery, and where the work keeps a [version history](/patterns/version-history) keep the unpicked version in it; restoring an old version over a colleague's later work is itself a collision for reconciliation to settle rather than an overwrite. Reconciliation is not change review, though both are built on the same comparison: the review accepts or rejects what one side did, and reconciliation chooses between two sides that both did something…
+    Show the colliding versions with [comparing](/patterns/comparing)'s version case so the actor picks on the difference rather than scanning two full copies. Treat the unpicked version as a removal and give it [undo](/patterns/undo) as recovery. Where the work keeps a [version history](/patterns/version-history), retain the unpicked version in it, and route restoring an older version over a colleague's later edits back through reconciliation rather than overwriting silently…
 relationships:
   follows:
     - draft-and-publish
   complements:
-    - change-review
+    - to: change-review
+      note: "change review accepts or rejects what one side proposed; reconciliation chooses between two sides that both changed the same thing"
   composed-of:
     - comparing
   related:
