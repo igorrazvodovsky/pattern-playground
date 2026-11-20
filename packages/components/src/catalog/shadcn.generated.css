@@ -781,6 +781,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .flex-1 {
     flex: 1;
   }
+.shrink {
+    flex-shrink: 1;
+  }
 .shrink-0 {
     flex-shrink: 0;
   }
@@ -1859,6 +1862,26 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .placeholder\:text-muted-foreground::placeholder {
     color: var(--muted-foreground);
   }
+.before\:mr-1:before {
+    content: var(--tw-content);
+    margin-right: var(--spacing);
+  }
+.before\:h-px:before {
+    content: var(--tw-content);
+    height: 1px;
+  }
+.before\:min-w-0:before {
+    content: var(--tw-content);
+    min-width: 0;
+  }
+.before\:flex-1:before {
+    content: var(--tw-content);
+    flex: 1;
+  }
+.before\:bg-border:before {
+    content: var(--tw-content);
+    background-color: var(--border);
+  }
 .after\:absolute:after {
     content: var(--tw-content);
     position: absolute;
@@ -1879,6 +1902,22 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
     content: var(--tw-content);
     inset-block: calc(var(--spacing) * -2);
   }
+.after\:ml-1:after {
+    content: var(--tw-content);
+    margin-left: var(--spacing);
+  }
+.after\:h-px:after {
+    content: var(--tw-content);
+    height: 1px;
+  }
+.after\:min-w-0:after {
+    content: var(--tw-content);
+    min-width: 0;
+  }
+.after\:flex-1:after {
+    content: var(--tw-content);
+    flex: 1;
+  }
 .after\:rounded-lg:after {
     content: var(--tw-content);
     border-radius: var(--radius);
@@ -1886,6 +1925,10 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .after\:rounded-xl:after {
     content: var(--tw-content);
     border-radius: calc(var(--radius) + 4px);
+  }
+.after\:bg-border:after {
+    content: var(--tw-content);
+    background-color: var(--border);
   }
 .first\:rounded-l-lg:first-child {
     border-top-left-radius: var(--radius);
@@ -2584,6 +2627,25 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .\[\&_button\]\:z-10 button {
     z-index: 10;
   }
+.\[\&_button\]\:h-7 button {
+    height: calc(var(--spacing) * 7);
+  }
+.\[\&_button\]\:rounded-full button {
+    border-radius: 3.40282e38px;
+  }
+.\[\&_button\]\:px-3 button {
+    padding-inline: calc(var(--spacing) * 3);
+  }
+.\[\&_button\]\:text-xs button {
+    font-size: var(--text-xs);
+    line-height: var(--tw-leading, var(--text-xs--line-height));
+  }
+.\[\&_button\]\:text-muted-foreground button {
+    color: var(--muted-foreground);
+  }
+@media (hover: hover) {.\[\&_button\]\:hover\:text-foreground button:hover {
+      color: var(--foreground);
+    }}
 .\[\&_p\]\:mb-0 p {
     margin-bottom: 0;
   }

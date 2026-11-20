@@ -1,0 +1,137 @@
+{
+  "root": "conversation",
+  "elements": {
+    "conversation": {
+      "type": "Messages",
+      "props": {},
+      "children": [
+        "ask-1",
+        "reply-1",
+        "checkpoint-1",
+        "ask-2",
+        "reply-2",
+        "checkpoint-2",
+        "ask-3",
+        "reply-3"
+      ]
+    },
+    "ask-1": {
+      "type": "Message",
+      "props": {
+        "from": "actor",
+        "parts": ["Rename the Q3 launch tag to Launch 2026 on every task."]
+      }
+    },
+    "reply-1": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": ["Renamed the tag on 38 tasks."]
+      }
+    },
+    "checkpoint-1": {
+      "type": "Marker",
+      "props": {
+        "label": "Tag renamed"
+      },
+      "slots": {
+        "actions": ["restore-1"]
+      }
+    },
+    "restore-1": {
+      "type": "Button",
+      "props": {
+        "label": "Restore",
+        "focusKey": "restore-1"
+      },
+      "visible": {
+        "$state": "/kept",
+        "gte": 2
+      },
+      "on": {
+        "press": {
+          "action": "restore",
+          "params": {
+            "checkpoint": 1
+          }
+        }
+      }
+    },
+    "ask-2": {
+      "type": "Message",
+      "props": {
+        "from": "actor",
+        "parts": ["Archive the tasks that are already done."]
+      },
+      "visible": {
+        "$state": "/kept",
+        "gte": 2
+      }
+    },
+    "reply-2": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": ["Archived the 14 tasks that were done."]
+      },
+      "visible": {
+        "$state": "/kept",
+        "gte": 2
+      }
+    },
+    "checkpoint-2": {
+      "type": "Marker",
+      "props": {
+        "label": "14 tasks archived"
+      },
+      "slots": {
+        "actions": ["restore-2"]
+      },
+      "visible": {
+        "$state": "/kept",
+        "gte": 2
+      }
+    },
+    "restore-2": {
+      "type": "Button",
+      "props": {
+        "label": "Restore",
+        "focusNext": "restore-1"
+      },
+      "visible": {
+        "$state": "/kept",
+        "gte": 3
+      },
+      "on": {
+        "press": {
+          "action": "restore",
+          "params": {
+            "checkpoint": 2
+          }
+        }
+      }
+    },
+    "ask-3": {
+      "type": "Message",
+      "props": {
+        "from": "actor",
+        "parts": ["Give Dana’s open tasks to Sam."]
+      },
+      "visible": {
+        "$state": "/kept",
+        "gte": 3
+      }
+    },
+    "reply-3": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": ["Gave Sam Dana’s 6 open tasks."]
+      },
+      "visible": {
+        "$state": "/kept",
+        "gte": 3
+      }
+    }
+  }
+}

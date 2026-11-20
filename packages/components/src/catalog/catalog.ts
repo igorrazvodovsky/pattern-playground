@@ -447,6 +447,14 @@ export const catalog = defineCatalog(schema, {
       description:
         "One step in a Trace. `title` says what the step is or did, in a few words (Thought, Plan: move the launch tasks, Archived 214 files). `detail` follows the title in lighter text, for a short figure about the step, such as how long it took or how many of its steps are done. `status` says where the step stands: `running` marks the step under way, `pending` one not started, `error` one that failed or was refused, `done` one finished; without a status the line is plain. The line is led by an icon for its status, or by `icon` when given, named by meaning, such as `plan` for a plan's summary line. `href` makes the line a link that opens elsewhere, for a source the agent read; give it no children. Children are the step's content beneath its line, such as its own steps as a Trace, or its output as Text. With `expandable` they sit behind a disclosure the line opens and closes; `open` says whether it is open. Bind `open` with $bindState so the line keeps its state. For a tool call, let the title say what was run and how it went (Running…, Ran…, Failed to run…), and put what it returned in a CodeBlock behind the line.",
     },
+    Marker: {
+      props: z.object({
+        label: z.string(),
+      }),
+      slots: ['actions'],
+      description:
+        'A point marked in a sequence and set apart from the items around it, such as a checkpoint after a turn in Messages: `label` says what the point is (Tag renamed), centred between two rules. The `actions` slot holds a Button that acts on that point, such as restoring the work to it, shown small beside the label. The marker is a group named by `label`, so a button in it is read with the point it acts on.',
+    },
     CodeBlock: {
       props: z.object({
         code: z.string(),

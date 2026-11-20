@@ -1,121 +1,99 @@
 ---
 title: Version history
 added: 2026-10-19
-updated:
+updated: 2026-11-20
 role: pattern
-seed: true
 evidence:
   - observed
   - literature
+  - used
 group: application
 activityLevel: action
 lifecycle: application
 mediation: individual
-description: "Keeping past states of the work that the actor can find, compare, and restore after the session ends and undo no longer reaches them."
+description: "Letting the actor keep, recognise, and return to earlier versions of the work when stepping back through recent edits no longer reaches them."
 acts_on:
   - { concept: versioning }
 situation:
   initiating: >-
-    the work is stored continuously or across many sessions, and the actor wants a state
-    it was in earlier: last week's draft, the one sent to the client, the one before a
-    collaborator's rewrite. [Undo](/patterns/undo) cannot reach it, because undo steps back
-    through recent actions and stops when the session ends. The
-    [activity log](/patterns/activity-log) records what happened but does not let anyone
-    return to it. Once [saving](/patterns/saving) happens without the actor, pressing Save
-    no longer means *this version counts*, and that act needs a place of its own.
-
-
-    Version history is the step "Let the actor return to named versions" in
-    [memory and continuity](/sequences/memory-and-continuity), and the longer-term history
-    that [making changes](/sequences/making-changes) hands on to when undo runs out.
+    the work keeps changing across sessions, collaborators, or large agent runs, and the
+    actor wants an earlier version of it: last week's draft, the copy sent to the client,
+    or the work before a rewrite went wrong. [Undo](/patterns/undo) cannot reach it,
+    because undo only steps back through recent edits (including selective undo of one
+    edit) rather than letting the actor find an earlier version by time or name. The
+    [activity log](/patterns/activity-log) records what happened without letting anyone
+    return to how the work looked then. Once [saving](/patterns/saving) happens
+    automatically, pressing Save no longer marks a version that counts, so marking and
+    returning to versions needs a place of its own.
   resulting: >-
-    The actor can step outside the current state of the work and come back to it. Each
-    [publish](/patterns/draft-and-publish) is a natural moment to name, so publishing and
-    version history usually arrive together. Where [saving](/patterns/saving) stores work
-    without the actor's involvement, it no longer marks any moment on its own, and the
-    named versions in the history take over that job. [Undo](/patterns/undo) and version history split the
-    same need by distance: undo covers the last few actions in this session, and version
-    history covers named states across sessions. Restoring is itself a change, so the
-    restore has to be undoable, and the state it replaced kept as a version.
-
-
-    Looking at a past version is rarely enough on its own. The actor wants to know how it
-    differs from now, which is [comparing](/patterns/comparing)'s version case: shared
-    structure can be assumed and only the difference shown. The
-    [activity log](/patterns/activity-log) is the record beside it, holding events where
-    version history holds states, and the two are often confused because one interface
-    shows both. Where several people work on the same thing, restoring an old version
-    over a colleague's recent work is a collision, and that belongs to
-    [reconciliation](/patterns/reconciliation) rather than a silent overwrite. Version
-    history also changes what [deletion](/patterns/deletion) means inside the work: a
-    removed passage can be recovered from an earlier state, which lowers the stakes of
-    removing it, while the history itself becomes a place where removed content
-    persists...
+    Show how an earlier version differs from the current one with
+    [comparing](/patterns/comparing) before the actor returns to it. Record who or what
+    produced each version with [attribution](/patterns/attribution) so the actor knows
+    which state to trust. Where work is shared through
+    [draft and publish](/patterns/draft-and-publish), name each published state
+    automatically in the history. Where stepping back to an earlier point discards what
+    followed, grade any confirmation through
+    [action consequences](/patterns/action-consequences). Where the actor wants to explore
+    from an earlier point without giving up the current line, use
+    [branching](/patterns/branching) to keep both lines alive. Where returning to an older
+    version collides with a colleague's later edits, settle the clash with
+    [reconciliation](/patterns/reconciliation) rather than a silent overwrite. And decide
+    with [deletion](/patterns/deletion) whether removing content also clears it from
+    earlier versions…
 relationships:
   follows:
     - to: saving
       note: "automatic saving removes the 'this version counts' act from the Save button; version history gives it back a place"
-    - to: draft-and-publish
-      note: "each publish is a moment the history names"
-  complements:
-    - to: undo
-      note: "undo reverses recent actions within the session; version history returns to named states across sessions"
+  composed-of:
     - to: comparing
-      note: "showing a past version against the current one is comparing's version case"
+      note: "showing a past version against the current one puts comparing's version case to work"
+  complements:
+    - to: draft-and-publish
+      note: "each publish is a natural milestone for version history to name"
+    - to: undo
+      note: "undo steps back through recent edits; version history lets the actor find and return to earlier versions"
     - to: activity-log
-      note: "the log keeps events, version history keeps restorable states"
+      note: "the log keeps events, version history keeps restorable versions"
+    - to: branching
+      note: "branching forks an alternative timeline from an earlier version instead of replacing the main line"
   related:
+    - to: action-consequences
+      note: "grades whether returning to an earlier version needs confirmation, especially when later steps are discarded"
     - to: reconciliation
       note: "restoring a version over someone else's later work is a collision to reconcile, not an overwrite"
     - to: deletion
-      note: "earlier versions recover removed content, and are also where removed content persists"
+      note: "earlier versions recover removed content, and are also where removed content persists until redacted or purged"
   enacts:
     - to: temporality
-      note: lets the actor return to an earlier state of the work after the session has ended
-disclosure: >-
-  Seeded from three sightings inside the corpus (undo's to-do, making changes and memory
-  and continuity both reaching a step with no pattern) and from shipping forms in document
-  and design tools. Needs its classification sitting: whether automatic checkpoints and
-  named versions are one pattern or two, and how the history interacts with retention and
-  forgetting, are open.
+      note: lets the actor return to how the work stood earlier across sessions or large changes
 ---
 
 * * *
 
-**The actor needs a past state of their work, not just the last few actions. Undo has ended with the session, the log says what happened without letting them return to it, and copying files to keep old states produces a folder of "final-v2-really-final" that nobody can tell apart.**
+**When work is continuously overwritten, the actor cannot easily return to how it stood earlier. They hesitate to make bold changes, or they scatter duplicate copies across folders trying to keep old drafts safe.**
 
-Three things pull against each other:
+Four things pull against each other:
 
-- *Coverage against legibility.* Keeping every state means nothing is lost, but an unbroken stream of autosaves is as hard to navigate as no history. Figma and Google Docs both keep automatic checkpoints and let the actor name the ones that matter, with a filter that shows only the named ones.
-- *What a version contains.* A version can hold the document alone or the document with its comments, settings, and permissions. In Google Docs, comments are not stored with versions, so restoring an old one brings back the text without the conversation about it.
-- *Restoring without losing the present.* Restoring replaces the current state, which is exactly the loss the history exists to prevent. Figma's restore adds a checkpoint of the state it replaces before it restores, so the restore can itself be undone.
-
-The pattern costs storage and a retention policy. It also creates a second place where content lives: text removed from the current version is still readable in earlier ones, which matters wherever the actor expects removal to be final.
+- *Keeping everything against finding anything.* Saving every moment in the background means nothing is lost, but an unbroken list of timestamps is as hard to read as no history at all. Letting the system keep the background trail while the actor names the moments that matter — and filter down to those named versions — keeps the history both complete and readable.
+- *Knowing what comes back.* People assume an older version brings back the whole work as they remember it, yet comments, settings, or permissions are often left out (in Google Docs, restoring an earlier draft brings back the text without the comments).
+- *Going back without losing where you are.* Returning to an older version replaces the current work, which can feel as risky as the mistake that sent the actor looking back. In a document history such as Figma, keeping the replaced state as its own version makes going back safe to undo. In a conversation with an agent, stepping back to an earlier turn discards the turns after it; when the actor wants to keep both lines, [branching](/patterns/branching) holds them apart.
+- *Safety against forgetting.* Old versions make deleting easier to live with because removed passages can still be found, yet content deleted from the current work stays readable in earlier versions. Where privacy or policy requires something to be truly gone, retention limits and removal have to reach into past versions too (see *Enforcing the limits on memory* in [memory and continuity](/sequences/memory-and-continuity#forgetting)).
 
 Therefore,
 
-**Keep past states of the work beyond the session, and let the actor give names to the moments that matter. Show named versions apart from automatic checkpoints, let the actor compare any version with the current one before restoring it, and make restoring a new version rather than an overwrite, so the state it replaced stays available. State what a version includes and how far back the history goes.**
-
-Naming every version adds work the actor will not do, so automatic checkpoints carry most of the history, and names are reserved for publishes, hand-overs, and states the actor chooses to mark.
+**Keep earlier versions of the work automatically, let the actor name milestones so they can filter past the noise, and let them [compare](/patterns/comparing) and return to any point in the trail. Be explicit about what a version includes, how long it is kept, and what happens to the current work when the actor steps back.**
 
 ## In practice
 
-- *Automatic checkpoints:* taken at intervals or on events (a session ending, a connection dropping), unnamed by default.
-- *Named versions:* created on purpose, or by naming an existing checkpoint; often created by the system at a publish or release.
-- *Browse and preview:* a list or timeline of versions, each opening read-only, usually with changes highlighted against its neighbour.
-- *Restore and copy:* restoring makes the past state current; copying makes a new item from it and leaves the current state alone.
-- *Retention:* how far back the history reaches, often tied to a plan or a storage limit, and stated to the actor.
+- *Taking only a piece back:* when the actor only wants one deleted paragraph or element rather than the whole earlier version, letting them copy out of the read-only preview saves them from undoing newer work around it.
+- *Stepping back in an agent conversation:* an agent can change several files in a single turn, so checkpoints tie each turn to the files it touched. Stepping back to an earlier checkpoint returns both the conversation and the files to that moment by dropping the later turns; because the actor chose the exact point to return to, doing so directly avoids nagging unless [action consequences](/patterns/action-consequences) calls for a safeguard (as in VS Code's file-revert prompt), and [branching](/patterns/branching) keeps the later turns when both lines matter.
+
+<Demo spec="chat-checkpoints" registries={["shadcn"]} label="A checkpoint after each earlier turn that changed the work; restoring one removes the turns after it" />
 
 ## Resources & references
 
 - Figma Learn: [View a file's version history](https://help.figma.com/hc/en-us/articles/360038006754-View-a-file-s-version-history) — checkpoints every 30 minutes, named versions, restore as a non-destructive change, retention by plan
 - [Version history essentials for Google Docs, Sheets, and Slides](https://www.techrepublic.com/article/version-history-essentials-for-google-docs-sheets-and-slides/) — naming versions, showing only named versions, comments not kept with versions
 - Edwards & Mynatt (1997) [Timewarp: techniques for autonomous collaboration](https://faculty.cc.gatech.edu/~keith/pubs/autonomous-html/autonomous.html), CHI '97 — making time explicit and editable in the interface, with divergent histories kept visible
+- VS Code: [Chat checkpoints](https://code.visualstudio.com/docs/copilot/chat/chat-checkpoints) — restoring a checkpoint removes the later requests and returns the files to that point, after a confirmation
 - Grossman, Matejka & Fitzmaurice (2010) [Chronicle: capture, exploration, and playback of document workflow histories](https://www.research.autodesk.com/?p=1833), UIST '10 — linking a document's content to the part of its history that produced it
-
-## To-do
-
-- Decide whether automatic checkpoints and named versions are one pattern or two.
-- Work out the boundary with selective undo (`undo`) and [branching](/patterns/branching).
-- Work out retention and redaction: what happens when content in an old version has to be forgotten.
-- The `complements` edge to [comparing](/patterns/comparing) reads as a part: showing a past version against the current one is comparing's version case put to work, as change review and reconciliation author it. Retype to `composed-of` at this page's sitting.

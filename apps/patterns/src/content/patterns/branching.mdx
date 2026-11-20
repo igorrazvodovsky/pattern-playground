@@ -1,7 +1,7 @@
 ---
 title: Branching
 added: 2026-11-14
-updated: 2026-11-15
+updated: 2026-11-20
 role: pattern
 evidence:
   - observed
@@ -14,17 +14,17 @@ acts_on:
   - { concept: versioning, note: "forks a new thread from a checkpoint instead of restoring over the current state" }
 situation:
   initiating: >-
-    … the actor is working in a [session](/patterns/session), a [conversation](/patterns/conversation), or a [version history](/patterns/version-history), and needs several threads running from an earlier point rather than a single sequence. [Undo](/patterns/undo) only steps back along one line and discards what followed, while keeping everything in one thread mixes separate lines of work together.
+    … the actor is working in a [session](/patterns/session) or a [conversation](/patterns/conversation) and needs several threads running from an earlier point rather than a single sequence. The same need arises in a [version history](/patterns/version-history) when an earlier checkpoint needs a separate line of work rather than a restore over the main line. [Undo](/patterns/undo) only steps back along one line and discards what followed, while keeping everything in one thread mixes separate lines of work together.
   resulting: >-
     The earlier state now has two or more sibling continuations, and the active path scopes both what the actor sees and what the system reads as context. Where the actor needs to weigh what diverged across branches, align the sibling outputs or paths through [comparing](/patterns/comparing). Where a tree overview sits beside the active transcript, link them as [coordinated views](/patterns/coordinated-views) so selecting a node scopes the view. Where a branch only retries a single turn at the leaf, [regeneration](/patterns/regeneration) or [instructed revision](/patterns/instructed-revision) handles the local change without adding long-lived branches. When a branch settles on a result that should replace or join the main line, bring it back through [change review](/patterns/change-review) or [reconciliation](/patterns/reconciliation). When only a finished piece needs to carry forward, lift it out of the thread with [extraction](/patterns/extraction). Branching is not [draft and publish](/patterns/draft-and-publish), which separates one working copy from what others read so unfinished edits stay private until published, though a collaborative branch can serve both roles at once…
 relationships:
   enables:
     - session
     - conversation
-    - version-history
   alternative:
     - undo
   complements:
+    - version-history
     - prompt
     - regeneration
     - instructed-revision

@@ -1097,6 +1097,29 @@ export const { registry } = defineRegistry(catalog, {
       );
     },
 
+    // AI Elements' Checkpoint: the label and its Restore button centred
+    // between two rules (pseudo-elements standing in for its separator), the
+    // button a small outline pill.
+    Marker: ({ props, slots }) => {
+      const id = useId();
+      return (
+        <div
+          role="group"
+          aria-labelledby={id}
+          className="flex w-full min-w-0 items-center gap-2 text-sm text-muted-foreground before:mr-1 before:h-px before:min-w-0 before:flex-1 before:bg-border after:ml-1 after:h-px after:min-w-0 after:flex-1 after:bg-border"
+        >
+          <span id={id} className="min-w-0 shrink text-center wrap-break-word">
+            {props.label}
+          </span>
+          {slots?.actions && (
+            <span className="flex items-center gap-1 empty:hidden [&_button]:h-7 [&_button]:rounded-full [&_button]:px-3 [&_button]:text-xs [&_button]:text-muted-foreground [&_button]:hover:text-foreground">
+              {slots.actions}
+            </span>
+          )}
+        </div>
+      );
+    },
+
     // AI Elements' CodeBlock, without its highlighting or its header.
     CodeBlock: ({ props }) => (
       <pre

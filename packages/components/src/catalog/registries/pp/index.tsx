@@ -1723,6 +1723,12 @@ export const { registry } = defineRegistry(catalog, {
       </p>
     ),
 
+    Marker: () => (
+      <p className="spec-demo__unsupported" role="note">
+        This library has no marker for a point in a conversation.
+      </p>
+    ),
+
     CodeBlock: ({ props }) => (
       <pre data-language={props.language ?? undefined}>
         <code>{props.code}</code>
