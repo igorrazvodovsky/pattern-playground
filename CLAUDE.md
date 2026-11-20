@@ -1,89 +1,43 @@
 # CLAUDE.md
 
-A design research project first, code repository second. A "garden" for cultivating interaction design patterns, with a focus on human↔AI collaboration. Full framing in docs/project/core-beliefs.md.
+A design research project first, code repository second: a garden for cultivating interaction design patterns, with a focus on human↔AI collaboration.
 
 ## Voice
 
-Plain, design-practitioner language in everything written here — pattern content, docs, plans. Ordinary words and direct statements; no dramatic staging, compressed aphorisms, or literary borrowings. "Actor", not "user" or "reader". "Artifact" is the designed thing a person interacts with, at whatever scale the pattern works at.
+Use plain, design-practitioner language in everything written here — pattern content, docs, and plans. Use ordinary words and direct statements; avoid dramatic staging, compressed aphorisms, and literary borrowings. Write "actor" when both humans and AI agents can do the task. Use "artifact" for the designed thing a person interacts with, at whatever scale the pattern works at.
 
-- Banned phrases: "load-bearing", "worth stating plainly", "full stop",
-  "carry the argument", "the trap", "isn't just X — it's Y".
-- No punchy fragments for drama. Write complete sentences.
-- Do not build to a turn of phrase. State the claim directly.
-- Prefer conciseness: each sentence adds new information. Remove phrases that restate rather than extend, and do not over-explain implications.
-- British spelling (behaviour, organisation, colour).
-- Sentence case for headings and titles.
+- Banned phrases: "load-bearing", "worth stating plainly", "full stop", "carry the argument", "the trap", "isn't just X — it's Y".
+- Write complete sentences; no punchy fragments for drama.
+- State claims directly instead of building to a turn of phrase.
+- Keep sentences concise: each should add new information without restating or over-explaining implications.
+- Use British spelling (behaviour, organisation, colour) and sentence case for headings and titles.
 
-## Read first
+## Map
 
-- [docs/project/core-beliefs.md](docs/project/core-beliefs.md) — project philosophy, voice, scope
-- [ARCHITECTURE.md](ARCHITECTURE.md) — domain layering and directory map
-- [docs/index.md](docs/index.md) — sectioned docs map; route into it on demand
+- [docs/project/core-beliefs.md](docs/project/core-beliefs.md) — project philosophy, framing, and scope
+- [ARCHITECTURE.md](ARCHITECTURE.md) — tech stack, workspaces, and directory map
+- [docs/index.md](docs/index.md) — full docs map: project vision, pattern-language vocabulary and theory, and quality guides (read on demand)
+- [docs/specs/index.md](docs/specs/index.md) — settled specifications for workspace layout, pattern site, sequences, and agent harness
+- [plans/index.md](plans/index.md) — active and completed plans ([plans/README.md](plans/README.md) for conventions; [plans/tech-debt-tracker.md](plans/tech-debt-tracker.md) for known rough edges)
+- `.claude/rules/` — path-scoped coding and authoring rules; do not read eagerly (each attaches via `paths:` frontmatter)
+- `$PARA/Areas/IxD patterns/` — external research vault; read on demand, not eagerly
 
-## Read by task
-
-- Structural or cross-workspace changes → [docs/specs/workspace-layout.md](docs/specs/workspace-layout.md) (package boundaries) and [docs/specs/index.md](docs/specs/index.md) (settled specs)
-- Pattern-site content → [docs/specs/pattern-site.md](docs/specs/pattern-site.md); the authoring contract attaches automatically from `.claude/rules/pattern-content.md`
-- Sequence files or sequence authoring → [docs/specs/sequences.md](docs/specs/sequences.md); theory ground in [docs/language/design-theory.md](docs/language/design-theory.md) §Living process
-- Questions about repository altitude/legibility → [docs/levels-of-scale.md](docs/levels-of-scale.md)
-
-## Domain vocabulary (read when working on patterns, edges, or taxonomy)
-
-- [docs/language/pattern-definition.md](docs/language/pattern-definition.md) — what counts as a pattern, component, observation, anti-pattern, or collection
-- [docs/language/patterns-and-components.md](docs/language/patterns-and-components.md) — pattern language vs component catalogue;
-- [docs/language/patterns-and-concepts.md](docs/language/patterns-and-concepts.md) — the concept catalogue beside both; `acts_on`
-- [docs/language/conceptual-glossary.md](docs/language/conceptual-glossary.md) — terms used across the project
-- [docs/language/design-theory.md](docs/language/design-theory.md) — Alexander's two phases, centres, qualities, theoretical arc
-- [docs/project/vision.md](docs/project/vision.md) — where the artifact as a whole is heading
-- [docs/project/operative-image.md](docs/project/operative-image.md) — current working picture of the artifact
-- [docs/language/vision.md](docs/language/vision.md) — where the pattern language is heading (Nature of Order, agent-usable tracks)
-- [docs/language/operative-image.md](docs/language/operative-image.md) — current working picture of the language
-- [docs/language/relationship-vocabulary.md](docs/language/relationship-vocabulary.md) — edge types, generative-moves framing, epistemic stance
-
-## Rules that auto-activate by file path
-
-`.claude/rules/` — do not read eagerly; each attaches via path match:
-- web-components.md   → packages/components/src/components/**/*.ts
-- styling.md          → packages/components/src/styles/**/*.css
-- documentation.md    → packages/components/src/stories/**/*.{mdx,stories.tsx}
-- pattern-content.md  → apps/patterns/src/content/**/*.{md,mdx}
-- mock-data.md        → packages/components/src/stories/**/*.{tsx,json}
-- typescript.md       → all *.ts, *.tsx
-- server.md           → apps/server/**/*.ts
-- state-management.md → all *.ts, *.tsx
-
-## Common commands
+## Commands
 
 ```bash
-npm run lint               # ESLint (workspace root)
-npm run lint:styles        # Stylelint
-npm run format             # Prettier (format:check to list differences)
-npm run test               # lint + Stylelint + Prettier check + one-shot run of every Vitest project
-npm run test-storybook     # Storybook Vitest project only (stories, headless Chromium)
-npm run test-unit          # unit Vitest project only (node, src/**/*.test.ts)
-npm run storybook          # Storybook on :6006
 npm run dev                # Pattern site on :4321
+npm run storybook          # Storybook on :6006
 npm run dev -w apps/server # Express backend on :3000
 npm run extract-graph      # Regenerate pattern-graph.json
+npm run lint               # Repo checks + ESLint
+npm run lint:styles        # Stylelint
+npm run format             # Prettier (format:check to list differences)
+npm run test               # Full gate: lint, Stylelint, Prettier check, all Vitest projects
+npm run test-unit          # Unit Vitest project only (node)
+npm run test-storybook     # Storybook Vitest project only (headless Chromium)
 ```
-Full list and conventions: [docs/quality/testing-strategy.md](docs/quality/testing-strategy.md)
 
-## Executable specs and tech debt
-
-- [plans/README.md](plans/README.md) — how executable specifications work
-- [plans/index.md](plans/index.md) — active, completed, paused, superseded, and archived plans
-- [plans/tech-debt-tracker.md](plans/tech-debt-tracker.md) — known rough edges
-
-## Research inputs (read on demand, not eagerly)
-
-- Research lives in the PARA vault, not in this repo: `$PARA/Areas/IxD patterns/`.
-
-## Quality gates
-
-- [docs/quality/testing-strategy.md](docs/quality/testing-strategy.md)
-- [docs/quality/code-review.md](docs/quality/code-review.md)
-- [docs/quality/commenting-style.md](docs/quality/commenting-style.md)
-- [docs/quality/dev-environment.md](docs/quality/dev-environment.md) — read when the dev server, Storybook, or a deploy misbehaves
+Full command list, testing conventions, and dev-server troubleshooting live in [docs/quality/testing-strategy.md](docs/quality/testing-strategy.md) and [docs/quality/dev-environment.md](docs/quality/dev-environment.md).
 
 ## When in doubt
 
