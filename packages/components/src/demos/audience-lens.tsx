@@ -50,7 +50,7 @@ export function AudienceLensDemo() {
           <button
             key={version.id}
             type="button"
-            className={version.id === currentId ? 'button button--primary' : 'button'}
+            className="button"
             aria-pressed={version.id === currentId}
             onClick={() => setCurrentId(version.id)}
           >
