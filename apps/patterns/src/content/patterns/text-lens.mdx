@@ -1,7 +1,7 @@
 ---
 title: Text lens
 added: 2025-08-01
-updated: 2026-11-07
+updated: 2026-11-21
 role: pattern
 evidence:
   - observed
@@ -49,14 +49,15 @@ Five forces shape how a text can be adapted on demand:
 - *Fit vs. fidelity*: the further a generated version moves from the source phrasing, the more likely it is to drop qualifiers, soften claims, or introduce errors. In clinical research summaries, generated plain-language versions frequently omit the study population or comparator.
 - *Explicit selection vs. automatic adaptation*: the system can infer some needs from role or account settings, but cannot reliably guess an actor's familiarity with a specific topic. Over-simplifying has a cost: readers who already know a subject tend to overlook caveats and study limitations when given an overly plain version. Automatic adaptation risks serving the wrong level silently; manual controls require the actor to choose before reading.
 - *Editorial accountability vs. maintenance*: authored variants are reviewed by someone accountable for what they omit, but go stale when the source text changes. Generated variants stay in sync with the source, but have no human editor standing behind them.
-- *How audiences differ*: a lens can only reorganise or rephrase information that is already in the source text. Readers differ in three ways:
+- *How audiences differ*: a lens can only reorganise or rephrase information that is already in the source text. Readers differ in four ways:
   - *Background knowledge and fluency*: the facts stay the same while vocabulary, sentence complexity, or language changes. This is suited to generation from the source.
-  - *Task or purpose*: executing a step, troubleshooting, or evaluating. The underlying facts stay the same, but priority and omissions shift.
+  - *Task or purpose, within the same kind of text*: executing a procedure, troubleshooting it, or checking one detail. The steps stay the same, but their order and what is left out shift. This can also be generated from the source.
+  - *Task or purpose, needing a different kind of text*: the reasons behind a procedure, a walkthrough built from reference material, or what someone needs to decide whether to adopt a feature. These need content the source does not hold, such as why a rule exists, an example to practise on, or limits and trade-offs, so a generated version has to invent it.
   - *Applicable rules or context*: permissions, pricing tier, platform, or jurisdiction. These require facts outside the passage; generating them invites fabrication, so they belong in authored conditional content instead.
 
 Therefore,
 
-**Let the actor switch the level of detail or reading framing of a document—by passage or as a whole—generating the view strictly from the source text while keeping the original one step away. Use authored content, not generation, for variations that depend on external rules such as permissions, pricing tier, platform, or region.**
+**Let the actor switch the level of detail or reading framing of a document—by passage or as a whole—generating the view strictly from the source text while keeping the original one step away. A framing reorders and prunes what the source says; where the actor needs a different kind of text, such as reasons where the source gives steps, link to a page that holds it instead of generating it. Use authored content, not generation, for variations that depend on external rules such as permissions, pricing tier, platform, or region.**
 
 Where the source is a text of record, such as a contract, policy, or clinical instruction, present the generated view as a reading aid that links back to the binding text rather than replacing it.
 
