@@ -123,7 +123,7 @@
     },
     {
       "id": "adaptation",
-      "title": "Adaptability",
+      "title": "Adaptivity",
       "category": "Qualities",
       "path": "/patterns/adaptation",
       "role": "quality"
@@ -4236,7 +4236,7 @@
       "source": "adaptation",
       "target": "agency",
       "type": "related",
-      "label": "dynamic control allocation distributes agency between system and user",
+      "label": "adaptivity shifts how much decision-making the system takes on without being asked",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -4553,7 +4553,7 @@
       "source": "agent",
       "target": "adaptation",
       "type": "enacts",
-      "label": "the agent modulates its behaviour and output to context and inferred intent rather than following fixed rules",
+      "label": "agent shifts its behaviour and output in response to inferred intent and context",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -4567,7 +4567,7 @@
       "source": "ai-completion",
       "target": "adaptation",
       "type": "enacts",
-      "label": "completion that improves from actor corrections over time",
+      "label": "ai completion adjusts its output over time from observed actor corrections",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -4999,7 +4999,7 @@
       "source": "autofill",
       "target": "adaptation",
       "type": "enacts",
-      "label": "autofill reduces repeated entry by carrying the actor's stored and corrected values across sessions",
+      "label": "autofill adapts field output across sessions from stated and observed actor values",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -5721,13 +5721,6 @@
     },
     {
       "source": "collaboration-foundation",
-      "target": "adaptation",
-      "type": "enacts",
-      "label": "collaboration only works when each actor adjusts to the other's contributions in flight",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "collaboration-foundation",
       "target": "conversation-quality",
       "type": "enacts",
       "label": "joint work is negotiated turn by turn; collaboration is dialogue put to a shared task",
@@ -6273,13 +6266,6 @@
     },
     {
       "source": "data",
-      "target": "adaptation",
-      "type": "enacts",
-      "label": "hard facts stay fixed while the soft, inferred layers flex to context",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "data",
       "target": "conversation-quality",
       "type": "enacts",
       "label": "the inferred layers are offers, not facts — the record settles as the actor accepts or rejects them",
@@ -6681,7 +6667,7 @@
       "source": "explanation",
       "target": "adaptation",
       "type": "enacts",
-      "label": "explanations adjust their depth and form to the actor's level and context",
+      "label": "explanation makes the signal or rule behind an adaptive change scrutable to the actor",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -6929,13 +6915,6 @@
     },
     {
       "source": "focus-and-context",
-      "target": "adaptation",
-      "type": "enacts",
-      "label": "the focused frame and its surrounding context recalibrate as the actor's task shifts",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "focus-and-context",
       "target": "density",
       "type": "enacts",
       "label": "grades density by distance from attention — full detail at the focus, an outline at the rim",
@@ -7124,7 +7103,7 @@
       "source": "formality",
       "target": "adaptation",
       "type": "related",
-      "label": "systems that adapt formality to context avoid premature structure",
+      "label": "adaptivity adjusts required formality to the actor's context, avoiding premature structure",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -8172,13 +8151,6 @@
     },
     {
       "source": "interaction",
-      "target": "adaptation",
-      "type": "enacts",
-      "label": "the engagement arc reshapes itself as intent sharpens; what the system offers shifts stage by stage",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "interaction",
       "target": "agency",
       "type": "enacts",
       "label": "each loop has a driver — actor-led with the system assisting, or system-led with the actor returning at touchpoints",
@@ -8267,13 +8239,6 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
-      "source": "layered-interface",
-      "target": "adaptation",
-      "type": "enacts",
-      "label": "the interface changes with the actor's stage, heavier scaffolding first and less as competence grows",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
       "source": "learnability",
       "target": "agency",
       "type": "related",
@@ -8358,7 +8323,7 @@
       "source": "localization",
       "target": "adaptation",
       "type": "enacts",
-      "label": "the interface re-forms for each locale — language, format, and register shift while the structure holds",
+      "label": "localization adapts presentation and output to the actor's stated locale while structure holds",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -8442,7 +8407,7 @@
       "source": "malleability",
       "target": "adaptation",
       "type": "related",
-      "label": "system-driven complement",
+      "label": "adaptivity is the system-driven complement to malleability",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -8504,13 +8469,6 @@
       "target": "density",
       "type": "enacts",
       "label": "experts tolerate and benefit from higher density",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "mastery",
-      "target": "adaptation",
-      "type": "enacts",
-      "label": "the system grants more autonomy and lighter scaffolding as expertise grows",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -8638,7 +8596,7 @@
       "source": "memory",
       "target": "adaptation",
       "type": "enacts",
-      "label": "tailors subsequent responses using an editable record of facts and preferences",
+      "label": "memory adapts output from stated and observed facts while keeping the record scrutable and reversible",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -8882,7 +8840,7 @@
       "source": "next-best-action",
       "target": "adaptation",
       "type": "enacts",
-      "label": "recommendations that improve from accepted/rejected signal over time",
+      "label": "next-best action shifts its recommended output over time from observed acceptance and rejection",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -9572,7 +9530,7 @@
       "source": "problem-curated-view",
       "target": "adaptation",
       "type": "enacts",
-      "label": "the view, not the content, responds — the framing shifts with what the detection rules find, before the actor selects anything",
+      "label": "problem-curated view shifts presentation from inferred or detected issues before the actor selects anything",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -10080,7 +10038,7 @@
       "source": "recents",
       "target": "adaptation",
       "type": "enacts",
-      "label": "recents adapt to what the actor opens without requiring manual configuration",
+      "label": "recents adapt presentation to observed navigation without manual configuration",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -10308,7 +10266,7 @@
       "source": "remembered-state",
       "target": "adaptation",
       "type": "enacts",
-      "label": "adapts the interface to the actor by persisting their explicit adjustments without inference",
+      "label": "remembered state adapts presentation and defaults across sessions from observed adjustments, without inference",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -10614,13 +10572,6 @@
       "extractedFrom": "frontmatter:complements"
     },
     {
-      "source": "sections",
-      "target": "adaptation",
-      "type": "enacts",
-      "label": "sections rearrange and reveal content based on context",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
       "source": "selection",
       "target": "tag",
       "type": "enables",
@@ -10741,9 +10692,9 @@
     },
     {
       "source": "settings",
-      "target": "adaptation",
+      "target": "malleability",
       "type": "enacts",
-      "label": "the actor adapts the system to their context by hand, rather than leaving it to inference",
+      "label": "settings let the actor reshape system behaviour to their context by hand",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -10824,7 +10775,7 @@
       "source": "shareability",
       "target": "adaptation",
       "type": "related",
-      "label": "URL-encoded state lets actors share and reuse personalised configurations",
+      "label": "adaptivity can cause the same link to render differently for two actors unless adapted state is explicit in the URL",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -11273,7 +11224,7 @@
       "source": "suggestion",
       "target": "adaptation",
       "type": "enacts",
-      "label": "suggestions might sharpen on the actor's accepted-or-rejected signal, fitting their patterns over time",
+      "label": "suggestion refines its output over time from observed acceptance and rejection",
       "extractedFrom": "frontmatter:enacts"
     },
     {

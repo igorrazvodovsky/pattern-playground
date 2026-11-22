@@ -1,107 +1,60 @@
 ---
-title: Adaptability
+title: Adaptivity
 added: 2025-03-31
 updated: 2026-11-21
 role: quality
-fun: 🤯 5/5. I'm working on how to frame the integration of LLMs into design systems in a way that's both flexible and useful.
 relationships:
   related:
     - to: agency
-      note: dynamic control allocation distributes agency between system and user
+      note: adaptivity shifts how much decision-making the system takes on without being asked
 ---
 
-<div class="callout info">
-  I'm treating adaptation as technology-agnostic at its core, but also using it as a scaffold for LLM-related patterns.
-  I've also chosen to blend adaptation with prediction/generation, since they're tightly connected in what I'm trying to do here.
-  Does this make sense? I'm not sure.
-</div>
+The extent to which an artifact modifies its behaviour, presentation, or output on its own in response to the actor and their context.
 
+Where [malleability](/patterns/malleability) describes how easily the actor can reshape the artifact themselves, adaptivity describes how the artifact reshapes itself for them. Both concern fit between actor and tool, approached from opposite sides of initiative.
 
-A system's capacity to modify its behaviour, presentation, or output in response to user input, context, or inferred intent.
-It spans both deterministic (rule-based) and probabilistic (prediction- or generation-based) responses.
+## Trigger
 
-## Types of adaptation
+What signal causes the artifact to change:
 
-### Deterministic
+- *Stated*: explicit declarations such as locale, role, permissions, or preferences the actor set directly.
+- *Observed*: actions the actor actually took during use, such as items they opened, views they configured, or suggestions they accepted or dismissed.
+- *Inferred*: unstated intent, context, or patterns estimated from indirect signals and prior behaviour.
 
-UI changing based on application state, user preferences, roles, etc. Systems reacting to user inputs or past behaviours in predictable ways.
-If X happens, then Y will happen. You can still miss when a user has different expectations, but at least the system is consistent.
+Moving from stated to inferred triggers lowers the effort required to configure the artifact, while raising the risk of misreading the actor's situation and making the cause of a change harder to trace.
 
-### Probabilistic
+## Scope
 
-Predictions, inference, or generated responses rather than fixed rules. It is driven by 🤖 models and produces context-sensitive results that may vary—even given the same input.
+Which part of the artifact shifts when adaptation fires:
 
-## Integration patterns
+- *Presentation*: what is foregrounded, hidden, reordered, or formatted differently, such as layout, density, or locale conventions.
+- *Behaviour*: how the artifact acts, including starting defaults, shortcuts, and where it pauses or proceeds on its own.
+- *Output*: what the artifact produces, recommends, or generates in response to the current situation.
 
-Adaptation is connective tissue—it modulates the other layers. It introduces contextual variability into systems that usually prefer stability.
+Presentation changes affect spatial memory and recognition. Behaviour changes affect predictability and control. Output changes affect relevance and trust.
 
-{/* Adaptive behaviour should maintain the user's mental model rather than forcing people to reason about system internals: */}
-{/* - Keep sources of action legible: if an agent or automation is acting, show what acted, why, and what can be undone. */}
-{/* - Support safe exploration: use drafts, previews, and reversible transforms so adaptation feels like a proposal, not a hidden system change. */}
+## Legibility and reversibility
 
-### Layered adaptation
+How readily the actor can read and govern what the artifact changed:
 
-Hard on the outside, soft on the inside. Deterministic rules define boundaries, constraints, or guardrails.
-Probabilistic layers operate within those boundaries to personalise, infer, or generate.
+- *Visible*: the actor can tell that the artifact adapted, rather than mistaking an adapted state for a fixed default or missing content.
+- *Predictable*: the actor can anticipate when a change will happen and whether repeating an action will produce the same result.
+- *Scrutable*: the actor can inspect what signal, history, or assumption drove the adaptation.
+- *Reversible*: the actor can undo, override, or lock a part of the artifact when an adaptation gets in the way.
 
-### Soft proposes, hard disposes
+Adaptation that is silent and irreversible forces the actor to work around a moving target. Treating adaptive shifts as inspectable and overridable preserves the actor's mental model of the tool.
 
-The probabilistic system suggests. The deterministic system decides.
-This is common when safety or trust is critical—predictions are filtered, ranked, or vetoed by fixed logic.
+## Stability over time
 
-### Confidence-based fallback
+How adaptive behaviour holds across repeated sessions:
 
-Adaptation paths vary based on model confidence. High-confidence outputs are used directly.
-Low-confidence predictions trigger a fallback—either deterministic logic or human intervention.
+- *Responsiveness versus stability*: adapting too eagerly breaks muscle memory and established habits; adapting too slowly leaves the artifact stuck on outdated assumptions.
+- *Drift and lock-in*: tailoring tightly around past behaviour can narrow what the artifact shows or offers, trapping the actor in a bubble and handling new or unusual tasks poorly.
 
-**Agency [spectrum](/patterns/agency#spectrum) mapping by confidence:**
-- 0-40% Passive: fallback to deterministic
-- 40-70% Reactive: suggest with caveats
-- 70-90% Proactive: act with notification
-- 90%+ Co-operative: act autonomously
+An adaptive artifact needs room for the actor's needs to change without penalising deviation from past patterns.
 
-### User control boundaries
-Let users see or influence which parts of the system adapt. This builds trust and improves UX predictability. UI may expose overrides, lock behaviours, or show when outputs are model-driven.
+## Resources & references
 
-Control preservation strategies:
-- Intervention points: Explicit moments where users can modify system behaviour
-- Granularity settings: Choose between high-level goals vs fine-grained control
-- History: Track and revert system changes
-
-## Feedback loops
-
-Adaptation improves through iterative refinement. The system learns from corrections, preferences, and outcomes.
-
-Feedback mechanisms:
-- Implicit: Observing which suggestions are accepted/rejected
-- Explicit: Direct ratings, corrections, or preference settings
-- Contextual: Environmental signals and task outcomes
-
-{/* ## Relationships to different levels of design system */}
-
-{/* ### Components */}
-
-{/* ... */}
-
-{/* ### Compositions */}
-
-{/* ... */}
-
-{/* ### Patterns */}
-
-{/*
-Patterns are strategies or interaction flows that can be reused across experiences.
-Adaptation here defines how systems should behave in response to users in a repeatable, abstracted way.
-*/}
-
-## Things to consider
-
-- User model: the requirements for understanding the user and their context of use are much higher in adaptive systems
-- Personalised response: adaptive systems go beyond static functionality, tailoring their responses to individual users and their specific needs
-- Beware the bubble: adaptive systems should be able to handle new situations and user needs, even when these deviate from established patterns
-- Recovery mechanisms: when adaptation fails, users need clear paths to correct or override system decisions
-- Skill preservation: over-adaptation can lead to skill atrophy—maintain opportunities for users to exercise judgement
-
-{/* TODO: relations set aside, kept for review (not active edges):
-- [Focus and context](/patterns/focus-and-context)
-*/}
+- Findlater, L., & McGrenere, J. (2004). [A comparison of static, adaptive, and adaptable menus](https://doi.org/10.1145/985692.985704), CHI '04.
+- Gajos, K. Z., Czerwinski, M., Tan, D. S., & Weld, D. S. (2006). [Exploring the design space for adaptive graphical user interfaces](https://doi.org/10.1145/1133265.1133306), AVI '06.
+- Jameson, A. (2008). Adaptive Interfaces and Agents, in *The Human-Computer Interaction Handbook* (2nd ed.).
