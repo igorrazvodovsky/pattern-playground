@@ -563,7 +563,7 @@
   .section-mark,
   :is(:scope:is(article), :scope article) h2 {
     text-align: center;
-    color: oklch(from var(--c-body) l c h / 50%);
+    color: oklch(from var(--c-body) l c h / 30%);
     max-width: 40rem;
   }
 

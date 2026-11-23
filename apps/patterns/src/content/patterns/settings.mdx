@@ -1,42 +1,51 @@
 ---
 title: Settings
 added: 2025-11-22
-updated:
+updated: 2026-11-23
 role: pattern
+evidence:
+  - observed
+  - literature
 group: application
 activityLevel: action
 mediation: individual
 fun: 🗺️ 2/5. Mapping out the basics.
+description: "A dedicated configuration surface where the actor overrides standing defaults and manages explicit preferences across sessions."
 situation:
   initiating: >-
-    the defaults serve most actors and this one isn't among them on some axis they care
-    about enough to go looking; the difference is a preference rather than a pattern, so
-    no amount of watching their behaviour would have inferred it
-  resulting:
-    - >-
-      the actor's overrides are recorded and the system holds to them, so an adaptation
-      made once outlasts the session that made it
-    - >-
-      the surface accumulates: every option added is one more thing to look past, and the
-      ones nobody ever changes still cost the actors hunting for the ones they do
-    - clause: >-
-        a preference set once and honoured indefinitely stops being visible to the actor who
-        set it, so behaviour that follows from it reads later as a fault rather than as their
-        own earlier decision — the setting has to be named where the behaviour shows
-      sets-up: [explanation]
-    - clause: >-
-        in shared configuration, one actor's change alters what others see without their
-        doing anything — something has to carry the change across to them
-      sets-up: [notification]
+    … [good defaults](/patterns/good-defaults) settle the routine choices for
+    most actors, while standing decisions about notifications in
+    [attention and tempo](/sequences/attention-and-tempo), agent limits in
+    [governing autonomy](/sequences/governing-autonomy), or retained facts in
+    [memory and continuity](/sequences/memory-and-continuity) now govern how
+    the artifact behaves across sessions. Settings give the actor a dedicated
+    place to override those defaults and inspect or change standing
+    preferences on axes they care about, where observing their behaviour alone
+    would never infer the choice.
+  resulting: >-
+    Build each settings panel as a [form](/patterns/form), and as options grow
+    beyond a single screen, manage their depth with
+    [progressive disclosure](/patterns/progressive-disclosure) and
+    [sections](/patterns/sections). Host [localization](/patterns/localization)
+    controls among the preferences so language, timezone, and regional formats
+    can be overridden in one place. Confirm every saved change with
+    [status feedback](/patterns/status-feedback) and let [undo](/patterns/undo)
+    walk back an override so exploratory configuration stays safe. Because a
+    preference set once soon drops out of sight and later behaviour can read as
+    a fault, pair active overrides with [explanation](/patterns/explanation)
+    where their effect appears. In shared configuration, where one actor's
+    change alters what others see without their acting, carry the change across
+    with [notification](/patterns/notification). Where a standing preference
+    cannot be captured on a fixed axis, offer
+    [standing instructions](/patterns/standing-instructions) instead…
 relationships:
   hosts:
-    - to: localization
-      note: locale controls live among the preferences
+    - localization
   precedes:
-    - to: undo
-      note: a recorded override is state undo can walk back, which is what makes exploratory configuration safe
-    - to: status-feedback
-      note: a changed preference is what feedback confirms back to the actor
+    - undo
+    - status-feedback
+    - explanation
+    - notification
   enacts:
     - to: agency
       note: the actor overrides the defaults once and the system holds to it
@@ -45,124 +54,39 @@ relationships:
     - to: malleability
       note: settings let the actor reshape system behaviour to their context by hand
   complements:
-    - to: progressive-disclosure
-      note: manages complexity in extensive settings through hierarchical revelation
-    - to: form
-      note: "settings are a form"
+    - progressive-disclosure
+    - form
+    - standing-instructions
     - to: wizard
-      note: may guide actors through initial settings configuration during setup
-    - to: standing-instructions
-      note: settings hold the preferences that fit an enumerated axis; a standing instruction holds what no axis anticipated
+      note: a wizard may guide actors through initial settings configuration during setup
   tangential:
     - to: workspace
       note: settings affect workspace behaviour and may be scoped to workspace contexts
     - to: collaboration
       note: settings include collaboration preferences and affect shared work
 ---
-Centralized configuration space where actors define system behaviour, establish preferences, and exercise control over their environment. Settings mediate the tension between sensible defaults that serve most users and the diversity of individual needs that those defaults cannot accommodate.
 
-Settings implement [agency](/patterns/agency) through configuration control, respect [privacy](/patterns/privacy) through visibility and access preferences, and support [malleability](/patterns/malleability) by allowing actors to shape system behaviour to their contexts.
+* * *
 
-## Behavioural position
+**No single default fits every actor's context, working style, or privacy boundary, yet every option exposed to cover those differences adds another control that everyone else has to look past. When preferences are buried in primary workflows they clutter everyday work; when every unresolved design decision is dumped into a configuration screen instead, the surface grows until actors cannot find the few controls they actually need—and any preference they do change silently shapes future behaviour long after they have forgotten setting it.**
 
-Within the [intent & interaction](/patterns/interaction) framework, settings operate across multiple behavioural categories depending on actor familiarity and intent.
+Whether a choice belongs in settings turns on whether it is genuinely preferential—time format, locale, notification tolerance, keyboard habits—where no single default fits everyone and the choice lasts across sessions. A setting also earns its place when it serves a smaller group whose need is essential to their use of the artifact, such as an accessibility or regional requirement, even if most actors never change it. Frequently toggled options belong in the primary interface as a mode switch or filter, inline adjustments made while working belong to [remembered state](/patterns/remembered-state), and unresolved product decisions belong to neither: every option nobody changes still slows down actors hunting for the ones they do. Beyond configuration, a clean settings surface doubles as a readable map of what the artifact lets the actor control.
 
-### Navigating for experienced actors
+Therefore,
 
-When actors know exactly which setting they need, settings support efficient [navigating behaviour](/patterns/interaction#navigating). Clear organization, search functionality, and predictable structure enable direct access. Recent settings and favourites support swift re-finding.
+**Provide a dedicated settings surface for genuine, infrequent preferences that override standing defaults across sessions. Keep the list small by making sensible defaults do the work for most actors, match the structure to the number of options—flat when there are seven or fewer, sectioned up to about sixteen, and split into domain pages beyond that—and separate personal, team, and organisational scopes clearly so every actor can see who a change affects and whether they have authority to make it.**
 
-### Exploring for discovery
+Never require an actor to visit settings before they can start working, and keep defaults safe for actors who never open the screen.
 
-New actors or those investigating available options engage in [exploring behaviour](/patterns/interaction#exploring). Progressive disclosure, logical grouping, and helpful descriptions support this discovery mode without overwhelming. Settings can serve as educational space—revealing capabilities through configuration options.
+## In practice
 
-### Sense-making and integration
-
-Settings facilitate [sense-making](/patterns/interaction#sense-making--integration) by organizing system capabilities into comprehensible structure. Actors build mental models of what's configurable and how different options relate. This understanding extends beyond immediate configuration tasks—settings documentation becomes reference material for understanding system behaviour.
-
-## Organizational structure
-
-- Flat structure (≤7 preferences): Present all options without grouping. Single-page view enables actors to see everything available. Appropriate for simple systems or specialized tools with limited configuration needs.
-- Sectioned structure (8–16 preferences): Use visual dividers or expandable sections to create logical groupings. Actors can scan section headers to locate relevant areas. Still maintains single-page cohesion whilst reducing visual complexity.
-- Hierarchical structure (16+ preferences): Create separate pages or screens for distinct configuration areas. Use consistent navigation (sidebar, tabs, or breadcrumbs) to show location and enable movement. Match terminology between navigation labels and screen titles. This approach prevents overwhelming actors but requires careful information architecture—groupings must align with mental models.
-
-### Organisation rules
-
-- Priority by frequency: Most commonly needed settings appear first or most prominently
-- Grouping by domain: Cluster related preferences (all notification settings together, all privacy controls together)
-- Separation by scope: Distinguish personal, team, and organizational settings clearly
-
-## Access control and scope
-
-### Personal settings
-
-Individual actor preferences visible and modifiable only by that actor. These implement [privacy](/patterns/privacy) through individual control and don't require coordination.
-
-### Team settings
-
-Shared configuration visible to team members, modifiable by designated roles. Requires clear permission communication—actors should understand why settings are disabled and who can modify them.
-
-### Organizational settings
-
-Company-wide configuration affecting all actors. Typically restricted to administrative roles. Changes here have broad consequences requiring careful communication and appropriate confirmation friction.
-
-### Inheritance and overrides
-
-Complex systems may support inheritance—team settings inherit from organizational settings, individuals can override team defaults.
-
-## In-context shortcuts
-
-Rather than forcing actors into settings for every adjustment, provide contextual access where appropriate:
-
-- Icon-only buttons with tooltips linking directly to relevant settings from feature pages
-- Quick toggles for frequently accessed preferences in primary interface
-- Right-click or long-press contextual menus offering "Configure..." options
-- Smart defaults that detect usage patterns and suggest relevant settings
-
-This approach balances settings as dedicated configuration space with practical access patterns. Not everything belongs in settings; some "preferences" are actually modes or filters that should remain in primary workflows.
-
-## Settings as a map of what is possible
-
-Settings can serve educational purposes beyond configuration. By organizing and documenting available capabilities, settings help actors understand what's possible.
-This is particularly valuable in systems with extensive features that actors may not discover through normal usage.
-
-## Design legitimacy
-
-The perception that "settings equal design failure" oversimplifies. Settings represent design failure when they:
-- Expose decisions designers should make definitively
-- Dump unresolved questions onto actors as false "choice"
-- Proliferate because every stakeholder demanded their preference become configurable
-
-Settings represent legitimate design when they:
-- Acknowledge genuine preference diversity ("I prefer 12-hour time" vs "I prefer 24-hour time"—both valid)
-- Respect actor expertise and working styles (keyboard shortcuts, information density)
-- Accommodate edge cases key to minority users without compromising majority experience
-- Enable systems to fit diverse contexts (timezone, language, accessibility needs)
-
-The question isn't "Should this have settings?" but "Is this genuinely preferential, or should we make a decision?"
-
-## When settings serve
-
-- Preferences are genuinely preferential: No objectively "correct" choice exists; different actors have legitimate different needs
-- Minority needs matter: The preference serves a smaller user group but is essential to their experience
-- Infrequent configuration: Setting is established once or rarely changed, not manipulated during primary workflows
-- Scope of control: Configuration affects system-wide behaviour rather than document-specific choices
-- Defaults exist: Sensible starting values work for most actors; settings enable refinement not initialization
-- Educational value: Revealing available options helps actors understand system capabilities
-
-## When settings constrain
-
-- Frequently accessed: If actors regularly toggle a setting, it belongs in primary interface as mode switch or filter
-- No reasonable default: Forcing actors into settings immediately after signup indicates missing design decisions
-- Dumping ground: Settings become repository for design failures—unresolved feature questions disguised as "user choice"
-- Configuration complexity: When settings require extensive documentation, the underlying feature may need simplification
-- Inconsistent application: Unclear scope (does this affect just me? my team? the whole company?) creates confusion
-- Overwhelming choice: Exposing every internal parameter creates analysis paralysis rather than empowerment
-
-The "convention over configuration" principle suggests systems should make good decisions on behalf of actors, requiring settings only where genuine preference diversity exists.
+- *Search at scale*: once settings split across pages, add search and match navigation labels to page titles so actors who know what they want can jump straight to it.
+- *Inherited and locked values*: where personal, team, and organisational scopes nest, show whether an active value is inherited or overridden; when a control is locked by a higher role, state why and who can change it rather than disabling it silently.
+- *In-context entry points*: link directly to the relevant setting from the screen where its behaviour shows, and offer to promote a repeated inline adjustment into a standing default.
+- *High-impact changes*: pair organisational or wide-reaching overrides with confirmation friction proportional to how many actors they affect.
 
 ## Resources & references
 
-### Practitioner guidance
 - UI Patterns / [Settings](https://ui-patterns.com/patterns/settings)
 - GitLab Pajamas / [Settings management](https://design.gitlab.com/patterns/settings-management/)
 - Apple HIG / [Settings](https://developer.apple.com/design/human-interface-guidelines/settings)

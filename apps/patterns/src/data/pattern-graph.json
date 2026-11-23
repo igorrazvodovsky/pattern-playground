@@ -3220,29 +3220,18 @@
       "path": "/patterns/settings",
       "role": "pattern",
       "situation": {
-        "initiating": "the defaults serve most actors and this one isn't among them on some axis they care about enough to go looking; the difference is a preference rather than a pattern, so no amount of watching their behaviour would have inferred it",
-        "resulting": [
-          {
-            "clause": "the actor's overrides are recorded and the system holds to them, so an adaptation made once outlasts the session that made it"
-          },
-          {
-            "clause": "the surface accumulates: every option added is one more thing to look past, and the ones nobody ever changes still cost the actors hunting for the ones they do"
-          },
-          {
-            "clause": "a preference set once and honoured indefinitely stops being visible to the actor who set it, so behaviour that follows from it reads later as a fault rather than as their own earlier decision — the setting has to be named where the behaviour shows",
-            "setsUp": [
-              "explanation"
-            ]
-          },
-          {
-            "clause": "in shared configuration, one actor's change alters what others see without their doing anything — something has to carry the change across to them",
-            "setsUp": [
-              "notification"
-            ]
-          }
-        ]
+        "initiating": "… [good defaults](/patterns/good-defaults) settle the routine choices for most actors, while standing decisions about notifications in [attention and tempo](/sequences/attention-and-tempo), agent limits in [governing autonomy](/sequences/governing-autonomy), or retained facts in [memory and continuity](/sequences/memory-and-continuity) now govern how the artifact behaves across sessions. Settings give the actor a dedicated place to override those defaults and inspect or change standing preferences on axes they care about, where observing their behaviour alone would never infer the choice.",
+        "resulting": "Build each settings panel as a [form](/patterns/form), and as options grow beyond a single screen, manage their depth with [progressive disclosure](/patterns/progressive-disclosure) and [sections](/patterns/sections). Host [localization](/patterns/localization) controls among the preferences so language, timezone, and regional formats can be overridden in one place. Confirm every saved change with [status feedback](/patterns/status-feedback) and let [undo](/patterns/undo) walk back an override so exploratory configuration stays safe. Because a preference set once soon drops out of sight and later behaviour can read as a fault, pair active overrides with [explanation](/patterns/explanation) where their effect appears. In shared configuration, where one actor's change alters what others see without their acting, carry the change across with [notification](/patterns/notification). Where a standing preference cannot be captured on a fixed axis, offer [standing instructions](/patterns/standing-instructions) instead…"
       },
-      "group": "application"
+      "group": "application",
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "shareability",
@@ -7307,7 +7296,8 @@
       "type": "related",
       "extractedFrom": "frontmatter:related",
       "situation": "Where a standing default does not fit an actor on an axis they care about, let them override it once in [settings](/patterns/settings) so the preference holds across sessions; and where confidence is too low to pre-fill a value directly, offer a [suggestion](/patterns/suggestion) instead of committing a guess on the actor's behalf",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "[good defaults](/patterns/good-defaults) settle the routine choices for most actors, while standing decisions about notifications in [attention and tempo](/sequences/attention-and-tempo), agent limits in [governing autonomy](/sequences/governing-autonomy), or retained facts in [memory and continuity](/sequences/memory-and-continuity) now govern how the artifact behaves across sessions."
     },
     {
       "source": "good-defaults",
@@ -10706,22 +10696,41 @@
       "source": "settings",
       "target": "localization",
       "type": "hosts",
-      "label": "locale controls live among the preferences",
-      "extractedFrom": "frontmatter:hosts"
+      "extractedFrom": "frontmatter:hosts",
+      "situation": "Host [localization](/patterns/localization) controls among the preferences so language, timezone, and regional formats can be overridden in one place.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "settings",
       "target": "undo",
       "type": "precedes",
-      "label": "a recorded override is state undo can walk back, which is what makes exploratory configuration safe",
-      "extractedFrom": "frontmatter:precedes"
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Confirm every saved change with [status feedback](/patterns/status-feedback) and let [undo](/patterns/undo) walk back an override so exploratory configuration stays safe.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "settings",
       "target": "status-feedback",
       "type": "precedes",
-      "label": "a changed preference is what feedback confirms back to the actor",
-      "extractedFrom": "frontmatter:precedes"
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Confirm every saved change with [status feedback](/patterns/status-feedback) and let [undo](/patterns/undo) walk back an override so exploratory configuration stays safe.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "settings",
+      "target": "explanation",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Because a preference set once soon drops out of sight and later behaviour can read as a fault, pair active overrides with [explanation](/patterns/explanation) where their effect appears.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "settings",
+      "target": "notification",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "In shared configuration, where one actor's change alters what others see without their acting, carry the change across with [notification](/patterns/notification).",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "settings",
@@ -10748,31 +10757,33 @@
       "source": "settings",
       "target": "progressive-disclosure",
       "type": "complements",
-      "label": "manages complexity in extensive settings through hierarchical revelation",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Build each settings panel as a [form](/patterns/form), and as options grow beyond a single screen, manage their depth with [progressive disclosure](/patterns/progressive-disclosure) and [sections](/patterns/sections).",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "settings",
       "target": "form",
       "type": "complements",
-      "label": "settings are a form",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "settings",
-      "target": "wizard",
-      "type": "complements",
-      "label": "may guide actors through initial settings configuration during setup",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Build each settings panel as a [form](/patterns/form), and as options grow beyond a single screen, manage their depth with [progressive disclosure](/patterns/progressive-disclosure) and [sections](/patterns/sections).",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "settings",
       "target": "standing-instructions",
       "type": "complements",
-      "label": "settings hold the preferences that fit an enumerated axis; a standing instruction holds what no axis anticipated",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Where a standing rule must execute deterministically rather than by interpretation, use [rule composition](/patterns/rule-composition); where a preference fits a fixed axis, put it in [settings](/patterns/settings); where a procedure should run only when invoked, build a [workflow](/patterns/workflow); and where the goal is to limit what the agent may do on its own, enforce it as a grant through [bounded autonomy](/patterns/bounded-autonomy) rather than as prose",
-      "glossFrom": "target:resulting"
+      "situation": "Where a standing preference cannot be captured on a fixed axis, offer [standing instructions](/patterns/standing-instructions) instead",
+      "glossFrom": "source:resulting",
+      "farSituation": "Where a standing rule must execute deterministically rather than by interpretation, use [rule composition](/patterns/rule-composition); where a preference fits a fixed axis, put it in [settings](/patterns/settings); where a procedure should run only when invoked, build a [workflow](/patterns/workflow); and where the goal is to limit what the agent may do on its own, enforce it as a grant through [bounded autonomy](/patterns/bounded-autonomy) rather than as prose"
+    },
+    {
+      "source": "settings",
+      "target": "wizard",
+      "type": "complements",
+      "label": "a wizard may guide actors through initial settings configuration during setup",
+      "extractedFrom": "frontmatter:complements"
     },
     {
       "source": "settings",
@@ -12484,20 +12495,6 @@
       "target": "closing",
       "type": "precedes",
       "situation": "the sequence is closed from the actor's side and the encounter is between activities; if this was the last thing they came for, the encounter itself is ready to be ended rather than left open",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "settings",
-      "target": "explanation",
-      "type": "precedes",
-      "situation": "a preference set once and honoured indefinitely stops being visible to the actor who set it, so behaviour that follows from it reads later as a fault rather than as their own earlier decision — the setting has to be named where the behaviour shows",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "settings",
-      "target": "notification",
-      "type": "precedes",
-      "situation": "in shared configuration, one actor's change alters what others see without their doing anything — something has to carry the change across to them",
       "extractedFrom": "situation:resulting"
     },
     {
