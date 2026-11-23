@@ -16,7 +16,7 @@ acts_on:
   - { concept: versioning }
 situation:
   initiating: >-
-    … [saving](/patterns/saving) happens automatically as work evolves across sessions,
+    … [automatic saving](/patterns/automatic-saving) happens as work evolves across sessions,
     collaborators, or large agent runs, and [undo](/patterns/undo) only steps back through
     recent edits while the [activity log](/patterns/activity-log) records events without
     restoring past states. Here the actor needs an earlier state of the work—last week's
@@ -38,7 +38,7 @@ situation:
     earlier versions…
 relationships:
   follows:
-    - to: saving
+    - to: automatic-saving
       note: "automatic saving removes the 'this version counts' act from the Save button; version history gives it back a place"
   composed-of:
     - to: comparing

@@ -226,7 +226,8 @@
         and out to other tools, how a rule or a bulk change is tried before it
         counts, and how things are removed.
       patterns:
-        - saving
+        - automatic-saving
+        - pending-changes
         - draft-and-publish
         - version-history
         - sync-through-own-storage

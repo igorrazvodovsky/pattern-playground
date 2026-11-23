@@ -474,6 +474,26 @@
       ]
     },
     {
+      "id": "automatic-saving",
+      "title": "Automatic saving",
+      "category": "Actions",
+      "path": "/patterns/automatic-saving",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… in [making changes](/sequences/making-changes), the actor alters the artifact through [editing in place](/patterns/editing-in-place) or a [form](/patterns/form), and those changes exist only in the running program until the system writes them to storage. This step keeps open-ended work safe without making storage an act the actor has to manage.",
+        "resulting": "Use this pattern as it is for open-ended work: report what was stored and when through [status feedback](/patterns/status-feedback), and rely on [undo](/patterns/undo) and [version history](/patterns/version-history) to carry the recovery and milestone acts that left the Save button. Where other people can read the work while it is still changing, separate readiness from storage with [draft and publish](/patterns/draft-and-publish) so publishing becomes a deliberate act of its own. Where a real technical constraint or transaction boundary requires edits to land or be discarded as a unit, modify this arrangement with [pending changes](/patterns/pending-changes)…"
+      },
+      "group": "application",
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "used"
+        }
+      ]
+    },
+    {
       "id": "block-based-editor",
       "title": "Block-based editor",
       "category": "Actions",
@@ -1509,13 +1529,16 @@
       "role": "pattern",
       "situation": {
         "initiating": "… in [making changes](/sequences/making-changes) the actor has reached the point of saying what the change is, and it takes several related answers: the fields only make sense together, need more room than the display offers, or apply to a set rather than the item in view. [Editing in place](/patterns/editing-in-place) handles the single value; a form is the surface for the set. The editor for a standing instruction in [delegating a task](/sequences/delegating-a-task) uses the same surface for a set of fields that stays open.",
-        "resulting": "Choose a move for each field in the order of the [making changes](/sequences/making-changes) form sub-sequence: [forgiving format](/patterns/forgiving-format) or [structured format](/patterns/structured-format) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value, and [validation](/patterns/validation) answering an unacceptable input at the field that produced it. Where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting), and let [status feedback](/patterns/status-feedback) report what the submission did. Where a form outgrows one screen, split it into parts with [sections](/patterns/sections), reveal depth as it becomes relevant with [progressive disclosure](/patterns/progressive-disclosure), or move to one question per page with [step by step](/patterns/step-by-step); where later questions depend on earlier answers, turn it into a [wizard](/patterns/wizard). Decide with [saving](/patterns/saving) what happens to a half-filled form, and let [localization](/patterns/localization) govern which formats its fields accept…"
+        "resulting": "Choose a move for each field in the order of the [making changes](/sequences/making-changes) form sub-sequence: [forgiving format](/patterns/forgiving-format) or [structured format](/patterns/structured-format) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value, and [validation](/patterns/validation) answering an unacceptable input at the field that produced it. Where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting), and let [status feedback](/patterns/status-feedback) report what the submission did. Where a form outgrows one screen, split it into parts with [sections](/patterns/sections), reveal depth as it becomes relevant with [progressive disclosure](/patterns/progressive-disclosure), or move to one question per page with [step by step](/patterns/step-by-step); where later questions depend on earlier answers, turn it into a [wizard](/patterns/wizard). Hold the fields as [pending changes](/patterns/pending-changes) until submitted—or pair with [automatic saving](/patterns/automatic-saving) to keep a half-filled form safe—and let [localization](/patterns/localization) govern which formats its fields accept…"
       },
       "group": "application",
       "realisedBy": [
         "components-form--docs"
       ],
       "evidence": [
+        {
+          "kind": "used"
+        },
         {
           "kind": "built"
         }
@@ -2505,6 +2528,26 @@
       ]
     },
     {
+      "id": "pending-changes",
+      "title": "Pending changes",
+      "category": "Actions",
+      "path": "/patterns/pending-changes",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… in [making changes](/sequences/making-changes), [automatic saving](/patterns/automatic-saving) will not work because the change only makes sense as a unit—a [form](/patterns/form) whose fields depend on each other, a [settings](/patterns/settings) panel, a batch of deletions, or a storage constraint that accepts whole records only. Applying half the edit would leave the artifact in an incoherent state, or the actor needs a genuine way to abandon the attempt.",
+        "resulting": "Show the uncommitted state clearly through [status feedback](/patterns/status-feedback), and pair with [resuming](/patterns/resuming) where pending edits need to survive an interruption. Where the pending set is large or the commitment costly, pass it through [review before submitting](/patterns/review-before-submitting) before applying it. Where pending edits include removals, stage them as a batch alongside [deletion](/patterns/deletion) so one action confirms or cancels the lot. Where two actors hold overlapping pending edits on the same artifact, settle the clash at commit time with [reconciliation](/patterns/reconciliation)…"
+      },
+      "group": "application",
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "used"
+        }
+      ]
+    },
+    {
       "id": "permissions",
       "title": "Permissions",
       "category": "Actions",
@@ -2937,7 +2980,7 @@
       "seed": true,
       "evidence": [
         {
-          "kind": "observed"
+          "kind": "used"
         },
         {
           "kind": "literature"
@@ -3020,42 +3063,6 @@
         },
         {
           "kind": "literature"
-        }
-      ]
-    },
-    {
-      "id": "saving",
-      "title": "Saving",
-      "category": "Actions",
-      "path": "/patterns/saving",
-      "role": "pattern",
-      "situation": {
-        "initiating": "the medium does not keep work on its own — changes exist only in the running program until the system writes them to storage — and the interface has to decide whether the actor manages that necessity or never meets it",
-        "resulting": [
-          {
-            "clause": "whatever the actor is asked to do about persistence, they are asked for a stated reason rather than because a Save button is what applications have"
-          },
-          {
-            "clause": "the acts that used to travel with saving — committing a version, discarding a draft, marking work done — either have a home of their own or quietly disappear"
-          },
-          {
-            "clause": "where storage happens without the actor, the system owes them a report of what it stored and when; where it waits for them, the work between saves is at risk"
-          },
-          {
-            "clause": "an explicit save creates pending state, which is what makes cancel and review before committing possible at all — and is also where conflicts between two actors surface"
-          },
-          {
-            "clause": "saving no longer says anything about whether work is ready for others, so publishing becomes a separate, deliberate act",
-            "setsUp": [
-              "draft-and-publish"
-            ]
-          }
-        ]
-      },
-      "group": "application",
-      "evidence": [
-        {
-          "kind": "observed"
         }
       ]
     },
@@ -3789,7 +3796,7 @@
       "path": "/patterns/version-history",
       "role": "pattern",
       "situation": {
-        "initiating": "… [saving](/patterns/saving) happens automatically as work evolves across sessions, collaborators, or large agent runs, and [undo](/patterns/undo) only steps back through recent edits while the [activity log](/patterns/activity-log) records events without restoring past states. Here the actor needs an earlier state of the work—last week's draft, the copy sent to a client, or the file before a rewrite.",
+        "initiating": "… [automatic saving](/patterns/automatic-saving) happens as work evolves across sessions, collaborators, or large agent runs, and [undo](/patterns/undo) only steps back through recent edits while the [activity log](/patterns/activity-log) records events without restoring past states. Here the actor needs an earlier state of the work—last week's draft, the copy sent to a client, or the file before a rewrite.",
         "resulting": "Show how an earlier version differs from the current one with [comparing](/patterns/comparing) before the actor returns to it. Record who or what produced each version with [attribution](/patterns/attribution) so the actor knows which state to trust. Where work is shared through [draft and publish](/patterns/draft-and-publish), name each published state automatically in the history. Where stepping back to an earlier point discards what followed, grade any confirmation through [action consequences](/patterns/action-consequences). Where the actor wants to explore from an earlier point without giving up the current line, use [branching](/patterns/branching) to keep both lines alive. Where returning to an older version collides with a colleague's later edits, settle the clash with [reconciliation](/patterns/reconciliation) rather than a silent overwrite. And decide with [deletion](/patterns/deletion) whether removing content also clears it from earlier versions…"
       },
       "group": "application",
@@ -4115,7 +4122,7 @@
     },
     {
       "source": "action-consequences",
-      "target": "saving",
+      "target": "pending-changes",
       "type": "related",
       "label": "staging and drafts are severity reducers: they buy a review step before consequences commit",
       "extractedFrom": "frontmatter:related"
@@ -5000,6 +5007,45 @@
       "target": "adaptation",
       "type": "enacts",
       "label": "autofill adapts field output across sessions from stated and observed actor values",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "automatic-saving",
+      "target": "draft-and-publish",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where other people can read the work while it is still changing, separate readiness from storage with [draft and publish](/patterns/draft-and-publish) so publishing becomes a deliberate act of its own.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "automatic-saving",
+      "target": "pending-changes",
+      "type": "alternative",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where a real technical constraint or transaction boundary requires edits to land or be discarded as a unit, modify this arrangement with [pending changes](/patterns/pending-changes)",
+      "glossFrom": "source:resulting",
+      "farSituation": "in [making changes](/sequences/making-changes), [automatic saving](/patterns/automatic-saving) will not work because the change only makes sense as a unit—a [form](/patterns/form) whose fields depend on each other, a [settings](/patterns/settings) panel, a batch of deletions, or a storage constraint that accepts whole records only."
+    },
+    {
+      "source": "automatic-saving",
+      "target": "undo",
+      "type": "related",
+      "extractedFrom": "frontmatter:related",
+      "situation": "Use this pattern as it is for open-ended work: report what was stored and when through [status feedback](/patterns/status-feedback), and rely on [undo](/patterns/undo) and [version history](/patterns/version-history) to carry the recovery and milestone acts that left the Save button.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "automatic-saving",
+      "target": "collaboration",
+      "type": "related",
+      "label": "automatic saving merges concurrent edits continuously in collaboration rather than holding them for a commit boundary",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "automatic-saving",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "persistence happens continuously as the actor works rather than at discrete save moments",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -6343,10 +6389,12 @@
     },
     {
       "source": "deletion",
-      "target": "saving",
+      "target": "pending-changes",
       "type": "related",
       "label": "Staged deletions within save/cancel workflows",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "Where pending edits include removals, stage them as a batch alongside [deletion](/patterns/deletion) so one action confirms or cancels the lot.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "deletion",
@@ -6500,10 +6548,12 @@
     },
     {
       "source": "editing-in-place",
-      "target": "saving",
+      "target": "automatic-saving",
       "type": "related",
       "label": "editing in place commits piecemeal, which is the automatic arrangement's granularity question seen from the editing side",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "in [making changes](/sequences/making-changes), the actor alters the artifact through [editing in place](/patterns/editing-in-place) or a [form](/patterns/form), and those changes exist only in the running program until the system writes them to storage.",
+      "glossFrom": "target:initiating"
     },
     {
       "source": "editing-in-place",
@@ -7071,18 +7121,28 @@
     },
     {
       "source": "form",
-      "target": "saving",
+      "target": "pending-changes",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Decide with [saving](/patterns/saving) what happens to a half-filled form, and let [localization](/patterns/localization) govern which formats its fields accept",
-      "glossFrom": "source:resulting"
+      "situation": "Hold the fields as [pending changes](/patterns/pending-changes) until submitted—or pair with [automatic saving](/patterns/automatic-saving) to keep a half-filled form safe—and let [localization](/patterns/localization) govern which formats its fields accept",
+      "glossFrom": "source:resulting",
+      "farSituation": "in [making changes](/sequences/making-changes), [automatic saving](/patterns/automatic-saving) will not work because the change only makes sense as a unit—a [form](/patterns/form) whose fields depend on each other, a [settings](/patterns/settings) panel, a batch of deletions, or a storage constraint that accepts whole records only."
+    },
+    {
+      "source": "form",
+      "target": "automatic-saving",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Hold the fields as [pending changes](/patterns/pending-changes) until submitted—or pair with [automatic saving](/patterns/automatic-saving) to keep a half-filled form safe—and let [localization](/patterns/localization) govern which formats its fields accept",
+      "glossFrom": "source:resulting",
+      "farSituation": "in [making changes](/sequences/making-changes), the actor alters the artifact through [editing in place](/patterns/editing-in-place) or a [form](/patterns/form), and those changes exist only in the running program until the system writes them to storage."
     },
     {
       "source": "form",
       "target": "localization",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Decide with [saving](/patterns/saving) what happens to a half-filled form, and let [localization](/patterns/localization) govern which formats its fields accept",
+      "situation": "Hold the fields as [pending changes](/patterns/pending-changes) until submitted—or pair with [automatic saving](/patterns/automatic-saving) to keep a half-filled form safe—and let [localization](/patterns/localization) govern which formats its fields accept",
       "glossFrom": "source:resulting"
     },
     {
@@ -9248,6 +9308,28 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
+      "source": "pending-changes",
+      "target": "resuming",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Show the uncommitted state clearly through [status feedback](/patterns/status-feedback), and pair with [resuming](/patterns/resuming) where pending edits need to survive an interruption.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "pending-changes",
+      "target": "collaboration",
+      "type": "related",
+      "label": "pending changes surface concurrent edits in collaboration at the commit boundary rather than merging continuously",
+      "extractedFrom": "frontmatter:related"
+    },
+    {
+      "source": "pending-changes",
+      "target": "temporality",
+      "type": "enacts",
+      "label": "holds edits in a reversible pending interval before they take effect",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "permissions",
       "target": "bounded-autonomy",
       "type": "precedes",
@@ -10278,9 +10360,9 @@
     },
     {
       "source": "resuming",
-      "target": "saving",
+      "target": "automatic-saving",
       "type": "related",
-      "label": "saving asks whether the actor manages persistence; resuming asks how they find kept work again",
+      "label": "automatic saving keeps work continuously without asking the actor; resuming asks how they find kept work again",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -10454,41 +10536,6 @@
       "target": "formality",
       "type": "enacts",
       "label": "pushes the actor's intent into the elements the system offers, and what does not fit is lost at the edge",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "saving",
-      "target": "deletion",
-      "type": "related",
-      "label": "Save/cancel workflows as confirmation for destructive operations",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "saving",
-      "target": "action-consequences",
-      "type": "related",
-      "label": "Evaluating when save/cancel is appropriate",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "saving",
-      "target": "undo",
-      "type": "related",
-      "label": "Reversibility in saved states",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "saving",
-      "target": "collaboration",
-      "type": "related",
-      "label": "Saving patterns handle conflict resolution and multi-user editing scenarios in shared workspaces",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "saving",
-      "target": "temporality",
-      "type": "enacts",
-      "label": "when state is persisted, and how often, across the session",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -11650,13 +11697,14 @@
       "extractedFrom": "frontmatter:tangential"
     },
     {
-      "source": "saving",
+      "source": "automatic-saving",
       "target": "version-history",
       "type": "precedes",
       "incomingNote": "automatic saving removes the 'this version counts' act from the Save button; version history gives it back a place",
       "extractedFrom": "frontmatter:follows",
-      "situation": "[saving](/patterns/saving) happens automatically as work evolves across sessions, collaborators, or large agent runs, and [undo](/patterns/undo) only steps back through recent edits while the [activity log](/patterns/activity-log) records events without restoring past states.",
-      "glossFrom": "target:initiating"
+      "situation": "Use this pattern as it is for open-ended work: report what was stored and when through [status feedback](/patterns/status-feedback), and rely on [undo](/patterns/undo) and [version history](/patterns/version-history) to carry the recovery and milestone acts that left the Save button.",
+      "glossFrom": "source:resulting",
+      "farSituation": "[automatic saving](/patterns/automatic-saving) happens as work evolves across sessions, collaborators, or large agent runs, and [undo](/patterns/undo) only steps back through recent edits while the [activity log](/patterns/activity-log) records events without restoring past states."
     },
     {
       "source": "comparing",
@@ -11683,7 +11731,7 @@
       "type": "complements",
       "label": "undo steps back through recent edits; version history lets the actor find and return to earlier versions",
       "extractedFrom": "frontmatter:complements",
-      "situation": "[saving](/patterns/saving) happens automatically as work evolves across sessions, collaborators, or large agent runs, and [undo](/patterns/undo) only steps back through recent edits while the [activity log](/patterns/activity-log) records events without restoring past states.",
+      "situation": "[automatic saving](/patterns/automatic-saving) happens as work evolves across sessions, collaborators, or large agent runs, and [undo](/patterns/undo) only steps back through recent edits while the [activity log](/patterns/activity-log) records events without restoring past states.",
       "glossFrom": "source:initiating"
     },
     {
@@ -11692,7 +11740,7 @@
       "type": "complements",
       "label": "the log keeps events, version history keeps restorable versions",
       "extractedFrom": "frontmatter:complements",
-      "situation": "[saving](/patterns/saving) happens automatically as work evolves across sessions, collaborators, or large agent runs, and [undo](/patterns/undo) only steps back through recent edits while the [activity log](/patterns/activity-log) records events without restoring past states.",
+      "situation": "[automatic saving](/patterns/automatic-saving) happens as work evolves across sessions, collaborators, or large agent runs, and [undo](/patterns/undo) only steps back through recent edits while the [activity log](/patterns/activity-log) records events without restoring past states.",
       "glossFrom": "source:initiating"
     },
     {
@@ -12429,13 +12477,6 @@
       "target": "trial-run",
       "type": "precedes",
       "situation": "reading the statement does not tell the actor what it matches or does; a selecting rule shows its result on the collection at once, an acting rule shows nothing until it fires",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "saving",
-      "target": "draft-and-publish",
-      "type": "precedes",
-      "situation": "saving no longer says anything about whether work is ready for others, so publishing becomes a separate, deliberate act",
       "extractedFrom": "situation:resulting"
     },
     {

@@ -1,0 +1,71 @@
+---
+title: Automatic saving
+added: 2025-03-12
+updated: 2026-11-23
+role: pattern
+group: application
+activityLevel: action
+mediation: individual
+fun: 😀 4/5.
+description: >-
+  Writing changes to storage continuously as the actor works, so persistence
+  stays out of their way and the acts that used to ride on a Save button get
+  homes of their own.
+evidence:
+  - observed
+  - used
+situation:
+  initiating: >-
+    … in [making changes](/sequences/making-changes), the actor alters the
+    artifact through [editing in place](/patterns/editing-in-place) or a
+    [form](/patterns/form), and those changes exist only in the running program
+    until the system writes them to storage. This step keeps open-ended work
+    safe without making storage an act the actor has to manage.
+  resulting: >-
+    Use this pattern as it is for open-ended work: report what was stored and
+    when through [status feedback](/patterns/status-feedback), and rely on
+    [undo](/patterns/undo) and [version history](/patterns/version-history) to
+    carry the recovery and milestone acts that left the Save button. Where
+    other people can read the work while it is still changing, separate
+    readiness from storage with [draft and publish](/patterns/draft-and-publish)
+    so publishing becomes a deliberate act of its own. Where a real technical
+    constraint or transaction boundary requires edits to land or be discarded
+    as a unit, modify this arrangement with
+    [pending changes](/patterns/pending-changes)…
+relationships:
+  precedes:
+    - draft-and-publish
+  alternative:
+    - pending-changes
+  related:
+    - undo
+    - to: collaboration
+      note: automatic saving merges concurrent edits continuously in collaboration rather than holding them for a commit boundary
+  enacts:
+    - to: temporality
+      note: persistence happens continuously as the actor works rather than at discrete save moments
+---
+
+* * *
+
+**People do not want to manage storage, yet software loses work that has not been written to storage. When an interface adds a Save button out of habit, it forces actors to guard against crashes and remember to commit; when it removes the button without replacing what rode on it, the acts of marking a version, discarding an attempt, and deciding work is ready for others vanish with it.**
+
+Because software storage historically had a button, unrelated human acts gathered onto the same control: declaring that a version counts, discarding an attempt since the last commit, or signalling that work is ready for others. Automatic storage is the right default for open-ended work because lost work cannot be recovered afterwards, whereas each of those acts can be given its own home.
+
+Only a real technical constraint (rate-limited or whole-record writes) or a transaction boundary overrides this default, in which case [pending changes](/patterns/pending-changes) applies instead; a Save button kept only out of habit can go.
+
+Therefore,
+
+**Write changes to storage automatically as the actor works—after a short pause, on a timer, or when focus leaves a field—and give versioning, recovery, and publishing their own controls rather than collapsing them onto a Save button. Report quietly what was stored and when, and interrupt clearly whenever a write fails.**
+
+Do not mix automatic saving with manual save buttons silently across adjacent screens: an actor who sees a Save button on one screen will wonder whether edits on the next screen were kept, so mark which rule applies whenever both must coexist. Silent automatic saving that fails is worse than asking the actor to save.
+
+## In practice
+
+- *Status and failure:* an indicator with a timestamp outlasts a spinner; when a write fails, interrupt clearly and keep a way to retry or copy the unsaved text rather than dropping it.
+- *Write timing:* flush fast enough that a closed tab loses nothing, and coarsely enough not to flood storage writes or version snapshots.
+
+## To-do
+
+- Offline and queued changes: local drafts pushed on reconnection, and what the actor is told while the queue exists.
+- Ownership and portability: check how wanting work in a file the actor controls connects to [local-first ownership](/patterns/local-first-ownership) and [sync through own storage](/patterns/sync-through-own-storage).

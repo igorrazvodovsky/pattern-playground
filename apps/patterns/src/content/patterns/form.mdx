@@ -3,6 +3,8 @@ title: Form
 added: 2025-07-08
 updated: 2026-10-21
 role: pattern
+evidence: 
+  - used
 group: application
 activityLevel: action
 mediation: individual
@@ -13,7 +15,7 @@ situation:
   initiating: >-
     … in [making changes](/sequences/making-changes) the actor has reached the point of saying what the change is, and it takes several related answers: the fields only make sense together, need more room than the display offers, or apply to a set rather than the item in view. [Editing in place](/patterns/editing-in-place) handles the single value; a form is the surface for the set. The editor for a standing instruction in [delegating a task](/sequences/delegating-a-task) uses the same surface for a set of fields that stays open.
   resulting: >-
-    Choose a move for each field in the order of the [making changes](/sequences/making-changes) form sub-sequence: [forgiving format](/patterns/forgiving-format) or [structured format](/patterns/structured-format) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value, and [validation](/patterns/validation) answering an unacceptable input at the field that produced it. Where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting), and let [status feedback](/patterns/status-feedback) report what the submission did. Where a form outgrows one screen, split it into parts with [sections](/patterns/sections), reveal depth as it becomes relevant with [progressive disclosure](/patterns/progressive-disclosure), or move to one question per page with [step by step](/patterns/step-by-step); where later questions depend on earlier answers, turn it into a [wizard](/patterns/wizard). Decide with [saving](/patterns/saving) what happens to a half-filled form, and let [localization](/patterns/localization) govern which formats its fields accept…
+    Choose a move for each field in the order of the [making changes](/sequences/making-changes) form sub-sequence: [forgiving format](/patterns/forgiving-format) or [structured format](/patterns/structured-format) for the format of the answer, [bounded choice](/patterns/bounded-choice) where the value comes from a fixed set, [good defaults](/patterns/good-defaults) pre-filled, [autocomplete](/patterns/autocomplete) and [autofill](/patterns/autofill) finishing or supplying a value, and [validation](/patterns/validation) answering an unacceptable input at the field that produced it. Where the set is large or the commitment costly, end with a [review before submitting](/patterns/review-before-submitting), and let [status feedback](/patterns/status-feedback) report what the submission did. Where a form outgrows one screen, split it into parts with [sections](/patterns/sections), reveal depth as it becomes relevant with [progressive disclosure](/patterns/progressive-disclosure), or move to one question per page with [step by step](/patterns/step-by-step); where later questions depend on earlier answers, turn it into a [wizard](/patterns/wizard). Hold the fields as [pending changes](/patterns/pending-changes) until submitted—or pair with [automatic saving](/patterns/automatic-saving) to keep a half-filled form safe—and let [localization](/patterns/localization) govern which formats its fields accept…
 relationships:
   enacts:
     - to: formality
@@ -22,7 +24,8 @@ relationships:
     - review-before-submitting
   complements:
     - status-feedback
-    - saving
+    - pending-changes
+    - automatic-saving
     - localization
 ---
 

@@ -134,19 +134,25 @@ sub-sequences:
       made in place are saved one at a time, and a form keeps its values until
       it is submitted.
     steps:
-      - step: "Decide what saving stores and when it happens"
-        rule: saving
+      - step: "Store open-ended work automatically"
+        rule: automatic-saving
         gloss: >-
-          Separate storing the work from other actions that are often attached
-          to the Save button, such as creating a version, discarding a draft,
-          or marking work as done, and give each action its own control. Save
-          automatically for open-ended work, and manually where a real
-          constraint or transaction requires a pending state that the actor
-          can review or cancel. Where both are used, show which applies where,
-          and in both cases show what has been stored and what has not. Where
-          two actors can edit the same item, saving is where they find out
-          about each other, and the conflict is resolved in
+          Save continuously as the actor works, report quietly what was stored
+          and when, and interrupt clearly if a write fails. Separate the acts
+          that used to ride on a Save button—marking a version, discarding an
+          attempt, or publishing—and give each its own control.
+      - step: "Hold transactional edits as pending changes"
+        rule: pending-changes
+        optional: true
+        gloss: >-
+          Where interdependent fields, a batch of deletions, or a real storage
+          constraint prevent field-by-field saving, hold edits in a visible
+          pending state until the actor applies or discards the whole unit,
+          with a committing control labelled for what it does and a reachable
+          Cancel. Where two actors hold overlapping pending
+          edits, the conflict surfaces at commit time and is resolved in
           [working on the same thing](/sequences/working-on-the-same-thing#parting).
+          Skip this step for open-ended work that saves continuously.
       - step: "Separate publishing from saving"
         rule: draft-and-publish
         optional: true

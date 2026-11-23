@@ -31,7 +31,7 @@ relationships:
   related:
     - to: action-consequences
       note: Framework for evaluating appropriate confirmation methods
-    - to: saving
+    - to: pending-changes
       note: Staged deletions within save/cancel workflows
     - to: status-feedback
       note: Communicating deletion results
@@ -98,7 +98,7 @@ Benefits
 
 <Demo spec="staged-deletion" label="Staged deletions with save/cancel" />
 
-This approach aligns with the [Saving](/patterns/saving#save-cancel-as-confirmation-mechanism) pattern's hybrid model, providing a safety net while maintaining user control. It's particularly effective for:
+This approach aligns with the [Pending changes](/patterns/pending-changes#save-and-cancel-as-confirmation) pattern, providing a safety net while maintaining user control. It's particularly effective for:
 - Form-based interfaces with multiple fields
 - Configuration screens with interconnected settings
 - Bulk editing sessions

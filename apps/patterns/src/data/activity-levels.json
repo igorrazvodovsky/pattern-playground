@@ -116,6 +116,11 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
+    "automatic-saving": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "block-based-editor": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -591,6 +596,11 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
+    "pending-changes": {
+      "activity-level": "action",
+      "lifecycle-stage": null,
+      "mediation": "individual"
+    },
     "permissions": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -704,11 +714,6 @@
     "rule-composition": {
       "activity-level": "action",
       "lifecycle-stage": "application",
-      "mediation": "individual"
-    },
-    "saving": {
-      "activity-level": "action",
-      "lifecycle-stage": null,
       "mediation": "individual"
     },
     "searching": {

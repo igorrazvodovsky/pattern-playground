@@ -1,0 +1,68 @@
+---
+title: Pending changes
+added: 2026-11-23
+updated:
+role: pattern
+group: application
+activityLevel: action
+mediation: individual
+description: >-
+  Holding edits in a visible uncommitted state until the actor applies or
+  discards them as a unit.
+evidence:
+  - observed
+  - used
+situation:
+  initiating: >-
+    … in [making changes](/sequences/making-changes),
+    [automatic saving](/patterns/automatic-saving) will not work because the
+    change only makes sense as a unit—a [form](/patterns/form) whose fields
+    depend on each other, a [settings](/patterns/settings) panel, a batch of
+    deletions, or a storage constraint that accepts whole records only. Applying half the
+    edit would leave the artifact in an incoherent state, or the actor needs a
+    genuine way to abandon the attempt.
+  resulting: >-
+    Show the uncommitted state clearly through
+    [status feedback](/patterns/status-feedback), and pair with
+    [resuming](/patterns/resuming) where pending edits need to survive an
+    interruption. Where the pending set is large or the commitment costly, pass
+    it through [review before submitting](/patterns/review-before-submitting)
+    before applying it. Where pending edits include removals, stage them as a
+    batch alongside [deletion](/patterns/deletion) so one action confirms or
+    cancels the lot. Where two actors hold overlapping pending edits on the
+    same artifact, settle the clash at commit time with
+    [reconciliation](/patterns/reconciliation)…
+relationships:
+  complements:
+    - resuming
+  related:
+    - to: collaboration
+      note: pending changes surface concurrent edits in collaboration at the commit boundary rather than merging continuously
+  enacts:
+    - to: temporality
+      note: holds edits in a reversible pending interval before they take effect
+---
+
+* * *
+
+**When interdependent edits commit one field at a time, half-finished changes leave the artifact in a state nobody asked for and leave the actor with no clean way to abandon an experiment. Yet holding edits back without making the pending state unmistakable causes actors to close the screen thinking their work was already kept, or to press a generic Save button without knowing what will take effect.**
+
+Two legitimate drivers produce pending state: *transaction scope* (a settings panel, interdependent fields, or a batch of deletions that must land together or not at all) and *technical constraints* (expensive, rate-limited, or whole-record writes). Where neither holds and an explicit Save button is present only out of habit, [automatic saving](/patterns/automatic-saving) belongs instead.
+
+Pending state is what makes genuine Cancel possible—discarding an attempt restores the prior committed state cleanly without stepping backward through individual edits—and it buys a pause for review before consequences commit.
+
+Therefore,
+
+**Hold the actor's edits in a visible pending state until they explicitly apply or discard the whole unit. Label the committing control for what it actually does (Apply, Confirm, or Update), and provide a reachable Cancel that restores the prior state cleanly.**
+
+Do not silently mix screens that hold pending changes with adjacent screens that save automatically; where both exist in the same artifact, mark the boundary clearly so the actor knows which edits still need committing.
+
+## In practice
+
+### Save and cancel as confirmation
+
+An explicit commit can protect against destructive operations. Deletions are held as pending—struck through or faded—and applied together, so one action confirms the whole batch and cancel restores everything. The value here is the batch scope and the reachable cancel, not the storage; see [deletion](/patterns/deletion).
+
+## To-do
+
+- Redirect after creating a new item (stay in context vs. go to the created item): likely belongs to a creation-flow pattern rather than here.
