@@ -87,13 +87,14 @@ Every page kept outside the interface has to be kept true as the artifact change
 ## In practice
 
 ### Where each kind of answer lives
-
+<pp-table>
 | Need | In the interface | Beside it | Outside it |
 |---|---|---|---|
 | Doing a task | [wizard](/patterns/wizard), [template](/patterns/template), an agent doing the task | contextual help panel | help-centre article |
 | Looking something up | [input hints](/patterns/form#input-hints), tooltips, shortcut hints | glossary, shortcut sheet | reference pages |
 | Understanding why | [explanation](/patterns/explanation) of one event, [validation](/patterns/validation) messages that say why | "learn more" sidebar | conceptual articles |
 | Learning the basics | first run, [empty states](/patterns/state-empty) that teach, [starter examples](/patterns/starter-example) | replayable first-run guidance | courses, walkthroughs |
+</pp-table>
 
 <Diagram source={`
 flowchart TD
@@ -128,9 +129,8 @@ The help centre or documentation site is a separate place, but the interface dec
 - Grossman, T., Fitzmaurice, G. & Attar, R. (2009). [A survey of software learnability: metrics, methodologies and guidelines](https://doi.org/10.1145/1518701.1518803). CHI 2009
 - Nielsen, J. (1998). [Paradox of the active user](https://www.nngroup.com/articles/paradox-of-the-active-user/), after Carroll & Rosson (1987)
 - Procida, D. [Diátaxis](https://diataxis.fr/): tutorials, how-to guides, reference and explanation as four kinds of documentation, each for a different need
-- GitHub Docs. [About versions of GitHub Docs](https://docs.github.com/en/get-started/using-github-docs/about-versions-of-github-docs): a version picker on every page that sets which plan the page describes
-- [The /llms.txt file](https://llmstxt.org/): a proposal for a plain overview of a site's documentation for agents to read
-- Microsoft Learn. [MCP Server overview](https://learn.microsoft.com/en-us/training/support/mcp): documentation an agent can search and fetch while it works
+- [Apple HIG](https://developer.apple.com/design/human-interface-guidelines/offering-help)
+- [Cloudscape Design System](https://cloudscape.design/patterns/general/help-system/)
 
 ## To-do
 
