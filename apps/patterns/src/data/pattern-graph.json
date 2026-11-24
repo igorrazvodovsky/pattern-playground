@@ -290,24 +290,14 @@
       "path": "/patterns/annotation",
       "role": "pattern",
       "situation": {
-        "initiating": "the content is fixed and not the actor's to change — someone else's document, a published record, a source that has to stay as it is — but their reading of it needs somewhere to live; without a layer over the top, interpretation either alters the original or stays in the actor's head",
-        "resulting": [
-          {
-            "clause": "the actor's interpretation sits over the content without touching it, and the marks accumulate as wear — traces of where attention and effort actually went, readable long after"
-          },
-          {
-            "clause": "once the marks are visible to others the layer stops being a private reading aid: other people read the actor's attention, and a mark becomes something that can be answered rather than only added to; few private marks are ever shared, and sharing one means rewriting it and its anchor for other readers",
-            "setsUp": [
-              "commenting"
-            ]
-          },
-          {
-            "clause": "the layer competes with what it annotates; past some density the marks are what the reader sees, and pruning them is nobody's job by default"
-          }
-        ]
+        "initiating": "… an artifact now holds fixed or shared content—someone else's document, a published source, a collection being read in [making sense at scale](/sequences/making-sense-at-scale), or an interface element that raises a question—and the actor's reading or explanation needs somewhere to live without altering the original. Annotation gives [collaboration](/patterns/collaboration) the anchored marks that shared work builds on and lets [help](/patterns/help) attach brief answers directly to the controls they explain.",
+        "resulting": "Pair free-form annotations with [tags](/patterns/tag) where recurring themes need reusable labels across items, without demanding a fixed vocabulary up front. When a private mark needs a reply from others, promote it into [commenting](/patterns/commenting), giving the actor a chance to rewrite the note and its anchor so other readers can follow it. As annotations accumulate into dense coverage, give the actor [filtering](/patterns/filtering) and layer toggles so the marks never crowd out the content underneath. Once repeated marks reveal a recurring structure, let [incremental formalisation](/patterns/incremental-formalisation) offer to promote them into fields, lists, or addressable passages…"
       },
       "group": "sense-making",
       "evidence": [
+        {
+          "kind": "observed"
+        },
         {
           "kind": "literature"
         }
@@ -4625,14 +4615,47 @@
       "source": "annotation",
       "target": "collaboration",
       "type": "enables",
-      "label": "a shared mark is one of the small moves collaborative work is built from",
-      "extractedFrom": "frontmatter:enables"
+      "extractedFrom": "frontmatter:enables",
+      "situation": "Annotation gives [collaboration](/patterns/collaboration) the anchored marks that shared work builds on and lets [help](/patterns/help) attach brief answers directly to the controls they explain.",
+      "glossFrom": "source:initiating"
+    },
+    {
+      "source": "annotation",
+      "target": "commenting",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "When a private mark needs a reply from others, promote it into [commenting](/patterns/commenting), giving the actor a chance to rewrite the note and its anchor so other readers can follow it.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Unlike private [annotation](/patterns/annotation), which marks a passage for the person who made the mark, the remarks here are directed at other collaborators."
+    },
+    {
+      "source": "annotation",
+      "target": "incremental-formalisation",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Once repeated marks reveal a recurring structure, let [incremental formalisation](/patterns/incremental-formalisation) offer to promote them into fields, lists, or addressable passages",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "annotation",
+      "target": "tag",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Pair free-form annotations with [tags](/patterns/tag) where recurring themes need reusable labels across items, without demanding a fixed vocabulary up front.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "annotation",
+      "target": "link-preview",
+      "type": "tangential",
+      "label": "previews can surface annotation layers attached to a linked destination",
+      "extractedFrom": "frontmatter:tangential"
     },
     {
       "source": "annotation",
       "target": "temporality",
       "type": "enacts",
-      "label": "annotations are markers of time and wear.",
+      "label": "annotations are markers of time and wear",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -4641,20 +4664,6 @@
       "type": "enacts",
       "label": "the actor learns from the interpretive marks others leave in place",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "annotation",
-      "target": "tag",
-      "type": "complements",
-      "label": "semantic tagging for organisation.",
-      "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "annotation",
-      "target": "link-preview",
-      "type": "tangential",
-      "label": "previews can surface annotation layers attached to a linked destination",
-      "extractedFrom": "frontmatter:tangential"
     },
     {
       "source": "approval-gate",
@@ -7508,8 +7517,9 @@
       "target": "help",
       "type": "enables",
       "extractedFrom": "frontmatter:composed-of",
-      "situation": "Attach brief in-place answers to the controls that raise questions using [annotation](/patterns/annotation), and give the reason behind a specific event—such as a disabled option or a rule that fired—as an [explanation](/patterns/explanation) at that point.",
-      "glossFrom": "target:resulting"
+      "situation": "Annotation gives [collaboration](/patterns/collaboration) the anchored marks that shared work builds on and lets [help](/patterns/help) attach brief answers directly to the controls they explain.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Attach brief in-place answers to the controls that raise questions using [annotation](/patterns/annotation), and give the reason behind a specific event—such as a disabled option or a rule that fired—as an [explanation](/patterns/explanation) at that point."
     },
     {
       "source": "text-lens",
@@ -11318,7 +11328,9 @@
       "target": "annotation",
       "type": "complements",
       "label": "tags as structured semantic annotation enabling systematic organisation",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Pair free-form annotations with [tags](/patterns/tag) where recurring themes need reusable labels across items, without demanding a fixed vocabulary up front.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "tag",
@@ -12341,13 +12353,6 @@
       "target": "cognitive-forcing-functions",
       "type": "precedes",
       "situation": "inline generation makes accepting cheaper than evaluating, so over-reliance accrues by default — deliberate friction is the countermove",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "annotation",
-      "target": "commenting",
-      "type": "precedes",
-      "situation": "once the marks are visible to others the layer stops being a private reading aid: other people read the actor's attention, and a mark becomes something that can be answered rather than only added to; few private marks are ever shared, and sharing one means rewriting it and its anchor for other readers",
       "extractedFrom": "situation:resulting"
     },
     {

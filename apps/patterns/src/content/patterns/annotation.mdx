@@ -1,127 +1,96 @@
 ---
 title: Annotation
 added: 2025-08-27
-updated:
+updated: 2026-11-24
 role: pattern
 evidence:
+  - observed
   - literature
 group: sense-making
 activityLevel: action
 mediation: individual
 fun: 🙂 4/5. Connecting the dots…
+description: "Adding a separate, anchored layer of highlights, notes, or references over content without altering the original."
 situation:
   initiating: >-
-    the content is fixed and not the actor's to change — someone else's document, a
-    published record, a source that has to stay as it is — but their reading of it needs
-    somewhere to live; without a layer over the top, interpretation either alters the
-    original or stays in the actor's head
-  resulting:
-    - >-
-      the actor's interpretation sits over the content without touching it, and the marks
-      accumulate as wear — traces of where attention and effort actually went, readable
-      long after
-    - clause: >-
-        once the marks are visible to others the layer stops being a private reading aid:
-        other people read the actor's attention, and a mark becomes something that can be
-        answered rather than only added to; few private marks are ever shared, and
-        sharing one means rewriting it and its anchor for other readers
-      sets-up: [commenting]
-    - >-
-      the layer competes with what it annotates; past some density the marks are what the
-      reader sees, and pruning them is nobody's job by default
+    … an artifact now holds fixed or shared content—someone else's document, a
+    published source, a collection being read in
+    [making sense at scale](/sequences/making-sense-at-scale), or an interface
+    element that raises a question—and the actor's reading or explanation needs
+    somewhere to live without altering the original. Annotation gives
+    [collaboration](/patterns/collaboration) the anchored marks that shared work
+    builds on and lets [help](/patterns/help) attach brief answers directly to
+    the controls they explain.
+  resulting: >-
+    Pair free-form annotations with [tags](/patterns/tag) where recurring themes
+    need reusable labels across items, without demanding a fixed vocabulary up
+    front. When a private mark needs a reply from others, promote it into
+    [commenting](/patterns/commenting), giving the actor a chance to rewrite the
+    note and its anchor so other readers can follow it. As annotations
+    accumulate into dense coverage, give the actor
+    [filtering](/patterns/filtering) and layer toggles so the marks never crowd
+    out the content underneath. Once repeated marks reveal a recurring
+    structure, let [incremental formalisation](/patterns/incremental-formalisation)
+    offer to promote them into fields, lists, or addressable passages…
 relationships:
   enables:
-    - to: collaboration
-      note: a shared mark is one of the small moves collaborative work is built from
-  enacts:
-    - to: temporality
-      note: annotations are markers of time and wear.
-    - to: learnability
-      note: the actor learns from the interpretive marks others leave in place
+    - collaboration
+  precedes:
+    - commenting
+    - incremental-formalisation
   complements:
-    - to: tag
-      note: semantic tagging for organisation.
+    - tag
   tangential:
     - to: link-preview
       note: previews can surface annotation layers attached to a linked destination
+  enacts:
+    - to: temporality
+      note: annotations are markers of time and wear
+    - to: learnability
+      note: the actor learns from the interpretive marks others leave in place
 ---
-Enables actors to add layers of meaning to existing content through marking, highlighting, and contextual enrichment. Annotation creates a meta-layer that preserves the original while enabling interpretation, collaboration, and knowledge construction without disrupting the primary experience.
 
-*Wear*—accumulated traces of attention (read wear) and modification (edit wear) that make invisible cognitive processes visible and shareable.
+* * *
 
-## Forces
+**When actors read, review, or study content they cannot or should not edit, their judgements have nowhere to land. Kept only in the actor's head or in a separate notebook, interpretations detach from the passages that prompted them and vanish between sessions; written into the content itself, they corrupt a record that other actors or future readers rely on unchanged.**
 
-- Preservation vs modification: actors want to add insights without altering the original
-- Individual vs shared understanding: personal interpretations need to coexist with collective meaning
-- Temporal persistence: some annotations are ephemeral thoughts, others become permanent knowledge
-- Context vs clutter: rich annotations risk overwhelming the original content
+Across highlighting, margin notes, structured labels, and personal cross-references, annotation holds one thing constant: it keeps the actor's interpretation anchored to a specific passage or element while leaving the underlying content untouched. That layer differs from system-generated records such as [citation](/patterns/citation) or [attribution](/patterns/attribution), because the actor chooses what to mark and what to say about it.
 
-## [Temporal](/patterns/temporality) dimension
+As marks accumulate, they turn into *wear*—traces of where attention (read wear) and effort (edit wear) actually went—that remain readable long after the session ends. Making a mark slows rapid consumption into a reflective rhythm, and a single annotation often moves through a lifecycle from an ephemeral scratchpad thought to a personal reference and, occasionally, to shared documentation.
 
-- Lifecycle: Annotations might begin as ephemeral *thoughts* (scratchpad), harden into *notes* (personal reference), and may eventually mature into *documentation* and shared knowledge.
-- Rhythm: The act of annotating breaks the flow of consumption, creating a slower, reflective rhythm compared to rapid interaction.
-- History: Aggregated annotations create a visual history of how content has been interpreted and valued over time.
+The pattern carries two predictable costs. First, private marks do not transfer cleanly to other people: empirical studies of shared reading show that only a small share of personal annotations are ever shared, and sharing one requires rewriting both the note and its anchor so another reader can follow it. Second, the annotation layer competes visually with what it annotates; past some density, the marks become what the reader sees first, and pruning them is nobody's job by default.
 
-{/* ### Power dynamics */}
-{/* Annotation carries implicit authority—who can annotate, whose annotations are visible, and how annotations influence interpretation all reflect and reinforce power structures. Design must consider: */}
-{/* - Annotation permissions and hierarchies */}
-{/* - Moderation and removal rights */}
-{/* - Attribution and ownership */}
-{/* - Canonical vs alternative interpretations */}
+Therefore,
 
-## Variants
+**Provide a separate, anchored annotation layer over read-only or shared content so the actor can highlight passages, attach notes, or link references in one low-effort step without modifying the original. Keep marks private by default, preserve their anchor as the content is viewed or revised, and let the actor toggle or narrow the layer so accumulated marks never obscure what they annotate.**
 
-### By permanence (wear accumulation)
-- Persistent annotations: become part of the content's permanent context—deep wear patterns
-- Ephemeral annotations: temporary marks that fade or expire—light wear traces
-- Versioned annotations: track changes over time while preserving history—wear archaeology
+Do not treat private marks as ready-made team commentary or ask for formal categories up front: friction at the moment of marking causes actors to postpone and skip the mark, while exposing raw personal shorthand to colleagues creates noise without context.
 
-### By visibility (wear distribution)
-- Private annotations: personal notes visible only to the author—individual wear patterns
-- Shared annotations: collaborative layer visible to specific groups—social wear formation
-- Public annotations: open commentary accessible to all viewers—collective wear trails
+## In practice
 
-### By function
-- Descriptive: adding context, definitions, or explanations
-- Critical: questioning, challenging, or evaluating content
-- Connective: linking to related concepts or references
-- Generative: sparking new ideas or directions
+### Forms of annotation
 
-## Annotation types
+- *Visual marking (read wear)*: highlighting or colour-coding that shows where attention went without requiring written commentary.
+- *Textual notes (edit wear)*: written commentary, definitions, or questions anchored to a passage or element.
+- *Semantic labelling*: structured labels or standardised markers that organise passages across a collection.
+- *Reference linking*: the actor's own cross-references from a passage to external sources, related documents, or notes.
 
-### Visual marking (read wear)
-Simple emphasis without/little semantic content—highlighting or color-coding that shows where attention has been focused.
+### Dimensions of variation
 
-### Textual annotation (edit wear)
-Adding written commentary, notes, or descriptions that provide additional context or interpretation—traces of cognitive processing and meaning construction.
+- *Permanence*: persistent annotations become part of the content's lasting context; ephemeral marks fade or expire; versioned annotations track changes over time alongside the content.
+- *Visibility*: private marks serve personal reading, shared marks support a defined group, and public marks form collective commentary across all viewers.
+- *Function*: marks may be descriptive (adding context or definitions), critical (questioning or evaluating), connective (linking related material), or generative (sparking new ideas).
 
-### Semantic tagging
-Applying structured metadata—labels, categories, or standardised markers that enable systematic organisation.
+### States
 
-### Reference linking
-Attaching the actor's own cross-references from a passage to external sources, related documents, or notes (as distinct from [citation](/patterns/citation), where the system attaches source pointers to claims it generated).
-
-## States
-
-### Clean slate
-- No annotations exist yet
-- Subtle affordances suggest annotation capability
-- Original content remains unobstructed
-
-### Active annotation
-- Visible marks with clear attribution
-- Annotation tools readily accessible
-- Navigation between annotated sections
-
-### Dense coverage
-- Multiple overlapping annotations
-- Filtering and layering controls become important
-- Risk of obscuring original content
+- *Clean slate*: no marks exist yet; subtle affordances show that annotation is available while leaving the original content unobstructed.
+- *Active annotation*: visible marks with clear attribution, accessible annotation tools, and navigation from one marked passage to the next.
+- *Dense coverage*: overlapping marks where filtering, layering, or hiding controls become necessary to keep the original readable.
 
 ## Related components
 
-- <ComponentRef id="components-reference--docs">Reference</ComponentRef> – citation and source tracking.
-- <ComponentRef id="components-badge--docs">Badge</ComponentRef> – visual indicators used as status annotations.
+- <ComponentRef id="components-reference--docs">Reference</ComponentRef> — citation and source tracking.
+- <ComponentRef id="components-badge--docs">Badge</ComponentRef> — visual indicators used as status annotations.
 
 ## Resources & references
 
