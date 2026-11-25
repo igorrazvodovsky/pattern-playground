@@ -291,7 +291,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… an artifact now holds fixed or shared content—someone else's document, a published source, a collection being read in [making sense at scale](/sequences/making-sense-at-scale), or an interface element that raises a question—and the actor's reading or explanation needs somewhere to live without altering the original. Annotation gives [collaboration](/patterns/collaboration) the anchored marks that shared work builds on and lets [help](/patterns/help) attach brief answers directly to the controls they explain.",
-        "resulting": "Pair free-form annotations with [tags](/patterns/tag) where recurring themes need reusable labels across items, without demanding a fixed vocabulary up front. When a private mark needs a reply from others, promote it into [commenting](/patterns/commenting), giving the actor a chance to rewrite the note and its anchor so other readers can follow it. As annotations accumulate into dense coverage, give the actor [filtering](/patterns/filtering) and layer toggles so the marks never crowd out the content underneath. Once repeated marks reveal a recurring structure, let [incremental formalisation](/patterns/incremental-formalisation) offer to promote them into fields, lists, or addressable passages…"
+        "resulting": "Pair free-form annotations with [tags](/patterns/tagging) where recurring themes need reusable labels across items, without demanding a fixed vocabulary up front. When a private mark needs a reply from others, promote it into [commenting](/patterns/commenting), giving the actor a chance to rewrite the note and its anchor so other readers can follow it. As annotations accumulate into dense coverage, give the actor [filtering](/patterns/filtering) and layer toggles so the marks never crowd out the content underneath. Once repeated marks reveal a recurring structure, let [incremental formalisation](/patterns/incremental-formalisation) offer to promote them into fields, lists, or addressable passages…"
       },
       "group": "sense-making",
       "evidence": [
@@ -527,7 +527,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… [deep linking](/patterns/deep-linking) gives items and views stable addresses that restore them, and [recents](/patterns/recents) already cover short-term returns. Here the actor has reached an item, view, conversation, or position they expect to need again well after later activity has pushed it out of recents.",
-        "resulting": "Surface the saved list one step from navigation starting points such as a sidebar, start page, or [command menu](/patterns/command-menu). Once the list grows past what can be scanned at a glance, add [tags](/patterns/tag) or folders so the actor can organise it without planning a structure up front. Where a saved item or collection should travel to others as a curated list, pair it with [sharing](/patterns/sharing). Where the actor needs to save a filtered and sorted query rather than a single item, offer a [saved view](/patterns/data-view#saved-views)…"
+        "resulting": "Surface the saved list one step from navigation starting points such as a sidebar, start page, or [command menu](/patterns/command-menu). Once the list grows past what can be scanned at a glance, add [tags](/patterns/tagging) or folders so the actor can organise it without planning a structure up front. Where a saved item or collection should travel to others as a curated list, pair it with [sharing](/patterns/sharing). Where the actor needs to save a filtered and sorted query rather than a single item, offer a [saved view](/patterns/data-view#saved-views)…"
       },
       "evidence": [
         {
@@ -868,7 +868,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… inside a [data view](/patterns/data-view), a [block-based editor](/patterns/block-based-editor), or a canvas, the actor has designated a target through a [selection](/patterns/selection) or by pointing at an element—a text span, a document block, an object, or rows in a list—and is about to act on it directly rather than searching for an operation by name in a [command menu](/patterns/command-menu).",
-        "resulting": "On selected text or blocks, host [prestructured formatting](/patterns/prestructured-formatting), [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision) directly on the floating toolbar; on selected items or rows, host [tag](/patterns/tag) assignment, [deletion](/patterns/deletion), and, when two or more items are selected, [comparing](/patterns/comparing). Omit controls that do not apply rather than showing them disabled, following [unavailable actions](/patterns/unavailable-actions), and display [keyboard shortcuts](/patterns/keyboard-shortcuts) beside menu items so actors can bypass the menu on repeat use. Where the actor states a request in words against the same selection rather than picking a preset action, bind the target through [view as context](/patterns/view-as-context)…"
+        "resulting": "On selected text or blocks, host [prestructured formatting](/patterns/prestructured-formatting), [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision) directly on the floating toolbar; on selected items or rows, host [tag](/patterns/tagging) assignment, [deletion](/patterns/deletion), and, when two or more items are selected, [comparing](/patterns/comparing). Omit controls that do not apply rather than showing them disabled, following [unavailable actions](/patterns/unavailable-actions), and display [keyboard shortcuts](/patterns/keyboard-shortcuts) beside menu items so actors can bypass the menu on repeat use. Where the actor states a request in words against the same selection rather than picking a preset action, bind the target through [view as context](/patterns/view-as-context)…"
       },
       "realisedBy": [
         "components-bubble-menu--docs",
@@ -3063,7 +3063,7 @@
       "path": "/patterns/searching",
       "role": "pattern",
       "situation": {
-        "initiating": "… in [composing views](/sequences/composing-views) a collection is already framed for browsing and [filtering](/patterns/filtering); in [structuring the space](/sequences/structuring-the-space) sections are arranged in a [multilevel tree](/patterns/multilevel-tree) or [hub and spoke](/patterns/hub-and-spoke) layout; and in [making changes](/sequences/making-changes) a [bounded choice](/patterns/bounded-choice) field holds more options than scan well inline. Searching helps complete the [information environment](/patterns/information-environment) built on the names, content, and [tags](/patterns/tag) of its [information architecture](/patterns/information-architecture), serving actors who know a word or phrase rather than where an item sits.",
+        "initiating": "… in [composing views](/sequences/composing-views) a collection is already framed for browsing and [filtering](/patterns/filtering); in [structuring the space](/sequences/structuring-the-space) sections are arranged in a [multilevel tree](/patterns/multilevel-tree) or [hub and spoke](/patterns/hub-and-spoke) layout; and in [making changes](/sequences/making-changes) a [bounded choice](/patterns/bounded-choice) field holds more options than scan well inline. Searching helps complete the [information environment](/patterns/information-environment) built on the names, content, and [tags](/patterns/tagging) of its [information architecture](/patterns/information-architecture), serving actors who know a word or phrase rather than where an item sits.",
         "resulting": "Present the ranked results in a [data view](/patterns/data-view) and make each query state addressable through [deep linking](/patterns/deep-linking). At the input, pair the query box with [recents](/patterns/recents) before typing begins and [autocomplete](/patterns/autocomplete) as the actor types to complete terms or jump straight to a known item. On the results, pair the ranked list with [suggestions](/patterns/suggestion) for query refinements, [filtering](/patterns/filtering) over facets to narrow the set in place, and [navigation](/patterns/navigation-overview) when the query falls short. Where the query targets the artifact's actions and destinations rather than its content, specialise into a [command menu](/patterns/command-menu)…"
       },
       "group": "seeking",
@@ -3500,33 +3500,23 @@
       ]
     },
     {
-      "id": "tag",
-      "title": "Tag",
+      "id": "tagging",
+      "title": "Tagging",
       "category": "Actions",
-      "path": "/patterns/tag",
+      "path": "/patterns/tagging",
       "role": "pattern",
       "situation": {
-        "initiating": "the items belong to more than one category at once and a hierarchy would force the choice of one; the vocabulary that describes them is still moving too, so a taxonomy settled in advance would be wrong before it was finished",
-        "resulting": [
-          {
-            "clause": "items carry as many labels as apply, so the same item is reachable from several directions without being duplicated or re-filed"
-          },
-          {
-            "clause": "an applied label is a handle: whatever has been tagged becomes a facet to narrow by, which is where the value of tagging is actually collected",
-            "setsUp": [
-              "filtering"
-            ]
-          },
-          {
-            "clause": "the labels are a shared vocabulary nobody controls — near-synonyms accumulate, and a label's meaning drifts with whoever is applying it"
-          }
-        ]
+        "initiating": "… a [data view](/patterns/data-view) now frames a collection in [composing views](/sequences/composing-views), or an actor is reading through a large collection alongside [annotation](/patterns/annotation) in [making sense at scale](/sequences/making-sense-at-scale). Here the items belong to more than one topic at once and the words for them are still moving, so a single hierarchy settled in advance would force one placement and go stale. Tagging gives those views a flat, reusable layer of facets that grows with use without asking the actor to file each item in one place.",
+        "resulting": "Turn every applied label into an active facet for [filtering](/patterns/filtering) so selecting a tag narrows the collection directly, and index all tags in [searching](/patterns/searching) so queries match items by label as well as by name or content. Pair the tag input with [autocomplete](/patterns/autocomplete) over existing labels so actors reuse established terms while staying free to coin new ones. Where the system infers tags automatically from content, present them as a [suggestion](/patterns/suggestion) with visible confidence that the actor can accept, edit, or dismiss. As the vocabulary grows and near-synonyms accumulate, offer [incremental formalisation](/patterns/incremental-formalisation) to merge duplicate labels, retire unused ones, or promote a recurring label into a structured field…"
       },
       "group": "sense-making",
       "realisedBy": [
         "components-tag--docs"
       ],
       "evidence": [
+        {
+          "kind": "observed"
+        },
         {
           "kind": "literature"
         },
@@ -4638,11 +4628,12 @@
     },
     {
       "source": "annotation",
-      "target": "tag",
+      "target": "tagging",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Pair free-form annotations with [tags](/patterns/tag) where recurring themes need reusable labels across items, without demanding a fixed vocabulary up front.",
-      "glossFrom": "source:resulting"
+      "situation": "Pair free-form annotations with [tags](/patterns/tagging) where recurring themes need reusable labels across items, without demanding a fixed vocabulary up front.",
+      "glossFrom": "source:resulting",
+      "farSituation": "a [data view](/patterns/data-view) now frames a collection in [composing views](/sequences/composing-views), or an actor is reading through a large collection alongside [annotation](/patterns/annotation) in [making sense at scale](/sequences/making-sense-at-scale)."
     },
     {
       "source": "annotation",
@@ -5090,11 +5081,11 @@
     },
     {
       "source": "bookmarking",
-      "target": "tag",
+      "target": "tagging",
       "type": "complements",
       "label": "tags let the actor organise a growing set of bookmarks without a predefined folder hierarchy",
       "extractedFrom": "frontmatter:complements",
-      "situation": "Once the list grows past what can be scanned at a glance, add [tags](/patterns/tag) or folders so the actor can organise it without planning a structure up front.",
+      "situation": "Once the list grows past what can be scanned at a glance, add [tags](/patterns/tagging) or folders so the actor can organise it without planning a structure up front.",
       "glossFrom": "source:resulting"
     },
     {
@@ -5989,7 +5980,7 @@
       "target": "instructed-revision",
       "type": "hosts",
       "extractedFrom": "frontmatter:hosts",
-      "situation": "On selected text or blocks, host [prestructured formatting](/patterns/prestructured-formatting), [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision) directly on the floating toolbar; on selected items or rows, host [tag](/patterns/tag) assignment, [deletion](/patterns/deletion), and, when two or more items are selected, [comparing](/patterns/comparing).",
+      "situation": "On selected text or blocks, host [prestructured formatting](/patterns/prestructured-formatting), [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision) directly on the floating toolbar; on selected items or rows, host [tag](/patterns/tagging) assignment, [deletion](/patterns/deletion), and, when two or more items are selected, [comparing](/patterns/comparing).",
       "glossFrom": "source:resulting"
     },
     {
@@ -5997,7 +5988,7 @@
       "target": "commenting",
       "type": "hosts",
       "extractedFrom": "frontmatter:hosts",
-      "situation": "On selected text or blocks, host [prestructured formatting](/patterns/prestructured-formatting), [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision) directly on the floating toolbar; on selected items or rows, host [tag](/patterns/tag) assignment, [deletion](/patterns/deletion), and, when two or more items are selected, [comparing](/patterns/comparing).",
+      "situation": "On selected text or blocks, host [prestructured formatting](/patterns/prestructured-formatting), [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision) directly on the floating toolbar; on selected items or rows, host [tag](/patterns/tagging) assignment, [deletion](/patterns/deletion), and, when two or more items are selected, [comparing](/patterns/comparing).",
       "glossFrom": "source:resulting"
     },
     {
@@ -6005,7 +5996,7 @@
       "target": "prestructured-formatting",
       "type": "hosts",
       "extractedFrom": "frontmatter:hosts",
-      "situation": "On selected text or blocks, host [prestructured formatting](/patterns/prestructured-formatting), [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision) directly on the floating toolbar; on selected items or rows, host [tag](/patterns/tag) assignment, [deletion](/patterns/deletion), and, when two or more items are selected, [comparing](/patterns/comparing).",
+      "situation": "On selected text or blocks, host [prestructured formatting](/patterns/prestructured-formatting), [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision) directly on the floating toolbar; on selected items or rows, host [tag](/patterns/tagging) assignment, [deletion](/patterns/deletion), and, when two or more items are selected, [comparing](/patterns/comparing).",
       "glossFrom": "source:resulting"
     },
     {
@@ -6013,15 +6004,15 @@
       "target": "deletion",
       "type": "hosts",
       "extractedFrom": "frontmatter:hosts",
-      "situation": "On selected text or blocks, host [prestructured formatting](/patterns/prestructured-formatting), [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision) directly on the floating toolbar; on selected items or rows, host [tag](/patterns/tag) assignment, [deletion](/patterns/deletion), and, when two or more items are selected, [comparing](/patterns/comparing).",
+      "situation": "On selected text or blocks, host [prestructured formatting](/patterns/prestructured-formatting), [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision) directly on the floating toolbar; on selected items or rows, host [tag](/patterns/tagging) assignment, [deletion](/patterns/deletion), and, when two or more items are selected, [comparing](/patterns/comparing).",
       "glossFrom": "source:resulting"
     },
     {
       "source": "contextual-actions",
-      "target": "tag",
+      "target": "tagging",
       "type": "hosts",
       "extractedFrom": "frontmatter:hosts",
-      "situation": "On selected text or blocks, host [prestructured formatting](/patterns/prestructured-formatting), [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision) directly on the floating toolbar; on selected items or rows, host [tag](/patterns/tag) assignment, [deletion](/patterns/deletion), and, when two or more items are selected, [comparing](/patterns/comparing).",
+      "situation": "On selected text or blocks, host [prestructured formatting](/patterns/prestructured-formatting), [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision) directly on the floating toolbar; on selected items or rows, host [tag](/patterns/tagging) assignment, [deletion](/patterns/deletion), and, when two or more items are selected, [comparing](/patterns/comparing).",
       "glossFrom": "source:resulting"
     },
     {
@@ -6029,7 +6020,7 @@
       "target": "comparing",
       "type": "hosts",
       "extractedFrom": "frontmatter:hosts",
-      "situation": "On selected text or blocks, host [prestructured formatting](/patterns/prestructured-formatting), [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision) directly on the floating toolbar; on selected items or rows, host [tag](/patterns/tag) assignment, [deletion](/patterns/deletion), and, when two or more items are selected, [comparing](/patterns/comparing).",
+      "situation": "On selected text or blocks, host [prestructured formatting](/patterns/prestructured-formatting), [commenting](/patterns/commenting), and [instructed revision](/patterns/instructed-revision) directly on the floating toolbar; on selected items or rows, host [tag](/patterns/tagging) assignment, [deletion](/patterns/deletion), and, when two or more items are selected, [comparing](/patterns/comparing).",
       "glossFrom": "source:resulting"
     },
     {
@@ -7809,10 +7800,12 @@
     },
     {
       "source": "incremental-formalisation",
-      "target": "tag",
+      "target": "tagging",
       "type": "complements",
       "label": "the grown label vocabulary is the usual promotion candidate — near-synonyms merged, a recurring label blessed into a field",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "As the vocabulary grows and near-synonyms accumulate, offer [incremental formalisation](/patterns/incremental-formalisation) to merge duplicate labels, retire unused ones, or promote a recurring label into a structured field",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "incremental-formalisation",
@@ -7885,7 +7878,7 @@
       "type": "precedes",
       "label": "the underlying structure and labelling system that search indexes — without good IA, search is brittle",
       "extractedFrom": "frontmatter:precedes",
-      "situation": "Searching helps complete the [information environment](/patterns/information-environment) built on the names, content, and [tags](/patterns/tag) of its [information architecture](/patterns/information-architecture), serving actors who know a word or phrase rather than where an item sits.",
+      "situation": "Searching helps complete the [information environment](/patterns/information-environment) built on the names, content, and [tags](/patterns/tagging) of its [information architecture](/patterns/information-architecture), serving actors who know a word or phrase rather than where an item sits.",
       "glossFrom": "target:initiating"
     },
     {
@@ -7920,7 +7913,7 @@
       "extractedFrom": "frontmatter:precedes",
       "situation": "Build [searching](/patterns/searching) on the structure and vocabulary the environment keeps, so queries find items under the names the actor meets everywhere else, and use [dynamic hyperlinks](/patterns/dynamic-hyperlinks) to connect related items across sections and surfaces from within the content itself.",
       "glossFrom": "source:resulting",
-      "farSituation": "Searching helps complete the [information environment](/patterns/information-environment) built on the names, content, and [tags](/patterns/tag) of its [information architecture](/patterns/information-architecture), serving actors who know a word or phrase rather than where an item sits."
+      "farSituation": "Searching helps complete the [information environment](/patterns/information-environment) built on the names, content, and [tags](/patterns/tagging) of its [information architecture](/patterns/information-architecture), serving actors who know a word or phrase rather than where an item sits."
     },
     {
       "source": "information-environment",
@@ -10620,7 +10613,7 @@
     },
     {
       "source": "selection",
-      "target": "tag",
+      "target": "tagging",
       "type": "enables",
       "label": "a selection is the common payload of bulk tagging",
       "extractedFrom": "frontmatter:enables"
@@ -11324,25 +11317,40 @@
       "extractedFrom": "frontmatter:alternative"
     },
     {
-      "source": "tag",
-      "target": "annotation",
-      "type": "complements",
-      "label": "tags as structured semantic annotation enabling systematic organisation",
-      "extractedFrom": "frontmatter:complements",
-      "situation": "Pair free-form annotations with [tags](/patterns/tag) where recurring themes need reusable labels across items, without demanding a fixed vocabulary up front.",
-      "glossFrom": "target:resulting"
+      "source": "tagging",
+      "target": "filtering",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Turn every applied label into an active facet for [filtering](/patterns/filtering) so selecting a tag narrows the collection directly, and index all tags in [searching](/patterns/searching) so queries match items by label as well as by name or content.",
+      "glossFrom": "source:resulting"
     },
     {
-      "source": "tag",
+      "source": "tagging",
       "target": "searching",
       "type": "precedes",
-      "label": "an applied label is a facet a search can narrow by",
       "extractedFrom": "frontmatter:precedes",
-      "situation": "Searching helps complete the [information environment](/patterns/information-environment) built on the names, content, and [tags](/patterns/tag) of its [information architecture](/patterns/information-architecture), serving actors who know a word or phrase rather than where an item sits.",
-      "glossFrom": "target:initiating"
+      "situation": "Turn every applied label into an active facet for [filtering](/patterns/filtering) so selecting a tag narrows the collection directly, and index all tags in [searching](/patterns/searching) so queries match items by label as well as by name or content.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Searching helps complete the [information environment](/patterns/information-environment) built on the names, content, and [tags](/patterns/tagging) of its [information architecture](/patterns/information-architecture), serving actors who know a word or phrase rather than where an item sits."
     },
     {
-      "source": "tag",
+      "source": "tagging",
+      "target": "autocomplete",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Pair the tag input with [autocomplete](/patterns/autocomplete) over existing labels so actors reuse established terms while staying free to coin new ones.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "tagging",
+      "target": "suggestion",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the system infers tags automatically from content, present them as a [suggestion](/patterns/suggestion) with visible confidence that the actor can accept, edit, or dismiss.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "tagging",
       "target": "formality",
       "type": "enacts",
       "label": "lightweight formalisation through inline categorisation, structure added without demanding it",
@@ -12507,13 +12515,6 @@
       "target": "cognitive-forcing-functions",
       "type": "precedes",
       "situation": "the actor's option space now contains a concrete proposal, which is the help and also the anchor: shown before they have formed their own idea, it narrows what they go on to consider, and the alternatives they never reached aren't visible to them as a loss",
-      "extractedFrom": "situation:resulting"
-    },
-    {
-      "source": "tag",
-      "target": "filtering",
-      "type": "precedes",
-      "situation": "an applied label is a handle: whatever has been tagged becomes a facet to narrow by, which is where the value of tagging is actually collected",
       "extractedFrom": "situation:resulting"
     },
     {

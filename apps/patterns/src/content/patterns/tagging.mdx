@@ -1,0 +1,73 @@
+---
+title: Tagging
+added: 2025-11-18
+updated: 2026-11-25
+role: pattern
+evidence:
+  - observed
+  - literature
+group: sense-making
+activityLevel: action
+mediation: individual
+fun: 🗺️ 2/5. Mapping out the basics.
+description: "Applying reusable, non-exclusive keyword labels to items so they can belong to several topic dimensions at once and be narrowed by facet without a fixed hierarchy."
+realised_by: [components-tag--docs]
+acts_on:
+  - { concept: labelling, note: "the open, member-applied form; vocabulary drift is the first misfit" }
+situation:
+  initiating: >-
+    … a [data view](/patterns/data-view) now frames a collection in
+    [composing views](/sequences/composing-views), or an actor is reading
+    through a large collection alongside [annotation](/patterns/annotation) in
+    [making sense at scale](/sequences/making-sense-at-scale). Here the items
+    belong to more than one topic at once and the words for them are still
+    moving, so a single hierarchy settled in advance would force one placement
+    and go stale. Tagging gives those views a flat, reusable layer of facets
+    that grows with use without asking the actor to file each item in one place.
+  resulting: >-
+    Turn every applied label into an active facet for
+    [filtering](/patterns/filtering) so selecting a tag narrows the collection
+    directly, and index all tags in [searching](/patterns/searching) so queries
+    match items by label as well as by name or content. Pair the tag input with
+    [autocomplete](/patterns/autocomplete) over existing labels so actors reuse
+    established terms while staying free to coin new ones. Where the system
+    infers tags automatically from content, present them as a
+    [suggestion](/patterns/suggestion) with visible confidence that the actor
+    can accept, edit, or dismiss. As the vocabulary grows and near-synonyms
+    accumulate, offer
+    [incremental formalisation](/patterns/incremental-formalisation) to merge
+    duplicate labels, retire unused ones, or promote a recurring label into a
+    structured field…
+relationships:
+  precedes:
+    - filtering
+    - searching
+  complements:
+    - autocomplete
+    - suggestion
+  enacts:
+    - to: formality
+      note: lightweight formalisation through inline categorisation, structure added without demanding it
+---
+
+* * *
+
+**When items belong to several dimensions at once or the vocabulary describing them is still shifting, forcing each item into a single folder or fixed taxonomy makes actors guess where a thing should live—and later guess where someone else put it. Yet leaving [labelling](/concepts/labelling) completely unstructured lets near-synonyms multiply and meanings drift until the labels no longer bring the right items back.**
+
+Where each item belongs to one settled category, a hierarchy or a single-value field is clearer than tags; running two competing classification schemes—such as folders and tags, or categories and labels—in the same artifact splits effort so items filed in one cannot be found through the other. Open vocabularies do partially converge on common terms over time (Golder and Huberman, 2006), yet near-synonyms, plural variants, and personal shorthand still accumulate unless the input nudges reuse. System-managed labels—such as status markers or an inbox label—cause a second failure when they share the look of actor-applied tags but cannot be removed or trigger side effects when toggled.
+
+Therefore,
+
+**Let actors attach and remove multiple reusable keyword labels on any item in place, without requiring them to pick a single category or define a taxonomy first. Make every applied label an interactive handle that narrows the collection to matching items, suggest existing labels as the actor types to encourage convergence while still allowing new terms, and distinguish system-generated or structural labels clearly from actor-applied ones.**
+
+Do not require tags before an item can be saved: friction at capture causes actors to skip labelling altogether. Before deleting a label that is in use across a collection, show how many items carry it and keep the removal reversible.
+
+## Related components
+
+- <ComponentRef id="components-tag--docs">Tag</ComponentRef> — UI primitive for displaying and interacting with tags.
+- <ComponentRef id="components-badge--docs">Badge</ComponentRef> — similar visual treatment for status and system-generated classifications.
+
+## Resources & references
+
+- Golder, S., & Huberman, B. A. (2006). [Usage patterns of collaborative tagging systems](https://scispace.com/pdf/usage-patterns-of-collaborative-tagging-systems-42t00kyp9o.pdf)
+- [Folksonomy](https://en.wikipedia.org/wiki/Folksonomy)

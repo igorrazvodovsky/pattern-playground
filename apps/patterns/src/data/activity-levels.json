@@ -821,7 +821,7 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
-    "tag": {
+    "tagging": {
       "activity-level": "action",
       "lifecycle-stage": null,
       "mediation": "individual"
