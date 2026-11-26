@@ -1,7 +1,7 @@
 ---
 title: Semantic zoom
 added: 2026-07-08
-updated: 2026-07-22
+updated: 2026-11-26
 role: pattern
 seed: true
 evidence:
@@ -12,30 +12,38 @@ activityLevel: action
 mediation: individual
 lifecycle: evaluation
 description: "Changing what things are as the actor changes viewing scale — coarser abstractions zoomed out, richer detail zoomed in — so a large space stays readable at every distance."
+disclosure: >-
+  Grounded in zoomable user interface literature and observed systems, but the
+  threshold rules and actor-defined attribute rungs have not yet been validated
+  in our own components.
 situation:
   initiating: >-
-    the space is too large to take in at once and plain magnification fails in both
-    directions — pulling back shrinks everything to unreadable specks, moving in loses the
-    shape of the whole; the items do have small forms that stay recognisable, which is what
-    makes swapping representation available instead of resizing
-  resulting:
-    - >-
-      every distance shows one uniform level of representation, so the population reads
-      consistently at each scale and the actor learns what a given zoom level means
-    - >-
-      representations don't interpolate — a dot, a title and a paragraph are different
-      artefacts — so thresholds are unavoidable, and where they sit and how the crossing is
-      presented become the design rather than a detail of it
-    - >-
-      a richer rung has to fit the box its coarser neighbour occupied, or the arrangement the
-      zoom was protecting comes apart on the way out
+    … a space in [making sense at scale](/sequences/making-sense-at-scale)—a
+    map, a canvas of notes, a [data view](/patterns/data-view) of records, or a
+    long document—is too large to absorb at once, and plain geometric scaling
+    fails in both directions. Semantic zoom turns the scale control on a
+    [pan and zoom](/patterns/pan-and-zoom) or collection surface into a
+    level-of-detail switch so the whole population stays readable at every
+    distance.
+  resulting: >-
+    Draw the discrete rungs from an [item view](/patterns/item-view) ladder so
+    every item stays recognisable as it changes representation. For structured
+    records, drive each zoom level through
+    [attribute visibility](/patterns/attribute-visibility) so pulling back
+    sheds fields and moving in restores them, and let the actor pin attributes
+    they want kept visible across zoom levels. For prose, generate the coarser
+    rungs with a [text lens](/patterns/text-lens). Where a task needs both
+    scales visible at once rather than one at a time, pair semantic zoom with
+    [overview and detail](/patterns/overview-detail)…
 relationships:
+  composed-of:
+    - attribute-visibility
+    - text-lens
   alternative:
     - to: focus-and-context
       note: "resolves the same force — detail without losing context — by varying detail with global scale, uniformly and one level at a time; focus-and-context varies it with attention, non-uniformly, inside one simultaneous view"
   complements:
-    - to: item-view
-      note: "item view supplies the representation ladder and its per-item transitions; semantic zoom binds that ladder to a scale control and drives every item's rung at once, keeping spatial arrangement legible"
+    - item-view
   related:
     - to: pan-and-zoom
       note: "the navigation surface this move layers onto — pan and zoom move the viewport; semantic zoom decides what the things in it look like at each scale"
@@ -44,46 +52,42 @@ relationships:
       note: "each zoom level is a density commitment, and the transitions between levels preserve legible density — zooming re-spends the screen budget instead of diluting it"
 ---
 
-The actor is surveying a space of content too large to read at once — a map, a canvas of notes, a graph of records, a long document. Zooming out with plain magnification shrinks everything into unreadable specks; zooming in loses the shape of the whole.
+* * *
 
-Semantic zoom changes the *representation* instead of the size: each item swaps to a coarser abstraction as the actor pulls back and a richer one as they move close. Zooming here means "tell me more".
+**Plain geometric magnification fails at both ends of a large space: pulling back shrinks items into unreadable specks, while zooming in loses the shape of the whole. Scaling pixels rather than meaning forces the actor to choose between legibility and context.**
+
+### Forces
+
+- *Recognition at a distance*: the pattern works only if each item has a small representation that remains recognisable.
+- *Wayfinding against transition comprehension*: predictable representation-per-tier gives the actor a vocabulary of distances ("this zoom level means streets"), while fluid morphing reads as one continuous surface.
+
+This shaping rests on zoomable-interface literature and observed products rather than production builds of our own. Unlike [focus and context](/patterns/focus-and-context), which varies detail non-uniformly around the actor's focus inside one view, semantic zoom keeps the whole population at one uniform level under a single scale control. Compared with split [overview and detail](/patterns/overview-detail), which spends screen space to show two levels at once, semantic zoom spends time moving between levels—and combining the two often beats either alone.
+
+On record collections, semantic zoom need not be locked to fixed developer-authored rungs. Translating scroll or pinch into appending and removing visible attributes lets actors prioritise which attributes belong to each zoom level, and lets them pin key attributes beforehand so zooming out hides unselected fields while keeping pinned ones visible (Min & Xia, 2025).
+
+Therefore,
+
+**Bind the viewing scale to a discrete ladder of representations so every item swaps to a coarser abstraction as the actor zooms out and a richer one as they zoom in. Keep the whole population at one uniform level per scale, hold each rung's footprint stable so layouts do not collide across thresholds, and animate crossings briefly (roughly 0.3–1.0 s) so the actor keeps their spatial model.**
+
+Do not treat thresholds as invisible implementation details: representations do not interpolate smoothly between a dot, a title, and a paragraph, so abrupt or poorly placed thresholds disorient the actor. Give actors a way to pin attributes they rely on before zooming out so a coarser rung never hides the one field they are comparing by.
 
 <Demo name="semantic-zoom" label="🚧 Semantic zoom over content cards." expandable />
 
-## Forces
+## In practice
 
-- *Overview against detail* — the actor needs both the shape of the whole and the content of the parts
-- *Recognition at a distance* — the pattern works only if each item has a small representation that remains recognisable
-- *Wayfinding against transition comprehension* — predictable representation-per-tier gives the actor a vocabulary of distances ("this zoom level means streets"), while fluid morphing reads as one continuous surface
+### Threshold variants
 
-## The representation ladder
-
-What semantic zoom traverses is a ladder of discrete representations per item — the demo's circle → label chip → summary card → reading panel; a map's continent → city → street. Representations don't interpolate: a dot, a title and a paragraph are different artefacts, so *thresholds are unavoidable* — the design choices are where they sit and how the crossing is presented.
-
-- *Snap or morph* — a hard switch at the threshold keeps tiers legible as tiers; crossfade or morph dissolves the crossing into continuity. This is a presentation axis over the same discrete ladder, trading wayfinding-by-tier against transition comprehension
-- *Make crossings legible in transit* — animated transitions help the actor build a spatial model of the space; transition times of 0.3–1.0 s are repeatedly supported
-- *Footprint stability* — a swapped-in representation must fit the box of its neighbour rungs, or items overlap on zoom-out
-- *Uniformity* — the whole population changes level together, under one scale control; the moment one region shows more detail because the actor is attending to it, the move has become [focus and context](/patterns/focus-and-context)
-- *Semantic resize* — the variant where container geometry, not zoom, drives the representation switch: an item grows into a richer rung when its pane widens and collapses to a coarser one when cramped (Masonview). The level index is allotted space rather than viewing scale
-
-The ladder itself is [item view](/patterns/item-view)'s vocabulary. Item view owns the rungs and their per-item, navigation-driven transitions; semantic zoom is the coordination move that drives the same ladder for all items at once from a single scale control.
+- *Snap or morph*: a hard switch at the threshold keeps tiers legible as tiers; crossfade or morph dissolves the crossing into continuity, trading wayfinding-by-tier against transition comprehension.
+- *Semantic resize*: the variant where container geometry, not zoom, drives the representation switch—an item grows into a richer rung when its pane widens and collapses to a coarser one when cramped (Masonview).
 
 <Demo name="semantic-zoom-timeline" label="The lifecycle assessment data: from stage totals to each flow to its full telling." />
 
-## What the rungs are made of
+### What the rungs are made of
 
-The pattern needs a representation that stays recognisable at every level. So the coarse rungs come from two places, depending on the kind of content:
-
-- *Records* — a zoom level is a different [attribute subset](/patterns/attribute-visibility){rel="composed-of"}: the population sheds fields as the actor pulls back and regains them moving in, each level the same items shown through fewer attributes.
-- *Text* — a zoom level is a [generated telling](/patterns/text-lens){rel="composed-of"} at a granularity: heading, then abstract, then full prose, the coarser rungs produced rather than authored in advance.
+- *Records*: a zoom level is a different [attribute visibility](/patterns/attribute-visibility) subset—the population sheds fields as the actor pulls back and regains them moving in.
+- *Text*: a zoom level is a generated telling from a [text lens](/patterns/text-lens) at a granularity—heading, then abstract, then full prose.
 
 <Demo name="population-rung" label="A directory of people at three rungs — avatars actor recognises by face, then name and role, then the full card." resizable expandable />
-
-## To-do
-
-- Connected cards: the demo shows free-standing cards; the mechanism spec also calls for directed connectors that re-anchor smoothly as node bounds change across thresholds
-- Focus mode: an optional deepest-zoom behaviour where the focused node dominates and non-focused nodes shed detail first, then de-emphasise — sits on this pattern's boundary with focus and context
-- Map example
 
 ## Resources & references
 
@@ -94,7 +98,14 @@ The pattern needs a representation that stays recognisable at every level. So th
 - Hornbæk, Bederson & Plaisant (2002) [Navigation patterns and usability of zoomable user interfaces with and without an overview](https://dl.acm.org/doi/10.1145/586081.586086)
 - Jul & Furnas (1998) [Critical zones in desert fog: aids to multiscale navigation](https://dl.acm.org/doi/10.1145/288392.288578)
 - van Wijk & Nuij (2004) [Smooth and efficient zooming and panning](https://ieeexplore.ieee.org/document/1249004)
+- Min & Xia (2025) [Meridian: a design framework for malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3746059.3747654), UIST '25 — semantic zooming as showing/hiding `shownAttributes`, actor-defined abstraction levels, and pinning attributes across zoom
 - Microsoft — [Semantic zoom](https://learn.microsoft.com/en-us/windows/apps/design/controls/semantic-zoom) design guidance and control
 - prathyvsh — [semantic-zoom](https://github.com/prathyvsh/semantic-zoom) — from Pad and StretchText to the AI-era text-zoom wave
 - Obenauer — [lab note 038, semantic zoom as an OS primitive](https://alexanderobenauer.com/labnotes/038/)
 - Wattenberger (2024) [Fish-eye lens for text](https://wattenberger.com/thoughts/fish-eye)
+
+## To-do
+
+- Connected cards: the demo shows free-standing cards; the mechanism spec also calls for directed connectors that re-anchor smoothly as node bounds change across thresholds.
+- Focus mode: an optional deepest-zoom behaviour where the focused node dominates and non-focused nodes shed detail first, then de-emphasise — sits on this pattern's boundary with focus and context.
+- Map example.

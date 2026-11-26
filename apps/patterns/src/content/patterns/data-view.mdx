@@ -1,7 +1,7 @@
 ---
 title: Data view
 added: 2025-04-11
-updated: 2026-07-22
+updated: 2026-11-26
 role: pattern
 evidence:
   - literature
@@ -13,22 +13,42 @@ fun: 🙂 3/5. Dependency.
 description: "Framing a collection for the actor's purpose — a named view built from a query, a representation, and an arrangement — with the framing itself open to change."
 situation:
   initiating: >-
-    a collection too large or varied to absorb whole, and an actor whose
-    purpose fixes what matters in it right now — which items, rendered how,
-    ordered by what
-  resulting:
-    - the collection reaches the actor already framed — queried, represented, arranged — and the framing is inspectable and adjustable rather than baked in
-    - a framed population of items makes designating some of them for action cheap; what the framing exposes is what selection can operate on
+    … an artifact now holds a collection too large or varied to absorb
+    whole—whether opened directly in
+    [composing views](/sequences/composing-views), returned from
+    [searching](/patterns/searching), or gathered in
+    [making sense at scale](/sequences/making-sense-at-scale)—and the actor's
+    current purpose fixes which items matter, how they should be rendered, and
+    in what order. Data view frames that collection as an inspectable,
+    adjustable projection so the actor does not have to re-assemble the framing
+    in their head on every visit.
+  resulting: >-
+    Render each item inside the framing from a shared
+    [item view](/patterns/item-view) ladder—row, card, or pin—and hand its
+    visible fields to [attribute visibility](/patterns/attribute-visibility) so
+    the actor can tune what each item shows. Where the criterion needed for
+    comparison is not stored cleanly, offer
+    [derived attributes](/patterns/derived-attributes) to compute, extract, or
+    normalise it on the fly. Pair the framed collection with
+    [sorting](/patterns/sorting), [grouping](/patterns/grouping), and
+    [filtering](/patterns/filtering) to refine the arrangement, and with
+    [semantic zoom](/patterns/semantic-zoom) when the population needs
+    scale-bound traversal across granularities. Let
+    [selection](/patterns/selection) stake items directly from the visible set
+    for batch or [contextual actions](/patterns/contextual-actions), and
+    preserve the actor's adjustments through
+    [remembered state](/patterns/remembered-state) or as a named
+    [saved view](/patterns/saved-view)…
 relationships:
   enables:
-    - to: selection
-      note: staking a subset of items as the target of subsequent action
+    - selection
   composed-of:
-    - to: item-view
-      note: "a data view is many item views rendered in the same compressed form; which form — row, card, pin — is the representation choice"
+    - item-view
+  precedes:
+    - derived-attributes
+    - saved-view
   complements:
-    - to: semantic-zoom
-      note: scale-bound traversal between collection and item granularities, uniform across the population
+    - semantic-zoom
   enacts:
     - to: malleability
       note: "the framing controls hand the actor the view itself — what to show, how to render it, how to arrange it — the customisation most products still withhold"
@@ -36,36 +56,27 @@ relationships:
       note: "each representation is a density commitment: a table row, a card, and a map pin spend the same screen budget very differently"
 ---
 
-The actor is working with a collection too large or varied to take in whole, and what they are doing right now decides what matters in it — which items, in what form, in what order. A collection shown one fixed way answers someone else's guess at that question, and the actor is left doing the framing work in their head, every visit.
+* * *
 
-## Forces
+**A collection shown in one fixed way answers someone else's guess at what the actor is trying to do. Because the same items serve scanning, comparing, scheduling, and triaging, a hard-coded query, layout, and sort order forces actors to hold their own framing in working memory on every visit—or export the data into a spreadsheet to reshape it.**
 
-- *One collection vs. many purposes* — the same items serve scanning, comparing, and planning, and each purpose wants different items in a different form and order
-- *Designer control vs. actor control* — every part of the framing fixed at design time is a comparison the actor can no longer make; every part handed over is a decision the actor must now make and maintain
+A framing separates three independent choices over one collection: the *query* (which items), the *representation* (how each item renders—row, card, calendar block, map pin, plot point), and the *arrangement* (order and grouping). Every part fixed at design time is a comparison the actor cannot make; every part handed over is a decision the actor must now maintain, so sensible per-representation defaults still matter.
 
-## Solution
+When an interface supports many representations, a long view-switcher dropdown becomes friction of its own. Letting actors select the attributes they care about—two numeric fields to open a scatter plot, a date to open a timeline, an extracted colour to open a colour space—invokes the matching representation directly from the question (Min et al., 2025). Actors also open multiple views over the same collection not only to compare visual encodings, but to partition sub-tasks (for example, keeping home and work candidates in separate views with their own criteria, then comparing across them).
 
-Give the collection a named projection — the same items shown from one angle — built from a *query* (which items), a *representation* (rendered how), and an *arrangement* (ordered and grouped by what), with the framing itself open to inspection and change.
+Therefore,
+
+**Give the collection a named projection built from three inspectable, adjustable parts: a query (which items), a representation (rendered how), and an arrangement (ordered and grouped by what). Keep the framing controls visible on the surface so the actor can switch representations, adjust visible attributes, and save or discard framings without altering the underlying collection.**
+
+Do not bury framing controls in a separate configuration screen, and keep each representation's default attribute set tuned to its density budget.
 
 <Demo spec="data-view" label="Data view. The toolbar is the framing's anatomy: filter edits the query, the switcher the representation, sort and group the arrangement." expandable />
 
-## Representation switching
+## In practice
 
-One collection as list, board, table, calendar, map, etc. The items don't change; the form they are rendered in do, and each representation makes different comparisons effortless (a board makes status visible, a calendar makes time visible, a table makes attributes comparable).
+### Writable views
 
-## Attribute selection
-
-Which attributes the compressed rendering carries decides what the actor can scan, compare, sort, and filter by. Handing that set to the actor is [attribute visibility](/patterns/attribute-visibility)'s move; the framing owns its defaults — the subset each representation starts from before anyone touches it.
-
-## Saved views
-
-Saved views persist the whole framing — query, representation, arrangement, visible attributes — as a named, shareable object, with three authorship poles: developer-defined defaults, role views an administrator curates for a team, and personal views the actor tunes for their own workflow.
-
-<Demo spec="saved-views" label="Named specs switched whole. One view has gone stale — its query names a status label the data no longer uses. Saved framings accumulate; pruning is part of the pattern." />
-
-## Writable views
-
-A view is not only read through — some edits are legal through the projection itself. Which edits, and through which representation, is a design decision: [dragging](/patterns/drag-and-drop) a card between board lanes writes the grouping attribute.
+A view is not only read through—some edits are legal through the projection itself. Which edits, and through which representation, is a design decision: [dragging](/patterns/drag-and-drop) a card between board lanes writes the grouping attribute, while dragging across a computed or read-only band must be refused clearly.
 
 <Demo spec="writable-board" label="Dragging between groups (or using the move menu) writes the grouping attribute through the projection — whichever attribute groups, along whichever axis. Grouped by a computed price band, the write is refused." />
 
@@ -76,8 +87,8 @@ A view is not only read through — some edits are legal through the projection 
 
 ## Resources & references
 
-- Min, Chen, Cao & Xia (2025) [Malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3706598.3714164) — fluid attributes
-- Min & Xia (2025) [Meridian](https://dl.acm.org/doi/10.1145/3746059.3747654) — the saved framing generalised into a portable, declarative specification
+- Min, Chen, Cao & Xia (2025) [Malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3706598.3714164), CHI '25 — Fluid Attributes, attribute-driven representation switching, and multi-overview sub-tasking
+- Min & Xia (2025) [Meridian: a design framework for malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3746059.3747654), UIST '25 — the saved framing generalised into a portable, declarative specification
 - Shneiderman (1996) [The eyes have it](https://ieeexplore.ieee.org/document/545307) — the *extract* task: saving the sub-collection, or the settings of the control widgets themselves
 - Bancilhon & Spyratos (1981) [Update semantics of relational views](https://dl.acm.org/doi/10.1145/319628.319634) — the view-update problem; with bidirectional lenses
 - Fowler — [Projectional editing](https://www.martinfowler.com/bliki/ProjectionalEditing.html) — the same write-through-a-projection move, scoped to code editors

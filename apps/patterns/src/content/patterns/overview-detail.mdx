@@ -1,7 +1,7 @@
 ---
 title: Overview and detail
 added: 2026-01-12
-updated: 2026-07-22
+updated: 2026-11-26
 role: pattern
 evidence:
   - literature
@@ -13,24 +13,38 @@ fun: 🗺️ 2/5. Mapping out the basics.
 description: "Giving one collection two linked views — the whole list compressed enough to scan, the focused item in full — with the current item carrying between them."
 situation:
   initiating: >-
-    a collection framing exists and the actor works item by item — scanning
-    many candidates, verifying one — but no single view is both compact
-    enough to scan and rich enough to verify
-  resulting:
-    - two linked views cover one collection — one compressed, one in full — and the actor moves between them without losing their place
-    - the overview's attribute subset fixes what the actor can compare, sort, and filter by — a ceiling only malleability lifts
+    … a collection is now framed as a [data view](/patterns/data-view) in
+    [composing views](/sequences/composing-views), or a context in
+    [structuring the space](/sequences/structuring-the-space) turns out to be
+    one collection browsed item by item rather than independent sections where
+    [hub and spoke](/patterns/hub-and-spoke) would apply. Overview and detail
+    gives that collection a focused form of
+    [coordinated views](/patterns/coordinated-views) so the actor can move
+    between scanning the whole set and checking individual items without losing
+    their place.
+  resulting: >-
+    Build the overview as a [data view](/patterns/data-view) so every item
+    renders in the same compressed form, and draw both the compressed row and
+    the full detail from one [item view](/patterns/item-view) ladder so each
+    item stays recognisable as the actor moves between them. Hand the
+    overview's attribute set to the actor with
+    [attribute visibility](/patterns/attribute-visibility) so surfacing a field
+    from the detail view lifts the ceiling on what can be compared, sorted, and
+    filtered. Where the actor needs to weigh two items against each other
+    rather than inspect one at a time, offer [comparing](/patterns/comparing)
+    directly; where the space spans several scales, pair the views with
+    [semantic zoom](/patterns/semantic-zoom) inside the overview or the detail
+    pane. Once more than two views share the screen, generalise the
+    current-item link into [coordinated views](/patterns/coordinated-views) so
+    selection and highlighting propagate across all of them…
 relationships:
   composed-of:
-    - to: data-view
-      note: "the overview side: every item rendered in the same compressed form"
-    - to: item-view
-      note: "the detail side: the focused item shown in full — as pane, popover, or its own page"
+    - data-view
+    - item-view
   instantiates:
-    - to: coordinated-views
-      note: "overview-detail is the two-view coupled system where one view is compressed and the other full; what travels between them is focus — the current item — not a selection"
+    - coordinated-views
   complements:
-    - to: semantic-zoom
-      note: "combining techniques usually beats any single one — an overview pane alongside semantic zoom, or zoom inside the detail pane. In its split layout overview-detail spends screen space to show two levels at once; semantic zoom spends time, one level after another"
+    - semantic-zoom
   related:
     - to: interaction
       note: "actors move between scanning the list and verifying an item without losing their place, and switch quickly between items to [compare](/patterns/interaction#evaluation--relevance-construction) them"
@@ -39,55 +53,57 @@ relationships:
       note: "the attributes the developer chose for the overview are everyone's ceiling; the malleable form lets the actor surface, hide, and re-filter attributes across both views"
   alternative:
     - to: hub-and-spoke
-      note: "the boundary is what sits beneath: overview-detail shows one collection at two levels of detail; hub-and-spoke routes between sections that share no underlying model"
+      note: "overview-detail shows one collection at two levels of detail; hub-and-spoke routes between independent sections that share no underlying model"
   tangential:
     - to: pan-and-zoom
-      note: "continuous-space overview+detail — the minimap, the overview map with a field-of-view box — shares the name but couples two viewports over one space rather than compressing items; that is pan and zoom's territory, with [coordinated views](/patterns/coordinated-views) keeping the viewports in step"
+      note: "continuous-space overview+detail (such as a minimap) couples two viewports over one coordinate space rather than compressing discrete items"
 ---
 
-The actor is working through a collection item by item — scanning many candidates, checking ones of interest — and no single view serves both motions: none is at once compact enough to scan and rich enough to verify.
+* * *
 
-## Forces
+**When actors work through a collection item by item, no single view can be both compact enough to scan and rich enough to verify. Showing every item at full fidelity buries the list and makes comparison impossible; opening one item at a time breaks orientation and forces repeated roundtrips back and forth—pogo-sticking—just to answer a scanning question.**
 
-- *Scanning vs. verifying* — showing everything at full fidelity overwhelms; one item at a time loses orientation and comparison
-- *Compactness vs. answering in place* — the fewer attributes the overview carries, the more questions can only be answered inside items, forcing pogo-sticking: the roundtrip into each item just to answer a scanning question
-- *Preference vs. performance* — users consistently prefer having an overview even where it doesn't improve performance, so the overview claims screen space its measured benefit may not justify
+### Forces
 
-## Solution
+- *Compactness vs. answering in place*: every attribute omitted from the overview forces a roundtrip into an item to answer a scanning question; every attribute added slows down scanning the list.
+- *Preference vs. performance*: actors consistently prefer having an overview even where it does not improve measured task speed (Hornbæk et al., 2002; Cockburn et al., 2009), so an overview claims screen space its performance benefit alone may not justify.
 
-Give the collection two linked views: an *overview* rendering every item in the same compressed form, and a *detail* view rendering the current item in full. The link is the current item: opening an item from the overview fills the detail view, and returning to the overview finds the actor's place kept. Whether the two views share the screen, swap in place, or sit on separate pages is a layout decision inside the pattern, not the pattern itself.
+Where the detail opens is a layout decision inside the pattern, not the pattern itself. Unlike [hub and spoke](/patterns/hub-and-spoke), which routes between independent sections with no shared model, overview and detail presents one collection at two granularities. Unlike a minimap in [pan and zoom](/patterns/pan-and-zoom), it compresses discrete items rather than coupling two viewports over a continuous plane. Compared with [semantic zoom](/patterns/semantic-zoom), which spends time swapping scales across the whole population, split overview and detail spends screen space to show both levels at once, and combining the two often outperforms either alone.
+
+The pattern carries two recurring costs. First, the overview's fixed subset of attributes sets a ceiling on what actors can compare, sort, and filter without opening items—a ceiling most interfaces still withhold from actor control (Min et al., 2025 found only 8.33% of surveyed sites offered content customisation). Second, simultaneous split panes spend horizontal width: below roughly 40rem, side-by-side views cramp both halves and must give way to an in-place or single-column layout.
+
+Therefore,
+
+**Give the collection two linked views: an overview rendering every item in the same compressed form, and a detail view rendering the focused item in full. Carry the current item between them so choosing an item in the overview updates the detail and returning to the overview keeps the actor's place, and adapt the layout to available width—falling back from side-by-side panes to an in-place expansion, popover, or separate page below roughly 40rem.**
+
+Watch for redundant fields when the detail opens in place directly beneath the overview row: what gives orientation across separated panes reads as clutter once the two touch.
 
 <Demo spec="overview-detail" surface="gray" label="One spec pair through four layout values, re-chosen from the detail's own corner. Side by side reports itself unavailable at this width — the layout dimension is the one with a space cost." expandable />
 
-## Dimensions
+## In practice
 
 ### Content
 
-Which *attributes* live in which view: overview only, detail only, or both — and interactive elements count as attributes too (a save button can live in both views or only one). The overview's subset is the consequential choice: it fixes what the actor can compare, sort, and filter by. Held open to the actor rather than fixed per view, this dimension is [attribute visibility](/patterns/attribute-visibility) applied twice over. Overview attributes are often *abstractions* of their detail counterparts: visual (`badge` for status), semantic (a generated title standing for a conversation), or computational (a calendar of cheapest prices). When the abstraction is computed or generated, the overview stops being a subset of the detail view and becomes a summary in its own right.
+Which *attributes* live in which view—overview only, detail only, or both—is the consequential choice, and interactive controls count as attributes too (a save button can live in both views or only one). The overview's subset fixes what the actor can compare, sort, and filter by; held open to the actor rather than fixed per view, this dimension is [attribute visibility](/patterns/attribute-visibility) applied twice over. Overview attributes are often *abstractions* of their detail counterparts: visual (`badge` for status), semantic (a generated title standing for a conversation), or computational (a calendar of cheapest prices). When the abstraction is computed or generated, the overview stops being a subset of the detail view and becomes a summary in its own right.
 
 <Demo spec="fluid-attributes" surface="gray" label="The content dimension held open: surface attributes from the detail view into the overview, then operate on them." expandable />
 
 ### Composition
 
-How many of each, and how they nest: several overviews sharing one detail (list + map over the same geographical locations), one overview opening several details, recursion — the pattern nests inside detail views (suggested articles inside an article) — and intermediate detail tiers that soften the jump (tooltip card → full profile). The composition can even invert: a thesaurus entry opens on the detail view, with overviews of synonyms nested inside it — detail-first, the overview arriving second.
+The pair can scale and nest in several ways: several overviews sharing one detail (a list and a map over the same locations), one overview opening several details, recursion—where the pattern nests inside detail views (such as suggested articles inside an article)—and intermediate detail tiers that soften the jump (a tooltip card leading to a full profile). The composition can also invert: a thesaurus entry opens on the detail view with overviews of synonyms nested inside it, detail first and overview second.
 
 <Demo spec="nested-pairs" surface="gray" label="The recursive case: a product's detail carries an overview of its components, whose detail carries overviews of its sub-assemblies and its materials. Three collections, one shape, repeated — and each rung keeps its own current item, so a path stays open through several levels at once." expandable />
 
 ### Layout
 
-Where the detail opens: side by side, in place, in a popover, or on a new page. Simultaneous split panes — what this pattern is usually reduced to — is just one of these — the one that makes switching a glance rather than a navigation, and the only one that costs width: below roughly 40rem it has nowhere to go, and the detail falls back to opening in place, inside the row it was picked from.
-
-Layout and content are not independent. Opening in place puts the detail directly beneath attributes the overview is still showing, so what reads as orientation when the two views sit apart reads as noise once they touch: the in-place detail is the content dimension minus the overview's own set, not the same readout relocated.
-
-The control that chooses among them belongs on the detail rather than in a toolbar outside both views — the layout is re-chosen from the thing being laid out, which is also why some detail is always showing.
+Simultaneous split panes make switching a glance rather than a navigation, but below roughly 40rem they have nowhere to go and should fall back to opening in place inside the row picked from. Because opening in place puts the detail directly beneath attributes the overview is still showing, the in-place detail should show the content dimension minus the overview's own set rather than repeating the same readout. Place the layout switcher on the detail view rather than in an external toolbar so the layout is re-chosen from the thing being laid out.
 
 ## Resources & references
 
 - Min, Chen, Cao & Xia (2025) [Malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3706598.3714164) — the content analysis behind the three dimensions, and the malleable form
 - Min & Xia (2025) [Meridian: a design framework for malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3746059.3747654) — the pattern as a declarative specification: data binding, views, malleability
 - Cockburn, Karlson & Bederson (2009) [A review of overview+detail, zooming, and focus+context interfaces](https://dl.acm.org/doi/10.1145/1456650.1456652) — the spatial-separation branch of the wider taxonomy; combination and preference evidence
-- Hornbæk, Bederson & Plaisant (2002) [Navigation patterns and usability of zoomable user interfaces with and without an overview](https://dl.acm.org/doi/10.1145/586081.586086) — the overview-redundancy finding: a semantic-zoom interface lost time to an added overview, though users still preferred having it
+- Hornbæk, Bederson & Plaisant (2002) [Navigation patterns and usability of zoomable user interfaces with and without an overview](https://dl.acm.org/doi/10.1145/586081.586086) — the overview-redundancy finding: a semantic-zoom interface lost time to an added overview, though actors still preferred having it
 - Shneiderman (1996) [The eyes have it](https://ieeexplore.ieee.org/document/545307) — overview first, zoom and filter, then details-on-demand
 - NN/g — [The anatomy of a list entry](https://www.nngroup.com/articles/list-entries/) — the new-page form's practitioner treatment; pogo-sticking as the impoverished-overview failure mode
 - Tidwell, Brewer & Valencia (2020) *Designing Interfaces*, 3rd ed. — splits the territory into Two-Panel Selector and One-Window Drilldown by display constraint; prior art for the layout dimension
-- van Welie — [Overview by detail](http://www.welie.com/patterns/showPattern.php?patternID=overview-detail) — the one-pattern precedent in the classic pattern libraries

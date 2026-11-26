@@ -1,0 +1,60 @@
+---
+title: Derived attributes
+added: 2026-11-26
+updated:
+role: pattern
+seed: true
+evidence:
+  - literature
+group: seeking
+activityLevel: action
+mediation: individual
+lifecycle: evaluation
+description: "Letting the actor compute, extract, or normalise a new attribute across a collection so criteria absent from the stored schema become visible, sortable, and filterable."
+disclosure: >-
+  Seeded from attribute visibility and data view after reading Min et al. (2025)
+  on Fluid Attributes and user-defined abstractions. The move is observed in
+  spreadsheets, AI tables, and research probes, but its boundaries with
+  extraction and incremental formalisation have not yet been tested across
+  wider practice.
+situation:
+  initiating: >-
+    … a collection is framed in a [data view](/patterns/data-view) and the actor
+    can already choose which existing fields appear through
+    [attribute visibility](/patterns/attribute-visibility), yet the criterion
+    their comparison depends on is not stored as a clean field—it is split
+    across several fields, buried in unstructured detail prose, or recorded
+    inconsistently across items.
+relationships:
+  precedes:
+    - to: sorting
+      note: "a derived attribute becomes a key the actor can sort the collection by"
+    - to: filtering
+      note: "a derived attribute becomes a predicate the actor can filter the collection by"
+    - to: provenance-marking
+      note: "derived attributes need provenance marking so actors can inspect the source fields or passages each value drew from"
+  complements:
+    - to: expressed-uncertainty
+      note: "when an extracted or inferred value cannot be established for an item, mark it explicitly as missing or uncertain rather than guessing silently"
+  serves:
+    - to: data
+      note: "bridges the explicit, derived, and inferred layers of the data foundation inside a collection view"
+  enacts:
+    - to: malleability
+      note: "hands the actor the abstraction itself, not only visibility over fields fixed at design time"
+---
+
+When an actor compares items in a [data view](/patterns/data-view), the attribute that settles the decision often does not exist as a stored column: total cost is split across price and shipping, a response deadline is buried inside an email body, or vendor titles mix brands, models, and conditions in incompatible formats. Showing and hiding existing fields through [attribute visibility](/patterns/attribute-visibility) cannot surface a field that is not there.
+
+Derived attributes lets the actor define a new attribute across the collection—by formula over existing fields, by prompting an AI to extract a value from each item's details, or by normalising inconsistent values into a common format—and treat the result like any native attribute. Once created, the derived attribute participates in [attribute visibility](/patterns/attribute-visibility), [sorting](/patterns/sorting), and [filtering](/patterns/filtering) on equal terms with stored fields. Because derived and inferred values can be wrong or absent, each value keeps its provenance inspectable (hovering a computed total reveals its source fields so the actor can verify or surface them) and marks unfound items explicitly rather than fabricating values.
+
+## Resources & references
+
+- Min, Chen, Cao & Xia (2025) [Malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3706598.3714164), CHI '25 — AI-assisted Fluid Attributes (generating new attributes, establishing consistent attribute values, collection-level attributes, user-defined abstractions)
+
+## To-do
+
+- Settle whether deterministic formulas (e.g. `Price + Shipping`) and probabilistic AI extraction from prose share one pattern or split along the certainty boundary in [data & information](/patterns/data).
+- Settle where collection-level derived attributes (aggregates across all items in an overview, such as total cost of bookmarked candidates) belong relative to per-item derived attributes.
+- Clarify the boundary with [extraction](/patterns/extraction) (lifting structured output out of an agent run) and [incremental formalisation](/patterns/incremental-formalisation) (promoting recurring informal marks into schema fields).
+- Note the symmetry with [saved view](/patterns/saved-view): derived attributes define live columns per item, while saved views define live subsets of items (and can filter on derived attributes).

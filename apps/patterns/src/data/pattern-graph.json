@@ -380,18 +380,8 @@
       "path": "/patterns/attribute-visibility",
       "role": "pattern",
       "situation": {
-        "initiating": "a compressed rendering — rows, cards, pins — carries a fixed subset of each entity's attributes, chosen once for everyone; the comparison the actor came to make is in the data, visible in the detail view, but absent from the view where comparing happens",
-        "resulting": [
-          {
-            "clause": "each view's attribute set is the actor's decision"
-          },
-          {
-            "clause": "the curation moves to the actor — surfaced sets drift and diverge, so the designed defaults still matter, now as a starting point rather than a ceiling"
-          },
-          {
-            "clause": "surfaced attributes become operable, changing what a view shows changes what the actor can do with it"
-          }
-        ]
+        "initiating": "… a collection is now framed in a [data view](/patterns/data-view), paired in [overview and detail](/patterns/overview-detail), or scaled by [semantic zoom](/patterns/semantic-zoom) in [composing views](/sequences/composing-views), and each compressed item carries a fixed subset of attributes chosen once at design time. Attribute visibility hands that subset to the actor so the view carries the fields their current comparison actually depends on.",
+        "resulting": "Make every surfaced attribute immediately operable for [sorting](/patterns/sorting) and [filtering](/patterns/filtering), because actors rarely surface a field without acting on it next. Let actors pull fields directly from a detail view into the overview with [drag and drop](/patterns/drag-and-drop) or an in-place toggle rather than burying the field list in a separate settings dialog. Where the criterion the actor needs is not stored as a clean field at all, hand off to [derived attributes](/patterns/derived-attributes) so they can compute, extract, or normalise it and surface the result on the same terms…"
       },
       "group": "seeking",
       "evidence": [
@@ -527,7 +517,7 @@
       "role": "pattern",
       "situation": {
         "initiating": "… [deep linking](/patterns/deep-linking) gives items and views stable addresses that restore them, and [recents](/patterns/recents) already cover short-term returns. Here the actor has reached an item, view, conversation, or position they expect to need again well after later activity has pushed it out of recents.",
-        "resulting": "Surface the saved list one step from navigation starting points such as a sidebar, start page, or [command menu](/patterns/command-menu). Once the list grows past what can be scanned at a glance, add [tags](/patterns/tagging) or folders so the actor can organise it without planning a structure up front. Where a saved item or collection should travel to others as a curated list, pair it with [sharing](/patterns/sharing). Where the actor needs to save a filtered and sorted query rather than a single item, offer a [saved view](/patterns/data-view#saved-views)…"
+        "resulting": "Surface the saved list one step from navigation starting points such as a sidebar, start page, or [command menu](/patterns/command-menu). Once the list grows past what can be scanned at a glance, add [tags](/patterns/tagging) or folders so the actor can organise it without planning a structure up front. Where a saved item or collection should travel to others as a curated list, pair it with [sharing](/patterns/sharing). Where the actor needs to save a filtered and sorted query rather than a single item, offer a [saved view](/patterns/saved-view)…"
       },
       "evidence": [
         {
@@ -1005,15 +995,8 @@
       "path": "/patterns/data-view",
       "role": "pattern",
       "situation": {
-        "initiating": "a collection too large or varied to absorb whole, and an actor whose purpose fixes what matters in it right now — which items, rendered how, ordered by what",
-        "resulting": [
-          {
-            "clause": "the collection reaches the actor already framed — queried, represented, arranged — and the framing is inspectable and adjustable rather than baked in"
-          },
-          {
-            "clause": "a framed population of items makes designating some of them for action cheap; what the framing exposes is what selection can operate on"
-          }
-        ]
+        "initiating": "… an artifact now holds a collection too large or varied to absorb whole—whether opened directly in [composing views](/sequences/composing-views), returned from [searching](/patterns/searching), or gathered in [making sense at scale](/sequences/making-sense-at-scale)—and the actor's current purpose fixes which items matter, how they should be rendered, and in what order. Data view frames that collection as an inspectable, adjustable projection so the actor does not have to re-assemble the framing in their head on every visit.",
+        "resulting": "Render each item inside the framing from a shared [item view](/patterns/item-view) ladder—row, card, or pin—and hand its visible fields to [attribute visibility](/patterns/attribute-visibility) so the actor can tune what each item shows. Where the criterion needed for comparison is not stored cleanly, offer [derived attributes](/patterns/derived-attributes) to compute, extract, or normalise it on the fly. Pair the framed collection with [sorting](/patterns/sorting), [grouping](/patterns/grouping), and [filtering](/patterns/filtering) to refine the arrangement, and with [semantic zoom](/patterns/semantic-zoom) when the population needs scale-bound traversal across granularities. Let [selection](/patterns/selection) stake items directly from the visible set for batch or [contextual actions](/patterns/contextual-actions), and preserve the actor's adjustments through [remembered state](/patterns/remembered-state) or as a named [saved view](/patterns/saved-view)…"
       },
       "group": "seeking",
       "evidence": [
@@ -1092,6 +1075,23 @@
       "category": "Qualities",
       "path": "/patterns/density",
       "role": "quality"
+    },
+    {
+      "id": "derived-attributes",
+      "title": "Derived attributes",
+      "category": "Actions",
+      "path": "/patterns/derived-attributes",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… a collection is framed in a [data view](/patterns/data-view) and the actor can already choose which existing fields appear through [attribute visibility](/patterns/attribute-visibility), yet the criterion their comparison depends on is not stored as a clean field—it is split across several fields, buried in unstructured detail prose, or recorded inconsistently across items."
+      },
+      "group": "seeking",
+      "seed": true,
+      "evidence": [
+        {
+          "kind": "literature"
+        }
+      ]
     },
     {
       "id": "disengage-without-closing",
@@ -2429,15 +2429,8 @@
       "path": "/patterns/overview-detail",
       "role": "pattern",
       "situation": {
-        "initiating": "a collection framing exists and the actor works item by item — scanning many candidates, verifying one — but no single view is both compact enough to scan and rich enough to verify",
-        "resulting": [
-          {
-            "clause": "two linked views cover one collection — one compressed, one in full — and the actor moves between them without losing their place"
-          },
-          {
-            "clause": "the overview's attribute subset fixes what the actor can compare, sort, and filter by — a ceiling only malleability lifts"
-          }
-        ]
+        "initiating": "… a collection is now framed as a [data view](/patterns/data-view) in [composing views](/sequences/composing-views), or a context in [structuring the space](/sequences/structuring-the-space) turns out to be one collection browsed item by item rather than independent sections where [hub and spoke](/patterns/hub-and-spoke) would apply. Overview and detail gives that collection a focused form of [coordinated views](/patterns/coordinated-views) so the actor can move between scanning the whole set and checking individual items without losing their place.",
+        "resulting": "Build the overview as a [data view](/patterns/data-view) so every item renders in the same compressed form, and draw both the compressed row and the full detail from one [item view](/patterns/item-view) ladder so each item stays recognisable as the actor moves between them. Hand the overview's attribute set to the actor with [attribute visibility](/patterns/attribute-visibility) so surfacing a field from the detail view lifts the ceiling on what can be compared, sorted, and filtered. Where the actor needs to weigh two items against each other rather than inspect one at a time, offer [comparing](/patterns/comparing) directly; where the space spans several scales, pair the views with [semantic zoom](/patterns/semantic-zoom) inside the overview or the detail pane. Once more than two views share the screen, generalise the current-item link into [coordinated views](/patterns/coordinated-views) so selection and highlighting propagate across all of them…"
       },
       "group": "navigation",
       "evidence": [
@@ -3057,6 +3050,29 @@
       ]
     },
     {
+      "id": "saved-view",
+      "title": "Saved view",
+      "category": "Actions",
+      "path": "/patterns/saved-view",
+      "role": "pattern",
+      "situation": {
+        "initiating": "… an actor has framed a collection in a [data view](/patterns/data-view) using [filtering](/patterns/filtering), [rule composition](/patterns/rule-composition), or [derived attributes](/patterns/derived-attributes), and the resulting view answers a question that comes up repeatedly—such as \"My tasks\" (`type = task` and `assigned = me`) or \"Overdue invoices\". In [making sense at scale](/sequences/making-sense-at-scale), a saved view turns that recurring framing into a named, live place so the actor does not have to rebuild the same query on every visit.",
+        "resulting": "Keep the underlying query visible and editable through [filtering](/patterns/filtering) or [rule composition](/patterns/rule-composition) so the actor can see why items appear in the view and adjust the rule without starting over. Pair personal views with [sharing](/patterns/sharing) when a framing should become a team or role view, and distinguish saving edits for everyone from saving a personal copy. Where a saved view hardens around a recurring operational posture—such as a daily triage queue or monitoring board—shape it further as a [purpose-keyed view](/patterns/purpose-keyed-view) while keeping the unfiltered collection one step away…"
+      },
+      "group": "sense-making",
+      "evidence": [
+        {
+          "kind": "observed"
+        },
+        {
+          "kind": "literature"
+        },
+        {
+          "kind": "used"
+        }
+      ]
+    },
+    {
       "id": "searching",
       "title": "Searching",
       "category": "Actions",
@@ -3125,18 +3141,8 @@
       "path": "/patterns/semantic-zoom",
       "role": "pattern",
       "situation": {
-        "initiating": "the space is too large to take in at once and plain magnification fails in both directions — pulling back shrinks everything to unreadable specks, moving in loses the shape of the whole; the items do have small forms that stay recognisable, which is what makes swapping representation available instead of resizing",
-        "resulting": [
-          {
-            "clause": "every distance shows one uniform level of representation, so the population reads consistently at each scale and the actor learns what a given zoom level means"
-          },
-          {
-            "clause": "representations don't interpolate — a dot, a title and a paragraph are different artefacts — so thresholds are unavoidable, and where they sit and how the crossing is presented become the design rather than a detail of it"
-          },
-          {
-            "clause": "a richer rung has to fit the box its coarser neighbour occupied, or the arrangement the zoom was protecting comes apart on the way out"
-          }
-        ]
+        "initiating": "… a space in [making sense at scale](/sequences/making-sense-at-scale)—a map, a canvas of notes, a [data view](/patterns/data-view) of records, or a long document—is too large to absorb at once, and plain geometric scaling fails in both directions. Semantic zoom turns the scale control on a [pan and zoom](/patterns/pan-and-zoom) or collection surface into a level-of-detail switch so the whole population stays readable at every distance.",
+        "resulting": "Draw the discrete rungs from an [item view](/patterns/item-view) ladder so every item stays recognisable as it changes representation. For structured records, drive each zoom level through [attribute visibility](/patterns/attribute-visibility) so pulling back sheds fields and moving in restores them, and let the actor pin attributes they want kept visible across zoom levels. For prose, generate the coarser rungs with a [text lens](/patterns/text-lens). Where a task needs both scales visible at once rather than one at a time, pair semantic zoom with [overview and detail](/patterns/overview-detail)…"
       },
       "group": "evaluation",
       "seed": true,
@@ -4763,29 +4769,43 @@
       "source": "attribute-visibility",
       "target": "data-view",
       "type": "enables",
-      "label": "attribute visibility is the representation leg of the framing — the query picks the items, the arrangement orders them, the attribute set decides what each item shows",
-      "extractedFrom": "frontmatter:enables"
+      "extractedFrom": "frontmatter:enables",
+      "situation": "a collection is now framed in a [data view](/patterns/data-view), paired in [overview and detail](/patterns/overview-detail), or scaled by [semantic zoom](/patterns/semantic-zoom) in [composing views](/sequences/composing-views), and each compressed item carries a fixed subset of attributes chosen once at design time.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Render each item inside the framing from a shared [item view](/patterns/item-view) ladder—row, card, or pin—and hand its visible fields to [attribute visibility](/patterns/attribute-visibility) so the actor can tune what each item shows."
     },
     {
       "source": "attribute-visibility",
       "target": "overview-detail",
       "type": "enables",
-      "label": "overview-detail's content dimension — which attributes live in which view — is attribute visibility applied per view; surfacing is what lifts the overview's ceiling",
-      "extractedFrom": "frontmatter:enables"
+      "extractedFrom": "frontmatter:enables",
+      "situation": "a collection is now framed in a [data view](/patterns/data-view), paired in [overview and detail](/patterns/overview-detail), or scaled by [semantic zoom](/patterns/semantic-zoom) in [composing views](/sequences/composing-views), and each compressed item carries a fixed subset of attributes chosen once at design time.",
+      "glossFrom": "source:initiating",
+      "farSituation": "Hand the overview's attribute set to the actor with [attribute visibility](/patterns/attribute-visibility) so surfacing a field from the detail view lifts the ceiling on what can be compared, sorted, and filtered."
+    },
+    {
+      "source": "attribute-visibility",
+      "target": "derived-attributes",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where the criterion the actor needs is not stored as a clean field at all, hand off to [derived attributes](/patterns/derived-attributes) so they can compute, extract, or normalise it and surface the result on the same terms",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "attribute-visibility",
       "target": "sorting",
       "type": "complements",
-      "label": "surface then operate: an attribute made visible becomes a key to sort by",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Make every surfaced attribute immediately operable for [sorting](/patterns/sorting) and [filtering](/patterns/filtering), because actors rarely surface a field without acting on it next.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "attribute-visibility",
       "target": "filtering",
       "type": "complements",
-      "label": "surface then operate: an attribute made visible becomes a predicate to filter by",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Make every surfaced attribute immediately operable for [sorting](/patterns/sorting) and [filtering](/patterns/filtering), because actors rarely surface a field without acting on it next.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "attribute-visibility",
@@ -5095,15 +5115,6 @@
       "label": "sharing turns a personal bookmark or collection into a recommendation for others",
       "extractedFrom": "frontmatter:complements",
       "situation": "Where a saved item or collection should travel to others as a curated list, pair it with [sharing](/patterns/sharing).",
-      "glossFrom": "source:resulting"
-    },
-    {
-      "source": "bookmarking",
-      "target": "data-view",
-      "type": "related",
-      "label": "a saved view bookmarks a query and display configuration rather than a single item",
-      "extractedFrom": "frontmatter:related",
-      "situation": "Where the actor needs to save a filtered and sorted query rather than a single item, offer a [saved view](/patterns/data-view#saved-views)",
       "glossFrom": "source:resulting"
     },
     {
@@ -6029,7 +6040,8 @@
       "type": "enables",
       "extractedFrom": "frontmatter:enables",
       "situation": "inside a [data view](/patterns/data-view), a [block-based editor](/patterns/block-based-editor), or a canvas, the actor has designated a target through a [selection](/patterns/selection) or by pointing at an element—a text span, a document block, an object, or rows in a list—and is about to act on it directly rather than searching for an operation by name in a [command menu](/patterns/command-menu).",
-      "glossFrom": "source:initiating"
+      "glossFrom": "source:initiating",
+      "farSituation": "Let [selection](/patterns/selection) stake items directly from the visible set for batch or [contextual actions](/patterns/contextual-actions), and preserve the actor's adjustments through [remembered state](/patterns/remembered-state) or as a named [saved view](/patterns/saved-view)"
     },
     {
       "source": "contextual-actions",
@@ -6246,23 +6258,44 @@
       "source": "data-view",
       "target": "selection",
       "type": "enables",
-      "label": "staking a subset of items as the target of subsequent action",
       "extractedFrom": "frontmatter:enables",
-      "incomingNote": "the view in which item selection happens — it supplies the visible set the pick is drawn from"
+      "incomingNote": "the view in which item selection happens — it supplies the visible set the pick is drawn from",
+      "situation": "Let [selection](/patterns/selection) stake items directly from the visible set for batch or [contextual actions](/patterns/contextual-actions), and preserve the actor's adjustments through [remembered state](/patterns/remembered-state) or as a named [saved view](/patterns/saved-view)",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "item-view",
       "target": "data-view",
       "type": "enables",
-      "incomingNote": "a data view is many item views rendered in the same compressed form; which form — row, card, pin — is the representation choice",
-      "extractedFrom": "frontmatter:composed-of"
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Render each item inside the framing from a shared [item view](/patterns/item-view) ladder—row, card, or pin—and hand its visible fields to [attribute visibility](/patterns/attribute-visibility) so the actor can tune what each item shows.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "data-view",
+      "target": "derived-attributes",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where the criterion needed for comparison is not stored cleanly, offer [derived attributes](/patterns/derived-attributes) to compute, extract, or normalise it on the fly.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "data-view",
+      "target": "saved-view",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Let [selection](/patterns/selection) stake items directly from the visible set for batch or [contextual actions](/patterns/contextual-actions), and preserve the actor's adjustments through [remembered state](/patterns/remembered-state) or as a named [saved view](/patterns/saved-view)",
+      "glossFrom": "source:resulting",
+      "farSituation": "an actor has framed a collection in a [data view](/patterns/data-view) using [filtering](/patterns/filtering), [rule composition](/patterns/rule-composition), or [derived attributes](/patterns/derived-attributes), and the resulting view answers a question that comes up repeatedly—such as \"My tasks\" (`type = task` and `assigned = me`) or \"Overdue invoices\"."
     },
     {
       "source": "data-view",
       "target": "semantic-zoom",
       "type": "complements",
-      "label": "scale-bound traversal between collection and item granularities, uniform across the population",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Pair the framed collection with [sorting](/patterns/sorting), [grouping](/patterns/grouping), and [filtering](/patterns/filtering) to refine the arrangement, and with [semantic zoom](/patterns/semantic-zoom) when the population needs scale-bound traversal across granularities.",
+      "glossFrom": "source:resulting",
+      "farSituation": "a space in [making sense at scale](/sequences/making-sense-at-scale)—a map, a canvas of notes, a [data view](/patterns/data-view) of records, or a long document—is too large to absorb at once, and plain geometric scaling fails in both directions."
     },
     {
       "source": "data-view",
@@ -6429,6 +6462,48 @@
       "extractedFrom": "frontmatter:related"
     },
     {
+      "source": "derived-attributes",
+      "target": "sorting",
+      "type": "precedes",
+      "label": "a derived attribute becomes a key the actor can sort the collection by",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "derived-attributes",
+      "target": "filtering",
+      "type": "precedes",
+      "label": "a derived attribute becomes a predicate the actor can filter the collection by",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "derived-attributes",
+      "target": "provenance-marking",
+      "type": "precedes",
+      "label": "derived attributes need provenance marking so actors can inspect the source fields or passages each value drew from",
+      "extractedFrom": "frontmatter:precedes"
+    },
+    {
+      "source": "derived-attributes",
+      "target": "expressed-uncertainty",
+      "type": "complements",
+      "label": "when an extracted or inferred value cannot be established for an item, mark it explicitly as missing or uncertain rather than guessing silently",
+      "extractedFrom": "frontmatter:complements"
+    },
+    {
+      "source": "derived-attributes",
+      "target": "data",
+      "type": "serves",
+      "label": "bridges the explicit, derived, and inferred layers of the data foundation inside a collection view",
+      "extractedFrom": "frontmatter:serves"
+    },
+    {
+      "source": "derived-attributes",
+      "target": "malleability",
+      "type": "enacts",
+      "label": "hands the actor the abstraction itself, not only visibility over fields fixed at design time",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "disengage-without-closing",
       "target": "closing",
       "type": "alternative",
@@ -6454,7 +6529,9 @@
       "target": "attribute-visibility",
       "type": "enables",
       "label": "the strongest surfacing control is a drag — grab the attribute in one item's detail and drop it into the overview",
-      "extractedFrom": "frontmatter:enables"
+      "extractedFrom": "frontmatter:enables",
+      "situation": "Let actors pull fields directly from a detail view into the overview with [drag and drop](/patterns/drag-and-drop) or an in-place toggle rather than burying the field list in a separate settings dialog.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "drag-and-drop",
@@ -6921,8 +6998,9 @@
       "type": "precedes",
       "incomingNote": "acts on the framed collection the view already holds",
       "extractedFrom": "frontmatter:follows",
-      "situation": "a [data view](/patterns/data-view) has framed a collection, and the actor's question concerns only part of it.",
-      "glossFrom": "target:initiating"
+      "situation": "Pair the framed collection with [sorting](/patterns/sorting), [grouping](/patterns/grouping), and [filtering](/patterns/filtering) to refine the arrangement, and with [semantic zoom](/patterns/semantic-zoom) when the population needs scale-bound traversal across granularities.",
+      "glossFrom": "source:resulting",
+      "farSituation": "a [data view](/patterns/data-view) has framed a collection, and the actor's question concerns only part of it."
     },
     {
       "source": "flat-navigation",
@@ -7319,7 +7397,9 @@
       "target": "grouping",
       "type": "precedes",
       "incomingNote": "acts on the framed collection the view already holds",
-      "extractedFrom": "frontmatter:follows"
+      "extractedFrom": "frontmatter:follows",
+      "situation": "Pair the framed collection with [sorting](/patterns/sorting), [grouping](/patterns/grouping), and [filtering](/patterns/filtering) to refine the arrangement, and with [semantic zoom](/patterns/semantic-zoom) when the population needs scale-bound traversal across granularities.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "grouping",
@@ -8227,7 +8307,9 @@
       "target": "semantic-zoom",
       "type": "complements",
       "label": "semantic zoom drives this ladder for every item at once from a single scale control; item view owns the rungs and their per-item, navigation-driven transitions",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Draw the discrete rungs from an [item view](/patterns/item-view) ladder so every item stays recognisable as it changes representation.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "keyboard-shortcuts",
@@ -9142,29 +9224,34 @@
       "source": "data-view",
       "target": "overview-detail",
       "type": "enables",
-      "incomingNote": "the overview side: every item rendered in the same compressed form",
-      "extractedFrom": "frontmatter:composed-of"
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Build the overview as a [data view](/patterns/data-view) so every item renders in the same compressed form, and draw both the compressed row and the full detail from one [item view](/patterns/item-view) ladder so each item stays recognisable as the actor moves between them.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "item-view",
       "target": "overview-detail",
       "type": "enables",
-      "incomingNote": "the detail side: the focused item shown in full — as pane, popover, or its own page",
-      "extractedFrom": "frontmatter:composed-of"
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "Build the overview as a [data view](/patterns/data-view) so every item renders in the same compressed form, and draw both the compressed row and the full detail from one [item view](/patterns/item-view) ladder so each item stays recognisable as the actor moves between them.",
+      "glossFrom": "target:resulting"
     },
     {
       "source": "overview-detail",
       "target": "coordinated-views",
       "type": "instantiates",
-      "label": "overview-detail is the two-view coupled system where one view is compressed and the other full; what travels between them is focus — the current item — not a selection",
-      "extractedFrom": "frontmatter:instantiates"
+      "extractedFrom": "frontmatter:instantiates",
+      "situation": "Once more than two views share the screen, generalise the current-item link into [coordinated views](/patterns/coordinated-views) so selection and highlighting propagate across all of them",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "overview-detail",
       "target": "semantic-zoom",
       "type": "complements",
-      "label": "combining techniques usually beats any single one — an overview pane alongside semantic zoom, or zoom inside the detail pane. In its split layout overview-detail spends screen space to show two levels at once; semantic zoom spends time, one level after another",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Where the actor needs to weigh two items against each other rather than inspect one at a time, offer [comparing](/patterns/comparing) directly; where the space spans several scales, pair the views with [semantic zoom](/patterns/semantic-zoom) inside the overview or the detail pane.",
+      "glossFrom": "source:resulting",
+      "farSituation": "Where a task needs both scales visible at once rather than one at a time, pair semantic zoom with [overview and detail](/patterns/overview-detail)"
     },
     {
       "source": "overview-detail",
@@ -9184,14 +9271,16 @@
       "source": "overview-detail",
       "target": "hub-and-spoke",
       "type": "alternative",
-      "label": "the boundary is what sits beneath: overview-detail shows one collection at two levels of detail; hub-and-spoke routes between sections that share no underlying model",
-      "extractedFrom": "frontmatter:alternative"
+      "label": "overview-detail shows one collection at two levels of detail; hub-and-spoke routes between independent sections that share no underlying model",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "a collection is now framed as a [data view](/patterns/data-view) in [composing views](/sequences/composing-views), or a context in [structuring the space](/sequences/structuring-the-space) turns out to be one collection browsed item by item rather than independent sections where [hub and spoke](/patterns/hub-and-spoke) would apply.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "overview-detail",
       "target": "pan-and-zoom",
       "type": "tangential",
-      "label": "continuous-space overview+detail — the minimap, the overview map with a field-of-view box — shares the name but couples two viewports over one space rather than compressing items; that is pan and zoom's territory, with [coordinated views](/patterns/coordinated-views) keeping the viewports in step",
+      "label": "continuous-space overview+detail (such as a minimap) couples two viewports over one coordinate space rather than compressing discrete items",
       "extractedFrom": "frontmatter:tangential"
     },
     {
@@ -10267,8 +10356,9 @@
       "type": "precedes",
       "incomingNote": "remembered state persists the sort, filters, grouping, and layout configured in a data view",
       "extractedFrom": "frontmatter:follows",
-      "situation": "the actor returns to an artifact they adjusted during normal use—configuring a [data view](/patterns/data-view), selecting a tab, resizing a panel, scrolling partway through a document, or picking an export format—without visiting [settings](/patterns/settings).",
-      "glossFrom": "target:initiating"
+      "situation": "Let [selection](/patterns/selection) stake items directly from the visible set for batch or [contextual actions](/patterns/contextual-actions), and preserve the actor's adjustments through [remembered state](/patterns/remembered-state) or as a named [saved view](/patterns/saved-view)",
+      "glossFrom": "source:resulting",
+      "farSituation": "the actor returns to an artifact they adjusted during normal use—configuring a [data view](/patterns/data-view), selecting a tab, resizing a panel, scrolling partway through a document, or picking an export format—without visiting [settings](/patterns/settings)."
     },
     {
       "source": "remembered-state",
@@ -10532,12 +10622,75 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
+      "source": "rule-composition",
+      "target": "saved-view",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "Keep the underlying query visible and editable through [filtering](/patterns/filtering) or [rule composition](/patterns/rule-composition) so the actor can see why items appear in the view and adjust the rule without starting over.",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "derived-attributes",
+      "target": "saved-view",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:follows",
+      "situation": "an actor has framed a collection in a [data view](/patterns/data-view) using [filtering](/patterns/filtering), [rule composition](/patterns/rule-composition), or [derived attributes](/patterns/derived-attributes), and the resulting view answers a question that comes up repeatedly—such as \"My tasks\" (`type = task` and `assigned = me`) or \"Overdue invoices\".",
+      "glossFrom": "target:initiating"
+    },
+    {
+      "source": "saved-view",
+      "target": "purpose-keyed-view",
+      "type": "precedes",
+      "extractedFrom": "frontmatter:precedes",
+      "situation": "Where a saved view hardens around a recurring operational posture—such as a daily triage queue or monitoring board—shape it further as a [purpose-keyed view](/patterns/purpose-keyed-view) while keeping the unfiltered collection one step away",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "saved-view",
+      "target": "sharing",
+      "type": "complements",
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Pair personal views with [sharing](/patterns/sharing) when a framing should become a team or role view, and distinguish saving edits for everyone from saving a personal copy.",
+      "glossFrom": "source:resulting"
+    },
+    {
+      "source": "saved-view",
+      "target": "bookmarking",
+      "type": "alternative",
+      "label": "a saved view stores a live query and display framing rather than a static item",
+      "extractedFrom": "frontmatter:alternative",
+      "situation": "Where the actor needs to save a filtered and sorted query rather than a single item, offer a [saved view](/patterns/saved-view)",
+      "glossFrom": "target:resulting"
+    },
+    {
+      "source": "saved-view",
+      "target": "remembered-state",
+      "type": "alternative",
+      "label": "a saved view is an explicit, named framing the actor switches between; remembered state restores the last-used view automatically",
+      "extractedFrom": "frontmatter:alternative"
+    },
+    {
+      "source": "saved-view",
+      "target": "malleability",
+      "type": "enacts",
+      "label": "lets actors build durable, reusable lenses over shared data without waiting for bespoke views",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
+      "source": "saved-view",
+      "target": "shareability",
+      "type": "enacts",
+      "label": "turns a working query and layout into a named object that travels across a team",
+      "extractedFrom": "frontmatter:enacts"
+    },
+    {
       "source": "searching",
       "target": "data-view",
       "type": "precedes",
       "extractedFrom": "frontmatter:precedes",
       "situation": "Present the ranked results in a [data view](/patterns/data-view) and make each query state addressable through [deep linking](/patterns/deep-linking).",
-      "glossFrom": "source:resulting"
+      "glossFrom": "source:resulting",
+      "farSituation": "an artifact now holds a collection too large or varied to absorb whole—whether opened directly in [composing views](/sequences/composing-views), returned from [searching](/patterns/searching), or gathered in [making sense at scale](/sequences/making-sense-at-scale)—and the actor's current purpose fixes which items matter, how they should be rendered, and in what order."
     },
     {
       "source": "command-menu",
@@ -10654,6 +10807,24 @@
       "extractedFrom": "frontmatter:tangential"
     },
     {
+      "source": "attribute-visibility",
+      "target": "semantic-zoom",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "a collection is now framed in a [data view](/patterns/data-view), paired in [overview and detail](/patterns/overview-detail), or scaled by [semantic zoom](/patterns/semantic-zoom) in [composing views](/sequences/composing-views), and each compressed item carries a fixed subset of attributes chosen once at design time.",
+      "glossFrom": "source:initiating",
+      "farSituation": "For structured records, drive each zoom level through [attribute visibility](/patterns/attribute-visibility) so pulling back sheds fields and moving in restores them, and let the actor pin attributes they want kept visible across zoom levels."
+    },
+    {
+      "source": "text-lens",
+      "target": "semantic-zoom",
+      "type": "enables",
+      "extractedFrom": "frontmatter:composed-of",
+      "situation": "the artifact holds [help](/patterns/help) documentation, articles, or records that serve readers with different background knowledge, or uses [semantic zoom](/patterns/semantic-zoom) and [focus and context](/patterns/focus-and-context) over prose.",
+      "glossFrom": "source:initiating",
+      "farSituation": "For prose, generate the coarser rungs with a [text lens](/patterns/text-lens)."
+    },
+    {
       "source": "semantic-zoom",
       "target": "focus-and-context",
       "type": "alternative",
@@ -10664,15 +10835,18 @@
       "source": "semantic-zoom",
       "target": "item-view",
       "type": "complements",
-      "label": "item view supplies the representation ladder and its per-item transitions; semantic zoom binds that ladder to a scale control and drives every item's rung at once, keeping spatial arrangement legible",
-      "extractedFrom": "frontmatter:complements"
+      "extractedFrom": "frontmatter:complements",
+      "situation": "Draw the discrete rungs from an [item view](/patterns/item-view) ladder so every item stays recognisable as it changes representation.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "semantic-zoom",
       "target": "pan-and-zoom",
       "type": "related",
       "label": "the navigation surface this move layers onto — pan and zoom move the viewport; semantic zoom decides what the things in it look like at each scale",
-      "extractedFrom": "frontmatter:related"
+      "extractedFrom": "frontmatter:related",
+      "situation": "Semantic zoom turns the scale control on a [pan and zoom](/patterns/pan-and-zoom) or collection surface into a level-of-detail switch so the whole population stays readable at every distance.",
+      "glossFrom": "source:initiating"
     },
     {
       "source": "semantic-zoom",
@@ -10680,20 +10854,6 @@
       "type": "enacts",
       "label": "each zoom level is a density commitment, and the transitions between levels preserve legible density — zooming re-spends the screen budget instead of diluting it",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "attribute-visibility",
-      "target": "semantic-zoom",
-      "type": "enables",
-      "extractedFrom": "inline:composed-of"
-    },
-    {
-      "source": "text-lens",
-      "target": "semantic-zoom",
-      "type": "enables",
-      "extractedFrom": "inline:composed-of",
-      "situation": "the artifact holds [help](/patterns/help) documentation, articles, or records that serve readers with different background knowledge, or uses [semantic zoom](/patterns/semantic-zoom) and [focus and context](/patterns/focus-and-context) over prose.",
-      "glossFrom": "source:initiating"
     },
     {
       "source": "settings",
@@ -10966,7 +11126,9 @@
       "target": "sorting",
       "type": "precedes",
       "incomingNote": "acts on the framed collection the view already holds",
-      "extractedFrom": "frontmatter:follows"
+      "extractedFrom": "frontmatter:follows",
+      "situation": "Pair the framed collection with [sorting](/patterns/sorting), [grouping](/patterns/grouping), and [filtering](/patterns/filtering) to refine the arrangement, and with [semantic zoom](/patterns/semantic-zoom) when the population needs scale-bound traversal across granularities.",
+      "glossFrom": "source:resulting"
     },
     {
       "source": "sorting",

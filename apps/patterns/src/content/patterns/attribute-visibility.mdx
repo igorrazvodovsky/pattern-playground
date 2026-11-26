@@ -1,7 +1,7 @@
 ---
 title: Attribute visibility
 added: 2026-07-22
-updated:
+updated: 2026-11-26
 role: pattern
 evidence:
   - literature
@@ -12,44 +12,60 @@ lifecycle: seeking
 description: "Letting the actor decide which attributes a view carries — surfacing what their comparison needs, hiding what it doesn't — instead of living with a designer's guess."
 situation:
   initiating: >-
-    a compressed rendering — rows, cards, pins — carries a fixed subset of
-    each entity's attributes, chosen once for everyone; the comparison the
-    actor came to make is in the data, visible in the detail view, but
-    absent from the view where comparing happens
-  resulting:
-    - each view's attribute set is the actor's decision
-    - the curation moves to the actor — surfaced sets drift and diverge, so the designed defaults still matter, now as a starting point rather than a ceiling
-    - surfaced attributes become operable, changing what a view shows changes what the actor can do with it
+    … a collection is now framed in a [data view](/patterns/data-view), paired in
+    [overview and detail](/patterns/overview-detail), or scaled by
+    [semantic zoom](/patterns/semantic-zoom) in
+    [composing views](/sequences/composing-views), and each compressed item
+    carries a fixed subset of attributes chosen once at design time. Attribute
+    visibility hands that subset to the actor so the view carries the fields
+    their current comparison actually depends on.
+  resulting: >-
+    Make every surfaced attribute immediately operable for
+    [sorting](/patterns/sorting) and [filtering](/patterns/filtering), because
+    actors rarely surface a field without acting on it next. Let actors pull
+    fields directly from a detail view into the overview with
+    [drag and drop](/patterns/drag-and-drop) or an in-place toggle rather than
+    burying the field list in a separate settings dialog. Where the criterion
+    the actor needs is not stored as a clean field at all, hand off to
+    [derived attributes](/patterns/derived-attributes) so they can compute,
+    extract, or normalise it and surface the result on the same terms…
 relationships:
   enables:
-    - to: data-view
-      note: "attribute visibility is the representation leg of the framing — the query picks the items, the arrangement orders them, the attribute set decides what each item shows"
-    - to: overview-detail
-      note: "overview-detail's content dimension — which attributes live in which view — is attribute visibility applied per view; surfacing is what lifts the overview's ceiling"
+    - data-view
+    - overview-detail
+  precedes:
+    - derived-attributes
   complements:
-    - to: sorting
-      note: "surface then operate: an attribute made visible becomes a key to sort by"
-    - to: filtering
-      note: "surface then operate: an attribute made visible becomes a predicate to filter by"
+    - sorting
+    - filtering
   enacts:
     - to: malleability
       note: "the attribute set is the smallest piece of a view an actor can own; products that hand over nothing else can hand over this"
 ---
 
-The actor is scanning a compressed rendering — rows in a table, cards in a grid, pins on a map — and the question they brought concerns an attribute the rendering doesn't carry. The data has it; the detail view shows it; but the subset chosen for the compressed form was someone else's guess at what everyone compares.
+* * *
 
-## Forces
+**Every attribute a compressed view shows adds scanning cost on every item, and every attribute it omits blocks a comparison the actor came to make. Because actors diverge immediately in what they compare even on the same task, no single designer-chosen subset can fit everyone—leaving actors either wading through irrelevant fields or opening items one by one to check what the list hides.**
 
-- *Ceiling vs. clutter* — every attribute a view carries is scan cost paid on every item, and every attribute it omits is a comparison nobody can make; there is no subset that resolves this for all actors at once
-- *One default vs. divergent criteria* — given the same task and the same starting view, actors immediately diverge in what they surface; a fixed middle serves the average actor, who does not exist
+Empirical studies of overview–detail interfaces show how rarely products hand this control over—Min et al. (2025) found only 8.33% of surveyed sites offered any overview–detail customisation and only 2.56% offered content customisation—yet when participants were given Fluid Attributes, every participant surfaced fields and diverged sharply in which ones they picked. Two temperaments emerge as soon as hiding is allowed: *hoarders*, who avoid hiding attributes for fear of losing them and prefer dense defaults, and *minimalists*, who strip the overview to a clean slate and add only what matters. An optional cap on visible fields (automatically demoting older ones as new ones are surfaced), paired with a one-step reset, serves both without forcing either. Surfacing is also rarely an end in itself: actors consistently follow a *surface-then-operate* loop, immediately sorting or filtering by the field they just brought into view.
 
-## Solution
+Interactive controls—a save button, an image gallery, or a status toggle—belong to the same per-view choice as static fields. Designed defaults still matter, now as a sensible starting point rather than a permanent ceiling.
 
-Make each view's attribute set a live control: the actor surfaces attributes into the compressed rendering and hides them from it, per view, with the entity staying recognisable throughout.
+Therefore,
+
+**Make each view's attribute set a live control: let the actor surface attributes into the compressed rendering and hide unwanted ones per view, keeping every surfaced field immediately sortable and filterable while preserving each item's recognition across changes.**
+
+Do not treat compact representations as infinitely elastic: on tight footprints such as map pins or icon-sized items, cap the visible slots and let a newly surfaced attribute replace an existing one rather than overflowing the layout (Min & Xia, 2025). Always provide a one-step reset to the view's default set so experimentation stays reversible.
 
 <Demo spec="fluid-attributes" label="Drag an attribute row from the detail into the overview, then sort by what you added, or click a value to filter by it." expandable />
 
+## In practice
+
+### Per-view scope
+
+When a collection has more than one overview—such as a map beside a bookmarked list—keep each view's attribute set independent. An actor may surface review count onto map pins to judge popular areas while surfacing amenities in the companion list to scan preferences.
+
 ## Resources & references
 
-- Min, Chen, Cao & Xia (2025) [Malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3706598.3714164) — Fluid Attributes: the direct-manipulation form, the surface-then-operate workflows, the hoarder/minimalist temperaments, and the finding that 8.33% of surveyed sites offered any content customisation at all
-- Min & Xia (2025) [Meridian: a design framework for malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3746059.3747654) — `shownAttributes` as the spec's most load-bearing field: per-view attribute lists that semantic zoom, roles, and most customisation reduce to
+- Min, Chen, Cao & Xia (2025) [Malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3706598.3714164), CHI '25 — Fluid Attributes: the direct-manipulation form, the surface-then-operate workflow, hoarder/minimalist temperaments, and the finding that 8.33% of surveyed sites offered any overview–detail customisation
+- Min & Xia (2025) [Meridian: a design framework for malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3746059.3747654), UIST '25 — `shownAttributes` as the core per-view field, slot-capped replacement on compact item views, and semantic-role placement

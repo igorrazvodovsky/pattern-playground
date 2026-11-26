@@ -178,6 +178,7 @@
         - overview-detail
         - coordinated-views
         - data-view
+        - saved-view
         - purpose-keyed-view
         - problem-curated-view
         - semantic-zoom
@@ -191,6 +192,7 @@
         narrow it by criteria or by rules they compose, and compare items.
       patterns:
         - attribute-visibility
+        - derived-attributes
         - sorting
         - grouping
         - filtering

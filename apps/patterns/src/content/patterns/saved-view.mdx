@@ -1,0 +1,90 @@
+---
+title: Saved view
+added: 2026-11-26
+updated: 2026-11-26
+role: pattern
+evidence:
+  - observed
+  - literature
+  - used
+group: sense-making
+activityLevel: action
+mediation: individual
+lifecycle: sense-making
+description: "Persisting a live query, representation, and arrangement under a name so a recurring question becomes a first-class place in navigation."
+acts_on:
+  - { concept: filtering, note: "persists a filter predicate and presentation as a named, live collection" }
+situation:
+  initiating: >-
+    … an actor has framed a collection in a [data view](/patterns/data-view)
+    using [filtering](/patterns/filtering),
+    [rule composition](/patterns/rule-composition), or
+    [derived attributes](/patterns/derived-attributes), and the resulting view
+    answers a question that comes up repeatedly—such as "My tasks" (`type =
+    task` and `assigned = me`) or "Overdue invoices". In
+    [making sense at scale](/sequences/making-sense-at-scale), a saved view
+    turns that recurring framing into a named, live place so the actor does not
+    have to rebuild the same query on every visit.
+  resulting: >-
+    Keep the underlying query visible and editable through
+    [filtering](/patterns/filtering) or
+    [rule composition](/patterns/rule-composition) so the actor can see why
+    items appear in the view and adjust the rule without starting over. Pair
+    personal views with [sharing](/patterns/sharing) when a framing should
+    become a team or role view, and distinguish saving edits for everyone from
+    saving a personal copy. Where a saved view hardens around a recurring
+    operational posture—such as a daily triage queue or monitoring board—shape
+    it further as a [purpose-keyed view](/patterns/purpose-keyed-view) while
+    keeping the unfiltered collection one step away…
+relationships:
+  follows:
+    - rule-composition
+    - derived-attributes
+  precedes:
+    - purpose-keyed-view
+  complements:
+    - sharing
+  alternative:
+    - to: bookmarking
+      note: "a saved view stores a live query and display framing rather than a static item"
+    - to: remembered-state
+      note: "a saved view is an explicit, named framing the actor switches between; remembered state restores the last-used view automatically"
+  enacts:
+    - to: malleability
+      note: "lets actors build durable, reusable lenses over shared data without waiting for bespoke views"
+    - to: shareability
+      note: "turns a working query and layout into a named object that travels across a team"
+---
+
+* * *
+
+**When a collection answers recurring questions—my open tasks, urgent customer messages, high-priority bugs—rebuilding the same filter, sort, and column setup on every visit turns routine work into repetitive setup. Yet filing items manually into static folders forces actors to maintain membership by hand and breaks the moment an item belongs in two places at once.**
+
+### Forces
+
+- *Live membership vs. sudden disappearance*: items enter and leave automatically as properties change, yet editing an item in place so it stops matching (reassigning a task inside "My tasks") makes it vanish mid-thought unless the view buffers or signals the exit.
+- *Personal vs. shared authorship*: saved views span three authorship poles—shipped defaults, shared role/team views, and private personal views—so exploratory tweaks on a shared view risk silently altering what colleagues see.
+- *Accumulation vs. staleness*: saved views are cheap to create and pile up in navigation; when a referenced field, tag, or status label is renamed or retired, the query goes stale silently unless flagged.
+- *Write-through ambiguity*: creating or dropping an item inside a saved view requires deciding whether the system stamps the matching properties (`assigned = me`) automatically or refuses the write.
+
+Unlike [bookmarking](/patterns/bookmarking) (which points to a static item) or [remembered state](/patterns/remembered-state) (which silently restores only the last view), a saved view is an explicit, named rule and presentation that updates live. Expressed as a declarative specification decoupled from its data source, it can also travel across collections as a portable personal lens (Min & Xia, 2025).
+
+Therefore,
+
+**Let the actor save any collection framing—its query, representation, arrangement, and visible attributes—as a named, live view reachable from navigation. Keep its defining criteria inspectable and editable, mark views whose referenced fields or values have gone stale, separate personal edits from changes to shared views, and provide a lightweight way to prune views that are no longer used.**
+
+Treat adjustments on a shared view as unsaved local changes until the actor explicitly chooses to update the view for everyone or save a personal copy. When an in-place edit causes an item to leave the current view, keep it visible briefly or offer an undo so the exit does not read as data loss.
+
+<Demo spec="saved-views" label="Named specs switched whole. One view has gone stale — its query names a status label the data no longer uses. Saved framings accumulate; pruning is part of the pattern." />
+
+## In practice
+
+### Creating or dropping items inside a saved view
+
+When the saved view's rule is a simple conjunction of equality conditions (`type = task` and `assigned = me`), creating a new item inside the view can pre-fill those fields automatically—with the applied values shown transparently. When the rule involves negation, ranges, or computed fields (`total_cost < 250`), pre-filling is ambiguous and the view should either prompt for the missing fields or explain why the new item may not appear there.
+
+## Resources & references
+
+- Shneiderman (1996) [The eyes have it](https://ieeexplore.ieee.org/document/545307) — the *extract* task: saving the sub-collection, or the settings of the control widgets themselves
+- Min & Xia (2025) [Meridian: a design framework for malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3746059.3747654), UIST '25 — saved framings generalised into portable, declarative specifications
+- Bancilhon & Spyratos (1981) [Update semantics of relational views](https://dl.acm.org/doi/10.1145/319628.319634) — the view-update problem behind write-through semantics on derived views

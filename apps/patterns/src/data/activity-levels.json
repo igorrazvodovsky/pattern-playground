@@ -271,6 +271,11 @@
       "lifecycle-stage": null,
       "mediation": null
     },
+    "derived-attributes": {
+      "activity-level": "action",
+      "lifecycle-stage": "evaluation",
+      "mediation": "individual"
+    },
     "disengage-without-closing": {
       "activity-level": "operation",
       "lifecycle-stage": null,
@@ -714,6 +719,11 @@
     "rule-composition": {
       "activity-level": "action",
       "lifecycle-stage": "application",
+      "mediation": "individual"
+    },
+    "saved-view": {
+      "activity-level": "action",
+      "lifecycle-stage": "sense-making",
       "mediation": "individual"
     },
     "searching": {

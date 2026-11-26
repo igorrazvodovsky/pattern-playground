@@ -1,7 +1,7 @@
 ---
 title: Malleability
 added: 2025-12-27
-updated:
+updated: 2026-11-26
 role: quality
 fun: 5/5. This one is aspirational. Haven't done anything properly malleable yet.
 relationships:
@@ -29,12 +29,23 @@ Where [adaptivity](/patterns/adaptation) describes how the *system* responds to 
 What can be made malleable, from surface to core:
 
 - *UI*: Visual appearance, <ComponentRef id="foundations-layout--docs">layout</ComponentRef>, and presentation. Includes <ComponentRef id="foundations-color--docs">colour</ComponentRef>, [density](/patterns/density), [accessibility](/patterns/a11y) preferences, and [which attributes a view carries](/patterns/attribute-visibility).
-- *Logic*: Behaviour, rules, and automations. [Interaction](/patterns/interaction) patterns and [saved views](/patterns/data-view#saved-views).
+- *Logic*: Behaviour, rules, and automations. [Interaction](/patterns/interaction) patterns and [saved views](/patterns/saved-view).
 - *Data*: [Schemas, structures](/patterns/data), and entity definitions.
 
 ## Authorship
 
-Who shapes the artefact, and when, is an axis of its own — running from design-time (one instantiation, fixed for everyone) to use-time (shaped by the person using it). The current decade is moving along it: the stronger stance is *malleable by default, selectively disabled*, where fixedness is a decision someone makes rather than the substrate's nature. Enforced commonality then becomes a deliberate ceiling — legitimate when a group needs to see one picture in common, and usually scoped to a ritual or a role (the shared ward display, the team's [saved view](/patterns/data-view#saved-views)) rather than imposed across the board.
+Who shapes the artefact, and when, is an axis of its own — running from design-time (one instantiation, fixed for everyone) to use-time (shaped by the person using it). The current decade is moving along it: the stronger stance is *malleable by default, selectively disabled*, where fixedness is a decision someone makes rather than the substrate's nature. Enforced commonality then becomes a deliberate ceiling — legitimate when a group needs to see one picture in common, and usually scoped to a ritual or a role (the shared ward display, the team's [saved view](/patterns/saved-view)) rather than imposed across the board.
+
+## Blurring customisation into interaction
+
+One practical route to malleability is taking a pattern's design-time dimensions of variation — which attributes appear in a view, how views compose, how they are laid out — and exposing those dimensions as use-time controls on the artifact itself. Once the friction drops far enough, tailoring stops feeling like a separate "customisation mode" and turns into ordinary interaction, in the same way sorting and filtering stopped reading as customisation once every collection offered them in place (Min & Xia, 2025).
+
+Two distinct rhythms show up in practice (Min et al., 2025):
+
+- *Customise once*: actors who configure a view up front and leave it alone benefit from a central settings panel, good defaults, and saved configurations.
+- *Customise throughout*: actors who reshape the view continuously as their criteria shift need in-situ direct manipulation, keyboard shortcuts, and reversible operations right on the surface.
+
+When a view configuration is expressed as a portable specification rather than hard-coded UI state, it can also travel across artifacts as a *personal lens* — letting an actor carry the same preferred attributes or layout from one site or collection to another (Min & Xia, 2025).
 
 ## Gentle slope
 
@@ -85,6 +96,8 @@ Malleability isn't purely individual. Customizations can be shared, and communit
 ## Resources
 
 - Litt, Horowitz, van Hardenberg, Matthews (2025) [Malleable Software](https://www.inkandswitch.com/essay/malleable-software/), Ink & Switch
+- Min, Chen, Cao & Xia (2025) [Malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3706598.3714164), CHI '25 — making a pattern's variation space malleable at use time, customise-once vs. customise-throughout rhythms
+- Min & Xia (2025) [Meridian: a design framework for malleable overview-detail interfaces](https://dl.acm.org/doi/10.1145/3746059.3747654), UIST '25 — blurring customisation into interaction, portable personal lenses
 - MacLean, Carter, Lövstrand, Moran (1990) [User-Tailorable Systems: Pressing the Issues with Buttons](https://dl.acm.org/doi/10.1145/97243.97271)
 - Kay (1984) [Computer Software](https://worrydream.com/refs/Kay_1984_-_Computer_Software.pdf)
 - Brand (1994) How Buildings Learn
