@@ -15,7 +15,9 @@ or route on a situation or hint — they render as prose for judgement.
 ## Current graph data
 
 - Source material is `apps/patterns/src/content/patterns/**/*.mdx`. The graph is
-  language-only: pattern, quality, foundation, and collection nodes. Components do
+  language-only: pattern, quality, and collection nodes. Foundations are
+  reader-facing essays outside the graph (reached by plain prose links, never
+  graph nodes or edge endpoints). Components likewise do
   not contribute nodes — they resolve outside the graph, against Storybook's build
   output `index.json` (`packages/components/storybook-static/index.json`, with a
   cached fallback at `apps/patterns/storybook-index/index.json`), which is the
@@ -76,7 +78,6 @@ The settled edge vocabulary is:
 - `enacts`
 - `surveys`
 - `hosts` / `hosted-by`
-- `serves` (pattern → foundation; no inverse alias — the pattern side carries the edge)
 
 The detailed definitions, extraction rules, SKOS notes, situation-construct
 guidance, and changelog live in

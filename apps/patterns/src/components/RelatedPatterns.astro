@@ -65,10 +65,11 @@ for (const n of graphData.nodes as PatternNode[]) {
   nodes[n.id] = n;
 }
 
-// quality pages carry no pattern list. A quality is a diagnostic
+// quality and foundation pages carry no pattern list. A quality is a diagnostic
 // lens, not a catalogue of its instances — the bridge to patterns lives on the
 // pattern side via `enacts` and is explored through the graph, never rendered
-// here. See docs/language/relationship-vocabulary.md.
+// here. A foundation is an essay outside the pattern graph, reached by plain
+// prose links. See docs/language/relationship-vocabulary.md.
 const isQuality = nodes[slug]?.role === 'quality';
 
 const edges = graphData.edges as Edge[];
@@ -84,7 +85,6 @@ const OUTGOING_LABELS: Record<string, string> = {
   enacts: 'Enacts',
   surveys: 'Surveys',
   hosts: 'Hosts',
-  serves: 'Serves',
   complements: 'Complements',
   tangential: 'Tangential to',
   alternative: 'Alternatives',
@@ -98,7 +98,6 @@ const INCOMING_LABELS: Record<string, string> = {
   enacts: 'Enacted by',
   surveys: 'Surveyed by',
   hosts: 'Hosted by',
-  serves: 'Served by',
 };
 
 // Collect outgoing and incoming edges for this pattern, grouped by peer: a
@@ -189,17 +188,9 @@ const entriesOf = (byPeer: Map<string, Edge[]>): GroupEntry[] =>
   });
 
 // Build ordered sections: directed outgoing, then symmetric, then incoming.
-const DIRECTED_OUT_ORDER = [
-  'precedes',
-  'enables',
-  'instantiates',
-  'hosts',
-  'serves',
-  'enacts',
-  'surveys',
-];
+const DIRECTED_OUT_ORDER = ['precedes', 'enables', 'instantiates', 'hosts', 'enacts', 'surveys'];
 const SYMMETRIC_ORDER = ['complements', 'tangential', 'alternative', 'related'];
-const DIRECTED_IN_ORDER = ['precedes', 'enables', 'instantiates', 'hosts', 'serves', 'enacts'];
+const DIRECTED_IN_ORDER = ['precedes', 'enables', 'instantiates', 'hosts', 'enacts'];
 
 type Section = { heading: string; entries: GroupEntry[] };
 const sections: Section[] = [];

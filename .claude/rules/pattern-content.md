@@ -132,7 +132,7 @@ neither endpoint.
 
 The extractor's subsumption dedup silently drops a `related` edge (and its note) when the pair carries any stronger type — a `related` you author must target a pair with no stronger edge, and a note that matters belongs on the stronger edge.
 
-Valid rel values: `precedes`, `follows`, `enables`, `composed-of`, `instantiates`, `instances`, `variants`, `complements`, `tangential`, `alternative`, `enacts`, `serves`, `surveys`, `hosts`, `hosted-by`, `related`. Direction is fixed by the rel name, not by which page declares it. `recommends` is not authorable — it comes only from decision trees. `serves` is authored on the pattern's page only and targets a foundation; its note names the station of the foundation's frame the pattern covers.
+Valid rel values: `precedes`, `follows`, `enables`, `composed-of`, `instantiates`, `instances`, `variants`, `complements`, `tangential`, `alternative`, `enacts`, `surveys`, `hosts`, `hosted-by`, `related`. Direction is fixed by the rel name, not by which page declares it. `recommends` is not authorable — it comes only from decision trees. `role: foundation` pages sit outside the pattern graph: they carry no `relationships:` block and are never targets in another page's `relationships:` — cite them with plain Markdown links in prose instead.
 
 What each type claims, which alias stores which direction, and when an edge is the wrong instrument: `docs/language/relationship-vocabulary.md` (§Relationships and §Authoring model).
 
@@ -189,7 +189,7 @@ situation:
 
 When writing them:
 
-- Links are plain Markdown links with no `rel=`; `relationships:` remains the home of every edge. Every structural or generative edge the page authors (`precedes`, `enables` / `composed-of`, `hosts`, `instantiates`, `serves`, and unnoted `complements`) is linked somewhere in the page's prose; the extractor reports any that is not. `enacts`, `tangential`, `related`, `alternative`, and `complements` with a `note` are exempt so lateral connections stay in the folded index rather than turning the continuation passage into commentary on the graph. Only a link in a situation gives the edge its derived sentence.
+- Links are plain Markdown links with no `rel=`; `relationships:` remains the home of every edge. Every structural or generative edge the page authors (`precedes`, `enables` / `composed-of`, `hosts`, `instantiates`, and unnoted `complements`) is linked somewhere in the page's prose; the extractor reports any that is not. `enacts`, `tangential`, `related`, `alternative`, and `complements` with a `note` are exempt so lateral connections stay in the folded index rather than turning the continuation passage into commentary on the graph. Only a link in a situation gives the edge its derived sentence.
 - The sentence that links an edge's target becomes that edge's sentence, and the far page may quote it in quotation marks. A sentence that will be quoted reads better without a dangling pronoun, though imperative continuation ("Where the flow runs longer than one sitting, give it resuming") works well on both sides and should not be flattened into third-person description just to quote cleanly.
 - Never author condition text in an edge note ("takes over when…", "fallback if…"). The condition belongs in the source pattern's resulting situation, with the `precedes` or `alternative` edge authored beside it.
 - The earlier form, `resulting` as a list of clauses with `sets-up:` emitting `precedes`, is still honoured on pages not yet shaped. Converge on edit (relationship-vocabulary.md §Situations, *The earlier representation*).
@@ -254,8 +254,8 @@ date (relationship-vocabulary.md §Retirement).
 
 - `role: quality` — a lens, not a pattern: lead defines the quality, body
   decomposes it into named dimensions with headings of its own.
-- `role: foundation` — a framework essay organised by its frame's stations
-  (stages, layers, touchpoints).
+- `role: foundation` — a reader-facing framework or material essay outside the
+  pattern graph (no `relationships:` block; reached by plain prose links).
 - `role: collection` — chooser logic: routing prose and/or a decision tree
   over the members it surveys.
 

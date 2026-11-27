@@ -77,6 +77,15 @@ const patterns = defineCollection({
       const kinds: readonly string[] = AUTHORABLE_EVIDENCE_KINDS;
       const evidenceRoles: readonly string[] = EVIDENCE_BEARING_ROLES;
 
+      if (data.role === 'foundation' && data.relationships !== undefined) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['relationships'],
+          message:
+            'role: foundation entries are reader-facing essays outside the pattern graph and cannot declare relationships — link in body prose instead.',
+        });
+      }
+
       if (data.evidence !== undefined && !evidenceRoles.includes(data.role)) {
         ctx.addIssue({
           code: 'custom',

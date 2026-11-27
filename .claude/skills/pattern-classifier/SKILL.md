@@ -41,7 +41,7 @@ If the candidate isn't a generative move, name what it actually is and route it 
 
 - *component* — component, primitive, control, visual element, implementation substrate → Storybook (`packages/components/src/stories/`)
 - *quality* — an experiential dimension (Agency, Learnability, Conversation, …) → `apps/patterns/src/content/patterns/` with `role: quality`
-- *foundation* — theory, model, principle, or material substrate → `apps/patterns/src/content/patterns/` with `role: foundation`
+- *foundation* — reader-facing essay on theory, model, principle, or design material (outside the pattern graph; carries no `relationships:` and is linked in prose as a citation) → `apps/patterns/src/content/patterns/` with `role: foundation`
 - *concept* — a Jackson-style software concept vocabulary entry → `apps/patterns/src/content/concepts/` (shape in `docs/language/patterns-and-concepts.md`)
 - *collection* — a survey page that gathers a grouping of members for browsing but isn't the authoritative source for any pattern. Distinct from a *composite pattern*, which gathers constituents that **make it up** and **is** a source — that stays `role: pattern`. See step 5.
 - *variant* — a concrete instantiation, story variant, screenshot, prototype, product case → lives inside the pattern it illustrates
@@ -122,7 +122,7 @@ For each candidate edge, name *which type of relationship* it would be (from `re
 
 - `precedes` / `follows` — applying A produces a centre on which B can subsequently act (generative sequence, not just temporal order)
 - `enables` — A is a component/primitive that B incorporates
-- `instantiates` — A is a specialisation of a more abstract pattern, principle, or foundation B
+- `instantiates` — A is a specialisation of a more abstract pattern B
 - `complements` — A and B enhance compatible centres; co-deployed but independent
 - `alternative` — different transformations of the same starting structure
 - `recommends` — A's decision tree routes to B in some situation (carries situational hints)
@@ -222,7 +222,7 @@ Synthesise the answers into a concrete proposal:
 - File path(s) and frontmatter title(s)
 - Frontmatter fields and tags
 - Higher-altitude strategy (if applicable; step 5)
-- Key edges, *typed* — at minimum precursors (`precedes`/`follows`), components (`enables`), foundations (`instantiates`), complementary patterns, alternatives, and the qualities the pattern enacts
+- Key edges, *typed* — at minimum precursors (`precedes`/`follows`), components (`enables`), general patterns (`instantiates`), complementary patterns, alternatives, and the qualities the pattern enacts
 - Any existing patterns that need updating (new cross-references, absorbed content, redirects)
 
 Present this as a recommendation for the user to evaluate, not a fait accompli. The semilattice means there's always more than one defensible placement — name the trade-offs.

@@ -31,9 +31,8 @@ ordering, their interconnections) is
   line. Where the partial order does not say which of several steps comes
   first, the file does not guess: those steps stand as an unordered cluster
   sharing one number.
-- Steps draw only from `role: pattern` nodes. Foundations are material, not
-  steps: a foundation-sourced `precedes` edge stays valid in the graph but
-  renders in a sequence as part of an initiating situation, never as a step.
+- Steps draw only from `role: pattern` nodes. Foundations are reader-facing
+  essays outside the graph, cited in prose where relevant and never steps.
   Qualities are reading dimensions, never steps.
 - Constituents (`enables`-only patterns) ride inside steps, not as steps.
 - A sequence is divided into *sub-sequences*: sections of the one walk, each

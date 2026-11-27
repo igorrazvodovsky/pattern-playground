@@ -64,8 +64,7 @@ type EdgeType =
   | 'related'
   | 'enacts'
   | 'surveys'
-  | 'hosts'
-  | 'serves';
+  | 'hosts';
 
 interface SituationalHint {
   question: string;
@@ -133,7 +132,6 @@ const ALIAS_TABLE = {
   'surveys': { type: 'surveys' as EdgeType, invert: false },
   'hosts': { type: 'hosts' as EdgeType, invert: false },
   'hosted-by': { type: 'hosts' as EdgeType, invert: true }, // alias: P is the hosted move
-  'serves': { type: 'serves' as EdgeType, invert: false }, // pattern → foundation; no inverse alias — the pattern side carries the edge
   'related': { type: 'related' as EdgeType, invert: false },
 };
 
@@ -246,7 +244,7 @@ function isRole(value: string): value is Role {
 }
 
 /** Composed from frontmatter facets rather than folders: role wins for
- *  qualities/foundations; domain names a domain corpus; otherwise the AT
+ *  qualities; domain names a domain corpus; otherwise the AT
  *  activity level. Section collections (no facets) read as cross-cutting. */
 function categoryOf(
   role: string | undefined,
@@ -254,7 +252,6 @@ function categoryOf(
   domain: string | null,
 ): string {
   if (role === 'quality') return 'Qualities';
-  if (role === 'foundation') return 'Foundations';
   if (domain === 'data-visualization') return 'Data Visualisation';
   if (activityLevel === 'operation') return 'Operations';
   if (activityLevel === 'action') return 'Actions';
@@ -856,6 +853,18 @@ for (const filePath of patternMdxFiles) {
   const role: Role | undefined = roleValue && isRole(roleValue) ? roleValue : undefined;
   if (!role) console.warn(`Role metadata warning: ${filePath} has no valid role field`);
 
+  // Foundations are reader-facing essays outside the pattern graph: they stay
+  // in the content collection and sidebar, reached by plain prose links, and
+  // neither contribute graph nodes nor own graph edges.
+  if (role === 'foundation') {
+    if (fm.relationships !== undefined) {
+      console.warn(
+        `Foundation warning: ${filePath}: role: foundation entries are outside the pattern graph and cannot declare relationships`,
+      );
+    }
+    continue;
+  }
+
   const activityLevelRaw = typeof fm.activityLevel === 'string' ? fm.activityLevel : null;
   const domainRaw = typeof fm.domain === 'string' ? fm.domain : null;
   const cat = categoryOf(role, activityLevelRaw, domainRaw);
@@ -896,7 +905,7 @@ for (const filePath of patternMdxFiles) {
   if (evidence.length > 0) node.evidence = evidence;
 
   activityData.set(id, {
-    // Frontmatter is authoritative. Foundations, qualities, and section collections
+    // Frontmatter is authoritative. Qualities and section collections
     // carry no AT altitude — they read as cross-cutting.
     'activity-level': activityLevelRaw ?? 'cross-cutting',
     'lifecycle-stage': lifecycleRaw ?? null,
@@ -1164,7 +1173,7 @@ writeFileSync(activityLevelsPath, JSON.stringify(activityLevelsOutput, null, 2))
 // --- Axis sanity check (advisory) ---
 //
 // Coarse altitude proxy from the derived category: activities > actions >
-// operations. Foundations and Qualities are cross-cutting and skipped.
+// operations. Qualities are cross-cutting and skipped.
 const ALTITUDE: Record<string, number> = {
   Activities: 3,
   Actions: 2,
@@ -1225,14 +1234,7 @@ const mixedClusterFindings: string[] = [];
 // both endpoints' pages, so a note naming neither endpoint binds to whichever
 // endpoint the reader is not on. `enacts` is exempt (quality pages render
 // nothing — there is no reverse reader); `recommends` carries hints, not notes.
-const VOICING_TYPES = new Set<string>([
-  'precedes',
-  'enables',
-  'instantiates',
-  'surveys',
-  'hosts',
-  'serves',
-]);
+const VOICING_TYPES = new Set<string>(['precedes', 'enables', 'instantiates', 'surveys', 'hosts']);
 const VOICING_STOPWORDS = new Set(['and', 'the', 'for', 'with', 'from', 'into', 'over', 'not']);
 function nameTokens(id: string): string[] {
   const title = nodeMap.get(id)?.title ?? id;
@@ -1324,13 +1326,6 @@ const invalidSurveyEdges = edges.filter((edge) => {
   const role = nodeMap.get(edge.source)?.role;
   return edge.type === 'surveys' && role !== 'collection';
 });
-// Invariant 10: `serves` runs pattern → foundation only.
-const invalidServesEdges = edges.filter((edge) => {
-  if (edge.type !== 'serves') return false;
-  const sourceRole = nodeMap.get(edge.source)?.role;
-  const targetRole = nodeMap.get(edge.target)?.role;
-  return targetRole !== 'foundation' || sourceRole === 'foundation' || sourceRole === 'quality';
-});
 
 console.log(`Nodes: ${nodes.length} (${taggedNodes} with tags)`);
 console.log(`Edges: ${edges.length}`);
@@ -1357,12 +1352,6 @@ if (invalidSurveyEdges.length > 0) {
   console.warn(
     `Collection role warning: ${invalidSurveyEdges.length} surveys edge(s) have a non-collection source`,
   );
-}
-if (invalidServesEdges.length > 0) {
-  console.warn(
-    `Serves role warning: ${invalidServesEdges.length} serves edge(s) violate pattern → foundation (I10)`,
-  );
-  for (const e of invalidServesEdges) console.warn(`  ${e.source} serves ${e.target}`);
 }
 if (recommendsCollection.resolvedByTree.size > 0) {
   console.log(`Decision-tree extraction:`);

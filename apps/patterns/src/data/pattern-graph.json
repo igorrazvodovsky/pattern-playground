@@ -334,13 +334,6 @@
       ]
     },
     {
-      "id": "assistance",
-      "title": "Assistance",
-      "category": "Foundations",
-      "path": "/patterns/assistance",
-      "role": "foundation"
-    },
-    {
       "id": "assisted-task-completion",
       "title": "Assisted task completion",
       "category": "Actions",
@@ -753,13 +746,6 @@
       ]
     },
     {
-      "id": "collaboration-foundation",
-      "title": "Collaboration",
-      "category": "Foundations",
-      "path": "/patterns/collaboration-foundation",
-      "role": "foundation"
-    },
-    {
       "id": "collaboration",
       "title": "Collaboration",
       "category": "Activities",
@@ -1018,13 +1004,6 @@
       ]
     },
     {
-      "id": "data",
-      "title": "Data & Information",
-      "category": "Foundations",
-      "path": "/patterns/data",
-      "role": "foundation"
-    },
-    {
       "id": "deep-linking",
       "title": "Deep linking",
       "category": "Operations",
@@ -1039,13 +1018,6 @@
           "kind": "literature"
         }
       ]
-    },
-    {
-      "id": "delegation",
-      "title": "Delegation",
-      "category": "Foundations",
-      "path": "/patterns/delegation",
-      "role": "foundation"
     },
     {
       "id": "deletion",
@@ -1830,13 +1802,6 @@
       ]
     },
     {
-      "id": "information-architecture",
-      "title": "Information architecture",
-      "category": "Foundations",
-      "path": "/patterns/information-architecture",
-      "role": "foundation"
-    },
-    {
       "id": "information-environment",
       "title": "Information environment",
       "category": "Activities",
@@ -1959,13 +1924,6 @@
           "kind": "literature"
         }
       ]
-    },
-    {
-      "id": "interaction",
-      "title": "Intent & Interaction",
-      "category": "Foundations",
-      "path": "/patterns/interaction",
-      "role": "foundation"
     },
     {
       "id": "item-view",
@@ -2133,13 +2091,6 @@
       ]
     },
     {
-      "id": "localization",
-      "title": "Localization",
-      "category": "Foundations",
-      "path": "/patterns/localization",
-      "role": "foundation"
-    },
-    {
       "id": "malleability",
       "title": "Malleability",
       "category": "Qualities",
@@ -2216,13 +2167,6 @@
           "kind": "used"
         }
       ]
-    },
-    {
-      "id": "modality",
-      "title": "Modality",
-      "category": "Foundations",
-      "path": "/patterns/modality",
-      "role": "foundation"
     },
     {
       "id": "multilevel-tree",
@@ -2729,13 +2673,6 @@
           "kind": "literature"
         }
       ]
-    },
-    {
-      "id": "prose",
-      "title": "Prose",
-      "category": "Foundations",
-      "path": "/patterns/prose",
-      "role": "foundation"
     },
     {
       "id": "provenance-marking",
@@ -4125,24 +4062,6 @@
     },
     {
       "source": "activity-feed",
-      "target": "assistance",
-      "type": "serves",
-      "label": "assistance's perceiving step — keeping recent events visible so the actor can notice what matters",
-      "extractedFrom": "frontmatter:serves",
-      "situation": "in [collaboration](/patterns/collaboration), [delegation](/patterns/delegation), and [assistance](/patterns/assistance), updates arrive from many sources across the actor's work.",
-      "glossFrom": "source:initiating"
-    },
-    {
-      "source": "activity-feed",
-      "target": "delegation",
-      "type": "serves",
-      "label": "delegation's execution stage — giving the actor awareness of background agent activity",
-      "extractedFrom": "frontmatter:serves",
-      "situation": "in [collaboration](/patterns/collaboration), [delegation](/patterns/delegation), and [assistance](/patterns/assistance), updates arrive from many sources across the actor's work.",
-      "glossFrom": "source:initiating"
-    },
-    {
-      "source": "activity-feed",
       "target": "activity-log",
       "type": "complements",
       "label": "an activity feed aggregates updates of interest for awareness, while an activity log records an entity's actions for accountability and reconstruction",
@@ -4171,13 +4090,6 @@
       "extractedFrom": "frontmatter:complements",
       "situation": "Where items invite discussion, attach a [conversation](/patterns/conversation) thread to the item so replies stay anchored rather than spilling into the top-level stream",
       "glossFrom": "source:resulting"
-    },
-    {
-      "source": "activity-log",
-      "target": "delegation",
-      "type": "serves",
-      "label": "the log serves as the supervisory record for delegation's *monitoring* and *hood to look under* touchpoints during execution",
-      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "activity-log",
@@ -4554,13 +4466,6 @@
     },
     {
       "source": "ai-completion",
-      "target": "assistance",
-      "type": "serves",
-      "label": "assistance's *performing* and *knowing* steps — completion assists the user at both",
-      "extractedFrom": "frontmatter:serves"
-    },
-    {
-      "source": "ai-completion",
       "target": "assisted-task-completion",
       "type": "complements",
       "label": "the spectrum this pattern belongs to",
@@ -4678,13 +4583,6 @@
     },
     {
       "source": "approval-gate",
-      "target": "delegation",
-      "type": "serves",
-      "label": "the execution-boundary checkpoint of delegation's lifecycle",
-      "extractedFrom": "frontmatter:serves"
-    },
-    {
-      "source": "approval-gate",
       "target": "inline-confirmation",
       "type": "related",
       "label": "the single-action rung of the same ladder; an approval gate reviews delegated work, often in batches",
@@ -4710,38 +4608,6 @@
       "type": "enacts",
       "label": "keeps initiation and consent in different hands",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "assistance",
-      "target": "agency",
-      "type": "enacts",
-      "label": "assistance keeps the locus human-centric: the actor stays in the loop and the system intervenes selectively, raising signals or narrowing options at each cognitive step rather than taking over",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "assistance",
-      "target": "interaction",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "assistance",
-      "target": "delegation",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "agent",
-      "target": "assistance",
-      "type": "instantiates",
-      "incomingNote": "the chatbot and inline agent modes apply the assistance configuration",
-      "extractedFrom": "frontmatter:instances"
-    },
-    {
-      "source": "assisted-task-completion",
-      "target": "assistance",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "assisted-task-completion",
@@ -5217,15 +5083,6 @@
     },
     {
       "source": "bounded-autonomy",
-      "target": "delegation",
-      "type": "serves",
-      "label": "bounded autonomy covers delegation's set-up station, the shape of the authority granted before the agent runs, and the check-ins of its disengagement stage through the limit on disuse",
-      "extractedFrom": "frontmatter:serves",
-      "situation": "under [delegation](/patterns/delegation), the actor is handing work to an [agent](/patterns/agent) or an [outside agent](/patterns/outside-agent), and [permissions](/patterns/permissions) have established what it can reach.",
-      "glossFrom": "source:initiating"
-    },
-    {
-      "source": "bounded-autonomy",
       "target": "agency",
       "type": "enacts",
       "label": "autonomy becomes something the actor meters out rather than switches on",
@@ -5488,13 +5345,6 @@
     },
     {
       "source": "case-correction",
-      "target": "delegation",
-      "type": "serves",
-      "label": "covers the repair use of tuning tools in delegation's exception handling",
-      "extractedFrom": "frontmatter:serves"
-    },
-    {
-      "source": "case-correction",
       "target": "agency",
       "type": "enacts",
       "label": "the actor overrules standing behaviour where they meet its mistake",
@@ -5688,13 +5538,6 @@
     },
     {
       "source": "citation",
-      "target": "prose",
-      "type": "related",
-      "label": "in prose, a citation is a hyperlink in its reference mode, naming its target so the actor can follow it to check",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "citation",
       "target": "agency",
       "type": "enacts",
       "label": "gives the actor a place to check each claim, so trust can be selective rather than all-or-nothing",
@@ -5757,48 +5600,6 @@
       "type": "related",
       "label": "user performs the task unaided; system compares and teaches.",
       "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "collaboration-foundation",
-      "target": "agency",
-      "type": "enacts",
-      "label": "control and initiative spread across the group, renegotiated as the work proceeds",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "collaboration-foundation",
-      "target": "conversation-quality",
-      "type": "enacts",
-      "label": "joint work is negotiated turn by turn; collaboration is dialogue put to a shared task",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "collaboration-foundation",
-      "target": "shareability",
-      "type": "enacts",
-      "label": "each actor can see what the others are doing; shared work is visible work",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "collaboration-foundation",
-      "target": "formality",
-      "type": "enacts",
-      "label": "shared artefacts raise formality demands beyond what any single actor needs; the fidelity vs exploration tension is a formality tension",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "collaboration-foundation",
-      "target": "privacy",
-      "type": "enacts",
-      "label": "collaboration balances individual privacy needs against group transparency requirements",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "collaboration-foundation",
-      "target": "temporality",
-      "type": "enacts",
-      "label": "whether the actors share time — synchronous and asynchronous modes give joint work different rhythms",
-      "extractedFrom": "frontmatter:enacts"
     },
     {
       "source": "collaboration",
@@ -5871,13 +5672,6 @@
       "type": "complements",
       "label": "how collaborators reach understanding and commitment",
       "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "collaboration",
-      "target": "collaboration-foundation",
-      "type": "instantiates",
-      "label": "the foundation the collaboration activity realises",
-      "extractedFrom": "frontmatter:instantiates"
     },
     {
       "source": "command-menu",
@@ -6203,13 +5997,6 @@
     },
     {
       "source": "cost-transparency",
-      "target": "delegation",
-      "type": "serves",
-      "label": "the run-cost leg of monitoring — what the delegated work is consuming while it runs",
-      "extractedFrom": "frontmatter:serves"
-    },
-    {
-      "source": "cost-transparency",
       "target": "agency",
       "type": "enacts",
       "label": "spending the actor can see is spending they actually consented to",
@@ -6326,34 +6113,6 @@
       "extractedFrom": "frontmatter:related"
     },
     {
-      "source": "data",
-      "target": "agency",
-      "type": "enacts",
-      "label": "the actor tunes the layering by hand rather than accepting the defaults",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "data",
-      "target": "conversation-quality",
-      "type": "enacts",
-      "label": "the inferred layers are offers, not facts — the record settles as the actor accepts or rejects them",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "data",
-      "target": "privacy",
-      "type": "enacts",
-      "label": "the data layer governs what information can be perceived, and by whom",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "data",
-      "target": "dynamic-hyperlinks",
-      "type": "precedes",
-      "label": "hard and soft data layering",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
       "source": "deep-linking",
       "target": "shareability",
       "type": "enacts",
@@ -6375,32 +6134,6 @@
       "extractedFrom": "frontmatter:related",
       "situation": "Give each [comment](/patterns/commenting) and each message in a thread an address of its own, and let the address carry what [progressive disclosure](/patterns/progressive-disclosure) has revealed where that narrows the view.",
       "glossFrom": "source:resulting"
-    },
-    {
-      "source": "agent",
-      "target": "delegation",
-      "type": "instantiates",
-      "incomingNote": "the ambient and workflow automation agent modes apply the delegation configuration",
-      "extractedFrom": "frontmatter:instances"
-    },
-    {
-      "source": "delegation",
-      "target": "agency",
-      "type": "enacts",
-      "label": "delegation moves the locus toward the system: the actor offloads sustained work and re-enters at handoff, takeback, and exception boundaries rather than attending continuously",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "delegation",
-      "target": "interaction",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "delegation",
-      "target": "assistance",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "deletion",
@@ -6488,13 +6221,6 @@
       "type": "complements",
       "label": "when an extracted or inferred value cannot be established for an item, mark it explicitly as missing or uncertain rather than guessing silently",
       "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "derived-attributes",
-      "target": "data",
-      "type": "serves",
-      "label": "bridges the explicit, derived, and inferred layers of the data foundation inside a collection view",
-      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "derived-attributes",
@@ -6740,12 +6466,6 @@
     },
     {
       "source": "explanation",
-      "target": "assistance",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "explanation",
       "target": "progressive-disclosure",
       "type": "complements",
       "label": "lets the actor move from a brief reason to a fuller account on demand",
@@ -6810,13 +6530,6 @@
       "extractedFrom": "frontmatter:complements",
       "situation": "the system has produced [generated content](/patterns/generated-content) or offered a [suggestion](/patterns/suggestion) whose parts are not equally well supported, including claims that [citation](/patterns/citation) could not link to a source passage or whose sources disagree.",
       "glossFrom": "source:initiating"
-    },
-    {
-      "source": "expressed-uncertainty",
-      "target": "assistance",
-      "type": "serves",
-      "label": "expressed uncertainty covers assistance's signal-raising step — qualifying output so attention goes where confidence is thin",
-      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "expressed-uncertainty",
@@ -7110,14 +6823,6 @@
     },
     {
       "source": "forgiving-format",
-      "target": "localization",
-      "type": "complements",
-      "extractedFrom": "frontmatter:complements",
-      "situation": "Follow parsing with [validation](/patterns/validation) for errors the parser cannot catch, and pair it with [localization](/patterns/localization) so regional dates, numbers, and addresses are read in the actor's locale.",
-      "glossFrom": "source:resulting"
-    },
-    {
-      "source": "forgiving-format",
       "target": "review-before-submitting",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
@@ -7203,14 +6908,6 @@
       "situation": "Hold the fields as [pending changes](/patterns/pending-changes) until submitted—or pair with [automatic saving](/patterns/automatic-saving) to keep a half-filled form safe—and let [localization](/patterns/localization) govern which formats its fields accept",
       "glossFrom": "source:resulting",
       "farSituation": "in [making changes](/sequences/making-changes), the actor alters the artifact through [editing in place](/patterns/editing-in-place) or a [form](/patterns/form), and those changes exist only in the running program until the system writes them to storage."
-    },
-    {
-      "source": "form",
-      "target": "localization",
-      "type": "complements",
-      "extractedFrom": "frontmatter:complements",
-      "situation": "Hold the fields as [pending changes](/patterns/pending-changes) until submitted—or pair with [automatic saving](/patterns/automatic-saving) to keep a half-filled form safe—and let [localization](/patterns/localization) govern which formats its fields accept",
-      "glossFrom": "source:resulting"
     },
     {
       "source": "formality",
@@ -7358,14 +7055,6 @@
       "type": "precedes",
       "extractedFrom": "frontmatter:precedes",
       "situation": "Where a static guess stops sufficing and the system needs to participate in the work itself, continue into [assisted task completion](/patterns/assisted-task-completion).",
-      "glossFrom": "source:resulting"
-    },
-    {
-      "source": "good-defaults",
-      "target": "localization",
-      "type": "complements",
-      "extractedFrom": "frontmatter:complements",
-      "situation": "Pair defaults with [localization](/patterns/localization) so locale-dependent guesses such as language, timezone, and formats match the actor's region.",
       "glossFrom": "source:resulting"
     },
     {
@@ -7520,13 +7209,6 @@
       "type": "tangential",
       "label": "in sustained collaboration, passing control shifts from an exception boundary to routine turn-taking",
       "extractedFrom": "frontmatter:tangential"
-    },
-    {
-      "source": "handoff",
-      "target": "delegation",
-      "type": "serves",
-      "label": "covers the handoff-and-takeback station of delegation's lifecycle",
-      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "handoff",
@@ -7721,13 +7403,6 @@
     },
     {
       "source": "hybrid-patterns",
-      "target": "information-architecture",
-      "type": "related",
-      "label": "conceptual framework",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "hybrid-patterns",
       "target": "agency",
       "type": "enacts",
       "label": "combining models gives the actor ways to move that no single model allows",
@@ -7893,82 +7568,6 @@
       "type": "related",
       "label": "the offer to formalise usually arrives wearing suggestion's contract — proposed, inspectable, declinable",
       "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "information-architecture",
-      "target": "interaction",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "information-architecture",
-      "target": "navigation-overview",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "information-architecture",
-      "target": "multilevel-tree",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "information-architecture",
-      "target": "dynamic-hyperlinks",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "information-architecture",
-      "target": "prose",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "information-architecture",
-      "target": "agency",
-      "type": "enacts",
-      "label": "the structure of information shapes who can do what with it; strict hierarchies concentrate authorship in the system, while multiple paths and tags distribute it to the actor",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "information-architecture",
-      "target": "shareability",
-      "type": "enacts",
-      "label": "the structure determines what travels: a deeply nested item is hard to point at, while a flat, URL-addressable one is easy",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "information-architecture",
-      "target": "malleability",
-      "type": "enacts",
-      "label": "user-created hierarchies and tags let the actor reshape the structure to their own model",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "information-architecture",
-      "target": "localization",
-      "type": "precedes",
-      "label": "controlled vocabularies and label strategies that localization must adapt",
-      "extractedFrom": "frontmatter:precedes"
-    },
-    {
-      "source": "information-architecture",
-      "target": "searching",
-      "type": "precedes",
-      "label": "the underlying structure and labelling system that search indexes — without good IA, search is brittle",
-      "extractedFrom": "frontmatter:precedes",
-      "situation": "Searching helps complete the [information environment](/patterns/information-environment) built on the names, content, and [tags](/patterns/tagging) of its [information architecture](/patterns/information-architecture), serving actors who know a word or phrase rather than where an item sits.",
-      "glossFrom": "target:initiating"
-    },
-    {
-      "source": "information-architecture",
-      "target": "workspace",
-      "type": "precedes",
-      "label": "the structure's partitions are what workspace boundaries take up",
-      "extractedFrom": "frontmatter:precedes",
-      "situation": "the [information architecture](/patterns/information-architecture) has named the actor's objects and the divisions between them, and [structuring the space](/sequences/structuring-the-space) begins by deciding which of those divisions the actor works in apart from the rest.",
-      "glossFrom": "target:initiating"
     },
     {
       "source": "information-environment",
@@ -8200,103 +7799,6 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
-      "source": "interaction",
-      "target": "assistance",
-      "type": "related",
-      "label": "the kinds of support a system can offer at each stage of the actor's cognitive cycle (perceiving, knowing, planning, performing, reflecting).",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "interaction",
-      "target": "delegation",
-      "type": "related",
-      "label": "the lifecycle and touchpoints of agentive systems.",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "interaction",
-      "target": "information-architecture",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "interaction",
-      "target": "fully-connected",
-      "type": "related",
-      "label": "maximum efficiency for precise movement",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "interaction",
-      "target": "multilevel-tree",
-      "type": "related",
-      "label": "efficient when mental model matches structure",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "interaction",
-      "target": "pyramid",
-      "type": "related",
-      "label": "hub enables direct targeting",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "interaction",
-      "target": "step-by-step",
-      "type": "related",
-      "label": "guided completion without distraction",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "interaction",
-      "target": "flat-navigation",
-      "type": "related",
-      "label": "sustained focus on work",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "interaction",
-      "target": "pan-and-zoom",
-      "type": "related",
-      "label": "spatial exploration feels natural",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "interaction",
-      "target": "hub-and-spoke",
-      "type": "related",
-      "label": "avoid opaque hub-and-spoke implementations",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "interaction",
-      "target": "searching",
-      "type": "related",
-      "label": "search read as a navigation behaviour — how the seeking move fits the actor's broader movement through the system",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "interaction",
-      "target": "formality",
-      "type": "enacts",
-      "label": "parallels the arc: as engagement matures, so does the structure around it, loose to precise",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "interaction",
-      "target": "agency",
-      "type": "enacts",
-      "label": "each loop has a driver — actor-led with the system assisting, or system-led with the actor returning at touchpoints",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "interaction",
-      "target": "temporality",
-      "type": "enacts",
-      "label": "each see–think–do loop sets a beat; the loops compound into the longer arc",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
       "source": "item-view",
       "target": "progressive-disclosure",
       "type": "related",
@@ -8453,83 +7955,6 @@
       "type": "enacts",
       "label": "content arrives as it's produced; the actor watches the work unfold live",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "localization",
-      "target": "adaptation",
-      "type": "enacts",
-      "label": "localization adapts presentation and output to the actor's stated locale while structure holds",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "localization",
-      "target": "shareability",
-      "type": "enacts",
-      "label": "a shared link crosses locales — sender's language or recipient's becomes a design decision",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "localization",
-      "target": "privacy",
-      "type": "enacts",
-      "label": "crossing a border changes what may be collected and where the data may live",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "localization",
-      "target": "temporality",
-      "type": "enacts",
-      "label": "timezones, calendars, and date formats make the same moment read differently in each locale",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "localization",
-      "target": "density",
-      "type": "enacts",
-      "label": "translated text expands or contracts, crowding or emptying the same layout",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "localization",
-      "target": "learnability",
-      "type": "enacts",
-      "label": "translation quality decides whether the interface still teaches in the new language",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "localization",
-      "target": "collaboration",
-      "type": "tangential",
-      "label": "multilingual team dynamics",
-      "extractedFrom": "frontmatter:tangential"
-    },
-    {
-      "source": "localization",
-      "target": "workspace",
-      "type": "tangential",
-      "label": "per-actor locale in shared spaces",
-      "extractedFrom": "frontmatter:tangential"
-    },
-    {
-      "source": "localization",
-      "target": "suggestion",
-      "type": "tangential",
-      "label": "locale mismatch prompts",
-      "extractedFrom": "frontmatter:tangential"
-    },
-    {
-      "source": "localization",
-      "target": "agent",
-      "type": "tangential",
-      "label": "multilingual interaction",
-      "extractedFrom": "frontmatter:tangential"
-    },
-    {
-      "source": "localization",
-      "target": "explanation",
-      "type": "tangential",
-      "label": "culturally appropriate explanation styles",
-      "extractedFrom": "frontmatter:tangential"
     },
     {
       "source": "malleability",
@@ -8788,39 +8213,9 @@
     },
     {
       "source": "mid-run-redirection",
-      "target": "delegation",
-      "type": "serves",
-      "label": "mid-run redirection covers delegation's steering touchpoint — correcting an active run without full takeover",
-      "extractedFrom": "frontmatter:serves",
-      "situation": "an agent is partway through a multi-step run under [delegation](/patterns/delegation), and its [work trail](/patterns/work-trail) or [working plan](/patterns/working-plan) shows a wrong assumption, a missing constraint, or a branch heading the wrong way.",
-      "glossFrom": "source:initiating"
-    },
-    {
-      "source": "mid-run-redirection",
       "target": "agency",
       "type": "enacts",
       "label": "the actor corrects course while work is in flight rather than choosing between full cancellation and post-hoc cleanup",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "modality",
-      "target": "command-menu",
-      "type": "tangential",
-      "label": "overlay invocation that intersects modality without being defined by it",
-      "extractedFrom": "frontmatter:tangential"
-    },
-    {
-      "source": "modality",
-      "target": "agency",
-      "type": "enacts",
-      "label": "the actor picks whichever channel fits the moment rather than being locked to one",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "modality",
-      "target": "temporality",
-      "type": "enacts",
-      "label": "each channel carries its own rhythm; modality sets how fast or slow the exchange runs",
       "extractedFrom": "frontmatter:enacts"
     },
     {
@@ -8864,20 +8259,6 @@
       "source": "multilevel-tree",
       "target": "hybrid-patterns",
       "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "navigation-overview",
-      "target": "information-architecture",
-      "type": "related",
-      "label": "structural and organizational foundation that navigation models manifest",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "navigation-overview",
-      "target": "interaction",
-      "type": "related",
-      "label": "how structural choices shape interaction behaviour",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -8952,20 +8333,6 @@
     },
     {
       "source": "next-best-action",
-      "target": "assistance",
-      "type": "serves",
-      "label": "Next-best action draws on assistance to decide *what* to suggest at workflow transitions",
-      "extractedFrom": "frontmatter:serves"
-    },
-    {
-      "source": "next-best-action",
-      "target": "delegation",
-      "type": "serves",
-      "label": "Next-best action sits at delegation's accept-or-perform boundary — the same recommendation can be presented for the actor to accept or for the agent to perform.",
-      "extractedFrom": "frontmatter:serves"
-    },
-    {
-      "source": "next-best-action",
       "target": "agency",
       "type": "enacts",
       "label": "the system proposes the step; the actor takes it or leaves it",
@@ -9005,20 +8372,6 @@
       "type": "complements",
       "label": "a common delivery mechanism for next-best action prompts",
       "extractedFrom": "frontmatter:complements"
-    },
-    {
-      "source": "notification",
-      "target": "delegation",
-      "type": "serves",
-      "label": "delegation's primary communication channel — how a background agent reaches the actor",
-      "extractedFrom": "frontmatter:serves"
-    },
-    {
-      "source": "notification",
-      "target": "modality",
-      "type": "serves",
-      "label": "chooses where on modality's gradient a signal lands",
-      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "notification",
@@ -9255,13 +8608,6 @@
     },
     {
       "source": "overview-detail",
-      "target": "interaction",
-      "type": "related",
-      "label": "actors move between scanning the list and verifying an item without losing their place, and switch quickly between items to [compare](/patterns/interaction#evaluation--relevance-construction) them",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "overview-detail",
       "target": "malleability",
       "type": "enacts",
       "label": "the attributes the developer chose for the overview are everyone's ceiling; the malleable form lets the actor surface, hide, and re-filter attributes across both views",
@@ -9453,15 +8799,6 @@
     },
     {
       "source": "permissions",
-      "target": "delegation",
-      "type": "serves",
-      "label": "covers the permissions and authorisation touchpoint of delegation's set-up stage",
-      "extractedFrom": "frontmatter:serves",
-      "situation": "to carry out a task, the artifact needs access to something the actor controls outside it—a camera or location sensor, local files, contacts, or an external account such as a calendar or mailbox—either for a feature the actor just triggered or for an [agent](/patterns/agent) working under [delegation](/patterns/delegation).",
-      "glossFrom": "source:initiating"
-    },
-    {
-      "source": "permissions",
       "target": "privacy",
       "type": "enacts",
       "label": "access to the actor's devices, data, and accounts is granted in scoped parts for a clear purpose and can be revoked",
@@ -9528,15 +8865,6 @@
       "extractedFrom": "frontmatter:complements",
       "situation": "Pair the plan with [cost transparency](/patterns/cost-transparency) to state expected spend, and place an [approval gate](/patterns/approval-gate) in front of the whole run so work waits until the actor starts it.",
       "glossFrom": "source:resulting"
-    },
-    {
-      "source": "plan-preview",
-      "target": "delegation",
-      "type": "serves",
-      "label": "plan preview covers delegation's set-up station — surfacing what the agent intends before authority transfers",
-      "extractedFrom": "frontmatter:serves",
-      "situation": "The work may run in reply or be handed over in [delegation](/patterns/delegation).",
-      "glossFrom": "source:initiating"
     },
     {
       "source": "plan-preview",
@@ -9682,13 +9010,6 @@
       "type": "instantiates",
       "label": "problem-curated view takes the design-time keying to its limit: the advance decision about what matters made explicit as detection rules, spanning the watch and the chase",
       "extractedFrom": "frontmatter:instantiates"
-    },
-    {
-      "source": "problem-curated-view",
-      "target": "assistance",
-      "type": "serves",
-      "label": "perceiving — problem-curated view's detection rules do the noticing and carry their reasons; judgement and action stay with the actor, which is where next-best-action systems would pick up",
-      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "problem-curated-view",
@@ -9919,120 +9240,6 @@
       "extractedFrom": "frontmatter:enacts"
     },
     {
-      "source": "prose",
-      "target": "agency",
-      "type": "enacts",
-      "label": "*Saved* versus *We've saved your draft* — the phrasing shifts who the interaction belongs to",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "prose",
-      "target": "learnability",
-      "type": "enacts",
-      "label": "prose carries domain scaffolding",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "prose",
-      "target": "formality",
-      "type": "enacts",
-      "label": "how the system phrases its turn sets how structured the actor's answer must be",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "prose",
-      "target": "conversation-quality",
-      "type": "enacts",
-      "label": "every label and message is the system taking its turn in the exchange",
-      "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "prose",
-      "target": "work-trail",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "prose",
-      "target": "standing-instructions",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "prose",
-      "target": "information-architecture",
-      "type": "related",
-      "label": "IA owns the labelling vocabulary; prose owns how those labels get phrased and where they tolerate ambiguity.",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "prose",
-      "target": "form",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "prose",
-      "target": "status-feedback",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "prose",
-      "target": "notification",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "prose",
-      "target": "data",
-      "type": "related",
-      "label": "generated prose as a probabilistic/inferred layer",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "prose",
-      "target": "interaction",
-      "type": "related",
-      "label": "Intent & Interaction frames interaction as a sequence of turns; prose is what those turns are made of when they are text.",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "prose",
-      "target": "assistance",
-      "type": "related",
-      "label": "Assistance lives largely as microcopy; each helper line is a small assistive turn made of prose.",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "prose",
-      "target": "delegation",
-      "type": "related",
-      "label": "Delegation surfaces are increasingly written rather than chosen; the prose decides what the agent sounds like and what authority it claims.",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "prose",
-      "target": "collaboration-foundation",
-      "type": "enables",
-      "label": "Collaboration depends on shared interpretive ground; prose is the most flexible carrier of that ground between participants.",
-      "extractedFrom": "frontmatter:enables"
-    },
-    {
-      "source": "prose",
-      "target": "dynamic-hyperlinks",
-      "type": "enables",
-      "label": "Dynamic hyperlinks are prose-as-affordance: the link text is the prose, and the move from authored phrase to actionable target is itself the prose move.",
-      "extractedFrom": "frontmatter:enables"
-    },
-    {
-      "source": "prose",
-      "target": "deep-linking",
-      "type": "enables",
-      "label": "Deep linking surfaces a piece of system state as a shareable address; the prose around the link does the work of telling the recipient what they will land in.",
-      "extractedFrom": "frontmatter:enables"
-    },
-    {
       "source": "generated-content",
       "target": "provenance-marking",
       "type": "precedes",
@@ -10063,13 +9270,6 @@
       "type": "related",
       "label": "provenance marking is stamped on content at creation or export to record machine involvement, whereas annotation is an actor's own layer added over existing content",
       "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "purpose-keyed-view",
-      "target": "assistance",
-      "type": "serves",
-      "label": "perceiving — compresses system state into a glanceable monitoring overview the actor can absorb between tasks",
-      "extractedFrom": "frontmatter:serves"
     },
     {
       "source": "purpose-keyed-view",
@@ -10261,13 +9461,6 @@
       "extractedFrom": "frontmatter:complements",
       "situation": "Where the actor pins an item so it stays with the request after they navigate away, promote it into [reference material](/patterns/reference-material)",
       "glossFrom": "target:resulting"
-    },
-    {
-      "source": "reference-material",
-      "target": "data",
-      "type": "related",
-      "label": "standing connections to sources sit at the material layer the data foundation describes",
-      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "reference-material",
@@ -10800,13 +9993,6 @@
       "extractedFrom": "frontmatter:tangential"
     },
     {
-      "source": "selection",
-      "target": "interaction",
-      "type": "tangential",
-      "label": "distinct but adjacent — the gesture grammar usually has to coexist with focus",
-      "extractedFrom": "frontmatter:tangential"
-    },
-    {
       "source": "attribute-visibility",
       "target": "semantic-zoom",
       "type": "enables",
@@ -10854,14 +10040,6 @@
       "type": "enacts",
       "label": "each zoom level is a density commitment, and the transitions between levels preserve legible density — zooming re-spends the screen budget instead of diluting it",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "settings",
-      "target": "localization",
-      "type": "hosts",
-      "extractedFrom": "frontmatter:hosts",
-      "situation": "Host [localization](/patterns/localization) controls among the preferences so language, timezone, and regional formats can be overridden in one place.",
-      "glossFrom": "source:resulting"
     },
     {
       "source": "settings",
@@ -11257,13 +10435,6 @@
     },
     {
       "source": "status-feedback",
-      "target": "delegation",
-      "type": "serves",
-      "label": "covers the monitoring station of delegation's execution stage, showing how delegated work stands on the place it already has",
-      "extractedFrom": "frontmatter:serves"
-    },
-    {
-      "source": "status-feedback",
       "target": "temporality",
       "type": "enacts",
       "label": "the timing and latency with which the system reports a change back to the actor",
@@ -11377,14 +10548,6 @@
     },
     {
       "source": "structured-format",
-      "target": "localization",
-      "type": "complements",
-      "extractedFrom": "frontmatter:complements",
-      "situation": "Adapt the shape through [localization](/patterns/localization) wherever formats vary by region, and preserve single-field semantics so [autofill](/patterns/autofill) can supply stored records cleanly.",
-      "glossFrom": "source:resulting"
-    },
-    {
-      "source": "structured-format",
       "target": "autofill",
       "type": "complements",
       "extractedFrom": "frontmatter:complements",
@@ -11414,20 +10577,6 @@
       "extractedFrom": "frontmatter:hosted-by",
       "situation": "Where a blank input leaves the actor unsure what the system can do, host starter [suggestions](/patterns/suggestion) on the prompt surface to seed an example request.",
       "glossFrom": "source:resulting"
-    },
-    {
-      "source": "suggestion",
-      "target": "assistance",
-      "type": "serves",
-      "label": "assistance's option-narrowing step — providing likely next actions and narrowing the option space",
-      "extractedFrom": "frontmatter:serves"
-    },
-    {
-      "source": "suggestion",
-      "target": "delegation",
-      "type": "related",
-      "label": "agent might suggest opportunities it believes will help",
-      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "next-best-action",
@@ -11575,13 +10724,6 @@
       "target": "progressive-disclosure",
       "type": "related",
       "label": "progressive disclosure reveals detail the author wrote in advance; a text lens generates levels on demand",
-      "extractedFrom": "frontmatter:related"
-    },
-    {
-      "source": "text-lens",
-      "target": "localization",
-      "type": "related",
-      "label": "translating content on request is a text lens; adapting the interface's own copy to a locale is localization",
       "extractedFrom": "frontmatter:related"
     },
     {
@@ -11739,13 +10881,6 @@
     },
     {
       "source": "trial-run",
-      "target": "delegation",
-      "type": "serves",
-      "label": "covers the test-drive touchpoint of delegation's set-up stage",
-      "extractedFrom": "frontmatter:serves"
-    },
-    {
-      "source": "trial-run",
       "target": "agency",
       "type": "enacts",
       "label": "the actor commits based on observed behaviour rather than on reading a configuration",
@@ -11800,15 +10935,6 @@
       "extractedFrom": "frontmatter:precedes",
       "situation": "Because a single demonstration fits many generalisations, follow it with a [trial run](/patterns/trial-run) over new cases before relying on the learned rule",
       "glossFrom": "source:resulting"
-    },
-    {
-      "source": "tuning-by-demonstration",
-      "target": "delegation",
-      "type": "serves",
-      "label": "covers one way of conveying goals and preferences at delegation's set-up, and of repairing them later",
-      "extractedFrom": "frontmatter:serves",
-      "situation": "the actor is configuring or correcting an [agent](/patterns/agent) under [delegation](/patterns/delegation)—or a tool such as a spreadsheet—where the desired tone, route, or handling of a case does not fit [standing instructions](/patterns/standing-instructions) in words or [rule composition](/patterns/rule-composition) in system terms.",
-      "glossFrom": "source:initiating"
     },
     {
       "source": "tuning-by-demonstration",
@@ -12045,15 +11171,6 @@
     },
     {
       "source": "waiting",
-      "target": "delegation",
-      "type": "serves",
-      "label": "covers delegation's liveness monitoring: showing that delegated work is still running and how far along it is",
-      "extractedFrom": "frontmatter:serves",
-      "situation": "the actor has started an operation that takes noticeable time to complete: uploading a file, building a report, querying a slow source, or waiting on an agent in [delegation](/patterns/delegation).",
-      "glossFrom": "source:initiating"
-    },
-    {
-      "source": "waiting",
       "target": "temporality",
       "type": "enacts",
       "label": "makes system duration and progress legible to the actor",
@@ -12151,15 +11268,6 @@
       "type": "enacts",
       "label": "paces a task into an ordered sequence of steps",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "work-trail",
-      "target": "delegation",
-      "type": "serves",
-      "label": "work trail covers delegation's hood-to-look-under station during execution — inspecting how the agent worked and what it touched",
-      "extractedFrom": "frontmatter:serves",
-      "situation": "an [agent](/patterns/agent) has taken on multi-step work—searching, reading, calling tools, or working through a problem—either inside a conversation or out of sight under [delegation](/patterns/delegation).",
-      "glossFrom": "source:initiating"
     },
     {
       "source": "progressive-disclosure",
@@ -12295,13 +11403,6 @@
     },
     {
       "source": "workflow",
-      "target": "delegation",
-      "type": "serves",
-      "label": "the delegated procedure made inspectable; delegation's *tuning tools* touchpoints — at set-up and at repair — edit this artifact",
-      "extractedFrom": "frontmatter:serves"
-    },
-    {
-      "source": "workflow",
       "target": "activity-log",
       "type": "related",
       "label": "the workflow is the prescription, the log is the account of what actually ran; monitoring reads them against each other",
@@ -12387,15 +11488,6 @@
     },
     {
       "source": "working-plan",
-      "target": "delegation",
-      "type": "serves",
-      "label": "the working plan covers delegation's monitoring touchpoint during execution: what is left of the run",
-      "extractedFrom": "frontmatter:serves",
-      "situation": "the actor has handed an agent a piece of work that takes several steps, in a conversation or in [delegation](/patterns/delegation), and the agent is now working through them.",
-      "glossFrom": "source:initiating"
-    },
-    {
-      "source": "working-plan",
       "target": "agency",
       "type": "enacts",
       "label": "the actor can judge the run while it is still under way",
@@ -12476,12 +11568,6 @@
       "type": "enacts",
       "label": "the actor decides what work belongs together and what stays apart",
       "extractedFrom": "frontmatter:enacts"
-    },
-    {
-      "source": "workspace",
-      "target": "collaboration-foundation",
-      "type": "related",
-      "extractedFrom": "frontmatter:related"
     },
     {
       "source": "abort",

@@ -86,11 +86,6 @@
       "lifecycle-stage": null,
       "mediation": null
     },
-    "assistance": {
-      "activity-level": "cross-cutting",
-      "lifecycle-stage": null,
-      "mediation": null
-    },
     "assisted-task-completion": {
       "activity-level": "action",
       "lifecycle-stage": null,
@@ -181,11 +176,6 @@
       "lifecycle-stage": "evaluation",
       "mediation": "individual"
     },
-    "collaboration-foundation": {
-      "activity-level": "cross-cutting",
-      "lifecycle-stage": null,
-      "mediation": null
-    },
     "collaboration": {
       "activity-level": "activity",
       "lifecycle-stage": null,
@@ -246,20 +236,10 @@
       "lifecycle-stage": null,
       "mediation": null
     },
-    "data": {
-      "activity-level": "cross-cutting",
-      "lifecycle-stage": null,
-      "mediation": null
-    },
     "deep-linking": {
       "activity-level": "operation",
       "lifecycle-stage": null,
       "mediation": "individual"
-    },
-    "delegation": {
-      "activity-level": "cross-cutting",
-      "lifecycle-stage": null,
-      "mediation": null
     },
     "deletion": {
       "activity-level": "action",
@@ -436,11 +416,6 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
-    "information-architecture": {
-      "activity-level": "cross-cutting",
-      "lifecycle-stage": null,
-      "mediation": null
-    },
     "information-environment": {
       "activity-level": "activity",
       "lifecycle-stage": null,
@@ -470,11 +445,6 @@
       "activity-level": "action",
       "lifecycle-stage": null,
       "mediation": "individual"
-    },
-    "interaction": {
-      "activity-level": "cross-cutting",
-      "lifecycle-stage": null,
-      "mediation": null
     },
     "item-view": {
       "activity-level": "action",
@@ -511,11 +481,6 @@
       "lifecycle-stage": null,
       "mediation": "individual"
     },
-    "localization": {
-      "activity-level": "cross-cutting",
-      "lifecycle-stage": null,
-      "mediation": null
-    },
     "malleability": {
       "activity-level": "cross-cutting",
       "lifecycle-stage": null,
@@ -535,11 +500,6 @@
       "activity-level": "action",
       "lifecycle-stage": null,
       "mediation": "individual"
-    },
-    "modality": {
-      "activity-level": "cross-cutting",
-      "lifecycle-stage": null,
-      "mediation": null
     },
     "multilevel-tree": {
       "activity-level": "action",
@@ -650,11 +610,6 @@
       "activity-level": "action",
       "lifecycle-stage": null,
       "mediation": "individual"
-    },
-    "prose": {
-      "activity-level": "cross-cutting",
-      "lifecycle-stage": null,
-      "mediation": null
     },
     "provenance-marking": {
       "activity-level": "operation",

@@ -33,14 +33,13 @@ interface GraphEdgeData {
 const nodeMeta = activityLevels.nodes as Record<string, NodeMeta>;
 
 /**
- * Home regions in the simulation's 900×600 layout space, so the five families
+ * Home regions in the simulation's 900×600 layout space, so the four families
  * settle into recognisable neighbourhoods instead of one undifferentiated ball.
  */
 export const CATEGORY_ANCHORS: Record<string, [number, number]> = {
   Operations: [450, 120],
   Actions: [680, 320],
   Activities: [550, 520],
-  Foundations: [200, 200],
   Qualities: [180, 460],
 };
 

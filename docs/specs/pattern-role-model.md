@@ -20,8 +20,11 @@ and graph metadata. The two-language framing behind it is
 - A `quality` is an experiential lens such as Agency, Learnability, or
   Temporality. Qualities are bilingual: language entry in the pattern site,
   implementation substrate in the components package.
-- A `foundation` is theory, model, principle, or material substrate. Foundations
-  are bilingual in the same way as qualities.
+- A `foundation` is a reader-facing essay on theory, model, principle, or
+  design material. Foundations live on the pattern site and in its sidebar,
+  reached by plain prose links, and sit outside the pattern graph (neither
+  graph nodes nor edge endpoints). Visual material substrates (colour,
+  iconography, layout, motion, typography) live in Storybook only.
 
 ## Boundary stance
 
@@ -135,8 +138,10 @@ These are findings to take through the normal classification process
 ## Current implementation status
 
 `role:*` metadata is emitted into `apps/patterns/src/data/pattern-graph.json`
-for every graph node. Pattern-site MDX pages own their role through YAML
-frontmatter. Storybook pages carry no role: the graph reads only the pattern
+for every graph node (`pattern`, `collection`, `quality`). Pattern-site MDX pages own their role through YAML
+frontmatter. `role:foundation` pages are reader-facing essays outside the pattern
+graph: they declare no `relationships:` and are skipped by the graph extractor.
+Storybook pages carry no role: the graph reads only the pattern
 site, and a Storybook entry is a component by being in the catalogue.
 
 Explicit role tags cover `role:component`, `role:pattern`, `role:collection`,
