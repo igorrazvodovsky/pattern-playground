@@ -9,7 +9,7 @@ import { isKind, useMentionEditor, useMentionEditorProps } from '../../behaviour
 import { scopedPortal } from './portal';
 import { commandItem, commandList, menuContent, slotTrigger } from './parts';
 import { tone } from './rule-builder';
-import { icons } from './index';
+import { icons } from './icons';
 
 // shadcn/ui has no rich text editor, so the field takes Textarea's classes.
 // The list takes the Command list's classes but is not cmdk: focus stays in
