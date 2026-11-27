@@ -27,7 +27,7 @@
 
 pp-select {
   --select-border-width: 1px;
-  --select-pad-x: var(--space-m);
+  --select-pad-x: var(--control-space);
 
   /* Room the caret takes at the end, and the gap between an adornment and the
      value. Adornment widths are measured by the element and set in px, so the
@@ -42,6 +42,7 @@ pp-select {
 
   display: grid;
   grid-template-columns: 1fr;
+  font-size: var(--control-font-size, 1em);
 
   > select {
     grid-area: 1 / 1;
@@ -53,8 +54,14 @@ pp-select {
     color: var(--c-body);
     background-color: var(--c-background);
     border: var(--input-border);
-    border-radius: var(--radius-m);
-    padding-block: calc(var(--space-s) - 1.5px);
+    border-radius: var(--control-radius);
+    min-block-size: var(--control-height);
+    padding-block: 0;
+    align-items: center;
+
+    /* Unitless, so the line box shrinks with the font at small sizes rather
+       than inheriting the root's line height in px. */
+    line-height: var(--line-height-tight);
     padding-inline: var(--select-pad-start) var(--select-pad-end);
     margin: 0;
     cursor: pointer;
@@ -167,24 +174,6 @@ pp-select {
 
   &[invalid] > select:focus:not(:disabled) {
     box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--c-danger-600) l c h / 30%);
-  }
-
-  /* Sizes */
-  &[size='small'] {
-    --select-pad-x: var(--space-s);
-
-    > select {
-      border-radius: var(--radius-s);
-      padding-block: 0;
-    }
-  }
-
-  &[size='large'] {
-    --select-pad-x: var(--space-l);
-
-    > select {
-      padding-block: 0;
-    }
   }
 
   /* Rich options: an option can carry a detail beside its label. The

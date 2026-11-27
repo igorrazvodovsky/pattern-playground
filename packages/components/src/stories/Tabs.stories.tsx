@@ -3,6 +3,10 @@ import { faker } from '@faker-js/faker';
 import { getRandomIcon } from './utils/icons';
 import { expect, userEvent, waitFor, within } from 'storybook/test';
 
+interface TabsArgs {
+  size: 'small' | 'medium' | 'large';
+}
+
 const meta = {
   title: 'Components/Tabs',
   tags: ['autodocs', 'activity-level:operation', 'mediation:individual'],
@@ -13,10 +17,17 @@ const meta = {
       },
     },
   },
-} satisfies Meta;
+  argTypes: {
+    size: {
+      control: { type: 'radio' },
+      options: ['small', 'medium', 'large'],
+      description: 'Tab size (`data-size` on the tab group); medium is the default',
+    },
+  },
+} satisfies Meta<TabsArgs>;
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<TabsArgs>;
 
 const manyTabs = Array.from({ length: 20 }, (_, i) => (
   <pp-tab key={i} panel={i}>
@@ -31,8 +42,9 @@ const manyPanels = Array.from({ length: 20 }, (_, i) => (
 ));
 
 export const Basic: Story = {
-  render: () => (
-    <pp-tab-group>
+  args: { size: 'medium' },
+  render: (args) => (
+    <pp-tab-group data-size={args.size}>
       <div data-slot="nav">
         <pp-tab panel="1">{faker.vehicle.bicycle()}</pp-tab>
         <pp-tab panel="2">{faker.vehicle.bicycle()}</pp-tab>
@@ -83,20 +95,12 @@ export const WithIconsAndSubtitles: Story = {
     <pp-tab-group>
       <div data-slot="nav">
         <pp-tab panel="1">
-          <iconify-icon
-            className="icon text-xl"
-            icon={getRandomIcon()}
-            data-slot="icon"
-          ></iconify-icon>
+          <iconify-icon className="icon" icon={getRandomIcon()} data-slot="icon"></iconify-icon>
           {faker.commerce.productName()}
           <small data-slot="subtitle">100</small>
         </pp-tab>
         <pp-tab panel="2">
-          <iconify-icon
-            className="icon text-xl"
-            icon={getRandomIcon()}
-            data-slot="icon"
-          ></iconify-icon>
+          <iconify-icon className="icon" icon={getRandomIcon()} data-slot="icon"></iconify-icon>
           {faker.commerce.productName()}
           <small data-slot="subtitle">100</small>
         </pp-tab>

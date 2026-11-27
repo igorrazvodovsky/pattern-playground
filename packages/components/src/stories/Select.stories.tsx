@@ -53,7 +53,7 @@ export const Default: Story = {
     required: false,
   },
   render: (args) => (
-    <pp-select size={args.size}>
+    <pp-select data-size={args.size}>
       <select
         aria-label={args.label}
         defaultValue={args.value}
@@ -112,7 +112,7 @@ export const WithHintText: Story = {
 export const Sizes: Story = {
   render: () => (
     <>
-      <pp-select size="small">
+      <pp-select data-size="small">
         <select aria-label="Small" defaultValue="">
           <option value="" disabled>
             Small
@@ -122,7 +122,7 @@ export const Sizes: Story = {
         </select>
       </pp-select>
       <br />
-      <pp-select size="medium">
+      <pp-select data-size="medium">
         <select aria-label="Medium" defaultValue="">
           <option value="" disabled>
             Medium
@@ -132,7 +132,7 @@ export const Sizes: Story = {
         </select>
       </pp-select>
       <br />
-      <pp-select size="large">
+      <pp-select data-size="large">
         <select aria-label="Large" defaultValue="">
           <option value="" disabled>
             Large
@@ -161,7 +161,7 @@ export const WithAdornments: Story = {
           <option value="ap">Asia Pacific</option>
         </select>
       </pp-select>
-      <pp-select size="small">
+      <pp-select data-size="small">
         <iconify-icon className="icon" icon="ik:sort-high-to-low" data-slot="prefix" />
         <select aria-label="Sort by" defaultValue="recent">
           <option value="recent">Most recent</option>
@@ -169,7 +169,7 @@ export const WithAdornments: Story = {
         </select>
         <span data-slot="suffix">12</span>
       </pp-select>
-      <pp-select size="large">
+      <pp-select data-size="large">
         <select aria-label="Time zone" defaultValue="cet">
           <option value="cet">Central European Time</option>
           <option value="utc">Coordinated Universal Time</option>

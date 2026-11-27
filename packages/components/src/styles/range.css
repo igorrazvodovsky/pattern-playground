@@ -1,8 +1,8 @@
 pp-range {
   --range-fill: var(--c-accent-600);
   --range-track-color: var(--c-border);
-  --range-track-height: var(--space-xs);
-  --range-thumb-size: 1rem;
+  --range-track-height: calc(var(--control-indicator) / 4);
+  --range-thumb-size: var(--control-indicator);
   --range-mark-size: 2px;
   --range-mark-color: var(--c-border);
 
@@ -10,7 +10,7 @@ pp-range {
   align-items: center;
   gap: var(--space-s);
   font-family: inherit;
-  font-size: var(--text-s);
+  font-size: var(--control-font-size, var(--text-s));
   vertical-align: middle;
 
   > [data-slot='prefix'] {
@@ -181,20 +181,5 @@ pp-range {
   /* The readout is always rendered; the reflected attribute hides it. */
   &[hide-value] .range__value {
     display: none;
-  }
-
-  /* Sizes */
-  &[size='small'] {
-    --range-track-height: calc(var(--space-xs) * 0.75);
-    --range-thumb-size: 0.75rem;
-
-    font-size: var(--text-xs);
-  }
-
-  &[size='large'] {
-    --range-track-height: calc(var(--space-xs) * 1.5);
-    --range-thumb-size: 1.25rem;
-
-    font-size: var(--text-m);
   }
 }

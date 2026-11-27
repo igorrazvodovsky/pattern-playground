@@ -6,6 +6,7 @@ interface ButtonArgs {
   variant: 'default' | 'primary' | 'danger' | 'plain';
   disabled: boolean;
   iconPosition: 'none' | 'prefix' | 'suffix' | 'both';
+  size: 'small' | 'medium' | 'large';
 }
 
 const meta = {
@@ -29,6 +30,11 @@ const meta = {
       options: ['none', 'prefix', 'suffix', 'both'],
       description: 'Icon position relative to label',
     },
+    size: {
+      control: { type: 'radio' },
+      options: ['small', 'medium', 'large'],
+      description: 'Control size (`data-size`); medium is the default',
+    },
   },
 } satisfies Meta<ButtonArgs>;
 
@@ -41,6 +47,7 @@ export const Default: Story = {
     variant: 'default',
     disabled: false,
     iconPosition: 'none',
+    size: 'medium',
   },
   render: (args) => {
     const classes = ['button', args.variant !== 'default' ? `button--${args.variant}` : '']
@@ -48,7 +55,12 @@ export const Default: Story = {
       .join(' ');
     const icon = <iconify-icon className="icon" icon="ik:circle-dotted" />;
     return (
-      <button className={classes} disabled={args.disabled} onClick={action('click')}>
+      <button
+        className={classes}
+        data-size={args.size}
+        disabled={args.disabled}
+        onClick={action('click')}
+      >
         {(args.iconPosition === 'prefix' || args.iconPosition === 'both') && icon}
         {args.label}
         {(args.iconPosition === 'suffix' || args.iconPosition === 'both') && icon}

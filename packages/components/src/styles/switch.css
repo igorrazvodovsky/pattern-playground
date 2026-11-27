@@ -1,7 +1,7 @@
 .switch {
   --switch-track-color: var(--c-border);
   --switch-on-color: var(--c-accent-600);
-  --switch-thumb-size: 1rem;
+  --switch-thumb-size: var(--control-indicator);
 
   appearance: none;
   position: relative;
@@ -15,7 +15,7 @@
   transition: var(--transition-fast) background-color;
   cursor: pointer;
   vertical-align: middle;
-  font-size: var(--text-s);
+  font-size: var(--control-font-size, var(--text-s));
 }
 
 /* Thumb */
@@ -59,17 +59,4 @@
 /* Hover */
 .switch:hover:not(:disabled) {
   filter: brightness(0.92);
-}
-
-/* Sizes */
-.switch--small {
-  --switch-thumb-size: 0.75rem;
-
-  font-size: var(--text-xs);
-}
-
-.switch--large {
-  --switch-thumb-size: 1.25rem;
-
-  font-size: var(--text-m);
 }

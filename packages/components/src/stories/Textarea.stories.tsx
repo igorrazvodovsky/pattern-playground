@@ -2,15 +2,27 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
 import { action } from 'storybook/actions';
 
+interface TextareaArgs {
+  size: 'small' | 'medium' | 'large';
+}
+
 const meta = {
   title: 'Components/Textarea',
-} satisfies Meta;
+  argTypes: {
+    size: {
+      control: { type: 'radio' },
+      options: ['small', 'medium', 'large'],
+      description: 'Control size (`data-size` on `.grow-wrap`); medium is the default',
+    },
+  },
+} satisfies Meta<TextareaArgs>;
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<TextareaArgs>;
 
 export const Basic: Story = {
-  render: () => {
+  args: { size: 'medium' },
+  render: (args) => {
     const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
       const target = e.currentTarget;
       action('input')(target.value);
@@ -23,7 +35,7 @@ export const Basic: Story = {
     return (
       <form action="#0">
         <label htmlFor="text">Label</label>
-        <div className="grow-wrap">
+        <div className="grow-wrap" data-size={args.size}>
           <textarea
             placeholder="Type something"
             rows={1}

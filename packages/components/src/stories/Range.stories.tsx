@@ -76,7 +76,7 @@ function ControlledRange(props: RangeArgs) {
       step={props.step}
       value={value}
       disabled={props.disabled}
-      size={props.size}
+      data-size={props.size}
     />
   );
 }
@@ -175,9 +175,9 @@ export const FormattedValue: Story = {
 export const Sizes: Story = {
   render: () => (
     <div className="flow">
-      <pp-range label="Small" min={0} max={100} value={30} size="small" />
-      <pp-range label="Medium" min={0} max={100} value={50} size="medium" />
-      <pp-range label="Large" min={0} max={100} value={70} size="large" />
+      <pp-range label="Small" min={0} max={100} value={30} data-size="small" />
+      <pp-range label="Medium" min={0} max={100} value={50} data-size="medium" />
+      <pp-range label="Large" min={0} max={100} value={70} data-size="large" />
     </div>
   ),
 };

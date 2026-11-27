@@ -90,15 +90,16 @@
   margin-block-start: var(--space-2xs);
 }
 
-/* Pulled out by an icon button's padding and border, so the icons line up
-   with the edge of the text. */
+/* Pulled out by the space around an icon button's icon, so the icons line up
+   with the edge of the text. Icon-only buttons are square at the control
+   height, with a 1em icon centred. */
 .message--inbound .message__actions {
-  margin-inline-start: calc(-0.5em - 1px);
+  margin-inline-start: calc((var(--control-height) - 1em) / -2);
 }
 
 .message--outbound .message__actions {
   justify-content: flex-end;
-  margin-inline-end: calc(-0.5em - 1px);
+  margin-inline-end: calc((var(--control-height) - 1em) / -2);
 }
 
 @media (hover: hover) {

@@ -9,6 +9,7 @@ interface TagArgs {
   label: string;
   pill: boolean;
   removable: boolean;
+  size: 'small' | 'medium' | 'large';
 }
 
 const meta = {
@@ -26,6 +27,11 @@ const meta = {
       control: { type: 'boolean' },
       description: 'Show remove button',
     },
+    size: {
+      control: { type: 'radio' },
+      options: ['small', 'medium', 'large'],
+      description: 'Control size (`data-size`); medium is the default',
+    },
   },
 } satisfies Meta<TagArgs>;
 
@@ -37,9 +43,13 @@ export const Default: Story = {
     label: 'Tag',
     pill: false,
     removable: false,
+    size: 'medium',
   },
   render: (args) => (
-    <span className={['tag', args.pill ? 'tag--pill' : ''].filter(Boolean).join(' ')}>
+    <span
+      className={['tag', args.pill ? 'tag--pill' : ''].filter(Boolean).join(' ')}
+      data-size={args.size}
+    >
       {args.label}
       {args.removable && (
         <button aria-label={`Remove ${args.label}`}>

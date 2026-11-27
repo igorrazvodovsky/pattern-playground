@@ -60,12 +60,12 @@ pp-tab {
   grid-template-rows: 1fr auto;
   align-items: center;
   font-family: inherit;
-  font-size: var(--text-s);
+  font-size: var(--control-font-size, var(--text-s));
   font-weight: var(--font-weight-semibold);
   line-height: 120%;
   border-radius: var(--radius-m);
   color: var(--c-neutral-600);
-  padding: var(--space-m) var(--space-l);
+  padding: var(--control-space) calc(var(--control-space) * 1.5);
   white-space: nowrap;
   user-select: none;
   cursor: pointer;
@@ -75,7 +75,7 @@ pp-tab {
 
   > [data-slot='icon'] {
     grid-row: span 2;
-    padding-inline-end: var(--space-m);
+    padding-inline-end: var(--control-space);
     padding-block-start: var(--space-xs);
     align-self: start;
   }
@@ -83,6 +83,12 @@ pp-tab {
   > [data-slot='subtitle'] {
     grid-column: 2;
     color: var(--c-bodyDimmed);
+  }
+
+  /* Beside a title and subtitle the icon spans both lines, so it is sized
+     from the tab's font and follows the tab's size. */
+  &:has(> [data-slot='subtitle']) > [data-slot='icon'] {
+    font-size: 1.85em;
   }
 }
 

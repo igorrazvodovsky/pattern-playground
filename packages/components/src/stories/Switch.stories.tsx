@@ -9,9 +9,6 @@ interface SwitchArgs {
   size: 'small' | 'medium' | 'large';
 }
 
-const sizeClass = (size: SwitchArgs['size']) =>
-  size === 'medium' ? 'switch' : `switch switch--${size}`;
-
 const meta = {
   title: 'Components/Switch',
   tags: ['autodocs', 'activity-level:operation', 'mediation:individual'],
@@ -48,7 +45,8 @@ function ControlledSwitch(props: SwitchArgs) {
     <input
       type="checkbox"
       role="switch"
-      className={sizeClass(props.size)}
+      className="switch"
+      data-size={props.size}
       aria-label={props.label}
       checked={checked}
       disabled={props.disabled}
@@ -95,9 +93,21 @@ export const DisabledChecked: Story = {
 export const Sizes: Story = {
   render: () => (
     <div className="flex">
-      <input type="checkbox" role="switch" className="switch switch--small" aria-label="Small" />
+      <input
+        type="checkbox"
+        role="switch"
+        className="switch"
+        data-size="small"
+        aria-label="Small"
+      />
       <input type="checkbox" role="switch" className="switch" aria-label="Medium" />
-      <input type="checkbox" role="switch" className="switch switch--large" aria-label="Large" />
+      <input
+        type="checkbox"
+        role="switch"
+        className="switch"
+        data-size="large"
+        aria-label="Large"
+      />
     </div>
   ),
 };

@@ -8,15 +8,16 @@ interface CheckboxArgs {
   checked: boolean;
   disabled: boolean;
   indeterminate: boolean;
+  size: 'small' | 'medium' | 'large';
 }
 
-function CheckboxStory({ label, checked, disabled, indeterminate }: CheckboxArgs) {
+function CheckboxStory({ label, checked, disabled, indeterminate, size }: CheckboxArgs) {
   const ref = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (ref.current) ref.current.indeterminate = indeterminate;
   }, [indeterminate]);
   return (
-    <label className="form-control">
+    <label className="form-control" data-size={size}>
       <input
         type="checkbox"
         ref={ref}
@@ -48,6 +49,11 @@ const meta = {
       control: { type: 'boolean' },
       description: 'Indeterminate state (partial selection)',
     },
+    size: {
+      control: { type: 'radio' },
+      options: ['small', 'medium', 'large'],
+      description: 'Box and label size (`data-size`); medium is the default',
+    },
   },
 } satisfies Meta<CheckboxArgs>;
 
@@ -60,6 +66,7 @@ export const Checkbox: Story = {
     checked: false,
     disabled: false,
     indeterminate: false,
+    size: 'medium',
   },
   render: (args) => <CheckboxStory key={String(args.checked)} {...args} />,
 };

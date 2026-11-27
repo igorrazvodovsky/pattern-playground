@@ -15,7 +15,6 @@ declare module 'react' {
     interface IntrinsicElements {
       /* Rung-2 field box: compose a native <input> (and data-slot adornments) inside */
       'pp-input': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-        size?: 'small' | 'medium' | 'large';
         clearable?: boolean;
         invalid?: boolean;
       };
@@ -26,7 +25,6 @@ declare module 'react' {
         'max'?: number | string;
         'step'?: number | string;
         'disabled'?: boolean;
-        'size'?: 'small' | 'medium' | 'large';
         'label'?: string;
         'labelledby'?: string;
         'describedby'?: string;
@@ -37,7 +35,6 @@ declare module 'react' {
       /* Rung-2 field box: compose a native <select> (and data-slot hint/error) inside */
       'pp-select': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         invalid?: boolean;
-        size?: 'small' | 'medium' | 'large';
       };
       /* CSS-only styled tag (no custom element definition) — sizes with font-size */
       'pp-spinner': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;

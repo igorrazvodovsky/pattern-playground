@@ -1,7 +1,8 @@
 @layer components {
   .form-control {
     display: grid;
-    grid-template-columns: 1em auto;
+    grid-template-columns: var(--control-indicator) auto;
+    font-size: var(--control-font-size, 1em);
     gap: 0.5em;
   }
 
@@ -10,8 +11,8 @@
     background-color: transparent;
     margin: 0;
     color: currentcolor;
-    width: 1rem;
-    height: 1rem;
+    width: var(--control-indicator);
+    height: var(--control-indicator);
     border: var(--border);
     border-radius: var(--radius-s);
     display: grid;
@@ -22,8 +23,8 @@
     content: '✓';
     font-size: smaller;
     font-weight: bold;
-    width: 1rem;
-    height: 1rem;
+    width: var(--control-indicator);
+    height: var(--control-indicator);
     text-align: center;
     vertical-align: baseline;
     transition: 120ms opacity ease-in-out;

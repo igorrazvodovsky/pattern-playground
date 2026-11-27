@@ -5,7 +5,7 @@
     --button-bg: var(--c-neutral-0);
     --button-border-width: 1px;
     --button-box-shadow: 0 1px 3px oklch(15.4% 0 0deg / 9%);
-    --button-padding: var(--space-s) var(--space-m);
+    --button-padding: 0 var(--control-space);
     --l-threshold: 0.7;
     --l: clamp(0, (l / var(--l-threshold) - 1) * -infinity, 1);
 
@@ -17,19 +17,22 @@
     cursor: pointer;
   }
 
-  .button:has(kbd) {
-    --button-padding: 0.3125em var(--space-m);
-  }
-
   /* :not(pp-list-item) matches nothing; it lifts the selector to the
      specificity of `a.button` above, so a link styled as a button keeps the
      border and padding that the reset takes away. */
   .button:not(pp-list-item) {
     border: var(--button-border-width, 1px) solid var(--button-border);
     box-shadow: var(--button-box-shadow);
-    border-radius: var(--radius-m);
+    border-radius: var(--control-radius);
     white-space: nowrap;
     line-height: 100%;
+
+    /* Height comes from the size scale (size.css), not from padding, so a
+       button lines up with a field or tag of the same size. */
+    min-block-size: var(--control-height);
+    align-items: center;
+    justify-content: center;
+    font-size: var(--control-font-size, 1em);
 
     --button-border: var(--c-border);
 
@@ -52,13 +55,14 @@
       vertical-align: middle;
     }
 
-    /* for icon-only buttons */
+    /* Icon-only buttons are square. */
     &:has(.visually-hidden) {
-      padding: 0.5em;
+      padding: 0;
+      min-inline-size: var(--control-height);
     }
 
     &:not(:has(.visually-hidden)) {
-      padding: var(--button-padding, var(--space-s) var(--space-m));
+      padding: var(--button-padding);
     }
 
     &:active {

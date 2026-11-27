@@ -4,8 +4,8 @@
     background-color: transparent;
     margin: 0;
     color: currentcolor;
-    width: 1rem;
-    height: 1rem;
+    width: var(--control-indicator);
+    height: var(--control-indicator);
     border: var(--border);
     border-radius: 50%;
     display: grid;
@@ -14,8 +14,8 @@
 
   input[type='radio']:not([class])::before {
     content: '';
-    width: 0.5rem;
-    height: 0.5rem;
+    width: calc(var(--control-indicator) / 2);
+    height: calc(var(--control-indicator) / 2);
     border-radius: 50%;
     transform: scale(0);
     transition: 120ms transform ease-in-out;

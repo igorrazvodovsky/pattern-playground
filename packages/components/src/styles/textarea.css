@@ -1,10 +1,15 @@
+/* Block padding is two thirds of the inline space: 8px at medium. */
 textarea {
   color: inherit;
-  font-size: var(--text-s);
+  font-size: var(--control-font-size, var(--text-s));
+
+  /* Unitless (the root's 150% would arrive in px), so lines tighten with the
+     font at small sizes. */
+  line-height: 1.5;
   width: 100%;
-  padding: var(--space-s) var(--space-m);
+  padding: calc(var(--control-space) * 2 / 3) var(--control-space);
   border: var(--border);
-  border-radius: var(--radius-m);
+  border-radius: var(--control-radius);
 }
 
 :is(pp-menu, pp-list) textarea {
@@ -17,6 +22,8 @@ textarea {
 /* From https://css-tricks.com/the-cleanest-trick-for-autogrowing-textareas/ */
 
 .grow-wrap {
+  font-size: var(--control-font-size, 1em);
+
   /* easy way to plop the elements on top of each other and have them both sized based on the tallest one's height */
   display: grid;
 }
@@ -44,8 +51,9 @@ textarea {
 .grow-wrap::after {
   /* Identical styling required!! */
   border: var(--border);
-  padding: var(--space-s) var(--space-m);
+  padding: calc(var(--control-space) * 2 / 3) var(--control-space);
   font: inherit;
+  line-height: 1.5;
 
   /* Place on top of each other */
   grid-area: 1 / 1 / 2 / 2;

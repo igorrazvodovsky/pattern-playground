@@ -15,14 +15,15 @@
     --c-background: var(--c-neutral-50);
     --tag-color: var(--c-body);
     --tag-space-block: var(--space-s);
-    --tag-space-inline: var(--space-m);
+    --tag-space-inline: var(--control-space);
 
     color: var(--tag-color);
     background: var(--tag-bg);
 
     /* border: var(--border); */
     padding: var(--tag-space-block) var(--tag-space-inline);
-    border-radius: var(--radius-m);
+    border-radius: var(--control-radius);
+    font-size: var(--control-font-size, 1em);
     line-height: 100%;
     display: inline-flex;
     align-items: center;
@@ -33,8 +34,9 @@
     max-width: 100%;
     transition: var(--transition-fast) background;
 
-    /* Fixed so a tag lines up with buttons in a row. */
-    height: 2rem;
+    /* From the size scale (size.css), so a tag lines up with buttons and
+       fields of the same size in a row. */
+    height: var(--control-height);
   }
 
   .tag:has(input:checked) {
@@ -58,7 +60,10 @@
   }
 
   .tag button {
-    padding: var(--space-s);
+    /* Full height, so the hover shade fills the tag at every size. */
+    align-self: stretch;
+    align-items: center;
+    padding: 0 calc(var(--control-space) * 2 / 3);
 
     &:not(:disabled):hover {
       background: oklch(from var(--c-background) calc(l - 0.05) c h);
@@ -234,6 +239,8 @@ high-contrast styles:
 
   /* for icon-only buttons */
   button.tag:has(.visually-hidden) {
-    padding: 0.5em;
+    justify-content: center;
+    padding: 0;
+    inline-size: var(--control-height);
   }
 }

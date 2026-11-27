@@ -7,4 +7,12 @@
     line-height: 150%;
     color: var(--c-bodyDimmed, currentColor);
   }
+
+  /* Inside a button the key follows the button's size, so it fits the
+     control height at small and keeps its proportion at large. */
+  .button kbd {
+    padding: 0 0.375em;
+    font-size: 0.75em;
+    line-height: 1.5;
+  }
 }

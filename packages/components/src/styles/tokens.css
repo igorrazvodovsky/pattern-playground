@@ -10,5 +10,6 @@
 
 @import url('variables-palette.css') layer(theme);
 @import url('variables.css') layer(theme);
+@import url('size.css') layer(theme);
 @import url('purpose.css'); /* declares @layer utilities internally */
 @import url('animation.css') layer(theme);

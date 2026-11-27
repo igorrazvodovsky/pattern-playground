@@ -1,0 +1,39 @@
+/* Control size — one scale shared by buttons, fields, tags, toggles, and tabs,
+   so controls of the same size line up in a row.
+
+   `data-size="small" | "medium" | "large"` sets it. On a control it sizes that
+   control; on a container (a toolbar, a button group, a form, a run of tags) it
+   sizes every control inside, and a control's own `data-size` wins because
+   custom properties resolve from the nearest ancestor. Medium is the default
+   and needs no attribute.
+
+   Heights follow common practice (24 / 32 / 40px at the default root size).
+   The small height still meets the 24px minimum target size (WCAG 2.5.8).
+
+   Font size is left unset at medium (`initial`), so each control keeps its own
+   default there and reads `var(--control-font-size, <its default>)`. */
+
+:root,
+[data-size='medium'] {
+  --control-height: 2rem;
+  --control-space: var(--space-m);
+  --control-font-size: initial;
+  --control-radius: var(--radius-m);
+  --control-indicator: 1rem;
+}
+
+[data-size='small'] {
+  --control-height: 1.5rem;
+  --control-space: var(--space-s);
+  --control-font-size: var(--text-xs);
+  --control-radius: var(--radius-s);
+  --control-indicator: 0.75rem;
+}
+
+[data-size='large'] {
+  --control-height: 2.5rem;
+  --control-space: var(--space-l);
+  --control-font-size: var(--text-m);
+  --control-radius: var(--radius-m);
+  --control-indicator: 1.25rem;
+}

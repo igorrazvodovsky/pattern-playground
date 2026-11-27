@@ -16,7 +16,10 @@ import { textFromIdRefs } from '../../utility/accessible-name.js';
  *
  * @cssproperty --range-fill - Colour of the filled portion of the track. Defaults to `--c-accent-600`.
  * @cssproperty --range-track-color - Colour of the unfilled track. Defaults to `--c-border`.
- * @cssproperty --range-thumb-size - Diameter of the thumb. Defaults to `1rem`.
+ * Size with `data-size="small" | "medium" | "large"`, on the element or on a
+ * container (see `src/styles/size.css`).
+ *
+ * @cssproperty --range-thumb-size - Diameter of the thumb. Defaults to the control indicator size (`1rem` at medium).
  */
 
 export interface RangeProps {
@@ -36,7 +39,6 @@ export class PpRange extends Elena(HTMLElement) {
     'max',
     'step',
     'value',
-    'size',
     'disabled',
     'name',
     'label',
@@ -51,7 +53,6 @@ export class PpRange extends Elena(HTMLElement) {
   'max' = 100;
   'step' = 1;
   'value' = 0;
-  'size': 'small' | 'medium' | 'large' = 'medium';
   'disabled' = false;
   'name' = '';
   'label' = '';

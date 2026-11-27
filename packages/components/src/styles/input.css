@@ -16,13 +16,19 @@ pp-input {
   justify-content: start;
   position: relative;
   width: 100%;
+  min-block-size: var(--control-height);
   font-family: inherit;
+  font-size: var(--control-font-size, 1em);
   vertical-align: middle;
+
+  /* Unitless, so the input and adornment line boxes shrink with the font at
+     small sizes rather than inheriting the root's line height in px. */
+  line-height: var(--line-height-tight);
   overflow: hidden;
   cursor: text;
   background-color: var(--c-neutral-0);
   border: var(--input-border);
-  border-radius: var(--radius-m);
+  border-radius: var(--control-radius);
   transition:
     var(--transition-fast) color,
     var(--transition-fast) border,
@@ -74,12 +80,15 @@ pp-input {
     font-size: inherit;
     font-weight: inherit;
     min-width: 0;
-    height: 100%;
+
+    /* Stretched by the flex row to the field's height; a percentage height
+       would not resolve against the field's min-block-size. */
+    align-self: stretch;
     color: var(--c-body);
     border: none;
     background: inherit;
     box-shadow: none;
-    padding: calc(var(--space-s) - 1.5px) var(--space-m);
+    padding: 0 var(--control-space);
     margin: 0;
     cursor: inherit;
     appearance: none;
@@ -118,7 +127,7 @@ pp-input {
   }
 
   > [data-slot='prefix']:not(button) {
-    margin-inline-start: var(--space-m);
+    margin-inline-start: var(--control-space);
   }
 
   > [data-slot='prefix']:is(button) {
@@ -131,7 +140,7 @@ pp-input {
 
   > [data-slot='suffix'] {
     order: 2;
-    margin-inline-end: var(--space-m);
+    margin-inline-end: var(--control-space);
   }
 
   /* Clearable */
@@ -139,7 +148,7 @@ pp-input {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: calc(1em + var(--space-m) * 2);
+    width: calc(1em + var(--control-space) * 2);
     font-size: inherit;
     color: var(--c-secondary);
     border: none;
@@ -159,47 +168,6 @@ pp-input {
 
   &[data-empty] .input__clear {
     visibility: hidden;
-  }
-
-  /* Sizes */
-  &[size='small'] {
-    border-radius: var(--radius-s);
-
-    > input {
-      padding: 0 var(--space-s);
-    }
-
-    > [data-slot='prefix']:not(button) {
-      margin-inline-start: var(--space-s);
-    }
-
-    > [data-slot='suffix'] {
-      margin-inline-end: var(--space-s);
-    }
-
-    .input__clear {
-      width: calc(1em + var(--space-s) * 2);
-    }
-  }
-
-  &[size='large'] {
-    border-radius: var(--input-border-radius-l);
-
-    > input {
-      padding: 0 var(--space-l);
-    }
-
-    > [data-slot='prefix'] {
-      margin-inline-start: var(--space-l);
-    }
-
-    > [data-slot='suffix'] {
-      margin-inline-end: var(--space-l);
-    }
-
-    .input__clear {
-      width: calc(1em + var(--space-l) * 2);
-    }
   }
 }
 

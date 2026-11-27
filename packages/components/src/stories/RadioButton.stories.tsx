@@ -6,11 +6,12 @@ interface RadioButtonArgs {
   label: string;
   checked: boolean;
   disabled: boolean;
+  size: 'small' | 'medium' | 'large';
 }
 
-function RadioButtonStory({ label, checked, disabled }: RadioButtonArgs) {
+function RadioButtonStory({ label, checked, disabled, size }: RadioButtonArgs) {
   return (
-    <div className="flow">
+    <div className="flow" data-size={size}>
       <label className="form-control">
         <input
           type="radio"
@@ -47,6 +48,11 @@ const meta = {
       control: { type: 'boolean' },
       description: 'Disabled state',
     },
+    size: {
+      control: { type: 'radio' },
+      options: ['small', 'medium', 'large'],
+      description: 'Size of the group (`data-size`); medium is the default',
+    },
   },
 } satisfies Meta<RadioButtonArgs>;
 
@@ -58,6 +64,7 @@ export const RadioButton: Story = {
     label: 'Radio button',
     checked: false,
     disabled: false,
+    size: 'medium',
   },
   render: (args) => <RadioButtonStory key={String(args.checked)} {...args} />,
 };

@@ -433,17 +433,17 @@
     text-decoration: none;
 
     /* Height by size */
-    &[data-size='default'],
+    &[data-size='medium'],
     &:not([data-size]) {
       height: 2rem;
     }
 
-    &[data-size='sm'] {
+    &[data-size='small'] {
       height: 1.75rem;
       font-size: var(--text-xs);
     }
 
-    &[data-size='lg'] {
+    &[data-size='large'] {
       height: 3rem;
       font-size: var(--text-m);
     }
@@ -636,13 +636,13 @@
       background 150ms,
       color 150ms;
 
-    &[data-size='md'],
+    &[data-size='medium'],
     &:not([data-size]) {
       height: 1.75rem;
       font-size: var(--text-s);
     }
 
-    &[data-size='sm'] {
+    &[data-size='small'] {
       height: 1.5rem;
       font-size: var(--text-xs);
     }

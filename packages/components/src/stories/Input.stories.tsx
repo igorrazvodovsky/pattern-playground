@@ -6,6 +6,7 @@ interface InputArgs {
   placeholder: string;
   disabled: boolean;
   addon: 'none' | 'prefix' | 'suffix' | 'both';
+  size: 'small' | 'medium' | 'large';
 }
 
 const meta = {
@@ -32,6 +33,11 @@ const meta = {
       options: ['none', 'prefix', 'suffix', 'both'],
       description: 'Icon addon position',
     },
+    size: {
+      control: { type: 'radio' },
+      options: ['small', 'medium', 'large'],
+      description: 'Control size (`data-size`); medium is the default',
+    },
   },
 } satisfies Meta<InputArgs>;
 
@@ -45,9 +51,10 @@ export const Default: Story = {
     placeholder: 'Enter value…',
     disabled: false,
     addon: 'none',
+    size: 'medium',
   },
   render: (args) => (
-    <pp-input>
+    <pp-input data-size={args.size}>
       {(args.addon === 'prefix' || args.addon === 'both') && (
         <iconify-icon className="icon" icon="ik:search" data-slot="prefix" />
       )}

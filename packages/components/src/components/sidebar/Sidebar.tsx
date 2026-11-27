@@ -428,7 +428,7 @@ type TooltipContent = { children: React.ReactNode } | string;
 export interface SidebarMenuButtonProps extends Omit<React.ComponentProps<'button'>, 'render'> {
   render?: React.ReactElement;
   isActive?: boolean;
-  size?: 'default' | 'sm' | 'lg';
+  size?: 'small' | 'medium' | 'large';
   tooltip?: TooltipContent;
 }
 
@@ -436,7 +436,7 @@ export function SidebarMenuButton({
   render,
   tooltip,
   isActive = false,
-  size = 'default',
+  size = 'medium',
   className,
   ...props
 }: SidebarMenuButtonProps) {
@@ -573,13 +573,13 @@ export function SidebarMenuSubItem({ className, ...props }: React.ComponentProps
 
 export interface SidebarMenuSubButtonProps extends Omit<React.ComponentProps<'a'>, 'render'> {
   render?: useRender.RenderProp;
-  size?: 'sm' | 'md';
+  size?: 'small' | 'medium';
   isActive?: boolean;
 }
 
 export function SidebarMenuSubButton({
   render,
-  size = 'md',
+  size = 'medium',
   isActive = false,
   className,
   ...props
