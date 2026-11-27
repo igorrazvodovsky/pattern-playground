@@ -1,6 +1,6 @@
 import type { Components } from '@json-render/react';
 import type { Catalog } from '../../catalog';
-import { Fragment, Suspense, useEffect, useMemo, useRef } from 'react';
+import { Fragment, Suspense, useEffect, useEffectEvent, useMemo, useRef } from 'react';
 import { useBoundProp } from '@json-render/react';
 import clsx from 'clsx';
 import { bindings } from '@shared/data/bindings';
@@ -289,26 +289,26 @@ export const content = {
     useEffect(() => {
       if (ref.current) ref.current['focused-id'] = focused ?? '';
     }, [focused]);
+    const onFocus = useEffectEvent((event: Event) => {
+      const { location } = (event as CustomEvent<MapFocusDetail>).detail;
+      setFocused(location ? String(location.id) : null);
+    });
+    const onSelect = useEffectEvent((event: Event) => {
+      setSelected(String((event as CustomEvent<MapSelectDetail>).detail.location.id));
+      emit('select');
+    });
     useEffect(() => {
       const el = ref.current;
       if (!el) return;
-      const onFocus = (event: Event) => {
-        const { location } = (event as CustomEvent<MapFocusDetail>).detail;
-        setFocused(location ? String(location.id) : null);
+      const focus = (event: Event) => onFocus(event);
+      const select = (event: Event) => onSelect(event);
+      el.addEventListener('pp-map-focus', focus);
+      el.addEventListener('pp-map-select', select);
+      return () => {
+        el.removeEventListener('pp-map-focus', focus);
+        el.removeEventListener('pp-map-select', select);
       };
-      el.addEventListener('pp-map-focus', onFocus);
-      return () => el.removeEventListener('pp-map-focus', onFocus);
-    }, [setFocused]);
-    useEffect(() => {
-      const el = ref.current;
-      if (!el) return;
-      const onSelect = (event: Event) => {
-        setSelected(String((event as CustomEvent<MapSelectDetail>).detail.location.id));
-        emit('select');
-      };
-      el.addEventListener('pp-map-select', onSelect);
-      return () => el.removeEventListener('pp-map-select', onSelect);
-    }, [setSelected, emit]);
+    }, []);
     return <pp-map ref={ref} aria-label={props.label} />;
   },
 

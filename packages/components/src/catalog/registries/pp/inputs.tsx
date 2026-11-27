@@ -1,6 +1,6 @@
 import type { Components } from '@json-render/react';
 import type { Catalog } from '../../catalog';
-import { useEffect, useId, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useEffectEvent, useId, useRef, useState, type CSSProperties } from 'react';
 import { useBoundProp } from '@json-render/react';
 import clsx from 'clsx';
 import {
@@ -185,20 +185,17 @@ export const inputs = {
       { value: scope, set: setScope },
       props.popup ?? false,
     );
-    // The bound setter is a new function on every render; the listeners
-    // below read the latest one.
-    const hidden = useRef(() => {});
-    hidden.current = () => {
+    const onHidden = useEffectEvent(() => {
       close();
       if (!picking.current) setValue('');
-    };
+    });
     useEffect(() => {
       const el = dropdown.current;
       if (!el) return;
       const onShow = (event: Event) => {
         if (event.target === el) el.querySelector<HTMLElement>('[cmdk-input]')?.focus();
       };
-      const onHide = (event: Event) => event.target === el && hidden.current();
+      const onHide = (event: Event) => event.target === el && onHidden();
       el.addEventListener('pp-after-show', onShow);
       el.addEventListener('pp-hide', onHide);
       return () => {

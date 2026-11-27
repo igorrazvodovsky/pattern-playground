@@ -1,6 +1,6 @@
 import type { Components } from '@json-render/react';
 import type { Catalog } from '../../catalog';
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useEffectEvent, useRef, type ReactNode } from 'react';
 import { useBoundProp } from '@json-render/react';
 import clsx from 'clsx';
 import { useDragRow } from '../../behaviour/drag-drop';
@@ -50,56 +50,49 @@ export const collections = {
     );
     const attributes = cardAttributes(slots?.attributes);
     const detail = cardDetail(props.expanded, slots?.detail);
-    return slots?.suffix || slots?.actions ? (
+    const framed = Boolean(slots?.suffix || slots?.actions);
+    return (
       <article
         ref={dragRef}
-        className={surface}
+        className={clsx(surface, !framed && !slots?.detail && 'pad grid-stack')}
         data-selected={selected}
         data-popover-host=""
         data-dragging={dragging}
       >
-        <div className="card__header">
-          {props.title && <Heading className="label card__title">{heading}</Heading>}
-          {slots.suffix && <div className="flex">{slots.suffix}</div>}
-        </div>
-        <div className="flow pad">
-          {attributes}
-          <Subsection>{children}</Subsection>
-        </div>
-        {slots.actions && (
-          <div className="card__footer">
-            <div className="flex" />
-            <div className="flex">{slots.actions}</div>
-          </div>
+        {framed ? (
+          <>
+            <div className="card__header">
+              {props.title && <Heading className="label card__title">{heading}</Heading>}
+              {slots?.suffix && <div className="flex">{slots.suffix}</div>}
+            </div>
+            <div className="flow pad">
+              {attributes}
+              <Subsection>{children}</Subsection>
+            </div>
+            {slots?.actions && (
+              <div className="card__footer">
+                <div className="flex" />
+                <div className="flex">{slots.actions}</div>
+              </div>
+            )}
+            {detail}
+          </>
+        ) : slots?.detail ? (
+          <>
+            <div className="pad grid-stack">
+              {props.title && <Heading className="card__title">{heading}</Heading>}
+              {attributes}
+              <Subsection>{children}</Subsection>
+            </div>
+            {detail}
+          </>
+        ) : (
+          <>
+            {props.title && <Heading className="card__title">{heading}</Heading>}
+            {attributes}
+            <Subsection>{children}</Subsection>
+          </>
         )}
-        {detail}
-      </article>
-    ) : slots?.detail ? (
-      <article
-        ref={dragRef}
-        className={surface}
-        data-selected={selected}
-        data-popover-host=""
-        data-dragging={dragging}
-      >
-        <div className="pad grid-stack">
-          {props.title && <Heading className="card__title">{heading}</Heading>}
-          {attributes}
-          <Subsection>{children}</Subsection>
-        </div>
-        {detail}
-      </article>
-    ) : (
-      <article
-        ref={dragRef}
-        className={clsx(surface, 'pad grid-stack')}
-        data-selected={selected}
-        data-popover-host=""
-        data-dragging={dragging}
-      >
-        {props.title && <Heading className="card__title">{heading}</Heading>}
-        {attributes}
-        <Subsection>{children}</Subsection>
       </article>
     );
   },
@@ -114,17 +107,18 @@ export const collections = {
     const ref = useRef<HTMLElement & { checked: boolean }>(null);
     const [checked, setChecked] = useBoundProp(props.checked, bindings?.checked);
     const bound = Boolean(bindings?.checked);
+    const onChecked = useEffectEvent((value: boolean) => setChecked(value));
     useEffect(() => {
       const item = ref.current;
       const list = item?.closest('pp-list');
       if (!bound || !props.checkbox || !item || !list) return;
       const onSelect = (event: Event) => {
         if ((event as CustomEvent<{ item: HTMLElement }>).detail.item === item)
-          setChecked(item.checked);
+          onChecked(item.checked);
       };
       list.addEventListener('pp-select', onSelect);
       return () => list.removeEventListener('pp-select', onSelect);
-    }, [bound, props.checkbox, setChecked]);
+    }, [bound, props.checkbox]);
     const label = props.struck ? <s>{props.label}</s> : props.label;
     return (
       <pp-list-item
