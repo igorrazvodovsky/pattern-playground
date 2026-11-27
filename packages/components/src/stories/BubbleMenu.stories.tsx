@@ -17,7 +17,9 @@ import {
 } from '../components/editor-plugins/commenting/CommentingPlugin';
 import { getCommentService } from '../services/commenting/core/comment-service-instance';
 import { getQuoteService } from '../services/commenting/quote-service';
-import { BasicDemo, CommentingDemo, DynamicExplanationDemo } from '../demos/bubble-menu';
+import { CommentingDemo } from '../demos/commenting';
+import { DynamicExplanationDemo } from '../demos/explanation';
+import { PrestructuredFormattingDemo } from '../demos/prestructured-formatting';
 import { InstructedRevisionDemo } from '../demos/instructed-revision';
 
 const meta = {
@@ -28,7 +30,7 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-  render: () => <BasicDemo />,
+  render: () => <PrestructuredFormattingDemo />,
 };
 
 export const InstructedRevision: Story = {

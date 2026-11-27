@@ -1,6 +1,6 @@
 import type { Spec, StateStore } from '@json-render/core';
-import { z } from 'zod';
 import type { ActionDefinition, SpecSetup } from '../../catalog/SpecDemo';
+import { send, sendHandler } from './shared/conversation';
 import spec from './prompt-suggestions.json' with { type: 'json' };
 
 // Suggested prompts above the message field. Before the first message they
@@ -70,27 +70,17 @@ const asSuggestions = (labels: string[]) =>
 const initialState = { turns: [], suggestions: asSuggestions(opening), draft: '' };
 
 const actions: Record<string, ActionDefinition> = {
-  send: {
-    params: z.object({ prompt: z.unknown() }),
-    description:
-      'Send `prompt` as the actor’s message: add it and the reply to `/turns`, clear `/draft`, and replace `/suggestions` with the prompts that follow from the reply. An empty prompt does nothing.',
-  },
+  send: send(', and replace `/suggestions` with the prompts that follow from the reply'),
 };
 
-const handlers = (store: StateStore) => ({
-  send: ({ prompt }: Record<string, unknown>) => {
-    const text = typeof prompt === 'string' ? prompt.trim() : '';
-    if (!text) return;
-    const answer = answers[text] ?? fallback;
-    const turns = (store.get('/turns') ?? []) as unknown[];
-    store.set('/turns', [
-      ...turns,
-      { id: String(turns.length), prompt: text, reply: answer.reply },
-    ]);
-    store.set('/draft', '');
-    store.set('/suggestions', asSuggestions(answer.next));
-  },
-});
+const answerTo = (prompt: string) => answers[prompt] ?? fallback;
+
+const handlers = (store: StateStore) =>
+  sendHandler(
+    store,
+    (prompt) => answerTo(prompt).reply,
+    (prompt) => store.set('/suggestions', asSuggestions(answerTo(prompt).next)),
+  );
 
 export default {
   spec: spec as Spec,

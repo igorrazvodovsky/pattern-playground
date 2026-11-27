@@ -1,17 +1,8 @@
-import React from 'react';
-import StarterKit from '@tiptap/starter-kit';
-import Highlight from '@tiptap/extension-highlight';
-import { Reference, createReferenceSuggestion } from '../components/reference/index.js';
-import { EditorProvider } from '../components/editor/EditorProvider.tsx';
-import { usePluginEditor } from '../components/editor/usePluginEditor.ts';
-import { EditorLayout } from '../components/editor/EditorLayout.tsx';
-import { EditorContent as PluginEditorContent } from '../components/editor/slots/EditorContent.tsx';
-import { EditorBubbleMenu } from '../components/editor/slots/EditorBubbleMenu.tsx';
-import {
-  aiAssistantPlugin,
-  type RevisionPreset,
-} from '../components/editor-plugins/ai-assistant/index.ts';
+import { useMemo } from 'react';
 import { getDocumentContentRich, referenceCategories } from '@shared/data';
+import { PluginEditor } from '../components/editor/PluginEditor';
+import { aiAssistantPlugin, type RevisionPreset } from '../components/editor-plugins/ai-assistant';
+import { Reference, createReferenceSuggestion } from '../components/reference/Reference';
 
 // Instructed revision: the actor selects a passage of the document and says
 // what to change about it. The revision replaces the passage in the document
@@ -26,9 +17,14 @@ const revisions: RevisionPreset[] = [
   { id: 'casual', label: 'More casual', instruction: 'Make the tone more casual.' },
 ];
 
-export const InstructedRevisionDemo: React.FC = () => {
-  const richContent = getDocumentContentRich('doc-climate-change');
-  const plugins = React.useMemo(
+const extensions = [
+  Reference.configure({ suggestion: createReferenceSuggestion(referenceCategories) }),
+];
+
+const content = getDocumentContentRich('doc-climate-change') || '';
+
+export function InstructedRevisionDemo() {
+  const plugins = useMemo(
     () => [
       aiAssistantPlugin({
         enableSummarize: false,
@@ -41,37 +37,12 @@ export const InstructedRevisionDemo: React.FC = () => {
     [],
   );
 
-  const editor = usePluginEditor(
-    {
-      extensions: [
-        StarterKit,
-        Highlight,
-        Reference.configure({
-          suggestion: createReferenceSuggestion(referenceCategories),
-        }),
-      ],
-      content: richContent || '',
-      editorProps: {
-        attributes: {
-          'class': 'rich-editor',
-          'aria-label': 'Document editor',
-        },
-      },
-      immediatelyRender: false,
-    },
-    plugins,
-  );
-
-  if (!editor) {
-    return <div>Loading editor...</div>;
-  }
-
   return (
-    <EditorProvider editor={editor} plugins={plugins}>
-      <EditorLayout>
-        <PluginEditorContent />
-        <EditorBubbleMenu />
-      </EditorLayout>
-    </EditorProvider>
+    <PluginEditor
+      plugins={plugins}
+      content={content}
+      className="rich-editor"
+      extensions={extensions}
+    />
   );
-};
+}

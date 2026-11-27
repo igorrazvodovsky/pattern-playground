@@ -21,14 +21,15 @@ const demos: Record<string, Loader> = {
     import('@pkg/demos/block-based-editor').then((m) => m.BlockBasedEditorDemo),
   'contextual-actions': () =>
     import('@pkg/demos/contextual-actions').then((m) => m.ContextualActionsDemo),
-  'commenting': () => import('@pkg/demos/bubble-menu').then((m) => m.CommentingDemo),
+  'commenting': () => import('@pkg/demos/commenting').then((m) => m.CommentingDemo),
   'dynamic-explanation': () =>
-    import('@pkg/demos/bubble-menu').then((m) => m.DynamicExplanationDemo),
+    import('@pkg/demos/explanation').then((m) => m.DynamicExplanationDemo),
   'text-lens': () => import('@pkg/demos/text-lens').then((m) => m.TextLensDemo),
   'instructed-revision': () =>
     import('@pkg/demos/instructed-revision').then((m) => m.InstructedRevisionDemo),
   'audience-lens': () => import('@pkg/demos/audience-lens').then((m) => m.AudienceLensDemo),
-  'prestructured-formatting': () => import('@pkg/demos/bubble-menu').then((m) => m.BasicDemo),
+  'prestructured-formatting': () =>
+    import('@pkg/demos/prestructured-formatting').then((m) => m.PrestructuredFormattingDemo),
   'dynamic-hyperlinks': () =>
     import('@pkg/demos/dynamic-hyperlinks/DynamicHyperlinksDemo').then(
       (m) => m.DynamicHyperlinksDemo,

@@ -1,6 +1,7 @@
 import type { Spec, StateStore } from '@json-render/core';
 import { z } from 'zod';
 import type { ActionDefinition, SpecSetup } from '../../catalog/SpecDemo';
+import { startingSend, startingSendHandler } from './shared/conversation';
 import spec from './prompt-starters.json' with { type: 'json' };
 
 // Starting points beneath an empty message field, narrowed in two steps. The
@@ -166,11 +167,7 @@ const actions: Record<string, ActionDefinition> = {
     description:
       'Open the kind of request `id`, showing its starting points in `/starters`; if it is already open, close it and clear `/starters`.',
   },
-  send: {
-    params: z.object({ prompt: z.unknown() }),
-    description:
-      'Send `prompt` as the actor’s message: add it and the reply to `/turns`, clear `/draft`, and set `/started`, which takes the starting points away. An empty prompt does nothing.',
-  },
+  send: startingSend,
 };
 
 const handlers = (store: StateStore) => ({
@@ -179,21 +176,7 @@ const handlers = (store: StateStore) => ({
     store.set('/open', next);
     store.set('/starters', categories.find((category) => category.id === next)?.starters ?? []);
   },
-  send: ({ prompt }: Record<string, unknown>) => {
-    const text = typeof prompt === 'string' ? prompt.trim() : '';
-    if (!text) return;
-    const turns = (store.get('/turns') ?? []) as unknown[];
-    store.set('/turns', [
-      ...turns,
-      {
-        id: String(turns.length),
-        prompt: text,
-        reply: 'This demo stops at the first message: it shows how a conversation can start.',
-      },
-    ]);
-    store.set('/draft', '');
-    store.set('/started', true);
-  },
+  ...startingSendHandler(store),
 });
 
 export default {
