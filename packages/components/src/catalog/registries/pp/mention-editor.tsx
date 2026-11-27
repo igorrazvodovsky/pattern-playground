@@ -3,7 +3,7 @@ import { EditorContent } from '@tiptap/react';
 import type { ComponentContext } from '@json-render/react';
 import type { Catalog } from '../../catalog';
 import { isKind, useMentionEditor, useMentionEditorProps } from '../../behaviour/mention-editor';
-import { icons } from './index';
+import { icons } from './icons';
 import '../../../jsx-types';
 
 // The list takes the combobox's attributes for its look only: focus stays in
