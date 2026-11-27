@@ -55,7 +55,7 @@
     },
     "views-menu": {
       "type": "Menu",
-      "props": { "label": "Saved views", "icon": "saved" },
+      "props": { "hideLabel": true, "label": "Saved views", "icon": "saved" },
       "visible": { "$state": "/derived/show/views" },
       "repeat": { "statePath": "/saved", "key": "id" },
       "children": ["saved-view"]
@@ -89,6 +89,7 @@
     "as-menu": {
       "type": "Menu",
       "props": {
+        "hideLabel": true,
         "label": "Show as",
         "icon": {
           "$cond": { "$state": "/derived/as", "eq": "table" },
@@ -214,7 +215,7 @@
     },
     "attributes-menu": {
       "type": "Menu",
-      "props": { "label": "Attributes shown", "icon": "show", "multiple": true },
+      "props": { "hideLabel": true, "label": "Attributes shown", "icon": "show", "multiple": true },
       "visible": { "$state": "/derived/show/attributes" },
       "repeat": { "statePath": "/attributes", "key": "path" },
       "children": ["attribute-option"]
@@ -243,7 +244,7 @@
     },
     "sort-menu": {
       "type": "Menu",
-      "props": { "label": "Sort by", "icon": "sort" },
+      "props": { "hideLabel": true, "label": "Sort by", "icon": "sort" },
       "visible": { "$state": "/derived/show/sort" },
       "repeat": { "statePath": "/derived/sortFields", "key": "path" },
       "children": ["sort-field"]
@@ -274,6 +275,7 @@
     "order-menu": {
       "type": "Menu",
       "props": {
+        "hideLabel": true,
         "label": "Sort order",
         "icon": {
           "$cond": { "$state": "/derived/sortOrder", "eq": "asc" },
@@ -334,7 +336,7 @@
     },
     "group-menu": {
       "type": "Menu",
-      "props": { "label": "Group by", "icon": "group" },
+      "props": { "hideLabel": true, "label": "Group by", "icon": "group" },
       "visible": { "$state": "/derived/show/group" },
       "repeat": { "statePath": "/groupable", "key": "path" },
       "children": ["group-option"]

@@ -94,7 +94,7 @@ export const CommentComposer: React.FC<CommentComposerProps> = ({
   }
 
   return (
-    <div className="message-composer" onKeyDown={handleKeyDown}>
+    <div className="comment-composer" onKeyDown={handleKeyDown}>
       <img
         className="avatar"
         data-size="small"
@@ -104,7 +104,7 @@ export const CommentComposer: React.FC<CommentComposerProps> = ({
         }
         alt={getUserById(currentUser)?.name || currentUser}
       />
-      <div className="message-composer__input comment__input">
+      <div className="comment__input">
         <EditorContent editor={editor} className="comment-composer__editor" />
         <button
           className={`button button--plain ${isEmpty || isSubmitting ? 'button--disabled' : ''}`}

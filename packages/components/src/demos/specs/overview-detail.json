@@ -16,6 +16,7 @@
     "layout-menu": {
       "type": "Menu",
       "props": {
+        "hideLabel": true,
         "label": "View settings",
         "icon": "settings",
         "align": "end",

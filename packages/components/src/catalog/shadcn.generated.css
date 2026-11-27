@@ -2249,6 +2249,12 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 .aria-invalid\:aria-checked\:border-primary[aria-invalid="true"][aria-checked="true"] {
     border-color: var(--primary);
   }
+.aria-pressed\:bg-muted[aria-pressed="true"] {
+    background-color: var(--muted);
+  }
+.aria-pressed\:text-foreground[aria-pressed="true"] {
+    color: var(--foreground);
+  }
 .aria-selected\:bg-muted[aria-selected="true"] {
     background-color: var(--muted);
   }
@@ -2455,6 +2461,9 @@ button, input:where([type="button"], [type="reset"], [type="submit"]) {
 @supports (color: color-mix(in lab, red, red)) {.dark\:bg-sky-900\/50 {
         background-color: color-mix(in oklab, var(--color-sky-900) 50%, transparent);
       }}
+.dark\:bg-transparent {
+      background-color: #0000;
+    }
 .dark\:bg-violet-900\/50 {
       background-color: #4d179a80;
     }

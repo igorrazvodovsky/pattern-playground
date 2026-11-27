@@ -123,6 +123,7 @@ import {
 } from 'iconoteka-react';
 import { catalog, toastDuration, type iconNames, type purposes, type tones } from '../../catalog';
 import { useCandidateList } from '../../behaviour/candidate-list';
+import { useCompletionList } from '../../behaviour/completion-list';
 import { AnimateChangeInHeight } from '../../../components/filter/animate-change-in-height';
 import {
   captureOpener,
@@ -422,10 +423,10 @@ const buttonBase =
   "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4";
 const buttonVariant = {
   default:
-    'border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50',
+    'border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground aria-pressed:bg-muted aria-pressed:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50',
   primary: 'bg-primary text-primary-foreground hover:bg-primary/80',
   plain:
-    'hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50',
+    'hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground aria-pressed:bg-muted aria-pressed:text-foreground dark:hover:bg-muted/50',
   danger:
     'bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40',
   link: 'text-muted-foreground underline underline-offset-4 hover:text-foreground',
@@ -1032,26 +1033,76 @@ export const { registry } = defineRegistry(catalog, {
 
     Composer: ({ props, slots, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
+      const completion = useCompletionList(
+        slots?.field ? [] : (props.completions ?? []),
+        value ?? '',
+        setValue,
+      );
       return (
-        <div className="flex flex-col gap-1 rounded-xl border border-input bg-background p-2 transition-colors focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50 dark:bg-input/30">
-          {slots?.field ? (
-            <ComposerField value>{slots.field}</ComposerField>
-          ) : (
-            <input
-              aria-label={props.label ?? undefined}
-              placeholder={props.placeholder ?? undefined}
-              value={value ?? ''}
-              onChange={(event) => setValue(event.target.value)}
-              className="h-8 w-full min-w-0 bg-transparent px-2 text-base outline-none placeholder:text-muted-foreground md:text-sm"
-            />
+        <>
+          <div className="flex flex-col gap-1 rounded-xl border border-input bg-background p-2 transition-colors focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50 dark:bg-input/30">
+            {slots?.attachments && (
+              <Collapsible.Root
+                defaultOpen
+                data-slot="collapsible"
+                className="flex flex-col gap-2 rounded-lg bg-muted/50 p-2"
+              >
+                <Collapsible.Trigger
+                  data-slot="collapsible-trigger"
+                  className="flex items-center gap-2 rounded-lg px-1 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50 [&[data-state=open]>svg]:rotate-90"
+                >
+                  <ChevronRight
+                    aria-hidden="true"
+                    className="size-4 shrink-0 text-muted-foreground transition-transform duration-200"
+                  />
+                  {props.attachedCount != null && (
+                    <span className={badgeClass('neutral', false)}>{props.attachedCount}</span>
+                  )}
+                  attached
+                </Collapsible.Trigger>
+                <Collapsible.Content data-slot="collapsible-content">
+                  {slots.attachments}
+                </Collapsible.Content>
+              </Collapsible.Root>
+            )}
+            {slots?.field ? (
+              <ComposerField value>{slots.field}</ComposerField>
+            ) : (
+              <input
+                {...completion.field}
+                aria-label={props.label ?? undefined}
+                placeholder={props.placeholder ?? undefined}
+                value={value ?? ''}
+                onChange={(event) => setValue(event.target.value)}
+                className="h-8 w-full min-w-0 bg-transparent px-2 text-base outline-none placeholder:text-muted-foreground md:text-sm"
+              />
+            )}
+            {(slots?.actions || slots?.send) && (
+              <div className="flex gap-1">
+                {slots.actions}
+                {slots.send && <span className="ml-auto">{slots.send}</span>}
+              </div>
+            )}
+          </div>
+          {completion.visible && (
+            <ul
+              {...completion.list}
+              aria-label="Ways to continue"
+              className="flex flex-col gap-0.5"
+            >
+              {completion.options.map((option) => (
+                <li
+                  key={option.key}
+                  {...option.props}
+                  className="cursor-pointer rounded-md px-2 py-1.5 text-sm aria-selected:bg-muted"
+                >
+                  {option.typed}
+                  <span className="text-muted-foreground">{option.rest}</span>
+                </li>
+              ))}
+            </ul>
           )}
-          {(slots?.actions || slots?.send) && (
-            <div className="flex gap-1">
-              {slots.actions}
-              {slots.send && <span className="ml-auto">{slots.send}</span>}
-            </div>
-          )}
-        </div>
+        </>
       );
     },
 
@@ -1516,16 +1567,28 @@ export const { registry } = defineRegistry(catalog, {
     Menu: ({ props, children }) => {
       const Icon = props.icon ? icons[props.icon] : null;
       const { trigger, list, closed } = useMenuFocusHandoff(props.focusNext);
+      // Without an icon there is nothing else to show, so the label shows.
+      const iconOnly = Boolean(props.hideLabel && Icon);
       return (
         <DropdownMenu.Root onOpenChange={(open) => !open && closed()}>
           <DropdownMenu.Trigger
             ref={trigger}
-            aria-label={props.label}
-            title={props.label}
+            aria-label={iconOnly ? props.label : undefined}
+            title={iconOnly ? props.label : undefined}
             data-focus-key={props.focusKey ?? undefined}
-            className={cn(buttonBase, buttonVariant.plain, buttonSize[Icon ? 'icon' : 'default'])}
+            className={cn(
+              buttonBase,
+              buttonVariant.plain,
+              buttonSize[iconOnly ? 'icon' : 'default'],
+            )}
           >
-            {Icon ? <Icon aria-hidden="true" /> : props.label}
+            {Icon && <Icon aria-hidden="true" data-icon={iconOnly ? undefined : 'inline-start'} />}
+            {!iconOnly && (
+              <>
+                {props.label}
+                <ChevronDown aria-hidden="true" data-icon="inline-end" />
+              </>
+            )}
           </DropdownMenu.Trigger>
           <DropdownMenu.Portal container={scopedPortal()}>
             <DropdownMenu.Content
@@ -1586,6 +1649,7 @@ export const { registry } = defineRegistry(catalog, {
               : buttonSize[props.hideLabel && Icon ? 'icon' : 'default'],
           )}
           disabled={props.disabled ?? undefined}
+          aria-pressed={props.pressed ?? undefined}
           aria-expanded={props.expanded ?? undefined}
           aria-label={props.hideLabel ? props.label : undefined}
           data-autofocus={props.initialFocus || undefined}
@@ -1702,17 +1766,26 @@ export const { registry } = defineRegistry(catalog, {
 
     Select: ({ props, bindings }) => {
       const { id, value, setValue, error, control, errorProps } = useField(props, bindings);
+      const Icon = props.icon ? icons[props.icon] : null;
       return (
         <div className="flex flex-col gap-2">
-          <label htmlFor={id} className={label}>
-            {props.label}
-          </label>
+          {!props.hideLabel && (
+            <label htmlFor={id} className={label}>
+              {props.label}
+            </label>
+          )}
           <Select.Root value={value} onValueChange={setValue}>
             <Select.Trigger
               {...control}
+              aria-label={props.hideLabel ? props.label : undefined}
               aria-invalid={error ? true : undefined}
-              className="flex h-8 w-fit items-center justify-between gap-1.5 rounded-lg border border-input bg-transparent py-2 pr-2 pl-2.5 text-sm whitespace-nowrap transition-colors outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-placeholder:text-muted-foreground dark:bg-input/30 dark:hover:bg-input/50 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+              className={cn(
+                `flex h-8 w-fit items-center justify-between gap-1.5 rounded-lg border border-input bg-transparent py-2 pr-2 pl-2.5 text-sm whitespace-nowrap transition-colors outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-placeholder:text-muted-foreground dark:bg-input/30 dark:hover:bg-input/50 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4`,
+                props.variant === 'plain' &&
+                  'border-transparent hover:bg-muted dark:bg-transparent dark:hover:bg-muted/50',
+              )}
             >
+              {Icon && <Icon aria-hidden="true" />}
               <Select.Value placeholder={props.placeholder ?? undefined} />
               <Select.Icon asChild>
                 <ChevronDown

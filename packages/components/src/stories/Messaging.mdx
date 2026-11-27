@@ -35,7 +35,17 @@ With and without avatar, only avatar, ...
 
 ### Message composer
 
-...
+Every composer is the same card: a field that grows with what is written, and a row beneath it that ends on the send button. What the row holds grows with what a message can carry.
+
+- *Input only.* Between people, a message is its words: the field and the send button are enough, as in the chat above and the comment thread below.
+- *Tools.* With an agent, plain buttons at the start of the row change what the request does, such as searching the web or attaching a file, as in the LLM and inline interface examples above.
+- *Settings, voice, and attached material.* A request to an agent can also carry settings for this run, shown as menus that name their current choice, a voice button beside send, and the material attached to it.
+
+#### Attached material
+
+What goes with a request besides its words, such as files the actor attached, sits on a sheet behind the card, so the actor can see it and take items out before sending. With many items the sheet can be closed down to a single line with a count, giving the field more room. See <PatternRef slug="reference-material">Reference material</PatternRef>.
+
+<Story of={ MessagingStories.AttachedMaterial } />
 
 ## Branching & threading
 

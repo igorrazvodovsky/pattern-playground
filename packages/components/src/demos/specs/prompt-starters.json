@@ -1,0 +1,181 @@
+{
+  "root": "start",
+  "elements": {
+    "start": {
+      "type": "Stack",
+      "props": {
+        "gap": "m"
+      },
+      "children": ["conversation", "categories", "starters"]
+    },
+    "conversation": {
+      "type": "Messages",
+      "props": {},
+      "children": ["turns", "composer"]
+    },
+    "turns": {
+      "type": "Stack",
+      "props": {
+        "gap": "l"
+      },
+      "repeat": {
+        "statePath": "/turns",
+        "key": "id"
+      },
+      "children": ["asked", "answered"]
+    },
+    "asked": {
+      "type": "Message",
+      "props": {
+        "from": "actor",
+        "parts": [
+          {
+            "$item": "prompt"
+          }
+        ]
+      }
+    },
+    "answered": {
+      "type": "Message",
+      "props": {
+        "from": "other",
+        "parts": [
+          {
+            "$item": "reply"
+          }
+        ]
+      }
+    },
+    "composer": {
+      "type": "Composer",
+      "props": {
+        "label": "Message",
+        "placeholder": "Ask about the project…",
+        "value": {
+          "$bindState": "/draft"
+        }
+      },
+      "slots": {
+        "send": ["send"]
+      }
+    },
+    "send": {
+      "type": "Button",
+      "props": {
+        "label": "Send",
+        "icon": "send",
+        "hideLabel": true,
+        "variant": "plain"
+      },
+      "on": {
+        "press": {
+          "action": "send",
+          "params": {
+            "prompt": {
+              "$state": "/draft"
+            }
+          }
+        }
+      }
+    },
+    "categories": {
+      "type": "Stack",
+      "props": {
+        "direction": "horizontal",
+        "gap": "xs",
+        "label": "Kinds of request"
+      },
+      "visible": {
+        "$state": "/started",
+        "not": true
+      },
+      "repeat": {
+        "statePath": "/categories",
+        "key": "id"
+      },
+      "children": ["category"]
+    },
+    "category": {
+      "type": "Button",
+      "props": {
+        "label": {
+          "$item": "label"
+        },
+        "icon": {
+          "$item": "icon"
+        },
+        "variant": "plain",
+        "expanded": {
+          "$cond": {
+            "$item": "id",
+            "eq": {
+              "$state": "/open"
+            }
+          },
+          "$then": true,
+          "$else": false
+        }
+      },
+      "on": {
+        "press": {
+          "action": "toggleCategory",
+          "params": {
+            "id": {
+              "$value": {
+                "$item": "id"
+              }
+            }
+          }
+        }
+      }
+    },
+    "starters": {
+      "type": "Grid",
+      "props": {
+        "minColumnWidth": "m"
+      },
+      "visible": {
+        "$state": "/started",
+        "not": true
+      },
+      "repeat": {
+        "statePath": "/starters",
+        "key": "id"
+      },
+      "children": ["starter"]
+    },
+    "starter": {
+      "type": "Card",
+      "props": {
+        "title": {
+          "$item": "title"
+        },
+        "opens": true
+      },
+      "children": ["starter-detail"],
+      "on": {
+        "open": {
+          "action": "setState",
+          "params": {
+            "statePath": "/draft",
+            "value": {
+              "$value": {
+                "$item": "prompt"
+              }
+            }
+          }
+        }
+      }
+    },
+    "starter-detail": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$item": "detail"
+        },
+        "size": "small",
+        "muted": true
+      }
+    }
+  }
+}

@@ -1,5 +1,8 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent } from 'storybook/test';
 import { faker } from '@faker-js/faker';
+import { documents } from '@shared/data';
 import { formatDate } from '@shared/format';
 import '../jsx-types';
 
@@ -73,14 +76,13 @@ export const HumanToHumanChat: Story = {
         </div>
       </div>
       <div className="message-composer">
-        <pp-input>
-          <input aria-label="Message" placeholder="Type a message" />
-          <iconify-icon
-            className="icon"
-            icon="ik:carriage-return"
-            data-slot="suffix"
-          ></iconify-icon>
-        </pp-input>
+        <textarea aria-label="Message" placeholder="Write a message" rows={1}></textarea>
+        <span className="message-composer__send">
+          <button className="button button--plain">
+            <iconify-icon className="icon" icon="ik:carriage-return"></iconify-icon>
+            <span className="visually-hidden">Send</span>
+          </button>
+        </span>
       </div>
     </div>
   ),
@@ -128,24 +130,72 @@ export const HumanToHumanComments: StoryObj<MessagingArgs> = {
           </div>
         ))}
         <div className="message-composer">
-          <img
-            className="avatar"
-            data-size="small"
-            src="https://i.pravatar.cc/150?img=16"
-            alt="You"
-          />
-          <pp-input>
-            <input aria-label="Message" placeholder="Type a message" />
-            <iconify-icon
-              className="icon"
-              icon="ik:carriage-return"
-              data-slot="suffix"
-            ></iconify-icon>
-          </pp-input>
+          <textarea aria-label="Comment" placeholder="Write a comment" rows={1}></textarea>
+          <span className="message-composer__send">
+            <button className="button button--plain">
+              <iconify-icon className="icon" icon="ik:carriage-return"></iconify-icon>
+              <span className="visually-hidden">Send</span>
+            </button>
+          </span>
         </div>
       </div>
     );
   },
+};
+
+export const HumanToLLM: Story = {
+  render: () => (
+    <div className="messages layer">
+      <div className="messages__turn">
+        <div className="message message--outbound">
+          <div className="message__content">
+            <div className="message__body layer">Why do cats knead?</div>
+          </div>
+        </div>
+      </div>
+      <div className="messages__exchange">
+        <div className="messages__turn">
+          <div className="message message--inbound">
+            <div className="message__content">
+              <div className="message__body">
+                Cats knead with their paws — like they're making biscuits — because it's a leftover
+                behaviour from kittenhood. Kittens knead their mother's belly to stimulate milk
+                flow, and adult cats often keep doing it when they're relaxed or showing affection.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="message-follow-up">
+        <button className="button">Do all cats knead?</button>
+        <button className="button">What does kneading tell us about a cat's mood?</button>
+        <button className="button">Why do some cats knead with claws out?</button>
+      </div>
+      <div className="message-composer">
+        <textarea aria-label="Reply" placeholder="Reply" rows={1}></textarea>
+        <div className="message-composer__actions">
+          <button className="button button--plain">
+            <iconify-icon className="icon" icon="ik:globe"></iconify-icon>
+            <span className="visually-hidden">Search the web</span>
+          </button>
+          <button className="button button--plain">
+            <iconify-icon className="icon" icon="ik:light-bulb"></iconify-icon>
+            <span className="visually-hidden">Think it through</span>
+          </button>
+          <button className="button button--plain">
+            <iconify-icon className="icon" icon="ik:clip"></iconify-icon>
+            <span className="visually-hidden">Attach a file</span>
+          </button>
+          <span className="message-composer__send">
+            <button className="button button--plain">
+              <iconify-icon className="icon" icon="ik:carriage-return"></iconify-icon>
+              <span className="visually-hidden">Send</span>
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  ),
 };
 
 export const InlineInterface: Story = {
@@ -233,10 +283,8 @@ export const InlineInterface: Story = {
           </div>
         </div>
       </div>
-      <div className="message-composer layer">
-        <pp-input>
-          <input aria-label="Message" placeholder="Write a message…" />
-        </pp-input>
+      <div className="message-composer">
+        <textarea aria-label="Message" placeholder="Write a message" rows={1}></textarea>
         <div className="message-composer__actions">
           <button className="button button--plain">
             <iconify-icon className="icon" icon="ik:globe"></iconify-icon>
@@ -250,67 +298,114 @@ export const InlineInterface: Story = {
             <iconify-icon className="icon" icon="ik:clip"></iconify-icon>
             <span className="visually-hidden">Attach a file</span>
           </button>
-          <button className="button button--plain">
-            <iconify-icon className="icon" icon="ik:plus"></iconify-icon>
-            <span className="visually-hidden">More options</span>
-          </button>
+          <span className="message-composer__send">
+            <button className="button button--plain">
+              <iconify-icon className="icon" icon="ik:carriage-return"></iconify-icon>
+              <span className="visually-hidden">Send</span>
+            </button>
+          </span>
         </div>
       </div>
     </div>
   ),
 };
 
-export const HumanToLLM: Story = {
-  render: () => (
-    <div className="messages layer">
-      <div className="messages__turn">
-        <div className="message message--outbound">
-          <div className="message__content">
-            <div className="message__body layer">Why do cats knead?</div>
-          </div>
-        </div>
-      </div>
-      <div className="messages__exchange">
-        <div className="messages__turn">
-          <div className="message message--inbound">
-            <div className="message__content">
-              <div className="message__body">
-                Cats knead with their paws — like they're making biscuits — because it's a leftover
-                behaviour from kittenhood. Kittens knead their mother's belly to stimulate milk
-                flow, and adult cats often keep doing it when they're relaxed or showing affection.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="message-follow-up">
-        <button className="button">Do all cats knead?</button>
-        <button className="button">What does kneading tell us about a cat's mood?</button>
-        <button className="button">Why do some cats knead with claws out?</button>
-      </div>
-      <div className="message-composer layer">
-        <pp-input>
-          <input aria-label="Reply" placeholder="Reply…" />
-        </pp-input>
-        <div className="message-composer__actions">
+const attachedAtStart = documents.slice(2, 7);
+
+// Settings for this request: each is switched on or off on its own, so the
+// list stays open while the actor goes through it.
+const ComposerSettings = ({ items }: { items: { label: string; on: boolean }[] }) => (
+  <pp-dropdown stay-open-on-select>
+    <button className="button button--plain" data-slot="trigger">
+      <iconify-icon className="icon" icon="ik:gear" aria-hidden="true"></iconify-icon>
+      Settings
+      <iconify-icon className="icon" icon="ik:chevron-down" aria-hidden="true"></iconify-icon>
+    </button>
+    <pp-popup>
+      <pp-list>
+        {items.map((item) => (
+          <pp-list-item key={item.label} type="checkbox" checked={item.on}>
+            {item.label}
+          </pp-list-item>
+        ))}
+      </pp-list>
+    </pp-popup>
+  </pp-dropdown>
+);
+
+const AttachedMaterialComposer = () => {
+  const [attached, setAttached] = useState(attachedAtStart);
+  const composer = (
+    <div className="message-composer">
+      <textarea aria-label="Prompt" placeholder="Ask anything" rows={1}></textarea>
+      <div className="message-composer__actions">
+        <pp-select className="select--plain">
+          <iconify-icon className="icon" icon="ik:sparkles" data-slot="prefix"></iconify-icon>
+          <select aria-label="Effort" defaultValue="auto">
+            <option value="auto">Auto</option>
+            <option value="quick">Quick</option>
+            <option value="thorough">Thorough</option>
+          </select>
+        </pp-select>
+        <ComposerSettings
+          items={[
+            { label: 'Search the web', on: true },
+            { label: 'Use memory', on: false },
+          ]}
+        />
+        <span className="message-composer__send">
           <button className="button button--plain">
-            <iconify-icon className="icon" icon="ik:globe"></iconify-icon>
-            <span className="visually-hidden">Action</span>
+            <iconify-icon className="icon" icon="ik:microphone"></iconify-icon>
+            <span className="visually-hidden">Dictate</span>
           </button>
           <button className="button button--plain">
-            <iconify-icon className="icon" icon="ik:light-bulb"></iconify-icon>
-            <span className="visually-hidden">Action</span>
+            <iconify-icon className="icon" icon="ik:carriage-return"></iconify-icon>
+            <span className="visually-hidden">Send</span>
           </button>
-          <button className="button button--plain">
-            <iconify-icon className="icon" icon="ik:clip"></iconify-icon>
-            <span className="visually-hidden">Action</span>
-          </button>
-          <button className="button button--plain">
-            <iconify-icon className="icon" icon="ik:plus"></iconify-icon>
-            <span className="visually-hidden">Edit</span>
-          </button>
-        </div>
+        </span>
       </div>
     </div>
-  ),
+  );
+  if (attached.length === 0) return composer;
+  return (
+    <div className="attachment-tray">
+      <details open>
+        <summary>
+          <span className="badge">{attached.length}</span> attached
+        </summary>
+        <ul aria-label="Attached material">
+          {attached.map((doc) => (
+            <li key={doc.id} className="tag">
+              {doc.name}
+              <button
+                aria-label={`Remove ${doc.name}`}
+                onClick={() => setAttached((items) => items.filter((item) => item.id !== doc.id))}
+              >
+                <iconify-icon className="icon" icon="ik:cross"></iconify-icon>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </details>
+      {composer}
+    </div>
+  );
+};
+
+export const AttachedMaterial: Story = {
+  render: () => <AttachedMaterialComposer />,
+  play: async ({ canvas }) => {
+    const list = canvas.getByRole('list', { name: 'Attached material' });
+    const summary = canvas.getByText(/attached$/);
+    await expect(list).toBeVisible();
+
+    await userEvent.click(summary);
+    await expect(list).not.toBeVisible();
+    await userEvent.click(summary);
+
+    const first = attachedAtStart[0];
+    await userEvent.click(canvas.getByRole('button', { name: `Remove ${first.name}` }));
+    await expect(canvas.queryByText(first.name)).not.toBeInTheDocument();
+    await expect(summary).toHaveTextContent(String(attachedAtStart.length - 1));
+  },
 };

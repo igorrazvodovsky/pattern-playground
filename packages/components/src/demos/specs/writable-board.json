@@ -36,7 +36,7 @@
     },
     "group-menu": {
       "type": "Menu",
-      "props": { "label": "Group by", "icon": "group" },
+      "props": { "hideLabel": true, "label": "Group by", "icon": "group" },
       "repeat": { "statePath": "/groupings", "key": "path" },
       "children": ["grouping"]
     },
@@ -60,6 +60,7 @@
     "axis-menu": {
       "type": "Menu",
       "props": {
+        "hideLabel": true,
         "label": "Lay groups out as",
         "icon": {
           "$cond": { "$state": "/axis", "eq": "lanes" },
@@ -184,6 +185,7 @@
     "move-menu": {
       "type": "Menu",
       "props": {
+        "hideLabel": true,
         "label": { "$item": "moveLabel" },
         "icon": "move",
         "align": "end",

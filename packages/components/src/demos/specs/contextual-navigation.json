@@ -93,7 +93,12 @@
     },
     "levels": {
       "type": "Menu",
-      "props": { "label": "Certainty levels", "icon": "settings", "multiple": true },
+      "props": {
+        "hideLabel": true,
+        "label": "Certainty levels",
+        "icon": "settings",
+        "multiple": true
+      },
       "children": ["level-explicit", "level-inferred", "level-deduced"]
     },
     "level-explicit": {

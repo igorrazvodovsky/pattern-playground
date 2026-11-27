@@ -69,6 +69,16 @@ Clues for what's possible and what to do next.
 
 <Demo spec="prompt-suggestions" label="Suggested prompts: what the assistant can do before the first message, what could follow after each reply" />
 
+#### Starting points
+
+An empty field before the first message can offer starting points in two steps. A row names kinds of request, best as the verb that would start one (draft, summarise, explain); opening a kind shows a few requests of that kind, each with a line on what it produces. Nothing is open at first, so the actor sees the directions before any concrete request, which keeps the [fixation risk](#fixation-risk) lower than a set of examples shown straight away. Pressing a request puts it in the field rather than sending it, so the actor can change it first.
+
+<Demo spec="prompt-starters" label="Starting points: kinds of request beneath the field, each opening a few requests that fill it" />
+
+The second step can also happen in the field. Pressing a verb writes it there, and the field offers ways to continue it, with what is already written set apart from what each completion adds. The actor can pick one, or keep typing past them.
+
+<Demo spec="prompt-completions" label="Starting points in the field: a verb starts the request, and completions offer ways to continue it" />
+
 {/* **Example:** In a chat interface, when a user types "I need help with", the system might suggest completing phrases like "booking a meeting", "resetting my password", or "accessing my account". */}
 
 ### Form

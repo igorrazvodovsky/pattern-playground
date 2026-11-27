@@ -229,45 +229,143 @@
 }
 
 .message-composer {
-  grid-column: 1 / -1;
+  --c-background: var(--c-neutral-0);
 
-  /* border: var(--border); */
-  border-radius: var(--radius-l);
+  grid-column: 1 / -1;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-s) var(--space-m);
+  align-items: flex-end;
+  gap: var(--space-xs) var(--space-s);
+  background: var(--c-background);
+  border: var(--border);
+  padding: var(--space-s) var(--space-s) var(--space-s) var(--space-m);
+}
 
-  /* Doesn't look good with follow-ups present */
+/* The attached-material sheet shares the card's corners, so where the card
+   sits flush at its bottom no edge of the sheet shows past the card. */
+.message-composer,
+.attachment-tray {
+  border-radius: calc(var(--control-height) / 2 + var(--space-s));
+}
 
-  /* margin-block-start: var(--space-m); */
+.message-composer:focus-within {
+  border-color: var(--focus-ring-color);
+}
+
+.message-composer > textarea,
+.message-composer__input {
+  flex: 1 1 0;
+  min-inline-size: 0;
+}
+
+.message-composer > textarea,
+.message-composer__input > textarea {
+  field-sizing: content;
+  min-block-size: 1lh;
+  max-block-size: 12lh;
+
+  /* One line is as tall as a control, so the send button beside it sits
+     level with the text rather than below it. */
+  padding: calc((var(--control-height) - 1lh) / 2) 0;
+  border: none;
+  background: transparent;
+  resize: none;
+  font-size: var(--text-m);
+  outline: none;
 }
 
 .message-composer .rich-editor .ProseMirror {
-  border: 1px solid var(--c-neutral-200);
+  padding: calc((var(--control-height) - 1lh) / 2) 0;
+  border: none;
+  outline: none;
 }
 
-.message-composer pp-input {
-  flex: 1;
-}
-
-.message-composer.layer {
-  padding: var(--space-m);
-}
-
-.message-composer__actions,
-.message-composer__input {
-  flex: 1 0 100%;
-  min-inline-size: 0;
+.message-composer:has(> .message-composer__actions) > :is(textarea, .message-composer__input),
+.message-composer__actions {
+  flex-basis: 100%;
 }
 
 .message-composer__actions {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: var(--space-xs);
+
+  /* Pulled out at the start so the plain icons line up with the text, and
+     widened by the same amount so the send button keeps its corner. */
+  flex-basis: calc(100% + var(--space-xs));
+  margin-inline-start: calc(var(--space-xs) * -1);
 }
 
 .message-composer__send {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
   margin-inline-start: auto;
+}
+
+/* Ways to continue what is written, listed beneath the card in the field's
+   type size. The part already written reads at full strength and the rest of
+   each completion is dimmed, so the actor reads only what each adds. */
+.message-composer__completions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-m);
+
+  > [role='option'] {
+    padding: var(--space-xs) var(--space-m);
+    border-radius: var(--radius-m);
+    cursor: pointer;
+  }
+
+  > [role='option'][aria-selected='true'] {
+    background-color: oklch(from var(--c-background) calc(l - 0.05) c h);
+  }
+}
+
+.message-composer__completion-rest {
+  color: var(--c-bodyDimmed);
+}
+
+/* Attached material: a sheet behind the composer card, holding what the
+   message will carry besides its words. Its title row closes it to one line.
+   The card sits flush at the bottom of the sheet, so the sheet shows above it
+   and around its top corners. */
+.attachment-tray {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  background: var(--c-neutral-100);
+
+  --c-background: var(--c-neutral-100);
+
+  > details {
+    border: none;
+    border-radius: 0;
+    padding: var(--space-m) var(--space-m) var(--space-l);
+  }
+
+  > details > ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  > details .tag {
+    --c-background: var(--c-neutral-200);
+  }
+}
+
+.comment-composer {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
 }
 
 .comment__input {
@@ -285,7 +383,7 @@
 }
 
 .comment__input:focus-within {
-  border-color: var(--c-active-border);
+  border-color: var(--focus-ring-color);
 }
 
 /* The composer runs without the placeholder extension; an empty editor holds

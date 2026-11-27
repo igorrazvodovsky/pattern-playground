@@ -24,7 +24,7 @@
     },
     "sort-menu": {
       "type": "Menu",
-      "props": { "label": "Sort by", "icon": "sort" },
+      "props": { "hideLabel": true, "label": "Sort by", "icon": "sort" },
       "repeat": { "statePath": "/derived/sortFields", "key": "path" },
       "children": ["sort-field"]
     },
@@ -48,6 +48,7 @@
     "order-menu": {
       "type": "Menu",
       "props": {
+        "hideLabel": true,
         "label": "Sort order",
         "icon": {
           "$cond": { "$state": "/view/sort/order", "eq": "asc" },
@@ -95,7 +96,12 @@
     },
     "attributes-menu": {
       "type": "Menu",
-      "props": { "label": "Attributes on the cards", "icon": "show", "multiple": true },
+      "props": {
+        "hideLabel": true,
+        "label": "Attributes on the cards",
+        "icon": "show",
+        "multiple": true
+      },
       "repeat": { "statePath": "/attributes", "key": "path" },
       "children": ["attribute-option"]
     },

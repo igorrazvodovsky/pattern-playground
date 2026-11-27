@@ -37,6 +37,7 @@ import {
   type Opener,
 } from '../../behaviour/dialog-focus';
 import { useCandidateList } from '../../behaviour/candidate-list';
+import { useCompletionList } from '../../behaviour/completion-list';
 import { AnimateChangeInHeight } from '../../../components/filter/animate-change-in-height';
 import { useDisclosureOpen, useDisclosureState } from '../../behaviour/disclosure-state';
 import { attributeGlyphs } from '../../../utility/attribute-icons';
@@ -615,27 +616,72 @@ export const { registry } = defineRegistry(catalog, {
 
     Composer: ({ props, slots, bindings }) => {
       const [value, setValue] = useBoundProp(props.value, bindings?.value);
-      return (
-        <div className="message-composer layer">
+      const completion = useCompletionList(
+        slots?.field ? [] : (props.completions ?? []),
+        value ?? '',
+        setValue,
+      );
+      const composer = (
+        <div className="message-composer">
           {slots?.field ? (
             <div className="message-composer__input">{slots.field}</div>
           ) : (
-            <pp-input>
-              <input
-                aria-label={props.label ?? undefined}
-                placeholder={props.placeholder ?? undefined}
-                value={value ?? ''}
-                onChange={(event) => setValue(event.target.value)}
-              />
-            </pp-input>
+            <textarea
+              {...completion.field}
+              aria-label={props.label ?? undefined}
+              placeholder={props.placeholder ?? undefined}
+              rows={1}
+              value={value ?? ''}
+              onChange={(event) => setValue(event.target.value)}
+            />
           )}
-          {(slots?.actions || slots?.send) && (
+          {slots?.actions ? (
             <div className="message-composer__actions">
               {slots.actions}
               {slots.send && <span className="message-composer__send">{slots.send}</span>}
             </div>
+          ) : (
+            slots?.send && <span className="message-composer__send">{slots.send}</span>
           )}
         </div>
+      );
+      const completions = completion.visible && (
+        <ul
+          {...completion.list}
+          aria-label="Ways to continue"
+          className="message-composer__completions"
+        >
+          {completion.options.map((option) => (
+            <li key={option.key} {...option.props}>
+              {option.typed}
+              <span className="message-composer__completion-rest">{option.rest}</span>
+            </li>
+          ))}
+        </ul>
+      );
+      if (!slots?.attachments)
+        return (
+          <>
+            {composer}
+            {completions}
+          </>
+        );
+      return (
+        <>
+          <div className="attachment-tray">
+            <details open>
+              <summary>
+                {props.attachedCount != null && (
+                  <span className="badge">{props.attachedCount}</span>
+                )}{' '}
+                attached
+              </summary>
+              {slots.attachments}
+            </details>
+            {composer}
+          </div>
+          {completions}
+        </>
       );
     },
 
@@ -1053,6 +1099,8 @@ export const { registry } = defineRegistry(catalog, {
 
     Menu: ({ props, children }) => {
       const { trigger, list } = useMenuFocusHandoff(props.focusNext);
+      // Without an icon there is nothing else to show, so the label shows.
+      const iconOnly = Boolean(props.hideLabel && props.icon);
       return (
         <pp-dropdown
           hoist
@@ -1064,13 +1112,20 @@ export const { registry } = defineRegistry(catalog, {
             type="button"
             className="button button--plain"
             data-slot="trigger"
-            title={props.label}
+            title={iconOnly ? props.label : undefined}
             data-focus-key={props.focusKey ?? undefined}
           >
             {props.icon && (
               <iconify-icon className="icon" icon={icons[props.icon]} aria-hidden="true" />
             )}
-            <span className="visually-hidden">{props.label}</span>
+            {iconOnly ? (
+              <span className="visually-hidden">{props.label}</span>
+            ) : (
+              <>
+                {props.label}
+                <iconify-icon className="icon" icon="ik:chevron-down" aria-hidden="true" />
+              </>
+            )}
           </button>
           <pp-popup>
             <pp-list ref={list}>
@@ -1186,6 +1241,7 @@ export const { registry } = defineRegistry(catalog, {
               : props.variant && props.variant !== 'default' && `button--${props.variant}`,
           )}
           disabled={props.disabled ?? undefined}
+          aria-pressed={props.pressed ?? undefined}
           aria-expanded={props.expanded ?? undefined}
           data-autofocus={props.initialFocus || undefined}
           onClick={() => emit('press')}
@@ -1259,12 +1315,33 @@ export const { registry } = defineRegistry(catalog, {
       const { id, value, setValue, error, control, errorProps } = useField(props, bindings);
       return (
         <div className="grid-stack">
-          <label htmlFor={id}>{props.label}</label>
-          <pp-select invalid={Boolean(error)}>
-            <select {...control} value={value} onChange={(event) => setValue(event.target.value)}>
-              <option value="" disabled>
-                {props.placeholder ?? ''}
-              </option>
+          {!props.hideLabel && <label htmlFor={id}>{props.label}</label>}
+          <pp-select
+            invalid={Boolean(error)}
+            className={props.variant === 'plain' ? 'select--plain' : undefined}
+          >
+            {props.icon && (
+              <iconify-icon
+                className="icon"
+                icon={icons[props.icon]}
+                data-slot="prefix"
+                aria-hidden="true"
+              />
+            )}
+            <select
+              {...control}
+              aria-label={props.hideLabel ? props.label : undefined}
+              value={value}
+              onChange={(event) => setValue(event.target.value)}
+            >
+              {/* Without a placeholder, the empty option is there only until
+                  something is chosen, so a picked value's list holds just the
+                  choices. */}
+              {(props.placeholder || !value) && (
+                <option value="" disabled>
+                  {props.placeholder ?? ''}
+                </option>
+              )}
               {props.options.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}

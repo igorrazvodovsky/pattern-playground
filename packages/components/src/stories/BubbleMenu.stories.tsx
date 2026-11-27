@@ -147,7 +147,8 @@ export const CommentingMarksPassages: Story = {
     const drawer = await page.findByRole('dialog', { name: 'Comments' });
     await waitFor(() => expect(within(drawer).getAllByText(/^Passage:/)).toHaveLength(1));
     // Quotes made earlier keep their threads and are listed beside passages.
-    expect(within(drawer).getAllByText(/^Quote:/).length).toBeGreaterThan(0);
+    // Counts load on their own, so the quote's entry can land after the passage's.
+    await waitFor(() => expect(within(drawer).getAllByText(/^Quote:/).length).toBeGreaterThan(0));
 
     // Clicking a passage reopens its thread.
     await userEvent.click(canvasElement.querySelector('mark[data-comment-id]')!);

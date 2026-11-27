@@ -1,0 +1,69 @@
+{
+  "root": "start",
+  "elements": {
+    "start": {
+      "type": "Stack",
+      "props": { "gap": "s" },
+      "children": ["conversation", "verbs"]
+    },
+    "conversation": {
+      "type": "Messages",
+      "props": {},
+      "children": ["turns", "composer"]
+    },
+    "turns": {
+      "type": "Stack",
+      "props": { "gap": "l" },
+      "repeat": { "statePath": "/turns", "key": "id" },
+      "children": ["asked", "answered"]
+    },
+    "asked": {
+      "type": "Message",
+      "props": { "from": "actor", "parts": [{ "$item": "prompt" }] }
+    },
+    "answered": {
+      "type": "Message",
+      "props": { "from": "other", "parts": [{ "$item": "reply" }] }
+    },
+    "composer": {
+      "type": "Composer",
+      "props": {
+        "label": "Message",
+        "placeholder": "Ask about the project…",
+        "value": { "$bindState": "/draft" },
+        "completions": {
+          "$computed": "continuations",
+          "args": { "draft": { "$state": "/draft" }, "started": { "$state": "/started" } }
+        }
+      },
+      "slots": { "send": ["send"] }
+    },
+    "send": {
+      "type": "Button",
+      "props": { "label": "Send", "icon": "send", "hideLabel": true, "variant": "plain" },
+      "on": { "press": { "action": "send", "params": { "prompt": { "$state": "/draft" } } } }
+    },
+    "verbs": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "xs", "label": "Start a request" },
+      "visible": {
+        "$and": [
+          { "$state": "/started", "not": true },
+          { "$state": "/draft", "eq": "" }
+        ]
+      },
+      "repeat": { "statePath": "/verbs", "key": "id" },
+      "children": ["verb"]
+    },
+    "verb": {
+      "type": "Button",
+      "props": { "label": { "$item": "label" }, "icon": { "$item": "icon" }, "variant": "plain" },
+      "on": {
+        "press": {
+          "action": "setState",
+          "params": { "statePath": "/draft", "value": { "$value": { "$item": "start" } } }
+        }
+      }
+    }
+  }
+}

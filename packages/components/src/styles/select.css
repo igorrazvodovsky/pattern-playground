@@ -92,6 +92,26 @@ pp-select {
     color: var(--c-hover-primary);
   }
 
+  /* Plain: drawn as a plain button, for a choice that sits among buttons in a
+     toolbar row, such as a run setting in a message composer. The field edge
+     shows only as the hover shade and the focus ring. */
+  &.select--plain {
+    > select {
+      border-color: transparent;
+      background-color: transparent;
+    }
+
+    > select:hover:not(:disabled) {
+      border-color: transparent;
+      background-color: oklch(from var(--c-background) calc(l - 0.05) c h);
+      color: var(--c-body);
+    }
+
+    > :is([data-slot='prefix'], [data-slot='suffix'], .select__caret) {
+      color: var(--c-body);
+    }
+  }
+
   /* Placeholder option (value="") selected */
   > select:has(option[value='']:checked) {
     color: var(--c-tertiary);

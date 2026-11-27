@@ -60,6 +60,10 @@
   }
 
   .tag button {
+    /* Every bare button paints its own --button-bg; a button inside a tag
+       takes the tag's surface instead, so the tag reads as one piece. */
+    --button-bg: var(--c-background);
+
     /* Full height, so the hover shade fills the tag at every size. */
     align-self: stretch;
     align-items: center;
